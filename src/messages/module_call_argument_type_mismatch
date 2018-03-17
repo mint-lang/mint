@@ -1,0 +1,23 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The argument <code>{{argument}}</code> does not match it's definition for
+    the function <code>{{module}}.{{function}}</code>
+  </p>
+
+  <p>
+    I was expecting <code>{{expected}}</code> but found <code>{{got}}</code>
+    instead.
+  </p>
+
+  {{node}}
+
+  <p>
+    Here is the definition of the function
+  </p>
+
+  {{snippet}}
+</article>

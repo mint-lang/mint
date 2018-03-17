@@ -1,0 +1,47 @@
+component A {
+  style test {
+    & div {
+      color: {color};
+    }
+    &:focus {
+      color: red;
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  get color() {
+    return `blue`
+  }
+
+  render() {
+    return React.createElement("div", {
+      className: `a-test`,
+      style: {
+        [`--a-test-div-color`]: this.color
+      }
+    })
+  }
+}
+
+Mint.insertStyles(`
+  .a-test {
+
+  }
+
+  .a-test div {
+    color: var(--a-test-div-color);
+  }
+
+  .a-test:focus {
+    color: red;
+  }
+`)

@@ -1,0 +1,63 @@
+component Test {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a()
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+----------------------------------------------------FunctionCallNotFoundFunction
+component Test {
+  fun b : String {
+    x()
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------FunctionCallNotAFunction
+component Test {
+  property x : String = ""
+
+  fun b : String {
+    x()
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------FunctionCallArgumentTypeMismatch
+component Test {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a(0)
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------FunctionCallArgumentSizeMismatch
+component Test {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a("Hello", "There")
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

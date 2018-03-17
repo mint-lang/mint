@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The <b>body</b> of a <b>function</b> and it's <b>return type</b> must
+    separated by a colon.
+  </p>
+
+  <p>
+    I was looking for that colon <code>:</code> but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

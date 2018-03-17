@@ -1,0 +1,89 @@
+record Provider.Data {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Test {
+  use Provider {
+    a = "Hello",
+    b = "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------UseNotFoundProvider
+component Test {
+  use Provider {
+    a = "Hello",
+    b = "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------------UseConditionMismatch
+record Provider.Data {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Test {
+  use Provider {
+    a = "Hello",
+    b = "Blah"
+  } when {
+    "asd"
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------UseSubscriptionMismatch
+record Provider.Data {
+  a : String,
+  b : Bool
+}
+
+record Test {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Test {
+  use Provider {
+    a = "Hello",
+    b = "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

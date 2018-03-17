@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the <b>name</b> of a <b>record</b> but found
+    {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

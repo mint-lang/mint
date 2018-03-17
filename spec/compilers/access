@@ -1,0 +1,29 @@
+record X {
+  name: String
+}
+
+component A {
+  fun a : String {
+    x.name
+  } where {
+    x = { name = "test" }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  a() {
+    let x = {
+      name: `test`
+    }
+
+    return x.name
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

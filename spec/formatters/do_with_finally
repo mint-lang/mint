@@ -1,0 +1,16 @@
+module A {
+  fun test : Void {
+    do {a="hello"}finally{"blah"}
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : Void {
+    do {
+      a =
+        "hello"
+    } finally {
+      "blah"
+    }
+  }
+}

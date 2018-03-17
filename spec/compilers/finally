@@ -1,0 +1,41 @@
+record Unit {
+}
+
+component Do {
+  fun test : Void {
+    do {
+      next state
+    } finally {
+      next state
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Do extends React.PureComponent {
+  test() {
+    return (async () => {
+      try {
+        await new Promise((_resolve) => {
+          this.setState(this.state, _resolve)
+        })
+      } catch (_error) {
+        if (_error instanceof DoError) {} else {
+          console.warn(`Unhandled error in do statement`)
+          console.log(_error)
+        }
+      } finally {
+        new Promise((_resolve) => {
+          this.setState(this.state, _resolve)
+        })
+      }
+    })()
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

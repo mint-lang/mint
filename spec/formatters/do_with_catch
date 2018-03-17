@@ -1,0 +1,16 @@
+module A {
+  fun test : Void {
+    do {a="hello"}catchX=>a{"blah"}
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : Void {
+    do {
+      a =
+        "hello"
+    } catch X => a {
+      "blah"
+    }
+  }
+}

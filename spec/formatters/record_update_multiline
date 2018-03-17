@@ -1,0 +1,33 @@
+record A {
+  a : String,
+  b : Bool
+}
+
+module Test {
+  fun test : A {
+    {x|a="Hello",b=true}
+  } where {
+    x =
+      { a = "Blah", b = false }
+  }
+}
+--------------------------------------------------------------------------------
+record A {
+  a : String,
+  b : Bool
+}
+
+module Test {
+  fun test : A {
+    { x |
+      a = "Hello",
+      b = true
+    }
+  } where {
+    x =
+      {
+        a = "Blah",
+        b = false
+      }
+  }
+}

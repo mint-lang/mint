@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The expression of the <b>where condition</b> must evalulate to a
+    <code>Bool</code> but instead I got <code>{{got}}</code>.
+  </p>
+
+  {{node}}
+</article>

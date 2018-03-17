@@ -1,0 +1,36 @@
+component Case {
+  fun test : Bool {
+    case ("Hello") {
+      "test" => true
+      "Hello" => false
+      => false
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Case extends React.PureComponent {
+  test() {
+    return (() => {
+      let condition = `Hello`
+      let branch0 = `test`
+      let branch1 = `Hello`
+
+      switch (condition) {
+        case branch0:
+          return true
+        case branch1:
+          return false
+        default:
+          return false
+      }
+    })()
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    All css definitions <code>background: red;</code> must end in a semicolon.
+  </p>
+
+  <p>
+    I was looking for that <b>semicolon</b> <code>;</code> but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

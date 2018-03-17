@@ -1,0 +1,16 @@
+component Test {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>
+    </div>
+  }
+}
+----------------------------------------------HtmlElementStyleOutsideOfComponent
+module Test {
+  fun render : Html {
+    <div::base/>
+  }
+}

@@ -1,0 +1,36 @@
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+-----------------------------------------------------ComponentRenderTypeMismatch
+component Test {
+  fun render : Bool {
+    true
+  }
+}
+---------------------------------------------------------ComponentNotFoundRender
+component Test {
+  fun a : String {
+    ""
+  }
+}
+-----------------------------------------------------ComponentEntityNameConflict
+component Test {
+  property render : String = ""
+
+  fun render : Bool {
+    true
+  }
+}
+
+----------------------------------------------------ComponentFunctionTypeMismatch
+component Test {
+  fun componentDidUpdate : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

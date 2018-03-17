@@ -1,0 +1,13 @@
+class TypeChecker
+  class Artifacts
+    getter types, variables, html_elements, dynamic_styles, styles, ast
+
+    def initialize(@ast : Ast,
+                   @html_elements = {} of Ast::HtmlElement => Ast::Component | Nil,
+                   @dynamic_styles = {} of String => Hash(String, String),
+                   @styles = {} of String => Hash(String, String),
+                   @variables = {} of Ast::Node => Scope::Level,
+                   @types = {} of Ast::Node => Type)
+    end
+  end
+end

@@ -1,0 +1,43 @@
+component HtmlStyle {
+  property background : String = "blue"
+
+  style test {
+    background: {background};
+    color: red;
+  }
+
+  fun render : Html {
+    <div::test>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlStyle extends React.PureComponent {
+  get background() {
+    if (this.props.background != undefined) {
+      return this.props.background
+    } else {
+      return `blue`
+    }
+  }
+
+  render() {
+    return React.createElement("div", {
+      className: `html-style-test`,
+      style: {
+        [`--html-style-test-background`]: this.background
+      }
+    })
+  }
+}
+
+$HtmlStyle.defaultProps = {
+  background: `blue`
+}
+
+Mint.insertStyles(`
+  .html-style-test {
+    background: var(--html-style-test-background);
+    color: red;
+  }
+`)

@@ -1,0 +1,19 @@
+module Test {
+  fun test : String {
+    case ("x") {
+      "a" => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+-----------------------------------------------------CaseBranchNotMatchCondition
+module Test {
+  fun test : String {
+    case ("x") {
+      true => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}

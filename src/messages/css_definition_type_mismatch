@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The type of the value for the CSS property <code>{{property}}</code> is
+    invalid.
+  </p>
+
+  <p>
+    Expected <code>String</code> or <code>Number</code> but got
+    <code>{{got}}</code> instead.
+  </p>
+
+  {{node}}
+</article>

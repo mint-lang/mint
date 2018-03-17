@@ -1,0 +1,19 @@
+module Test {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    Test.a()
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    Test.a()
+  }
+}

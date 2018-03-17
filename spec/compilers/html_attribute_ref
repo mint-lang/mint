@@ -1,0 +1,18 @@
+component HtmlAttribute {
+  fun render : Html {
+    <div ref={\element : DOM.Element => void}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlAttribute extends React.PureComponent {
+  render() {
+    return React.createElement("div", {
+      ref: (ref => {
+        ref ? ((element) => {
+          return null
+        }).call(this, ref) : null
+      })
+    })
+  }
+}

@@ -1,0 +1,14 @@
+routes {
+  /test{void}
+  /test2(a:String){void}
+}
+--------------------------------------------------------------------------------
+routes {
+  /test {
+    void
+  }
+
+  /test2 (a : String) {
+    void
+  }
+}

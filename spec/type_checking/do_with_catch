@@ -1,0 +1,51 @@
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component Do {
+  fun test : Void {
+    do {
+      greeting =
+        Promise.reject("hello")
+
+      blah =
+        Promise.reject(0)
+
+      true
+    } catch String => a {
+      "hello"
+    } catch Number => a {
+      "hello"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------DoDidNotCatch
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component Do {
+  fun test : Void {
+    do {
+      greeting =
+        Promise.reject("hello")
+
+      blah =
+        Promise.reject(0)
+
+      true
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

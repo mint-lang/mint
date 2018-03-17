@@ -1,0 +1,22 @@
+module Test {
+  fun a (value : String, value2 : String, value3 : String) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun a (value : String, value2 : String, value3 : String) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a(
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet")
+  }
+}

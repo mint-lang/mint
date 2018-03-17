@@ -1,0 +1,11 @@
+module A {
+  fun test : Bool {
+    false
+  }
+}
+------------------------------------------------------------FunctionTypeMismatch
+module A {
+  fun test : String {
+    false
+  }
+}

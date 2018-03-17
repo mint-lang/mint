@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the <b>closing tag</b> of an HTML tag but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

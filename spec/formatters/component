@@ -1,0 +1,7 @@
+componentTest{fun render:Html{<div></div>}}
+--------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}

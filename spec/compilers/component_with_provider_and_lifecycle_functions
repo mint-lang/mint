@@ -1,0 +1,87 @@
+record MouseProvider.Data {
+  moves : Function(Position, Void),
+  ups : Function(Position, Void)
+}
+
+provider MouseProvider : MouseProvider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Test {
+  use MouseProvider {
+    moves = \data : Position => void,
+    ups = \data : Position => void
+  } when {
+    false
+  }
+
+  fun componentWillUnmount : Void {
+    void
+  }
+
+  fun componentDidUpdate : Void {
+    void
+  }
+
+  fun componentDidMount : Void {
+    void
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $MouseProvider = new(class extends Provider {
+  attach() {
+    return null
+  }
+})
+
+class $Test extends React.PureComponent {
+  componentWillUnmount() {
+    $MouseProvider._unsubscribe(this)
+
+    return null
+  }
+
+  componentDidUpdate() {
+    if (false) {
+      $MouseProvider._subscribe(this, {
+        moves: ((data) => {
+          return null
+        }),
+        ups: ((data) => {
+          return null
+        })
+      })
+    } else {
+      $MouseProvider._unsubscribe(this)
+    }
+
+    return null
+  }
+
+  componentDidMount() {
+    if (false) {
+      $MouseProvider._subscribe(this, {
+        moves: ((data) => {
+          return null
+        }),
+        ups: ((data) => {
+          return null
+        })
+      })
+    } else {
+      $MouseProvider._unsubscribe(this)
+    }
+
+    return null
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

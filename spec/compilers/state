@@ -1,0 +1,29 @@
+record Test.State {
+  a : Number,
+  b : String
+}
+
+component Test {
+  state : Test.State {
+    b = "Hello",
+    a = 0
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Test extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      b: `Hello`,
+      a: 0
+    }
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

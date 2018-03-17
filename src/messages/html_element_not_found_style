@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    I was looking for the <b>style</b> <code>{{style}}</code> but it's not
+    defined in the component.
+  </p>
+
+  {{node}}
+</article>

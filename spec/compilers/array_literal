@@ -1,0 +1,15 @@
+module Test {
+  fun test : Array(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return [`Hello`, `Blah`, `Joe`]
+  }
+})

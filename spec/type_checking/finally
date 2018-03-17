@@ -1,0 +1,27 @@
+component Do {
+  fun test : Void {
+    do {
+      true
+    } finally {
+      false
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-----------------------------------------------------------OperationTypeMismatch
+component Do {
+  fun test : Void {
+    do {
+      true
+    } finally {
+      "0" + 1
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A record field must have an expression after the <b>equal sign</b>
+    <code>=</code>.
+  </p>
+
+  <p>
+    I was looking for that <b>expression</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

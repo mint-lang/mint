@@ -1,0 +1,11 @@
+module A {
+  fun test : Bool {
+    false
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class {
+  test() {
+    return false
+  }
+})

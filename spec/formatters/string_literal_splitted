@@ -1,0 +1,18 @@
+module A {
+  fun test : String {
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pulvinar bibendum convallis. Sed malesuada commodo felis quis accumsan. Pellentesque lacinia sagittis vestibulum. Mauris aliquam a ante vel fermentum. Quisque sed consectetur elit. Donec sagittis, leo id tempus feugiat, leo ligula sollicitudin nisl, quis facilisis lorem tellus sit amet mi. Nullam vel nulla eu felis iaculis tincidunt. Nulla volutpat lorem sollicitudin finibus auctor."
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : String {
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit." \
+    " Donec pulvinar bibendum convallis. Sed malesuada commod" \
+    "o felis quis accumsan. Pellentesque lacinia sagittis ves" \
+    "tibulum. Mauris aliquam a ante vel fermentum. Quisque se" \
+    "d consectetur elit. Donec sagittis, leo id tempus feugia" \
+    "t, leo ligula sollicitudin nisl, quis facilisis lorem te" \
+    "llus sit amet mi. Nullam vel nulla eu felis iaculis tinc" \
+    "idunt. Nulla volutpat lorem sollicitudin finibus auctor."
+  }
+}

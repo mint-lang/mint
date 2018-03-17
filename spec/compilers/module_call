@@ -1,0 +1,19 @@
+module Test {
+  fun a (value : String) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("Lorem ipsum dolor sit amet")
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  a(value) {
+    return value
+  }
+
+  b() {
+    return $Test.a(`Lorem ipsum dolor sit amet`)
+  }
+})

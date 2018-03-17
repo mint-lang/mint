@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The type of the default value of the <code>{{property}}</code> property
+    of the component <code>{{component}}</code> does not match it's type
+    annotation.
+  </p>
+
+  <p>
+    I expected <code>{{expected}}</code> but got <code>{{got}}</code> instead.
+  </p>
+
+  {{node}}
+</article>

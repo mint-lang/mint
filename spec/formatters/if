@@ -1,0 +1,16 @@
+module Test {
+  fun test : Bool {
+    if("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" == "b"){true}else{false}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Bool {
+    if ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" \
+        "aaaaaa" == "b") {
+      true
+    } else {
+      false
+    }
+  }
+}

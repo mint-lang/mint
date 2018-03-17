@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The variable and the type of <b>a catch</b> must be separated by
+    <b>an arrow</b>
+  </p>
+
+  <p>
+    I was looking for that arrow <code>=></code> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

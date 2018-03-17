@@ -1,0 +1,46 @@
+record State {
+  name : String,
+  age : Number
+}
+
+component Test {
+  state : State {
+    name = "Joe",
+    age = 24
+  }
+
+  fun test : Void {
+    next
+      {
+        name = "Hello",
+        age = 30
+      }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Test extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: `Joe`,
+      age: 24
+    }
+  }
+
+  test() {
+    return new Promise((_resolve) => {
+      this.setState({
+        name: `Hello`,
+        age: 30
+      }, _resolve)
+    })
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

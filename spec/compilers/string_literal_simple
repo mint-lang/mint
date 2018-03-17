@@ -1,0 +1,11 @@
+module A {
+  fun test : String {
+    "Hello There"
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class {
+  test() {
+    return `Hello There`
+  }
+})

@@ -1,0 +1,13 @@
+module Test {
+  fun test : Void {
+    withTest{void}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Void {
+    with Test {
+      void
+    }
+  }
+}

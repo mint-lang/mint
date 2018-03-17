@@ -1,0 +1,11 @@
+module A {
+  function : Bool {
+    true
+  }
+}
+------------------------------------------------------------FunctionTypeMismatch
+module A {
+  function : Bool {
+    "hello"
+  }
+}

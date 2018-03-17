@@ -1,0 +1,63 @@
+record Unit {
+}
+
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component Do {
+  fun test : Void {
+    do {
+      greeting =
+        Promise.reject("hello")
+
+      next state
+    } catch String => a {
+      "hello"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $Promise = new(class {
+  reject(input) {
+    return
+  }
+})
+
+class $Do extends React.PureComponent {
+  test() {
+    return (async () => {
+      try {
+        let greeting = await (async () => {
+          try {
+            return await $Promise.reject(`hello`)
+          } catch (_error) {
+            let a = _error;
+            `hello`
+
+            throw new DoError
+          }
+        })()
+
+        await new Promise((_resolve) => {
+          this.setState(this.state, _resolve)
+        })
+      } catch (_error) {
+        if (_error instanceof DoError) {} else {
+          console.warn(`Unhandled error in do statement`)
+          console.log(_error)
+        }
+      }
+    })()
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

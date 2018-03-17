@@ -1,0 +1,23 @@
+component X {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <X key="wtf"/>
+  }
+}
+-------------------------------------------HtmlAttributeComponentKeyTypeMismatch
+component X {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <X key={0}/>
+  }
+}

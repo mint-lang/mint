@@ -1,0 +1,12 @@
+<article>
+  <h2>
+  	Syntax Error
+	</h2>
+
+  <p>
+    I was looking for the closing bracket <code>]</code> of the array but
+    found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

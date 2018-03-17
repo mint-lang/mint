@@ -1,0 +1,13 @@
+module Test {
+  fun test : Void {
+    with Test {
+      void
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return null
+  }
+})

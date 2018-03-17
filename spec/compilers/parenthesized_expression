@@ -1,0 +1,11 @@
+module Test {
+  fun test : Bool {
+    (true)
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return (true)
+  }
+})

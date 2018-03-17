@@ -1,0 +1,15 @@
+module Test {
+  fun test : Void {
+    with Test {
+      void
+    }
+  }
+}
+--------------------------------------------------------------WithNotFoundModule
+module Test {
+  fun test : Void {
+    with XXX {
+      void
+    }
+  }
+}

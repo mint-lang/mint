@@ -1,0 +1,20 @@
+module Test {
+  fun a (value : String) : String {
+    value
+  }
+
+  fun b : String {
+    "Hello"|>Test.a()
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun a (value : String) : String {
+    value
+  }
+
+  fun b : String {
+    "Hello"
+    |> Test.a()
+  }
+}

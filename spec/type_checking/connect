@@ -1,0 +1,35 @@
+store Test {
+  property x : String = ""
+
+  fun y : String {
+    `hello`
+  }
+}
+
+component A {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-----------------------------------------------------------ConnectNotFoundMember
+store Test {
+  property x : String = ""
+}
+
+component A {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------------ConnectNotFoundStore
+component A {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}

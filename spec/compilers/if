@@ -1,0 +1,23 @@
+component If {
+  fun test : Bool {
+    if ("asd" == "asd2") {
+      true
+    } else {
+      false
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $If extends React.PureComponent {
+  test() {
+    return (`asd` == `asd2` ? true : false)
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

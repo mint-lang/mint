@@ -1,0 +1,15 @@
+component Test {
+  propertyname:String="hello"
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  property name : String = "hello"
+
+  fun render : Html {
+    <div/>
+  }
+}

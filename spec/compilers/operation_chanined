@@ -1,0 +1,11 @@
+module Operation {
+  fun test : Bool {
+    "a" == "b" && true != false
+  }
+}
+--------------------------------------------------------------------------------
+const $Operation = new(class {
+  test() {
+    return `a` == `b` && true != false
+  }
+})

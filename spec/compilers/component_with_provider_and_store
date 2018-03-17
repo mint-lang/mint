@@ -1,0 +1,111 @@
+record MouseProvider.Data {
+  moves : Function(Position, Void),
+  ups : Function(Position, Void)
+}
+
+provider MouseProvider : MouseProvider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+store Blah {
+  property test : String = ""
+
+  fun x : String {
+    "hello"
+  }
+}
+
+component Test {
+  use MouseProvider {
+    moves = \data : Position => void,
+    ups = \data : Position => void
+  } when {
+    false
+  }
+
+  connect Blah exposing { test, x }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $MouseProvider = new(class extends Provider {
+  attach() {
+    return null
+  }
+})
+
+const $Blah = new(class extends Store {
+  get test() {
+    if (this.props.test != undefined) {
+      return this.props.test
+    } else {
+      return ``
+    }
+  }
+
+  get state() {
+    return {
+      test: this.test
+    }
+  }
+
+  x() {
+    return `hello`
+  }
+})
+$Blah.__displayName = `Blah`
+Mint.stores.push($Blah)
+
+class $Test extends React.PureComponent {
+  get test() {
+    return $Blah.test
+  }
+
+  x(...params) {
+    return $Blah.x(...params)
+  }
+
+  componentWillUnmount() {
+    $Blah._unsubscribe(this);
+    $MouseProvider._unsubscribe(this)
+  }
+
+  componentDidUpdate() {
+    if (false) {
+      $MouseProvider._subscribe(this, {
+        moves: ((data) => {
+          return null
+        }),
+        ups: ((data) => {
+          return null
+        })
+      })
+    } else {
+      $MouseProvider._unsubscribe(this)
+    }
+  }
+
+  componentDidMount() {
+    $Blah._subscribe(this);
+    if (false) {
+      $MouseProvider._subscribe(this, {
+        moves: ((data) => {
+          return null
+        }),
+        ups: ((data) => {
+          return null
+        })
+      })
+    } else {
+      $MouseProvider._unsubscribe(this)
+    }
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

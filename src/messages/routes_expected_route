@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The body of <b>a routes block</b> must contain at least one route.
+  </p>
+
+  <p>
+    I was looking a route but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

@@ -1,0 +1,13 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the <b>equal sign</b> <code>=</code> that separates the
+    <b>key of a record field</b> form it's <b>expression</b> but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

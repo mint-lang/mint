@@ -1,0 +1,76 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+module Test {
+  fun test : Test {
+    { x |
+      a = "Hello",
+      b = 0
+    }
+  } where {
+    x =
+      {
+        a = "Blah",
+        b = 1
+      }
+  }
+}
+---------------------------------------------------RecordUpdateNotUpdatingRecord
+record Test {
+  a : String,
+  b : Number
+}
+
+module Test {
+  fun test : Test {
+    { x |
+      a = "Hello",
+      b = 0
+    }
+  } where {
+    x = ""
+  }
+}
+--------------------------------------------------------RecordUpdateTypeMismatch
+record Test {
+  a : String,
+  b : Number
+}
+
+module Test {
+  fun test : Test {
+    { x |
+      a = "Hello",
+      b = "Hello"
+    }
+  } where {
+    x =
+      {
+        a = "Blah",
+        b = 0
+      }
+  }
+}
+---------------------------------------------------------RecordUpdateNotFoundKey
+record Test {
+  a : String,
+  b : Number
+}
+
+module Test {
+  fun test : Test {
+    { x |
+      a = "Hello",
+      c = "Hello"
+    }
+  } where {
+    x =
+      {
+        a = "Blah",
+        b = 0
+      }
+  }
+}
+

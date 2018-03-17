@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A sub styles body must end with a closing bracket.
+  </p>
+
+  <p>
+    I was looking for that bracket <code>}</code> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

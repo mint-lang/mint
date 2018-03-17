@@ -1,0 +1,14 @@
+component HtmlAttribute {
+  fun render : Html {
+    <div title="Hello">
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlAttribute extends React.PureComponent {
+  render() {
+    return React.createElement("div", {
+      title: `Hello`
+    })
+  }
+}

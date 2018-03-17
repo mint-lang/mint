@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the <b>colon</b> <code>:</code> that separates a fields
+    name from its type but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

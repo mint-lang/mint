@@ -1,0 +1,30 @@
+component Test {
+  property a : String = ""
+  property b : String = ""
+
+  property c : String = ""
+  fun test:Html {
+    <div>
+    </div>
+  }
+  fun render:Html{
+    <div>
+    </div>
+  }
+
+}
+--------------------------------------------------------------------------------
+component Test {
+  property a : String = ""
+  property b : String = ""
+
+  property c : String = ""
+
+  fun test : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

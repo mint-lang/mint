@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The <b>types parameters</b> must be enclosed by <b>parentheses</b>.
+  </p>
+
+  <p>
+    I was looking for the <b>closing parentheses</b> <code>)</code> but found
+    {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

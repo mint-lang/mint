@@ -1,0 +1,27 @@
+component A {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-----------------------------------------------------------------VariableMissing
+component A {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    c
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

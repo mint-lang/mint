@@ -1,0 +1,16 @@
+module A {
+  fun test : String {
+    try{x="hello"x}
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : String {
+    try {
+      x =
+        "hello"
+
+      x
+    }
+  }
+}

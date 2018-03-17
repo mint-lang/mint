@@ -1,0 +1,32 @@
+component A {
+  style test {
+    & div{color: red;}
+    &:focus{color: blue;}
+    &:active,&:hover{color: yellow;}
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    & div {
+      color: red;
+    }
+
+    &:focus {
+      color: blue;
+    }
+
+    &:active,
+    &:hover {
+      color: yellow;
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

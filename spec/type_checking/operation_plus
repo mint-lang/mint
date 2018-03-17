@@ -1,0 +1,23 @@
+module Test {
+  fun test : String {
+    "Hello" + "There"
+  }
+}
+-------------------------------------------------------OperationPlusTypeMismatch
+module Test {
+  fun test : Bool {
+    "Hello" + void
+  }
+}
+-------------------------------------------------------OperationPlusTypeMismatch
+module Test {
+  fun test : Bool {
+    "Hello" + true
+  }
+}
+-------------------------------------------------------OperationPlusTypeMismatch
+module Test {
+  fun test : Bool {
+    true + "Hello"
+  }
+}

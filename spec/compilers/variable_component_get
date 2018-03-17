@@ -1,0 +1,27 @@
+component A {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  get a() {
+    return `Hello`
+  }
+
+  b() {
+    return this.a
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

@@ -1,0 +1,21 @@
+component A {
+  style test {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1),
+    0 0 12px rgba(0,0,0,0.1);
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1),
+                0 0 12px rgba(0,0,0,0.1);
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

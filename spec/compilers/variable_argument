@@ -1,0 +1,11 @@
+module A {
+  fun test (a : String) : String {
+    a
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class {
+  test(a) {
+    return a
+  }
+})

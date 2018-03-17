@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The <b>list of functions and properties to expose</b> from a store and the
+    <b>name of the store</b> must be separated with an <code>exposing</code>
+    keyword.
+  </p>
+
+  <p>
+    I was looking for that <code>from</code> keyword but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

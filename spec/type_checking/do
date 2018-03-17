@@ -1,0 +1,11 @@
+component Do {
+  fun test : Void {
+    do {
+      "Hello"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

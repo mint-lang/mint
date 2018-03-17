@@ -1,0 +1,20 @@
+module A {
+  fun test () : Number {
+    something
+  } where {
+    something = 0.100
+    otherThing  = false
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : Number {
+    something
+  } where {
+    something =
+      0.1
+
+    otherThing =
+      false
+  }
+}

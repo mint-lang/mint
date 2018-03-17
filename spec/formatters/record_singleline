@@ -1,0 +1,21 @@
+record A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    {
+a="Hello"
+}
+  }
+}
+--------------------------------------------------------------------------------
+record A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    { a = "Hello" }
+  }
+}

@@ -1,0 +1,15 @@
+module Test {
+  fun test : String {
+    case("Hello"){"a"=>"a""b"=>"b"=> "others"}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : String {
+    case ("Hello") {
+      "a" => "a"
+      "b" => "b"
+      => "others"
+    }
+  }
+}

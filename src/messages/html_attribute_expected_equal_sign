@@ -1,0 +1,13 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the <b>equal sign</b> <code>=</code> that separates the
+    <b>name</b> form the <b>value</b> of an <b>attribut</b> but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

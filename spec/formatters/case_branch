@@ -1,0 +1,23 @@
+module Test {
+  fun test : String {
+    case ("Hello") {
+      "singleline"=>"single line content"
+      "multiline"=>"multi line content multi line content multi line content multi line content"
+      => "others"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : String {
+    case ("Hello") {
+      "singleline" => "single line content"
+
+      "multiline" =>
+        "multi line content multi line content multi line content" \
+        " multi line content"
+
+      => "others"
+    }
+  }
+}

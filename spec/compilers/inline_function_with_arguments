@@ -1,0 +1,18 @@
+module A {
+  fun test : String {
+    a("Joe")
+  } where {
+    a =
+      \b : String => b
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class {
+  test() {
+    let a = ((b) => {
+      return b
+    })
+
+    return a(`Joe`)
+  }
+})

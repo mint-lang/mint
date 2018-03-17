@@ -1,0 +1,21 @@
+store Test {
+  property name : String = "Joe"
+}
+--------------------------------------------------------------------------------
+const $Test = new(class extends Store {
+  get name() {
+    if (this.props.name != undefined) {
+      return this.props.name
+    } else {
+      return `Joe`
+    }
+  }
+
+  get state() {
+    return {
+      name: this.name
+    }
+  }
+})
+$Test.__displayName = `Test`
+Mint.stores.push($Test)

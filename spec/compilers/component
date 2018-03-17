@@ -1,0 +1,11 @@
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Test extends React.PureComponent {
+  render() {
+    return React.createElement("div", {})
+  }
+}

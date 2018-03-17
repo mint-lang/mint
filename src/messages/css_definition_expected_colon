@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for a <b>colon</b> <code>:</code> that separates the css
+    property from it's value but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

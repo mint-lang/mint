@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The <b>list of functions and properties to expose</b> from a store must
+    not be empty.
+  </p>
+
+  <p>
+    I was looking for <b>something to expose</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

@@ -1,0 +1,25 @@
+store Test {
+  property a : String = ""
+
+  fun b : Void {
+    next { state | a = "Blah" }
+  }
+}
+---------------------------------------------------------RecordUpdateNotFoundKey
+store Test {
+  property a : String = ""
+
+  fun b : Void {
+    next { state | b = "Blah" }
+  }
+}
+---------------------------------------------------------StoreEntityNameConflict
+store Test {
+  fun a : String {
+    ""
+  }
+
+  fun a : String {
+    ""
+  }
+}

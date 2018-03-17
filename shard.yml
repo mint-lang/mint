@@ -1,0 +1,22 @@
+name: Mint
+version: 1.0.0
+
+dependencies:
+  duktape:
+    github: jessedoyle/duktape.cr
+    version: ~> 0.13.0
+  string_inflection:
+    github: mosop/string_inflection
+  baked_file_system:
+    github: schovi/baked_file_system
+  kemal:
+    github: kemalcr/kemal
+  myhtml:
+    github: kostya/myhtml
+  admiral:
+    github: jwaldrip/admiral.cr
+  tree_template:
+    github: anykeyh/tree_template
+  time_format:
+    github: vladfaust/time_format.cr
+    version: ~> 0.1.0

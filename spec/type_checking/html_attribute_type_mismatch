@@ -1,0 +1,27 @@
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <X key="wtf" test="asd"/>
+  }
+}
+--------------------------------------HtmlAttributeComponentPropertyTypeMismatch
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <X key="wtf" test={0}/>
+  }
+}

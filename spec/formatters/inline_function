@@ -1,0 +1,16 @@
+module A {
+  fun test : String {
+    a()
+  } where {
+    a = \=>"Hello"
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : String {
+    a()
+  } where {
+    a =
+      \ => "Hello"
+  }
+}

@@ -1,0 +1,16 @@
+component Test {
+  fun render : Html {
+    <div name="Hello" value={ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello" }/>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <div
+      name="Hello"
+      value={
+        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
+        "elloHelloHelloHelloHelloHelloHelloHelloHello"
+      }/>
+  }
+}

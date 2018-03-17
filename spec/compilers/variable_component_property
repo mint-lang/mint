@@ -1,0 +1,33 @@
+component A {
+  property test : String = "Hello"
+
+  fun a : String {
+    test
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  get test() {
+    if (this.props.test != undefined) {
+      return this.props.test
+    } else {
+      return `Hello`
+    }
+  }
+
+  a() {
+    return this.test
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}
+
+$A.defaultProps = {
+  test: `Hello`
+}

@@ -1,0 +1,23 @@
+module A {
+  fun test : Html {
+    <div>
+      <{ something }>
+    </div>
+  } where {
+    something =
+      "Asd"
+
+    otherThing =
+      0
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class {
+  test() {
+    let something = `Asd`
+
+    let otherThing = 0
+
+    return React.createElement("div", {}, [something])
+  }
+})

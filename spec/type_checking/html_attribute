@@ -1,0 +1,11 @@
+component Test {
+  fun render : Html {
+    <div name="hello"/>
+  }
+}
+---------------------------------------HtmlAttributeElementAttributeTypeMismatch
+component Test {
+  fun render : Html {
+    <div name={0}/>
+  }
+}

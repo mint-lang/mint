@@ -1,0 +1,43 @@
+record Record {
+  name: String
+}
+
+component RecordUpdate {
+  property record : Record = { name = "Doe" }
+
+  fun test : Record {
+    { record | name = "John" }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $RecordUpdate extends React.PureComponent {
+  get record() {
+    if (this.props.record != undefined) {
+      return this.props.record
+    } else {
+      return {
+        name: `Doe`
+      }
+    }
+  }
+
+  test() {
+    return Mint.update(this.record, {
+      name: `John`
+    })
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}
+
+$RecordUpdate.defaultProps = {
+  record: {
+    name: `Doe`
+  }
+}

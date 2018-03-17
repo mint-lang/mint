@@ -1,0 +1,42 @@
+version: 1.0
+shards:
+  admiral:
+    github: jwaldrip/admiral.cr
+    version: 1.4.0
+
+  baked_file_system:
+    github: schovi/baked_file_system
+    version: 0.9.5
+
+  duktape:
+    github: jessedoyle/duktape.cr
+    version: 0.13.0
+
+  kemal:
+    github: kemalcr/kemal
+    version: 0.22.0
+
+  kilt:
+    github: jeromegn/kilt
+    version: 0.4.0
+
+  myhtml:
+    github: kostya/myhtml
+    version: 0.27
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.8
+
+  string_inflection:
+    github: mosop/string_inflection
+    version: 0.2.1
+
+  time_format:
+    github: vladfaust/time_format.cr
+    version: 0.1.0
+
+  tree_template:
+    github: anykeyh/tree_template
+    commit: bbaa56b9558104861953e64e2d892f7d3b02f9b2
+

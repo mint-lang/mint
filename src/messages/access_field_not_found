@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The field <code>{{field}}</code> does not exists on the record
+    <code>{{target}}</code>.
+  </p>
+
+  {{node}}
+</article>

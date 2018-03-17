@@ -1,0 +1,25 @@
+record A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    {x|a="Hello"}
+  } where {
+    x =
+      { a = "Blah" }
+  }
+}
+--------------------------------------------------------------------------------
+record A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    { x | a = "Hello" }
+  } where {
+    x =
+      { a = "Blah" }
+  }
+}

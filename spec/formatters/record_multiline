@@ -1,0 +1,24 @@
+record A {
+  a : String,
+  b : Bool
+}
+
+module Test {
+  fun test : A {
+    {a="Hello",b=true}
+  }
+}
+--------------------------------------------------------------------------------
+record A {
+  a : String,
+  b : Bool
+}
+
+module Test {
+  fun test : A {
+    {
+      a = "Hello",
+      b = true
+    }
+  }
+}

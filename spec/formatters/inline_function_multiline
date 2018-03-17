@@ -1,0 +1,36 @@
+record X {
+  name : String,
+  age : Number
+}
+
+module A {
+  fun test : String {
+    result.name
+  } where {
+    a = \name:String,age:Number=> {name = name, age = age}
+
+    result =
+      a("Joe", 25)
+  }
+}
+--------------------------------------------------------------------------------
+record X {
+  name : String,
+  age : Number
+}
+
+module A {
+  fun test : String {
+    result.name
+  } where {
+    a =
+      \name : String, age : Number =>
+        {
+          name = name,
+          age = age
+        }
+
+    result =
+      a("Joe", 25)
+  }
+}

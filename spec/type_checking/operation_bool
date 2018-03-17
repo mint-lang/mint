@@ -1,0 +1,11 @@
+module Test {
+  fun test : Bool {
+    "Hello" == "There"
+  }
+}
+------------------------------------------------------------FunctionTypeMismatch
+module Test {
+  fun test : String {
+    "Hello" == "There"
+  }
+}

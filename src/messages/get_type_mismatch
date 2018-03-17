@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The return type of a get does not match it's type definition.
+  </p>
+
+  <p>
+    Expected <code>{{expected}}</code>, got <code>{{got}}</code>.
+  </p>
+
+  {{node}}
+</article>

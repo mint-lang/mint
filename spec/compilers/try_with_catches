@@ -1,0 +1,42 @@
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+module A {
+  fun test : String {
+    try {
+      x =
+        Result.error("Blah")
+
+      x
+    } catch String => error {
+      error
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const $Result = new(class {
+  error(input) {
+    return new Err(input)
+  }
+})
+
+const $A = new(class {
+  test() {
+    return (() => {
+      let _0 = $Result.error(`Blah`)
+
+      if (_0 instanceof Err) {
+        let _error = _0.value
+        let error = _error
+        return error
+      }
+
+      let x = _0.value
+
+      return x
+    })()
+  }
+})

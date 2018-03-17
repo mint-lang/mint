@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I was looking for the name of a component but found {{char}} instead.
+  </p>
+
+  <p>
+    The name of a component must start with an uppercase letter and only
+    contain lowercase, uppercase letters and numbers.
+  </p>
+
+  {{snippet}}
+</article>

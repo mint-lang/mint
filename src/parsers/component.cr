@@ -1,0 +1,76 @@
+class Parser
+  syntax_error ComponentExpectedOpeningBracket
+  syntax_error ComponentExpectedClosingBracket
+  syntax_error ComponentExpectedBody
+  syntax_error ComponentExpectedName
+
+  def component : Ast::Component | Nil
+    start do |start_position|
+      skip unless keyword "component"
+
+      whitespace
+
+      name = type_id! ComponentExpectedName
+
+      body = block(
+        opening_bracket: ComponentExpectedOpeningBracket,
+        closing_bracket: ComponentExpectedClosingBracket
+      ) do
+        items = many do
+          property ||
+            connect ||
+            function ||
+            style ||
+            state ||
+            use ||
+            get
+        end.compact
+
+        raise ComponentExpectedBody if items.empty?
+
+        items
+      end
+
+      properties = [] of Ast::Property
+      functions = [] of Ast::Function
+      connects = [] of Ast::Connect
+      styles = [] of Ast::Style
+      states = [] of Ast::State
+      gets = [] of Ast::Get
+      uses = [] of Ast::Use
+
+      body.each do |item|
+        case item
+        when Ast::Property
+          properties << item
+        when Ast::Function
+          functions << item
+        when Ast::Connect
+          connects << item
+        when Ast::Style
+          styles << item
+        when Ast::State
+          states << item
+        when Ast::Get
+          gets << item
+        when Ast::Use
+          uses << item
+        end
+      end
+
+      Ast::Component.new(
+        properties: properties,
+        functions: functions,
+        from: start_position,
+        connects: connects,
+        styles: styles,
+        states: states,
+        to: position,
+        input: data,
+        name: name,
+        uses: uses,
+        gets: gets,
+      )
+    end
+  end
+end

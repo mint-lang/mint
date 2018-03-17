@@ -1,0 +1,13 @@
+component Ui.Dropdown {
+  fun render : String {
+    "test"
+  }
+}
+--------------------------------------------------------------------------------
+class $Ui_Dropdown extends React.PureComponent {
+  render() {
+    return `test`
+  }
+}
+
+$Ui_Dropdown.displayName = "Ui.Dropdown"

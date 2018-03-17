@@ -1,0 +1,8 @@
+module A {
+  fun test : Number {
+    value
+  } where {
+    value =
+      10
+  }
+}

@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The <b>condition of an if expression</b> does not evalutate to
+    <code>Bool</code>.
+  </p>
+
+  <p>
+    I was expecting <code>Bool</code> but found <code>{{got}}</code> instead.
+  </p>
+
+  {{node}}
+</article>

@@ -1,0 +1,29 @@
+store Test {
+  property a : String = "a"
+  property b : String = "b"
+  property c : String = "c"
+  property d : String = "d"
+}
+
+component A {
+  connectTest exposing{a,b,c,d}
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+store Test {
+  property a : String = "a"
+  property b : String = "b"
+  property c : String = "c"
+  property d : String = "d"
+}
+
+component A {
+  connect Test exposing { a, b, c, d }
+
+  fun render : Html {
+    <div/>
+  }
+}

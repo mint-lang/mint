@@ -1,0 +1,22 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+module Test {
+  fun test : Test {
+    {
+      a = "Hello",
+      b = 0
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return {
+      a: `Hello`,
+      b: 0
+    }
+  }
+})

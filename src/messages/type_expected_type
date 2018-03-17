@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A type must start with an uppercase letter, followed by lowercase or
+    uppercase letters.
+  </p>
+
+  <p>
+    I was looking for an <b>uppercase letter for a type</b> but found
+    {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

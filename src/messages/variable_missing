@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    I could not find variable, function or property with the name:
+    <code>{{name}}</code>.
+  </p>
+
+  {{node}}
+</article>

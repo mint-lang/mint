@@ -1,0 +1,16 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    The type signature of the call does not match the singature of the function
+    <code>{{module}}.{{function}}</code>
+  </p>
+
+  <p>
+  	Expected <code>{{expected}}</code> but got <code>{{got}}</code> instead.
+  </p>
+
+  {{node}}
+</article>

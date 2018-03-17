@@ -1,0 +1,34 @@
+component A {
+  style test {
+    margin: {margin}px 0px;
+  }
+
+  get margin : Number {
+    10
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  get margin() {
+    return 10
+  }
+
+  render() {
+    return React.createElement("div", {
+      className: `a-test`,
+      style: {
+        [`--a-test-margin`]: this.margin + `px 0px`
+      }
+    })
+  }
+}
+
+Mint.insertStyles(`
+  .a-test {
+    margin: var(--a-test-margin);
+  }
+`)

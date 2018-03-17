@@ -1,0 +1,18 @@
+component A {
+  styletest{background: red;color: blue;}
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    background: red;
+    color: blue;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

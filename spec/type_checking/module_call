@@ -1,0 +1,42 @@
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : String {
+    true
+    |> Test.a("test")
+  }
+}
+--------------------------------------------------------ModuleCallNotFoundModule
+module Test {
+  fun b : String {
+    X.x()
+  }
+}
+------------------------------------------------------ModuleCallNotFoundFunction
+module Test {
+  fun b : String {
+    Test.a("test")
+  }
+}
+--------------------------------------------------ModuleCallArgumentSizeMismatch
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test")
+  }
+}
+--------------------------------------------------ModuleCallArgumentTypeMismatch
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test", "z")
+  }
+}

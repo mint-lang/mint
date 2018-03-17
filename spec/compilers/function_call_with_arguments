@@ -1,0 +1,19 @@
+module FunctionCall {
+  fun test (a : String, b : Bool) : Bool {
+    b
+  }
+
+  fun call : Bool {
+    test("Hello", true)
+  }
+}
+--------------------------------------------------------------------------------
+const $FunctionCall = new(class {
+  test(a, b) {
+    return b
+  }
+
+  call() {
+    return $FunctionCall.test(`Hello`, true)
+  }
+})

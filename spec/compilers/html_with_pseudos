@@ -1,0 +1,75 @@
+component HtmlStyle {
+  property hoverBackground : String = "yellow"
+  property background : String = "blue"
+
+  style test {
+    background: {background};
+    color: red;
+
+    &:hover {
+      background: {hoverBackground};
+      color: cyan;
+    }
+
+    & div {
+      font-family: {"Hello"};
+      color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlStyle extends React.PureComponent {
+  get hoverBackground() {
+    if (this.props.hoverBackground != undefined) {
+      return this.props.hoverBackground
+    } else {
+      return `yellow`
+    }
+  }
+
+  get background() {
+    if (this.props.background != undefined) {
+      return this.props.background
+    } else {
+      return `blue`
+    }
+  }
+
+  render() {
+    return React.createElement("div", {
+      className: `html-style-test`,
+      style: {
+        [`--html-style-test-background`]: this.background,
+        [`--html-style-test-hover-background`]: this.hoverBackground,
+        [`--html-style-test-div-font-family`]: `Hello`
+      }
+    })
+  }
+}
+
+$HtmlStyle.defaultProps = {
+  hoverBackground: `yellow`,
+  background: `blue`
+}
+
+Mint.insertStyles(`
+  .html-style-test {
+    background: var(--html-style-test-background);
+    color: red;
+  }
+
+  .html-style-test:hover {
+    background: var(--html-style-test-hover-background);
+    color: cyan;
+  }
+
+  .html-style-test div {
+    font-family: var(--html-style-test-div-font-family);
+    color: blue;
+  }
+`)

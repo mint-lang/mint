@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    There is already a {{what}} with the name <b>{{name}}</b> in this store.
+  </p>
+
+  {{node}}
+
+  <p>
+    The other {{what}} was defined here:
+  </p>
+
+  {{other}}
+</article>

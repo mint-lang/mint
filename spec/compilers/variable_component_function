@@ -1,0 +1,27 @@
+component A {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : Function(String) {
+    a
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends React.PureComponent {
+  a() {
+    return `Hello`
+  }
+
+  b() {
+    return this.a.bind(this)
+  }
+
+  render() {
+    return React.createElement("div", {})
+  }
+}

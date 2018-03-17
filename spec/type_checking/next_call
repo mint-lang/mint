@@ -1,0 +1,54 @@
+record State {
+  name : String,
+  age : Number
+}
+
+component Test {
+  state : State {
+    name = "Joe",
+    age = 24
+  }
+
+  fun test : Void {
+    next {
+      name = "Hello",
+      age=30
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------NextCallInvalidInvokation
+record B {
+  age : Number
+}
+
+module Test {
+  fun test : Void {
+    next { age = 30 }
+  }
+}
+------------------------------------------------------------NextCallTypeMismatch
+record A {
+  name : String
+}
+
+record B {
+  age : Number
+}
+
+component Test {
+  state : A {
+    name = "Joe"
+  }
+
+  fun test : Void {
+    next { age=30 }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

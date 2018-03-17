@@ -1,0 +1,9 @@
+module A {
+  funtest(a:String):Void{void}
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test (a : String) : Void {
+    void
+  }
+}

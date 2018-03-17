@@ -1,0 +1,11 @@
+component Test {
+  fun render : Html {
+    <div ref={\element : DOM.Element => void}/>
+  }
+}
+---------------------------------------HtmlAttributeElementAttributeTypeMismatch
+component Test {
+  fun render : Html {
+    <div ref="Hello"/>
+  }
+}

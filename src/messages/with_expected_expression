@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A with expression must have a single expression.
+  </p>
+
+  <p>
+    I was looking for that <b>expression</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

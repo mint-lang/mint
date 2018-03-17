@@ -1,0 +1,19 @@
+record Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    {a="Hello"}
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    { a = "Hello" }
+  }
+}

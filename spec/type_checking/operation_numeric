@@ -1,0 +1,23 @@
+module Test {
+  fun test : Number {
+    0 * 10
+  }
+}
+----------------------------------------------------OperationNumericTypeMismatch
+module Test {
+  fun test : Number {
+    "Hello" * 0
+  }
+}
+----------------------------------------------------OperationNumericTypeMismatch
+module Test {
+  fun test : Number {
+    0 * "Hello"
+  }
+}
+----------------------------------------------------OperationNumericTypeMismatch
+module Test {
+  fun test : Number {
+    "Blah" * "Hello"
+  }
+}

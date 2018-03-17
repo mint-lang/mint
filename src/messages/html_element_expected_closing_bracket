@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    I found a <b>slash</b> <code>/</code> which indiates that the element does
+    not have children. A <b>closing bracket</b> <code>></code> must follow the
+    slash.
+  </p>
+
+  <p>
+    I was looking for that <b>closing bracket</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

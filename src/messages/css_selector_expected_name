@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A sub styles body have a selector after the ampersand.
+  </p>
+
+  <p>
+    I was looking for that <b>selector</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

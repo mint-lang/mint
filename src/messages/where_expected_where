@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    A where block must have at least one statment.
+  </p>
+
+  <p>
+    I was looking for a statement but found none.
+  </p>
+
+  {{snippet}}
+</article>

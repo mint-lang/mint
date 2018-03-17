@@ -1,0 +1,29 @@
+module Test {
+  fun test : String {
+    if ("a" == "b") {
+      "x"
+    } else {
+      "y"
+    }
+  }
+}
+---------------------------------------------------------IfConditionTypeMismatch
+module Test {
+  fun test : String {
+    if ("a") {
+      "x"
+    } else {
+      "y"
+    }
+  }
+}
+--------------------------------------------------------------IfElseTypeMismatch
+module Test {
+  fun test : String {
+    if ("a" == "b") {
+      "x"
+    } else {
+      10
+    }
+  }
+}

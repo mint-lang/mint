@@ -1,0 +1,17 @@
+module A {
+  fun test : Bool {
+    x
+  } where {
+    x =
+      true
+  }
+}
+------------------------------------------------------------FunctionTypeMismatch
+module A {
+  fun test : Bool {
+    x
+  } where {
+    x =
+      "hello"
+  }
+}

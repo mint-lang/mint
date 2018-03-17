@@ -1,0 +1,10 @@
+<article>
+  <h2>Syntax Error</h2>
+
+  <p>
+    I was expecting <b>at least one field to update</b> but found {{got}}
+    instead.
+  </p>
+
+  {{snippet}}
+</article>

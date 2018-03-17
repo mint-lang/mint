@@ -1,0 +1,13 @@
+module Html.Testing {
+  fun renderAll : Html {
+    <p>
+      <{ "It should work" }>
+    </p>
+  }
+}
+--------------------------------------------------------------------------------
+const $Html_Testing = new(class {
+  renderAll() {
+    return React.createElement("p", {}, [`It should work`])
+  }
+})

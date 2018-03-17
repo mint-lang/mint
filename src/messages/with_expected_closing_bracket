@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    The body of a with block must end with an closing bracket.
+  </p>
+
+  <p>
+    I was looking for that bracket <code>}</code> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

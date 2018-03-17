@@ -1,0 +1,11 @@
+component Test {
+  fun render : Html {
+    <div disabled={true}/>
+  }
+}
+---------------------------------------HtmlAttributeElementAttributeTypeMismatch
+component Test {
+  fun render : Html {
+    <div disabled="WTF"/>
+  }
+}

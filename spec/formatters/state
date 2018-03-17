@@ -1,0 +1,27 @@
+record Test.State {
+  a : Number,
+  b : String
+}
+
+component Test {
+  state:Test.State{b="hello",a=0}
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+record Test.State {
+  a : Number,
+  b : String
+}
+
+component Test {
+  state : Test.State {
+    b = "hello",
+    a = 0
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

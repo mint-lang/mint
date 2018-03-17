@@ -1,0 +1,43 @@
+record State {
+  name : String,
+  age : Number
+}
+
+component Test {
+  state : State {
+    name = "Joe",
+    age = 24
+  }
+
+  fun test : Void {
+    next {name = "Hello",age=30}
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+record State {
+  name : String,
+  age : Number
+}
+
+component Test {
+  state : State {
+    name = "Joe",
+    age = 24
+  }
+
+  fun test : Void {
+    next
+      {
+        name = "Hello",
+        age = 30
+      }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

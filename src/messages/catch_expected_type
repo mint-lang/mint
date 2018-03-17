@@ -1,0 +1,15 @@
+<article>
+  <h2>
+    Syntax Error
+  </h2>
+
+  <p>
+    In a catch you must specify the type you want to handle.
+  </p>
+
+  <p>
+    I was looking for that <b>type</b> but found {{got}} instead.
+  </p>
+
+  {{snippet}}
+</article>

@@ -1,0 +1,15 @@
+module A {
+  fun test : String {
+    a()
+  } where {
+    a = \ => "Hello"
+  }
+}
+------------------------------------------------------------FunctionTypeMismatch
+module A {
+  fun test : String {
+    a()
+  } where {
+    a = \ => true
+  }
+}
