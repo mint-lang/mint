@@ -1,10 +1,10 @@
 require "./spec_helper"
 
-ERROR_MESSAGES.each do |error|
-  it "#{error} has a message file" do
-    File.exists?("./src/messages/#{error}").should eq(true)
-  end
-end
+# ERROR_MESSAGES.each do |error|
+#   it "#{error} has a message file" do
+#     File.exists?("./src/messages/#{error}").should eq(true)
+#   end
+# end
 
 Dir.glob("./src/messages/**/*").each do |file|
   basename = File.basename(file)

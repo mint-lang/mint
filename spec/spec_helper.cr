@@ -15,7 +15,7 @@ class SyntaxError < Exception
   end
 end
 
-require "../src/mint"
+require "../src/all"
 
 macro subject(method)
   subject = ->(sample : String) {
