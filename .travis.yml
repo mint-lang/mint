@@ -6,7 +6,7 @@ os:
 
 before_deploy:
   - mkdir build
-  - crystal build src/mint.cr -o build/mint-$TRAVIS_OS_NAME --release
+  - crystal build src/mint.cr -o build/mint-$TRAVIS_OS_NAME --release --no-debug
 
 deploy:
   - provider: s3
@@ -16,6 +16,8 @@ deploy:
       secure: KZmcNoXWMQiMWWgHWCktbjV8LBqcqqvxpzL/eFjn8uOFJ222lHkSLyOe08vFM8CScYTQjMKwTBwkvRNgaMkKY9q4pikoJfkC1T01xUW17tTLh3ps06Yc5cdxnZT9KllRKDr26SISnpBbRCY42BuwmL97stFOjFPM/g9JC3z/oyRE0+B2oEc+M+d6oXijsBxgp4jvkMtbWLFSPjM0NTJwcnkp6ZwgsAzdGislaqbSEKkMT4SMN4PBWHg4z+1sV25d+ZwjYBUFk9Ll5aBTgP7SW6vRsAXBPUPwREF4scRuuMMcYvbAU3efp1gGKAC13YYniyLSZ8HyFrR5O1jVkn02PcszdCRaopZW61XTYTJxiLumFN1HR+ej5ZIcLpLVyTtYs7ABS7vxrfRNVM6dDPKAQ6IRg/hiL3C8HzmhC55N4TRYzGV8bBgBOmoOe7CiWV67k6vzxyaDWE6kfhzeZnHKdXU4SPFrvI+uTo8p0PzsTI8qMAXfhc8OrIKDQtencaVq/Vyj3JaXUymeDsXSVAqLPFEufTx5cQTmmFzHZT5I3XSiMDgVaM05O4Yi2uSt9FUEUX8Mf8hNAoyTSnT192NvgccTnvflkLH0f0PiQrQTpaeB72VJzCkAsPFxH4ruTZtOfiZyT6mHUkqcXjyH6uNjvQsb11BhTnIBAPerayOi0Xo=
     bucket: mint-lang
     local_dir: build
+    on:
+      branch: master
 
   - provider: releases
     skip_cleanup: true
