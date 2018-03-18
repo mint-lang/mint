@@ -20,7 +20,7 @@ class IndexHtml
             if name == "charset"
               t.meta(charset: "utf-8")
             else
-              t.meta(name: name, conent: content)
+              t.meta(name: name, content: content)
             end
           end
 
