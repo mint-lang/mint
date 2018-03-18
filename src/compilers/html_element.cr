@@ -27,7 +27,22 @@ class Compiler
         component_name =
           component.name
 
-        StringInflection.kebab(component_name + "-" + name).gsub('.', '-')
+        StringInflection
+          .kebab(component_name + "-" + name)
+          .gsub('.', '-')
+      end
+
+    class_names =
+      if class_name
+        medias
+          .values
+          .map(&.keys)
+          .flatten
+          .select(&.starts_with?(class_name))
+          .push(class_name)
+          .join(" ")
+      else
+        class_name
       end
 
     class_name_attribute =
@@ -50,9 +65,9 @@ class Compiler
 
         classes =
           if class_name_attribute_value
-            "#{class_name_attribute_value} + ` #{class_name}`"
+            "#{class_name_attribute_value} + ` #{class_names}`"
           else
-            "`#{class_name}`"
+            "`#{class_names}`"
           end
 
         attributes.push "className: #{classes}"

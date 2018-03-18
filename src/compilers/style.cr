@@ -13,8 +13,8 @@ class Compiler
 
     compile prefix, prefix, node.definitions
 
-    node.medias.each do |item|
-      compile prefix, prefix, item.definitions, item.content
+    node.medias.each_with_index do |item, index|
+      compile prefix + "-media-#{index}", prefix, item.definitions, item.content
     end
 
     node.selectors.each do |item|
