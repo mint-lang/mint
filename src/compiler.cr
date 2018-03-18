@@ -1,7 +1,7 @@
 require "./compilers/**"
 
 class Compiler
-  delegate dynamic_styles, styles, ast, types, variables, html_elements,
+  delegate dynamic_styles, styles, ast, types, variables, html_elements, medias,
     to: @artifacts
 
   def initialize(@artifacts : TypeChecker::Artifacts)

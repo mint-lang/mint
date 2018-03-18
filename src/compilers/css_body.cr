@@ -1,6 +1,7 @@
 class Compiler
   def compile(prefix : String, key : String,
-              definitions : Array(Ast::CssDefinition)) : Hash(String, String)
+              definitions : Array(Ast::CssDefinition),
+              media = nil) : Hash(String, String)
     cleaned =
       prefix
         .gsub(/[^A-Za-z0-9]/, '-')
@@ -40,7 +41,13 @@ class Compiler
     dynamic_styles[key] ||= {} of String => String
     dynamic_styles[key].merge!(dynamics)
 
-    styles[prefix] ||= {} of String => String
-    styles[prefix].merge!(regulars)
+    if media
+      medias[media] ||= {} of String => Hash(String, String)
+      medias[media][prefix] ||= {} of String => String
+      medias[media][prefix].merge!(regulars)
+    else
+      styles[prefix] ||= {} of String => String
+      styles[prefix].merge!(regulars)
+    end
   end
 end

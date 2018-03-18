@@ -13,6 +13,10 @@ class Compiler
 
     compile prefix, prefix, node.definitions
 
+    node.medias.each do |item|
+      compile prefix, prefix, item.definitions, item.content
+    end
+
     node.selectors.each do |item|
       item.selectors.each do |selector|
         compile prefix + selector, prefix, item.definitions

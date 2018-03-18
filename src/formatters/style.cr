@@ -1,7 +1,7 @@
 class Formatter
   def format(node : Ast::Style) : String
     items =
-      node.definitions + node.selectors
+      node.definitions + node.selectors + node.medias
 
     name =
       format node.name

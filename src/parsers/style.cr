@@ -15,11 +15,12 @@ class Parser
         opening_bracket: StyleExpectedOpeningBracket,
         closing_bracket: StyleExpectedClosingBracket
       ) do
-        many { css_definition || css_selector }.compact
+        many { css_definition || css_selector || css_media }.compact
       end
 
       definitions = [] of Ast::CssDefinition
       selectors = [] of Ast::CssSelector
+      medias = [] of Ast::CssMedia
 
       body.each do |item|
         case item
@@ -27,6 +28,8 @@ class Parser
           definitions << item
         when Ast::CssSelector
           selectors << item
+        when Ast::CssMedia
+          medias << item
         end
       end
 
@@ -34,6 +37,7 @@ class Parser
         definitions: definitions,
         selectors: selectors,
         from: start_position,
+        medias: medias,
         to: position,
         input: data,
         name: name)

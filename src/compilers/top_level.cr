@@ -36,6 +36,24 @@ class Compiler
     routes =
       compile ast.routes
 
+    media_css =
+      medias.map do |condition, rules|
+        selectors =
+          rules.map do |name, items|
+            definitions =
+              items
+                .map { |key, value| "#{key}: #{value};" }
+                .join("\n")
+                .indent
+
+            ".#{name} {\n#{definitions}\n}"
+          end.join("\n\n")
+             .indent
+
+        "@media #{condition} {\n#{selectors}\}"
+      end.join("\n\n")
+         .indent
+
     css =
       styles.map do |name, items|
         definitions =
@@ -52,7 +70,7 @@ class Compiler
       if css.strip.empty?
         ""
       else
-        "Mint.insertStyles(`\n#{css}\n`)"
+        "Mint.insertStyles(`\n#{css + media_css}\n`)"
       end
 
     (providers + routes + modules + stores + components + [footer])
