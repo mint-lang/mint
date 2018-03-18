@@ -18,12 +18,11 @@ class MintJson
   end
 
   class Application
-    getter title, external_stylesheets, external_javascripts, meta, icon
+    getter title, meta, icon, head
 
-    def initialize(@external_javascripts = [] of String,
-                   @external_stylesheets = [] of String,
-                   @meta = {} of String => String,
+    def initialize(@meta = {} of String => String,
                    @title = "",
+                   @head = "",
                    @icon = "")
     end
   end
@@ -66,8 +65,6 @@ class MintJson
         parse_name
       when "source-directories"
         parse_source_directories
-      when "external-stylesheets"
-        parse_external_stylesheets
       when "application"
         parse_application
       when "dependencies"
@@ -90,6 +87,21 @@ class MintJson
   def parse_name
     @name = @parser.read_string
     raise NameIsEmpty.new if @name.empty?
+  rescue exception : JSON::ParseException
+    raise NameNotString.new
+  end
+
+  # Parsing the head
+  # ----------------------------------------------------------------------------
+
+  class HeadNotString < Error; end
+
+  class HeadNotExists < Error; end
+
+  def parse_head
+    head = @parser.read_string
+    raise HeadNotExists.new unless File.exists?(head)
+    File.read(head)
   rescue exception : JSON::ParseException
     raise NameNotString.new
   end
@@ -128,17 +140,17 @@ class MintJson
   class ApplicationNotAnObject < Error; end
 
   def parse_application
-    external_stylesheets = [] of String
     meta = {} of String => String
     title = ""
     icon = ""
+    head = ""
 
     @parser.read_object do |key|
       case key
+      when "head"
+        head = parse_head
       when "title"
         title = parse_title
-      when "external-stylesheets"
-        external_stylesheets = parse_external_stylesheets
       when "meta"
         meta = parse_meta
       when "icon"
@@ -148,7 +160,7 @@ class MintJson
       end
     end
 
-    @application = Application.new(title: title, external_stylesheets: external_stylesheets, meta: meta, icon: icon)
+    @application = Application.new(title: title, meta: meta, icon: icon, head: head)
   rescue exception : JSON::ParseException
     raise ApplicationNotAnObject.new
   end
@@ -192,29 +204,6 @@ class MintJson
     title
   rescue exception : JSON::ParseException
     raise TitleInvalid.new
-  end
-
-  # Parsing the external stylesheets
-  # ----------------------------------------------------------------------------
-
-  class ExternalStylesheetsInvalid < Error; end
-
-  class ExternalStylesheetInvalid < Error; end
-
-  def parse_external_stylesheets
-    stylesheets = [] of String
-    @parser.read_array do
-      stylesheets << parse_external_stylesheet
-    end
-    stylesheets
-  rescue exception : JSON::ParseException
-    raise ExternalStylesheetsInvalid.new
-  end
-
-  def parse_external_stylesheet
-    @parser.read_string
-  rescue exception : JSON::ParseException
-    raise ExternalStylesheetInvalid.new
   end
 
   # Parsing the dependencies

@@ -40,7 +40,7 @@ class Cli < Admiral::Command
 
         puts "#{Terminal.cog} Writing initial files..."
         File.write(File.join("source", "Main.mint"), MAIN)
-        File.write("mint.json", json.to_json)
+        File.write("mint.json", json.to_pretty_json)
 
         puts "\nInitialized new project in #{Dir.current.colorize.mode(:bold)}"
       end
@@ -54,7 +54,7 @@ class Cli < Admiral::Command
         ],
         "dependencies" => {
           "mint-core" => {
-            "repository" => "https://github.com/mint-lang/core",
+            "repository" => "https://github.com/mint-lang/mint-core",
             "constraint" => "0.0.0 <= v < 1.0.0",
           },
         },

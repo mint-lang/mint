@@ -24,9 +24,7 @@ class IndexHtml
             end
           end
 
-          json.application.external_stylesheets.each do |href|
-            t.link(rel: "stylesheet", href: href)
-          end
+          t.unsafe json.application.head
 
           Builder::SIZES.each do |size|
             t.link(
