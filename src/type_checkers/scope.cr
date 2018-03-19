@@ -138,7 +138,13 @@ class TypeChecker
     private def store_properties(component)
       component.connects.map do |item|
         store = @ast.stores.find(&.name.==(item.store))
-        store.properties if store
+
+        if store
+          keys = item.keys.map(&.value)
+          store.properties.select do |property|
+            keys.includes?(property.name.value)
+          end
+        end
       end.compact
          .reduce([] of Ast::Property) { |memo, item| memo.concat(item) }
     end
@@ -146,7 +152,12 @@ class TypeChecker
     private def store_functions(component)
       component.connects.map do |item|
         store = @ast.stores.find(&.name.==(item.store))
-        store.functions if store
+        if store
+          keys = item.keys.map(&.value)
+          store.functions.select do |function|
+            keys.includes?(function.name.value)
+          end
+        end
       end.compact
          .reduce([] of Ast::Function) { |memo, item| memo.concat(item) }
     end
