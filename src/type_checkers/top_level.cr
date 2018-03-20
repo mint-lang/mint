@@ -9,6 +9,7 @@ class TypeChecker
     check node.modules
     check node.stores
     check node.routes
+    check node.suites
 
     NEVER
   end

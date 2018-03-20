@@ -386,11 +386,17 @@ class MintClass {
   }
 
   log(message, ...params) {
-    this.logger.postMessage({ type: 'log', message: message, params: params })
+  	try {
+    	this.logger.postMessage({ type: 'log', message: message, params: params })
+  	} catch (e) {
+  	}
   }
 
   diff(message, from, to) {
-    this.logger.postMessage({ type: 'diff', from: from, to: to, message: message })
+  	try {
+    	this.logger.postMessage({ type: 'diff', from: from, to: to, message: message })
+  	} catch (e) {
+  	}
   }
 
   navigate(url) {

@@ -25,13 +25,14 @@ class Ast
                      If |
                      Js
 
-  getter components, modules, records, stores, routes, providers
+  getter components, modules, records, stores, routes, providers, suites
 
   def initialize(@records = [] of RecordDefinition,
                  @components = [] of Component,
                  @providers = [] of Provider,
                  @modules = [] of Module,
                  @routes = [] of Routes,
+                 @suites = [] of Suite,
                  @stores = [] of Store)
   end
 
@@ -50,6 +51,7 @@ class Ast
     @records.concat ast.records
     @stores.concat ast.stores
     @routes.concat ast.routes
+    @suites.concat ast.suites
 
     self
   end

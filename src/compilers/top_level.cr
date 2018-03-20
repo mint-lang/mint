@@ -20,6 +20,20 @@ class Compiler
     end
   end
 
+  def self.compile_with_tests(artifacts : TypeChecker::Artifacts) : String
+    compiler = new(artifacts)
+    base = compiler.compile
+    tests = compiler.compile_tests
+    base + "\n\n" + tests
+  end
+
+  def compile_tests
+    tests =
+      compile ast.suites.map(&.tests).flatten, ","
+
+    "TESTS = [#{tests}]"
+  end
+
   def compile : String
     providers =
       compile ast.providers

@@ -22,13 +22,16 @@ class Parser
       component ||
         module_definition ||
         record_definition ||
+        provider ||
         routes ||
         store ||
-        provider
+        suite
     end.compact
 
     items.each do |item|
       case item
+      when Ast::Suite
+        @ast.suites << item
       when Ast::Provider
         @ast.providers << item
       when Ast::RecordDefinition
