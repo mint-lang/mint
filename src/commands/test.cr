@@ -12,6 +12,7 @@ class Cli < Admiral::Command
     include Mint::Logger
 
     PAGE = <<-HTML
+    <script src="/runtime.js"></script>
     <script src="/tests"></script>
     <script>
       class TestRunner {
@@ -101,6 +102,10 @@ class Cli < Admiral::Command
     def setup_kemal
       get "/" do
         PAGE
+      end
+
+      get "/runtime.js" do
+        Assets.read("runtime.js").to_s
       end
 
       get "/tests" do
