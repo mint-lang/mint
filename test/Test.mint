@@ -1,7 +1,7 @@
 module Array {
-	fun isEmpty(a : Array(a)) : Bool {
-		`!!a.length`
-	}
+  fun isEmpty (a : Array(a)) : Bool {
+    `!!a.length`
+  }
 }
 
 module Spec.Context {
@@ -48,23 +48,22 @@ module Spec.Html {
   }
 }
 
-
 suite "Array.isEmpty" {
-	test "returns false for non-empty" {
-		Array.isEmpty(["a"]) == true
-	}
+  test "returns false for non-empty" {
+    Array.isEmpty(["a"]) == true
+  }
 
-	test "returns true for empty" {
-		Array.isEmpty([]) == false
-	}
+  test "returns true for empty" {
+    Array.isEmpty([]) == false
+  }
 
-	test "a" {
-		with Spec.Html {
-			<div>
-				<a/>
-			</div>
-	    |> start()
-	    |> assertText("a", "")
-	  }
-	}
+  test "a" {
+    with Spec.Html {
+      <div>
+        <a/>
+      </div>
+      |> start()
+      |> assertText("a", "")
+    }
+  }
 }

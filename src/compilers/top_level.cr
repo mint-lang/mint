@@ -28,10 +28,10 @@ class Compiler
   end
 
   def compile_tests
-    tests =
-      compile ast.suites.map(&.tests).flatten, ","
+    suites =
+      compile ast.suites, ","
 
-    "TESTS = [#{tests}]"
+    "SUITES = [#{suites}]"
   end
 
   def compile : String

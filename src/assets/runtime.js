@@ -386,17 +386,17 @@ class MintClass {
   }
 
   log(message, ...params) {
-  	try {
-    	this.logger.postMessage({ type: 'log', message: message, params: params })
-  	} catch (e) {
-  	}
+    try {
+      this.logger.postMessage({ type: 'log', message: message, params: params })
+    } catch (e) {
+    }
   }
 
   diff(message, from, to) {
-  	try {
-    	this.logger.postMessage({ type: 'diff', from: from, to: to, message: message })
-  	} catch (e) {
-  	}
+    try {
+      this.logger.postMessage({ type: 'diff', from: from, to: to, message: message })
+    } catch (e) {
+    }
   }
 
   navigate(url) {
@@ -457,6 +457,43 @@ class MintClass {
 
   addRoutes (routes) {
     this.routes = this.routes.concat(routes)
+  }
+}
+
+class SpecContext {
+  constructor (subject) {
+    this.subject = subject
+    this.error = null
+    this.steps = []
+  }
+
+  async run () {
+    return new Promise((resolve, reject) => {
+      this.next(resolve, reject)
+    })
+  }
+
+  async next (resolve, reject) {
+    requestAnimationFrame(async () => {
+      let step = this.steps.shift()
+
+      try {
+        this.subject = await step(this.subject)
+      } catch (error) {
+        this.error = error
+        reject(this.error.toString())
+      }
+      if (this.steps.length) {
+        this.next(resolve, reject)
+      } else {
+        resolve(this.subject)
+      }
+    })
+  }
+
+  step (proc) {
+    this.steps.push(proc)
+    return this
   }
 }
 
