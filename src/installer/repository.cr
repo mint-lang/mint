@@ -86,7 +86,7 @@ class Repository
   end
 
   def update
-    status, output, error = run "git fetch"
+    status, output, error = run "git fetch --tags --force"
 
     if status.success?
       puts "  #{Terminal.cog} Updated #{id}"
