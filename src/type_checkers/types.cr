@@ -38,6 +38,10 @@ class TypeChecker
       end
     end
 
+    def ==(other : Record)
+      self.==(other.fields)
+    end
+
     def ==(other : Hash(String, Type))
       return false if fields.size != other.size
 
