@@ -46,4 +46,12 @@ describe "Type Comparer" do
 
   expect_compare "Array(Result(String, String), a)", "Array(x, x)",
     "Array(Result(String, String), Result(String, String))"
+
+  describe "Records" do
+    it "returns true for two records that have the same fields" do
+      a = TypeChecker::Record.new("DOM.Element", {"value" => TypeChecker::Type.new("String")})
+      b = TypeChecker::Record.new("State", {"value" => TypeChecker::Type.new("String")})
+      TypeChecker::Comparer.compare(a, b).should_not eq(nil)
+    end
+  end
 end
