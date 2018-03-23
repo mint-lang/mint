@@ -13,7 +13,7 @@ class TypeChecker
     end
 
     def self.compare(entity : Record, against : Record)
-      entity if entity.name == against.name && entity == against
+      entity if entity == against
     end
 
     def initialize(@a : Type, @b : Type)
