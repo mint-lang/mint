@@ -134,6 +134,8 @@ class Cli < Admiral::Command
       type_checker.check
 
       Compiler.compile_with_tests type_checker.artifacts
+    rescue exception : MintJson::Error | SyntaxError | TypeError
+      puts exception.message
     end
 
     def open_page
