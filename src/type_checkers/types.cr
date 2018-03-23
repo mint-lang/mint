@@ -39,7 +39,7 @@ class TypeChecker
     end
 
     def ==(other : Record)
-      self.==(other.fields)
+      self == other.fields
     end
 
     def ==(other : Hash(String, Type))
