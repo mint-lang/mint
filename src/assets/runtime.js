@@ -461,7 +461,8 @@ class MintClass {
 }
 
 class SpecContext {
-  constructor (subject) {
+  constructor (subject, teardown) {
+  	this.teardown = teardown || (() => {})
     this.subject = subject
     this.error = null
     this.steps = []
@@ -470,7 +471,7 @@ class SpecContext {
   async run () {
     return new Promise((resolve, reject) => {
       this.next(resolve, reject)
-    })
+    }).then(() => this.teardown())
   }
 
   async next (resolve, reject) {

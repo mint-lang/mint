@@ -2,6 +2,41 @@ require "kemal"
 
 class Cli < Admiral::Command
   class Test < Admiral::Command
+    class DocumentationReporter
+      def succeeded(name)
+        puts "✔ #{name}".colorize(:green).to_s.indent
+      end
+
+      def failed(name, error)
+        puts "✘ #{name}".colorize(:red).to_s.indent
+        puts error.colorize(:red).to_s.indent(4)
+      end
+
+      def suite(name)
+        puts name
+      end
+
+      def done
+      end
+    end
+
+    class DotReporter
+      def succeeded(name)
+        print ".".colorize(:green).to_s
+      end
+
+      def failed(name, error)
+        print ".".colorize(:red).to_s
+      end
+
+      def suite(name)
+      end
+
+      def done
+        print "\n"
+      end
+    end
+
     class Message
       JSON.mapping({
         type:   String,
@@ -27,6 +62,18 @@ class Cli < Admiral::Command
       long: "keep-alive",
       default: false,
       short: "k"
+
+    define_flag browser : String,
+      description: "Which browser to run the tests in",
+      default: "chromium",
+      long: "browser",
+      short: "b"
+
+    define_flag reporter : String,
+      description: "Which reporter to use (dot, documentation)",
+      long: "reporter",
+      default: "dot",
+      short: "r"
 
     define_argument test : String
 
@@ -108,9 +155,18 @@ class Cli < Admiral::Command
     @failed = 0
     @process : Process?
     @channel = Channel(Nil).new
+    @reporter = DotReporter.new
 
     def run
-      execute "Running tests" do
+      case flags.reporter
+      when "documentation"
+        @reporter = DocumentationReporter.new
+      when "dot"
+      else
+        raise "Invalid reporter"
+      end
+
+      execute "Running tests in #{flags.browser}" do
         setup_kemal
         open_page
 
@@ -163,13 +219,32 @@ class Cli < Admiral::Command
         profile_directory = File.join(Tempfile.dirname, Random.new.hex(5))
         Dir.mkdir(profile_directory)
 
-        # process = Process.new(
-        #   "firefox",
-        #   args: ["--headless", "--profile", profile_directory, "http://localhost:3000"])
-
-        process = Process.new(
-          "chromium-browser",
-          args: ["--headless", "--disable-gpu", "--remote-debugging-port=9222", "--profile-directory=#{profile_directory}", "http://localhost:3000"])
+        process =
+          case flags.browser
+          when "firefox"
+            Process.new(
+              "firefox",
+              args: [
+                "--headless",
+                "--profile",
+                profile_directory,
+                "http://localhost:3000",
+              ]
+            )
+          when "chromium"
+            Process.new(
+              "chromium-browser",
+              args: [
+                "--headless",
+                "--disable-gpu",
+                "--remote-debugging-port=9222",
+                "--profile-directory=#{profile_directory}",
+                "http://localhost:3000",
+              ]
+            )
+          else
+            raise "Invalid browser #{flags.browser}!"
+          end
 
         @channel.receive
         process.kill
@@ -195,6 +270,7 @@ class Cli < Admiral::Command
       ws "/" do |socket|
         socket.on_message do |message|
           if message == "DONE"
+            @reporter.done
             sum = @succeeded + @failed
 
             puts Terminal.separator
@@ -208,13 +284,12 @@ class Cli < Admiral::Command
             data = Message.from_json(message)
             case data.type
             when "SUITE"
-              puts data.name
+              @reporter.suite data.name
             when "SUCCEEDED"
-              puts "✔ #{data.name}".colorize(:green).to_s.indent
+              @reporter.succeeded data.name
               @succeeded += 1
             when "FAILED"
-              puts "✘ #{data.name}".colorize(:red).to_s.indent
-              puts data.result.colorize(:red).to_s.indent(4)
+              @reporter.failed data.name, data.result
               @failed += 1
             end
           end
