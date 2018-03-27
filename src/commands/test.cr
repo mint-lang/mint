@@ -31,67 +31,75 @@ class Cli < Admiral::Command
     define_argument test : String
 
     PAGE = <<-HTML
-    <script src="/runtime.js"></script>
-    <script src="/tests"></script>
-    <script>
-      class TestRunner {
-        constructor (suites) {
-          this.socket = new WebSocket("ws://localhost:3000/")
-          this.suites = suites
+    <html>
+      <head>
+      </head>
+      <body>
+        <script src="/runtime.js"></script>
+        <script src="/tests"></script>
+        <script>
+          class TestRunner {
+            constructor (suites) {
+              this.socket = new WebSocket("ws://localhost:3000/")
+              this.suites = suites
 
-          this.socket.onopen = () => {
-            this.run()
-              .then(() => this.socket.send("DONE"))
+              this.socket.onopen = () => {
+                this.run()
+                  .then(() => this.socket.send("DONE"))
+              }
+            }
+
+            async run () {
+              return new Promise((resolve, reject) => {
+                this.next(resolve, reject)
+              })
+            }
+
+            async next (resolve, reject) {
+              requestAnimationFrame(async () => {
+                if (!this.suite || this.suite.tests.length === 0) {
+                  this.suite = this.suites.shift()
+
+                  if (this.suite) {
+                    this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
+                  } else {
+                    return resolve()
+                  }
+                }
+
+                let test = this.suite.tests.shift()
+
+                sessionStorage.clear()
+                localStorage.clear()
+
+                let result = await test.proc()
+
+                if (result instanceof SpecContext) {
+                  try {
+                    await result.run()
+                    this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
+                  } catch (error) {
+                    this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
+                  }
+                } else {
+                  if (result) {
+                    this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
+                  } else {
+                    this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
+                  }
+                }
+
+                this.next(resolve, reject)
+              })
+            }
           }
-        }
 
-        async run () {
-          return new Promise((resolve, reject) => {
-            this.next(resolve, reject)
-          })
-        }
-
-        async next (resolve, reject) {
-          requestAnimationFrame(async () => {
-            if (!this.suite || this.suite.tests.length === 0) {
-              this.suite = this.suites.shift()
-
-              if (this.suite) {
-                this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
-              } else {
-                return resolve()
-              }
-            }
-
-            let test = this.suite.tests.shift()
-
-            sessionStorage.clear()
-            localStorage.clear()
-
-            let result = await test.proc()
-
-            if (result instanceof SpecContext) {
-              try {
-                await result.run()
-                this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
-              } catch (error) {
-                this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
-              }
-            } else {
-              if (result) {
-                this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
-              } else {
-                this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
-              }
-            }
-
-            this.next(resolve, reject)
-          })
-        }
-      }
-
-      new TestRunner(SUITES)
-    </script>
+          new TestRunner(SUITES)
+        </script>
+        <div id="root">
+        </div>
+      </body>
+    </html>
     HTML
 
     define_help description: "Runs the tests."

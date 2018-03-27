@@ -1,14 +1,14 @@
 class TypeChecker
   type_error TestTypeMismatch
 
-  SPEC_CONTEXT = Type.new("Spec.Context", [Type.new("a")])
+  TEST_CONTEXT = Type.new("Test.Context", [Type.new("a")])
 
   def check(node : Ast::Test)
     type =
       check node.expression
 
     if Comparer.compare(type, BOOL) ||
-       Comparer.compare(type, SPEC_CONTEXT)
+       Comparer.compare(type, TEST_CONTEXT)
     else
       raise TestTypeMismatch, {
         "node" => node.expression,
