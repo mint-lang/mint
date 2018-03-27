@@ -28,6 +28,8 @@ class Cli < Admiral::Command
       default: false,
       short: "k"
 
+    define_argument test : String
+
     PAGE = <<-HTML
     <script src="/runtime.js"></script>
     <script src="/tests"></script>
@@ -62,6 +64,9 @@ class Cli < Admiral::Command
             }
 
             let test = this.suite.tests.shift()
+
+            sessionStorage.clear()
+            localStorage.clear()
 
             let result = await test.proc()
 
@@ -111,7 +116,14 @@ class Cli < Admiral::Command
     end
 
     def script
-      sources = Dir.glob(SourceFiles.all)
+      file = arguments.test
+      sources =
+        if file
+          Dir.glob([file] + SourceFiles.all)
+        else
+          Dir.glob(SourceFiles.tests + SourceFiles.all)
+        end
+
       ast = Ast.new
 
       sources.reduce(ast) do |memo, file|
@@ -150,6 +162,7 @@ class Cli < Admiral::Command
         process = Process.new(
           "chromium-browser",
           args: ["--headless", "--disable-gpu", "--remote-debugging-port=9222", "--profile-directory=#{profile_directory}", "http://localhost:3000"])
+
         @channel.receive
         process.kill
         FileUtils.rm_rf(profile_directory)

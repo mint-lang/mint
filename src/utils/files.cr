@@ -1,6 +1,13 @@
 module SourceFiles
   extend self
 
+  def tests
+    MintJson
+      .parse_current
+      .test_directories
+      .map { |dir| "#{dir}/**/*.mint" }
+  end
+
   def all
     source_dirs =
       MintJson
