@@ -96,8 +96,8 @@ module Mint
     def initialize(@flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
       @reporter = resolve_reporter
       @channel = Channel(Nil).new
+      @failed = [] of Message
       @succeeded = 0
-      @failed = 0
     end
 
     def run
@@ -168,6 +168,10 @@ module Mint
           "firefox",
           args: [
             "--headless",
+            "--width",
+            "1920",
+            "--height",
+            "1080",
             "--profile",
             profile_directory,
             "http://localhost:3000",
@@ -181,6 +185,7 @@ module Mint
             "--disable-gpu",
             "--remote-debugging-port=9222",
             "--profile-directory=#{profile_directory}",
+            "--window-size=1920,1080",
             "http://localhost:3000",
           ]
         )
@@ -204,8 +209,8 @@ module Mint
 
     def setup_kemal
       get "/" do
+        @failed = [] of Message
         @succeeded = 0
-        @failed = 0
         PAGE
       end
 
@@ -221,12 +226,16 @@ module Mint
         socket.on_message do |message|
           if message == "DONE"
             @reporter.done
-            sum = @succeeded + @failed
+            sum = @succeeded + @failed.size
 
             puts Terminal.separator
             puts "#{sum} tests"
             puts "  #{Terminal.arrow} #{@succeeded} passed"
-            puts "  #{Terminal.arrow} #{@failed} failed"
+            puts "  #{Terminal.arrow} #{@failed.size} failed"
+
+            @failed.each do |message|
+              puts "    #{message.name}".colorize(:red).to_s
+            end
 
             Kemal.config.server.try(&.close) unless @flags.keep_alive
             @channel.send(nil)
@@ -240,7 +249,7 @@ module Mint
               @succeeded += 1
             when "FAILED"
               @reporter.failed data.name, data.result
-              @failed += 1
+              @failed << data
             end
           end
         end
