@@ -1,12 +1,26 @@
 module Mint
   class Test
     class DotReporter
+      def initialize
+        @count = 0
+      end
+
+      def with_count
+        print "\n" if @count > 0 && @count % 100 == 0
+        yield
+        @count += 1
+      end
+
       def succeeded(name)
-        print ".".colorize(:green).to_s
+        with_count do
+          print ".".colorize(:green).to_s
+        end
       end
 
       def failed(name, error)
-        print ".".colorize(:red).to_s
+        with_count do
+          print ".".colorize(:red).to_s
+        end
       end
 
       def suite(name)
