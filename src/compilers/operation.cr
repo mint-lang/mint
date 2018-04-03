@@ -6,6 +6,13 @@ class Compiler
     right =
       compile node.right
 
-    "#{left} #{node.operator} #{right}"
+    case node.operator
+    when "=="
+      "Mint.compare(#{left}, #{right})"
+    when "!="
+      "!Mint.compare(#{left}, #{right})"
+    else
+      "#{left} #{node.operator} #{right}"
+    end
   end
 end

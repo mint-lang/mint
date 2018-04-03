@@ -245,27 +245,91 @@ class DoError {}
 
 /* Maybe
 ------------------------------------------------------------------------------*/
+const Equals = Symbol('Mint.Equals')
+
+class Record {
+  constructor (data) {
+     for (let key in data) {
+       this[key] = data[key]
+     }
+  }
+
+  [Equals] (other) {
+    if (!(other instanceof Record)) { return false }
+    if (Object.keys(this).length !== Object.keys(other).length) { return false }
+
+    for (let key in this) {
+      if (!Mint.compare(other[key], this[key])) {
+        return false
+      }
+    }
+
+    return true
+  }
+}
 class Maybe {}
 
-class Nothing extends Maybe {}
+class Nothing extends Maybe {
+  [Equals] (other) {
+    return other instanceof Nothing
+  }
+}
 
 class Just extends Maybe {
   constructor (value) {
     super()
     this.value = value
   }
+
+  [Equals] (other) {
+    if (other instanceof Just) {
+      return Mint.compare(other.value, this.value)
+    } else {
+      return false
+    }
+  }
 }
 
-/* Result
-------------------------------------------------------------------------------*/
 class Result {
   constructor (value) {
     this.value = value
+  }
+
+  [Equals] (other) {
+    if (other instanceof this.constructor) {
+      return Mint.compare(other.value, this.value)
+    } else {
+      return false
+    }
   }
 }
 
 class Ok extends Result {}
 class Err extends Result {}
+
+Date.prototype[Equals] = function(other) {
+	return this.toISOString() === other.toISOString()
+}
+
+Number.prototype[Equals] = function(other) {
+  return this.valueOf() === other
+}
+
+Boolean.prototype[Equals] = function(other) {
+  return this.valueOf() === other
+}
+
+String.prototype[Equals] = function(other) {
+  return this.valueOf() === other
+}
+
+Array.prototype[Equals] = function(other) {
+  if (this.length !== other.length) { return false }
+
+  return !!this.filter((item, index) => {
+    return Mint.compare(item, other[index])
+  }).length
+}
 
 /* Provider
 ------------------------------------------------------------------------------*/
