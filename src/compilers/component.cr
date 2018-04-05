@@ -52,7 +52,7 @@ class Compiler
         .join("\n\n")
         .indent
 
-    "class $#{name} extends React.PureComponent {\n#{body}\n}" \
+    "class $#{name} extends Component {\n#{body}\n}" \
     "#{display_name}#{defaults}"
   end
 

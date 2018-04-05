@@ -7,7 +7,6 @@
     if (reload) {
       window.location.reload();
     }
-    Mint.log("Connected to reactor");
   };
 
   // On try close reconnect, it will happen during the development

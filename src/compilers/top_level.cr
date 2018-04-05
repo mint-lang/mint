@@ -13,10 +13,12 @@ class Compiler
   def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
     compiler = new(artifacts)
 
+    result = compiler.wrap_runtime(compiler.compile + "\nprogram.render($Main)")
+
     if options[:beautify]
-      RUNTIME.call(["global", "js_beautify"], compiler.compile, {indent_size: 2}).to_s
+      RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
     else
-      compiler.compile
+      result
     end
   end
 
@@ -24,7 +26,7 @@ class Compiler
     compiler = new(artifacts)
     base = compiler.compile
     tests = compiler.compile_tests
-    base + "\n\n" + tests
+    compiler.wrap_runtime(base + "\n\n" + tests)
   end
 
   def compile_tests
@@ -90,5 +92,33 @@ class Compiler
     (providers + routes + modules + stores + components + [footer])
       .reject(&.empty?)
       .join("\n\n")
+  end
+
+  def wrap_runtime(body)
+    <<-RESULT
+    (() => {
+      const createElement = Mint.createElement;
+      const createPortal = Mint.createPortal;
+      const insertStyles = Mint.insertStyles;
+      const navigate = Mint.navigate;
+      const compare = Mint.compare;
+      const program = Mint.program;
+      const update = Mint.update;
+
+      const TestContext = Mint.TestContext;
+      const Component = Mint.Component;
+      const ReactDOM = Mint.ReactDOM;
+      const Provider = Mint.Provider;
+      const Nothing = Mint.Nothing;
+      const DateFNS = Mint.DateFNS;
+      const Record = Mint.Record;
+      const Store = Mint.Store;
+      const Just = Mint.Just;
+      const Err = Mint.Err;
+      const Ok = Mint.Ok;
+
+      #{body}
+    })()
+    RESULT
   end
 end

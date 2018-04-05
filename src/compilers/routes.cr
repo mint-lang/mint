@@ -3,6 +3,6 @@ class Compiler
     routes =
       compile node.routes, ", "
 
-    "Mint.addRoutes([#{routes}])"
+    "program.addRoutes([#{routes}])"
   end
 end

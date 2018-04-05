@@ -63,7 +63,7 @@ module Mint
 
                   let result = await test.proc()
 
-                  if (result instanceof SpecContext) {
+                  if (result instanceof Mint.TestContext) {
                     try {
                       await result.run()
                       this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
