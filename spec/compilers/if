@@ -12,12 +12,12 @@ component If {
   }
 }
 --------------------------------------------------------------------------------
-class $If extends React.PureComponent {
+class $If extends Component {
   test() {
-    return (`asd` == `asd2` ? true : false)
+    return (_compare(`asd`, `asd2`) ? true : false)
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

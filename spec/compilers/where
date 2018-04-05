@@ -18,6 +18,6 @@ const $A = new(class {
 
     let otherThing = 0
 
-    return React.createElement("div", {}, [something])
+    return _createElement("div", {}, [something])
   }
 })

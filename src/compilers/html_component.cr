@@ -20,6 +20,6 @@ class Compiler
         .reject(&.empty?)
         .join(", ")
 
-    "createElement(#{contents})"
+    "_createElement(#{contents})"
   end
 end

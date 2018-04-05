@@ -26,4 +26,3 @@ const $Test = new(class extends Store {
   }
 })
 $Test.__displayName = `Test`
-Mint.stores.push($Test)

@@ -4,8 +4,8 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends React.PureComponent {
+class $Test extends Component {
   render() {
-    return React.createElement("div", {}, [`Hello`])
+    return _createElement("div", {}, [`Hello`])
   }
 }

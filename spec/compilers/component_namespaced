@@ -4,7 +4,7 @@ component Ui.Dropdown {
   }
 }
 --------------------------------------------------------------------------------
-class $Ui_Dropdown extends React.PureComponent {
+class $Ui_Dropdown extends Component {
   render() {
     return `test`
   }

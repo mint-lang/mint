@@ -13,12 +13,22 @@ class Compiler
   def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
     compiler = new(artifacts)
 
-    result = compiler.wrap_runtime(compiler.compile + "\nprogram.render($Main)")
+    result = compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
 
     if options[:beautify]
       RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
     else
       result
+    end
+  end
+
+  def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
+    compiler = new(artifacts)
+
+    if options[:beautify]
+      RUNTIME.call(["global", "js_beautify"], compiler.compile, {indent_size: 2}).to_s
+    else
+      compiler.compile
     end
   end
 
@@ -86,7 +96,7 @@ class Compiler
       if css.strip.empty?
         ""
       else
-        "Mint.insertStyles(`\n#{css + media_css}\n`)"
+        "_insertStyles(`\n#{css + media_css}\n`)"
       end
 
     (providers + routes + modules + stores + components + [footer])
@@ -97,13 +107,13 @@ class Compiler
   def wrap_runtime(body)
     <<-RESULT
     (() => {
-      const createElement = Mint.createElement;
-      const createPortal = Mint.createPortal;
-      const insertStyles = Mint.insertStyles;
-      const navigate = Mint.navigate;
-      const compare = Mint.compare;
-      const program = Mint.program;
-      const update = Mint.update;
+      const _createElement = Mint.createElement;
+      const _createPortal = Mint.createPortal;
+      const _insertStyles = Mint.insertStyles;
+      const _navigate = Mint.navigate;
+      const _compare = Mint.compare;
+      const _program = Mint.program;
+      const _update = Mint.update;
 
       const TestContext = Mint.TestContext;
       const Component = Mint.Component;

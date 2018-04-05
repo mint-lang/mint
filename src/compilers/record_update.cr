@@ -6,6 +6,6 @@ class Compiler
     fields =
       compile node.fields, ", "
 
-    "Mint.update(#{variable}, { #{fields} })"
+    "_update(#{variable}, { #{fields} })"
   end
 end

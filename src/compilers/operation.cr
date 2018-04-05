@@ -8,9 +8,9 @@ class Compiler
 
     case node.operator
     when "=="
-      "Mint.compare(#{left}, #{right})"
+      "_compare(#{left}, #{right})"
     when "!="
-      "!Mint.compare(#{left}, #{right})"
+      "!_compare(#{left}, #{right})"
     else
       "#{left} #{node.operator} #{right}"
     end

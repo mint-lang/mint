@@ -5,9 +5,9 @@ component HtmlAttribute {
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlAttribute extends React.PureComponent {
+class $HtmlAttribute extends Component {
   render() {
-    return React.createElement("div", {
+    return _createElement("div", {
       ref: (ref => {
         ref ? ((element) => {
           return null

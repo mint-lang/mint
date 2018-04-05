@@ -58,9 +58,8 @@ const $Blah = new(class extends Store {
   }
 })
 $Blah.__displayName = `Blah`
-Mint.stores.push($Blah)
 
-class $Test extends React.PureComponent {
+class $Test extends Component {
   get test() {
     return $Blah.test
   }
@@ -76,14 +75,14 @@ class $Test extends React.PureComponent {
 
   componentDidUpdate() {
     if (false) {
-      $MouseProvider._subscribe(this, {
+      $MouseProvider._subscribe(this, new Record({
         moves: ((data) => {
           return null
         }),
         ups: ((data) => {
           return null
         })
-      })
+      }))
     } else {
       $MouseProvider._unsubscribe(this)
     }
@@ -92,20 +91,20 @@ class $Test extends React.PureComponent {
   componentDidMount() {
     $Blah._subscribe(this);
     if (false) {
-      $MouseProvider._subscribe(this, {
+      $MouseProvider._subscribe(this, new Record({
         moves: ((data) => {
           return null
         }),
         ups: ((data) => {
           return null
         })
-      })
+      }))
     } else {
       $MouseProvider._unsubscribe(this)
     }
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

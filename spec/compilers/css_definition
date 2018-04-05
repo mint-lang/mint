@@ -12,13 +12,13 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends React.PureComponent {
+class $A extends Component {
   get margin() {
     return 10
   }
 
   render() {
-    return React.createElement("div", {
+    return _createElement("div", {
       className: `a-test`,
       style: {
         [`--a-test-margin`]: this.margin + `px 0px`
@@ -27,7 +27,7 @@ class $A extends React.PureComponent {
   }
 }
 
-Mint.insertStyles(`
+_insertStyles(`
   .a-test {
     margin: var(--a-test-margin);
   }

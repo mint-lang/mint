@@ -10,14 +10,14 @@ component X {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends React.PureComponent {
+class $Test extends Component {
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }
 
-class $X extends React.PureComponent {
+class $X extends Component {
   render() {
-    return React.createElement($Test, {})
+    return _createElement($Test, {})
   }
 }

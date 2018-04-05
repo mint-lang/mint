@@ -8,12 +8,12 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends React.PureComponent {
+class $Test extends Component {
   get test() {
     return 0
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }
