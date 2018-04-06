@@ -58,10 +58,18 @@ module Mint
 
                   let test = this.suite.tests.shift()
 
-                  sessionStorage.clear()
-                  localStorage.clear()
+                  let currentHistory = window.history.length
 
                   let result = await test.proc()
+
+                  // Go back to the beginning
+                  if (window.history.length - currentHistory) {
+                    window.history.go(-(window.history.length - currentHistory))
+                  }
+
+                  // Clear storages
+                  sessionStorage.clear()
+                  localStorage.clear()
 
                   if (result instanceof Mint.TestContext) {
                     try {
@@ -235,6 +243,7 @@ module Mint
 
             @failed.each do |message|
               puts "    #{message.name}".colorize(:red).to_s
+              puts "    |> #{message.result}".colorize(:red).to_s
             end
 
             Kemal.config.server.try(&.close) unless @flags.keep_alive

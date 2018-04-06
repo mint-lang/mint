@@ -10,11 +10,40 @@ class Compiler
   end
 
   def compile(node : Ast::Test)
+    rawExpression =
+      node.expression
+
     name =
       compile node.name
 
     expression =
-      compile node.expression
+      case rawExpression
+      when Ast::Operation
+        if rawExpression.operator == "=="
+          right =
+            compile rawExpression.right
+
+          left =
+            compile rawExpression.left
+
+          "(() => {
+            const context = new TestContext(#{left})
+            const right = #{right}
+
+            context.step((subject) => {
+              if (_compare(subject, right)) {
+                return true
+              } else {
+                throw \`Assertion failed ${right} != ${subject}\`
+              }
+            })
+            return context
+          })()"
+        end
+      end
+
+    expression = compile rawExpression unless expression
+
     "{ name: #{name}, proc: () => { return #{expression} } }"
   end
 end
