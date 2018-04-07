@@ -5,11 +5,11 @@ class Cli < Admiral::Command
     include Mint::Logger
     include Command
 
-    define_flag keep_alive : Bool,
-      description: "Wether or not keep alive the testing server after",
-      long: "keep-alive",
+    define_flag manual : Bool,
+      description: "Start the test server for manual testing",
+      long: "manual",
       default: false,
-      short: "k"
+      short: "m"
 
     define_flag browser : String,
       description: "Which browser to run the tests in",

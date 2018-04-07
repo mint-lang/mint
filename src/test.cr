@@ -203,6 +203,7 @@ module Mint
     end
 
     def open_browser
+      return if @flags.manual
       profile_directory = File.join(Tempfile.dirname, Random.new.hex(5))
       Dir.mkdir(profile_directory)
       process = open_process(profile_directory)
@@ -246,7 +247,7 @@ module Mint
               puts "    |> #{message.result}".colorize(:red).to_s
             end
 
-            Kemal.config.server.try(&.close) unless @flags.keep_alive
+            Kemal.config.server.try(&.close) unless @flags.manual
             @channel.send(nil)
           else
             data = Message.from_json(message)
