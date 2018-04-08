@@ -22,6 +22,7 @@ class Parser
       component ||
         module_definition ||
         record_definition ||
+        self.enum ||
         provider ||
         routes ||
         store ||
@@ -44,6 +45,8 @@ class Parser
         @ast.stores << item
       when Ast::Routes
         @ast.routes << item
+      when Ast::Enum
+        @ast.enums << item
       end
     end
   end

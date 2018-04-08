@@ -12,7 +12,8 @@ class Formatter
       ast.modules +
       ast.routes +
       ast.stores +
-      ast.suites
+      ast.suites +
+      ast.enums
     ).sort_by(&.from)
      .map do |node|
       format node

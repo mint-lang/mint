@@ -34,7 +34,7 @@ class Compiler
               if (_compare(subject, right)) {
                 return true
               } else {
-                throw \`Assertion failed ${right} != ${subject}\`
+                throw \`Assertion failed ${right.toString()} != ${subject.toString()}\`
               }
             })
             return context

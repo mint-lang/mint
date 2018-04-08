@@ -5,7 +5,7 @@ class TypeChecker
   # Built in types
   # ----------------------------------------------------------------------------
 
-  JS             = Js.new("a")
+  JS             = Js.new("$")
   STRING         = Type.new("String")
   BOOL           = Type.new("Bool")
   NUMBER         = Type.new("Number")
@@ -54,7 +54,13 @@ class TypeChecker
   end
 
   def resolve_type(node : Type)
-    resolve_record_definition(node.name) || node
+    resolve_record_definition(node.name) || begin
+      parameters = node.parameters.map do |param|
+        resolve_type(param).as(Type)
+      end
+
+      Type.new(node.name, parameters)
+    end
   end
 
   def resolve_record_definition(name)
@@ -69,10 +75,20 @@ class TypeChecker
     end
   end
 
+  type_error RecordFieldsConflict
   type_error RecordNameConflict
 
   def add_record(record, node)
+    other = records.find(&.==(record))
+
+    raise RecordFieldsConflict, {
+      "other" => @record_names[other.name],
+      "name"  => record.name,
+      "node"  => node,
+    } if other
+
     other = @record_names[record.name]?
+
     if other && node != other
       raise RecordNameConflict, {
         "name"  => record.name,

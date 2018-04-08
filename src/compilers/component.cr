@@ -90,14 +90,17 @@ class Compiler
     node.uses.each do |use|
       condition = use.condition ? compile(use.condition.not_nil!) : "true"
 
+      name =
+        underscorize(use.provider)
+
       body =
         "if (#{condition}) {\n" \
-        "  $#{use.provider}._subscribe(this, #{compile use.data})\n" \
+        "  $#{name}._subscribe(this, #{compile use.data})\n" \
         "} else {\n" \
-        "  $#{use.provider}._unsubscribe(this)\n" \
+        "  $#{name}._unsubscribe(this)\n" \
         "}"
 
-      heads["componentWillUnmount"] << "$#{use.provider}._unsubscribe(this)"
+      heads["componentWillUnmount"] << "$#{name}._unsubscribe(this)"
       heads["componentDidUpdate"] << body
       heads["componentDidMount"] << body
     end

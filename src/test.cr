@@ -156,6 +156,8 @@ module Mint
       Compiler.compile_with_tests type_checker.artifacts
     rescue exception : MintJson::Error | SyntaxError | TypeError
       puts exception.message
+    rescue exception
+      puts exception.message
     end
 
     def resolve_reporter

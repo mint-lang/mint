@@ -62,6 +62,9 @@ class Compiler
     routes =
       compile ast.routes
 
+    enums =
+      compile ast.enums
+
     media_css =
       medias.map do |condition, rules|
         selectors =
@@ -99,7 +102,7 @@ class Compiler
         "_insertStyles(`\n#{css + media_css}\n`)"
       end
 
-    (providers + routes + modules + stores + components + [footer])
+    (enums + providers + routes + modules + stores + components + [footer])
       .reject(&.empty?)
       .join("\n\n")
   end
