@@ -130,6 +130,7 @@ class Compiler
       const Err = Mint.Err;
       const Ok = Mint.Ok;
 
+      class DoError extends Error {}
       #{body}
     })()
     RESULT
