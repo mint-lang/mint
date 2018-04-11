@@ -85,7 +85,7 @@ class TypeChecker
       "other" => @record_names[other.name],
       "name"  => record.name,
       "node"  => node,
-    } if other
+    } if other && other.name != record.name
 
     other = @record_names[record.name]?
 

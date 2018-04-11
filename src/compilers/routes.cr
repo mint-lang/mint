@@ -3,6 +3,6 @@ class Compiler
     routes =
       compile node.routes, ", "
 
-    "program.addRoutes([#{routes}])"
+    "_program.addRoutes([#{routes}])"
   end
 end

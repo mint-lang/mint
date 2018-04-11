@@ -110,6 +110,7 @@ class Compiler
   def wrap_runtime(body)
     <<-RESULT
     (() => {
+      const _normalizeEvent = Mint.normalizeEvent;
       const _createElement = Mint.createElement;
       const _createPortal = Mint.createPortal;
       const _insertStyles = Mint.insertStyles;
@@ -131,6 +132,7 @@ class Compiler
       const Ok = Mint.Ok;
 
       class DoError extends Error {}
+
       #{body}
     })()
     RESULT
