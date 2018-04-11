@@ -4,6 +4,8 @@ class Compiler
       compile node.value
 
     case node.name.value.downcase
+    when .starts_with?("on")
+      value = "(event => (#{value})(_normalizeEvent(event)))"
     when "ref"
       value = "(ref => { ref ? #{value}.call(this, ref) : null })"
     when "readonly"
