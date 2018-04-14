@@ -11,7 +11,10 @@ class Compiler
       end
 
     attributes =
-      compile node.attributes, ", "
+      node
+        .attributes
+        .map { |item| compile(item, false).as(String) }
+        .join(", ")
 
     contents =
       ["$#{underscorize(node.component)}",

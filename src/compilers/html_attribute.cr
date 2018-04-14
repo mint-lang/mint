@@ -1,11 +1,13 @@
 class Compiler
-  def compile(node : Ast::HtmlAttribute) : String
+  def compile(node : Ast::HtmlAttribute, isElement = true) : String
     value =
       compile node.value
 
     case node.name.value.downcase
     when .starts_with?("on")
-      value = "(event => (#{value})(_normalizeEvent(event)))"
+      if isElement
+        value = "(event => (#{value})(_normalizeEvent(event)))"
+      end
     when "ref"
       value = "(ref => { ref ? #{value}.call(this, ref) : null })"
     when "readonly"
