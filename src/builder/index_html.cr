@@ -52,7 +52,6 @@ class IndexHtml
           end
 
           t.script(src: "/index.js") { }
-          t.script("Mint.render()", type: "text/javascript")
         end
       end
     end.render

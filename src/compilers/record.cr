@@ -3,6 +3,6 @@ class Compiler
     fields =
       compile node.fields, ",\n"
 
-    "{\n#{fields.indent}\n}"
+    "new Record({\n#{fields.indent}\n})"
   end
 end

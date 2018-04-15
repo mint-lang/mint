@@ -13,7 +13,7 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $Do extends React.PureComponent {
+class $Do extends Component {
   test() {
     return (async () => {
       try {
@@ -30,6 +30,6 @@ class $Do extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

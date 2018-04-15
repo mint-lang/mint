@@ -2,6 +2,12 @@ class Parser
   syntax_error StringExpectedEndQuote
   syntax_error StringExpectedOtherString
 
+  def string_literal!(error : SyntaxError.class) : Ast::StringLiteral
+    node = string_literal
+    raise error unless node
+    node
+  end
+
   def string_literal : Ast::StringLiteral | Nil
     start do |start_position|
       skip unless char! '"'

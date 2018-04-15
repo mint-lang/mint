@@ -22,25 +22,25 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends React.PureComponent {
+class $Test extends Component {
   constructor(props) {
     super(props)
-    this.state = {
+    this.state = new Record({
       name: `Joe`,
       age: 24
-    }
+    })
   }
 
   test() {
     return new Promise((_resolve) => {
-      this.setState({
+      this.setState(new Record({
         name: `Hello`,
         age: 30
-      }, _resolve)
+      }), _resolve)
     })
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

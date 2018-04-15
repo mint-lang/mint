@@ -14,9 +14,9 @@ module Test {
 --------------------------------------------------------------------------------
 const $Test = new(class {
   test() {
-    return {
+    return new Record({
       a: `Hello`,
       b: 0
-    }
+    })
   }
 })

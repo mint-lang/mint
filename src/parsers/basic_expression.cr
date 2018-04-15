@@ -21,6 +21,7 @@ class Parser
       inline_function ||
       function_call ||
       parenthesized_expression ||
+      enum_id ||
       js ||
       void ||
       variable

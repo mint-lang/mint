@@ -25,14 +25,16 @@ class Ast
                      If |
                      Js
 
-  getter components, modules, records, stores, routes, providers
+  getter components, modules, records, stores, routes, providers, suites, enums
 
   def initialize(@records = [] of RecordDefinition,
                  @components = [] of Component,
                  @providers = [] of Provider,
                  @modules = [] of Module,
                  @routes = [] of Routes,
-                 @stores = [] of Store)
+                 @suites = [] of Suite,
+                 @stores = [] of Store,
+                 @enums = [] of Enum)
   end
 
   def main : Ast::Component | Nil
@@ -50,6 +52,8 @@ class Ast
     @records.concat ast.records
     @stores.concat ast.stores
     @routes.concat ast.routes
+    @suites.concat ast.suites
+    @enums.concat ast.enums
 
     self
   end

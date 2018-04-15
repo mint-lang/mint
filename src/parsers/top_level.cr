@@ -22,13 +22,17 @@ class Parser
       component ||
         module_definition ||
         record_definition ||
+        self.enum ||
+        provider ||
         routes ||
         store ||
-        provider
+        suite
     end.compact
 
     items.each do |item|
       case item
+      when Ast::Suite
+        @ast.suites << item
       when Ast::Provider
         @ast.providers << item
       when Ast::RecordDefinition
@@ -41,6 +45,8 @@ class Parser
         @ast.stores << item
       when Ast::Routes
         @ast.routes << item
+      when Ast::Enum
+        @ast.enums << item
       end
     end
   end

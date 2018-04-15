@@ -28,7 +28,6 @@ class Compiler
       underscorize node.name
 
     "const $#{name} = new (class extends Store {\n#{body}\n})\n" \
-    "$#{name}.__displayName = `#{node.name}`\n" \
-    "Mint.stores.push($#{name})"
+    "$#{name}.__displayName = `#{node.name}`"
   end
 end

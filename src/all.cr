@@ -1,6 +1,8 @@
 require "colorize"
 require "string_inflection"
 require "html"
+require "baked_file_system"
+require "kemal"
 
 require "./errors/**"
 require "./ext/**"
@@ -15,6 +17,7 @@ require "./compiler"
 require "./installer"
 require "./builder"
 require "./parser"
+require "./test"
 require "./ast"
 require "./cli"
 

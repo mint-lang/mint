@@ -25,3 +25,13 @@ component A {
     <div/>
   }
 }
+----------------------------------------------------------------VariableReserved
+component A {
+  fun b(default : String) : String {
+    default
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

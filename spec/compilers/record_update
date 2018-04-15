@@ -14,30 +14,30 @@ component RecordUpdate {
   }
 }
 --------------------------------------------------------------------------------
-class $RecordUpdate extends React.PureComponent {
+class $RecordUpdate extends Component {
   get record() {
     if (this.props.record != undefined) {
       return this.props.record
     } else {
-      return {
+      return new Record({
         name: `Doe`
-      }
+      })
     }
   }
 
   test() {
-    return Mint.update(this.record, {
+    return _update(this.record, {
       name: `John`
     })
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }
 
 $RecordUpdate.defaultProps = {
-  record: {
+  record: new Record({
     name: `Doe`
-  }
+  })
 }

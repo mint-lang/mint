@@ -12,7 +12,7 @@ component Case {
   }
 }
 --------------------------------------------------------------------------------
-class $Case extends React.PureComponent {
+class $Case extends Component {
   test() {
     return (() => {
       let condition = `Hello`
@@ -31,6 +31,6 @@ class $Case extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

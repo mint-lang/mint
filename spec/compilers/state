@@ -14,16 +14,16 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends React.PureComponent {
+class $Test extends Component {
   constructor(props) {
     super(props)
-    this.state = {
+    this.state = new Record({
       b: `Hello`,
       a: 0
-    }
+    })
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

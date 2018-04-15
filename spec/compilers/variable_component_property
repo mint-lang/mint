@@ -10,7 +10,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends React.PureComponent {
+class $A extends Component {
   get test() {
     if (this.props.test != undefined) {
       return this.props.test
@@ -24,7 +24,7 @@ class $A extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }
 

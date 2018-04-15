@@ -69,16 +69,13 @@ class Repository
     target =
       self.target || tag
 
-    status, output, error =
-      run "git show #{target}:mint.json"
+    checkout target
 
-    if status.success?
-      MintJson.new(output)
-    else
-      terminate "Could not get mint.json for #{id} at #{target}:\n#{error.indent}"
-    end
+    MintJson.new(File.read(File.join(directory, "mint.json")), directory)
   rescue error : MintJson::Error
     terminate "Invalid mint.json for #{id} at #{target}:\n#{error.to_s.indent}"
+  rescue error
+    terminate "Could not get mint.json for #{id} at #{target}:\n#{error.to_s.indent}"
   end
 
   def exists?

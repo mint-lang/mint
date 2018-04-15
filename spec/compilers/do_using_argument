@@ -19,12 +19,12 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $Do extends React.PureComponent {
+class $Do extends Component {
   constructor(props) {
     super(props)
-    this.state = {
+    this.state = new Record({
       greeting: `ho`
-    }
+    })
   }
 
   test() {
@@ -33,9 +33,9 @@ class $Do extends React.PureComponent {
         let greeting = await `hello`
 
         await new Promise((_resolve) => {
-          this.setState({
+          this.setState(new Record({
             greeting: greeting
-          }, _resolve)
+          }), _resolve)
         })
       } catch (_error) {
         if (_error instanceof DoError) {} else {
@@ -47,6 +47,6 @@ class $Do extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

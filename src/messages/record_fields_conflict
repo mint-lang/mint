@@ -1,0 +1,17 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+    There is already a record with the same structure.
+  </p>
+
+  {{node}}
+
+  <p>
+    The other record was defined here:
+  </p>
+
+  {{other}}
+</article>

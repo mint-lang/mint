@@ -8,6 +8,6 @@ module Html.Testing {
 --------------------------------------------------------------------------------
 const $Html_Testing = new(class {
   renderAll() {
-    return React.createElement("p", {}, [`It should work`])
+    return _createElement("p", {}, [`It should work`])
   }
 })

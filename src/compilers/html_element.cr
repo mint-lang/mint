@@ -88,6 +88,6 @@ class Compiler
         .reject(&.empty?)
         .join(", ")
 
-    "React.createElement(#{contents})"
+    "_createElement(#{contents})"
   end
 end

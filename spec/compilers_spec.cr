@@ -10,7 +10,7 @@ Dir.glob("./spec/compilers/**/*").each do |file|
     ast.class.should eq(Ast)
 
     # Compare results
-    result = Compiler.compile(TypeChecker.check(ast))
+    result = Compiler.compile_bare(TypeChecker.check(ast))
     result.should eq(expected.strip)
   end
 end

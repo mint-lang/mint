@@ -1,0 +1,12 @@
+<article>
+  <h2>
+    Type Error
+  </h2>
+
+  <p>
+   	The variable <code>{{name}}</code> is a reserved keyword please use
+   	something else.
+  </p>
+
+  {{node}}
+</article>

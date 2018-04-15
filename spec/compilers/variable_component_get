@@ -12,7 +12,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends React.PureComponent {
+class $A extends Component {
   get a() {
     return `Hello`
   }
@@ -22,6 +22,6 @@ class $A extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

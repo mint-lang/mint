@@ -6,6 +6,6 @@ module Operation {
 --------------------------------------------------------------------------------
 const $Operation = new(class {
   test() {
-    return `a` == `b`
+    return _compare(`a`, `b`)
   }
 })

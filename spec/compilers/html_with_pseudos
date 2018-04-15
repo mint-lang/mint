@@ -23,7 +23,7 @@ component HtmlStyle {
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlStyle extends React.PureComponent {
+class $HtmlStyle extends Component {
   get hoverBackground() {
     if (this.props.hoverBackground != undefined) {
       return this.props.hoverBackground
@@ -41,7 +41,7 @@ class $HtmlStyle extends React.PureComponent {
   }
 
   render() {
-    return React.createElement("div", {
+    return _createElement("div", {
       className: `html-style-test`,
       style: {
         [`--html-style-test-background`]: this.background,
@@ -57,7 +57,7 @@ $HtmlStyle.defaultProps = {
   background: `blue`
 }
 
-Mint.insertStyles(`
+_insertStyles(`
   .html-style-test {
     background: var(--html-style-test-background);
     color: red;

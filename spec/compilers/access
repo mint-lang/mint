@@ -14,16 +14,16 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends React.PureComponent {
+class $A extends Component {
   a() {
-    let x = {
+    let x = new Record({
       name: `test`
-    }
+    })
 
     return x.name
   }
 
   render() {
-    return React.createElement("div", {})
+    return _createElement("div", {})
   }
 }

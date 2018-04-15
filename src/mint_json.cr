@@ -30,25 +30,28 @@ class MintJson
   @parser = JSON::PullParser.new("{}")
 
   @source_directories = [] of String
+  @test_directories = [] of String
   @dependencies = [] of Dependency
   @application = Application.new
   @name = ""
 
-  getter source_directories, dependencies, application, name
+  getter test_directories, source_directories, dependencies, application, name
 
   def self.parse_current : MintJson
-    new File.read(File.join(Dir.current, "mint.json"))
+    new File.read(File.join(Dir.current, "mint.json")), Dir.current
   rescue exception : Errno
     raise FileError.new(reason: exception)
   end
 
   class InvalidJson < Error; end
 
-  def initialize(json : String)
-    @parser = JSON::PullParser.new(json)
+  def initialize(json : String, @root : String)
+    begin
+      @parser = JSON::PullParser.new(json)
+    rescue exception : JSON::ParseException
+      raise InvalidJson.new
+    end
     parse_root
-  rescue exception : JSON::ParseException
-    raise InvalidJson.new
   end
 
   # Parsing the root object
@@ -65,6 +68,8 @@ class MintJson
         parse_name
       when "source-directories"
         parse_source_directories
+      when "test-directories"
+        parse_test_directories
       when "application"
         parse_application
       when "dependencies"
@@ -126,10 +131,33 @@ class MintJson
 
   def parse_source_directory
     directory = @parser.read_string
-    raise SourceDirectoryNotExists.new unless Dir.exists?(directory)
+    raise SourceDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
     @source_directories << directory
   rescue exception : JSON::ParseException
     raise SourceDirectoryInvalid.new
+  end
+
+  # Parsing the test directories
+  # ----------------------------------------------------------------------------
+
+  class TestDirectoryNotExists < Error; end
+
+  class TestDirectoriesInvalid < Error; end
+
+  class TestDirectoryInvalid < Error; end
+
+  def parse_test_directories
+    @parser.read_array { parse_test_directory }
+  rescue exception : JSON::ParseException
+    raise TestDirectoriesInvalid.new
+  end
+
+  def parse_test_directory
+    directory = @parser.read_string
+    raise TestDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
+    @test_directories << directory
+  rescue exception : JSON::ParseException
+    raise TestDirectoryInvalid.new
   end
 
   # Parsing the application

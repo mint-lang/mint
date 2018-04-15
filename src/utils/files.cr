@@ -1,6 +1,13 @@
 module SourceFiles
   extend self
 
+  def tests
+    MintJson
+      .parse_current
+      .test_directories
+      .map { |dir| "#{dir}/**/*.mint" }
+  end
+
   def all
     source_dirs =
       MintJson
@@ -10,7 +17,7 @@ module SourceFiles
     packages =
       Dir.glob("./mint-stuff/packages/**/mint.json").each do |file|
         json =
-          MintJson.new(File.read(file))
+          MintJson.new(File.read(file), File.dirname(file))
 
         base =
           File.dirname(file)

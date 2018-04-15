@@ -1,7 +1,4 @@
 require "./mint_json"
-
-require "baked_file_system"
-require "kemal"
 require "./reactor/**"
 
 class Reactor
