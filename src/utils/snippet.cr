@@ -1,7 +1,8 @@
 module Snippet
   extend self
 
-  def escape(code)
+  def escape(code, shouldEscape = true)
+    return code unless shouldEscape
     HTML.escape(code.gsub('\\', "\\\\").gsub('`', "\\`"))
   end
 
@@ -14,7 +15,7 @@ module Snippet
     "<ul>#{lis}</ul>"
   end
 
-  def render(node : Ast::Node)
+  def process(node : Ast::Node, shouldEscape = false)
     input =
       node.input.input
 
@@ -31,33 +32,62 @@ module Snippet
       Math.min(end_line + 4, input.lines.size)
 
     left =
-      escape input[0, node.from]
+      escape input[0, node.from], shouldEscape
 
     part =
-      escape(input[node.from, node.to - node.from])
+      escape input[node.from, node.to - node.from], shouldEscape
 
     center =
-      if part.strip.empty?
-        "<highlighted>&nbsp;</highlighted>"
-      else
-        part
-          .lines
-          .map do |line|
-          line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
-            "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
-          end
-        end.join("\n")
-      end
+      yield part
 
     right =
       if node.to < input.size
-        escape input[node.to, input.size - node.to]
+        escape input[node.to, input.size - node.to], shouldEscape
       else
         ""
       end
 
-    prepared =
-      "#{left}#{center}#{right}"
+    {"#{left}#{center}#{right}", start, last}
+  end
+
+  def render_terminal(node : Ast::Node)
+    prepared, start, last =
+      process node do |part|
+        part
+          .lines
+          .map do |line|
+          line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
+            "#{match[1]}#{match[2].colorize.on(:red)}#{match[3]}"
+          end
+        end.join("\n")
+      end
+
+    content =
+      prepared
+        .lines[start, last - start + 1]
+        .map_with_index do |line, index|
+        "#{start + index + 1}| #{line}"
+      end.join("\n")
+
+    divider = "-" * (100 - node.input.file.size - 4)
+    ("-- #{node.input.file} #{divider}") + "\n#{content}\n" + ("-" * 100)
+  end
+
+  def render(node : Ast::Node)
+    prepared, start, last =
+      process node, true do |part|
+        if part.strip.empty?
+          "<highlighted>&nbsp;</highlighted>"
+        else
+          part
+            .lines
+            .map do |line|
+            line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
+              "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
+            end
+          end.join("\n")
+        end
+      end
 
     content =
       prepared.lines[start, last - start + 1]
