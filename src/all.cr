@@ -8,6 +8,7 @@ require "./errors/**"
 require "./ext/**"
 
 require "./messages"
+require "./message"
 require "./assets"
 require "./logger"
 require "./utils/**"
