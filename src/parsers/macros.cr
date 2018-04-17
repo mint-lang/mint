@@ -1,8 +1,12 @@
 class Parser
   macro syntax_error(name)
     class {{name}} < SyntaxError
-      def template
-        "{{name.names.last.underscore}}"
+      def instance
+        (MESSAGES["{{name.names.last}}"]? || Message).new({
+          "node" => node,
+          "char" => char,
+          "got" => got,
+        })
       end
     end
   end

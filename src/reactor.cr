@@ -67,7 +67,9 @@ class Reactor
     puts "All => #{TimeFormat.auto(elapsed)}"
 
     result
-  rescue exception : MintJson::Error | SyntaxError | TypeError
+  rescue exception : SyntaxError
+    error_script(exception.to_html)
+  rescue exception : MintJson::Error | TypeError
     error_script(exception.message)
   end
 

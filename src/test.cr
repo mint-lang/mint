@@ -106,9 +106,11 @@ module Mint
       @channel = Channel(Nil).new
       @failed = [] of Message
       @succeeded = 0
+      @script = ""
     end
 
     def run
+      compile_script
       setup_kemal
       open_page
 
@@ -120,7 +122,7 @@ module Mint
       config.server.try(&.listen)
     end
 
-    def script
+    def compile_script
       file =
         @arguments.test
 
@@ -153,11 +155,7 @@ module Mint
 
       type_checker.check
 
-      Compiler.compile_with_tests type_checker.artifacts
-    rescue exception : MintJson::Error | SyntaxError | TypeError
-      puts exception.message
-    rescue exception
-      puts exception.message
+      @script = Compiler.compile_with_tests type_checker.artifacts
     end
 
     def resolve_reporter
@@ -230,7 +228,7 @@ module Mint
       end
 
       get "/tests" do
-        script
+        @script
       end
 
       ws "/" do |socket|

@@ -40,9 +40,13 @@ class Message
 
   alias Element = NamedTuple(kind: String, contents: String | Array(Element) | Ast::Node)
 
-  @data : Hash(String, String)
+  @data : Hash(String, String | Ast::Node)
 
   def initialize(@data)
+  end
+
+  macro method_missing(call)
+    @data[{{call.name.id.stringify}}]?
   end
 
   def get(key)
@@ -85,7 +89,7 @@ class Message
   end
 
   def to_terminal
-    to_terminal(build).to_s + ("=" * 100).colorize(:light_cyan).mode(:dim).to_s
+    to_terminal(build).to_s
   end
 
   def to_terminal(node)
@@ -111,8 +115,8 @@ class Message
           when "BLOCK"
             "#{contents}\n\n"
           when "TITLE"
-            divider = "=" * (100 - contents.size - 4)
-            "== #{contents.upcase} #{divider}\n\n".colorize(:light_cyan).mode(:dim)
+            divider = "-" * (100 - contents.size - 4)
+            "-- #{contents.upcase} #{divider}\n\n".colorize(:light_cyan).mode(:dim)
           when "NODE"
             contents
           end
@@ -121,6 +125,8 @@ class Message
     end
   end
 end
+
+MESSAGES = {} of String => Message.class
 
 macro message(name, &block)
 	class Messages
@@ -131,16 +137,7 @@ macro message(name, &block)
 				end
 			end
 		end
+
+    MESSAGES["{{name}}"] = {{name}}
 	end
 end
-
-message AccessExpectedVariable do
-  title "Syntax Error"
-  block do
-    text "I was looking for the name of the field of the record but found "
-    bold get("got")
-    text " instead."
-  end
-end
-
-puts Messages::AccessExpectedVariable.new({"got" => "???"}).to_terminal

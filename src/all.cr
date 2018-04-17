@@ -9,6 +9,7 @@ require "./ext/**"
 
 require "./messages"
 require "./message"
+require "./messages/**"
 require "./assets"
 require "./logger"
 require "./utils/**"

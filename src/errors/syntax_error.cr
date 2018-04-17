@@ -5,10 +5,15 @@ class SyntaxError < Exception
   end
 
   def message
-    Messages
-      .read(template)
-      .gsub(/\{{2}file\:([^\}]*)\}{2}/) { |_, match| "" } # Messages.read match[1] }
-      .gsub(/\{{2}([^\}]*)\}{2}/) { |_, match| locals[match[1]]? || "" }
+    to_terminal
+  end
+
+  def to_terminal
+    instance.to_terminal
+  end
+
+  def to_html
+    instance.to_html
   end
 
   def locals
@@ -19,12 +24,11 @@ class SyntaxError < Exception
     }
   end
 
-  def snippet
-    Snippet.render(
-      Ast::Node.new(
-        input: Ast::Data.new(@input, @file),
-        from: position,
-        to: position + to))
+  def node
+    Ast::Node.new(
+      input: Ast::Data.new(@input, @file),
+      to: position + to,
+      from: position)
   end
 
   def to
@@ -58,7 +62,7 @@ class SyntaxError < Exception
     "<b>the end of file</b>"
   end
 
-  def template
-    ""
+  def instance
+    Message.new({} of String => String | Ast::Node)
   end
 end
