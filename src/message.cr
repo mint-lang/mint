@@ -198,7 +198,7 @@ class Message
     when Ast::Node
       Snippet.render_terminal(node) + "\n\n"
     when Element
-      to_html([node])
+      to_terminal([node])
     when Array(Element)
       node.map do |item|
         case item
@@ -209,8 +209,10 @@ class Message
           case item[:kind]
           when "TEXT"
             contents
-          when "BOLD", "CODE"
+          when "BOLD"
             contents.colorize(:light_yellow).mode(:bold)
+          when "CODE"
+            "\"#{contents}\"".colorize(:light_yellow).mode(:bold)
           when "BLOCK"
             "#{contents}\n\n"
           when "TITLE"

@@ -110,7 +110,14 @@ module Mint
     end
 
     def run
-      compile_script
+      ast = compile_ast
+
+      if ast.suites.empty?
+        puts "There are no test suites!"
+        return
+      end
+
+      compile_script(ast)
       setup_kemal
       open_page
 
@@ -122,7 +129,7 @@ module Mint
       config.server.try(&.listen)
     end
 
-    def compile_script
+    def compile_ast
       file =
         @arguments.test
 
@@ -149,7 +156,9 @@ module Mint
         memo.merge artifact
         memo
       end
+    end
 
+    def compile_script(ast)
       type_checker =
         TypeChecker.new(ast)
 

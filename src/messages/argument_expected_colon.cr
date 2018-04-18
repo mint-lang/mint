@@ -6,7 +6,7 @@ message ArgumentExpectedColon do
     bold "colon "
     code ":"
     text " that separates the argument from its type but found "
-    bold got
+    code got
     text " instead."
   end
 

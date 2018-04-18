@@ -43,7 +43,7 @@ class SyntaxError < Exception
     if part.size <= 1
       char
     else
-      "<code>#{Snippet.escape(part)}</code>"
+      part
     end
   end
 
@@ -52,14 +52,14 @@ class SyntaxError < Exception
 
     case char
     when ' '
-      "<b>a space</b>"
+      "a space"
     when '\n', '\r'
-      "<b>a new line</b>"
+      "a new line"
     else
-      "<code>#{Snippet.escape(char.to_s)}</code>"
+      char.to_s
     end
   rescue
-    "<b>the end of file</b>"
+    "the end of file"
   end
 
   def instance
