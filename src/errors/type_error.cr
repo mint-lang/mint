@@ -1,16 +1,22 @@
 class TypeError < Exception
   getter locals
 
-  def initialize(@locals = {} of String => String)
+  def initialize(@locals = {} of String => String | Ast::Node)
   end
 
   def message
-    Messages
-      .read(template)
-      .gsub(/\{{2}([^\}]*)\}{2}/) { |_, match| locals[match[1]]? || "" }
+    to_terminal
   end
 
-  def template
-    ""
+  def to_terminal
+    instance.to_terminal
+  end
+
+  def to_html
+    instance.to_html
+  end
+
+  def instance
+    Message.new(locals)
   end
 end

@@ -68,7 +68,8 @@ class Reactor
 
     result
   rescue exception : SyntaxError
-    puts exception.class
+    error_script(exception.to_html)
+  rescue exception : TypeError
     error_script(exception.to_html)
   rescue exception : MintJson::Error | TypeError
     error_script(exception.message)

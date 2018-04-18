@@ -27,7 +27,7 @@ class TypeChecker
         raise AccessFieldNotRecord, {
           "field"  => field.value,
           "object" => target,
-          "node"   => node,
+          "node"   => field,
         }
       end
     end

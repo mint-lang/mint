@@ -15,23 +15,32 @@ class Message
       @elements = old_elements
     end
 
-    def bold(contents : Nil)
+    def bold(contents)
+      case contents
+      when String
+        @elements << {kind: "BOLD", contents: contents}
+      end
     end
 
-    def bold(contents : String)
-      @elements << {kind: "BOLD", contents: contents}
+    def code(contents)
+      case contents
+      when String
+        @elements << {kind: "CODE", contents: contents}
+      end
     end
 
-    def code(contents : String)
-      @elements << {kind: "CODE", contents: contents}
-    end
-
-    def text(contents : String)
-      @elements << {kind: "TEXT", contents: contents}
+    def text(contents)
+      case contents
+      when String
+        @elements << {kind: "TEXT", contents: contents}
+      end
     end
 
     def title(contents : String)
-      @elements << {kind: "TITLE", contents: contents}
+      case contents
+      when String
+        @elements << {kind: "TITLE", contents: contents}
+      end
     end
 
     def snippet(node)

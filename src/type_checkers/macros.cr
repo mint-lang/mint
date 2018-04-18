@@ -1,8 +1,8 @@
 class TypeChecker
   macro type_error(name)
     class {{name}} < TypeError
-      def template
-        "{{name.names.last.underscore}}"
+      def instance
+        (MESSAGES["{{name.names.last}}"]? || Message).new(locals)
       end
     end
   end

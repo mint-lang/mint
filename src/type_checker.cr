@@ -127,25 +127,26 @@ class TypeChecker
   # Raising type errors
   # ----------------------------------------------------------------------------
 
-  def raise(error : TypeError.class, locals = nil)
-    locals =
-      case locals
-      when Nil
-        {} of String => String
-      else
-        locals.map do |key, value|
-          val =
-            case value
-            when String
-              value
-            when Ast::Node
-              Snippet.render value
-            else
-              value.to_s
-            end
-          [key, val]
-        end.to_h
+  def raise(error : TypeError.class, raw = nil)
+    locals = {} of String => String | Ast::Node
+
+    case raw
+    when Nil
+    else
+      raw.map do |key, value|
+        val =
+          case value
+          when String
+            value
+          when Ast::Node
+            value.as(Ast::Node)
+          else
+            value.to_s
+          end
+
+        locals[key] = val
       end
+    end
 
     raise error.new(locals)
   end

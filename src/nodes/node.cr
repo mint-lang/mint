@@ -6,5 +6,9 @@ class Ast
                    @from : Int32,
                    @to : Int32)
     end
+
+    def to_tuple
+      {input: input, from: from, to: to}
+    end
   end
 end
