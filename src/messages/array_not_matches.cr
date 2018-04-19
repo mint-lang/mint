@@ -8,7 +8,7 @@ message ArrayNotMatches do
   end
 
   block do
-    text "Expected type type of the first item "
+    text "Expected the type of the first item "
     code expected
     text " but got "
     code got

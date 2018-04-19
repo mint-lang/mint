@@ -2,7 +2,7 @@ version: 1.0
 shards:
   admiral:
     github: jwaldrip/admiral.cr
-    version: 1.4.0
+    version: 1.5.0
 
   baked_file_system:
     github: schovi/baked_file_system
@@ -22,7 +22,7 @@ shards:
 
   myhtml:
     github: kostya/myhtml
-    version: 0.27
+    version: 0.28
 
   radix:
     github: luislavena/radix
