@@ -12,7 +12,7 @@ class TypeChecker
         type = check item
 
         raise ArrayNotMatches, {
-          "index"    => index + 1,
+          "index"    => index + 2,
           "expected" => first,
           "got"      => type,
           "node"     => item,

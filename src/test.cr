@@ -111,13 +111,13 @@ module Mint
 
     def run
       ast = compile_ast
+      compile_script(ast)
 
       if ast.suites.empty?
         puts "There are no test suites!"
         return
       end
 
-      compile_script(ast)
       setup_kemal
       open_page
 
