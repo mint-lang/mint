@@ -2,9 +2,9 @@ message ArrayNotMatches do
   title "Type Error"
 
   block do
-    text "The "
+    text "The"
     bold "#{index}. item"
-    text " of an array does not match the type of the first item."
+    text "of an array does not match the type of the first item."
   end
 
   block do

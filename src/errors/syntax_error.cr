@@ -18,9 +18,10 @@ class SyntaxError < Exception
 
   def locals
     {
-      "snippet" => snippet,
-      "got"     => got,
-      "char"    => char,
+      "node" => node,
+      "char" => char,
+      "got"  => got,
+      "??"   => TypeChecker::Type.new("??"),
     }
   end
 
@@ -63,6 +64,6 @@ class SyntaxError < Exception
   end
 
   def instance
-    Message.new({} of String => String | Ast::Node | TypeChecker::Type)
+    Message.new(locals)
   end
 end

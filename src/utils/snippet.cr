@@ -82,7 +82,7 @@ module Snippet
         .lines[start, last - start + 1]
         .map_with_index do |line, index|
         line_number =
-          (start + index + 1).to_s.ljust(gutter_width)
+          (start + index + 1).to_s.rjust(gutter_width)
 
         padding =
           " " * (min_width - (gutter_width + 2) - lines[index].size - 3)
@@ -104,7 +104,7 @@ module Snippet
     header =
       "┌#{gutter_divider}┬ ".colorize.mode(:dim).to_s +
         node.input.file.colorize.mode(:bold).to_s +
-        " #{divider}┐".colorize.mode(:dim).to_s
+        " #{divider}" + "┐".colorize.mode(:dim).to_s
 
     header + "\n#{content}\n" + footer
   end

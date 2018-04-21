@@ -2,8 +2,8 @@ message CaseBranchNotMatches do
   title "Type Error"
 
   block do
-    text "The return type of the "
-    bold "#{index}. branch "
+    text "The return type of the"
+    bold "#{index}. branch"
     text "of a case expression does not match the type of the first branch."
   end
 

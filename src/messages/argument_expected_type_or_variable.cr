@@ -3,10 +3,10 @@ message ArgumentExpectedTypeOrVariable do
 
   block do
     text "I was looking for the"
-    bold " type of the argument "
+    bold "type of the argument"
     text "but found "
     code got
-    text " instead."
+    text "instead."
   end
 
   snippet node

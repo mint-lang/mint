@@ -110,15 +110,21 @@ module Mint
     end
 
     def run
-      ast = compile_ast
-      compile_script(ast)
+      ast = terminal.measure "#{COG} Compiling tests... " do
+        a = compile_ast
+        compile_script(a)
+        a
+      end
 
-      if ast.suites.empty?
-        puts "There are no test suites!"
+      if ast.try(&.suites.empty?)
+        terminal.print "\nThere are no tests to run!\n"
         return
       end
 
+      terminal.print "#{COG} Starting test server...\n"
       setup_kemal
+
+      terminal.print "#{COG} Starting browser...\n"
       open_page
 
       config = Kemal.config
@@ -241,15 +247,17 @@ module Mint
       end
 
       ws "/" do |socket|
+        terminal.print "#{COG} Running tests:\n"
+
         socket.on_message do |message|
           if message == "DONE"
             @reporter.done
             sum = @succeeded + @failed.size
 
-            puts Terminal.separator
+            terminal.divider
             puts "#{sum} tests"
-            puts "  #{Terminal.arrow} #{@succeeded} passed"
-            puts "  #{Terminal.arrow} #{@failed.size} failed"
+            puts "  #{ARROW} #{@succeeded} passed"
+            puts "  #{ARROW} #{@failed.size} failed"
 
             @failed.each do |message|
               puts "    #{message.name}".colorize(:red).to_s
@@ -273,6 +281,10 @@ module Mint
           end
         end
       end
+    end
+
+    def terminal
+      Render::Terminal::STDOUT
     end
   end
 end

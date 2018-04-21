@@ -26,6 +26,7 @@ module Render
     end
 
     def snippet(node)
+      print Snippet.render(node)
     end
 
     def title(content)
@@ -37,15 +38,15 @@ module Render
     end
 
     def type(content)
-      print "<pre><code>#{escape(content.to_pretty.to_s)}</code></pre>"
+      print "<pre>#{escape(content.to_pretty.to_s)}</pre>"
     end
 
     def bold(content)
-      print "<bold>#{escape(content)}</bold>"
+      print "<b>#{escape(content)}</b>"
     end
 
     def text(content)
-      print escape(content)
+      print escape(content + " ")
     end
 
     def escape(code)
@@ -77,17 +78,17 @@ module Render
       end
 
       def text(contents)
-        process contents
+        process(contents + " ")
       end
 
       def code(contents)
-        process "\"#{contents}\"" do |part|
+        process "\"#{contents}\" " do |part|
           part.colorize(:light_yellow).mode(:bold)
         end
       end
 
       def bold(contents)
-        process contents do |part|
+        process(contents + " ") do |part|
           part.colorize(:light_yellow).mode(:bold)
         end
       end

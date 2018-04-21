@@ -2,12 +2,7 @@ class Parser
   macro syntax_error(name)
     class {{name}} < SyntaxError
       def instance
-        (MESSAGES["{{name.names.last}}"]? || Message).new({
-          "node" => node,
-          "char" => char,
-          "got" => got,
-          "??" => TypeChecker::Type.new("??")
-        })
+        (MESSAGES["{{name.names.last}}"]? || Message).new(locals)
       end
     end
   end

@@ -52,6 +52,42 @@ class Message
       with builder yield
       @elements << builder.block
     end
+
+    def closing_bracket(expression, got)
+      block do
+        text "The"
+        bold "body of #{expression}"
+        text "must end with"
+        bold "a closing bracket."
+      end
+
+      block do
+        text "I was looking for that"
+        bold "bracket"
+        code "}"
+        text "but found"
+        code got
+        text "instead."
+      end
+    end
+
+    def opening_bracket(expression, got)
+      block do
+        text "The"
+        bold "body of #{expression}"
+        text "must start with"
+        bold "a closing bracket."
+      end
+
+      block do
+        text "I was looking for that"
+        bold "bracket"
+        code "{"
+        text "but found"
+        code got
+        text "instead."
+      end
+    end
   end
 
   record Type, value : TypeChecker::Type
@@ -72,7 +108,82 @@ class Message
   end
 
   def to_html
-    render Render::Html.new
+    contents =
+      render Render::Html.new
+
+    <<-HTML
+    <style>
+      body {
+        background: #F6f6f6;
+        color: #222;
+      }
+      article {
+        font-family: sans-serif;
+        max-width: 1040px;
+        margin: 0 auto;
+        padding-top: 20px;
+      }
+      h2 {
+        border-bottom: 2px solid #b222223d;
+        text-transform: uppercase;
+        padding-bottom: 10px;
+        color: firebrick;
+      }
+      pre line {
+        display: block;
+        line-height: 20px;
+      }
+      pre line::before {
+        content: attr(line);
+        border-right: 1px solid rgba(0,0,0,0.1);
+        text-align: right;
+        padding: 0 10px;
+        padding-left: 5px;
+        margin-right: 10px;
+        line-height: inherit;
+        display: inline-block;
+        width: 16px;
+      }
+      pre {
+        border: 1px solid #DDD;
+        background: #FFF;
+        padding: 5px;
+        margin-top: 0;
+      }
+      code {
+        background: #FFF;
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 2px 7px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+      }
+      .file {
+        border: 1px solid #DDD;
+        border-bottom: 0;
+        padding: 7px 10px;
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: bold;
+        background: #FCFCFC;
+        color: #333;
+      }
+      p {
+        line-height: 26px;
+      }
+      highlighted {
+        display: inline-block;
+        background: #ffebeb;
+        padding: 0px 5px;
+      }
+      highlighted:empty {
+        display: none;
+      }
+    </style>
+    <article>
+      #{contents}
+    <article>
+    HTML
   end
 
   def to_terminal(width)
@@ -80,7 +191,12 @@ class Message
   end
 
   def build
-    [] of Element
+    Builder.build do
+      block do
+        text "This error does not have a message yet."
+      end
+      snippet node
+    end
   end
 
   def render(renderer)
