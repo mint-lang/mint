@@ -1,4 +1,9 @@
 class String
+  def last
+    return "" if size == 0
+    self[size - 1].to_s
+  end
+
   def indent(spaces : Int32 = 2)
     lines.map do |line|
       line.empty? ? line : (" " * spaces) + line

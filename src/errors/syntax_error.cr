@@ -9,7 +9,7 @@ class SyntaxError < Exception
   end
 
   def to_terminal
-    instance.to_terminal
+    instance.to_terminal(100)
   end
 
   def to_html

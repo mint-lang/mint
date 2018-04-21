@@ -1,24 +1,58 @@
 class Cli < Admiral::Command
   module Command
     def execute(message)
-      puts "Mint 1.0.0 - #{message}"
-      puts Terminal.separator
+      terminal.header "Mint 1.0.0 - #{message}"
+      terminal.divider
 
-      elapsed = Time.measure { yield }
+      position =
+        terminal.position
 
-      puts Terminal.separator
-      puts "All done in #{TimeFormat.auto(elapsed).colorize.mode(:bold).to_s}!"
-    rescue exception : MintJson::Error | SyntaxError | TypeError
-      puts "\n"
-      puts Terminal.separator
-      puts "\n" + exception.message.to_s
-      puts Terminal.separator
-      puts "There was an error exiting...".colorize.mode(:bold).to_s
+      begin
+        elapsed =
+          Time.measure { yield }
+      rescue exception : SyntaxError | TypeError
+        error exception.message.to_s, position
+      rescue exception : MintJson::Error
+        message =
+          Render::Terminal.render do
+            title "MINT.JSON ERROR"
+            block do
+              text exception.message.to_s
+            end
+            title_divider
+          end
+
+        error message, position
+      rescue CliException
+        error nil, position
+      end
+
+      formatted =
+        TimeFormat.auto(elapsed).colorize.mode(:bold)
+
+      terminal.divider
+      terminal.print "All done in #{formatted}!"
+    end
+
+    def error(message, position)
+      printed =
+        terminal.position != position
+
+      if printed
+        terminal.divider
+      end
+
+      if message
+        terminal.print "\n#{message}\n"
+        terminal.divider
+      end
+
+      terminal.print "There was an error exiting...\n".colorize.mode(:bold)
       exit 1
-    rescue CliException
-      puts Terminal.separator
-      puts "There was an error exiting..."
-      exit 1
+    end
+
+    def terminal
+      Render::Terminal::STDOUT
     end
   end
 end

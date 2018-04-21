@@ -7,6 +7,7 @@ require "kemal"
 require "./errors/**"
 require "./ext/**"
 
+require "./render"
 require "./messages"
 require "./message"
 require "./messages/**"
