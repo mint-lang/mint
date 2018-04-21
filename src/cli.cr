@@ -8,12 +8,12 @@ end
 class Cli < Admiral::Command
   define_help description: "Mint"
 
-  register_sub_command install : Install
-  register_sub_command build : Build
-  register_sub_command start : Start
-  register_sub_command init : Init
-  register_sub_command test : Test
-  register_sub_command loc : Loc
+  register_sub_command install, type: Install
+  register_sub_command build, type: Build
+  register_sub_command start, type: Start
+  register_sub_command init, type: Init
+  register_sub_command test, type: Test
+  register_sub_command loc, type: Loc
 
   def run
     puts help
