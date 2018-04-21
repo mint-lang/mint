@@ -2,18 +2,22 @@ message ArrayNotMatches do
   title "Type Error"
 
   block do
-    text "The type of the "
+    text "The "
     bold "#{index}. item"
-    text " of an array literal does not match the type of the first item."
+    text " of an array does not match the type of the first item."
   end
 
   block do
-    text "Expected the type of the first item "
-    code expected
-    text " but got "
-    code got
-    text " instead."
+    text "I was expecting the same type as of the first item:"
   end
+
+  type expected
+
+  block do
+    text "Instead it is:"
+  end
+
+  type got
 
   snippet node
 end

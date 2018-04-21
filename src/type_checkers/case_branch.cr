@@ -2,14 +2,13 @@ class TypeChecker
   type_error CaseBranchNotMatchCondition
 
   def check(node : Ast::CaseBranch, condition : Type) : Type
-    if node.match
-      match =
-        check node.match.not_nil!
+    node.match.try do |item|
+      match = check item
 
       raise CaseBranchNotMatchCondition, {
         "expected" => condition,
         "got"      => match,
-        "node"     => node,
+        "node"     => item,
       } unless Comparer.compare(match, condition)
     end
 

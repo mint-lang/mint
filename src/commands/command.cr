@@ -19,7 +19,6 @@ class Cli < Admiral::Command
             block do
               text exception.message.to_s
             end
-            title_divider
           end
 
         error message, position
@@ -31,7 +30,7 @@ class Cli < Admiral::Command
         TimeFormat.auto(elapsed).colorize.mode(:bold)
 
       terminal.divider
-      terminal.print "All done in #{formatted}!"
+      terminal.print "All done in #{formatted}!\n"
     end
 
     def error(message, position)
@@ -39,11 +38,12 @@ class Cli < Admiral::Command
         terminal.position != position
 
       if printed
+        terminal.print "\n"
         terminal.divider
       end
 
       if message
-        terminal.print "\n#{message}\n"
+        terminal.print "\n#{message}"
         terminal.divider
       end
 

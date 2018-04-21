@@ -9,7 +9,7 @@ class SyntaxError < Exception
   end
 
   def to_terminal
-    instance.to_terminal(100)
+    instance.to_terminal(80)
   end
 
   def to_html
@@ -63,6 +63,6 @@ class SyntaxError < Exception
   end
 
   def instance
-    Message.new({} of String => String | Ast::Node)
+    Message.new({} of String => String | Ast::Node | TypeChecker::Type)
   end
 end

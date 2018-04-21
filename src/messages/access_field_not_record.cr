@@ -5,9 +5,9 @@ message AccessFieldNotRecord do
     text "You are tyring to access the field "
     code field
     text " on an object which is not a record: "
-    code object
-    text "."
   end
+
+  type object
 
   snippet node
 end

@@ -7,6 +7,9 @@ enum Environment
   BUILD
 end
 
+COG   = "⚙".colorize(:light_green).to_s
+ARROW = "➔".colorize(:dark_gray).to_s
+
 GLOBAL_STYLES =
   "body {
   overflow-y: scroll;
@@ -48,23 +51,23 @@ class Builder
   def initialize
     json = MintJson.parse_current
 
-    log "#{Terminal.cog} Clearing the \"dist\" directory... " do
+    terminal.measure "#{COG} Clearing the \"dist\" directory... " do
       FileUtils.rm_rf "dist"
       FileUtils.mkdir "dist"
     end
 
-    log "#{Terminal.cog} Copying public folder contents... " do
+    terminal.measure "#{COG} Copying public folder contents... " do
       FileUtils.cp Dir.glob("public/**/*"), "dist"
     end
 
-    puts "#{Terminal.cog} Compiling your appliction: "
+    terminal.print "#{COG} Compiling your appliction:\n"
     File.write "dist/index.js", index
 
-    log "#{Terminal.cog} Writing index.html... " do
+    terminal.measure "#{COG} Writing index.html... " do
       File.write "dist/index.html", IndexHtml.render(Environment::BUILD)
     end
 
-    log "#{Terminal.cog} Generating icons... " do
+    terminal.measure "#{COG} Generating icons... " do
       icons(json)
     end
   end
@@ -89,7 +92,7 @@ class Builder
     ast = Ast.new
     compiled = ""
 
-    log "  #{Terminal.arrow} Parsing #{sources.size} source files... " do
+    log "  #{ARROW} Parsing #{sources.size} source files... " do
       sources.reduce(ast) do |memo, file|
         memo.merge Parser.parse(file)
         memo
@@ -99,14 +102,18 @@ class Builder
     type_checker =
       TypeChecker.new(ast)
 
-    log "  #{Terminal.arrow} Type checking: " do
+    log "  #{ARROW} Type checking: " do
       type_checker.check
     end
 
-    log "  #{Terminal.arrow} Compiling: " do
+    log "  #{ARROW} Compiling: " do
       compiled = Compiler.compile type_checker.artifacts, {beautify: false}
     end
 
     runtime + compiled
+  end
+
+  def terminal
+    Render::Terminal::STDOUT
   end
 end

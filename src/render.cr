@@ -21,12 +21,23 @@ module Render
       print "<hr>"
     end
 
+    def print(content)
+      io.print content
+    end
+
+    def snippet(node)
+    end
+
     def title(content)
       print "<h2>#{escape(content)}</h2>"
     end
 
     def code(content)
       print "<code>#{escape(content)}</code>"
+    end
+
+    def type(content)
+      print "<pre><code>#{escape(content.to_pretty.to_s)}</code></pre>"
     end
 
     def bold(content)
@@ -150,6 +161,25 @@ module Render
       with block yield
       block.close
       print block.io
+      print "\n"
+    end
+
+    def measure(message)
+      print message
+      result = nil
+      elapsed = Time.measure { result = yield }
+      print TimeFormat.auto(elapsed).colorize.mode(:bold).to_s + "\n"
+      result
+    end
+
+    def type(contents)
+      print contents.to_pretty.indent.colorize(:light_yellow).mode(:bold)
+      print "\n\n"
+    end
+
+    def snippet(node)
+      print Snippet.render_terminal(node, @width)
+      print "\n\n"
     end
 
     def header(text)
@@ -157,27 +187,23 @@ module Render
     end
 
     def divider
-      print ("᐀" * @width).colorize.mode(:dim).to_s + "\n"
+      print ("━" * @width).colorize(:dark_gray).mode(:dim).to_s + "\n"
     end
 
     def title(text)
-      title_divider text
-    end
-
-    def title_divider(text = nil)
       content =
         if text
-          "-- #{text.upcase} "
+          "#{"░".colorize.mode(:dim)} #{text.upcase.colorize(:light_cyan).mode(:bold)} "
         else
           ""
         end
 
       divider =
         if content.size < @width
-          "-" * (@width - content.size)
+          ("░" * (@width - text.size - 3)).colorize.mode(:dim)
         end
 
-      io.print "#{content}#{divider}\n".colorize(:light_cyan).mode(:dim)
+      io.print "#{content}#{divider}\n\n"
     end
 
     def print(object)

@@ -28,8 +28,19 @@ class Message
       builder.elements
     end
 
-    def snippet(value)
-      # @elements << Snippet.new(value: value)
+    def snippet(value, message = "Here is the relevant code snippet:")
+      case value
+      when Ast::Node
+        block { text message } if message
+        @elements << Snippet.new(value: value)
+      end
+    end
+
+    def type(value)
+      case value
+      when TypeChecker::Type
+        @elements << Type.new(value: value)
+      end
     end
 
     def title(value)
@@ -43,6 +54,7 @@ class Message
     end
   end
 
+  record Type, value : TypeChecker::Type
   record Snippet, value : Ast::Node
   record Title, value : String
   record Code, value : String
@@ -50,9 +62,9 @@ class Message
   record Text, value : String
 
   alias Block = Array(Code | Bold | Text)
-  alias Element = Title | Snippet | Block
+  alias Element = Title | Snippet | Block | Type
 
-  def initialize(@data = {} of String => String | Ast::Node)
+  def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type)
   end
 
   macro method_missing(call)
@@ -74,10 +86,12 @@ class Message
   def render(renderer)
     build.each do |element|
       case element
+      when Type
+        renderer.type element.value
       when Title
         renderer.title element.value
       when Snippet
-        ""
+        renderer.snippet element.value
       when Block
         renderer.block do
           element.each do |item|

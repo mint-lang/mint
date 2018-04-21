@@ -26,7 +26,7 @@ module Snippet
       input[0, node.to].count("\n\r")
 
     start =
-      Math.max(0, start_line - 3)
+      Math.max(0, start_line - 4)
 
     last =
       Math.min(end_line + 4, input.lines.size)
@@ -50,7 +50,7 @@ module Snippet
     {"#{left}#{center}#{right}", start, last}
   end
 
-  def render_terminal(node : Ast::Node)
+  def render_terminal(node : Ast::Node, width)
     prepared, start, last =
       process node do |part|
         part
@@ -62,15 +62,51 @@ module Snippet
         end.join("\n")
       end
 
+    lines =
+      node.input.input.lines[start, last - start + 1]
+
+    gutter_width =
+      [
+        start.to_s.size,
+        last.to_s.size,
+      ].max
+
+    min_width =
+      [
+        lines.map(&.size).max + gutter_width + 2 + 3,
+        width,
+      ].max
+
     content =
       prepared
         .lines[start, last - start + 1]
         .map_with_index do |line, index|
-        "#{start + index + 1}| #{line}"
+        line_number =
+          (start + index + 1).to_s.ljust(gutter_width)
+
+        padding =
+          " " * (min_width - (gutter_width + 2) - lines[index].size - 3)
+
+        "│#{line_number}│".colorize.mode(:dim).to_s +
+          " #{line}#{padding} " +
+          "│".colorize.mode(:dim).to_s
       end.join("\n")
 
-    divider = "-" * (100 - node.input.file.size - 4)
-    ("-- #{node.input.file} #{divider}") + "\n#{content}\n" + ("-" * 100)
+    divider =
+      ("─" * (min_width - node.input.file.size - 7)).colorize.mode(:dim)
+
+    gutter_divider =
+      "─" * gutter_width
+
+    footer =
+      ("└#{gutter_divider}┴" + ("─" * (min_width - 5)) + "┘").colorize.mode(:dim).to_s
+
+    header =
+      "┌#{gutter_divider}┬ ".colorize.mode(:dim).to_s +
+        node.input.file.colorize.mode(:bold).to_s +
+        " #{divider}┐".colorize.mode(:dim).to_s
+
+    header + "\n#{content}\n" + footer
   end
 
   def render(node : Ast::Node)

@@ -1,7 +1,7 @@
 class TypeError < Exception
   getter locals
 
-  def initialize(@locals = {} of String => String | Ast::Node)
+  def initialize(@locals = {} of String => String | Ast::Node | TypeChecker::Type)
   end
 
   def message
@@ -9,7 +9,7 @@ class TypeError < Exception
   end
 
   def to_terminal
-    instance.to_terminal(100)
+    instance.to_terminal(80)
   end
 
   def to_html

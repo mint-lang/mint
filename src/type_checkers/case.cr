@@ -12,7 +12,7 @@ class TypeChecker
       type = check branch, condition
 
       raise CaseBranchNotMatches, {
-        "index"    => index + 1,
+        "index"    => (index + 1).to_s,
         "expected" => first,
         "got"      => type,
         "node"     => branch,

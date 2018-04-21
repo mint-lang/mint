@@ -4,11 +4,12 @@ class TypeChecker
   type_error AccessNotRecord
 
   def check(node : Ast::Access) : Type
-    target = check node.fields.first
+    target =
+      check node.fields.first
 
     raise AccessNotRecord, {
-      "node"   => node.fields.first,
       "object" => target,
+      "node"   => node,
     } unless target.is_a?(Record)
 
     node.fields[1..node.fields.size].each do |field|

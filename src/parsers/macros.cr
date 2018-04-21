@@ -6,6 +6,7 @@ class Parser
           "node" => node,
           "char" => char,
           "got" => got,
+          "??" => TypeChecker::Type.new("??")
         })
       end
     end

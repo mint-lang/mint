@@ -17,6 +17,19 @@ class TypeChecker
       io << to_s
       io
     end
+
+    def to_pretty
+      if parameters.empty?
+        name
+      else
+        body =
+          parameters.map(&.to_pretty.as(String))
+                    .join(",\n")
+                    .indent
+
+        "#{name}(\n#{body})"
+      end
+    end
   end
 
   class Js < Type
@@ -27,6 +40,24 @@ class TypeChecker
 
     def initialize(@name : String, @fields = {} of String => Type)
       @parameters = [] of Type
+    end
+
+    def to_pretty
+      return name if fields.empty?
+
+      defs =
+        fields
+          .map do |key, value|
+          result = value.to_pretty
+          if result =~ /\n/
+            "#{key}:\n#{value.to_pretty.indent}"
+          else
+            "#{key}: #{value.to_pretty}"
+          end
+        end
+          .join(",\n").indent
+
+      "#{name}(\n#{defs})"
     end
 
     def to_s
