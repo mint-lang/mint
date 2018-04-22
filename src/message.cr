@@ -53,10 +53,25 @@ class Message
       @elements << builder.block
     end
 
+    # Pre defined blocks
+
+    def was_looking_for(what, got, code = nil)
+      block do
+        text "I was looking for that"
+        bold what
+
+        code code if code
+
+        text "but found"
+        code got
+        text "instead."
+      end
+    end
+
     def closing_bracket(expression, got)
       block do
         text "The"
-        bold "body of #{expression}"
+        bold "body of a #{expression}"
         text "must end with"
         bold "a closing bracket."
       end
@@ -74,9 +89,9 @@ class Message
     def opening_bracket(expression, got)
       block do
         text "The"
-        bold "body of #{expression}"
+        bold "body of a #{expression}"
         text "must start with"
-        bold "a closing bracket."
+        bold "an opening bracket."
       end
 
       block do
@@ -193,7 +208,9 @@ class Message
   def build
     Builder.build do
       block do
-        text "This error does not have a message yet."
+        text "The error"
+        bold error
+        text "does not have a message yet."
       end
       snippet node
     end

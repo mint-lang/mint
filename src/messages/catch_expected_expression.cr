@@ -2,16 +2,11 @@ message CatchExpectedExpression do
   title "Syntax Error"
 
   block do
-    text "A catch must have exactly one expression."
+    text "A catch must have exactly"
+    bold "one expression."
   end
 
-  block do
-    text "I was looking for that"
-    bold "expression"
-    text "but found"
-    code got
-    text "instead."
-  end
+  was_looking_for "expression", got
 
   snippet node
 end

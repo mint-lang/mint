@@ -2,12 +2,10 @@ message CaseBranchExpectedExpression do
   title "Syntax Error"
 
   block do
-    text "I was looking for the"
-    bold "expression"
-    text "of a case branch but found"
-    code got
-    text "instead."
+    text "A case branch must have an expression."
   end
+
+  was_looking_for "expression", got
 
   snippet node
 end

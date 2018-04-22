@@ -2,13 +2,10 @@ message ArgumentExpectedColon do
   title "Syntax Error"
 
   block do
-    text "I was looking for the"
-    bold "colon"
-    code ":"
-    text "that separates the argument from its type but found"
-    code got
-    text "instead."
+    text "A colon must separate the arguments name from it's type."
   end
+
+  was_looking_for "colon", got, ":"
 
   snippet node
 end

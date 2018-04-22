@@ -2,12 +2,10 @@ message ArgumentExpectedTypeOrVariable do
   title "Syntax Error"
 
   block do
-    text "I was looking for the"
-    bold "type of the argument"
-    text "but found "
-    code got
-    text "instead."
+    text "An argument must have it's type defined."
   end
+
+  was_looking_for "type", got
 
   snippet node
 end
