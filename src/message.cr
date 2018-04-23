@@ -43,6 +43,13 @@ class Message
       end
     end
 
+    def pre(value)
+      case value
+      when String
+        @elements << Pre.new(value: value)
+      end
+    end
+
     def title(value)
       @elements << Title.new(value: value)
     end
@@ -54,6 +61,18 @@ class Message
     end
 
     # Pre defined blocks
+    def type_with_text(item, text)
+      block do
+        text text
+      end
+
+      type item
+    end
+
+    def was_expecting_type(expected, got)
+      type_with_text expected, "I was expecting:"
+      type_with_text got, "Instead it is:"
+    end
 
     def was_looking_for(what, got, code = nil)
       block do
@@ -111,9 +130,10 @@ class Message
   record Code, value : String
   record Bold, value : String
   record Text, value : String
+  record Pre, value : String
 
   alias Block = Array(Code | Bold | Text)
-  alias Element = Title | Snippet | Block | Type
+  alias Element = Title | Snippet | Block | Type | Pre
 
   def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type)
   end
@@ -219,6 +239,8 @@ class Message
   def render(renderer)
     build.each do |element|
       case element
+      when Pre
+        renderer.pre element.value
       when Type
         renderer.type element.value
       when Title

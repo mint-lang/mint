@@ -22,12 +22,14 @@ class TypeChecker
       if parameters.empty?
         name
       else
-        body =
+        params =
           parameters.map(&.to_pretty.as(String))
-                    .join(",\n")
-                    .indent
 
-        "#{name}(\n#{body})"
+        if params =~ /\n/ && params.size > 4
+          "#{name}(\n#{params.join(",\n").indent})"
+        else
+          "#{name}(#{params.join(",")})"
+        end
       end
     end
   end

@@ -37,8 +37,12 @@ module Render
       print "<code>#{escape(content)}</code>"
     end
 
+    def pre(content : String)
+      print "<pre>#{escape(content)}</pre>"
+    end
+
     def type(content)
-      print "<pre>#{escape(content.to_pretty.to_s)}</pre>"
+      pre content.to_pretty
     end
 
     def bold(content)
@@ -174,7 +178,11 @@ module Render
     end
 
     def type(contents)
-      print contents.to_pretty.indent.colorize(:light_yellow).mode(:bold)
+      pre contents.to_pretty
+    end
+
+    def pre(contents)
+      print contents.indent.colorize(:light_yellow).mode(:bold)
       print "\n\n"
     end
 

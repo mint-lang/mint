@@ -128,7 +128,7 @@ class TypeChecker
 
           raise ComponentRenderTypeMismatch, {
             "node" => function,
-            "got"  => type,
+            "got"  => type.parameters.first,
           } unless matches
         when "componentDidMount",
              "componentDidUpdate",

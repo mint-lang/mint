@@ -57,7 +57,7 @@ module Snippet
           .lines
           .map do |line|
           line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
-            "#{match[1]}#{match[2].colorize.on(:red)}#{match[3]}"
+            "#{match[1]}#{match[2].colorize(:light_yellow).mode(:bright)}#{match[3]}"
           end
         end.join("\n")
       end
@@ -73,7 +73,7 @@ module Snippet
 
     min_width =
       [
-        lines.map(&.size).max + gutter_width + 2 + 3,
+        lines.map(&.size).max + gutter_width + 5,
         width,
       ].max
 
@@ -85,21 +85,28 @@ module Snippet
           (start + index + 1).to_s.rjust(gutter_width)
 
         padding =
-          " " * (min_width - (gutter_width + 2) - lines[index].size - 3)
+          " " * (min_width - gutter_width - 3 - lines[index].size - 2)
 
-        "│#{line_number}│".colorize.mode(:dim).to_s +
+        gutter =
+          if line =~ /\e\[([;\d]+)?m/
+            "│#{line_number}│".colorize(:light_yellow).mode(:bright).to_s
+          else
+            "│#{line_number}│".colorize.mode(:dim).to_s
+          end
+
+        gutter +
           " #{line}#{padding} " +
           "│".colorize.mode(:dim).to_s
       end.join("\n")
 
     divider =
-      ("─" * (min_width - node.input.file.size - 7)).colorize.mode(:dim)
+      ("─" * (min_width - node.input.file.size - gutter_width - 5)).colorize.mode(:dim)
 
     gutter_divider =
       "─" * gutter_width
 
     footer =
-      ("└#{gutter_divider}┴" + ("─" * (min_width - 5)) + "┘").colorize.mode(:dim).to_s
+      ("└#{gutter_divider}┴" + ("─" * (min_width - gutter_width - 3)) + "┘").colorize.mode(:dim).to_s
 
     header =
       "┌#{gutter_divider}┬ ".colorize.mode(:dim).to_s +
