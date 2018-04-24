@@ -7,14 +7,7 @@ message ConnectExpectedOpeningBracket do
     text "from a store must be enclosed by brackets"
   end
 
-  block do
-    text "I was looking for the"
-    bold "opening bracket"
-    code "{"
-    text "but found"
-    code got
-    text "instead."
-  end
+  was_looking_for "opening bracket", got, "{"
 
   snippet node
 end

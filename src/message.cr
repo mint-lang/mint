@@ -76,7 +76,7 @@ class Message
 
     def was_looking_for(what, got, code = nil)
       block do
-        text "I was looking for that"
+        text "I was looking for the"
         bold what
 
         code code if code

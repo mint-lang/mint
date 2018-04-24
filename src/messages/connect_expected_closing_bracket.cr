@@ -7,14 +7,7 @@ message ConnectExpectedClosingBracket do
     text "from a store must be enclosed by brackets"
   end
 
-  block do
-    text "I was looking for the"
-    bold "closing bracket"
-    code "}"
-    text "but found"
-    code got
-    text "instead."
-  end
+  was_looking_for "closing bracket", got, "}"
 
   snippet node
 end
