@@ -95,14 +95,7 @@ class Message
         bold "a closing bracket."
       end
 
-      block do
-        text "I was looking for that"
-        bold "bracket"
-        code "}"
-        text "but found"
-        code got
-        text "instead."
-      end
+      was_looking_for "bracket", got, "}"
     end
 
     def opening_bracket(expression, got)
@@ -113,14 +106,7 @@ class Message
         bold "an opening bracket."
       end
 
-      block do
-        text "I was looking for that"
-        bold "bracket"
-        code "{"
-        text "but found"
-        code got
-        text "instead."
-      end
+      was_looking_for "bracket", got, "{"
     end
   end
 
