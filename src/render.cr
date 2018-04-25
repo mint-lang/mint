@@ -21,6 +21,9 @@ module Render
       print "<hr>"
     end
 
+    def type_list(list)
+    end
+
     def print(content)
       io.print content
     end
@@ -179,6 +182,17 @@ module Render
 
     def type(contents)
       pre contents.to_pretty
+    end
+
+    def type_list(list)
+      list.each do |item|
+        print ("• " + item.to_pretty.indent.lstrip)
+          .indent
+          .colorize(:light_yellow)
+          .mode(:bold)
+
+        print "\n\n"
+      end
     end
 
     def pre(contents)

@@ -50,6 +50,13 @@ class Message
       end
     end
 
+    def type_list(value)
+      case value
+      when Array(TypeChecker::Type)
+        @elements << TypeList.new(value: value)
+      end
+    end
+
     def title(value)
       @elements << Title.new(value: value)
     end
@@ -110,6 +117,7 @@ class Message
     end
   end
 
+  record TypeList, value : Array(TypeChecker::Type)
   record Type, value : TypeChecker::Type
   record Snippet, value : Ast::Node
   record Title, value : String
@@ -119,9 +127,9 @@ class Message
   record Pre, value : String
 
   alias Block = Array(Code | Bold | Text)
-  alias Element = Title | Snippet | Block | Type | Pre
+  alias Element = Title | Snippet | Block | Type | Pre | TypeList
 
-  def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type)
+  def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type))
   end
 
   macro method_missing(call)
@@ -225,6 +233,8 @@ class Message
   def render(renderer)
     build.each do |element|
       case element
+      when TypeList
+        renderer.type_list element.value
       when Pre
         renderer.pre element.value
       when Type

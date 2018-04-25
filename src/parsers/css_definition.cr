@@ -1,6 +1,5 @@
 class Parser
   syntax_error CssDefinitionExpectedSemicolon
-  syntax_error CssDefinitionExpectedProperty
   syntax_error CssDefinitionExpectedColon
 
   def css_definition : Ast::CssDefinition | Nil
@@ -8,7 +7,7 @@ class Parser
       skip unless char.in_set? "a-z-"
 
       name = gather do
-        char "a-z-", CssDefinitionExpectedProperty
+        step
         chars "a-zA-Z-"
       end
 
@@ -17,7 +16,7 @@ class Parser
       whitespace
 
       value = many(parse_whitespace: false) do
-        css_interpolation || gather { chars "^{;" }
+        css_interpolation || gather { chars "^{;}" }
       end.compact
 
       char ';', CssDefinitionExpectedSemicolon

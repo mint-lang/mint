@@ -12,9 +12,9 @@ class TypeChecker
         end
 
       raise CssDefinitionTypeMismatch, {
-        "property" => node.name,
-        "node"     => node,
-        "got"      => type,
+        "name" => node.name,
+        "node" => node,
+        "got"  => type,
       } unless Comparer.compare(type, STRING) ||
                Comparer.compare(type, NUMBER)
     end

@@ -22,6 +22,7 @@ class SyntaxError < Exception
       "char" => char,
       "got"  => got,
       "??"   => TypeChecker::Type.new("??"),
+      "??"   => [] of TypeChecker::Type,
     }
   end
 

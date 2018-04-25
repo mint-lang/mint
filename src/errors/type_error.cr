@@ -1,7 +1,7 @@
 class TypeError < Exception
   getter locals
 
-  def initialize(@locals = {} of String => String | Ast::Node | TypeChecker::Type)
+  def initialize(@locals = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type))
   end
 
   def message

@@ -50,16 +50,10 @@ class TypeChecker
         .reject! { |item| Comparer.compare(catch_type, item) }
     end
 
-    not_catched =
-      to_catch
-        .map(&.to_s)
-        .uniq
-        .map { |item| "<code>#{item}</code>" }
-
     check node.finally.not_nil! if node.finally
 
     raise DoDidNotCatch, {
-      "remaining" => Snippet.list(not_catched),
+      "remaining" => to_catch,
       "node"      => node,
     } if to_catch.any?
 
