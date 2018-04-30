@@ -15,18 +15,18 @@ class TypeChecker
       function = entity.functions.find(&.name.value.==(node.function.value))
 
       raise ModuleCallNotFoundFunction, {
-        "function" => node.function.value,
-        "module"   => node.name,
-        "node"     => node,
+        "name"        => node.function.value,
+        "module_name" => node.name,
+        "node"        => node,
       } unless function
 
       raise ModuleCallArgumentSizeMismatch, {
-        "function" => node.function.value,
-        "module"   => node.name,
-        "node"     => node,
+        "size"      => function.arguments.size.to_s,
+        "call_size" => node.arguments.size.to_s,
+        "name"      => node.function.value,
+        "function"  => function,
+        "node"      => node,
       } if function.arguments.size != node.arguments.size
-
-      Type.new("Function")
 
       parameters = [] of Type
       call_parameters = [] of Type
@@ -36,13 +36,11 @@ class TypeChecker
         argument_type = check argument
 
         raise ModuleCallArgumentTypeMismatch, {
-          "function" => node.function.value,
-          "argument" => argument.name.value,
-          "module"   => node.name,
-          "snippet"  => function,
-          "node"     => node,
+          "index"    => ordinal(index + 1),
           "expected" => argument_type,
           "got"      => call_argument,
+          "function" => function,
+          "node"     => node,
         } unless Comparer.compare(argument_type, call_argument)
 
         call_parameters << call_argument
@@ -57,10 +55,9 @@ class TypeChecker
       result = Comparer.compare(function_type, call_type)
 
       raise ModuleCallTypeMismatch, {
-        "function" => node.function.value,
         "expected" => function_type,
-        "module"   => node.name,
         "got"      => call_type,
+        "function" => function,
         "node"     => node,
       } unless result
 

@@ -23,15 +23,13 @@ class TypeChecker
         call_type =
           Type.new("Function", arguments + [type.parameters.last])
 
-        if (type.parameters.size - 1) != node.arguments.size
-          raise FunctionCallArgumentSizeMismatch, {
-            "name"     => node.function.value,
-            "got"      => call_type,
-            "function" => function,
-            "expected" => type,
-            "node"     => node,
-          }
-        end
+        raise FunctionCallArgumentSizeMismatch, {
+          "name"     => node.function.value,
+          "got"      => call_type,
+          "function" => function,
+          "expected" => type,
+          "node"     => node,
+        } if (type.parameters.size - 1) != node.arguments.size
 
         arguments.each_with_index do |argument, index|
           original =

@@ -23,7 +23,7 @@ class TypeChecker
 
     raise ModuleAccessNotFoundFunction, {
       "name"   => node.variable.value,
-      "module" => node.name,
+      "entity" => node.name,
       "node"   => node,
     } unless item
 
