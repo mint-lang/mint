@@ -30,6 +30,8 @@ class Message
 
     def snippet(value, message = "Here is the relevant code snippet:")
       case value
+      when TypeChecker::Type
+        type_with_text value, message
       when Ast::Node
         block { text message } if message
         @elements << Snippet.new(value: value)
@@ -97,7 +99,8 @@ class Message
     def closing_bracket(expression, got)
       block do
         text "The"
-        bold "body of a #{expression}"
+        text "body of a"
+        bold expression
         text "must end with"
         bold "a closing bracket."
       end
@@ -108,7 +111,8 @@ class Message
     def opening_bracket(expression, got)
       block do
         text "The"
-        bold "body of a #{expression}"
+        text "body of a"
+        bold expression
         text "must start with"
         bold "an opening bracket."
       end

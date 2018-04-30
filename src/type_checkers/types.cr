@@ -25,10 +25,10 @@ class TypeChecker
         params =
           parameters.map(&.to_pretty.as(String))
 
-        if params =~ /\n/ && params.size > 4
+        if params.any?(&.=~(/\n/)) || params.size > 4
           "#{name}(\n#{params.join(",\n").indent})"
         else
-          "#{name}(#{params.join(",")})"
+          "#{name}(#{params.join(", ")})"
         end
       end
     end

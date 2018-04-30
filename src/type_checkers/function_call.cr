@@ -27,26 +27,36 @@ class TypeChecker
           raise FunctionCallArgumentSizeMismatch, {
             "name"     => node.function.value,
             "got"      => call_type,
+            "function" => function,
             "expected" => type,
             "node"     => node,
           }
         end
 
-        resolved =
-          Comparer.compare(type, call_type)
+        arguments.each_with_index do |argument, index|
+          original =
+            type.parameters[index]
 
-        raise FunctionCallArgumentTypeMismatch, {
-          "got"      => call_type,
-          "expected" => type,
-          "node"     => node,
-        } unless resolved
+          raise FunctionCallArgumentTypeMismatch, {
+            "index"    => ordinal(index + 1),
+            "got"      => argument,
+            "expected" => original,
+            "function" => function,
+            "node"     => node,
+          } unless Comparer.compare(argument, original)
+        end
       else
         raise FunctionCallNotAFunction, {
-          "name"   => node.function.value,
-          "entity" => function,
-          "node"   => node,
+          "name"     => node.function.value,
+          "function" => function,
+          "node"     => node,
         }
       end
+
+      resolved =
+        Comparer.compare(type, call_type)
+
+      raise TypeError unless resolved # Should not happen
 
       resolve_type(resolved.parameters.last)
     end

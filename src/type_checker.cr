@@ -237,4 +237,23 @@ class TypeChecker
   def check(node : Ast::Node) : Type
     raise "Type checking not implemented for node '#{node}' (this should not happen!)"
   end
+
+  def ordinal(number)
+    abs_number =
+      number.to_i.abs
+
+    affix =
+      if (11..13).includes?(abs_number % 100)
+        "th"
+      else
+        case abs_number % 10
+        when 1; "st"
+        when 2; "nd"
+        when 3; "rd"
+        else    "th"
+        end
+      end
+
+    "#{number}#{affix}"
+  end
 end

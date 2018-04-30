@@ -57,7 +57,11 @@ module Snippet
           .lines
           .map do |line|
           line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
-            "#{match[1]}#{match[2].colorize(:light_yellow).mode(:bright)}#{match[3]}"
+            if match[2].strip.empty?
+              "#{match[1]}#{match[2]}#{match[3]}"
+            else
+              "#{match[1]}#{match[2].colorize(:light_yellow).mode(:bright)}#{match[3]}"
+            end
           end
         end.join("\n")
       end
@@ -67,8 +71,8 @@ module Snippet
 
     gutter_width =
       [
-        start.to_s.size,
-        last.to_s.size,
+        (start + 1).to_s.size,
+        (last + 1).to_s.size,
       ].max
 
     min_width =

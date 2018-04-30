@@ -1,7 +1,7 @@
 message CaseExpectedOpeningBracket do
   title "Syntax Error"
 
-  opening_bracket "a case expression", got
+  opening_bracket "case expression", got
 
   snippet node
 end
