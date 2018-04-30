@@ -285,15 +285,15 @@ end
 MESSAGES = {} of String => Message.class
 
 macro message(name, &block)
-	class Messages
-		class {{name}} < Message
-			def build
+  class Messages
+    class {{name}} < Message
+      def build
         Builder.build do
           {{block.body}}
         end
-			end
-		end
+      end
+    end
 
     MESSAGES["{{name}}"] = {{name}}
-	end
+  end
 end
