@@ -13,14 +13,15 @@ class TypeChecker
       check node.falsy
 
     raise IfConditionTypeMismatch, {
-      "node" => node.condition,
-      "got"  => condition,
+      "node"     => node.condition,
+      "got"      => condition,
+      "expected" => BOOL,
     } unless Comparer.compare(condition, BOOL)
 
     raise IfElseTypeMismatch, {
+      "node"     => node.falsy,
       "expected" => truthy,
       "got"      => falsy,
-      "node"     => node,
     } unless Comparer.compare(truthy, falsy)
 
     truthy
