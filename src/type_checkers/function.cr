@@ -1,16 +1,31 @@
 class TypeChecker
+  type_error FunctionArgumentConflict
   type_error FunctionTypeMismatch
 
   def check(node : Ast::Function) : Type
     scope node do
+      node.arguments.each do |argument|
+        name =
+          argument.name.value
+
+        other =
+          (node.arguments - [argument]).find(&.name.value.==(name))
+
+        raise FunctionArgumentConflict, {
+          "node"  => argument,
+          "other" => other,
+          "name"  => name,
+        } if other
+      end
+
+      arguments =
+        check node.arguments
+
       body_type =
         check node.body
 
       return_type =
         check node.type
-
-      arguments =
-        check node.arguments
 
       wheres =
         check node.wheres

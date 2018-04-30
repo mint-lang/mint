@@ -9,3 +9,9 @@ module A {
     "hello"
   }
 }
+--------------------------------------------------------FunctionArgumentConflict
+module A {
+  function (a : String, a : String) : Bool {
+    "hello"
+  }
+}
