@@ -128,7 +128,7 @@ class TypeChecker
   # ----------------------------------------------------------------------------
 
   def raise(error : TypeError.class, raw = nil)
-    locals = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type)
+    locals = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type) | Array(String)
 
     case raw
     when Nil

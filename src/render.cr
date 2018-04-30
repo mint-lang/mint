@@ -24,6 +24,9 @@ module Render
     def type_list(list)
     end
 
+    def list(data)
+    end
+
     def print(content)
       io.print content
     end
@@ -184,15 +187,19 @@ module Render
       pre contents.to_pretty
     end
 
-    def type_list(list)
-      list.each do |item|
-        print ("• " + item.to_pretty.indent.lstrip)
+    def list(data)
+      data.each do |item|
+        print ("• " + item.indent.lstrip)
           .indent
           .colorize(:light_yellow)
           .mode(:bold)
 
         print "\n\n"
       end
+    end
+
+    def type_list(data)
+      list data.map(&.to_pretty)
     end
 
     def pre(contents)

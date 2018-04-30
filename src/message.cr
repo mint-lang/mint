@@ -52,6 +52,18 @@ class Message
       end
     end
 
+    def list(value, message)
+      case value
+      when Array(String)
+        if value.any?
+          block do
+            text message
+          end
+          @elements << StringList.new(value: value)
+        end
+      end
+    end
+
     def type_list(value)
       case value
       when Array(TypeChecker::Type)
@@ -122,6 +134,7 @@ class Message
   end
 
   record TypeList, value : Array(TypeChecker::Type)
+  record StringList, value : Array(String)
   record Type, value : TypeChecker::Type
   record Snippet, value : Ast::Node
   record Title, value : String
@@ -131,9 +144,9 @@ class Message
   record Pre, value : String
 
   alias Block = Array(Code | Bold | Text)
-  alias Element = Title | Snippet | Block | Type | Pre | TypeList
+  alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-  def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type))
+  def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type) | Array(String))
   end
 
   macro method_missing(call)
@@ -239,6 +252,8 @@ class Message
       case element
       when TypeList
         renderer.type_list element.value
+      when StringList
+        renderer.list element.value
       when Pre
         renderer.pre element.value
       when Type

@@ -1,7 +1,7 @@
 message FunctionExpectedName do
-	title "Syntax Error"
+  title "Syntax Error"
 
-	was_looking_for "name of a function", got
+  was_looking_for "name of a function", got
 
-	snippet node
+  snippet node
 end

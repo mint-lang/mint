@@ -23,6 +23,7 @@ class SyntaxError < Exception
       "got"  => got,
       "??"   => TypeChecker::Type.new("??"),
       "??"   => [] of TypeChecker::Type,
+      "??"   => [] of String,
     }
   end
 

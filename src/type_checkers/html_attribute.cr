@@ -27,7 +27,7 @@ class TypeChecker
 
     raise HtmlAttributeElementAttributeTypeMismatch, {
       "tag"      => element.tag.value,
-      "property" => node.name.value,
+      "name"     => node.name.value,
       "expected" => expected,
       "node"     => node,
       "got"      => got,
@@ -54,7 +54,7 @@ class TypeChecker
           .find(&.name.value.==(node.name.value))
 
       raise HtmlAttributeNotFoundComponentProperty, {
-        "properties" => Snippet.code_list(component.properties.map(&.name.value)),
+        "properties" => component.properties.map(&.name.value),
         "name"       => node.name.value,
         "component"  => component.name,
         "node"       => node,
@@ -63,7 +63,7 @@ class TypeChecker
       prop_type = check prop
 
       raise HtmlAttributeComponentPropertyTypeMismatch, {
-        "property"  => prop.name.value,
+        "name"      => prop.name.value,
         "component" => component.name,
         "expected"  => prop_type,
         "node"      => node,
