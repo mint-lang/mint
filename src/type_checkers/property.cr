@@ -12,11 +12,10 @@ class TypeChecker
       Comparer.compare type, default
 
     raise PropertyTypeMismatch, {
-      "property"  => node.name.value,
-      "component" => component.name,
-      "got"       => default,
-      "expected"  => type,
-      "node"      => node,
+      "name"     => node.name.value,
+      "got"      => default,
+      "expected" => type,
+      "node"     => node,
     } unless result
 
     result
