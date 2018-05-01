@@ -57,9 +57,12 @@ class TypeChecker
             "#{key}: #{value.to_pretty}"
           end
         end
-          .join(",\n").indent
 
-      "#{name}(\n#{defs})"
+      if defs.any?(&.=~(/\n/)) || defs.size > 4
+        "#{name}(\n#{defs.join(",\n").indent})"
+      else
+        "#{name}(#{defs.join(", ")})"
+      end
     end
 
     def to_s
