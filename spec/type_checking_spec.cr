@@ -16,11 +16,11 @@ Dir.glob("./spec/type_checking/**").each do |file|
 
   samples << {contents[position, contents.size - position], error}
 
-  samples.each do |sample|
+  samples.each_with_index do |sample, index|
     source, error = sample
     result = nil
 
-    it name do
+    it "#{name} ##{index}" do
       # Parse source
       ast = Parser.parse(source, file)
       ast.class.should eq(Ast)

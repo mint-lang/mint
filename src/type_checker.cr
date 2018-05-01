@@ -39,7 +39,7 @@ class TypeChecker
   # ----------------------------------------------------------------------------
 
   def resolve_records
-    @records.push Record.new("Unit")
+    add_record Record.new("Unit"), Ast::Record.empty
 
     ast.records.map do |record|
       add_record check(record), record
@@ -51,7 +51,9 @@ class TypeChecker
           {field.name.value, check(field.type)}
         end.to_h
 
-      add_record Record.new(store.name, fields), store
+      unless fields.empty?
+        add_record Record.new(store.name, fields), store
+      end
     end
   end
 

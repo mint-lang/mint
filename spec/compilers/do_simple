@@ -1,6 +1,3 @@
-record Unit {
-}
-
 component Do {
   fun test : Void {
     do {

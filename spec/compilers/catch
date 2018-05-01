@@ -1,6 +1,3 @@
-record Unit {
-}
-
 module Promise {
   fun reject (input : a) : Promise(a, b) {
     ``
