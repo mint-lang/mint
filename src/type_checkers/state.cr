@@ -16,10 +16,10 @@ class TypeChecker
     } unless Comparer.compare(record, type)
 
     type
-  rescue RecordNotFoundMatchingRecord
+  rescue error : RecordNotFoundMatchingRecord
     raise StateNotFoundRecord, {
-      "record" => node.type.name,
-      "node"   => node.type,
+      "record" => error.locals["structure"],
+      "node"   => node.data,
     }
   end
 end
