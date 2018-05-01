@@ -16,6 +16,17 @@ module A {
     }
   }
 }
+---------------------------------------------------------------TryCatchesNothing
+module A {
+  fun test : String {
+    try {
+      x =
+        ""
+    } catch String => error {
+      ""
+    }
+  }
+}
 ------------------------------------------------------------------TryDidNotCatch
 module Result {
   fun error (input : a) : Result(a, b) {

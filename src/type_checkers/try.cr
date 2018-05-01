@@ -1,5 +1,6 @@
 class TypeChecker
   type_error TryCatchTypeMismatch
+  type_error TryCatchesNothing
   type_error TryDidNotCatch
 
   def check(node : Ast::Try) : Type
@@ -40,6 +41,11 @@ class TypeChecker
     final_type = node.catches.reduce(types.last[1]) do |type, catch|
       catch_type = resolve_type(Type.new(catch.type))
 
+      raise TryCatchesNothing, {
+        "got"  => catch_type,
+        "node" => catch,
+      } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
+
       checked_type = scope({catch.variable.value, catch_type}) do
         return_type = check catch
         result_type = Comparer.compare(return_type, type)
@@ -59,14 +65,8 @@ class TypeChecker
       checked_type
     end
 
-    not_catched =
-      to_catch
-        .map(&.to_s)
-        .uniq
-        .map { |item| "<code>#{item}</code>" }
-
     raise TryDidNotCatch, {
-      "remaining" => Snippet.list(not_catched),
+      "remaining" => to_catch.uniq(&.to_s),
       "node"      => node,
     } if to_catch.any?
 

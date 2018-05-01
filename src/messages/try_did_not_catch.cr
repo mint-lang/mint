@@ -1,9 +1,9 @@
-message DoDidNotCatch do
+message TryDidNotCatch do
   title "Type Error"
 
   block do
     text "I am checking if all the possible errors are handled in"
-    text "a do expression."
+    text "a try expression."
   end
 
   block do
