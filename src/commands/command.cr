@@ -1,6 +1,13 @@
 class Cli < Admiral::Command
   module Command
     def execute(message)
+      Signal::INT.trap do
+        terminal.print "\n"
+        terminal.divider
+        terminal.print "Aborted! Exiting...\n"
+        exit 1
+      end
+
       terminal.header "Mint 1.0.0 - #{message}"
       terminal.divider
 
