@@ -53,8 +53,8 @@ class TypeChecker
       } unless Comparer.compare(left, NUMBER)
 
       raise OperationNumericTypeMismatch, {
-        "side"     => "right",
         "operator" => node.operator,
+        "side"     => "right",
         "value"    => right,
         "node"     => node,
       } unless Comparer.compare(right, NUMBER)
