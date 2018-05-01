@@ -42,13 +42,15 @@ class Parser
         expression! FunctionExpectedExpression
       end
 
+      end_position = position
+
       whitespace
 
       Ast::Function.new(
         arguments: arguments,
         from: start_position,
+        to: end_position,
         wheres: where,
-        to: position,
         input: data,
         name: name,
         type: type,

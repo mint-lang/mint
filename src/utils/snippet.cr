@@ -51,73 +51,7 @@ module Snippet
   end
 
   def render_terminal(node : Ast::Node, width)
-    prepared, start, last =
-      process node do |part|
-        part
-          .lines
-          .map do |line|
-          line.gsub(/^(\s*)(.*)(\s*)$/) do |all, match|
-            if match[2].strip.empty?
-              "#{match[1]}#{match[2]}#{match[3]}"
-            else
-              "#{match[1]}#{match[2].colorize(:light_yellow).mode(:bright)}#{match[3]}"
-            end
-          end
-        end.join("\n")
-      end
-
-    lines =
-      node.input.input.lines[start, last - start + 1]
-
-    gutter_width =
-      [
-        (start + 1).to_s.size,
-        (last + 1).to_s.size,
-      ].max
-
-    min_width =
-      [
-        lines.map(&.size).max + gutter_width + 5,
-        width,
-      ].max
-
-    content =
-      prepared
-        .lines[start, last - start + 1]
-        .map_with_index do |line, index|
-        line_number =
-          (start + index + 1).to_s.rjust(gutter_width)
-
-        padding =
-          " " * (min_width - gutter_width - 3 - lines[index].size - 2)
-
-        gutter =
-          if line =~ /\e\[([;\d]+)?m/
-            "│#{line_number}│".colorize(:light_yellow).mode(:bright).to_s
-          else
-            "│#{line_number}│".colorize.mode(:dim).to_s
-          end
-
-        gutter +
-          " #{line}#{padding} " +
-          "│".colorize.mode(:dim).to_s
-      end.join("\n")
-
-    divider =
-      ("─" * (min_width - node.input.file.size - gutter_width - 5)).colorize.mode(:dim)
-
-    gutter_divider =
-      "─" * gutter_width
-
-    footer =
-      ("└#{gutter_divider}┴" + ("─" * (min_width - gutter_width - 3)) + "┘").colorize.mode(:dim).to_s
-
-    header =
-      "┌#{gutter_divider}┬ ".colorize.mode(:dim).to_s +
-        node.input.file.colorize.mode(:bold).to_s +
-        " #{divider}" + "┐".colorize.mode(:dim).to_s
-
-    header + "\n#{content}\n" + footer
+    TerminalSnippet.render(node.input.input, node.input.file, node.from, node.to, width: width)
   end
 
   def render(node : Ast::Node)
