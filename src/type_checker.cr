@@ -39,6 +39,8 @@ class TypeChecker
   # ----------------------------------------------------------------------------
 
   def resolve_records
+    @records.push Record.new("Unit")
+
     ast.records.map do |record|
       add_record check(record), record
     end
