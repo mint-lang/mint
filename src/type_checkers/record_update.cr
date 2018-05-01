@@ -7,9 +7,13 @@ class TypeChecker
     target =
       check node.variable
 
+    target_node =
+      loopkup(node.variable).not_nil!
+
     raise RecordUpdateNotUpdatingRecord, {
-      "target" => target,
-      "node"   => node,
+      "target_node" => target_node,
+      "target"      => target,
+      "node"        => node,
     } unless target.is_a?(Record)
 
     fields = node.fields.each do |field|
@@ -26,9 +30,10 @@ class TypeChecker
       } unless value_type
 
       raise RecordUpdateTypeMismatch, {
-        "expected" => value_type,
-        "node"     => field,
-        "got"      => type,
+        "target_node" => target_node,
+        "expected"    => value_type,
+        "node"        => field,
+        "got"         => type,
       } unless Comparer.compare(type, value_type)
     end
 

@@ -52,7 +52,7 @@ module Render
     end
 
     def bold(content)
-      print "<b>#{escape(content)}</b>"
+      print "<b>#{escape(content + " ")}</b>"
     end
 
     def text(content)
