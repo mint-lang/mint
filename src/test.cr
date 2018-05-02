@@ -71,6 +71,8 @@ module Mint
                   sessionStorage.clear()
                   localStorage.clear()
 
+                  // TODO: Reset Stores
+
                   if (result instanceof Mint.TestContext) {
                     try {
                       await result.run()
