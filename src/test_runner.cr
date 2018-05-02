@@ -1,7 +1,7 @@
 require "./test/**"
 
 module Mint
-  class Test
+  class TestRunner
     class Message
       JSON.mapping({
         type:   String,

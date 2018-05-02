@@ -62,7 +62,7 @@ class Installer
     puts "\n❗❗ COULD NOT INSTALL PACKAGES ❗❗".colorize(:red).mode(:bold)
     puts Terminal.separator.colorize(:light_red)
     yield
-    raise CliException.new
+    raise Mint::CliException.new
   end
 
   def print_repository_error(error)

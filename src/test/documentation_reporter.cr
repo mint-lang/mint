@@ -1,5 +1,5 @@
 module Mint
-  class Test
+  class TestRunner
     class DocumentationReporter
       def succeeded(name)
         puts "✔ #{name}".colorize(:green).to_s.indent

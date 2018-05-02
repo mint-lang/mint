@@ -1,5 +1,5 @@
 module Mint
-  class Test
+  class TestRunner
     class DotReporter
       def initialize
         @count = 0

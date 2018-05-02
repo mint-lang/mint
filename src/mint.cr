@@ -1,3 +1,3 @@
 require "./all"
 
-Cli.run
+Mint::Cli.run
