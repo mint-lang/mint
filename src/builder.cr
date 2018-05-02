@@ -7,8 +7,9 @@ enum Environment
   BUILD
 end
 
-COG   = "⚙".colorize(:light_green).to_s
-ARROW = "➔".colorize(:dark_gray).to_s
+COG       = "⚙".colorize(:light_green).mode(:dim).to_s
+ARROW     = "➔".colorize(:dark_gray).to_s
+CHECKMARK = "✔".colorize(:light_green).to_s
 
 GLOBAL_STYLES =
   "body {

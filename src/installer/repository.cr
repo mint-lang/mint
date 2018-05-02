@@ -86,7 +86,7 @@ class Repository
     status, output, error = run "git fetch --tags --force"
 
     if status.success?
-      puts "  #{Terminal.cog} Updated #{id}"
+      puts "  #{CHECKMARK} Updated #{id}"
     else
       terminate "Could not update #{url}:\n#{error.indent}"
     end
@@ -96,7 +96,7 @@ class Repository
     status, output, error = run "git clone #{url} #{directory}", Dir.current
 
     if status.success?
-      puts "  #{Terminal.checkmark} Cloned #{id}"
+      puts "  #{CHECKMARK} Cloned #{id}"
     else
       terminate "Could not clone #{url}:\n#{error.indent}"
     end

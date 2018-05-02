@@ -39,14 +39,14 @@ class Installer
   def initialize
     @root_dependencies = MintJson.parse_current.dependencies
 
-    puts "Constructing dependency tree..."
+    puts "#{COG} Constructing dependency tree..."
     resolve_dependencies
 
-    puts "\nResolving dependency tree..."
+    puts "\n#{COG} Resolving dependency tree..."
     solve
     print_resolved
 
-    puts "\nCopying packages..."
+    puts "\n#{COG} Copying packages..."
     populate
   rescue error : Repository::Exception
     print_error do

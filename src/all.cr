@@ -22,6 +22,8 @@ require "./builder"
 require "./parser"
 require "./test"
 require "./ast"
+
+require "./scaffold"
 require "./cli"
 
 require "./nodes/**"

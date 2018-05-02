@@ -1,6 +1,7 @@
 class Cli < Admiral::Command
   module Command
     def execute(message)
+      # On Ctrl+C and abort and exit
       Signal::INT.trap do
         terminal.print "\n"
         terminal.divider
@@ -15,8 +16,7 @@ class Cli < Admiral::Command
         terminal.position
 
       begin
-        elapsed =
-          Time.measure { yield }
+        elapsed = Time.measure { yield }
       rescue exception : SyntaxError | TypeError
         error exception.message.to_s, position
       rescue exception : MintJson::Error
