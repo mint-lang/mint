@@ -1,10 +1,14 @@
 module Mint
   class Cli < Admiral::Command
     class Start < Admiral::Command
-      define_help description: "Starts the development environment in the current directory."
+      include Command
+
+      define_help description: "Starts the development server."
 
       def run
-        Reactor.start
+        execute "Starting development server" do
+          Reactor.start
+        end
       end
     end
   end

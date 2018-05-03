@@ -10,15 +10,6 @@ module Mint
       })
     end
 
-    class MyCustomLogger < Kemal::BaseLogHandler
-      def call(context)
-        call_next context
-      end
-
-      def write(message)
-      end
-    end
-
     PAGE = <<-HTML
       <html>
         <head>
@@ -129,12 +120,7 @@ module Mint
       terminal.print "#{COG} Starting browser...\n"
       open_page
 
-      config = Kemal.config
-      config.logger = MyCustomLogger.new
-      config.setup
-      config.server = HTTP::Server.new(config.host_binding, config.port, config.handlers)
-      config.running = true
-      config.server.try(&.listen)
+      Mint::Server.run
     end
 
     def compile_ast

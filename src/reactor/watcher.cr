@@ -7,21 +7,26 @@ class Watcher
 
   def initialize(@pattern : Array(String))
     @state = Set(Tuple(String, Time)).new
+    detect { }
+  end
+
+  def detect
+    current = Set(Tuple(String, Time)).new
+
+    Dir.glob(@pattern).each do |file|
+      current.add({file, File.stat(file).mtime})
+    end
+
+    yield @state ^ current
+
+    @state = current
   end
 
   def watch
     loop do
-      current = Set(Tuple(String, Time)).new
-
-      Dir.glob(@pattern).each do |file|
-        current.add({file, File.stat(file).mtime})
+      detect do |diff|
+        yield diff.map(&.[0]).uniq if diff.any?
       end
-
-      diff = @state ^ current
-
-      yield diff.map(&.[0]).uniq if diff.any?
-
-      @state = current
 
       sleep 0.5
     end

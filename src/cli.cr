@@ -7,6 +7,8 @@ module Mint
   end
 
   class Cli < Admiral::Command
+    include Command
+
     define_help description: "Mint"
 
     register_sub_command install, type: Install
@@ -17,7 +19,9 @@ module Mint
     register_sub_command loc, type: Loc
 
     def run
-      puts help
+      execute "Help" do
+        puts help
+      end
     end
   end
 end
