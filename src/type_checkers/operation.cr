@@ -67,7 +67,7 @@ class TypeChecker
 
       NUMBER
     else
-      raise TypeError, {} of String => String # Can never happen
+      raise Mint::TypeError # Can never happen
     end
   end
 end

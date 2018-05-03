@@ -8,10 +8,10 @@ describe "Html Attribute" do
   expect_ignore "0"
   expect_ignore "??"
 
-  expect_error "name", Parser::HtmlAttributeExpectedEqualSign
-  expect_error "name=", Parser::HtmlAttributeExpectedOpeningBracket
-  expect_error "name={", Parser::HtmlAttributeExpectedExpression
-  expect_error "name={a", Parser::HtmlAttributeExpectedClosingBracket
+  expect_error "name", Mint::Parser::HtmlAttributeExpectedEqualSign
+  expect_error "name=", Mint::Parser::HtmlAttributeExpectedOpeningBracket
+  expect_error "name={", Mint::Parser::HtmlAttributeExpectedExpression
+  expect_error "name={a", Mint::Parser::HtmlAttributeExpectedClosingBracket
 
   expect_ok %(test="asd")
   expect_ok %(test={a})

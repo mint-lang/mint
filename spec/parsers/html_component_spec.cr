@@ -3,11 +3,11 @@ require "../spec_helper"
 describe "Html Component" do
   subject html_component
 
-  expect_error "<T.", Parser::HtmlComponentExpectedType
-  expect_error "<T>", Parser::HtmlComponentExpectedClosingTag
-  expect_error "<T", Parser::HtmlComponentExpectedClosingBracket
-  expect_error "<T a-s={a}>", Parser::HtmlAttributeExpectedEqualSign
-  expect_error "<T a={a}b={b}>", Parser::HtmlComponentExpectedClosingTag
+  expect_error "<T.", Mint::Parser::HtmlComponentExpectedType
+  expect_error "<T>", Mint::Parser::HtmlComponentExpectedClosingTag
+  expect_error "<T", Mint::Parser::HtmlComponentExpectedClosingBracket
+  expect_error "<T a-s={a}>", Mint::Parser::HtmlAttributeExpectedEqualSign
+  expect_error "<T a={a}b={b}>", Mint::Parser::HtmlComponentExpectedClosingTag
 
   expect_ok "<T/>"
   expect_ok "<T.T/>"

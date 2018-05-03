@@ -7,13 +7,13 @@ describe "Record Definition" do
   expect_ignore "asd"
   expect_ignore "::"
 
-  expect_error "record", Parser::RecordDefinitionExpectedName
-  expect_error "record ", Parser::RecordDefinitionExpectedName
-  expect_error "record T.T", Parser::RecordDefinitionExpectedOpeningBracket
-  expect_error "record T.T ", Parser::RecordDefinitionExpectedOpeningBracket
-  expect_error "record T.T {", Parser::RecordDefinitionExpectedClosingBracket
-  expect_error "record T.T { ", Parser::RecordDefinitionExpectedClosingBracket
-  expect_error "record T.T { a: T", Parser::RecordDefinitionExpectedClosingBracket
+  expect_error "record", Mint::Parser::RecordDefinitionExpectedName
+  expect_error "record ", Mint::Parser::RecordDefinitionExpectedName
+  expect_error "record T.T", Mint::Parser::RecordDefinitionExpectedOpeningBracket
+  expect_error "record T.T ", Mint::Parser::RecordDefinitionExpectedOpeningBracket
+  expect_error "record T.T {", Mint::Parser::RecordDefinitionExpectedClosingBracket
+  expect_error "record T.T { ", Mint::Parser::RecordDefinitionExpectedClosingBracket
+  expect_error "record T.T { a: T", Mint::Parser::RecordDefinitionExpectedClosingBracket
 
   expect_ok "record T.T { a: T } "
   expect_ok "record T.T { } "

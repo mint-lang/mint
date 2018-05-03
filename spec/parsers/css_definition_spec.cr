@@ -7,11 +7,11 @@ describe "Css Definition" do
   expect_ignore "A"
   expect_ignore ":"
 
-  expect_error "a", Parser::CssDefinitionExpectedColon
-  expect_error "a:", Parser::CssDefinitionExpectedSemicolon
-  expect_error "a: b", Parser::CssDefinitionExpectedSemicolon
-  expect_error "a: {", Parser::CssInterpolationExpectedExpression
-  expect_error "a: {a", Parser::CssInterpolationExpectedClosingBracket
+  expect_error "a", Mint::Parser::CssDefinitionExpectedColon
+  expect_error "a:", Mint::Parser::CssDefinitionExpectedSemicolon
+  expect_error "a: b", Mint::Parser::CssDefinitionExpectedSemicolon
+  expect_error "a: {", Mint::Parser::CssInterpolationExpectedExpression
+  expect_error "a: {a", Mint::Parser::CssInterpolationExpectedClosingBracket
 
   expect_ok "a: {a};"
   expect_ok "a: x {a} v;"

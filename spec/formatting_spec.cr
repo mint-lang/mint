@@ -6,7 +6,7 @@ Dir.glob("./spec/formatters/**/*").each do |file|
     sample, expected = File.read(file).split("-"*80)
 
     # Parse sample
-    ast = Parser.parse(sample, file)
+    ast = Mint::Parser.parse(sample, file)
     ast.class.should eq(Ast)
 
     # Type check
@@ -18,7 +18,7 @@ Dir.glob("./spec/formatters/**/*").each do |file|
     result.should eq(expected.lstrip)
 
     # Parse the result, format again and compare
-    ast = Parser.parse(result, file)
+    ast = Mint::Parser.parse(result, file)
     ast.class.should eq(Ast)
 
     result = Formatter.new(ast).format

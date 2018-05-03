@@ -7,15 +7,15 @@ describe "Case Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "case", Parser::CaseExpectedOpeningParentheses
-  expect_error "case ", Parser::CaseExpectedOpeningParentheses
-  expect_error "case (", Parser::CaseExpectedCondition
-  expect_error "case (a", Parser::CaseExpectedClosingParentheses
-  expect_error "case (a)", Parser::CaseExpectedOpeningBracket
-  expect_error "case (a) ", Parser::CaseExpectedOpeningBracket
-  expect_error "case (a) {", Parser::CaseExpectedBranches
-  expect_error "case (a) { ", Parser::CaseExpectedBranches
-  expect_error "case (a) { a => b", Parser::CaseExpectedClosingBracket
+  expect_error "case", Mint::Parser::CaseExpectedOpeningParentheses
+  expect_error "case ", Mint::Parser::CaseExpectedOpeningParentheses
+  expect_error "case (", Mint::Parser::CaseExpectedCondition
+  expect_error "case (a", Mint::Parser::CaseExpectedClosingParentheses
+  expect_error "case (a)", Mint::Parser::CaseExpectedOpeningBracket
+  expect_error "case (a) ", Mint::Parser::CaseExpectedOpeningBracket
+  expect_error "case (a) {", Mint::Parser::CaseExpectedBranches
+  expect_error "case (a) { ", Mint::Parser::CaseExpectedBranches
+  expect_error "case (a) { a => b", Mint::Parser::CaseExpectedClosingBracket
 
   expect_ok "case (a) { a => b }"
   expect_ok "case (a) { a => b b => a }"

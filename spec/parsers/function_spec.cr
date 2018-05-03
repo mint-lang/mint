@@ -7,16 +7,16 @@ describe "Function Definition" do
   expect_ignore "a"
   expect_ignore "fu"
 
-  expect_error "fun", Parser::FunctionExpectedName
-  expect_error "fun ", Parser::FunctionExpectedName
-  expect_error "fun a", Parser::FunctionExpectedColon
-  expect_error "fun a ", Parser::FunctionExpectedColon
-  expect_error "fun a (", Parser::FunctionExpectedClosingParentheses
-  expect_error "fun a ( ", Parser::FunctionExpectedClosingParentheses
-  expect_error "fun a ()", Parser::FunctionExpectedColon
-  expect_error "fun a () ", Parser::FunctionExpectedColon
-  expect_error "fun a () :", Parser::FunctionExpectedTypeOrVariable
-  expect_error "fun a () : ", Parser::FunctionExpectedTypeOrVariable
+  expect_error "fun", Mint::Parser::FunctionExpectedName
+  expect_error "fun ", Mint::Parser::FunctionExpectedName
+  expect_error "fun a", Mint::Parser::FunctionExpectedColon
+  expect_error "fun a ", Mint::Parser::FunctionExpectedColon
+  expect_error "fun a (", Mint::Parser::FunctionExpectedClosingParentheses
+  expect_error "fun a ( ", Mint::Parser::FunctionExpectedClosingParentheses
+  expect_error "fun a ()", Mint::Parser::FunctionExpectedColon
+  expect_error "fun a () ", Mint::Parser::FunctionExpectedColon
+  expect_error "fun a () :", Mint::Parser::FunctionExpectedTypeOrVariable
+  expect_error "fun a () : ", Mint::Parser::FunctionExpectedTypeOrVariable
 
   expect_ok "fun a : T { true } "
   expect_ok "fun a : x { true } "

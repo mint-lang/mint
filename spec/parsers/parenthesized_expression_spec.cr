@@ -7,8 +7,8 @@ describe "Parenthesized Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "(", Parser::ParenthesizedExpressionExpectedExpression
-  expect_error "(a", Parser::ParenthesizedExpressionExpectedClosingParentheses
+  expect_error "(", Mint::Parser::ParenthesizedExpressionExpectedExpression
+  expect_error "(a", Mint::Parser::ParenthesizedExpressionExpectedClosingParentheses
 
   expect_ok "(a)"
   expect_ok "( a )"

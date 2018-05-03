@@ -1,5 +1,5 @@
 message UseExpectedOpeningBracket do
-   title "Syntax Error"
+  title "Syntax Error"
 
   block do
     text "The"

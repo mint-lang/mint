@@ -73,14 +73,8 @@ module Mint
       # Compile.
       @script = Compiler.compile type_checker.artifacts, {beautify: false}
       @error = nil
-    rescue exception : SyntaxError
+    rescue exception : Error
       @error = exception.to_html
-      @script = ""
-    rescue exception : TypeError
-      @error = exception.to_html
-      @script = ""
-    rescue exception : MintJson::Error
-      @error = exception.message
       @script = ""
     end
 

@@ -3,8 +3,8 @@ require "../spec_helper"
 describe "Operation" do
   it "parses simple operation" do
     operation =
-      Parser.new("a == b", "TestFile.mint")
-        .expression!(SyntaxError)
+      Mint::Parser.new("a == b", "TestFile.mint")
+        .expression!(Mint::SyntaxError)
         .as(Ast::Operation)
 
     operation.operator.should eq "=="
@@ -14,8 +14,8 @@ describe "Operation" do
 
   it "honors precedence" do
     operation =
-      Parser.new("a == b * c", "TestFile.mint")
-        .expression!(SyntaxError)
+      Mint::Parser.new("a == b * c", "TestFile.mint")
+        .expression!(Mint::SyntaxError)
         .as(Ast::Operation)
 
     operation.operator.should eq "=="
@@ -25,8 +25,8 @@ describe "Operation" do
 
   it "honors precedence 2" do
     operation =
-      Parser.new("a * b == c", "TestFile.mint")
-        .expression!(SyntaxError)
+      Mint::Parser.new("a * b == c", "TestFile.mint")
+        .expression!(Mint::SyntaxError)
         .as(Ast::Operation)
 
     operation.operator.should eq "=="

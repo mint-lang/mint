@@ -6,7 +6,7 @@ describe "Access" do
   expect_ignore "."
   expect_ignore "asd"
 
-  expect_error "asd.", Parser::AccessExpectedVariable
+  expect_error "asd.", Mint::Parser::AccessExpectedVariable
 
   expect_ok "asd.asd"
 end

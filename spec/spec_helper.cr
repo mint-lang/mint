@@ -3,13 +3,7 @@ require "myhtml"
 
 ERROR_MESSAGES = [] of String
 
-class TypeError < Exception
-  macro inherited
-    ERROR_MESSAGES << {{@type.name.stringify.split("::").last.underscore}}
-  end
-end
-
-class SyntaxError < Exception
+class Mint::Error < Exception
   macro inherited
     ERROR_MESSAGES << {{@type.name.stringify.split("::").last.underscore}}
   end
@@ -19,7 +13,7 @@ require "../src/all"
 
 macro subject(method)
   subject = ->(sample : String) {
-    Parser.new(sample, "TestFile.mint").{{method}}
+    Mint::Parser.new(sample, "TestFile.mint").{{method}}
   }
 end
 

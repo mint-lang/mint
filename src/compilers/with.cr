@@ -3,8 +3,6 @@ class Compiler
     entity =
       ast.modules.find(&.name.==(node.name))
 
-    raise TypeError.new unless entity
-
     compile node.body
   end
 end

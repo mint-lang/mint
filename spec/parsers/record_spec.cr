@@ -7,10 +7,10 @@ describe "Record" do
   expect_ignore "-lsa"
   expect_ignore "asd"
 
-  expect_error "{", Parser::RecordExpectedClosingBracket
-  expect_error "{ ", Parser::RecordExpectedClosingBracket
-  expect_error "{ a = a", Parser::RecordExpectedClosingBracket
-  expect_error "{ a = a ", Parser::RecordExpectedClosingBracket
+  expect_error "{", Mint::Parser::RecordExpectedClosingBracket
+  expect_error "{ ", Mint::Parser::RecordExpectedClosingBracket
+  expect_error "{ a = a", Mint::Parser::RecordExpectedClosingBracket
+  expect_error "{ a = a ", Mint::Parser::RecordExpectedClosingBracket
 
   expect_ok "{}"
   expect_ok "{ }"

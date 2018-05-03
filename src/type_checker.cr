@@ -131,7 +131,7 @@ class TypeChecker
   # Raising type errors
   # ----------------------------------------------------------------------------
 
-  def raise(error : TypeError.class, raw = nil)
+  def raise(error : Mint::TypeError.class, raw = nil)
     locals = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type) | Array(String)
 
     case raw
@@ -194,7 +194,7 @@ class TypeChecker
   end
 
   def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property),
-                  error : TypeError.class,
+                  error : Mint::TypeError.class,
                   resolved = {} of String => Ast::Node) : Nil
     nodes.reduce(resolved) do |memo, node|
       name =

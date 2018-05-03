@@ -7,8 +7,8 @@ describe "String Literal" do
   expect_ignore "a"
   expect_ignore "blahblahblah"
 
-  expect_error %("asd), Parser::StringExpectedEndQuote
-  expect_error %("asd" \\), Parser::StringExpectedOtherString
+  expect_error %("asd), Mint::Parser::StringExpectedEndQuote
+  expect_error %("asd" \\), Mint::Parser::StringExpectedOtherString
 
   expect_ok %("OK")
   expect_ok %("\"OK")

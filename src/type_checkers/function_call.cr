@@ -54,7 +54,7 @@ class TypeChecker
       resolved =
         Comparer.compare(type, call_type)
 
-      raise TypeError unless resolved # Should not happen
+      raise Mint::TypeError unless resolved # Should not happen
 
       resolve_type(resolved.parameters.last)
     end

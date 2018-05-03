@@ -7,24 +7,24 @@ describe "If Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "if", Parser::IfExpectedOpeningParentheses
-  expect_error "if ", Parser::IfExpectedOpeningParentheses
-  expect_error "if (", Parser::IfExpectedCondition
-  expect_error "if (a", Parser::IfExpectedClosingParentheses
-  expect_error "if (a)", Parser::IfExpectedTruthyOpeningBracket
-  expect_error "if (a) ", Parser::IfExpectedTruthyOpeningBracket
-  expect_error "if (a) {", Parser::IfExpectedTruthyExpression
-  expect_error "if (a) { ", Parser::IfExpectedTruthyExpression
-  expect_error "if (a) { a", Parser::IfExpectedTruthyClosingBracket
-  expect_error "if (a) { a ", Parser::IfExpectedTruthyClosingBracket
-  expect_error "if (a) { a }", Parser::IfExpectedElse
-  expect_error "if (a) { a } ", Parser::IfExpectedElse
-  expect_error "if (a) { a } else", Parser::IfExpectedFalsyOpeningBracket
-  expect_error "if (a) { a } else ", Parser::IfExpectedFalsyOpeningBracket
-  expect_error "if (a) { a } else {", Parser::IfExpectedFalsyExpression
-  expect_error "if (a) { a } else { ", Parser::IfExpectedFalsyExpression
-  expect_error "if (a) { a } else { a", Parser::IfExpectedFalsyClosingBracket
-  expect_error "if (a) { a } else { a ", Parser::IfExpectedFalsyClosingBracket
+  expect_error "if", Mint::Parser::IfExpectedOpeningParentheses
+  expect_error "if ", Mint::Parser::IfExpectedOpeningParentheses
+  expect_error "if (", Mint::Parser::IfExpectedCondition
+  expect_error "if (a", Mint::Parser::IfExpectedClosingParentheses
+  expect_error "if (a)", Mint::Parser::IfExpectedTruthyOpeningBracket
+  expect_error "if (a) ", Mint::Parser::IfExpectedTruthyOpeningBracket
+  expect_error "if (a) {", Mint::Parser::IfExpectedTruthyExpression
+  expect_error "if (a) { ", Mint::Parser::IfExpectedTruthyExpression
+  expect_error "if (a) { a", Mint::Parser::IfExpectedTruthyClosingBracket
+  expect_error "if (a) { a ", Mint::Parser::IfExpectedTruthyClosingBracket
+  expect_error "if (a) { a }", Mint::Parser::IfExpectedElse
+  expect_error "if (a) { a } ", Mint::Parser::IfExpectedElse
+  expect_error "if (a) { a } else", Mint::Parser::IfExpectedFalsyOpeningBracket
+  expect_error "if (a) { a } else ", Mint::Parser::IfExpectedFalsyOpeningBracket
+  expect_error "if (a) { a } else {", Mint::Parser::IfExpectedFalsyExpression
+  expect_error "if (a) { a } else { ", Mint::Parser::IfExpectedFalsyExpression
+  expect_error "if (a) { a } else { a", Mint::Parser::IfExpectedFalsyClosingBracket
+  expect_error "if (a) { a } else { a ", Mint::Parser::IfExpectedFalsyClosingBracket
 
   expect_ok "if (a) { b } else { c }"
 end

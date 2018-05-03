@@ -3,8 +3,8 @@ require "./spec_helper"
 macro expect_compare(a, b, result)
   it "Compares" + {{a}} + {{b}} + {{"#{result}"}}  do
     tc = TypeChecker.new(Ast.new)
-    a = Parser.new({{a}}, "a").type_or_type_variable
-    b = Parser.new({{b}}, "b").type_or_type_variable
+    a = Mint::Parser.new({{a}}, "a").type_or_type_variable
+    b = Mint::Parser.new({{b}}, "b").type_or_type_variable
 
     if a && b
       result = TypeChecker::Comparer.compare(tc.check(a),tc.check(b))

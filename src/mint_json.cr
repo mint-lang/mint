@@ -1,14 +1,15 @@
 require "json"
 
 class MintJson
-  class Error < Exception
-    def message
+  class Error < Mint::Error
+    def to_terminal
       self.class.to_s
     end
   end
 
   class FileError < Error
     def initialize(@reason : Errno)
+      super Error::Locals.new
     end
 
     def message

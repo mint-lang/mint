@@ -8,9 +8,9 @@ describe "Module Call" do
   expect_ignore "Test"
   expect_ignore "asd"
 
-  expect_error "T.", Parser::ModuleCallExpectedFunction
-  expect_error "T.?", Parser::ModuleCallExpectedFunction
-  expect_error "T.something(", Parser::ModuleCallExpectedClosingParentheses
+  expect_error "T.", Mint::Parser::ModuleCallExpectedFunction
+  expect_error "T.?", Mint::Parser::ModuleCallExpectedFunction
+  expect_error "T.something(", Mint::Parser::ModuleCallExpectedClosingParentheses
 
   expect_ok "Test.blah()"
   expect_ok "Ui.Test.blah()"

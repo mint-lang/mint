@@ -8,8 +8,8 @@ describe "Function Call" do
   expect_ignore "blah."
   expect_ignore "Module"
 
-  expect_error "asd(", Parser::FunctionCallExpectedClosingParentheses
-  expect_error "asd(asd,xxx", Parser::FunctionCallExpectedClosingParentheses
+  expect_error "asd(", Mint::Parser::FunctionCallExpectedClosingParentheses
+  expect_error "asd(asd,xxx", Mint::Parser::FunctionCallExpectedClosingParentheses
 
   expect_ok "asdf(test, true)"
   expect_ok "asdf( test,true )"

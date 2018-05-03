@@ -8,13 +8,13 @@ describe "With" do
   expect_ignore "a"
   expect_ignore "asdasd"
 
-  expect_error "with", Parser::WithExpectedModule
-  expect_error "with A", Parser::WithExpectedOpeningBracket
-  expect_error "with A ", Parser::WithExpectedOpeningBracket
-  expect_error "with A {", Parser::WithExpectedExpression
-  expect_error "with A { ", Parser::WithExpectedExpression
-  expect_error "with A { void", Parser::WithExpectedClosingBracket
-  expect_error "with A { void ", Parser::WithExpectedClosingBracket
+  expect_error "with", Mint::Parser::WithExpectedModule
+  expect_error "with A", Mint::Parser::WithExpectedOpeningBracket
+  expect_error "with A ", Mint::Parser::WithExpectedOpeningBracket
+  expect_error "with A {", Mint::Parser::WithExpectedExpression
+  expect_error "with A { ", Mint::Parser::WithExpectedExpression
+  expect_error "with A { void", Mint::Parser::WithExpectedClosingBracket
+  expect_error "with A { void ", Mint::Parser::WithExpectedClosingBracket
 
   expect_ok "withA{void}"
   expect_ok "with A { void }"

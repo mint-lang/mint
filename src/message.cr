@@ -150,7 +150,7 @@ class Message
   end
 
   macro method_missing(call)
-    @data[{{call.name.id.stringify}}]?
+    @data[{{call.name.id.stringify}}]
   end
 
   def to_html

@@ -6,7 +6,7 @@ Dir.glob("./spec/compilers/**/*").each do |file|
     sample, expected = File.read(file).split("-"*80)
 
     # Parse the sample
-    ast = Parser.parse(sample, file)
+    ast = Mint::Parser.parse(sample, file)
     ast.class.should eq(Ast)
 
     # Compare results

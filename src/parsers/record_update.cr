@@ -1,3 +1,4 @@
+module Mint
 class Parser
   syntax_error RecordUpdateExpectedClosingBracket
   syntax_error RecordUpdateExpectedFields
@@ -36,4 +37,6 @@ class Parser
         input: data)
     end
   end
+end
+
 end

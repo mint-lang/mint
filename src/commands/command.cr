@@ -22,19 +22,9 @@ module Mint
         begin
           # Measure elapsed time of a command
           elapsed = Time.measure { yield }
-        rescue exception : SyntaxError | TypeError
+        rescue exception : Error
           # In case of an error print it
-          error exception.message.to_s, position
-        rescue exception : MintJson::Error
-          message =
-            Render::Terminal.render do
-              title "MINT.JSON ERROR"
-              block do
-                text exception.message.to_s
-              end
-            end
-
-          error message, position
+          error exception.to_terminal, position
         rescue CliException
           error nil, position
         end

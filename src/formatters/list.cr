@@ -1,5 +1,5 @@
 class Formatter
-	# Formats a list of nodes while preserving
+  # Formats a list of nodes while preserving
   # whitespace between them
   def list(nodes : Array(Ast::Node)) : String
     last_formatted = ""
