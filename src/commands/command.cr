@@ -26,31 +26,41 @@ module Mint
           # In case of an error print it
           error exception.to_terminal, position
         rescue CliException
+          # In case of a CLI expection just exit
           error nil, position
         end
 
+        # Format the elapsed time into a uman readable format
         formatted =
           TimeFormat.auto(elapsed).colorize.mode(:bold)
 
+        # Print all done mssage
         terminal.divider
         terminal.print "All done in #{formatted}!\n"
       end
 
+      # Handles an error
       def error(message, position)
+        # Check if the command printed anything (last position of the IO is not
+        # the current one)
         printed =
           terminal.position != position
 
+        # If printed we need to print a divider
         if printed
           terminal.print "\n"
           terminal.divider
         end
 
+        # If we have a message we need to print it and a divider
         if message
           terminal.print "\n#{message}"
           terminal.divider
         end
 
         terminal.print "There was an error exiting...\n".colorize.mode(:bold)
+
+        # Exit with one to trigger faliures in CI environments
         exit 1
       end
 

@@ -6,7 +6,7 @@ module Mint
       define_help description: "Starts the development server."
 
       def run
-        execute "Starting development server" do
+        execute "Running the development server" do
           Reactor.start
         end
       end

@@ -10,7 +10,7 @@ module Mint
         required: true
 
       def run
-        execute "Initializing new project" do
+        execute "Initializing a new project" do
           Scaffold.run(arguments.name)
         end
       end
