@@ -13,11 +13,15 @@ module Mint
           .map { |argument| "'#{argument.name.value}'" }
           .join(", ")
 
-      "{
-       handler: ((#{arguments}) => { #{expression} }),
-       mapping: [#{mapping}],
-       path: `#{node.url}`
-     }"
+      <<-RESULT
+      {
+        handler: ((#{arguments}) => {
+          #{expression}
+        }),
+        mapping: [#{mapping}],
+        path: `#{node.url}`
+      }
+      RESULT
     end
   end
 end

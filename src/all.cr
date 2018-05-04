@@ -20,7 +20,10 @@ require "./logger"
 require "./utils/**"
 require "./type_checker"
 require "./formatter"
+
+require "./compilers/**"
 require "./compiler"
+
 require "./installer"
 require "./reactor"
 require "./builder"

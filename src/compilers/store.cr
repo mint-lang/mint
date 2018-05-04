@@ -28,8 +28,12 @@ module Mint
       name =
         underscorize node.name
 
-      "const $#{name} = new (class extends Store {\n#{body}\n})\n" \
-      "$#{name}.__displayName = `#{node.name}`"
+      <<-RESULT
+      const $#{name} = new (class extends Store {
+        #{body}
+      })
+      $#{name}.__displayName = `#{node.name}`
+      RESULT
     end
   end
 end

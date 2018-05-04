@@ -1,5 +1,3 @@
-require "./compilers/**"
-
 module Mint
   class Compiler
     delegate dynamic_styles, styles, ast, types, variables, html_elements, medias,

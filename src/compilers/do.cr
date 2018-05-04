@@ -11,6 +11,7 @@ module Mint
         expression =
           compile statement.expression
 
+        # Get the time of the statment
         type = types[statement]?
 
         catches =
@@ -27,26 +28,31 @@ module Mint
 
         if catches && type
           if type.name == "Promise"
-            "#{prefix} await (async ()=> {
-            try {
-              return await #{expression}
-            } catch(_error) {
+            <<-RESULT
+            #{prefix} await (async ()=> {
+              try {
+                return await #{expression}
+              } catch(_error) {
+                #{catches}
+
+                throw new DoError
+              }
+            })()
+            RESULT
+          else
+            <<-RESULT
+            let _#{index} = #{expression}
+
+            if (_#{index} instanceof Err) {
+              let _error = _#{index}.value
+
               #{catches}
 
               throw new DoError
-            }})()"
-          else
-            "let _#{index} = #{expression}
+            }
 
-          if (_#{index} instanceof Err) {
-            let _error = _#{index}.value
-            #{catches}
-
-            throw new DoError
-          }
-
-          #{prefix} _#{index}.value
-          "
+            #{prefix} _#{index}.value
+            RESULT
           end
         else
           "#{prefix} await #{expression}"
@@ -58,8 +64,11 @@ module Mint
           compile node.finally.not_nil!
         end
 
-      "(async () => {
-        try { #{body} }
+      <<-RESULT
+      (async () => {
+        try {
+          #{body}
+        }
         catch(_error) {
           if (_error instanceof DoError) {
           } else {
@@ -67,7 +76,8 @@ module Mint
             console.log(_error)
           }
         } #{finally}
-      })()"
+      })()
+      RESULT
     end
   end
 end

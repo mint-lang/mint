@@ -9,10 +9,14 @@ module Mint
 
     alias Options = NamedTuple(beautify: Bool)
 
+    # Compiles the application with the runtime and the rendering of the $Main
+    # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
-      compiler = new(artifacts)
+      compiler =
+        new(artifacts)
 
-      result = compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
+      result =
+        compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
 
       if options[:beautify]
         RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
@@ -21,6 +25,7 @@ module Mint
       end
     end
 
+    # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler = new(artifacts)
 
@@ -31,13 +36,21 @@ module Mint
       end
     end
 
+    # Compiles the application with the runtime and the tests
     def self.compile_with_tests(artifacts : TypeChecker::Artifacts) : String
-      compiler = new(artifacts)
-      base = compiler.compile
-      tests = compiler.compile_tests
+      compiler =
+        new(artifacts)
+
+      base =
+        compiler.compile
+
+      tests =
+        compiler.compile_tests
+
       compiler.wrap_runtime(base + "\n\n" + tests)
     end
 
+    # Compiles the tests
     def compile_tests
       suites =
         compile ast.suites, ","
@@ -45,6 +58,7 @@ module Mint
       "SUITES = [#{suites}]"
     end
 
+    # Compiles the application
     def compile : String
       providers =
         compile ast.providers
@@ -106,35 +120,36 @@ module Mint
         .join("\n\n")
     end
 
+    # Wraps the application with the runtime
     def wrap_runtime(body)
       <<-RESULT
-    (() => {
-      const _normalizeEvent = Mint.normalizeEvent;
-      const _createElement = Mint.createElement;
-      const _createPortal = Mint.createPortal;
-      const _insertStyles = Mint.insertStyles;
-      const _navigate = Mint.navigate;
-      const _compare = Mint.compare;
-      const _program = Mint.program;
-      const _update = Mint.update;
+      (() => {
+        const _normalizeEvent = Mint.normalizeEvent;
+        const _createElement = Mint.createElement;
+        const _createPortal = Mint.createPortal;
+        const _insertStyles = Mint.insertStyles;
+        const _navigate = Mint.navigate;
+        const _compare = Mint.compare;
+        const _program = Mint.program;
+        const _update = Mint.update;
 
-      const TestContext = Mint.TestContext;
-      const Component = Mint.Component;
-      const ReactDOM = Mint.ReactDOM;
-      const Provider = Mint.Provider;
-      const Nothing = Mint.Nothing;
-      const DateFNS = Mint.DateFNS;
-      const Record = Mint.Record;
-      const Store = Mint.Store;
-      const Just = Mint.Just;
-      const Err = Mint.Err;
-      const Ok = Mint.Ok;
+        const TestContext = Mint.TestContext;
+        const Component = Mint.Component;
+        const ReactDOM = Mint.ReactDOM;
+        const Provider = Mint.Provider;
+        const Nothing = Mint.Nothing;
+        const DateFNS = Mint.DateFNS;
+        const Record = Mint.Record;
+        const Store = Mint.Store;
+        const Just = Mint.Just;
+        const Err = Mint.Err;
+        const Ok = Mint.Ok;
 
-      class DoError extends Error {}
+        class DoError extends Error {}
 
-      #{body}
-    })()
-    RESULT
+        #{body}
+      })()
+      RESULT
     end
   end
 end
