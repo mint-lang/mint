@@ -4,6 +4,7 @@ require "html"
 require "baked_file_system"
 require "time_format"
 require "tree_template"
+require "duktape/runtime"
 require "kemal"
 
 require "./errors/**"

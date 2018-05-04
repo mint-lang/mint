@@ -1,32 +1,33 @@
-class Compiler
-  def compile(node : Ast::Do) : String
-    body = node.statements.map_with_index do |statement, index|
-      prefix =
-        case
-        when name = statement.name
-          "let #{name.value} ="
-        end
-
-      expression =
-        compile statement.expression
-
-      type = types[statement]?
-
-      catches =
-        case type
-        when TypeChecker::Type
-          if (type.name == "Promise" || type.name == "Result") && type.parameters[0]
-            node
-              .catches
-              .select { |item| item.type == type.parameters[0].name }
-              .map { |item| compile(item).as(String) }
-              .join("\n")
+module Mint
+  class Compiler
+    def compile(node : Ast::Do) : String
+      body = node.statements.map_with_index do |statement, index|
+        prefix =
+          case
+          when name = statement.name
+            "let #{name.value} ="
           end
-        end
 
-      if catches && type
-        if type.name == "Promise"
-          "#{prefix} await (async ()=> {
+        expression =
+          compile statement.expression
+
+        type = types[statement]?
+
+        catches =
+          case type
+          when TypeChecker::Type
+            if (type.name == "Promise" || type.name == "Result") && type.parameters[0]
+              node
+                .catches
+                .select { |item| item.type == type.parameters[0].name }
+                .map { |item| compile(item).as(String) }
+                .join("\n")
+            end
+          end
+
+        if catches && type
+          if type.name == "Promise"
+            "#{prefix} await (async ()=> {
             try {
               return await #{expression}
             } catch(_error) {
@@ -34,8 +35,8 @@ class Compiler
 
               throw new DoError
             }})()"
-        else
-          "let _#{index} = #{expression}
+          else
+            "let _#{index} = #{expression}
 
           if (_#{index} instanceof Err) {
             let _error = _#{index}.value
@@ -46,18 +47,18 @@ class Compiler
 
           #{prefix} _#{index}.value
           "
+          end
+        else
+          "#{prefix} await #{expression}"
         end
-      else
-        "#{prefix} await #{expression}"
-      end
-    end.join("\n\n")
+      end.join("\n\n")
 
-    finally =
-      if node.finally
-        compile node.finally.not_nil!
-      end
+      finally =
+        if node.finally
+          compile node.finally.not_nil!
+        end
 
-    "(async () => {
+      "(async () => {
         try { #{body} }
         catch(_error) {
           if (_error instanceof DoError) {
@@ -67,5 +68,6 @@ class Compiler
           }
         } #{finally}
       })()"
+    end
   end
 end

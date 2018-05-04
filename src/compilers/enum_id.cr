@@ -1,11 +1,13 @@
-class Compiler
-  def compile(node : Ast::EnumId)
-    prefix =
-      underscorize node.name
+module Mint
+  class Compiler
+    def compile(node : Ast::EnumId)
+      prefix =
+        underscorize node.name
 
-    name =
-      underscorize node.option
+      name =
+        underscorize node.option
 
-    "$#{prefix}_#{name}"
+      "$#{prefix}_#{name}"
+    end
   end
 end

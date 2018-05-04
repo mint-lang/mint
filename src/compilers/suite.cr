@@ -1,32 +1,33 @@
-class Compiler
-  def compile(node : Ast::Suite)
-    name =
-      compile node.name
+module Mint
+  class Compiler
+    def compile(node : Ast::Suite)
+      name =
+        compile node.name
 
-    tests =
-      compile node.tests, ","
+      tests =
+        compile node.tests, ","
 
-    "{ name: #{name}, tests: [#{tests}] }"
-  end
+      "{ name: #{name}, tests: [#{tests}] }"
+    end
 
-  def compile(node : Ast::Test)
-    rawExpression =
-      node.expression
+    def compile(node : Ast::Test)
+      rawExpression =
+        node.expression
 
-    name =
-      compile node.name
+      name =
+        compile node.name
 
-    expression =
-      case rawExpression
-      when Ast::Operation
-        if rawExpression.operator == "=="
-          right =
-            compile rawExpression.right
+      expression =
+        case rawExpression
+        when Ast::Operation
+          if rawExpression.operator == "=="
+            right =
+              compile rawExpression.right
 
-          left =
-            compile rawExpression.left
+            left =
+              compile rawExpression.left
 
-          "(() => {
+            "(() => {
             const context = new TestContext(#{left})
             const right = #{right}
 
@@ -39,11 +40,12 @@ class Compiler
             })
             return context
           })()"
+          end
         end
-      end
 
-    expression = compile rawExpression unless expression
+      expression = compile rawExpression unless expression
 
-    "{ name: #{name}, proc: () => { return #{expression} } }"
+      "{ name: #{name}, proc: () => { return #{expression} } }"
+    end
   end
 end

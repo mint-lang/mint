@@ -1,8 +1,10 @@
-class Compiler
-  def compile(node : Ast::StringLiteral) : String
-    value =
-      node.value.gsub('`', "\\`")
+module Mint
+  class Compiler
+    def compile(node : Ast::StringLiteral) : String
+      value =
+        node.value.gsub('`', "\\`")
 
-    "`#{value}`"
+      "`#{value}`"
+    end
   end
 end

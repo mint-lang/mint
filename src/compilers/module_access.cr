@@ -1,11 +1,13 @@
-class Compiler
-  def compile(node : Ast::ModuleAccess) : String
-    name =
-      underscorize node.name
+module Mint
+  class Compiler
+    def compile(node : Ast::ModuleAccess) : String
+      name =
+        underscorize node.name
 
-    variable =
-      node.variable.value
+      variable =
+        node.variable.value
 
-    "$#{name}.#{variable}"
+      "$#{name}.#{variable}"
+    end
   end
 end

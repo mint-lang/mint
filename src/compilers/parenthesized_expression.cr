@@ -1,8 +1,10 @@
-class Compiler
-  def compile(node : Ast::ParenthesizedExpression) : String
-    expression =
-      compile node.expression
+module Mint
+  class Compiler
+    def compile(node : Ast::ParenthesizedExpression) : String
+      expression =
+        compile node.expression
 
-    "(#{expression})"
+      "(#{expression})"
+    end
   end
 end
