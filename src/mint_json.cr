@@ -32,7 +32,7 @@ class MintJson
 
   @source_directories = [] of String
   @test_directories = [] of String
-  @dependencies = [] of Dependency
+  @dependencies = [] of Mint::Installer::Dependency
   @application = Application.new
   @name = ""
 
@@ -276,7 +276,7 @@ class MintJson
     raise DependencyNoRepository.new unless repository
     raise DependencyNoConstraint.new unless constraint
 
-    Dependency.new key, repository, constraint
+    Mint::Installer::Dependency.new key, repository, constraint
   rescue exception : JSON::ParseException
     raise DependencySourceInvalid.new
   end
@@ -290,29 +290,29 @@ class MintJson
 
     if match
       lower =
-        Semver.parse(match[1])
+        Mint::Installer::Semver.parse(match[1])
 
       upper =
-        Semver.parse(match[2])
+        Mint::Installer::Semver.parse(match[2])
 
       raise DependencyInvalidConstraint.new unless upper
       raise DependencyInvalidConstraint.new unless lower
 
-      SimpleConstraint.new(lower, upper)
+      Mint::Installer::SimpleConstraint.new(lower, upper)
     else
       match =
         raw.match(/(.*?):(\d+\.\d+\.\d+)/)
 
       if match
         version =
-          Semver.parse(match[2])
+          Mint::Installer::Semver.parse(match[2])
 
         target =
           match[1]
 
         raise DependencyInvalidConstraint.new unless version
 
-        FixedConstraint.new(version, target)
+        Mint::Installer::FixedConstraint.new(version, target)
       end
     end
   rescue exception : JSON::ParseException

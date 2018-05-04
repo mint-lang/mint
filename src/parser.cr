@@ -1,6 +1,3 @@
-require "./parsers/macros"
-require "./parsers/**"
-
 module Mint
   class Parser
     getter input, position, file, ast, data

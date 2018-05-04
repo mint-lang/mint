@@ -236,6 +236,10 @@ module Render
       io.print "#{content}#{divider}\n\n"
     end
 
+    def puts(message)
+      print "#{message}\n"
+    end
+
     def print(object)
       print object.to_s
     end
