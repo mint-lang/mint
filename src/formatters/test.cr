@@ -1,11 +1,13 @@
-class Formatter
-  def format(node : Ast::Test) : String
-    expression =
-      format node.expression
+module Mint
+  class Formatter
+    def format(node : Ast::Test) : String
+      expression =
+        format node.expression
 
-    name =
-      format node.name
+      name =
+        format node.name
 
-    "test #{name} {\n#{expression.indent}\n}"
+      "test #{name} {\n#{expression.indent}\n}"
+    end
   end
 end

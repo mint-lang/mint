@@ -1,8 +1,10 @@
-class Formatter
-  def format(node : Ast::Routes) : String
-    body =
-      format node.routes, "\n\n"
+module Mint
+  class Formatter
+    def format(node : Ast::Routes) : String
+      body =
+        format node.routes, "\n\n"
 
-    "routes {\n#{body.indent}\n}"
+      "routes {\n#{body.indent}\n}"
+    end
   end
 end

@@ -19,6 +19,8 @@ require "./assets"
 require "./logger"
 require "./utils/**"
 require "./type_checker"
+
+require "./formatters/**"
 require "./formatter"
 
 require "./compilers/**"

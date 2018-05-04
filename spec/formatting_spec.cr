@@ -14,14 +14,14 @@ Dir.glob("./spec/formatters/**/*").each do |file|
     type_checker.check
 
     # Format and compare the results
-    result = Formatter.new(ast).format
+    result = Mint::Formatter.new(ast).format
     result.should eq(expected.lstrip)
 
     # Parse the result, format again and compare
     ast = Mint::Parser.parse(result, file)
     ast.class.should eq(Ast)
 
-    result = Formatter.new(ast).format
+    result = Mint::Formatter.new(ast).format
     result.should eq(expected.lstrip)
   end
 end

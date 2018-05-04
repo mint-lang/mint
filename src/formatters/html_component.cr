@@ -1,8 +1,10 @@
-class Formatter
-  def format(node : Ast::HtmlComponent) : String
-    component =
-      format node.component
+module Mint
+  class Formatter
+    def format(node : Ast::HtmlComponent) : String
+      component =
+        format node.component
 
-    format(prefix: component, tag: component, node: node)
+      format(prefix: component, tag: component, node: node)
+    end
   end
 end

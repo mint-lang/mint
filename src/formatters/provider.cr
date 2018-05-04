@@ -1,14 +1,16 @@
-class Formatter
-  def format(node : Ast::Provider) : String
-    name =
-      node.name
+module Mint
+  class Formatter
+    def format(node : Ast::Provider) : String
+      name =
+        node.name
 
-    subscription =
-      node.subscription
+      subscription =
+        node.subscription
 
-    body =
-      list node.functions
+      body =
+        list node.functions
 
-    "provider #{name} : #{subscription} {\n#{body.indent}\n}"
+      "provider #{name} : #{subscription} {\n#{body.indent}\n}"
+    end
   end
 end

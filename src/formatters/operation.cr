@@ -1,11 +1,13 @@
-class Formatter
-  def format(node : Ast::Operation) : String
-    left =
-      format node.left
+module Mint
+  class Formatter
+    def format(node : Ast::Operation) : String
+      left =
+        format node.left
 
-    right =
-      format node.right
+      right =
+        format node.right
 
-    "#{left} #{node.operator} #{right}"
+      "#{left} #{node.operator} #{right}"
+    end
   end
 end
