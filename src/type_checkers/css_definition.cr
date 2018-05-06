@@ -1,24 +1,26 @@
-class TypeChecker
-  type_error CssDefinitionTypeMismatch
+module Mint
+  class TypeChecker
+    type_error CssDefinitionTypeMismatch
 
-  def check(node : Ast::CssDefinition) : Type
-    node.value.each do |item|
-      type =
-        case item
-        when Ast::CssInterpolation
-          check item
-        else
-          STRING
-        end
+    def check(node : Ast::CssDefinition) : Type
+      node.value.each do |item|
+        type =
+          case item
+          when Ast::CssInterpolation
+            check item
+          else
+            STRING
+          end
 
-      raise CssDefinitionTypeMismatch, {
-        "name" => node.name,
-        "node" => node,
-        "got"  => type,
-      } unless Comparer.compare(type, STRING) ||
-               Comparer.compare(type, NUMBER)
+        raise CssDefinitionTypeMismatch, {
+          "name" => node.name,
+          "node" => node,
+          "got"  => type,
+        } unless Comparer.compare(type, STRING) ||
+                 Comparer.compare(type, NUMBER)
+      end
+
+      NEVER
     end
-
-    NEVER
   end
 end

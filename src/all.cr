@@ -1,28 +1,26 @@
-require "colorize"
-require "file_utils"
 require "string_inflection"
-require "html"
 require "baked_file_system"
-require "time_format"
-require "tree_template"
 require "duktape/runtime"
+require "tree_template"
+require "time_format"
+require "file_utils"
+require "colorize"
 require "kemal"
+require "html"
 
 require "./ext/**"
 
 require "./errors/**"
-require "./macros"
-
 require "./constants"
-require "./render"
-require "./messages"
+require "./macros"
+require "./assets"
+
+require "./utils/**"
 
 require "./message"
 require "./messages/**"
-require "./mint_json"
-require "./assets"
-require "./utils/**"
 
+require "./type_checkers/**"
 require "./type_checker"
 
 require "./formatters/**"
@@ -37,12 +35,16 @@ require "./installer"
 require "./parsers/**"
 require "./parser"
 
+require "./test_runner/**"
 require "./test_runner"
-require "./reactor"
-require "./builder"
+
+require "./ast/node"
+require "./ast/**"
 require "./ast"
 
+require "./mint_json"
 require "./scaffold"
+require "./reactor"
+require "./builder"
+require "./render"
 require "./cli"
-
-require "./nodes/**"

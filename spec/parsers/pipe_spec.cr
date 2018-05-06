@@ -5,9 +5,9 @@ describe "Pipe" do
     call =
       Mint::Parser.new("a |> b()", "TestFile.mint")
         .expression!(Mint::SyntaxError)
-        .as(Ast::FunctionCall)
+        .as(Mint::Ast::FunctionCall)
 
-    call.arguments.last?.should be_a(Ast::Variable)
+    call.arguments.last?.should be_a(Mint::Ast::Variable)
   end
 
   it "raises syntax error if not piped into a function" do

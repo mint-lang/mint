@@ -1,7 +1,9 @@
-class TypeChecker
-  def check(node : Ast::Routes) : Type
-    check node.routes
+module Mint
+  class TypeChecker
+    def check(node : Ast::Routes) : Type
+      check node.routes
 
-    NEVER
+      NEVER
+    end
   end
 end

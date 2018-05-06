@@ -3,3 +3,6 @@ build:
 
 test:
 	crystal spec -p
+
+documentation:
+	rm -rf docs && crystal docs

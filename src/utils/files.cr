@@ -1,30 +1,32 @@
-module SourceFiles
-  extend self
+module Mint
+  module SourceFiles
+    extend self
 
-  def tests
-    MintJson
-      .parse_current
-      .test_directories
-      .map { |dir| "#{dir}/**/*.mint" }
-  end
-
-  def all
-    source_dirs =
+    def tests
       MintJson
         .parse_current
-        .source_directories
+        .test_directories
+        .map { |dir| "#{dir}/**/*.mint" }
+    end
 
-    packages =
-      Dir.glob("./.mint/packages/**/mint.json").each do |file|
-        json =
-          MintJson.new(File.read(file), File.dirname(file))
+    def all
+      source_dirs =
+        MintJson
+          .parse_current
+          .source_directories
 
-        base =
-          File.dirname(file)
+      packages =
+        Dir.glob("./.mint/packages/**/mint.json").each do |file|
+          json =
+            MintJson.new(File.read(file), File.dirname(file))
 
-        source_dirs.concat json.source_directories.map { |dir| "#{base}/#{dir}" }
-      end
+          base =
+            File.dirname(file)
 
-    source_dirs.map { |dir| "#{dir}/**/*.mint" }
+          source_dirs.concat json.source_directories.map { |dir| "#{base}/#{dir}" }
+        end
+
+      source_dirs.map { |dir| "#{dir}/**/*.mint" }
+    end
   end
 end

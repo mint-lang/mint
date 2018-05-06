@@ -1,5 +1,3 @@
-require "./test/**"
-
 module Mint
   class TestRunner
     class Message

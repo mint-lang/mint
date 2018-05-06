@@ -1,6 +1,3 @@
-require "./mint_json"
-require "./reactor/**"
-
 module Mint
   # Reactor is the development server of Mint, it have the following features:
   # * Servers the compiled application script, index file and favicons
@@ -38,7 +35,6 @@ module Mint
       Server.run
     end
 
-    # TODO: When all errors have the same interface only rescue that
     def compile_script
       # Compile and format all files that are not in the cache.
       Dir.glob(@pattern).each do |file|

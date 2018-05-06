@@ -23,11 +23,11 @@ Dir.glob("./spec/type_checking/**").each do |file|
     it "#{name} ##{index}" do
       # Parse source
       ast = Mint::Parser.parse(source, file)
-      ast.class.should eq(Ast)
+      ast.class.should eq(Mint::Ast)
 
       if error
         begin
-          type_checker = TypeChecker.new(ast)
+          type_checker = Mint::TypeChecker.new(ast)
           type_checker.check
         rescue item : Mint::TypeError
           result = item
@@ -35,7 +35,7 @@ Dir.glob("./spec/type_checking/**").each do |file|
         end
         item.should be_a(Mint::TypeError)
       else
-        type_checker = TypeChecker.new(ast)
+        type_checker = Mint::TypeChecker.new(ast)
         type_checker.check
       end
     end

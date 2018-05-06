@@ -5,37 +5,37 @@ describe "Operation" do
     operation =
       Mint::Parser.new("a == b", "TestFile.mint")
         .expression!(Mint::SyntaxError)
-        .as(Ast::Operation)
+        .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="
-    operation.left.should be_a(Ast::Variable)
-    operation.right.should be_a(Ast::Variable)
+    operation.left.should be_a(Mint::Ast::Variable)
+    operation.right.should be_a(Mint::Ast::Variable)
   end
 
   it "honors precedence" do
     operation =
       Mint::Parser.new("a == b * c", "TestFile.mint")
         .expression!(Mint::SyntaxError)
-        .as(Ast::Operation)
+        .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="
-    operation.left.should be_a(Ast::Variable)
-    operation.right.should be_a(Ast::Operation)
+    operation.left.should be_a(Mint::Ast::Variable)
+    operation.right.should be_a(Mint::Ast::Operation)
   end
 
   it "honors precedence 2" do
     operation =
       Mint::Parser.new("a * b == c", "TestFile.mint")
         .expression!(Mint::SyntaxError)
-        .as(Ast::Operation)
+        .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="
-    operation.left.should be_a(Ast::Operation)
-    operation.right.should be_a(Ast::Variable)
+    operation.left.should be_a(Mint::Ast::Operation)
+    operation.right.should be_a(Mint::Ast::Variable)
 
-    left = operation.left.as(Ast::Operation)
+    left = operation.left.as(Mint::Ast::Operation)
     left.operator.should eq "*"
-    left.left.should be_a(Ast::Variable)
-    left.right.should be_a(Ast::Variable)
+    left.left.should be_a(Mint::Ast::Variable)
+    left.right.should be_a(Mint::Ast::Variable)
   end
 end

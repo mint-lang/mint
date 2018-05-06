@@ -56,7 +56,7 @@ macro expect_ok(sample)
   it "Parses: " + {{"#{sample}"}} do
     result = subject.call({{sample}})
     result.should_not be_nil
-    result.should be_a(Ast::Node)
+    result.should be_a(Mint::Ast::Node)
   end
 end
 
