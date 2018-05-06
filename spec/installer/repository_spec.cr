@@ -1,11 +1,13 @@
 require "../spec_helper"
 
+tmp_dir = File.join(Tempfile.dirname, "mint-packages")
+
 describe "Repository" do
   context "failures" do
     context "json" do
       it "raises error on bad mint.json" do
-        FileUtils.mkdir_p("/tmp/mint-packages/success")
-        File.write("/tmp/mint-packages/success/mint.json", "hello")
+        FileUtils.mkdir_p("#{tmp_dir}/success")
+        File.write("#{tmp_dir}/success/mint.json", "hello")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -25,7 +27,7 @@ describe "Repository" do
       end
 
       it "raises error on no mint.json" do
-        FileUtils.rm_rf("/tmp/mint-packages/success")
+        FileUtils.rm_rf("#{tmp_dir}/success")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -37,7 +39,7 @@ describe "Repository" do
 
         The error I got is this:
 
-        Error opening file '/tmp/mint-packages/success/mint.json' with mode 'r': No such
+        Error opening file '#{tmp_dir}/success/mint.json' with mode 'r': No such
         file or directory
         MESSAGE
 
@@ -94,7 +96,7 @@ describe "Repository" do
     end
 
     it "raises error on clone" do
-      FileUtils.rm_rf("/tmp/mint-packages/error")
+      FileUtils.rm_rf("#{tmp_dir}/error")
 
       message = <<-MESSAGE
       ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -115,7 +117,7 @@ describe "Repository" do
     end
 
     it "raises error on update" do
-      FileUtils.mkdir_p("/tmp/mint-packages/error")
+      FileUtils.mkdir_p("#{tmp_dir}/error")
 
       message = <<-MESSAGE
       ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -143,14 +145,14 @@ describe "Repository" do
     end
 
     it "clones successfully" do
-      FileUtils.rm_rf("/tmp/mint-packages/success")
+      FileUtils.rm_rf("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Cloned name(success)")
     end
 
     it "updates successfully" do
-      FileUtils.mkdir_p("/tmp/mint-packages/success")
+      FileUtils.mkdir_p("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Updated name(success)")
