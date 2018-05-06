@@ -103,7 +103,6 @@ module Mint
         raise RepositoryNoMintJson, {
           "id"     => id.uncolorize,
           "target" => target.to_s,
-          "result" => error.to_s,
         }
       end
 

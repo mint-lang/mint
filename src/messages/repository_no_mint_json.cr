@@ -7,12 +7,4 @@ message RepositoryNoMintJson do
     text "for the version or tag:"
     bold target
   end
-
-  block do
-    text "The error I got is this:"
-  end
-
-  block do
-    bold result.to_s.strip
-  end
 end

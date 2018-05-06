@@ -36,11 +36,6 @@ describe "Repository" do
 
         I could not find the mint.json for the package: name(success) for the version or
         tag: master
-
-        The error I got is this:
-
-        Error opening file '#{tmp_dir}/success/mint.json' with mode 'r': No such
-        file or directory
         MESSAGE
 
         begin
