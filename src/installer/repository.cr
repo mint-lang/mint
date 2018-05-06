@@ -1,9 +1,11 @@
 module Mint
   class Installer
-    install_error CouldNotGetVersions
-    install_error CouldNotCheckout
-    install_error CouldNotUpdate
-    install_error CouldNotClone
+    install_error RepositoryCouldNotGetVersions
+    install_error RepositoryCouldNotCheckout
+    install_error RepositoryInvalidMintJson
+    install_error RepositoryCouldNotUpdate
+    install_error RepositoryCouldNotClone
+    install_error RepositoryNoMintJson
 
     class Repository
       getter name, url, target, version
@@ -49,7 +51,7 @@ module Mint
               .sort_by(&.to_s)
               .reverse
           else
-            raise CouldNotGetVersions, {
+            raise RepositoryCouldNotGetVersions, {
               "result"  => error,
               "package" => id,
             }
@@ -77,9 +79,16 @@ module Mint
 
         MintJson.new(File.read(File.join(directory, "mint.json")), directory)
       rescue error : MintJson::Error
-        terminate "Invalid mint.json for #{id} at #{target}:\n#{error.to_s.indent}"
+        raise RepositoryInvalidMintJson, {
+          "target" => target.to_s,
+          "url"    => url,
+        }
       rescue error
-        terminate "Could not get mint.json for #{id} at #{target}:\n#{error.to_s.indent}"
+        raise RepositoryNoMintJson, {
+          "target" => target.to_s,
+          "error"  => error.to_s,
+          "url"    => url,
+        }
       end
 
       def exists?
@@ -92,7 +101,7 @@ module Mint
         if status.success?
           terminal.print "  #{CHECKMARK} Updated #{id}\n"
         else
-          raise CouldNotUpdate, {
+          raise RepositoryCouldNotUpdate, {
             "result" => error,
             "url"    => url,
           }
@@ -105,7 +114,7 @@ module Mint
         if status.success?
           terminal.print "  #{CHECKMARK} Cloned #{id}\n"
         else
-          raise CouldNotClone, {
+          raise RepositoryCouldNotClone, {
             "result" => error,
             "url"    => url,
           }
@@ -119,7 +128,7 @@ module Mint
         status, output, error =
           run "git checkout #{target}"
 
-        raise CouldNotCheckout, {
+        raise RepositoryCouldNotCheckout, {
           "target" => target.to_s,
           "url"    => url,
         }
@@ -145,23 +154,6 @@ module Mint
             output: output)
 
         {status, output.to_s, error.to_s}
-      end
-
-      def terminate(message)
-        raise Error.new({
-          "message" => message,
-        } of String => Error::Value)
-      end
-
-      def raise(error : InstallError.class, raw)
-        locals = {} of String => Error::Value
-
-        case raw
-        when Hash
-          raw.map { |key, value| locals[key] = value }
-        end
-
-        raise error.new(locals)
       end
 
       def terminal

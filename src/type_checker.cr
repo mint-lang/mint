@@ -128,33 +128,6 @@ class TypeChecker
     end
   end
 
-  # Raising type errors
-  # ----------------------------------------------------------------------------
-
-  def raise(error : Mint::TypeError.class, raw = nil)
-    locals = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type) | Array(String)
-
-    case raw
-    when Nil
-    else
-      raw.map do |key, value|
-        val =
-          case value
-          when String
-            value
-          when Ast::Node
-            value.as(Ast::Node)
-          else
-            value
-          end
-
-        locals[key] = val
-      end
-    end
-
-    raise error.new(locals)
-  end
-
   # Helpers for checking things
   # ----------------------------------------------------------------------------
 

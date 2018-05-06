@@ -48,10 +48,10 @@ module Mint
       part =
         input[position, to]
 
-      raise error.new({
+      raise error, {
         "node" => node,
         "got"  => part,
-      } of String => Error::Value)
+      }
     end
 
     def raise(error : SyntaxError.class)
