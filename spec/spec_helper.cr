@@ -11,6 +11,41 @@ end
 
 require "../src/all"
 
+# Mock things
+class Mint::Installer::Repository
+  @terminal = Render::Terminal.new
+
+  def terminal
+    @terminal
+  end
+
+  def output
+    terminal.io.to_s.uncolorize
+  end
+
+  def run(command, chdir = directory)
+    content =
+      case command.split(" ")[1]
+      when "tag"
+        "0.1.0\n0.2.0"
+      when "fetch"
+        "fetched"
+      when "checkout"
+        "checked out"
+      when "clone"
+        "cloned"
+      else
+        ""
+      end
+
+    if url == "error"
+      {Process::Status.new(1), "", content}
+    else
+      {Process::Status.new(0), content, ""}
+    end
+  end
+end
+
 macro subject(method)
   subject = ->(sample : String) {
     Mint::Parser.new(sample, "TestFile.mint").{{method}}

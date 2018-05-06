@@ -7,13 +7,26 @@ module Mint
     install_error RepositoryCouldNotClone
     install_error RepositoryNoMintJson
 
+    # This class is for handling git repositories of packages.
+    #
+    # Repositories are cloned into a temp directory (/tmp/mint-packages) if
+    # not exists and updated when they exsits.
     class Repository
       getter name, url, target, version
 
       @version : Semver | Nil
       @target : String | Nil
 
+      def self.open(name = "", url = "", target = nil, version = nil)
+        repository = new(name, url, target, version)
+        repository.open
+        repository
+      end
+
       def initialize(@name = "", @url = "", @target = nil, @version = nil)
+      end
+
+      def open
         if exists?
           update
         else
@@ -36,7 +49,8 @@ module Mint
         "#{name}#{at}"
       end
 
-      def versions
+      # Gets the versions of a package from it's tags
+      def versions : Array(Semver)
         if version
           [version.not_nil!]
         else
@@ -52,25 +66,24 @@ module Mint
               .reverse
           else
             raise RepositoryCouldNotGetVersions, {
-              "result"  => error,
-              "package" => id,
+              "result" => error,
+              "url"    => url,
             }
           end
         end
       end
 
-      def version(tag)
-        json(tag).version
-      end
-
+      # Returns the dependencies of the tag or version.
       def dependencies(tag)
         json(tag).dependencies
       end
 
+      # Returns the mint.json of the given version.
       def json(version : Semver)
         json(version.to_s)
       end
 
+      # Returns the mint.json of the given tag or version.
       def json(tag)
         target =
           self.target || tag
@@ -80,21 +93,26 @@ module Mint
         MintJson.new(File.read(File.join(directory, "mint.json")), directory)
       rescue error : MintJson::Error
         raise RepositoryInvalidMintJson, {
+          "id"     => id.uncolorize,
           "target" => target.to_s,
-          "url"    => url,
         }
       rescue error
+        # Propagate RepositoryCouldNotCheckout
+        raise error if error.is_a?(Error)
+
         raise RepositoryNoMintJson, {
+          "id"     => id.uncolorize,
           "target" => target.to_s,
-          "error"  => error.to_s,
-          "url"    => url,
+          "result" => error.to_s,
         }
       end
 
+      # Returns true if the repository is cloned yet.
       def exists?
         Dir.exists?(directory)
       end
 
+      # Updates the repository.
       def update
         status, output, error = run "git fetch --tags --force"
 
@@ -108,6 +126,7 @@ module Mint
         end
       end
 
+      # Clones the repository.
       def clone
         status, output, error = run "git clone #{url} #{directory}", Dir.current
 
@@ -121,6 +140,7 @@ module Mint
         end
       end
 
+      # Checks out the given tag or version.
       def checkout(tag)
         target =
           self.target || tag
@@ -130,14 +150,17 @@ module Mint
 
         raise RepositoryCouldNotCheckout, {
           "target" => target.to_s,
+          "result" => error,
           "url"    => url,
-        }
+        } unless status.success?
       end
 
+      # The directory of the repository
       def directory
         File.join(Tempfile.dirname, "mint-packages", url)
       end
 
+      # Runs a git command and returns it's status, output and error in a tuple.
       def run(command, chdir = directory)
         output =
           IO::Memory.new

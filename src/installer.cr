@@ -205,13 +205,13 @@ module Mint
           @repositories[dependency.name] ||=
             if root_dependency &&
                root_dependency.constraint.is_a?(FixedConstraint)
-              Repository.new(
+              Repository.open(
                 version: root_dependency.constraint.as(FixedConstraint).version,
                 target: root_dependency.constraint.as(FixedConstraint).target,
                 url: root_dependency.repository,
                 name: root_dependency.name)
             else
-              Repository.new(dependency.name, dependency.repository)
+              Repository.open(dependency.name, dependency.repository)
             end
 
         repository.versions.each do |version|

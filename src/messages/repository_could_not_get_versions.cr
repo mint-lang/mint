@@ -1,8 +1,8 @@
-message CouldNotUpdate do
+message RepositoryCouldNotGetVersions do
   title "Install Error"
 
   block do
-    text "I could not update the repository:"
+    text "I could not get the tags of the repository:"
     bold url
   end
 

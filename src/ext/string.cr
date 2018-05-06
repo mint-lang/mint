@@ -1,4 +1,10 @@
 class String
+  def uncolorize
+    gsub(/[ \t]+$/m, "")
+      .gsub(/\e\[(\d+;?)*m/, "")
+      .rstrip
+  end
+
   def last
     return "" if size == 0
     self[size - 1].to_s

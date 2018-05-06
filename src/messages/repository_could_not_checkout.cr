@@ -1,8 +1,10 @@
-message CouldNotClone do
+message RepositoryCouldNotCheckout do
   title "Install Error"
 
   block do
-    text "I could not clone the repository:"
+    text "I could not checkout the version or tag:"
+    bold target
+    text "of the repository:"
     bold url
   end
 
