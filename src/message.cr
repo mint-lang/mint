@@ -64,6 +64,15 @@ class Message
       end
     end
 
+    def list(value)
+      case value
+      when Array(String)
+        if value.any?
+          @elements << StringList.new(value: value)
+        end
+      end
+    end
+
     def type_list(value)
       case value
       when Array(TypeChecker::Type)

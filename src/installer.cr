@@ -1,21 +1,17 @@
 module Mint
   class Installer
+    install_error InstallerFailedToInstall
+
     alias Package = NamedTuple(name: String, version: String)
     alias Constraint = FixedConstraint | SimpleConstraint
 
-    class Retry < Exception
-    end
-
-    class Failed < Exception
-      getter name, package, constraint
-
-      def initialize(@name : String, @package : Package, @constraint : Constraint)
-      end
-    end
+    class Retry < Exception; end
 
     @dependencies =
       {} of Package => Hash(String, Constraint)
 
+    # This holds the elimiated packages, which package elminiated it
+    # and with which constraint
     @eliminated =
       [] of Tuple(Package, Package, Constraint)
 
@@ -36,46 +32,22 @@ module Mint
     def initialize
       @root_dependencies = MintJson.parse_current.dependencies
 
-      terminal.puts "#{COG} Constructing dependency tree..."
-      resolve_dependencies
+      if @root_dependencies.any?
+        terminal.puts "#{COG} Constructing dependency tree..."
+        resolve_dependencies
 
-      terminal.puts "\n#{COG} Resolving dependency tree..."
-      solve
-      print_resolved
+        terminal.puts "\n#{COG} Resolving dependency tree..."
+        solve
+        print_resolved
 
-      terminal.puts "\n#{COG} Copying packages..."
-      populate
-    rescue error : Failed
-      print_error error
-    end
-
-    def print_error(message)
-      raise InstallError.new({"message" => message.to_s} of String => Error::Value)
-    end
-
-    def print_repository_error(error)
-      terminal.puts "\nThere was an error when trying to interact with a repository:".colorize(:light_red)
-      terminal.puts error.to_s.indent.colorize(:light_red)
-      terminal.puts "\n"
-    end
-
-    def print_eliminated(error)
-      terminal.puts "\nFailed to satisfy the following constraint:"
-      terminal.puts "  #{error.name} #{error.constraint} from #{error.package}"
-
-      if @eliminated.any?(&.[0][:name].==(error.name))
-        terminal.puts "\nAll versions of #{error.name} were eliminated:"
-
-        @eliminated.each do |item|
-          next if item[0][:name] != error.name
-
-          terminal.puts "  #{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]} "
-        end
+        terminal.puts "\n#{COG} Copying packages..."
+        populate
       else
-        terminal.puts "\nThere are no version available for #{error.name}"
+        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
       end
     end
 
+    # Prints the resolved packages adn their verions
     def print_resolved
       @resolved.each do |name, version|
         name =
@@ -92,12 +64,12 @@ module Mint
       end
     end
 
-    # Populates the resolved package into "mint-stuff/packages" directory
+    # Populates the resolved package into ".mint/packages" directory
     def populate
       @resolved.each do |name, version|
         # Determine resolved packages path
         destination =
-          File.join(Dir.current, "mint-stuff", "packages", name)
+          File.join(Dir.current, ".mint", "packages", name)
 
         # Checkout the version we want
         @repositories[name].checkout(version)
@@ -117,10 +89,13 @@ module Mint
     def solve(base = root)
       return unless @dependencies[base]?
 
+      # We itarate over the dependencies of the given package (base)
       @dependencies[base].each do |dependency, constraint|
+        # Clone or update the repository and save it
         repository =
           @repositories[dependency]
 
+        # Check if this was resolved aready
         resolved =
           @resolved[dependency]?
 
@@ -134,26 +109,28 @@ module Mint
         if resolved
           # And matches the constraint
           if resolved < upper && resolved >= lower
+            # We are skipping
             next
           else
             package =
               {name: dependency, version: resolved.to_s}
 
-            # If it did not match eliminate and retry
+            # If it did not match, eliminate and retry
             @eliminated << {package, base, constraint}
             raise Retry.new
           end
         else
-          # Go through all versions
+          # If it's not resolved yet, we go through all versions
           repository.versions.each do |version|
             package = {name: dependency, version: version.to_s}
 
             # Skip if eliminated
             next if @eliminated.map(&.[0]).includes?(package)
 
-            # Match constraint
+            # If matches the constraint constraint
             if version < upper && version >= lower
-              # Set resolved and try to resolve the package
+              # Set this version as resolve and try to resolve the
+              # packages dependencies
               @resolved[dependency] = version
               solve(package)
               break
@@ -167,11 +144,24 @@ module Mint
 
         # If every version was eliminated there no possible solution
         unless @resolved[dependency]?
-          raise Failed.new(dependency, base, constraint)
+          eliminated =
+            @eliminated
+              .select { |item| item[0][:name] == dependency }
+              .map { |item| "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}" }
+
+          raise InstallerFailedToInstall, {
+            "package"    => "#{base[:name]}:#{base[:version]}",
+            "constraint" => constraint.to_s,
+            "eliminated" => eliminated,
+            "name"       => dependency,
+          }
         end
       end
     rescue error : Retry
+      # Clear the resolved cache
       @resolved = {} of String => Semver
+
+      # Try to solve it again
       solve
     end
 
@@ -205,6 +195,8 @@ module Mint
           @repositories[dependency.name] ||=
             if root_dependency &&
                root_dependency.constraint.is_a?(FixedConstraint)
+              # This is where fixed constraints happen, instead of simple
+              # repository, we create a fixed repository.
               Repository.open(
                 version: root_dependency.constraint.as(FixedConstraint).version,
                 target: root_dependency.constraint.as(FixedConstraint).target,
@@ -214,6 +206,7 @@ module Mint
               Repository.open(dependency.name, dependency.repository)
             end
 
+        # Go through all of the dependencies and resolve them
         repository.versions.each do |version|
           json = repository.json(version)
 

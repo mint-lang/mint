@@ -7,7 +7,7 @@ module Mint
       end
 
       def to_s
-        "#{@lower} <= v < #{@upper}".colorize.mode(:bold).to_s
+        "#{@lower} <= v < #{@upper}"
       end
 
       def to_s(io)
