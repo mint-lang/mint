@@ -7,6 +7,7 @@ require "file_utils"
 require "colorize"
 require "kemal"
 require "html"
+require "json"
 
 require "./ext/**"
 

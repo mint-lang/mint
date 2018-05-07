@@ -18,7 +18,7 @@ module Mint
       packages =
         Dir.glob("./.mint/packages/**/mint.json").each do |file|
           json =
-            MintJson.new(File.read(file), File.dirname(file))
+            MintJson.new(File.read(file), File.dirname(file), file)
 
           base =
             File.dirname(file)

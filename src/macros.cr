@@ -11,6 +11,18 @@ module Mint
     end
   end
 
+  class MintJson
+    macro json_error(name)
+      class {{name}} < JsonError
+        def instance
+          (MESSAGES["{{name.names.last}}"]? || Message).new(locals.merge({
+            "error" => "{{name.names.last}}"
+          } of String => Error::Value))
+        end
+      end
+    end
+  end
+
   class Parser
     macro syntax_error(name)
       class {{name}} < SyntaxError

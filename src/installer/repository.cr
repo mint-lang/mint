@@ -88,10 +88,13 @@ module Mint
         target =
           self.target || tag
 
+        path =
+          File.join(directory, "mint.json")
+
         checkout target
 
-        MintJson.new(File.read(File.join(directory, "mint.json")), directory)
-      rescue error : MintJson::Error
+        MintJson.new(File.read(path), directory, path)
+      rescue error : JsonError
         raise RepositoryInvalidMintJson, {
           "id"     => id.uncolorize,
           "target" => target.to_s,

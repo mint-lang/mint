@@ -6,7 +6,10 @@ module Mint
       @block = Block.new
 
       def text(value)
-        @block << Text.new(value: value)
+        case value
+        when String
+          @block << Text.new(value: value)
+        end
       end
 
       def code(value)
@@ -160,8 +163,8 @@ module Mint
     end
 
     macro method_missing(call)
-    @data[{{call.name.id.stringify}}]
-  end
+      @data[{{call.name.id.stringify}}]
+    end
 
     def to_html
       contents =
