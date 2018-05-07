@@ -50,7 +50,7 @@ module Mint
 
       to =
         position +
-          @json[position..-1].split("").take_while(&.to_s.!=("\n")).size
+          @json[position..-1].lines.first.size
 
       data =
         Ast::Data.new(@json, @file)
@@ -141,42 +141,68 @@ module Mint
     # Parsing the head
     # --------------------------------------------------------------------------
 
-    class HeadNotString < Error; end
-
-    class HeadNotExists < Error; end
+    json_error MintJsonHeadNotString
+    json_error MintJsonHeadNotExists
 
     def parse_head
-      head = @parser.read_string
-      raise HeadNotExists.new unless File.exists?(head)
+      location =
+        @parser.location
+
+      head =
+        @parser.read_string
+
+      raise MintJsonHeadNotExists, {
+        "node" => node(location),
+      } unless File.exists?(head)
+
       File.read(head)
     rescue exception : JSON::ParseException
-      raise HeadNotString.new
+      raise MintJsonHeadNotString, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the source directories
     # --------------------------------------------------------------------------
 
-    class SourceDirectoriesEmpty < Error; end
+    json_error MintJsonSourceDirectoriesInvalid
+    json_error MintJsonSourceDirectoriesEmpty
 
-    class SourceDirectoryNotExists < Error; end
-
-    class SourceDirectoriesInvalid < Error; end
-
-    class SourceDirectoryInvalid < Error; end
+    json_error MintJsonSourceDirectoryNotExists
+    json_error MintJsonSourceDirectoryInvalid
 
     def parse_source_directories
+      location =
+        @parser.location
+
       @parser.read_array { parse_source_directory }
-      raise SourceDirectoriesEmpty.new if @source_directories.empty?
+
+      raise MintJsonSourceDirectoriesEmpty, {
+        "node" => node(location),
+      } if @source_directories.empty?
     rescue exception : JSON::ParseException
-      raise SourceDirectoriesInvalid.new
+      raise MintJsonSourceDirectoriesInvalid, {
+        "node" => node(exception),
+      }
     end
 
     def parse_source_directory
-      directory = @parser.read_string
-      raise SourceDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
+      location =
+        @parser.location
+
+      directory =
+        @parser.read_string
+
+      raise MintJsonSourceDirectoryNotExists, {
+        "node"      => node(location),
+        "directory" => directory,
+      } unless Dir.exists?(File.join(@root, directory))
+
       @source_directories << directory
     rescue exception : JSON::ParseException
-      raise SourceDirectoryInvalid.new
+      raise MintJsonSourceDirectoryInvalid, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the test directories
