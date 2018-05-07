@@ -206,37 +206,48 @@ module Mint
     end
 
     # Parsing the test directories
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    class TestDirectoryNotExists < Error; end
-
-    class TestDirectoriesInvalid < Error; end
-
-    class TestDirectoryInvalid < Error; end
+    json_error MintJsonTestDirectoriesInvalid
+    json_error MintJsonTestDirectoryNotExists
+    json_error MintJsonTestDirectoryInvalid
 
     def parse_test_directories
       @parser.read_array { parse_test_directory }
     rescue exception : JSON::ParseException
-      raise TestDirectoriesInvalid.new
+      raise MintJsonTestDirectoriesInvalid, {
+        "node" => node(exception),
+      }
     end
 
     def parse_test_directory
-      directory = @parser.read_string
-      raise TestDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
+      location =
+        @parser.location
+
+      directory =
+        @parser.read_string
+
+      raise MintJsonTestDirectoryNotExists, {
+        "node"      => node(location),
+        "directory" => directory,
+      } unless Dir.exists?(File.join(@root, directory))
       @test_directories << directory
     rescue exception : JSON::ParseException
-      raise TestDirectoryInvalid.new
+      raise MintJsonTestDirectoryInvalid, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the application
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    class ApplicationInvalidKey < Error; end
-
-    class ApplicationNotAnObject < Error; end
+    json_error MintJsonApplicationNotAnObject
+    json_error MintJsonApplicationInvalidKey
 
     def parse_application
-      meta = {} of String => String
+      meta =
+        {} of String => String
+
       title = ""
       icon = ""
       head = ""
@@ -252,13 +263,19 @@ module Mint
         when "icon"
           icon = @parser.read_string
         else
-          raise ApplicationInvalidKey.new
+          raise MintJsonApplicationInvalidKey, {
+            "node" => current_node,
+            "key"  => key,
+          }
         end
       end
 
-      @application = Application.new(title: title, meta: meta, icon: icon, head: head)
+      @application =
+        Application.new(title: title, meta: meta, icon: icon, head: head)
     rescue exception : JSON::ParseException
-      raise ApplicationNotAnObject.new
+      raise MintJsonApplicationNotAnObject, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the meta tags

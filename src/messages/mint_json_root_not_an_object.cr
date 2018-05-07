@@ -2,9 +2,9 @@ message MintJsonRootNotAnObject do
   title "mint.json Error"
 
   block do
-    text "The root object of a"
+    text "There was a problem when parsing"
     bold "mint.json"
-    text "file is not an object."
+    text "file."
   end
 
   snippet node

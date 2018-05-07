@@ -1,17 +1,17 @@
-message MintJsonSourceDirectoriesInvalid do
+message MintJsonTestDirectoriesInvalid do
   title "mint.json Error"
 
   block do
     text "The"
-    bold "source-directories"
+    bold "test-directories"
     text "field should be an array."
   end
 
   block do
     text "The"
-    bold "source-directories"
+    bold "test-directories"
     text "field lists all directories (relative to the mint.json file)"
-    text "which contain the source files of the application."
+    text "which contain the test files of the application."
   end
 
   snippet node
