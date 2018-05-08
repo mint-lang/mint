@@ -36,7 +36,7 @@ module Mint
     end
 
     # Calculating nodes for the snippet in errors.
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def node(column_number, line_number)
       position =
@@ -241,8 +241,8 @@ module Mint
     # Parsing the application
     # --------------------------------------------------------------------------
 
-    json_error MintJsonApplicationNotAnObject
     json_error MintJsonApplicationInvalidKey
+    json_error MintJsonApplicationInvalid
 
     def parse_application
       meta =
@@ -273,72 +273,112 @@ module Mint
       @application =
         Application.new(title: title, meta: meta, icon: icon, head: head)
     rescue exception : JSON::ParseException
-      raise MintJsonApplicationNotAnObject, {
+      raise MintJsonApplicationInvalid, {
         "node" => node(exception),
       }
     end
 
     # Parsing the meta tags
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    class MetaNotAnObject < Error; end
+    json_error MintJsonMetaValueNotString
+    json_error MintJsonMetaInvalid
+
+    json_error MintJsonKeywordNotString
+    json_error MintJsonKeywordsInvalid
 
     def parse_meta
       meta = {} of String => String
+
       @parser.read_object do |key|
         value =
           case key
           when "keywords"
-            keywords = [] of String
-            @parser.read_array { keywords << @parser.read_string }
-            keywords.join(",")
+            parse_keywords
           else
-            @parser.read_string
+            parse_meta_value
           end
 
         meta[key] = value
       end
+
       meta
     rescue exception : JSON::ParseException
-      raise MetaNotAnObject.new
+      raise MintJsonMetaInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_keywords
+      keywords = [] of String
+
+      @parser.read_array do
+        keywords << parse_keyword
+      end
+
+      keywords.join(",")
+    rescue exception : JSON::ParseException
+      raise MintJsonKeywordsInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_keyword
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonKeywordNotString, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_meta_value
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonMetaValueNotString, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the title
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    class TitleInvalid < Error; end
-
-    class TitleIsEmpty < Error; end
+    json_error MintJsonTitleInvalid
+    json_error MintJsonTitleIsEmpty
 
     def parse_title
-      title = @parser.read_string
-      raise TitleIsEmpty.new if title.empty?
+      location =
+        @parser.location
+
+      title =
+        @parser.read_string
+
+      raise MintJsonTitleIsEmpty, {
+        "node" => node(location),
+      } if title.empty?
+
       title
     rescue exception : JSON::ParseException
-      raise TitleInvalid.new
+      raise MintJsonTitleInvalid, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the dependencies
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    class DependenciesNotAnObject < Error; end
-
-    class DependencyVersionNotString < Error; end
-
-    class DependencySourceInvalid < Error; end
-
-    class DependencyInvalidConstraint < Error; end
-
-    class DependencyNoRepository < Error; end
-
-    class DependencyNoConstraint < Error; end
+    json_error MintJsonDependencyInvalidConstraint
+    json_error MintJsonDependencyConstraintInvalid
+    json_error MintJsonDependenciesInvalid
+    json_error MintJsonDependencyInvalid
 
     def parse_dependencies
       @parser.read_object do |key|
         @dependencies << parse_dependency key
       end
     rescue exception : JSON::ParseException
-      raise DependenciesNotAnObject.new
+      raise MintJsonDependenciesInvalid, {
+        "node" => node(exception),
+      }
     end
 
     def parse_dependency(key)
@@ -356,15 +396,20 @@ module Mint
         end
       end
 
-      raise DependencyNoRepository.new unless repository
-      raise DependencyNoConstraint.new unless constraint
+      raise "Should not happend" unless repository
+      raise "Should not happend" unless constraint
 
       Mint::Installer::Dependency.new key, repository, constraint
     rescue exception : JSON::ParseException
-      raise DependencySourceInvalid.new
+      raise MintJsonDependencyInvalid, {
+        "node" => node(exception),
+      }
     end
 
     def parse_constraint
+      location =
+        @parser.location
+
       raw =
         @parser.read_string
 
@@ -378,8 +423,9 @@ module Mint
         upper =
           Mint::Installer::Semver.parse(match[2])
 
-        raise DependencyInvalidConstraint.new unless upper
-        raise DependencyInvalidConstraint.new unless lower
+        raise MintJsonDependencyInvalidConstraint, {
+          "node" => node(location),
+        } if !upper || !lower
 
         Mint::Installer::SimpleConstraint.new(lower, upper)
       else
@@ -393,13 +439,21 @@ module Mint
           target =
             match[1]
 
-          raise DependencyInvalidConstraint.new unless version
+          raise MintJsonDependencyInvalidConstraint, {
+            "node" => node(location),
+          } unless version
 
           Mint::Installer::FixedConstraint.new(version, target)
+        else
+          raise MintJsonDependencyInvalidConstraint, {
+            "node" => node(location),
+          }
         end
       end
     rescue exception : JSON::ParseException
-      raise DependencyVersionNotString.new
+      raise MintJsonDependencyConstraintInvalid, {
+        "node" => node(exception),
+      }
     end
   end
 end

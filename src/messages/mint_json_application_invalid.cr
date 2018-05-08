@@ -1,4 +1,4 @@
-message MintJsonApplicationNotAnObject do
+message MintJsonApplicationInvalid do
   title "mint.json Error"
 
   block do
@@ -6,8 +6,8 @@ message MintJsonApplicationNotAnObject do
     bold "application object"
     text "of a"
     bold "mint.json"
-    text "file."
+    text "file:"
   end
 
-  snippet node
+  snippet node, nil
 end

@@ -6,7 +6,7 @@ message MintJsonNameIsEmpty do
     bold "name"
     text "field of a"
     bold "mint.json"
-    text "file is empty."
+    text "file is empty:"
   end
 
   snippet node, nil

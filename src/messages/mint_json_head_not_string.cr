@@ -6,7 +6,7 @@ message MintJsonHeadNotString do
     bold "head"
     text "field of"
     bold "the application object"
-    text "is not string."
+    text "is not string:"
   end
 
   snippet node, nil
