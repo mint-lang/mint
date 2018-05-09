@@ -173,7 +173,7 @@ module Mint
       <<-HTML
       <style>
         body {
-          background: #942323;
+          background: #960c0c;
           padding: 40px 0;
           color: #222;
         }
