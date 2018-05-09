@@ -16,6 +16,7 @@ require "./constants"
 require "./macros"
 require "./assets"
 
+require "./render/**"
 require "./utils/**"
 
 require "./message"
@@ -47,5 +48,4 @@ require "./mint_json"
 require "./scaffold"
 require "./reactor"
 require "./builder"
-require "./render"
 require "./cli"

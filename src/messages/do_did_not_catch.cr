@@ -3,7 +3,7 @@ message DoDidNotCatch do
 
   block do
     text "I am checking if all the possible errors are handled in"
-    text "a do expression."
+    bold "a do expression."
   end
 
   block do

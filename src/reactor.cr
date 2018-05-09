@@ -79,6 +79,7 @@ module Mint
         <<-HTML
         <html>
           <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <script src="/live-reload.js"></script>
           </head>
           <body>
