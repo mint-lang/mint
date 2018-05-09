@@ -3,9 +3,7 @@ module Mint
     macro install_error(name)
       class {{name}} < InstallError
         def instance
-          (MESSAGES["{{name.names.last}}"]? || Message).new(locals.merge({
-            "error" => "{{name.names.last}}"
-          } of String => Error::Value))
+          Messages::{{name.names.last}}.new(locals)
         end
       end
     end
@@ -15,9 +13,7 @@ module Mint
     macro json_error(name)
       class {{name}} < JsonError
         def instance
-          (MESSAGES["{{name.names.last}}"]? || Message).new(locals.merge({
-            "error" => "{{name.names.last}}"
-          } of String => Error::Value))
+          Messages::{{name.names.last}}.new(locals)
         end
       end
     end

@@ -2,11 +2,11 @@ version: 1.0
 shards:
   admiral:
     github: jwaldrip/admiral.cr
-    version: 1.5.0
+    version: 1.6.1
 
   baked_file_system:
     github: schovi/baked_file_system
-    version: 0.9.5
+    version: 0.9.6
 
   duktape:
     github: jessedoyle/duktape.cr
@@ -19,10 +19,6 @@ shards:
   kilt:
     github: jeromegn/kilt
     version: 0.4.0
-
-  myhtml:
-    github: kostya/myhtml
-    version: 0.28
 
   radix:
     github: luislavena/radix
@@ -38,5 +34,5 @@ shards:
 
   tree_template:
     github: anykeyh/tree_template
-    commit: bbaa56b9558104861953e64e2d892f7d3b02f9b2
+    commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
 

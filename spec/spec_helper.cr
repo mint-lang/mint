@@ -1,5 +1,4 @@
 require "spec"
-require "myhtml"
 
 ERROR_MESSAGES = [] of String
 

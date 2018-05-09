@@ -11,8 +11,6 @@ dependencies:
     github: schovi/baked_file_system
   kemal:
     github: kemalcr/kemal
-  myhtml:
-    github: kostya/myhtml
   admiral:
     github: jwaldrip/admiral.cr
   tree_template:

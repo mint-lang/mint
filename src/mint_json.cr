@@ -31,7 +31,6 @@ module Mint
         "path"   => path,
       }
     rescue error
-      puts error.class
       raise error
     end
 
