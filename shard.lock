@@ -4,6 +4,10 @@ shards:
     github: jwaldrip/admiral.cr
     version: 1.6.1
 
+  ameba:
+    github: veelenga/ameba
+    version: 0.5.1
+
   baked_file_system:
     github: schovi/baked_file_system
     version: 0.9.6

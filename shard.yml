@@ -1,7 +1,9 @@
 name: Mint
 version: 1.0.0
 
-dependencies:
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
   duktape:
     github: jessedoyle/duktape.cr
     version: ~> 0.13.0

@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error OperationExpectedExpression
 
-    Operators = {
+    OPERATORS = {
       "|>" => 0,
       "!=" => 10,
       "==" => 10,
@@ -29,7 +29,7 @@ module Mint
     def operator : String | Nil
       start do
         whitespace
-        operator = Operators.keys.find { |item| keyword item }
+        operator = OPERATORS.keys.find { |item| keyword item }
         skip unless operator
         whitespace
         operator
@@ -40,7 +40,7 @@ module Mint
       right = basic_expression! OperationExpectedExpression
 
       if next_operator = self.operator
-        if Operators[next_operator] > Operators[operator]
+        if OPERATORS[next_operator] > OPERATORS[operator]
           right = operation(right, next_operator)
         else
           return operation(

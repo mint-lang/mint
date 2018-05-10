@@ -1,12 +1,12 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlAttribute, isElement = true) : String
+    def compile(node : Ast::HtmlAttribute, is_element = true) : String
       value =
         compile node.value
 
       case node.name.value.downcase
       when .starts_with?("on")
-        if isElement
+        if is_element
           value = "(event => (#{value})(_normalizeEvent(event)))"
         end
       when "ref"
