@@ -23,7 +23,19 @@ module Mint
         end
 
         def code(contents)
-          process "\"#{contents}\" " do |part|
+          actual_content =
+            case contents
+            when " ", ""
+              "a space"
+            when "\n"
+              "a new line"
+            when "\0"
+              "end of file"
+            else
+              contents
+            end
+
+          process "\"#{actual_content}\" " do |part|
             part.colorize(:light_yellow).mode(:bold)
           end
         end

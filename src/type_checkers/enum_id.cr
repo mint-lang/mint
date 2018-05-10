@@ -8,12 +8,15 @@ module Mint
         ast.enums.find(&.name.==(node.name))
 
       raise EnumIdTypeMissing, {
+        "name" => node.name,
         "node" => node,
       } unless parent
 
       raise EnumIdEnumMissing, {
-        "name" => node.option,
-        "node" => node,
+        "parent_name" => parent.name,
+        "name"        => node.option,
+        "parent"      => parent,
+        "node"        => node,
       } unless parent.options.any?(&.==(node.option))
 
       Type.new(node.name)

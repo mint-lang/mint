@@ -4,7 +4,11 @@ ERROR_MESSAGES = [] of String
 
 class Mint::Error < Exception
   macro inherited
-    ERROR_MESSAGES << {{@type.name.stringify.split("::").last.underscore}}
+    name = {{@type.name.stringify.split("::").last.underscore}}
+
+    unless ["type_error", "install_error", "syntax_error", "json_error"].includes?(name)
+      ERROR_MESSAGES << name
+    end
   end
 end
 

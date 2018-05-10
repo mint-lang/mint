@@ -59,7 +59,19 @@ module Mint
       end
 
       def code(content)
-        print "<code>#{escape(content)}</code> "
+        actual_content =
+          case content
+          when " ", ""
+            "a space"
+          when "\n"
+            "a new line"
+          when "\0"
+            "end of file"
+          else
+            content
+          end
+
+        print "<code>#{escape(actual_content)}</code> "
       end
 
       def pre(content : String)
