@@ -1,31 +1,31 @@
-require "./formatters/**"
+module Mint
+  class Formatter
+    getter ast
 
-class Formatter
-  getter ast
+    def initialize(@ast : Ast)
+    end
 
-  def initialize(@ast : Ast)
-  end
+    # Helpers for formatting things
+    # ----------------------------------------------------------------------------
 
-  # Helpers for formatting things
-  # ----------------------------------------------------------------------------
+    def format(nodes : Array(Ast::Node | String), separator : String) : String
+      format(nodes).join(separator)
+    end
 
-  def format(nodes : Array(Ast::Node | String), separator : String) : String
-    format(nodes).join(separator)
-  end
+    def format(nodes : Array(Ast::Node | String)) : Array(String)
+      nodes.map { |node| format(node).as(String) }
+    end
 
-  def format(nodes : Array(Ast::Node | String)) : Array(String)
-    nodes.map { |node| format(node).as(String) }
-  end
+    def format(node : String) : String
+      node
+    end
 
-  def format(node : String) : String
-    node
-  end
+    def format(node : Nil) : Nil
+      nil
+    end
 
-  def format(node : Nil) : Nil
-    nil
-  end
-
-  def format(node : Ast::Node) : String
-    raise "Formatter not implemented for node '#{node}' (this should not happen!)"
+    def format(node : Ast::Node) : String
+      raise "Formatter not implemented for node '#{node}' (this should not happen!)"
+    end
   end
 end

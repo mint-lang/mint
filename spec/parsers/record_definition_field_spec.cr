@@ -7,9 +7,9 @@ describe "Record Definition Field" do
   expect_ignore "-asd"
   expect_ignore "???"
 
-  expect_error "asd", Parser::RecordDefinitionFieldExpectedColon
-  expect_error "asd:", Parser::RecordDefinitionFieldExpectedType
-  expect_error "asd: ", Parser::RecordDefinitionFieldExpectedType
+  expect_error "asd", Mint::Parser::RecordDefinitionFieldExpectedColon
+  expect_error "asd:", Mint::Parser::RecordDefinitionFieldExpectedType
+  expect_error "asd: ", Mint::Parser::RecordDefinitionFieldExpectedType
 
   expect_ok "asd: T"
   expect_ok "asd : T"

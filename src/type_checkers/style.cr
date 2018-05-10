@@ -1,9 +1,11 @@
-class TypeChecker
-  def check(node : Ast::Style) : Type
-    check node.definitions
-    check node.selectors
-    check node.medias
+module Mint
+  class TypeChecker
+    def check(node : Ast::Style) : Type
+      check node.definitions
+      check node.selectors
+      check node.medias
 
-    NEVER
+      NEVER
+    end
   end
 end

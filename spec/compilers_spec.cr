@@ -6,11 +6,11 @@ Dir.glob("./spec/compilers/**/*").each do |file|
     sample, expected = File.read(file).split("-"*80)
 
     # Parse the sample
-    ast = Parser.parse(sample, file)
-    ast.class.should eq(Ast)
+    ast = Mint::Parser.parse(sample, file)
+    ast.class.should eq(Mint::Ast)
 
     # Compare results
-    result = Compiler.compile_bare(TypeChecker.check(ast))
+    result = Mint::Compiler.compile_bare(Mint::TypeChecker.check(ast))
     result.should eq(expected.strip)
   end
 end

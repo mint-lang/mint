@@ -8,12 +8,12 @@ describe "Route" do
   expect_ignore "a"
   expect_ignore "asdasd"
 
-  expect_error "*asd", Parser::RouteExpectedOpeningBracket
-  expect_error "/test", Parser::RouteExpectedOpeningBracket
-  expect_error "/test (a:String", Parser::RouteExpectedClosingParentheses
-  expect_error "/test (a:String)", Parser::RouteExpectedOpeningBracket
-  expect_error "/test (a:String){", Parser::RouteExpectedExpression
-  expect_error "/test (a:String){ void ", Parser::RouteExpectedClosingBracket
+  expect_error "*asd", Mint::Parser::RouteExpectedOpeningBracket
+  expect_error "/test", Mint::Parser::RouteExpectedOpeningBracket
+  expect_error "/test (a:String", Mint::Parser::RouteExpectedClosingParentheses
+  expect_error "/test (a:String)", Mint::Parser::RouteExpectedOpeningBracket
+  expect_error "/test (a:String){", Mint::Parser::RouteExpectedExpression
+  expect_error "/test (a:String){ void ", Mint::Parser::RouteExpectedClosingBracket
 
   expect_ok "/ { void }"
   expect_ok "* { void }"

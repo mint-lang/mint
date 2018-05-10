@@ -9,15 +9,15 @@ describe "Module" do
   expect_ignore "mod"
   expect_ignore "modul"
 
-  expect_error "module", Parser::ModuleExpectedName
-  expect_error "module ", Parser::ModuleExpectedName
-  expect_error "module ,", Parser::ModuleExpectedName
-  expect_error "module a", Parser::ModuleExpectedName
-  expect_error "module Test", Parser::ModuleExpectedOpeningBracket
-  expect_error "module Test ", Parser::ModuleExpectedOpeningBracket
-  expect_error "module Test {", Parser::ModuleExpectedClosingBracket
-  expect_error "module Test { ", Parser::ModuleExpectedClosingBracket
-  expect_error "module Test { fun a : Test { blah }", Parser::ModuleExpectedClosingBracket
+  expect_error "module", Mint::Parser::ModuleExpectedName
+  expect_error "module ", Mint::Parser::ModuleExpectedName
+  expect_error "module ,", Mint::Parser::ModuleExpectedName
+  expect_error "module a", Mint::Parser::ModuleExpectedName
+  expect_error "module Test", Mint::Parser::ModuleExpectedOpeningBracket
+  expect_error "module Test ", Mint::Parser::ModuleExpectedOpeningBracket
+  expect_error "module Test {", Mint::Parser::ModuleExpectedClosingBracket
+  expect_error "module Test { ", Mint::Parser::ModuleExpectedClosingBracket
+  expect_error "module Test { fun a : Test { blah }", Mint::Parser::ModuleExpectedClosingBracket
 
   expect_ok "module Test { }"
 end

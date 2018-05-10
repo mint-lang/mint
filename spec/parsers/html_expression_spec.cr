@@ -8,10 +8,10 @@ describe "Html Expression" do
   expect_ignore "asd"
   expect_ignore "<"
 
-  expect_error "<{", Parser::HtmlExpressionExpectedExpression
-  expect_error "<{ ", Parser::HtmlExpressionExpectedExpression
-  expect_error "<{ a", Parser::HtmlExpressionExpectedClosingTag
-  expect_error "<{ a ", Parser::HtmlExpressionExpectedClosingTag
+  expect_error "<{", Mint::Parser::HtmlExpressionExpectedExpression
+  expect_error "<{ ", Mint::Parser::HtmlExpressionExpectedExpression
+  expect_error "<{ a", Mint::Parser::HtmlExpressionExpectedClosingTag
+  expect_error "<{ a ", Mint::Parser::HtmlExpressionExpectedClosingTag
 
   expect_ok "<{ a }>"
 end

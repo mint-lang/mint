@@ -14,11 +14,11 @@ describe "Variable" do
 end
 
 describe "Variable!" do
-  subject variable!(SyntaxError)
+  subject variable!(Mint::SyntaxError)
 
-  expect_error " ", SyntaxError
-  expect_error ".", SyntaxError
-  expect_error "???", SyntaxError
+  expect_error " ", Mint::SyntaxError
+  expect_error ".", Mint::SyntaxError
+  expect_error "???", Mint::SyntaxError
 end
 
 describe "Variable With Dashes" do
@@ -36,9 +36,9 @@ describe "Variable With Dashes" do
 end
 
 describe "Variable With Dashes!" do
-  subject variable_with_dashes!(SyntaxError)
+  subject variable_with_dashes!(Mint::SyntaxError)
 
-  expect_error " ", SyntaxError
-  expect_error ".", SyntaxError
-  expect_error "???", SyntaxError
+  expect_error " ", Mint::SyntaxError
+  expect_error ".", Mint::SyntaxError
+  expect_error "???", Mint::SyntaxError
 end

@@ -1,14 +1,16 @@
-class Formatter
-  def format(node : Ast::ArrayLiteral) : String
-    items =
-      format node.items, ",\n"
+module Mint
+  class Formatter
+    def format(node : Ast::ArrayLiteral) : String
+      items =
+        format node.items, ",\n"
 
-    if node.items.empty?
-      "[]"
-    elsif node.items.size == 1 && !items.includes?("\n")
-      "[#{items}]"
-    else
-      "[\n#{items.indent}\n]"
+      if node.items.empty?
+        "[]"
+      elsif node.items.size == 1 && !items.includes?("\n")
+        "[#{items}]"
+      else
+        "[\n#{items.indent}\n]"
+      end
     end
   end
 end

@@ -10,7 +10,7 @@ describe "Module Call" do
   expect_ignore "Asd"
   expect_ignore "Asd.Asd"
 
-  expect_error "Asd.", Parser::ModuleAccessExpectedFunction
+  expect_error "Asd.", Mint::Parser::ModuleAccessExpectedFunction
 
   expect_ok "Asd.asd"
 end

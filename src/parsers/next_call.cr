@@ -1,21 +1,23 @@
-class Parser
-  syntax_error NextCallExpectedRecord
+module Mint
+  class Parser
+    syntax_error NextCallExpectedRecord
 
-  def next_call : Ast::NextCall | Nil
-    start do |start_position|
-      skip unless keyword "next"
+    def next_call : Ast::NextCall | Nil
+      start do |start_position|
+        skip unless keyword "next"
 
-      whitespace! SkipError
+        whitespace! SkipError
 
-      item = record_update || record || variable
+        item = record_update || record || variable
 
-      raise NextCallExpectedRecord unless item
+        raise NextCallExpectedRecord unless item
 
-      Ast::NextCall.new(
-        from: start_position,
-        to: position,
-        input: data,
-        data: item)
+        Ast::NextCall.new(
+          from: start_position,
+          to: position,
+          input: data,
+          data: item)
+      end
     end
   end
 end

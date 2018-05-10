@@ -1,5 +1,7 @@
-class Formatter
-  def format(node : Ast::Variable) : String
-    node.value
+module Mint
+  class Formatter
+    def format(node : Ast::Variable) : String
+      node.value
+    end
   end
 end

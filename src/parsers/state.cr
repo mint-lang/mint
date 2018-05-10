@@ -1,27 +1,29 @@
-class Parser
-  syntax_error StateExpectedRecord
-  syntax_error StateExpectedColon
-  syntax_error StateExpectedType
+module Mint
+  class Parser
+    syntax_error StateExpectedRecord
+    syntax_error StateExpectedColon
+    syntax_error StateExpectedType
 
-  def state : Ast::State | Nil
-    start do |start_position|
-      skip unless keyword "state"
+    def state : Ast::State | Nil
+      start do |start_position|
+        skip unless keyword "state"
 
-      whitespace
-      char ':', StateExpectedColon
-      whitespace
+        whitespace
+        char ':', StateExpectedColon
+        whitespace
 
-      type = type! StateExpectedType
-      whitespace
+        type = type! StateExpectedType
+        whitespace
 
-      raise StateExpectedRecord unless state = record
+        raise StateExpectedRecord unless state = record
 
-      Ast::State.new(
-        from: start_position,
-        to: position,
-        data: state,
-        input: data,
-        type: type)
+        Ast::State.new(
+          from: start_position,
+          to: position,
+          data: state,
+          input: data,
+          type: type)
+      end
     end
   end
 end

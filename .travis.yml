@@ -1,5 +1,12 @@
 language: crystal
 
+install:
+  - shards install
+
+script:
+  - crystal spec
+  - bin/ameba
+
 os:
   - linux
   - osx

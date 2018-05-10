@@ -2,12 +2,12 @@ require "./spec_helper"
 
 macro expect_compare(a, b, result)
   it "Compares" + {{a}} + {{b}} + {{"#{result}"}}  do
-    tc = TypeChecker.new(Ast.new)
-    a = Parser.new({{a}}, "a").type_or_type_variable
-    b = Parser.new({{b}}, "b").type_or_type_variable
+    tc = Mint::TypeChecker.new(Mint::Ast.new)
+    a = Mint::Parser.new({{a}}, "a").type_or_type_variable
+    b = Mint::Parser.new({{b}}, "b").type_or_type_variable
 
     if a && b
-      result = TypeChecker::Comparer.compare(tc.check(a),tc.check(b))
+      result = Mint::TypeChecker::Comparer.compare(tc.check(a),tc.check(b))
       if {{result}}
         result.to_s.should eq({{result}})
       else
@@ -49,9 +49,9 @@ describe "Type Comparer" do
 
   describe "Records" do
     it "returns true for two records that have the same fields" do
-      a = TypeChecker::Record.new("DOM.Element", {"value" => TypeChecker::Type.new("String")})
-      b = TypeChecker::Record.new("State", {"value" => TypeChecker::Type.new("String")})
-      TypeChecker::Comparer.compare(a, b).should_not eq(nil)
+      a = Mint::TypeChecker::Record.new("DOM.Element", {"value" => Mint::TypeChecker::Type.new("String")})
+      b = Mint::TypeChecker::Record.new("State", {"value" => Mint::TypeChecker::Type.new("String")})
+      Mint::TypeChecker::Comparer.compare(a, b).should_not eq(nil)
     end
   end
 end

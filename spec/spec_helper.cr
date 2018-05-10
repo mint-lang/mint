@@ -1,25 +1,57 @@
 require "spec"
-require "myhtml"
 
 ERROR_MESSAGES = [] of String
 
-class TypeError < Exception
+class Mint::Error < Exception
   macro inherited
-    ERROR_MESSAGES << {{@type.name.stringify.split("::").last.underscore}}
-  end
-end
+    name = {{@type.name.stringify.split("::").last.underscore}}
 
-class SyntaxError < Exception
-  macro inherited
-    ERROR_MESSAGES << {{@type.name.stringify.split("::").last.underscore}}
+    unless ["type_error", "install_error", "syntax_error", "json_error"].includes?(name)
+      ERROR_MESSAGES << name
+    end
   end
 end
 
 require "../src/all"
 
+# Mock things
+class Mint::Installer::Repository
+  @terminal = Render::Terminal.new
+
+  def terminal
+    @terminal
+  end
+
+  def output
+    terminal.io.to_s.uncolorize
+  end
+
+  def run(command, chdir = directory)
+    content =
+      case command.split(" ")[1]
+      when "tag"
+        "0.1.0\n0.2.0"
+      when "fetch"
+        "fetched"
+      when "checkout"
+        "checked out"
+      when "clone"
+        "cloned"
+      else
+        ""
+      end
+
+    if url == "error"
+      {Process::Status.new(1), "", content}
+    else
+      {Process::Status.new(0), content, ""}
+    end
+  end
+end
+
 macro subject(method)
   subject = ->(sample : String) {
-    Parser.new(sample, "TestFile.mint").{{method}}
+    Mint::Parser.new(sample, "TestFile.mint").{{method}}
   }
 end
 
@@ -27,7 +59,7 @@ macro expect_ok(sample)
   it "Parses: " + {{"#{sample}"}} do
     result = subject.call({{sample}})
     result.should_not be_nil
-    result.should be_a(Ast::Node)
+    result.should be_a(Mint::Ast::Node)
   end
 end
 

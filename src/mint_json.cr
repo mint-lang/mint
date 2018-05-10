@@ -1,320 +1,458 @@
-require "json"
+module Mint
+  class MintJson
+    class Application
+      getter title, meta, icon, head
 
-class MintJson
-  class Error < Exception
-    def message
-      self.class.to_s
-    end
-  end
-
-  class FileError < Error
-    def initialize(@reason : Errno)
-    end
-
-    def message
-      "There was an error when trying to open 'mint.json' file:\n\n" \
-      "#{@reason.message}"
-    end
-  end
-
-  class Application
-    getter title, meta, icon, head
-
-    def initialize(@meta = {} of String => String,
-                   @title = "",
-                   @head = "",
-                   @icon = "")
-    end
-  end
-
-  @parser = JSON::PullParser.new("{}")
-
-  @source_directories = [] of String
-  @test_directories = [] of String
-  @dependencies = [] of Dependency
-  @application = Application.new
-  @name = ""
-
-  getter test_directories, source_directories, dependencies, application, name
-
-  def self.parse_current : MintJson
-    new File.read(File.join(Dir.current, "mint.json")), Dir.current
-  rescue exception : Errno
-    raise FileError.new(reason: exception)
-  end
-
-  class InvalidJson < Error; end
-
-  def initialize(json : String, @root : String)
-    begin
-      @parser = JSON::PullParser.new(json)
-    rescue exception : JSON::ParseException
-      raise InvalidJson.new
-    end
-    parse_root
-  end
-
-  # Parsing the root object
-  # ----------------------------------------------------------------------------
-
-  class RootNotAnObject < Error; end
-
-  class RootInvalidKey < Error; end
-
-  def parse_root
-    @parser.read_object do |key|
-      case key
-      when "name"
-        parse_name
-      when "source-directories"
-        parse_source_directories
-      when "test-directories"
-        parse_test_directories
-      when "application"
-        parse_application
-      when "dependencies"
-        parse_dependencies
-      else
-        raise RootInvalidKey.new
-      end
-    end
-  rescue exception : JSON::ParseException
-    raise RootNotAnObject.new
-  end
-
-  # Parsing the name
-  # ----------------------------------------------------------------------------
-
-  class NameNotString < Error; end
-
-  class NameIsEmpty < Error; end
-
-  def parse_name
-    @name = @parser.read_string
-    raise NameIsEmpty.new if @name.empty?
-  rescue exception : JSON::ParseException
-    raise NameNotString.new
-  end
-
-  # Parsing the head
-  # ----------------------------------------------------------------------------
-
-  class HeadNotString < Error; end
-
-  class HeadNotExists < Error; end
-
-  def parse_head
-    head = @parser.read_string
-    raise HeadNotExists.new unless File.exists?(head)
-    File.read(head)
-  rescue exception : JSON::ParseException
-    raise NameNotString.new
-  end
-
-  # Parsing the source directories
-  # ----------------------------------------------------------------------------
-
-  class SourceDirectoriesEmpty < Error; end
-
-  class SourceDirectoryNotExists < Error; end
-
-  class SourceDirectoriesInvalid < Error; end
-
-  class SourceDirectoryInvalid < Error; end
-
-  def parse_source_directories
-    @parser.read_array { parse_source_directory }
-    raise SourceDirectoriesEmpty.new if @source_directories.empty?
-  rescue exception : JSON::ParseException
-    raise SourceDirectoriesInvalid.new
-  end
-
-  def parse_source_directory
-    directory = @parser.read_string
-    raise SourceDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
-    @source_directories << directory
-  rescue exception : JSON::ParseException
-    raise SourceDirectoryInvalid.new
-  end
-
-  # Parsing the test directories
-  # ----------------------------------------------------------------------------
-
-  class TestDirectoryNotExists < Error; end
-
-  class TestDirectoriesInvalid < Error; end
-
-  class TestDirectoryInvalid < Error; end
-
-  def parse_test_directories
-    @parser.read_array { parse_test_directory }
-  rescue exception : JSON::ParseException
-    raise TestDirectoriesInvalid.new
-  end
-
-  def parse_test_directory
-    directory = @parser.read_string
-    raise TestDirectoryNotExists.new unless Dir.exists?(File.join(@root, directory))
-    @test_directories << directory
-  rescue exception : JSON::ParseException
-    raise TestDirectoryInvalid.new
-  end
-
-  # Parsing the application
-  # ----------------------------------------------------------------------------
-
-  class ApplicationInvalidKey < Error; end
-
-  class ApplicationNotAnObject < Error; end
-
-  def parse_application
-    meta = {} of String => String
-    title = ""
-    icon = ""
-    head = ""
-
-    @parser.read_object do |key|
-      case key
-      when "head"
-        head = parse_head
-      when "title"
-        title = parse_title
-      when "meta"
-        meta = parse_meta
-      when "icon"
-        icon = @parser.read_string
-      else
-        raise ApplicationInvalidKey.new
+      def initialize(@meta = {} of String => String,
+                     @title = "",
+                     @head = "",
+                     @icon = "")
       end
     end
 
-    @application = Application.new(title: title, meta: meta, icon: icon, head: head)
-  rescue exception : JSON::ParseException
-    raise ApplicationNotAnObject.new
-  end
+    @dependencies = [] of Mint::Installer::Dependency
+    @parser = JSON::PullParser.new("{}")
+    @source_directories = [] of String
+    @test_directories = [] of String
+    @application = Application.new
+    @name = ""
 
-  # Parsing the meta tags
-  # ----------------------------------------------------------------------------
+    json_error MintJsonRootNotAnObject
+    json_error MintJsonRootInvalidKey
 
-  class MetaNotAnObject < Error; end
+    getter test_directories, source_directories, dependencies, application, name
 
-  def parse_meta
-    meta = {} of String => String
-    @parser.read_object do |key|
-      value =
-        case key
-        when "keywords"
-          keywords = [] of String
-          @parser.read_array { keywords << @parser.read_string }
-          keywords.join(",")
+    def self.parse_current : MintJson
+      path = File.join(Dir.current, "mint.json")
+      new File.read(path), Dir.current, path
+    rescue exception : Errno
+      raise MintJsonInvalidFile, {
+        "result" => exception.to_s,
+        "path"   => path,
+      }
+    rescue error
+      raise error
+    end
+
+    # Calculating nodes for the snippet in errors.
+    # --------------------------------------------------------------------------
+
+    def node(column_number, line_number)
+      position =
+        if line_number - 1 == 0
+          0
         else
-          @parser.read_string
+          @json
+            .lines[0..line_number - 2]
+            .reduce(0) { |acc, line| acc + line.size + 1 }
         end
 
-      meta[key] = value
+      to =
+        position +
+          @json[position..-1].lines.first.size
+
+      data =
+        Ast::Data.new(@json, @file)
+
+      Ast::Node.new(
+        to: to,
+        from: position,
+        input: data)
     end
-    meta
-  rescue exception : JSON::ParseException
-    puts exception
-    raise MetaNotAnObject.new
-  end
 
-  # Parsing the title
-  # ----------------------------------------------------------------------------
-
-  class TitleInvalid < Error; end
-
-  class TitleIsEmpty < Error; end
-
-  def parse_title
-    title = @parser.read_string
-    raise TitleIsEmpty.new if title.empty?
-    title
-  rescue exception : JSON::ParseException
-    raise TitleInvalid.new
-  end
-
-  # Parsing the dependencies
-  # ----------------------------------------------------------------------------
-
-  class DependenciesNotAnObject < Error; end
-
-  class DependencyVersionNotString < Error; end
-
-  class DependencySourceInvalid < Error; end
-
-  class DependencyInvalidConstraint < Error; end
-
-  class DependencyNoRepository < Error; end
-
-  class DependencyNoConstraint < Error; end
-
-  def parse_dependencies
-    @parser.read_object do |key|
-      @dependencies << parse_dependency key
+    def node(exception : JSON::ParseException)
+      node exception.location
     end
-  rescue exception : JSON::ParseException
-    raise DependenciesNotAnObject.new
-  end
 
-  def parse_dependency(key)
-    repository = nil
-    constraint = nil
+    def node(location)
+      node location[1], location[0]
+    end
 
-    @parser.read_object_or_null do |key|
-      case key
-      when "repository"
-        repository = @parser.read_string
-      when "constraint"
-        constraint = parse_constraint
-      else
-        raise Error.new
+    def current_node
+      node @parser.location
+    end
+
+    def initialize(@json : String, @root : String, @file : String)
+      begin
+        @parser = JSON::PullParser.new(@json)
+      rescue exception : JSON::ParseException
+        raise MintJsonInvalidJson, {
+          "node" => node(exception),
+        }
       end
+      parse_root
     end
 
-    raise DependencyNoRepository.new unless repository
-    raise DependencyNoConstraint.new unless constraint
+    # Parsing the root object
+    # --------------------------------------------------------------------------
 
-    Dependency.new key, repository, constraint
-  rescue exception : JSON::ParseException
-    raise DependencySourceInvalid.new
-  end
+    json_error MintJsonInvalidJson
+    json_error MintJsonInvalidFile
 
-  def parse_constraint
-    raw =
+    def parse_root
+      @parser.read_object do |key|
+        case key
+        when "name"
+          parse_name
+        when "source-directories"
+          parse_source_directories
+        when "test-directories"
+          parse_test_directories
+        when "application"
+          parse_application
+        when "dependencies"
+          parse_dependencies
+        else
+          raise MintJsonRootInvalidKey, {
+            "node" => current_node,
+            "key"  => key,
+          }
+        end
+      end
+    rescue exception : JSON::ParseException
+      raise MintJsonRootNotAnObject, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the name
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonNameNotString
+    json_error MintJsonNameIsEmpty
+
+    def parse_name
+      location =
+        @parser.location
+
+      @name =
+        @parser.read_string
+
+      raise MintJsonNameIsEmpty, {
+        "node" => node(location),
+      } if @name.empty?
+    rescue exception : JSON::ParseException
+      raise MintJsonNameNotString, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the head
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonHeadNotString
+    json_error MintJsonHeadNotExists
+
+    def parse_head
+      location =
+        @parser.location
+
+      head =
+        @parser.read_string
+
+      raise MintJsonHeadNotExists, {
+        "node" => node(location),
+      } unless File.exists?(head)
+
+      File.read(head)
+    rescue exception : JSON::ParseException
+      raise MintJsonHeadNotString, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the source directories
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonSourceDirectoriesInvalid
+    json_error MintJsonSourceDirectoriesEmpty
+
+    json_error MintJsonSourceDirectoryNotExists
+    json_error MintJsonSourceDirectoryInvalid
+
+    def parse_source_directories
+      location =
+        @parser.location
+
+      @parser.read_array { parse_source_directory }
+
+      raise MintJsonSourceDirectoriesEmpty, {
+        "node" => node(location),
+      } if @source_directories.empty?
+    rescue exception : JSON::ParseException
+      raise MintJsonSourceDirectoriesInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_source_directory
+      location =
+        @parser.location
+
+      directory =
+        @parser.read_string
+
+      raise MintJsonSourceDirectoryNotExists, {
+        "node"      => node(location),
+        "directory" => directory,
+      } unless Dir.exists?(File.join(@root, directory))
+
+      @source_directories << directory
+    rescue exception : JSON::ParseException
+      raise MintJsonSourceDirectoryInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the test directories
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonTestDirectoriesInvalid
+    json_error MintJsonTestDirectoryNotExists
+    json_error MintJsonTestDirectoryInvalid
+
+    def parse_test_directories
+      @parser.read_array { parse_test_directory }
+    rescue exception : JSON::ParseException
+      raise MintJsonTestDirectoriesInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_test_directory
+      location =
+        @parser.location
+
+      directory =
+        @parser.read_string
+
+      raise MintJsonTestDirectoryNotExists, {
+        "node"      => node(location),
+        "directory" => directory,
+      } unless Dir.exists?(File.join(@root, directory))
+      @test_directories << directory
+    rescue exception : JSON::ParseException
+      raise MintJsonTestDirectoryInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the application
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonApplicationInvalidKey
+    json_error MintJsonApplicationInvalid
+
+    def parse_application
+      meta =
+        {} of String => String
+
+      title = ""
+      icon = ""
+      head = ""
+
+      @parser.read_object do |key|
+        case key
+        when "head"
+          head = parse_head
+        when "title"
+          title = parse_title
+        when "meta"
+          meta = parse_meta
+        when "icon"
+          icon = @parser.read_string
+        else
+          raise MintJsonApplicationInvalidKey, {
+            "node" => current_node,
+            "key"  => key,
+          }
+        end
+      end
+
+      @application =
+        Application.new(title: title, meta: meta, icon: icon, head: head)
+    rescue exception : JSON::ParseException
+      raise MintJsonApplicationInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the meta tags
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonMetaValueNotString
+    json_error MintJsonMetaInvalid
+
+    json_error MintJsonKeywordNotString
+    json_error MintJsonKeywordsInvalid
+
+    def parse_meta
+      meta = {} of String => String
+
+      @parser.read_object do |key|
+        value =
+          case key
+          when "keywords"
+            parse_keywords
+          else
+            parse_meta_value
+          end
+
+        meta[key] = value
+      end
+
+      meta
+    rescue exception : JSON::ParseException
+      raise MintJsonMetaInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_keywords
+      keywords = [] of String
+
+      @parser.read_array do
+        keywords << parse_keyword
+      end
+
+      keywords.join(",")
+    rescue exception : JSON::ParseException
+      raise MintJsonKeywordsInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_keyword
       @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonKeywordNotString, {
+        "node" => node(exception),
+      }
+    end
 
-    match =
-      raw.match(/(\d+\.\d+\.\d+)\s*<=\s*v\s*<\s*(\d+\.\d+\.\d+)/)
+    def parse_meta_value
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonMetaValueNotString, {
+        "node" => node(exception),
+      }
+    end
 
-    if match
-      lower =
-        Semver.parse(match[1])
+    # Parsing the title
+    # --------------------------------------------------------------------------
 
-      upper =
-        Semver.parse(match[2])
+    json_error MintJsonTitleInvalid
+    json_error MintJsonTitleIsEmpty
 
-      raise DependencyInvalidConstraint.new unless upper
-      raise DependencyInvalidConstraint.new unless lower
+    def parse_title
+      location =
+        @parser.location
 
-      SimpleConstraint.new(lower, upper)
-    else
+      title =
+        @parser.read_string
+
+      raise MintJsonTitleIsEmpty, {
+        "node" => node(location),
+      } if title.empty?
+
+      title
+    rescue exception : JSON::ParseException
+      raise MintJsonTitleInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the dependencies
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonDependencyInvalidConstraint
+    json_error MintJsonDependencyConstraintInvalid
+    json_error MintJsonDependenciesInvalid
+    json_error MintJsonDependencyInvalid
+
+    def parse_dependencies
+      @parser.read_object do |key|
+        @dependencies << parse_dependency key
+      end
+    rescue exception : JSON::ParseException
+      raise MintJsonDependenciesInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_dependency(key)
+      repository = nil
+      constraint = nil
+
+      @parser.read_object_or_null do |key|
+        case key
+        when "repository"
+          repository = @parser.read_string
+        when "constraint"
+          constraint = parse_constraint
+        else
+          raise Error.new
+        end
+      end
+
+      raise "Should not happend" unless repository
+      raise "Should not happend" unless constraint
+
+      Mint::Installer::Dependency.new key, repository, constraint
+    rescue exception : JSON::ParseException
+      raise MintJsonDependencyInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_constraint
+      location =
+        @parser.location
+
+      raw =
+        @parser.read_string
+
       match =
-        raw.match(/(.*?):(\d+\.\d+\.\d+)/)
+        raw.match(/(\d+\.\d+\.\d+)\s*<=\s*v\s*<\s*(\d+\.\d+\.\d+)/)
 
       if match
-        version =
-          Semver.parse(match[2])
+        lower =
+          Mint::Installer::Semver.parse(match[1])
 
-        target =
-          match[1]
+        upper =
+          Mint::Installer::Semver.parse(match[2])
 
-        raise DependencyInvalidConstraint.new unless version
+        raise MintJsonDependencyInvalidConstraint, {
+          "node" => node(location),
+        } if !upper || !lower
 
-        FixedConstraint.new(version, target)
+        Mint::Installer::SimpleConstraint.new(lower, upper)
+      else
+        match =
+          raw.match(/(.*?):(\d+\.\d+\.\d+)/)
+
+        if match
+          version =
+            Mint::Installer::Semver.parse(match[2])
+
+          target =
+            match[1]
+
+          raise MintJsonDependencyInvalidConstraint, {
+            "node" => node(location),
+          } unless version
+
+          Mint::Installer::FixedConstraint.new(version, target)
+        else
+          raise MintJsonDependencyInvalidConstraint, {
+            "node" => node(location),
+          }
+        end
       end
+    rescue exception : JSON::ParseException
+      raise MintJsonDependencyConstraintInvalid, {
+        "node" => node(exception),
+      }
     end
-  rescue exception : JSON::ParseException
-    raise DependencyVersionNotString.new
   end
 end

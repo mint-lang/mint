@@ -6,9 +6,9 @@ describe "Type" do
   expect_ignore ":"
   expect_ignore "a"
 
-  expect_error "T(a, T.)", Parser::TypeExpectedType
-  expect_error "T(", Parser::TypeExpectedTypeOrVariable
-  expect_error "T(T", Parser::TypeExpectedClosingParentheses
+  expect_error "T(a, T.)", Mint::Parser::TypeExpectedType
+  expect_error "T(", Mint::Parser::TypeExpectedTypeOrVariable
+  expect_error "T(T", Mint::Parser::TypeExpectedClosingParentheses
 
   expect_ok "T"
   expect_ok "Type01Blank"
@@ -21,9 +21,9 @@ describe "Type" do
 end
 
 describe "Type!" do
-  subject type!(SyntaxError)
+  subject type!(Mint::SyntaxError)
 
-  expect_error "a", SyntaxError
+  expect_error "a", Mint::SyntaxError
 
   expect_ok "T"
 end

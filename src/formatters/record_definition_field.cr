@@ -1,11 +1,13 @@
-class Formatter
-  def format(node : Ast::RecordDefinitionField) : String
-    key =
-      format node.key
+module Mint
+  class Formatter
+    def format(node : Ast::RecordDefinitionField) : String
+      key =
+        format node.key
 
-    type =
-      format node.type
+      type =
+        format node.type
 
-    "#{key} : #{type}"
+      "#{key} : #{type}"
+    end
   end
 end

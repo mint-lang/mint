@@ -1,27 +1,29 @@
-class Parser
-  syntax_error ArrayExpectedClosingBracket
+module Mint
+  class Parser
+    syntax_error ArrayExpectedClosingBracket
 
-  def array : Ast::ArrayLiteral | Nil
-    start do |start_position|
-      skip unless char! '['
+    def array : Ast::ArrayLiteral | Nil
+      start do |start_position|
+        skip unless char! '['
 
-      whitespace
+        whitespace
 
-      items = list(
-        terminator: ']', separator: ','
-      ) {
-        expression.as(Ast::Expression | Nil)
-      }.compact
+        items = list(
+          terminator: ']', separator: ','
+        ) {
+          expression.as(Ast::Expression | Nil)
+        }.compact
 
-      whitespace
+        whitespace
 
-      char "]", ArrayExpectedClosingBracket
+        char "]", ArrayExpectedClosingBracket
 
-      Ast::ArrayLiteral.new(
-        from: start_position,
-        items: items,
-        to: position,
-        input: data)
+        Ast::ArrayLiteral.new(
+          from: start_position,
+          items: items,
+          to: position,
+          input: data)
+      end
     end
   end
 end

@@ -1,30 +1,32 @@
-class Parser
-  syntax_error PipeExpectedCall
+module Mint
+  class Parser
+    syntax_error PipeExpectedCall
 
-  # This method rolls an operation where the operator is "|>" into a single
-  # call. Every other operation is passed trough.
-  def rollup_pipe(operation) : Ast::ModuleCall | Ast::FunctionCall | Ast::Operation
-    return operation unless operation.operator == "|>"
+    # This method rolls an operation where the operator is "|>" into a single
+    # call. Every other operation is passed trough.
+    def rollup_pipe(operation) : Ast::ModuleCall | Ast::FunctionCall | Ast::Operation
+      return operation unless operation.operator == "|>"
 
-    right = operation.right
-    left = operation.left
+      right = operation.right
+      left = operation.left
 
-    left =
-      case left
-      when Ast::Operation
-        rollup_pipe(left)
+      left =
+        case left
+        when Ast::Operation
+          rollup_pipe(left)
+        else
+          left
+        end
+
+      case right
+      when Ast::ModuleCall, Ast::FunctionCall
+        right.arguments << left
+        right.piped = true
       else
-        left
+        raise PipeExpectedCall, right.from
       end
 
-    case right
-    when Ast::ModuleCall, Ast::FunctionCall
-      right.arguments << left
-      right.piped = true
-    else
-      raise PipeExpectedCall, right.from
+      right
     end
-
-    right
   end
 end

@@ -1,7 +1,9 @@
-class TypeChecker
-  def check(node : Ast::Suite)
-    check node.tests
+module Mint
+  class TypeChecker
+    def check(node : Ast::Suite)
+      check node.tests
 
-    NEVER
+      NEVER
+    end
   end
 end

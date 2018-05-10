@@ -1,11 +1,11 @@
 message ComponentNotFoundRender do
-	title "Type Error"
+  title "Type Error"
 
-	block do
-		text "A component must have a"
-		bold "render"
-		text "function."
-	end
+  block do
+    text "A component must have a"
+    bold "render"
+    text "function."
+  end
 
-	snippet node, "This component does not have one:"
+  snippet node, "This component does not have one:"
 end

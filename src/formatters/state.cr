@@ -1,11 +1,13 @@
-class Formatter
-  def format(node : Ast::State) : String
-    type =
-      format node.type
+module Mint
+  class Formatter
+    def format(node : Ast::State) : String
+      type =
+        format node.type
 
-    data =
-      format node.data
+      data =
+        format node.data
 
-    "state : #{type} #{data}"
+      "state : #{type} #{data}"
+    end
   end
 end

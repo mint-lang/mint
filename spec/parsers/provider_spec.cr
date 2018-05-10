@@ -7,12 +7,12 @@ describe "Provider" do
   expect_ignore "."
   expect_ignore "prov"
 
-  expect_error "provider", Parser::ProviderExpectedName
-  expect_error "provider Test", Parser::ProviderExpectedColon
-  expect_error "provider Test: ", Parser::ProviderExpectedSubscription
-  expect_error "provider Test:TestSub", Parser::ProviderExpectedOpeningBracket
-  expect_error "provider Test:TestSub {", Parser::ProviderExpectedBody
-  expect_error "provider Test:TestSub { fun test : Void {void}", Parser::ProviderExpectedClosingBracket
+  expect_error "provider", Mint::Parser::ProviderExpectedName
+  expect_error "provider Test", Mint::Parser::ProviderExpectedColon
+  expect_error "provider Test: ", Mint::Parser::ProviderExpectedSubscription
+  expect_error "provider Test:TestSub", Mint::Parser::ProviderExpectedOpeningBracket
+  expect_error "provider Test:TestSub {", Mint::Parser::ProviderExpectedBody
+  expect_error "provider Test:TestSub { fun test : Void {void}", Mint::Parser::ProviderExpectedClosingBracket
 
   expect_ok "provider Test:TestSub { fun test : Void {void} }"
 end

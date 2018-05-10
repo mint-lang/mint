@@ -1,14 +1,16 @@
-class Compiler
-  def compile(node : Ast::ModuleCall) : String
-    name =
-      underscorize node.name
+module Mint
+  class Compiler
+    def compile(node : Ast::ModuleCall) : String
+      name =
+        underscorize node.name
 
-    function =
-      node.function.value
+      function =
+        node.function.value
 
-    arguments =
-      compile node.arguments, ", "
+      arguments =
+        compile node.arguments, ", "
 
-    "$#{name}.#{function}(#{arguments})"
+      "$#{name}.#{function}(#{arguments})"
+    end
   end
 end

@@ -1,14 +1,16 @@
-class Formatter
-  def format(node : Ast::Get) : String
-    name =
-      format node.name
+module Mint
+  class Formatter
+    def format(node : Ast::Get) : String
+      name =
+        format node.name
 
-    type =
-      format node.type
+      type =
+        format node.type
 
-    body =
-      format node.body
+      body =
+        format node.body
 
-    "get #{name} : #{type} {\n#{body.indent}\n}"
+      "get #{name} : #{type} {\n#{body.indent}\n}"
+    end
   end
 end

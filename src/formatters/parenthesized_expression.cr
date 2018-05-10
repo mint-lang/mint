@@ -1,5 +1,7 @@
-class Formatter
-  def format(node : Ast::ParenthesizedExpression) : String
-    "(#{format node.expression})"
+module Mint
+  class Formatter
+    def format(node : Ast::ParenthesizedExpression) : String
+      "(#{format node.expression})"
+    end
   end
 end

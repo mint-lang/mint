@@ -1,21 +1,27 @@
-class Compiler
-  def compile(node : Ast::Route) : String
-    expression =
-      compile node.expression
+module Mint
+  class Compiler
+    def compile(node : Ast::Route) : String
+      expression =
+        compile node.expression
 
-    arguments =
-      compile node.arguments, ", "
+      arguments =
+        compile node.arguments, ", "
 
-    mapping =
-      node
-        .arguments
-        .map { |argument| "'#{argument.name.value}'" }
-        .join(", ")
+      mapping =
+        node
+          .arguments
+          .map { |argument| "'#{argument.name.value}'" }
+          .join(", ")
 
-    "{
-       handler: ((#{arguments}) => { #{expression} }),
-       mapping: [#{mapping}],
-       path: `#{node.url}`
-     }"
+      <<-RESULT
+      {
+        handler: ((#{arguments}) => {
+          #{expression}
+        }),
+        mapping: [#{mapping}],
+        path: `#{node.url}`
+      }
+      RESULT
+    end
   end
 end

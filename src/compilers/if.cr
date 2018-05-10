@@ -1,14 +1,16 @@
-class Compiler
-  def compile(node : Ast::If) : String
-    condition =
-      compile node.condition
+module Mint
+  class Compiler
+    def compile(node : Ast::If) : String
+      condition =
+        compile node.condition
 
-    truthy =
-      compile node.truthy
+      truthy =
+        compile node.truthy
 
-    falsy =
-      compile node.falsy
+      falsy =
+        compile node.falsy
 
-    "(#{condition} ? #{truthy} : #{falsy})"
+      "(#{condition} ? #{truthy} : #{falsy})"
+    end
   end
 end

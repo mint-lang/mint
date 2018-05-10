@@ -8,8 +8,8 @@ describe "Case Branch" do
   expect_ignore "???"
   expect_ignore "asd"
 
-  expect_error "=>", Parser::CaseBranchExpectedExpression
-  expect_error "asd =>", Parser::CaseBranchExpectedExpression
+  expect_error "=>", Mint::Parser::CaseBranchExpectedExpression
+  expect_error "asd =>", Mint::Parser::CaseBranchExpectedExpression
 
   expect_ok "asd => asd"
 end

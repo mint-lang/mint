@@ -1,8 +1,10 @@
-class Formatter
-  def format(node : Ast::ModuleCall) : String
-    function =
-      format node.function
+module Mint
+  class Formatter
+    def format(node : Ast::ModuleCall) : String
+      function =
+        format node.function
 
-    format "#{node.name}.#{function}", node
+      format "#{node.name}.#{function}", node
+    end
   end
 end

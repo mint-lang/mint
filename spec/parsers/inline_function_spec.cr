@@ -7,10 +7,10 @@ describe "Inline Function" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "\\", Parser::InlineFunctionExpectedArrow
-  expect_error "\\a : Event ", Parser::InlineFunctionExpectedArrow
-  expect_error "\\a : Event =>", Parser::InlineFunctionExpectedExpression
-  expect_error "\\a : Event => ", Parser::InlineFunctionExpectedExpression
+  expect_error "\\", Mint::Parser::InlineFunctionExpectedArrow
+  expect_error "\\a : Event ", Mint::Parser::InlineFunctionExpectedArrow
+  expect_error "\\a : Event =>", Mint::Parser::InlineFunctionExpectedExpression
+  expect_error "\\a : Event => ", Mint::Parser::InlineFunctionExpectedExpression
 
   expect_ok "\\a : Event => b"
 end

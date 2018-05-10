@@ -7,12 +7,12 @@ describe "State" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "state", Parser::StateExpectedColon
-  expect_error "state ", Parser::StateExpectedColon
-  expect_error "state :", Parser::StateExpectedType
-  expect_error "state : ", Parser::StateExpectedType
-  expect_error "state : T", Parser::StateExpectedRecord
-  expect_error "state : T ", Parser::StateExpectedRecord
+  expect_error "state", Mint::Parser::StateExpectedColon
+  expect_error "state ", Mint::Parser::StateExpectedColon
+  expect_error "state :", Mint::Parser::StateExpectedType
+  expect_error "state : ", Mint::Parser::StateExpectedType
+  expect_error "state : T", Mint::Parser::StateExpectedRecord
+  expect_error "state : T ", Mint::Parser::StateExpectedRecord
 
   expect_ok "state : T { }"
 end

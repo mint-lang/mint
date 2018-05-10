@@ -7,7 +7,7 @@ describe "Next Call" do
   expect_ignore "asd"
   expect_ignore "next"
 
-  expect_error "next ", Parser::NextCallExpectedRecord
+  expect_error "next ", Mint::Parser::NextCallExpectedRecord
 
   expect_ok "next {}"
 end

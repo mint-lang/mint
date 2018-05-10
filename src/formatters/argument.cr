@@ -1,11 +1,13 @@
-class Formatter
-  def format(node : Ast::Argument) : String
-    name =
-      format node.name
+module Mint
+  class Formatter
+    def format(node : Ast::Argument) : String
+      name =
+        format node.name
 
-    type =
-      format node.type
+      type =
+        format node.type
 
-    "#{name} : #{type}"
+      "#{name} : #{type}"
+    end
   end
 end

@@ -1,60 +1,60 @@
-require "./nodes/node"
+module Mint
+  class Ast
+    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression
 
-class Ast
-  alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression
+    alias TypeOrVariable = Type | TypeVariable
 
-  alias TypeOrVariable = Type | TypeVariable
+    alias Expression = ParenthesizedExpression |
+                       InlineFunction |
+                       StringLiteral |
+                       NumberLiteral |
+                       HtmlComponent |
+                       RecordUpdate |
+                       ModuleAccess |
+                       FunctionCall |
+                       BoolLiteral |
+                       HtmlElement |
+                       ModuleCall |
+                       NextCall |
+                       Variable |
+                       Record |
+                       Access |
+                       With |
+                       Case |
+                       If |
+                       Js
 
-  alias Expression = ParenthesizedExpression |
-                     InlineFunction |
-                     StringLiteral |
-                     NumberLiteral |
-                     HtmlComponent |
-                     RecordUpdate |
-                     ModuleAccess |
-                     FunctionCall |
-                     BoolLiteral |
-                     HtmlElement |
-                     ModuleCall |
-                     NextCall |
-                     Variable |
-                     Record |
-                     Access |
-                     With |
-                     Case |
-                     If |
-                     Js
+    getter components, modules, records, stores, routes, providers, suites, enums
 
-  getter components, modules, records, stores, routes, providers, suites, enums
+    def initialize(@records = [] of RecordDefinition,
+                   @components = [] of Component,
+                   @providers = [] of Provider,
+                   @modules = [] of Module,
+                   @routes = [] of Routes,
+                   @suites = [] of Suite,
+                   @stores = [] of Store,
+                   @enums = [] of Enum)
+    end
 
-  def initialize(@records = [] of RecordDefinition,
-                 @components = [] of Component,
-                 @providers = [] of Provider,
-                 @modules = [] of Module,
-                 @routes = [] of Routes,
-                 @suites = [] of Suite,
-                 @stores = [] of Store,
-                 @enums = [] of Enum)
-  end
+    def main : Component | Nil
+      @components.find(&.name.==("Main"))
+    end
 
-  def main : Ast::Component | Nil
-    @components.find(&.name.==("Main"))
-  end
+    def space_separated?(node1, node2)
+      node1.input.input[node1.from, node2.from - node1.from].includes?("\n\n")
+    end
 
-  def space_separated?(node1, node2)
-    node1.input.input[node1.from, node2.from - node1.from].includes?("\n\n")
-  end
+    def merge(ast)
+      @components.concat ast.components
+      @providers.concat ast.providers
+      @modules.concat ast.modules
+      @records.concat ast.records
+      @stores.concat ast.stores
+      @routes.concat ast.routes
+      @suites.concat ast.suites
+      @enums.concat ast.enums
 
-  def merge(ast)
-    @components.concat ast.components
-    @providers.concat ast.providers
-    @modules.concat ast.modules
-    @records.concat ast.records
-    @stores.concat ast.stores
-    @routes.concat ast.routes
-    @suites.concat ast.suites
-    @enums.concat ast.enums
-
-    self
+      self
+    end
   end
 end

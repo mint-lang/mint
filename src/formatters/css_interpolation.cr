@@ -1,8 +1,10 @@
-class Formatter
-  def format(node : Ast::CssInterpolation) : String
-    body =
-      format node.expression
+module Mint
+  class Formatter
+    def format(node : Ast::CssInterpolation) : String
+      body =
+        format node.expression
 
-    "{#{body}}"
+      "{#{body}}"
+    end
   end
 end

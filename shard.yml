@@ -1,7 +1,9 @@
 name: Mint
 version: 1.0.0
 
-dependencies:
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
   duktape:
     github: jessedoyle/duktape.cr
     version: ~> 0.13.0
@@ -11,8 +13,6 @@ dependencies:
     github: schovi/baked_file_system
   kemal:
     github: kemalcr/kemal
-  myhtml:
-    github: kostya/myhtml
   admiral:
     github: jwaldrip/admiral.cr
   tree_template:

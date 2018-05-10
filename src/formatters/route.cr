@@ -1,18 +1,20 @@
-class Formatter
-  def format(node : Ast::Route) : String
-    body =
-      format node.expression
+module Mint
+  class Formatter
+    def format(node : Ast::Route) : String
+      body =
+        format node.expression
 
-    args =
-      format node.arguments, ", "
+      args =
+        format node.arguments, ", "
 
-    arguments =
-      if node.arguments.empty?
-        ""
-      else
-        " (#{args})"
-      end
+      arguments =
+        if node.arguments.empty?
+          ""
+        else
+          " (#{args})"
+        end
 
-    "#{node.url}#{arguments} {\n#{body.indent}\n}"
+      "#{node.url}#{arguments} {\n#{body.indent}\n}"
+    end
   end
 end
