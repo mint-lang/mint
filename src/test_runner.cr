@@ -135,7 +135,7 @@ module Mint
           Dir.glob(SourceFiles.tests + SourceFiles.all)
         end
 
-      sources.reduce(ast) do |memo, file|
+      sources.uniq.reduce(ast) do |memo, file|
         artifact = Parser.parse(file)
 
         formatted =

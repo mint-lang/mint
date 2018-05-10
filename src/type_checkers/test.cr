@@ -2,8 +2,6 @@ module Mint
   class TypeChecker
     type_error TestTypeMismatch
 
-    TEST_CONTEXT = Type.new("Test.Context", [Type.new("a")])
-
     def check(node : Ast::Test)
       type =
         check node.expression
@@ -13,6 +11,7 @@ module Mint
       else
         raise TestTypeMismatch, {
           "node" => node.expression,
+          "got"  => type,
         }
       end
 

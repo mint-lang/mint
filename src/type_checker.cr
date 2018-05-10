@@ -16,6 +16,7 @@ module Mint
     HTML_CHILDREN  = Type.new("Array", [HTML])
     TEXT_CHILDREN  = Type.new("Array", [STRING])
     VOID_FUNCTION  = Type.new("Function", [VOID])
+    TEST_CONTEXT   = Type.new("Test.Context", [Type.new("a")])
 
     getter records, scope, artifacts
 
