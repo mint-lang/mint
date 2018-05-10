@@ -7,10 +7,6 @@ module Mint
       check_names node.functions, ProviderEntityNameConflict
       check_global_names node.name, node
 
-      scope node do
-        check node.functions
-      end
-
       subscription =
         records.find(&.name.==(node.subscription))
 
@@ -18,6 +14,10 @@ module Mint
         "name" => node.subscription,
         "node" => node,
       } unless subscription
+
+      scope node do
+        check node.functions
+      end
 
       NEVER
     end

@@ -23,9 +23,7 @@ module Mint
     macro syntax_error(name)
       class {{name}} < SyntaxError
         def instance
-          (MESSAGES["{{name.names.last}}"]? || Message).new(locals.merge({
-            "error" => "{{name.names.last}}"
-          } of String => Error::Value))
+          Messages::{{name.names.last}}.new(locals)
         end
       end
     end
@@ -41,9 +39,7 @@ module Mint
     macro type_error(name)
       class {{name}} < TypeError
         def instance
-          (MESSAGES["{{name.names.last}}"]? || Message).new(locals.merge({
-            "error" => "{{name.names.last}}"
-          } of String => Error::Value))
+          Messages::{{name.names.last}}.new(locals)
         end
       end
     end

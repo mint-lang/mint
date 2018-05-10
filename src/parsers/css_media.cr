@@ -14,6 +14,8 @@ module Mint
 
         content = gather { chars "^{" }.to_s
 
+        raise CssMediaExpectedName if content.strip.empty?
+
         definitions = block(
           opening_bracket: CssMediaExpectedOpeningBracket,
           closing_bracket: CssMediaExpectedClosingBracket) do

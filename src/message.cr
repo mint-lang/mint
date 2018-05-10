@@ -292,14 +292,7 @@ module Mint
     end
 
     def build
-      Builder.build do
-        block do
-          text "The error"
-          bold error
-          text "does not have a message yet."
-        end
-        snippet node
-      end
+      [] of Element
     end
 
     def render(renderer)
