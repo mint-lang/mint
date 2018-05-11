@@ -8,7 +8,7 @@ module Mint
           items =
             compile node.children, ", "
 
-          "[#{items}]"
+          "_array(#{items})"
         end
 
       attributes =
