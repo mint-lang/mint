@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error DoCatchesNothing
     type_error DoDidNotCatch
 
     def check(node : Ast::Do) : Type
@@ -43,12 +44,16 @@ module Mint
       node.catches.each do |catch|
         catch_type = resolve_type(Type.new(catch.type))
 
+        raise DoCatchesNothing, {
+          "got"  => catch_type,
+          "node" => catch,
+        } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
+
         scope({catch.variable.value, catch_type}) do
           check catch
         end
 
-        to_catch
-          .reject! { |item| Comparer.compare(catch_type, item) }
+        to_catch.reject! { |item| Comparer.compare(catch_type, item) }
       end
 
       check node.finally.not_nil! if node.finally
