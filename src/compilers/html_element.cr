@@ -56,24 +56,23 @@ module Mint
           nil
         end
 
-      style =
-        if styles = dynamic_styles[class_name]?
-          items =
-            styles
-              .map { |key, value| "[`#{key}`]: #{value}" }
-              .join(",\n")
-              .indent
+      if styles = dynamic_styles[class_name]?
+        items =
+          styles
+            .map { |key, value| "[`#{key}`]: #{value}" }
+            .join(",\n")
+            .indent
 
-          classes =
-            if class_name_attribute_value
-              "#{class_name_attribute_value} + ` #{class_names}`"
-            else
-              "`#{class_names}`"
-            end
+        classes =
+          if class_name_attribute_value
+            "#{class_name_attribute_value} + ` #{class_names}`"
+          else
+            "`#{class_names}`"
+          end
 
-          attributes.push "className: #{classes}"
-          attributes.push "style: {\n#{items}\n}"
-        end
+        attributes.push "className: #{classes}"
+        attributes.push "style: {\n#{items}\n}"
+      end
 
       attributes =
         if attributes.empty?

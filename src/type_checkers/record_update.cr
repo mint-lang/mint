@@ -17,7 +17,7 @@ module Mint
         "node"        => node,
       } unless target.is_a?(Record)
 
-      fields = node.fields.each do |field|
+      node.fields.each do |field|
         type =
           check field.value
 
