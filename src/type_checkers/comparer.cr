@@ -40,7 +40,7 @@ module Mint
       end
 
       def copy(from : {String, Hash(String, String)}, to : {String, Hash(String, String)})
-        what = from[1].select do |key, value|
+        what = from[1].select do |key, _|
           key.starts_with?(from[0])
         end
 

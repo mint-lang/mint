@@ -116,7 +116,7 @@ module Mint
 
       # Updates the repository.
       def update
-        status, output, error = run "git fetch --tags --force"
+        status, _, error = run "git fetch --tags --force"
 
         if status.success?
           terminal.print "  #{CHECKMARK} Updated #{id}\n"
@@ -130,7 +130,7 @@ module Mint
 
       # Clones the repository.
       def clone
-        status, output, error = run "git clone #{url} #{directory}", Dir.current
+        status, _, error = run "git clone #{url} #{directory}", Dir.current
 
         if status.success?
           terminal.print "  #{CHECKMARK} Cloned #{id}\n"
@@ -147,7 +147,7 @@ module Mint
         target =
           self.target || tag
 
-        status, output, error =
+        status, _, error =
           run "git checkout #{target}"
 
         raise RepositoryCouldNotCheckout, {

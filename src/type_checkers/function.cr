@@ -28,8 +28,7 @@ module Mint
         return_type =
           check node.type
 
-        wheres =
-          check node.wheres
+        check node.wheres
 
         resolved =
           Comparer.compare(body_type, return_type)

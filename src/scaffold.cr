@@ -42,7 +42,6 @@ module Mint
       File.write(File.join("source", "Main.mint"), MAIN)
       File.write("mint.json", json.to_pretty_json)
 
-      directory = Dir.current.colorize.mode(:bold)
       Installer.new
     end
 

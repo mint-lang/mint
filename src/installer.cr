@@ -185,9 +185,6 @@ module Mint
         #       the resolved one.
         return
       else
-        constraint =
-          dependency.constraint
-
         root_dependency =
           root_dependencies.find(&.name.==(dependency.name))
 
