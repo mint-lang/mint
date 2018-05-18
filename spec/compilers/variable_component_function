@@ -25,3 +25,5 @@ class $A extends Component {
     return _createElement("div", {})
   }
 }
+
+$A.displayName = "A"

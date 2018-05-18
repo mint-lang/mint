@@ -21,3 +21,5 @@ class $If extends Component {
     return _createElement("div", {})
   }
 }
+
+$If.displayName = "If"

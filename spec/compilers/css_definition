@@ -27,6 +27,8 @@ class $A extends Component {
   }
 }
 
+$A.displayName = "A"
+
 _insertStyles(`
   .a-test {
     margin: var(--a-test-margin);

@@ -9,3 +9,5 @@ class $Test extends Component {
     return _createElement("div", {})
   }
 }
+
+$Test.displayName = "Test"

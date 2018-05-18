@@ -31,6 +31,8 @@ class $HtmlStyle extends Component {
   }
 }
 
+$HtmlStyle.displayName = "HtmlStyle"
+
 $HtmlStyle.defaultProps = {
   background: `blue`
 }

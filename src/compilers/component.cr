@@ -16,9 +16,7 @@ module Mint
         underscorize node.name
 
       display_name =
-        if node.name.includes?('.')
-          "\n\n$#{name}.displayName = \"#{node.name}\""
-        end
+        "\n\n$#{name}.displayName = \"#{node.name}\""
 
       default_fields =
         node

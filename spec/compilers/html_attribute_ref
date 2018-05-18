@@ -16,3 +16,5 @@ class $HtmlAttribute extends Component {
     })
   }
 }
+
+$HtmlAttribute.displayName = "HtmlAttribute"

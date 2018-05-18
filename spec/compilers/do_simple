@@ -30,3 +30,5 @@ class $Do extends Component {
     return _createElement("div", {})
   }
 }
+
+$Do.displayName = "Do"

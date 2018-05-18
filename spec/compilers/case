@@ -34,3 +34,5 @@ class $Case extends Component {
     return _createElement("div", {})
   }
 }
+
+$Case.displayName = "Case"
