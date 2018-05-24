@@ -15,7 +15,7 @@ module Mint
         "readOnly: #{value}"
       end
 
-      "#{node.name.value}: #{value}"
+      "\"#{node.name.value}\": #{value}"
     end
   end
 end

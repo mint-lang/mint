@@ -8,7 +8,7 @@ component HtmlAttribute {
 class $HtmlAttribute extends Component {
   render() {
     return _createElement("div", {
-      title: `Hello`
+      "title": `Hello`
     })
   }
 }
