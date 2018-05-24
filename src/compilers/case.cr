@@ -5,22 +5,20 @@ module Mint
         compile node.condition
 
       condition_let =
-        "let condition = #{condition}"
-
-      lets, cases =
-        node
-          .branches
-          .map_with_index { |branch, index| compile branch, index }
-          .reduce({[condition_let], [] of String}) do |memo, (let, branch)|
-          memo[0] << let
-          memo[1] << branch
-          memo
-        end
+        "let __condition = #{condition}\n\n"
 
       body =
-        "#{lets.join("\n")}\nswitch (condition) {\n#{cases.join("\n").indent}\n}"
+        node
+          .branches
+          .sort_by(&.match.nil?.to_s)
+          .map_with_index { |branch, index| compile branch, index }
+          .reduce(condition_let) { |memo, branch| memo + " " + branch }
 
-      "(() => {\n#{body.indent}\n})()"
+      <<-RESULT
+      (() => {
+      #{body.indent}
+      })()
+      RESULT
     end
   end
 end

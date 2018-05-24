@@ -15,17 +15,14 @@ component Case {
 class $Case extends Component {
   test() {
     return (() => {
-      let condition = `Hello`
-      let branch0 = `test`
-      let branch1 = `Hello`
+      let __condition = `Hello`
 
-      switch (condition) {
-        case branch0:
-          return true
-        case branch1:
-          return false
-        default:
-          return false
+      if (_compare(__condition, `test`)) {
+        return true
+      } else if (_compare(__condition, `Hello`)) {
+        return false
+      } else {
+        return false
       }
     })()
   }

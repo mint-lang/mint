@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::CaseBranch, index : Int32) : Tuple(String, String)
+    def compile(node : Ast::CaseBranch, index : Int32) : String
       expression =
         compile node.expression
 
@@ -8,15 +8,25 @@ module Mint
         match =
           compile node.match.not_nil!
 
-        let =
-          "let branch#{index} = #{match}"
-
-        branch =
-          "case branch#{index}:\n  return #{expression}"
-
-        {let, branch}
+        if index == 0
+          <<-RESULT
+          if (_compare(__condition, #{match})) {
+            return #{expression}
+          }
+          RESULT
+        else
+          <<-RESULT
+          else if (_compare(__condition, #{match})) {
+            return #{expression}
+          }
+          RESULT
+        end
       else
-        {"", "default:\n  return #{expression}"}
+        <<-RESULT
+        else {
+          return #{expression}
+        }
+        RESULT
       end
     end
   end
