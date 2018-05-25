@@ -11,7 +11,7 @@ module Mint
     NEVER          = Type.new("Never")
     HTML           = Type.new("Html")
     EVENT          = Type.new("Html.Event")
-    REF_FUNCTION   = Type.new("Function", [Type.new("DOM.Element"), VOID])
+    REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID])
     EVENT_FUNCTION = Type.new("Function", [EVENT, VOID])
     HTML_CHILDREN  = Type.new("Array", [HTML])
     TEXT_CHILDREN  = Type.new("Array", [STRING])

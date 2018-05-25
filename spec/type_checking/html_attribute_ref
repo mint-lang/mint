@@ -1,6 +1,6 @@
 component Test {
   fun render : Html {
-    <div ref={\element : DOM.Element => void}/>
+    <div ref={\element : Dom.Element => void}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
