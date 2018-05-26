@@ -24,10 +24,7 @@ module Mint
 
     def compile
       Dir.glob(@pattern).each do |file|
-        @cache[file] ||= begin
-          artifact =
-            Parser.parse(file)
-        end
+        @cache[file] ||= Parser.parse(file)
       end
 
       @cache
