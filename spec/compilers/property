@@ -3,6 +3,13 @@ store Test {
 }
 --------------------------------------------------------------------------------
 const $Test = new(class extends Store {
+  constructor() {
+    super()
+    this.props = {
+      name: `Joe`
+    }
+  }
+
   get name() {
     if (this.props.name != undefined) {
       return this.props.name

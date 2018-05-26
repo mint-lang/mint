@@ -7,6 +7,13 @@ store Test {
 }
 --------------------------------------------------------------------------------
 const $Test = new(class extends Store {
+  constructor() {
+    super()
+    this.props = {
+      a: ``
+    }
+  }
+
   get a() {
     if (this.props.a != undefined) {
       return this.props.a
