@@ -37,6 +37,9 @@ require "./installer"
 require "./parsers/**"
 require "./parser"
 
+require "./documentation/**"
+require "./documentation"
+
 require "./test_runner/**"
 require "./test_runner"
 
