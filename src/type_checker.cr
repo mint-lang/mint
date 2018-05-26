@@ -112,7 +112,9 @@ module Mint
     end
 
     def loopkup_with_level(node : Ast::Variable)
-      scope.find_with_level(node.value)
+      scope.find_with_level(node.value).try do |item|
+        {item[0], item[1], scope.levels.dup}
+      end
     end
 
     def scope(node : Scope::Node)
