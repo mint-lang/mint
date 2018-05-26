@@ -11,22 +11,28 @@ module Mint
       new
     end
 
-    getter script
+    getter script, ast
 
     @sockets = [] of HTTP::WebSocket
-    @cache = {} of String => Ast
-    @pattern = [] of String
+    @error : String | Nil = nil
+    @ast : Ast = Ast.new
     @script = ""
 
-    @error : String | Nil
-
     def initialize
-      @pattern = SourceFiles.all
-      @error = nil
+      @watcher =
+        AstWatcher.new(->{ SourceFiles.all }) do |result|
+          case result
+          when Ast
+            @ast = result
+            @error = nil
 
-      terminal.measure "#{COG} Compiling... " do
-        compile_script
-      end
+            terminal.measure "#{COG} Compiling... " do
+              compile_script
+            end
+          when Error
+            raise result
+          end
+        end
 
       watch_for_changes
       setup_kemal
@@ -36,29 +42,6 @@ module Mint
     end
 
     def compile_script
-      # Compile and format all files that are not in the cache.
-      Dir.glob(@pattern).each do |file|
-        @cache[file] ||= begin
-          artifact =
-            Parser.parse(file)
-
-          formatted =
-            Formatter.new(artifact).format
-
-          if formatted != File.read(file)
-            File.write(file, formatted)
-          end
-
-          artifact
-        end
-      end
-
-      # Create a brand new AST.
-      ast =
-        @cache
-          .values
-          .reduce(Ast.new) { |memo, item| memo.merge item }
-
       # Create a brand new TypeChecker.
       type_checker =
         TypeChecker.new(ast)
@@ -155,52 +138,21 @@ module Mint
 
     # Sets up watchers to detect changes
     def watch_for_changes
-      # The pattern of the source files can change when deleting a file
-      # so we need to have an instance available.
-      source_watcher =
-        Watcher.new(@pattern)
-
       spawn do
-        # When the mint.json changes
-        Watcher.watch(["mint.json"]) do
-          # We need to update the patterns because:
-          # 1. packages could have been added or removed
-          # 2. source directories could have been added or removed
-          @pattern =
-            SourceFiles.all
+        @watcher.watch do |result|
+          case result
+          when Ast
+            @ast = result
+            @error = nil
 
-          # Reset the cache, this will cause a full recompilation, in the
-          # future this could be changed to only remove files from the cache
-          # that have been changed.
-          @cache =
-            {} of String => Ast
-
-          # Update the pattern on the watcher.
-          source_watcher.pattern =
-            @pattern
-
-          # Compile the scripts
-          terminal.measure "#{COG} Configuration changed, recompiling... " do
-            compile_script
+            terminal.measure "#{COG} Files changed recompiling... " do
+              compile_script
+            end
+          when Error
+            @error = result.to_html
+            @ast = Ast.new
           end
 
-          # Notify listeners.
-          notify
-        end
-      end
-
-      spawn do
-        # When a source files change
-        source_watcher.watch do |files|
-          # Remove them from the cache.
-          files.each { |file| @cache.delete(file) }
-
-          # Compile the script.
-          terminal.measure "#{COG} Files changed, recompiling... " do
-            compile_script
-          end
-
-          # Notify listeners.
           notify
         end
       end
