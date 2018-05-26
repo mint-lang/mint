@@ -15,24 +15,24 @@ module Mint
 
     @sockets = [] of HTTP::WebSocket
     @error : String | Nil = nil
+    @watcher : AstWatcher
     @ast : Ast = Ast.new
     @script = ""
 
     def initialize
       @watcher =
-        AstWatcher.new(->{ SourceFiles.all }) do |result|
-          case result
-          when Ast
-            @ast = result
-            @error = nil
-
-            terminal.measure "#{COG} Compiling... " do
+        terminal.measure "#{COG} Compiling... " do
+          AstWatcher.new(->{ SourceFiles.all }) do |result|
+            case result
+            when Ast
+              @ast = result
+              @error = nil
               compile_script
+            when Error
+              raise result
             end
-          when Error
-            raise result
           end
-        end
+        end || AstWatcher.new(->{ [] of String }) { }
 
       watch_for_changes
       setup_kemal
