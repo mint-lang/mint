@@ -10,9 +10,12 @@ module Mint
                    Ast::Store
 
       alias Level = Tuple(Ast::Node | Type, Node)
+      alias Lookup = Tuple(Ast::Node | Type, Node, Array(Node))
 
       @functions = {} of Ast::Function => Ast::Store | Ast::Module
       @levels = [] of Node
+
+      getter levels
 
       def initialize(@ast : Ast, @records : Array(Record))
         @ast.stores.each do |store|

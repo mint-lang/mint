@@ -23,6 +23,12 @@ module Mint
       }
       MAIN
 
+    GIT_IGNORE =
+      <<-GIT_IGNORE
+      .mint
+      dist
+      GIT_IGNORE
+
     getter name
 
     def self.run(name : String)
@@ -41,6 +47,7 @@ module Mint
       terminal.print "#{COG} Writing initial files...\n\n"
       File.write(File.join("source", "Main.mint"), MAIN)
       File.write("mint.json", json.to_pretty_json)
+      File.write(".gitignore", GIT_IGNORE)
 
       Installer.new
     end

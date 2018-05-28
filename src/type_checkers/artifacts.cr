@@ -8,7 +8,7 @@ module Mint
                      @medias = {} of String => Hash(String, Hash(String, String)),
                      @dynamic_styles = {} of String => Hash(String, String),
                      @styles = {} of String => Hash(String, String),
-                     @variables = {} of Ast::Node => Scope::Level,
+                     @variables = {} of Ast::Node => Scope::Lookup,
                      @types = {} of Ast::Node => Type)
       end
     end

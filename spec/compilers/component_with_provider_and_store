@@ -39,6 +39,13 @@ const $MouseProvider = new(class extends Provider {
 })
 
 const $Blah = new(class extends Store {
+  constructor() {
+    super()
+    this.props = {
+      test: ``
+    }
+  }
+
   get test() {
     if (this.props.test != undefined) {
       return this.props.test

@@ -1,6 +1,10 @@
 name: Mint
 version: 1.0.0
 
+targets:
+  mint:
+    main: src/mint.cr
+
 development_dependencies:
   ameba:
     github: veelenga/ameba
