@@ -2,7 +2,7 @@ message HtmlElementExpectedClosingTag do
   title "Syntax Error"
 
   block do
-    text "A none self closing HTML tag must ha have a"
+    text "A none self closing HTML tag must have a"
     bold "closing tag."
   end
 
