@@ -1,8 +1,8 @@
 {
   "package": {
-    "name": "daily-build",
-    "repo": "mint-lang/mint",
-    "subject": "Mint",
+    "name": "mint",
+    "repo": "mint",
+    "subject": "mint-lang",
     "desc": "I was pushed completely automatically",
     "website_url": "www.mint-lang.com",
     "issue_tracker_url": "https://github.com/mint-lang/mint/issues",
@@ -11,12 +11,12 @@
   },
   "version": {
     "name": "latest",
-    "desc": "Daily build"
+    "desc": "Daily Build"
   },
   "files": [
     {
-      "includePattern": "build/*",
-      "uploadPattern": "*"
+      "includePattern": "build/(.*)",
+      "uploadPattern": "/$1"
     }
   ],
   "publish": true
