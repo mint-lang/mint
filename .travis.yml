@@ -14,9 +14,9 @@ os:
 before_deploy:
   - mkdir build
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --no-debug;
+    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release;
     else
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --no-debug --static;
+    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --static;
     fi
 
 deploy:
