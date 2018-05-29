@@ -12,7 +12,8 @@
   // On try close reconnect, it will happen during the development
   // of Mint.
   ws.onclose = () => {
-    connect(true);
+    // Debounce so we don't end up in an infinite restart loop
+    setTimeout(() => connect(true), 200);
   };
 
   // Reload on message
