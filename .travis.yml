@@ -25,7 +25,7 @@ deploy:
     user: gdotdesign
     key:
       secure: lueJ8NuexW7k7UeEotqm/k1N/7WY7KGKL3N3b3jMZxybhKa9DsaRy4huRgNL110G+joSSbA55rlQ9XfDO2eRnkao/jwhOygcTIhvjCc2Fs+WOrSLZlVXCp5mweUrcZXvEjGotMc7Un+McVT/tv0b55a9Bb+2xN+FKrJiJf+WTn21BoPzTTOzB4Pspp7iqV7+qjiqLirJ+MObeToYqVlN317GJjaUeTvSwJLMVBsMXWISTd2HS6uXgjvltMXCBjDwg9/BZr20BesfzSGzRpAt8dgzNDm/9wwPOheoFJc6vw3KA/mUX1XhX2lWhwU2QC7hnUmjg2wVrNZQgBq1S2u/wpcElpCF2s79qst7wWW6ZWle9kMVv+CZYR2fpnP3YmKb5PCnx0YB/JmRBnIQXMCWhJmQ9XGaesTv0jwE8qc4/27GvT8dPced9f+vVFRhGHjyPLFR+6Eu6suz/TKwsTcyZD8ZETDClWKICa8hF44PJXW0dGE9kzNwc5bZOUGHj/o6p/X3CC9WuyzZt40O0jnSlFfXs2mT9CTeBM73H7H8j11e7cEPEEUrxZl0bm+V1JYkqo5lZy6n+8JF4zb0kI4xBwtB1IWvboKFetxYr3qpNNvtmighf3kSVtp6HZh0oFKGADUSiRcbGJWiq4CoYu0pes+g357yTI9CtQ5S23Ve2/E=
-    file: build/*
+    file: config/bintray.json
     on:
       branch: master
 
