@@ -5,6 +5,7 @@ module Mint
     alias TypeOrVariable = Type | TypeVariable
 
     alias Expression = ParenthesizedExpression |
+                       NegatedExpression |
                        InlineFunction |
                        StringLiteral |
                        NumberLiteral |
