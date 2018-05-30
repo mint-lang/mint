@@ -9,8 +9,8 @@ module Mint
   # * When --auto-format flag is passed all source files are watched and if
   #   any changes it formats the file
   class Reactor
-    def self.start(auto_format : Bool, port : Int32)
-      new auto_format, port
+    def self.start(host : String, port : Int32, auto_format : Bool)
+      new host, port, auto_format
     end
 
     getter script
@@ -19,12 +19,13 @@ module Mint
     @cache = {} of String => Ast
     @pattern = [] of String
     @script = ""
-    @auto_format : Bool
+    @host : String
     @port : Int32
+    @auto_format : Bool
 
     @error : String | Nil
 
-    def initialize(@auto_format, @port)
+    def initialize(@host, @port, @auto_format)
       @pattern = SourceFiles.all
       @error = nil
 
@@ -36,7 +37,7 @@ module Mint
       setup_kemal
 
       terminal.print "#{COG} Starting development server on port #{@port}\n"
-      Server.run @port
+      Server.run @host, @port
     end
 
     def compile_script
