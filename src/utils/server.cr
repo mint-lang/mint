@@ -12,17 +12,48 @@ module Mint
       end
     end
 
-    def run
+    def port_open?(ip, port)
+      TCPSocket.new(ip, port).close
+      false
+    rescue
+      true
+    end
+
+    def run(host : String = "127.0.0.1", port : Int32 = 3000)
       config = Kemal.config
       config.logger = Logger.new
       config.setup
 
-      server =
-        HTTP::Server.new(config.host_binding, config.port, config.handlers)
+      if port_open?(host, port)
+        server =
+          HTTP::Server.new(host, port, config.handlers)
+        terminal.print "#{COG} Development server started on http://#{host}:#{port}/\n"
+      elsif STDIN.tty?
+        new_port = config.port + 1
+        until port_open?(host, new_port)
+          new_port = new_port + 1
+        end
+        terminal.print "#{COG} Port #{port} is used by a different application!\n"
+        terminal.print "#{COG} Would you like to to use port #{new_port} instead? (Y/n)\n"
+
+        use_new_port = gets
+        if !use_new_port.nil? && use_new_port.downcase == "y"
+          run(host, new_port)
+        else
+          terminal.print "#{COG} Exiting...\n"
+        end
+      else
+        terminal.print "#{COG} Port #{port} is used by a different application!\n"
+        exit 1
+      end
 
       config.server = server
       config.running = true
       config.server.try(&.listen)
+    end
+
+    def terminal
+      Render::Terminal::STDOUT
     end
   end
 end
