@@ -3,7 +3,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mint-lang/Lobby)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
 
-:warning: *Mint is currently in alpha stage, altough it's usable for testing purposes.:warning:    
+:warning: *Mint is currently in alpha stage, although it's usable for testing purposes.:warning:    
 :warning: The documentation is currently work in progress.* :warning:
 
 ------
