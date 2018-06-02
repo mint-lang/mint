@@ -13,6 +13,7 @@ module Mint
         access ||
         module_call ||
         module_access ||
+        decode ||
         if_expression ||
         with_expression ||
         next_call ||
