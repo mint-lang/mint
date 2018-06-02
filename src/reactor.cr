@@ -2,13 +2,15 @@ module Mint
   # Reactor is the development server of Mint, it have the following features:
   # * Servers the compiled application script, index file and favicons
   # * Watches all source files (application and packages as well) and if any
-  #   changed it formats that file, removes its AST from the cache, parses it
+  #   changed it removes its AST from the cache, parses it
   #   again and then recompiles the application script
   # * Renders any error as HTML
   # * Keeps a cache of ASTs of the parsed files for faster recompilation
+  # * When --auto-format flag is passed all source files are watched and if
+  #   any changes it formats the file
   class Reactor
-    def self.start
-      new
+    def self.start(host : String, port : Int32, auto_format : Bool)
+      new host, port, auto_format
     end
 
     getter script
@@ -17,10 +19,13 @@ module Mint
     @cache = {} of String => Ast
     @pattern = [] of String
     @script = ""
+    @host : String
+    @port : Int32
+    @auto_format : Bool
 
     @error : String | Nil
 
-    def initialize
+    def initialize(@host, @port, @auto_format)
       @pattern = SourceFiles.all
       @error = nil
 
@@ -31,8 +36,8 @@ module Mint
       watch_for_changes
       setup_kemal
 
-      terminal.print "#{COG} Development server is listening on port: 3000\n"
-      Server.run
+      terminal.print "#{COG} Starting development server on port #{@port}\n"
+      Server.run @host, @port
     end
 
     def compile_script
@@ -42,11 +47,13 @@ module Mint
           artifact =
             Parser.parse(file)
 
-          formatted =
-            Formatter.new(artifact).format
+          if @auto_format
+            formatted =
+              Formatter.new(artifact).format
 
-          if formatted != File.read(file)
-            File.write(file, formatted)
+            if formatted != File.read(file)
+              File.write(file, formatted)
+            end
           end
 
           artifact

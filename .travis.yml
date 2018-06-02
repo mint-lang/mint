@@ -14,20 +14,18 @@ os:
 before_deploy:
   - mkdir build
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --no-debug;
+    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release;
     else
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --no-debug --static;
+    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --static;
     fi
 
 deploy:
-  - provider: s3
-    access_key_id: AKIAIQDWL22LBYSJBFBQ
+  - provider: bintray
     skip_cleanup: true
-    secret_access_key:
-      secure: KZmcNoXWMQiMWWgHWCktbjV8LBqcqqvxpzL/eFjn8uOFJ222lHkSLyOe08vFM8CScYTQjMKwTBwkvRNgaMkKY9q4pikoJfkC1T01xUW17tTLh3ps06Yc5cdxnZT9KllRKDr26SISnpBbRCY42BuwmL97stFOjFPM/g9JC3z/oyRE0+B2oEc+M+d6oXijsBxgp4jvkMtbWLFSPjM0NTJwcnkp6ZwgsAzdGislaqbSEKkMT4SMN4PBWHg4z+1sV25d+ZwjYBUFk9Ll5aBTgP7SW6vRsAXBPUPwREF4scRuuMMcYvbAU3efp1gGKAC13YYniyLSZ8HyFrR5O1jVkn02PcszdCRaopZW61XTYTJxiLumFN1HR+ej5ZIcLpLVyTtYs7ABS7vxrfRNVM6dDPKAQ6IRg/hiL3C8HzmhC55N4TRYzGV8bBgBOmoOe7CiWV67k6vzxyaDWE6kfhzeZnHKdXU4SPFrvI+uTo8p0PzsTI8qMAXfhc8OrIKDQtencaVq/Vyj3JaXUymeDsXSVAqLPFEufTx5cQTmmFzHZT5I3XSiMDgVaM05O4Yi2uSt9FUEUX8Mf8hNAoyTSnT192NvgccTnvflkLH0f0PiQrQTpaeB72VJzCkAsPFxH4ruTZtOfiZyT6mHUkqcXjyH6uNjvQsb11BhTnIBAPerayOi0Xo=
-    bucket: mint-lang
-    local_dir: build
-    acl: public_read
+    user: gdotdesign
+    key:
+      secure: lueJ8NuexW7k7UeEotqm/k1N/7WY7KGKL3N3b3jMZxybhKa9DsaRy4huRgNL110G+joSSbA55rlQ9XfDO2eRnkao/jwhOygcTIhvjCc2Fs+WOrSLZlVXCp5mweUrcZXvEjGotMc7Un+McVT/tv0b55a9Bb+2xN+FKrJiJf+WTn21BoPzTTOzB4Pspp7iqV7+qjiqLirJ+MObeToYqVlN317GJjaUeTvSwJLMVBsMXWISTd2HS6uXgjvltMXCBjDwg9/BZr20BesfzSGzRpAt8dgzNDm/9wwPOheoFJc6vw3KA/mUX1XhX2lWhwU2QC7hnUmjg2wVrNZQgBq1S2u/wpcElpCF2s79qst7wWW6ZWle9kMVv+CZYR2fpnP3YmKb5PCnx0YB/JmRBnIQXMCWhJmQ9XGaesTv0jwE8qc4/27GvT8dPced9f+vVFRhGHjyPLFR+6Eu6suz/TKwsTcyZD8ZETDClWKICa8hF44PJXW0dGE9kzNwc5bZOUGHj/o6p/X3CC9WuyzZt40O0jnSlFfXs2mT9CTeBM73H7H8j11e7cEPEEUrxZl0bm+V1JYkqo5lZy6n+8JF4zb0kI4xBwtB1IWvboKFetxYr3qpNNvtmighf3kSVtp6HZh0oFKGADUSiRcbGJWiq4CoYu0pes+g357yTI9CtQ5S23Ve2/E=
+    file: config/bintray.json
     on:
       branch: master
 
