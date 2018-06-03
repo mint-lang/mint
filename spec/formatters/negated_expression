@@ -1,0 +1,11 @@
+module Test {
+  fun test : Bool {
+    !!!!!true && !!!!false && !false
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Bool {
+    !true && !!false && !false
+  }
+}

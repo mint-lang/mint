@@ -23,6 +23,7 @@ module Mint
         inline_function ||
         function_call ||
         parenthesized_expression ||
+        negated_expression ||
         enum_id ||
         js ||
         void ||
