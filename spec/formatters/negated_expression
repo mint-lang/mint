@@ -1,11 +1,11 @@
 module Test {
   fun test : Bool {
-    !!!!!"fun" && !!!![1] && !1
+    !!!!!true && !!!!false && !false
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun test : Bool {
-    !"fun" && !![1] && !1
+    !true && !!false && !false
   }
 }

@@ -1,0 +1,11 @@
+module Test {
+  fun test : Bool {
+    !false
+  }
+}
+--------------------------------------------------------NegatedExpressionNotBool
+module Test {
+  fun test : Bool {
+    !"asd"
+  }
+}
