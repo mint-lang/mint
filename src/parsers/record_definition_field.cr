@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error RecordDefinitionFieldExpectedMapping
     syntax_error RecordDefinitionFieldExpectedColon
     syntax_error RecordDefinitionFieldExpectedType
 
@@ -13,8 +14,17 @@ module Mint
 
         type = type! RecordDefinitionFieldExpectedType
 
+        mapping =
+          start do
+            whitespace
+            skip unless keyword "from"
+            whitespace
+            string_literal! RecordDefinitionFieldExpectedMapping
+          end
+
         Ast::RecordDefinitionField.new(
           from: start_position,
+          mapping: mapping,
           to: position,
           input: data,
           type: type,

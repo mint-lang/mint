@@ -20,8 +20,11 @@ module Mint
           decoder =
             generate value
 
+          from =
+            node.mappings[key]? || key
+
           <<-JS
-          let #{key} = Decoder.field(`#{key}`, #{decoder})(input)
+          let #{key} = Decoder.field(`#{from}`, #{decoder})(input)
           if (#{key} instanceof Err) { return #{key} }
           JS
         end

@@ -11,7 +11,7 @@ module Mint
         full_name =
           prefix + "_" + name
 
-        "$#{full_name} = Symbol(`#{full_name}`)"
+        "$#{full_name} = Symbol.for(`#{full_name}`)"
       end.join("\n")
     end
   end
