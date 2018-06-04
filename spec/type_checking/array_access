@@ -1,0 +1,26 @@
+module Test {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1]
+  }
+}
+-----------------------------------------------------------------
+module Test {
+  fun test : Maybe(Number) {
+    arr[1]
+  } where {
+    arr = [1, 2, 3]
+  }
+}
+-----------------------------------------------------------------
+module Test {
+  fun test : Maybe(Number) {
+    arr[x]
+  } where {
+    arr = [1, 2, 3]
+    x = 1
+  }
+}
