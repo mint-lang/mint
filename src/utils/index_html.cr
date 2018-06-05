@@ -29,14 +29,13 @@ module Mint
 
         t.html do
           t.head do
+            t.meta(charset: json.application.meta["charset"]? || "utf-8")
+
             t.title json.application.title.to_s
 
             json.application.meta.each do |name, content|
-              if name == "charset"
-                t.meta(charset: content)
-              else
-                t.meta(name: name, content: content)
-              end
+              next if name == "charset"
+              t.meta(name: name, content: content)
             end
 
             # Insert the extra head content
