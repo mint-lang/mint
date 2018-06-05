@@ -14,7 +14,8 @@ module Mint
           entity.functions.find(&.name.value.==(node.variable.value))
         when Ast::Store
           entity.functions.find(&.name.value.==(node.variable.value)) ||
-            entity.properties.find(&.name.value.==(node.variable.value))
+            entity.properties.find(&.name.value.==(node.variable.value)) ||
+            entity.gets.find(&.name.value.==(node.variable.value))
         else
           raise ModuleAccessNotFoundModule, {
             "name" => node.name,

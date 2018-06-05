@@ -1,0 +1,35 @@
+store Test {
+  property a : String = ""
+
+  get b : String {
+    "hello"
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class extends Store {
+  constructor() {
+    super()
+    this.props = {
+      a: ``
+    }
+  }
+
+  get a() {
+    if (this.props.a != undefined) {
+      return this.props.a
+    } else {
+      return ``
+    }
+  }
+
+  get state() {
+    return {
+      a: this.a
+    }
+  }
+
+  get b() {
+    return `hello`
+  }
+})
+$Test.__displayName = `Test`

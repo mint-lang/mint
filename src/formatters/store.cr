@@ -3,7 +3,8 @@ module Mint
     def format(node : Ast::Store) : String
       items =
         node.properties +
-          node.functions
+          node.functions +
+          node.gets
 
       name =
         format node.name
