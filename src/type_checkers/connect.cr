@@ -14,7 +14,8 @@ module Mint
       node.keys.each do |key|
         found =
           store.functions.find(&.name.value.==(key.value)) ||
-            store.properties.find(&.name.value.==(key.value))
+            store.properties.find(&.name.value.==(key.value)) ||
+            store.gets.find(&.name.value.==(key.value))
 
         raise ConnectNotFoundMember, {
           "store" => node.store,
