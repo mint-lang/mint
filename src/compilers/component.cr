@@ -63,6 +63,8 @@ module Mint
           item.keys.map do |key|
             if store.properties.any? { |prop| prop.name.value == key.value }
               memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"
+            elsif store.gets.any? { |get| get.name.value == key.value }
+              memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"
             elsif store.functions.any? { |func| func.name.value == key.value }
               memo << "#{key.value} (...params) { return $#{underscorize(store.name)}.#{key.value}(...params) }"
             end

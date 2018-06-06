@@ -12,7 +12,7 @@ module Mint
       alias Level = Tuple(Ast::Node | Type, Node)
       alias Lookup = Tuple(Ast::Node | Type, Node, Array(Node))
 
-      @functions = {} of Ast::Function => Ast::Store | Ast::Module
+      @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
 
       getter levels
@@ -21,6 +21,10 @@ module Mint
         @ast.stores.each do |store|
           store.functions.each do |function|
             @functions[function] = store
+          end
+
+          store.gets.each do |get|
+            @functions[get] = store
           end
         end
 
@@ -81,7 +85,8 @@ module Mint
             Type.new(node.name)
         else
           node.functions.find(&.name.value.==(variable)) ||
-            node.properties.find(&.name.value.==(variable))
+            node.properties.find(&.name.value.==(variable)) ||
+            node.gets.find(&.name.value.==(variable))
         end
       end
 
@@ -103,7 +108,8 @@ module Mint
             node.gets.find(&.name.value.==(variable)) ||
             node.properties.find(&.name.value.==(variable)) ||
             store_properties(component).find(&.name.value.==(variable)) ||
-            store_functions(component).find(&.name.value.==(variable))
+            store_functions(component).find(&.name.value.==(variable)) ||
+            store_gets(component).find(&.name.value.==(variable))
         end
       end
 
@@ -113,7 +119,7 @@ module Mint
       def with(node : Node)
         store =
           case node
-          when Ast::Function
+          when Ast::Function, Ast::Get
             @functions[node]?
           end
 
@@ -151,6 +157,20 @@ module Mint
           end
         end.compact
            .reduce([] of Ast::Property) { |memo, item| memo.concat(item) }
+      end
+
+      private def store_gets(component)
+        component.connects.map do |item|
+          store = @ast.stores.find(&.name.==(item.store))
+
+          if store
+            keys = item.keys.map(&.value)
+            store.gets.select do |get|
+              keys.includes?(get.name.value)
+            end
+          end
+        end.compact
+           .reduce([] of Ast::Get) { |memo, item| memo.concat(item) }
       end
 
       private def store_functions(component)
