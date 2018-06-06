@@ -1,0 +1,29 @@
+record X {
+  name : String
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode
+      input as
+        X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+record X {
+  name : String
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

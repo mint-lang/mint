@@ -4,6 +4,7 @@ module Mint
       to: @artifacts
 
     def initialize(@artifacts : TypeChecker::Artifacts)
+      @decoder = Decoder.new
     end
 
     # Helper for converting type ids

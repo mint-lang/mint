@@ -7,7 +7,13 @@ module Mint
           .map { |field| {field.key.value, check(field).as(Type)} }
           .to_h
 
-      Record.new(node.name, fields)
+      mappings =
+        node
+          .fields
+          .map { |field| {field.key.value, field.mapping.try(&.value)} }
+          .to_h
+
+      Record.new(node.name, fields, mappings)
     end
   end
 end

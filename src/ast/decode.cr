@@ -1,10 +1,9 @@
 module Mint
   class Ast
-    class RecordDefinitionField < Node
-      getter key, type, mapping
+    class Decode < Node
+      getter expression, type
 
-      def initialize(@mapping : StringLiteral?,
-                     @key : Variable,
+      def initialize(@expression : Expression,
                      @input : Data,
                      @from : Int32,
                      @type : Type,

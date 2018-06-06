@@ -1,0 +1,19 @@
+enum Test {
+  X,
+  Y
+}
+
+module X {
+  fun a : Test {
+    Test::X
+  }
+}
+--------------------------------------------------------------------------------
+$Test_X = Symbol.for(`Test_X`)
+$Test_Y = Symbol.for(`Test_Y`)
+
+const $X = new(class {
+  a() {
+    return $Test_X
+  }
+})
