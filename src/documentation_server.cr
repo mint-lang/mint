@@ -35,8 +35,7 @@ module Mint
 
       setup_kemal
 
-      terminal.print "#{COG} Documentation server is listening on port: 3000\n"
-      Server.run
+      Server.run(name: "Documentation", port: 3002)
     end
 
     def setup_kemal

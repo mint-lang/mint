@@ -18,7 +18,7 @@ module Mint
           <script>
             class TestRunner {
               constructor (suites) {
-                this.socket = new WebSocket("ws://localhost:3000/")
+                this.socket = new WebSocket("ws://localhost:3001/")
                 this.suites = suites
 
                 this.socket.onopen = () => {
@@ -118,7 +118,7 @@ module Mint
       terminal.print "#{COG} Starting browser...\n"
       open_page
 
-      Mint::Server.run
+      Server.run(name: "Test", port: 3001)
     end
 
     def compile_ast
@@ -183,7 +183,7 @@ module Mint
             "1080",
             "--profile",
             profile_directory,
-            "http://localhost:3000",
+            "http://localhost:3001",
           ]
         )
       when "chromium"
@@ -195,7 +195,7 @@ module Mint
             "--remote-debugging-port=9222",
             "--profile-directory=#{profile_directory}",
             "--window-size=1920,1080",
-            "http://localhost:3000",
+            "http://localhost:3001",
           ]
         )
       else

@@ -52,8 +52,7 @@ module Mint
       watch_for_changes
       setup_kemal
 
-      terminal.print "#{COG} Starting development server on port #{@port}\n"
-      Server.run @host, @port
+      Server.run "Development", @host, @port
     end
 
     def compile_script
