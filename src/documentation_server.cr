@@ -26,8 +26,8 @@ module Mint
           when Ast
             @ast = result
             @error = nil
-          when String
-            @error = result
+          when Error
+            @error = result.to_html
             @ast = Ast.new
           end
         end
@@ -44,11 +44,15 @@ module Mint
       end
 
       get "/:name" do |env|
-        case env.params.url["name"]
-        when "doc.css"
-          File.read("../mint/public/doc.css")
+        if @error
+          @error.to_s
         else
-          entity env.params.url["name"]
+          case env.params.url["name"]
+          when "doc.css"
+            Assets.read("doc.css")
+          else
+            entity env.params.url["name"]
+          end
         end
       end
     end
@@ -60,10 +64,11 @@ module Mint
     end
 
     def generate(a, t)
+      t.span a.to_s
     end
 
     def generate(a)
-      page do |t|
+      page "Documentation" do |t|
         t.div "Not found"
       end
     end
@@ -89,7 +94,7 @@ module Mint
 
     def sidebar(t)
       if @ast.stores.any?
-        t.div "Stores"
+        sidebar_header "Stores", t
 
         @ast.stores.sort_by(&.name).each do |item|
           t.a href: "/#{item.name}" do
@@ -100,7 +105,7 @@ module Mint
       end
 
       if @ast.components.any?
-        t.div "Components"
+        sidebar_header "Components", t
 
         @ast.components.sort_by(&.name).each do |item|
           t.a href: "/#{item.name}" do
@@ -111,7 +116,7 @@ module Mint
       end
 
       if @ast.modules.any?
-        t.div "Modules"
+        sidebar_header "Modules", t
 
         @ast.modules.sort_by(&.name).each do |item|
           t.a href: "/#{item.name}" do
@@ -122,11 +127,13 @@ module Mint
       end
     end
 
-    macro page
+    macro page(name)
       TreeTemplate.new do |t|
         t.html do
           t.head do
+            t.meta charset: "utf-8"
             t.link href: "/doc.css", rel: "stylesheet"
+            t.title {{name}}
           end
 
           t.body do
@@ -142,16 +149,23 @@ module Mint
       end.render
     end
 
+    def sidebar_header(text, t)
+      t.div text, class: "sidebar-header"
+    end
+
     def subtitle(text, t)
       t.div text, class: "subtitle"
     end
 
-    def title(text, t)
-      t.div text, class: "title"
+    def title(text, hint, t)
+      t.div class: "title" do
+        t.span hint
+        t.strong text
+      end
     end
 
     def index
-      page do |t|
+      page "Documentation" do |t|
         t.div "index"
       end
     end

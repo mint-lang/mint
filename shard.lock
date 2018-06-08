@@ -12,6 +12,10 @@ shards:
     github: schovi/baked_file_system
     version: 0.9.6
 
+  coverage:
+    github: anykeyh/crystal-coverage
+    commit: af5246dde152b6e42352ce6e759bb07e9bed09ed
+
   duktape:
     github: jessedoyle/duktape.cr
     version: 0.13.0
@@ -34,7 +38,7 @@ shards:
 
   time_format:
     github: vladfaust/time_format.cr
-    version: 0.1.0
+    version: 0.1.1
 
   tree_template:
     github: anykeyh/tree_template
