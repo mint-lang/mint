@@ -120,13 +120,25 @@ module Mint
       end
     end
 
+    type_error Recursion
+
+    def check_recursive_call(node)
+      raise Recursion, {
+        "path" => @scope.path,
+        "node" => node,
+      } if @scope.includes?(node)
+    end
+
     def scope(node : Scope::Node)
+      check_recursive_call(node) if node.is_a?(Ast::Node)
+
       scope.with node do
         yield
       end
     end
 
-    def scope(nodes)
+    def scope(nodes : Array(Tuple(String, TypeChecker::Type)))
+      # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield
       end

@@ -17,6 +17,35 @@ module Mint
 
       getter levels
 
+      def path : String
+        @levels.reverse.map { |node| path(node) }.join(" -> ")
+      end
+
+      def path(node : Node)
+        case node
+        when Ast::InlineFunction
+          "Inline function"
+        when Tuple(String, Type)
+          node[0]
+        when Ast::Component
+          node.name
+        when Ast::Store
+          node.name
+        when Ast::Module
+          node.name
+        when Ast::Provider
+          node.name
+        when Ast::Function
+          node.name.value
+        else
+          "" # Cannot happen
+        end
+      end
+
+      def includes?(node)
+        @levels.includes?(node)
+      end
+
       def initialize(@ast : Ast, @records : Array(Record))
         @ast.stores.each do |store|
           store.functions.each do |function|

@@ -1,0 +1,23 @@
+module A {
+  fun a : Void {
+    void
+  }
+}
+-----------------------------------------------------------------------Recursion
+module A {
+  fun a : Void {
+    do {
+      void
+    }
+  } where {
+    x = a()
+  }
+}
+-----------------------------------------------------------------------Recursion
+module Test {
+  fun test : Void {
+    with Test {
+      void
+    }
+  }
+}
