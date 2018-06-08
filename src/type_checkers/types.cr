@@ -39,9 +39,9 @@ module Mint
     end
 
     class Record < Type
-      getter fields
+      getter fields, mappings
 
-      def initialize(@name : String, @fields = {} of String => Type)
+      def initialize(@name : String, @fields = {} of String => Type, @mappings = {} of String => String?)
         @parameters = [] of Type
       end
 

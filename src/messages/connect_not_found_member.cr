@@ -4,7 +4,7 @@ message ConnectNotFoundMember do
   block do
     text "The"
     bold key
-    text "function or property does not exists for the store:"
+    text "function, property or computed property does not exists for the store:"
     bold store
   end
 

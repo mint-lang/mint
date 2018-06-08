@@ -13,6 +13,7 @@ module Mint
         access ||
         module_call ||
         module_access ||
+        decode ||
         if_expression ||
         with_expression ||
         next_call ||
@@ -22,6 +23,7 @@ module Mint
         inline_function ||
         function_call ||
         parenthesized_expression ||
+        negated_expression ||
         enum_id ||
         js ||
         void ||

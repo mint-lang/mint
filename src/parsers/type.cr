@@ -14,9 +14,11 @@ module Mint
           separator: ',',
           terminator: ')'
         ) do
+          whitespace
           type =
             self.type(TypeExpectedType).as(Ast::Type | Nil) ||
               type_variable.as(Ast::TypeVariable | Nil)
+          whitespace
           raise TypeExpectedTypeOrVariable unless type
           type
         end.compact

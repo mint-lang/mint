@@ -7,6 +7,9 @@ module Mint
       properties =
         compile node.properties
 
+      gets =
+        compile node.gets
+
       constructor =
         compile_constructor node
 
@@ -24,7 +27,7 @@ module Mint
         "get state () {\n#{state.indent}\n}"
 
       body =
-        ([constructor] + properties + [state_get] + functions)
+        ([constructor] + properties + [state_get] + gets + functions)
           .join("\n\n")
           .indent
 

@@ -1,5 +1,5 @@
 message FinallyExpectedExpression do
-  text "Syntax Error"
+  title "Syntax Error"
 
   block do
     text "The"

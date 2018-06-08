@@ -12,11 +12,13 @@ module Mint
 
       check_names(node.properties, StoreEntityNameConflict, checked)
       check_names(node.functions, StoreEntityNameConflict, checked)
+      check_names(node.gets, StoreEntityNameConflict, checked)
 
       # Type checking the entities
       scope node do
         check node.properties, node
         check node.functions
+        check node.gets
       end
 
       NEVER

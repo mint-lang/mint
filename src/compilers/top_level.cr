@@ -78,6 +78,9 @@ module Mint
       enums =
         compile ast.enums
 
+      decoders =
+        @decoder.compile
+
       media_css =
         medias.map do |condition, rules|
           selectors =
@@ -115,7 +118,7 @@ module Mint
           "_insertStyles(`\n#{css + media_css}\n`)"
         end
 
-      (enums + providers + routes + modules + stores + components + [footer])
+      (enums + [decoders] + providers + routes + modules + stores + components + [footer])
         .reject(&.empty?)
         .join("\n\n")
     end
@@ -146,6 +149,7 @@ module Mint
         const ReactDOM = Mint.ReactDOM;
         const Provider = Mint.Provider;
         const Nothing = Mint.Nothing;
+        const Decoder = Mint.Decoder;
         const DateFNS = Mint.DateFNS;
         const Record = Mint.Record;
         const Store = Mint.Store;

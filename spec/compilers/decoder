@@ -1,0 +1,93 @@
+record Y  {
+  size : Number from "SIIIZEEE"
+}
+
+record X {
+  string : String,
+  number : Number,
+  bool : Bool,
+  time : Time,
+  maybe : Maybe(String),
+  array : Array(String),
+  y : Y
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $$Y = (input) => {
+  let size = Decoder.field(`SIIIZEEE`, Decoder.number)(input)
+  if (size instanceof Err) {
+    return size
+  }
+
+  return new Ok({
+    size: size.value
+  })
+}
+
+const $$X = (input) => {
+  let string = Decoder.field(`string`, Decoder.string)(input)
+  if (string instanceof Err) {
+    return string
+  }
+
+  let number = Decoder.field(`number`, Decoder.number)(input)
+  if (number instanceof Err) {
+    return number
+  }
+
+  let bool = Decoder.field(`bool`, Decoder.boolean)(input)
+  if (bool instanceof Err) {
+    return bool
+  }
+
+  let time = Decoder.field(`time`, Decoder.time)(input)
+  if (time instanceof Err) {
+    return time
+  }
+
+  let maybe = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(input)
+  if (maybe instanceof Err) {
+    return maybe
+  }
+
+  let array = Decoder.field(`array`, Decoder.array(Decoder.string))(input)
+  if (array instanceof Err) {
+    return array
+  }
+
+  let y = Decoder.field(`y`, $$Y)(input)
+  if (y instanceof Err) {
+    return y
+  }
+
+  return new Ok({
+    string: string.value,
+    number: number.value,
+    bool: bool.value,
+    time: time.value,
+    maybe: maybe.value,
+    array: array.value,
+    y: y.value
+  })
+}
+
+class $A extends Component {
+  x(input) {
+    return $$X(input)
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$A.displayName = "A"

@@ -1,0 +1,55 @@
+record X {
+  name : String
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------------DecodeExpectedObject
+record X {
+  name : String
+}
+
+component A {
+  fun x (input : String) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------------DecodeComplexType
+record X {
+  name : Blah
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------------DecodeComplexType
+record X {
+  name : Maybe(a)
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

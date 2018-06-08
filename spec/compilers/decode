@@ -1,0 +1,36 @@
+record X {
+  name : String
+}
+
+component A {
+  fun x (input : Object) : Result(Object.Error, x) {
+    decode input as X
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $$X = (input) => {
+  let name = Decoder.field(`name`, Decoder.string)(input)
+  if (name instanceof Err) {
+    return name
+  }
+
+  return new Ok({
+    name: name.value
+  })
+}
+
+class $A extends Component {
+  x(input) {
+    return $$X(input)
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$A.displayName = "A"

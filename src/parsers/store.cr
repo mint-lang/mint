@@ -17,13 +17,14 @@ module Mint
           opening_bracket: StoreExpectedOpeningBracket,
           closing_bracket: StoreExpectedClosingBracket
         ) do
-          items = many { property || function }.compact
+          items = many { property || function || get }.compact
           raise StoreExpectedBody if items.empty?
           items
         end
 
         properties = [] of Ast::Property
         functions = [] of Ast::Function
+        gets = [] of Ast::Get
 
         body.each do |item|
           case item
@@ -31,6 +32,8 @@ module Mint
             properties << item
           when Ast::Function
             functions << item
+          when Ast::Get
+            gets << item
           end
         end
 
@@ -40,6 +43,7 @@ module Mint
           from: start_position,
           to: position,
           input: data,
+          gets: gets,
           name: name)
       end
     end

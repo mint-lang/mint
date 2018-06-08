@@ -1,11 +1,15 @@
 module Mint
   class AstWatcher
+    @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
     @pattern_proc : Proc(Array(String)) = ->{ [] of String }
     @cache = {} of String => Ast
     @channel = Channel(Nil).new
     @pattern = [] of String
 
-    def initialize(@pattern_proc)
+    def initialize
+    end
+
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil })
       @pattern = @pattern_proc.call
 
       watch_for_changes
@@ -25,6 +29,7 @@ module Mint
     def compile
       Dir.glob(@pattern).each do |file|
         @cache[file] ||= Parser.parse(file)
+        @file_proc.call(file, @cache[file])
       end
 
       @cache
