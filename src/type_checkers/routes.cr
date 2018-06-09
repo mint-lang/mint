@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Routes) : Type
-      check node.routes
+      resolve node.routes
 
       NEVER
     end

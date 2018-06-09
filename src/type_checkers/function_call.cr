@@ -15,11 +15,11 @@ module Mint
           "node" => node,
         }
       else
-        type = check node.function
+        type = resolve node.function
 
         if type.name == "Function"
           arguments =
-            check node.arguments
+            resolve node.arguments
 
           call_type =
             Type.new("Function", arguments + [type.parameters.last])

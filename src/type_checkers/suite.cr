@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Suite)
-      check node.tests
+      resolve node.tests
 
       NEVER
     end

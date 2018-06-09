@@ -7,8 +7,8 @@ module Mint
     def check(node : Ast::Operation) : Type
       case node.operator
       when "!=", "==", "<", ">", "<=", ">=", "&&", "||"
-        right = check node.right
-        left = check node.left
+        right = resolve node.right
+        left = resolve node.left
 
         raise OperationTypeMismatch, {
           "right" => right,
@@ -18,8 +18,8 @@ module Mint
 
         BOOL
       when "+"
-        right = check node.right
-        left = check node.left
+        right = resolve node.right
+        left = resolve node.left
 
         raise OperationPlusTypeMismatch, {
           "side"  => "left",
@@ -43,8 +43,8 @@ module Mint
 
         left
       when "-", "*", "/"
-        right = check node.right
-        left = check node.left
+        right = resolve node.right
+        left = resolve node.left
 
         raise OperationNumericTypeMismatch, {
           "operator" => node.operator,

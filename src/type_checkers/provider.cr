@@ -16,7 +16,7 @@ module Mint
       } unless subscription
 
       scope node do
-        check node.functions
+        resolve node.functions
       end
 
       NEVER

@@ -7,7 +7,7 @@ module Mint
         type =
           case item
           when Ast::CssInterpolation
-            check item
+            resolve item
           else
             STRING
           end

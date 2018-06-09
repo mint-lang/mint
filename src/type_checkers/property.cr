@@ -4,10 +4,10 @@ module Mint
 
     def check(node : Ast::Property, component : Ast::Component | Ast::Store) : Type
       type =
-        check node.type
+        resolve node.type
 
       default =
-        check node.default
+        resolve node.default
 
       result =
         Comparer.compare type, default
@@ -23,11 +23,11 @@ module Mint
     end
 
     def check(node : Ast::Property) : Type
-      check node.type
+      resolve node.type
     end
 
     def check(nodes : Array(Ast::Property), component : Ast::Component | Ast::Store) : Type
-      nodes.each { |node| check node, component }
+      nodes.each { |node| resolve node, component }
 
       NEVER
     end

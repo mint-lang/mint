@@ -5,7 +5,7 @@ module Mint
 
     def check(node : Ast::NextCall) : Type
       type =
-        check node.data
+        resolve node.data
 
       state =
         scope.find("state")
@@ -15,7 +15,7 @@ module Mint
       } unless state
 
       state_type =
-        check state
+        resolve state
 
       raise NextCallTypeMismatch, {
         "expected" => state_type,

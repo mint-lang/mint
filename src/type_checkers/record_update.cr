@@ -6,7 +6,7 @@ module Mint
 
     def check(node : Ast::RecordUpdate) : Type
       target =
-        check node.variable
+        resolve node.variable
 
       target_node =
         loopkup(node.variable).not_nil!
@@ -19,7 +19,7 @@ module Mint
 
       node.fields.each do |field|
         type =
-          check field.value
+          resolve field.value
 
         value_type =
           target.fields[field.key.value]?

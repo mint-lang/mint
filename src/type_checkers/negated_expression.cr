@@ -4,7 +4,7 @@ module Mint
 
     def check(node : Ast::NegatedExpression) : Type
       expression =
-        check node.expression
+        resolve node.expression
 
       raise NegatedExpressionNotBool, {
         "got"      => expression,

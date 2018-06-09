@@ -21,7 +21,7 @@ module Mint
         records.find(&.name.==(provider.subscription)).not_nil!
 
       record =
-        check node.data
+        resolve node.data
 
       raise UseSubscriptionMismatch, {
         "expected" => subscription,
@@ -30,7 +30,7 @@ module Mint
       } unless Comparer.compare(record, subscription)
 
       if condition
-        condition_type = check condition
+        condition_type = resolve condition
 
         raise UseConditionMismatch, {
           "got"  => condition_type,
@@ -38,7 +38,7 @@ module Mint
         } unless Comparer.compare(condition_type, BOOL)
       end
 
-      check node.data
+      resolve node.data
     end
   end
 end

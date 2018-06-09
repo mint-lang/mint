@@ -28,6 +28,7 @@ module Mint
 
     @record_names = {} of String => Ast::Node
     @names = {} of String => Ast::Node
+    @cache = {} of Ast::Node => Type
     @records = [] of Record
 
     def initialize(ast : Ast)
@@ -120,18 +121,7 @@ module Mint
       end
     end
 
-    type_error Recursion
-
-    def check_recursive_call(node)
-      raise Recursion, {
-        "path" => @scope.path,
-        "node" => node,
-      } if @scope.includes?(node)
-    end
-
     def scope(node : Scope::Node)
-      check_recursive_call(node) if node.is_a?(Ast::Node)
-
       scope.with node do
         yield
       end
@@ -145,7 +135,32 @@ module Mint
     end
 
     # Helpers for checking things
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+
+    type_error Recursion
+
+    def resolve(node : Ast::Node | Type, *args) : Type
+      case node
+      when Type
+        node
+      when Ast::Node
+        @cache[node]? || begin
+          result = check(node, *args).as(Type)
+          @cache[node] = result
+          result
+        end
+      else
+        NEVER # Cannot happen
+      end
+    end
+
+    def resolve(nodes : Array(Ast::Node)) : Array(Type)
+      nodes.map { |node| resolve(node).as(Type) }
+    end
+
+    def resolve(nodes : Array(Ast::Node), *args) : Array(Type)
+      nodes.map { |node| resolve(node, *args).as(Type) }
+    end
 
     def check(node : Type) : Type
       node

@@ -5,12 +5,12 @@ module Mint
     end
 
     def check(node : Ast) : Type
-      check node.providers
-      check node.components
-      check node.modules
-      check node.stores
-      check node.routes
-      check node.suites
+      resolve node.providers
+      resolve node.components
+      resolve node.modules
+      resolve node.stores
+      resolve node.routes
+      resolve node.suites
 
       NEVER
     end

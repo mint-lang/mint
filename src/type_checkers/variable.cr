@@ -23,7 +23,7 @@ module Mint
 
       variables[node] = item
 
-      check item[0]
+      resolve item[0]
     end
   end
 end

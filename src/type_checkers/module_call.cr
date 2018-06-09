@@ -33,8 +33,8 @@ module Mint
         call_parameters = [] of Type
 
         function.arguments.each_with_index do |argument, index|
-          call_argument = check node.arguments[index]
-          argument_type = check argument
+          call_argument = resolve node.arguments[index]
+          argument_type = resolve argument
 
           raise ModuleCallArgumentTypeMismatch, {
             "index"    => ordinal(index + 1),
@@ -48,7 +48,7 @@ module Mint
           parameters << argument_type
         end
 
-        return_type = check(function.type)
+        return_type = resolve function.type
 
         function_type = Type.new("Function", parameters + [return_type])
         call_type = Type.new("Function", call_parameters + [return_type])

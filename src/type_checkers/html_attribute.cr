@@ -8,7 +8,7 @@ module Mint
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Type
       got =
-        check node.value
+        resolve node.value
 
       expected =
         case node.name.value.downcase
@@ -38,7 +38,7 @@ module Mint
     end
 
     def check(node : Ast::HtmlAttribute, component : Ast::Component) : Type
-      type = check node.value
+      type = resolve node.value
 
       case node.name.value
       when "key"
@@ -61,7 +61,7 @@ module Mint
           "node"       => node,
         } unless prop
 
-        prop_type = check prop
+        prop_type = resolve prop
 
         raise HtmlAttributeComponentPropertyTypeMismatch, {
           "name"      => prop.name.value,

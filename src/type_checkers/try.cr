@@ -21,7 +21,7 @@ module Mint
             end
 
           scope(items) do
-            new_type = check statement
+            new_type = resolve statement
 
             type =
               if statement.name &&
@@ -48,7 +48,7 @@ module Mint
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
 
         checked_type = scope({catch.variable.value, catch_type}) do
-          return_type = check catch
+          return_type = resolve catch
           result_type = Comparer.compare(return_type, type)
 
           raise TryCatchTypeMismatch, {

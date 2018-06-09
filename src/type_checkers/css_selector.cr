@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::CssSelector) : Type
-      check node.definitions
+      resolve node.definitions
 
       NEVER
     end

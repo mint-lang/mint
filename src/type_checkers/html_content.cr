@@ -4,7 +4,7 @@ module Mint
 
     def check_html(nodes : Array(Ast::HtmlContent)) : Type
       nodes.each do |child|
-        type = check child
+        type = resolve child
 
         if Comparer.compare(HTML, type) ||
            Comparer.compare(STRING, type) ||

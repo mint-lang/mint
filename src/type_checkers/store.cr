@@ -16,9 +16,9 @@ module Mint
 
       # Type checking the entities
       scope node do
-        check node.properties, node
-        check node.functions
-        check node.gets
+        resolve node.properties, node
+        resolve node.functions
+        resolve node.gets
       end
 
       NEVER
