@@ -6,7 +6,7 @@ module X {
 
 module Test {
   fun test : Void {
-    withX{void}
+    with X{void}
   }
 }
 --------------------------------------------------------------------------------
