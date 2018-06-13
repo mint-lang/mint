@@ -8,21 +8,6 @@ body {
   margin: 0;
 }
 
-aside {
-  background: #F5F5F5;
-  padding: 20px;
-  color: #444;
-}
-
-aside a {
-  text-decoration: none;
-  padding-right: 40px;
-  align-items: center;
-  margin-bottom: 5px;
-  display: flex;
-  color: inherit;
-}
-
 aside a span {
   font-weight: bold;
   font-size: 14px;
@@ -33,28 +18,19 @@ section {
 }
 
 .badge {
-  justify-content: center;
-  display: inline-flex;
-  align-items: center;
-  margin-right: 7px;
-  border-radius: 2px;
-  font-weight: bold;
-  font-size: 12px;
-  height: 20px;
-  width: 20px;
-  color: #FFF;
+
 }
 
 .badge--store {
-  background: #d02e2e;
+  background: ;
 }
 
 .badge--component {
-  background: #369e58;
+  background: ;
 }
 
 .badge--module {
-  background: #be08d0;
+  background: ;
 }
 
 .subtitle {
@@ -164,13 +140,5 @@ section {
   font-size: 14px;
 }
 
-.sidebar-header {
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
 .sidebar-header:not(:first-child) {
-  margin-top: 30px;
 }

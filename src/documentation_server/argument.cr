@@ -1,11 +1,9 @@
 module Mint
   class DocumentationServer
-    def generate(node : Ast::Argument, t)
-      t.div class: "function__argument" do
-        t.text node.name.value
-        t.text " : "
-
-        generate node.type, t
+    def generate(node : Ast::Argument, json : JSON::Builder)
+      json.object do
+        json.field "name", node.name.value
+        json.field "type", stringify(node.type)
       end
     end
   end

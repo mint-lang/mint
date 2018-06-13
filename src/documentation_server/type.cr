@@ -1,15 +1,12 @@
 module Mint
   class DocumentationServer
-    def generate(node : Ast::Type, t)
-      t.div class: "type" do
-        t.text node.name
-
+    def stringify(node : Ast::Type)
+      parameters =
         if node.parameters.any?
-          t.text "("
-          generate node.parameters, t
-          t.text ")"
+          "(" + stringify(node.parameters) + ")"
         end
-      end
+
+      "#{node.name}#{parameters}"
     end
   end
 end

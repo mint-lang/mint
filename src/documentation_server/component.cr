@@ -1,22 +1,19 @@
 module Mint
   class DocumentationServer
-    def generate(node : Ast::Component)
-      page node.name do |t|
-        title node.name, "Component", t
+    def generate(node : Ast::Component, json : JSON::Builder)
+      json.object do
+        json.field "name", node.name
 
-        if node.properties.any?
-          subtitle "Properties", t
-          generate node.properties, t
+        json.field "properties" do
+          generate node.properties, json
         end
 
-        if node.gets.any?
-          subtitle "Computed Properties", t
-          generate node.gets, t
+        json.field "computed-properties" do
+          generate node.gets, json
         end
 
-        if node.functions.any?
-          subtitle "Functions", t
-          generate node.functions, t
+        json.field "functions" do
+          generate node.functions, json
         end
       end
     end

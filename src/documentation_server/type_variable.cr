@@ -1,9 +1,7 @@
 module Mint
   class DocumentationServer
-    def generate(node : Ast::TypeVariable, t)
-      t.div class: "type" do
-        t.text node.value
-      end
+    def stringify(node : Ast::TypeVariable)
+      node.value
     end
   end
 end
