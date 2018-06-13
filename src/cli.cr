@@ -12,6 +12,7 @@ module Mint
     define_help description: "Mint"
 
     register_sub_command install, type: Install
+    register_sub_command format, type: Format
     register_sub_command build, type: Build
     register_sub_command start, type: Start
     register_sub_command init, type: Init
