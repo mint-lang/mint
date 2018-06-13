@@ -13,6 +13,8 @@ module Mint
 
         if char == '"' && (value = string_literal)
           value
+        elsif char == '[' && (value = array)
+          value
         else
           char '{', HtmlAttributeExpectedOpeningBracket
 

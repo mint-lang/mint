@@ -1,0 +1,26 @@
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <div>
+      <Test things=["x"]/>
+      <Test things=["a", "b"]/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <div>
+      <Test things=["x"]/>
+
+      <Test
+        things=[
+          "a",
+          "b"
+        ]/>
+    </div>
+  }
+}
