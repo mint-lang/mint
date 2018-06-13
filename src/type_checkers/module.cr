@@ -7,7 +7,7 @@ module Mint
       check_global_names node.name, node
 
       scope node do
-        check node.functions
+        resolve node.functions
       end
 
       NEVER

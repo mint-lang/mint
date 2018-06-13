@@ -29,7 +29,7 @@ module Mint
         "node"   => node,
       } unless item
 
-      check item
+      resolve item
     end
   end
 end

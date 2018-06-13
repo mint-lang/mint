@@ -105,12 +105,12 @@ module Mint
 
       # Type checking the entities
       scope node do
-        check node.connects
-        check node.properties, node
-        check node.styles
-        check node.states
-        check node.gets
-        check node.uses
+        resolve node.connects
+        resolve node.properties, node
+        resolve node.styles
+        resolve node.states
+        resolve node.gets
+        resolve node.uses
 
         raise ComponentNotFoundRender, {
           "node" => node,
@@ -118,7 +118,7 @@ module Mint
 
         node.functions.each do |function|
           type =
-            check function
+            resolve function
 
           case function.name.value
           when "render"

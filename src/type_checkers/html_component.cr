@@ -11,7 +11,7 @@ module Mint
         "node" => node,
       } unless component
 
-      node.attributes.each { |attribute| check attribute, component }
+      node.attributes.each { |attribute| resolve attribute, component }
 
       check_html node.children
 

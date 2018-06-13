@@ -1,0 +1,21 @@
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <Test things=["x"]/>
+  }
+}
+--------------------------------------HtmlAttributeComponentPropertyTypeMismatch
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <Test things=[0]/>
+  }
+}
+---------------------------------------HtmlAttributeElementAttributeTypeMismatch
+component Test {
+  fun render : Html {
+    <div things=[0]/>
+  }
+}

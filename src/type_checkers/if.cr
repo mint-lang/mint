@@ -5,13 +5,13 @@ module Mint
 
     def check(node : Ast::If) : Type
       condition =
-        check node.condition
+        resolve node.condition
 
       truthy =
-        check node.truthy
+        resolve node.truthy
 
       falsy =
-        check node.falsy
+        resolve node.falsy
 
       raise IfConditionTypeMismatch, {
         "node"     => node.condition,

@@ -9,7 +9,8 @@ module Mint
       start do |start_position|
         skip unless keyword "with"
 
-        whitespace
+        whitespace! SkipError
+
         name = type_id! WithExpectedModule
 
         body = block(

@@ -28,6 +28,7 @@ module Mint
 
     @record_names = {} of String => Ast::Node
     @names = {} of String => Ast::Node
+    @cache = {} of Ast::Node => Type
     @records = [] of Record
 
     def initialize(ast : Ast)
@@ -126,14 +127,40 @@ module Mint
       end
     end
 
-    def scope(nodes)
+    def scope(nodes : Array(Tuple(String, TypeChecker::Type)))
+      # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield
       end
     end
 
     # Helpers for checking things
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+
+    type_error Recursion
+
+    def resolve(node : Ast::Node | Type, *args) : Type
+      case node
+      when Type
+        node
+      when Ast::Node
+        @cache[node]? || begin
+          result = check(node, *args).as(Type)
+          @cache[node] = result
+          result
+        end
+      else
+        NEVER # Cannot happen
+      end
+    end
+
+    def resolve(nodes : Array(Ast::Node)) : Array(Type)
+      nodes.map { |node| resolve(node).as(Type) }
+    end
+
+    def resolve(nodes : Array(Ast::Node), *args) : Array(Type)
+      nodes.map { |node| resolve(node, *args).as(Type) }
+    end
 
     def check(node : Type) : Type
       node

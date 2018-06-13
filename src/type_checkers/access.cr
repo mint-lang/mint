@@ -6,7 +6,7 @@ module Mint
 
     def check(node : Ast::Access) : Type
       target =
-        check node.fields.first
+        resolve node.fields.first
 
       raise AccessNotRecord, {
         "object" => target,

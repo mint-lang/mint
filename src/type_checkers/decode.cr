@@ -5,10 +5,10 @@ module Mint
 
     def check(node : Ast::Decode) : Type
       expression =
-        check node.expression
+        resolve node.expression
 
       type =
-        check node.type
+        resolve node.type
 
       raise "" unless type
 

@@ -12,7 +12,7 @@ module Mint
       } unless entity
 
       scope entity do
-        check node.body
+        resolve node.body
       end
     end
   end

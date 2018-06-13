@@ -19,7 +19,7 @@ module Mint
           end
 
         scope(items) do
-          new_type = check statement
+          new_type = resolve statement
 
           type =
             if (new_type.name == "Promise" || new_type.name == "Result") &&
@@ -49,13 +49,13 @@ module Mint
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
 
         scope({catch.variable.value, catch_type}) do
-          check catch
+          resolve catch
         end
 
         to_catch.reject! { |item| Comparer.compare(catch_type, item) }
       end
 
-      check node.finally.not_nil! if node.finally
+      resolve node.finally.not_nil! if node.finally
 
       raise DoDidNotCatch, {
         "remaining" => to_catch,

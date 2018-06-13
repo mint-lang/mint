@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Finally) : Type
-      check node.expression
+      resolve node.expression
     end
   end
 end

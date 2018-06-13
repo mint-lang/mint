@@ -5,10 +5,10 @@ module Mint
     def check(node : Ast::Get) : Type
       scope node do
         body_type =
-          check node.body
+          resolve node.body
 
         return_type =
-          check node.type
+          resolve node.type
 
         raise GetTypeMismatch, {
           "expected" => return_type,

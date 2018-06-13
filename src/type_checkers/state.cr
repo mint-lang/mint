@@ -5,10 +5,10 @@ module Mint
 
     def check(node : Ast::State) : Type
       record =
-        check node.type
+        resolve node.type
 
       type =
-        check node.data
+        resolve node.data
 
       raise StateRecordMismatch, {
         "expected" => record,

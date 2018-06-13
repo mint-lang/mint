@@ -1,13 +1,25 @@
+module X {
+  fun a : Void {
+    void
+  }
+}
+
 module Test {
   fun test : Void {
-    with Test {
-      void
+    with X {
+      a()
     }
   }
 }
 --------------------------------------------------------------------------------
+const $X = new(class {
+  a() {
+    return null
+  }
+})
+
 const $Test = new(class {
   test() {
-    return null
+    return $X.a()
   }
 })

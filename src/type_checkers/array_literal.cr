@@ -7,10 +7,10 @@ module Mint
         Type.new("Array", [Type.new("a")])
       else
         first =
-          check node.items.first
+          resolve node.items.first
 
         node.items[1..node.items.size].each_with_index do |item, index|
-          type = check item
+          type = resolve item
 
           raise ArrayNotMatches, {
             "index"    => (index + 2).to_s,

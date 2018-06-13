@@ -4,11 +4,11 @@ module Mint
 
     def check(node : Ast::Route) : Type
       args = node.arguments.map do |argument|
-        {argument.name.value, check argument.type}
+        {argument.name.value, resolve(argument.type).as(Type)}
       end
 
       scope args do
-        type = check node.expression
+        type = resolve node.expression
 
         raise RouteNotVoid, {
           "got"  => type,

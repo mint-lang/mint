@@ -22,6 +22,10 @@ require "./utils/**"
 require "./message"
 require "./messages/**"
 
+require "./ast/node"
+require "./ast/**"
+require "./ast"
+
 require "./type_checkers/**"
 require "./type_checker"
 
@@ -42,10 +46,6 @@ require "./documentation_server"
 
 require "./test_runner/**"
 require "./test_runner"
-
-require "./ast/node"
-require "./ast/**"
-require "./ast"
 
 require "./mint_json"
 require "./scaffold"

@@ -4,7 +4,7 @@ module Mint
 
     def check(node : Ast::Test)
       type =
-        check node.expression
+        resolve node.expression
 
       if Comparer.compare(type, BOOL) ||
          Comparer.compare(type, TEST_CONTEXT)

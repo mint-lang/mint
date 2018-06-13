@@ -6,7 +6,7 @@ module Mint
       fields =
         node
           .fields
-          .map { |field| {field.key.value, check field} }
+          .map { |field| {field.key.value, resolve field} }
           .to_h
 
       record = records.find(&.==(fields))

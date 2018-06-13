@@ -3,10 +3,10 @@ module Mint
     def check(node : Ast::InlineFunction) : Type
       scope node do
         type =
-          check node.body
+          resolve node.body
 
         arguments =
-          check node.arguments
+          resolve node.arguments
 
         Type.new("Function", arguments + [type])
       end

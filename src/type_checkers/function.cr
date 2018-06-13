@@ -23,10 +23,10 @@ module Mint
           check node.arguments
 
         body_type =
-          check node.body
+          resolve node.body
 
         return_type =
-          check node.type
+          resolve node.type
 
         check node.wheres
 

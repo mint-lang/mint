@@ -4,7 +4,7 @@ module Mint
       fields =
         node
           .fields
-          .map { |field| {field.key.value, check(field).as(Type)} }
+          .map { |field| {field.key.value, resolve(field).as(Type)} }
           .to_h
 
       mappings =

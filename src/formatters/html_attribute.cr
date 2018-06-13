@@ -14,6 +14,8 @@ module Mint
         else
           "#{name}=#{value}"
         end
+      when Ast::ArrayLiteral
+        "#{name}=#{value}"
       else
         if value.includes?("\n")
           "#{name}={\n#{value.indent}\n}"
