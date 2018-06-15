@@ -21,11 +21,11 @@ module Mint
         end
 
         Ast::With.new(
+          body: body.as(Ast::Expression),
           from: start_position,
           to: position,
           input: data,
-          name: name,
-          body: body)
+          name: name)
       end
     end
   end

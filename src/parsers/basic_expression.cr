@@ -2,7 +2,7 @@ module Mint
   class Parser
     # NOTE: The order of the parsing is important!
     def basic_expression : Ast::Expression | Nil
-      string_literal ||
+      (string_literal ||
         bool_literal ||
         number_literal ||
         array ||
@@ -27,7 +27,7 @@ module Mint
         enum_id ||
         js ||
         void ||
-        variable
+        variable).as(Ast::Expression)
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression

@@ -26,7 +26,7 @@ module Mint
       end
 
       Ast::Type.new(
-        parameters: parameters || [] of Ast::Type | Ast::Variable,
+        parameters: parameters || [] of Ast::Type | Ast::TypeVariable,
         from: start_position,
         to: position,
         input: data,

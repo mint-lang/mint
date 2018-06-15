@@ -45,12 +45,12 @@ module Mint
         else
           return operation(
             Ast::Operation.new(
+              right: right.as(Ast::Expression),
+              left: left.as(Ast::Expression),
               operator: operator,
               from: left.from,
               to: right.to,
-              right: right,
-              input: data,
-              left: left),
+              input: data),
             next_operator)
         end
       end

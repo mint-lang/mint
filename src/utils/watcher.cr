@@ -15,7 +15,7 @@ module Mint
       current = Set(Tuple(String, Time)).new
 
       Dir.glob(@pattern).each do |file|
-        current.add({file, File.stat(file).mtime})
+        current.add({file, File.info(file).modification_time})
       end
 
       yield @state ^ current

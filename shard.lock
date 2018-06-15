@@ -9,16 +9,16 @@ shards:
     version: 0.6.0
 
   baked_file_system:
-    github: schovi/baked_file_system
-    version: 0.9.6
+    github: straight-shoota/baked_file_system
+    commit: 8f829baaf9b777931160860378cad9473299ed2b
 
   duktape:
     github: jessedoyle/duktape.cr
-    version: 0.13.0
+    version: 0.14.1
 
   kemal:
     github: kemalcr/kemal
-    version: 0.22.0
+    commit: 32fd19da1ec89548800185d618f912d7f537ce5e
 
   kilt:
     github: jeromegn/kilt
@@ -34,7 +34,7 @@ shards:
 
   time_format:
     github: vladfaust/time_format.cr
-    version: 0.1.0
+    version: 0.1.1
 
   tree_template:
     github: anykeyh/tree_template

@@ -8,13 +8,14 @@ targets:
 dependencies:
   duktape:
     github: jessedoyle/duktape.cr
-    version: ~> 0.13.0
   string_inflection:
     github: mosop/string_inflection
   baked_file_system:
-    github: schovi/baked_file_system
+    github: straight-shoota/baked_file_system
+    commit: 8f829baaf9b777931160860378cad9473299ed2b
   kemal:
     github: kemalcr/kemal
+    commit: 32fd19da1ec89548800185d618f912d7f537ce5e
   admiral:
     github: jwaldrip/admiral.cr
   tree_template:

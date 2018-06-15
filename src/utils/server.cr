@@ -26,7 +26,7 @@ module Mint
 
       if port_open?(host, port)
         server =
-          HTTP::Server.new(host, port, config.handlers)
+          HTTP::Server.new(config.handlers)
         terminal.print "#{COG} Development server started on http://#{host}:#{port}/\n"
       elsif STDIN.tty?
         new_port = config.port + 1
@@ -49,7 +49,7 @@ module Mint
 
       config.server = server
       config.running = true
-      config.server.try(&.listen)
+      config.server.try(&.listen(host, port))
     end
 
     def terminal

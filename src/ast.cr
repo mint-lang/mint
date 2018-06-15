@@ -16,6 +16,7 @@ module Mint
                        BoolLiteral |
                        HtmlElement |
                        ModuleCall |
+                       Operation |
                        NextCall |
                        Variable |
                        Record |
