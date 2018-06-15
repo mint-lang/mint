@@ -26,8 +26,8 @@ module Mint
         end
 
         Ast::HtmlAttribute.new(
+          value: value.as(Ast::Expression),
           from: start_position,
-          value: value,
           to: position,
           input: data,
           name: name)

@@ -57,7 +57,7 @@ module Mint
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
       node.connects.reduce([] of String) do |memo, item|
-        store = ast.stores.find { |store| store.name == item.store }
+        store = ast.stores.find { |entity| entity.name == item.store }
 
         if store
           item.keys.map do |key|

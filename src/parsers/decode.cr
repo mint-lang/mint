@@ -18,7 +18,7 @@ module Mint
         type = type! DecodeExpectedType
 
         Ast::Decode.new(
-          expression: expression,
+          expression: expression.as(Ast::Expression),
           from: start_position,
           type: type,
           to: position,

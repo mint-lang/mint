@@ -7,7 +7,8 @@ module Mint
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
-                   Ast::Store
+                   Ast::Store |
+                   Ast::Get
 
       alias Level = Tuple(Ast::Node | Type, Node)
       alias Lookup = Tuple(Ast::Node | Type, Node, Array(Node))
@@ -185,7 +186,7 @@ module Mint
             end
           end
         end.compact
-           .reduce([] of Ast::Property) { |memo, item| memo.concat(item) }
+          .reduce([] of Ast::Property) { |memo, item| memo.concat(item) }
       end
 
       private def store_gets(component)
@@ -199,7 +200,7 @@ module Mint
             end
           end
         end.compact
-           .reduce([] of Ast::Get) { |memo, item| memo.concat(item) }
+          .reduce([] of Ast::Get) { |memo, item| memo.concat(item) }
       end
 
       private def store_functions(component)
@@ -212,7 +213,7 @@ module Mint
             end
           end
         end.compact
-           .reduce([] of Ast::Function) { |memo, item| memo.concat(item) }
+          .reduce([] of Ast::Function) { |memo, item| memo.concat(item) }
       end
     end
   end

@@ -38,10 +38,10 @@ module Mint
         end
 
         Ast::If.new(
-          condition: condition,
+          condition: condition.as(Ast::Expression),
+          truthy: truthy.as(Ast::Expression),
+          falsy: falsy.as(Ast::Expression),
           from: start_position,
-          truthy: truthy,
-          falsy: falsy,
           to: position,
           input: data)
       end
