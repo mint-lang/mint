@@ -4,6 +4,10 @@ shards:
     github: jwaldrip/admiral.cr
     version: 1.6.1
 
+  ameba:
+    github: veelenga/ameba
+    commit: d9f04af057efe5517a6d2339b0ec96df3e269b5e
+
   baked_file_system:
     github: straight-shoota/baked_file_system
     commit: 8f829baaf9b777931160860378cad9473299ed2b

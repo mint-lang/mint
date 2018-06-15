@@ -23,3 +23,8 @@ dependencies:
   time_format:
     github: vladfaust/time_format.cr
     version: ~> 0.1.0
+
+development_dependencies:
+  ameba:
+    github: veelenga/ameba
+    commit: d9f04af057efe5517a6d2339b0ec96df3e269b5e
