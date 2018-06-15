@@ -10,6 +10,7 @@ module Mint
                        StringLiteral |
                        NumberLiteral |
                        HtmlComponent |
+                       ArrayLiteral |
                        RecordUpdate |
                        ModuleAccess |
                        FunctionCall |
@@ -20,9 +21,16 @@ module Mint
                        NextCall |
                        Variable |
                        Record |
+                       EnumId |
                        Access |
+                       Decode |
+                       Routes |
+                       Route |
                        With |
                        Case |
+                       Void |
+                       Try |
+                       Do |
                        If |
                        Js
 
