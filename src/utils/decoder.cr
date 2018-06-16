@@ -39,9 +39,9 @@ module Mint
         <<-JS
         #{consts.join("\n\n")}
 
-        return new Ok({
-        #{fields.join(",\n").indent}
-        })
+        return new Ok(
+          new Record({#{fields.join(",\n").indent}}, "#{node.name}")
+        )
         JS
 
       @decoders[node] =

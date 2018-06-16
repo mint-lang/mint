@@ -5,7 +5,7 @@ module Mint
     def case_branch : Ast::CaseBranch | Nil
       start do |start_position|
         unless keyword "=>"
-          match = expression
+          match = expression || type
           whitespace
           skip unless keyword "=>"
         end

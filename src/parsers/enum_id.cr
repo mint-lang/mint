@@ -6,6 +6,7 @@ module Mint
     def enum_id
       start do |start_position|
         skip unless name = type_id
+        skip unless char == ':'
 
         keyword! "::", EnumIdExpectedDoubleColon
 

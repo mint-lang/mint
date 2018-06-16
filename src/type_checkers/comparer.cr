@@ -17,6 +17,26 @@ module Mint
         entity if entity == against
       end
 
+      def self.compare(entity : Alias, against : Type)
+        if entity.types.any? { |type| compare(type, against) }
+          against
+        else
+          nil
+        end
+      end
+
+      def self.compare(entity : Type, against : Alias)
+        compare against, entity
+      end
+
+      def self.compare(entity : Alias, against : Alias)
+        if entity == against
+          against
+        else
+          nil
+        end
+      end
+
       def initialize(@a : Type, @b : Type)
       end
 

@@ -23,6 +23,7 @@ module Mint
         component ||
           module_definition ||
           record_definition ||
+          self.alias ||
           self.enum ||
           provider ||
           routes ||
@@ -46,6 +47,8 @@ module Mint
           @ast.stores << item
         when Ast::Routes
           @ast.routes << item
+        when Ast::Alias
+          @ast.aliases << item
         when Ast::Enum
           @ast.enums << item
         end

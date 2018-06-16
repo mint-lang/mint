@@ -30,6 +30,7 @@ module Mint
     @names = {} of String => Ast::Node
     @cache = {} of Ast::Node => Type
     @records = [] of Record
+    @aliases = [] of Alias
 
     def initialize(ast : Ast)
       @artifacts = Artifacts.new(ast)
@@ -61,12 +62,26 @@ module Mint
     end
 
     def resolve_type(node : Type)
-      resolve_record_definition(node.name) || begin
+      resolve_alias(node.name) ||
+        resolve_record_definition(node.name) || begin
         parameters = node.parameters.map do |param|
           resolve_type(param).as(Type)
         end
 
         Type.new(node.name, parameters)
+      end
+    end
+
+    def resolve_alias(name)
+      @aliases.find(&.name.==(name)) || begin
+        node = ast.aliases.find(&.name.==(name))
+
+        if node
+          type = Alias.new(node.name, node.types.map { |type| resolve(type).as(Type) })
+          @aliases << type
+          types[node] = type
+          type
+        end
       end
     end
 
@@ -104,6 +119,7 @@ module Mint
         }
       else
         records << record
+        types[node] = record
         @record_names[record.name] = node
       end
     end

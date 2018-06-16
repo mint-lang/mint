@@ -3,7 +3,7 @@ module Mint
     class CaseBranch < Node
       getter match, expression
 
-      def initialize(@match : Expression | Nil,
+      def initialize(@match : Expression | Type | Nil,
                      @expression : Expression,
                      @input : Data,
                      @from : Int32,

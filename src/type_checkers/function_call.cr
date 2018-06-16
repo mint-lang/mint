@@ -52,12 +52,7 @@ module Mint
           }
         end
 
-        resolved =
-          Comparer.compare(type, call_type)
-
-        raise Mint::TypeError unless resolved # Should not happen
-
-        resolve_type(resolved.parameters.last)
+        resolve_type(type.parameters.last)
       end
     end
   end

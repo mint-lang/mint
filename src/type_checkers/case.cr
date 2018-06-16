@@ -6,11 +6,17 @@ module Mint
       condition =
         resolve node.condition
 
+      name =
+        case node.condition
+        when Ast::Variable
+          node.condition.as(Ast::Variable).value
+        end
+
       first =
-        resolve node.branches.first, condition
+        resolve node.branches.first, condition, name
 
       node.branches[1..node.branches.size].each_with_index do |branch, index|
-        type = resolve branch, condition
+        type = resolve branch, condition, name
 
         raise CaseBranchNotMatches, {
           "index"    => (index + 1).to_s,

@@ -25,12 +25,14 @@ module Mint
                        If |
                        Js
 
-    getter components, modules, records, stores, routes, providers, suites, enums
+    getter components, modules, records, stores, routes
+    getter providers, suites, enums, aliases
 
     def initialize(@records = [] of RecordDefinition,
                    @components = [] of Component,
                    @providers = [] of Provider,
                    @modules = [] of Module,
+                   @aliases = [] of Alias,
                    @routes = [] of Routes,
                    @suites = [] of Suite,
                    @stores = [] of Store,
@@ -50,6 +52,7 @@ module Mint
       @providers.concat ast.providers
       @modules.concat ast.modules
       @records.concat ast.records
+      @aliases.concat ast.aliases
       @stores.concat ast.stores
       @routes.concat ast.routes
       @suites.concat ast.suites

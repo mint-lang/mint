@@ -38,6 +38,32 @@ module Mint
     class Js < Type
     end
 
+    class Alias < Type
+      getter types
+
+      def initialize(@name : String, @types = [] of Type)
+        @parameters = [] of Type
+      end
+
+      def to_s
+        if types.empty?
+          name
+        else
+          defs = types.map(&.to_s).join(" | ")
+          "#{name} : #{defs}  "
+        end
+      end
+
+      def to_pretty
+        if types.empty?
+          name
+        else
+          defs = types.map(&.to_s).join(" | ")
+          "#{name} : #{defs}  "
+        end
+      end
+    end
+
     class Record < Type
       getter fields, mappings
 
