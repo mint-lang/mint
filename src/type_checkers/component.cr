@@ -106,7 +106,7 @@ module Mint
       # Type checking the entities
       scope node do
         resolve node.connects
-        resolve node.properties, node
+        resolve node.properties
         resolve node.styles
         resolve node.states
         resolve node.gets
