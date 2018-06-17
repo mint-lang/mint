@@ -6,6 +6,7 @@ describe "Type" do
   expect_ignore ":"
   expect_ignore "a"
 
+  expect_error "T(a, T.)", Mint::Parser::TypeExpectedType
   expect_error "T(", Mint::Parser::TypeExpectedTypeOrVariable
   expect_error "T(T", Mint::Parser::TypeExpectedClosingParentheses
 
