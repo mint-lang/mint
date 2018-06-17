@@ -384,8 +384,8 @@ module Mint
       repository = nil
       constraint = nil
 
-      @parser.read_object_or_null do |key|
-        case key
+      @parser.read_object_or_null do |dependency_key|
+        case dependency_key
         when "repository"
           repository = @parser.read_string
         when "constraint"

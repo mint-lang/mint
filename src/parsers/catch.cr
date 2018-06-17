@@ -26,7 +26,7 @@ module Mint
         end
 
         Ast::Catch.new(
-          expression: expression,
+          expression: expression.as(Ast::Expression),
           from: start_position,
           variable: variable,
           to: position,

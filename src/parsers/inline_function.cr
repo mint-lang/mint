@@ -21,11 +21,11 @@ module Mint
         body = expression! InlineFunctionExpectedExpression
 
         Ast::InlineFunction.new(
+          body: body.as(Ast::Expression),
           arguments: arguments,
           from: start_position,
           to: position,
-          input: data,
-          body: body)
+          input: data)
       end
     end
   end

@@ -6,19 +6,19 @@ shards:
 
   ameba:
     github: veelenga/ameba
-    version: 0.6.0
+    version: 0.7.0
 
   baked_file_system:
     github: schovi/baked_file_system
-    version: 0.9.6
+    commit: e1447549d5ac0560720fae62179b2f2c62c9bfd1
 
   duktape:
     github: jessedoyle/duktape.cr
-    version: 0.13.0
+    version: 0.14.1
 
   kemal:
     github: kemalcr/kemal
-    version: 0.22.0
+    commit: a5870e7d24e5ec75c956bcf3e4423f55a2c4ff78
 
   kilt:
     github: jeromegn/kilt
@@ -34,7 +34,7 @@ shards:
 
   time_format:
     github: vladfaust/time_format.cr
-    version: 0.1.0
+    version: 0.1.1
 
   tree_template:
     github: anykeyh/tree_template

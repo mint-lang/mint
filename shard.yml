@@ -1,5 +1,5 @@
 name: mint
-version: 1.0.0
+version: 0.0.5
 
 targets:
   mint:
@@ -8,20 +8,20 @@ targets:
 dependencies:
   duktape:
     github: jessedoyle/duktape.cr
-    version: ~> 0.13.0
   string_inflection:
     github: mosop/string_inflection
   baked_file_system:
     github: schovi/baked_file_system
+    branch: master
   kemal:
     github: kemalcr/kemal
+    branch: master
   admiral:
     github: jwaldrip/admiral.cr
   tree_template:
     github: anykeyh/tree_template
   time_format:
     github: vladfaust/time_format.cr
-    version: ~> 0.1.0
 
 development_dependencies:
   ameba:

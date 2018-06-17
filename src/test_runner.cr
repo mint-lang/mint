@@ -122,15 +122,15 @@ module Mint
     end
 
     def compile_ast
-      file =
+      file_argument =
         @arguments.test
 
       ast =
         Ast.new
 
       sources =
-        if file
-          Dir.glob([file] + SourceFiles.all)
+        if file_argument
+          Dir.glob([file_argument] + SourceFiles.all)
         else
           Dir.glob(SourceFiles.tests + SourceFiles.all)
         end
@@ -245,9 +245,9 @@ module Mint
             puts "  #{ARROW} #{@succeeded} passed"
             puts "  #{ARROW} #{@failed.size} failed"
 
-            @failed.each do |message|
-              puts "    #{message.name}".colorize(:red).to_s
-              puts "    |> #{message.result}".colorize(:red).to_s
+            @failed.each do |faliure|
+              puts "    #{faliure.name}".colorize(:red).to_s
+              puts "    |> #{faliure.result}".colorize(:red).to_s
             end
 
             Kemal.config.server.try(&.close) unless @flags.manual

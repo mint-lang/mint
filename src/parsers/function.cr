@@ -48,14 +48,14 @@ module Mint
         whitespace
 
         Ast::Function.new(
+          body: body.as(Ast::Expression),
           arguments: arguments,
           from: start_position,
           to: end_position,
           wheres: where,
           input: data,
           name: name,
-          type: type,
-          body: body)
+          type: type)
       end
     end
   end

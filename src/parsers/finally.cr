@@ -18,7 +18,7 @@ module Mint
         end
 
         Ast::Finally.new(
-          expression: expression,
+          expression: expression.as(Ast::Expression),
           from: start_position,
           to: position,
           input: data)
