@@ -13,7 +13,7 @@ record X {
 }
 
 component A {
-  fun x (input : Object) : Result(Object.Error, x) {
+  fun x (input : Object) : Result(Object.Error, X) {
     decode input as X
   }
 

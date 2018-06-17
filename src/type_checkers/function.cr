@@ -3,7 +3,7 @@ module Mint
     type_error FunctionArgumentConflict
     type_error FunctionTypeMismatch
 
-    def check(node : Ast::Function) : Type
+    def check(node : Ast::Function) : Checkable
       scope node do
         node.arguments.each do |argument|
           name =
@@ -39,7 +39,7 @@ module Mint
           "node"     => node,
         } unless resolved
 
-        Type.new("Function", arguments + [return_type])
+        Comparer.normalize(Type.new("Function", arguments + [return_type]))
       end
     end
   end

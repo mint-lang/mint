@@ -13,13 +13,13 @@ message DecodeComplexType do
   end
 
   type_list [
-    TypeChecker::Type.new("Array", [TypeChecker::Type.new("a")]),
-    TypeChecker::Type.new("Maybe", [TypeChecker::Type.new("a")]),
+    TypeChecker::Type.new("Array", [TypeChecker::Variable.new("a")] of TypeChecker::Checkable),
+    TypeChecker::Type.new("Maybe", [TypeChecker::Variable.new("a")] of TypeChecker::Checkable),
     TypeChecker::STRING,
     TypeChecker::NUMBER,
     TypeChecker::TIME,
     TypeChecker::BOOL,
-  ]
+  ] of TypeChecker::Checkable
 
   snippet node
 end

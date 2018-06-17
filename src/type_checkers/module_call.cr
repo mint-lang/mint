@@ -6,7 +6,7 @@ module Mint
     type_error ModuleCallNotFoundModule
     type_error ModuleCallTypeMismatch
 
-    def check(node : Ast::ModuleCall) : Type
+    def check(node : Ast::ModuleCall) : Checkable
       entity =
         ast.modules.find(&.name.==(node.name)) ||
           ast.stores.find(&.name.==(node.name))
@@ -29,8 +29,8 @@ module Mint
           "node"      => node,
         } if function.arguments.size != node.arguments.size
 
-        parameters = [] of Type
-        call_parameters = [] of Type
+        parameters = [] of Checkable
+        call_parameters = [] of Checkable
 
         function.arguments.each_with_index do |argument, index|
           call_argument = resolve node.arguments[index]
@@ -50,11 +50,10 @@ module Mint
 
         return_type = resolve function.type
 
-        function_type = Type.new("Function", parameters + [return_type])
+        function_type = resolve function
         call_type = Type.new("Function", call_parameters + [return_type])
 
         result = Comparer.compare(function_type, call_type)
-
         raise ModuleCallTypeMismatch, {
           "expected" => function_type,
           "got"      => call_type,

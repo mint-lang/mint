@@ -3,7 +3,7 @@ module Mint
     type_error IfConditionTypeMismatch
     type_error IfElseTypeMismatch
 
-    def check(node : Ast::If) : Type
+    def check(node : Ast::If) : Checkable
       condition =
         resolve node.condition
 

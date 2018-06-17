@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error StoreEntityNameConflict
 
-    def check(node : Ast::Store) : Type
+    def check(node : Ast::Store) : Checkable
       # Checking for global naming conflict
       check_global_names node.name, node
 

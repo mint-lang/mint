@@ -4,7 +4,7 @@ module Mint
       new(node).check
     end
 
-    def check(node : Ast) : Type
+    def check(node : Ast) : Checkable
       resolve node.providers
       resolve node.components
       resolve node.modules

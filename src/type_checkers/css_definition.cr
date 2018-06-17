@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error CssDefinitionTypeMismatch
 
-    def check(node : Ast::CssDefinition) : Type
+    def check(node : Ast::CssDefinition) : Checkable
       node.value.each do |item|
         type =
           case item

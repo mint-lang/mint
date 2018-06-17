@@ -3,7 +3,7 @@ module Mint
     type_error EnumIdTypeMissing
     type_error EnumIdEnumMissing
 
-    def check(node : Ast::EnumId)
+    def check(node : Ast::EnumId) : Checkable
       parent =
         ast.enums.find(&.name.==(node.name))
 

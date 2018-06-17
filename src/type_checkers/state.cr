@@ -3,7 +3,7 @@ module Mint
     type_error StateNotFoundRecord
     type_error StateRecordMismatch
 
-    def check(node : Ast::State) : Type
+    def check(node : Ast::State) : Checkable
       record =
         resolve node.type
 

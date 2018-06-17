@@ -4,7 +4,7 @@ module Mint
     type_error OperationPlusTypeMismatch
     type_error OperationTypeMismatch
 
-    def check(node : Ast::Operation) : Type
+    def check(node : Ast::Operation) : Checkable
       case node.operator
       when "!=", "==", "<", ">", "<=", ">=", "&&", "||"
         right = resolve node.right
