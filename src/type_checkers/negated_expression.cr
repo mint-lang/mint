@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error NegatedExpressionNotBool
 
-    def check(node : Ast::NegatedExpression) : Type
+    def check(node : Ast::NegatedExpression) : Checkable
       expression =
         resolve node.expression
 

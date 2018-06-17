@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     class Scope
       alias Node = Ast::InlineFunction |
-                   Tuple(String, Type) |
+                   Tuple(String, Checkable) |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
@@ -10,8 +10,8 @@ module Mint
                    Ast::Store |
                    Ast::Get
 
-      alias Level = Tuple(Ast::Node | Type, Node)
-      alias Lookup = Tuple(Ast::Node | Type, Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable, Node)
+      alias Lookup = Tuple(Ast::Node | Checkable, Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
@@ -26,7 +26,7 @@ module Mint
         case node
         when Ast::InlineFunction
           "Inline function"
-        when Tuple(String, Type)
+        when Tuple(String, Checkable)
           node[0]
         when Ast::Component
           node.name
@@ -92,7 +92,7 @@ module Mint
         entity.as(Ast::Component)
       end
 
-      def find(variable : String, data : Tuple(String, Type))
+      def find(variable : String, data : Tuple(String, Checkable))
         data[0] == variable ? data[1] : nil
       end
 
@@ -123,8 +123,8 @@ module Mint
       def find(variable : String, node : Ast::Provider)
         if variable == "subscriptions"
           type = @records.find(&.name.==(node.subscription)) ||
-                 Type.new(node.subscription)
-          Type.new("Array", [type])
+                 Comparer.normalize(Type.new(node.subscription))
+          Type.new("Array", [type.as(Checkable)])
         else
           node.functions.find(&.name.value.==(variable))
         end

@@ -4,40 +4,40 @@ module Mint
     type_error TryCatchesNothing
     type_error TryDidNotCatch
 
-    def check(node : Ast::Try) : Type
-      to_catch = [] of Type
+    def check(node : Ast::Try) : Checkable
+      to_catch = [] of Checkable
 
       types =
         node
           .statements
-          .reduce([] of Tuple(String, Type)) do |items, statement|
-          maybe_name = statement.name
+          .reduce([] of Tuple(String, Checkable)) do |items, statement|
+            maybe_name = statement.name
 
-          name =
-            if maybe_name
-              maybe_name.value
-            else
-              ""
-            end
-
-          scope(items) do
-            new_type = resolve statement
-
-            type =
-              if statement.name &&
-                 new_type.name == "Result" &&
-                 new_type.parameters.size == 2
-                if new_type.parameters[0].name != "Never"
-                  to_catch << new_type.parameters[0]
-                end
-                new_type.parameters[1]
+            name =
+              if maybe_name
+                maybe_name.value
+              else
+                ""
               end
 
-            items << {name, resolve_type(type || new_type)}
-          end
+            scope(items) do
+              new_type = resolve statement
 
-          items
-        end
+              type =
+                if statement.name &&
+                   new_type.name == "Result" &&
+                   new_type.parameters.size == 2
+                  if new_type.parameters[0].name != "Never"
+                    to_catch << new_type.parameters[0]
+                  end
+                  new_type.parameters[1]
+                end
+
+              items << {name, resolve_type(type || new_type)}
+            end
+
+            items
+          end
 
       final_type = node.catches.reduce(types.last[1]) do |type, catch|
         catch_type = resolve_type(Type.new(catch.type))

@@ -2,9 +2,9 @@ module Mint
   class TypeChecker
     type_error RouteNotVoid
 
-    def check(node : Ast::Route) : Type
+    def check(node : Ast::Route) : Checkable
       args = node.arguments.map do |argument|
-        {argument.name.value, resolve(argument.type).as(Type)}
+        {argument.name.value, resolve(argument.type).as(Checkable)}
       end
 
       scope args do

@@ -1,11 +1,11 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::Type) : Type
+    def check(node : Ast::Type) : Checkable
       resolve_record_definition(node.name) || begin
         parameters =
           resolve node.parameters
 
-        Type.new(node.name, parameters)
+        Comparer.normalize(Type.new(node.name, parameters))
       end
     end
   end

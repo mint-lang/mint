@@ -3,7 +3,7 @@ module Mint
     type_error ConnectNotFoundMember
     type_error ConnectNotFoundStore
 
-    def check(node : Ast::Connect) : Type
+    def check(node : Ast::Connect) : Checkable
       store = ast.stores.find(&.name.==(node.store))
 
       raise ConnectNotFoundStore, {

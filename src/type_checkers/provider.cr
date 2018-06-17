@@ -3,7 +3,7 @@ module Mint
     type_error ProviderNotFoundSubscription
     type_error ProviderEntityNameConflict
 
-    def check(node : Ast::Provider) : Type
+    def check(node : Ast::Provider) : Checkable
       check_names node.functions, ProviderEntityNameConflict
       check_global_names node.name, node
 

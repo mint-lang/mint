@@ -4,7 +4,7 @@ module Mint
     type_error RecordUpdateTypeMismatch
     type_error RecordUpdateNotFoundKey
 
-    def check(node : Ast::RecordUpdate) : Type
+    def check(node : Ast::RecordUpdate) : Checkable
       target =
         resolve node.variable
 

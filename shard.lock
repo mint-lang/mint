@@ -6,11 +6,11 @@ shards:
 
   ameba:
     github: veelenga/ameba
-    commit: d9f04af057efe5517a6d2339b0ec96df3e269b5e
+    version: 0.7.0
 
   baked_file_system:
-    github: straight-shoota/baked_file_system
-    commit: 8f829baaf9b777931160860378cad9473299ed2b
+    github: schovi/baked_file_system
+    commit: e1447549d5ac0560720fae62179b2f2c62c9bfd1
 
   coverage:
     github: anykeyh/crystal-coverage
@@ -22,7 +22,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    commit: 32fd19da1ec89548800185d618f912d7f537ce5e
+    commit: a5870e7d24e5ec75c956bcf3e4423f55a2c4ff78
 
   kilt:
     github: jeromegn/kilt

@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error GetTypeMismatch
 
-    def check(node : Ast::Get) : Type
+    def check(node : Ast::Get) : Checkable
       scope node do
         body_type =
           resolve node.body

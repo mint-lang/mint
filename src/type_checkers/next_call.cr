@@ -3,7 +3,7 @@ module Mint
     type_error NextCallInvalidInvokation
     type_error NextCallTypeMismatch
 
-    def check(node : Ast::NextCall) : Type
+    def check(node : Ast::NextCall) : Checkable
       type =
         resolve node.data
 

@@ -4,7 +4,7 @@ module Mint
     type_error AccessFieldNotFound
     type_error AccessNotRecord
 
-    def check(node : Ast::Access) : Type
+    def check(node : Ast::Access) : Checkable
       target =
         resolve node.fields.first
 

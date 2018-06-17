@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::InlineFunction) : Type
+    def check(node : Ast::InlineFunction) : Checkable
       scope node do
         type =
           resolve node.body

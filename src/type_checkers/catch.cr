@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::Catch) : Type
+    def check(node : Ast::Catch) : Checkable
       resolve node.expression
     end
   end

@@ -54,6 +54,10 @@ module Mint
       id(node.name)
     end
 
+    def generate(node : TypeChecker::Variable)
+      raise "WTF"
+    end
+
     def generate(node : TypeChecker::Type)
       case node.name
       when "String"

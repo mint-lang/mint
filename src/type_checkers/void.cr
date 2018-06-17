@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::Void) : Type
+    def check(node : Ast::Void) : Checkable
       VOID
     end
   end

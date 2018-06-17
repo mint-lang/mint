@@ -9,7 +9,7 @@ module Mint
                      @dynamic_styles = {} of String => Hash(String, String),
                      @styles = {} of String => Hash(String, String),
                      @variables = {} of Ast::Node => Scope::Lookup,
-                     @types = {} of Ast::Node => Type)
+                     @types = {} of Ast::Node => Checkable)
       end
     end
   end
