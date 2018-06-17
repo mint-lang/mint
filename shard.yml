@@ -1,5 +1,5 @@
 name: mint
-version: 1.0.0
+version: 0.0.5
 
 targets:
   mint:
@@ -11,20 +11,18 @@ dependencies:
   string_inflection:
     github: mosop/string_inflection
   baked_file_system:
-    github: straight-shoota/baked_file_system
-    commit: 8f829baaf9b777931160860378cad9473299ed2b
+    github: schovi/baked_file_system
+    branch: master
   kemal:
     github: kemalcr/kemal
-    commit: 32fd19da1ec89548800185d618f912d7f537ce5e
+    branch: master
   admiral:
     github: jwaldrip/admiral.cr
   tree_template:
     github: anykeyh/tree_template
   time_format:
     github: vladfaust/time_format.cr
-    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    commit: d9f04af057efe5517a6d2339b0ec96df3e269b5e
