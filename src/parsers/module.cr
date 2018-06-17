@@ -6,8 +6,10 @@ module Mint
 
     def module_definition : Ast::Module | Nil
       start do |start_position|
-        skip unless keyword "module"
+        comment = self.comment
+        whitespace
 
+        skip unless keyword "module"
         whitespace
 
         name = type_id! ModuleExpectedName
@@ -21,6 +23,7 @@ module Mint
         Ast::Module.new(
           functions: functions,
           from: start_position,
+          comment: comment,
           to: position,
           input: data,
           name: name)

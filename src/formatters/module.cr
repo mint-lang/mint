@@ -4,7 +4,10 @@ module Mint
       body =
         format node.functions, "\n\n"
 
-      "module #{node.name} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}module #{node.name} {\n#{body.indent}\n}"
     end
   end
 end

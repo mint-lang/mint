@@ -10,6 +10,9 @@ module Mint
 
     def function : Ast::Function | Nil
       start do |start_position|
+        comment = self.comment
+        whitespace
+
         skip unless keyword "fun"
 
         whitespace
@@ -51,6 +54,7 @@ module Mint
           body: body.as(Ast::Expression),
           arguments: arguments,
           from: start_position,
+          comment: comment,
           to: end_position,
           wheres: where,
           input: data,

@@ -21,9 +21,13 @@ module Mint
           "(#{value}) "
         end
 
-      where = " where {\n#{wheres.indent}\n}" if node.wheres.any?
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
 
-      "fun #{name} #{arguments}: #{type} {\n#{body.indent}\n}#{where}"
+      where =
+        " where {\n#{wheres.indent}\n}" if node.wheres.any?
+
+      "#{comment}fun #{name} #{arguments}: #{type} {\n#{body.indent}\n}#{where}"
     end
   end
 end
