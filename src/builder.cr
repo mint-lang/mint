@@ -5,11 +5,14 @@ module Mint
 
       terminal.measure "#{COG} Clearing the \"dist\" directory... " do
         FileUtils.rm_rf "dist"
-        FileUtils.mkdir "dist"
       end
 
-      terminal.measure "#{COG} Copying public folder contents... " do
-        FileUtils.cp Dir.glob("public/**/*"), "dist"
+      if Dir.exists?("public")
+        terminal.measure "#{COG} Copying public folder contents... " do
+          FileUtils.cp_r "public", "dist"
+        end
+      else
+        FileUtils.mkdir "dist"
       end
 
       terminal.print "#{COG} Compiling your appliction:\n"
