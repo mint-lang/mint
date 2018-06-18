@@ -16,7 +16,10 @@ module Mint
       body =
         list items
 
-      "component #{name} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}component #{name} {\n#{body.indent}\n}"
     end
   end
 end

@@ -7,8 +7,10 @@ module Mint
 
     def component : Ast::Component | Nil
       start do |start_position|
-        skip unless keyword "component"
+        comment = self.comment
+        whitespace
 
+        skip unless keyword "component"
         whitespace
 
         name = type_id! ComponentExpectedName
@@ -64,6 +66,7 @@ module Mint
           functions: functions,
           from: start_position,
           connects: connects,
+          comment: comment,
           styles: styles,
           states: states,
           to: position,

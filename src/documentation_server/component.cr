@@ -3,6 +3,7 @@ module Mint
     def generate(node : Ast::Component, json : JSON::Builder)
       json.object do
         json.field "name", node.name
+        json.field "description", node.comment.try(&.value)
 
         json.field "properties" do
           generate node.properties, json

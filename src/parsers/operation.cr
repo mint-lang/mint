@@ -31,7 +31,7 @@ module Mint
         whitespace
         operator = OPERATORS.keys.find { |item| keyword item }
         skip unless operator
-        whitespace
+        whitespace! SkipError
         operator
       end
     end
