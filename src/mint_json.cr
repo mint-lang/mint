@@ -454,5 +454,18 @@ module Mint
         "node" => node(exception),
       }
     end
+
+    json_error MintJsonDependencyNotInstalled
+
+    def check_dependencies!
+      dependencies.each do |dependency|
+        next if dependency_exists?(dependency.name)
+        raise MintJsonDependencyNotInstalled, {"name" => dependency.name}
+      end
+    end
+
+    def dependency_exists?(name : String)
+      Dir.exists?(".mint/packages/#{name}")
+    end
   end
 end

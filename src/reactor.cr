@@ -29,6 +29,10 @@ module Mint
       @pattern = SourceFiles.all
       @error = nil
 
+      terminal.measure "#{COG} Ensuring dependencies... " do
+        MintJson.parse_current.check_dependencies!
+      end
+
       terminal.measure "#{COG} Compiling... " do
         compile_script
       end

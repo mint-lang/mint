@@ -3,6 +3,10 @@ module Mint
     def initialize
       json = MintJson.parse_current
 
+      terminal.measure "#{COG} Ensuring dependencies... " do
+        json.check_dependencies!
+      end
+
       terminal.measure "#{COG} Clearing the \"dist\" directory... " do
         FileUtils.rm_rf "dist"
       end
