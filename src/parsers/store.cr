@@ -7,8 +7,10 @@ module Mint
 
     def store : Ast::Store | Nil
       start do |start_position|
-        skip unless keyword "store"
+        comment = self.comment
+        whitespace
 
+        skip unless keyword "store"
         whitespace
 
         name = type_id! StoreExpectedName
@@ -41,6 +43,7 @@ module Mint
           properties: properties,
           functions: functions,
           from: start_position,
+          comment: comment,
           to: position,
           input: data,
           gets: gets,
