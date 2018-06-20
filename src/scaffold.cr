@@ -29,19 +29,21 @@ module Mint
       dist
       GIT_IGNORE
 
-    getter name
+    getter path, name
 
     def self.run(name : String)
-      new(name).run
+      path = File.expand_path(name)
+      name = File.basename(path)
+      new(path, name).run
     end
 
-    def initialize(@name : String)
+    def initialize(@path : String, @name : String)
     end
 
     def run
       terminal.print "#{COG} Creating directory structure...\n"
-      FileUtils.mkdir name
-      FileUtils.cd name
+      FileUtils.mkdir_p path
+      FileUtils.cd path
       FileUtils.mkdir "source"
 
       terminal.print "#{COG} Writing initial files...\n\n"
