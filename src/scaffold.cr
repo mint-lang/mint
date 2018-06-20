@@ -29,6 +29,19 @@ module Mint
       dist
       GIT_IGNORE
 
+    TEST =
+      <<-TEST
+      suite "Main" {
+        test "Greets Mint" {
+          with Test.Html {
+            <Main/>
+            |> start()
+            |> assertTextOf("div", "Hello Mint!")
+          }
+        }
+      }
+    TEST
+
     getter path, name
 
     def self.run(name : String)
@@ -45,9 +58,11 @@ module Mint
       FileUtils.mkdir_p path
       FileUtils.cd path
       FileUtils.mkdir "source"
+      FileUtils.mkdir "tests"
 
       terminal.print "#{COG} Writing initial files...\n\n"
       File.write(File.join("source", "Main.mint"), MAIN)
+      File.write(File.join("tests", "Main.mint"), TEST)
       File.write("mint.json", json.to_pretty_json)
       File.write(".gitignore", GIT_IGNORE)
 
@@ -59,6 +74,9 @@ module Mint
         "name"               => name,
         "source-directories" => [
           "source",
+        ],
+        "test-directories" => [
+          "tests",
         ],
         "dependencies" => {
           "mint-core" => {
