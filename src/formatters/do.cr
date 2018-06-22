@@ -14,7 +14,7 @@ module Mint
        catches,
        finally.to_s,
       ].reject(&.strip.empty?)
-       .join(" ")
+        .join(" ")
     end
   end
 end

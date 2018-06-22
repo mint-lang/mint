@@ -16,9 +16,9 @@ module Mint
         ast.suites +
         ast.enums
       ).sort_by(&.from)
-       .map do |node|
-        format node
-      end
+        .map do |node|
+          format node
+        end
 
       body
         .join("\n\n")
