@@ -3,13 +3,20 @@ module Mint
     def initialize
       json = MintJson.parse_current
 
-      terminal.measure "#{COG} Clearing the \"dist\" directory... " do
-        FileUtils.rm_rf "dist"
-        FileUtils.mkdir "dist"
+      terminal.measure "#{COG} Ensuring dependencies... " do
+        json.check_dependencies!
       end
 
-      terminal.measure "#{COG} Copying public folder contents... " do
-        FileUtils.cp Dir.glob("public/**/*"), "dist"
+      terminal.measure "#{COG} Clearing the \"dist\" directory... " do
+        FileUtils.rm_rf "dist"
+      end
+
+      if Dir.exists?("public")
+        terminal.measure "#{COG} Copying public folder contents... " do
+          FileUtils.cp_r "public", "dist"
+        end
+      else
+        FileUtils.mkdir "dist"
       end
 
       terminal.print "#{COG} Compiling your appliction:\n"
