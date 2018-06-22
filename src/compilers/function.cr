@@ -23,7 +23,7 @@ module Mint
          contents_separator,
          "return #{expression}",
         ].join("")
-         .indent
+          .indent
 
       "#{node.name.value}(#{arguments}) {\n#{body}\n}"
     end

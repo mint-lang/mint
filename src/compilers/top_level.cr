@@ -93,11 +93,11 @@ module Mint
 
               ".#{name} {\n#{definitions}\n}"
             end.join("\n\n")
-               .indent
+              .indent
 
           "@media #{condition} {\n#{selectors}\}"
         end.join("\n\n")
-           .indent
+          .indent
 
       css =
         styles.map do |name, items|
@@ -109,7 +109,7 @@ module Mint
 
           ".#{name} {\n#{definitions}\n}"
         end.join("\n\n")
-           .indent
+          .indent
 
       footer =
         if css.strip.empty?

@@ -23,7 +23,7 @@ module Mint
 
       define_argument test : String
 
-      define_help description: "Runs the tests."
+      define_help description: "Runs the tests"
 
       def run
         execute "Running Tests" do

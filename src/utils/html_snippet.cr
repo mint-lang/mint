@@ -33,10 +33,10 @@ module Mint
           part
             .lines
             .map do |line|
-            line.gsub(/^(\s*)(.*)(\s*)$/) do |_, match|
-              "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
-            end
-          end.join("\n")
+              line.gsub(/^(\s*)(.*)(\s*)$/) do |_, match|
+                "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
+              end
+            end.join("\n")
         end
 
       right =

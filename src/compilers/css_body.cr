@@ -24,7 +24,7 @@ module Mint
               compile part
             end
           end.reject(&.empty?)
-             .join(" + ")
+            .join(" + ")
 
           dynamics[variable] = value
           regulars[item.name] = "var(#{variable})"
