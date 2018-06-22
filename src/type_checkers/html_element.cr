@@ -3,7 +3,7 @@ module Mint
     type_error HtmlElementStyleOutsideOfComponent
     type_error HtmlElementNotFoundStyle
 
-    def check(node : Ast::HtmlElement) : Type
+    def check(node : Ast::HtmlElement) : Checkable
       style =
         node.style
 

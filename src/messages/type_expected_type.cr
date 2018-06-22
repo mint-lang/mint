@@ -5,7 +5,7 @@ message TypeExpectedType do
     text "I was looking for an"
     bold "uppercase letter for a type"
     text "but found"
-    char got
+    code got
     text "instead."
   end
 

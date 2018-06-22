@@ -11,7 +11,7 @@ module Mint
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
 
-    def check(node : Ast::Component) : Type
+    def check(node : Ast::Component) : Checkable
       # Checking for global naming conflict
       check_global_names node.name, node
 
@@ -124,7 +124,7 @@ module Mint
           when "render"
             matches =
               [HTML, STRING, HTML_CHILDREN, TEXT_CHILDREN].any? do |item|
-                Comparer.compare(type, Type.new("Function", [item]))
+                Comparer.compare(type, Type.new("Function", [item] of Checkable))
               end
 
             raise ComponentRenderTypeMismatch, {

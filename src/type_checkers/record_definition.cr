@@ -1,10 +1,10 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::RecordDefinition) : Type
+    def check(node : Ast::RecordDefinition) : Checkable
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field).as(Type)} }
+          .map { |field| {field.key.value, resolve(field).as(Checkable)} }
           .to_h
 
       mappings =

@@ -5,7 +5,7 @@ module Mint
     type_error FunctionCallNotFoundFunction
     type_error FunctionCallNotAFunction
 
-    def check(node : Ast::FunctionCall) : Type
+    def check(node : Ast::FunctionCall) : Checkable
       function = loopkup node.function
 
       case function

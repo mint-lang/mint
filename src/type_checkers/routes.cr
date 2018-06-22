@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::Routes) : Type
+    def check(node : Ast::Routes) : Checkable
       resolve node.routes
 
       NEVER

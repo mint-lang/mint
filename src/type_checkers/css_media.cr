@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::CssMedia) : Type
+    def check(node : Ast::CssMedia) : Checkable
       resolve node.definitions
 
       NEVER

@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error RecordNotFoundMatchingRecord
 
-    def check(node : Ast::Record) : Type
+    def check(node : Ast::Record) : Checkable
       fields =
         node
           .fields

@@ -6,7 +6,7 @@ module Mint
     type_error HtmlAttributeComponentKeyTypeMismatch
     type_error HtmlElementStyleForbidden
 
-    def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Type
+    def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Checkable
       got =
         resolve node.value
 
@@ -37,7 +37,7 @@ module Mint
       got
     end
 
-    def check(node : Ast::HtmlAttribute, component : Ast::Component) : Type
+    def check(node : Ast::HtmlAttribute, component : Ast::Component) : Checkable
       type = resolve node.value
 
       case node.name.value

@@ -2,9 +2,9 @@ module Mint
   class TypeChecker
     type_error ArrayNotMatches
 
-    def check(node : Ast::ArrayLiteral) : Type
+    def check(node : Ast::ArrayLiteral) : Checkable
       if node.items.empty?
-        Type.new("Array", [Type.new("a")])
+        Type.new("Array", [Variable.new("a").as(Checkable)])
       else
         first =
           resolve node.items.first
@@ -20,7 +20,7 @@ module Mint
           } unless Comparer.compare(type, first)
         end
 
-        Type.new("Array", [first])
+        Comparer.normalize(Type.new("Array", [first]))
       end
     end
   end

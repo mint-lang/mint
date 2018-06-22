@@ -3,7 +3,7 @@ module Mint
     type_error ModuleAccessNotFoundFunction
     type_error ModuleAccessNotFoundModule
 
-    def check(node : Ast::ModuleAccess) : Type
+    def check(node : Ast::ModuleAccess) : Checkable
       entity =
         ast.modules.find(&.name.==(node.name)) ||
           ast.stores.find(&.name.==(node.name))

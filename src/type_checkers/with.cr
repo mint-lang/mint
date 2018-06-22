@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error WithNotFoundModule
 
-    def check(node : Ast::With) : Type
+    def check(node : Ast::With) : Checkable
       entity =
         ast.modules.find(&.name.==(node.name))
 

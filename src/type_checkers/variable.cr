@@ -8,7 +8,7 @@ module Mint
         export extends finally for function if import in instanceof new return
         super switch this throw try typeof var void while with yield)
 
-    def check(node : Ast::Variable) : Type
+    def check(node : Ast::Variable) : Checkable
       raise VariableReserved, {
         "name" => node.value,
         "node" => node,

@@ -4,7 +4,7 @@ module Mint
     type_error UseConditionMismatch
     type_error UseNotFoundProvider
 
-    def check(node : Ast::Use) : Type
+    def check(node : Ast::Use) : Checkable
       condition =
         node.condition
 

@@ -3,7 +3,7 @@ module Mint
     type_error DecodeExpectedObject
     type_error DecodeComplexType
 
-    def check(node : Ast::Decode) : Type
+    def check(node : Ast::Decode) : Checkable
       expression =
         resolve node.expression
 
@@ -28,12 +28,14 @@ module Mint
       Type.new("Result", [OBJECT_ERROR, type])
     end
 
-    def check_decode(type : Type)
+    def check_decode(type : Checkable)
       case type
       when Record
         type.fields.all? do |_, value|
           check_decode value
         end
+      when Variable
+        false
       else
         case type.name
         when "String", "Time", "Number", "Bool"

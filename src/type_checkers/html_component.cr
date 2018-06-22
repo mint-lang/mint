@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error HtmlComponentNotFoundComponent
 
-    def check(node : Ast::HtmlComponent) : Type
+    def check(node : Ast::HtmlComponent) : Checkable
       component =
         ast.components.find(&.name.==(node.component))
 

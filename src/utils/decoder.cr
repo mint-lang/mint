@@ -54,6 +54,11 @@ module Mint
       id(node.name)
     end
 
+    def generate(node : TypeChecker::Variable)
+      # This should never happen because of the typechecker!
+      raise "Cannot generate a decoder for a type variable!"
+    end
+
     def generate(node : TypeChecker::Type)
       case node.name
       when "String"
@@ -75,7 +80,8 @@ module Mint
 
         "Decoder.array(#{decoder})"
       else
-        raise "WTF"
+        # This should never happen because of the typechecker!
+        raise "Cannot generate a decoder for #{node.to_s}!"
       end
     end
   end

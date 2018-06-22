@@ -34,7 +34,7 @@ module Mint
 
       def snippet(value, message = "Here is the relevant code snippet:")
         case value
-        when TypeChecker::Type
+        when TypeChecker::Checkable
           type_with_text value, message
         when Ast::Node
           block { text message } if message
@@ -44,7 +44,7 @@ module Mint
 
       def type(value)
         case value
-        when TypeChecker::Type
+        when TypeChecker::Checkable
           @elements << Type.new(value: value)
         end
       end
@@ -79,7 +79,7 @@ module Mint
 
       def type_list(value)
         case value
-        when Array(TypeChecker::Type)
+        when Array(TypeChecker::Checkable)
           @elements << TypeList.new(value: value)
         end
       end
@@ -146,9 +146,9 @@ module Mint
       end
     end
 
-    record TypeList, value : Array(TypeChecker::Type)
+    record TypeList, value : Array(TypeChecker::Checkable)
     record StringList, value : Array(String)
-    record Type, value : TypeChecker::Type
+    record Type, value : TypeChecker::Checkable
     record Snippet, value : Ast::Node
     record Title, value : String
     record Code, value : String
@@ -159,7 +159,7 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Type | Array(TypeChecker::Type) | Array(String))
+    def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Checkable | Array(TypeChecker::Checkable) | Array(String))
     end
 
     macro method_missing(call)

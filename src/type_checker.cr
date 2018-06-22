@@ -3,7 +3,7 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    JS             = Js.new("$")
+    JS             = Js.new
     STRING         = Type.new("String")
     BOOL           = Type.new("Bool")
     NUMBER         = Type.new("Number")
@@ -14,12 +14,12 @@ module Mint
     EVENT          = Type.new("Html.Event")
     OBJECT         = Type.new("Object")
     OBJECT_ERROR   = Type.new("Object.Error")
-    REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID])
-    EVENT_FUNCTION = Type.new("Function", [EVENT, VOID])
-    HTML_CHILDREN  = Type.new("Array", [HTML])
-    TEXT_CHILDREN  = Type.new("Array", [STRING])
-    VOID_FUNCTION  = Type.new("Function", [VOID])
-    TEST_CONTEXT   = Type.new("Test.Context", [Type.new("a")])
+    REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID] of Checkable)
+    EVENT_FUNCTION = Type.new("Function", [EVENT, VOID] of Checkable)
+    HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
+    TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
+    VOID_FUNCTION  = Type.new("Function", [VOID] of Checkable)
+    TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
 
     getter records, scope, artifacts
 
@@ -27,8 +27,8 @@ module Mint
     delegate component?, component, to: scope
 
     @record_names = {} of String => Ast::Node
+    @cache = {} of Ast::Node => Checkable
     @names = {} of String => Ast::Node
-    @cache = {} of Ast::Node => Type
     @records = [] of Record
 
     def initialize(ast : Ast)
@@ -51,7 +51,7 @@ module Mint
       ast.stores.each do |store|
         fields =
           store.properties.map do |field|
-            {field.name.value, check(field.type)}
+            {field.name.value, check(field.type).as(Checkable)}
           end.to_h
 
         unless fields.empty?
@@ -60,13 +60,21 @@ module Mint
       end
     end
 
+    def resolve_type(node : Record | Variable)
+      node
+    end
+
+    def resolve_type(node : Js)
+      JS
+    end
+
     def resolve_type(node : Type)
       resolve_record_definition(node.name) || begin
         parameters = node.parameters.map do |param|
-          resolve_type(param).as(Type)
+          resolve_type(param).as(Checkable)
         end
 
-        Type.new(node.name, parameters)
+        Comparer.normalize(Type.new(node.name, parameters))
       end
     end
 
@@ -127,7 +135,7 @@ module Mint
       end
     end
 
-    def scope(nodes : Array(Tuple(String, TypeChecker::Type)))
+    def scope(nodes : Array(Tuple(String, Checkable)))
       # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield
@@ -139,13 +147,13 @@ module Mint
 
     type_error Recursion
 
-    def resolve(node : Ast::Node | Type, *args) : Type
+    def resolve(node : Ast::Node | Checkable, *args) : Checkable
       case node
-      when Type
+      when Checkable
         node
       when Ast::Node
         @cache[node]? || begin
-          result = check(node, *args).as(Type)
+          result = check(node, *args).as(Checkable)
           @cache[node] = result
           result
         end
@@ -154,15 +162,15 @@ module Mint
       end
     end
 
-    def resolve(nodes : Array(Ast::Node)) : Array(Type)
-      nodes.map { |node| resolve(node).as(Type) }
+    def resolve(nodes : Array(Ast::Node)) : Array(Checkable)
+      nodes.map { |node| resolve(node).as(Checkable) }
     end
 
-    def resolve(nodes : Array(Ast::Node), *args) : Array(Type)
-      nodes.map { |node| resolve(node, *args).as(Type) }
+    def resolve(nodes : Array(Ast::Node), *args) : Array(Checkable)
+      nodes.map { |node| resolve(node, *args).as(Checkable) }
     end
 
-    def check(node : Type) : Type
+    def check(node : Checkable) : Checkable
       node
     end
 
@@ -238,11 +246,11 @@ module Mint
       artifacts
     end
 
-    def check(nodes : Array(Ast::Node)) : Array(Type)
-      nodes.map { |node| check(node).as(Type) }
+    def check(nodes : Array(Ast::Node)) : Array(Checkable)
+      nodes.map { |node| check(node).as(Checkable) }
     end
 
-    def check(node : Ast::Node) : Type
+    def check(node : Ast::Node) : Checkable
       raise "Type checking not implemented for node '#{node}' (this should not happen!)"
     end
 

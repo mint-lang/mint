@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error CaseBranchNotMatches
 
-    def check(node : Ast::Case) : Type
+    def check(node : Ast::Case) : Checkable
       condition =
         resolve node.condition
 
