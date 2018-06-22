@@ -10,7 +10,10 @@ module Mint
       type =
         format node.type
 
-      "property #{name} : #{type} = #{default}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}property #{name} : #{type} = #{default}"
     end
   end
 end
