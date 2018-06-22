@@ -101,6 +101,10 @@ module Mint
     end
 
     def run
+      terminal.measure "#{COG} Ensuring dependencies... " do
+        MintJson.parse_current.check_dependencies!
+      end
+
       ast = terminal.measure "#{COG} Compiling tests... " do
         a = compile_ast
         compile_script(a)

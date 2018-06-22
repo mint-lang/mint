@@ -11,6 +11,7 @@ require "json"
 
 require "./ext/**"
 
+require "./errors/error"
 require "./errors/**"
 require "./constants"
 require "./macros"

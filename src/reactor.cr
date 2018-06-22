@@ -25,6 +25,10 @@ module Mint
     @auto_format : Bool
 
     def initialize(@host, @port, @auto_format)
+      terminal.measure "#{COG} Ensuring dependencies... " do
+        MintJson.parse_current.check_dependencies!
+      end
+
       @watcher =
         terminal.measure "#{COG} Compiling... " do
           AstWatcher.new(->{ SourceFiles.all },
