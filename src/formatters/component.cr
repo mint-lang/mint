@@ -8,7 +8,8 @@ module Mint
           node.states +
           node.functions +
           node.gets +
-          node.uses
+          node.uses +
+          node.comments
 
       name =
         format node.name

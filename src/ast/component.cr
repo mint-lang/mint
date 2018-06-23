@@ -1,11 +1,12 @@
 module Mint
   class Ast
     class Component < Node
-      getter properties, connects, styles, states,
-        functions, gets, uses, name, comment
+      getter properties, connects, styles, states, comments
+      getter functions, gets, uses, name, comment
 
       def initialize(@properties : Array(Property),
                      @functions : Array(Function),
+                     @comments : Array(Comment),
                      @connects : Array(Connect),
                      @states : Array(State),
                      @styles : Array(Style),

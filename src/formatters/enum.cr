@@ -4,8 +4,11 @@ module Mint
       name =
         format node.name
 
+      items =
+        node.options + node.comments
+
       body =
-        format node.options, ",\n"
+        list items
 
       "enum #{name} {\n#{body.indent}\n}"
     end

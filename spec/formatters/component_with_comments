@@ -1,0 +1,23 @@
+/* Comment */componentTest{
+  /* Other Comment */
+  property something : String = ""
+  /* Comment2 */
+  /* Comment */
+  fun render:Html{<div></div>}
+  /* End Comment */
+}
+--------------------------------------------------------------------------------
+/* Comment */
+component Test {
+  /* Other Comment */
+  property something : String = ""
+
+  /* Comment2 */
+
+  /* Comment */
+  fun render : Html {
+    <div/>
+  }
+
+  /* End Comment */
+}

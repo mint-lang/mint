@@ -25,7 +25,8 @@ module Mint
               style ||
               state ||
               use ||
-              get
+              get ||
+              self.comment
           end.compact
 
           raise ComponentExpectedBody if items.empty?
@@ -36,6 +37,7 @@ module Mint
         properties = [] of Ast::Property
         functions = [] of Ast::Function
         connects = [] of Ast::Connect
+        comments = [] of Ast::Comment
         styles = [] of Ast::Style
         states = [] of Ast::State
         gets = [] of Ast::Get
@@ -51,6 +53,8 @@ module Mint
             connects << item
           when Ast::Style
             styles << item
+          when Ast::Comment
+            comments << item
           when Ast::State
             states << item
           when Ast::Get
@@ -65,6 +69,7 @@ module Mint
           functions: functions,
           from: start_position,
           connects: connects,
+          comments: comments,
           comment: comment,
           styles: styles,
           states: states,
