@@ -14,13 +14,10 @@ module Mint
           "=>"
         end
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
-
       if expression.includes?("\n")
-        "#{comment}#{head}\n#{expression.indent}"
+        "#{head}\n#{expression.indent}"
       else
-        "#{comment}#{head} #{expression}"
+        "#{head} #{expression}"
       end
     end
   end

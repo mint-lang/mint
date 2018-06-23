@@ -26,6 +26,8 @@ module Mint
             separator =
               if last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
                 "\n\n"
+              elsif !last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+                "\n\n"
               elsif last.is_a?(Ast::Comment)
                 "\n"
               elsif last_formatted.includes?("\n") ||

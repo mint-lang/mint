@@ -21,6 +21,7 @@ component A {
   style test {
     /* A */
     background: red;
+
     /* B */
     color: blue;
 
@@ -28,6 +29,7 @@ component A {
     & selector {
       /* D */
       x: y;
+
       /* E */
     }
 
@@ -35,6 +37,7 @@ component A {
     @media something {
       /* G */
       x: y;
+
       /* H */
     }
 

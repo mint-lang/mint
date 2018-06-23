@@ -4,10 +4,13 @@ module Mint
       condition =
         format node.condition
 
-      branches =
-        list node.branches
+      items =
+        node.branches + node.comments
 
-      "case (#{condition}) {\n#{branches.indent}\n}"
+      body =
+        list items
+
+      "case (#{condition}) {\n#{body.indent}\n}"
     end
   end
 end
