@@ -8,7 +8,6 @@ module Mint
     def component : Ast::Component | Nil
       start do |start_position|
         comment = self.comment
-        whitespace
 
         skip unless keyword "component"
         whitespace

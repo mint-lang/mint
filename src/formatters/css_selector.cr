@@ -7,8 +7,11 @@ module Mint
           .map { |item| "&#{item}" }
           .join(",\n")
 
+      items =
+        node.definitions + node.comments
+
       body =
-        list node.definitions
+        list items
 
       "#{selectors} {\n#{body.indent}\n}"
     end

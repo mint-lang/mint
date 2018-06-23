@@ -27,7 +27,8 @@ module Mint
           provider ||
           routes ||
           store ||
-          suite
+          suite ||
+          comment
       end.compact
 
       items.each do |item|
@@ -48,6 +49,8 @@ module Mint
           @ast.routes << item
         when Ast::Enum
           @ast.enums << item
+        when Ast::Comment
+          @ast.comments << item
         end
       end
     end

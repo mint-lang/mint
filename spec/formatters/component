@@ -1,5 +1,6 @@
-componentTest{fun render:Html{<div></div>}}
+/* Comment */componentTest{fun render:Html{<div></div>}}
 --------------------------------------------------------------------------------
+/* Comment */
 component Test {
   fun render : Html {
     <div/>

@@ -34,11 +34,13 @@ module Mint
                        If |
                        Js
 
-    getter components, modules, records, stores, routes, providers, suites, enums
+    getter components, modules, records, stores, routes, providers
+    getter suites, enums, comments
 
     def initialize(@records = [] of RecordDefinition,
                    @components = [] of Component,
                    @providers = [] of Provider,
+                   @comments = [] of Comment,
                    @modules = [] of Module,
                    @routes = [] of Routes,
                    @suites = [] of Suite,
@@ -57,6 +59,7 @@ module Mint
     def merge(ast)
       @components.concat ast.components
       @providers.concat ast.providers
+      @comments.concat ast.comments
       @modules.concat ast.modules
       @records.concat ast.records
       @stores.concat ast.stores

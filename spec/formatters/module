@@ -1,5 +1,6 @@
-moduleA{fun a () : String { "" }}
+/* Comment */moduleA{fun a () : String { "" }}
 --------------------------------------------------------------------------------
+/* Comment */
 module A {
   fun a : String {
     ""

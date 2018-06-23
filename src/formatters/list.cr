@@ -24,9 +24,17 @@ module Mint
 
             # Decide the separator the separator
             separator =
-              last_formatted.includes?("\n") ||
-                formatted.includes?("\n") ||
-                space_separated ? "\n\n" : "\n"
+              if last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+                "\n\n"
+              elsif last.is_a?(Ast::Comment)
+                "\n"
+              elsif last_formatted.includes?("\n") ||
+                    formatted.includes?("\n") ||
+                    space_separated
+                "\n\n"
+              else
+                "\n"
+              end
 
             # Save references
             last = node

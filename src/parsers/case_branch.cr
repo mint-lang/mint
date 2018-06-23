@@ -4,6 +4,8 @@ module Mint
 
     def case_branch : Ast::CaseBranch | Nil
       start do |start_position|
+        comment = self.comment
+
         unless keyword "=>"
           match = expression
           whitespace
@@ -17,6 +19,7 @@ module Mint
         Ast::CaseBranch.new(
           expression: expression.as(Ast::Expression),
           from: start_position,
+          comment: comment,
           to: position,
           match: match,
           input: data)

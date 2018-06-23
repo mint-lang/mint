@@ -8,7 +8,7 @@ module Mint
         format node.type
 
       body =
-        format node.body
+        format node.body, node.head_comment, node.tail_comment
 
       wheres =
         list node.wheres
