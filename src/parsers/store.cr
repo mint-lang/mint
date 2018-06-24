@@ -19,13 +19,17 @@ module Mint
           opening_bracket: StoreExpectedOpeningBracket,
           closing_bracket: StoreExpectedClosingBracket
         ) do
-          items = many { property || function || get }.compact
-          raise StoreExpectedBody if items.empty?
+          items = many { property || function || get || self.comment }.compact
+
+          raise StoreExpectedBody if items
+                                       .reject(&.is_a?(Ast::Comment))
+                                       .empty?
           items
         end
 
         properties = [] of Ast::Property
         functions = [] of Ast::Function
+        comments = [] of Ast::Comment
         gets = [] of Ast::Get
 
         body.each do |item|
@@ -34,6 +38,8 @@ module Mint
             properties << item
           when Ast::Function
             functions << item
+          when Ast::Comment
+            comments << item
           when Ast::Get
             gets << item
           end
@@ -43,6 +49,7 @@ module Mint
           properties: properties,
           functions: functions,
           from: start_position,
+          comments: comments,
           comment: comment,
           to: position,
           input: data,

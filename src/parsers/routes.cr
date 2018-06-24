@@ -8,17 +8,33 @@ module Mint
       start do |start_position|
         skip unless keyword "routes"
 
-        routes = block(
+        body = block(
           opening_bracket: RoutesExpectedOpeningBracket,
           closing_bracket: RoutesExpectedClosingBracket
         ) do
-          items = many { route }.compact
-          raise RoutesExpectedRoute if items.empty?
+          items = many { comment || route }.compact
+
+          raise RoutesExpectedRoute if items
+                                         .reject(&.is_a?(Ast::Comment))
+                                         .empty?
           items
+        end
+
+        comments = [] of Ast::Comment
+        routes = [] of Ast::Route
+
+        body.each do |item|
+          case item
+          when Ast::Route
+            routes << item
+          when Ast::Comment
+            comments << item
+          end
         end
 
         Ast::Routes.new(
           from: start_position,
+          comments: comments,
           routes: routes,
           to: position,
           input: data)

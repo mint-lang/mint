@@ -4,7 +4,8 @@ module Mint
       items =
         node.properties +
           node.functions +
-          node.gets
+          node.gets +
+          node.comments
 
       name =
         format node.name

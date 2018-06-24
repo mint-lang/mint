@@ -8,9 +8,12 @@ module Mint
         node.subscription
 
       body =
-        list node.functions
+        list node.functions + node.comments
 
-      "provider #{name} : #{subscription} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format(item)}\n" }
+
+      "#{comment}provider #{name} : #{subscription} {\n#{body.indent}\n}"
     end
   end
 end

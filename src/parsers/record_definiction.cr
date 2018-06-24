@@ -6,9 +6,11 @@ module Mint
 
     def record_definition : Ast::RecordDefinition | Nil
       start do |start_position|
-        skip unless keyword "record"
+        comment = self.comment
 
+        skip unless keyword "record"
         whitespace
+
         name = type_id! RecordDefinitionExpectedName
 
         fields = block(
@@ -23,6 +25,7 @@ module Mint
 
         Ast::RecordDefinition.new(
           from: start_position,
+          comment: comment,
           fields: fields,
           to: position,
           input: data,

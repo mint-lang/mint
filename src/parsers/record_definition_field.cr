@@ -6,9 +6,11 @@ module Mint
 
     def record_definition_field : Ast::RecordDefinitionField | Nil
       start do |start_position|
-        skip unless key = variable
+        comment = self.comment
 
+        skip unless key = variable
         whitespace
+
         char ':', RecordDefinitionFieldExpectedColon
         whitespace
 
@@ -24,6 +26,7 @@ module Mint
 
         Ast::RecordDefinitionField.new(
           from: start_position,
+          comment: comment,
           mapping: mapping,
           to: position,
           input: data,

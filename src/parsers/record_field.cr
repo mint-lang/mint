@@ -5,9 +5,11 @@ module Mint
 
     def record_field : Ast::RecordField | Nil
       start do |start_position|
-        skip unless key = variable
+        comment = self.comment
 
+        skip unless key = variable
         whitespace
+
         char '=', RecordFieldExpectedEqualSign
         whitespace
 
@@ -16,6 +18,7 @@ module Mint
         Ast::RecordField.new(
           value: value.as(Ast::Expression),
           from: start_position,
+          comment: comment,
           to: position,
           input: data,
           key: key)
