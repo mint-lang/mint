@@ -57,7 +57,7 @@ module Mint
           from: start_position,
           comment: comment,
           to: end_position,
-          wheres: where,
+          where: where,
           input: data,
           name: name,
           type: type)

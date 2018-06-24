@@ -10,9 +10,6 @@ module Mint
       body =
         list [node.body] + node.head_comments + node.tail_comments
 
-      wheres =
-        list node.wheres
-
       arguments =
         unless node.arguments.empty?
           value =
@@ -21,11 +18,11 @@ module Mint
           "(#{value}) "
         end
 
+      where =
+        format node.where
+
       comment =
         node.comment.try { |item| "#{format item}\n" }
-
-      where =
-        " where {\n#{wheres.indent}\n}" if node.wheres.any?
 
       "#{comment}fun #{name} #{arguments}: #{type} {\n#{body.indent}\n}#{where}"
     end

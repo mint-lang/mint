@@ -13,17 +13,34 @@ module Mint
         name = string_literal! SuiteExpectedName
         whitespace
 
-        tests = block(
+        body = block(
           opening_bracket: SuiteExpectedOpeningBracket,
           closing_bracket: SuiteExpectedClosingBracket
         ) do
-          items = many { test }.compact
-          raise SuiteExpectedTests if items.empty?
+          items = many { test || comment }.compact
+
+          raise SuiteExpectedTests if items
+                                        .reject(&.is_a?(Ast::Comment))
+                                        .empty?
+
           items
+        end
+
+        comments = [] of Ast::Comment
+        tests = [] of Ast::Test
+
+        body.each do |item|
+          case item
+          when Ast::Comment
+            comments << item
+          when Ast::Test
+            tests << item
+          end
         end
 
         Ast::Suite.new(
           from: start_position,
+          comments: comments,
           tests: tests,
           to: position,
           input: data,

@@ -1,13 +1,10 @@
 module Mint
   class Formatter
     def format(node : Ast::Where) : String
-      expression =
-        format node.expression
+      statements =
+        list node.statements + node.comments
 
-      name =
-        format node.name
-
-      "#{name} =\n#{expression.indent}"
+      " where {\n#{statements.indent}\n}"
     end
   end
 end

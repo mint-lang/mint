@@ -98,7 +98,7 @@ module Mint
 
       def find(variable : String, node : Ast::Function)
         node.arguments.find(&.name.value.==(variable)) ||
-          node.wheres.find(&.name.value.==(variable))
+          node.where.try(&.statements.find(&.name.value.==(variable)))
       end
 
       def find(variable : String, node : Ast::InlineFunction)

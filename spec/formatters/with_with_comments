@@ -1,0 +1,28 @@
+module X {
+  fun a : Void {
+    void
+  }
+}
+
+module Test {
+  fun test : Void {
+    with X{/*A*/void/*B*/}
+  }
+}
+--------------------------------------------------------------------------------
+module X {
+  fun a : Void {
+    void
+  }
+}
+
+module Test {
+  fun test : Void {
+    with X {
+      /* A */
+      void
+
+      /* B */
+    }
+  }
+}

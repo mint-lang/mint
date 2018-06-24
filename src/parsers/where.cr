@@ -2,38 +2,42 @@ module Mint
   class Parser
     syntax_error WhereExpectedOpeningBracket
     syntax_error WhereExpectedClosingBracket
-    syntax_error WhereExpectedExpression
-    syntax_error WhereExpectedEqualSign
     syntax_error WhereExpectedWhere
 
-    def where : Array(Ast::Where)
-      return [] of Ast::Where unless keyword "where"
-
-      block(
-        opening_bracket: WhereExpectedOpeningBracket,
-        closing_bracket: WhereExpectedClosingBracket
-      ) do
-        wheres = many { where_statement }.compact
-        raise WhereExpectedWhere if wheres.empty?
-        wheres
-      end
-    end
-
-    def where_statement : Ast::Where | Nil
+    def where : Ast::Where | Nil
       start do |start_position|
-        skip unless name = variable
+        skip unless keyword "where"
 
-        whitespace
-        char '=', WhereExpectedEqualSign
-        whitespace
-        expression = expression! WhereExpectedExpression
+        body = block(
+          opening_bracket: WhereExpectedOpeningBracket,
+          closing_bracket: WhereExpectedClosingBracket
+        ) do
+          items = many { where_statement || comment }.compact
+
+          raise WhereExpectedWhere if items
+                                        .reject(&.is_a?(Ast::Comment))
+                                        .empty?
+          items
+        end
+
+        statements = [] of Ast::WhereStatement
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::WhereStatement
+            statements << item
+          when Ast::Comment
+            comments << item
+          end
+        end
 
         Ast::Where.new(
-          expression: expression,
+          statements: statements,
           from: start_position,
+          comments: comments,
           to: position,
-          input: data,
-          name: name)
+          input: data)
       end
     end
   end

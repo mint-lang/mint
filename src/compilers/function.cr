@@ -5,7 +5,7 @@ module Mint
         compile node.body
 
       wheres =
-        compile node.wheres
+        compile node.where.try(&.statements) || [] of Ast::WhereStatement
 
       arguments =
         compile node.arguments, ", "

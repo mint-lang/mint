@@ -1,17 +1,17 @@
 module Mint
   class Ast
     class Function < Node
-      getter name, wheres, arguments, body, type
+      getter name, where, arguments, body, type
       getter comment, head_comments, tail_comments
 
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),
                      @arguments : Array(Argument),
                      @type : TypeOrVariable,
-                     @wheres : Array(Where),
                      @comment : Comment?,
                      @body : Expression,
                      @name : Variable,
+                     @where : Where?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
