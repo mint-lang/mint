@@ -3,14 +3,14 @@ module Mint
     def block_with_comments(opening_bracket : SyntaxError.class,
                             closing_bracket : SyntaxError.class)
       block(opening_bracket, closing_bracket) do
-        head_comment = comment
+        head_comments = many { comment }.compact
         whitespace
 
         result = yield
         whitespace
 
-        tail_comment = comment
-        {head_comment, result, tail_comment}
+        tail_comments = many { comment }.compact
+        {head_comments, result, tail_comments}
       end
     end
 

@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Catch) : String
       body =
-        format node.expression, node.head_comment, node.tail_comment
+        list [node.expression] + node.head_comments + node.tail_comments
 
       variable =
         format node.variable

@@ -19,7 +19,7 @@ module Mint
         whitespace
         variable = variable! CatchExpectedVariable
 
-        head_comment, expression, tail_comment = block_with_comments(
+        head_comments, expression, tail_comments = block_with_comments(
           opening_bracket: CatchExpectedOpeningBracket,
           closing_bracket: CatchExpectedClosingBracket) do
           expression! CatchExpectedExpression
@@ -27,8 +27,8 @@ module Mint
 
         Ast::Catch.new(
           expression: expression.as(Ast::Expression),
-          head_comment: head_comment,
-          tail_comment: tail_comment,
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           from: start_position,
           variable: variable,
           to: position,

@@ -2,11 +2,11 @@ module Mint
   class Ast
     class Function < Node
       getter name, wheres, arguments, body, type
-      getter comment, head_comment, tail_comment
+      getter comment, head_comments, tail_comments
 
-      def initialize(@arguments : Array(Argument),
-                     @head_comment : Comment?,
-                     @tail_comment : Comment?,
+      def initialize(@head_comments : Array(Comment),
+                     @tail_comments : Array(Comment),
+                     @arguments : Array(Argument),
                      @type : TypeOrVariable,
                      @wheres : Array(Where),
                      @comment : Comment?,

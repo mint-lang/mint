@@ -27,6 +27,7 @@ module A {
     } catch String => a {
       /* HEAD */
       "blah"
+
       /* TAIL */
     }
   }

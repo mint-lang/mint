@@ -38,7 +38,7 @@ module Mint
 
         type = type_or_type_variable! FunctionExpectedTypeOrVariable
 
-        head_comment, body, tail_comment = block_with_comments(
+        head_comments, body, tail_comments = block_with_comments(
           opening_bracket: FunctionExpectedOpeningBracket,
           closing_bracket: FunctionExpectedClosingBracket
         ) do
@@ -51,8 +51,8 @@ module Mint
 
         Ast::Function.new(
           body: body.as(Ast::Expression),
-          head_comment: head_comment,
-          tail_comment: tail_comment,
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           comment: comment,
