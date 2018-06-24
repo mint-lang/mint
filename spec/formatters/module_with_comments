@@ -1,7 +1,13 @@
-moduleA{fun a () : String { "" }}
+/* Comment */moduleA{/*A*/fun a () : String { "" }/*B*//*C*/}
 --------------------------------------------------------------------------------
+/* Comment */
 module A {
+  /* A */
   fun a : String {
     ""
   }
+
+  /* B */
+
+  /* C */
 }

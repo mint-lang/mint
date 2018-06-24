@@ -21,7 +21,7 @@ module Mint
         end
 
       children =
-        list(node.children).indent
+        list(node.children + node.comments).indent
 
       if node.children.empty?
         "<#{prefix}#{attributes}/>"

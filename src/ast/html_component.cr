@@ -1,10 +1,11 @@
 module Mint
   class Ast
     class HtmlComponent < Node
-      getter attributes, children, component
+      getter attributes, children, component, comments
 
       def initialize(@attributes : Array(HtmlAttribute),
                      @children : Array(HtmlContent),
+                     @comments : Array(Comment),
                      @component : String,
                      @input : Data,
                      @from : Int32,

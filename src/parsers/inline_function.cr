@@ -18,10 +18,16 @@ module Mint
         keyword! "=>", InlineFunctionExpectedArrow
         whitespace
 
+        head_comments = many { comment }.compact
+
         body = expression! InlineFunctionExpectedExpression
+
+        tail_comments = many { comment }.compact
 
         Ast::InlineFunction.new(
           body: body.as(Ast::Expression),
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           to: position,

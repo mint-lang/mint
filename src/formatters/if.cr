@@ -5,10 +5,10 @@ module Mint
         format node.condition
 
       truthy =
-        format node.truthy
+        list [node.truthy] + node.truthy_head_comments + node.truthy_tail_comments
 
       falsy =
-        format node.falsy
+        list [node.falsy] + node.falsy_head_comments + node.falsy_tail_comments
 
       condition =
         if condition.includes?("\n")
