@@ -8,6 +8,10 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def to_html
+        Markdown.to_html(value)
+      end
     end
   end
 end

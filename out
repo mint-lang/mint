@@ -1,2 +1,0 @@
-crystal spec -p && bin/ameba
-[1/13] Parse                             [1/13] Parse                             [2/13] Semantic (top level)              [2/13] Semantic (top level)              [3/13] Semantic (new)                    [3/13] Semantic (new)                    [4/13] Semantic (type declarations)      Makefile:5: recipe for target 'test' failed
