@@ -16,6 +16,21 @@ module Mint
         .map { |dir| "#{dir}/**/*.mint" }
     end
 
+    def javascripts
+      javascripts =
+        Dir
+          .glob("./.mint/packages/**/mint.json")
+          .reduce([] of String) do |acc, file|
+            files =
+              MintJson.new(File.read(file), File.dirname(file), file)
+                .external_javascripts
+
+            acc + files
+          end
+
+      javascripts + MintJson.parse_current.external_javascripts
+    end
+
     def all
       package_dirs = [] of String
 

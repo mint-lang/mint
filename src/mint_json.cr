@@ -12,6 +12,7 @@ module Mint
 
     @dependencies = [] of Mint::Installer::Dependency
     @parser = JSON::PullParser.new("{}")
+    @external_javascripts = [] of String
     @source_directories = [] of String
     @test_directories = [] of String
     @application = Application.new
@@ -20,7 +21,8 @@ module Mint
     json_error MintJsonRootNotAnObject
     json_error MintJsonRootInvalidKey
 
-    getter test_directories, source_directories, dependencies, application, name
+    getter test_directories, source_directories, dependencies, application
+    getter external_javascripts, name
 
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
@@ -94,6 +96,8 @@ module Mint
         case key
         when "name"
           parse_name
+        when "external-javascripts"
+          parse_external_javascripts
         when "source-directories"
           parse_source_directories
         when "test-directories"
@@ -157,6 +161,42 @@ module Mint
       File.read(head)
     rescue exception : JSON::ParseException
       raise MintJsonHeadNotString, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing external javascripts
+    # --------------------------------------------------------------------------
+    json_error MintJsonExternalJavascriptNotExists
+    json_error MintJsonExternalJavascriptsInvalid
+    json_error MintJsonExternalJavascriptInvalid
+
+    def parse_external_javascripts
+      @parser.read_array { parse_external_javascript }
+    rescue exception : JSON::ParseException
+      raise MintJsonExternalJavascriptsInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    def parse_external_javascript
+      location =
+        @parser.location
+
+      file =
+        @parser.read_string
+
+      path =
+        File.join(@root, file)
+
+      raise MintJsonExternalJavascriptNotExists, {
+        "node" => node(location),
+        "path" => path,
+      } if !File.exists?(path) || Dir.exists?(path)
+
+      @external_javascripts << path
+    rescue exception : JSON::ParseException
+      raise MintJsonExternalJavascriptInvalid, {
         "node" => node(exception),
       }
     end

@@ -125,7 +125,15 @@ module Mint
 
     # Wraps the application with the runtime
     def wrap_runtime(body)
+      javascripts =
+        SourceFiles
+          .javascripts
+          .map { |file| File.read(file) }
+          .join("\n\n")
+
       <<-RESULT
+      #{javascripts}
+
       (() => {
         const _normalizeEvent = Mint.normalizeEvent;
         const _createElement = Mint.createElement;
