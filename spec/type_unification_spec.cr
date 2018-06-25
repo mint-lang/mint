@@ -1,3 +1,4 @@
+require "./spec_helper"
 require "string_scanner"
 
 alias Checkable = Mint::TypeChecker::Checkable
