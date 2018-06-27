@@ -1,9 +1,9 @@
 module Mint
   class DocumentationServer
-    def generate(node : Ast::Argument, json : JSON::Builder)
+    def generate(node : Ast::State, json : JSON::Builder)
       json.object do
         json.field "type", stringify(node.type)
-        json.field "name", node.name.value
+        json.field "data", source(node.data)
       end
     end
   end
