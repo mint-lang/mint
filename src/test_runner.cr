@@ -98,7 +98,7 @@ module Mint
     CHORMIUM_PATHS = [
       "chromium-browser",
       "google-chrome",
-      "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome",
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     ]
 
     error BrowserNotFound
