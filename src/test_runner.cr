@@ -146,12 +146,12 @@ module Mint
       path =
         case @flags.browser.downcase
         when "firefox"
-          FIREFOX_PATHS.find do |path|
-            Process.run("which", args: [path]).success?
+          FIREFOX_PATHS.find do |item|
+            Process.run("which", args: [item]).success?
           end
         when "chrome"
-          CHORMIUM_PATHS.find do |path|
-            Process.run("which", args: [path]).success?
+          CHORMIUM_PATHS.find do |item|
+            Process.run("which", args: [item]).success?
           end
         else
           raise InvalidBrowser, {"browser" => @flags.browser}
