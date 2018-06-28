@@ -11,7 +11,7 @@ module Mint
 
       define_flag browser : String,
         description: "Which browser to run the tests in",
-        default: "chromium",
+        default: "chrome",
         long: "browser",
         short: "b"
 

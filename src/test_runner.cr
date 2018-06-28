@@ -90,6 +90,21 @@ module Mint
       </html>
     HTML
 
+    FIREFOX_PATHS = [
+      "firefox",
+      "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+    ]
+
+    CHORMIUM_PATHS = [
+      "chromium-browser",
+      "google-chrome",
+      "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome",
+    ]
+
+    error BrowserNotFound
+    error InvalidBrowser
+    error InvalidReporter
+
     @reporter : DocumentationReporter | DotReporter
 
     def initialize(@flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
@@ -98,6 +113,8 @@ module Mint
       @failed = [] of Message
       @succeeded = 0
       @script = ""
+
+      browser_path
     end
 
     def run
@@ -123,6 +140,28 @@ module Mint
       open_page
 
       Mint::Server.run
+    end
+
+    def browser_path
+      path =
+        case @flags.browser.downcase
+        when "firefox"
+          FIREFOX_PATHS.find do |path|
+            Process.run("which", args: [path]).success?
+          end
+        when "chrome"
+          CHORMIUM_PATHS.find do |path|
+            Process.run("which", args: [path]).success?
+          end
+        else
+          raise InvalidBrowser, {"browser" => @flags.browser}
+        end
+
+      raise BrowserNotFound, {
+        "browser" => @flags.browser,
+      } unless path
+
+      path
     end
 
     def compile_ast
@@ -170,15 +209,17 @@ module Mint
       when "dot"
         DotReporter.new
       else
-        raise "Invalid reporter!"
+        raise InvalidReporter, {"reporter" => @flags.reporter.downcase}
       end
     end
 
     def open_process(profile_directory)
+      path = browser_path
+
       case @flags.browser.downcase
       when "firefox"
         Process.new(
-          "firefox",
+          path,
           args: [
             "--headless",
             "--width",
@@ -190,9 +231,9 @@ module Mint
             "http://localhost:3000",
           ]
         )
-      when "chromium"
+      when "chrome"
         Process.new(
-          "chromium-browser",
+          path,
           args: [
             "--headless",
             "--disable-gpu",
@@ -203,7 +244,7 @@ module Mint
           ]
         )
       else
-        raise "Invalid browser #{@flags.browser}!"
+        raise InvalidBrowser, {"browser" => @flags.browser}
       end
     end
 
