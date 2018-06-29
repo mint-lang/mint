@@ -24,6 +24,10 @@ module Mint
           generate node.functions, json
         end
 
+        json.field "providers" do
+          generate node.uses, json
+        end
+
         json.field "state" do
           if state
             generate state, json
