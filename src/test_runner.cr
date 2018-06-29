@@ -90,16 +90,17 @@ module Mint
       </html>
     HTML
 
-    FIREFOX_PATHS = [
-      "firefox",
-      "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
-    ]
-
-    CHORMIUM_PATHS = [
-      "chromium-browser",
-      "google-chrome",
-      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    ]
+    BROWSER_PATHS = {
+      firefox: {
+        "firefox",
+        "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+      },
+      chrome: {
+        "chromium-browser",
+        "google-chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      },
+    }
 
     error BrowserNotFound
     error InvalidBrowser
@@ -143,25 +144,18 @@ module Mint
     end
 
     def browser_path
-      path =
-        case @flags.browser.downcase
-        when "firefox"
-          FIREFOX_PATHS.find do |item|
-            Process.run("which", args: [item]).success?
-          end
-        when "chrome"
-          CHORMIUM_PATHS.find do |item|
-            Process.run("which", args: [item]).success?
-          end
-        else
-          raise InvalidBrowser, {"browser" => @flags.browser}
-        end
+      if paths = BROWSER_PATHS[@flags.browser.downcase]?
+        path =
+          paths.find { |item| Process.run("which", args: [item]).success? }
 
-      raise BrowserNotFound, {
-        "browser" => @flags.browser,
-      } unless path
+        raise BrowserNotFound, {
+          "browser" => @flags.browser,
+        } unless path
 
-      path
+        path
+      else
+        raise InvalidBrowser, {"browser" => @flags.browser}
+      end
     end
 
     def compile_ast
