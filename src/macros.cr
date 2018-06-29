@@ -19,6 +19,16 @@ module Mint
     end
   end
 
+  class TestRunner
+    macro error(name)
+      class {{name}} < JsonError
+        def instance
+          Messages::{{name.names.last}}.new(locals)
+        end
+      end
+    end
+  end
+
   class Parser
     macro syntax_error(name)
       class {{name}} < SyntaxError

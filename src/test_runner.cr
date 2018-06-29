@@ -90,6 +90,22 @@ module Mint
       </html>
     HTML
 
+    BROWSER_PATHS = {
+      firefox: {
+        "firefox",
+        "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+      },
+      chrome: {
+        "chromium-browser",
+        "google-chrome",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      },
+    }
+
+    error BrowserNotFound
+    error InvalidBrowser
+    error InvalidReporter
+
     @reporter : DocumentationReporter | DotReporter
 
     def initialize(@flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
@@ -98,6 +114,8 @@ module Mint
       @failed = [] of Message
       @succeeded = 0
       @script = ""
+
+      browser_path
     end
 
     def run
@@ -123,6 +141,21 @@ module Mint
       open_page
 
       Server.run(name: "Test", port: 3001)
+    end
+
+    def browser_path
+      if paths = BROWSER_PATHS[@flags.browser.downcase]?
+        path =
+          paths.find { |item| Process.run("which", args: [item]).success? }
+
+        raise BrowserNotFound, {
+          "browser" => @flags.browser,
+        } unless path
+
+        path
+      else
+        raise InvalidBrowser, {"browser" => @flags.browser}
+      end
     end
 
     def compile_ast
@@ -170,15 +203,17 @@ module Mint
       when "dot"
         DotReporter.new
       else
-        raise "Invalid reporter!"
+        raise InvalidReporter, {"reporter" => @flags.reporter.downcase}
       end
     end
 
     def open_process(profile_directory)
+      path = browser_path
+
       case @flags.browser.downcase
       when "firefox"
         Process.new(
-          "firefox",
+          path,
           args: [
             "--headless",
             "--width",
@@ -190,9 +225,9 @@ module Mint
             "http://localhost:3001",
           ]
         )
-      when "chromium"
+      when "chrome"
         Process.new(
-          "chromium-browser",
+          path,
           args: [
             "--headless",
             "--disable-gpu",
@@ -203,7 +238,7 @@ module Mint
           ]
         )
       else
-        raise "Invalid browser #{@flags.browser}!"
+        raise InvalidBrowser, {"browser" => @flags.browser}
       end
     end
 
