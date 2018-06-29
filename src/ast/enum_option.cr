@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class EnumOption < Node
-      getter value
+      getter value, comment
 
-      def initialize(@value : String,
+      def initialize(@comment : Comment?,
+                     @value : String,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
