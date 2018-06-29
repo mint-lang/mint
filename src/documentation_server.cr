@@ -60,6 +60,14 @@ module Mint
           json.field "modules" do
             generate @ast.modules.sort_by(&.name), json
           end
+
+          json.field "providers" do
+            generate @ast.providers.sort_by(&.name), json
+          end
+
+          json.field "records" do
+            generate @ast.records.sort_by(&.name), json
+          end
         end
       end
     end

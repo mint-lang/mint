@@ -53,7 +53,7 @@ module Mint
           # 1. packages could have been added or removed
           # 2. source directories could have been added or removed
           @pattern =
-            SourceFiles.all
+            @pattern_proc.call
 
           # Reset the cache, this will cause a full recompilation, in the
           # future this could be changed to only remove files from the cache
