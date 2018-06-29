@@ -68,6 +68,10 @@ module Mint
           json.field "records" do
             generate @ast.records.sort_by(&.name), json
           end
+
+          json.field "enums" do
+            generate @ast.enums.sort_by(&.name), json
+          end
         end
       end
     end
