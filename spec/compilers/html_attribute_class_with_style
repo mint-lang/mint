@@ -1,0 +1,26 @@
+component HtmlAttribute {
+  style base {
+    width: 100%;
+  }
+
+  fun render : Html {
+    <div::base class="something">
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlAttribute extends Component {
+  render() {
+    return _createElement("div", {
+      className: `something` + ` html-attribute-base`
+    })
+  }
+}
+
+$HtmlAttribute.displayName = "HtmlAttribute"
+
+_insertStyles(`
+  .html-attribute-base {
+    width: 100%;
+  }
+`)
