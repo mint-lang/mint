@@ -15,7 +15,7 @@ module Mint
         end
 
       attributes =
-        compile node.attributes.reject(&.name.value.==("className"))
+        compile node.attributes.reject(&.name.value.==("class"))
 
       component =
         html_elements[node]?
@@ -42,12 +42,10 @@ module Mint
             .select(&.starts_with?(class_name))
             .push(class_name)
             .join(" ")
-        else
-          class_name
         end
 
       class_name_attribute =
-        node.attributes.find(&.name.value.==("className"))
+        node.attributes.find(&.name.value.==("class"))
 
       class_name_attribute_value =
         if class_name_attribute
@@ -56,6 +54,17 @@ module Mint
           nil
         end
 
+      classes =
+        if class_names && class_name_attribute_value
+          "#{class_name_attribute_value} + ` #{class_names}`"
+        elsif class_name_attribute_value
+          "#{class_name_attribute_value}"
+        elsif class_names
+          "`#{class_names}`"
+        end
+
+      attributes.push "className: #{classes}" if classes
+
       if styles = dynamic_styles[class_name]?
         items =
           styles
@@ -63,15 +72,7 @@ module Mint
             .join(",\n")
             .indent
 
-        classes =
-          if class_name_attribute_value
-            "#{class_name_attribute_value} + ` #{class_names}`"
-          else
-            "`#{class_names}`"
-          end
-
-        attributes.push "className: #{classes}"
-        attributes.push "style: {\n#{items}\n}"
+        attributes.push "style: {\n#{items}\n}" unless items.strip.empty?
       end
 
       attributes =

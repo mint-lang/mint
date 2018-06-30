@@ -1,0 +1,16 @@
+component HtmlAttribute {
+  fun render : Html {
+    <div class="something">
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $HtmlAttribute extends Component {
+  render() {
+    return _createElement("div", {
+      className: `something`
+    })
+  }
+}
+
+$HtmlAttribute.displayName = "HtmlAttribute"

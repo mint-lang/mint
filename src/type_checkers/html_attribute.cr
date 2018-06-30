@@ -4,6 +4,7 @@ module Mint
     type_error HtmlAttributeElementAttributeTypeMismatch
     type_error HtmlAttributeNotFoundComponentProperty
     type_error HtmlAttributeComponentKeyTypeMismatch
+    type_error HtmlElementClassNameForbidden
     type_error HtmlElementStyleForbidden
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Checkable
@@ -18,6 +19,10 @@ module Mint
           EVENT_FUNCTION
         when "readonly", "disabled"
           BOOL
+        when "className"
+          raise HtmlElementClassNameForbidden, {
+            "node" => node,
+          }
         when "style"
           raise HtmlElementStyleForbidden, {
             "node" => node,
