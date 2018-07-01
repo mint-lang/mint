@@ -6,7 +6,7 @@ module Mint
 
     def enum
       start do |start_position|
-        return unless keyword "enum"
+        skip unless keyword "enum"
 
         whitespace
         name = type_id! EnumExpectedName

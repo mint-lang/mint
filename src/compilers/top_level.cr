@@ -143,6 +143,7 @@ module Mint
         const _compare = Mint.compare;
         const _program = Mint.program;
         const _update = Mint.update;
+        const _encode = Mint.encode;
         const _array = function() {
           let items = Array.from(arguments)
           if (Array.isArray(items[0]) && items.length === 1) {
