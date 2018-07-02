@@ -1,6 +1,6 @@
 module Mint
   class DocumentationServer
-    @asts : Hash(String, Ast) = {} of String => Ast
+    @asts : Hash(MintJson, Ast) = {} of MintJson => Ast
     @formatter = Formatter.new(Ast.new)
     @error : String | Nil = nil
     @ast : Ast = Ast.new
@@ -17,7 +17,7 @@ module Mint
           ast.merge(Parser.parse(File.read(file), file))
         end
 
-        @asts[package.name] = ast
+        @asts[package] = ast
       end
 
       @watcher =
@@ -58,20 +58,40 @@ module Mint
     end
 
     def generate
-      JSON.build do |json|
-        json.array do
-          generate MintJson.parse_current.name, @ast, json
+      current =
+        MintJson.parse_current
 
-          @asts.each do |name, ast|
-            generate name, ast, json
+      JSON.build do |json|
+        json.object do
+          json.field "packages" do
+            json.array do
+              generate current, @ast, json
+
+              @asts.each do |package, ast|
+                generate package, ast, json
+              end
+            end
           end
         end
       end
     end
 
-    def generate(name, ast : Ast, json)
+    def generate(mint_json, ast : Ast, json)
       json.object do
-        json.field "name", name
+        json.field "name", mint_json.name
+
+        json.field "dependencies" do
+          json.array do
+            mint_json.dependencies.each do |dependency|
+              json.object do
+                json.field "name", dependency.name
+                json.field "repository", dependency.repository
+                json.field "constraint", dependency.constraint.to_s
+              end
+            end
+          end
+        end
+
         json.field "components" do
           generate ast.components.sort_by(&.name), json
         end
