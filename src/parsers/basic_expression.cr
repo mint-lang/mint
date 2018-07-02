@@ -14,6 +14,7 @@ module Mint
         module_call ||
         module_access ||
         decode ||
+        encode ||
         if_expression ||
         with_expression ||
         next_call ||

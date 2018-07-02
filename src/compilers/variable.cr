@@ -20,7 +20,10 @@ module Mint
         entity = item[1]
         case entity
         when Ast::Module, Ast::Store
-          "$#{underscorize(entity.name)}.#{node.value}"
+          name =
+            underscorize(entity.name)
+
+          "$#{name}.#{node.value}.bind($#{name})"
         else
           "this.#{node.value}.bind(this)"
         end

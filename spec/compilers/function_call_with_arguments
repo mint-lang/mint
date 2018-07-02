@@ -14,6 +14,6 @@ const $FunctionCall = new(class {
   }
 
   call() {
-    return $FunctionCall.test(`Hello`, true)
+    return $FunctionCall.test.bind($FunctionCall)(`Hello`, true)
   }
 })

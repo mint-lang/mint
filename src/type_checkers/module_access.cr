@@ -29,6 +29,8 @@ module Mint
         "node"   => node,
       } unless item
 
+      lookups[node] = item
+
       resolve item
     end
   end

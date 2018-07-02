@@ -20,6 +20,6 @@ const $X = new(class {
 
 const $Test = new(class {
   test() {
-    return $X.a()
+    return $X.a.bind($X)()
   }
 })

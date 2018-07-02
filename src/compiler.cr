@@ -1,7 +1,7 @@
 module Mint
   class Compiler
-    delegate dynamic_styles, styles, ast, types, variables, html_elements, medias,
-      to: @artifacts
+    delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
+    delegate html_elements, medias, lookups, to: @artifacts
 
     def initialize(@artifacts : TypeChecker::Artifacts)
       @decoder = Decoder.new

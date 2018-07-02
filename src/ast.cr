@@ -10,28 +10,29 @@ module Mint
                        StringLiteral |
                        NumberLiteral |
                        HtmlComponent |
-                       ArrayLiteral |
                        RecordUpdate |
                        ModuleAccess |
                        FunctionCall |
+                       ArrayLiteral |
                        BoolLiteral |
                        HtmlElement |
                        ModuleCall |
                        Operation |
                        NextCall |
                        Variable |
-                       Record |
-                       EnumId |
-                       Access |
-                       Decode |
                        Routes |
+                       Encode |
+                       EnumId |
+                       Decode |
+                       Record |
+                       Access |
                        Route |
                        With |
-                       Case |
                        Void |
+                       Case |
                        Try |
-                       Do |
                        If |
+                       Do |
                        Js
 
     getter components, modules, records, stores, routes, providers
