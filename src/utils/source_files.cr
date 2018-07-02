@@ -31,17 +31,17 @@ module Mint
       javascripts + MintJson.parse_current.external_javascripts
     end
 
+    def packages
+      Dir.glob("./.mint/packages/**/mint.json").map do |file|
+        MintJson.new(File.read(file), File.dirname(file), file)
+      end
+    end
+
     def all
       package_dirs = [] of String
 
-      Dir.glob("./.mint/packages/**/mint.json").each do |file|
-        json =
-          MintJson.new(File.read(file), File.dirname(file), file)
-
-        base =
-          File.dirname(file)
-
-        package_dirs.concat json.source_directories.map { |dir| "#{base}/#{dir}" }
+      packages.each do |json|
+        package_dirs.concat json.source_directories.map { |dir| "#{json.root}/#{dir}" }
       end
 
       current + package_dirs.map { |dir| "#{dir}/**/*.mint" }

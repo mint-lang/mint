@@ -22,7 +22,7 @@ module Mint
     json_error MintJsonRootInvalidKey
 
     getter test_directories, source_directories, dependencies, application
-    getter external_javascripts, name
+    getter external_javascripts, name, root
 
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
@@ -83,6 +83,13 @@ module Mint
         }
       end
       parse_root
+    end
+
+    def source_files
+      glob =
+        source_directories.map { |dir| "#{root}/#{dir}/**/*.mint" }
+
+      Dir.glob(glob)
     end
 
     # Parsing the root object

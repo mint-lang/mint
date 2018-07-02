@@ -1,5 +1,6 @@
 module Mint
   class DocumentationServer
+    @asts : Hash(String, Ast) = {} of String => Ast
     @formatter = Formatter.new(Ast.new)
     @error : String | Nil = nil
     @ast : Ast = Ast.new
@@ -9,6 +10,16 @@ module Mint
     end
 
     def initialize
+      SourceFiles.packages.each do |package|
+        ast = Ast.new
+
+        package.source_files.each do |file|
+          ast.merge(Parser.parse(File.read(file), file))
+        end
+
+        @asts[package.name] = ast
+      end
+
       @watcher =
         AstWatcher.new(->{ SourceFiles.current }) do |result|
           case result
@@ -48,30 +59,41 @@ module Mint
 
     def generate
       JSON.build do |json|
-        json.object do
-          json.field "components" do
-            generate @ast.components.sort_by(&.name), json
-          end
+        json.array do
+          generate MintJson.parse_current.name, @ast, json
 
-          json.field "stores" do
-            generate @ast.stores.sort_by(&.name), json
+          @asts.each do |name, ast|
+            generate name, ast, json
           end
+        end
+      end
+    end
 
-          json.field "modules" do
-            generate @ast.modules.sort_by(&.name), json
-          end
+    def generate(name, ast : Ast, json)
+      json.object do
+        json.field "name", name
+        json.field "components" do
+          generate ast.components.sort_by(&.name), json
+        end
 
-          json.field "providers" do
-            generate @ast.providers.sort_by(&.name), json
-          end
+        json.field "stores" do
+          generate ast.stores.sort_by(&.name), json
+        end
 
-          json.field "records" do
-            generate @ast.records.sort_by(&.name), json
-          end
+        json.field "modules" do
+          generate ast.modules.sort_by(&.name), json
+        end
 
-          json.field "enums" do
-            generate @ast.enums.sort_by(&.name), json
-          end
+        json.field "providers" do
+          generate ast.providers.sort_by(&.name), json
+        end
+
+        json.field "records" do
+          generate ast.records.sort_by(&.name), json
+        end
+
+        json.field "enums" do
+          generate ast.enums.sort_by(&.name), json
         end
       end
     end
