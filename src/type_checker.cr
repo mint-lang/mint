@@ -23,7 +23,7 @@ module Mint
 
     getter records, scope, artifacts
 
-    delegate types, variables, html_elements, ast, to: artifacts
+    delegate types, variables, html_elements, ast, lookups, to: artifacts
     delegate component?, component, to: scope
 
     @record_names = {} of String => Ast::Node

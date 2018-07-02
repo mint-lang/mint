@@ -14,6 +14,6 @@ const $Test = new(class {
   }
 
   b() {
-    return $Test.a
+    return $Test.a.bind($Test)
   }
 })
