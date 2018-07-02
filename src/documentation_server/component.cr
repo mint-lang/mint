@@ -8,6 +8,10 @@ module Mint
         json.field "description", node.comment.try(&.to_html)
         json.field "name", node.name
 
+        json.field "connects" do
+          generate node.connects, json
+        end
+
         json.field "computed-properties" do
           generate node.gets, json
         end
@@ -18,6 +22,10 @@ module Mint
 
         json.field "functions" do
           generate node.functions, json
+        end
+
+        json.field "providers" do
+          generate node.uses, json
         end
 
         json.field "state" do

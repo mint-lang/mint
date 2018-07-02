@@ -10,7 +10,10 @@ module Mint
       body =
         list items
 
-      "enum #{name} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}enum #{name} {\n#{body.indent}\n}"
     end
   end
 end

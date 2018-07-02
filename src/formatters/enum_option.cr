@@ -1,7 +1,10 @@
 module Mint
   class Formatter
     def format(node : Ast::EnumOption)
-      node.value
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}#{node.value}"
     end
   end
 end

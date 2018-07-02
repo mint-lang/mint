@@ -6,16 +6,18 @@ module Mint
 
     def enum
       start do |start_position|
-        return unless keyword "enum"
+        comment = self.comment
 
+        skip unless keyword "enum"
         whitespace
+
         name = type_id! EnumExpectedName
 
         body = block(
           opening_bracket: EnumExpectedOpeningBracket,
           closing_bracket: EnumExpectedClosingBracket
         ) do
-          many { enum_option || comment }.compact
+          many { enum_option || self.comment }.compact
         end
 
         options = [] of Ast::EnumOption
@@ -33,6 +35,7 @@ module Mint
         Ast::Enum.new(
           from: start_position,
           comments: comments,
+          comment: comment,
           options: options,
           to: position,
           input: data,
