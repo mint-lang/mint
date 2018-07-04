@@ -57,7 +57,7 @@ module Mint
       end
 
       get "/" do
-        Assets.read("docs-viewer/index.html")
+        index
       end
 
       get "/:name" do |env|
@@ -68,9 +68,18 @@ module Mint
         begin
           Assets.read("docs-viewer/" + env.params.url["name"])
         rescue BakedFileSystem::NoSuchFileError
-          Assets.read("docs-viewer/index.html")
+          index
         end
       end
+
+      # If we didn't handle any route return the index as well.
+      error 404 do |env|
+        halt env, response: index, status_code: 200
+      end
+    end
+
+    def index
+      Assets.read("docs-viewer/index.html")
     end
 
     def generate
