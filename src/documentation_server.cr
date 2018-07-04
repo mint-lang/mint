@@ -56,7 +56,7 @@ module Mint
         generate
       end
 
-      get "/" do |env|
+      get "/" do
         Assets.read("docs-viewer/index.html")
       end
 
