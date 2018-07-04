@@ -15,7 +15,10 @@ module Mint
           " from #{mapping_key}"
         end.to_s
 
-      "#{key} : #{type}#{mapping}"
+      comment =
+        node.comment.try { |item| "#{format(item)}\n" }
+
+      "#{comment}#{key} : #{type}#{mapping}"
     end
   end
 end

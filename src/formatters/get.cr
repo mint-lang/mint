@@ -8,9 +8,12 @@ module Mint
         format node.type
 
       body =
-        format node.body
+        list [node.body] + node.head_comments + node.tail_comments
 
-      "get #{name} : #{type} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format(item)}\n" }
+
+      "#{comment}get #{name} : #{type} {\n#{body.indent}\n}"
     end
   end
 end

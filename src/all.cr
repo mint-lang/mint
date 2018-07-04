@@ -5,6 +5,7 @@ require "tree_template"
 require "time_format"
 require "file_utils"
 require "colorize"
+require "markdown"
 require "kemal"
 require "html"
 require "json"
@@ -41,6 +42,9 @@ require "./installer"
 
 require "./parsers/**"
 require "./parser"
+
+require "./documentation_server/**"
+require "./documentation_server"
 
 require "./test_runner/**"
 require "./test_runner"

@@ -22,11 +22,23 @@ module Mint
             space_separated =
               last && ast.space_separated?(last, node)
 
-            # Decide the separator the separator
+            # Decide the separator
             separator =
-              last_formatted.includes?("\n") ||
-                formatted.includes?("\n") ||
-                space_separated ? "\n\n" : "\n"
+              if last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+                "\n\n"
+              elsif !last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+                "\n\n"
+              elsif last.is_a?(Ast::Comment) && node.responds_to?(:comment) && node.comment
+                "\n\n"
+              elsif last.is_a?(Ast::Comment)
+                "\n"
+              elsif last_formatted.includes?("\n") ||
+                    formatted.includes?("\n") ||
+                    space_separated
+                "\n\n"
+              else
+                "\n"
+              end
 
             # Save references
             last = node

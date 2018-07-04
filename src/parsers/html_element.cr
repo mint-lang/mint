@@ -18,7 +18,7 @@ module Mint
           style = variable_with_dashes! HtmlElementExpectedStyle
         end
 
-        attributes, children = html_body(
+        attributes, children, comments = html_body(
           expected_closing_bracket: HtmlElementExpectedClosingBracket,
           expected_closing_tag: HtmlElementExpectedClosingTag,
           with_dashes: true,
@@ -28,6 +28,7 @@ module Mint
           attributes: attributes,
           from: start_position,
           children: children,
+          comments: comments,
           style: style,
           to: position,
           input: data,

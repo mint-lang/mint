@@ -30,7 +30,7 @@ module Mint
           char ')', RouteExpectedClosingParentheses
         end
 
-        body = block(
+        head_comments, body, tail_comments = block_with_comments(
           opening_bracket: RouteExpectedOpeningBracket,
           closing_bracket: RouteExpectedClosingBracket
         ) do
@@ -38,6 +38,8 @@ module Mint
         end
 
         Ast::Route.new(
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           expression: body,

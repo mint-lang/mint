@@ -6,23 +6,36 @@ module Mint
 
     def enum
       start do |start_position|
-        skip unless keyword "enum"
+        comment = self.comment
 
+        skip unless keyword "enum"
         whitespace
+
         name = type_id! EnumExpectedName
 
-        options = block(
+        body = block(
           opening_bracket: EnumExpectedOpeningBracket,
           closing_bracket: EnumExpectedClosingBracket
         ) do
-          list(
-            terminator: '}',
-            separator: ','
-          ) { type_id }.compact
+          many { enum_option || self.comment }.compact
+        end
+
+        options = [] of Ast::EnumOption
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::EnumOption
+            options << item
+          when Ast::Comment
+            comments << item
+          end
         end
 
         Ast::Enum.new(
           from: start_position,
+          comments: comments,
+          comment: comment,
           options: options,
           to: position,
           input: data,

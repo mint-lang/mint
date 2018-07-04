@@ -10,12 +10,15 @@ module Mint
 
         whitespace! SkipError
 
-        statements = block(
+        body = block(
           opening_bracket: DoExpectedOpeningBracket,
           closing_bracket: DoExpectedClosingBracket
         ) do
-          results = many { statement }.compact
-          raise DoExpectedStatement if results.empty?
+          results = many { statement || comment }.compact
+
+          raise DoExpectedStatement if results
+                                         .select(&.is_a?(Ast::Statement))
+                                         .empty?
           results
         end
 
@@ -23,9 +26,22 @@ module Mint
 
         catches = many { catch }.compact
 
+        statements = [] of Ast::Statement
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::Statement
+            statements << item
+          when Ast::Comment
+            comments << item
+          end
+        end
+
         Ast::Do.new(
           statements: statements,
           from: start_position,
+          comments: comments,
           finally: finally,
           catches: catches,
           to: position,

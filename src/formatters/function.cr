@@ -8,10 +8,7 @@ module Mint
         format node.type
 
       body =
-        format node.body
-
-      wheres =
-        list node.wheres
+        list [node.body] + node.head_comments + node.tail_comments
 
       arguments =
         unless node.arguments.empty?
@@ -21,9 +18,13 @@ module Mint
           "(#{value}) "
         end
 
-      where = " where {\n#{wheres.indent}\n}" if node.wheres.any?
+      where =
+        format node.where
 
-      "fun #{name} #{arguments}: #{type} {\n#{body.indent}\n}#{where}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}fun #{name} #{arguments}: #{type} {\n#{body.indent}\n}#{where}"
     end
   end
 end

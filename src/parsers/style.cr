@@ -16,11 +16,12 @@ module Mint
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          many { css_definition || css_selector || css_media }.compact
+          many { css_definition || css_selector || css_media || comment }.compact
         end
 
         definitions = [] of Ast::CssDefinition
         selectors = [] of Ast::CssSelector
+        comments = [] of Ast::Comment
         medias = [] of Ast::CssMedia
 
         body.each do |item|
@@ -31,6 +32,8 @@ module Mint
             selectors << item
           when Ast::CssMedia
             medias << item
+          when Ast::Comment
+            comments << item
           end
         end
 
@@ -38,6 +41,7 @@ module Mint
           definitions: definitions,
           selectors: selectors,
           from: start_position,
+          comments: comments,
           medias: medias,
           to: position,
           input: data,

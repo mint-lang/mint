@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Routes) : String
       body =
-        format node.routes, "\n\n"
+        list node.routes + node.comments
 
       "routes {\n#{body.indent}\n}"
     end

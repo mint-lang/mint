@@ -1,0 +1,50 @@
+component A {
+  styletest{
+    /*A*/background: red;
+    /*B*/color: blue;
+
+    /*C*/& selector {
+      /*D*/x: y;/*E*/
+    }
+
+    /*F*/@media something {
+      /*G*/x: y;/*H*/
+    }/*I*/
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    /* A */
+    background: red;
+
+    /* B */
+    color: blue;
+
+    /* C */
+    & selector {
+      /* D */
+      x: y;
+
+      /* E */
+    }
+
+    /* F */
+    @media something {
+      /* G */
+      x: y;
+
+      /* H */
+    }
+
+    /* I */
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

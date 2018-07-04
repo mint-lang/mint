@@ -1,16 +1,21 @@
 module Test {
   fun test : Bool {
-    if("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" == "b"){true}else{false}
+    if(true){/*A*/true/*B*/}else{/*C*/false/*D*/}
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun test : Bool {
-    if ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" \
-        "aaaaaa" == "b") {
+    if (true) {
+      /* A */
       true
+
+      /* B */
     } else {
+      /* C */
       false
+
+      /* D */
     }
   }
 }

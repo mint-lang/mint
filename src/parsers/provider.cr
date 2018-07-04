@@ -9,30 +9,48 @@ module Mint
 
     def provider : Ast::Provider | Nil
       start do |start_position|
+        comment = self.comment
+
         skip unless keyword "provider"
-
         whitespace
+
         name = type_id! ProviderExpectedName
-
         whitespace
+
         char ':', ProviderExpectedColon
 
         whitespace
         subscription = type_id! ProviderExpectedSubscription
 
-        functions = block(
+        body = block(
           opening_bracket: ProviderExpectedOpeningBracket,
           closing_bracket: ProviderExpectedClosingBracket
         ) do
-          items = many { function }.compact
-          raise ProviderExpectedBody if items.empty?
+          items = many { function || self.comment }.compact
+          raise ProviderExpectedBody if items
+                                          .select(&.is_a?(Ast::Function))
+                                          .empty?
           items
+        end
+
+        functions = [] of Ast::Function
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::Function
+            functions << item
+          when Ast::Comment
+            comments << item
+          end
         end
 
         Ast::Provider.new(
           subscription: subscription,
           functions: functions,
           from: start_position,
+          comments: comments,
+          comment: comment,
           to: position,
           input: data,
           name: name)

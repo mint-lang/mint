@@ -8,12 +8,16 @@ module Mint
       start do |start_position|
         skip unless keyword "try"
 
-        statements = block(
+        body = block(
           opening_bracket: TryExpectedOpeningBracket,
           closing_bracket: TryExpectedClosingBracket
         ) do
-          items = many { statement }.compact
-          raise TryExpectedStatement if items.empty?
+          items = many { statement || comment }.compact
+
+          raise TryExpectedStatement if items
+                                          .reject(&.is_a?(Ast::Comment))
+                                          .empty?
+
           items
         end
 
@@ -21,9 +25,22 @@ module Mint
 
         catches = many { catch }.compact
 
+        statements = [] of Ast::Statement
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::Statement
+            statements << item
+          when Ast::Comment
+            comments << item
+          end
+        end
+
         Ast::Try.new(
           statements: statements,
           from: start_position,
+          comments: comments,
           catches: catches,
           to: position,
           input: data)

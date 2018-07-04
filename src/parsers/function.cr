@@ -10,9 +10,11 @@ module Mint
 
     def function : Ast::Function | Nil
       start do |start_position|
-        skip unless keyword "fun"
+        comment = self.comment
 
+        skip unless keyword "fun"
         whitespace
+
         name = variable! FunctionExpectedName
         whitespace
 
@@ -36,7 +38,7 @@ module Mint
 
         type = type_or_type_variable! FunctionExpectedTypeOrVariable
 
-        body = block(
+        head_comments, body, tail_comments = block_with_comments(
           opening_bracket: FunctionExpectedOpeningBracket,
           closing_bracket: FunctionExpectedClosingBracket
         ) do
@@ -49,10 +51,13 @@ module Mint
 
         Ast::Function.new(
           body: body.as(Ast::Expression),
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
+          comment: comment,
           to: end_position,
-          wheres: where,
+          where: where,
           input: data,
           name: name,
           type: type)

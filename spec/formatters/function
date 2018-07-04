@@ -1,9 +1,13 @@
 module A {
-  funtest(a:String):Void{void}
+  /* Comment */funtest(a:String):Void{/*HEAD*/void/*TAIL*/}
 }
 --------------------------------------------------------------------------------
 module A {
+  /* Comment */
   fun test (a : String) : Void {
+    /* HEAD */
     void
+
+    /* TAIL */
   }
 }

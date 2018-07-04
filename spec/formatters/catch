@@ -9,7 +9,7 @@ module A {
     do {
     	a =
     		Promise.reject("hello")
-		}catchString=>a{"blah"}
+		}catchString=>a{/*HEAD*/"blah"/*TAIL*/}
   }
 }
 --------------------------------------------------------------------------------
@@ -25,7 +25,10 @@ module A {
       a =
         Promise.reject("hello")
     } catch String => a {
+      /* HEAD */
       "blah"
+
+      /* TAIL */
     }
   }
 }

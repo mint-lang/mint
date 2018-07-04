@@ -1,5 +1,5 @@
 enum Test {
-  X,
+  X
   Y
 }
 

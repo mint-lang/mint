@@ -1,9 +1,11 @@
 module Mint
   class Ast
     class Module < Node
-      getter name, functions
+      getter name, functions, comment, comments
 
       def initialize(@functions : Array(Function),
+                     @comments : Array(Comment),
+                     @comment : Comment?,
                      @name : String,
                      @input : Data,
                      @from : Int32,

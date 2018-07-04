@@ -13,7 +13,7 @@ module Mint
 
         name = type_id! WithExpectedModule
 
-        body = block(
+        head_comments, body, tail_comments = block_with_comments(
           opening_bracket: WithExpectedOpeningBracket,
           closing_bracket: WithExpectedClosingBracket
         ) do
@@ -22,6 +22,8 @@ module Mint
 
         Ast::With.new(
           body: body.as(Ast::Expression),
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           from: start_position,
           to: position,
           input: data,

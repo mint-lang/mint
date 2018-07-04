@@ -10,7 +10,7 @@ module Mint
 
         skip unless keyword "finally"
 
-        expression = block(
+        head_comments, expression, tail_comments = block_with_comments(
           opening_bracket: FinallyExpectedOpeningBracket,
           closing_bracket: FinallyExpectedClosingBracket
         ) do
@@ -19,6 +19,8 @@ module Mint
 
         Ast::Finally.new(
           expression: expression.as(Ast::Expression),
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           from: start_position,
           to: position,
           input: data)

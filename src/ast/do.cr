@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class Do < Node
-      getter statements, catches, finally
+      getter statements, catches, finally, comments
 
       def initialize(@statements : Array(Statement),
+                     @comments : Array(Comment),
                      @finally : Finally | Nil,
                      @catches : Array(Catch),
                      @input : Data,

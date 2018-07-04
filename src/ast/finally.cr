@@ -1,9 +1,11 @@
 module Mint
   class Ast
     class Finally < Node
-      getter expression
+      getter expression, head_comments, tail_comments
 
-      def initialize(@expression : Expression,
+      def initialize(@head_comments : Array(Comment),
+                     @tail_comments : Array(Comment),
+                     @expression : Expression,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

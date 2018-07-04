@@ -1,0 +1,25 @@
+record Subscription {
+  a : Bool
+}
+
+/*A*/providerProvider:Subscription {
+  /*B*/
+  fun test : Void {
+    void
+  }
+  /*C*/
+}
+--------------------------------------------------------------------------------
+record Subscription {
+  a : Bool
+}
+
+/* A */
+provider Provider : Subscription {
+  /* B */
+  fun test : Void {
+    void
+  }
+
+  /* C */
+}

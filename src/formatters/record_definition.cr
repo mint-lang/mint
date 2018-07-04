@@ -7,7 +7,10 @@ module Mint
       fields =
         format node.fields, ",\n"
 
-      "record #{name} {\n#{fields.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format(item)}\n" }
+
+      "#{comment}record #{name} {\n#{fields.indent}\n}"
     end
   end
 end

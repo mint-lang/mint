@@ -9,18 +9,20 @@ module Mint
 
     def get : Ast::Get | Nil
       start do |start_position|
+        comment = self.comment
+
         skip unless keyword "get"
-
         whitespace
+
         name = variable! GetExpectedName
-
         whitespace
+
         char ':', GetExpectedColon
         whitespace
 
         type = type! GetExpectedType
 
-        body = block(
+        head_comments, body, tail_comments = block_with_comments(
           opening_bracket: GetExpectedOpeningBracket,
           closing_bracket: GetExpectedClosingBracket
         ) do
@@ -28,7 +30,10 @@ module Mint
         end
 
         Ast::Get.new(
+          head_comments: head_comments,
+          tail_comments: tail_comments,
           from: start_position,
+          comment: comment,
           to: position,
           input: data,
           name: name,

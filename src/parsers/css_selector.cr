@@ -15,16 +15,29 @@ module Mint
           separator: ','
         ) { css_selector_name }.compact
 
-        definitions = block(
+        body = block(
           opening_bracket: CssSelectorExpectedOpeningBracket,
           closing_bracket: CssSelectorExpectedClosingBracket) do
-          many { css_definition }.compact
+          many { css_definition || comment }.compact
+        end
+
+        definitions = [] of Ast::CssDefinition
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::CssDefinition
+            definitions << item
+          when Ast::Comment
+            comments << item
+          end
         end
 
         Ast::CssSelector.new(
           definitions: definitions,
           selectors: selectors,
           from: start_position,
+          comments: comments,
           to: position,
           input: data)
       end

@@ -4,10 +4,16 @@ module Mint
       name =
         format node.name
 
-      body =
-        format node.options, ",\n"
+      items =
+        node.options + node.comments
 
-      "enum #{name} {\n#{body.indent}\n}"
+      body =
+        list items
+
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}enum #{name} {\n#{body.indent}\n}"
     end
   end
 end

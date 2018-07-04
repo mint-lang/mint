@@ -1,5 +1,5 @@
 component Test {
-  gettest:Number{0}
+  /*HEAD*/gettest:Number{/*A*/0/*B*/}
 
   fun render : Html {
     <div></div>
@@ -7,8 +7,12 @@ component Test {
 }
 --------------------------------------------------------------------------------
 component Test {
+  /* HEAD */
   get test : Number {
+    /* A */
     0
+
+    /* B */
   }
 
   fun render : Html {

@@ -3,7 +3,7 @@ module A {
     do {
       a =
         "hello"
-    }finally{"blah"}
+    }finally{/* HEAD */"blah"/* TAIL */}
   }
 }
 --------------------------------------------------------------------------------
@@ -13,7 +13,10 @@ module A {
       a =
         "hello"
     } finally {
+      /* HEAD */
       "blah"
+
+      /* TAIL */
     }
   }
 }

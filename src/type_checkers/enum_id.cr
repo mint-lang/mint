@@ -17,7 +17,7 @@ module Mint
         "name"        => node.option,
         "parent"      => parent,
         "node"        => node,
-      } unless parent.options.any?(&.==(node.option))
+      } unless parent.options.map(&.value).any?(&.==(node.option))
 
       Type.new(node.name)
     end

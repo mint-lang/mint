@@ -11,11 +11,15 @@ module Mint
       self_closing = char! '/'
       char '>', expected_closing_bracket
 
+      children = [] of Ast::HtmlContent
+      comments = [] of Ast::Comment
+
       unless self_closing
-        children = many do
+        items = many do
           html_element.as(Ast::HtmlElement | Nil) ||
             html_component.as(Ast::HtmlComponent | Nil) ||
-            html_expression.as(Ast::HtmlExpression | Nil)
+            html_expression.as(Ast::HtmlExpression | Nil) ||
+            comment
         end.compact
 
         whitespace
@@ -29,10 +33,20 @@ module Mint
           end
 
         keyword! "</#{closing_tag}>", expected_closing_tag
+
+        items.each do |item|
+          case item
+          when Ast::HtmlContent
+            children << item
+          when Ast::Comment
+            comments << item
+          end
+        end
       end
 
       {attributes || [] of Ast::HtmlAttribute,
-       children || [] of Ast::HtmlContent}
+       children,
+       comments}
     end
   end
 end

@@ -14,7 +14,7 @@ module Mint
 
         skip unless component
 
-        attributes, children = html_body(
+        attributes, children, comments = html_body(
           expected_closing_bracket: HtmlComponentExpectedClosingBracket,
           expected_closing_tag: HtmlComponentExpectedClosingTag,
           with_dashes: false,
@@ -25,6 +25,7 @@ module Mint
           from: start_position,
           component: component,
           children: children,
+          comments: comments,
           to: position,
           input: data)
       end

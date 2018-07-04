@@ -4,7 +4,8 @@ module Mint
       items =
         node.properties +
           node.functions +
-          node.gets
+          node.gets +
+          node.comments
 
       name =
         format node.name
@@ -12,7 +13,10 @@ module Mint
       body =
         list items
 
-      "store #{name} {\n#{body.indent}\n}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}store #{name} {\n#{body.indent}\n}"
     end
   end
 end

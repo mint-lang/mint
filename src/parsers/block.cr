@@ -1,5 +1,19 @@
 module Mint
   class Parser
+    def block_with_comments(opening_bracket : SyntaxError.class,
+                            closing_bracket : SyntaxError.class)
+      block(opening_bracket, closing_bracket) do
+        head_comments = many { comment }.compact
+        whitespace
+
+        result = yield
+        whitespace
+
+        tail_comments = many { comment }.compact
+        {head_comments, result, tail_comments}
+      end
+    end
+
     def block(opening_bracket : SyntaxError.class,
               closing_bracket : SyntaxError.class)
       whitespace

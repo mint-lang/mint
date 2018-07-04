@@ -1,9 +1,11 @@
 module Mint
   class Ast
     class InlineFunction < Node
-      getter body, arguments
+      getter body, arguments, head_comments, tail_comments
 
-      def initialize(@arguments : Array(Argument),
+      def initialize(@head_comments : Array(Comment),
+                     @tail_comments : Array(Comment),
+                     @arguments : Array(Argument),
                      @body : Expression,
                      @input : Data,
                      @from : Int32,

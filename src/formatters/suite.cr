@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Suite) : String
       body =
-        format node.tests, "\n\n"
+        list node.tests + node.comments
 
       name =
         format node.name

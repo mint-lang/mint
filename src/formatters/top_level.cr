@@ -14,7 +14,8 @@ module Mint
         ast.routes +
         ast.stores +
         ast.suites +
-        ast.enums
+        ast.enums +
+        ast.comments
       ).sort_by(&.from)
         .map do |node|
           format node

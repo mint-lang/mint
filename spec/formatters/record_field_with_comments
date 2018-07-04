@@ -1,0 +1,26 @@
+record Test {
+  a : String,
+  b : String
+}
+
+module Test {
+  fun get : Test {
+    {/*A*/a="Hello",/*B*/b="Blah"}
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : String
+}
+
+module Test {
+  fun get : Test {
+    {
+      /* A */
+      a = "Hello",
+      /* B */
+      b = "Blah"
+    }
+  }
+}

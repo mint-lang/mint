@@ -9,6 +9,13 @@ module Mint
         .map { |dir| "#{dir}/**/*.mint" }
     end
 
+    def current
+      MintJson
+        .parse_current
+        .source_directories
+        .map { |dir| "#{dir}/**/*.mint" }
+    end
+
     def javascripts
       javascripts =
         Dir
@@ -24,23 +31,20 @@ module Mint
       javascripts + MintJson.parse_current.external_javascripts
     end
 
+    def packages
+      Dir.glob("./.mint/packages/**/mint.json").map do |file|
+        MintJson.new(File.read(file), File.dirname(file), file)
+      end
+    end
+
     def all
-      source_dirs =
-        MintJson
-          .parse_current
-          .source_directories
+      package_dirs = [] of String
 
-      Dir.glob("./.mint/packages/**/mint.json").each do |file|
-        json =
-          MintJson.new(File.read(file), File.dirname(file), file)
-
-        base =
-          File.dirname(file)
-
-        source_dirs.concat json.source_directories.map { |dir| "#{base}/#{dir}" }
+      packages.each do |json|
+        package_dirs.concat json.source_directories.map { |dir| "#{json.root}/#{dir}" }
       end
 
-      source_dirs.map { |dir| "#{dir}/**/*.mint" }
+      current + package_dirs.map { |dir| "#{dir}/**/*.mint" }
     end
   end
 end

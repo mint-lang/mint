@@ -1,9 +1,9 @@
 module Test {
   fun test : String {
     case ("Hello") {
-      "singleline"=>"single line content"
-      "multiline"=>"multi line content multi line content multi line content multi line content"
-      => "others"
+      /* Comment1 */"singleline"=>"single line content"
+      /* Comment2 */"multiline"=>"multi line content multi line content multi line content multi line content"
+      /* Comment3 */=> "others"
     }
   }
 }
@@ -11,12 +11,15 @@ module Test {
 module Test {
   fun test : String {
     case ("Hello") {
+      /* Comment1 */
       "singleline" => "single line content"
 
+      /* Comment2 */
       "multiline" =>
         "multi line content multi line content multi line content" \
         " multi line content"
 
+      /* Comment3 */
       => "others"
     }
   }

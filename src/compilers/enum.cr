@@ -6,7 +6,7 @@ module Mint
 
       node.options.map do |option|
         name =
-          underscorize option
+          underscorize option.value
 
         full_name =
           prefix + "_" + name

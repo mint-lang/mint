@@ -28,7 +28,7 @@ module Mint
         return_type =
           resolve node.type
 
-        check node.wheres
+        node.where.try { |item| resolve item }
 
         resolved =
           Comparer.compare(body_type, return_type)

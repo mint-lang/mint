@@ -17,6 +17,7 @@ module Mint
     register_sub_command start, type: Start
     register_sub_command init, type: Init
     register_sub_command test, type: Test
+    register_sub_command docs, type: Docs
     register_sub_command loc, type: Loc
 
     def run

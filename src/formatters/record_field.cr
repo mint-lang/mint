@@ -7,10 +7,13 @@ module Mint
       key =
         format node.key
 
+      comment =
+        node.comment.try { |item| "#{format(item)}\n" }
+
       if value.includes?("\n")
-        "#{key} =\n#{value.indent}"
+        "#{comment}#{key} =\n#{value.indent}"
       else
-        "#{key} = #{value}"
+        "#{comment}#{key} = #{value}"
       end
     end
   end

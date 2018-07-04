@@ -1,7 +1,9 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Where) : Checkable
-      resolve node.expression
+      check node.statements
+
+      NEVER
     end
   end
 end

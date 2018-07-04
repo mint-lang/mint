@@ -1,8 +1,11 @@
 module Mint
   class Formatter
     def format(node : Ast::Do) : String
-      statements =
-        list node.statements
+      items =
+        node.statements + node.comments
+
+      body =
+        list items
 
       catches =
         format node.catches, " "
@@ -10,7 +13,7 @@ module Mint
       finally =
         format node.finally
 
-      ["do {\n#{statements.indent}\n}",
+      ["do {\n#{body.indent}\n}",
        catches,
        finally.to_s,
       ].reject(&.strip.empty?)

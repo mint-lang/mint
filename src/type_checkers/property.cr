@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error PropertyTypeMismatch
 
-    def check(node : Ast::Property, component : Ast::Component | Ast::Store) : Checkable
+    def check(node : Ast::Property) : Checkable
       type =
         resolve node.type
 
@@ -20,16 +20,6 @@ module Mint
       } unless result
 
       result
-    end
-
-    def check(node : Ast::Property) : Checkable
-      resolve node.type
-    end
-
-    def check(nodes : Array(Ast::Property), component : Ast::Component | Ast::Store) : Checkable
-      nodes.each { |node| resolve node, component }
-
-      NEVER
     end
   end
 end

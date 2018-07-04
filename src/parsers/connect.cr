@@ -9,11 +9,11 @@ module Mint
     def connect : Ast::Connect | Nil
       start do |start_position|
         skip unless keyword "connect"
-
         whitespace
+
         store = type_id! ConnectExpectedType
-
         whitespace
+
         keyword! "exposing", ConnectExpectedExposing
 
         keys = block(

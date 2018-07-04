@@ -19,15 +19,14 @@ module Mint
       true
     end
 
-    def run(host : String = "127.0.0.1", port : Int32 = 3000)
+    def run(name : String, host : String = "127.0.0.1", port : Int32 = 3000)
       config = Kemal.config
       config.logger = Logger.new
       config.setup
 
       if port_open?(host, port)
-        server =
-          HTTP::Server.new(config.handlers)
-        terminal.print "#{COG} Development server started on http://#{host}:#{port}/\n"
+        server = HTTP::Server.new(config.handlers)
+        terminal.print "#{COG} #{name} server started on http://#{host}:#{port}/\n"
       elsif STDIN.tty?
         new_port = config.port + 1
         until port_open?(host, new_port)
@@ -38,7 +37,7 @@ module Mint
 
         use_new_port = gets
         if !use_new_port.nil? && use_new_port.downcase == "y"
-          run(host, new_port)
+          run(name, host, new_port)
         else
           terminal.print "#{COG} Exiting...\n"
         end

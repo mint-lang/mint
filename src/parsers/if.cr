@@ -20,24 +20,30 @@ module Mint
         condition = expression! IfExpectedCondition
         char ')', IfExpectedClosingParentheses
 
-        truthy = block(
-          opening_bracket: IfExpectedTruthyOpeningBracket,
-          closing_bracket: IfExpectedTruthyClosingBracket
-        ) do
-          expression! IfExpectedTruthyExpression
-        end
+        truthy_head_comments, truthy, truthy_tail_comments =
+          block_with_comments(
+            opening_bracket: IfExpectedTruthyOpeningBracket,
+            closing_bracket: IfExpectedTruthyClosingBracket
+          ) do
+            expression! IfExpectedTruthyExpression
+          end
 
         whitespace
         keyword! "else", IfExpectedElse
 
-        falsy = block(
-          opening_bracket: IfExpectedFalsyOpeningBracket,
-          closing_bracket: IfExpectedFalsyClosingBracket
-        ) do
-          expression! IfExpectedFalsyExpression
-        end
+        falsy_head_comments, falsy, falsy_tail_comments =
+          block_with_comments(
+            opening_bracket: IfExpectedFalsyOpeningBracket,
+            closing_bracket: IfExpectedFalsyClosingBracket
+          ) do
+            expression! IfExpectedFalsyExpression
+          end
 
         Ast::If.new(
+          truthy_head_comments: truthy_head_comments,
+          truthy_tail_comments: truthy_tail_comments,
+          falsy_head_comments: falsy_head_comments,
+          falsy_tail_comments: falsy_tail_comments,
           condition: condition.as(Ast::Expression),
           truthy: truthy.as(Ast::Expression),
           falsy: falsy.as(Ast::Expression),
