@@ -52,15 +52,15 @@ $Status_JsonError = Symbol.for(`Status_JsonError`)
 $Status_Initial = Symbol.for(`Status_Initial`)
 $Status_Ok = Symbol.for(`Status_Ok`)
 
-$Storage_Error_SecurityError = Symbol.for(`Storage_Error_SecurityError`)
-$Storage_Error_QuotaExceeded = Symbol.for(`Storage_Error_QuotaExceeded`)
-$Storage_Error_NotFound = Symbol.for(`Storage_Error_NotFound`)
-$Storage_Error_Unkown = Symbol.for(`Storage_Error_Unkown`)
-
 $Http_Error_NetworkError = Symbol.for(`Http_Error_NetworkError`)
 $Http_Error_Aborted = Symbol.for(`Http_Error_Aborted`)
 $Http_Error_Timeout = Symbol.for(`Http_Error_Timeout`)
 $Http_Error_BadUrl = Symbol.for(`Http_Error_BadUrl`)
+
+$Storage_Error_SecurityError = Symbol.for(`Storage_Error_SecurityError`)
+$Storage_Error_QuotaExceeded = Symbol.for(`Storage_Error_QuotaExceeded`)
+$Storage_Error_NotFound = Symbol.for(`Storage_Error_NotFound`)
+$Storage_Error_Unkown = Symbol.for(`Storage_Error_Unkown`)
 
 const $$Dependency = (input) => {
   let repository = Decoder.field(`repository`, Decoder.string)(input)
@@ -412,81 +412,6 @@ const $$Root = (input) => {
   })
 }
 
-const $Provider_Scroll = new (class extends Provider {
-scrolls(event) {
-  return $Array.do($Array.map(((subscription) => {
-  return subscription(event)
-  }), $Array.map(((subscription) => {
-  return subscription.scrolls
-  }), this._subscriptions)))
-}
-
-attach() {
-  return (() => {
-        const scrolls = this._scrolls || (this._scrolls = this.scrolls.bind(this))
-
-        window.addEventListener("scroll", scrolls)
-      })()
-}
-
-detach() {
-  return (() => {
-        window.removeEventListener("mousemove", this._scrolls)
-      })()
-}
-})
-
-const $Provider_Tick = new (class extends Provider {
-update() {
-  return $Array.do($Array.map(((func) => {
-  return func()
-  }), $Array.map(((item) => {
-  return item.ticks
-  }), this._subscriptions)))
-}
-
-attach() {
-  return (() => {
-        this.detach()
-        this.id = setInterval(this.update.bind(this), 1000)
-      })()
-}
-
-detach() {
-  return clearInterval(this.id)
-}
-})
-
-const $Provider_AnimationFrame = new (class extends Provider {
-update() {
-  return $Array.do($Array.map(((func) => {
-  return func()
-  }), $Array.map(((item) => {
-  return item.frames
-  }), this._subscriptions)))
-}
-
-attach() {
-  return (() => {
-        this.detach()
-        this.id = this.frame()
-      })()
-}
-
-frame() {
-  return (() => {
-        this.id = requestAnimationFrame(() => {
-          this.update()
-          this.frame()
-        })
-      })()
-}
-
-detach() {
-  return cancelAnimationFrame(this.id)
-}
-})
-
 const $Provider_Mouse = new (class extends Provider {
 moves(event) {
   return $Array.do($Array.map(((func) => {
@@ -533,6 +458,81 @@ detach() {
 }
 })
 
+const $Provider_AnimationFrame = new (class extends Provider {
+update() {
+  return $Array.do($Array.map(((func) => {
+  return func()
+  }), $Array.map(((item) => {
+  return item.frames
+  }), this._subscriptions)))
+}
+
+attach() {
+  return (() => {
+        this.detach()
+        this.id = this.frame()
+      })()
+}
+
+frame() {
+  return (() => {
+        this.id = requestAnimationFrame(() => {
+          this.update()
+          this.frame()
+        })
+      })()
+}
+
+detach() {
+  return cancelAnimationFrame(this.id)
+}
+})
+
+const $Provider_Scroll = new (class extends Provider {
+scrolls(event) {
+  return $Array.do($Array.map(((subscription) => {
+  return subscription(event)
+  }), $Array.map(((subscription) => {
+  return subscription.scrolls
+  }), this._subscriptions)))
+}
+
+attach() {
+  return (() => {
+        const scrolls = this._scrolls || (this._scrolls = this.scrolls.bind(this))
+
+        window.addEventListener("scroll", scrolls)
+      })()
+}
+
+detach() {
+  return (() => {
+        window.removeEventListener("mousemove", this._scrolls)
+      })()
+}
+})
+
+const $Provider_Tick = new (class extends Provider {
+update() {
+  return $Array.do($Array.map(((func) => {
+  return func()
+  }), $Array.map(((item) => {
+  return item.ticks
+  }), this._subscriptions)))
+}
+
+attach() {
+  return (() => {
+        this.detach()
+        this.id = setInterval(this.update.bind(this), 1000)
+      })()
+}
+
+detach() {
+  return clearInterval(this.id)
+}
+})
+
 _program.addRoutes([{
   handler: ((package, tab, selected) => {
     $Application.route(package, tab, $Maybe.just(selected))
@@ -564,6 +564,148 @@ _program.addRoutes([{
   mapping: [],
   path: `*`
 }])
+
+const $Content = new(class {
+  fromComponent(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      computedProperties: item.computedProperties,
+      properties: item.properties,
+      functions: item.functions,
+      connects: item.connects,
+      uses: item.providers,
+      state: item.state,
+      subscription: ``,
+      name: item.name,
+      options: [],
+      fields: []
+    })
+  }
+
+  fromRecord(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      state: $Maybe.nothing(),
+      computedProperties: [],
+      fields: item.fields,
+      subscription: ``,
+      name: item.name,
+      properties: [],
+      functions: [],
+      connects: [],
+      options: [],
+      uses: []
+    })
+  }
+
+  fromEnum(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      state: $Maybe.nothing(),
+      computedProperties: [],
+      options: item.options,
+      subscription: ``,
+      name: item.name,
+      properties: [],
+      functions: [],
+      connects: [],
+      fields: [],
+      uses: []
+    })
+  }
+
+  fromProvider(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      subscription: item.subscription,
+      functions: item.functions,
+      computedProperties: [],
+      state: $Maybe.nothing(),
+      name: item.name,
+      properties: [],
+      connects: [],
+      options: [],
+      fields: [],
+      uses: []
+    })
+  }
+
+  fromStore(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      computedProperties: item.computedProperties,
+      properties: item.properties,
+      functions: item.functions,
+      state: $Maybe.nothing(),
+      subscription: ``,
+      name: item.name,
+      connects: [],
+      options: [],
+      fields: [],
+      uses: []
+    })
+  }
+
+  fromModule(item) {
+    return new Record({
+      description: $Maybe.withDefault(``, item.description),
+      functions: item.functions,
+      state: $Maybe.nothing(),
+      computedProperties: [],
+      subscription: ``,
+      name: item.name,
+      properties: [],
+      connects: [],
+      options: [],
+      fields: [],
+      uses: []
+    })
+  }
+
+  empty() {
+    return new Record({
+      state: $Maybe.nothing(),
+      computedProperties: [],
+      subscription: ``,
+      description: ``,
+      properties: [],
+      functions: [],
+      connects: [],
+      options: [],
+      fields: [],
+      uses: [],
+      name: ``
+    })
+  }
+})
+
+const $Icons = new(class {
+  package() {
+    return _createElement("svg", {
+      "xmlns": `http://www.w3.org/2000/svg`,
+      "width": `24`,
+      "height": `24`,
+      "viewBox": `0 0 24 24`
+    }, [_createElement("path", {
+      "d": `M16.677 17.868l-.343.195v-1.717l.343-.195v1.717zm2.823-3.325l-.342.195v1.717l.342-.195v-1.717zm3.5-7.602v11.507l-9.75 5.552-12.25-6.978v-11.507l9.767-5.515 12.233 6.941zm-13.846-3.733l9.022 5.178 1.7-.917-9.113-5.17-1.609.909zm2.846 9.68l-9-5.218v8.19l9 5.126v-8.098zm3.021-2.809l-8.819-5.217-2.044 1.167 8.86 5.138 2.003-1.088zm5.979-.943l-2 1.078v2.786l-3 1.688v-2.856l-2 1.078v8.362l7-3.985v-8.151zm-4.907 7.348l-.349.199v1.713l.349-.195v-1.717zm1.405-.8l-.344.196v1.717l.344-.196v-1.717zm.574-.327l-.343.195v1.717l.343-.195v-1.717zm.584-.333l-.35.199v1.717l.35-.199v-1.717z`
+    })])
+  }
+})
+
+const $Documentation = new(class {
+  empty() {
+    return new Record({
+      dependencies: [],
+      components: [],
+      providers: [],
+      modules: [],
+      records: [],
+      stores: [],
+      enums: [],
+      name: ``
+    })
+  }
+})
 
 const $Type = new(class {
   fromString(input) {
@@ -731,291 +873,23 @@ const $Type = new(class {
   }
 })
 
-const $Icons = new(class {
-  package() {
-    return _createElement("svg", {
-      "xmlns": `http://www.w3.org/2000/svg`,
-      "width": `24`,
-      "height": `24`,
-      "viewBox": `0 0 24 24`
-    }, [_createElement("path", {
-      "d": `M16.677 17.868l-.343.195v-1.717l.343-.195v1.717zm2.823-3.325l-.342.195v1.717l.342-.195v-1.717zm3.5-7.602v11.507l-9.75 5.552-12.25-6.978v-11.507l9.767-5.515 12.233 6.941zm-13.846-3.733l9.022 5.178 1.7-.917-9.113-5.17-1.609.909zm2.846 9.68l-9-5.218v8.19l9 5.126v-8.098zm3.021-2.809l-8.819-5.217-2.044 1.167 8.86 5.138 2.003-1.088zm5.979-.943l-2 1.078v2.786l-3 1.688v-2.856l-2 1.078v8.362l7-3.985v-8.151zm-4.907 7.348l-.349.199v1.713l.349-.195v-1.717zm1.405-.8l-.344.196v1.717l.344-.196v-1.717zm.574-.327l-.343.195v1.717l.343-.195v-1.717zm.584-.333l-.35.199v1.717l.35-.199v-1.717z`
-    })])
+const $Promise = new(class {
+  reject(input) {
+    return Promise.reject(input)
+  }
+
+  resolve(input) {
+    return Promise.resolve(input)
+  }
+
+  wrap(method, input) {
+    return method(input)
   }
 })
 
-const $Maybe_Extra = new(class {
-  flatten(maybe) {
-    return (() => {
-          if (maybe instanceof Just) {
-            return maybe.value
-          } else {
-            return maybe
-          }
-        })()
-  }
-
-  oneOf(array) {
-    return $Maybe_Extra.flatten.bind($Maybe_Extra)($Array.find(((item) => {
-    return $Maybe.isJust(item)
-    }), array))
-  }
-})
-
-const $Array_Extra = new(class {
-  concat(array1, array2) {
-    return array1.concat(array2)
-  }
-
-  reduce(memo, accumulator, array) {
-    return (() => {
-          array.reduce((acc, item) => accumulator(item, acc), memo)
-          return memo
-        })()
-  }
-})
-
-const $Map = new(class {
-  empty() {
-    return new Map()
-  }
-
-  set(key, value, map) {
-    return (() => {
-          map.set(key, value)
-          return map
-        })()
-  }
-
-  get(key, map) {
-    return (() => {
-          if (map.has(key)) {
-            return new Just(map.get(key))
-          } else {
-            return new Nothing()
-          }
-        })()
-  }
-
-  merge(map1, map2) {
-    return (() => {
-          const map = new Map()
-
-          for (let item of map1) {
-            map.set(item[0], item[1])
-          }
-
-          for (let item of map2) {
-            map.set(item[0], item[1])
-          }
-          return map
-        })()
-  }
-})
-
-const $Content = new(class {
-  fromComponent(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      computedProperties: item.computedProperties,
-      properties: item.properties,
-      functions: item.functions,
-      connects: item.connects,
-      uses: item.providers,
-      state: item.state,
-      subscription: ``,
-      name: item.name,
-      options: [],
-      fields: []
-    })
-  }
-
-  fromRecord(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      state: $Maybe.nothing(),
-      computedProperties: [],
-      fields: item.fields,
-      subscription: ``,
-      name: item.name,
-      properties: [],
-      functions: [],
-      connects: [],
-      options: [],
-      uses: []
-    })
-  }
-
-  fromEnum(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      state: $Maybe.nothing(),
-      computedProperties: [],
-      options: item.options,
-      subscription: ``,
-      name: item.name,
-      properties: [],
-      functions: [],
-      connects: [],
-      fields: [],
-      uses: []
-    })
-  }
-
-  fromProvider(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      subscription: item.subscription,
-      functions: item.functions,
-      computedProperties: [],
-      state: $Maybe.nothing(),
-      name: item.name,
-      properties: [],
-      connects: [],
-      options: [],
-      fields: [],
-      uses: []
-    })
-  }
-
-  fromStore(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      computedProperties: item.computedProperties,
-      properties: item.properties,
-      functions: item.functions,
-      state: $Maybe.nothing(),
-      subscription: ``,
-      name: item.name,
-      connects: [],
-      options: [],
-      fields: [],
-      uses: []
-    })
-  }
-
-  fromModule(item) {
-    return new Record({
-      description: $Maybe.withDefault(``, item.description),
-      functions: item.functions,
-      state: $Maybe.nothing(),
-      computedProperties: [],
-      subscription: ``,
-      name: item.name,
-      properties: [],
-      connects: [],
-      options: [],
-      fields: [],
-      uses: []
-    })
-  }
-
-  empty() {
-    return new Record({
-      state: $Maybe.nothing(),
-      computedProperties: [],
-      subscription: ``,
-      description: ``,
-      properties: [],
-      functions: [],
-      connects: [],
-      options: [],
-      fields: [],
-      uses: [],
-      name: ``
-    })
-  }
-})
-
-const $Documentation = new(class {
-  empty() {
-    return new Record({
-      dependencies: [],
-      components: [],
-      providers: [],
-      modules: [],
-      records: [],
-      stores: [],
-      enums: [],
-      name: ``
-    })
-  }
-})
-
-const $Dom = new(class {
-  createElement(tag) {
-    return document.createElement(tag)
-  }
-
-  getElementById(id) {
-    return (() => {
-          let element = document.getElementById(id)
-
-          if (element) {
-            return new Just(element)
-          } else {
-            return new Nothing()
-          }
-        })()
-  }
-
-  getElementBySelector(selector) {
-    return (() => {
-          try {
-            let element = document.querySelector(selector)
-
-            if (element) {
-              return new Just(element)
-            } else {
-              return new Nothing()
-            }
-          } catch (error) {
-            return new Nothing()
-          }
-        })()
-  }
-
-  getDimensions(dom) {
-    return (() => {
-          const rect = dom.getBoundingClientRect()
-
-          return new Record({
-            bottom: rect.bottom,
-            height: rect.height,
-            width: rect.width,
-            right: rect.right,
-            left: rect.left,
-            top: rect.top,
-            x: rect.x,
-            y: rect.y
-          })
-        })()
-  }
-
-  getValue(dom) {
-    return (() => {
-          let value = dom.value
-
-          if (typeof value === "string") {
-            return value
-          } else {
-            return ""
-          }
-        })()
-  }
-
-  setValue(value, dom) {
-    return (dom.value = value) && dom
-  }
-
-  matches(selector, dom) {
-    return (() => {
-          try {
-            return dom.matches(selector)
-          } catch (error) {
-            return false
-          }
-        })()
+const $Bool = new(class {
+  toString(item) {
+    return item.toString()
   }
 })
 
@@ -1030,6 +904,555 @@ const $Html_Event = new(class {
 
   preventDefault(event) {
     return event.preventDefault()
+  }
+})
+
+const $Regexp = new(class {
+  create(input) {
+    return new RegExp(input)
+  }
+
+  createWithOptions(input, options) {
+    return (() => {
+          let flags = ""
+
+          if (options.caseInsensitive) { flags += "i" }
+          if (options.multiline) { flags += "m" }
+          if (options.unicode) { flags += "u" }
+          if (options.global) { flags += "g" }
+          if (options.sticky) { flags += "y" }
+
+          return new RegExp(input, flags)
+        })()
+  }
+
+  toString(regexp) {
+    return regexp.toString()
+  }
+
+  escape(input) {
+    return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+  }
+
+  split(input, regexp) {
+    return input.split(regexp)
+  }
+
+  replace(input, replacer, regexp) {
+    return (() => {
+          let index = 0
+
+          return input.replace(regexp, function() {
+            const args =
+              Array.from(arguments)
+
+            const match =
+              args.shift()
+
+            const submatches =
+              args.slice(0, -2)
+
+            index += 1
+
+            return replacer({
+              submatches, submatches,
+              index: index,
+              match: match
+            })
+          })
+        })()
+  }
+})
+
+const $Url = new(class {
+  parse(url) {
+    return (() => {
+          if (!this._a) {
+            this._a = document.createElement('a')
+          }
+
+          this._a.href = url
+
+          return {
+            hostname: this._a.hostname,
+            protocol: this._a.protocol,
+            origin: this._a.origin,
+            path: this._a.pathname,
+            search: this._a.search,
+            hash: this._a.hash,
+            host: this._a.host,
+            port: this._a.port
+          }
+        })()
+  }
+})
+
+const $Uid = new(class {
+  generate() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+          .replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4)
+              .toString(16))
+  }
+})
+
+const $Json = new(class {
+  parse(input) {
+    return (() => {
+          try {
+            return new Just(JSON.parse(input))
+          } catch (error) {
+            return new Nothing()
+          }
+        })()
+  }
+
+  stringify(input) {
+    return JSON.stringify(input)
+  }
+})
+
+const $Html = new(class {
+  empty() {
+    return false
+  }
+})
+
+const $String = new(class {
+  toLowerCase(string) {
+    return string.toLowerCase()
+  }
+
+  toUpperCase(string) {
+    return string.toUpperCase()
+  }
+
+  reverse(string) {
+    return [...string].reverse().join('')
+  }
+
+  isEmpty(string) {
+    return _compare(string, ``)
+  }
+
+  match(pattern, string) {
+    return string.indexOf(pattern) != -1
+  }
+
+  split(separator, string) {
+    return string.split(separator)
+  }
+
+  size(string) {
+    return string.length
+  }
+
+  capitalize(string) {
+    return string.replace(/\b[a-z]/g, char => char.toUpperCase())
+  }
+
+  repeat(count, string) {
+    return string.repeat(count)
+  }
+
+  join(separator, array) {
+    return array.join(separator)
+  }
+
+  concat(array) {
+    return $String.join.bind($String)(``, array)
+  }
+
+  isAnagarm(string1, string2) {
+    return (() => {
+          const normalize = string =>
+            string
+              .toLowerCase()
+              .replace(/[^a-z0-9]/gi, '')
+              .split('')
+              .sort()
+              .join('');
+
+          return normalize(string1) === normalize(string2);
+        })()
+  }
+})
+
+const $Time = new(class {
+  fromIso(raw) {
+    return (() => {
+          try {
+            return new Just(new Date(raw))
+          } catch (error) {
+            return new Nothing()
+          }
+        })()
+  }
+
+  toIso(date) {
+    return date.toISOString()
+  }
+
+  now() {
+    return new Date()
+  }
+
+  today() {
+    return (() => {
+          const date = new Date()
+
+          return new Date(Date.UTC(
+            date.getUTCFullYear(),
+            date.getUTCMonth(),
+            date.getUTCDate()
+          ))
+        })()
+  }
+
+  from(year, month, day) {
+    return new Date(Date.UTC(year, month - 1, day))
+  }
+
+  day(date) {
+    return date.getUTCDate()
+  }
+
+  month(date) {
+    return (date.getUTCMonth() + 1)
+  }
+
+  year(date) {
+    return date.getUTCFullYear()
+  }
+
+  format(pattern, date) {
+    return DateFNS.format(date, pattern)
+  }
+
+  startOf(what, date) {
+    return (() => {
+          switch (what) {
+            case 'month':
+              return DateFNS.startOfMonth(date)
+            case 'week':
+              return DateFNS.startOfWeek(date, { weekStartsOn: 1 })
+            case 'day':
+              return DateFNS.startOfDay(date)
+            default:
+              return date
+          }
+        })()
+  }
+
+  endOf(what, date) {
+    return (() => {
+          switch (what) {
+            case 'month':
+              return DateFNS.endOfMonth(date)
+            case 'week':
+              return DateFNS.endOfWeek(date, { weekStartsOn: 1 })
+            case 'day':
+              return DateFNS.endOfDay(date)
+            default:
+              return date
+          }
+        })()
+  }
+
+  range(from, to) {
+    return DateFNS.eachDay(from, to)
+  }
+
+  nextMonth(date) {
+    return (() => {
+          return DateFNS.addMonths(date, 1)
+        })()
+  }
+
+  previousMonth(date) {
+    return (() => {
+          return DateFNS.addMonths(date, -1)
+        })()
+  }
+
+  relative(other, now) {
+    return (() => {
+          return DateFNS.distanceInWordsStrict(now, other, { addSuffix: true })
+        })()
+  }
+})
+
+const $File = new(class {
+  fromString(contents, name, type) {
+    return new File([contents], name, { type: type })
+  }
+
+  name(file) {
+    return file.name
+  }
+
+  size(file) {
+    return file.size
+  }
+
+  mimeType(file) {
+    return file.type
+  }
+
+  selectMultiple(accept) {
+    return (() => {
+          let input = document.createElement('input')
+
+          input.style.position = 'absolute'
+          input.style.height = '1px'
+          input.style.width = '1px'
+          input.style.left = '-1px'
+          input.style.top = '-1px'
+
+          input.multiple = true
+          input.accept = accept
+          input.type = 'file'
+
+          document.body.appendChild(input)
+
+          return new Promise((resolve, reject) => {
+            input.addEventListener('change', () => {
+              resolve(Array.from(input.files))
+            })
+            input.click()
+            document.body.removeChild(input)
+          })
+        })()
+  }
+
+  select(accept) {
+    return (() => {
+          let input = document.createElement('input')
+
+          input.style.position = 'absolute'
+          input.style.height = '1px'
+          input.style.width = '1px'
+          input.style.left = '-1px'
+          input.style.top = '-1px'
+
+          input.accept = accept
+          input.type = 'file'
+
+          document.body.appendChild(input)
+
+          return new Promise((resolve, reject) => {
+            input.addEventListener('change', () => {
+              resolve(input.files[0])
+            })
+            input.click()
+            document.body.removeChild(input)
+          })
+        })()
+  }
+
+  readAsDataURL(file) {
+    return (() => {
+          let reader = new FileReader();
+          return new Promise((resolve, reject) => {
+            reader.addEventListener('load', (event) => {
+              resolve(reader.result)
+            })
+            reader.readAsDataURL(file)
+          })
+        })()
+  }
+
+  readAsString(file) {
+    return (() => {
+          let reader = new FileReader();
+          return new Promise((resolve, reject) => {
+            reader.addEventListener('load', (event) => {
+              resolve(reader.result)
+            })
+            reader.readAsText(file)
+          })
+        })()
+  }
+})
+
+const $Http = new(class {
+  empty() {
+    return new Record({
+      withCredentials: false,
+      method: `GET`,
+      body: null,
+      headers: [],
+      url: ``
+    })
+  }
+
+  delete(urlValue) {
+    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`DELETE`, $Http.empty.bind($Http)()))
+  }
+
+  get(urlValue) {
+    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`GET`, $Http.empty.bind($Http)()))
+  }
+
+  put(urlValue) {
+    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`PUT`, $Http.empty.bind($Http)()))
+  }
+
+  post(urlValue) {
+    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`POST`, $Http.empty.bind($Http)()))
+  }
+
+  stringBody(body, request) {
+    return _update(request, { body: body })
+  }
+
+  formDataBody(body, request) {
+    return _update(request, { body: body })
+  }
+
+  method(method, request) {
+    return _update(request, { method: method })
+  }
+
+  withCredentials(value, request) {
+    return _update(request, { withCredentials: value })
+  }
+
+  url(url, request) {
+    return _update(request, { url: url })
+  }
+
+  header(key, value, request) {
+    return _update(request, { headers: $Array.push(new Record({ value: value, key: key }), request.headers) })
+  }
+
+  abortAll() {
+    return this._requests && Object.keys(this._requests).forEach((uid) => {
+          this._requests[uid].abort()
+          delete this._requests[uid]
+        })
+  }
+
+  send(request) {
+    return $Http.sendWithID.bind($Http)($Uid.generate(), request)
+  }
+
+  sendWithID(uid, request) {
+    return new Promise((resolve, reject) => {
+          if (!this._requests) { this._requests = {} }
+
+          let xhr = new XMLHttpRequest()
+
+          this._requests[uid] = xhr
+
+          xhr.withCredentials = request.withCredentials
+
+          try {
+            xhr.open(request.method.toUpperCase(), request.url, true)
+          } catch (error) {
+            delete this._requests[uid]
+
+            reject({
+              type: $Http_Error_BadUrl,
+              status: xhr.status,
+              url: request.url
+            })
+          }
+
+          request.headers.forEach((item) => {
+            xhr.setRequestHeader(item.key, item.value)
+          })
+
+          xhr.addEventListener('error', (event) => {
+            delete this._requests[uid]
+
+            reject({
+              type: $Http_Error_NetworkError,
+              status: xhr.status,
+              url: request.url
+            })
+          })
+
+          xhr.addEventListener('timeout', (event) => {
+            delete this._requests[uid]
+
+            reject({
+              type: $Http_Error_Timeout,
+              status: xhr.status,
+              url: request.url
+            })
+          })
+
+          xhr.addEventListener('load', (event) => {
+            delete this._requests[uid]
+
+            resolve({ body: xhr.responseText, status: xhr.status })
+          })
+
+          xhr.addEventListener('abort', (event) => {
+            delete this._requests[uid]
+
+            reject({
+              type: $Http_Error_Aborted,
+              status: xhr.status,
+              url: request.url
+            })
+          })
+
+          xhr.send(request.body)
+        })
+  }
+})
+
+const $Storage_Local = new(class {
+  set(key, value) {
+    return $Storage_Common.set(localStorage, key, value)
+  }
+
+  get(key) {
+    return $Storage_Common.get(localStorage, key)
+  }
+
+  remove(key) {
+    return $Storage_Common.remove(localStorage, key)
+  }
+
+  clear() {
+    return $Storage_Common.clear(localStorage)
+  }
+
+  size() {
+    return $Storage_Common.size(localStorage)
+  }
+
+  keys() {
+    return $Storage_Common.keys(localStorage)
+  }
+})
+
+const $Storage_Session = new(class {
+  set(key, value) {
+    return $Storage_Common.set(sessionStorage, key, value)
+  }
+
+  get(key) {
+    return $Storage_Common.get(sessionStorage, key)
+  }
+
+  remove(key) {
+    return $Storage_Common.remove(sessionStorage, key)
+  }
+
+  clear() {
+    return $Storage_Common.clear(sessionStorage)
+  }
+
+  size() {
+    return $Storage_Common.size(sessionStorage)
+  }
+
+  keys() {
+    return $Storage_Common.keys(sessionStorage)
   }
 })
 
@@ -1140,55 +1563,138 @@ const $Storage_Common = new(class {
   }
 })
 
-const $Storage_Session = new(class {
-  set(key, value) {
-    return $Storage_Common.set(sessionStorage, key, value)
+const $Result = new(class {
+  error(input) {
+    return new Err(input)
   }
 
-  get(key) {
-    return $Storage_Common.get(sessionStorage, key)
+  ok(input) {
+    return new Ok(input)
   }
 
-  remove(key) {
-    return $Storage_Common.remove(sessionStorage, key)
+  withDefault(value, input) {
+    return input instanceof Ok ? input.value : value
   }
 
-  clear() {
-    return $Storage_Common.clear(sessionStorage)
+  withError(value, input) {
+    return input instanceof Err ? input.value : value
   }
 
-  size() {
-    return $Storage_Common.size(sessionStorage)
+  map(func, input) {
+    return input instanceof Ok ? new Ok(func(input.value)) : input
   }
 
-  keys() {
-    return $Storage_Common.keys(sessionStorage)
+  mapError(func, input) {
+    return input instanceof Err ? new Err(func(input.value)) : input
+  }
+
+  isOk(input) {
+    return input instanceof Ok
+  }
+
+  isError(input) {
+    return input instanceof Err
+  }
+
+  toMaybe(result) {
+    return (() => {
+          if (result instanceof Ok) {
+            return new Just(result.value)
+          } else {
+            return new Nothing()
+          }
+        })()
   }
 })
 
-const $Storage_Local = new(class {
-  set(key, value) {
-    return $Storage_Common.set(localStorage, key, value)
+const $Dom_Dimensions = new(class {
+  empty() {
+    return new Record({
+      bottom: 0,
+      height: 0,
+      width: 0,
+      right: 0,
+      left: 0,
+      top: 0,
+      x: 0,
+      y: 0
+    })
+  }
+})
+
+const $Window = new(class {
+  navigate(url) {
+    return _navigate(url)
   }
 
-  get(key) {
-    return $Storage_Common.get(localStorage, key)
+  setUrl(url) {
+    return _navigate(url, false)
   }
 
-  remove(key) {
-    return $Storage_Common.remove(localStorage, key)
+  title() {
+    return document.title
   }
 
-  clear() {
-    return $Storage_Common.clear(localStorage)
+  setTitle(title) {
+    return document.title = title
   }
 
-  size() {
-    return $Storage_Common.size(localStorage)
+  url() {
+    return $Url.parse($Window.href.bind($Window)())
   }
 
-  keys() {
-    return $Storage_Common.keys(localStorage)
+  href() {
+    return window.location.href
+  }
+
+  width() {
+    return window.innerWidth
+  }
+
+  height() {
+    return window.innerHeight
+  }
+
+  scrollHeight() {
+    return document.body.scrollHeight
+  }
+
+  scrollWidth() {
+    return document.body.scrollWidth
+  }
+
+  scrollLeft() {
+    return document.body.scrollLeft
+  }
+
+  scrollTop() {
+    return document.body.scrollTop
+  }
+
+  setScrollTop(position) {
+    return window.scrollTo(this.scrollTop(), position)
+  }
+
+  setScrollLeft(position) {
+    return window.scrollTo(position, this.scrollLeft())
+  }
+})
+
+const $Timer = new(class {
+  timeout(duration, subject) {
+    return new Promise((resolve) => {
+        	setTimeout(() => {
+            resolve(subject)
+          }, duration)
+        })
+  }
+
+  nextFrame(subject) {
+    return new Promise((resolve) => {
+        	requestAnimationFrame(() => {
+            resolve(subject)
+          })
+        })
   }
 })
 
@@ -1222,55 +1728,6 @@ const $Number = new(class {
             return new Just(value)
           }
         })()
-  }
-})
-
-const $FormData = new(class {
-  empty() {
-    return new FormData
-  }
-
-  keys(formData) {
-    return Array.from(formData.keys())
-  }
-
-  addString(key, value, formData) {
-    return (() => {
-          var newFormData = new FormData();
-
-          // Create new FormData object
-          for(let pair of formData.entries()) {
-            newFormData.append(pair[0], pair[1])
-          }
-
-          newFormData.append(key, value)
-
-          return newFormData
-        })()
-  }
-
-  addFile(key, value, formData) {
-    return (() => {
-          var newFormData = new FormData();
-
-          // Create new FormData object
-          for(let pair of formData.entries()) {
-            newFormData.append(pair[0], pair[1])
-          }
-
-          newFormData.append(key, value)
-
-          return newFormData
-        })()
-  }
-})
-
-const $Uid = new(class {
-  generate() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
-          .replace(/[018]/g, c =>
-            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4)
-              .toString(16))
   }
 })
 
@@ -1436,110 +1893,39 @@ const $Array = new(class {
   }
 })
 
-const $Regexp = new(class {
-  create(input) {
-    return new RegExp(input)
-  }
-
-  createWithOptions(input, options) {
-    return (() => {
-          let flags = ""
-
-          if (options.caseInsensitive) { flags += "i" }
-          if (options.multiline) { flags += "m" }
-          if (options.unicode) { flags += "u" }
-          if (options.global) { flags += "g" }
-          if (options.sticky) { flags += "y" }
-
-          return new RegExp(input, flags)
-        })()
-  }
-
-  toString(regexp) {
-    return regexp.toString()
-  }
-
-  escape(input) {
-    return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-  }
-
-  split(input, regexp) {
-    return input.split(regexp)
-  }
-
-  replace(input, replacer, regexp) {
-    return (() => {
-          let index = 0
-
-          return input.replace(regexp, function() {
-            const args =
-              Array.from(arguments)
-
-            const match =
-              args.shift()
-
-            const submatches =
-              args.slice(0, -2)
-
-            index += 1
-
-            return replacer({
-              submatches, submatches,
-              index: index,
-              match: match
-            })
-          })
-        })()
+const $Object_Error = new(class {
+  toString(error) {
+    return error.toString()
   }
 })
 
-const $Bool = new(class {
-  toString(item) {
-    return item.toString()
-  }
-})
-
-const $Result = new(class {
-  error(input) {
-    return new Err(input)
+const $Object_Decode = new(class {
+  field(key, decoder, input) {
+    return Decoder.field(key, decoder)(input)
   }
 
-  ok(input) {
-    return new Ok(input)
+  string(input) {
+    return Decoder.string(input)
   }
 
-  withDefault(value, input) {
-    return input instanceof Ok ? input.value : value
+  time(input) {
+    return Decoder.time(input)
   }
 
-  withError(value, input) {
-    return input instanceof Err ? input.value : value
+  number(input) {
+    return Decoder.number(input)
   }
 
-  map(func, input) {
-    return input instanceof Ok ? new Ok(func(input.value)) : input
+  boolean(input) {
+    return Decoder.boolean(input)
   }
 
-  mapError(func, input) {
-    return input instanceof Err ? new Err(func(input.value)) : input
+  array(decoder, input) {
+    return Decoder.array(decoder)(input)
   }
 
-  isOk(input) {
-    return input instanceof Ok
-  }
-
-  isError(input) {
-    return input instanceof Err
-  }
-
-  toMaybe(result) {
-    return (() => {
-          if (result instanceof Ok) {
-            return new Just(result.value)
-          } else {
-            return new Nothing()
-          }
-        })()
+  maybe(decoder, input) {
+    return Decoder.maybe(decoder)(input)
   }
 })
 
@@ -1581,121 +1967,110 @@ const $Object_Encode = new(class {
   }
 })
 
-const $Object_Error = new(class {
-  toString(error) {
-    return error.toString()
+const $Math = new(class {
+  negate(number) {
+    return -number
+  }
+
+  abs(number) {
+    return Math.abs(number)
+  }
+
+  ceil(number) {
+    return Math.ceil(number)
+  }
+
+  floor(number) {
+    return Math.floor(number)
+  }
+
+  round(number) {
+    return Math.round(number)
+  }
+
+  min(number1, number2) {
+    return Math.min(number1, number2)
+  }
+
+  max(number1, number2) {
+    return Math.max(number1, number2)
   }
 })
 
-const $Object_Decode = new(class {
-  field(key, decoder, input) {
-    return Decoder.field(key, decoder)(input)
+const $Dom = new(class {
+  createElement(tag) {
+    return document.createElement(tag)
   }
 
-  string(input) {
-    return Decoder.string(input)
-  }
-
-  time(input) {
-    return Decoder.time(input)
-  }
-
-  number(input) {
-    return Decoder.number(input)
-  }
-
-  boolean(input) {
-    return Decoder.boolean(input)
-  }
-
-  array(decoder, input) {
-    return Decoder.array(decoder)(input)
-  }
-
-  maybe(decoder, input) {
-    return Decoder.maybe(decoder)(input)
-  }
-})
-
-const $Window = new(class {
-  navigate(url) {
-    return _navigate(url)
-  }
-
-  setUrl(url) {
-    return _navigate(url, false)
-  }
-
-  title() {
-    return document.title
-  }
-
-  setTitle(title) {
-    return document.title = title
-  }
-
-  url() {
-    return $Url.parse($Window.href.bind($Window)())
-  }
-
-  href() {
-    return window.location.href
-  }
-
-  width() {
-    return window.innerWidth
-  }
-
-  height() {
-    return window.innerHeight
-  }
-
-  scrollHeight() {
-    return document.body.scrollHeight
-  }
-
-  scrollWidth() {
-    return document.body.scrollWidth
-  }
-
-  scrollLeft() {
-    return document.body.scrollLeft
-  }
-
-  scrollTop() {
-    return document.body.scrollTop
-  }
-
-  setScrollTop(position) {
-    return window.scrollTo(this.scrollTop(), position)
-  }
-
-  setScrollLeft(position) {
-    return window.scrollTo(position, this.scrollLeft())
-  }
-})
-
-const $Debug = new(class {
-  log(value) {
+  getElementById(id) {
     return (() => {
-          console.log(value)
-          return value
+          let element = document.getElementById(id)
+
+          if (element) {
+            return new Just(element)
+          } else {
+            return new Nothing()
+          }
         })()
   }
-})
 
-const $Dom_Dimensions = new(class {
-  empty() {
-    return new Record({
-      bottom: 0,
-      height: 0,
-      width: 0,
-      right: 0,
-      left: 0,
-      top: 0,
-      x: 0,
-      y: 0
-    })
+  getElementBySelector(selector) {
+    return (() => {
+          try {
+            let element = document.querySelector(selector)
+
+            if (element) {
+              return new Just(element)
+            } else {
+              return new Nothing()
+            }
+          } catch (error) {
+            return new Nothing()
+          }
+        })()
+  }
+
+  getDimensions(dom) {
+    return (() => {
+          const rect = dom.getBoundingClientRect()
+
+          return new Record({
+            bottom: rect.bottom,
+            height: rect.height,
+            width: rect.width,
+            right: rect.right,
+            left: rect.left,
+            top: rect.top,
+            x: rect.x,
+            y: rect.y
+          })
+        })()
+  }
+
+  getValue(dom) {
+    return (() => {
+          let value = dom.value
+
+          if (typeof value === "string") {
+            return value
+          } else {
+            return ""
+          }
+        })()
+  }
+
+  setValue(value, dom) {
+    return (dom.value = value) && dom
+  }
+
+  matches(selector, dom) {
+    return (() => {
+          try {
+            return dom.matches(selector)
+          } catch (error) {
+            return false
+          }
+        })()
   }
 })
 
@@ -1726,24 +2101,6 @@ const $Test_Context = new(class {
             throw `Assertion failed ${a} === ${subject}`
           }
         })
-  }
-})
-
-const $Test_Window = new(class {
-  setScrollLeft(to, context) {
-    return $Test_Context.then(((subject) => {
-    return (() => {  $Window.setScrollLeft(100)
-
-    return $Promise.resolve(subject) })()
-    }), context)
-  }
-
-  setScrollTop(to, context) {
-    return $Test_Context.then(((subject) => {
-    return (() => {  $Window.setScrollTop(100)
-
-    return $Promise.resolve(subject) })()
-    }), context)
   }
 })
 
@@ -1843,127 +2200,69 @@ const $Test_Html = new(class {
   }
 })
 
-const $Timer = new(class {
-  timeout(duration, subject) {
-    return new Promise((resolve) => {
-        	setTimeout(() => {
-            resolve(subject)
-          }, duration)
-        })
+const $Test_Window = new(class {
+  setScrollLeft(to, context) {
+    return $Test_Context.then(((subject) => {
+    return (() => {  $Window.setScrollLeft(100)
+
+    return $Promise.resolve(subject) })()
+    }), context)
   }
 
-  nextFrame(subject) {
-    return new Promise((resolve) => {
-        	requestAnimationFrame(() => {
-            resolve(subject)
-          })
-        })
-  }
-})
+  setScrollTop(to, context) {
+    return $Test_Context.then(((subject) => {
+    return (() => {  $Window.setScrollTop(100)
 
-const $Promise = new(class {
-  reject(input) {
-    return Promise.reject(input)
-  }
-
-  resolve(input) {
-    return Promise.resolve(input)
-  }
-
-  wrap(method, input) {
-    return method(input)
+    return $Promise.resolve(subject) })()
+    }), context)
   }
 })
 
-const $File = new(class {
-  fromString(contents, name, type) {
-    return new File([contents], name, { type: type })
+const $FormData = new(class {
+  empty() {
+    return new FormData
   }
 
-  name(file) {
-    return file.name
+  keys(formData) {
+    return Array.from(formData.keys())
   }
 
-  size(file) {
-    return file.size
-  }
-
-  mimeType(file) {
-    return file.type
-  }
-
-  selectMultiple(accept) {
+  addString(key, value, formData) {
     return (() => {
-          let input = document.createElement('input')
+          var newFormData = new FormData();
 
-          input.style.position = 'absolute'
-          input.style.height = '1px'
-          input.style.width = '1px'
-          input.style.left = '-1px'
-          input.style.top = '-1px'
+          // Create new FormData object
+          for(let pair of formData.entries()) {
+            newFormData.append(pair[0], pair[1])
+          }
 
-          input.multiple = true
-          input.accept = accept
-          input.type = 'file'
+          newFormData.append(key, value)
 
-          document.body.appendChild(input)
-
-          return new Promise((resolve, reject) => {
-            input.addEventListener('change', () => {
-              resolve(Array.from(input.files))
-            })
-            input.click()
-            document.body.removeChild(input)
-          })
+          return newFormData
         })()
   }
 
-  select(accept) {
+  addFile(key, value, formData) {
     return (() => {
-          let input = document.createElement('input')
+          var newFormData = new FormData();
 
-          input.style.position = 'absolute'
-          input.style.height = '1px'
-          input.style.width = '1px'
-          input.style.left = '-1px'
-          input.style.top = '-1px'
+          // Create new FormData object
+          for(let pair of formData.entries()) {
+            newFormData.append(pair[0], pair[1])
+          }
 
-          input.accept = accept
-          input.type = 'file'
+          newFormData.append(key, value)
 
-          document.body.appendChild(input)
-
-          return new Promise((resolve, reject) => {
-            input.addEventListener('change', () => {
-              resolve(input.files[0])
-            })
-            input.click()
-            document.body.removeChild(input)
-          })
+          return newFormData
         })()
   }
+})
 
-  readAsDataURL(file) {
+const $Debug = new(class {
+  log(value) {
     return (() => {
-          let reader = new FileReader();
-          return new Promise((resolve, reject) => {
-            reader.addEventListener('load', (event) => {
-              resolve(reader.result)
-            })
-            reader.readAsDataURL(file)
-          })
-        })()
-  }
-
-  readAsString(file) {
-    return (() => {
-          let reader = new FileReader();
-          return new Promise((resolve, reject) => {
-            reader.addEventListener('load', (event) => {
-              resolve(reader.result)
-            })
-            reader.readAsText(file)
-          })
+          console.log(value)
+          return value
         })()
   }
 })
@@ -2014,373 +2313,21 @@ const $Maybe = new(class {
           }
         })()
   }
-})
 
-const $Math = new(class {
-  negate(number) {
-    return -number
-  }
-
-  abs(number) {
-    return Math.abs(number)
-  }
-
-  ceil(number) {
-    return Math.ceil(number)
-  }
-
-  floor(number) {
-    return Math.floor(number)
-  }
-
-  round(number) {
-    return Math.round(number)
-  }
-
-  min(number1, number2) {
-    return Math.min(number1, number2)
-  }
-
-  max(number1, number2) {
-    return Math.max(number1, number2)
-  }
-})
-
-const $Url = new(class {
-  parse(url) {
+  flatten(maybe) {
     return (() => {
-          if (!this._a) {
-            this._a = document.createElement('a')
-          }
-
-          this._a.href = url
-
-          return {
-            hostname: this._a.hostname,
-            protocol: this._a.protocol,
-            origin: this._a.origin,
-            path: this._a.pathname,
-            search: this._a.search,
-            hash: this._a.hash,
-            host: this._a.host,
-            port: this._a.port
-          }
-        })()
-  }
-})
-
-const $Http = new(class {
-  empty() {
-    return new Record({
-      withCredentials: false,
-      method: `GET`,
-      body: null,
-      headers: [],
-      url: ``
-    })
-  }
-
-  delete(urlValue) {
-    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`DELETE`, $Http.empty.bind($Http)()))
-  }
-
-  get(urlValue) {
-    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`GET`, $Http.empty.bind($Http)()))
-  }
-
-  put(urlValue) {
-    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`PUT`, $Http.empty.bind($Http)()))
-  }
-
-  post(urlValue) {
-    return $Http.url.bind($Http)(urlValue, $Http.method.bind($Http)(`POST`, $Http.empty.bind($Http)()))
-  }
-
-  stringBody(body, request) {
-    return _update(request, { body: body })
-  }
-
-  formDataBody(body, request) {
-    return _update(request, { body: body })
-  }
-
-  method(method, request) {
-    return _update(request, { method: method })
-  }
-
-  withCredentials(value, request) {
-    return _update(request, { withCredentials: value })
-  }
-
-  url(url, request) {
-    return _update(request, { url: url })
-  }
-
-  header(key, value, request) {
-    return _update(request, { headers: $Array.push(new Record({ value: value, key: key }), request.headers) })
-  }
-
-  abortAll() {
-    return this._requests && Object.keys(this._requests).forEach((uid) => {
-          this._requests[uid].abort()
-          delete this._requests[uid]
-        })
-  }
-
-  send(request) {
-    return $Http.sendWithID.bind($Http)($Uid.generate(), request)
-  }
-
-  sendWithID(uid, request) {
-    return new Promise((resolve, reject) => {
-          if (!this._requests) { this._requests = {} }
-
-          let xhr = new XMLHttpRequest()
-
-          this._requests[uid] = xhr
-
-          xhr.withCredentials = request.withCredentials
-
-          try {
-            xhr.open(request.method.toUpperCase(), request.url, true)
-          } catch (error) {
-            delete this._requests[uid]
-
-            reject({
-              type: $Http_Error_BadUrl,
-              status: xhr.status,
-              url: request.url
-            })
-          }
-
-          request.headers.forEach((item) => {
-            xhr.setRequestHeader(item.key, item.value)
-          })
-
-          xhr.addEventListener('error', (event) => {
-            delete this._requests[uid]
-
-            reject({
-              type: $Http_Error_NetworkError,
-              status: xhr.status,
-              url: request.url
-            })
-          })
-
-          xhr.addEventListener('timeout', (event) => {
-            delete this._requests[uid]
-
-            reject({
-              type: $Http_Error_Timeout,
-              status: xhr.status,
-              url: request.url
-            })
-          })
-
-          xhr.addEventListener('load', (event) => {
-            delete this._requests[uid]
-
-            resolve({ body: xhr.responseText, status: xhr.status })
-          })
-
-          xhr.addEventListener('abort', (event) => {
-            delete this._requests[uid]
-
-            reject({
-              type: $Http_Error_Aborted,
-              status: xhr.status,
-              url: request.url
-            })
-          })
-
-          xhr.send(request.body)
-        })
-  }
-})
-
-const $Html = new(class {
-  empty() {
-    return false
-  }
-})
-
-const $String = new(class {
-  toLowerCase(string) {
-    return string.toLowerCase()
-  }
-
-  toUpperCase(string) {
-    return string.toUpperCase()
-  }
-
-  reverse(string) {
-    return [...string].reverse().join('')
-  }
-
-  isEmpty(string) {
-    return _compare(string, ``)
-  }
-
-  match(pattern, string) {
-    return string.indexOf(pattern) != -1
-  }
-
-  split(separator, string) {
-    return string.split(separator)
-  }
-
-  size(string) {
-    return string.length
-  }
-
-  capitalize(string) {
-    return string.replace(/\b[a-z]/g, char => char.toUpperCase())
-  }
-
-  repeat(count, string) {
-    return string.repeat(count)
-  }
-
-  join(separator, array) {
-    return array.join(separator)
-  }
-
-  concat(array) {
-    return $String.join.bind($String)(``, array)
-  }
-
-  isAnagarm(string1, string2) {
-    return (() => {
-          const normalize = string =>
-            string
-              .toLowerCase()
-              .replace(/[^a-z0-9]/gi, '')
-              .split('')
-              .sort()
-              .join('');
-
-          return normalize(string1) === normalize(string2);
-        })()
-  }
-})
-
-const $Json = new(class {
-  parse(input) {
-    return (() => {
-          try {
-            return new Just(JSON.parse(input))
-          } catch (error) {
-            return new Nothing()
+          if (maybe instanceof Just) {
+            return maybe.value
+          } else {
+            return maybe
           }
         })()
   }
 
-  stringify(input) {
-    return JSON.stringify(input)
-  }
-})
-
-const $Time = new(class {
-  fromIso(raw) {
-    return (() => {
-          try {
-            return new Just(new Date(raw))
-          } catch (error) {
-            return new Nothing()
-          }
-        })()
-  }
-
-  toIso(date) {
-    return date.toISOString()
-  }
-
-  now() {
-    return new Date()
-  }
-
-  today() {
-    return (() => {
-          const date = new Date()
-
-          return new Date(Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate()
-          ))
-        })()
-  }
-
-  from(year, month, day) {
-    return new Date(Date.UTC(year, month - 1, day))
-  }
-
-  day(date) {
-    return date.getUTCDate()
-  }
-
-  month(date) {
-    return (date.getUTCMonth() + 1)
-  }
-
-  year(date) {
-    return date.getUTCFullYear()
-  }
-
-  format(pattern, date) {
-    return DateFNS.format(date, pattern)
-  }
-
-  startOf(what, date) {
-    return (() => {
-          switch (what) {
-            case 'month':
-              return DateFNS.startOfMonth(date)
-            case 'week':
-              return DateFNS.startOfWeek(date, { weekStartsOn: 1 })
-            case 'day':
-              return DateFNS.startOfDay(date)
-            default:
-              return date
-          }
-        })()
-  }
-
-  endOf(what, date) {
-    return (() => {
-          switch (what) {
-            case 'month':
-              return DateFNS.endOfMonth(date)
-            case 'week':
-              return DateFNS.endOfWeek(date, { weekStartsOn: 1 })
-            case 'day':
-              return DateFNS.endOfDay(date)
-            default:
-              return date
-          }
-        })()
-  }
-
-  range(from, to) {
-    return DateFNS.eachDay(from, to)
-  }
-
-  nextMonth(date) {
-    return (() => {
-          return DateFNS.addMonths(date, 1)
-        })()
-  }
-
-  previousMonth(date) {
-    return (() => {
-          return DateFNS.addMonths(date, -1)
-        })()
-  }
-
-  relative(other, now) {
-    return (() => {
-          return DateFNS.distanceInWordsStrict(now, other, { addSuffix: true })
-        })()
+  oneOf(array) {
+    return $Maybe.flatten.bind($Maybe)($Array.find(((item) => {
+    return $Maybe.isJust(item)
+    }), array))
   }
 })
 
@@ -2632,7 +2579,7 @@ const $Application = new (class extends Store {
 
      await (async () => {
       try {
-        let _0 = $Maybe.toResult(`Could not find entity!`, $Maybe_Extra.flatten($Maybe.map(((name) => {
+        let _0 = $Maybe.toResult(`Could not find entity!`, $Maybe.flatten($Maybe.map(((name) => {
     return $Array.find(((item) => {
     return _compare(item.name, name)
     }), items)
@@ -2767,44 +2714,18 @@ class $Main extends Component {
 
 $Main.displayName = "Main"
 
-class $Error extends Component {
-  get warning() {
-    return _createElement("svg", {
-      "xmlns": `http://www.w3.org/2000/svg`,
-      "viewBox": `0 0 24 24`,
-      "height": `100`,
-      "width": `100`,
-      className: `error-icon`
-    }, [_createElement("path", {
-      "d": `M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.31 7.526c-.099-.807.528-1.526 1.348-1.526.771 0 1.377.676 1.28 1.451l-.757 6.053c-.035.283-.276.496-.561.496s-.526-.213-.562-.496l-.748-5.978zm1.31 10.724c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z`
-    })])
-  }
-
-  get content () {
-    if (this.props.content != undefined) {
-      return this.props.content
+class $Use extends Component {
+  get condition () {
+    if (this.props.condition != undefined) {
+      return this.props.condition
     } else {
-      return ``
+      return $Maybe.nothing()
     }
   }
 
-  render() {
-    return _createElement("div", {
-      className: `error-base`
-    }, [this.warning, this.content])
-  }
-}
-
-$Error.displayName = "Error"
-
-$Error.defaultProps = {
-  content: ``
-}
-
-class $State extends Component {
-  get type () {
-    if (this.props.type != undefined) {
-      return this.props.type
+  get provider () {
+    if (this.props.provider != undefined) {
+      return this.props.provider
     } else {
       return ``
     }
@@ -2820,94 +2741,61 @@ class $State extends Component {
 
   render() {
     return _createElement("div", {
-      className: `state-base`
+      className: `use-base`
     }, [_createElement("div", {
-      className: `state-type`
-    }, [this.type, _createElement("div", {
-      className: `state-equals`
-    }, [`=`])]), _createElement("div", {
-      className: `state-code`
-    }, [_createElement($Pre, { "code": this.data })])])
+      className: `use-name`
+    }, [this.provider]), _createElement("div", {
+      className: `use-code`
+    }, [_createElement($Pre, { "code": this.data })]), _createElement($If, { "condition": $Maybe.isJust(this.condition) }, _array(_createElement("div", {
+      className: `use-when`
+    }, [`only when:`]), _createElement("div", {
+      className: `use-code`
+    }, [_createElement($Pre, { "code": $Maybe.withDefault(``, this.condition) })])))])
   }
 }
 
-$State.displayName = "State"
+$Use.displayName = "Use"
 
-$State.defaultProps = {
-  type: ``,data: ``
+$Use.defaultProps = {
+  condition: $Maybe.nothing(),provider: ``,data: ``
 }
 
-class $Tab extends Component {
-  get background() {
-    return (this.active ? this.color : `transparent`)
-  }
+class $Sidebar extends Component {
+  get items() {
+    return (() => {
+      let __condition = this.tab
 
-  get hoverBackground() {
-    return (this.active ? `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), ` + this.background : `#444`)
-  }
-
-  get icon () {
-    if (this.props.icon != undefined) {
-      return this.props.icon
-    } else {
-      return $Html.empty()
-    }
-  }
-
-  get active () {
-    if (this.props.active != undefined) {
-      return this.props.active
-    } else {
-      return false
-    }
-  }
-
-  get title () {
-    if (this.props.title != undefined) {
-      return this.props.title
-    } else {
-      return ``
-    }
-  }
-
-  get color () {
-    if (this.props.color != undefined) {
-      return this.props.color
-    } else {
-      return ``
-    }
-  }
-
-  get link () {
-    if (this.props.link != undefined) {
-      return this.props.link
-    } else {
-      return ``
-    }
-  }
-
-  render() {
-    return _createElement("a", {
-      "href": this.link,
-      className: `tab-base`,
-      style: {
-        [`--tab-base-background`]: this.background,
-        [`--tab-base-hover-background`]: this.hoverBackground
+       if (_compare(__condition, $Type_Component)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Component, "text": item.name })
+      }), this.documentation.components)
+      } else if (_compare(__condition, $Type_Provider)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Provider, "text": item.name })
+      }), this.documentation.providers)
+      } else if (_compare(__condition, $Type_Store)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Store, "text": item.name })
+      }), this.documentation.stores)
+      } else if (_compare(__condition, $Type_Record)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Record, "text": item.name })
+      }), this.documentation.records)
+      } else if (_compare(__condition, $Type_Module)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Module, "text": item.name })
+      }), this.documentation.modules)
+      } else if (_compare(__condition, $Type_Enum)) {
+        return $Array.map(((item) => {
+      return _createElement($Sidebar_Item, { "type": $Type_Enum, "text": item.name })
+      }), this.documentation.enums)
       }
-    }, [this.icon, _createElement($If, { "condition": !_compare(this.title, ``) }, _array(_createElement("span", {
-      className: `tab-span`
-    }, [this.title])))])
+    })()
   }
-}
 
-$Tab.displayName = "Tab"
-
-$Tab.defaultProps = {
-  icon: $Html.empty(),active: false,title: ``,color: ``,link: ``
-}
-
-class $Package extends Component {
   get documentation () { return $Application.documentation }
+
+  get tab () { return $Application.tab }
 
   componentWillUnmount () {
     $Application._unsubscribe(this)
@@ -2918,42 +2806,56 @@ class $Package extends Component {
   }
 
   render() {
-    let dependencies = $Array.map(((item) => {
-    return _createElement($Dependency, { "constraint": item.constraint, "repository": item.repository, "name": item.name })
-    }), this.documentation.dependencies)
-
     return _createElement("div", {
-      className: `package-base`
-    }, [_createElement("div", {
-      className: `package-title`
-    }, [this.documentation.name]), _createElement($Unless, { "condition": $Array.isEmpty(dependencies) }, _array(_createElement("div", {
-      className: `package-subtitle`
-    }, [`Dependencies`]), _createElement("div", {}, [dependencies])))])
+      className: `sidebar-base`
+    }, [this.items])
   }
 }
 
-$Package.displayName = "Package"
+$Sidebar.displayName = "Sidebar"
 
-class $Pre extends Component {
-  get code () {
-    if (this.props.code != undefined) {
-      return this.props.code
+class $Dependency extends Component {
+  get repository () {
+    if (this.props.repository != undefined) {
+      return this.props.repository
+    } else {
+      return ``
+    }
+  }
+
+  get constraint () {
+    if (this.props.constraint != undefined) {
+      return this.props.constraint
+    } else {
+      return ``
+    }
+  }
+
+  get name () {
+    if (this.props.name != undefined) {
+      return this.props.name
     } else {
       return ``
     }
   }
 
   render() {
-    return _createElement("pre", {
-      className: `pre-base`
-    }, [this.code])
+    return _createElement("div", {}, [_createElement("div", {
+      className: `dependency-id`
+    }, [_createElement("div", {
+      className: `dependency-name`
+    }, [this.name]), _createElement("div", {
+      className: `dependency-constraint`
+    }, [this.constraint])]), _createElement("div", {
+      className: `dependency-repository`
+    }, [this.repository])])
   }
 }
 
-$Pre.displayName = "Pre"
+$Dependency.displayName = "Dependency"
 
-$Pre.defaultProps = {
-  code: ``
+$Dependency.defaultProps = {
+  repository: ``,constraint: ``,name: ``
 }
 
 class $Connection extends Component {
@@ -3019,49 +2921,52 @@ $RawHtml.defaultProps = {
   content: ``
 }
 
-class $Dashboard extends Component {
-  get documentations () { return $Application.documentations }
-
-  componentWillUnmount () {
-    $Application._unsubscribe(this)
+class $Error extends Component {
+  get warning() {
+    return _createElement("svg", {
+      "xmlns": `http://www.w3.org/2000/svg`,
+      "viewBox": `0 0 24 24`,
+      "height": `100`,
+      "width": `100`,
+      className: `error-icon`
+    }, [_createElement("path", {
+      "d": `M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.31 7.526c-.099-.807.528-1.526 1.348-1.526.771 0 1.377.676 1.28 1.451l-.757 6.053c-.035.283-.276.496-.561.496s-.526-.213-.562-.496l-.748-5.978zm1.31 10.724c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z`
+    })])
   }
 
-  componentDidMount () {
-    $Application._subscribe(this)
-  }
-
-  render() {
-    let packages = $Array.map(((name) => {
-    return _createElement("a", {
-      "href": `/` + name,
-      className: `dashboard-package`
-    }, [$Icons.package(), name])
-    }), $Array.map(((item) => {
-    return item.name
-    }), this.documentations))
-
-    return _createElement("div", {
-      className: `dashboard-base`
-    }, [_createElement("div", {
-      className: `dashboard-title`
-    }, [`Dashboard`]), _createElement("div", {}, [packages])])
-  }
-}
-
-$Dashboard.displayName = "Dashboard"
-
-class $Dependency extends Component {
-  get repository () {
-    if (this.props.repository != undefined) {
-      return this.props.repository
+  get content () {
+    if (this.props.content != undefined) {
+      return this.props.content
     } else {
       return ``
     }
   }
 
-  get constraint () {
-    if (this.props.constraint != undefined) {
-      return this.props.constraint
+  render() {
+    return _createElement("div", {
+      className: `error-base`
+    }, [this.warning, this.content])
+  }
+}
+
+$Error.displayName = "Error"
+
+$Error.defaultProps = {
+  content: ``
+}
+
+class $Field extends Component {
+  get mapping () {
+    if (this.props.mapping != undefined) {
+      return this.props.mapping
+    } else {
+      return $Maybe.nothing()
+    }
+  }
+
+  get type () {
+    if (this.props.type != undefined) {
+      return this.props.type
     } else {
       return ``
     }
@@ -3076,69 +2981,110 @@ class $Dependency extends Component {
   }
 
   render() {
-    return _createElement("div", {}, [_createElement("div", {
-      className: `dependency-id`
+    return _createElement("div", {
+      className: `field-base`
     }, [_createElement("div", {
-      className: `dependency-name`
+      className: `field-key`
     }, [this.name]), _createElement("div", {
-      className: `dependency-constraint`
-    }, [this.constraint])]), _createElement("div", {
-      className: `dependency-repository`
-    }, [this.repository])])
+      className: `field-type`
+    }, [this.type])])
   }
 }
 
-$Dependency.displayName = "Dependency"
+$Field.displayName = "Field"
 
-$Dependency.defaultProps = {
-  repository: ``,constraint: ``,name: ``
+$Field.defaultProps = {
+  mapping: $Maybe.nothing(),type: ``,name: ``
 }
 
-class $Use extends Component {
-  get condition () {
-    if (this.props.condition != undefined) {
-      return this.props.condition
-    } else {
-      return $Maybe.nothing()
-    }
+class $Source extends Component {
+  constructor(props) {
+    super(props)
+    this.state = new Record({
+      shown: false
+    })
   }
 
-  get provider () {
-    if (this.props.provider != undefined) {
-      return this.props.provider
+  get icon() {
+    return _createElement("svg", {
+      "xmlns": `http://www.w3.org/2000/svg`,
+      "viewBox": `0 0 24 24`,
+      "height": `9`,
+      "width": `9`,
+      className: `source-icon`,
+      style: {
+        [`--source-icon-transform`]: this.transform
+      }
+    }, [_createElement("path", {
+      "d": `M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z`
+    })])
+  }
+
+  get text() {
+    return (this.state.shown ? `Hide source ` : `Show source`)
+  }
+
+  get transform() {
+    return (this.state.shown ? `rotate(90deg)` : ``)
+  }
+
+  get code () {
+    if (this.props.code != undefined) {
+      return this.props.code
     } else {
       return ``
     }
   }
 
-  get data () {
-    if (this.props.data != undefined) {
-      return this.props.data
-    } else {
-      return ``
-    }
+  toggle(event) {
+    return new Promise((_resolve) => {
+      this.setState(_update(this.state, { shown: !this.state.shown }), _resolve)
+    })
   }
 
   render() {
-    return _createElement("div", {
-      className: `use-base`
-    }, [_createElement("div", {
-      className: `use-name`
-    }, [this.provider]), _createElement("div", {
-      className: `use-code`
-    }, [_createElement($Pre, { "code": this.data })]), _createElement($If, { "condition": $Maybe.isJust(this.condition) }, _array(_createElement("div", {
-      className: `use-when`
-    }, [`only when:`]), _createElement("div", {
-      className: `use-code`
-    }, [_createElement($Pre, { "code": $Maybe.withDefault(``, this.condition) })])))])
+    return _createElement("div", {}, [_createElement("div", {
+      "onClick": (event => (this.toggle.bind(this))(_normalizeEvent(event))),
+      className: `source-base`
+    }, [this.icon, _createElement("div", {}, [this.text])]), _createElement($If, { "condition": this.state.shown }, _array(_createElement("div", {
+      className: `source-code`
+    }, [_createElement($Pre, { "code": this.code })])))])
   }
 }
 
-$Use.displayName = "Use"
+$Source.displayName = "Source"
 
-$Use.defaultProps = {
-  condition: $Maybe.nothing(),provider: ``,data: ``
+$Source.defaultProps = {
+  code: ``
 }
+
+class $Package extends Component {
+  get documentation () { return $Application.documentation }
+
+  componentWillUnmount () {
+    $Application._unsubscribe(this)
+  }
+
+  componentDidMount () {
+    $Application._subscribe(this)
+  }
+
+  render() {
+    let dependencies = $Array.map(((item) => {
+    return _createElement($Dependency, { "constraint": item.constraint, "repository": item.repository, "name": item.name })
+    }), this.documentation.dependencies)
+
+    return _createElement("div", {
+      className: `package-base`
+    }, [_createElement("div", {
+      className: `package-title`
+    }, [this.documentation.name]), _createElement($Unless, { "condition": $Array.isEmpty(dependencies) }, _array(_createElement("div", {
+      className: `package-subtitle`
+    }, [`Dependencies`]), _createElement("div", {}, [dependencies])))])
+  }
+}
+
+$Package.displayName = "Package"
 
 class $Tabs extends Component {
   get isDashboard() {
@@ -3198,15 +3144,7 @@ class $Tabs extends Component {
 
 $Tabs.displayName = "Tabs"
 
-class $Field extends Component {
-  get mapping () {
-    if (this.props.mapping != undefined) {
-      return this.props.mapping
-    } else {
-      return $Maybe.nothing()
-    }
-  }
-
+class $State extends Component {
   get type () {
     if (this.props.type != undefined) {
       return this.props.type
@@ -3215,9 +3153,9 @@ class $Field extends Component {
     }
   }
 
-  get name () {
-    if (this.props.name != undefined) {
-      return this.props.name
+  get data () {
+    if (this.props.data != undefined) {
+      return this.props.data
     } else {
       return ``
     }
@@ -3225,184 +3163,22 @@ class $Field extends Component {
 
   render() {
     return _createElement("div", {
-      className: `field-base`
+      className: `state-base`
     }, [_createElement("div", {
-      className: `field-key`
-    }, [this.name]), _createElement("div", {
-      className: `field-type`
-    }, [this.type])])
+      className: `state-type`
+    }, [this.type, _createElement("div", {
+      className: `state-equals`
+    }, [`=`])]), _createElement("div", {
+      className: `state-code`
+    }, [_createElement($Pre, { "code": this.data })])])
   }
 }
 
-$Field.displayName = "Field"
+$State.displayName = "State"
 
-$Field.defaultProps = {
-  mapping: $Maybe.nothing(),type: ``,name: ``
+$State.defaultProps = {
+  type: ``,data: ``
 }
-
-class $EntityTab extends Component {
-  get of () {
-    if (this.props.of != undefined) {
-      return this.props.of
-    } else {
-      return $Type_Component
-    }
-  }
-
-  get tab () { return $Application.tab }
-
-  get documentation () { return $Application.documentation }
-
-  get page () { return $Application.page }
-
-  componentWillUnmount () {
-    $Application._unsubscribe(this)
-  }
-
-  componentDidMount () {
-    $Application._subscribe(this)
-  }
-
-  render() {
-    return _createElement($Tab, { "link": `/` + this.documentation.name + `/` + $Type.path(this.of), "active": _compare(this.of, this.tab) && _compare(this.page, $Page_Entity), "title": $Type.title(this.of), "color": $Type.color(this.of), "icon": $Type.icon(this.of) })
-  }
-}
-
-$EntityTab.displayName = "EntityTab"
-
-$EntityTab.defaultProps = {
-  of: $Type_Component
-}
-
-class $Page extends Component {
-  get selected () { return $Application.selected }
-
-  componentWillUnmount () {
-    $Application._unsubscribe(this)
-  }
-
-  componentDidMount () {
-    $Application._subscribe(this)
-  }
-
-  render() {
-    let computedProperties = $Array.map(((property) => {
-    return _createElement($Entity, { "key": this.selected.name + property.name, "description": property.description, "source": property.source, "name": property.name, "type": property.type })
-    }), this.selected.computedProperties)
-
-    let properties = $Array.map(((property) => {
-    return _createElement($Entity, { "key": this.selected.name + property.name, "defaultValue": property.defaultValue, "description": property.description, "name": property.name, "type": property.type })
-    }), this.selected.properties)
-
-    let methods = $Array.map(((method) => {
-    return _createElement($Entity, { "key": this.selected.name + method.name, "description": method.description, "arguments": method.arguments, "source": method.source, "name": method.name, "type": method.type })
-    }), this.selected.functions)
-
-    let connects = $Array.map(((item) => {
-    return _createElement($Connection, { "store": item.store, "keys": item.keys })
-    }), this.selected.connects)
-
-    let fields = $Array.map(((item) => {
-    return _createElement($Field, { "mapping": item.mapping, "type": item.type, "name": item.key })
-    }), this.selected.fields)
-
-    let state = $Maybe.withDefault($Html.empty(), $Maybe.map(((item) => {
-    return _createElement($State, { "type": item.type, "data": item.data })
-    }), this.selected.state))
-
-    let options = $Array.map(((item) => {
-    return _createElement($Option, { "description": item.description, "name": item.name })
-    }), this.selected.options)
-
-    let uses = $Array.map(((item) => {
-    return _createElement($Use, { "condition": item.condition, "provider": item.provider, "data": item.data })
-    }), this.selected.uses)
-
-    return _createElement("div", {
-      className: `page-base`
-    }, [_createElement("div", {
-      className: `page-title`
-    }, [this.selected.name]), _createElement("div", {
-      className: `page-description`
-    }, [_createElement($RawHtml, { "content": this.selected.description })]), _createElement($Unless, { "condition": $Array.isEmpty(connects) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Connected Stores`]), _createElement("div", {}, [connects]))), _createElement($If, { "condition": $Maybe.isJust(this.selected.state) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`State`]), _createElement("div", {}, [state]))), _createElement($Unless, { "condition": $String.isEmpty(this.selected.subscription) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Subscription`]), _createElement("div", {
-      className: `page-subscription`
-    }, [this.selected.subscription]))), _createElement($Unless, { "condition": $Array.isEmpty(uses) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Using Providers`]), _createElement("div", {}, [uses]))), _createElement($Unless, { "condition": $Array.isEmpty(fields) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Fields`]), _createElement("div", {}, [fields]))), _createElement($Unless, { "condition": $Array.isEmpty(options) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Options`]), _createElement("div", {}, [options]))), _createElement($Unless, { "condition": $Array.isEmpty(properties) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Properties`]), _createElement("div", {}, [properties]))), _createElement($Unless, { "condition": $Array.isEmpty(computedProperties) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Computed Properties`]), _createElement("div", {}, [computedProperties]))), _createElement($Unless, { "condition": $Array.isEmpty(methods) }, _array(_createElement("div", {
-      className: `page-section`
-    }, [`Functions`]), _createElement("div", {}, [methods])))])
-  }
-}
-
-$Page.displayName = "Page"
-
-class $Sidebar extends Component {
-  get items() {
-    return (() => {
-      let __condition = this.tab
-
-       if (_compare(__condition, $Type_Component)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Component, "text": item.name })
-      }), this.documentation.components)
-      } else if (_compare(__condition, $Type_Provider)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Provider, "text": item.name })
-      }), this.documentation.providers)
-      } else if (_compare(__condition, $Type_Store)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Store, "text": item.name })
-      }), this.documentation.stores)
-      } else if (_compare(__condition, $Type_Record)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Record, "text": item.name })
-      }), this.documentation.records)
-      } else if (_compare(__condition, $Type_Module)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Module, "text": item.name })
-      }), this.documentation.modules)
-      } else if (_compare(__condition, $Type_Enum)) {
-        return $Array.map(((item) => {
-      return _createElement($Sidebar_Item, { "type": $Type_Enum, "text": item.name })
-      }), this.documentation.enums)
-      }
-    })()
-  }
-
-  get documentation () { return $Application.documentation }
-
-  get tab () { return $Application.tab }
-
-  componentWillUnmount () {
-    $Application._unsubscribe(this)
-  }
-
-  componentDidMount () {
-    $Application._subscribe(this)
-  }
-
-  render() {
-    return _createElement("div", {
-      className: `sidebar-base`
-    }, [this.items])
-  }
-}
-
-$Sidebar.displayName = "Sidebar"
 
 class $Entity extends Component {
   get description () {
@@ -3486,62 +3262,6 @@ $Entity.defaultProps = {
   description: $Maybe.nothing(),arguments: [],defaultValue: ``,source: ``,name: ``,type: ``
 }
 
-class $Option extends Component {
-  get description () {
-    if (this.props.description != undefined) {
-      return this.props.description
-    } else {
-      return $Maybe.nothing()
-    }
-  }
-
-  get name () {
-    if (this.props.name != undefined) {
-      return this.props.name
-    } else {
-      return ``
-    }
-  }
-
-  render() {
-    return _createElement("div", {
-      className: `option-base`
-    }, [_createElement("div", {
-      className: `option-name`
-    }, [this.name]), _createElement($If, { "condition": $Maybe.isJust(this.description) }, _array(_createElement("div", {
-      className: `option-description`
-    }, [_createElement($RawHtml, { "content": $Maybe.withDefault(``, this.description) })])))])
-  }
-}
-
-$Option.displayName = "Option"
-
-$Option.defaultProps = {
-  description: $Maybe.nothing(),name: ``
-}
-
-class $Sidebar_Header extends Component {
-  get text () {
-    if (this.props.text != undefined) {
-      return this.props.text
-    } else {
-      return ``
-    }
-  }
-
-  render() {
-    return _createElement("div", {
-      className: `sidebar-header-base`
-    }, [this.text])
-  }
-}
-
-$Sidebar_Header.displayName = "Sidebar.Header"
-
-$Sidebar_Header.defaultProps = {
-  text: ``
-}
-
 class $Sidebar_Item extends Component {
   get type () {
     if (this.props.type != undefined) {
@@ -3592,37 +3312,97 @@ $Sidebar_Item.defaultProps = {
   type: $Type_Component,text: ``
 }
 
-class $Source extends Component {
-  constructor(props) {
-    super(props)
-    this.state = new Record({
-      shown: false
-    })
+class $Sidebar_Header extends Component {
+  get text () {
+    if (this.props.text != undefined) {
+      return this.props.text
+    } else {
+      return ``
+    }
   }
 
-  get icon() {
-    return _createElement("svg", {
-      "xmlns": `http://www.w3.org/2000/svg`,
-      "viewBox": `0 0 24 24`,
-      "height": `9`,
-      "width": `9`,
-      className: `source-icon`,
-      style: {
-        [`--source-icon-transform`]: this.transform
-      }
-    }, [_createElement("path", {
-      "d": `M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z`
-    })])
+  render() {
+    return _createElement("div", {
+      className: `sidebar-header-base`
+    }, [this.text])
+  }
+}
+
+$Sidebar_Header.displayName = "Sidebar.Header"
+
+$Sidebar_Header.defaultProps = {
+  text: ``
+}
+
+class $EntityTab extends Component {
+  get of () {
+    if (this.props.of != undefined) {
+      return this.props.of
+    } else {
+      return $Type_Component
+    }
   }
 
-  get text() {
-    return (this.state.shown ? `Hide source ` : `Show source`)
+  get tab () { return $Application.tab }
+
+  get documentation () { return $Application.documentation }
+
+  get page () { return $Application.page }
+
+  componentWillUnmount () {
+    $Application._unsubscribe(this)
   }
 
-  get transform() {
-    return (this.state.shown ? `rotate(90deg)` : ``)
+  componentDidMount () {
+    $Application._subscribe(this)
   }
 
+  render() {
+    return _createElement($Tab, { "link": `/` + this.documentation.name + `/` + $Type.path(this.of), "active": _compare(this.of, this.tab) && _compare(this.page, $Page_Entity), "title": $Type.title(this.of), "color": $Type.color(this.of), "icon": $Type.icon(this.of) })
+  }
+}
+
+$EntityTab.displayName = "EntityTab"
+
+$EntityTab.defaultProps = {
+  of: $Type_Component
+}
+
+class $Option extends Component {
+  get description () {
+    if (this.props.description != undefined) {
+      return this.props.description
+    } else {
+      return $Maybe.nothing()
+    }
+  }
+
+  get name () {
+    if (this.props.name != undefined) {
+      return this.props.name
+    } else {
+      return ``
+    }
+  }
+
+  render() {
+    return _createElement("div", {
+      className: `option-base`
+    }, [_createElement("div", {
+      className: `option-name`
+    }, [this.name]), _createElement($If, { "condition": $Maybe.isJust(this.description) }, _array(_createElement("div", {
+      className: `option-description`
+    }, [_createElement($RawHtml, { "content": $Maybe.withDefault(``, this.description) })])))])
+  }
+}
+
+$Option.displayName = "Option"
+
+$Option.defaultProps = {
+  description: $Maybe.nothing(),name: ``
+}
+
+class $Pre extends Component {
   get code () {
     if (this.props.code != undefined) {
       return this.props.code
@@ -3631,26 +3411,213 @@ class $Source extends Component {
     }
   }
 
-  toggle(event) {
-    return new Promise((_resolve) => {
-      this.setState(_update(this.state, { shown: !this.state.shown }), _resolve)
-    })
-  }
-
   render() {
-    return _createElement("div", {}, [_createElement("div", {
-      "onClick": (event => (this.toggle.bind(this))(_normalizeEvent(event))),
-      className: `source-base`
-    }, [this.icon, _createElement("div", {}, [this.text])]), _createElement($If, { "condition": this.state.shown }, _array(_createElement("div", {
-      className: `source-code`
-    }, [_createElement($Pre, { "code": this.code })])))])
+    return _createElement("pre", {
+      className: `pre-base`
+    }, [this.code])
   }
 }
 
-$Source.displayName = "Source"
+$Pre.displayName = "Pre"
 
-$Source.defaultProps = {
+$Pre.defaultProps = {
   code: ``
+}
+
+class $Dashboard extends Component {
+  get documentations () { return $Application.documentations }
+
+  componentWillUnmount () {
+    $Application._unsubscribe(this)
+  }
+
+  componentDidMount () {
+    $Application._subscribe(this)
+  }
+
+  render() {
+    let packages = $Array.map(((name) => {
+    return _createElement("a", {
+      "href": `/` + name,
+      className: `dashboard-package`
+    }, [$Icons.package(), name])
+    }), $Array.map(((item) => {
+    return item.name
+    }), this.documentations))
+
+    return _createElement("div", {
+      className: `dashboard-base`
+    }, [_createElement("div", {
+      className: `dashboard-title`
+    }, [`Dashboard`]), _createElement("div", {}, [packages])])
+  }
+}
+
+$Dashboard.displayName = "Dashboard"
+
+class $Tab extends Component {
+  get background() {
+    return (this.active ? this.color : `transparent`)
+  }
+
+  get hoverBackground() {
+    return (this.active ? `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), ` + this.background : `#444`)
+  }
+
+  get icon () {
+    if (this.props.icon != undefined) {
+      return this.props.icon
+    } else {
+      return $Html.empty()
+    }
+  }
+
+  get active () {
+    if (this.props.active != undefined) {
+      return this.props.active
+    } else {
+      return false
+    }
+  }
+
+  get title () {
+    if (this.props.title != undefined) {
+      return this.props.title
+    } else {
+      return ``
+    }
+  }
+
+  get color () {
+    if (this.props.color != undefined) {
+      return this.props.color
+    } else {
+      return ``
+    }
+  }
+
+  get link () {
+    if (this.props.link != undefined) {
+      return this.props.link
+    } else {
+      return ``
+    }
+  }
+
+  render() {
+    return _createElement("a", {
+      "href": this.link,
+      className: `tab-base`,
+      style: {
+        [`--tab-base-background`]: this.background,
+        [`--tab-base-hover-background`]: this.hoverBackground
+      }
+    }, [this.icon, _createElement($If, { "condition": !_compare(this.title, ``) }, _array(_createElement("span", {
+      className: `tab-span`
+    }, [this.title])))])
+  }
+}
+
+$Tab.displayName = "Tab"
+
+$Tab.defaultProps = {
+  icon: $Html.empty(),active: false,title: ``,color: ``,link: ``
+}
+
+class $Page extends Component {
+  get selected () { return $Application.selected }
+
+  componentWillUnmount () {
+    $Application._unsubscribe(this)
+  }
+
+  componentDidMount () {
+    $Application._subscribe(this)
+  }
+
+  render() {
+    let computedProperties = $Array.map(((property) => {
+    return _createElement($Entity, { "key": this.selected.name + property.name, "description": property.description, "source": property.source, "name": property.name, "type": property.type })
+    }), this.selected.computedProperties)
+
+    let properties = $Array.map(((property) => {
+    return _createElement($Entity, { "key": this.selected.name + property.name, "defaultValue": property.defaultValue, "description": property.description, "name": property.name, "type": property.type })
+    }), this.selected.properties)
+
+    let methods = $Array.map(((method) => {
+    return _createElement($Entity, { "key": this.selected.name + method.name, "description": method.description, "arguments": method.arguments, "source": method.source, "name": method.name, "type": method.type })
+    }), this.selected.functions)
+
+    let connects = $Array.map(((item) => {
+    return _createElement($Connection, { "store": item.store, "keys": item.keys })
+    }), this.selected.connects)
+
+    let fields = $Array.map(((item) => {
+    return _createElement($Field, { "mapping": item.mapping, "type": item.type, "name": item.key })
+    }), this.selected.fields)
+
+    let state = $Maybe.withDefault($Html.empty(), $Maybe.map(((item) => {
+    return _createElement($State, { "type": item.type, "data": item.data })
+    }), this.selected.state))
+
+    let options = $Array.map(((item) => {
+    return _createElement($Option, { "description": item.description, "name": item.name })
+    }), this.selected.options)
+
+    let uses = $Array.map(((item) => {
+    return _createElement($Use, { "condition": item.condition, "provider": item.provider, "data": item.data })
+    }), this.selected.uses)
+
+    return _createElement("div", {
+      className: `page-base`
+    }, [_createElement("div", {
+      className: `page-title`
+    }, [this.selected.name]), _createElement("div", {
+      className: `page-description`
+    }, [_createElement($RawHtml, { "content": this.selected.description })]), _createElement($Unless, { "condition": $Array.isEmpty(connects) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Connected Stores`]), _createElement("div", {}, [connects]))), _createElement($If, { "condition": $Maybe.isJust(this.selected.state) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`State`]), _createElement("div", {}, [state]))), _createElement($Unless, { "condition": $String.isEmpty(this.selected.subscription) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Subscription`]), _createElement("div", {
+      className: `page-subscription`
+    }, [this.selected.subscription]))), _createElement($Unless, { "condition": $Array.isEmpty(uses) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Using Providers`]), _createElement("div", {}, [uses]))), _createElement($Unless, { "condition": $Array.isEmpty(fields) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Fields`]), _createElement("div", {}, [fields]))), _createElement($Unless, { "condition": $Array.isEmpty(options) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Options`]), _createElement("div", {}, [options]))), _createElement($Unless, { "condition": $Array.isEmpty(properties) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Properties`]), _createElement("div", {}, [properties]))), _createElement($Unless, { "condition": $Array.isEmpty(computedProperties) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Computed Properties`]), _createElement("div", {}, [computedProperties]))), _createElement($Unless, { "condition": $Array.isEmpty(methods) }, _array(_createElement("div", {
+      className: `page-section`
+    }, [`Functions`]), _createElement("div", {}, [methods])))])
+  }
+}
+
+$Page.displayName = "Page"
+
+class $Html_Portals_Body extends Component {
+  get children () {
+    if (this.props.children != undefined) {
+      return this.props.children
+    } else {
+      return []
+    }
+  }
+
+  render() {
+    return _createPortal(this.children, document.body)
+  }
+}
+
+$Html_Portals_Body.displayName = "Html.Portals.Body"
+
+$Html_Portals_Body.defaultProps = {
+  children: []
 }
 
 class $Unless extends Component {
@@ -3679,26 +3646,6 @@ $Unless.displayName = "Unless"
 
 $Unless.defaultProps = {
   children: [],condition: true
-}
-
-class $Html_Portals_Body extends Component {
-  get children () {
-    if (this.props.children != undefined) {
-      return this.props.children
-    } else {
-      return []
-    }
-  }
-
-  render() {
-    return _createPortal(this.children, document.body)
-  }
-}
-
-$Html_Portals_Body.displayName = "Html.Portals.Body"
-
-$Html_Portals_Body.defaultProps = {
-  children: []
 }
 
 class $If extends Component {
@@ -3743,23 +3690,7 @@ _insertStyles(`
     flex: 1;
   }
 
-  .error-base {
-    justify-content: center;
-    font-family: sans-serif;
-    flex-direction: column;
-    align-items: center;
-    font-size: 30px;
-    display: flex;
-    height: 100vh;
-    color: #444;
-  }
-
-  .error-icon {
-    margin-bottom: 30px;
-    fill: currentColor;
-  }
-
-  .state-base {
+  .use-base {
     font-family: Source Code Pro;
     flex-direction: column;
     padding-top: 15px;
@@ -3767,83 +3698,56 @@ _insertStyles(`
     display: flex;
   }
 
-  .state-type {
-    align-items: center;
+  .use-name {
     color: #2e894e;
-    display: flex;
   }
 
-  .state-equals {
-    margin-left: 10px;
-    font-weight: 300;
-    margin-top: 5px;
-    content: "=";
-    color: #999;
-  }
-
-  .state-code {
+  .use-code {
     align-self: flex-start;
     margin-left: 20px;
     margin-top: 20px;
-    display: block;
   }
 
-  .tab-base {
-    background: var(--tab-base-background);
-    text-decoration: none;
-    align-items: center;
-    padding: 0 15px;
-    cursor: pointer;
-    color: inherit;
+  .use-when {
+    font-family: sans-serif;
+    margin-top: 20px;
+  }
+
+  .sidebar-base {
+    background: #F5F5F5;
+    color: #444;
+    padding: 20px;
+    padding-right: 40px;
+  }
+
+  .sidebar-separator {
+    margin-top: 30px;
+  }
+
+  .dependency-base {
     display: flex;
-    height: 50px;
   }
 
-  .tab-base:hover {
-    background: var(--tab-base-hover-background);
-  }
-
-  .tab-base svg {
-    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.333));
-    fill: currentColor;
-    height: 18px;
-    width: 18px;
-  }
-
-  .tab-span {
-    text-shadow: 0 1px 0 rgba(0,0,0,0.333);
-    text-transform: uppercase;
-    margin-left: 10px;
-    font-size: 14px;
-  }
-
-  .package-base {
-    padding: 30px;
-  }
-
-  .package-title {
-    border-bottom: 3px solid #EEE;
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-    font-size: 36px;
-  }
-
-  .package-package {
-    display: block;
-  }
-
-  .package-subtitle {
-    margin-bottom: 5px;
+  .dependency-id {
     font-size: 20px;
+    display: flex;
   }
 
-  .pre-base {
-    font-family: Source Code Pro;
-    border: 1px dashed #DDD;
-    background: #FAFAFA;
-    font-size: 14px;
-    padding: 10px;
-    margin: 0;
+  .dependency-name {
+    font-weight: bold;
+  }
+
+  .dependency-repository {
+    opacity: 0.5;
+  }
+
+  .dependency-constraint {
+
+  }
+
+  .dependency-constraint:before {
+    margin: 0 5px;
+    content: "-";
   }
 
   .connection-base {
@@ -3914,87 +3818,20 @@ _insertStyles(`
     margin: 0;
   }
 
-  .dashboard-base {
-    padding: 30px;
-  }
-
-  .dashboard-package {
-    align-items: center;
-    font-size: 18px;
-    padding: 10px 0;
-    color: #2e894e;
-    display: flex;
-  }
-
-  .dashboard-package svg {
-    fill: currentColor;
-    margin-right: 5px;
-    height: 20px;
-    width: 20px;
-  }
-
-  .dashboard-title {
-    border-bottom: 3px solid #EEE;
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-    font-size: 36px;
-  }
-
-  .dependency-base {
-    display: flex;
-  }
-
-  .dependency-id {
-    font-size: 20px;
-    display: flex;
-  }
-
-  .dependency-name {
-    font-weight: bold;
-  }
-
-  .dependency-repository {
-    opacity: 0.5;
-  }
-
-  .dependency-constraint {
-
-  }
-
-  .dependency-constraint:before {
-    margin: 0 5px;
-    content: "-";
-  }
-
-  .use-base {
-    font-family: Source Code Pro;
-    flex-direction: column;
-    padding-top: 15px;
-    font-size: 18px;
-    display: flex;
-  }
-
-  .use-name {
-    color: #2e894e;
-  }
-
-  .use-code {
-    align-self: flex-start;
-    margin-left: 20px;
-    margin-top: 20px;
-  }
-
-  .use-when {
+  .error-base {
+    justify-content: center;
     font-family: sans-serif;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    display: flex;
+    height: 100vh;
+    color: #444;
   }
 
-  .tabs-base {
-    border-bottom: var(--tabs-base-border-bottom);
-    font-weight: bold;
-    background: #333;
-    display: flex;
-    color: #EEE;
+  .error-icon {
+    margin-bottom: 30px;
+    fill: currentColor;
   }
 
   .field-base {
@@ -4019,49 +3856,87 @@ _insertStyles(`
     font-weight: bold;
   }
 
-  .page-base {
-    flex: 1;
-    padding: 30px;
-    padding-bottom: 150px;
-  }
-
-  .page-title {
-    border-bottom: 2px solid #EEE;
-    padding-bottom: 10px;
-    font-size: 30px;
-  }
-
-  .page-description {
-    margin-top: 20px;
-    opacity: 0.8;
-  }
-
-  .page-section {
-    border-bottom: 1px solid #EEE;
+  .source-base {
     text-transform: uppercase;
-    padding-bottom: 10px;
-    font-weight: 600;
-    margin-top: 40px;
-    font-size: 14px;
-    opacity: 0.6;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    opacity: 0.33;
   }
 
-  .page-subscription {
+  .source-base:hover {
+    opacity: 1;
+  }
+
+  .source-icon {
+    transform: var(--source-icon-transform);
+    position: relative;
+    fill: currentColor;
+    margin-right: 5px;
+    top: -1px;
+  }
+
+  .source-code {
+    margin-top: 10px;
+  }
+
+  .package-base {
+    padding: 30px;
+  }
+
+  .package-title {
+    border-bottom: 3px solid #EEE;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    font-size: 36px;
+  }
+
+  .package-package {
+    display: block;
+  }
+
+  .package-subtitle {
+    margin-bottom: 5px;
+    font-size: 20px;
+  }
+
+  .tabs-base {
+    border-bottom: var(--tabs-base-border-bottom);
+    font-weight: bold;
+    background: #333;
+    display: flex;
+    color: #EEE;
+  }
+
+  .state-base {
     font-family: Source Code Pro;
-    margin-top: 15px;
+    flex-direction: column;
+    padding-top: 15px;
     font-size: 18px;
+    display: flex;
+  }
+
+  .state-type {
+    align-items: center;
     color: #2e894e;
+    display: flex;
   }
 
-  .sidebar-base {
-    background: #F5F5F5;
-    color: #444;
-    padding: 20px;
-    padding-right: 40px;
+  .state-equals {
+    margin-left: 10px;
+    font-weight: 300;
+    margin-top: 5px;
+    content: "=";
+    color: #999;
   }
 
-  .sidebar-separator {
-    margin-top: 30px;
+  .state-code {
+    align-self: flex-start;
+    margin-left: 20px;
+    margin-top: 20px;
+    display: block;
   }
 
   .entity-definition {
@@ -4137,31 +4012,6 @@ _insertStyles(`
     color: #999;
   }
 
-  .option-base {
-    flex-direction: column;
-    padding-top: 15px;
-    display: flex;
-  }
-
-  .option-name {
-    font-family: Source Code Pro;
-    font-weight: bold;
-    font-size: 18px;
-  }
-
-  .option-description {
-    padding: 20px 0;
-    padding-left: 20px;
-    opacity: 0.8;
-  }
-
-  .sidebar-header-base {
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 14px;
-  }
-
   .sidebar-item-base {
     text-decoration: none;
     align-items: center;
@@ -4193,30 +4043,127 @@ _insertStyles(`
     color: #FFF;
   }
 
-  .source-base {
+  .sidebar-header-base {
     text-transform: uppercase;
-    align-items: center;
-    margin-top: 10px;
-    font-size: 10px;
-    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .option-base {
+    flex-direction: column;
+    padding-top: 15px;
     display: flex;
-    opacity: 0.33;
   }
 
-  .source-base:hover {
-    opacity: 1;
+  .option-name {
+    font-family: Source Code Pro;
+    font-weight: bold;
+    font-size: 18px;
   }
 
-  .source-icon {
-    transform: var(--source-icon-transform);
-    position: relative;
+  .option-description {
+    padding: 20px 0;
+    padding-left: 20px;
+    opacity: 0.8;
+  }
+
+  .pre-base {
+    font-family: Source Code Pro;
+    border: 1px dashed #DDD;
+    background: #FAFAFA;
+    font-size: 14px;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .dashboard-base {
+    padding: 30px;
+  }
+
+  .dashboard-package {
+    align-items: center;
+    font-size: 18px;
+    padding: 10px 0;
+    color: #2e894e;
+    display: flex;
+  }
+
+  .dashboard-package svg {
     fill: currentColor;
     margin-right: 5px;
-    top: -1px;
+    height: 20px;
+    width: 20px;
   }
 
-  .source-code {
-    margin-top: 10px;
+  .dashboard-title {
+    border-bottom: 3px solid #EEE;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    font-size: 36px;
+  }
+
+  .tab-base {
+    background: var(--tab-base-background);
+    text-decoration: none;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    height: 50px;
+  }
+
+  .tab-base:hover {
+    background: var(--tab-base-hover-background);
+  }
+
+  .tab-base svg {
+    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.333));
+    fill: currentColor;
+    height: 18px;
+    width: 18px;
+  }
+
+  .tab-span {
+    text-shadow: 0 1px 0 rgba(0,0,0,0.333);
+    text-transform: uppercase;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  .page-base {
+    flex: 1;
+    padding: 30px;
+    padding-bottom: 150px;
+  }
+
+  .page-title {
+    border-bottom: 2px solid #EEE;
+    padding-bottom: 10px;
+    font-size: 30px;
+  }
+
+  .page-description {
+    margin-top: 20px;
+    opacity: 0.8;
+  }
+
+  .page-section {
+    border-bottom: 1px solid #EEE;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    font-weight: 600;
+    margin-top: 40px;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+
+  .page-subscription {
+    font-family: Source Code Pro;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #2e894e;
   }
 `)
 _program.render($Main)
