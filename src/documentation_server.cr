@@ -50,10 +50,26 @@ module Mint
     end
 
     def setup_kemal
-      get "/_/documentation.json" do |env|
+      get "/documentation.json" do |env|
         env.response.headers.add("Access-Control-Allow-Origin", "*")
         env.response.content_type = "application/json"
         generate
+      end
+
+      get "/" do |env|
+        Assets.read("docs-viewer/index.html")
+      end
+
+      get "/:name" do |env|
+        # Set cache to expire in 30 days.
+        env.response.headers["Cache-Control"] = "max-age=2592000"
+
+        # If there is a baked file serve that.
+        begin
+          Assets.read("docs-viewer/" + env.params.url["name"])
+        rescue BakedFileSystem::NoSuchFileError
+          Assets.read("docs-viewer/index.html")
+        end
       end
     end
 
