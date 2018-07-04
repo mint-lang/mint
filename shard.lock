@@ -12,10 +12,6 @@ shards:
     github: schovi/baked_file_system
     commit: e1447549d5ac0560720fae62179b2f2c62c9bfd1
 
-  coverage:
-    github: anykeyh/crystal-coverage
-    commit: af5246dde152b6e42352ce6e759bb07e9bed09ed
-
   duktape:
     github: jessedoyle/duktape.cr
     version: 0.14.1
