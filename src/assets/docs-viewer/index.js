@@ -974,14 +974,14 @@ const $Url = new(class {
           this._a.href = url
 
           return {
-            hostname: this._a.hostname,
-            protocol: this._a.protocol,
-            origin: this._a.origin,
-            path: this._a.pathname,
-            search: this._a.search,
-            hash: this._a.hash,
-            host: this._a.host,
-            port: this._a.port
+            hostname: this._a.hostname || "",
+            protocol: this._a.protocol || "",
+            origin: this._a.origin || "",
+            path: this._a.pathname || "",
+            search: this._a.search || "",
+            hash: this._a.hash || "",
+            host: this._a.host || "",
+            port: this._a.port || ""
           }
         })()
   }
@@ -1051,8 +1051,8 @@ const $String = new(class {
     return string.replace(/\b[a-z]/g, char => char.toUpperCase())
   }
 
-  repeat(count, string) {
-    return string.repeat(count)
+  repeat(times, string) {
+    return string.repeat(times)
   }
 
   join(separator, array) {
@@ -1564,12 +1564,12 @@ const $Storage_Common = new(class {
 })
 
 const $Result = new(class {
-  error(input) {
-    return new Err(input)
-  }
-
   ok(input) {
     return new Ok(input)
+  }
+
+  error(input) {
+    return new Err(input)
   }
 
   withDefault(value, input) {
@@ -2466,6 +2466,8 @@ const $Application = new (class extends Store {
      await new Promise((_resolve) => {
       this.setState(_update(this.state, { documentation: $Documentation.empty(), selected: $Content.empty(), page: $Page_Dashboard }), _resolve)
     })
+
+     await $Window.setScrollTop(0)
       }
       catch(_error) {
         if (_error instanceof DoError) {
@@ -2513,6 +2515,8 @@ const $Application = new (class extends Store {
      await new Promise((_resolve) => {
       this.setState(_update(this.state, { documentation: documentation, page: $Page_Package }), _resolve)
     })
+
+     await $Window.setScrollTop(0)
       }
       catch(_error) {
         if (_error instanceof DoError) {
@@ -2623,6 +2627,8 @@ const $Application = new (class extends Store {
      await new Promise((_resolve) => {
       this.setState(_update(this.state, { documentation: documentation, page: $Page_Entity, selected: selected, tab: tab }), _resolve)
     })
+
+     await $Window.setScrollTop(0)
       }
       catch(_error) {
         if (_error instanceof DoError) {
