@@ -5,6 +5,7 @@ module Mint
       string_literal ||
         bool_literal ||
         number_literal ||
+        array_access ||
         array ||
         record_update ||
         record ||
