@@ -3,35 +3,34 @@ module Mint
     syntax_error ArrayAccessExpectedClosingBracket
     syntax_error ArrayAccessExpectedIndex
 
-    def array_access : Ast::ArrayAccess | Nil
+    def array_access(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
-        lhs = array || variable
-
-        skip unless lhs
-        skip unless char! '['
+        char '[', SkipError
 
         whitespace
 
-        index = gather { chars("0-9") }.to_s
-        if index.empty?
-          index = variable
-          raise ArrayAccessExpectedIndex unless index
-        else
-          index = index.to_i64
-        end
+        index =
+          gather { chars("0-9") }.to_s
+
+        index =
+          if index.empty?
+            expression! ArrayAccessExpectedIndex
+          else
+            index.to_i64
+          end
 
         whitespace
 
         char "]", ArrayAccessExpectedClosingBracket
 
-        Ast::ArrayAccess.new(
-          index: index,
-          lhs: lhs,
-          input: data,
+        array_access(Ast::ArrayAccess.new(
           from: start_position,
-          to: position
-        )
-      end
+          to: position,
+          index: index,
+          input: data,
+          lhs: lhs,
+        ))
+      end || lhs
     end
   end
 end

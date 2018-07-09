@@ -1,24 +1,37 @@
 module Mint
   class TypeChecker
-    # type_error NegatedExpressionNotBool
+    type_error ArrayAccessIndexNotNumber
+    type_error ArrayAccessNotAnArray
 
-    def check(node : Ast::ArrayAccess) : Type
-      lhs = node.lhs
-      index = node.index
+    def check(node : Ast::ArrayAccess) : Checkable
+      index =
+        node.index
 
-      case lhs
-      when Ast::ArrayLiteral
-        if lhs
-          first = lhs.items.first
-          if first
-            return Type.new("Maybe", [check first])
-          end
-        end
-      when Ast::Variable
-        Type.new("Maybe", [Type.new("a")])
+      lhs =
+        node.lhs
+
+      case index
+      when Ast::Expression
+        type =
+          resolve index
+
+        raise ArrayAccessIndexNotNumber, {
+          "expected" => NUMBER,
+          "node"     => index,
+          "got"      => type,
+        } unless Comparer.compare(type, NUMBER)
       end
 
-      Type.new("Maybe", [Type.new("a")])
+      type =
+        resolve lhs
+
+      raise ArrayAccessNotAnArray, {
+        "expected" => ARRAY,
+        "got"      => type,
+        "node"     => lhs,
+      } unless resolved = Comparer.compare(type, ARRAY)
+
+      Type.new("Maybe", [resolved.parameters.first] of Checkable)
     end
   end
 end

@@ -14,10 +14,10 @@ module Test {
 --------------------------------------------------------------------------------
 const $Test = new(class {
   test() {
-    return [`Hello`, `Blah`, `Joe`][1]
+    return _at([`Hello`, `Blah`, `Joe`], 1)
   }
 
   test1() {
-    return [][1]
+    return _at([], 1)
   }
 })

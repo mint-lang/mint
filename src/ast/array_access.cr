@@ -3,7 +3,7 @@ module Mint
     class ArrayAccess < Node
       getter index, lhs
 
-      def initialize(@index : (Int64 | Variable),
+      def initialize(@index : (Int64 | Expression),
                      @lhs : Expression,
                      @input : Data,
                      @from : Int32,

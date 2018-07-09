@@ -14,6 +14,7 @@ module Mint
                        ModuleAccess |
                        FunctionCall |
                        ArrayLiteral |
+                       ArrayAccess |
                        BoolLiteral |
                        HtmlElement |
                        ModuleCall |

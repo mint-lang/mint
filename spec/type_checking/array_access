@@ -7,20 +7,19 @@ module Test {
     ][1]
   }
 }
------------------------------------------------------------------
+-------------------------------------------------------ArrayAccessIndexNotNumber
 module Test {
-  fun test : Maybe(Number) {
-    arr[1]
-  } where {
-    arr = [1, 2, 3]
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]["asd"]
   }
 }
------------------------------------------------------------------
+-----------------------------------------------------------ArrayAccessNotAnArray
 module Test {
-  fun test : Maybe(Number) {
-    arr[x]
-  } where {
-    arr = [1, 2, 3]
-    x = 1
+  fun test : Maybe(String) {
+    {}[0]
   }
 }
