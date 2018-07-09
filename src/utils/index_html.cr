@@ -15,12 +15,20 @@ module Mint
 
     getter json, env
 
-    def self.render(env)
-      new(env).to_s
+    def self.render(env, relative = false)
+      new(env, relative).to_s
     end
 
-    def initialize(@env : Environment)
+    def initialize(@env : Environment, @relative : Bool)
       @json = MintJson.parse_current
+    end
+
+    def path_for(url)
+      if @relative
+        url
+      else
+        "/#{url}"
+      end
     end
 
     def to_s
@@ -45,14 +53,14 @@ module Mint
               t.link(
                 rel: "icon",
                 type: "image/png",
-                href: "/icon-#{size}x#{size}.png",
+                href: path_for("icon-#{size}x#{size}.png"),
                 sizes: "#{size}x#{size}")
             end
 
             [152, 167, 180].each do |size|
               t.link(
                 rel: "apple-touch-icon-precomposed",
-                href: "/icon-#{size}x#{size}.png")
+                href: path_for("icon-#{size}x#{size}.png"))
             end
 
             # Insert global styles
@@ -60,17 +68,14 @@ module Mint
           end
 
           t.body do
-            # The main element to render the application into
-            t.div(id: "root") { }
-
             # In development runtime comes separately and
             # the live reload script necessary.
             if env.development?
-              t.script(src: "/runtime.js") { }
-              t.script(src: "/live-reload.js") { }
+              t.script(src: path_for("runtime.js")) { }
+              t.script(src: path_for("live-reload.js")) { }
             end
 
-            t.script(src: "/index.js") { }
+            t.script(src: path_for("index.js")) { }
           end
         end
       end.render
