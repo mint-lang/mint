@@ -1,0 +1,25 @@
+module Test {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1]
+  }
+}
+-------------------------------------------------------ArrayAccessIndexNotNumber
+module Test {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]["asd"]
+  }
+}
+-----------------------------------------------------------ArrayAccessNotAnArray
+module Test {
+  fun test : Maybe(String) {
+    {}[0]
+  }
+}

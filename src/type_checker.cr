@@ -14,6 +14,8 @@ module Mint
     EVENT          = Type.new("Html.Event")
     OBJECT         = Type.new("Object")
     OBJECT_ERROR   = Type.new("Object.Error")
+    ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
+    MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
     REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID] of Checkable)
     EVENT_FUNCTION = Type.new("Function", [EVENT, VOID] of Checkable)
     HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
