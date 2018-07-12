@@ -37,9 +37,3 @@ class $RecordUpdate extends Component {
 }
 
 $RecordUpdate.displayName = "RecordUpdate"
-
-$RecordUpdate.defaultProps = {
-  record: new Record({
-    name: `Doe`
-  })
-}

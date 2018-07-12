@@ -18,18 +18,6 @@ module Mint
       display_name =
         "\n\n$#{name}.displayName = \"#{node.name}\""
 
-      default_fields =
-        node
-          .properties
-          .map { |prop| "#{prop.name.value}: #{compile prop.default}" }
-          .join(",")
-          .indent
-
-      defaults =
-        if !default_fields.strip.empty?
-          "\n\n$#{name}.defaultProps = {\n#{default_fields}\n}"
-        end
-
       store_stuff =
         compile_component_store_data node
 
@@ -52,7 +40,7 @@ module Mint
           .indent
 
       "class $#{name} extends Component {\n#{body}\n}" \
-      "#{display_name}#{defaults}"
+      "#{display_name}"
     end
 
     def compile_component_store_data(node : Ast::Component) : Array(String)

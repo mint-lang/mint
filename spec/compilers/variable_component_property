@@ -29,7 +29,3 @@ class $A extends Component {
 }
 
 $A.displayName = "A"
-
-$A.defaultProps = {
-  test: `Hello`
-}

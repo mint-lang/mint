@@ -54,11 +54,6 @@ class $HtmlStyle extends Component {
 
 $HtmlStyle.displayName = "HtmlStyle"
 
-$HtmlStyle.defaultProps = {
-  hoverBackground: `yellow`,
-  background: `blue`
-}
-
 _insertStyles(`
   .html-style-test {
     background: var(--html-style-test-background);
