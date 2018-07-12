@@ -1,0 +1,23 @@
+module Test {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1]
+  }
+
+  fun test1 : Maybe(a) {
+    [][1]
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return _at([`Hello`, `Blah`, `Joe`], 1)
+  }
+
+  test1() {
+    return _at([], 1)
+  }
+})

@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-describe "Access" do
+describe "Array" do
   subject array
 
   expect_ignore " "

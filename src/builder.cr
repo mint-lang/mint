@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize
+    def initialize(relative)
       json = MintJson.parse_current
 
       terminal.measure "#{COG} Ensuring dependencies... " do
@@ -23,7 +23,7 @@ module Mint
       File.write "dist/index.js", index
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write "dist/index.html", IndexHtml.render(Environment::BUILD)
+        File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative)
       end
 
       terminal.measure "#{COG} Generating icons... " do
