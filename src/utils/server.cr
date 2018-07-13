@@ -13,7 +13,7 @@ module Mint
     end
 
     def port_open?(ip, port)
-      TCPSocket.new(ip, port).close
+      TCPSocket.new(ip, port, 0.25, 0.25).close
       false
     rescue
       true
