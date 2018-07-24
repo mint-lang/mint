@@ -7,10 +7,13 @@ module Mint
       arguments =
         format node.arguments, ", "
 
+      type =
+        format node.type
+
       if body.includes?("\n")
-        "(#{arguments}) => {\n#{body.indent}\n}"
+        "(#{arguments}) : #{type} => {\n#{body.indent}\n}"
       else
-        "(#{arguments}) => { #{body} }"
+        "(#{arguments}) : #{type} => { #{body} }"
       end
     end
   end

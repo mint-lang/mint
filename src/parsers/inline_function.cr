@@ -5,6 +5,8 @@ module Mint
     syntax_error InlineFunctionExpectedClosingBracket
     syntax_error InlineFunctionExpectedExpression
     syntax_error InlineFunctionExpectedArrow
+    syntax_error InlineFunctionExpectedColon
+    syntax_error InlineFunctionExpectedType
 
     def inline_function : Ast::InlineFunction | Nil
       start do |start_position|
@@ -18,6 +20,12 @@ module Mint
         ) { argument }.compact
 
         char ')', InlineFunctionExpectedClosingParentheses
+
+        whitespace
+        char ':', InlineFunctionExpectedColon
+        whitespace
+
+        type = type! InlineFunctionExpectedType
 
         whitespace
         keyword! "=>", InlineFunctionExpectedArrow
@@ -38,7 +46,8 @@ module Mint
           arguments: arguments,
           from: start_position,
           to: position,
-          input: data)
+          input: data,
+          type: type)
       end
     end
   end
