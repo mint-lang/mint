@@ -1,7 +1,7 @@
 module Mint
-  type_error InlineFunctionTypeMismatch
-
   class TypeChecker
+    type_error InlineFunctionTypeMismatch
+
     def check(node : Ast::InlineFunction) : Checkable
       scope node do
         body_type =
