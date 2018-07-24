@@ -1,11 +1,14 @@
 module Mint
   class Parser
+    syntax_error InlineFunctionExpectedClosingParentheses
+    syntax_error InlineFunctionExpectedOpeningBracket
+    syntax_error InlineFunctionExpectedClosingBracket
     syntax_error InlineFunctionExpectedExpression
     syntax_error InlineFunctionExpectedArrow
 
     def inline_function : Ast::InlineFunction | Nil
       start do |start_position|
-        skip unless char! '\\'
+        skip unless char! '('
 
         whitespace
 
@@ -14,15 +17,19 @@ module Mint
           separator: ','
         ) { argument }.compact
 
+        char ')', InlineFunctionExpectedClosingParentheses
+
         whitespace
         keyword! "=>", InlineFunctionExpectedArrow
         whitespace
 
-        head_comments = many { comment }.compact
-
-        body = expression! InlineFunctionExpectedExpression
-
-        tail_comments = many { comment }.compact
+        head_comments, body, tail_comments =
+          block_with_comments(
+            opening_bracket: InlineFunctionExpectedOpeningBracket,
+            closing_bracket: InlineFunctionExpectedClosingBracket
+          ) do
+            expression! InlineFunctionExpectedExpression
+          end
 
         Ast::InlineFunction.new(
           body: body.as(Ast::Expression),

@@ -8,9 +8,9 @@ module Mint
         format node.arguments, ", "
 
       if body.includes?("\n")
-        "\\#{arguments} =>\n#{body.indent}"
+        "(#{arguments}) => {\n#{body.indent}\n}"
       else
-        "\\#{arguments} => #{body}"
+        "(#{arguments}) => { #{body} }"
       end
     end
   end

@@ -2,7 +2,7 @@ module A {
   fun test : String {
     a()
   } where {
-    a = \ => "Hello"
+    a = () => { "Hello" }
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
@@ -10,6 +10,6 @@ module A {
   fun test : String {
     a()
   } where {
-    a = \ => true
+    a = () => { true }
   }
 }

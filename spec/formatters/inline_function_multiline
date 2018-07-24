@@ -7,7 +7,7 @@ module A {
   fun test : String {
     result.name
   } where {
-    a = \name:String,age:Number=> {name = name, age = age}
+    a = (name:String,age:Number)=>{{name = name, age = age}}
 
     result =
       a("Joe", 25)
@@ -24,11 +24,12 @@ module A {
     result.name
   } where {
     a =
-      \name : String, age : Number =>
+      (name : String, age : Number) => {
         {
           name = name,
           age = age
         }
+      }
 
     result =
       a("Joe", 25)

@@ -21,14 +21,23 @@ module Mint
         do_expression ||
         try_expression ||
         case_expression ||
-        inline_function ||
         function_call ||
-        parenthesized_expression ||
+        inline_function_or_parenthesized_expression ||
         negated_expression ||
         enum_id ||
         js ||
         void ||
         variable
+    end
+
+    def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil
+      parenthesized_expression
+    rescue error1
+      begin
+        inline_function
+      rescue error2
+        raise error1
+      end
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression
