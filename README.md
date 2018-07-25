@@ -49,6 +49,14 @@ Read the general [Contributing guide](https://github.com/crystal-lang/crystal/bl
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
 
+## FAQ
+
+### Why functions called `fun` instead of `function`
+You can find an explanation in this issues: https://github.com/mint-lang/mint/issues/55#issuecomment-404886342
+
+### Why is the language called Mint?
+You can find an explanation in this issues: https://github.com/mint-lang/mint/issues/53#issuecomment-404717310
+
 ## Contributors
 
 This project exists thanks to all the people who contribute. 
