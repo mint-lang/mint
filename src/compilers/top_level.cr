@@ -60,6 +60,9 @@ module Mint
 
     # Compiles the application
     def compile : String
+      records =
+        compile ast.records
+
       providers =
         compile ast.providers
 
@@ -77,9 +80,6 @@ module Mint
 
       enums =
         compile ast.enums
-
-      decoders =
-        @decoder.compile
 
       media_css =
         medias.map do |condition, rules|
@@ -118,7 +118,7 @@ module Mint
           "_insertStyles(`\n#{css + media_css}\n`)"
         end
 
-      (enums + [decoders] + providers + routes + modules + stores + components + [footer])
+      (enums + records + providers + routes + modules + stores + components + [footer])
         .reject(&.empty?)
         .join("\n\n")
     end

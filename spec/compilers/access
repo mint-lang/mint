@@ -1,5 +1,5 @@
 record X {
-  name: String
+  name : String
 }
 
 component A {
@@ -14,9 +14,26 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
+class $$X extends Record {}
+
+$$X.mappings = {
+  "name": null
+}
+
+$$X.decode = (input) => {
+  let name = Decoder.field(`name`, Decoder.string)(input)
+  if (name instanceof Err) {
+    return name
+  }
+
+  return new Ok(new $$X({
+    name: name.value
+  }))
+}
+
 class $A extends Component {
   a() {
-    let x = new Record({
+    let x = new $$X({
       name: `test`
     })
 

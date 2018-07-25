@@ -9,9 +9,33 @@ module Test {
   }
 }
 --------------------------------------------------------------------------------
+class $$Test extends Record {}
+
+$$Test.mappings = {
+  "name": null,
+  "age": null
+}
+
+$$Test.decode = (input) => {
+  let name = Decoder.field(`name`, Decoder.string)(input)
+  if (name instanceof Err) {
+    return name
+  }
+
+  let age = Decoder.field(`age`, Decoder.number)(input)
+  if (age instanceof Err) {
+    return age
+  }
+
+  return new Ok(new $$Test({
+    name: name.value,
+    age: age.value
+  }))
+}
+
 const $Test = new(class {
   encode() {
-    return _encode(new Record({
+    return _encode(new $$Test({
       name: `Hello`,
       age: 20
     }))

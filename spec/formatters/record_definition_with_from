@@ -1,6 +1,6 @@
-recordTest{a:String from "blah",b:Blah from "what"}
+recordTest{a:String using "blah",b:Blah using "what"}
 --------------------------------------------------------------------------------
 record Test {
-  a : String from "blah",
-  b : Blah from "what"
+  a : String using "blah",
+  b : Blah using "what"
 }

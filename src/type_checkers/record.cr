@@ -16,6 +16,8 @@ module Mint
         "node"      => node,
       } unless record
 
+      types[node] = record
+
       record
     end
   end

@@ -1,5 +1,5 @@
 record Y  {
-  size : Number from "SIIIZEEE"
+  size : Number using "SIIIZEEE"
 }
 
 record X {
@@ -22,18 +22,36 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-const $$Y = (input) => {
+class $$Y extends Record {}
+
+$$Y.mappings = {
+  "size": "SIIIZEEE"
+}
+
+$$Y.decode = (input) => {
   let size = Decoder.field(`SIIIZEEE`, Decoder.number)(input)
   if (size instanceof Err) {
     return size
   }
 
-  return new Ok({
+  return new Ok(new $$Y({
     size: size.value
-  })
+  }))
 }
 
-const $$X = (input) => {
+class $$X extends Record {}
+
+$$X.mappings = {
+  "string": null,
+  "number": null,
+  "bool": null,
+  "time": null,
+  "maybe": null,
+  "array": null,
+  "y": null
+}
+
+$$X.decode = (input) => {
   let string = Decoder.field(`string`, Decoder.string)(input)
   if (string instanceof Err) {
     return string
@@ -64,12 +82,12 @@ const $$X = (input) => {
     return array
   }
 
-  let y = Decoder.field(`y`, $$Y)(input)
+  let y = Decoder.field(`y`, $$Y.decode)(input)
   if (y instanceof Err) {
     return y
   }
 
-  return new Ok({
+  return new Ok(new $$X({
     string: string.value,
     number: number.value,
     bool: bool.value,
@@ -77,12 +95,12 @@ const $$X = (input) => {
     maybe: maybe.value,
     array: array.value,
     y: y.value
-  })
+  }))
 }
 
 class $A extends Component {
   x(input) {
-    return $$X(input)
+    return $$X.decode(input)
   }
 
   render() {

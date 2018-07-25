@@ -10,9 +10,10 @@ describe "Record Definition Field" do
   expect_error "asd", Mint::Parser::RecordDefinitionFieldExpectedColon
   expect_error "asd:", Mint::Parser::RecordDefinitionFieldExpectedType
   expect_error "asd: ", Mint::Parser::RecordDefinitionFieldExpectedType
-  expect_error "asd: T from", Mint::Parser::RecordDefinitionFieldExpectedMapping
+  expect_error "asd: T using", Mint::Parser::RecordDefinitionFieldExpectedMapping
 
   expect_ok "asd: T"
   expect_ok "asd : T"
   expect_ok "asd: T(Number)"
+  expect_ok "asd: T(Number) using \"wtf\""
 end

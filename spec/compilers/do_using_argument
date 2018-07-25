@@ -19,10 +19,27 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
+class $$Do_State extends Record {}
+
+$$Do_State.mappings = {
+  "greeting": null
+}
+
+$$Do_State.decode = (input) => {
+  let greeting = Decoder.field(`greeting`, Decoder.string)(input)
+  if (greeting instanceof Err) {
+    return greeting
+  }
+
+  return new Ok(new $$Do_State({
+    greeting: greeting.value
+  }))
+}
+
 class $Do extends Component {
   constructor(props) {
     super(props)
-    this.state = new Record({
+    this.state = new $$Do_State({
       greeting: `ho`
     })
   }
@@ -33,7 +50,7 @@ class $Do extends Component {
         let greeting = await `hello`
 
         await new Promise((_resolve) => {
-          this.setState(new Record({
+          this.setState(new $$Do_State({
             greeting: greeting
           }), _resolve)
         })

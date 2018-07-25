@@ -22,10 +22,34 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
+class $$State extends Record {}
+
+$$State.mappings = {
+  "name": null,
+  "age": null
+}
+
+$$State.decode = (input) => {
+  let name = Decoder.field(`name`, Decoder.string)(input)
+  if (name instanceof Err) {
+    return name
+  }
+
+  let age = Decoder.field(`age`, Decoder.number)(input)
+  if (age instanceof Err) {
+    return age
+  }
+
+  return new Ok(new $$State({
+    name: name.value,
+    age: age.value
+  }))
+}
+
 class $Test extends Component {
   constructor(props) {
     super(props)
-    this.state = new Record({
+    this.state = new $$State({
       name: `Joe`,
       age: 24
     })
@@ -33,7 +57,7 @@ class $Test extends Component {
 
   test() {
     return new Promise((_resolve) => {
-      this.setState(new Record({
+      this.setState(new $$State({
         name: `Hello`,
         age: 30
       }), _resolve)

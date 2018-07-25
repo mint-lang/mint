@@ -12,7 +12,7 @@ module Mint
           mapping_key =
             format item
 
-          " from #{mapping_key}"
+          " using #{mapping_key}"
         end.to_s
 
       comment =

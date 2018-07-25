@@ -12,20 +12,26 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-const $$X = (input) => {
+class $$X extends Record {}
+
+$$X.mappings = {
+  "name": null
+}
+
+$$X.decode = (input) => {
   let name = Decoder.field(`name`, Decoder.string)(input)
   if (name instanceof Err) {
     return name
   }
 
-  return new Ok({
+  return new Ok(new $$X({
     name: name.value
-  })
+  }))
 }
 
 class $A extends Component {
   x(input) {
-    return $$X(input)
+    return $$X.decode(input)
   }
 
   render() {

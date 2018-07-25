@@ -2,7 +2,7 @@ version: 1.0
 shards:
   admiral:
     github: jwaldrip/admiral.cr
-    version: 1.6.1
+    version: 1.7.2
 
   ameba:
     github: veelenga/ameba
@@ -10,15 +10,23 @@ shards:
 
   baked_file_system:
     github: schovi/baked_file_system
-    commit: e1447549d5ac0560720fae62179b2f2c62c9bfd1
+    commit: 24dbaf2180b872c0f0fc777b34e3759108959e6e
+
+  diff:
+    github: MakeNowJust/crystal-diff
+    commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63
 
   duktape:
     github: jessedoyle/duktape.cr
     version: 0.14.1
 
+  exception_page:
+    github: crystal-loot/exception_page
+    version: 0.1.1
+
   kemal:
     github: kemalcr/kemal
-    commit: a5870e7d24e5ec75c956bcf3e4423f55a2c4ff78
+    commit: 09bb1fcd4073a374b3a61c99e48e05a866b23c08
 
   kilt:
     github: jeromegn/kilt

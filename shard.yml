@@ -26,3 +26,6 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
+  diff:
+    github: MakeNowJust/crystal-diff
+    commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63

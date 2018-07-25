@@ -34,6 +34,17 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
+class $$MouseProvider_Data extends Record {}
+
+$$MouseProvider_Data.mappings = {
+  "moves": null,
+  "ups": null
+}
+
+$$MouseProvider_Data.decode = () => {
+  console.warn('Cannot decode this record!')
+}
+
 const $MouseProvider = new(class extends Provider {
   attach() {
     return null
@@ -49,7 +60,7 @@ class $Test extends Component {
 
   componentDidUpdate() {
     if (false) {
-      $MouseProvider._subscribe(this, new Record({
+      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
         moves: ((data) => {
           return null
         }),
@@ -66,7 +77,7 @@ class $Test extends Component {
 
   componentDidMount() {
     if (false) {
-      $MouseProvider._subscribe(this, new Record({
+      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
         moves: ((data) => {
           return null
         }),

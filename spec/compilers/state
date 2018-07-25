@@ -14,10 +14,34 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
+class $$Test_State extends Record {}
+
+$$Test_State.mappings = {
+  "a": null,
+  "b": null
+}
+
+$$Test_State.decode = (input) => {
+  let a = Decoder.field(`a`, Decoder.number)(input)
+  if (a instanceof Err) {
+    return a
+  }
+
+  let b = Decoder.field(`b`, Decoder.string)(input)
+  if (b instanceof Err) {
+    return b
+  }
+
+  return new Ok(new $$Test_State({
+    a: a.value,
+    b: b.value
+  }))
+}
+
 class $Test extends Component {
   constructor(props) {
     super(props)
-    this.state = new Record({
+    this.state = new $$Test_State({
       b: `Hello`,
       a: 0
     })

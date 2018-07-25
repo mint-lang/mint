@@ -4,7 +4,13 @@ module Mint
       fields =
         compile node.fields, ",\n"
 
-      "new Record({\n#{fields.indent}\n})"
+      type =
+        types[node]
+
+      name =
+        underscorize type.name
+
+      "new $$#{name}({\n#{fields.indent}\n})"
     end
   end
 end

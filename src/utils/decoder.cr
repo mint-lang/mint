@@ -2,18 +2,8 @@ module Mint
   class Decoder
     @decoders = {} of TypeChecker::Record => String
 
-    def id(name)
-      "$$#{name.gsub('.', '_')}"
-    end
-
-    def compile
-      @decoders
-        .map { |node, value| "const #{id(node.name)} = #{value}" }
-        .join("\n\n")
-    end
-
-    def generate(node : TypeChecker::Record)
-      return id(node.name) if @decoders[node]?
+    def compile(node : TypeChecker::Record)
+      return if @decoders[node]?
 
       consts =
         node.fields.map do |key, value|
@@ -39,9 +29,9 @@ module Mint
         <<-JS
         #{consts.join("\n\n")}
 
-        return new Ok({
+        return new Ok(new $$#{node.name.gsub('.', '_')}({
         #{fields.join(",\n").indent}
-        })
+        }))
         JS
 
       @decoders[node] =
@@ -50,13 +40,17 @@ module Mint
         #{body.indent}
         }
         JS
-
-      id(node.name)
     end
 
     def generate(node : TypeChecker::Variable)
       # This should never happen because of the typechecker!
       raise "Cannot generate a decoder for a type variable!"
+    end
+
+    def generate(node : TypeChecker::Record)
+      compile node
+
+      "$$#{node.name}.decode"
     end
 
     def generate(node : TypeChecker::Type)

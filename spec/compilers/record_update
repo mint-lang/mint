@@ -14,12 +14,29 @@ component RecordUpdate {
   }
 }
 --------------------------------------------------------------------------------
+class $$Record extends Record {}
+
+$$Record.mappings = {
+  "name": null
+}
+
+$$Record.decode = (input) => {
+  let name = Decoder.field(`name`, Decoder.string)(input)
+  if (name instanceof Err) {
+    return name
+  }
+
+  return new Ok(new $$Record({
+    name: name.value
+  }))
+}
+
 class $RecordUpdate extends Component {
   get record() {
     if (this.props.record != undefined) {
       return this.props.record
     } else {
-      return new Record({
+      return new $$Record({
         name: `Doe`
       })
     }

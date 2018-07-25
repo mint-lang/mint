@@ -19,7 +19,7 @@ module Mint
         mapping =
           start do
             whitespace
-            skip unless keyword "from"
+            skip unless keyword "using"
             whitespace
             string_literal! RecordDefinitionFieldExpectedMapping
           end

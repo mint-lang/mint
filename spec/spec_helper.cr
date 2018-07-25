@@ -1,4 +1,5 @@
 require "spec"
+require "diff"
 
 ERROR_MESSAGES = [] of String
 

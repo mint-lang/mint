@@ -36,7 +36,7 @@ module Mint
       begin
         inline_function
       rescue error2
-        raise error1
+        raise error2
       end
     end
 
