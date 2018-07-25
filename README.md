@@ -51,7 +51,7 @@ Read the general [Contributing guide](https://github.com/crystal-lang/crystal/bl
 
 ## FAQ
 
-### Why functions called `fun` instead of `function`
+### Why functions called `fun` instead of `function`?
 You can find an explanation in this issues: https://github.com/mint-lang/mint/issues/55#issuecomment-404886342
 
 ### Why is the language called Mint?
