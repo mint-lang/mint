@@ -1,14 +1,25 @@
 module Mint
   class TypeChecker
+    type_error InlineFunctionTypeMismatch
+
     def check(node : Ast::InlineFunction) : Checkable
       scope node do
-        type =
+        body_type =
           resolve node.body
+
+        return_type =
+          resolve node.type
 
         arguments =
           resolve node.arguments
 
-        Type.new("Function", arguments + [type])
+        raise InlineFunctionTypeMismatch, {
+          "expected" => return_type,
+          "got"      => body_type,
+          "node"     => node,
+        } unless Comparer.compare(body_type, return_type)
+
+        Type.new("Function", arguments + [return_type])
       end
     end
   end

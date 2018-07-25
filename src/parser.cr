@@ -18,6 +18,9 @@ module Mint
       rescue SkipError
         @position = start_position
         nil
+      rescue error : Error
+        @position = start_position
+        raise error
       end
     end
 
