@@ -1,5 +1,13 @@
 module Mint
   class Parser
+    def html_content
+      html_element ||
+        html_component ||
+        html_expression ||
+        html_fragment ||
+        comment
+    end
+
     def html_body(expected_closing_bracket : SyntaxError.class,
                   expected_closing_tag : SyntaxError.class,
                   tag : Ast::Variable | String,
@@ -16,10 +24,7 @@ module Mint
 
       unless self_closing
         items = many do
-          html_element.as(Ast::HtmlElement | Nil) ||
-            html_component.as(Ast::HtmlComponent | Nil) ||
-            html_expression.as(Ast::HtmlExpression | Nil) ||
-            comment
+          html_content.as(Ast::HtmlContent | Ast::Comment | Nil)
         end.compact
 
         whitespace

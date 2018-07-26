@@ -1,6 +1,6 @@
 module Mint
   class Ast
-    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression
+    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression | HtmlFragment
 
     alias TypeOrVariable = Type | TypeVariable
 
@@ -10,6 +10,7 @@ module Mint
                        StringLiteral |
                        NumberLiteral |
                        HtmlComponent |
+                       HtmlFragment |
                        RecordUpdate |
                        ModuleAccess |
                        FunctionCall |

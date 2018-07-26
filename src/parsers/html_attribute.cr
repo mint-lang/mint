@@ -5,9 +5,12 @@ module Mint
     syntax_error HtmlAttributeExpectedExpression
     syntax_error HtmlAttributeExpectedEqualSign
 
-    def html_attribute(with_dashes : Bool = true) : Ast::HtmlAttribute | Nil
+    def html_attribute(with_dashes : Bool = true, fixed_name : String | Nil = nil) : Ast::HtmlAttribute | Nil
       start do |start_position|
-        skip unless name = with_dashes ? variable_with_dashes : variable
+        name = with_dashes ? variable_with_dashes : variable
+
+        skip unless name
+        skip if fixed_name && name.value != fixed_name
 
         char '=', HtmlAttributeExpectedEqualSign
 

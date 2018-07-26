@@ -1,0 +1,25 @@
+component Test {
+  fun render : Html {
+    <>
+      <{"Hello There"}>
+
+      <></>
+      < key="Hello"></>
+      <><{"AA"}></>
+    </>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <>
+      <{ "Hello There" }>
+
+      < key="Hello"></>
+
+      <>
+        <{ "AA" }>
+      </>
+    </>
+  }
+}

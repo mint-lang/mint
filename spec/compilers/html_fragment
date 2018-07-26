@@ -1,0 +1,20 @@
+component Test {
+  fun render : Html {
+    <div>
+      <>
+        <{ "A" }>
+        < key="something"></>
+      </>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $Test extends Component {
+  render() {
+    return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`, _createElement(React.Fragment, {
+      "key": `something`
+    }, [])])])
+  }
+}
+
+$Test.displayName = "Test"

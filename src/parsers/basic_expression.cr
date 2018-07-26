@@ -10,6 +10,7 @@ module Mint
         record ||
         html_element ||
         html_component ||
+        html_fragment ||
         access ||
         module_call ||
         module_access ||

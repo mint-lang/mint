@@ -12,6 +12,8 @@ module Mint
           # Format the node
           formatted = format node
 
+          next memo if formatted.empty?
+
           # If this is the first node
           # save references
           if memo.empty?
