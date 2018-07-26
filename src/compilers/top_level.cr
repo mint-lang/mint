@@ -163,6 +163,7 @@ module Mint
         const DateFNS = Mint.DateFNS;
         const Record = Mint.Record;
         const Store = Mint.Store;
+        const React = Mint.React;
         const Just = Mint.Just;
         const Err = Mint.Err;
         const Ok = Mint.Ok;
