@@ -4,11 +4,22 @@ module Mint
       children =
         list(node.children + node.comments).indent
 
-      # There no point of having an empty fragment.
-      if node.children.empty?
-        ""
+      if node.key
+        key =
+          format node.key
+
+        if node.children.empty?
+          "< #{key}></>"
+        else
+          "< #{key}>\n#{children}\n</>"
+        end
       else
-        "<>\n#{children}\n</>"
+        # There no point of having an empty fragment.
+        if node.children.empty?
+          ""
+        else
+          "<>\n#{children}\n</>"
+        end
       end
     end
   end

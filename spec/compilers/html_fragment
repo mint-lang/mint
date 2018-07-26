@@ -3,6 +3,7 @@ component Test {
     <div>
       <>
         <{ "A" }>
+        < key="something"></>
       </>
     </div>
   }
@@ -10,7 +11,9 @@ component Test {
 --------------------------------------------------------------------------------
 class $Test extends Component {
   render() {
-    return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`])])
+    return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`, _createElement(React.Fragment, {
+      "key": `something`
+    }, [])])])
   }
 }
 

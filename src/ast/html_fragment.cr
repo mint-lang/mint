@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@children : Array(HtmlContent),
                      @comments : Array(Comment),
-                     @key : String?,
+                     @key : HtmlAttribute?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
