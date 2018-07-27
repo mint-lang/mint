@@ -1,0 +1,17 @@
+store A {
+  get test : Bool {
+    x
+  } where {
+    x =
+      true
+  }
+}
+-----------------------------------------------------------------GetTypeMismatch
+store A {
+  get test : Bool {
+    x
+  } where {
+    x =
+      "hello"
+  }
+}

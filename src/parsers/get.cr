@@ -29,12 +29,15 @@ module Mint
           expression! GetExpectedExpression
         end
 
+        whitespace
+
         Ast::Get.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           from: start_position,
           comment: comment,
           to: position,
+          where: where,
           input: data,
           name: name,
           body: body,

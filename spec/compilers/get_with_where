@@ -1,0 +1,35 @@
+store A {
+  get test : String {
+    something
+  } where {
+    something =
+      "Asd"
+
+    otherThing =
+      0
+  }
+}
+--------------------------------------------------------------------------------
+const $A = new(class extends Store {
+  constructor() {
+    super()
+    this.props = {
+
+    }
+  }
+
+  get state() {
+    return {
+
+    }
+  }
+
+  get test() {
+    let something = `Asd`
+
+    let otherThing = 0
+
+    return something
+  }
+})
+$A.__displayName = `A`

@@ -101,6 +101,10 @@ module Mint
           node.where.try(&.statements.find(&.name.value.==(variable)))
       end
 
+      def find(variable : String, node : Ast::Get)
+        node.where.try(&.statements.find(&.name.value.==(variable)))
+      end
+
       def find(variable : String, node : Ast::InlineFunction)
         node.arguments.find(&.name.value.==(variable))
       end

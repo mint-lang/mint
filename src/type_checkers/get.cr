@@ -10,6 +10,8 @@ module Mint
         return_type =
           resolve node.type
 
+        node.where.try { |item| resolve item }
+
         raise GetTypeMismatch, {
           "expected" => return_type,
           "got"      => body_type,

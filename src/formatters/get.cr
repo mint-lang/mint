@@ -10,10 +10,13 @@ module Mint
       body =
         list [node.body] + node.head_comments + node.tail_comments
 
+      where =
+        format node.where
+
       comment =
         node.comment.try { |item| "#{format(item)}\n" }
 
-      "#{comment}get #{name} : #{type} {\n#{body.indent}\n}"
+      "#{comment}get #{name} : #{type} {\n#{body.indent}\n}#{where}"
     end
   end
 end
