@@ -3,8 +3,8 @@ message StateExpectedColon do
 
   block do
     text "The"
-    bold "state keyword"
-    text "and the"
+    bold "name"
+    text "of a state and its"
     bold "type"
     text "must be separated by a"
     bold "colon"

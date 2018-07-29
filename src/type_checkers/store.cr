@@ -10,14 +10,14 @@ module Mint
       checked =
         {} of String => Ast::Node
 
-      check_names(node.properties, StoreEntityNameConflict, checked)
       check_names(node.functions, StoreEntityNameConflict, checked)
+      check_names(node.states, StoreEntityNameConflict, checked)
       check_names(node.gets, StoreEntityNameConflict, checked)
 
       # Type checking the entities
       scope node do
-        resolve node.properties
         resolve node.functions
+        resolve node.states
         resolve node.gets
       end
 

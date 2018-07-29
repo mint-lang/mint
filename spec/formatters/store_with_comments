@@ -1,9 +1,9 @@
-/*A*/storeTest{/*B*/property a : Number = 0/*C*/}
+/*A*/storeTest{/*B*/state a : Number = 0/*C*/}
 --------------------------------------------------------------------------------
 /* A */
 store Test {
   /* B */
-  property a : Number = 0
+  state a : Number = 0
 
   /* C */
 }

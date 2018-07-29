@@ -26,7 +26,7 @@ module Mint
     getter records, scope, artifacts
 
     delegate types, variables, html_elements, ast, lookups, to: artifacts
-    delegate component?, component, to: scope
+    delegate component?, component, stateful?, to: scope
 
     @record_names = {} of String => Ast::Node
     @cache = {} of Ast::Node => Checkable
@@ -48,17 +48,6 @@ module Mint
 
       ast.records.map do |record|
         add_record check(record), record
-      end
-
-      ast.stores.each do |store|
-        fields =
-          store.properties.map do |field|
-            {field.name.value, check(field.type).as(Checkable)}
-          end.to_h
-
-        unless fields.empty?
-          add_record Record.new(store.name, fields), store
-        end
       end
     end
 
@@ -207,7 +196,7 @@ module Mint
       @names[name] = node
     end
 
-    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property),
+    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),
                     error : Mint::TypeError.class,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
@@ -220,6 +209,8 @@ module Mint
         if other
           what =
             case other
+            when Ast::State
+              "state"
             when Ast::Function
               "function"
             when Ast::Get

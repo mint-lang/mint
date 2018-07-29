@@ -2,10 +2,10 @@ module Mint
   class Formatter
     def format(node : Ast::Store) : String
       items =
-        node.properties +
-          node.functions +
-          node.gets +
-          node.comments
+        node.functions +
+          node.comments +
+          node.states +
+          node.gets
 
       name =
         format node.name

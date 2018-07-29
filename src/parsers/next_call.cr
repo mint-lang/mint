@@ -8,9 +8,7 @@ module Mint
 
         whitespace! SkipError
 
-        item = record_update || record || variable
-
-        raise NextCallExpectedRecord unless item
+        raise NextCallExpectedRecord unless item = record
 
         Ast::NextCall.new(
           from: start_position,

@@ -2,7 +2,7 @@ component Do {
   fun test : Void {
     do {
       greeting = "hello"
-      next state
+      void
     }
   }
 
@@ -17,9 +17,7 @@ class $Do extends Component {
       try {
         let greeting = await `hello`
 
-        await new Promise((_resolve) => {
-          this.setState(this.state, _resolve)
-        })
+        await null
       } catch (_error) {
         if (_error instanceof DoError) {} else {
           console.warn(`Unhandled error in do statement`)

@@ -1,10 +1,10 @@
 module Mint
   class Compiler
     def compile(node : Ast::State) : String
-      data =
-        compile node.data
+      name =
+        node.name.value
 
-      "this.state = #{data}"
+      "get #{name}() { return this.state.#{name} }"
     end
   end
 end

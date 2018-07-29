@@ -1,5 +1,5 @@
 store Test {
-  property x : String = ""
+  state x : String = ""
 
   fun y : String {
     `hello`
@@ -15,7 +15,7 @@ component A {
 }
 -----------------------------------------------------------ConnectNotFoundMember
 store Test {
-  property x : String = ""
+  state x : String = ""
 }
 
 component A {

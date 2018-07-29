@@ -1,27 +1,40 @@
 module Mint
   class TypeChecker
     type_error NextCallInvalidInvokation
-    type_error NextCallTypeMismatch
+    type_error NextCallStateTypeMismatch
+    type_error NextCallStateNotFound
 
     def check(node : Ast::NextCall) : Checkable
-      type =
-        resolve node.data
-
-      state =
-        scope.find("state")
+      entity = stateful?
 
       raise NextCallInvalidInvokation, {
         "node" => node,
-      } unless state
+      } unless entity
 
-      state_type =
-        resolve state
+      node.data.fields.each do |item|
+        state =
+          entity
+            .states
+            .find(&.name.value.==(item.key.value))
 
-      raise NextCallTypeMismatch, {
-        "expected" => state_type,
-        "got"      => type,
-        "node"     => node,
-      } unless Comparer.compare(state_type, type)
+        raise NextCallStateNotFound, {
+          "name"  => item.key.value,
+          "node" => node,
+        } unless state
+
+        type =
+          resolve item.value
+
+        state_type =
+          resolve state.type
+
+        raise NextCallStateTypeMismatch, {
+          "name"     => item.key.value,
+          "expected" => state_type,
+          "node"     => item,
+          "got"      => type,
+        } unless Comparer.compare(state_type, type)
+      end
 
       VOID
     end

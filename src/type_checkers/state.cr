@@ -1,27 +1,21 @@
 module Mint
   class TypeChecker
-    type_error StateNotFoundRecord
-    type_error StateRecordMismatch
+    type_error StateTypeMismatch
 
     def check(node : Ast::State) : Checkable
       record =
         resolve node.type
 
       type =
-        resolve node.data
+        resolve node.default
 
-      raise StateRecordMismatch, {
+      raise StateTypeMismatch, {
         "expected" => record,
-        "node"     => node.data,
+        "node"     => node.default,
         "got"      => type,
       } unless Comparer.compare(record, type)
 
       type
-    rescue error : RecordNotFoundMatchingRecord
-      raise StateNotFoundRecord, {
-        "record" => error.locals["structure"],
-        "node"   => node.data,
-      }
     end
   end
 end

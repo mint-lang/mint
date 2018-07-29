@@ -1,9 +1,5 @@
-record State {
-  name : String
-}
-
 component Test {
-  state : State { name = "Joe" }
+  state name : String = "Joe"
 
   fun test : Void {
     next {name = "Hello"}
@@ -14,12 +10,8 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-record State {
-  name : String
-}
-
 component Test {
-  state : State { name = "Joe" }
+  state name : String = "Joe"
 
   fun test : Void {
     next { name = "Hello" }

@@ -1,13 +1,6 @@
-record State {
-  name : String,
-  age : Number
-}
-
 component Test {
-  state : State {
-    name = "Joe",
-    age = 24
-  }
+  state name : String = "Joe"
+  state age : Number = 24
 
   fun test : Void {
     next {name = "Hello",age=30}
@@ -18,16 +11,9 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-record State {
-  name : String,
-  age : Number
-}
-
 component Test {
-  state : State {
-    name = "Joe",
-    age = 24
-  }
+  state name : String = "Joe"
+  state age : Number = 24
 
   fun test : Void {
     next

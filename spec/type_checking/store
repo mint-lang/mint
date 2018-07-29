@@ -1,16 +1,16 @@
 store Test {
-  property a : String = ""
+  state a : String = ""
 
   fun b : Void {
-    next { state | a = "Blah" }
+    next { a = "Blah" }
   }
 }
----------------------------------------------------------RecordUpdateNotFoundKey
+-----------------------------------------------------------NextCallStateNotFound
 store Test {
-  property a : String = ""
+  state a : String = ""
 
   fun b : Void {
-    next { state | b = "Blah" }
+    next { b = "Blah" }
   }
 }
 ---------------------------------------------------------StoreEntityNameConflict

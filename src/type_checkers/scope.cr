@@ -92,6 +92,12 @@ module Mint
         entity.as(Ast::Component)
       end
 
+      def stateful?
+        @levels
+          .find(&.is_a?(Ast::Component | Ast::Store))
+          .as(Ast::Component | Ast::Store | Nil)
+      end
+
       def find(variable : String, data : Tuple(String, Checkable))
         data[0] == variable ? data[1] : nil
       end
@@ -114,14 +120,9 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Store)
-        if variable == "state"
-          @records.find(&.name.==(node.name)) ||
-            Type.new(node.name)
-        else
-          node.functions.find(&.name.value.==(variable)) ||
-            node.properties.find(&.name.value.==(variable)) ||
-            node.gets.find(&.name.value.==(variable))
-        end
+        node.functions.find(&.name.value.==(variable)) ||
+          node.states.find(&.name.value.==(variable)) ||
+          node.gets.find(&.name.value.==(variable))
       end
 
       def find(variable : String, node : Ast::Provider)
@@ -135,16 +136,13 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Component)
-        if variable == "state"
-          node.states.first? || Ast::Record.empty
-        else
-          node.functions.find(&.name.value.==(variable)) ||
-            node.gets.find(&.name.value.==(variable)) ||
-            node.properties.find(&.name.value.==(variable)) ||
-            store_properties(component).find(&.name.value.==(variable)) ||
-            store_functions(component).find(&.name.value.==(variable)) ||
-            store_gets(component).find(&.name.value.==(variable))
-        end
+        node.functions.find(&.name.value.==(variable)) ||
+          node.gets.find(&.name.value.==(variable)) ||
+          node.properties.find(&.name.value.==(variable)) ||
+          node.states.find(&.name.value.==(variable)) ||
+          store_states(component).find(&.name.value.==(variable)) ||
+          store_functions(component).find(&.name.value.==(variable)) ||
+          store_gets(component).find(&.name.value.==(variable))
       end
 
       def find(variable : String, node : Ast::Node)
@@ -179,18 +177,18 @@ module Mint
         nodes.each { |node| @levels.delete node }
       end
 
-      private def store_properties(component)
+      private def store_states(component)
         component.connects.map do |item|
           store = @ast.stores.find(&.name.==(item.store))
 
           if store
             keys = item.keys.map(&.value)
-            store.properties.select do |property|
-              keys.includes?(property.name.value)
+            store.states.select do |state|
+              keys.includes?(state.name.value)
             end
           end
         end.compact
-          .reduce([] of Ast::Property) { |memo, item| memo.concat(item) }
+          .reduce([] of Ast::State) { |memo, item| memo.concat(item) }
       end
 
       private def store_gets(component)

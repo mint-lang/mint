@@ -1,5 +1,5 @@
-storeTest{property a : Number = 0}
+storeTest{state a : Number = 0}
 --------------------------------------------------------------------------------
 store Test {
-  property a : Number = 0
+  state a : Number = 0
 }

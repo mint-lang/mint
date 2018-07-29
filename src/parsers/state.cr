@@ -1,7 +1,9 @@
 module Mint
   class Parser
-    syntax_error StateExpectedRecord
+    syntax_error StateExpectedDefaultValue
+    syntax_error StateExpectedEqualSign
     syntax_error StateExpectedColon
+    syntax_error StateExpectedName
     syntax_error StateExpectedType
 
     def state : Ast::State | Nil
@@ -9,20 +11,27 @@ module Mint
         skip unless keyword "state"
 
         whitespace
+        name = variable! StateExpectedName
+
+        whitespace
         char ':', StateExpectedColon
         whitespace
 
         type = type! StateExpectedType
+
+        whitespace
+        char '=', StateExpectedEqualSign
         whitespace
 
-        raise StateExpectedRecord unless state = record
+        default = expression! StateExpectedDefaultValue
 
         Ast::State.new(
+          default: default.as(Ast::Expression),
           from: start_position,
           to: position,
-          data: state,
           input: data,
-          type: type)
+          type: type,
+          name: name)
       end
     end
   end

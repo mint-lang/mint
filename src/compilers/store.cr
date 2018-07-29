@@ -4,8 +4,8 @@ module Mint
       functions =
         compile node.functions
 
-      properties =
-        compile node.properties
+      states =
+        compile node.states
 
       gets =
         compile node.gets
@@ -13,21 +13,8 @@ module Mint
       constructor =
         compile_constructor node
 
-      state_properties =
-        node
-          .properties
-          .map(&.name.value)
-          .map { |property| "#{property}: this.#{property}" }
-          .join(",\n")
-
-      state =
-        "return {\n#{state_properties}\n}"
-
-      state_get =
-        "get state () {\n#{state.indent}\n}"
-
       body =
-        ([constructor] + properties + [state_get] + gets + functions)
+        ([constructor] + states + gets + functions)
           .join("\n\n")
           .indent
 
@@ -43,13 +30,13 @@ module Mint
     end
 
     def compile_constructor(node : Ast::Store) : String
-      properties =
-        node.properties.map do |property|
+      states =
+        node.states.map do |state|
           name =
-            property.name.value
+            state.name.value
 
           default =
-            compile property.default
+            compile state.default
 
           "#{name}: #{default}"
         end
@@ -57,8 +44,8 @@ module Mint
       <<-RESULT
       constructor() {
         super()
-        this.props = {
-          #{properties.join(",").indent}
+        this.state = {
+          #{states.join(",\n").indent}
         }
       }
       RESULT

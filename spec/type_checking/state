@@ -1,43 +1,14 @@
-record Test.State {
-  a : Number,
-  b : String
-}
-
 component Test {
-  state : Test.State {
-    b = "Hello",
-    a = 0
-  }
+  state b : String = "Hello"
+  state a : Number = 0
 
   fun render : Html {
     <div/>
   }
 }
--------------------------------------------------------------StateNotFoundRecord
+-------------------------------------------------------------StateTypeMismatch
 component Test {
-  state : Test.State {
-    b = "Hello",
-    a = 0
-  }
-
-  fun render : Html {
-    <div/>
-  }
-}
--------------------------------------------------------------StateRecordMismatch
-record Test.State {
-  a : Number,
-  b : String
-}
-
-record Test.InvalidState {
-  c : Array(Number)
-}
-
-component Test {
-  state : Test.State {
-    c = []
-  }
+  state b : String = 0
 
   fun render : Html {
     <div/>

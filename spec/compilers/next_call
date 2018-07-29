@@ -1,13 +1,6 @@
-record State {
-  name : String,
-  age : Number
-}
-
 component Test {
-  state : State {
-    name = "Joe",
-    age = 24
-  }
+  state name : String = "Joe"
+  state age : Number = 24
 
   fun test : Void {
     next
@@ -22,45 +15,29 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $$State extends Record {}
-
-$$State.mappings = {
-  "name": null,
-  "age": null
-}
-
-$$State.decode = (input) => {
-  let name = Decoder.field(`name`, Decoder.string)(input)
-  if (name instanceof Err) {
-    return name
-  }
-
-  let age = Decoder.field(`age`, Decoder.number)(input)
-  if (age instanceof Err) {
-    return age
-  }
-
-  return new Ok(new $$State({
-    name: name.value,
-    age: age.value
-  }))
-}
-
 class $Test extends Component {
   constructor(props) {
     super(props)
-    this.state = new $$State({
+    this.state = new Record({
       name: `Joe`,
       age: 24
     })
   }
 
+  get name() {
+    return this.state.name
+  }
+
+  get age() {
+    return this.state.age
+  }
+
   test() {
     return new Promise((_resolve) => {
-      this.setState(new $$State({
+      this.setState(_update(this.state, new Record({
         name: `Hello`,
         age: 30
-      }), _resolve)
+      })), _resolve)
     })
   }
 

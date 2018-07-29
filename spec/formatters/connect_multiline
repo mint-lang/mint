@@ -1,11 +1,11 @@
 store Test {
-  property a : String = "a"
-  property b : String = "b"
-  property c : String = "c"
-  property d : String = "d"
-  property e : String = "e"
-  property f : String = "f"
-  property g : String = "g"
+  state a : String = "a"
+  state b : String = "b"
+  state c : String = "c"
+  state d : String = "d"
+  state e : String = "e"
+  state f : String = "f"
+  state g : String = "g"
 }
 
 component A {
@@ -17,13 +17,13 @@ component A {
 }
 --------------------------------------------------------------------------------
 store Test {
-  property a : String = "a"
-  property b : String = "b"
-  property c : String = "c"
-  property d : String = "d"
-  property e : String = "e"
-  property f : String = "f"
-  property g : String = "g"
+  state a : String = "a"
+  state b : String = "b"
+  state c : String = "c"
+  state d : String = "d"
+  state e : String = "e"
+  state f : String = "f"
+  state g : String = "g"
 }
 
 component A {

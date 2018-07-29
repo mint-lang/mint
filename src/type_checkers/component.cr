@@ -1,10 +1,10 @@
 module Mint
   class TypeChecker
     type_error ComponentFunctionTypeMismatch
-    type_error ComponentStateAlreadyDefined
     type_error ComponentExposedNameConflict
     type_error ComponentRenderTypeMismatch
     type_error ComponentEntityNameConflict
+    type_error ComponentStateNameConflict
     type_error ComponentStyleNameConflict
     type_error ComponentMultipleConnects
     type_error ComponentMultipleExposed
@@ -21,17 +21,8 @@ module Mint
 
       check_names(node.properties, ComponentEntityNameConflict, checked)
       check_names(node.functions, ComponentEntityNameConflict, checked)
+      check_names(node.states, ComponentStateNameConflict, checked)
       check_names(node.gets, ComponentEntityNameConflict, checked)
-
-      # Checking for multiple states
-      if second_state = node.states[1]?
-        first_state = node.states[0]
-
-        raise ComponentStateAlreadyDefined, {
-          "node"  => second_state,
-          "other" => first_state,
-        }
-      end
 
       # Checking for style name conflicts
       node.styles.reduce({} of String => Ast::Node) do |memo, style|

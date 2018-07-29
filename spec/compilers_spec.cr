@@ -19,7 +19,7 @@ Dir.glob("./spec/compilers/**/*").each do |file|
         print chunk.data.colorize(
           chunk.append? ? :green : chunk.delete? ? :red : :dark_gray)
       end
-      # puts "Expected:\n\n#{expected.strip}\n\nGot:\n\n#{result}".colorize(:red)
+      puts "Expected:\n\n#{expected.strip}\n\nGot:\n\n#{result}".colorize(:red)
       fail ""
     end
   end

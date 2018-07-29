@@ -1,5 +1,5 @@
 store Test {
-  property a : String = ""
+  state a : String = ""
 
   get b : String {
     "hello"
@@ -9,23 +9,13 @@ store Test {
 const $Test = new(class extends Store {
   constructor() {
     super()
-    this.props = {
+    this.state = {
       a: ``
     }
   }
 
   get a() {
-    if (this.props.a != undefined) {
-      return this.props.a
-    } else {
-      return ``
-    }
-  }
-
-  get state() {
-    return {
-      a: this.a
-    }
+    return this.state.a
   }
 
   get b() {

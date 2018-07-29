@@ -11,13 +11,7 @@ store Test {
 const $Test = new(class extends Store {
   constructor() {
     super()
-    this.props = {
-
-    }
-  }
-
-  get state() {
-    return {
+    this.state = {
 
     }
   }

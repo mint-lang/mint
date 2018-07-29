@@ -10,7 +10,7 @@ provider MouseProvider : MouseProvider.Data {
 }
 
 store Blah {
-  property test : String = ""
+  state test : String = ""
 
   fun x : String {
     "hello"
@@ -52,23 +52,13 @@ const $MouseProvider = new(class extends Provider {
 const $Blah = new(class extends Store {
   constructor() {
     super()
-    this.props = {
+    this.state = {
       test: ``
     }
   }
 
   get test() {
-    if (this.props.test != undefined) {
-      return this.props.test
-    } else {
-      return ``
-    }
-  }
-
-  get state() {
-    return {
-      test: this.test
-    }
+    return this.state.test
   }
 
   x() {

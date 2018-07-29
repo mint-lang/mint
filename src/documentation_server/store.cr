@@ -5,8 +5,8 @@ module Mint
         json.field "name", node.name
         json.field "description", node.comment.try(&.to_html)
 
-        json.field "properties" do
-          generate node.properties, json
+        json.field "states" do
+          generate node.states, json
         end
 
         json.field "computed-properties" do

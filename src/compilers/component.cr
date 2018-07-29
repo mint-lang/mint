@@ -12,6 +12,9 @@ module Mint
       properties =
         compile node.properties
 
+      states =
+        compile node.states
+
       name =
         underscorize node.name
 
@@ -22,11 +25,18 @@ module Mint
         compile_component_store_data node
 
       state =
-        compile(node.states)
-          .first?
+        if node.states.any?
+          values =
+            node
+              .states
+              .map { |item| "#{item.name.value}: #{compile item.default}" }
+              .join(",\n")
+
+          "new Record({\n#{values.indent}\n})"
+        end
 
       constructor_contents =
-        "super(props)\n#{state}"
+        "super(props)\nthis.state = #{state}"
 
       constructor =
         if state
@@ -34,7 +44,7 @@ module Mint
         end
 
       body =
-        ([constructor] + gets + properties + store_stuff + functions)
+        ([constructor] + gets + properties + states + store_stuff + functions)
           .compact
           .join("\n\n")
           .indent
@@ -49,7 +59,7 @@ module Mint
 
         if store
           item.keys.map do |key|
-            if store.properties.any? { |prop| prop.name.value == key.value }
+            if store.states.any? { |state| state.name.value == key.value }
               memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"
             elsif store.gets.any? { |get| get.name.value == key.value }
               memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"

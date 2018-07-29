@@ -10,7 +10,7 @@ component Do {
       greeting =
         Promise.reject("hello")
 
-      next state
+      void
     } catch String => a {
       void
     }
@@ -42,9 +42,7 @@ class $Do extends Component {
           }
         })()
 
-        await new Promise((_resolve) => {
-          this.setState(this.state, _resolve)
-        })
+        await null
       } catch (_error) {
         if (_error instanceof DoError) {} else {
           console.warn(`Unhandled error in do statement`)

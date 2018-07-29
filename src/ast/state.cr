@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class State < Node
-      getter data, type
+      getter default, type, name
 
-      def initialize(@data : Record,
+      def initialize(@default : Expression,
+                     @name : Variable,
                      @input : Data,
                      @from : Int32,
                      @type : Type,

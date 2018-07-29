@@ -1,8 +1,8 @@
 store Test {
-  property a : String = "a"
-  property b : String = "b"
-  property c : String = "c"
-  property d : String = "d"
+  state a : String = "a"
+  state b : String = "b"
+  state c : String = "c"
+  state d : String = "d"
 }
 
 component A {
@@ -14,10 +14,10 @@ component A {
 }
 --------------------------------------------------------------------------------
 store Test {
-  property a : String = "a"
-  property b : String = "b"
-  property c : String = "c"
-  property d : String = "d"
+  state a : String = "a"
+  state b : String = "b"
+  state c : String = "c"
+  state d : String = "d"
 }
 
 component A {

@@ -1,13 +1,6 @@
-record State {
-  name : String,
-  age : Number
-}
-
 component Test {
-  state : State {
-    name = "Joe",
-    age = 24
-  }
+  state name : String = "Joe"
+  state age : Number = 24
 
   fun test : Void {
     next {
@@ -21,31 +14,29 @@ component Test {
   }
 }
 -------------------------------------------------------NextCallInvalidInvokation
-record B {
-  age : Number
-}
-
 module Test {
   fun test : Void {
     next { age = 30 }
   }
 }
-------------------------------------------------------------NextCallTypeMismatch
-record A {
-  name : String
-}
-
-record B {
-  age : Number
-}
-
+-------------------------------------------------------NextCallStateTypeMismatch
 component Test {
-  state : A {
-    name = "Joe"
-  }
+  state name : String = "Joe"
 
   fun test : Void {
-    next { age=30 }
+    next { name = 30 }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-----------------------------------------------------------NextCallStateNotFound
+component Test {
+  state name : String = "Joe"
+
+  fun test : Void {
+    next { age = 30 }
   }
 
   fun render : Html {

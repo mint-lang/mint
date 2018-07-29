@@ -1,11 +1,5 @@
-record Do.State {
-  greeting: String
-}
-
 component Do {
-  state : Do.State {
-    greeting = "ho"
-  }
+  state greeting : String = "ho"
 
   fun test : Void {
     do {
@@ -19,29 +13,16 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $$Do_State extends Record {}
-
-$$Do_State.mappings = {
-  "greeting": null
-}
-
-$$Do_State.decode = (input) => {
-  let greeting = Decoder.field(`greeting`, Decoder.string)(input)
-  if (greeting instanceof Err) {
-    return greeting
-  }
-
-  return new Ok(new $$Do_State({
-    greeting: greeting.value
-  }))
-}
-
 class $Do extends Component {
   constructor(props) {
     super(props)
-    this.state = new $$Do_State({
+    this.state = new Record({
       greeting: `ho`
     })
+  }
+
+  get greeting() {
+    return this.state.greeting
   }
 
   test() {
@@ -50,9 +31,9 @@ class $Do extends Component {
         let greeting = await `hello`
 
         await new Promise((_resolve) => {
-          this.setState(new $$Do_State({
+          this.setState(_update(this.state, new Record({
             greeting: greeting
-          }), _resolve)
+          })), _resolve)
         })
       } catch (_error) {
         if (_error instanceof DoError) {} else {

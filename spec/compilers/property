@@ -1,15 +1,12 @@
-store Test {
+component Test {
   property name : String = "Joe"
+
+  fun render : Html {
+    <div/>
+  }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class extends Store {
-  constructor() {
-    super()
-    this.props = {
-      name: `Joe`
-    }
-  }
-
+class $Test extends Component {
   get name() {
     if (this.props.name != undefined) {
       return this.props.name
@@ -18,10 +15,9 @@ const $Test = new(class extends Store {
     }
   }
 
-  get state() {
-    return {
-      name: this.name
-    }
+  render() {
+    return _createElement("div", {})
   }
-})
-$Test.__displayName = `Test`
+}
+
+$Test.displayName = "Test"
