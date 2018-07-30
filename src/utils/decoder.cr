@@ -3,7 +3,7 @@ module Mint
     @decoders = {} of TypeChecker::Record => String
 
     def compile(node : TypeChecker::Record)
-      return if @decoders[node]?
+      return @decoders[node] if @decoders[node]?
 
       consts =
         node.fields.map do |key, value|
