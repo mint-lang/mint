@@ -11,6 +11,7 @@ module Mint
 
       raise StateTypeMismatch, {
         "expected" => record,
+        "name"     => node.name.value,
         "node"     => node.default,
         "got"      => type,
       } unless Comparer.compare(record, type)
