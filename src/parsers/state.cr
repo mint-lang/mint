@@ -8,6 +8,9 @@ module Mint
 
     def state : Ast::State | Nil
       start do |start_position|
+        comment = self.comment
+        whitespace
+
         skip unless keyword "state"
 
         whitespace
@@ -28,6 +31,7 @@ module Mint
         Ast::State.new(
           default: default.as(Ast::Expression),
           from: start_position,
+          comment: comment,
           to: position,
           input: data,
           type: type,

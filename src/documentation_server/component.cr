@@ -1,9 +1,6 @@
 module Mint
   class DocumentationServer
     def generate(node : Ast::Component, json : JSON::Builder)
-      state =
-        node.states.first?
-
       json.object do
         json.field "description", node.comment.try(&.to_html)
         json.field "name", node.name
@@ -28,12 +25,8 @@ module Mint
           generate node.uses, json
         end
 
-        json.field "state" do
-          if state
-            generate state, json
-          else
-            json.null
-          end
+        json.field "states" do
+          generate node.states, json
         end
       end
     end

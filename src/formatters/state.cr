@@ -10,7 +10,10 @@ module Mint
       type =
         format node.type
 
-      "state #{name} : #{type} = #{default}"
+      comment =
+        node.comment.try { |item| "#{format item}\n" }
+
+      "#{comment}state #{name} : #{type} = #{default}"
     end
   end
 end
