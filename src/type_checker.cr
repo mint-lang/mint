@@ -33,6 +33,8 @@ module Mint
     @names = {} of String => Ast::Node
     @records = [] of Record
 
+    @stack = [] of Ast::Node
+
     def initialize(ast : Ast)
       @artifacts = Artifacts.new(ast)
       @scope = Scope.new(ast, records)
@@ -144,8 +146,18 @@ module Mint
         node
       when Ast::Node
         @cache[node]? || begin
+          raise Recursion, {
+            "caller_node" => @stack.last,
+            "node"        => node,
+          } if @stack.includes?(node)
+
+          @stack.push node
+
           result = check(node, *args).as(Checkable)
+
           @cache[node] = result
+          @stack.delete node
+
           result
         end
       else
