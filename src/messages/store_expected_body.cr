@@ -3,7 +3,7 @@ message StoreExpectedBody do
 
   block do
     text "I was looking for at least one"
-    bold "function or property"
+    bold "function, state or computed property"
     text "for this store but found"
     code got
     text "instead."
