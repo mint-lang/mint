@@ -16,13 +16,13 @@ $$Test.mappings = {
   "age": null
 }
 
-$$Test.decode = (input) => {
-  let name = Decoder.field(`name`, Decoder.string)(input)
+$$Test.decode = (_input) => {
+  let name = Decoder.field(`name`, Decoder.string)(_input)
   if (name instanceof Err) {
     return name
   }
 
-  let age = Decoder.field(`age`, Decoder.number)(input)
+  let age = Decoder.field(`age`, Decoder.number)(_input)
   if (age instanceof Err) {
     return age
   }

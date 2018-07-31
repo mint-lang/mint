@@ -14,7 +14,7 @@ module Mint
             node.mappings[key]? || key
 
           <<-JS
-          let #{key} = Decoder.field(`#{from}`, #{decoder})(input)
+          let #{key} = Decoder.field(`#{from}`, #{decoder})(_input)
           if (#{key} instanceof Err) { return #{key} }
           JS
         end
@@ -36,7 +36,7 @@ module Mint
 
       @decoders[node] =
         <<-JS
-        (input) => {
+        (_input) => {
         #{body.indent}
         }
         JS

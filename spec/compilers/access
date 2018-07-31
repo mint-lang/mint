@@ -20,8 +20,8 @@ $$X.mappings = {
   "name": null
 }
 
-$$X.decode = (input) => {
-  let name = Decoder.field(`name`, Decoder.string)(input)
+$$X.decode = (_input) => {
+  let name = Decoder.field(`name`, Decoder.string)(_input)
   if (name instanceof Err) {
     return name
   }

@@ -20,8 +20,8 @@ $$Record.mappings = {
   "name": null
 }
 
-$$Record.decode = (input) => {
-  let name = Decoder.field(`name`, Decoder.string)(input)
+$$Record.decode = (_input) => {
+  let name = Decoder.field(`name`, Decoder.string)(_input)
   if (name instanceof Err) {
     return name
   }

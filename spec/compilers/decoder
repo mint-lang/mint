@@ -28,8 +28,8 @@ $$Y.mappings = {
   "size": "SIIIZEEE"
 }
 
-$$Y.decode = (input) => {
-  let size = Decoder.field(`SIIIZEEE`, Decoder.number)(input)
+$$Y.decode = (_input) => {
+  let size = Decoder.field(`SIIIZEEE`, Decoder.number)(_input)
   if (size instanceof Err) {
     return size
   }
@@ -51,38 +51,38 @@ $$X.mappings = {
   "y": null
 }
 
-$$X.decode = (input) => {
-  let string = Decoder.field(`string`, Decoder.string)(input)
+$$X.decode = (_input) => {
+  let string = Decoder.field(`string`, Decoder.string)(_input)
   if (string instanceof Err) {
     return string
   }
 
-  let number = Decoder.field(`number`, Decoder.number)(input)
+  let number = Decoder.field(`number`, Decoder.number)(_input)
   if (number instanceof Err) {
     return number
   }
 
-  let bool = Decoder.field(`bool`, Decoder.boolean)(input)
+  let bool = Decoder.field(`bool`, Decoder.boolean)(_input)
   if (bool instanceof Err) {
     return bool
   }
 
-  let time = Decoder.field(`time`, Decoder.time)(input)
+  let time = Decoder.field(`time`, Decoder.time)(_input)
   if (time instanceof Err) {
     return time
   }
 
-  let maybe = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(input)
+  let maybe = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(_input)
   if (maybe instanceof Err) {
     return maybe
   }
 
-  let array = Decoder.field(`array`, Decoder.array(Decoder.string))(input)
+  let array = Decoder.field(`array`, Decoder.array(Decoder.string))(_input)
   if (array instanceof Err) {
     return array
   }
 
-  let y = Decoder.field(`y`, $$Y.decode)(input)
+  let y = Decoder.field(`y`, $$Y.decode)(_input)
   if (y instanceof Err) {
     return y
   }
