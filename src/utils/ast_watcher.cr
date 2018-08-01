@@ -46,6 +46,9 @@ module Mint
       source_watcher =
         Watcher.new(@pattern)
 
+      static_watcher =
+        Watcher.new(SourceFiles.javascripts)
+
       spawn do
         # When the mint.json changes
         Watcher.watch(["mint.json"]) do
@@ -61,10 +64,19 @@ module Mint
           @cache =
             {} of String => Ast
 
+          static_watcher.pattern =
+            SourceFiles.javascripts
+
           # Update the pattern on the watcher.
           source_watcher.pattern =
             @pattern
 
+          @channel.send(nil)
+        end
+      end
+
+      spawn do
+        static_watcher.watch do
           @channel.send(nil)
         end
       end
