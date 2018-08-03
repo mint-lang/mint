@@ -7,7 +7,10 @@ module Mint
       name =
         underscorize node.option
 
-      "$#{prefix}_#{name}"
+      expressions =
+        compile node.expressions, ","
+
+      "new $$#{prefix}_#{name}(#{expressions})"
     end
   end
 end

@@ -12,10 +12,12 @@ module Mint
 
         whitespace
 
-        expression = expression! CaseBranchExpectedExpression
+        expression = self.expression || enum_option
+
+        raise CaseBranchExpectedExpression unless expression
 
         Ast::CaseBranch.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression.as(Ast::Expression | Ast::EnumOption),
           from: start_position,
           to: position,
           match: match,

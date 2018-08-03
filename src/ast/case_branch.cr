@@ -4,7 +4,7 @@ module Mint
       getter match, expression
 
       def initialize(@match : Expression | Nil,
-                     @expression : Expression,
+                     @expression : Expression | EnumOption,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

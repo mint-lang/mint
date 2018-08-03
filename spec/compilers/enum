@@ -3,17 +3,33 @@ enum Test {
   Y
 }
 
+enum Result(error, value) {
+  Error(error)
+  Ok(value)
+}
+
 module X {
   fun a : Test {
     Test::X
   }
 }
 --------------------------------------------------------------------------------
-$Test_X = Symbol.for(`Test_X`)
-$Test_Y = Symbol.for(`Test_Y`)
+class $$Test_X {}
+class $$Test_Y {}
+
+class $$Result_Error {
+  constructor(_0) {
+    this._0 = _0
+  }
+};
+class $$Result_Ok {
+  constructor(_0) {
+    this._0 = _0
+  }
+};
 
 const $X = new(class {
   a() {
-    return $Test_X
+    return new $$Test_X()
   }
 })
