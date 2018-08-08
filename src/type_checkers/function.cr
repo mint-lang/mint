@@ -39,7 +39,7 @@ module Mint
           "node"     => node,
         } unless resolved
 
-        Comparer.normalize(Type.new("Function", arguments + [return_type]))
+        Comparer.normalize(Type.new("Function", arguments + [resolved]))
       end
     end
   end

@@ -126,6 +126,12 @@ module Mint
         nil
       end
 
+      def compare_raw(node1, node2)
+        unify(fresh(prune(node1)), fresh(prune(node2)))
+      rescue
+        nil
+      end
+
       def unify(node1, node2)
         node1 = prune(node1)
         node2 = prune(node2)

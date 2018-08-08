@@ -1,21 +1,36 @@
-enum Test {
+enum Test(a) {
   X
   Y
+  Z(Result(a, Number))
 }
 
 enum Result(error, value) {
   Error(error)
   Ok(value)
+  Other(error, value)
 }
 
 module X {
-  fun a : Test {
+  fun a : Test(a) {
     Test::X
+  }
+
+  fun b : Result(String, String) {
+    Result::Other("", "")
+  }
+
+  fun c : Test(String) {
+    Test::Z(Result::Error(""))
   }
 }
 --------------------------------------------------------------------------------
 class $$Test_X {}
 class $$Test_Y {}
+class $$Test_Z {
+  constructor(_0) {
+    this._0 = _0
+  }
+};
 
 class $$Result_Error {
   constructor(_0) {
@@ -27,9 +42,23 @@ class $$Result_Ok {
     this._0 = _0
   }
 };
+class $$Result_Other {
+  constructor(_0, _1) {
+    this._0 = _0
+    this._1 = _1
+  }
+};
 
 const $X = new(class {
   a() {
     return new $$Test_X()
+  }
+
+  b() {
+    return new $$Result_Other(``, ``)
+  }
+
+  c() {
+    return new $$Test_Z(new $$Result_Error(``))
   }
 })
