@@ -1,5 +1,10 @@
+record X.Y {
+  blah : String
+}
+
 record X {
-  name : String
+  name : String,
+  y: X.Y
 }
 
 component A {
@@ -12,10 +17,28 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
+class $$X_Y extends Record {}
+
+$$X_Y.mappings = {
+  "blah": null
+}
+
+$$X_Y.decode = (_input) => {
+  let blah = Decoder.field(`blah`, Decoder.string)(_input)
+  if (blah instanceof Err) {
+    return blah
+  }
+
+  return new Ok(new $$X_Y({
+    blah: blah.value
+  }))
+}
+
 class $$X extends Record {}
 
 $$X.mappings = {
-  "name": null
+  "name": null,
+  "y": null
 }
 
 $$X.decode = (_input) => {
@@ -24,8 +47,14 @@ $$X.decode = (_input) => {
     return name
   }
 
+  let y = Decoder.field(`y`, $$X_Y.decode)(_input)
+  if (y instanceof Err) {
+    return y
+  }
+
   return new Ok(new $$X({
-    name: name.value
+    name: name.value,
+    y: y.value
   }))
 }
 

@@ -29,7 +29,7 @@ module Mint
         <<-JS
         #{consts.join("\n\n")}
 
-        return new Ok(new $$#{node.name.gsub('.', '_')}({
+        return new Ok(new $$#{underscorize(node.name)}({
         #{fields.join(",\n").indent}
         }))
         JS
@@ -42,6 +42,10 @@ module Mint
         JS
     end
 
+    def underscorize(value)
+      value.gsub('.', '_')
+    end
+
     def generate(node : TypeChecker::Variable)
       # This should never happen because of the typechecker!
       raise "Cannot generate a decoder for a type variable!"
@@ -50,7 +54,7 @@ module Mint
     def generate(node : TypeChecker::Record)
       compile node
 
-      "$$#{node.name}.decode"
+      "$$#{underscorize(node.name)}.decode"
     end
 
     def generate(node : TypeChecker::Type)
