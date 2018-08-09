@@ -3,8 +3,8 @@ module Mint
     class CaseBranch < Node
       getter match, expression
 
-      def initialize(@match : Expression | Nil,
-                     @expression : Expression | EnumOption,
+      def initialize(@match : EnumDestructuring | Expression | Nil,
+                     @expression : Expression,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

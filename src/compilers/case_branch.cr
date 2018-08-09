@@ -4,22 +4,42 @@ module Mint
       expression =
         compile node.expression
 
-      if node.match
-        match =
-          compile node.match.not_nil!
+      if match = node.match
+        case match
+        when Ast::EnumDestructuring
+          variables =
+            match.parameters.map_with_index do |param, index|
+              "const #{param.value} = __condition._#{index}"
+            end
+              .join("\n")
 
-        if index == 0
+          name =
+            "$$#{underscorize(match.name)}_#{underscorize(match.option)}"
+
           <<-RESULT
-          if (_compare(__condition, #{match})) {
-            return #{expression}
-          }
+            if (__condition instanceof #{name}) {
+              #{variables}
+
+              return #{expression}
+            }
           RESULT
         else
-          <<-RESULT
-          else if (_compare(__condition, #{match})) {
-            return #{expression}
-          }
-          RESULT
+          compiled =
+            compile match
+
+          if index == 0
+            <<-RESULT
+            if (_compare(__condition, #{compiled})) {
+              return #{expression}
+            }
+            RESULT
+          else
+            <<-RESULT
+            else if (_compare(__condition, #{compiled})) {
+              return #{expression}
+            }
+            RESULT
+          end
         end
       else
         <<-RESULT
