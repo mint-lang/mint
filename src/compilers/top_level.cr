@@ -165,6 +165,7 @@ module Mint
         const Store = Mint.Store;
         const React = Mint.React;
         const Just = Mint.Just;
+        const Enum = Mint.Enum;
         const Err = Mint.Err;
         const Ok = Mint.Ok;
 

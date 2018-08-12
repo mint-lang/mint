@@ -25,14 +25,26 @@ module Mint
               .join("\n")
 
           <<-JS
-          class $$#{full_name} {
+          class $$#{full_name} extends Enum {
             constructor(#{arguments}) {
+              super()
+
               #{assignments}
+
+              this.length = #{option.parameters.size}
             }
           };
           JS
         else
-          "class $$#{full_name} {}"
+          <<-JS
+          class $$#{full_name} extends Enum {
+            constructor() {
+              super()
+
+              this.length = 0
+            }
+          };
+          JS
         end
       end.join("\n")
     end

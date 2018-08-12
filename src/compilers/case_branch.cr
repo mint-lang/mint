@@ -8,17 +8,16 @@ module Mint
         case match
         when Ast::EnumDestructuring
           variables =
-            match.parameters.map_with_index do |param, index|
-              "const #{param.value} = __condition._#{index}"
+            match.parameters.map_with_index do |param, index1|
+              "const #{param.value} = __condition._#{index1}"
             end
-              .join("\n")
 
           name =
             "$$#{underscorize(match.name)}_#{underscorize(match.option)}"
 
           <<-RESULT
             if (__condition instanceof #{name}) {
-              #{variables}
+              #{variables.join("\n")}
 
               return #{expression}
             }

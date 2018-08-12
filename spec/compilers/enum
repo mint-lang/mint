@@ -24,28 +24,44 @@ module X {
   }
 }
 --------------------------------------------------------------------------------
-class $$Test_X {}
-class $$Test_Y {}
-class $$Test_Z {
+class $$Test_X extends Enum {
+  constructor() {
+    this.length = 0
+  }
+};
+class $$Test_Y extends Enum {
+  constructor() {
+    this.length = 0
+  }
+};
+class $$Test_Z extends Enum {
   constructor(_0) {
     this._0 = _0
+
+    this.length = 1
   }
 };
 
-class $$Result_Error {
+class $$Result_Error extends Enum {
   constructor(_0) {
     this._0 = _0
+
+    this.length = 1
   }
 };
-class $$Result_Ok {
+class $$Result_Ok extends Enum {
   constructor(_0) {
     this._0 = _0
+
+    this.length = 1
   }
 };
-class $$Result_Other {
+class $$Result_Other extends Enum {
   constructor(_0, _1) {
     this._0 = _0
     this._1 = _1
+
+    this.length = 2
   }
 };
 
