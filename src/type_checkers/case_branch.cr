@@ -22,7 +22,16 @@ module Mint
               option =
                 entity.not_nil!.options.find(&.value.==(item.option))
 
-              {param.value, resolve option.not_nil!.parameters[index]}
+              option_type =
+                resolve option.not_nil!.parameters[index]
+
+              condition_type =
+                condition.parameters[index]
+
+              resolved_type =
+                Comparer.compare(option_type, condition_type)
+
+              {param.value, resolved_type.not_nil!}
             end
 
           scope(variables) do
