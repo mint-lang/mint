@@ -26,16 +26,22 @@ module X {
 --------------------------------------------------------------------------------
 class $$Test_X extends Enum {
   constructor() {
+    super()
+
     this.length = 0
   }
 };
 class $$Test_Y extends Enum {
   constructor() {
+    super()
+
     this.length = 0
   }
 };
 class $$Test_Z extends Enum {
   constructor(_0) {
+    super()
+
     this._0 = _0
 
     this.length = 1
@@ -44,6 +50,8 @@ class $$Test_Z extends Enum {
 
 class $$Result_Error extends Enum {
   constructor(_0) {
+    super()
+
     this._0 = _0
 
     this.length = 1
@@ -51,6 +59,8 @@ class $$Result_Error extends Enum {
 };
 class $$Result_Ok extends Enum {
   constructor(_0) {
+    super()
+
     this._0 = _0
 
     this.length = 1
@@ -58,6 +68,8 @@ class $$Result_Ok extends Enum {
 };
 class $$Result_Other extends Enum {
   constructor(_0, _1) {
+    super()
+
     this._0 = _0
     this._1 = _1
 

@@ -20,6 +20,8 @@ module Test {
 --------------------------------------------------------------------------------
 class $$A_B extends Enum {
   constructor(_0) {
+    super()
+
     this._0 = _0
 
     this.length = 1
@@ -28,6 +30,8 @@ class $$A_B extends Enum {
 
 class $$C_D extends Enum {
   constructor(_0) {
+    super()
+
     this._0 = _0
 
     this.length = 1

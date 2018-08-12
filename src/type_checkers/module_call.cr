@@ -54,6 +54,7 @@ module Mint
         call_type = Type.new("Function", call_parameters + [return_type])
 
         result = Comparer.compare(function_type, call_type)
+
         raise ModuleCallTypeMismatch, {
           "expected" => function_type,
           "got"      => call_type,
