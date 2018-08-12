@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    # syntax_error EnumOptionExpectedClosingParentheses
+    syntax_error EnumOptionExpectedClosingParentheses
 
     def enum_option
       start do |start_position|
@@ -20,7 +20,7 @@ module Mint
           ) { type_variable || type }.compact
 
           whitespace
-          char ')', SyntaxError
+          char ')', EnumOptionExpectedClosingParentheses
         end
 
         Ast::EnumOption.new(

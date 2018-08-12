@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    # syntax_error EnumExpectedClosingParentheses
+    syntax_error EnumExpectedClosingParentheses
     syntax_error EnumExpectedOpeningBracket
     syntax_error EnumExpectedClosingBracket
     syntax_error EnumExpectedName
@@ -26,7 +26,7 @@ module Mint
           ) { type_variable }.compact
 
           whitespace
-          char ')', SyntaxError
+          char ')', EnumExpectedClosingParentheses
         end
 
         body = block(

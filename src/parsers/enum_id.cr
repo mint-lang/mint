@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error EnumIdExpectedClosingParentheses
     syntax_error EnumIdExpectedDoubleColon
     syntax_error EnumIdExpectedOption
 
@@ -22,7 +23,7 @@ module Mint
           ) { expression.as(Ast::Expression) }.compact
 
           whitespace
-          char ')', SyntaxError
+          char ')', EnumIdExpectedClosingParentheses
         end
 
         Ast::EnumId.new(

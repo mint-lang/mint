@@ -1,21 +1,39 @@
 module Mint
   class TypeChecker
+    type_error EnumDestructuringNoParameter
+    type_error EnumDestructuringTypeMissing
+    type_error EnumDestructuringEnumMissing
+
     def check(node : Ast::EnumDestructuring) : Checkable
-      entity =
+      parent =
         ast.enums.find(&.name.==(node.name))
 
-      raise TypeError, {"node" => node} unless entity
+      raise EnumDestructuringTypeMissing, {
+        "name" => node.name,
+        "node" => node,
+      } unless parent
 
       option =
-        entity.options.find(&.value.==(node.option))
+        parent.options.find(&.value.==(node.option))
 
-      raise TypeError, {"node" => node} unless option
+      raise EnumDestructuringEnumMissing, {
+        "parent_name" => parent.name,
+        "name"        => node.option,
+        "parent"      => parent,
+        "node"        => node,
+      } unless option
 
       node.parameters.each_with_index do |param, index|
-        raise TypeError, {"node" => param} unless option.parameters[index]?
+        raise EnumDestructuringNoParameter, {
+          "size"   => option.parameters.size.to_s,
+          "index"  => index.to_s,
+          "name"   => option.value,
+          "option" => option,
+          "node"   => param,
+        } unless option.parameters[index]?
       end
 
-      resolve entity
+      resolve parent
     end
   end
 end

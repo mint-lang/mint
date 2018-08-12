@@ -1,12 +1,15 @@
 module Mint
   class Parser
+    syntax_error EnumDestructuringExpectedDoubleColon
+    syntax_error EnumDestructuringExpectedOption
+
     def enum_destructuring
       start do |start_position|
         skip unless name = type_id
 
-        keyword! "::", SyntaxError # EnumIdExpectedDoubleColon
+        keyword! "::", EnumDestructuringExpectedDoubleColon
 
-        option = type_id! SyntaxError # EnumIdExpectedOption
+        option = type_id! EnumDestructuringExpectedOption
 
         parameters = many { type_variable }.compact
 
