@@ -25,7 +25,7 @@ module Mint
 
       types[node] = type
 
-      Type.new("Result", [OBJECT_ERROR, type])
+      Type.new("Result", [OBJECT_ERROR, type] of Checkable)
     end
 
     def check_decode(type : Checkable)

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::EnumId)
+    def compile(node : Ast::EnumId) : String
       prefix =
         underscorize node.name
 

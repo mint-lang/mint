@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::RecordDefinition) : String | Nil
+    def compile(node : Ast::RecordDefinition) : String
       type = types[node]
 
       name =
@@ -25,6 +25,8 @@ module Mint
 
         $$#{name}.decode = #{decoder}
         JS
+      else
+        ""
       end
     end
   end

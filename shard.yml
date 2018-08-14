@@ -8,24 +8,30 @@ targets:
 dependencies:
   duktape:
     github: jessedoyle/duktape.cr
+    version: 0.14.1
   string_inflection:
     github: mosop/string_inflection
+    version: 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
-    branch: master
+    version: 0.9.7
   kemal:
     github: kemalcr/kemal
-    branch: master
+    version: 0.24.0
   admiral:
     github: jwaldrip/admiral.cr
+    version: 1.7.3
   tree_template:
     github: anykeyh/tree_template
+    commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
   time_format:
     github: vladfaust/time_format.cr
+    version: 0.1.1
 
 development_dependencies:
   ameba:
     github: veelenga/ameba
+    version: 0.7.0
   diff:
     github: MakeNowJust/crystal-diff
     commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63

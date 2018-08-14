@@ -13,12 +13,15 @@ module Mint
 
       node.data.fields.each do |item|
         state =
-          entity
-            .states
-            .find(&.name.value.==(item.key.value))
+          case entity
+          when Ast::Component, Ast::Store
+            entity
+              .states
+              .find(&.name.value.==(item.key.value))
+          end
 
         raise NextCallStateNotFound, {
-          "name"  => item.key.value,
+          "name" => item.key.value,
           "node" => node,
         } unless state
 

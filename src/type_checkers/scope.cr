@@ -93,9 +93,9 @@ module Mint
       end
 
       def stateful?
-        @levels
-          .find(&.is_a?(Ast::Component | Ast::Store))
-          .as(Ast::Component | Ast::Store | Nil)
+        @levels.find do |item|
+          item.is_a?(Ast::Component) || item.is_a?(Ast::Store)
+        end
       end
 
       def find(variable : String, data : Tuple(String, Checkable))
