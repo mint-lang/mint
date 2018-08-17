@@ -7,50 +7,56 @@ module Mint
     def check(node : Ast::Try) : Checkable
       to_catch = [] of Checkable
 
+      # Resolve the types of the statements
       types =
         node
           .statements
           .reduce([] of Tuple(String, Checkable)) do |items, statement|
-            maybe_name = statement.name
-
             name =
-              if maybe_name
-                maybe_name.value
-              else
-                ""
-              end
+              statement.name.try(&.value).to_s
 
+            # Scope based on the previous statements
             scope(items) do
               new_type = resolve statement
 
+              # If the statement has a name and it's a result
               type =
                 if statement.name &&
                    new_type.name == "Result" &&
                    new_type.parameters.size == 2
+                  # If the error is not Never then that type needs to be catched
                   if new_type.parameters[0].name != "Never"
                     to_catch << new_type.parameters[0]
                   end
                   new_type.parameters[1]
                 end
 
+              # Append the type
               items << {name, resolve_type(type || new_type)}
             end
 
+            # Return the memo
             items
           end
 
+      # Start reducing the catches using the last type
       final_type = node.catches.reduce(types.last[1]) do |type, catch|
         catch_type = resolve_type(Type.new(catch.type))
 
+        # If the type does not need to be catched
         raise TryCatchesNothing, {
           "got"  => catch_type,
           "node" => catch,
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
 
         checked_type = scope({catch.variable.value, catch_type}) do
-          return_type = resolve catch
-          result_type = Comparer.compare(return_type, type)
+          return_type =
+            resolve catch
 
+          result_type =
+            Comparer.compare(return_type, type)
+
+          # If the type does not match catch
           raise TryCatchTypeMismatch, {
             "got"      => return_type,
             "node"     => catch,

@@ -17,3 +17,41 @@ module Test {
     }
   }
 }
+--------------------------------------------------------------CaseUnnecessaryAll
+enum A {
+  B
+  C
+}
+
+module Test {
+  fun test : String {
+    case (A::B) {
+      A::B => "a"
+      A::C => "c"
+      => "x"
+    }
+  }
+}
+------------------------------------------------------------------CaseNotCovered
+module Test {
+  fun test : String {
+    case ("a") {
+      "a" => "a"
+    }
+  }
+}
+--------------------------------------------------------------CaseEnumNotCovered
+enum A {
+  B
+  C
+  D
+}
+
+module Test {
+  fun test : String {
+    case (A::B) {
+      A::B => "a"
+      A::C => "c"
+    }
+  }
+}

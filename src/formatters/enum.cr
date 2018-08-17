@@ -13,7 +13,12 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}enum #{name} {\n#{body.indent}\n}"
+      parameters =
+        if node.parameters.any?
+          "(#{format(node.parameters, ", ")})"
+        end
+
+      "#{comment}enum #{name}#{parameters} {\n#{body.indent}\n}"
     end
   end
 end

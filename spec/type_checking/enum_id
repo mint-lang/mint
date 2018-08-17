@@ -1,0 +1,38 @@
+enum A {
+  B
+  C
+}
+
+module X {
+  fun y : A {
+    A::B
+  }
+}
+--------------------------------------------------------------EnumIdTypeMismatch
+enum A {
+  B(String)
+  C
+}
+
+module X {
+  fun y : A {
+    A::B(0)
+  }
+}
+---------------------------------------------------------------EnumIdEnumMissing
+enum A {
+  B(String)
+  C
+}
+
+module X {
+  fun y : A {
+    A::D(0)
+  }
+}
+---------------------------------------------------------------EnumIdTypeMissing
+module X {
+  fun y : A {
+    C::D(0)
+  }
+}

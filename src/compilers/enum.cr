@@ -11,7 +11,41 @@ module Mint
         full_name =
           prefix + "_" + name
 
-        "$#{full_name} = Symbol.for(`#{full_name}`)"
+        if option.parameters.any?
+          ids =
+            (1..option.parameters.size)
+              .map { |index| "_#{index - 1}" }
+
+          arguments =
+            ids.join(", ")
+
+          assignments =
+            ids
+              .map { |item| "this.#{item} = #{item}" }
+              .join("\n")
+
+          <<-JS
+          class $$#{full_name} extends Enum {
+            constructor(#{arguments}) {
+              super()
+
+              #{assignments}
+
+              this.length = #{option.parameters.size}
+            }
+          };
+          JS
+        else
+          <<-JS
+          class $$#{full_name} extends Enum {
+            constructor() {
+              super()
+
+              this.length = 0
+            }
+          };
+          JS
+        end
       end.join("\n")
     end
   end

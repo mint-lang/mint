@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error EnumIdExpectedClosingParentheses
     syntax_error EnumIdExpectedDoubleColon
     syntax_error EnumIdExpectedOption
 
@@ -11,7 +12,22 @@ module Mint
 
         option = type_id! EnumIdExpectedOption
 
+        expressions = [] of Ast::Expression
+
+        if char! '('
+          whitespace
+
+          expressions.concat list(
+            terminator: ')',
+            separator: ','
+          ) { expression.as(Ast::Expression) }.compact
+
+          whitespace
+          char ')', EnumIdExpectedClosingParentheses
+        end
+
         Ast::EnumId.new(
+          expressions: expressions,
           from: start_position,
           option: option,
           to: position,

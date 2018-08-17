@@ -23,13 +23,15 @@ module Mint
     VOID_FUNCTION  = Type.new("Function", [VOID] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
 
-    getter records, scope, artifacts
+    getter records, scope, artifacts, formatter
 
     delegate types, variables, html_elements, ast, lookups, to: artifacts
     delegate component?, component, stateful?, to: scope
+    delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
     @cache = {} of Ast::Node => Checkable
+    @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
     @records = [] of Record
 

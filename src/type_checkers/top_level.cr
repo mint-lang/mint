@@ -11,6 +11,7 @@ module Mint
       resolve node.stores
       resolve node.routes
       resolve node.suites
+      resolve node.enums
 
       NEVER
     end
