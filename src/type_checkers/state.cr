@@ -9,14 +9,17 @@ module Mint
       type =
         resolve node.default
 
+      resolved =
+        Comparer.compare(record, type)
+
       raise StateTypeMismatch, {
         "expected" => record,
         "name"     => node.name.value,
         "node"     => node.default,
         "got"      => type,
-      } unless Comparer.compare(record, type)
+      } unless resolved
 
-      type
+      resolved
     end
   end
 end

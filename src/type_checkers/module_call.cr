@@ -48,12 +48,18 @@ module Mint
           parameters << argument_type
         end
 
-        return_type = resolve function.type
+        return_type =
+          resolve function.type
 
-        function_type = resolve function
-        call_type = Type.new("Function", call_parameters + [return_type])
+        function_type =
+          resolve function
 
-        result = Comparer.compare(function_type, call_type)
+        call_type =
+          Type.new("Function", call_parameters + [return_type])
+
+        result =
+          Comparer.compare(function_type, call_type)
+
         raise ModuleCallTypeMismatch, {
           "expected" => function_type,
           "got"      => call_type,
