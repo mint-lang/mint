@@ -1,8 +1,8 @@
 component Do {
   state greeting : String = "ho"
 
-  fun test : Void {
-    do {
+  fun test : Promise(Never, Void) {
+    sequence {
       greeting = "hello"
       next { greeting = greeting }
     }
@@ -27,10 +27,12 @@ class $Do extends Component {
 
   test() {
     return (async () => {
+      let _result = null;
+
       try {
         let greeting = await `hello`
 
-        await new Promise((_resolve) => {
+        _result = await new Promise((_resolve) => {
           this.setState(_update(this.state, new Record({
             greeting: greeting
           })), _resolve)
@@ -41,6 +43,8 @@ class $Do extends Component {
           console.log(_error)
         }
       }
+
+      return _result
     })()
   }
 

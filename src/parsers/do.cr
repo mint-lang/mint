@@ -6,7 +6,7 @@ module Mint
 
     def do_expression : Ast::Do | Nil
       start do |start_position|
-        skip unless keyword "do"
+        skip unless keyword "sequence"
 
         whitespace! SkipError
 

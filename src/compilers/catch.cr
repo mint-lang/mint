@@ -7,7 +7,7 @@ module Mint
       variable =
         node.variable.value
 
-      "let #{variable} = _error;\n #{body}"
+      "let #{variable} = _error;\n\n _result = #{body}\n\nthrow new DoError()"
     end
   end
 end

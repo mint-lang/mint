@@ -1,6 +1,6 @@
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       "Hello"
     }
   }

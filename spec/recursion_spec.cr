@@ -8,7 +8,7 @@ describe "variable" do
         state greeting : String = ""
 
         fun test : Void {
-          do {
+          sequence {
             next { greeting = greeting }
           }
         } where {

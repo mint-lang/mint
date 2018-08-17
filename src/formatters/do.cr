@@ -13,7 +13,7 @@ module Mint
       finally =
         format node.finally
 
-      ["do {\n#{body.indent}\n}",
+      ["sequence {\n#{body.indent}\n}",
        catches,
        finally.to_s,
       ].reject(&.strip.empty?)

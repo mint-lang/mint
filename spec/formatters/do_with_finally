@@ -1,12 +1,12 @@
 module A {
-  fun test : Void {
-    do {a="hello"}finally{"blah"}
+  fun test : Promise(Never, String) {
+    sequence {a="hello"}finally{"blah"}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       a =
         "hello"
     } finally {

@@ -1,6 +1,6 @@
 module A {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       a =
         "hello"
     }finally{/* HEAD */"blah"/* TAIL */}
@@ -8,8 +8,8 @@ module A {
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       a =
         "hello"
     } finally {

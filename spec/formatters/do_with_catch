@@ -5,8 +5,8 @@ module Promise {
 }
 
 module A {
-  fun test : Void {
-    do {a=Promise.reject("hello")}catchString=>a{"blah"}
+  fun test : Promise(Never, String) {
+    sequence {a=Promise.reject("hello")}catchString=>a{"blah"}
   }
 }
 --------------------------------------------------------------------------------
@@ -17,8 +17,8 @@ module Promise {
 }
 
 module A {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       a =
         Promise.reject("hello")
     } catch String => a {

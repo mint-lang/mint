@@ -5,15 +5,15 @@ module Promise {
 }
 
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       greeting =
         Promise.reject("hello")
 
       blah =
         Promise.reject(0)
 
-      true
+      "true"
     } catch String => a {
       "hello"
     } catch Number => a {
@@ -33,8 +33,8 @@ module Promise {
 }
 
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, Bool) {
+    sequence {
       greeting =
         Promise.reject("hello")
 

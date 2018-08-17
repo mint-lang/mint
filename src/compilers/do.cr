@@ -4,6 +4,8 @@ module Mint
       body = node.statements.map_with_index do |statement, index|
         prefix =
           case
+          when (index + 1) == node.statements.size
+            "_result ="
           when name = statement.name
             "let #{name.value} ="
           end
@@ -34,8 +36,6 @@ module Mint
                 return await #{expression}
               } catch(_error) {
                 #{catches}
-
-                throw new DoError
               }
             })()
             RESULT
@@ -47,8 +47,6 @@ module Mint
               let _error = _#{index}.value
 
               #{catches}
-
-              throw new DoError
             }
 
             #{prefix} _#{index}.value
@@ -66,16 +64,19 @@ module Mint
 
       <<-RESULT
       (async () => {
+        let _result = null;
+
         try {
           #{body}
         }
         catch(_error) {
-          if (_error instanceof DoError) {
-          } else {
+          if (_error instanceof DoError) {} else {
             console.warn(`Unhandled error in do statement`)
             console.log(_error)
           }
         } #{finally}
+
+        return _result
       })()
       RESULT
     end

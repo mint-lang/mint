@@ -5,8 +5,8 @@ module Promise {
 }
 
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, Void) {
+    sequence {
       greeting =
         Promise.reject("hello")
 
@@ -30,25 +30,30 @@ const $Promise = new(class {
 class $Do extends Component {
   test() {
     return (async () => {
+      let _result = null;
+
       try {
         let greeting = await (async () => {
           try {
             return await $Promise.reject(`hello`)
           } catch (_error) {
             let a = _error;
-            null
 
-            throw new DoError
+            _result = null
+
+            throw new DoError()
           }
         })()
 
-        await null
+        _result = await null
       } catch (_error) {
         if (_error instanceof DoError) {} else {
           console.warn(`Unhandled error in do statement`)
           console.log(_error)
         }
       }
+
+      return _result
     })()
   }
 

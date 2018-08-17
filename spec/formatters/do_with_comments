@@ -1,12 +1,12 @@
 module A {
-  fun test : Void {
-    do {/* A *//* B */a="hello"/* C *//* D */}
+  fun test : Promise(Never, String) {
+    sequence {/* A *//* B */a="hello"/* C *//* D */}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, String) {
+    sequence {
       /* A */
 
       /* B */
