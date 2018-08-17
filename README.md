@@ -1,11 +1,11 @@
-# Mint 
+# Mint
 [![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mint-lang/Lobby)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
-[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors) 
+[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
 
-:warning: *Mint is currently in alpha stage, although it's usable for testing purposes.:warning:    
+:warning: *Mint is currently in alpha stage, although it's usable for testing purposes.:warning:
 :warning: The documentation is currently work in progress.* :warning:
 
 ------
@@ -57,9 +57,12 @@ You can find an explanation in this issue: https://github.com/mint-lang/mint/iss
 ### Why is the language called Mint?
 You can find an explanation in this issue: https://github.com/mint-lang/mint/issues/53#issuecomment-404717310
 
+### What makes Mint unique?
+You can find an explanation in this issue: https://github.com/mint-lang/mint/issues/70#issuecomment-412324721
+
 ## Contributors
 
-This project exists thanks to all the people who contribute. 
+This project exists thanks to all the people who contribute.
 <a href="https://github.com/mint-lang/mint/graphs/contributors"><img src="https://opencollective.com/mint/contributors.svg?width=890&button=false" /></a>
 
 
