@@ -3,7 +3,7 @@ module Mint
     class EnumOption < Node
       getter value, comment, parameters
 
-      def initialize(@parameters : Array(TypeVariable | Type),
+      def initialize(@parameters : Array(Node),
                      @comment : Comment?,
                      @value : String,
                      @input : Data,

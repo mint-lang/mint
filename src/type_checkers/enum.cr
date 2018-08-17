@@ -23,7 +23,7 @@ module Mint
       Type.new(node.name, parameters)
     end
 
-    def check(parameters : Array(Ast::Type | Ast::TypeVariable),
+    def check(parameters : Array(Ast::Node),
               names : Array(Ast::TypeVariable),
               used_parameters : Set(Ast::TypeVariable))
       parameters.each do |parameter|
