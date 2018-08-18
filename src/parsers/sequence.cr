@@ -1,24 +1,24 @@
 module Mint
   class Parser
-    syntax_error DoExpectedOpeningBracket
-    syntax_error DoExpectedClosingBracket
-    syntax_error DoExpectedStatement
+    syntax_error SequenceExpectedOpeningBracket
+    syntax_error SequenceExpectedClosingBracket
+    syntax_error SequenceExpectedStatement
 
-    def do_expression : Ast::Do | Nil
+    def sequence : Ast::Sequence | Nil
       start do |start_position|
         skip unless keyword "sequence"
 
         whitespace! SkipError
 
         body = block(
-          opening_bracket: DoExpectedOpeningBracket,
-          closing_bracket: DoExpectedClosingBracket
+          opening_bracket: SequenceExpectedOpeningBracket,
+          closing_bracket: SequenceExpectedClosingBracket
         ) do
           results = many { statement || comment }.compact
 
-          raise DoExpectedStatement if results
-                                         .select(&.is_a?(Ast::Statement))
-                                         .empty?
+          raise SequenceExpectedStatement if results
+                                               .select(&.is_a?(Ast::Statement))
+                                               .empty?
           results
         end
 
@@ -38,7 +38,7 @@ module Mint
           end
         end
 
-        Ast::Do.new(
+        Ast::Sequence.new(
           statements: statements,
           from: start_position,
           comments: comments,

@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::Do) : String
+    def format(node : Ast::Sequence) : String
       items =
         node.statements + node.comments
 

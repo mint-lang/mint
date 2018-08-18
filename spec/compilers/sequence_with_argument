@@ -1,6 +1,7 @@
-component Do {
+component Sequence {
   fun test : Promise(Never, Void) {
     sequence {
+      greeting = "hello"
       void
     }
   }
@@ -10,12 +11,14 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $Do extends Component {
+class $Sequence extends Component {
   test() {
     return (async () => {
       let _result = null;
 
       try {
+        let greeting = await `hello`
+
         _result = await null
       } catch (_error) {
         if (_error instanceof DoError) {} else {
@@ -33,4 +36,4 @@ class $Do extends Component {
   }
 }
 
-$Do.displayName = "Do"
+$Sequence.displayName = "Sequence"

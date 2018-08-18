@@ -1,10 +1,10 @@
 module Mint
   class TypeChecker
-    type_error DoCatchTypeMismatch
-    type_error DoCatchesNothing
-    type_error DoDidNotCatch
+    type_error SequenceCatchTypeMismatch
+    type_error SequenceCatchesNothing
+    type_error SequenceDidNotCatch
 
-    def check(node : Ast::Do) : Checkable
+    def check(node : Ast::Sequence) : Checkable
       to_catch = [] of Checkable
 
       checked =
@@ -47,7 +47,7 @@ module Mint
       node.catches.each do |catch|
         catch_type = resolve_type(Type.new(catch.type))
 
-        raise DoCatchesNothing, {
+        raise SequenceCatchesNothing, {
           "got"  => catch_type,
           "node" => catch,
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
@@ -55,7 +55,7 @@ module Mint
         scope({catch.variable.value, catch_type}) do
           catch_return_type = resolve catch
 
-          raise DoCatchTypeMismatch, {
+          raise SequenceCatchTypeMismatch, {
             "expected" => final_type,
             "got"      => catch_return_type,
             "node"     => catch.expression,
@@ -69,7 +69,7 @@ module Mint
 
       resolve node.finally.not_nil! if node.finally
 
-      raise DoDidNotCatch, {
+      raise SequenceDidNotCatch, {
         "remaining" => to_catch,
         "node"      => node,
       } if to_catch.any?

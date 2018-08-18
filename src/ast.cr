@@ -22,6 +22,7 @@ module Mint
                        Operation |
                        NextCall |
                        Variable |
+                       Sequence |
                        Routes |
                        Encode |
                        EnumId |
@@ -34,7 +35,6 @@ module Mint
                        Case |
                        Try |
                        If |
-                       Do |
                        Js
 
     getter components, modules, records, stores, routes, providers

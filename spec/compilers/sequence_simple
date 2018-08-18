@@ -1,8 +1,6 @@
-component Do {
+component Sequence {
   fun test : Promise(Never, Void) {
     sequence {
-      void
-    } finally {
       void
     }
   }
@@ -12,7 +10,7 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $Do extends Component {
+class $Sequence extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -24,8 +22,6 @@ class $Do extends Component {
           console.warn(`Unhandled error in do statement`)
           console.log(_error)
         }
-      } finally {
-        null
       }
 
       return _result
@@ -37,4 +33,4 @@ class $Do extends Component {
   }
 }
 
-$Do.displayName = "Do"
+$Sequence.displayName = "Sequence"

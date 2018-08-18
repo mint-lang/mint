@@ -1,4 +1,4 @@
-message DoCatchesNothing do
+message SequenceCatchesNothing do
   title "Type Error"
 
   block do

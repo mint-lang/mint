@@ -1,9 +1,9 @@
-message DoDidNotCatch do
+message SequenceDidNotCatch do
   title "Type Error"
 
   block do
     text "I am checking if all the possible errors are handled in"
-    bold "a do expression."
+    bold "a sequence expression."
   end
 
   block do

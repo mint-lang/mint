@@ -1,9 +1,9 @@
-message DoExpectedStatement do
+message SequenceExpectedStatement do
   title "Syntax Error"
 
   block do
     text "A"
-    bold "do expression"
+    bold "sequence expression"
     text "must have at least one statement."
   end
 

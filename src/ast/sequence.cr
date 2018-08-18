@@ -1,6 +1,6 @@
 module Mint
   class Ast
-    class Do < Node
+    class Sequence < Node
       getter statements, catches, finally, comments
 
       def initialize(@statements : Array(Statement),

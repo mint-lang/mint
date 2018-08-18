@@ -1,4 +1,4 @@
-component Do {
+component Sequence {
   state greeting : String = "ho"
 
   fun test : Promise(Never, Void) {
@@ -13,7 +13,7 @@ component Do {
   }
 }
 --------------------------------------------------------------------------------
-class $Do extends Component {
+class $Sequence extends Component {
   constructor(props) {
     super(props)
     this.state = new Record({
@@ -53,4 +53,4 @@ class $Do extends Component {
   }
 }
 
-$Do.displayName = "Do"
+$Sequence.displayName = "Sequence"

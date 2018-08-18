@@ -1,4 +1,4 @@
-component Do {
+component A {
   fun test : Promise(Never, String) {
     sequence {
       "Hello"
