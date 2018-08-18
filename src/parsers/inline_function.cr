@@ -25,7 +25,7 @@ module Mint
         char ':', InlineFunctionExpectedColon
         whitespace
 
-        type = type! InlineFunctionExpectedType
+        type = type_or_type_variable! InlineFunctionExpectedType
 
         whitespace
         keyword! "=>", InlineFunctionExpectedArrow

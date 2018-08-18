@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error DoCatchTypeMismatch
     type_error DoCatchesNothing
     type_error DoDidNotCatch
 
@@ -54,8 +55,10 @@ module Mint
         scope({catch.variable.value, catch_type}) do
           catch_return_type = resolve catch
 
-          raise TypeError, {
-            "node" => catch.expression,
+          raise DoCatchTypeMismatch, {
+            "expected" => final_type,
+            "got"      => catch_return_type,
+            "node"     => catch.expression,
           } unless Comparer.compare(final_type, catch_return_type)
         end
 

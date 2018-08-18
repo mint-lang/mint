@@ -2,7 +2,7 @@ component Test {
   state name : String = "Joe"
   state age : Number = 24
 
-  fun test : Void {
+  fun test : Promise(Never, Void) {
     next
       {
         name = "Hello",

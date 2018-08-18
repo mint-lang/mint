@@ -17,10 +17,10 @@ module Mint
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
     MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
     REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID] of Checkable)
-    EVENT_FUNCTION = Type.new("Function", [EVENT, VOID] of Checkable)
+    EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
     HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
     TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
-    VOID_FUNCTION  = Type.new("Function", [VOID] of Checkable)
+    VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
 
     getter records, scope, artifacts, formatter

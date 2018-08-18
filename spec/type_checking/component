@@ -26,7 +26,7 @@ component Test {
 
 ----------------------------------------------------ComponentFunctionTypeMismatch
 component Test {
-  fun componentDidUpdate : String {
+  fun componentDidUpdate (a : String) : String {
     ""
   }
 

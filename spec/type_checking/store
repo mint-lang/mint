@@ -1,7 +1,7 @@
 store Test {
   state a : String = ""
 
-  fun b : Void {
+  fun b : Promise(Never, Void) {
     next { a = "Blah" }
   }
 }
@@ -9,7 +9,7 @@ store Test {
 store Test {
   state a : String = ""
 
-  fun b : Void {
+  fun b : Promise(Never, Void) {
     next { b = "Blah" }
   }
 }

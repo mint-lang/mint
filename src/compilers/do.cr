@@ -28,7 +28,7 @@ module Mint
             end
           end
 
-        if catches && type
+        if catches && !catches.empty? && type
           if type.name == "Promise"
             <<-RESULT
             #{prefix} await (async ()=> {
