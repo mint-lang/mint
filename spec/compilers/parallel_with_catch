@@ -1,0 +1,103 @@
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component Parallel {
+  fun test : Promise(Never, String) {
+    parallel {
+      greeting =
+        Promise.reject("x")
+
+      b =
+        Promise.reject("y")
+
+      a =
+        Promise.reject(0)
+    } then {
+      "blah"
+    } catch String => a {
+      "hello"
+    } catch Number => a {
+      "asd"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $Promise = new(class {
+  reject(input) {
+    return
+  }
+})
+
+class $Parallel extends Component {
+  test() {
+    return (async () => {
+      let _result = null;
+
+      try {
+        let greeting = null;
+        let b = null;
+        let a = null;
+
+        await Promise.all([
+          (async () => {
+            try {
+              greeting = await $Promise.reject(`x`)
+            } catch (_error) {
+              let a = _error;
+
+              _result = `hello`
+
+              throw new DoError()
+            }
+          })(),
+
+          (async () => {
+            try {
+              b = await $Promise.reject(`y`)
+            } catch (_error) {
+              let a = _error;
+
+              _result = `hello`
+
+              throw new DoError()
+            }
+          })(),
+
+          (async () => {
+            try {
+              a = await $Promise.reject(0)
+            } catch (_error) {
+              let a = _error;
+
+              _result = `asd`
+
+              throw new DoError()
+            }
+          })()
+        ])
+
+        _result = `blah`
+      } catch (_error) {
+        if (_error instanceof DoError) {} else {
+          console.warn(`Unhandled error in parallel expression`)
+          console.log(_error)
+        }
+      }
+
+      return _result
+    })()
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$Parallel.displayName = "Parallel"

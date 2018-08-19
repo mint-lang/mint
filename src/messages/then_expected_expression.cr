@@ -1,11 +1,11 @@
-message FinallyExpectedExpression do
+message ThenExpectedExpression do
   title "Syntax Error"
 
   block do
     text "The"
     bold "body"
     text "of a"
-    bold "finally block"
+    bold "then block"
     text "must be a single expression."
   end
 

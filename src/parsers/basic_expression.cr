@@ -20,6 +20,7 @@ module Mint
         with_expression ||
         next_call ||
         sequence ||
+        parallel ||
         try_expression ||
         case_expression ||
         function_call ||

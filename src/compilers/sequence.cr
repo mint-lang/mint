@@ -30,7 +30,7 @@ module Mint
 
         if catches && !catches.empty? && type
           if type.name == "Promise"
-            <<-RESULT
+            <<-JS
             #{prefix} await (async ()=> {
               try {
                 return await #{expression}
@@ -38,9 +38,9 @@ module Mint
                 #{catches}
               }
             })()
-            RESULT
+            JS
           else
-            <<-RESULT
+            <<-JS
             let _#{index} = #{expression}
 
             if (_#{index} instanceof Err) {
@@ -50,24 +50,24 @@ module Mint
             }
 
             #{prefix} _#{index}.value
-            RESULT
+            JS
           end
         else
           "#{prefix} await #{expression}"
         end
-      end.join("\n\n")
+      end.join("\n\n").indent
 
       finally =
         if node.finally
           compile node.finally.not_nil!
         end
 
-      <<-RESULT
+      <<-JS
       (async () => {
         let _result = null;
 
         try {
-          #{body}
+        #{body}
         }
         catch(_error) {
           if (_error instanceof DoError) {} else {
@@ -78,7 +78,7 @@ module Mint
 
         return _result
       })()
-      RESULT
+      JS
     end
   end
 end
