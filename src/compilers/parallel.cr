@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Parallel) : String
+    def _compile(node : Ast::Parallel) : String
       body = node.statements.map do |statement|
         name =
           statement.name.try(&.value)

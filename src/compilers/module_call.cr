@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::ModuleCall) : String
+    def _compile(node : Ast::ModuleCall) : String
       name =
         underscorize node.name
 

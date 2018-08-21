@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Test) : String
+    def _compile(node : Ast::Test) : String
       raw_expression =
         node.expression
 

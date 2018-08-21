@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::ArrayLiteral) : String
+    def _compile(node : Ast::ArrayLiteral) : String
       items =
         compile node.items, ", "
 

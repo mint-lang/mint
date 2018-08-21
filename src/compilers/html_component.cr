@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlComponent) : String
+    def _compile(node : Ast::HtmlComponent) : String
       children =
         if node.children.empty?
           ""

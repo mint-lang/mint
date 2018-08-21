@@ -1,6 +1,14 @@
 module Mint
   class Compiler
     def compile(node : Ast::CaseBranch, index : Int32) : String
+      if checked.includes?(node)
+        _compile node, index
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::CaseBranch, index : Int32) : String
       expression =
         compile node.expression
 

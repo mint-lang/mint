@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::StringLiteral) : String
+    def _compile(node : Ast::StringLiteral) : String
       value =
         node.value.gsub('`', "\\`")
 

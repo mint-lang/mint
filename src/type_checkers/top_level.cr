@@ -5,12 +5,17 @@ module Mint
     end
 
     def check(node : Ast) : Checkable
-      resolve node.providers
-      resolve node.components
-      resolve node.modules
-      resolve node.stores
+      node
+        .components
+        .find(&.name.==("Main"))
+        .try { |component| resolve component }
+
+      # resolve node.providers
+      # resolve node.components
+      # resolve node.modules
+      # resolve node.stores
       resolve node.routes
-      resolve node.suites
+      # resolve node.suites
       resolve node.enums
 
       NEVER

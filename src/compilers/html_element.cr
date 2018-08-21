@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlElement) : String
+    def _compile(node : Ast::HtmlElement) : String
       tag =
         node.tag.value
 

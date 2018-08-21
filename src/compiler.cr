@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
-    delegate html_elements, medias, lookups, to: @artifacts
+    delegate html_elements, medias, lookups, checked, to: @artifacts
 
     def initialize(@artifacts : TypeChecker::Artifacts)
       @decoder = Decoder.new
@@ -18,7 +18,7 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def compile(nodes : Array(Ast::Node), separator : String)
-      compile(nodes).join(separator)
+      compile(nodes).reject(&.empty?).join(separator)
     end
 
     def compile(nodes : Array(Ast::Node))
@@ -26,6 +26,14 @@ module Mint
     end
 
     def compile(node : Ast::Node) : String
+      if checked.includes?(node)
+        _compile(node)
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Node) : String
       raise "Compiler not implemented for node #{node}!"
     end
   end

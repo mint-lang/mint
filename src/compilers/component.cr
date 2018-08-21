@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Component) : String
+    def _compile(node : Ast::Component) : String
       compile node.styles, node
 
       functions =

@@ -11,6 +11,8 @@ module Mint
         "node"  => node,
       } unless store
 
+      resolve store
+
       node.keys.each do |key|
         found =
           store.functions.find(&.name.value.==(key.value)) ||

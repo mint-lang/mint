@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Provider) : String
+    def _compile(node : Ast::Provider) : String
       body =
         compile node.functions, "\n\n"
 

@@ -25,12 +25,11 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
-    delegate types, variables, html_elements, ast, lookups, to: artifacts
+    delegate types, variables, html_elements, ast, lookups, cache, checked, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @cache = {} of Ast::Node => Checkable
     @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
     @records = [] of Record
@@ -55,6 +54,7 @@ module Mint
       add_record Record.new("Unit"), Ast::Record.empty
 
       ast.records.map do |record|
+        checked.add(record)
         add_record check(record), record
       end
     end
@@ -165,7 +165,7 @@ module Mint
       when Checkable
         node
       when Ast::Node
-        @cache[node]? || begin
+        cache[node]? || begin
           if @stack.includes?(node)
             if node.is_a?(Ast::Component)
               return NEVER.as(Checkable)
@@ -180,7 +180,8 @@ module Mint
 
             result = check(node, *args).as(Checkable)
 
-            @cache[node] = result
+            cache[node] = result
+            checked.add(node)
             @stack.delete node
 
             result

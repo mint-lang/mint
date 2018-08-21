@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::NumberLiteral) : String
+    def _compile(node : Ast::NumberLiteral) : String
       if node.float
         node.value.to_s
       else

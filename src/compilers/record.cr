@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Record) : String
+    def _compile(node : Ast::Record) : String
       fields =
         compile node.fields, ",\n"
 
