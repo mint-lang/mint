@@ -3,13 +3,24 @@ module Mint
     type_error EncodeComplexType
 
     def check(node : Ast::Encode) : Checkable
+      data =
+        node.expression
+
       expression =
-        resolve node.expression
+        case data
+        when Ast::Record
+          begin
+            resolve data
+          rescue RecordNotFoundMatchingRecord
+          end
+        else
+          resolve data
+        end
 
       raise EncodeComplexType, {
         "got"  => expression,
         "node" => node,
-      } unless check_decode(expression)
+      } if expression && !check_decode(expression)
 
       OBJECT
     end
