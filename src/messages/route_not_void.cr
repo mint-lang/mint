@@ -2,7 +2,7 @@ message RouteNotVoid do
   title "Type Error"
 
   block do
-    text "A route is considered a side effect, and bacause of that"
+    text "A route is considered a side effect, and because of that"
     text "it must return"
     bold "Void"
   end
