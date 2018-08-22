@@ -183,6 +183,7 @@ module Mint
 
           if store
             keys = item.keys.map(&.value)
+
             store.states.select do |state|
               keys.includes?(state.name.value)
             end

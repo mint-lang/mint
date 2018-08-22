@@ -66,7 +66,10 @@ module Mint
           "node"       => node,
         } unless prop
 
-        prop_type = resolve prop
+        prop_type =
+          scope component do
+            resolve prop
+          end
 
         raise HtmlAttributeComponentPropertyTypeMismatch, {
           "name"      => prop.name.value,
