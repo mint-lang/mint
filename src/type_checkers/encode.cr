@@ -9,10 +9,7 @@ module Mint
       expression =
         case data
         when Ast::Record
-          begin
-            resolve data
-          rescue RecordNotFoundMatchingRecord
-          end
+          resolve data, true
         else
           resolve data
         end
@@ -20,7 +17,7 @@ module Mint
       raise EncodeComplexType, {
         "got"  => expression,
         "node" => node,
-      } if expression && !check_decode(expression)
+      } unless check_decode(expression)
 
       OBJECT
     end
