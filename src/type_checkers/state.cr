@@ -3,23 +3,23 @@ module Mint
     type_error StateTypeMismatch
 
     def check(node : Ast::State) : Checkable
-      record =
+      type =
         resolve node.type
 
-      type =
+      default =
         resolve node.default
 
       resolved =
-        Comparer.compare(record, type)
+        Comparer.compare(type, default)
 
       raise StateTypeMismatch, {
-        "expected" => record,
+        "expected" => type,
         "name"     => node.name.value,
         "node"     => node.default,
-        "got"      => type,
+        "got"      => default,
       } unless resolved
 
-      resolved
+      type
     end
   end
 end

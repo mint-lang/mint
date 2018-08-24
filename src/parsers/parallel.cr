@@ -1,0 +1,55 @@
+module Mint
+  class Parser
+    syntax_error ParallelExpectedOpeningBracket
+    syntax_error ParallelExpectedClosingBracket
+    syntax_error ParallelExpectedStatement
+
+    def parallel : Ast::Parallel | Nil
+      start do |start_position|
+        skip unless keyword "parallel"
+
+        whitespace! SkipError
+
+        body = block(
+          opening_bracket: ParallelExpectedOpeningBracket,
+          closing_bracket: ParallelExpectedClosingBracket
+        ) do
+          results = many { statement || comment }.compact
+
+          raise ParallelExpectedStatement if results
+                                               .reject(&.is_a?(Ast::Comment))
+                                               .empty?
+          results
+        end
+
+        whitespace
+        then_branch = then_block
+        whitespace
+
+        catches = many { catch }.compact
+
+        statements = [] of Ast::Statement
+        comments = [] of Ast::Comment
+
+        body.each do |item|
+          case item
+          when Ast::Statement
+            statements << item
+          when Ast::Comment
+            comments << item
+          end
+        end
+
+        Ast::Parallel.new(
+          then_branch: then_branch,
+          statements: statements,
+          from: start_position,
+          comments: comments,
+          finally: finally,
+          catches: catches,
+          to: position,
+          input: data)
+      end
+    end
+  end
+end

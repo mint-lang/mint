@@ -1,0 +1,40 @@
+component Sequence {
+  fun test : Promise(Never, Void) {
+    sequence {
+      void
+    } finally {
+      void
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Sequence extends Component {
+  test() {
+    return (async () => {
+      let _result = null;
+
+      try {
+        _result = await null
+      } catch (_error) {
+        if (_error instanceof DoError) {} else {
+          console.warn(`Unhandled error in do statement`)
+          console.log(_error)
+        }
+      } finally {
+        null
+      }
+
+      return _result
+    })()
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$Sequence.displayName = "Sequence"

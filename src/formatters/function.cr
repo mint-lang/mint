@@ -13,9 +13,13 @@ module Mint
       arguments =
         unless node.arguments.empty?
           value =
-            format node.arguments, ", "
+            format node.arguments
 
-          "(#{value}) "
+          if value.map(&.size).sum > 50
+            "(\n#{value.join(",\n").indent}\n) "
+          else
+            "(#{value.join(", ")}) "
+          end
         end
 
       where =

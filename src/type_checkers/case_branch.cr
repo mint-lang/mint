@@ -17,19 +17,22 @@ module Mint
           variables =
             item.parameters.map_with_index do |param, index|
               entity =
-                ast.enums.find(&.name.==(item.name))
+                ast.enums.find(&.name.==(item.name)).not_nil!
 
               option =
-                entity.not_nil!.options.find(&.value.==(item.option))
+                entity.options.find(&.value.==(item.option)).not_nil!
 
               option_type =
-                resolve option.not_nil!.parameters[index]
+                resolve(option.parameters[index]).not_nil!
 
-              condition_type =
-                condition.parameters[index]
+              mapping = {} of String => Checkable
+
+              entity.parameters.each_with_index do |param2, index2|
+                mapping[param2.value] = condition.parameters[index2]
+              end
 
               resolved_type =
-                Comparer.compare(option_type, condition_type)
+                Comparer.fill(option_type, mapping)
 
               {param.value, resolved_type.not_nil!}
             end

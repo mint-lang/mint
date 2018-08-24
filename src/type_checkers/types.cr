@@ -132,6 +132,22 @@ module Mint
         nil
       end
 
+      def fill(node, mapping : Hash(String, Checkable))
+        node = prune(node)
+
+        case node
+        when Variable
+          mapping[node.name]? || node
+        when Type
+          parameters =
+            node.parameters.map { |param| fill(param, mapping).as(Checkable) }
+
+          Type.new(node.name, parameters)
+        else
+          node
+        end
+      end
+
       def unify(node1, node2)
         node1 = prune(node1)
         node2 = prune(node2)
