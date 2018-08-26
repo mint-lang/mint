@@ -15,6 +15,7 @@ message DecodeComplexType do
   type_list [
     TypeChecker::Type.new("Array", [TypeChecker::Variable.new("a")] of TypeChecker::Checkable),
     TypeChecker::Type.new("Maybe", [TypeChecker::Variable.new("a")] of TypeChecker::Checkable),
+    TypeChecker::Type.new("Map", [TypeChecker::STRING, TypeChecker::Variable.new("a")] of TypeChecker::Checkable),
     TypeChecker::STRING,
     TypeChecker::NUMBER,
     TypeChecker::TIME,
