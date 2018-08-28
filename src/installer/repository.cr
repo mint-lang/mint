@@ -18,7 +18,7 @@ module Mint
       @target : String | Nil
 
       def self.open(name = "", url = "", target = nil, version = nil)
-        if url.includes?("http") && !url.ends_with?(".git")
+        if url.starts_with?("http") && !url.ends_with?(".git")
           url = "#{url}.git"
         end
 
