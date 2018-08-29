@@ -31,9 +31,9 @@ module Mint
         end.compact
 
       final_type =
-        if node.then_branch
+        node.then_branch.try do |branch|
           scope(scope_items) do
-            resolve node.then_branch.not_nil!.expression
+            resolve branch.expression
           end
         end
 
@@ -69,7 +69,14 @@ module Mint
         "node"      => node,
       } if to_catch.any?
 
-      Type.new("Promise", [NEVER, final_type || VOID] of Checkable)
+      promise_type =
+        Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)
+
+      if final_type && Comparer.compare(promise_type, final_type)
+        final_type
+      else
+        Type.new("Promise", [NEVER, final_type || VOID] of Checkable)
+      end
     end
   end
 end
