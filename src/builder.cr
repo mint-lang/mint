@@ -41,12 +41,12 @@ module Mint
 
     def manifest(json)
       {
-        "name"             => json.name,
-        "short_name"       => json.name,
-        "background_color" => "#FFFFFF",
-        "theme_color"      => "#FFFFFF",
-        "display"          => "standalone",
-        "orientation"      => "portrait",
+        "name"             => json.application.name,
+        "short_name"       => json.application.name,
+        "background_color" => json.application.theme,
+        "theme_color"      => json.application.theme,
+        "display"          => json.application.display,
+        "orientation"      => json.application.orientation,
         "icons"            => ICON_SIZES.map do |size|
           {
             "src"   => File.join("dist", "icon-#{size}x#{size}.png"),
