@@ -95,6 +95,8 @@ module Mint
 
     # Sets up the kemal routes...
     def setup_kemal
+      gzip true
+
       get "/index.js" do
         script
       end
