@@ -18,6 +18,10 @@ module Mint
       @target : String | Nil
 
       def self.open(name = "", url = "", target = nil, version = nil)
+        if url.starts_with?("http") && !url.ends_with?(".git")
+          url = "#{url}.git"
+        end
+
         repository = new(name, url, target, version)
         repository.open
         repository
