@@ -26,9 +26,35 @@ module Mint
         File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative)
       end
 
+      terminal.measure "#{COG} Writing manifest.json..." do
+        File.write "dist/manifest.json", manifest(json)
+      end
+
       terminal.measure "#{COG} Generating icons... " do
         icons(json)
       end
+
+      terminal.measure "#{COG} Creating service worker..." do
+        File.write "dist/service-worker.js", ServiceWorker.generate
+      end
+    end
+
+    def manifest(json)
+      {
+        "name"             => json.name,
+        "short_name"       => json.name,
+        "background_color" => "#FFFFFF",
+        "theme_color"      => "#FFFFFF",
+        "display"          => "standalone",
+        "orientation"      => "portrait",
+        "icons"            => ICON_SIZES.map do |size|
+          {
+            "src"   => File.join("dist", "icon-#{size}x#{size}.png"),
+            "sizes" => "#{size}x#{size}",
+            "type"  => "images/png",
+          }
+        end,
+      }.to_pretty_json
     end
 
     def icons(json)
