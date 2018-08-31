@@ -14,7 +14,7 @@ module Mint
         "node" => node,
       } if RESERVED.includes?(node.value)
 
-      item = loopkup_with_level(node)
+      item = lookup_with_level(node)
 
       raise VariableMissing, {
         "name" => node.value,

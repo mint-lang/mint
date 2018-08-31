@@ -8,6 +8,8 @@ module Mint
 
       scope_items =
         node.statements.map do |statement|
+          check_variable statement.name
+
           new_type = resolve statement
 
           type =
@@ -44,6 +46,8 @@ module Mint
           "got"  => catch_type,
           "node" => catch,
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
+
+        check_variable catch.variable
 
         scope({catch.variable.value, catch_type}) do
           catch_return_type = resolve catch

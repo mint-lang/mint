@@ -114,11 +114,11 @@ module Mint
     # Scope specific helpers
     # ----------------------------------------------------------------------------
 
-    def loopkup(node : Ast::Variable)
+    def lookup(node : Ast::Variable)
       scope.find(node.value)
     end
 
-    def loopkup_with_level(node : Ast::Variable)
+    def lookup_with_level(node : Ast::Variable)
       scope.find_with_level(node.value).try do |item|
         {item[0], item[1], scope.levels.dup}
       end
@@ -134,6 +134,20 @@ module Mint
       # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield
+      end
+    end
+
+    type_error VariableTaken
+
+    def check_variable(variable)
+      variable.try do |name|
+        existing = lookup(name)
+
+        raise VariableTaken, {
+          "name"     => name.value,
+          "existing" => existing,
+          "node"     => name,
+        } if existing
       end
     end
 

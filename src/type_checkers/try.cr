@@ -49,6 +49,8 @@ module Mint
           "node" => catch,
         } if to_catch.none? { |item| Comparer.compare(catch_type, item) }
 
+        check_variable catch.variable
+
         checked_type = scope({catch.variable.value, catch_type}) do
           return_type =
             resolve catch

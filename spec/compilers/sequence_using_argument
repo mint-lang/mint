@@ -3,8 +3,8 @@ component Sequence {
 
   fun test : Promise(Never, Void) {
     sequence {
-      greeting = "hello"
-      next { greeting = greeting }
+      newGreeting = "hello"
+      next { greeting = newGreeting }
     }
   }
 
@@ -30,11 +30,11 @@ class $Sequence extends Component {
       let _result = null;
 
       try {
-        let greeting = await `hello`
+        let newGreeting = await `hello`
 
         _result = await new Promise((_resolve) => {
           this.setState(_update(this.state, new Record({
-            greeting: greeting
+            greeting: newGreeting
           })), _resolve)
         })
       } catch (_error) {
