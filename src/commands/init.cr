@@ -7,11 +7,17 @@ module Mint
 
       define_argument name,
         description: "The name of the new project",
-        required: true
+        required: false
 
       def run
-        execute "Initializing a new project" do
-          Scaffold.run(arguments.name)
+        if arguments.name
+          execute "Initializing a new project" do
+            Scaffold.run(arguments.name || ".")
+          end
+        else
+          execute "Initializing a new project in current directory" do
+            Scaffold.run(".")
+          end
         end
       end
     end
