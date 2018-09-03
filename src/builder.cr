@@ -19,7 +19,7 @@ module Mint
         FileUtils.mkdir "dist"
       end
 
-      terminal.print "#{COG} Compiling your appliction:\n"
+      terminal.print "#{COG} Compiling your application:\n"
       File.write "dist/index.js", index
 
       terminal.measure "#{COG} Writing index.html... " do
