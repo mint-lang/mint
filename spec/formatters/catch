@@ -9,6 +9,7 @@ module A {
     sequence {
     	a =
     		Promise.reject("hello")
+      ""
 		}catchString=>a{/*HEAD*/"blah"/*TAIL*/}
   }
 }
@@ -24,6 +25,8 @@ module A {
     sequence {
       a =
         Promise.reject("hello")
+
+      ""
     } catch String => a {
       /* HEAD */
       "blah"

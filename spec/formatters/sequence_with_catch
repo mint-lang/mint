@@ -6,7 +6,7 @@ module Promise {
 
 module A {
   fun test : Promise(Never, String) {
-    sequence {a=Promise.reject("hello")}catchString=>a{"blah"}
+    sequence {a=Promise.reject("hello") ""}catchString=>a{"blah"}
   }
 }
 --------------------------------------------------------------------------------
@@ -21,6 +21,8 @@ module A {
     sequence {
       a =
         Promise.reject("hello")
+
+      ""
     } catch String => a {
       "blah"
     }
