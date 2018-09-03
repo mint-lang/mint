@@ -42,7 +42,7 @@ module Mint
             items
           end
 
-      final_type = checked.last[1]
+      final_type = resolve node.statements.last
 
       node.catches.each do |catch|
         catch_type = resolve_type(Type.new(catch.type))
@@ -76,7 +76,14 @@ module Mint
         "node"      => node,
       } if to_catch.any?
 
-      Type.new("Promise", [NEVER, final_type] of Checkable)
+      promise_type =
+        Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)
+
+      if final_type && Comparer.compare(promise_type, final_type)
+        final_type
+      else
+        Type.new("Promise", [NEVER, final_type || VOID] of Checkable)
+      end
     end
   end
 end
