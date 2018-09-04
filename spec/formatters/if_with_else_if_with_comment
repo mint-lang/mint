@@ -1,0 +1,20 @@
+module Test {
+  fun test : Bool {
+    if(true){ true }else { /*COMMENT*/ if(false){false}else{true} }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Bool {
+    if (true) {
+      true
+    } else {
+      /* COMMENT */
+      if (false) {
+        false
+      } else {
+        true
+      }
+    }
+  }
+}

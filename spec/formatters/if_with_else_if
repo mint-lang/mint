@@ -1,0 +1,17 @@
+module Test {
+  fun test : Bool {
+    if(true){ true }elseif(false){false}else{true}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Bool {
+    if (true) {
+      true
+    } else if (false) {
+      false
+    } else {
+      true
+    }
+  }
+}

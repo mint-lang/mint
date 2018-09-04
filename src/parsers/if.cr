@@ -30,14 +30,20 @@ module Mint
 
         whitespace
         keyword! "else", IfExpectedElse
+        whitespace
 
-        falsy_head_comments, falsy, falsy_tail_comments =
-          block_with_comments(
-            opening_bracket: IfExpectedFalsyOpeningBracket,
-            closing_bracket: IfExpectedFalsyClosingBracket
-          ) do
-            expression! IfExpectedFalsyExpression
-          end
+        if falsy = if_expression
+          falsy_head_comments = [] of Ast::Comment
+          falsy_tail_comments = [] of Ast::Comment
+        else
+          falsy_head_comments, falsy, falsy_tail_comments =
+            block_with_comments(
+              opening_bracket: IfExpectedFalsyOpeningBracket,
+              closing_bracket: IfExpectedFalsyClosingBracket
+            ) do
+              expression! IfExpectedFalsyExpression
+            end
+        end
 
         Ast::If.new(
           truthy_head_comments: truthy_head_comments,

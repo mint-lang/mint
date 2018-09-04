@@ -27,4 +27,5 @@ describe "If Expression" do
   expect_error "if (a) { a } else { a ", Mint::Parser::IfExpectedFalsyClosingBracket
 
   expect_ok "if (a) { b } else { c }"
+  expect_ok "if (a) { b } else if (x) { y } else { z }"
 end
