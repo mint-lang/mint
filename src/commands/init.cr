@@ -11,7 +11,7 @@ module Mint
 
       def run
         name = arguments.name || ""
-        if name.size > 0
+        if !name.empty?
           execute "Initializing a new project" do
             Scaffold.run(name)
           end
