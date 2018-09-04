@@ -3,7 +3,7 @@ module Mint
     def compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
-          "let _catch_all = () => { return #{compile(catch.expression)} }\n\n"
+          "let _catch_all = (() => { return #{compile(catch.expression)} })\n\n"
         end
 
       body = node.statements.map_with_index do |statement, index|
@@ -24,17 +24,24 @@ module Mint
           case type
           when TypeChecker::Type
             if type.name == "Result" && type.parameters[0]
-              node.catches.map do |catch|
-                if catch.type == type.parameters[0].name
-                  catch_body =
-                    compile catch.expression
+              catched =
+                node.catches.map do |catch|
+                  if catch.type == type.parameters[0].name
+                    catch_body =
+                      compile catch.expression
 
-                  variable =
-                    catch.variable.value
+                    variable =
+                      catch.variable.value
 
-                  "let #{variable} = _error\n return #{catch_body}"
+                    "let #{variable} = _error\n return #{catch_body}"
+                  end
                 end
-              end.join("\n\n")
+
+              if catched.any?
+                catched.join("\n\n")
+              else
+                "return _catch_all()"
+              end
             end
           end
 
@@ -45,16 +52,6 @@ module Mint
           if (_#{index} instanceof Err) {
              let _error = _#{index}.value
              #{catches}
-          }
-
-          #{prefix} _#{index}.value;
-          JS
-        elsif catch_all
-          <<-JS
-          let _#{index} = #{expression};
-
-          if (_#{index} instanceof Err) {
-            return _catch_all()
           }
 
           #{prefix} _#{index}.value;
