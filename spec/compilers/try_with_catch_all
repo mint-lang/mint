@@ -26,25 +26,20 @@ const $Result = new(class {
 const $A = new(class {
   test() {
     return (() => {
-      let _catch_all = () => {
+      let _catch_all = (() => {
         return `Blah`
-      }
+      })
 
       let _0 = $Result.error(`Blah`);
 
       if (_0 instanceof Err) {
+        let _error = _0.value
         return _catch_all()
       }
 
       let x = _0.value;
 
-      let _1 = `Hello`;
-
-      if (_1 instanceof Err) {
-        return _catch_all()
-      }
-
-      return _1.value;
+      return `Hello`
     })()
   }
 })
