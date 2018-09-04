@@ -10,13 +10,14 @@ module Mint
         required: false
 
       def run
-        if arguments.name
+        name = arguments.name || ""
+        if name.size > 0
           execute "Initializing a new project" do
-            Scaffold.run(arguments.name || ".")
+            Scaffold.run(name)
           end
         else
-          execute "Initializing a new project in current directory" do
-            Scaffold.run(".")
+          execute "Please provide project name" do
+            puts "Example: mint init my-project-name"
           end
         end
       end
