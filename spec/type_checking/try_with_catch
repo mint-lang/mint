@@ -63,6 +63,46 @@ module A {
     }
   }
 }
+-------------------------------------------------------------------TryCatchedAll
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+module A {
+  fun test : String {
+    try {
+      x =
+        Result.error("Blah")
+
+      "test"
+    } catch String => error {
+      "X"
+    } catch {
+      "Y"
+    }
+  }
+}
+------------------------------------------------------------TryCatchTypeMismatch
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+module A {
+  fun test : String {
+    try {
+      x =
+        Result.error("Blah")
+
+      "test"
+    } catch {
+      true
+    }
+  }
+}
 ------------------------------------------------------------FunctionTypeMismatch
 module Result {
   fun error (input : a) : Result(a, b) {

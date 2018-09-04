@@ -5,9 +5,13 @@ module Mint
         list node.statements + node.comments
 
       catches =
-        format node.catches, " "
+        format node.catches
 
-      "try {\n#{statements.indent}\n} #{catches}".strip
+      node.catch_all.try do |catch|
+        catches.push format(catch)
+      end
+
+      "try {\n#{statements.indent}\n} #{catches.join(" ")}".strip
     end
   end
 end

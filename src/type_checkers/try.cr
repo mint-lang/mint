@@ -3,6 +3,7 @@ module Mint
     type_error TryCatchTypeMismatch
     type_error TryCatchesNothing
     type_error TryDidNotCatch
+    type_error TryCatchedAll
 
     def check(node : Ast::Try) : Checkable
       to_catch = [] of Checkable
@@ -74,10 +75,27 @@ module Mint
         checked_type
       end
 
+      catch_all_type =
+        node.catch_all.try do |catch|
+          raise TryCatchedAll, {
+            "node" => catch,
+          } if to_catch.empty?
+
+          type = resolve catch.expression
+
+          raise TryCatchTypeMismatch, {
+            "expected" => types.last[1],
+            "node"     => catch,
+            "got"      => type,
+          } unless Comparer.compare(type, final_type)
+
+          type
+        end
+
       raise TryDidNotCatch, {
         "remaining" => to_catch.uniq(&.to_s),
         "node"      => node,
-      } if to_catch.any?
+      } if to_catch.any? && catch_all_type.nil?
 
       final_type
     end
