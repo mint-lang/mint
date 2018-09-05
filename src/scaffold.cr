@@ -55,14 +55,17 @@ module Mint
 
     def run
       terminal.print "#{COG} Creating directory structure...\n"
+      source_file_name = "source"
+      tests_file_name = "tests"
+
       FileUtils.mkdir_p path
       FileUtils.cd path
-      FileUtils.mkdir "source"
-      FileUtils.mkdir "tests"
+      FileUtils.mkdir source_file_name if !File.exists? source_file_name
+      FileUtils.mkdir tests_file_name if !File.exists? tests_file_name
 
       terminal.print "#{COG} Writing initial files...\n\n"
-      File.write(File.join("source", "Main.mint"), MAIN)
-      File.write(File.join("tests", "Main.mint"), TEST)
+      File.write(File.join(source_file_name, "Main.mint"), MAIN)
+      File.write(File.join(tests_file_name, "Main.mint"), TEST)
       File.write("mint.json", json.to_pretty_json)
       File.write(".gitignore", GIT_IGNORE)
 

@@ -7,11 +7,18 @@ module Mint
 
       define_argument name,
         description: "The name of the new project",
-        required: true
+        required: false
 
       def run
-        execute "Initializing a new project" do
-          Scaffold.run(arguments.name)
+        name = arguments.name || ""
+        if !name.empty?
+          execute "Initializing a new project" do
+            Scaffold.run(name)
+          end
+        else
+          execute "Please provide project name" do
+            puts "Example: mint init my-project-name"
+          end
         end
       end
     end
