@@ -28,8 +28,7 @@ module Mint
           routes ||
           store ||
           suite ||
-          comment ||
-          inline_comment
+          comment
       end.compact
 
       items.each do |item|
