@@ -5,9 +5,9 @@ module Mint
         skip unless keyword "/*"
 
         value =
-          gather { consume_while(char != '*' || char == '\0') }.to_s
+          gather { consume_while((!(keyword_ahead "*/") || char == '\0') && !eof?) }.to_s
 
-        keyword! "*/", SyntaxError
+        keyword "*/"
         whitespace
 
         Ast::Comment.new(

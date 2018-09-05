@@ -7,7 +7,7 @@ module Mint
 
     def component : Ast::Component | Nil
       start do |start_position|
-        comment = self.comment
+        comment = self.comment || self.inline_comment
 
         skip unless keyword "component"
         whitespace
@@ -26,7 +26,8 @@ module Mint
               state ||
               use ||
               get ||
-              self.comment
+              self.comment ||
+              self.inline_comment
           end.compact
 
           raise ComponentExpectedBody if items.empty?
