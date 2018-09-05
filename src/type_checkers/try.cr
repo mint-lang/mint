@@ -84,7 +84,7 @@ module Mint
           type = resolve catch.expression
 
           raise TryCatchTypeMismatch, {
-            "expected" => types.last[1],
+            "expected" => final_type,
             "node"     => catch,
             "got"      => type,
           } unless Comparer.compare(type, final_type)

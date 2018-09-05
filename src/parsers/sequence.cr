@@ -23,8 +23,10 @@ module Mint
         end
 
         whitespace
-
         catches = many { catch }.compact
+
+        whitespace
+        catch_all = self.catch_all
 
         statements = [] of Ast::Statement
         comments = [] of Ast::Comment
@@ -41,6 +43,7 @@ module Mint
         Ast::Sequence.new(
           statements: statements,
           from: start_position,
+          catch_all: catch_all,
           comments: comments,
           finally: finally,
           catches: catches,

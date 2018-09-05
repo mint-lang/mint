@@ -1,4 +1,4 @@
-message TryCatchedAll do
+message SequenceCatchedAll do
   title "Type Error"
 
   block do

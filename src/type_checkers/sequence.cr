@@ -3,6 +3,7 @@ module Mint
     type_error SequenceCatchTypeMismatch
     type_error SequenceCatchesNothing
     type_error SequenceDidNotCatch
+    type_error SequenceCatchedAll
 
     def check(node : Ast::Sequence) : Checkable
       to_catch = [] of Checkable
@@ -70,10 +71,27 @@ module Mint
 
       resolve node.finally.not_nil! if node.finally
 
+      catch_all_type =
+        node.catch_all.try do |catch|
+          raise SequenceCatchedAll, {
+            "node" => catch,
+          } if to_catch.empty?
+
+          type = resolve catch.expression
+
+          raise SequenceCatchTypeMismatch, {
+            "expected" => final_type,
+            "node"     => catch,
+            "got"      => type,
+          } unless Comparer.compare(type, final_type)
+
+          type
+        end
+
       raise SequenceDidNotCatch, {
         "remaining" => to_catch,
         "node"      => node,
-      } if to_catch.any?
+      } if to_catch.any? && catch_all_type.nil?
 
       promise_type =
         Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)

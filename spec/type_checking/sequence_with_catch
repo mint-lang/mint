@@ -86,3 +86,52 @@ component A {
     <div/>
   }
 }
+
+-------------------------------------------------------SequenceCatchTypeMismatch
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component A {
+  fun test : Promise(Never, Bool) {
+    sequence {
+      blah =
+        Promise.reject(0)
+
+      true
+    } catch {
+      ""
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------SequenceCatchedAll
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
+component A {
+  fun test : Promise(Never, Bool) {
+    sequence {
+      blah =
+        Promise.reject(0)
+
+      true
+    } catch Number => error {
+      false
+    } catch {
+      false
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

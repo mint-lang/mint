@@ -57,6 +57,14 @@ module Mint
         end
       end.join("\n\n").indent
 
+      catch_all =
+        node.catch_all.try do |catch|
+          "return #{compile catch.expression}"
+        end || <<-JS
+          console.warn(`Unhandled error in do statement:`)
+          console.warn(_error)
+        JS
+
       finally =
         if node.finally
           compile node.finally.not_nil!
@@ -71,8 +79,7 @@ module Mint
         }
         catch(_error) {
           if (_error instanceof DoError) {} else {
-            console.warn(`Unhandled error in do statement`)
-            console.log(_error)
+            #{catch_all}
           }
         } #{finally}
 

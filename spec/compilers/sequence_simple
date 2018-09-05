@@ -19,8 +19,8 @@ class $Sequence extends Component {
         _result = await null
       } catch (_error) {
         if (_error instanceof DoError) {} else {
-          console.warn(`Unhandled error in do statement`)
-          console.log(_error)
+          console.warn(`Unhandled error in do statement:`)
+          console.warn(_error)
         }
       }
 
