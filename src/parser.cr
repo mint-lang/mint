@@ -32,6 +32,10 @@ module Mint
       @position += 1
     end
 
+    def eof? : Bool
+      @position == input.size
+    end
+
     # Helpers for raising errors
     # ----------------------------------------------------------------------------
 
@@ -128,6 +132,12 @@ module Mint
 
     def keyword!(word, error) : Bool | Nil
       raise error unless keyword(word)
+    end
+
+    def keyword_ahead(word) : Bool
+      result = input[position, word.size]
+
+      result == word
     end
 
     def keyword(word) : Bool
