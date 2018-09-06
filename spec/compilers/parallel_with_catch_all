@@ -1,10 +1,24 @@
+module Promise {
+  fun reject (input : a) : Promise(a, b) {
+    ``
+  }
+}
+
 component Parallel {
   fun test : Promise(Never, String) {
     parallel {
-      a = "Hello"
-      b = "World"
+      greeting =
+        Promise.reject("x")
+
+      a =
+        "Hello"
+
+      b =
+        "World"
     } then {
       a + b
+    } catch {
+      "Hmm..."
     }
   }
 
@@ -13,16 +27,27 @@ component Parallel {
   }
 }
 --------------------------------------------------------------------------------
+const $Promise = new(class {
+  reject(input) {
+    return
+  }
+})
+
 class $Parallel extends Component {
   test() {
     return (async () => {
       let _result = null;
 
       try {
+        let greeting = null;
         let a = null;
         let b = null;
 
         await Promise.all([
+          (async () => {
+            greeting = await $Promise.reject(`x`)
+          })(),
+
           (async () => {
             a = await `Hello`
           })(),
@@ -35,8 +60,7 @@ class $Parallel extends Component {
         _result = a + b
       } catch (_error) {
         if (_error instanceof DoError) {} else {
-          console.warn(`Unhandled error in parallel expression:`)
-          console.warn(_error)
+          return `Hmm...`
         }
       }
 

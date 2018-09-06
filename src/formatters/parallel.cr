@@ -8,7 +8,7 @@ module Mint
         list items
 
       catches =
-        format node.catches, " "
+        format node.catches
 
       then_branch =
         format node.then_branch
@@ -16,9 +16,13 @@ module Mint
       finally =
         format node.finally
 
+      node.catch_all.try do |catch|
+        catches.push format(catch)
+      end
+
       ["parallel {\n#{body.indent}\n}",
        then_branch.to_s,
-       catches,
+       catches.join(" "),
        finally.to_s,
       ].reject(&.strip.empty?)
         .join(" ")

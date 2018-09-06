@@ -61,7 +61,7 @@ module Mint
         node.catch_all.try do |catch|
           "return #{compile catch.expression}"
         end || <<-JS
-          console.warn(`Unhandled error in do statement:`)
+          console.warn(`Unhandled error in sequence expression:`)
           console.warn(_error)
         JS
 

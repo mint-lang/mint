@@ -86,8 +86,8 @@ class $Parallel extends Component {
         _result = `blah`
       } catch (_error) {
         if (_error instanceof DoError) {} else {
-          console.warn(`Unhandled error in parallel expression`)
-          console.log(_error)
+          console.warn(`Unhandled error in parallel expression:`)
+          console.warn(_error)
         }
       }
 

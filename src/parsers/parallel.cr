@@ -24,9 +24,12 @@ module Mint
 
         whitespace
         then_branch = then_block
-        whitespace
 
+        whitespace
         catches = many { catch }.compact
+
+        whitespace
+        catch_all = self.catch_all
 
         statements = [] of Ast::Statement
         comments = [] of Ast::Comment
@@ -43,6 +46,7 @@ module Mint
         Ast::Parallel.new(
           then_branch: then_branch,
           statements: statements,
+          catch_all: catch_all,
           from: start_position,
           comments: comments,
           finally: finally,
