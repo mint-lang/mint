@@ -14,9 +14,8 @@ module Mint
           "< #{key}>\n#{children}\n</>"
         end
       else
-        # There no point of having an empty fragment.
         if node.children.empty?
-          ""
+          "<></>"
         else
           "<>\n#{children}\n</>"
         end

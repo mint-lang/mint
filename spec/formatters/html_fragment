@@ -15,6 +15,7 @@ component Test {
     <>
       <{ "Hello There" }>
 
+      <></>
       < key="Hello"></>
 
       <>
