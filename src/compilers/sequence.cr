@@ -28,29 +28,37 @@ module Mint
             end
           end
 
-        if catches && !catches.empty? && type
-          if type.name == "Promise"
-            <<-JS
-            #{prefix} await (async ()=> {
-              try {
-                return await #{expression}
-              } catch(_error) {
+        if catches && type
+          if catches.empty?
+            if type.name == "Result"
+              "#{prefix} #{expression}.value"
+            else
+              "#{prefix} await #{expression}"
+            end
+          else
+            if type.name == "Promise"
+              <<-JS
+              #{prefix} await (async ()=> {
+                try {
+                  return await #{expression}
+                } catch(_error) {
+                  #{catches}
+                }
+              })()
+              JS
+            else
+              <<-JS
+              let _#{index} = #{expression}
+
+              if (_#{index} instanceof Err) {
+                let _error = _#{index}.value
+
                 #{catches}
               }
-            })()
-            JS
-          else
-            <<-JS
-            let _#{index} = #{expression}
 
-            if (_#{index} instanceof Err) {
-              let _error = _#{index}.value
-
-              #{catches}
-            }
-
-            #{prefix} _#{index}.value
-            JS
+              #{prefix} _#{index}.value
+              JS
+            end
           end
         else
           "#{prefix} await #{expression}"

@@ -7,7 +7,7 @@ module Mint
 
         prefix =
           if name
-            "#{name} = "
+            "#{name} ="
           end
 
         expression =
@@ -28,20 +28,52 @@ module Mint
             end
           end
 
-        if catches && !catches.empty? && type
-          <<-JS
-          (async () => {
-            try {
-              #{prefix}await #{expression}
-            } catch (_error) {
-              #{catches}
-            }
-          })()
-          JS
+        if catches && type
+          if catches.empty?
+            if type.name == "Result"
+              <<-JS
+              (async () => {
+                #{prefix} #{expression}.value
+              })()
+              JS
+            else
+              <<-JS
+              (async () => {
+                #{prefix} await #{expression}
+              })()
+              JS
+            end
+          else
+            if type.name == "Promise"
+              <<-JS
+              (async () => {
+                try {
+                  #{prefix} await #{expression}
+                } catch (_error) {
+                  #{catches}
+                }
+              })()
+              JS
+            else
+              <<-JS
+              (() => {
+                let _result = #{expression}
+
+                if (_result instanceof Err) {
+                  let _error = _result.value
+
+                  #{catches}
+                }
+
+                #{prefix} _result.value
+              })()
+              JS
+            end
+          end
         else
           <<-JS
           (async () => {
-            #{prefix}await #{expression}
+            #{prefix} await #{expression}
           })()
           JS
         end
