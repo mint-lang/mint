@@ -20,7 +20,7 @@ module Mint
         end
 
         arguments =
-          check node.arguments
+          resolve node.arguments
 
         body_type =
           resolve node.body

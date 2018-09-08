@@ -44,8 +44,12 @@ module Mint
       resolve_records
     end
 
+    def debug
+      puts Debugger.new(@scope).run
+    end
+
     # Helpers for resolving records, types and record definitions
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def resolve_records
       add_record Record.new("Unit"), Ast::Record.empty
@@ -162,19 +166,25 @@ module Mint
         node
       when Ast::Node
         @cache[node]? || begin
-          raise Recursion, {
-            "caller_node" => @stack.last,
-            "node"        => node,
-          } if @stack.includes?(node)
+          if @stack.includes?(node)
+            if node.is_a?(Ast::Component)
+              return NEVER.as(Checkable)
+            else
+              raise Recursion, {
+                "caller_node" => @stack.last,
+                "node"        => node,
+              }
+            end
+          else
+            @stack.push node
 
-          @stack.push node
+            result = check(node, *args).as(Checkable)
 
-          result = check(node, *args).as(Checkable)
+            @cache[node] = result
+            @stack.delete node
 
-          @cache[node] = result
-          @stack.delete node
-
-          result
+            result
+          end
         end
       else
         NEVER # Cannot happen
