@@ -48,7 +48,7 @@ module Mint
               @error = nil
               compile_script
             when Error
-              raise result
+              @error = result.to_html
             end
           end
         end || AstWatcher.new
