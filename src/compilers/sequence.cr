@@ -28,23 +28,19 @@ module Mint
             end
           end
 
-        if catches && type
-          if catches.empty?
-            if type.name == "Result"
-              "#{prefix} #{expression}.value"
-            else
-              "#{prefix} await #{expression}"
-            end
-          else
-            if type.name == "Promise"
+        case type
+        when TypeChecker::Type
+          case type.name
+          when "Result"
+            if catches && catches.empty?
               <<-JS
-              #{prefix} await (async () => {
-                try {
-                  return await #{expression}
-                } catch (_error) {
-                  #{catches}
-                }
-              })()
+              let _#{index} = #{expression}
+
+              if (_#{index} instanceof Err) {
+                throw _#{index}.value
+              }
+
+              #{prefix} _#{index}.value
               JS
             else
               <<-JS
@@ -59,15 +55,25 @@ module Mint
               #{prefix} _#{index}.value
               JS
             end
+          when "Promise"
+            if catches && !catches.empty?
+              <<-JS
+              #{prefix} await (async () => {
+                try {
+                  return await #{expression}
+                } catch (_error) {
+                  #{catches}
+                }
+              })()
+              JS
+            end
           end
-        else
-          "#{prefix} await #{expression}"
-        end
+        end || "#{prefix} await #{expression}"
       end.join("\n\n").indent
 
       catch_all =
         node.catch_all.try do |catch|
-          "return #{compile catch.expression}"
+          "_result = #{compile catch.expression}"
         end || <<-JS
           console.warn(`Unhandled error in sequence expression:`)
           console.warn(_error)

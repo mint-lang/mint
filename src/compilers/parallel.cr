@@ -28,30 +28,20 @@ module Mint
             end
           end
 
-        if catches && type
-          if catches.empty?
-            if type.name == "Result"
+        case type
+        when TypeChecker::Type
+          case type.name
+          when "Result"
+            if catches && catches.empty?
               <<-JS
               (async () => {
-                #{prefix} #{expression}.value
-              })()
-              JS
-            else
-              <<-JS
-              (async () => {
-                #{prefix} await #{expression}
-              })()
-              JS
-            end
-          else
-            if type.name == "Promise"
-              <<-JS
-              (async () => {
-                try {
-                  #{prefix} await #{expression}
-                } catch (_error) {
-                  #{catches}
+                let _result = #{expression}
+
+                if (_result instanceof Err) {
+                  throw _result.value
                 }
+
+                #{prefix} _result.value
               })()
               JS
             else
@@ -69,14 +59,24 @@ module Mint
               })()
               JS
             end
+          when "Promise"
+            if catches && !catches.empty?
+              <<-JS
+              (async () => {
+                try {
+                  #{prefix} await #{expression}
+                } catch (_error) {
+                  #{catches}
+                }
+              })()
+              JS
+            end
           end
-        else
-          <<-JS
+        end || <<-JS
           (async () => {
             #{prefix} await #{expression}
           })()
           JS
-        end
       end.join(",\n\n").indent
 
       catch_all =
