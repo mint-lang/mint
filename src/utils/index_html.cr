@@ -48,7 +48,7 @@ module Mint
               t.meta(name: name, content: content)
             end
 
-            t.meta(name: "theme-color", content: "#FFFFFF")
+            t.meta(name: "theme-color", content: json.application.theme)
 
             # Insert the extra head content
             t.unsafe json.application.head
