@@ -1,0 +1,17 @@
+enum Result(error, value) {
+  Error(error)
+  Ok(value)
+}
+-------------------------------------------------------------EnumUnusedParameter
+enum A(a, b, c) {
+  B
+  C
+}
+---------------------------------------------------------EnumNotDefinedParameter
+enum A {
+  B(a)
+}
+---------------------------------------------------------EnumNotDefinedParameter
+enum A {
+  B(Maybe(a))
+}

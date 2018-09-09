@@ -101,6 +101,9 @@ module Mint
       end
     end
 
+    def generate(node : Ast::Node, json)
+    end
+
     def generate(mint_json, ast : Ast, json)
       json.object do
         json.field "name", mint_json.name

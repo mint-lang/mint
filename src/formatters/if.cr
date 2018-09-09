@@ -8,7 +8,16 @@ module Mint
         list [node.truthy] + node.truthy_head_comments + node.truthy_tail_comments
 
       falsy =
-        list [node.falsy] + node.falsy_head_comments + node.falsy_tail_comments
+        if node.falsy.is_a?(Ast::If) &&
+           node.falsy_head_comments.empty? &&
+           node.falsy_tail_comments.empty?
+          format node.falsy
+        else
+          body =
+            list [node.falsy] + node.falsy_head_comments + node.falsy_tail_comments
+
+          "{\n#{body.indent}\n}"
+        end
 
       condition =
         if condition.includes?("\n")
@@ -20,7 +29,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) {\n#{truthy.indent}\n} else {\n#{falsy.indent}\n}"
+      "if (#{condition}) {\n#{truthy.indent}\n} else #{falsy}"
     end
   end
 end

@@ -19,16 +19,42 @@ module Mint
         FileUtils.mkdir "dist"
       end
 
-      terminal.print "#{COG} Compiling your appliction:\n"
+      terminal.print "#{COG} Compiling your application:\n"
       File.write "dist/index.js", index
 
       terminal.measure "#{COG} Writing index.html... " do
         File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative)
       end
 
+      terminal.measure "#{COG} Writing manifest.json..." do
+        File.write "dist/manifest.json", manifest(json)
+      end
+
       terminal.measure "#{COG} Generating icons... " do
         icons(json)
       end
+
+      terminal.measure "#{COG} Creating service worker..." do
+        File.write "dist/service-worker.js", ServiceWorker.generate
+      end
+    end
+
+    def manifest(json)
+      {
+        "name"             => json.application.name,
+        "short_name"       => json.application.name,
+        "background_color" => json.application.theme,
+        "theme_color"      => json.application.theme,
+        "display"          => json.application.display,
+        "orientation"      => json.application.orientation,
+        "icons"            => ICON_SIZES.map do |size|
+          {
+            "src"   => File.join("dist", "icon-#{size}x#{size}.png"),
+            "sizes" => "#{size}x#{size}",
+            "type"  => "images/png",
+          }
+        end,
+      }.to_pretty_json
     end
 
     def icons(json)

@@ -1,0 +1,85 @@
+{
+  "name": "",
+  "short_name": "",
+  "background_color": "",
+  "theme_color": "",
+  "display": "",
+  "orientation": "",
+  "icons": [
+    {
+      "src": "dist/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-36x36.png",
+      "sizes": "36x36",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-57x57.png",
+      "sizes": "57x57",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-76x76.png",
+      "sizes": "76x76",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-120x120.png",
+      "sizes": "120x120",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-167x167.png",
+      "sizes": "167x167",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-196x196.png",
+      "sizes": "196x196",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "images/png"
+    },
+    {
+      "src": "dist/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "images/png"
+    }
+  ]
+}

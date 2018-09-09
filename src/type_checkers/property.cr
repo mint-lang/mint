@@ -19,7 +19,7 @@ module Mint
         "node"     => node,
       } unless result
 
-      result
+      type
     end
   end
 end

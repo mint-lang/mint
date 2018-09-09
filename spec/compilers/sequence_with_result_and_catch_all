@@ -1,0 +1,59 @@
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+component Sequence {
+  fun test : Promise(Never, String) {
+    sequence {
+      Result.error("")
+
+      "test"
+    } catch {
+      "test"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const $Result = new(class {
+  error(input) {
+    return new Err(input)
+  }
+})
+
+class $Sequence extends Component {
+  test() {
+    return (async () => {
+      let _result = null;
+
+      try {
+        let _0 = $Result.error(``)
+
+        if (_0 instanceof Err) {
+          throw _0.value
+        }
+
+        _0.value
+
+        _result = await `test`
+      } catch (_error) {
+        if (_error instanceof DoError) {} else {
+          _result = `test`
+        }
+      }
+
+      return _result
+    })()
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$Sequence.displayName = "Sequence"

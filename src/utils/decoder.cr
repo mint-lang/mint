@@ -77,6 +77,11 @@ module Mint
           generate node.parameters.first
 
         "Decoder.array(#{decoder})"
+      when "Map"
+        decoder =
+          generate node.parameters.last
+
+        "Decoder.map(#{decoder})"
       else
         # This should never happen because of the typechecker!
         raise "Cannot generate a decoder for #{node.to_s}!"

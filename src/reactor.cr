@@ -48,7 +48,7 @@ module Mint
               @error = nil
               compile_script
             when Error
-              raise result
+              @error = result.to_html
             end
           end
         end || AstWatcher.new
@@ -95,6 +95,8 @@ module Mint
 
     # Sets up the kemal routes...
     def setup_kemal
+      gzip true
+
       get "/index.js" do
         script
       end

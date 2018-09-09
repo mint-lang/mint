@@ -1,7 +1,7 @@
 component Test {
   state name : String = "Joe"
 
-  fun test : Void {
+  fun test : Promise(Never, Void) {
     next {name = "Hello"}
   }
 
@@ -13,7 +13,7 @@ component Test {
 component Test {
   state name : String = "Joe"
 
-  fun test : Void {
+  fun test : Promise(Never, Void) {
     next { name = "Hello" }
   }
 

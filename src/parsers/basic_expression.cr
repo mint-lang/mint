@@ -19,7 +19,8 @@ module Mint
         if_expression ||
         with_expression ||
         next_call ||
-        do_expression ||
+        sequence ||
+        parallel ||
         try_expression ||
         case_expression ||
         function_call ||

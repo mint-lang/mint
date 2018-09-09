@@ -1,6 +1,6 @@
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, Bool) {
+    sequence {
       true
     } finally {
       false
@@ -13,8 +13,8 @@ component Do {
 }
 -----------------------------------------------------------OperationTypeMismatch
 component Do {
-  fun test : Void {
-    do {
+  fun test : Promise(Never, Bool) {
+    sequence {
       true
     } finally {
       "0" + 1

@@ -5,12 +5,16 @@ module Mint
         compile node.fields, ",\n"
 
       type =
-        types[node]
+        types[node]?
 
-      name =
-        underscorize type.name
+      if type
+        name =
+          underscorize type.name
 
-      "new $$#{name}({\n#{fields.indent}\n})"
+        "new $$#{name}({\n#{fields.indent}\n})"
+      else
+        "new Record({\n#{fields.indent}\n})"
+      end
     end
   end
 end

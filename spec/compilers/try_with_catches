@@ -26,7 +26,7 @@ const $Result = new(class {
 const $A = new(class {
   test() {
     return (() => {
-      let _0 = $Result.error(`Blah`)
+      let _0 = $Result.error(`Blah`);
 
       if (_0 instanceof Err) {
         let _error = _0.value
@@ -34,7 +34,7 @@ const $A = new(class {
         return error
       }
 
-      let x = _0.value
+      let x = _0.value;
 
       return x
     })()

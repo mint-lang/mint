@@ -5,7 +5,7 @@ message FinallyExpectedExpression do
     text "The"
     bold "body"
     text "of a"
-    bold "finally expression"
+    bold "finally block"
     text "must be a single expression."
   end
 

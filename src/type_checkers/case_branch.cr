@@ -11,9 +11,37 @@ module Mint
           "got"      => match,
           "node"     => item,
         } unless Comparer.compare(match, condition)
-      end
 
-      resolve node.expression
+        case item
+        when Ast::EnumDestructuring
+          variables =
+            item.parameters.map_with_index do |param, index|
+              entity =
+                ast.enums.find(&.name.==(item.name)).not_nil!
+
+              option =
+                entity.options.find(&.value.==(item.option)).not_nil!
+
+              option_type =
+                resolve(option.parameters[index]).not_nil!
+
+              mapping = {} of String => Checkable
+
+              entity.parameters.each_with_index do |param2, index2|
+                mapping[param2.value] = condition.parameters[index2]
+              end
+
+              resolved_type =
+                Comparer.fill(option_type, mapping)
+
+              {param.value, resolved_type.not_nil!}
+            end
+
+          scope(variables) do
+            resolve node.expression
+          end
+        end
+      end || resolve node.expression
     end
   end
 end

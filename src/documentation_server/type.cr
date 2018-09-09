@@ -8,5 +8,9 @@ module Mint
 
       "#{node.name}#{parameters}"
     end
+
+    def generate(node : Ast::Type, json : JSON::Builder)
+      json.string stringify(node)
+    end
   end
 end

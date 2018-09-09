@@ -13,13 +13,22 @@ module Mint
         arguments =
           resolve node.arguments
 
+        defined_type =
+          Type.new("Function", arguments + [return_type])
+
+        final_typed =
+          Type.new("Function", arguments + [body_type])
+
+        resolved =
+          Comparer.compare(defined_type, final_typed)
+
         raise InlineFunctionTypeMismatch, {
           "expected" => return_type,
           "got"      => body_type,
           "node"     => node,
-        } unless Comparer.compare(body_type, return_type)
+        } unless resolved
 
-        Type.new("Function", arguments + [return_type])
+        Comparer.normalize(defined_type)
       end
     end
   end

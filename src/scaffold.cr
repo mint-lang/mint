@@ -84,7 +84,7 @@ module Mint
         "dependencies" => {
           "mint-core" => {
             "repository" => "https://github.com/mint-lang/mint-core",
-            "constraint" => "0.0.0 <= v < 1.0.0",
+            "constraint" => "0.3.0 <= v < 1.0.0",
           },
         },
       }

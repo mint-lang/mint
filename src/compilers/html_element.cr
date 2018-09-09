@@ -29,8 +29,8 @@ module Mint
             component.name
 
           StringInflection
-            .kebab(component_name + "-" + name)
-            .gsub('.', '-')
+            .kebab(component_name + "_" + name)
+            .gsub('.', '_')
         end
 
       class_names =
@@ -39,7 +39,7 @@ module Mint
             .values
             .map(&.keys)
             .flatten
-            .select(&.starts_with?(class_name))
+            .select(&.starts_with?(class_name + "_"))
             .push(class_name)
             .join(" ")
         end

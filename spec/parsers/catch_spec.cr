@@ -7,9 +7,9 @@ describe "Catch" do
   expect_ignore "ad"
   expect_ignore "???"
   expect_ignore "catc"
+  expect_ignore "catch"
+  expect_ignore "catch "
 
-  expect_error "catch", Mint::Parser::CatchExpectedType
-  expect_error "catch ", Mint::Parser::CatchExpectedType
   expect_error "catch X", Mint::Parser::CatchExpectedArrow
   expect_error "catch X ", Mint::Parser::CatchExpectedArrow
   expect_error "catch X =>", Mint::Parser::CatchExpectedVariable

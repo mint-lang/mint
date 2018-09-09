@@ -5,14 +5,13 @@ module Mint
     syntax_error CatchExpectedExpression
     syntax_error CatchExpectedVariable
     syntax_error CatchExpectedArrow
-    syntax_error CatchExpectedType
 
     def catch : Ast::Catch | Nil
       start do |start_position|
         skip unless keyword "catch"
 
         whitespace
-        type = type_id! CatchExpectedType
+        skip unless type = type_id
         whitespace
 
         keyword! "=>", CatchExpectedArrow

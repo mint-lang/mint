@@ -1,10 +1,14 @@
 module Mint
   class MintJson
     class Application
-      getter title, meta, icon, head
+      getter title, meta, icon, head, name, theme, display, orientation
 
       def initialize(@meta = {} of String => String,
+                     @orientation = "",
+                     @display = "",
+                     @theme = "",
                      @title = "",
+                     @name = "",
                      @head = "",
                      @icon = "")
       end
@@ -294,7 +298,11 @@ module Mint
       meta =
         {} of String => String
 
+      orientation = ""
+      display = ""
       title = ""
+      theme = ""
+      name = ""
       icon = ""
       head = ""
 
@@ -306,6 +314,14 @@ module Mint
           title = parse_title
         when "meta"
           meta = parse_meta
+        when "name"
+          name = parse_application_name
+        when "theme-color"
+          theme = parse_theme
+        when "orientation"
+          orientation = parse_orientation
+        when "display"
+          display = parse_display
         when "icon"
           icon = @parser.read_string
         else
@@ -317,7 +333,15 @@ module Mint
       end
 
       @application =
-        Application.new(title: title, meta: meta, icon: icon, head: head)
+        Application.new(
+          title: title,
+          meta: meta,
+          icon: icon,
+          head: head,
+          name: name,
+          theme: theme,
+          orientation: orientation,
+          display: display)
     rescue exception : JSON::ParseException
       raise MintJsonApplicationInvalid, {
         "node" => node(exception),
@@ -405,6 +429,58 @@ module Mint
       title
     rescue exception : JSON::ParseException
       raise MintJsonTitleInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the name
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonApplicationNameInvalid
+
+    def parse_application_name
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonApplicationNameInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the theme
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonThemeInvalid
+
+    def parse_theme
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonThemeInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the orientation
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonOrientationInvalid
+
+    def parse_orientation
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonOrientationInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the display
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonDisplayInvalid
+
+    def parse_display
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonDisplayInvalid, {
         "node" => node(exception),
       }
     end

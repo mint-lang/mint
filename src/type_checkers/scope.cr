@@ -155,7 +155,12 @@ module Mint
             @functions[node]?
           end
 
-        if store
+        if node.is_a?(Ast::Component)
+          old_levels = @levels
+          @levels = [node] of Node
+          result = yield
+          @levels = old_levels
+        elsif store
           old_levels = @levels
           @levels = [] of Node
           @levels.concat([node, store])
@@ -183,6 +188,7 @@ module Mint
 
           if store
             keys = item.keys.map(&.value)
+
             store.states.select do |state|
               keys.includes?(state.name.value)
             end

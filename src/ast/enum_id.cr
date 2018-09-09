@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class EnumId < Node
-      getter option, name
+      getter option, name, expressions
 
-      def initialize(@option : String,
+      def initialize(@expressions : Array(Expression),
+                     @option : String,
                      @name : String,
                      @input : Data,
                      @from : Int32,

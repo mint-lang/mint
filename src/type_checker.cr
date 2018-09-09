@@ -17,19 +17,21 @@ module Mint
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
     MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
     REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID] of Checkable)
-    EVENT_FUNCTION = Type.new("Function", [EVENT, VOID] of Checkable)
+    EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
     HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
     TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
-    VOID_FUNCTION  = Type.new("Function", [VOID] of Checkable)
+    VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
 
-    getter records, scope, artifacts
+    getter records, scope, artifacts, formatter
 
     delegate types, variables, html_elements, ast, lookups, to: artifacts
     delegate component?, component, stateful?, to: scope
+    delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
     @cache = {} of Ast::Node => Checkable
+    @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
     @records = [] of Record
 
@@ -42,8 +44,12 @@ module Mint
       resolve_records
     end
 
+    def debug
+      puts Debugger.new(@scope).run
+    end
+
     # Helpers for resolving records, types and record definitions
-    # ----------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def resolve_records
       add_record Record.new("Unit"), Ast::Record.empty
@@ -112,11 +118,11 @@ module Mint
     # Scope specific helpers
     # ----------------------------------------------------------------------------
 
-    def loopkup(node : Ast::Variable)
+    def lookup(node : Ast::Variable)
       scope.find(node.value)
     end
 
-    def loopkup_with_level(node : Ast::Variable)
+    def lookup_with_level(node : Ast::Variable)
       scope.find_with_level(node.value).try do |item|
         {item[0], item[1], scope.levels.dup}
       end
@@ -135,6 +141,20 @@ module Mint
       end
     end
 
+    type_error VariableTaken
+
+    def check_variable(variable)
+      variable.try do |name|
+        existing = lookup(name)
+
+        raise VariableTaken, {
+          "name"     => name.value,
+          "existing" => existing,
+          "node"     => name,
+        } if existing
+      end
+    end
+
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
@@ -146,19 +166,25 @@ module Mint
         node
       when Ast::Node
         @cache[node]? || begin
-          raise Recursion, {
-            "caller_node" => @stack.last,
-            "node"        => node,
-          } if @stack.includes?(node)
+          if @stack.includes?(node)
+            if node.is_a?(Ast::Component)
+              return NEVER.as(Checkable)
+            else
+              raise Recursion, {
+                "caller_node" => @stack.last,
+                "node"        => node,
+              }
+            end
+          else
+            @stack.push node
 
-          @stack.push node
+            result = check(node, *args).as(Checkable)
 
-          result = check(node, *args).as(Checkable)
+            @cache[node] = result
+            @stack.delete node
 
-          @cache[node] = result
-          @stack.delete node
-
-          result
+            result
+          end
         end
       else
         NEVER # Cannot happen

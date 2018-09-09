@@ -9,13 +9,13 @@ module Mint
     def compile(node : Ast::Style, component : Ast::Component) : Nil
       prefix =
         StringInflection
-          .kebab(component.name + "-" + node.name.value)
-          .gsub('.', '-')
+          .kebab(component.name + "_" + node.name.value)
+          .gsub('.', '_')
 
       compile prefix, prefix, node.definitions
 
       node.medias.each_with_index do |item, index|
-        compile prefix + "-media-#{index}", prefix, item.definitions, item.content
+        compile prefix + "_media_#{index}", prefix, item.definitions, item.content
       end
 
       node.selectors.each do |item|

@@ -1,0 +1,11 @@
+component A {
+  fun test : Promise(Never, String) {
+    sequence {
+      "Hello"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

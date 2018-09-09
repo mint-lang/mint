@@ -1,0 +1,33 @@
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+module A {
+  fun test : String {
+    try{x=Result.error("hello") y=Result.error(0)}catch String => a {"blah"}catch{"X"}
+  }
+}
+--------------------------------------------------------------------------------
+module Result {
+  fun error (input : a) : Result(a, b) {
+    `new Err(input)`
+  }
+}
+
+module A {
+  fun test : String {
+    try {
+      x =
+        Result.error("hello")
+
+      y =
+        Result.error(0)
+    } catch String => a {
+      "blah"
+    } catch {
+      "X"
+    }
+  }
+}

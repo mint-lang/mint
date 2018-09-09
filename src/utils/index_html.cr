@@ -41,10 +41,14 @@ module Mint
 
             t.title json.application.title.to_s
 
+            t.link(rel: "manifest", href: "/manifest.json")
+
             json.application.meta.each do |name, content|
               next if name == "charset"
               t.meta(name: name, content: content)
             end
+
+            t.meta(name: "theme-color", content: json.application.theme)
 
             # Insert the extra head content
             t.unsafe json.application.head
@@ -73,9 +77,23 @@ module Mint
             if env.development?
               t.script(src: path_for("runtime.js")) { }
               t.script(src: path_for("live-reload.js")) { }
+            else
+              t.script(type: "text/javascript") do
+                t.unsafe <<-JS
+                if ('serviceWorker' in navigator) {
+                  window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/service-worker.js')
+                  })
+                }
+                JS
+              end
             end
 
             t.script(src: path_for("index.js")) { }
+
+            t.noscript do
+              t.text "This application requires JavaScript."
+            end
           end
         end
       end.render

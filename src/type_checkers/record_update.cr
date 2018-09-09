@@ -9,7 +9,7 @@ module Mint
         resolve node.variable
 
       target_node =
-        loopkup(node.variable).not_nil!
+        lookup(node.variable).not_nil!
 
       raise RecordUpdateNotUpdatingRecord, {
         "target_node" => target_node,

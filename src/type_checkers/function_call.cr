@@ -6,7 +6,7 @@ module Mint
     type_error FunctionCallNotAFunction
 
     def check(node : Ast::FunctionCall) : Checkable
-      function = loopkup node.function
+      function = lookup node.function
 
       case function
       when Nil
