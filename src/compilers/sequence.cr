@@ -38,10 +38,10 @@ module Mint
           else
             if type.name == "Promise"
               <<-JS
-              #{prefix} await (async ()=> {
+              #{prefix} await (async () => {
                 try {
                   return await #{expression}
-                } catch(_error) {
+                } catch (_error) {
                   #{catches}
                 }
               })()
@@ -85,7 +85,7 @@ module Mint
         try {
         #{body}
         }
-        catch(_error) {
+        catch (_error) {
           if (_error instanceof DoError) {} else {
             #{catch_all}
           }
