@@ -24,8 +24,8 @@ module Mint
             new_type = resolve statement
 
             type =
-              if Comparer.compare(PROMISE, new_type) ||
-                 Comparer.compare(RESULT, new_type)
+              if (new_type.name == "Promise" || new_type.name == "Result") &&
+                 new_type.parameters.size == 2
                 if new_type.parameters[0].name != "Void" &&
                    new_type.parameters[0].name != "Never"
                   to_catch << new_type.parameters[0]
@@ -93,7 +93,10 @@ module Mint
         "node"      => node,
       } if to_catch.any? && catch_all_type.nil?
 
-      if final_type && Comparer.compare(NEVER_PROMISE, final_type)
+      promise_type =
+        Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)
+
+      if final_type && Comparer.compare(promise_type, final_type)
         final_type
       else
         Type.new("Promise", [NEVER, final_type || VOID] of Checkable)

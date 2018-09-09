@@ -15,8 +15,8 @@ module Mint
           new_type = resolve statement
 
           type =
-            if Comparer.compare(PROMISE, new_type) ||
-               Comparer.compare(RESULT, new_type)
+            if (new_type.name == "Promise" || new_type.name == "Result") &&
+               new_type.parameters.size == 2
               if new_type.parameters[0].name != "Void" &&
                  new_type.parameters[0].name != "Never"
                 to_catch << new_type.parameters[0]

@@ -22,10 +22,6 @@ module Mint
     TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
     VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
-    NEVER_PROMISE  = Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)
-    PROMISE        = Type.new("Promise", [Variable.new("error"), Variable.new("result")] of Checkable)
-    RESULT         = Type.new("Result", [Variable.new("error"), Variable.new("result")] of Checkable)
-    ARRAY_PROMISE  = Type.new("Array", [PROMISE] of Checkable)
 
     getter records, scope, artifacts, formatter
 
