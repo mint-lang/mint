@@ -41,10 +41,10 @@ module Mint
 
         items.each do |item|
           case item
-          when Ast::HtmlContent
-            children << item
           when Ast::Comment
             comments << item
+          when Ast::HtmlContent
+            children << item
           end
         end
       end
