@@ -7,6 +7,7 @@ module Mint
         event.waitUntil(
           caches.open(CACHE)
             .then(cache => cache.addAll(PRECACHE_URLS))
+            .catch(error => console.log(`Oops! ${error}`))
             .then(self.skipWaiting())
         );
       });
@@ -65,12 +66,16 @@ module Mint
     def files
       Dir
         .glob("**/*")
+        .reject { |file| File.directory?(file) }
         .map { |file| "'/#{file}'" }
         .join(",\n")
     end
 
     def calculate_hash
-      Dir.glob("**/*").reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
+      Dir
+        .glob("**/*")
+        .reject { |file| File.directory?(file) }
+        .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
         digest.update File.read(file)
       end.to_s
     end
