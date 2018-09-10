@@ -12,7 +12,7 @@ module Mint
                 PRECACHE_URLS.map((url) =>
                   cache
                     .add(url)
-                    .catch(error => console.log(`Could not cache: ${url}!`))
+                    .catch(error => console.log(`Could not cache: ${url} - ${error}!`))
                 )
 
               return Promise.all(promises)
