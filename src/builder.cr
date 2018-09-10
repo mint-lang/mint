@@ -47,11 +47,12 @@ module Mint
         "theme_color"      => json.application.theme,
         "display"          => json.application.display,
         "orientation"      => json.application.orientation,
+        "start_url"        => "/",
         "icons"            => ICON_SIZES.map do |size|
           {
-            "src"   => File.join("dist", "icon-#{size}x#{size}.png"),
+            "src"   => "icon-#{size}x#{size}.png",
             "sizes" => "#{size}x#{size}",
-            "type"  => "images/png",
+            "type"  => "image/png",
           }
         end,
       }.to_pretty_json
