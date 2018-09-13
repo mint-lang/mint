@@ -8,8 +8,6 @@ module Mint
     def component : Ast::Component | Nil
       start do |start_position|
         comment = self.comment
-	inline_comment = self.inline_comment
-	block_comment = self.block_comment
 
         skip unless keyword "component"
         whitespace
@@ -28,7 +26,7 @@ module Mint
               state ||
               use ||
               get ||
-              self.comment || self.inline_comment || self.block_comment
+              self.comment
           end.compact
 
           raise ComponentExpectedBody if items.empty?
@@ -40,8 +38,6 @@ module Mint
         functions = [] of Ast::Function
         connects = [] of Ast::Connect
         comments = [] of Ast::Comment
-	inline_comments = [] of Ast::InlineComment
-	block_comments = [] of Ast::BlockComment
         styles = [] of Ast::Style
         states = [] of Ast::State
         gets = [] of Ast::Get
@@ -59,10 +55,6 @@ module Mint
             styles << item
           when Ast::Comment
             comments << item
-	  when Ast::InlineComment
-	    inline_comments << item
-	  when Ast::BlockComment
-	    block_comments << item
           when Ast::State
             states << item
           when Ast::Get
@@ -79,10 +71,6 @@ module Mint
           connects: connects,
           comments: comments,
           comment: comment,
-	  inline_comments: inline_comments,
-	  inline_comment: inline_comment,
-	  block_comments: block_comments,
-	  block_comment: block_comment,
           styles: styles,
           states: states,
           to: position,

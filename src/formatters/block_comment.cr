@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::Comment) : String
+    def format(node : Ast::BlockComment) : String
       value =
         node
           .value

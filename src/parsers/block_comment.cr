@@ -7,7 +7,7 @@ module Mint
 	value =
 	  gather = { consume_while(!(keyword_ahead "*/") || char == '\0' && !eof?) }.to_s
 
-        keyword "*/"
+        keyword("*/") if !eof?
 	whitespace
 
 	Ast::BlockComment.new(

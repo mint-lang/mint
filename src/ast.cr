@@ -38,14 +38,12 @@ module Mint
                        Js
 
     getter components, modules, records, stores, routes, providers
-    getter suites, enums, comments, inline_comments, block_comments
+    getter suites, enums, comments
 
     def initialize(@records = [] of RecordDefinition,
                    @components = [] of Component,
                    @providers = [] of Provider,
                    @comments = [] of Comment,
-		   @inline_comments = [] of InlineComment,
-		   @block_comments = [] of BlockComment,
                    @modules = [] of Module,
                    @routes = [] of Routes,
                    @suites = [] of Suite,
@@ -65,8 +63,6 @@ module Mint
       @components.concat ast.components
       @providers.concat ast.providers
       @comments.concat ast.comments
-      @inline_comments.concat ast.inline_comments
-      @block_comments.concat ast.block_comments
       @modules.concat ast.modules
       @records.concat ast.records
       @stores.concat ast.stores

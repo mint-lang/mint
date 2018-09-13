@@ -5,8 +5,9 @@ module Mint
         skip unless keyword "//"
 
 	value =
-	  gather { consume_while((char != '\n' || char == '\0') && !eof?) }.to_s
+	  gather { consume_while((!keyword_ahead("\n") || char == '\0') && !eof?) }.to_s
 
+	  keyword("\n") if !eof?
 	  whitespace
 
 	  Ast::InlineComment.new(

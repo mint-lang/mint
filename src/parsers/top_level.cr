@@ -28,7 +28,7 @@ module Mint
           routes ||
           store ||
           suite ||
-          comment || inline_comment
+          comment
       end.compact
 
       items.each do |item|
@@ -51,8 +51,6 @@ module Mint
           @ast.enums << item
         when Ast::Comment
           @ast.comments << item
-	when Ast::InlineComment
-          @ast.inline_comments << item
 	end
       end
     end
