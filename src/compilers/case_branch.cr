@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::CaseBranch, index : Int32) : String
+    def compile(node : Ast::CaseBranch, index : Int32, variable : Char) : String
       expression =
         compile node.expression
 
@@ -9,14 +9,14 @@ module Mint
         when Ast::EnumDestructuring
           variables =
             match.parameters.map_with_index do |param, index1|
-              "const #{param.value} = __condition._#{index1}"
+              "const #{param.value} = #{variable}._#{index1}"
             end
 
           name =
             "$$#{underscorize(match.name)}_#{underscorize(match.option)}"
 
           <<-RESULT
-            if (__condition instanceof #{name}) {
+            if (#{variable} instanceof #{name}) {
               #{variables.join("\n")}
 
               return #{expression}
@@ -28,13 +28,13 @@ module Mint
 
           if index == 0
             <<-RESULT
-            if (_compare(__condition, #{compiled})) {
+            if (_compare(#{variable}, #{compiled})) {
               return #{expression}
             }
             RESULT
           else
             <<-RESULT
-            else if (_compare(__condition, #{compiled})) {
+            else if (_compare(#{variable}, #{compiled})) {
               return #{expression}
             }
             RESULT

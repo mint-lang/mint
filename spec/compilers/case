@@ -15,11 +15,10 @@ component Case {
 class $Case extends Component {
   test() {
     return (() => {
-      let __condition = `Hello`
-
-      if (_compare(__condition, `test`)) {
+      let a = `Hello`;
+      if (_compare(a, `test`)) {
         return true
-      } else if (_compare(__condition, `Hello`)) {
+      } else if (_compare(a, `Hello`)) {
         return false
       } else {
         return false

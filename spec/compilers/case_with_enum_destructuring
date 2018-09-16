@@ -41,16 +41,14 @@ class $$C_D extends Enum {
 const $Test = new(class {
   a(b) {
     return (() => {
-      let __condition = b
-
-      if (__condition instanceof $$C_D) {
-        const a = __condition._0
+      let a = b;
+      if (a instanceof $$C_D) {
+        const a = a._0
 
         return (() => {
-          let __condition = a
-
-          if (__condition instanceof $$A_B) {
-            const c = __condition._0
+          let b = a;
+          if (b instanceof $$A_B) {
+            const c = b._0
 
             return c
           }
