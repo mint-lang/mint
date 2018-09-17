@@ -8,7 +8,7 @@ module Mint
         compile node.where.try(&.statements) || [] of Ast::WhereStatement
 
       arguments =
-        compile node.arguments, ", "
+        compile node.arguments
 
       wheres_separator =
         wheres.any? ? "\n\n" : ""
@@ -23,9 +23,11 @@ module Mint
          contents_separator,
          "return #{expression}",
         ].join("")
-          .indent
 
-      "#{node.name.value}(#{arguments}) {\n#{body}\n}"
+      js.function(
+        name: node.name.value,
+        arguments: arguments,
+        body: body)
     end
   end
 end

@@ -1,20 +1,19 @@
 module Mint
   class Compiler
     def compile(node : Ast::Variable) : String
-      item = variables[node]
+      entity, parent = variables[node]
 
       # Subscriptions for providers are handled here
-      if node.value == "subscriptions" && item[1].is_a?(Ast::Provider)
+      if node.value == "subscriptions" && parent.is_a?(Ast::Provider)
         return "this._subscriptions"
       end
 
-      case item[0]
+      case entity
       when Ast::Function
-        entity = item[1]
-        case entity
+        case parent
         when Ast::Module, Ast::Store
           name =
-            underscorize(entity.name)
+            underscorize(parent.name)
 
           "$#{name}.#{node.value}.bind($#{name})"
         else
@@ -22,6 +21,8 @@ module Mint
         end
       when Ast::Property, Ast::Get, Ast::State
         "this.#{node.value}"
+      when Ast::Argument
+        compile entity
       else
         node.value
       end

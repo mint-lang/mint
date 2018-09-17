@@ -1,18 +1,18 @@
 module A {
   fun test : String {
-    a("Joe")
+    getName("Joe")
   } where {
-    a =
-      (b : String) : String => { b }
+    getName =
+      (name : String) : String => { name }
   }
 }
 --------------------------------------------------------------------------------
 const $A = new(class {
   test() {
-    let a = ((b) => {
-      return b
+    let getName = ((a) => {
+      return a
     })
 
-    return a(`Joe`)
+    return getName(`Joe`)
   }
 })

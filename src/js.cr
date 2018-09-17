@@ -1,10 +1,9 @@
 module Mint
   class Js
-    getter pretty
+    getter optimize
 
-    @variables = {} of String => String
-    @next_variable : Char = 'a'.pred
-    @pretty = true
+    @next_variable : String = 'a'.pred.to_s
+    @optimize = true
 
     def next_variable
       @next_variable = @next_variable.succ
@@ -16,15 +15,27 @@ module Mint
       {variable, "let #{variable} = #{value};"}
     end
 
+    def function(name, arguments = [] of String, body = "")
+      if optimize
+        "#{name}(#{arguments.join(",")}){#{body}}"
+      else
+        <<-JS
+        #{name}(#{arguments.join(", ")}) {
+        #{body.indent}
+        }
+        JS
+      end
+    end
+
     def iif(arguments = [] of String, body = "")
-      if pretty
+      if optimize
+        "(()=>{#{body}})()"
+      else
         <<-JS
         (() => {
         #{body.indent}
         })()
         JS
-      else
-        "(() => { #{body} })()"
       end
     end
   end

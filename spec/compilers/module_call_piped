@@ -10,8 +10,8 @@ module Test {
 }
 --------------------------------------------------------------------------------
 const $Test = new(class {
-  a(value, x) {
-    return value
+  a(a, b) {
+    return a
   }
 
   b() {

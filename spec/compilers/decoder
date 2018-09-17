@@ -99,8 +99,8 @@ $$X.decode = (_input) => {
 }
 
 class $A extends Component {
-  x(input) {
-    return $$X.decode(input)
+  x(a) {
+    return $$X.decode(a)
   }
 
   render() {

@@ -9,7 +9,7 @@ class $HtmlAttribute extends Component {
   render() {
     return _createElement("div", {
       "ref": (ref => {
-        ref ? ((element) => {
+        ref ? ((a) => {
           return null
         }).call(this, ref) : null
       })

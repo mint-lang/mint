@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def compile(node : Ast::Argument) : String
-      node.name.value
+      vars[node]? || (vars[node] = js.next_variable)
     end
   end
 end

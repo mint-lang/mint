@@ -3,8 +3,9 @@ module Mint
     delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
     delegate html_elements, medias, lookups, to: @artifacts
 
-    getter js
+    getter js, vars
 
+    @vars = {} of Ast::Node => String
     @decoder = Decoder.new
     @js = Js.new
 

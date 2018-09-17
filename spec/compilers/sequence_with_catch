@@ -30,7 +30,7 @@ component Sequence {
 }
 --------------------------------------------------------------------------------
 const $Promise = new(class {
-  reject(input) {
+  reject(a) {
     return
   }
 })

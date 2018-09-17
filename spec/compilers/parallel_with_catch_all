@@ -28,7 +28,7 @@ component Parallel {
 }
 --------------------------------------------------------------------------------
 const $Promise = new(class {
-  reject(input) {
+  reject(a) {
     return
   }
 })
