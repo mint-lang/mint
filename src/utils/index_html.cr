@@ -15,11 +15,11 @@ module Mint
 
     getter json, env
 
-    def self.render(env, relative = false, noServiceWorker = false)
-      new(env, relative, noServiceWorker).to_s
+    def self.render(env, relative = false, no_service_worker = false)
+      new(env, relative, no_service_worker).to_s
     end
 
-    def initialize(@env : Environment, @relative : Bool, @noServiceWorker : Bool)
+    def initialize(@env : Environment, @relative : Bool, @no_service_worker : Bool)
       @json = MintJson.parse_current
     end
 
@@ -78,7 +78,7 @@ module Mint
               t.script(src: path_for("runtime.js")) { }
               t.script(src: path_for("live-reload.js")) { }
             else
-              if !@noServiceWorker
+              if !@no_service_worker
                 t.script(type: "text/javascript") do
                   t.unsafe <<-JS
                   if ('serviceWorker' in navigator) {
