@@ -11,9 +11,15 @@ module Mint
         default: false,
         short: "r"
 
+      define_flag noServiceWorker : Bool,
+        description: "If specified the service worker functionality will be disabled",
+        long: "noServiceWorker",
+        default: false,
+        short: "s"
+
       def run
         execute "Building for production" do
-          Builder.new(flags.relative)
+          Builder.new(flags.relative, flags.noServiceWorker)
         end
       end
     end
