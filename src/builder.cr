@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative)
+    def initialize(relative, no_service_worker)
       json = MintJson.parse_current
 
       terminal.measure "#{COG} Ensuring dependencies... " do
@@ -23,7 +23,7 @@ module Mint
       File.write "dist/index.js", index
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative)
+        File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative, no_service_worker)
       end
 
       terminal.measure "#{COG} Writing manifest.json..." do
@@ -34,8 +34,10 @@ module Mint
         icons(json)
       end
 
-      terminal.measure "#{COG} Creating service worker..." do
-        File.write "dist/service-worker.js", ServiceWorker.generate
+      if !no_service_worker
+        terminal.measure "#{COG} Creating service worker..." do
+          File.write "dist/service-worker.js", ServiceWorker.generate
+        end
       end
     end
 
