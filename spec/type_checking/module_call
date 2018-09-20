@@ -8,16 +8,34 @@ module Test {
     |> Test.a("test")
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 --------------------------------------------------------ModuleCallNotFoundModule
 module Test {
   fun b : String {
     X.x()
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 ------------------------------------------------------ModuleCallNotFoundFunction
 module Test {
   fun b : String {
     Test.a("test")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
   }
 }
 --------------------------------------------------ModuleCallArgumentSizeMismatch
@@ -30,6 +48,12 @@ module Test {
     Test.a("test")
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 --------------------------------------------------ModuleCallArgumentTypeMismatch
 module Test {
   fun a (value : String, x : Bool) : String {
@@ -40,6 +64,12 @@ module Test {
     Test.a("test", "z")
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 ----------------------------------------------------------ModuleCallTypeMismatch
 module Test {
   fun a (value : a, x : a) : String {
@@ -48,5 +78,11 @@ module Test {
 
   fun b : String {
     Test.a("test", 0)
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
   }
 }

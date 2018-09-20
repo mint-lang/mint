@@ -7,6 +7,12 @@ store Test {
     Test.a
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 --------------------------------------------------------------------------------
 const $Test = new(class extends Store {
   constructor() {
@@ -25,3 +31,11 @@ const $Test = new(class extends Store {
   }
 })
 $Test.__displayName = `Test`
+
+class $Main extends Component {
+  render() {
+    return $Test.b()
+  }
+}
+
+$Main.displayName = "Main"

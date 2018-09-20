@@ -1,4 +1,4 @@
-component Case {
+component Main {
   fun test : Bool {
     case ("Hello") {
       "test" => true
@@ -12,7 +12,7 @@ component Case {
   }
 }
 --------------------------------------------------------------------------------
-class $Case extends Component {
+class $Main extends Component {
   test() {
     return (() => {
       let __condition = `Hello`
@@ -32,4 +32,4 @@ class $Case extends Component {
   }
 }
 
-$Case.displayName = "Case"
+$Main.displayName = "Main"

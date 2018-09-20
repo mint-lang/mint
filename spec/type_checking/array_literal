@@ -1,4 +1,4 @@
-module Test {
+component Main {
   fun test : Array(String) {
     [
       "Hello",
@@ -6,14 +6,22 @@ module Test {
       "Joe"
     ]
   }
+
+  fun render : Html {
+    <div/>
+  }
 }
 -----------------------------------------------------------------ArrayNotMatches
-module Test {
+component Main {
   fun test : Array(String) {
     [
       "Hello",
       true,
       "Joe"
     ]
+  }
+
+  fun render : Html {
+    <div/>
   }
 }

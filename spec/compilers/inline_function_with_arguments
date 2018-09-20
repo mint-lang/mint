@@ -1,13 +1,17 @@
-module A {
+component Main {
   fun test : String {
     a("Joe")
   } where {
     a =
       (b : String) : String => { b }
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     let a = ((b) => {
       return b
@@ -15,4 +19,10 @@ const $A = new(class {
 
     return a(`Joe`)
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

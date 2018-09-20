@@ -1,11 +1,21 @@
-module Operation {
+component Main {
   fun test : Bool {
     "a" == "b"
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
-const $Operation = new(class {
+class $Main extends Component {
   test() {
     return _compare(`a`, `b`)
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

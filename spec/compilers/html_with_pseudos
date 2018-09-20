@@ -1,4 +1,4 @@
-component HtmlStyle {
+component Main {
   property hoverBackground : String = "yellow"
   property background : String = "blue"
 
@@ -23,7 +23,7 @@ component HtmlStyle {
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlStyle extends Component {
+class $Main extends Component {
   get hoverBackground() {
     if (this.props.hoverBackground != undefined) {
       return this.props.hoverBackground
@@ -42,31 +42,31 @@ class $HtmlStyle extends Component {
 
   render() {
     return _createElement("div", {
-      className: `html-style-test`,
+      className: `main-test`,
       style: {
-        [`--html-style-test-background`]: this.background,
-        [`--html-style-test-hover-background`]: this.hoverBackground,
-        [`--html-style-test-div-font-family`]: `Hello`
+        [`--main-test-background`]: this.background,
+        [`--main-test-hover-background`]: this.hoverBackground,
+        [`--main-test-div-font-family`]: `Hello`
       }
     })
   }
 }
 
-$HtmlStyle.displayName = "HtmlStyle"
+$Main.displayName = "Main"
 
 _insertStyles(`
-  .html-style-test {
-    background: var(--html-style-test-background);
+  .main-test {
+    background: var(--main-test-background);
     color: red;
   }
 
-  .html-style-test:hover {
-    background: var(--html-style-test-hover-background);
+  .main-test:hover {
+    background: var(--main-test-hover-background);
     color: cyan;
   }
 
-  .html-style-test div {
-    font-family: var(--html-style-test-div-font-family);
+  .main-test div {
+    font-family: var(--main-test-div-font-family);
     color: blue;
   }
 `)

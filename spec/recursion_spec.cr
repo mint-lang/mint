@@ -4,7 +4,7 @@ describe "variable" do
   it "raises error" do
     example =
       <<-MINT
-      store Main {
+      component Main {
         state greeting : String = ""
 
         fun test : Void {
@@ -18,6 +18,10 @@ describe "variable" do
             } else {
               "hello"
             }
+        }
+
+        fun render : Html {
+          <div></div>
         }
       }
       MINT
@@ -36,11 +40,15 @@ describe "function" do
   it "raises error" do
     example =
       <<-MINT
-      store Main {
+      component Main {
         state greeting : String = ""
 
         fun test : Void {
           test()
+        }
+
+        fun render : Html {
+          <div></div>
         }
       }
       MINT
@@ -59,8 +67,12 @@ describe "state" do
   it "raises error" do
     example =
       <<-MINT
-      store Main {
+      component Main {
         state greeting : String = greeting
+
+        fun render : Html {
+          <div></div>
+        }
       }
       MINT
 

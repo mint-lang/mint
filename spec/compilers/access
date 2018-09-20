@@ -2,7 +2,7 @@ record X {
   name : String
 }
 
-component A {
+component Main {
   fun a : String {
     x.name
   } where {
@@ -31,7 +31,7 @@ $$X.decode = (_input) => {
   }))
 }
 
-class $A extends Component {
+class $Main extends Component {
   a() {
     let x = new $$X({
       name: `test`
@@ -45,4 +45,4 @@ class $A extends Component {
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

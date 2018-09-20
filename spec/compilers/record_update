@@ -2,7 +2,7 @@ record Record {
   name: String
 }
 
-component RecordUpdate {
+component Main {
   property record : Record = { name = "Doe" }
 
   fun test : Record {
@@ -31,7 +31,7 @@ $$Record.decode = (_input) => {
   }))
 }
 
-class $RecordUpdate extends Component {
+class $Main extends Component {
   get record() {
     if (this.props.record != undefined) {
       return this.props.record
@@ -53,4 +53,4 @@ class $RecordUpdate extends Component {
   }
 }
 
-$RecordUpdate.displayName = "RecordUpdate"
+$Main.displayName = "Main"

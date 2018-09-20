@@ -1,4 +1,4 @@
-module FunctionCall {
+component Main {
   fun test (a : String, b : Bool) : Bool {
     b
   }
@@ -6,14 +6,25 @@ module FunctionCall {
   fun call : Bool {
     test("Hello", true)
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
-const $FunctionCall = new(class {
+class $Main extends Component {
   test(a, b) {
     return b
   }
 
   call() {
-    return $FunctionCall.test.bind($FunctionCall)(`Hello`, true)
+    return this.test.bind(this)(`Hello`, true)
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"
+

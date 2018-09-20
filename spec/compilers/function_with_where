@@ -1,6 +1,6 @@
-module A {
-  fun test : Bool {
-    true
+component Main {
+  fun test : String {
+    something
   } where {
     something =
       "Asd"
@@ -8,14 +8,23 @@ module A {
     otherThing =
       0
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     let something = `Asd`
 
-    let otherThing = 0
-
-    return true
+    return something
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"
+

@@ -1,4 +1,4 @@
-component A {
+component Main {
   property test : String = "Hello"
 
   fun a : String {
@@ -10,7 +10,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get test() {
     if (this.props.test != undefined) {
       return this.props.test
@@ -28,4 +28,4 @@ class $A extends Component {
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

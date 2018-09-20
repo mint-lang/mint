@@ -1,13 +1,13 @@
-component Test {
+component Main {
   fun render : Html {
     <div/>
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   render() {
     return _createElement("div", {})
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

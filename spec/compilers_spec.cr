@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-Dir.glob("./spec/compilers/**/*").each do |file|
+Dir.glob("./spec/compilers/**/*").sort.each do |file|
   it file do
     # Read and separate sample from expected
     sample, expected = File.read(file).split("-"*80)

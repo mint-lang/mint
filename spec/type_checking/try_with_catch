@@ -4,7 +4,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -15,9 +15,13 @@ module A {
       error
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 ---------------------------------------------------------------TryCatchesNothing
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -25,6 +29,10 @@ module A {
     } catch String => error {
       ""
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 ------------------------------------------------------------------TryDidNotCatch
@@ -34,7 +42,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -42,6 +50,10 @@ module A {
 
       x
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 ------------------------------------------------------------TryCatchTypeMismatch
@@ -51,7 +63,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -62,6 +74,10 @@ module A {
       true
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 -------------------------------------------------------------------TryCatchedAll
 module Result {
@@ -70,7 +86,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -83,6 +99,10 @@ module A {
       "Y"
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------------TryCatchTypeMismatch
 module Result {
@@ -91,7 +111,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -102,6 +122,10 @@ module A {
       true
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------------FunctionTypeMismatch
 module Result {
@@ -110,7 +134,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -120,5 +144,9 @@ module A {
     } catch String => error {
       false
     }
+  }
+
+  fun render : String {
+    ""
   }
 }

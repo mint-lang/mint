@@ -1,4 +1,4 @@
-component If {
+component Main {
   fun test : Bool {
     if ("asd" == "asd2") {
       true
@@ -12,7 +12,7 @@ component If {
   }
 }
 --------------------------------------------------------------------------------
-class $If extends Component {
+class $Main extends Component {
   test() {
     return (_compare(`asd`, `asd2`) ? true : false)
   }
@@ -22,4 +22,4 @@ class $If extends Component {
   }
 }
 
-$If.displayName = "If"
+$Main.displayName = "Main"

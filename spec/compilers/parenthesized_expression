@@ -1,11 +1,21 @@
-module Test {
+component Main {
   fun test : Bool {
     (true)
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return (true)
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

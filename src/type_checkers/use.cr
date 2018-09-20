@@ -16,6 +16,8 @@ module Mint
         "node" => node,
       } unless provider
 
+      resolve provider
+
       # This is checked by the provider so we assume it's there
       subscription =
         records.find(&.name.==(provider.subscription)).not_nil!

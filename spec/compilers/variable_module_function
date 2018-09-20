@@ -7,6 +7,14 @@ module A {
     a
   }
 }
+
+component Main {
+  fun render : String {
+    a()
+  } where {
+    a = A.b()
+  }
+}
 --------------------------------------------------------------------------------
 const $A = new(class {
   a() {
@@ -17,3 +25,14 @@ const $A = new(class {
     return $A.a.bind($A)
   }
 })
+
+class $Main extends Component {
+  render() {
+    let a = $A.b()
+
+    return a()
+  }
+}
+
+$Main.displayName = "Main"
+

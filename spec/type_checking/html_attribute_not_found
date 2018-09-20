@@ -6,7 +6,7 @@ component X {
   }
 }
 
-component Test {
+component Main {
   fun render : Html {
     <X key="wtf" test="asd"/>
   }
@@ -20,7 +20,7 @@ component X {
   }
 }
 
-component Test {
+component Main {
   fun render : Html {
     <X key="wtf" test2="asd"/>
   }

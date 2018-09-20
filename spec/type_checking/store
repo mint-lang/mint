@@ -5,6 +5,10 @@ store Test {
     next { a = "Blah" }
   }
 }
+
+component Main {
+  connect Test exposing { a, b }
+}
 -----------------------------------------------------------NextCallStateNotFound
 store Test {
   state a : String = ""
@@ -12,6 +16,10 @@ store Test {
   fun b : Promise(Never, Void) {
     next { b = "Blah" }
   }
+}
+
+component Main {
+  connect Test exposing { a, b }
 }
 ---------------------------------------------------------StoreEntityNameConflict
 store Test {
@@ -22,4 +30,8 @@ store Test {
   fun a : String {
     ""
   }
+}
+
+component Main {
+  connect Test exposing { a }
 }

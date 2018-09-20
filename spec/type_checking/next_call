@@ -1,4 +1,4 @@
-component Test {
+component Main {
   state name : String = "Joe"
   state age : Number = 24
 
@@ -19,8 +19,16 @@ module Test {
     next { age = 30 }
   }
 }
+
+component Main {
+  fun render : Html {
+    <div/>
+  } where {
+    test = Test.test()
+  }
+}
 -------------------------------------------------------NextCallStateTypeMismatch
-component Test {
+component Main {
   state name : String = "Joe"
 
   fun test : Promise(Never, Void) {
@@ -32,7 +40,7 @@ component Test {
   }
 }
 -----------------------------------------------------------NextCallStateNotFound
-component Test {
+component Main {
   state name : String = "Joe"
 
   fun test : Promise(Never, Void) {

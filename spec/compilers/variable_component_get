@@ -1,4 +1,4 @@
-component A {
+component Main {
   get a : String {
     "Hello"
   }
@@ -12,7 +12,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get a() {
     return `Hello`
   }
@@ -26,4 +26,4 @@ class $A extends Component {
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

@@ -4,7 +4,7 @@ module Promise {
   }
 }
 
-component A {
+component Main {
   fun test : Promise(Never, String) {
     sequence {
       greeting =
@@ -32,7 +32,7 @@ module Promise {
   }
 }
 
-component A {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       greeting =
@@ -50,7 +50,7 @@ component A {
   }
 }
 ----------------------------------------------------------SequenceCatchesNothing
-component A {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       true
@@ -70,7 +70,7 @@ module Promise {
   }
 }
 
-component A {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       blah =
@@ -94,7 +94,7 @@ module Promise {
   }
 }
 
-component A {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       blah =
@@ -117,7 +117,7 @@ module Promise {
   }
 }
 
-component A {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       blah =

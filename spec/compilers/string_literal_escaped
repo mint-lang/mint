@@ -1,11 +1,13 @@
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     "Hello There \"Joe\""
   }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
-  test() {
+class $Main extends Component {
+  render() {
     return `Hello There "Joe"`
   }
-})
+}
+
+$Main.displayName = "Main"

@@ -1,4 +1,4 @@
-component Test {
+component Main {
   get test : Number {
     0
   }
@@ -8,7 +8,7 @@ component Test {
   }
 }
 -----------------------------------------------------------------GetTypeMismatch
-component Test {
+component Main {
   get test : Number {
     "asd"
   }

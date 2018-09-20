@@ -19,7 +19,7 @@ module Mint
 
       node.fields.each do |field|
         type =
-          resolve field
+          resolve field, false
 
         value_type =
           target.fields[field.key.value]?

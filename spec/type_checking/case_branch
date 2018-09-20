@@ -1,5 +1,5 @@
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case ("x") {
       "a" => "a"
       "b" => "b"
@@ -8,8 +8,8 @@ module Test {
   }
 }
 -----------------------------------------------------CaseBranchNotMatchCondition
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case ("x") {
       true => "a"
       "b" => "b"

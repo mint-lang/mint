@@ -4,8 +4,8 @@ module Result {
   }
 }
 
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     try {
       x =
         Result.error("Blah")
@@ -23,8 +23,8 @@ module Result {
   }
 }
 
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     try {
       x =
         Result.error("Blah")

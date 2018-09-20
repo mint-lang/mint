@@ -1,4 +1,4 @@
-component A {
+component Main {
   get a : String {
     "Hello"
   }
@@ -12,7 +12,7 @@ component A {
   }
 }
 -----------------------------------------------------------------VariableMissing
-component A {
+component Main {
   get a : String {
     "Hello"
   }
@@ -26,7 +26,7 @@ component A {
   }
 }
 ----------------------------------------------------------------VariableReserved
-component A {
+component Main {
   fun b(default : String) : String {
     default
   }

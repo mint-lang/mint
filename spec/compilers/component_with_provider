@@ -9,7 +9,7 @@ provider MouseProvider : MouseProvider.Data {
   }
 }
 
-component Test {
+component Main {
   use MouseProvider {
     moves = (data : Position) : Void => { void },
     ups = (data : Position) : Void => { void }
@@ -39,7 +39,7 @@ const $MouseProvider = new(class extends Provider {
   }
 })
 
-class $Test extends Component {
+class $Main extends Component {
   componentWillUnmount() {
     $MouseProvider._unsubscribe(this)
   }
@@ -79,4 +79,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

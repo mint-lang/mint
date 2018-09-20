@@ -1,11 +1,11 @@
-component HtmlAttribute {
+component Main {
   fun render : Html {
     <div title="Hello">
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlAttribute extends Component {
+class $Main extends Component {
   render() {
     return _createElement("div", {
       "title": `Hello`
@@ -13,4 +13,4 @@ class $HtmlAttribute extends Component {
   }
 }
 
-$HtmlAttribute.displayName = "HtmlAttribute"
+$Main.displayName = "Main"

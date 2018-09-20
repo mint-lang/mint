@@ -11,6 +11,8 @@ module Mint
         "node" => node,
       } unless entity
 
+      checked.add(entity)
+
       scope entity do
         resolve node.body
       end

@@ -9,7 +9,7 @@ provider Provider : Provider.Data {
   }
 }
 
-component Test {
+component Main {
   use Provider {
     a = "Hello",
     b = "Blah"
@@ -22,7 +22,7 @@ component Test {
   }
 }
 -------------------------------------------------------------UseNotFoundProvider
-component Test {
+component Main {
   use Provider {
     a = "Hello",
     b = "Blah"
@@ -46,7 +46,7 @@ provider Provider : Provider.Data {
   }
 }
 
-component Test {
+component Main {
   use Provider {
     a = "Hello",
     b = "Blah"
@@ -75,7 +75,7 @@ provider Provider : Provider.Data {
   }
 }
 
-component Test {
+component Main {
   use Provider {
     a = "Hello",
     b = "Blah"

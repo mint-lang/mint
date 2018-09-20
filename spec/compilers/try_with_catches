@@ -4,7 +4,7 @@ module Result {
   }
 }
 
-module A {
+component Main {
   fun test : String {
     try {
       x =
@@ -15,6 +15,10 @@ module A {
       error
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------------------------
 const $Result = new(class {
@@ -23,7 +27,7 @@ const $Result = new(class {
   }
 })
 
-const $A = new(class {
+class $Main extends Component {
   test() {
     return (() => {
       let _0 = $Result.error(`Blah`);
@@ -39,4 +43,10 @@ const $A = new(class {
       return x
     })()
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

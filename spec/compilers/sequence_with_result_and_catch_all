@@ -4,7 +4,7 @@ module Result {
   }
 }
 
-component Sequence {
+component Main {
   fun test : Promise(Never, String) {
     sequence {
       Result.error("")
@@ -26,7 +26,7 @@ const $Result = new(class {
   }
 })
 
-class $Sequence extends Component {
+class $Main extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -56,4 +56,4 @@ class $Sequence extends Component {
   }
 }
 
-$Sequence.displayName = "Sequence"
+$Main.displayName = "Main"

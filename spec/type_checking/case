@@ -1,5 +1,5 @@
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case ("x") {
       "a" => "a"
       "b" => "b"
@@ -8,8 +8,8 @@ module Test {
   }
 }
 ------------------------------------------------------------CaseBranchNotMatches
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case ("x") {
       "a" => "a"
       "b" => true
@@ -23,8 +23,8 @@ enum A {
   C
 }
 
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case (A::B) {
       A::B => "a"
       A::C => "c"
@@ -33,8 +33,8 @@ module Test {
   }
 }
 ------------------------------------------------------------------CaseNotCovered
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case ("a") {
       "a" => "a"
     }
@@ -47,8 +47,8 @@ enum A {
   D
 }
 
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     case (A::B) {
       A::B => "a"
       A::C => "c"

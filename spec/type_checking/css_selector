@@ -1,4 +1,4 @@
-component A {
+component Main {
   style test {
     & div {
       color: {color};
@@ -18,7 +18,7 @@ component A {
   }
 }
 -------------------------------------------------------CssDefinitionTypeMismatch
-component A {
+component Main {
   style test {
     & div {
       color: {color};

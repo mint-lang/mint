@@ -4,11 +4,15 @@ module X {
   }
 }
 
-module Test {
+component Main {
   fun test : Void {
     with X {
       a()
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -18,8 +22,14 @@ const $X = new(class {
   }
 })
 
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return $X.a.bind($X)()
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

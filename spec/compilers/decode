@@ -7,7 +7,7 @@ record X {
   y: X.Y
 }
 
-component A {
+component Main {
   fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
@@ -58,7 +58,7 @@ $$X.decode = (_input) => {
   }))
 }
 
-class $A extends Component {
+class $Main extends Component {
   x(input) {
     return $$X.decode(input)
   }
@@ -68,4 +68,4 @@ class $A extends Component {
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

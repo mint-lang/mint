@@ -4,8 +4,22 @@ module Mint
     type_error HtmlAttributeElementAttributeTypeMismatch
     type_error HtmlAttributeNotFoundComponentProperty
     type_error HtmlAttributeComponentKeyTypeMismatch
+    type_error HtmlAttributeFragmentKeyTypeMismatch
     type_error HtmlElementClassNameForbidden
     type_error HtmlElementStyleForbidden
+
+    def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment)
+      got =
+        resolve node.value
+
+      raise HtmlAttributeFragmentKeyTypeMismatch, {
+        "expected" => STRING,
+        "node"     => node,
+        "got"      => got,
+      } unless Comparer.compare(STRING, got)
+
+      got
+    end
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Checkable
       got =

@@ -1,4 +1,4 @@
-component Sequence {
+component Main {
   fun test : Promise(Never, Void) {
     sequence {
       void
@@ -12,7 +12,7 @@ component Sequence {
   }
 }
 --------------------------------------------------------------------------------
-class $Sequence extends Component {
+class $Main extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -37,4 +37,4 @@ class $Sequence extends Component {
   }
 }
 
-$Sequence.displayName = "Sequence"
+$Main.displayName = "Main"

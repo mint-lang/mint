@@ -1,5 +1,9 @@
-module A {
+component Main {
   function (a : a) : a {
     a
+  }
+
+  fun render : String {
+  	""
   }
 }

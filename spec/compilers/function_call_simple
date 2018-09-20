@@ -1,4 +1,4 @@
-component A {
+component Main {
   fun a : String {
     "test"
   }
@@ -12,7 +12,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   a() {
     return `test`
   }
@@ -26,4 +26,4 @@ class $A extends Component {
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

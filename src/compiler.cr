@@ -22,7 +22,7 @@ module Mint
     end
 
     def compile(nodes : Array(Ast::Node))
-      nodes.map { |node| compile(node).as(String) }
+      nodes.map { |node| compile(node).as(String) }.reject(&.empty?)
     end
 
     def compile(node : Ast::Node) : String

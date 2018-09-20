@@ -1,11 +1,19 @@
-module A {
+component Main {
   function (a : Bool) : Bool {
     a
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
+component Main {
   function (a : String) : Bool {
     a
+  }
+
+  fun render : String {
+    ""
   }
 }

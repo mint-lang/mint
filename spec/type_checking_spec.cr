@@ -30,6 +30,9 @@ Dir.glob("./spec/type_checking/**").each do |file|
 
           type_checker = Mint::TypeChecker.new(ast)
           type_checker.check
+
+          # Make sure we actually checked the example because of DCE
+          type_checker.checked.size.should_not eq(0)
         rescue item : Mint::Error
           item.class.name.split("::").last.should eq(error)
         end

@@ -1,4 +1,4 @@
-component A {
+component Main {
   style test {
     margin: {margin}px 0px;
   }
@@ -12,25 +12,25 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get margin() {
     return 10
   }
 
   render() {
     return _createElement("div", {
-      className: `a-test`,
+      className: `main-test`,
       style: {
-        [`--a-test-margin`]: this.margin + `px 0px`
+        [`--main-test-margin`]: this.margin + `px 0px`
       }
     })
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"
 
 _insertStyles(`
-  .a-test {
-    margin: var(--a-test-margin);
+  .main-test {
+    margin: var(--main-test-margin);
   }
 `)

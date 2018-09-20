@@ -4,13 +4,13 @@ component Test {
   }
 }
 
-component X {
+component Main {
   fun render : Html {
     <Test/>
   }
 }
 --------------------------------------------------HtmlComponentNotFoundComponent
-component Test {
+component Main {
   fun render : Html {
     <X/>
   }

@@ -5,9 +5,23 @@ module Html.Testing {
     </p>
   }
 }
+
+component Main {
+  fun render : Html {
+    Html.Testing.renderAll()
+  }
+}
 --------------------------------------------------------------------------------
 const $Html_Testing = new(class {
   renderAll() {
     return _createElement("p", {}, [`It should work`])
   }
 })
+
+class $Main extends Component {
+  render() {
+    return $Html_Testing.renderAll()
+  }
+}
+
+$Main.displayName = "Main"

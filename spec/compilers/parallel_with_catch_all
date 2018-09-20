@@ -4,7 +4,7 @@ module Promise {
   }
 }
 
-component Parallel {
+component Main {
   fun test : Promise(Never, String) {
     parallel {
       greeting =
@@ -33,7 +33,7 @@ const $Promise = new(class {
   }
 })
 
-class $Parallel extends Component {
+class $Main extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -73,4 +73,4 @@ class $Parallel extends Component {
   }
 }
 
-$Parallel.displayName = "Parallel"
+$Main.displayName = "Main"

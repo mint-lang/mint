@@ -1,4 +1,4 @@
-component Test {
+component Main {
   get test : Number {
     0
   }
@@ -8,7 +8,7 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   get test() {
     return 0
   }
@@ -18,4 +18,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

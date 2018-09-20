@@ -1,23 +1,35 @@
-module A {
+component Main {
   fun test : String {
     a()
   } where {
     a = () : String => { "Hello" }
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
+component Main {
   fun test : String {
     a()
   } where {
     a = () : Bool => { true }
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------InlineFunctionTypeMismatch
-module A {
+component Main {
   fun test : String {
     a()
   } where {
     a = () : String => { true }
+  }
+
+  fun render : String {
+    ""
   }
 }

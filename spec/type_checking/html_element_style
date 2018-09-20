@@ -1,4 +1,4 @@
-component Test {
+component Main {
   style base {
     color: red;
   }
@@ -9,7 +9,7 @@ component Test {
   }
 }
 --------------------------------------------------------HtmlElementNotFoundStyle
-component Test {
+component Main {
   fun render : Html {
     <div::base/>
   }

@@ -1,23 +1,39 @@
-module Test {
+component Main {
   fun test : Number {
     0 * 10
   }
+
+  fun render : String {
+    ""
+  }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
-module Test {
+component Main {
   fun test : Number {
     "Hello" * 0
   }
-}
-----------------------------------------------------OperationNumericTypeMismatch
-module Test {
-  fun test : Number {
-    0 * "Hello"
+
+  fun render : String {
+    ""
   }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
-module Test {
+component Main {
+  fun test : Number {
+    0 * "Hello"
+  }
+
+  fun render : String {
+    ""
+  }
+}
+----------------------------------------------------OperationNumericTypeMismatch
+component Main {
   fun test : Number {
     "Blah" * "Hello"
+  }
+
+  fun render : String {
+    ""
   }
 }

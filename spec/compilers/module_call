@@ -7,6 +7,12 @@ module Test {
     Test.a("Lorem ipsum dolor sit amet")
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 --------------------------------------------------------------------------------
 const $Test = new(class {
   a(value) {
@@ -17,3 +23,11 @@ const $Test = new(class {
     return $Test.a(`Lorem ipsum dolor sit amet`)
   }
 })
+
+class $Main extends Component {
+  render() {
+    return $Test.b()
+  }
+}
+
+$Main.displayName = "Main"

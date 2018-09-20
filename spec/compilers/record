@@ -3,12 +3,16 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     {
       a = "Hello",
       b = 0
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -36,11 +40,17 @@ $$Test.decode = (_input) => {
   }))
 }
 
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return new $$Test({
       a: `Hello`,
       b: 0
     })
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

@@ -2,7 +2,7 @@ record X {
   name : String
 }
 
-component A {
+component Main {
   fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
@@ -16,7 +16,7 @@ record X {
   name : String
 }
 
-component A {
+component Main {
   fun x (input : String) : Result(Object.Error, x) {
     decode input as X
   }
@@ -30,7 +30,7 @@ record X {
   name : Blah
 }
 
-component A {
+component Main {
   fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
@@ -44,7 +44,7 @@ record X {
   name : Maybe(a)
 }
 
-component A {
+component Main {
   fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }

@@ -6,7 +6,7 @@ enum C(a) {
   D(A(a))
 }
 
-module Test {
+component Main {
   fun a (b : C(a)) : a {
     case (b) {
       C::D a =>
@@ -15,6 +15,10 @@ module Test {
             c
         }
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -38,7 +42,7 @@ class $$C_D extends Enum {
   }
 };
 
-const $Test = new(class {
+class $Main extends Component {
   a(b) {
     return (() => {
       let __condition = b
@@ -58,4 +62,10 @@ const $Test = new(class {
       }
     })()
   }
-})
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"
