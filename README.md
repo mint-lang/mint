@@ -5,8 +5,9 @@
 [![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
 
-:warning: *Mint is currently in alpha stage, although it's usable for testing purposes.:warning:
-:warning: The documentation is currently work in progress.* :warning:
+:warning: *Mint is currently in development, although it's usable for testing purposes.* :warning:
+
+:warning: *The documentation is currently work in progress.* :warning:
 
 ------
 
@@ -24,7 +25,12 @@ While focusing on:
 
 Project Status
 --------------
-The project is in alpha stage: we are still tweaking the language and standard library.
+The project is in development, we are still tweaking the language and standard library. 
+
+There are two bigger applications which can be used as examples / learning material:
+
+* the Mint website (~3100 LOC) [SOURCE](https://github.com/mint-lang/mint-website)
+* the Mint implementation of [reaworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)  
 
 Installing
 ----------
