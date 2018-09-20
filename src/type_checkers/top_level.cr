@@ -5,18 +5,28 @@ module Mint
     end
 
     def check(node : Ast) : Checkable
+      # Resolve the Main component
       node
         .components
         .find(&.name.==("Main"))
         .try { |component| resolve component }
 
-      # resolve node.providers
-      # resolve node.components
-      # resolve node.modules
-      # resolve node.stores
+      # Resolve routes
       resolve node.routes
-      # resolve node.suites
+
+      # TODO: Don't egarerly resolve enums when it's figured out how to access
+      # them in JS properly
       resolve node.enums
+
+      # We are turning off checking here which means that what we check after
+      # this will not be compiled.
+      self.checking = false
+
+      resolve node.providers
+      resolve node.components
+      resolve node.modules
+      resolve node.stores
+      resolve node.suites
 
       NEVER
     end

@@ -25,6 +25,8 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
+    property checking : Bool = true
+
     delegate types, variables, html_elements, ast, lookups, cache, checked, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
@@ -54,7 +56,7 @@ module Mint
       add_record Record.new("Unit"), Ast::Record.empty
 
       ast.records.map do |record|
-        checked.add(record)
+        check! record
         add_record check(record), record
       end
     end
@@ -160,6 +162,11 @@ module Mint
 
     type_error Recursion
 
+    def check!(node)
+      return unless checking
+      checked.add(node)
+    end
+
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
       case node
       when Checkable
@@ -181,7 +188,9 @@ module Mint
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
-            checked.add(node)
+
+            check! node
+
             @stack.delete node
 
             result
