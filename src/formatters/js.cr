@@ -1,18 +1,19 @@
 module Mint
   class Formatter
     def format(node : Ast::Js) : String
-      if node.value.includes?("\n") || node.value.includes?("\r")
+      body =
+        format node.value, ""
+
+      if body.includes?("\n") || body.includes?("\r")
         value =
-          node
-            .value
+          body
             .remove_leading_whitespace
             .gsub(/`/, "\\`")
 
         "`\n#{value}\n`"
       else
         value =
-          node
-            .value
+          body
             .strip
             .gsub(/`/, "\\`")
 
