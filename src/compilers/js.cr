@@ -8,7 +8,7 @@ module Mint
         else
           item
         end
-      end.join("")
+      end.join("").strip
     end
   end
 end

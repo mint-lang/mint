@@ -3,6 +3,8 @@ module Mint
     type_error TestTypeMismatch
 
     def check(node : Ast::Test)
+      resolve node.name
+
       type =
         resolve node.expression
 

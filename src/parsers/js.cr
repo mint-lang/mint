@@ -21,18 +21,30 @@ module Mint
     end
 
     def js_part : String | Nil
-      value = gather { chars "^`$" }
+      # We geather characters until we find either a backtick or interpolation
+      value = gather { chars "^`#" }
 
-      return unless value
-      return value unless prev_char == '\\'
+      if char == '#' && next_char != '{'
+        # If we found a hashtag then it could be an interpolation, if
+        # not we consume the character and return.
+        step
+        value.to_s + '#'
+      elsif char == '#' && prev_char == '\\'
+        # if we found a backtick and the previous char is backslash then it
+        # means it's an escape so we consume it and return.
+        step
 
-      char! '`'
-      next_part = js_part
+        # The rchop here removes the escape slash "\"
+        value.to_s.rchop + "#"
+      elsif char == '`' && prev_char == '\\'
+        # if we found a backtick and the previous char is backslash then it
+        # means it's an escape so we consume it and return.
+        step
 
-      if next_part
-        value.rchop + '`' + next_part
+        # The rchop here removes the escape slash "\"
+        value.to_s.rchop + '`'
       else
-        value.rchop + '`'
+        value
       end
     end
   end

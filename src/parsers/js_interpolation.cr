@@ -5,7 +5,7 @@ module Mint
 
     def js_interpolation
       start do
-        skip unless keyword "${"
+        skip unless keyword "\#{"
 
         whitespace
         expression = self.expression! JsInterpolationExpectedExpression

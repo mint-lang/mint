@@ -13,10 +13,7 @@ module Mint
 
       # Resolve routes
       resolve node.routes
-
-      # TODO: Don't egarerly resolve enums when it's figured out how to access
-      # them in JS properly
-      resolve node.enums
+      resolve node.suites
 
       # We are turning off checking here which means that what we check after
       # this will not be compiled.
@@ -26,7 +23,7 @@ module Mint
       resolve node.components
       resolve node.modules
       resolve node.stores
-      resolve node.suites
+      resolve node.enums
 
       NEVER
     end
