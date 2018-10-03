@@ -3,12 +3,12 @@ record X {
 }
 
 component Main {
-  fun x (input : Object) : Result(Object.Error, x) {
-    decode input as X
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      decode `{}` as X
+
+      <div/>
+    }
   }
 }
 ------------------------------------------------------------DecodeExpectedObject
@@ -17,12 +17,12 @@ record X {
 }
 
 component Main {
-  fun x (input : String) : Result(Object.Error, x) {
-    decode input as X
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      decode "" as X
+
+      <div/>
+    }
   }
 }
 ---------------------------------------------------------------DecodeComplexType
@@ -31,12 +31,12 @@ record X {
 }
 
 component Main {
-  fun x (input : Object) : Result(Object.Error, x) {
-    decode input as X
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      decode `{}` as X
+
+      <div/>
+    }
   }
 }
 ---------------------------------------------------------------DecodeComplexType
@@ -45,11 +45,11 @@ record X {
 }
 
 component Main {
-  fun x (input : Object) : Result(Object.Error, x) {
-    decode input as X
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      decode `{}` as X
+
+      <div/>
+    }
   }
 }

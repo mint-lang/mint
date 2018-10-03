@@ -18,7 +18,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------FunctionCallNotAFunction
@@ -30,7 +34,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 ------------------------------------------------FunctionCallArgumentTypeMismatch
@@ -44,7 +52,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 ------------------------------------------------FunctionCallArgumentSizeMismatch
@@ -58,7 +70,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------

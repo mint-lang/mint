@@ -31,23 +31,23 @@ component Main {
 component Main {
   state name : String = "Joe"
 
-  fun test : Promise(Never, Void) {
-    next { name = 30 }
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      next { name = 30 }
+
+      <div/>
+    }
   }
 }
 -----------------------------------------------------------NextCallStateNotFound
 component Main {
   state name : String = "Joe"
 
-  fun test : Promise(Never, Void) {
-    next { age = 30 }
-  }
-
   fun render : Html {
-    <div/>
+    try {
+      next { age = 30 }
+
+      <div/>
+    }
   }
 }

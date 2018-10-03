@@ -295,6 +295,10 @@ module Mint
       raise "Type checking not implemented for node '#{node}' (this should not happen!)"
     end
 
+    def check_all(nodes : Array(Ast::Node)) : Array(Checkable)
+      nodes.map { |node| check_all(node).as(Checkable) }
+    end
+
     def ordinal(number)
       abs_number =
         number.to_i.abs

@@ -7,8 +7,8 @@ component Main {
     ][1]
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    ""
   }
 }
 -------------------------------------------------------ArrayAccessIndexNotNumber
@@ -22,7 +22,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 -----------------------------------------------------------ArrayAccessNotAnArray
@@ -32,6 +36,10 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

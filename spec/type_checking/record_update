@@ -18,7 +18,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ---------------------------------------------------RecordUpdateNotUpdatingRecord
@@ -38,7 +42,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------RecordUpdateTypeMismatch
@@ -62,7 +70,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ---------------------------------------------------------RecordUpdateNotFoundKey
@@ -86,7 +98,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 

@@ -11,6 +11,18 @@ module Mint
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
 
+    # Check all nodes that were not checked before
+    def check_all(node : Ast::Component) : Checkable
+      resolve node
+
+      scope node do
+        resolve node.gets
+        resolve node.functions
+      end
+
+      NEVER
+    end
+
     def check(node : Ast::Component) : Checkable
       # Checking for global naming conflict
       check_global_names node.name, node
@@ -108,11 +120,11 @@ module Mint
         } unless node.functions.any?(&.name.value.==("render"))
 
         node.functions.each do |function|
-          type =
-            resolve function
-
           case function.name.value
           when "render"
+            type =
+              resolve function
+
             matches =
               [HTML, STRING, HTML_CHILDREN, TEXT_CHILDREN].any? do |item|
                 Comparer.compare(type, Type.new("Function", [item] of Checkable))
@@ -125,6 +137,9 @@ module Mint
           when "componentDidMount",
                "componentDidUpdate",
                "componentWillUnmount"
+            type =
+              resolve function
+
             raise ComponentFunctionTypeMismatch, {
               "name"     => function.name.value,
               "expected" => VOID_FUNCTION,

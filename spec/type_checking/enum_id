@@ -4,12 +4,10 @@ enum A {
 }
 
 component Main {
-  fun y : A {
-    A::B
-  }
-
   fun render : String {
-    ""
+    case (A::B) {
+      => ""
+    }
   }
 }
 --------------------------------------------------------------EnumIdTypeMismatch
@@ -19,12 +17,10 @@ enum A {
 }
 
 component Main {
-  fun y : A {
-    A::B(0)
-  }
-
   fun render : String {
-    ""
+    case (A::B(0)) {
+      => ""
+    }
   }
 }
 ---------------------------------------------------------------EnumIdEnumMissing
@@ -34,21 +30,17 @@ enum A {
 }
 
 component Main {
-  fun y : A {
-    A::D(0)
-  }
-
   fun render : String {
-    ""
+    case (A::D(0)) {
+      => ""
+    }
   }
 }
 ---------------------------------------------------------------EnumIdTypeMissing
 component Main {
-  fun y : A {
-    C::D(0)
-  }
-
   fun render : String {
-    ""
+    case (C::D(0)) {
+      => ""
+    }
   }
 }

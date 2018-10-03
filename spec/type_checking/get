@@ -4,7 +4,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test
+
+      <div/>
+    }
   }
 }
 -----------------------------------------------------------------GetTypeMismatch
@@ -14,6 +18,10 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

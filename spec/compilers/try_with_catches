@@ -5,7 +5,7 @@ module Result {
 }
 
 component Main {
-  fun test : String {
+  fun render : String {
     try {
       x =
         Result.error("Blah")
@@ -14,10 +14,6 @@ component Main {
     } catch String => error {
       error
     }
-  }
-
-  fun render : String {
-    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -28,7 +24,7 @@ const $Result = new(class {
 })
 
 class $Main extends Component {
-  test() {
+  render() {
     return (() => {
       let _0 = $Result.error(`Blah`);
 
@@ -42,10 +38,6 @@ class $Main extends Component {
 
       return x
     })()
-  }
-
-  render() {
-    return ``
   }
 }
 

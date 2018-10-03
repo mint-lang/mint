@@ -1,34 +1,26 @@
 module X {
-  fun a : Void {
-    void
+  fun a : String {
+    ""
   }
 }
 
 component Main {
-  fun test : Void {
+  fun render : String {
     with X {
       a()
     }
-  }
-
-  fun render : String {
-    ""
   }
 }
 --------------------------------------------------------------------------------
 const $X = new(class {
   a() {
-    return null
+    return ``
   }
 })
 
 class $Main extends Component {
-  test() {
-    return $X.a.bind($X)()
-  }
-
   render() {
-    return ``
+    return $X.a.bind($X)()
   }
 }
 

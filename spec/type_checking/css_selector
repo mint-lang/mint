@@ -14,7 +14,7 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    <div::test/>
   }
 }
 -------------------------------------------------------CssDefinitionTypeMismatch
@@ -33,6 +33,6 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    <div::test/>
   }
 }

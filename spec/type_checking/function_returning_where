@@ -6,7 +6,7 @@ component Main {
       true
   }
 
-  fun render : Html {
+  fun render : String {
     ""
   }
 }

@@ -1,39 +1,23 @@
 component Main {
-  fun test : String {
+  fun render : String {
     "Hello" + "There"
   }
-
-  fun render : String {
-    ""
-  }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  fun test : Bool {
+  fun render : String {
     "Hello" + void
   }
-
-  fun render : String {
-    ""
-  }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  fun test : Bool {
+  fun render : String {
     "Hello" + true
   }
-
-  fun render : String {
-    ""
-  }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  fun test : Bool {
-    true + "Hello"
-  }
-
   fun render : String {
-    ""
+    true + "Hello"
   }
 }

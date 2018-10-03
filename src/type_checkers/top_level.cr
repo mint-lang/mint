@@ -12,6 +12,7 @@ module Mint
         .try { |component| resolve component }
 
       # Resolve routes
+      resolve node.modules
       resolve node.routes
       resolve node.suites
 
@@ -19,9 +20,10 @@ module Mint
       # this will not be compiled.
       self.checking = false
 
+      check_all node.components
+      check_all node.modules
+
       resolve node.providers
-      resolve node.components
-      resolve node.modules
       resolve node.stores
       resolve node.enums
 

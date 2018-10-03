@@ -22,7 +22,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 -------------------------------------------------------------SequenceDidNotCatch
@@ -46,7 +50,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 ----------------------------------------------------------SequenceCatchesNothing
@@ -60,7 +68,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 -------------------------------------------------------SequenceCatchTypeMismatch
@@ -83,7 +95,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 
@@ -107,7 +123,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------SequenceCatchedAll
@@ -132,6 +152,10 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

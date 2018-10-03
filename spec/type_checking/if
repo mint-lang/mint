@@ -1,41 +1,29 @@
 component Main {
-  fun test : String {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {
       "y"
     }
   }
-
-  fun render : String {
-    ""
-  }
 }
 ---------------------------------------------------------IfConditionTypeMismatch
 component Main {
-  fun test : String {
+  fun render : String {
     if ("a") {
       "x"
     } else {
       "y"
     }
   }
-
-  fun render : String {
-    ""
-  }
 }
 --------------------------------------------------------------IfElseTypeMismatch
 component Main {
-  fun test : String {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {
       10
     }
-  }
-
-  fun render : String {
-    ""
   }
 }

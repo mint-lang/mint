@@ -7,8 +7,8 @@ component Main {
     a
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    b()
   }
 }
 -----------------------------------------------------------------VariableMissing
@@ -22,7 +22,7 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    b()
   }
 }
 ----------------------------------------------------------------VariableReserved
@@ -32,6 +32,6 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    b("")
   }
 }

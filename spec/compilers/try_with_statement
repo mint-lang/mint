@@ -1,5 +1,5 @@
 component Main {
-  fun test : String {
+  fun render : String {
     try {
       x =
         "hello"
@@ -7,23 +7,15 @@ component Main {
       x
     }
   }
-
-  fun render : String {
-    ""
-  }
 }
 --------------------------------------------------------------------------------
 class $Main extends Component {
-  test() {
+  render() {
     return (() => {
       let x = `hello`
 
       return x
     })()
-  }
-
-  render() {
-    return ``
   }
 }
 

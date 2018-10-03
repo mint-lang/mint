@@ -1,12 +1,8 @@
 component Main {
   property test : String = "Hello"
 
-  fun a : String {
+  fun render : String {
     test
-  }
-
-  fun render : Html {
-    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -19,12 +15,8 @@ class $Main extends Component {
     }
   }
 
-  a() {
-    return this.test
-  }
-
   render() {
-    return _createElement("div", {})
+    return this.test
   }
 }
 

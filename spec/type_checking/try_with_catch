@@ -17,7 +17,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ---------------------------------------------------------------TryCatchesNothing
@@ -32,7 +36,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ------------------------------------------------------------------TryDidNotCatch
@@ -53,7 +61,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ------------------------------------------------------------TryCatchTypeMismatch
@@ -76,7 +88,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 -------------------------------------------------------------------TryCatchedAll
@@ -101,7 +117,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ------------------------------------------------------------TryCatchTypeMismatch
@@ -124,7 +144,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
@@ -147,6 +171,10 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }

@@ -3,12 +3,8 @@ component Main {
     "Hello"
   }
 
-  fun b : Function(String) {
-    a
-  }
-
-  fun render : Html {
-    <div/>
+  fun render : String {
+    a()
   }
 }
 --------------------------------------------------------------------------------
@@ -17,12 +13,8 @@ class $Main extends Component {
     return `Hello`
   }
 
-  b() {
-    return this.a.bind(this)
-  }
-
   render() {
-    return _createElement("div", {})
+    return this.a.bind(this)()
   }
 }
 

@@ -8,6 +8,10 @@ store Test {
 
 component Main {
   connect Test exposing { a, b }
+
+  fun render : String {
+    ""
+  }
 }
 -----------------------------------------------------------NextCallStateNotFound
 store Test {

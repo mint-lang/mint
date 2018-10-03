@@ -1,24 +1,16 @@
 component Main {
-  fun test : String {
+  fun render : String {
     try {
       "hello"
     }
   }
-
-  fun render : String {
-    ""
-  }
 }
 --------------------------------------------------------------------------------
 class $Main extends Component {
-  test() {
+  render() {
     return (() => {
       return `hello`
     })()
-  }
-
-  render() {
-    return ``
   }
 }
 
