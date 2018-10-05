@@ -7,7 +7,7 @@ enum C(a) {
 }
 
 component Main {
-  fun a (b : C(a)) : a {
+  fun test (b : C(a)) : a {
     case (b) {
       C::D a =>
         case (a) {
@@ -18,7 +18,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test(C::D(A::B("")))
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -43,7 +47,7 @@ class $$C_D extends Enum {
 };
 
 class $Main extends Component {
-  a(b) {
+  test(b) {
     return (() => {
       let __condition = b
 
@@ -64,7 +68,11 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.test.bind(this)(new $$C_D(new $$A_B(``)))
+
+      return ``
+    })()
   }
 }
 

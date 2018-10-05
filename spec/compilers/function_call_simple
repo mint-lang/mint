@@ -3,12 +3,16 @@ component Main {
     "test"
   }
 
-  fun b : String {
+  fun test : String {
     a()
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -17,12 +21,16 @@ class $Main extends Component {
     return `test`
   }
 
-  b() {
+  test() {
     return this.a.bind(this)()
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
   }
 }
 

@@ -9,7 +9,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      encode()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -46,7 +50,11 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.encode.bind(this)()
+
+      return ``
+    })()
   }
 }
 

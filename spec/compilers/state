@@ -6,8 +6,8 @@ component Main {
     a + b
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    x()
   }
 }
 --------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ class $Main extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return this.x.bind(this)()
   }
 }
 

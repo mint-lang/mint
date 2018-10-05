@@ -12,8 +12,12 @@ component Main {
     decode input as X
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      x(``)
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -64,7 +68,18 @@ class $Main extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      let _0 = this.x.bind(this)();
+
+      if (_0 instanceof Err) {
+        let _error = _0.value
+        return _catch_all()
+      }
+
+      _0.value;
+
+      return ``
+    })()
   }
 }
 

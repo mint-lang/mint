@@ -12,7 +12,13 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      test1()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -26,7 +32,13 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.test.bind(this)()
+
+      this.test1.bind(this)()
+
+      return ``
+    })()
   }
 }
 

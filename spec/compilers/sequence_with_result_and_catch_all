@@ -16,7 +16,11 @@ component Main {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -52,7 +56,11 @@ class $Main extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
   }
 }
 

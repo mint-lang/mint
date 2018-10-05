@@ -3,14 +3,10 @@ record X {
 }
 
 component Main {
-  fun a : String {
+  fun render : String {
     x.name
   } where {
     x = { name = "test" }
-  }
-
-  fun render : Html {
-    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -32,16 +28,12 @@ $$X.decode = (_input) => {
 }
 
 class $Main extends Component {
-  a() {
+  render() {
     let x = new $$X({
       name: `test`
     })
 
     return x.name
-  }
-
-  render() {
-    return _createElement("div", {})
   }
 }
 

@@ -1,10 +1,10 @@
 enum Test(a) {
   X
   Y
-  Z(Result(a, Number))
+  Z(Res(a, Number))
 }
 
-enum Result(error, value) {
+enum Res(error, value) {
   Error(error)
   Ok(value)
   Other(error, value)
@@ -15,16 +15,22 @@ component Main {
     Test::X
   }
 
-  fun b : Result(String, String) {
-    Result::Other("", "")
+  fun b : Res(String, String) {
+    Res::Other("", "")
   }
 
   fun c : Test(String) {
-    Test::Z(Result::Error(""))
+    Test::Z(Res::Error(""))
   }
 
   fun render : String {
-    ""
+    try {
+      a()
+      b()
+      c()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -52,7 +58,7 @@ class $$Test_Z extends Enum {
   }
 };
 
-class $$Result_Error extends Enum {
+class $$Res_Error extends Enum {
   constructor(_0) {
     super()
 
@@ -61,7 +67,7 @@ class $$Result_Error extends Enum {
     this.length = 1
   }
 };
-class $$Result_Ok extends Enum {
+class $$Res_Ok extends Enum {
   constructor(_0) {
     super()
 
@@ -70,7 +76,7 @@ class $$Result_Ok extends Enum {
     this.length = 1
   }
 };
-class $$Result_Other extends Enum {
+class $$Res_Other extends Enum {
   constructor(_0, _1) {
     super()
 
@@ -87,15 +93,23 @@ class $Main extends Component {
   }
 
   b() {
-    return new $$Result_Other(``, ``)
+    return new $$Res_Other(``, ``)
   }
 
   c() {
-    return new $$Test_Z(new $$Result_Error(``))
+    return new $$Test_Z(new $$Res_Error(``))
   }
 
   render() {
-    return ``
+    return (() => {
+      this.a.bind(this)()
+
+      this.b.bind(this)()
+
+      this.c.bind(this)()
+
+      return ``
+    })()
   }
 }
 

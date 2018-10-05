@@ -1,10 +1,14 @@
 component Main {
-  fun test ( a : String, b : Float ) : Float {
+  fun test (a : String, b : Number) : Number {
     b
   }
 
   fun render : String {
-    ""
+    try {
+      test("", 0)
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -14,7 +18,11 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.test.bind(this)(``, 0)
+
+      return ``
+    })()
   }
 }
 

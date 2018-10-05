@@ -8,7 +8,11 @@ component Main {
   }
 
   fun render : String {
-    ""
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -18,7 +22,11 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
   }
 }
 

@@ -11,8 +11,12 @@ component Main {
     }
   }
 
-  fun render : String {
-    ""
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -49,7 +53,11 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
   }
 }
 
