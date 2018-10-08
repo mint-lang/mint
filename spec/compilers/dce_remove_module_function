@@ -1,0 +1,29 @@
+module Test {
+  fun test : String {
+    ""
+  }
+
+  fun x : String {
+    ""
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.test()
+  }
+}
+--------------------------------------------------------------------------------
+const $Test = new(class {
+  test() {
+    return ``
+  }
+})
+
+class $Main extends Component {
+  render() {
+    return $Test.test()
+  }
+}
+
+$Main.displayName = "Main"

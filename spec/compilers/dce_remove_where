@@ -1,6 +1,12 @@
 component Main {
   get test : String {
-    ""
+    x
+  } where {
+    x =
+      "Hello"
+
+    y =
+      "Blah"
   }
 
   fun render : String {
@@ -10,7 +16,9 @@ component Main {
 --------------------------------------------------------------------------------
 class $Main extends Component {
   get test() {
-    return ``
+    let x = `Hello`
+
+    return x
   }
 
   render() {

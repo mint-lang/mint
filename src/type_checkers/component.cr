@@ -110,9 +110,7 @@ module Mint
       scope node do
         resolve node.connects
         resolve node.properties
-        resolve node.styles
         resolve node.states
-        resolve node.gets
         resolve node.uses
 
         raise ComponentNotFoundRender, {

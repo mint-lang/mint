@@ -3,18 +3,14 @@ component Main {
     ""
   }
 
-  fun render : String {
-    test
+  fun render : Html {
+    <div/>
   }
 }
 --------------------------------------------------------------------------------
 class $Main extends Component {
-  get test() {
-    return ``
-  }
-
   render() {
-    return this.test
+    return _createElement("div", {})
   }
 }
 

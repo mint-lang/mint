@@ -12,7 +12,6 @@ module Mint
         .try { |component| resolve component }
 
       # Resolve routes
-      resolve node.modules
       resolve node.routes
       resolve node.suites
 

@@ -20,6 +20,8 @@ module Mint
           "node"  => style,
         } unless style_node
 
+        resolve style_node
+
         html_elements[node] = component
       end
 

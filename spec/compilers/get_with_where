@@ -10,7 +10,7 @@ component Main {
   }
 
   fun render : String {
-    ""
+    test
   }
 }
 --------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ class $Main extends Component {
   }
 
   render() {
-    return ``
+    return this.test
   }
 }
 

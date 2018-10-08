@@ -126,12 +126,10 @@ module Mint
             compile function, value.join(";")
           elsif value.any?
             "#{key} () {\n#{value.join(";").indent}\n}"
-          else
-            nil
           end
         end
 
-      (specials + others).compact
+      (specials + others).compact.reject(&.empty?)
     end
   end
 end
