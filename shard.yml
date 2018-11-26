@@ -17,7 +17,7 @@ dependencies:
     version: 0.9.7
   kemal:
     github: kemalcr/kemal
-    version: 0.24.0
+    version: 0.25.1
   admiral:
     github: jwaldrip/admiral.cr
     version: 1.7.3

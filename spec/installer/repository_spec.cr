@@ -1,6 +1,6 @@
 require "../spec_helper"
 
-tmp_dir = File.join(Tempfile.dirname, "mint-packages")
+tmp_dir = File.join(Dir.tempdir, "mint-packages")
 
 describe "Repository" do
   context "failures" do
