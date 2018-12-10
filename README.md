@@ -4,6 +4,7 @@
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
 [![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
 
 :warning: *Mint is currently in development, although it's usable for testing purposes.* :warning:
 
@@ -95,3 +96,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/mint/sponsor/9/website" target="_blank"><img src="https://opencollective.com/mint/sponsor/9/avatar.svg"></a>
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_large)
