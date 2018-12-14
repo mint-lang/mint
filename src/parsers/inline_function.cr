@@ -19,6 +19,7 @@ module Mint
           separator: ','
         ) { argument }.compact
 
+        whitespace
         char ')', InlineFunctionExpectedClosingParentheses
 
         whitespace
