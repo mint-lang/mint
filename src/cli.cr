@@ -3,6 +3,8 @@ require "./commands/command"
 require "./commands/**"
 
 module Mint
+  command_error EnvFileNotFound
+
   class CliException < Exception
   end
 

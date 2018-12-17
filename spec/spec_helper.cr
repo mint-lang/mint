@@ -1,6 +1,7 @@
 require "spec"
 require "diff"
 
+MINT_ENV["TEST"] = "YES"
 ERROR_MESSAGES = [] of String
 
 class Mint::Error < Exception

@@ -1,6 +1,14 @@
 module Mint
   class Cli < Admiral::Command
     module Command
+      macro included
+        define_flag env : String,
+          description: "Loads the given .env file",
+          default: "",
+          long: "env",
+          short: "e"
+      end
+
       def execute(message)
         # On Ctrl+C and abort and exit
         Signal::INT.trap do
@@ -20,6 +28,11 @@ module Mint
           terminal.position
 
         begin
+          # Load environment variables
+          Env.init(flags.env) do |file|
+            terminal.puts "#{COG} Loaded environment variables from: #{file}"
+          end
+
           # Measure elapsed time of a command
           elapsed = Time.measure { yield }
         rescue exception : Error
