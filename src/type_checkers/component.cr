@@ -68,15 +68,16 @@ module Mint
       # Checking for multiple connects exposing the same value
       node.connects.reduce({} of String => Ast::Node) do |memo, connect|
         connect.keys.each do |key|
-          other = memo[key.variable.value]?
+          variable = key.name || key.variable
+          other = memo[variable.value]?
 
           raise ComponentMultipleExposed, {
-            "name"  => key.variable.value,
+            "name"  => variable.value,
             "other" => other,
             "node"  => key,
           } if other
 
-          memo[key.variable.value] = key
+          memo[variable.value] = key
         end
         memo
       end
