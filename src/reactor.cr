@@ -29,8 +29,10 @@ module Mint
         MintJson.parse_current.check_dependencies!
       end
 
+      terminal.puts "#{COG} Parsing files:"
+
       @watcher =
-        terminal.measure "#{COG} Compiling... " do
+        terminal.measure "#{COG} Compiled... " do
           AstWatcher.new(->{ SourceFiles.all },
             ->(file : String, ast : Ast) {
               if @auto_format
@@ -41,7 +43,7 @@ module Mint
                   File.write(file, formatted)
                 end
               end
-            }) do |result|
+            }, true) do |result|
             case result
             when Ast
               @ast = result
