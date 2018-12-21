@@ -42,6 +42,8 @@ module Mint
         @file_proc.call(file, @cache[file])
       end
 
+      @progress = false
+
       @cache
         .values
         .reduce(Ast.new) { |memo, item| memo.merge item }
