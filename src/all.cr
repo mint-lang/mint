@@ -10,6 +10,8 @@ require "kemal"
 require "html"
 require "json"
 
+MINT_ENV = {} of String => String
+
 require "./ext/**"
 
 require "./errors/error"
@@ -17,6 +19,7 @@ require "./errors/**"
 require "./constants"
 require "./macros"
 require "./assets"
+require "./env"
 
 require "./render/**"
 require "./utils/**"

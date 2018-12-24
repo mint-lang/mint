@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    @TEST
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  render() {
+    return `YES`
+  }
+}
+
+$Main.displayName = "Main"

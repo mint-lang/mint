@@ -1,10 +1,10 @@
 module Mint
   class Ast
-    class Connect < Node
-      getter keys, store
+    class ConnectVariable < Node
+      getter variable, name
 
-      def initialize(@keys : Array(ConnectVariable),
-                     @store : String,
+      def initialize(@variable : Variable,
+                     @name : Variable?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

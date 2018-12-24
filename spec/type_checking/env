@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    @TEST
+  }
+}
+-------------------------------------------------------------EnvNotFoundVariable
+component Main {
+  fun render : String {
+    @XXX
+  }
+}

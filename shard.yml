@@ -27,6 +27,10 @@ dependencies:
   time_format:
     github: vladfaust/time_format.cr
     version: 0.1.1
+  dotenv:
+    github: gdotdesign/cr-dotenv
+  progress:
+    github: askn/progress
 
 development_dependencies:
   ameba:

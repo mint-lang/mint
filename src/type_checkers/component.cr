@@ -64,33 +64,32 @@ module Mint
       end
 
       # Checking for conflict between exposed entity and own entity
-      node.connects.reduce({} of String => Ast::Node) do |memo, connect|
+      node.connects.each do |connect|
         connect.keys.each do |key|
-          other = checked[key.value]?
+          variable = key.name || key.variable
+          other = checked[variable.value]?
 
           raise ComponentExposedNameConflict, {
-            "name"  => key.value,
+            "name"  => variable.value,
             "other" => other,
             "node"  => key,
           } if other
-
-          memo[key.value] = key
         end
-        memo
       end
 
       # Checking for multiple connects exposing the same value
       node.connects.reduce({} of String => Ast::Node) do |memo, connect|
         connect.keys.each do |key|
-          other = memo[key.value]?
+          variable = key.name || key.variable
+          other = memo[variable.value]?
 
           raise ComponentMultipleExposed, {
-            "name"  => key.value,
+            "name"  => variable.value,
             "other" => other,
             "node"  => key,
           } if other
 
-          memo[key.value] = key
+          memo[variable.value] = key
         end
         memo
       end
