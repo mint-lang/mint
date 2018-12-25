@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Void) : String
+    def _compile(node : Ast::Void) : String
       "null"
     end
   end

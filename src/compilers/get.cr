@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Get) : String
+    def _compile(node : Ast::Get) : String
       body =
         compile node.body
 

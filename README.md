@@ -4,9 +4,11 @@
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
 [![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
 
-:warning: *Mint is currently in alpha stage, although it's usable for testing purposes.:warning:
-:warning: The documentation is currently work in progress.* :warning:
+:warning: *Mint is currently in development, although it's usable for testing purposes.* :warning:
+
+:warning: *The documentation is currently work in progress.* :warning:
 
 ------
 
@@ -24,7 +26,12 @@ While focusing on:
 
 Project Status
 --------------
-The project is in alpha stage: we are still tweaking the language and standard library.
+The project is in development, we are still tweaking the language and standard library. 
+
+There are two bigger applications which can be used as examples / learning material:
+
+* the Mint website (~3100 LOC) [SOURCE](https://github.com/mint-lang/mint-website)
+* the Mint implementation of [reaworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)  
 
 Installing
 ----------
@@ -89,3 +96,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/mint/sponsor/9/website" target="_blank"><img src="https://opencollective.com/mint/sponsor/9/avatar.svg"></a>
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_large)

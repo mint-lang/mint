@@ -4,7 +4,7 @@ module Promise {
   }
 }
 
-component Parallel {
+component Main {
   fun test : Promise(Never, String) {
     parallel {
       greeting =
@@ -24,18 +24,22 @@ component Parallel {
     }
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
 const $Promise = new(class {
-  reject(input) {
+  reject(a) {
     return
   }
 })
 
-class $Parallel extends Component {
+class $Main extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -96,8 +100,12 @@ class $Parallel extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
   }
 }
 
-$Parallel.displayName = "Parallel"
+$Main.displayName = "Main"

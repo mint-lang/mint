@@ -1,10 +1,10 @@
-component Test {
+component Main {
   fun render : Html {
     <div onClick={(event : Html.Event) : Void => { void } }/>
   }
 }
 ----------------------------------------------------------------TypeExpectedType
-component Test {
+component Main {
   fun render : Html {
     <div onClick={(event : Html.event) : Void => { void } }/>
   }

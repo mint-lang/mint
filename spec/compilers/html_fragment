@@ -1,4 +1,4 @@
-component Test {
+component Main {
   fun render : Html {
     <div>
       <>
@@ -9,7 +9,7 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   render() {
     return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`, _createElement(React.Fragment, {
       "key": `something`
@@ -17,4 +17,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

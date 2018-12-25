@@ -6,6 +6,14 @@ store A {
       true
   }
 }
+
+component Main {
+  connect A exposing { test }
+
+  fun render : String {
+    ""
+  }
+}
 -----------------------------------------------------------------GetTypeMismatch
 store A {
   get test : Bool {
@@ -13,5 +21,13 @@ store A {
   } where {
     x =
       "hello"
+  }
+}
+
+component Main {
+  connect A exposing { test }
+
+  fun render : String {
+    ""
   }
 }

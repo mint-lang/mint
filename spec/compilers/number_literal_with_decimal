@@ -1,11 +1,29 @@
-module A {
+component Main {
   fun test : Number {
     10.120
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     return 10.12
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

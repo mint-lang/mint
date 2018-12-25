@@ -1,11 +1,29 @@
-module Operation {
+component Main {
   fun test : Bool {
     "a" == "b" && true != false
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 --------------------------------------------------------------------------------
-const $Operation = new(class {
+class $Main extends Component {
   test() {
     return _compare(`a`, `b`) && !_compare(true, false)
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

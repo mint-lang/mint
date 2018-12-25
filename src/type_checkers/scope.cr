@@ -140,9 +140,9 @@ module Mint
           node.gets.find(&.name.value.==(variable)) ||
           node.properties.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
-          store_states(component).find(&.name.value.==(variable)) ||
-          store_functions(component).find(&.name.value.==(variable)) ||
-          store_gets(component).find(&.name.value.==(variable))
+          store_states(component)[variable]? ||
+          store_functions(component)[variable]? ||
+          store_gets(component)[variable]?
       end
 
       def find(variable : String, node : Ast::Node)
@@ -183,45 +183,63 @@ module Mint
       end
 
       private def store_states(component)
-        component.connects.map do |item|
-          store = @ast.stores.find(&.name.==(item.store))
-
-          if store
-            keys = item.keys.map(&.value)
-
-            store.states.select do |state|
-              keys.includes?(state.name.value)
+        component.connects.reduce({} of String => Ast::State) do |memo, item|
+          @ast
+            .stores
+            .find(&.name.==(item.store))
+            .try do |store|
+              item.keys.each do |key|
+                store
+                  .states
+                  .find(&.name.value.==(key.variable.value))
+                  .try do |state|
+                    memo[(key.name || key.variable).value] = state
+                  end
+              end
             end
-          end
-        end.compact
-          .reduce([] of Ast::State) { |memo, item| memo.concat(item) }
+
+          memo
+        end
       end
 
       private def store_gets(component)
-        component.connects.map do |item|
-          store = @ast.stores.find(&.name.==(item.store))
-
-          if store
-            keys = item.keys.map(&.value)
-            store.gets.select do |get|
-              keys.includes?(get.name.value)
+        component.connects.reduce({} of String => Ast::Get) do |memo, item|
+          @ast
+            .stores
+            .find(&.name.==(item.store))
+            .try do |store|
+              item.keys.each do |key|
+                store
+                  .gets
+                  .find(&.name.value.==(key.variable.value))
+                  .try do |get|
+                    memo[(key.name || key.variable).value] = get
+                  end
+              end
             end
-          end
-        end.compact
-          .reduce([] of Ast::Get) { |memo, item| memo.concat(item) }
+
+          memo
+        end
       end
 
       private def store_functions(component)
-        component.connects.map do |item|
-          store = @ast.stores.find(&.name.==(item.store))
-          if store
-            keys = item.keys.map(&.value)
-            store.functions.select do |function|
-              keys.includes?(function.name.value)
+        component.connects.reduce({} of String => Ast::Function) do |memo, item|
+          @ast
+            .stores
+            .find(&.name.==(item.store))
+            .try do |store|
+              item.keys.each do |key|
+                store
+                  .functions
+                  .find(&.name.value.==(key.variable.value))
+                  .try do |function|
+                    memo[(key.name || key.variable).value] = function
+                  end
+              end
             end
-          end
-        end.compact
-          .reduce([] of Ast::Function) { |memo, item| memo.concat(item) }
+
+          memo
+        end
       end
     end
   end

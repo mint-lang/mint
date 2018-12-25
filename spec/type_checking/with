@@ -4,18 +4,26 @@ module X {
   }
 }
 
-module Test {
+component Main {
   fun test : Void {
     with X {
       a()
     }
   }
+
+  fun render : String {
+    ""
+  }
 }
 --------------------------------------------------------------WithNotFoundModule
-module Test {
+component Main {
   fun test : Void {
     with XXX {
       void
     }
+  }
+
+  fun render : String {
+    ""
   }
 }

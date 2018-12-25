@@ -2,15 +2,11 @@ record X {
   name : String
 }
 
-component A {
-  fun a : String {
+component Main {
+  fun render : String {
     x.name
   } where {
     x = { name = "test" }
-  }
-
-  fun render : Html {
-    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -31,18 +27,14 @@ $$X.decode = (_input) => {
   }))
 }
 
-class $A extends Component {
-  a() {
+class $Main extends Component {
+  render() {
     let x = new $$X({
       name: `test`
     })
 
     return x.name
   }
-
-  render() {
-    return _createElement("div", {})
-  }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

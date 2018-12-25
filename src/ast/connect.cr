@@ -3,7 +3,7 @@ module Mint
     class Connect < Node
       getter keys, store
 
-      def initialize(@keys : Array(Variable),
+      def initialize(@keys : Array(ConnectVariable),
                      @store : String,
                      @input : Data,
                      @from : Int32,

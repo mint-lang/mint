@@ -4,7 +4,7 @@ module Result {
   }
 }
 
-component Sequence {
+component Main {
   fun test : Promise(Never, String) {
     sequence {
       Result.error("")
@@ -16,7 +16,11 @@ component Sequence {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -26,7 +30,7 @@ const $Result = new(class {
   }
 })
 
-class $Sequence extends Component {
+class $Main extends Component {
   test() {
     return (async () => {
       let _result = null;
@@ -52,8 +56,12 @@ class $Sequence extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
   }
 }
 
-$Sequence.displayName = "Sequence"
+$Main.displayName = "Main"

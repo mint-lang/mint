@@ -163,7 +163,7 @@ module Mint
 
       # The directory of the repository
       def directory
-        File.join(Tempfile.dirname, "mint-packages", url)
+        File.join(Dir.tempdir, "mint-packages", url)
       end
 
       # Runs a git command and returns it's status, output and error in a tuple.

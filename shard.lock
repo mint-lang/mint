@@ -16,6 +16,10 @@ shards:
     github: MakeNowJust/crystal-diff
     commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63
 
+  dotenv:
+    github: gdotdesign/cr-dotenv
+    version: 0.1.0
+
   duktape:
     github: jessedoyle/duktape.cr
     version: 0.14.1
@@ -26,11 +30,15 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    version: 0.24.0
+    version: 0.25.1
 
   kilt:
     github: jeromegn/kilt
     version: 0.4.0
+
+  progress:
+    github: askn/progress
+    version: 0.2.0
 
   radix:
     github: luislavena/radix

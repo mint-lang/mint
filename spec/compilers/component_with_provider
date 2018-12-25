@@ -9,7 +9,7 @@ provider MouseProvider : MouseProvider.Data {
   }
 }
 
-component Test {
+component Main {
   use MouseProvider {
     moves = (data : Position) : Void => { void },
     ups = (data : Position) : Void => { void }
@@ -39,7 +39,7 @@ const $MouseProvider = new(class extends Provider {
   }
 })
 
-class $Test extends Component {
+class $Main extends Component {
   componentWillUnmount() {
     $MouseProvider._unsubscribe(this)
   }
@@ -47,10 +47,10 @@ class $Test extends Component {
   componentDidUpdate() {
     if (false) {
       $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
+        moves: ((a) => {
           return null
         }),
-        ups: ((data) => {
+        ups: ((b) => {
           return null
         })
       }))
@@ -62,10 +62,10 @@ class $Test extends Component {
   componentDidMount() {
     if (false) {
       $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
+        moves: ((a) => {
           return null
         }),
-        ups: ((data) => {
+        ups: ((b) => {
           return null
         })
       }))
@@ -79,4 +79,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

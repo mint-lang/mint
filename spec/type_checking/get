@@ -1,19 +1,27 @@
-component Test {
+component Main {
   get test : Number {
     0
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test
+
+      <div/>
+    }
   }
 }
 -----------------------------------------------------------------GetTypeMismatch
-component Test {
+component Main {
   get test : Number {
     "asd"
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

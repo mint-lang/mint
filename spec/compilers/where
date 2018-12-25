@@ -1,4 +1,4 @@
-module A {
+component Main {
   fun test : Html {
     <div>
       <{ something }>
@@ -10,14 +10,22 @@ module A {
     otherThing =
       0
   }
+
+  fun render : Html {
+    test()
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     let something = `Asd`
 
-    let otherThing = 0
-
     return _createElement("div", {}, [something])
   }
-})
+
+  render() {
+    return this.test.bind(this)()
+  }
+}
+
+$Main.displayName = "Main"

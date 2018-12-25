@@ -3,9 +3,17 @@ record Test {
   age : Number
 }
 
-module Test {
+component Main {
   fun encode : Object {
     encode { name = "Hello", age = 20 }
+  }
+
+  fun render : String {
+    try {
+      encode()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -33,12 +41,21 @@ $$Test.decode = (_input) => {
   }))
 }
 
-const $Test = new(class {
+class $Main extends Component {
   encode() {
     return _encode(new $$Test({
       name: `Hello`,
       age: 20
     }))
   }
-})
 
+  render() {
+    return (() => {
+      this.encode.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

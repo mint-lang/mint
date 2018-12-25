@@ -1,11 +1,11 @@
 module Result {
   fun error (input : a) : Result(a, b) {
-    `new Err(input)`
+    `new Err(#{input})`
   }
 }
 
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     try {
       x =
         Result.error("Blah")
@@ -18,13 +18,13 @@ module A {
 }
 --------------------------------------------------------------------------------
 const $Result = new(class {
-  error(input) {
-    return new Err(input)
+  error(a) {
+    return new Err(a)
   }
 })
 
-const $A = new(class {
-  test() {
+class $Main extends Component {
+  render() {
     return (() => {
       let _catch_all = (() => {
         return `Blah`
@@ -42,4 +42,6 @@ const $A = new(class {
       return `Hello`
     })()
   }
-})
+}
+
+$Main.displayName = "Main"

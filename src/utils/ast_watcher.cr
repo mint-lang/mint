@@ -1,3 +1,5 @@
+require "progress"
+
 module Mint
   class AstWatcher
     @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
@@ -5,16 +7,17 @@ module Mint
     @cache = {} of String => Ast
     @channel = Channel(Nil).new
     @pattern = [] of String
+    @progress = false
 
     def initialize
     end
 
-    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil })
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil }, @progress = false)
       @pattern = @pattern_proc.call
 
       watch_for_changes
 
-      yield compile
+      yield compile(progress)
     rescue exception : Error
       yield exception
     end
@@ -26,11 +29,20 @@ module Mint
       end
     end
 
-    def compile
-      Dir.glob(@pattern).each do |file|
+    def compile(print = false)
+      files =
+        Dir.glob(@pattern)
+
+      bar =
+        ProgressBar.new(total: files.size, complete: "=", incomplete: " ", width: 50, use_stdout: true) if @progress
+
+      files.each do |file|
+        bar.try(&.inc)
         @cache[file] ||= Parser.parse(file)
         @file_proc.call(file, @cache[file])
       end
+
+      @progress = false
 
       @cache
         .values

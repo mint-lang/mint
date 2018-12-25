@@ -1,4 +1,4 @@
-component Test {
+component Main {
   property name : String = "Joe"
 
   fun render : Html {
@@ -6,7 +6,7 @@ component Test {
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   get name() {
     if (this.props.name != undefined) {
       return this.props.name
@@ -20,4 +20,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

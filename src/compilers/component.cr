@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Component) : String
+    def _compile(node : Ast::Component) : String
       compile node.styles, node
 
       functions =
@@ -59,12 +59,15 @@ module Mint
 
         if store
           item.keys.map do |key|
-            if store.states.any? { |state| state.name.value == key.value }
-              memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"
-            elsif store.gets.any? { |get| get.name.value == key.value }
-              memo << "get #{key.value} () { return $#{underscorize(store.name)}.#{key.value} }"
-            elsif store.functions.any? { |func| func.name.value == key.value }
-              memo << "#{key.value} (...params) { return $#{underscorize(store.name)}.#{key.value}(...params) }"
+            name = (key.name || key.variable).value
+            original = key.variable.value
+
+            if store.states.any? { |state| state.name.value == original }
+              memo << "get #{name} () { return $#{underscorize(store.name)}.#{original} }"
+            elsif store.gets.any? { |get| get.name.value == original }
+              memo << "get #{name} () { return $#{underscorize(store.name)}.#{original} }"
+            elsif store.functions.any? { |func| func.name.value == original }
+              memo << "#{name} (...params) { return $#{underscorize(store.name)}.#{original}(...params) }"
             end
           end
         end
@@ -126,12 +129,10 @@ module Mint
             compile function, value.join(";")
           elsif value.any?
             "#{key} () {\n#{value.join(";").indent}\n}"
-          else
-            nil
           end
         end
 
-      (specials + others).compact
+      (specials + others).compact.reject(&.empty?)
     end
   end
 end

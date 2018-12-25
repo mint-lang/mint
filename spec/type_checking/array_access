@@ -1,4 +1,4 @@
-module Test {
+component Main {
   fun test : Maybe(String) {
     [
       "Hello",
@@ -6,9 +6,13 @@ module Test {
       "Joe"
     ][1]
   }
+
+  fun render : String {
+    ""
+  }
 }
 -------------------------------------------------------ArrayAccessIndexNotNumber
-module Test {
+component Main {
   fun test : Maybe(String) {
     [
       "Hello",
@@ -16,10 +20,26 @@ module Test {
       "Joe"
     ]["asd"]
   }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
+  }
 }
 -----------------------------------------------------------ArrayAccessNotAnArray
-module Test {
+component Main {
   fun test : Maybe(String) {
     {}[0]
+  }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

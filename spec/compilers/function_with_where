@@ -1,21 +1,35 @@
-module A {
-  fun test : Bool {
-    true
+component Main {
+  fun test : String {
+    something
   } where {
     something =
       "Asd"
+  }
 
-    otherThing =
-      0
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     let something = `Asd`
 
-    let otherThing = 0
-
-    return true
+    return something
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"
+

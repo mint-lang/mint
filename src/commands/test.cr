@@ -5,19 +5,16 @@ module Mint
 
       define_flag manual : Bool,
         description: "Start the test server for manual testing",
-        long: "manual",
         default: false,
         short: "m"
 
       define_flag browser : String,
         description: "Which browser to run the tests in",
         default: "chrome",
-        long: "browser",
         short: "b"
 
       define_flag reporter : String,
         description: "Which reporter to use (dot, documentation)",
-        long: "reporter",
         default: "dot",
         short: "r"
 

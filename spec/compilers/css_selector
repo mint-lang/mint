@@ -1,4 +1,4 @@
-component A {
+component Main {
   style test {
     & div {
       color: {color};
@@ -17,33 +17,33 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get color() {
     return `blue`
   }
 
   render() {
     return _createElement("div", {
-      className: `a-test`,
+      className: `main-test`,
       style: {
-        [`--a-test-div-color`]: this.color
+        [`--main-test-div-color`]: this.color
       }
     })
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"
 
 _insertStyles(`
-  .a-test {
+  .main-test {
 
   }
 
-  .a-test div {
-    color: var(--a-test-div-color);
+  .main-test div {
+    color: var(--main-test-div-color);
   }
 
-  .a-test:focus {
+  .main-test:focus {
     color: red;
   }
 `)

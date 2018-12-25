@@ -1,4 +1,4 @@
-component If {
+component Main {
   fun test : Bool {
     if ("asd" == "asd2") {
       true
@@ -7,19 +7,27 @@ component If {
     }
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
-class $If extends Component {
+class $Main extends Component {
   test() {
     return (_compare(`asd`, `asd2`) ? true : false)
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
   }
 }
 
-$If.displayName = "If"
+$Main.displayName = "Main"

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Variable) : String
+    def _compile(node : Ast::Variable) : String
       entity, parent = variables[node]
 
       # Subscriptions for providers are handled here

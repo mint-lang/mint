@@ -7,13 +7,17 @@ record X {
   y: X.Y
 }
 
-component A {
+component Main {
   fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      x(``)
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -58,14 +62,25 @@ $$X.decode = (_input) => {
   }))
 }
 
-class $A extends Component {
-  x(input) {
-    return $$X.decode(input)
+class $Main extends Component {
+  x(a) {
+    return $$X.decode(a)
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      let _0 = this.x.bind(this)();
+
+      if (_0 instanceof Err) {
+        let _error = _0.value
+        return _catch_all()
+      }
+
+      _0.value;
+
+      return ``
+    })()
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

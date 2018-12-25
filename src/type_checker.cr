@@ -25,12 +25,13 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
-    delegate types, variables, html_elements, ast, lookups, to: artifacts
+    property checking : Bool = true
+
+    delegate types, variables, html_elements, ast, lookups, cache, checked, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @cache = {} of Ast::Node => Checkable
     @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
     @records = [] of Record
@@ -55,6 +56,7 @@ module Mint
       add_record Record.new("Unit"), Ast::Record.empty
 
       ast.records.map do |record|
+        check! record
         add_record check(record), record
       end
     end
@@ -160,12 +162,17 @@ module Mint
 
     type_error Recursion
 
+    def check!(node)
+      return unless checking
+      checked.add(node)
+    end
+
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
       case node
       when Checkable
         node
       when Ast::Node
-        @cache[node]? || begin
+        cache[node]? || begin
           if @stack.includes?(node)
             if node.is_a?(Ast::Component)
               return NEVER.as(Checkable)
@@ -180,7 +187,10 @@ module Mint
 
             result = check(node, *args).as(Checkable)
 
-            @cache[node] = result
+            cache[node] = result
+
+            check! node
+
             @stack.delete node
 
             result
@@ -283,6 +293,10 @@ module Mint
 
     def check(node : Ast::Node) : Checkable
       raise "Type checking not implemented for node '#{node}' (this should not happen!)"
+    end
+
+    def check_all(nodes : Array(Ast::Node)) : Array(Checkable)
+      nodes.map { |node| check_all(node).as(Checkable) }
     end
 
     def ordinal(number)

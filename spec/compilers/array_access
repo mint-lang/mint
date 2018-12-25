@@ -1,4 +1,4 @@
-module Test {
+component Main {
   fun test : Maybe(String) {
     [
       "Hello",
@@ -10,9 +10,19 @@ module Test {
   fun test1 : Maybe(a) {
     [][1]
   }
+
+  fun render : String {
+    try {
+      test()
+
+      test1()
+
+      ""
+    }
+  }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return _at([`Hello`, `Blah`, `Joe`], 1)
   }
@@ -20,4 +30,16 @@ const $Test = new(class {
   test1() {
     return _at([], 1)
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      this.test1.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Try) : String
+    def _compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
           "let _catch_all = (() => { return #{compile(catch.expression)} })\n\n"

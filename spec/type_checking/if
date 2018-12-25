@@ -1,5 +1,5 @@
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {
@@ -8,8 +8,8 @@ module Test {
   }
 }
 ---------------------------------------------------------IfConditionTypeMismatch
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     if ("a") {
       "x"
     } else {
@@ -18,8 +18,8 @@ module Test {
   }
 }
 --------------------------------------------------------------IfElseTypeMismatch
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {

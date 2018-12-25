@@ -1,0 +1,21 @@
+component Main {
+  fun test : String {
+    "World!"
+  }
+
+  fun render : String {
+    `      "Hello" + #{test()}   `
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  test() {
+    return `World!`
+  }
+
+  render() {
+    return "Hello" + this.test.bind(this)()
+  }
+}
+
+$Main.displayName = "Main"

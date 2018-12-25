@@ -1,16 +1,12 @@
-component A {
+component Main {
   property test : String = "Hello"
 
-  fun a : String {
+  fun render : String {
     test
-  }
-
-  fun render : Html {
-    <div/>
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get test() {
     if (this.props.test != undefined) {
       return this.props.test
@@ -19,13 +15,9 @@ class $A extends Component {
     }
   }
 
-  a() {
-    return this.test
-  }
-
   render() {
-    return _createElement("div", {})
+    return this.test
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

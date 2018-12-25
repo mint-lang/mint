@@ -1,4 +1,4 @@
-component Test {
+component Main {
   state a : String = "Hello"
   state b : String = "0"
 
@@ -6,12 +6,12 @@ component Test {
     a + b
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    x()
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   constructor(props) {
     super(props)
     this.state = new Record({
@@ -33,8 +33,8 @@ class $Test extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return this.x.bind(this)()
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

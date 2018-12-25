@@ -1,4 +1,4 @@
-component Case {
+component Main {
   fun test : Bool {
     case ("Hello") {
       "test" => true
@@ -7,12 +7,16 @@ component Case {
     }
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------------------------------
-class $Case extends Component {
+class $Main extends Component {
   test() {
     return (() => {
       let a = `Hello`;
@@ -27,8 +31,12 @@ class $Case extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
   }
 }
 
-$Case.displayName = "Case"
+$Main.displayName = "Main"

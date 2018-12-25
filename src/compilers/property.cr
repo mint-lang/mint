@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Property) : String
+    def _compile(node : Ast::Property) : String
       name =
         node.name.value
 

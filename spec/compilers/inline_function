@@ -1,17 +1,19 @@
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     a()
   } where {
     a = () : String => { "Hello" }
   }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
-  test() {
+class $Main extends Component {
+  render() {
     let a = (() => {
       return `Hello`
     })
 
     return a()
   }
-})
+}
+
+$Main.displayName = "Main"

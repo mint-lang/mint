@@ -1,4 +1,4 @@
-component Sequence {
+component Main {
   state greeting : String = "ho"
 
   fun test : Promise(Never, Void) {
@@ -9,11 +9,15 @@ component Sequence {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
-class $Sequence extends Component {
+class $Main extends Component {
   constructor(props) {
     super(props)
     this.state = new Record({
@@ -49,8 +53,12 @@ class $Sequence extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
   }
 }
 
-$Sequence.displayName = "Sequence"
+$Main.displayName = "Main"

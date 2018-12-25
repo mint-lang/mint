@@ -1,21 +1,21 @@
-component Test {
-  get test : Number {
-    0
+component Main {
+  get test : String {
+    ""
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    test
   }
 }
 --------------------------------------------------------------------------------
-class $Test extends Component {
+class $Main extends Component {
   get test() {
-    return 0
+    return ``
   }
 
   render() {
-    return _createElement("div", {})
+    return this.test
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

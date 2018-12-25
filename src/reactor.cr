@@ -29,8 +29,10 @@ module Mint
         MintJson.parse_current.check_dependencies!
       end
 
+      terminal.puts "#{COG} Parsing files:"
+
       @watcher =
-        terminal.measure "#{COG} Compiling... " do
+        terminal.measure "#{COG} Compiled... " do
           AstWatcher.new(->{ SourceFiles.all },
             ->(file : String, ast : Ast) {
               if @auto_format
@@ -41,7 +43,7 @@ module Mint
                   File.write(file, formatted)
                 end
               end
-            }) do |result|
+            }, true) do |result|
             case result
             when Ast
               @ast = result
@@ -158,6 +160,20 @@ module Mint
 
     # Sets up watchers to detect changes
     def watch_for_changes
+      Env.env.try do |file|
+        spawn do
+          Watcher.watch([file]) do
+            Env.load do
+              terminal.measure "#{COG} Environment variables changed recompiling... " do
+                compile_script
+              end
+
+              notify
+            end
+          end
+        end
+      end
+
       spawn do
         @watcher.watch do |result|
           case result

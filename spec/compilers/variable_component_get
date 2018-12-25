@@ -1,29 +1,21 @@
-component A {
+component Main {
   get a : String {
     "Hello"
   }
 
-  fun b : String {
+  fun render : String {
     a
-  }
-
-  fun render : Html {
-    <div/>
   }
 }
 --------------------------------------------------------------------------------
-class $A extends Component {
+class $Main extends Component {
   get a() {
     return `Hello`
   }
 
-  b() {
-    return this.a
-  }
-
   render() {
-    return _createElement("div", {})
+    return this.a
   }
 }
 
-$A.displayName = "A"
+$Main.displayName = "Main"

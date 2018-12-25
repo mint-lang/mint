@@ -1,6 +1,14 @@
 module Mint
   class Compiler
     def compile(node : Ast::HtmlAttribute, is_element = true) : String
+      if checked.includes?(node)
+        _compile node, is_element
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::HtmlAttribute, is_element = true) : String
       value =
         compile node.value
 

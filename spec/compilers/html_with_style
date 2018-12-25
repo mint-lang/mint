@@ -1,4 +1,4 @@
-component HtmlStyle {
+component Main {
   property background : String = "blue"
 
   style test {
@@ -12,7 +12,7 @@ component HtmlStyle {
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlStyle extends Component {
+class $Main extends Component {
   get background() {
     if (this.props.background != undefined) {
       return this.props.background
@@ -23,19 +23,19 @@ class $HtmlStyle extends Component {
 
   render() {
     return _createElement("div", {
-      className: `html-style-test`,
+      className: `main-test`,
       style: {
-        [`--html-style-test-background`]: this.background
+        [`--main-test-background`]: this.background
       }
     })
   }
 }
 
-$HtmlStyle.displayName = "HtmlStyle"
+$Main.displayName = "Main"
 
 _insertStyles(`
-  .html-style-test {
-    background: var(--html-style-test-background);
+  .main-test {
+    background: var(--main-test-background);
     color: red;
   }
 `)

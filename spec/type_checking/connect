@@ -6,7 +6,7 @@ store Test {
   }
 }
 
-component A {
+component Main {
   connect Test exposing { x, y }
 
   fun render : Html {
@@ -18,7 +18,7 @@ store Test {
   state x : String = ""
 }
 
-component A {
+component Main {
   connect Test exposing { x, y }
 
   fun render : Html {
@@ -26,8 +26,56 @@ component A {
   }
 }
 ------------------------------------------------------------ConnectNotFoundStore
-component A {
+component Main {
   connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+----------------------------------------------------ComponentExposedNameConflict
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x }
+
+  get x : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+----------------------------------------------------ComponentExposedNameConflict
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x as y }
+
+  get y : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x as y }
+
+  get x : String {
+    ""
+  }
 
   fun render : Html {
     <div/>

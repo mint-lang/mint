@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Encode) : String
+    def _compile(node : Ast::Encode) : String
       expression =
         compile node.expression
 

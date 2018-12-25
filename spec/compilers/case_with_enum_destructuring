@@ -6,14 +6,22 @@ enum C(a) {
   D(A(a))
 }
 
-module Test {
-  fun a (b : C(a)) : a {
+component Main {
+  fun test (b : C(a)) : a {
     case (b) {
       C::D a =>
         case (a) {
           A::B c =>
             c
         }
+    }
+  }
+
+  fun render : String {
+    try {
+      test(C::D(A::B("")))
+
+      ""
     }
   }
 }
@@ -38,17 +46,17 @@ class $$C_D extends Enum {
   }
 };
 
-const $Test = new(class {
-  a(b) {
+class $Main extends Component {
+  test(a) {
     return (() => {
-      let a = b;
-      if (a instanceof $$C_D) {
-        const a = a._0
+      let b = a;
+      if (b instanceof $$C_D) {
+        const a = b._0
 
         return (() => {
-          let b = a;
-          if (b instanceof $$A_B) {
-            const c = b._0
+          let c = a;
+          if (c instanceof $$A_B) {
+            const c = c._0
 
             return c
           }
@@ -56,4 +64,14 @@ const $Test = new(class {
       }
     })()
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)(new $$C_D(new $$A_B(``)))
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

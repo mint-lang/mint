@@ -1,17 +1,25 @@
-module A {
+component Main {
   fun test : Bool {
     x
   } where {
     x =
       true
   }
+
+  fun render : String {
+    ""
+  }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
+component Main {
   fun test : Bool {
     x
   } where {
     x =
       "hello"
+  }
+
+  fun render : Html {
+    ""
   }
 }

@@ -1,11 +1,11 @@
 module X {
-  fun a : Void {
-    void
+  fun a : String {
+    ""
   }
 }
 
-module Test {
-  fun test : Void {
+component Main {
+  fun render : String {
     with X {
       a()
     }
@@ -14,12 +14,14 @@ module Test {
 --------------------------------------------------------------------------------
 const $X = new(class {
   a() {
-    return null
+    return ``
   }
 })
 
-const $Test = new(class {
-  test() {
+class $Main extends Component {
+  render() {
     return $X.a.bind($X)()
   }
-})
+}
+
+$Main.displayName = "Main"

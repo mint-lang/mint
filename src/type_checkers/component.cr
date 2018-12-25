@@ -11,6 +11,18 @@ module Mint
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
 
+    # Check all nodes that were not checked before
+    def check_all(node : Ast::Component) : Checkable
+      resolve node
+
+      scope node do
+        resolve node.gets
+        resolve node.functions
+      end
+
+      NEVER
+    end
+
     def check(node : Ast::Component) : Checkable
       # Checking for global naming conflict
       check_global_names node.name, node
@@ -52,33 +64,32 @@ module Mint
       end
 
       # Checking for conflict between exposed entity and own entity
-      node.connects.reduce({} of String => Ast::Node) do |memo, connect|
+      node.connects.each do |connect|
         connect.keys.each do |key|
-          other = checked[key.value]?
+          variable = key.name || key.variable
+          other = checked[variable.value]?
 
           raise ComponentExposedNameConflict, {
-            "name"  => key.value,
+            "name"  => variable.value,
             "other" => other,
             "node"  => key,
           } if other
-
-          memo[key.value] = key
         end
-        memo
       end
 
       # Checking for multiple connects exposing the same value
       node.connects.reduce({} of String => Ast::Node) do |memo, connect|
         connect.keys.each do |key|
-          other = memo[key.value]?
+          variable = key.name || key.variable
+          other = memo[variable.value]?
 
           raise ComponentMultipleExposed, {
-            "name"  => key.value,
+            "name"  => variable.value,
             "other" => other,
             "node"  => key,
           } if other
 
-          memo[key.value] = key
+          memo[variable.value] = key
         end
         memo
       end
@@ -98,9 +109,7 @@ module Mint
       scope node do
         resolve node.connects
         resolve node.properties
-        resolve node.styles
         resolve node.states
-        resolve node.gets
         resolve node.uses
 
         raise ComponentNotFoundRender, {
@@ -108,11 +117,11 @@ module Mint
         } unless node.functions.any?(&.name.value.==("render"))
 
         node.functions.each do |function|
-          type =
-            resolve function
-
           case function.name.value
           when "render"
+            type =
+              resolve function
+
             matches =
               [HTML, STRING, HTML_CHILDREN, TEXT_CHILDREN].any? do |item|
                 Comparer.compare(type, Type.new("Function", [item] of Checkable))
@@ -125,6 +134,9 @@ module Mint
           when "componentDidMount",
                "componentDidUpdate",
                "componentWillUnmount"
+            type =
+              resolve function
+
             raise ComponentFunctionTypeMismatch, {
               "name"     => function.name.value,
               "expected" => VOID_FUNCTION,

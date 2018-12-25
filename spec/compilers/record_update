@@ -2,7 +2,7 @@ record Record {
   name: String
 }
 
-component RecordUpdate {
+component Main {
   property record : Record = { name = "Doe" }
 
   fun test : Record {
@@ -10,7 +10,11 @@ component RecordUpdate {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -31,7 +35,7 @@ $$Record.decode = (_input) => {
   }))
 }
 
-class $RecordUpdate extends Component {
+class $Main extends Component {
   get record() {
     if (this.props.record != undefined) {
       return this.props.record
@@ -49,8 +53,12 @@ class $RecordUpdate extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
   }
 }
 
-$RecordUpdate.displayName = "RecordUpdate"
+$Main.displayName = "Main"

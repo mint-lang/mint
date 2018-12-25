@@ -1,4 +1,4 @@
-component Test {
+component Main {
   property name : String = "Joe"
 
   fun render : Html {
@@ -6,7 +6,7 @@ component Test {
   }
 }
 ------------------------------------------------------------PropertyTypeMismatch
-component Test {
+component Main {
   property name : String = true
 
   fun render : Html {

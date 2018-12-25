@@ -1,4 +1,4 @@
-module Test {
+component Main {
   fun test : Array(String) {
     [
       "Hello",
@@ -6,10 +6,28 @@ module Test {
       "Joe"
     ]
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return [`Hello`, `Blah`, `Joe`]
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      return ``
+    })()
+  }
+}
+
+$Main.displayName = "Main"

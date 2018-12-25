@@ -1,16 +1,27 @@
-module A {
+component Main {
   fun test : String {
     a
   } where {
     a =
       "Hello"
   }
+
+  fun render : String {
+    test()
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
+class $Main extends Component {
   test() {
     let a = `Hello`
 
     return a
   }
-})
+
+  render() {
+    return this.test.bind(this)()
+  }
+}
+
+$Main.displayName = "Main"
+

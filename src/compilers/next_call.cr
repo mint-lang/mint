@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::NextCall) : String
+    def _compile(node : Ast::NextCall) : String
       state =
         node
           .data

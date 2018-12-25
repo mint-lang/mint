@@ -3,7 +3,7 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     { x |
       a = "Hello",
@@ -16,6 +16,14 @@ module Test {
         b = 1
       }
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 ---------------------------------------------------RecordUpdateNotUpdatingRecord
 record Test {
@@ -23,7 +31,7 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     { x |
       a = "Hello",
@@ -32,6 +40,14 @@ module Test {
   } where {
     x = ""
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 --------------------------------------------------------RecordUpdateTypeMismatch
 record Test {
@@ -39,7 +55,7 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     { x |
       a = "Hello",
@@ -52,6 +68,14 @@ module Test {
         b = 0
       }
   }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
 }
 ---------------------------------------------------------RecordUpdateNotFoundKey
 record Test {
@@ -59,7 +83,7 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     { x |
       a = "Hello",
@@ -71,6 +95,14 @@ module Test {
         a = "Blah",
         b = 0
       }
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Suite) : String
+    def _compile(node : Ast::Suite) : String
       name =
         compile node.name
 

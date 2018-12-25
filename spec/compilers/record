@@ -3,11 +3,19 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     {
       a = "Hello",
       b = 0
+    }
+  }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
     }
   }
 }
@@ -36,11 +44,21 @@ $$Test.decode = (_input) => {
   }))
 }
 
-const $Test = new(class {
+class $Main extends Component {
   test() {
     return new $$Test({
       a: `Hello`,
       b: 0
     })
   }
-})
+
+  render() {
+    return (() => {
+      this.test.bind(this)()
+
+      return _createElement("div", {})
+    })()
+  }
+}
+
+$Main.displayName = "Main"

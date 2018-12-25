@@ -6,10 +6,16 @@ message HtmlAttributeElementAttributeTypeMismatch do
     bold name
     text "of element"
     bold "tag"
-    text "does not match its type"
+    text "does not match its type."
   end
 
-  was_expecting_type expected, got
+  block do
+    text "I was expecting one of the following types:"
+  end
+
+  pre expected
+
+  type_with_text got, "Instead it is:"
 
   snippet node
 end

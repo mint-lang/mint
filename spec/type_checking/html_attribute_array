@@ -1,20 +1,20 @@
-component Test {
+component Main {
   property things : Array(String) = []
 
   fun render : Html {
-    <Test things=["x"]/>
+    <Main things=["x"]/>
   }
 }
 --------------------------------------HtmlAttributeComponentPropertyTypeMismatch
-component Test {
+component Main {
   property things : Array(String) = []
 
   fun render : Html {
-    <Test things=[0]/>
+    <Main things=[0]/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
-component Test {
+component Main {
   fun render : Html {
     <div things=[0]/>
   }

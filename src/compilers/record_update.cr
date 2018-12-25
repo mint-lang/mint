@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::RecordUpdate) : String
+    def _compile(node : Ast::RecordUpdate) : String
       variable =
         compile node.variable
 

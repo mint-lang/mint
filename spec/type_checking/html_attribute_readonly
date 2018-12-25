@@ -1,10 +1,10 @@
-component Test {
+component Main {
   fun render : Html {
     <div readOnly={false}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
-component Test {
+component Main {
   fun render : Html {
     <div readonly="WTF"/>
   }

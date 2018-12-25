@@ -73,15 +73,15 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def char : Char
-      input[position]
-    rescue IndexError
-      '\0'
+      input[position]? || '\0'
+    end
+
+    def next_char : Char
+      input[position + 1]? || '\0'
     end
 
     def prev_char : Char
-      input[position - 1]
-    rescue IndexError
-      '\0'
+      input[position - 1]? || '\0'
     end
 
     # Consuming characters

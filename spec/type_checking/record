@@ -3,12 +3,16 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     {
       a = "Hello",
       b = 0
     }
+  }
+
+  fun render : String {
+    ""
   }
 }
 ----------------------------------------------------RecordNotFoundMatchingRecord
@@ -17,11 +21,15 @@ record Test {
   b : Number
 }
 
-module Test {
+component Main {
   fun test : Test {
     {
       a = "Hello",
       b = "Blah"
     }
+  }
+
+  fun render : String {
+    ""
   }
 }

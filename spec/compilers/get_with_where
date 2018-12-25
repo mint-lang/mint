@@ -1,4 +1,4 @@
-store A {
+component Main {
   get test : String {
     something
   } where {
@@ -8,22 +8,22 @@ store A {
     otherThing =
       0
   }
+
+  fun render : String {
+    test
+  }
 }
 --------------------------------------------------------------------------------
-const $A = new(class extends Store {
-  constructor() {
-    super()
-    this.state = {
-
-    }
-  }
-
+class $Main extends Component {
   get test() {
     let something = `Asd`
 
-    let otherThing = 0
-
     return something
   }
-})
-$A.__displayName = `A`
+
+  render() {
+    return this.test
+  }
+}
+
+$Main.displayName = "Main"

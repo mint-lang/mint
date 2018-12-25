@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Store) : String
+    def _compile(node : Ast::Store) : String
       functions =
         compile node.functions
 

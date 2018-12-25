@@ -17,7 +17,7 @@ store Blah {
   }
 }
 
-component Test {
+component Main {
   use MouseProvider {
     moves = (data : Position) : Void => { void },
     ups = (data : Position) : Void => { void }
@@ -67,7 +67,7 @@ const $Blah = new(class extends Store {
 })
 $Blah.__displayName = `Blah`
 
-class $Test extends Component {
+class $Main extends Component {
   get test() {
     return $Blah.test
   }
@@ -84,10 +84,10 @@ class $Test extends Component {
   componentDidUpdate() {
     if (false) {
       $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
+        moves: ((a) => {
           return null
         }),
-        ups: ((data) => {
+        ups: ((b) => {
           return null
         })
       }))
@@ -100,10 +100,10 @@ class $Test extends Component {
     $Blah._subscribe(this);
     if (false) {
       $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
+        moves: ((a) => {
           return null
         }),
-        ups: ((data) => {
+        ups: ((b) => {
           return null
         })
       }))
@@ -117,4 +117,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

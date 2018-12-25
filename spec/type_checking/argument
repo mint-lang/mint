@@ -1,11 +1,19 @@
-module A {
-  fun test (a : Number) : Number {
+component Main {
+  fun test (a : String) : String {
     a
+  }
+
+  fun render : String {
+    test("")
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
+component Main {
   fun test (a : String) : Number {
     a
+  }
+
+  fun render : String {
+    test("")
   }
 }

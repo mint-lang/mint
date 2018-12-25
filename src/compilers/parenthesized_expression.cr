@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::ParenthesizedExpression) : String
+    def _compile(node : Ast::ParenthesizedExpression) : String
       expression =
         compile node.expression
 

@@ -1,22 +1,22 @@
 record Blah1 {
-  blah : Bool
+  blah : String
 }
 
 record Blah {
   blah : Blah1
 }
 
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : String {
     blah.blah.blah
   } where {
     blah =
-      { blah = { blah = true } }
+      { blah = { blah = "Helllo" } }
   }
 }
 -----------------------------------------------------------------AccessNotRecord
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : Bool {
     blah.blah.blah
   } where {
     blah = ""
@@ -27,8 +27,8 @@ record Blah {
   blah : String
 }
 
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : Bool {
     blah.blah.blah
   } where {
     blah =
@@ -40,8 +40,8 @@ record Blah {
   blah : String
 }
 
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : Bool {
     blah.blaha
   } where {
     blah =
