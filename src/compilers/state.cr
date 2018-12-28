@@ -2,9 +2,9 @@ module Mint
   class Compiler
     def _compile(node : Ast::State) : String
       name =
-        node.name.value
+        js.variable_of(node)
 
-      "get #{name}() { return this.state.#{name} }"
+      js.get(name, "return this.state.#{name}")
     end
   end
 end

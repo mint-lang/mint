@@ -1,6 +1,9 @@
 module Mint
   class Compiler
     def _compile(node : Ast::HtmlComponent) : String
+      name =
+        js.class_of(lookups[node])
+
       children =
         if node.children.empty?
           ""
@@ -18,7 +21,7 @@ module Mint
           .join(", ")
 
       contents =
-        ["$#{underscorize(node.component)}",
+        ["$#{name}",
          "{ #{attributes} }",
          children]
           .reject(&.empty?)

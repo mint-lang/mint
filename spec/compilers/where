@@ -16,16 +16,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
-    let something = `Asd`
-
-    return _createElement("div", {}, [something])
+class A extends Component {
+  a() {
+    let b = `Asd`
+    return _createElement("div", {}, [b])
   }
 
   render() {
-    return this.test.bind(this)()
+    return this.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

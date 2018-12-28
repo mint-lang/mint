@@ -11,7 +11,7 @@ module Mint
         wheres.any? ? "\n\n" : ""
 
       name =
-        node.name.value
+        js.variable_of(node)
 
       body =
         [wheres.join("\n\n"),

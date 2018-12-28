@@ -1,21 +1,21 @@
 component Main {
-  fun a : String {
+  fun test : String {
     "Hello"
   }
 
   fun render : String {
-    a()
+    test()
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   a() {
     return `Hello`
   }
 
   render() {
-    return this.a.bind(this)()
+    return this.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

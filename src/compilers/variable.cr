@@ -8,23 +8,36 @@ module Mint
         return "this._subscriptions"
       end
 
-      case entity
-      when Ast::Function
-        case parent
-        when Ast::Module, Ast::Store
-          name =
-            underscorize(parent.name)
-
-          "$#{name}.#{node.value}.bind($#{name})"
-        else
-          "this.#{node.value}.bind(this)"
-        end
-      when Ast::Property, Ast::Get, Ast::State
-        "this.#{node.value}"
-      when Ast::Argument
-        compile entity
+      case parent
+      when Tuple(String, TypeChecker::Checkable, Ast::Node)
+        js.variable_of(parent[2])
       else
-        node.value
+        case entity
+        when Ast::Function
+          function =
+            js.variable_of(entity.as(Ast::Node))
+
+          case parent
+          when Ast::Module, Ast::Store
+            name =
+              js.class_of(parent.as(Ast::Node))
+
+            "#{name}.#{function}"
+          else
+            "this.#{function}"
+          end
+        when Ast::Property, Ast::Get, Ast::State
+          name =
+            js.variable_of(entity.as(Ast::Node))
+
+          "this.#{name}"
+        when Ast::Argument
+          compile entity
+        when Ast::WhereStatement, Ast::Statement
+          js.variable_of(entity.as(Ast::Node))
+        else
+          node.value
+        end
       end
     end
   end

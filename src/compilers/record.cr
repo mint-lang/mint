@@ -9,9 +9,9 @@ module Mint
 
       if type
         name =
-          underscorize type.name
+          js.class_of(node)
 
-        "new $$#{name}({\n#{fields.indent}\n})"
+        "new #{name}({\n#{fields.indent}\n})"
       else
         "new Record({\n#{fields.indent}\n})"
       end

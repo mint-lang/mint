@@ -1,13 +1,13 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Module) : String
-      body =
-        compile node.functions, "\n\n"
-
       name =
-        underscorize node.name
+        js.class_of(node)
 
-      "const $#{name} = new(class {\n#{body.indent}\n})"
+      body =
+        compile node.functions
+
+      js.const name, js.iic(body)
     end
   end
 end

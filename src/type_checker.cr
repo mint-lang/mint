@@ -136,7 +136,7 @@ module Mint
       end
     end
 
-    def scope(nodes : Array(Tuple(String, Checkable)))
+    def scope(nodes : Array(Tuple(String, Checkable, Ast::Node)))
       # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield

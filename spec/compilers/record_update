@@ -35,26 +35,30 @@ $$Record.decode = (_input) => {
   }))
 }
 
-class $Main extends Component {
-  get record() {
-    if (this.props.record != undefined) {
-      return this.props.record
-    } else {
-      return new $$Record({
+class A extends Component {
+  construtor(props) {
+    super(props)
+
+    this.defaultProps = {
+      d: new $$Record({
         name: `Doe`
       })
     }
   }
 
-  test() {
-    return _update(this.record, {
+  get b() {
+    this.props.b || this.defaultProps.b
+  }
+
+  a() {
+    return _update(this.b, {
       name: `John`
     })
   }
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.a()
 
       return _createElement("div", {})
     })()

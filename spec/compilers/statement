@@ -9,14 +9,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
     return (() => {
-      let x = `hello`
+      let a = `hello`
 
-      return x
+      return a
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -3,11 +3,10 @@ module Mint
     delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
     delegate html_elements, medias, lookups, checked, to: @artifacts
 
-    getter js, vars
+    getter js
 
-    @vars = {} of Ast::Node => String
     @decoder = Decoder.new
-    @js = Js.new
+    @js = Js.new(optimize: false)
 
     def initialize(@artifacts : TypeChecker::Artifacts)
     end

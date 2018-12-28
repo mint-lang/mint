@@ -69,6 +69,9 @@ module Mint
           "node"     => node,
         } unless result
 
+        lookups[node] = entity
+        lookups[node.function] = function
+
         resolve_type(result.parameters.last)
       else
         raise ModuleCallNotFoundModule, {

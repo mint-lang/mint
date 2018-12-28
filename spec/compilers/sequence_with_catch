@@ -33,73 +33,67 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Promise = new(class {
-  reject(a) {
+const B = new(class {
+  c(f) {
     return
   }
 })
 
-class $Main extends Component {
-  test() {
+class A extends Component {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let greeting = await (async () => {
-          try {
-            return await $Promise.reject(`x`)
-          } catch (_error) {
-            let a = _error;
-
-            _result = `hello`
-
-            throw new DoError()
-          }
-        })()
-
         let b = await (async () => {
           try {
-            return await $Promise.reject(`y`)
+            return await B.c(`x`)
           } catch (_error) {
-            let a = _error;
-
-            _result = `hello`
-
+            let a = _error
+            _ = `hello`
             throw new DoError()
           }
         })()
 
-        let a = await (async () => {
+        let d = await (async () => {
           try {
-            return await $Promise.reject(0)
+            return await B.c(`y`)
           } catch (_error) {
-            let a = _error;
-
-            _result = `asd`
-
+            let a = _error
+            _ = `hello`
             throw new DoError()
           }
         })()
 
-        _result = await `blah`
+        let e = await (async () => {
+          try {
+            return await B.c(0)
+          } catch (_error) {
+            let a = _error
+            _ = `asd`
+            throw new DoError()
+          }
+        })()
+
+        _ = await `blah`
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in sequence expression:`)
           console.warn(_error)
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.a()
 
       return _createElement("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

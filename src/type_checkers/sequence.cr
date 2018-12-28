@@ -10,7 +10,7 @@ module Mint
 
       node
         .statements
-        .reduce([] of Tuple(String, Checkable)) do |items, statement|
+        .reduce([] of Tuple(String, Checkable, Ast::Node)) do |items, statement|
           maybe_name = statement.name
 
           name =
@@ -36,7 +36,7 @@ module Mint
                 resolve_type(new_type)
               end
 
-            items << {name, type}
+            items << {name, type, statement}
           end
 
           items
@@ -54,7 +54,7 @@ module Mint
 
         check_variable catch.variable
 
-        scope({catch.variable.value, catch_type}) do
+        scope({catch.variable.value, catch_type, catch}) do
           catch_return_type = resolve catch
 
           raise SequenceCatchTypeMismatch, {

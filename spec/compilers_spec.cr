@@ -15,13 +15,20 @@ Dir.glob("./spec/compilers/**/*").sort.each do |file|
     begin
       result.should eq(expected.strip)
     rescue error
-      diff =
-        Diff.diff(expected.strip, result).map do |chunk|
-          chunk.data.colorize(
-            chunk.append? ? :green : chunk.delete? ? :red : :dark_gray)
-        end.join("")
+      file1 = File.tempfile
+      file1.puts expected.strip
+      file1.flush
+      file2 = File.tempfile
+      file2.puts result
+      file2.flush
 
-      fail "#{diff}\n\nExpected:\n\n#{expected.strip}\n\nGot:\n\n#{result}".colorize(:red).to_s
+      io = IO::Memory.new
+      Process.run("git", ["--no-pager", "diff", "--no-index", "--color=always", file1.path, file2.path], output: io)
+
+      file1.delete
+      file2.delete
+
+      fail io.to_s
     end
   end
 end

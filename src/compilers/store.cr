@@ -14,41 +14,32 @@ module Mint
         compile_constructor node
 
       body =
-        ([constructor] + states + gets + functions)
-          .join("\n\n")
-          .indent
+        [constructor] + states + gets + functions
 
       name =
-        underscorize node.name
+        js.class_of(node)
 
-      <<-RESULT
-      const $#{name} = new (class extends Store {
-        #{body}
-      })
-      $#{name}.__displayName = `#{node.name}`
-      RESULT
+      js.store(name, body)
     end
 
     def compile_constructor(node : Ast::Store) : String
       states =
-        node.states.map do |state|
+        node.states.each_with_object({} of String => String) do |state, memo|
           name =
-            state.name.value
+            js.variable_of(state)
 
           default =
             compile state.default
 
-          "#{name}: #{default}"
+          memo[name] = default
         end
 
-      <<-RESULT
-      constructor() {
-        super()
-        this.state = {
-          #{states.join(",\n").indent}
-        }
-      }
-      RESULT
+      js.function("constructor", [] of String) do
+        js.statements([
+          js.call("super", [] of String),
+          js.assign("this.state", js.object(states)),
+        ])
+      end
     end
   end
 end

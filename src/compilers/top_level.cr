@@ -5,7 +5,7 @@ module Mint
       sbx.eval! Assets.read("js_beautify.js")
     end
 
-    DEFAULT_OPTIONS = {beautify: true}
+    DEFAULT_OPTIONS = {beautify: false}
 
     alias Options = NamedTuple(beautify: Bool)
 
@@ -118,9 +118,11 @@ module Mint
           "_insertStyles(`\n#{css + media_css}\n`)"
         end
 
-      (enums + records + providers + routes + modules + stores + components + [footer])
-        .reject(&.empty?)
-        .join("\n\n")
+      elements =
+        enums + records + providers + routes + modules + stores + components + [footer]
+          .reject(&.empty?)
+
+      js.statements(elements)
     end
 
     # Wraps the application with the runtime

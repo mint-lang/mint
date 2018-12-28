@@ -12,7 +12,7 @@ module Mint
       types =
         node
           .statements
-          .reduce([] of Tuple(String, Checkable)) do |items, statement|
+          .reduce([] of Tuple(String, Checkable, Ast::Node)) do |items, statement|
             name =
               statement.name.try(&.value).to_s
 
@@ -33,7 +33,7 @@ module Mint
                 end
 
               # Append the type
-              items << {name, resolve_type(type || new_type)}
+              items << {name, resolve_type(type || new_type), statement}
             end
 
             # Return the memo
@@ -52,7 +52,7 @@ module Mint
 
         check_variable catch.variable
 
-        checked_type = scope({catch.variable.value, catch_type}) do
+        checked_type = scope({catch.variable.value, catch_type, catch}) do
           return_type =
             resolve catch
 

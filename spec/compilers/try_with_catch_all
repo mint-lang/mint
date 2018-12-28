@@ -17,31 +17,31 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Result = new(class {
-  error(a) {
-    return new Err(a)
+const B = new(class {
+  b(c) {
+    return new Err(c)
   }
 })
 
-class $Main extends Component {
+class A extends Component {
   render() {
     return (() => {
-      let _catch_all = (() => {
+      let _catch_all = () => {
         return `Blah`
-      })
+      }
 
-      let _0 = $Result.error(`Blah`);
+      let _0 = B.b(`Blah`);
 
       if (_0 instanceof Err) {
         let _error = _0.value
         return _catch_all()
       }
 
-      let x = _0.value;
+      let a = _0.value;
 
       return `Hello`
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

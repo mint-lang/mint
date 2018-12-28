@@ -2,19 +2,12 @@ module Mint
   class Compiler
     def _compile(node : Ast::Property) : String
       name =
-        node.name.value
-
-      default =
-        compile node.default
+        js.variable_of(node)
 
       body =
-        "if (this.props.#{name} != undefined) {\n" \
-        "  return this.props.#{name}\n" \
-        "} else {\n" \
-        "  return #{default}\n" \
-        "}"
+        "return this.props.#{name} || this.defaultProps.#{name}"
 
-      "get #{name} () {\n#{body.indent}\n}"
+      js.get(name, body)
     end
   end
 end

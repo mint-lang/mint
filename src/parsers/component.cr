@@ -49,6 +49,10 @@ module Mint
             properties << item
           when Ast::Function
             functions << item
+
+            if item.name.value == "render"
+              item.is_render = true
+            end
           when Ast::Connect
             connects << item
           when Ast::Style

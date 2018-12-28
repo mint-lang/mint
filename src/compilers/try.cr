@@ -3,16 +3,16 @@ module Mint
     def _compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
-          "let _catch_all = (() => { return #{compile(catch.expression)} })\n\n"
+          js.let("_catch_all", js.arrow_function([] of String, "return #{compile(catch.expression)}")) + "\n\n"
         end
 
       body = node.statements.map_with_index do |statement, index|
         prefix =
           case
           when (index + 1) == node.statements.size
-            "return"
+            "return "
           when name = statement.name
-            "let #{name.value} ="
+            "let #{js.variable_of(statement)} = "
           end
 
         expression =
@@ -31,9 +31,9 @@ module Mint
                       compile catch.expression
 
                     variable =
-                      catch.variable.value
+                      js.variable_of(catch)
 
-                    "let #{variable} = _error\n return #{catch_body}"
+                    "let #{variable} = _error\n  return #{catch_body}"
                   end
                 end
 
@@ -50,18 +50,18 @@ module Mint
           let _#{index} = #{expression};
 
           if (_#{index} instanceof Err) {
-             let _error = _#{index}.value
-             #{catches}
+            let _error = _#{index}.value
+            #{catches}
           }
 
-          #{prefix} _#{index}.value;
+          #{prefix}_#{index}.value;
           JS
         else
-          "#{prefix} #{expression}"
+          "#{prefix}#{expression}"
         end
       end.join("\n\n")
 
-      "(() => { #{catch_all}#{body} })()"
+      js.iif("#{catch_all}#{body}")
     end
   end
 end

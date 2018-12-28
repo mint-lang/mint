@@ -1,22 +1,23 @@
 store Test {
-  state a : String = ""
+  state test : String = ""
 
-  get b : String {
+  get hello : String {
     "hello"
   }
 }
 
 component Main {
-  connect Test exposing { a }
+  connect Test exposing { test }
 
   fun render : String {
     ""
   }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class extends Store {
+const B = new(class extends Store {
   constructor() {
     super()
+
     this.state = {
       a: ``
     }
@@ -30,19 +31,18 @@ const $Test = new(class extends Store {
     return `hello`
   }
 })
-$Test.__displayName = `Test`
 
-class $Main extends Component {
-  get a() {
-    return $Test.a
+class A extends Component {
+  get test() {
+    return B.a
   }
 
   componentWillUnmount() {
-    $Test._unsubscribe(this)
+    B._unsubscribe(this)
   }
 
   componentDidMount() {
-    $Test._subscribe(this)
+    B._subscribe(this)
   }
 
   render() {
@@ -50,4 +50,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

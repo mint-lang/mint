@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     class Scope
       alias Node = Ast::InlineFunction |
-                   Tuple(String, Checkable) |
+                   Tuple(String, Checkable, Ast::Node) |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
@@ -26,7 +26,7 @@ module Mint
         case node
         when Ast::InlineFunction
           "Inline function"
-        when Tuple(String, Checkable)
+        when Tuple(String, Checkable, Ast::Node)
           node[0]
         when Ast::Component
           node.name
@@ -98,7 +98,7 @@ module Mint
         end
       end
 
-      def find(variable : String, data : Tuple(String, Checkable))
+      def find(variable : String, data : Tuple(String, Checkable, Ast::Node))
         data[0] == variable ? data[1] : nil
       end
 

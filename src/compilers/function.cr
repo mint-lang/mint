@@ -9,6 +9,9 @@ module Mint
     end
 
     def _compile(node : Ast::Function, contents = "") : String
+      name =
+        js.variable_of(node)
+
       expression =
         compile node.body
 
@@ -18,24 +21,15 @@ module Mint
       arguments =
         compile node.arguments
 
-      wheres_separator =
-        wheres.any? ? "\n\n" : ""
+      last =
+        [js.return(expression)]
 
-      contents_separator =
-        contents.empty? ? "" : "\n\n"
+      last.unshift(contents) unless contents.empty?
 
       body =
-        [wheres.join("\n\n"),
-         wheres_separator,
-         contents,
-         contents_separator,
-         "return #{expression}",
-        ].join("")
+        js.statements(wheres + last)
 
-      js.function(
-        name: node.name.value,
-        arguments: arguments,
-        body: body)
+      js.function(name, arguments, body)
     end
   end
 end

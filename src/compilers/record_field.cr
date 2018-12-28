@@ -4,7 +4,10 @@ module Mint
       value =
         compile node.value
 
-      "#{node.key.value}: #{value}"
+      name =
+        js.variable_of(node)
+
+      "#{name}: #{value}"
     end
   end
 end

@@ -2,15 +2,15 @@ module Mint
   class Compiler
     def _compile(node : Ast::ModuleCall) : String
       name =
-        underscorize node.name
+        js.class_of(lookups[node])
 
       function =
-        node.function.value
+        js.variable_of(lookups[node.function])
 
       arguments =
         compile node.arguments, ", "
 
-      "$#{name}.#{function}(#{arguments})"
+      "#{name}.#{function}(#{arguments})"
     end
   end
 end
