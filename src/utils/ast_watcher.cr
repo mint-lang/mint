@@ -1,5 +1,3 @@
-require "progress"
-
 module Mint
   class AstWatcher
     @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
@@ -29,17 +27,34 @@ module Mint
       end
     end
 
+    def terminal
+      Render::Terminal::STDOUT
+    end
+
     def compile(print = false)
       files =
         Dir.glob(@pattern)
 
-      bar =
-        ProgressBar.new(total: files.size, complete: "=", incomplete: " ", width: 50, use_stdout: true) if @progress
+      prefix = "#{COG} Parsing files"
+      line = ""
 
-      files.each do |file|
-        bar.try(&.inc)
-        @cache[file] ||= Parser.parse(file)
-        @file_proc.call(file, @cache[file])
+      elapsed = Time.measure do
+        files.each_with_index do |file, index|
+          if print
+            file_counter = "#{index} / #{files.size}".colorize.mode(:bold)
+            line = "#{prefix}: #{file_counter}".ljust(line.size)
+            terminal.io.print(line + "\r")
+            terminal.io.flush
+          end
+
+          @cache[file] ||= Parser.parse(file)
+          @file_proc.call(file, @cache[file])
+        end
+      end
+
+      if print
+        elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold).to_s
+        terminal.io.print "#{prefix}... #{elapsed}".ljust(line.size) + "\n"
       end
 
       @progress = false
