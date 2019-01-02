@@ -4,6 +4,8 @@ module Mint
     type_error EnumUnusedParameter
 
     def check(node : Ast::Enum) : Checkable
+      check_global_types node.name, node
+
       parameters =
         resolve node.parameters
 

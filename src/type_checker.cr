@@ -34,6 +34,7 @@ module Mint
     @record_names = {} of String => Ast::Node
     @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
+    @types = {} of String => Ast::Node
     @records = [] of Record
 
     @stack = [] of Ast::Node
@@ -214,6 +215,31 @@ module Mint
     end
 
     type_error GlobalNameConflict
+
+    def check_global_types(name : String, node : Ast::Node) : Nil
+      other = @types[name]?
+
+      if other && other != node
+        what =
+          case other
+          when Ast::Enum
+            "enum"
+          when Ast::RecordDefinition
+            "record"
+          else
+            ""
+          end
+
+        raise GlobalNameConflict, {
+          "other" => other,
+          "name"  => name,
+          "what"  => what,
+          "node"  => node,
+        }
+      end
+
+      @types[name] = node
+    end
 
     def check_global_names(name : String, node : Ast::Node) : Nil
       other = @names[name]?
