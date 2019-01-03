@@ -7,22 +7,18 @@ module Mint
           when Ast::Node
             "\#{#{format(item)}}"
           else
-            format item
+            format(item).gsub(/`/, "\\`")
           end
         end.join("")
 
       if body.includes?("\n") || body.includes?("\r")
         value =
-          body
-            .remove_leading_whitespace
-            .gsub(/`/, "\\`")
+          body.remove_leading_whitespace
 
         "`\n#{value}\n`"
       else
         value =
-          body
-            .strip
-            .gsub(/`/, "\\`")
+          body.strip
 
         "`#{value}`"
       end
