@@ -9,6 +9,8 @@ module Mint
       end
 
       case item[0]
+      when Ast::Component
+        "this._#{node.value}"
       when Ast::Function
         entity = item[1]
         case entity

@@ -140,6 +140,7 @@ module Mint
           node.gets.find(&.name.value.==(variable)) ||
           node.properties.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
+          refs(component)[variable]? ||
           store_states(component)[variable]? ||
           store_functions(component)[variable]? ||
           store_gets(component)[variable]?
@@ -180,6 +181,19 @@ module Mint
         yield
       ensure
         nodes.each { |node| @levels.delete node }
+      end
+
+      private def refs(component)
+        component.refs.reduce({} of String => Ast::Component) do |memo, (variable, item)|
+          @ast
+            .components
+            .find(&.name.==(item.component))
+            .try do |entity|
+              memo[variable.value] = entity
+            end
+
+          memo
+        end
       end
 
       private def store_states(component)
