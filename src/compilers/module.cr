@@ -7,7 +7,22 @@ module Mint
       name =
         underscorize node.name
 
-      "const $#{name} = new(class {\n#{body.indent}\n})"
+      binds =
+        node
+          .functions
+          .select { |item| checked.includes?(item) }
+          .map { |item| "this.#{item.name.value} = this.#{item.name.value}.bind(this)" }
+          .join("\n")
+
+      <<-A
+      const $#{name} = new(class {
+        constructor() {
+        #{binds.indent}
+        }
+
+      #{body.indent}
+      })
+      A
     end
   end
 end

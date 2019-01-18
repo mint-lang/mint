@@ -18,9 +18,9 @@ module Mint
           name =
             underscorize(entity.name)
 
-          "$#{name}.#{node.value}.bind($#{name})"
+          "$#{name}.#{node.value}"
         else
-          "this.#{node.value}.bind(this)"
+          "this.#{node.value}"
         end
       when Ast::Property, Ast::Get, Ast::State
         "this.#{node.value}"

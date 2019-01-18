@@ -7,12 +7,7 @@ module Mint
       variable =
         node.variable.value
 
-      case lookups[node]
-      when Ast::Function
-        "$#{name}.#{variable}.bind($#{name})"
-      else
-        "$#{name}.#{variable}"
-      end
+      "$#{name}.#{variable}"
     end
   end
 end
