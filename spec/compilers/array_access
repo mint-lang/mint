@@ -33,9 +33,9 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
-      this.test1.bind(this)()
+      this.test1()
 
       return ``
     })()

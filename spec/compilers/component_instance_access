@@ -39,7 +39,7 @@ class $Main extends Component {
 
   render() {
     return _createElement("div", {
-      "onClick": (event => (this.handleClick.bind(this))(_normalizeEvent(event)))
+      "onClick": (event => (this.handleClick)(_normalizeEvent(event)))
     }, [_createElement($Instance, {
       ref: (instance) => {
         this._instance = instance

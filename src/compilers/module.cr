@@ -7,19 +7,8 @@ module Mint
       name =
         underscorize node.name
 
-      binds =
-        node
-          .functions
-          .select { |item| checked.includes?(item) }
-          .map { |item| "this.#{item.name.value} = this.#{item.name.value}.bind(this)" }
-          .join("\n")
-
       <<-A
-      const $#{name} = new(class {
-        constructor() {
-        #{binds.indent}
-        }
-
+      const $#{name} = new(class extends Module {
       #{body.indent}
       })
       A

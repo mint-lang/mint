@@ -69,7 +69,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)(new $$C_D(new $$A_B(``)))
+      this.test(new $$C_D(new $$A_B(``)))
 
       return ``
     })()

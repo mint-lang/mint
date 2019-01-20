@@ -17,13 +17,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class {
+const $Test = new(class extends Module {
   a() {
     return `Hello`
   }
 
   b() {
-    return $Test.a.bind($Test)
+    return $Test.a
   }
 })
 

@@ -22,12 +22,12 @@ class $Main extends Component {
   }
 
   test() {
-    return this.call.bind(this)(`Hello`, true)
+    return this.call(`Hello`, true)
   }
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
       return ``
     })()

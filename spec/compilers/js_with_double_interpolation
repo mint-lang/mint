@@ -14,7 +14,7 @@ class $Main extends Component {
   }
 
   render() {
-    return "Hello" + this.test.bind(this)("World!")
+    return "Hello" + this.test("World!")
   }
 }
 

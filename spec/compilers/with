@@ -12,25 +12,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $X = new(class {
-  constructor() {
-    this.a = this.a.bind(this)
-  }
-
+const $X = new(class extends Module {
   a() {
     return ``
   }
 })
 
 class $Main extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-    this.render = this.render.bind(this)
-  }
-
   render() {
-    return $X.a.bind($X)()
+    return $X.a()
   }
 }
 

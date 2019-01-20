@@ -33,22 +33,15 @@ module Mint
               .join(",\n")
 
           "new Record({\n#{values.indent}\n})"
-        else
-          "{}"
         end
 
-      binds =
-        node
-          .functions
-          .select { |item| checked.includes?(item) }
-          .map { |item| "this.#{item.name.value} = this.#{item.name.value}.bind(this)" }
-          .join("\n")
-
       constructor_contents =
-        "super(props)\nthis.state = #{state}\n#{binds}"
+        "super(props)\nthis.state = #{state}"
 
       constructor =
-        "constructor(props) {\n#{constructor_contents.indent}\n}"
+        if state
+          "constructor(props) {\n#{constructor_contents.indent}\n}"
+        end
 
       body =
         ([constructor] + gets + properties + states + store_stuff + functions)

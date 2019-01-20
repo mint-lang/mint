@@ -17,7 +17,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Result = new(class {
+const $Result = new(class extends Module {
   error(input) {
     return new Err(input)
   }
