@@ -9,7 +9,7 @@ module Mint
       end
 
       case item[0]
-      when Ast::Component
+      when Ast::Component, Ast::HtmlElement
         "this._#{node.value}"
       when Ast::Function
         entity = item[1]

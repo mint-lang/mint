@@ -18,13 +18,20 @@ module Mint
           style = variable_with_dashes! HtmlElementExpectedStyle
         end
 
+        ref = start do
+          whitespace
+          skip unless keyword "as"
+          whitespace
+          variable! SyntaxError
+        end
+
         attributes, children, comments = html_body(
           expected_closing_bracket: HtmlElementExpectedClosingBracket,
           expected_closing_tag: HtmlElementExpectedClosingTag,
           with_dashes: true,
           tag: tag)
 
-        Ast::HtmlElement.new(
+        node = Ast::HtmlElement.new(
           attributes: attributes,
           from: start_position,
           children: children,
@@ -32,7 +39,12 @@ module Mint
           style: style,
           to: position,
           input: data,
-          tag: tag)
+          tag: tag,
+          ref: ref)
+
+        refs << {ref, node} if ref
+
+        node
       end
     end
   end

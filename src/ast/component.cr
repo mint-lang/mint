@@ -4,9 +4,7 @@ module Mint
       getter properties, connects, styles, states, comments
       getter functions, gets, uses, name, comment, refs
 
-      property resolved_refs = {} of String => Component
-
-      def initialize(@refs : Array(Tuple(Variable, HtmlComponent)),
+      def initialize(@refs : Array(Tuple(Variable, Node)),
                      @properties : Array(Property),
                      @functions : Array(Function),
                      @comments : Array(Comment),

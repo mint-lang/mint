@@ -184,13 +184,18 @@ module Mint
       end
 
       private def refs(component)
-        component.refs.reduce({} of String => Ast::Component) do |memo, (variable, item)|
-          @ast
-            .components
-            .find(&.name.==(item.component))
-            .try do |entity|
-              memo[variable.value] = entity
-            end
+        component.refs.reduce({} of String => Ast::Node | Checkable) do |memo, (variable, item)|
+          case item
+          when Ast::HtmlComponent
+            @ast
+              .components
+              .find(&.name.==(item.component))
+              .try do |entity|
+                memo[variable.value] = entity
+              end
+          when Ast::HtmlElement
+            memo[variable.value] = item
+          end
 
           memo
         end
