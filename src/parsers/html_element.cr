@@ -2,6 +2,7 @@ module Mint
   class Parser
     syntax_error HtmlElementExpectedClosingBracket
     syntax_error HtmlElementExpectedClosingTag
+    syntax_error HtmlElementExpectedReference
     syntax_error HtmlElementExpectedStyle
 
     def html_element : Ast::HtmlElement | Nil
@@ -22,7 +23,7 @@ module Mint
           whitespace
           skip unless keyword "as"
           whitespace
-          variable! SyntaxError
+          variable! HtmlElementExpectedReference
         end
 
         attributes, children, comments = html_body(

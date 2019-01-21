@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error ComponentReferenceNameConflict
     type_error ComponentFunctionTypeMismatch
     type_error ComponentExposedNameConflict
     type_error ComponentRenderTypeMismatch
@@ -35,6 +36,22 @@ module Mint
       check_names(node.functions, ComponentEntityNameConflict, checked)
       check_names(node.states, ComponentStateNameConflict, checked)
       check_names(node.gets, ComponentEntityNameConflict, checked)
+
+      # Checking for ref conflicts
+      node.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
+        name = variable.value
+
+        if other = memo[name]?
+          raise ComponentReferenceNameConflict, {
+            "other" => other,
+            "name"  => name,
+            "node"  => ref,
+          }
+        end
+
+        memo[name] = ref
+        memo
+      end
 
       # Checking for style name conflicts
       node.styles.reduce({} of String => Ast::Node) do |memo, style|

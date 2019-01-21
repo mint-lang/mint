@@ -32,7 +32,7 @@ module Mint
           end
         end
       when Nil
-        raise TypeError
+        resolve node.fields.first
       else
         check_record_access(node.fields.first, node, 1)
       end

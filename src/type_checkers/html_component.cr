@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error HtmlComponentReferenceOutsideOfComponent
     type_error HtmlComponentNotFoundComponent
 
     def check(node : Ast::HtmlComponent) : Checkable
@@ -14,6 +15,12 @@ module Mint
       resolve component
 
       node.attributes.each { |attribute| resolve attribute, component }
+
+      node.ref.try do |ref|
+        raise HtmlComponentReferenceOutsideOfComponent, {
+          "node" => ref,
+        } unless component?
+      end
 
       check_html node.children
 
