@@ -23,7 +23,14 @@ component Main {
     true
   }
 }
-
+--------------------------------------------------ComponentReferenceNameConflict
+component Main {
+  fun render : Html {
+    <div as x>
+      <div as x/>
+    </div>
+  }
+}
 ----------------------------------------------------ComponentFunctionTypeMismatch
 component Main {
   fun componentDidUpdate (a : String) : String {

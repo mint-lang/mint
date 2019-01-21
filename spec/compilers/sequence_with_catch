@@ -33,7 +33,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Promise = new(class {
+const $Promise = new(class extends Module {
   reject(input) {
     return
   }
@@ -95,7 +95,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
       return _createElement("div", {})
     })()

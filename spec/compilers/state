@@ -33,7 +33,7 @@ class $Main extends Component {
   }
 
   render() {
-    return this.x.bind(this)()
+    return this.x()
   }
 }
 

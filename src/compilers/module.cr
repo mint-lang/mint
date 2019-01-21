@@ -7,7 +7,11 @@ module Mint
       name =
         underscorize node.name
 
-      "const $#{name} = new(class {\n#{body.indent}\n})"
+      <<-A
+      const $#{name} = new(class extends Module {
+      #{body.indent}
+      })
+      A
     end
   end
 end

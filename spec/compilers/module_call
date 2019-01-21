@@ -14,7 +14,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class {
+const $Test = new(class extends Module {
   a(value) {
     return value
   }

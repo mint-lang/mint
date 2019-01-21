@@ -24,7 +24,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Result = new(class {
+const $Result = new(class extends Module {
   error(input) {
     return new Err(input)
   }
@@ -64,7 +64,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
       return _createElement("div", {})
     })()

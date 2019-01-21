@@ -23,7 +23,11 @@ module Mint
 
       variables[node] = item
 
-      resolve item[0]
+      if item[0].is_a?(Ast::HtmlElement) && item[1].is_a?(Ast::Component)
+        Type.new("Dom.Element")
+      else
+        resolve item[0]
+      end
     end
   end
 end

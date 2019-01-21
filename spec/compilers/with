@@ -12,7 +12,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $X = new(class {
+const $X = new(class extends Module {
   a() {
     return ``
   }
@@ -20,7 +20,7 @@ const $X = new(class {
 
 class $Main extends Component {
   render() {
-    return $X.a.bind($X)()
+    return $X.a()
   }
 }
 

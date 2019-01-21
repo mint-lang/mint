@@ -155,7 +155,6 @@ module Mint
         }
 
         const TestContext = Mint.TestContext;
-        const Component = Mint.Component;
         const ReactDOM = Mint.ReactDOM;
         const Provider = Mint.Provider;
         const Nothing = Mint.Nothing;
@@ -171,6 +170,49 @@ module Mint
 
         class DoError extends Error {}
 
+        const excludedMethods = [
+          'componentWillMount',
+          'UNSAFE_componentWillMount',
+          'render',
+          'getSnapshotBeforeUpdate',
+          'componentDidMount',
+          'componentWillReceiveProps',
+          'UNSAFE_componentWillReceiveProps',
+          'shouldComponentUpdate',
+          'componentWillUpdate',
+          'UNSAFE_componentWillUpdate',
+          'componentDidUpdate',
+          'componentWillUnmount',
+          'componentDidCatch',
+          'setState',
+          'forceUpdate',
+          'constructor'
+        ]
+
+        const bindFunctions = (target) => {
+          const descriptors =
+            Object.getOwnPropertyDescriptors(Reflect.getPrototypeOf(target))
+
+          for (let key in descriptors) {
+            if (excludedMethods[key]) { continue }
+            const value = descriptors[key].value
+            if (typeof value !== "function") { continue }
+            target[key] = value.bind(target)
+          }
+        }
+
+        class Module {
+          constructor() {
+            bindFunctions(this)
+          }
+        }
+
+        class Component extends Mint.Component {
+          constructor(props) {
+            super(props)
+            bindFunctions(this)
+          }
+        }
         #{body}
       })()
       RESULT

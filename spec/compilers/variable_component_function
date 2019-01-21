@@ -14,7 +14,7 @@ class $Main extends Component {
   }
 
   render() {
-    return this.a.bind(this)()
+    return this.a()
   }
 }
 

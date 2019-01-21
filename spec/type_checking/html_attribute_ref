@@ -1,9 +1,9 @@
 component Main {
   fun render : Html {
-    <div ref={(element : Dom.Element) : Void => { void }}/>
+    <div/>
   }
 }
----------------------------------------HtmlAttributeElementAttributeTypeMismatch
+---------------------------------------------------------HtmlElementRefForbidden
 component Main {
   fun render : Html {
     <div ref="Hello"/>

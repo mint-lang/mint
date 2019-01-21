@@ -12,7 +12,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Html_Testing = new(class {
+const $Html_Testing = new(class extends Module {
   renderAll() {
     return _createElement("p", {}, [`It should work`])
   }

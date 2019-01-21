@@ -75,6 +75,10 @@ module Mint
         attributes.push "style: {\n#{items}\n}" unless items.strip.empty?
       end
 
+      node.ref.try do |ref|
+        attributes << "ref: (element) => { this._#{ref.value} = element }"
+      end
+
       attributes =
         if attributes.empty?
           "{}"

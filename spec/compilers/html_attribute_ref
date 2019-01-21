@@ -1,6 +1,6 @@
 component Main {
   fun render : Html {
-    <div ref={(element : Dom.Element) : Void => { void }}>
+    <div as input>
     </div>
   }
 }
@@ -8,11 +8,9 @@ component Main {
 class $Main extends Component {
   render() {
     return _createElement("div", {
-      "ref": (ref => {
-        ref ? ((element) => {
-          return null
-        }).call(this, ref) : null
-      })
+      ref: (element) => {
+        this._input = element
+      }
     })
   }
 }

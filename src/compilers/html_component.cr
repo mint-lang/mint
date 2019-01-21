@@ -15,11 +15,14 @@ module Mint
         node
           .attributes
           .map { |item| compile(item, false).as(String) }
-          .join(", ")
+
+      node.ref.try do |ref|
+        attributes << "ref: (instance) => { this._#{ref.value} = instance }"
+      end
 
       contents =
         ["$#{underscorize(node.component)}",
-         "{ #{attributes} }",
+         "{ #{attributes.join(", ")} }",
          children]
           .reject(&.empty?)
           .join(", ")

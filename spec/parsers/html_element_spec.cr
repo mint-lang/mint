@@ -8,6 +8,7 @@ describe "Html Element" do
 
   expect_error "<a", Mint::Parser::HtmlElementExpectedClosingBracket
   expect_error "<a::", Mint::Parser::HtmlElementExpectedStyle
+  expect_error "<a as", Mint::Parser::HtmlElementExpectedReference
   expect_error "<a::a", Mint::Parser::HtmlElementExpectedClosingBracket
   expect_error "<a::a ", Mint::Parser::HtmlElementExpectedClosingBracket
   expect_error "<a::a a={a}b={b}", Mint::Parser::HtmlElementExpectedClosingBracket
