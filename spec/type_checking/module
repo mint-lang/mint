@@ -3,3 +3,9 @@ module A {
     "Hello"
   }
 }
+
+component Main {
+  fun render : String  {
+    A.test()
+  }
+}

@@ -4,7 +4,7 @@ component Test {
   }
 }
 
-component X {
+component Main {
   fun render : Html {
     <Test></Test>
   }
@@ -18,10 +18,10 @@ class $Test extends Component {
 
 $Test.displayName = "Test"
 
-class $X extends Component {
+class $Main extends Component {
   render() {
     return _createElement($Test, {})
   }
 }
 
-$X.displayName = "X"
+$Main.displayName = "Main"

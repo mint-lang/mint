@@ -3,9 +3,11 @@ enum A {
   C
 }
 
-module X {
-  fun y : A {
-    A::B
+component Main {
+  fun render : String {
+    case (A::B) {
+      => ""
+    }
   }
 }
 --------------------------------------------------------------EnumIdTypeMismatch
@@ -14,9 +16,11 @@ enum A {
   C
 }
 
-module X {
-  fun y : A {
-    A::B(0)
+component Main {
+  fun render : String {
+    case (A::B(0)) {
+      => ""
+    }
   }
 }
 ---------------------------------------------------------------EnumIdEnumMissing
@@ -25,14 +29,18 @@ enum A {
   C
 }
 
-module X {
-  fun y : A {
-    A::D(0)
+component Main {
+  fun render : String {
+    case (A::D(0)) {
+      => ""
+    }
   }
 }
 ---------------------------------------------------------------EnumIdTypeMissing
-module X {
-  fun y : A {
-    C::D(0)
+component Main {
+  fun render : String {
+    case (C::D(0)) {
+      => ""
+    }
   }
 }

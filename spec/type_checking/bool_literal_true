@@ -1,11 +1,27 @@
-module A {
+component Main {
   fun test : Bool {
     true
   }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
+  }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
+component Main {
   fun test : String {
     true
+  }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

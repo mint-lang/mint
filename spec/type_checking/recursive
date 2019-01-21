@@ -1,5 +1,9 @@
-module A {
+component Main {
   fun a : Void {
     void
+  }
+
+  fun render : String {
+    ""
   }
 }

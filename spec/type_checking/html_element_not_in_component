@@ -1,4 +1,4 @@
-component Test {
+component Main {
   style base {
     color: red;
   }
@@ -9,8 +9,44 @@ component Test {
   }
 }
 ----------------------------------------------HtmlElementStyleOutsideOfComponent
-module Test {
+module X {
   fun render : Html {
     <div::base/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+------------------------------------------HtmlElementReferenceOutsideOfComponent
+module X {
+  fun render : Html {
+    <div as x/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+----------------------------------------HtmlComponentReferenceOutsideOfComponent
+module X {
+  fun render : Html {
+    <Test as x/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
   }
 }

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlFragment) : String
+    def _compile(node : Ast::HtmlFragment) : String
       attributes =
         if key = node.key
           "{ #{compile key} }"

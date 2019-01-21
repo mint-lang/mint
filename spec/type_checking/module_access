@@ -7,15 +7,36 @@ module Test {
     Test.a
   }
 }
+
+component Main {
+  fun render : String {
+    x()
+  } where {
+    x =
+      Test.b()
+  }
+}
 ----------------------------------------------------ModuleAccessNotFoundFunction
 module Test {
   fun b : Function(String) {
     Test.a
   }
 }
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
 ------------------------------------------------------ModuleAccessNotFoundModule
 module Test {
   fun b : Function(String) {
     XTest.a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
   }
 }

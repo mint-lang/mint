@@ -7,19 +7,16 @@ module Mint
 
       define_flag relative : Bool,
         description: "If specified the URLs in the index.html will be in relative format",
-        long: "relative",
         default: false,
         short: "r"
 
-      define_flag no_service_worker : Bool,
+      define_flag skip_service_worker : Bool,
         description: "If specified the service worker functionality will be disabled",
-        long: "noServiceWorker",
-        default: false,
-        short: "s"
+        default: false
 
       def run
         execute "Building for production" do
-          Builder.new(flags.relative, flags.no_service_worker)
+          Builder.new(flags.relative, flags.skip_service_worker)
         end
       end
     end

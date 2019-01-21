@@ -1,4 +1,4 @@
-component A {
+component Main {
   style test {
     & div {
       color: {color};
@@ -14,11 +14,11 @@ component A {
   }
 
   fun render : Html {
-    <div/>
+    <div::test/>
   }
 }
 -------------------------------------------------------CssDefinitionTypeMismatch
-component A {
+component Main {
   style test {
     & div {
       color: {color};
@@ -33,6 +33,6 @@ component A {
   }
 
   fun render : Html {
-    <div/>
+    <div::test/>
   }
 }

@@ -7,6 +7,14 @@ module Mint
     end
 
     def compile(node : Ast::Style, component : Ast::Component) : Nil
+      if checked.includes?(node)
+        _compile node, component
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Style, component : Ast::Component) : Nil
       prefix =
         StringInflection
           .kebab(component.name + "_" + node.name.value)

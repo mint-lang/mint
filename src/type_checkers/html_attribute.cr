@@ -4,8 +4,23 @@ module Mint
     type_error HtmlAttributeElementAttributeTypeMismatch
     type_error HtmlAttributeNotFoundComponentProperty
     type_error HtmlAttributeComponentKeyTypeMismatch
+    type_error HtmlAttributeFragmentKeyTypeMismatch
     type_error HtmlElementClassNameForbidden
     type_error HtmlElementStyleForbidden
+    type_error HtmlElementRefForbidden
+
+    def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment)
+      got =
+        resolve node.value
+
+      raise HtmlAttributeFragmentKeyTypeMismatch, {
+        "expected" => STRING,
+        "node"     => node,
+        "got"      => got,
+      } unless Comparer.compare(STRING, got)
+
+      got
+    end
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlElement) : Checkable
       got =
@@ -14,7 +29,9 @@ module Mint
       expected =
         case node.name.value.downcase
         when "ref"
-          [REF_FUNCTION]
+          raise HtmlElementRefForbidden, {
+            "node" => node,
+          }
         when .starts_with?("on")
           [EVENT_FUNCTION, VOID_FUNCTION]
         when "readonly", "disabled"

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Operation) : String
+    def _compile(node : Ast::Operation) : String
       left =
         compile node.left
 

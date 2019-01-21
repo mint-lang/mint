@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::FunctionCall) : String
+    def _compile(node : Ast::FunctionCall) : String
       variable =
         compile node.function
 

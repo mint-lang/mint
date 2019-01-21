@@ -1,5 +1,5 @@
-module A {
-  fun test : String {
+component Main {
+  fun render : String {
     try {
       x =
         "hello"
@@ -9,12 +9,14 @@ module A {
   }
 }
 --------------------------------------------------------------------------------
-const $A = new(class {
-  test() {
+class $Main extends Component {
+  render() {
     return (() => {
       let x = `hello`
 
       return x
     })()
   }
-})
+}
+
+$Main.displayName = "Main"

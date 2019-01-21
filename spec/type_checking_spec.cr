@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-Dir.glob("./spec/type_checking/**").each do |file|
+Dir.glob("./spec/type_checking/**").sort.each do |file|
   # Read samples
   samples = [] of Tuple(String, String | Nil)
   contents = File.read(file)
@@ -18,25 +18,33 @@ Dir.glob("./spec/type_checking/**").each do |file|
 
   samples.each_with_index do |sample, index|
     source, error = sample
-    result = nil
 
     it "#{name} ##{index}" do
-      # Parse source
-      ast = Mint::Parser.parse(source, file)
-      ast.class.should eq(Mint::Ast)
+      ast = Mint::Ast.new
 
+      # Parse source
       if error
         begin
+          ast = Mint::Parser.parse(source, file)
+          ast.class.should eq(Mint::Ast)
+
           type_checker = Mint::TypeChecker.new(ast)
           type_checker.check
-        rescue item : Mint::TypeError
-          result = item
+
+          type_checker.cache.size.should_not eq(0)
+        rescue item : Mint::Error
           item.class.name.split("::").last.should eq(error)
         end
-        item.should be_a(Mint::TypeError)
+
+        item.should be_a(Mint::Error)
       else
+        ast = Mint::Parser.parse(source, file)
+        ast.class.should eq(Mint::Ast)
+
         type_checker = Mint::TypeChecker.new(ast)
         type_checker.check
+
+        type_checker.cache.size.should_not eq(0)
       end
     end
   end

@@ -1,0 +1,29 @@
+component Main {
+  get test : String {
+    x
+  } where {
+    x =
+      "Hello"
+
+    y =
+      "Blah"
+  }
+
+  fun render : String {
+    test
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  get test() {
+    let x = `Hello`
+
+    return x
+  }
+
+  render() {
+    return this.test
+  }
+}
+
+$Main.displayName = "Main"

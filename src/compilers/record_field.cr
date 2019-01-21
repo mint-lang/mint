@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::RecordField) : String
+    def _compile(node : Ast::RecordField) : String
       value =
         compile node.value
 

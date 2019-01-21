@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Case) : String
+    def _compile(node : Ast::Case) : String
       condition =
         compile node.condition
 

@@ -4,7 +4,15 @@ module Mint
       component =
         format node.component
 
-      format(prefix: component, tag: component, node: node)
+      ref =
+        node.ref.try do |variable|
+          name =
+            format variable
+
+          " as #{name}"
+        end || ""
+
+      format(prefix: component + ref, tag: component, node: node)
     end
   end
 end

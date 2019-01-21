@@ -1,20 +1,24 @@
 module Mint
   class Formatter
     def format(node : Ast::Js) : String
-      if node.value.includes?("\n") || node.value.includes?("\r")
+      body =
+        node.value.map do |item|
+          case item
+          when Ast::Node
+            "\#{#{format(item)}}"
+          else
+            format(item).gsub(/`/, "\\`")
+          end
+        end.join("")
+
+      if body.includes?("\n") || body.includes?("\r")
         value =
-          node
-            .value
-            .remove_leading_whitespace
-            .gsub(/`/, "\\`")
+          body.remove_leading_whitespace
 
         "`\n#{value}\n`"
       else
         value =
-          node
-            .value
-            .strip
-            .gsub(/`/, "\\`")
+          body.strip
 
         "`#{value}`"
       end

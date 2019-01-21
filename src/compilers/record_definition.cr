@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::RecordDefinition) : String
+    def _compile(node : Ast::RecordDefinition) : String
       type = types[node]
 
       name =

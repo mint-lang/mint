@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Variable) : String
+    def _compile(node : Ast::Variable) : String
       item = variables[node]
 
       # Subscriptions for providers are handled here
@@ -9,6 +9,8 @@ module Mint
       end
 
       case item[0]
+      when Ast::Component, Ast::HtmlElement
+        "this._#{node.value}"
       when Ast::Function
         entity = item[1]
         case entity
@@ -16,9 +18,9 @@ module Mint
           name =
             underscorize(entity.name)
 
-          "$#{name}.#{node.value}.bind($#{name})"
+          "$#{name}.#{node.value}"
         else
-          "this.#{node.value}.bind(this)"
+          "this.#{node.value}"
         end
       when Ast::Property, Ast::Get, Ast::State
         "this.#{node.value}"

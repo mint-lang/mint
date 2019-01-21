@@ -6,7 +6,8 @@ module Mint
       define_help description: "Formats source files"
 
       define_argument pattern,
-        description: "The pattern which determines which files to format"
+        description: "The pattern which determines which files to format",
+        default: "source/**/*.mint"
 
       def run
         execute "Formatting files" do

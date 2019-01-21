@@ -1,8 +1,12 @@
-module A {
+component Main {
   fun test : String {
     try {
       x = "hello"
       x
     }
+  }
+
+  fun render : String {
+    ""
   }
 }

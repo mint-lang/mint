@@ -1,10 +1,10 @@
-component Test {
+component Main {
   fun render : Html {
     <div><{ "Hello" }></div>
   }
 }
 ---------------------------------------------------------HtmlContentTypeMismatch
-component Test {
+component Main {
   fun render : Html {
     <div><{ 0 }></div>
   }

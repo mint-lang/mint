@@ -14,6 +14,9 @@ module Mint
 
         name = type_id! ComponentExpectedName
 
+        # Clear refs here beacuse it's on the parser
+        refs.clear
+
         body = block(
           opening_bracket: ComponentExpectedOpeningBracket,
           closing_bracket: ComponentExpectedClosingBracket
@@ -78,6 +81,7 @@ module Mint
           name: name,
           uses: uses,
           gets: gets,
+          refs: refs
         )
       end
     end

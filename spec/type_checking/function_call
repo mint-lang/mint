@@ -1,4 +1,4 @@
-component Test {
+component Main {
   fun a : String {
     "Hello"
   }
@@ -12,17 +12,21 @@ component Test {
   }
 }
 ----------------------------------------------------FunctionCallNotFoundFunction
-component Test {
+component Main {
   fun b : String {
     x()
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------FunctionCallNotAFunction
-component Test {
+component Main {
   property x : String = ""
 
   fun b : String {
@@ -30,11 +34,15 @@ component Test {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 ------------------------------------------------FunctionCallArgumentTypeMismatch
-component Test {
+component Main {
   fun a (input : String) : String {
     input
   }
@@ -44,11 +52,15 @@ component Test {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 ------------------------------------------------FunctionCallArgumentSizeMismatch
-component Test {
+component Main {
   fun a (input : String) : String {
     input
   }
@@ -58,7 +70,11 @@ component Test {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      b()
+
+      <div/>
+    }
   }
 }
 --------------------------------------------------------------------------------
@@ -109,7 +125,7 @@ store X {
   state test : Maybe(Test) = Maybe.nothing()
 }
 
-component Test {
+component Main {
   connect X exposing { test }
 
   fun render : String {

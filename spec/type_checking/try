@@ -1,7 +1,11 @@
-module A {
+component Main {
   fun test : String {
     try {
       "hello"
     }
+  }
+
+  fun render : String {
+    ""
   }
 }

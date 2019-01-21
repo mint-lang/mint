@@ -1,8 +1,12 @@
-module A {
+component Main {
   fun test : Number {
     value
   } where {
     value =
       10
+  }
+
+  fun render : String {
+    ""
   }
 }

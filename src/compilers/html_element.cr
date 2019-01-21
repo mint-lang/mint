@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlElement) : String
+    def _compile(node : Ast::HtmlElement) : String
       tag =
         node.tag.value
 
@@ -73,6 +73,10 @@ module Mint
             .indent
 
         attributes.push "style: {\n#{items}\n}" unless items.strip.empty?
+      end
+
+      node.ref.try do |ref|
+        attributes << "ref: (element) => { this._#{ref.value} = element }"
       end
 
       attributes =

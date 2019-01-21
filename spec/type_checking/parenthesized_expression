@@ -1,5 +1,9 @@
-module Test {
+component Main {
   fun test : Bool {
     (true)
+  }
+
+  fun render : String {
+    ""
   }
 }

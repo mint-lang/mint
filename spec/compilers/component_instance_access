@@ -1,0 +1,51 @@
+component Instance {
+  get name : String {
+    "Instance"
+  }
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    instance.name
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Instance as instance/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $Instance extends Component {
+  get name() {
+    return `Instance`
+  }
+
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$Instance.displayName = "Instance"
+
+class $Main extends Component {
+  handleClick() {
+    return this._instance.name
+  }
+
+  render() {
+    return _createElement("div", {
+      "onClick": (event => (this.handleClick)(_normalizeEvent(event)))
+    }, [_createElement($Instance, {
+      ref: (instance) => {
+        this._instance = instance
+      }
+    })])
+  }
+}
+
+$Main.displayName = "Main"

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Route) : String
+    def _compile(node : Ast::Route) : String
       expression =
         compile node.expression
 

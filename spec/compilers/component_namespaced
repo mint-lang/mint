@@ -3,6 +3,12 @@ component Ui.Dropdown {
     "test"
   }
 }
+
+component Main {
+  fun render : Html {
+    <Ui.Dropdown/>
+  }
+}
 --------------------------------------------------------------------------------
 class $Ui_Dropdown extends Component {
   render() {
@@ -11,3 +17,11 @@ class $Ui_Dropdown extends Component {
 }
 
 $Ui_Dropdown.displayName = "Ui.Dropdown"
+
+class $Main extends Component {
+  render() {
+    return _createElement($Ui_Dropdown, {})
+  }
+}
+
+$Main.displayName = "Main"

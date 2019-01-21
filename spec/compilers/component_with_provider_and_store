@@ -17,7 +17,7 @@ store Blah {
   }
 }
 
-component Test {
+component Main {
   use MouseProvider {
     moves = (data : Position) : Void => { void },
     ups = (data : Position) : Void => { void }
@@ -67,7 +67,7 @@ const $Blah = new(class extends Store {
 })
 $Blah.__displayName = `Blah`
 
-class $Test extends Component {
+class $Main extends Component {
   get test() {
     return $Blah.test
   }
@@ -117,4 +117,4 @@ class $Test extends Component {
   }
 }
 
-$Test.displayName = "Test"
+$Main.displayName = "Main"

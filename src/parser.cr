@@ -1,8 +1,9 @@
 module Mint
   class Parser
-    getter input, position, file, ast, data
+    getter input, position, file, ast, data, refs
 
     def initialize(@input : String, @file : String)
+      @refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
       @data = Ast::Data.new(@input, @file)
       @ast = Ast.new
       @position = 0
@@ -73,15 +74,15 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def char : Char
-      input[position]
-    rescue IndexError
-      '\0'
+      input[position]? || '\0'
+    end
+
+    def next_char : Char
+      input[position + 1]? || '\0'
     end
 
     def prev_char : Char
-      input[position - 1]
-    rescue IndexError
-      '\0'
+      input[position - 1]? || '\0'
     end
 
     # Consuming characters

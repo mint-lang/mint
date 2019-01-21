@@ -1,13 +1,17 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Module) : String
+    def _compile(node : Ast::Module) : String
       body =
         compile node.functions, "\n\n"
 
       name =
         underscorize node.name
 
-      "const $#{name} = new(class {\n#{body.indent}\n})"
+      <<-A
+      const $#{name} = new(class extends Module {
+      #{body.indent}
+      })
+      A
     end
   end
 end

@@ -1,6 +1,14 @@
 module Mint
   class Compiler
     def compile(node : Ast::Function, contents = "") : String
+      if checked.includes?(node)
+        _compile node, contents
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Function, contents = "") : String
       expression =
         compile node.body
 

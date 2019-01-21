@@ -5,6 +5,14 @@ store Test {
     "hello"
   }
 }
+
+component Main {
+  connect Test exposing { a }
+
+  fun render : String {
+    ""
+  }
+}
 --------------------------------------------------------------------------------
 const $Test = new(class extends Store {
   constructor() {
@@ -23,3 +31,23 @@ const $Test = new(class extends Store {
   }
 })
 $Test.__displayName = `Test`
+
+class $Main extends Component {
+  get a() {
+    return $Test.a
+  }
+
+  componentWillUnmount() {
+    $Test._unsubscribe(this)
+  }
+
+  componentDidMount() {
+    $Test._subscribe(this)
+  }
+
+  render() {
+    return ``
+  }
+}
+
+$Main.displayName = "Main"

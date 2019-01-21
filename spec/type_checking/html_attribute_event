@@ -1,4 +1,4 @@
-component Test {
+component Main {
   fun render : Html {
     <div onClick={(event : Html.Event) : a => { void }}/>
   }
@@ -10,7 +10,7 @@ component Test {
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
-component Test {
+component Main {
   fun render : Html {
     <div onClick="Hello"/>
   }

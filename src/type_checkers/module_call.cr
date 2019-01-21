@@ -13,6 +13,8 @@ module Mint
 
       case entity
       when Ast::Module, Ast::Store
+        check! entity
+
         function = entity.functions.find(&.name.value.==(node.function.value))
 
         raise ModuleCallNotFoundFunction, {

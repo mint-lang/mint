@@ -1,4 +1,4 @@
-component A {
+component Main {
   get a : String {
     "Hello"
   }
@@ -7,12 +7,12 @@ component A {
     a
   }
 
-  fun render : Html {
-    <div/>
+  fun render : String {
+    b()
   }
 }
 -----------------------------------------------------------------VariableMissing
-component A {
+component Main {
   get a : String {
     "Hello"
   }
@@ -22,16 +22,16 @@ component A {
   }
 
   fun render : Html {
-    <div/>
+    b()
   }
 }
 ----------------------------------------------------------------VariableReserved
-component A {
+component Main {
   fun b(default : String) : String {
     default
   }
 
   fun render : Html {
-    <div/>
+    b("")
   }
 }

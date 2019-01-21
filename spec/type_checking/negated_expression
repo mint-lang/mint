@@ -3,9 +3,29 @@ module Test {
     !false
   }
 }
+
+component Main {
+  fun render : String {
+    if (Test.test()) {
+      "Hello"
+    } else {
+      "Hello"
+    }
+  }
+}
 --------------------------------------------------------NegatedExpressionNotBool
 module Test {
   fun test : Bool {
     !"asd"
+  }
+}
+
+component Main {
+  fun render : String {
+    if (Test.test()) {
+      "Hello"
+    } else {
+      "Hello"
+    }
   }
 }

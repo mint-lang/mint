@@ -1,4 +1,4 @@
-component Test {
+component Main {
   state b : String = "Hello"
   state a : Number = 0
 
@@ -7,7 +7,7 @@ component Test {
   }
 }
 -------------------------------------------------------------StateTypeMismatch
-component Test {
+component Main {
   state b : String = 0
 
   fun render : Html {

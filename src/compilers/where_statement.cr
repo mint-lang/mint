@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::WhereStatement) : String
+    def _compile(node : Ast::WhereStatement) : String
       expression =
         compile node.expression
 

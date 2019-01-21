@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Access) : String
+    def _compile(node : Ast::Access) : String
       first =
         compile node.fields.first
 

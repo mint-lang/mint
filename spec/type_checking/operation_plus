@@ -1,23 +1,23 @@
-module Test {
-  fun test : String {
+component Main {
+  fun render : String {
     "Hello" + "There"
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : String {
     "Hello" + void
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : String {
     "Hello" + true
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
-module Test {
-  fun test : Bool {
+component Main {
+  fun render : String {
     true + "Hello"
   }
 }

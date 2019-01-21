@@ -1,4 +1,4 @@
-component Do {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       true
@@ -8,11 +8,15 @@ component Do {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }
 -----------------------------------------------------------OperationTypeMismatch
-component Do {
+component Main {
   fun test : Promise(Never, Bool) {
     sequence {
       true
@@ -22,6 +26,10 @@ component Do {
   }
 
   fun render : Html {
-    <div/>
+    try {
+      test()
+
+      <div/>
+    }
   }
 }

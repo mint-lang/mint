@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Store) : String
+    def _compile(node : Ast::Store) : String
       functions =
         compile node.functions
 
@@ -31,15 +31,18 @@ module Mint
 
     def compile_constructor(node : Ast::Store) : String
       states =
-        node.states.map do |state|
-          name =
-            state.name.value
+        node
+          .states
+          .select { |state| checked.includes?(state) }
+          .map do |state|
+            name =
+              state.name.value
 
-          default =
-            compile state.default
+            default =
+              compile state.default
 
-          "#{name}: #{default}"
-        end
+            "#{name}: #{default}"
+          end
 
       <<-RESULT
       constructor() {

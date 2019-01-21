@@ -1,4 +1,4 @@
-component HtmlAttribute {
+component Main {
   style base {
     width: 100%;
   }
@@ -9,18 +9,18 @@ component HtmlAttribute {
   }
 }
 --------------------------------------------------------------------------------
-class $HtmlAttribute extends Component {
+class $Main extends Component {
   render() {
     return _createElement("div", {
-      className: `something` + ` html-attribute-base`
+      className: `something` + ` main-base`
     })
   }
 }
 
-$HtmlAttribute.displayName = "HtmlAttribute"
+$Main.displayName = "Main"
 
 _insertStyles(`
-  .html-attribute-base {
+  .main-base {
     width: 100%;
   }
 `)

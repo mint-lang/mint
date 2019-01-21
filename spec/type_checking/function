@@ -1,17 +1,41 @@
-module A {
-  function : Bool {
+component Main {
+  fun test : Bool {
     true
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
-module A {
-  function : Bool {
+component Main {
+  fun test : Bool {
     "hello"
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }
 --------------------------------------------------------FunctionArgumentConflict
-module A {
-  function (a : String, a : String) : Bool {
+component Main {
+  fun test (a : String, a : String) : Bool {
     "hello"
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
   }
 }

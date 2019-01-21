@@ -1,0 +1,17 @@
+component Main {
+  get test : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  render() {
+    return _createElement("div", {})
+  }
+}
+
+$Main.displayName = "Main"
