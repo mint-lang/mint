@@ -14,24 +14,6 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class extends Store {
-  constructor() {
-    super()
-    this.state = {
-      a: ``
-    }
-  }
-
-  get a() {
-    return this.state.a
-  }
-
-  b() {
-    return `hello`
-  }
-})
-$Test.__displayName = `Test`
-
 class $Main extends Component {
   get a() {
     return $Test.a
@@ -51,3 +33,21 @@ class $Main extends Component {
 }
 
 $Main.displayName = "Main"
+
+const $Test = new(class extends Store {
+  constructor() {
+    super()
+    this.state = {
+      a: ``
+    }
+  }
+
+  get a() {
+    return this.state.a
+  }
+
+  b() {
+    return `hello`
+  }
+})
+$Test.__displayName = `Test`

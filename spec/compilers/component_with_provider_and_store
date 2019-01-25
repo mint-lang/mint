@@ -49,24 +49,6 @@ const $MouseProvider = new(class extends Provider {
   }
 })
 
-const $Blah = new(class extends Store {
-  constructor() {
-    super()
-    this.state = {
-      test: ``
-    }
-  }
-
-  get test() {
-    return this.state.test
-  }
-
-  x() {
-    return `hello`
-  }
-})
-$Blah.__displayName = `Blah`
-
 class $Main extends Component {
   get test() {
     return $Blah.test
@@ -118,3 +100,21 @@ class $Main extends Component {
 }
 
 $Main.displayName = "Main"
+
+const $Blah = new(class extends Store {
+  constructor() {
+    super()
+    this.state = {
+      test: ``
+    }
+  }
+
+  get test() {
+    return this.state.test
+  }
+
+  x() {
+    return `hello`
+  }
+})
+$Blah.__displayName = `Blah`
