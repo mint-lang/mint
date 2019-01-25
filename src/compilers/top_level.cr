@@ -118,7 +118,7 @@ module Mint
           "_insertStyles(`\n#{css + media_css}\n`)"
         end
 
-      (enums + records + providers + routes + modules + stores + components + [footer])
+      (enums + records + providers + routes + modules + components + stores + [footer])
         .reject(&.empty?)
         .join("\n\n")
     end
