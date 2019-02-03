@@ -95,6 +95,9 @@ module Mint
     type_error RecordNameConflict
 
     def add_record(record, node)
+    end
+
+    def add_record(record : Record, node)
       other = records.find(&.==(record))
 
       raise RecordFieldsConflict, {

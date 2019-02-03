@@ -36,7 +36,7 @@ module Mint
       end
     end
 
-    def operation(left : Ast::Expression, operator : String) : Ast::Operation | Nil
+    def operation(left : Ast::Expression, operator : String) : Ast::Operation
       right = basic_expression! OperationExpectedExpression
 
       if next_operator = self.operator
