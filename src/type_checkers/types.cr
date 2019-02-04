@@ -187,7 +187,6 @@ module Mint
           node1
         else
           raise "Not unified!"
-          node1
         end
       end
 
