@@ -6,7 +6,7 @@ shards:
 
   ameba:
     github: veelenga/ameba
-    version: 0.8.0
+    commit: 62c8247e21a890845b91677d3b32e6164830f725
 
   baked_file_system:
     github: schovi/baked_file_system
@@ -38,7 +38,7 @@ shards:
 
   radix:
     github: luislavena/radix
-    version: 0.3.8
+    version: 0.3.9
 
   string_inflection:
     github: mosop/string_inflection

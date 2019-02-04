@@ -33,7 +33,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    version: crystal-0.27.1-workaround
+    branch: crystal-0.27.1-workaround
   diff:
     github: MakeNowJust/crystal-diff
     commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63
