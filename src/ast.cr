@@ -59,6 +59,10 @@ module Mint
       node1.input.input[node1.from, node2.from - node1.from].includes?("\n\n")
     end
 
+    def has_new_line?(node1, node2)
+      node1.input.input[node1.from, node2.from - node1.from].includes?("\n")
+    end
+
     def merge(ast)
       @components.concat ast.components
       @providers.concat ast.providers
