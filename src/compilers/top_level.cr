@@ -157,8 +157,14 @@ module Mint
         const _style = function(items) {
           const result = {}
           for (let item of items) {
-            for (let key of item) {
-              result[key] = item[key]
+            if (item instanceof Map) {
+              for (let [key, value] of item) {
+                result[key] = value
+              }
+            } else {
+              for (let key in item) {
+                result[key] = item[key]
+              }
             }
           }
           return result
