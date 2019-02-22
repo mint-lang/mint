@@ -6,7 +6,6 @@ module Mint
     type_error HtmlAttributeComponentKeyTypeMismatch
     type_error HtmlAttributeFragmentKeyTypeMismatch
     type_error HtmlElementClassNameForbidden
-    type_error HtmlElementStyleForbidden
     type_error HtmlElementRefForbidden
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment)
@@ -41,9 +40,7 @@ module Mint
             "node" => node,
           }
         when "style"
-          raise HtmlElementStyleForbidden, {
-            "node" => node,
-          }
+          [STYLE_MAP]
         else
           [STRING]
         end

@@ -1,0 +1,49 @@
+component Main {
+  property background : String = "blue"
+
+  get styles : Map(String, String) {
+    ``
+  }
+
+  style test {
+    background: {background};
+    color: red;
+  }
+
+  fun render : Html {
+    <div::test style={styles}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  get styles() {
+    return
+  }
+
+  get background() {
+    if (this.props.background != undefined) {
+      return this.props.background
+    } else {
+      return `blue`
+    }
+  }
+
+  render() {
+    return _createElement("div", {
+      className: `main-test`,
+      style: _style([{
+        [`--main-test-background`]: this.background
+      }, this.styles])
+    })
+  }
+}
+
+$Main.displayName = "Main"
+
+_insertStyles(`
+  .main-test {
+    background: var(--main-test-background);
+    color: red;
+  }
+`)

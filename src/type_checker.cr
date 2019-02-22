@@ -21,6 +21,7 @@ module Mint
     TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
     VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
+    STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
 
     getter records, scope, artifacts, formatter
 

@@ -154,6 +154,16 @@ module Mint
           }
         }
 
+        const _style = function(items) {
+          const result = {}
+          for (let item of items) {
+            for (let key of item) {
+              result[key] = item[key]
+            }
+          }
+          return result
+        }
+
         const TestContext = Mint.TestContext;
         const ReactDOM = Mint.ReactDOM;
         const Provider = Mint.Provider;

@@ -1,0 +1,34 @@
+component Main {
+  property background : String = "blue"
+
+  get styles : Map(String, String) {
+    ``
+  }
+
+  fun render : Html {
+    <div style={styles}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  get styles() {
+    return
+  }
+
+  get background() {
+    if (this.props.background != undefined) {
+      return this.props.background
+    } else {
+      return `blue`
+    }
+  }
+
+  render() {
+    return _createElement("div", {
+      style: _style([this.styles])
+    })
+  }
+}
+
+$Main.displayName = "Main"
