@@ -18,6 +18,7 @@ module Mint
         decode ||
         encode ||
         if_expression ||
+        for_expression ||
         with_expression ||
         next_call ||
         sequence ||
