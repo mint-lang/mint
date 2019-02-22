@@ -1,6 +1,6 @@
 component Test {
   fun render : Html {
-    <div name="Hello" value={ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello" }/>
+    <div name="Hello" value={ "HelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello" }/>
   }
 }
 --------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ record Test {
 
 module Test {
   fun get : Test {
-    {a="HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"}
+    {a="HelloHelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"}
   }
 }
 --------------------------------------------------------------------------------
