@@ -9,7 +9,7 @@ test:
 	crystal spec -p && bin/ameba
 
 test-core:
-	crystal build src/mint.cr -o mint -p && cd core && ../mint test && cd .. && rm mint
+	crystal build src/mint.cr -o mint -p && cd core && ../mint test -b firefox && cd .. && rm mint
 
 documentation:
 	rm -rf docs && crystal docs
