@@ -38,3 +38,6 @@ deploy:
     file: build/*
     on:
       tags: true
+
+addons:
+  firefox: latest
