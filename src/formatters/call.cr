@@ -21,7 +21,7 @@ module Mint
 
       arguments =
         if (prefix.size + joined_arguments.size) > 60
-          ("\n" + arguments.join(", \n")).indent
+          indent("\n" + arguments.join(", \n"))
         else
           joined_arguments
         end

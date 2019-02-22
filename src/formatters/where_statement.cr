@@ -7,7 +7,7 @@ module Mint
       name =
         format node.name
 
-      "#{name} =\n#{expression.indent}"
+      "#{name} =\n#{indent(expression)}"
     end
   end
 end

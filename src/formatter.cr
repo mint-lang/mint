@@ -1,8 +1,19 @@
 module Mint
   class Formatter
-    getter ast
+    class Config
+      getter indent_size
 
-    def initialize(@ast : Ast)
+      def initialize(@indent_size : Int64 | Int32 = 2)
+      end
+    end
+
+    getter ast, config
+
+    def initialize(@ast : Ast, @config : Config = Config.new)
+    end
+
+    def indent(string : String)
+      string.indent(config.indent_size.to_i32)
     end
 
     # Helpers for formatting things

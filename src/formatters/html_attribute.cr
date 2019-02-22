@@ -10,7 +10,7 @@ module Mint
       case node.value
       when Ast::StringLiteral
         if value.includes?("\n")
-          "#{name}={\n#{value.indent}\n}"
+          "#{name}={\n#{indent(value)}\n}"
         else
           "#{name}=#{value}"
         end
@@ -18,7 +18,7 @@ module Mint
         "#{name}=#{value}"
       else
         if value.includes?("\n")
-          "#{name}={\n#{value.indent}\n}"
+          "#{name}={\n#{indent(value)}\n}"
         else
           "#{name}={#{value}}"
         end

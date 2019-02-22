@@ -8,7 +8,7 @@ module Mint
         format node.fields
 
       if node.fields.size >= 2 || fields.any?(&.includes?("\n"))
-        "{ #{variable} |\n#{fields.join(",\n").indent}\n}"
+        "{ #{variable} |\n#{indent(fields.join(",\n"))}\n}"
       else
         "{ #{variable} | #{fields.join("")} }"
       end

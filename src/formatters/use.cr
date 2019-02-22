@@ -5,7 +5,7 @@ module Mint
         format node.data, node.condition
 
       condition =
-        " when {\n#{format(node.condition.not_nil!).indent}\n}" if node.condition
+        " when {\n#{indent(format(node.condition.not_nil!))}\n}" if node.condition
 
       "use #{node.provider} #{data}#{condition}"
     end

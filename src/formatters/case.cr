@@ -10,7 +10,7 @@ module Mint
       body =
         list items
 
-      "case (#{condition}) {\n#{body.indent}\n}"
+      "case (#{condition}) {\n#{indent(body)}\n}"
     end
   end
 end

@@ -5,7 +5,7 @@ module Mint
         format node.expression
 
       if expression.includes?("\n")
-        "<{\n#{expression.indent}\n}>"
+        "<{\n#{indent(expression)}\n}>"
       else
         "<{ #{expression} }>"
       end

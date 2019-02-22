@@ -4,7 +4,7 @@ module Mint
       body =
         list [node.expression] + node.head_comments + node.tail_comments
 
-      "finally {\n#{body.indent}\n}"
+      "finally {\n#{indent(body)}\n}"
     end
   end
 end

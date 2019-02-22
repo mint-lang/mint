@@ -5,7 +5,7 @@ module Mint
         format node.data
 
       if data.includes?("\n")
-        "next\n#{data.indent}"
+        "next\n#{indent(data)}"
       else
         "next #{data}"
       end

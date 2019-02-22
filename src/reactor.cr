@@ -34,7 +34,7 @@ module Mint
           ->(file : String, ast : Ast) {
             if @auto_format
               formatted =
-                Formatter.new(ast).format
+                Formatter.new(ast, MintJson.parse_current.formatter_config).format
 
               if formatted != File.read(file)
                 File.write(file, formatted)

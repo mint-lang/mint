@@ -15,7 +15,7 @@ module Mint
         end
 
       if expression.includes?("\n")
-        "#{head}\n#{expression.indent}"
+        "#{head}\n#{indent(expression)}"
       else
         "#{head} #{expression}"
       end

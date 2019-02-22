@@ -3,7 +3,7 @@ module Mint
     def format(node : Ast::StringLiteral) : String
       value = node.value.gsub('"', "\\\"")
 
-      if value.size > 56
+      if value.size > 56 && node.broken
         result = "\"#{value[0, 56]}\" \\\n"
         position = 56
         while value.size > position

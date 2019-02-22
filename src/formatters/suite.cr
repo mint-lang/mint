@@ -7,7 +7,7 @@ module Mint
       name =
         format node.name
 
-      "suite #{name} {\n#{body.indent}\n}"
+      "suite #{name} {\n#{indent(body)}\n}"
     end
   end
 end

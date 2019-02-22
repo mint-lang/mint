@@ -9,7 +9,7 @@ module Mint
       elsif node.items.size == 1 && !items.includes?("\n")
         "[#{items}]"
       else
-        "[\n#{items.indent}\n]"
+        "[\n#{indent(items)}\n]"
       end
     end
   end

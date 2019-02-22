@@ -4,7 +4,7 @@ module Mint
       statements =
         list node.statements + node.comments
 
-      " where {\n#{statements.indent}\n}"
+      " where {\n#{indent(statements)}\n}"
     end
   end
 end
