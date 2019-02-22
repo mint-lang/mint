@@ -3,7 +3,7 @@ component Main {
     a("Joe")
   } where {
     a =
-      (b : String) : String => { b }
+      (b : String) : String { b }
   }
 
   fun render : String {

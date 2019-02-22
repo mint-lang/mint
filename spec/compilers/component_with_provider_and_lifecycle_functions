@@ -11,8 +11,8 @@ provider MouseProvider : MouseProvider.Data {
 
 component Main {
   use MouseProvider {
-    moves = (data : Position) : Void => { void },
-    ups = (data : Position) : Void => { void }
+    moves = (data : Position) : Void { void },
+    ups = (data : Position) : Void { void }
   } when {
     false
   }

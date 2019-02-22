@@ -18,9 +18,9 @@ module Mint
         format node.type
 
       if body.includes?("\n") || arguments.includes?("\n")
-        "(#{arguments}) : #{type} => {\n#{indent(body)}\n}"
+        "(#{arguments}) : #{type} {\n#{indent(body)}\n}"
       else
-        "(#{arguments}) : #{type} => { #{body} }"
+        "(#{arguments}) : #{type} { #{body} }"
       end
     end
   end

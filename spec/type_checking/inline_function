@@ -2,7 +2,7 @@ component Main {
   fun test : String {
     a()
   } where {
-    a = () : String => { "Hello" }
+    a = () : String { "Hello" }
   }
 
   fun render : String {
@@ -14,7 +14,7 @@ component Main {
   fun test : String {
     a()
   } where {
-    a = () : Bool => { true }
+    a = () : Bool { true }
   }
 
   fun render : String {
@@ -26,7 +26,7 @@ component Main {
   fun test : String {
     a()
   } where {
-    a = () : String => { true }
+    a = () : String { true }
   }
 
   fun render : String {

@@ -2,7 +2,7 @@ module A {
   fun test : String {
     a()
   } where {
-    a = ():String=>{/*A*/"Hello"/*B*/}
+    a = ():String{/*A*/"Hello"/*B*/}
   }
 }
 --------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ module A {
     a()
   } where {
     a =
-      () : String => {
+      () : String {
         /* A */
         "Hello"
 

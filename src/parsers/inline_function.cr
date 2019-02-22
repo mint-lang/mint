@@ -4,7 +4,6 @@ module Mint
     syntax_error InlineFunctionExpectedOpeningBracket
     syntax_error InlineFunctionExpectedClosingBracket
     syntax_error InlineFunctionExpectedExpression
-    syntax_error InlineFunctionExpectedArrow
     syntax_error InlineFunctionExpectedColon
     syntax_error InlineFunctionExpectedType
 
@@ -27,9 +26,6 @@ module Mint
         whitespace
 
         type = type_or_type_variable! InlineFunctionExpectedType
-
-        whitespace
-        keyword! "=>", InlineFunctionExpectedArrow
         whitespace
 
         head_comments, body, tail_comments =
