@@ -19,6 +19,7 @@ require "./errors/**"
 require "./constants"
 require "./macros"
 require "./assets"
+require "./core"
 require "./env"
 
 require "./render/**"

@@ -163,7 +163,7 @@ module Mint
         @arguments.test
 
       ast =
-        Ast.new
+        Ast.new.merge(Core.ast)
 
       sources =
         if file_argument

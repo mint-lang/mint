@@ -6,6 +6,7 @@ install:
 script:
   - crystal spec
   - bin/ameba
+  - make test-core
 
 os:
   - linux

@@ -6,11 +6,14 @@ module Mint
     @channel = Channel(Nil).new
     @pattern = [] of String
     @progress = false
+    @include_core = true
+
+    getter include_core
 
     def initialize
     end
 
-    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil }, @progress = false)
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil }, @progress = false, @include_core = true)
       @pattern = @pattern_proc.call
 
       watch_for_changes
@@ -59,9 +62,13 @@ module Mint
 
       @progress = false
 
-      @cache
-        .values
-        .reduce(Ast.new) { |memo, item| memo.merge item }
+      ast =
+        @cache
+          .values
+          .reduce(Ast.new) { |memo, item| memo.merge item }
+
+      ast.merge(Core.ast) if include_core
+      ast
     rescue exception : Error
       exception
     end

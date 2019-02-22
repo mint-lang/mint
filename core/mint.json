@@ -1,0 +1,6 @@
+{
+  "name": "core",
+  "test-directories": [
+    "tests"
+  ]
+}
