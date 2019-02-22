@@ -27,7 +27,7 @@ module Mint
     json_error MintJsonRootInvalidKey
 
     getter test_directories, source_directories, dependencies, application
-    getter external_javascripts, name, root
+    getter external_javascripts, name, root, formatter_config
 
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
