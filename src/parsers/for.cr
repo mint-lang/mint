@@ -11,15 +11,15 @@ module Mint
     def for_expression : Ast::For | Nil
       start do |start_position|
         skip unless keyword "for"
+        whitespace! SkipError
 
-        whitespace
         char '(', ForExpectedOpeningParentheses
         whitespace
 
-        items = list(
+        arguments = list(
           terminator: ')',
           separator: ','
-        ) { argument }.compact
+        ) { variable }.compact
 
         whitespace
         keyword! "of", ForExpectedOf
@@ -46,9 +46,9 @@ module Mint
           head_comments: head_comments,
           tail_comments: tail_comments,
           condition: condition,
+          arguments: arguments,
           from: start_position,
           subject: subject,
-          items: items,
           to: position,
           input: data,
           body: body)

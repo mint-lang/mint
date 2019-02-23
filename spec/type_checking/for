@@ -1,0 +1,56 @@
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+-----------------------------------------------------------------ForTypeMismatch
+component Main {
+  fun render : Array(Html) {
+    for (item of "A") {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+
+--------------------------------------------------ForArrayOrSetArgumentsMismatch
+component Main {
+  fun render : Array(Html) {
+    for (item, item2 of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+---------------------------------------------------------ForMapArgumentsMismatch
+component Main {
+  get map : Map(String, String) {
+    ``
+  }
+
+  fun render : Array(Html) {
+    for (item of map) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------ForConditionTypeMismatch
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    } when {
+      item
+    }
+  }
+}

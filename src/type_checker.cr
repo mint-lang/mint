@@ -15,6 +15,8 @@ module Mint
     OBJECT         = Type.new("Object")
     OBJECT_ERROR   = Type.new("Object.Error")
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
+    SET            = Type.new("Set", [Variable.new("a")] of Checkable)
+    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("a")] of Checkable)
     MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
     EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
     HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
