@@ -8,6 +8,7 @@ module Mint
         string_literal ||
         array ||
         if_expression ||
+        for_expression ||
         with_expression ||
         try_expression ||
         case_expression ||
