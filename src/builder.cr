@@ -81,6 +81,7 @@ module Mint
 
       ast =
         Ast.new
+          .merge(Core.ast)
 
       compiled = ""
 
