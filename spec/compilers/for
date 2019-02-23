@@ -1,0 +1,26 @@
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  render() {
+    return (() => {
+      const _0 = []
+      const _1 = [`A`, `B`]
+
+      for (let item of _1) {
+        _0.push(_createElement("div", {}, [item]))
+      }
+
+      return _0
+    })()
+  }
+}
+
+$Main.displayName = "Main"
