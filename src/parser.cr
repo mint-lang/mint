@@ -1,8 +1,9 @@
 module Mint
   class Parser
-    getter input, position, file, ast, data
+    getter input, position, file, ast, data, refs
 
     def initialize(@input : String, @file : String)
+      @refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
       @data = Ast::Data.new(@input, @file)
       @ast = Ast.new
       @position = 0

@@ -13,6 +13,8 @@ module Mint
         js.variable_of(parent[2])
       else
         case entity
+        when Ast::Component, Ast::HtmlElement
+          "this._#{node.value}"
         when Ast::Function
           function =
             js.variable_of(entity.as(Ast::Node))
@@ -36,7 +38,7 @@ module Mint
         when Ast::WhereStatement, Ast::Statement
           js.variable_of(entity.as(Ast::Node))
         else
-          node.value
+          "this.#{node.value}"
         end
       end
     end

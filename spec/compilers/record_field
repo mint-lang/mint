@@ -22,21 +22,14 @@ component Main {
 --------------------------------------------------------------------------------
 class $$Test extends Record {}
 
-$$Test.mappings = {
-  "a": null,
-  "b": null
-}
+$$Test.mappings = {"a":null,"b":null}
 
 $$Test.decode = (_input) => {
   let a = Decoder.field(`a`, Decoder.string)(_input)
-  if (a instanceof Err) {
-    return a
-  }
+  if (a instanceof Err) { return a }
 
   let b = Decoder.field(`b`, Decoder.number)(_input)
-  if (b instanceof Err) {
-    return b
-  }
+  if (b instanceof Err) { return b }
 
   return new Ok(new $$Test({
     a: a.value,
@@ -44,21 +37,21 @@ $$Test.decode = (_input) => {
   }))
 }
 
-class $Main extends Component {
-  test() {
-    return new $$Test({
-      a: `Hello`,
-      b: 0
+class A extends Component {
+  a() {
+    return new B({
+      b: `Hello`,
+      c: 0
     })
   }
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.a()
 
       return _createElement("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

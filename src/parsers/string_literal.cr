@@ -17,10 +17,13 @@ module Mint
         char '"', StringExpectedEndQuote
         whitespace
 
+        broken = false
+
         if char! '\\'
           whitespace
           literal = string_literal
           raise StringExpectedOtherString unless literal
+          broken = true
           value += literal.value
         else
           track_back_whitespace
@@ -28,6 +31,7 @@ module Mint
 
         Ast::StringLiteral.new(
           from: start_position,
+          broken: broken,
           value: value,
           to: position,
           input: data)

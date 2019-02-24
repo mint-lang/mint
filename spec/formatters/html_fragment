@@ -1,7 +1,7 @@
 component Test {
   fun render : Html {
     <>
-      <{"Hello There"}>
+      "Hello There"
 
       <></>
       < key="Hello"></>
@@ -13,13 +13,13 @@ component Test {
 component Test {
   fun render : Html {
     <>
-      <{ "Hello There" }>
+      "Hello There"
 
       <></>
       < key="Hello"></>
 
       <>
-        <{ "AA" }>
+        "AA"
       </>
     </>
   }

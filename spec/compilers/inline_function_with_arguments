@@ -3,7 +3,7 @@ component Main {
     getName("Joe")
   } where {
     getName =
-      (name : String) : String => { name }
+      (name : String) : String { name }
   }
 
   fun render : String {
@@ -26,7 +26,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
       return ``
     })()

@@ -5,7 +5,7 @@ module Mint
         format node.fields
 
       if node.fields.size >= 2 || body.any?(&.includes?("\n")) || multiline
-        "{\n#{body.join(",\n").indent}\n}"
+        "{\n#{indent(body.join(",\n"))}\n}"
       else
         "{ #{body.join(", ")} }"
       end

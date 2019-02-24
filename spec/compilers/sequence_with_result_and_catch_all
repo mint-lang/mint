@@ -1,6 +1,6 @@
 module Result {
   fun error (input : a) : Result(a, b) {
-    `new Err(arguments[0])`
+    `new Err(#{input})`
   }
 }
 
@@ -24,9 +24,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class {
+const B = new(class extends Module {
   b(c) {
-    return new Err(arguments[0])
+    return new Err(c)
   }
 })
 

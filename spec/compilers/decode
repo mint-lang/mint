@@ -69,7 +69,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      let _0 = this.x.bind(this)();
+      let _0 = this.x();
 
       if (_0 instanceof Err) {
         let _error = _0.value

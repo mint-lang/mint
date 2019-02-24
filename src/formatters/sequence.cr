@@ -17,7 +17,7 @@ module Mint
         catches.push format(catch)
       end
 
-      ["sequence {\n#{body.indent}\n}",
+      ["sequence {\n#{indent(body)}\n}",
        catches.join(" "),
        finally.to_s,
       ].reject(&.strip.empty?)

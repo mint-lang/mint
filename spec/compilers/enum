@@ -102,11 +102,11 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.a.bind(this)()
+      this.a()
 
-      this.b.bind(this)()
+      this.b()
 
-      this.c.bind(this)()
+      this.c()
 
       return ``
     })()

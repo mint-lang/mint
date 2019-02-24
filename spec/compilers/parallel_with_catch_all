@@ -31,14 +31,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Promise = new(class {
-  reject(a) {
+const B = new(class extends Module {
+  b(e) {
     return
   }
 })
 
-class $Main extends Component {
-  test() {
+class A extends Component {
+  a() {
     return (async () => {
       let _result = null;
 
@@ -74,11 +74,11 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)()
+      this.test()
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -18,7 +18,7 @@ module Mint
           "(#{format(node.parameters, ", ")})"
         end
 
-      "#{comment}enum #{name}#{parameters} {\n#{body.indent}\n}"
+      "#{comment}enum #{name}#{parameters} {\n#{indent(body)}\n}"
     end
   end
 end

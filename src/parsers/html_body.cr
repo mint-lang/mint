@@ -5,6 +5,13 @@ module Mint
         html_component ||
         html_expression ||
         html_fragment ||
+        string_literal ||
+        array ||
+        if_expression ||
+        for_expression ||
+        with_expression ||
+        try_expression ||
+        case_expression ||
         comment
     end
 

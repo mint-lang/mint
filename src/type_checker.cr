@@ -15,13 +15,15 @@ module Mint
     OBJECT         = Type.new("Object")
     OBJECT_ERROR   = Type.new("Object.Error")
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
+    SET            = Type.new("Set", [Variable.new("a")] of Checkable)
+    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("a")] of Checkable)
     MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
-    REF_FUNCTION   = Type.new("Function", [Type.new("Dom.Element"), VOID] of Checkable)
     EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
     HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
     TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
     VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
+    STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
 
     getter records, scope, artifacts, formatter
 
@@ -34,6 +36,7 @@ module Mint
     @record_names = {} of String => Ast::Node
     @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
+    @types = {} of String => Ast::Node
     @records = [] of Record
 
     @stack = [] of Ast::Node
@@ -95,6 +98,9 @@ module Mint
     type_error RecordNameConflict
 
     def add_record(record, node)
+    end
+
+    def add_record(record : Record, node)
       other = records.find(&.==(record))
 
       raise RecordFieldsConflict, {
@@ -214,6 +220,31 @@ module Mint
     end
 
     type_error GlobalNameConflict
+
+    def check_global_types(name : String, node : Ast::Node) : Nil
+      other = @types[name]?
+
+      if other && other != node
+        what =
+          case other
+          when Ast::Enum
+            "enum"
+          when Ast::RecordDefinition
+            "record"
+          else
+            ""
+          end
+
+        raise GlobalNameConflict, {
+          "other" => other,
+          "name"  => name,
+          "what"  => what,
+          "node"  => node,
+        }
+      end
+
+      @types[name] = node
+    end
 
     def check_global_names(name : String, node : Ast::Node) : Nil
       other = @names[name]?

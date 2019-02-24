@@ -1,0 +1,11 @@
+module Test {
+  fun test : Maybe(String) {
+    ["Hello"][ 0 ]
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Maybe(String) {
+    ["Hello"][0]
+  }
+}

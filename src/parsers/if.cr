@@ -17,7 +17,9 @@ module Mint
 
         whitespace
         char '(', IfExpectedOpeningParentheses
+        whitespace
         condition = expression! IfExpectedCondition
+        whitespace
         char ')', IfExpectedClosingParentheses
 
         truthy_head_comments, truthy, truthy_tail_comments =

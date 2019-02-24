@@ -1,7 +1,7 @@
 component Test {
   fun render : Html {
     <div><{
-  "Hello ThereHello ThereHello ThereHello ThereHello ThereHello ThereHello ThereHello ThereHello ThereHello There"}>
+  "Hello ThereHello ThereHello ThereHello " \ "ThereHello ThereHello ThereHello ThereHello ThereHello ThereHello There"}>
     </div>
   }
 }
@@ -9,10 +9,8 @@ component Test {
 component Test {
   fun render : Html {
     <div>
-      <{
-        "Hello ThereHello ThereHello ThereHello ThereHello ThereH" \
-        "ello ThereHello ThereHello ThereHello ThereHello There"
-      }>
+      "Hello ThereHello ThereHello ThereHello ThereHello ThereH" \
+      "ello ThereHello ThereHello ThereHello ThereHello There"
     </div>
   }
 }

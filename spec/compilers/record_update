@@ -20,15 +20,11 @@ component Main {
 --------------------------------------------------------------------------------
 class $$Record extends Record {}
 
-$$Record.mappings = {
-  "name": null
-}
+$$Record.mappings = {"name":null}
 
 $$Record.decode = (_input) => {
   let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
+  if (name instanceof Err) { return name }
 
   return new Ok(new $$Record({
     name: name.value
@@ -36,24 +32,22 @@ $$Record.decode = (_input) => {
 }
 
 class A extends Component {
-  construtor(props) {
+  constructor(props) {
     super(props)
 
     this.defaultProps = {
-      d: new $$Record({
-        name: `Doe`
+      b: new B({
+        d: `Doe`
       })
     }
   }
 
   get b() {
-    this.props.b || this.defaultProps.b
+    return this.props.b || this.defaultProps.b
   }
 
   a() {
-    return _update(this.b, {
-      name: `John`
-    })
+    return _update(this.b, { d: `John` })
   }
 
   render() {
@@ -65,4 +59,4 @@ class A extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

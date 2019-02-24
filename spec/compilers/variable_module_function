@@ -16,7 +16,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class {
+const B = new(class extends Module {
   c() {
     return `Hello`
   }

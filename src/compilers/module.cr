@@ -7,7 +7,7 @@ module Mint
       body =
         compile node.functions
 
-      js.const name, js.iic(body)
+      js.module(name, body)
     end
   end
 end

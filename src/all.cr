@@ -20,6 +20,7 @@ require "./constants"
 require "./macros"
 require "./assets"
 require "./js"
+require "./core"
 require "./env"
 
 require "./render/**"

@@ -8,7 +8,7 @@ module Mint
         format node.name
 
       if name
-        "#{name} =\n#{expression.indent}"
+        "#{name} =\n#{indent(expression)}"
       else
         expression
       end

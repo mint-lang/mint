@@ -9,7 +9,7 @@ module Mint
 
       arguments =
         if value.map(&.size).sum > 50
-          "\n#{value.join(",\n").indent}\n"
+          "\n#{indent(value.join(",\n"))}\n"
         else
           value.join(", ")
         end
@@ -18,9 +18,9 @@ module Mint
         format node.type
 
       if body.includes?("\n") || arguments.includes?("\n")
-        "(#{arguments}) : #{type} => {\n#{body.indent}\n}"
+        "(#{arguments}) : #{type} {\n#{indent(body)}\n}"
       else
-        "(#{arguments}) : #{type} => { #{body} }"
+        "(#{arguments}) : #{type} { #{body} }"
       end
     end
   end

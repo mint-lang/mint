@@ -16,7 +16,7 @@ module Mint
           body =
             list [node.falsy] + node.falsy_head_comments + node.falsy_tail_comments
 
-          "{\n#{body.indent}\n}"
+          "{\n#{indent(body)}\n}"
         end
 
       condition =
@@ -29,7 +29,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) {\n#{truthy.indent}\n} else #{falsy}"
+      "if (#{condition}) {\n#{indent(truthy)}\n} else #{falsy}"
     end
   end
 end

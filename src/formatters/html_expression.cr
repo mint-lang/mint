@@ -4,10 +4,15 @@ module Mint
       expression =
         format node.expression
 
-      if expression.includes?("\n")
-        "<{\n#{expression.indent}\n}>"
+      case node.expression
+      when Ast::If, Ast::For, Ast::StringLiteral, Ast::With, Ast::Case, Ast::Try, Ast::ArrayLiteral
+        expression
       else
-        "<{ #{expression} }>"
+        if expression.includes?("\n")
+          "<{\n#{indent(expression)}\n}>"
+        else
+          "<{ #{expression} }>"
+        end
       end
     end
   end

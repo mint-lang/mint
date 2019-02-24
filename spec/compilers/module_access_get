@@ -14,6 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class $Main extends Component {
+  render() {
+    return $Test.b()
+  }
+}
+
+$Main.displayName = "Main"
+
 const $Test = new(class extends Store {
   constructor() {
     super()
@@ -31,11 +39,3 @@ const $Test = new(class extends Store {
   }
 })
 $Test.__displayName = `Test`
-
-class $Main extends Component {
-  render() {
-    return $Test.b()
-  }
-}
-
-$Main.displayName = "Main"

@@ -2,7 +2,7 @@ component Main {
   fun render : String {
     a()
   } where {
-    a = () : String => { "Hello" }
+    a = () : String { "Hello" }
   }
 }
 --------------------------------------------------------------------------------

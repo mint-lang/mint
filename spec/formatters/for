@@ -1,0 +1,15 @@
+component Main {
+  fun render : Array(String) {
+    for (item of ["B"]){item}when{item == "A"}
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Array(String) {
+    for (item of ["B"]) {
+      item
+    } when {
+      item == "A"
+    }
+  }
+}

@@ -13,7 +13,7 @@ module Mint
       body =
         list items
 
-      "#{selectors} {\n#{body.indent}\n}"
+      "#{selectors} {\n#{indent(body)}\n}"
     end
   end
 end

@@ -10,7 +10,7 @@ module Mint
       body =
         list items
 
-      "style #{name} {\n#{body.indent}\n}"
+      "style #{name} {\n#{indent(body)}\n}"
     end
   end
 end

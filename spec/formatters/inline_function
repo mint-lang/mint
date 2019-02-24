@@ -2,7 +2,7 @@ module A {
   fun test : String {
     a()
   } where {
-    a = ():String=>{"Hello"}
+    a = ():String{"Hello"}
   }
 }
 --------------------------------------------------------------------------------
@@ -11,6 +11,6 @@ module A {
     a()
   } where {
     a =
-      () : String => { "Hello" }
+      () : String { "Hello" }
   }
 }

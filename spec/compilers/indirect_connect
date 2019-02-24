@@ -1,0 +1,72 @@
+store Test {
+  state a : String = ""
+
+  fun b : String {
+    "hello"
+  }
+}
+
+store A {
+  state test : Array(String) = [""]
+  state other : String = ""
+}
+
+component Main {
+  connect Test exposing { a }
+
+  fun render : String {
+    A.other
+  }
+}
+--------------------------------------------------------------------------------
+class $Main extends Component {
+  get a() {
+    return $Test.a
+  }
+
+  componentWillUnmount() {
+    $Test._unsubscribe(this)
+  }
+
+  componentDidMount() {
+    $Test._subscribe(this)
+  }
+
+  render() {
+    return $A.other
+  }
+}
+
+$Main.displayName = "Main"
+
+const $Test = new(class extends Store {
+  constructor() {
+    super()
+    this.state = {
+      a: ``
+    }
+  }
+
+  get a() {
+    return this.state.a
+  }
+
+  b() {
+    return `hello`
+  }
+})
+$Test.__displayName = `Test`
+
+const $A = new(class extends Store {
+  constructor() {
+    super()
+    this.state = {
+      other: ``
+    }
+  }
+
+  get other() {
+    return this.state.other
+  }
+})
+$A.__displayName = `A`

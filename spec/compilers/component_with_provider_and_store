@@ -19,8 +19,8 @@ store Blah {
 
 component Main {
   use MouseProvider {
-    moves = (data : Position) : Void => { void },
-    ups = (data : Position) : Void => { void }
+    moves = (data : Position) : Void { void },
+    ups = (data : Position) : Void { void }
   } when {
     false
   }
@@ -48,24 +48,6 @@ const $MouseProvider = new(class extends Provider {
     return null
   }
 })
-
-const $Blah = new(class extends Store {
-  constructor() {
-    super()
-    this.state = {
-      test: ``
-    }
-  }
-
-  get test() {
-    return this.state.test
-  }
-
-  x() {
-    return `hello`
-  }
-})
-$Blah.__displayName = `Blah`
 
 class $Main extends Component {
   get test() {
@@ -118,3 +100,21 @@ class $Main extends Component {
 }
 
 $Main.displayName = "Main"
+
+const $Blah = new(class extends Store {
+  constructor() {
+    super()
+    this.state = {
+      test: ``
+    }
+  }
+
+  get test() {
+    return this.state.test
+  }
+
+  x() {
+    return `hello`
+  }
+})
+$Blah.__displayName = `Blah`

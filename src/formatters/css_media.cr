@@ -7,7 +7,7 @@ module Mint
       body =
         list items
 
-      "@media #{node.content.strip} {\n#{body.indent}\n}"
+      "@media #{node.content.strip} {\n#{indent(body)}\n}"
     end
   end
 end

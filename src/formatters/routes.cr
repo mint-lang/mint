@@ -4,7 +4,7 @@ module Mint
       body =
         list node.routes + node.comments
 
-      "routes {\n#{body.indent}\n}"
+      "routes {\n#{indent(body)}\n}"
     end
   end
 end

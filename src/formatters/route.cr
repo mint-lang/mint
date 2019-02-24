@@ -14,7 +14,7 @@ module Mint
           " (#{args})"
         end
 
-      "#{node.url}#{arguments} {\n#{body.indent}\n}"
+      "#{node.url}#{arguments} {\n#{indent(body)}\n}"
     end
   end
 end

@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error HtmlElementReferenceOutsideOfComponent
     type_error HtmlElementStyleOutsideOfComponent
     type_error HtmlElementNotFoundStyle
 
@@ -23,6 +24,12 @@ module Mint
         resolve style_node
 
         html_elements[node] = component
+      end
+
+      node.ref.try do |ref|
+        raise HtmlElementReferenceOutsideOfComponent, {
+          "node" => ref,
+        } unless component?
       end
 
       node.attributes.each { |attribute| resolve attribute, node }

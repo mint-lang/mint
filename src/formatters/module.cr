@@ -7,7 +7,7 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}module #{node.name} {\n#{body.indent}\n}"
+      "#{comment}module #{node.name} {\n#{indent(body)}\n}"
     end
   end
 end

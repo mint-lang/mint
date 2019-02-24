@@ -20,7 +20,7 @@ module Mint
         catches.push format(catch)
       end
 
-      ["parallel {\n#{body.indent}\n}",
+      ["parallel {\n#{indent(body)}\n}",
        then_branch.to_s,
        catches.join(" "),
        finally.to_s,

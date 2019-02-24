@@ -4,15 +4,21 @@ module Mint
       store =
         node.store
 
+      separated =
+        ast.has_new_line?(node.keys.first, node.keys.last)
+
+      should_break =
+        node.keys.size > 6 || separated
+
       keys =
-        if node.keys.size > 6
+        if should_break
           format node.keys, ",\n"
         else
           format node.keys, ", "
         end
 
-      if node.keys.size > 6
-        "connect #{store} exposing {\n#{keys.indent}\n}"
+      if should_break
+        "connect #{store} exposing {\n#{indent(keys)}\n}"
       else
         "connect #{store} exposing { #{keys} }"
       end

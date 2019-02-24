@@ -6,7 +6,7 @@ module Mint
     type_error HtmlAttributeComponentKeyTypeMismatch
     type_error HtmlAttributeFragmentKeyTypeMismatch
     type_error HtmlElementClassNameForbidden
-    type_error HtmlElementStyleForbidden
+    type_error HtmlElementRefForbidden
 
     def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment)
       got =
@@ -28,7 +28,9 @@ module Mint
       expected =
         case node.name.value.downcase
         when "ref"
-          [REF_FUNCTION]
+          raise HtmlElementRefForbidden, {
+            "node" => node,
+          }
         when .starts_with?("on")
           [EVENT_FUNCTION, VOID_FUNCTION]
         when "readonly", "disabled"
@@ -38,9 +40,7 @@ module Mint
             "node" => node,
           }
         when "style"
-          raise HtmlElementStyleForbidden, {
-            "node" => node,
-          }
+          [STYLE_MAP]
         else
           [STRING]
         end

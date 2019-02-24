@@ -15,7 +15,10 @@ module Mint
         end
 
       attributes =
-        compile node.attributes.reject(&.name.value.==("class"))
+        compile node
+          .attributes
+          .reject(&.name.value.==("class"))
+          .reject(&.name.value.==("style"))
 
       component =
         html_elements[node]?
@@ -65,14 +68,32 @@ module Mint
 
       attributes.push "className: #{classes}" if classes
 
-      if styles = dynamic_styles[class_name]?
-        items =
-          styles
-            .map { |key, value| "[`#{key}`]: #{value}" }
-            .join(",\n")
-            .indent
+      variables =
+        if styles = dynamic_styles[class_name]?
+          items =
+            styles
+              .map { |key, value| "[`#{key}`]: #{value}" }
+              .join(",\n")
+              .indent
 
-        attributes.push "style: {\n#{items}\n}" unless items.strip.empty?
+          "{\n#{items}\n}" unless items.strip.empty?
+        end
+
+      custom_styles = node
+        .attributes
+        .find(&.name.value.==("style"))
+        .try { |attribute| compile(attribute.value) }
+
+      if custom_styles && variables
+        attributes.push "style: _style([#{variables}, #{custom_styles}])"
+      elsif custom_styles
+        attributes.push "style: _style([#{custom_styles}])"
+      elsif variables
+        attributes.push "style: #{variables}"
+      end
+
+      node.ref.try do |ref|
+        attributes << "ref: (element) => { this._#{ref.value} = element }"
       end
 
       attributes =

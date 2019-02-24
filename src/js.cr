@@ -8,6 +8,7 @@ module Mint
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
     abstract def store(name : String, body : Array(String)) : String
+    abstract def module(name : String, body : Array(String)) : String
     abstract def iic(body : Array(String)) : String
     abstract def iif(body : String) : String
     abstract def asynciif(body : String) : String
@@ -54,6 +55,10 @@ module Mint
 
     def store(name : String, body : Array(String)) : String
       const(name, "new(class extends Store{#{body.join("")}})")
+    end
+
+    def module(name : String, body : Array(String)) : String
+      const(name, "new(class extends Module{#{body.join("")}})")
     end
 
     def iic(body : Array(String)) : String
@@ -141,6 +146,10 @@ module Mint
 
     def store(name : String, body : Array(String)) : String
       const(name, "new(class extends Store #{class_body(body)})")
+    end
+
+    def module(name : String, body : Array(String)) : String
+      const(name, "new(class extends Module #{class_body(body)})")
     end
 
     def iic(body : Array(String)) : String

@@ -14,24 +14,6 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends Store {
-  constructor() {
-    super()
-
-    this.state = {
-      a: ``
-    }
-  }
-
-  get a() {
-    return this.state.a
-  }
-
-  get b() {
-    return `hello`
-  }
-})
-
 class A extends Component {
   get test() {
     return B.a
@@ -51,3 +33,21 @@ class A extends Component {
 }
 
 A.displayName = "Main"
+
+const B = new(class extends Store {
+  constructor() {
+    super()
+
+    this.state = {
+      a: ``
+    }
+  }
+
+  get a() {
+    return this.state.a
+  }
+
+  get b() {
+    return `hello`
+  }
+})

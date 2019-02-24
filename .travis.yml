@@ -6,6 +6,7 @@ install:
 script:
   - crystal spec
   - bin/ameba
+  - make test-core
 
 os:
   - linux
@@ -37,3 +38,6 @@ deploy:
     file: build/*
     on:
       tags: true
+
+addons:
+  firefox: latest

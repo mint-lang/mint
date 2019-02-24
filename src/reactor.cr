@@ -29,31 +29,27 @@ module Mint
         MintJson.parse_current.check_dependencies!
       end
 
-      terminal.puts "#{COG} Parsing files:"
-
       @watcher =
-        terminal.measure "#{COG} Compiled... " do
-          AstWatcher.new(->{ SourceFiles.all },
-            ->(file : String, ast : Ast) {
-              if @auto_format
-                formatted =
-                  Formatter.new(ast).format
+        AstWatcher.new(->{ SourceFiles.all },
+          ->(file : String, ast : Ast) {
+            if @auto_format
+              formatted =
+                Formatter.new(ast, MintJson.parse_current.formatter_config).format
 
-                if formatted != File.read(file)
-                  File.write(file, formatted)
-                end
+              if formatted != File.read(file)
+                File.write(file, formatted)
               end
-            }, true) do |result|
-            case result
-            when Ast
-              @ast = result
-              @error = nil
-              compile_script
-            when Error
-              @error = result.to_html
             end
+          }, true) do |result|
+          case result
+          when Ast
+            @ast = result
+            @error = nil
+            compile_script
+          when Error
+            @error = result.to_html
           end
-        end || AstWatcher.new
+        end
 
       watch_for_changes
       setup_kemal

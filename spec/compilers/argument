@@ -19,7 +19,7 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test.bind(this)(``, 0)
+      this.test(``, 0)
 
       return ``
     })()

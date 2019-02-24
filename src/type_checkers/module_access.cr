@@ -31,6 +31,8 @@ module Mint
 
       lookups[node] = item
 
+      check!(entity)
+
       resolve item
     end
   end

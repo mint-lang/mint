@@ -15,6 +15,7 @@ module Mint
     end
 
     @dependencies = [] of Mint::Installer::Dependency
+    @formatter_config = Formatter::Config.new
     @parser = JSON::PullParser.new("{}")
     @external_javascripts = [] of String
     @source_directories = [] of String
@@ -26,7 +27,7 @@ module Mint
     json_error MintJsonRootInvalidKey
 
     getter test_directories, source_directories, dependencies, application
-    getter external_javascripts, name, root
+    getter external_javascripts, name, root, formatter_config
 
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
@@ -117,6 +118,8 @@ module Mint
           parse_application
         when "dependencies"
           parse_dependencies
+        when "formatter"
+          parse_formatter
         else
           raise MintJsonRootInvalidKey, {
             "node" => current_node,
@@ -284,6 +287,42 @@ module Mint
       @test_directories << directory
     rescue exception : JSON::ParseException
       raise MintJsonTestDirectoryInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the formatter config
+    # --------------------------------------------------------------------------
+    json_error MintJsonFormatterConfigInvalidKey
+    json_error MintJsonFormatterConfigInvalid
+
+    def parse_formatter
+      indent_size = 2
+
+      @parser.read_object do |key|
+        case key
+        when "indent-size"
+          indent_size = parse_indent_size
+        else
+          raise MintJsonApplicationInvalidKey, {
+            "node" => current_node,
+            "key"  => key,
+          }
+        end
+      end
+
+      @formatter_config = Formatter::Config.new(indent_size: indent_size)
+    end
+
+    # Parsing the title
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonIndentSizeInvalid
+
+    def parse_indent_size
+      @parser.read_int.clamp(0, 100)
+    rescue exception : JSON::ParseException
+      raise MintJsonIndentSizeInvalid, {
         "node" => node(exception),
       }
     end

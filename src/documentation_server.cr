@@ -10,6 +10,10 @@ module Mint
     end
 
     def initialize
+      core_json = MintJson.new(%({"name": "core"}), "core", "mint.json")
+
+      @asts[core_json] = Core.ast
+
       SourceFiles.packages.each do |package|
         ast = Ast.new
 
@@ -21,7 +25,7 @@ module Mint
       end
 
       @watcher =
-        AstWatcher.new(->{ SourceFiles.current }) do |result|
+        AstWatcher.new(->{ SourceFiles.current }, include_core: false) do |result|
           case result
           when Ast
             @ast = result

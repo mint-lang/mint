@@ -1,12 +1,12 @@
 component Main {
   fun render : Html {
-    <div onClick={(event : Html.Event) : a => { void }}/>
+    <div onClick={(event : Html.Event) : a { void }}/>
   }
 }
 --------------------------------------------------------------------------------
 component Test {
   fun render : Html {
-    <div onClick={() : a => { void }}/>
+    <div onClick={() : a { void }}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch

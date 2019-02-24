@@ -24,7 +24,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class {
+const B = new(class extends Module {
   b(c) {
     return new Err(arguments[0])
   }

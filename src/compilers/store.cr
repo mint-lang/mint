@@ -24,15 +24,18 @@ module Mint
 
     def compile_constructor(node : Ast::Store) : String
       states =
-        node.states.each_with_object({} of String => String) do |state, memo|
-          name =
-            js.variable_of(state)
+        node
+          .states
+          .select { |state| checked.includes?(state) }
+          .each_with_object({} of String => String) do |state, memo|
+            name =
+              js.variable_of(state)
 
-          default =
-            compile state.default
+            default =
+              compile state.default
 
-          memo[name] = default
-        end
+            memo[name] = default
+          end
 
       js.function("constructor", [] of String) do
         js.statements([

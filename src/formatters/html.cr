@@ -13,15 +13,13 @@ module Mint
         if attributes.empty?
           ""
         elsif multiline
-          "\n" + attributes
-            .join("\n")
-            .indent
+          indent("\n" + attributes.join("\n"))
         else
           " " + attributes.join(" ")
         end
 
       children =
-        list(node.children + node.comments).indent
+        indent(list(node.children + node.comments))
 
       if node.children.empty?
         "<#{prefix}#{attributes}/>"

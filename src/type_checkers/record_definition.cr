@@ -1,6 +1,8 @@
 module Mint
   class TypeChecker
     def check(node : Ast::RecordDefinition) : Checkable
+      check_global_types node.name, node
+
       fields =
         node
           .fields
