@@ -5,7 +5,7 @@ module Mint
         compile node.expression
 
       variable =
-        node.variable.value
+        js.variable_of(node.variable)
 
       js.statements([
         js.let(variable, "_error"),

@@ -34,7 +34,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends Module {
-  c(f) {
+  c(h) {
     return
   }
 })
@@ -49,17 +49,7 @@ class A extends Component {
           try {
             return await B.c(`x`)
           } catch (_error) {
-            let a = _error
-            _ = `hello`
-            throw new DoError()
-          }
-        })()
-
-        let d = await (async () => {
-          try {
-            return await B.c(`y`)
-          } catch (_error) {
-            let a = _error
+            let d = _error
             _ = `hello`
             throw new DoError()
           }
@@ -67,9 +57,19 @@ class A extends Component {
 
         let e = await (async () => {
           try {
+            return await B.c(`y`)
+          } catch (_error) {
+            let d = _error
+            _ = `hello`
+            throw new DoError()
+          }
+        })()
+
+        let f = await (async () => {
+          try {
             return await B.c(0)
           } catch (_error) {
-            let a = _error
+            let g = _error
             _ = `asd`
             throw new DoError()
           }

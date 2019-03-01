@@ -14,28 +14,28 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
-    return $Test.b()
+    return B.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
-const $Test = new(class extends Store {
+const B = new(class extends Store {
   constructor() {
     super()
+
     this.state = {
 
     }
   }
 
-  get a() {
+  get b() {
     return `Hello`
   }
 
-  b() {
-    return $Test.a
+  a() {
+    return B.b
   }
 })
-$Test.__displayName = `Test`

@@ -40,8 +40,8 @@ $$Test.decode = (_input) => {
 class A extends Component {
   a() {
     return new B({
-      b: `Hello`,
-      c: 0
+      a: `Hello`,
+      b: 0
     })
   }
 

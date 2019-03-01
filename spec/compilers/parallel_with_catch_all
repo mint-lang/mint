@@ -32,7 +32,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends Module {
-  b(e) {
+  c(f) {
     return
   }
 })
@@ -40,41 +40,39 @@ const B = new(class extends Module {
 class A extends Component {
   a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let greeting = null;
-        let a = null;
-        let b = null;
+        let b = null
+        let d = null
+        let e = null
 
         await Promise.all([
           (async () => {
-            greeting = await $Promise.reject(`x`)
+            b = await B.c(`x`)
           })(),
-
           (async () => {
-            a = await `Hello`
+            d = await `Hello`
           })(),
-
           (async () => {
-            b = await `World`
+            e = await `World`
           })()
         ])
 
-        _result = a + b
+        _ = d + e
       } catch (_error) {
         if (_error instanceof DoError) {} else {
           return `Hmm...`
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
+      this.a()
 
       return ``
     })()

@@ -5,9 +5,9 @@ module Mint
         compile node.body
 
       arguments =
-        compile node.arguments, ", "
+        compile node.arguments
 
-      "((#{arguments}) => {\nreturn #{body}\n})"
+      js.arrow_function(arguments, js.return(body))
     end
   end
 end

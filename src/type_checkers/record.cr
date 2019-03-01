@@ -29,6 +29,10 @@ module Mint
         end
       end
 
+      node.fields.each do |field|
+        record_field_lookup[field] = record.name
+      end
+
       record
     end
   end

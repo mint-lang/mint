@@ -2,6 +2,11 @@ module Mint
   class Decoder
     @decoders = {} of TypeChecker::Record => String
 
+    getter js : Js
+
+    def initialize(@js)
+    end
+
     def compile(node : TypeChecker::Record)
       return @decoders[node] if @decoders[node]?
 
@@ -13,9 +18,12 @@ module Mint
           from =
             node.mappings[key]? || key
 
+          field =
+            js.variable_of(node.name, key)
+
           <<-JS
-          let #{key} = Decoder.field(`#{from}`, #{decoder})(_input)
-          if (#{key} instanceof Err) { return #{key} }
+          let #{field} = Decoder.field(`#{from}`, #{decoder})(_input)
+          if (#{field} instanceof Err) { return #{field} }
           JS
         end
 
@@ -23,7 +31,12 @@ module Mint
         node
           .fields
           .keys
-          .map { |key| "#{key}: #{key}.value" }
+          .map do |key|
+            field =
+              js.variable_of(node.name, key)
+
+            "#{field}: #{field}.value"
+          end
 
       body =
         <<-JS

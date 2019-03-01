@@ -11,24 +11,28 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get styles() {
+class A extends Component {
+  constructor(props) {
+    super(props)
+
+    this.defaultProps = {
+      b: `blue`
+    }
+  }
+
+  get a() {
     return
   }
 
-  get background() {
-    if (this.props.background != undefined) {
-      return this.props.background
-    } else {
-      return `blue`
-    }
+  get b() {
+    return this.props.b || this.defaultProps.b
   }
 
   render() {
     return _createElement("div", {
-      style: _style([this.styles])
+      style: _style([this.a])
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

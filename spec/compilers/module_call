@@ -14,20 +14,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Test = new(class extends Module {
-  a(a) {
-    return a
+const B = new(class extends Module {
+  b(c) {
+    return c
   }
 
-  b() {
-    return $Test.a(`Lorem ipsum dolor sit amet`)
+  a() {
+    return B.b(`Lorem ipsum dolor sit amet`)
   }
 })
 
-class $Main extends Component {
+class A extends Component {
   render() {
-    return $Test.b()
+    return B.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

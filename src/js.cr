@@ -17,6 +17,7 @@ module Mint
     abstract def catch(condition : String, body : String) : String
     abstract def try(body : String, catches : Array(String), finally : String) : String
     abstract def promise(body : String) : String
+    abstract def array(items : Array(String)) : String
   end
 
   class Optimized < Renderer
@@ -91,6 +92,10 @@ module Mint
 
     def promise(body : String) : String
       "new Promise(#{body})"
+    end
+
+    def array(items : Array(String)) : String
+      "[#{items.join(",")}]"
     end
   end
 
@@ -185,6 +190,10 @@ module Mint
       "new Promise(#{body})"
     end
 
+    def array(items : Array(String)) : String
+      "[\n#{items.join(",\n").indent}\n]"
+    end
+
     private def class_body(body : String)
       "{\n#{body.indent}\n}"
     end
@@ -195,8 +204,12 @@ module Mint
   end
 
   class Js
+    INITIAL = 'a'.pred.to_s
+
     getter optimize, renderer
 
+    @record_field_cache : Hash(String, Hash(String, String)) = {} of String => Hash(String, String)
+    @record_cache : Hash(String, String) = {} of String => String
     @cache : Hash(Ast::Node, String) = {} of Ast::Node => String
 
     @next_variable : String = 'a'.pred.to_s
@@ -213,6 +226,13 @@ module Mint
         else
           Normal.new
         end
+    end
+
+    def variable_of(name, field)
+      @record_cache[name] = (@record_cache[name]? || INITIAL).succ
+
+      @record_field_cache[name] ||= {} of String => String
+      @record_field_cache[name][field] ||= @record_cache[name]
     end
 
     def variable_of(node)

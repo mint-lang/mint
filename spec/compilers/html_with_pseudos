@@ -23,36 +23,37 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get hoverBackground() {
-    if (this.props.hoverBackground != undefined) {
-      return this.props.hoverBackground
-    } else {
-      return `yellow`
+class A extends Component {
+  constructor(props) {
+    super(props)
+
+    this.defaultProps = {
+      b: `yellow`,
+      a: `blue`
     }
   }
 
-  get background() {
-    if (this.props.background != undefined) {
-      return this.props.background
-    } else {
-      return `blue`
-    }
+  get b() {
+    return this.props.b || this.defaultProps.b
+  }
+
+  get a() {
+    return this.props.a || this.defaultProps.a
   }
 
   render() {
     return _createElement("div", {
       className: `main-test`,
       style: {
-        [`--main-test-background`]: this.background,
-        [`--main-test-hover-background`]: this.hoverBackground,
+        [`--main-test-background`]: this.a,
+        [`--main-test-hover-background`]: this.b,
         [`--main-test-div-font-family`]: `Hello`
       }
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
 _insertStyles(`
   .main-test {

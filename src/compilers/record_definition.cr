@@ -9,7 +9,12 @@ module Mint
       case type
       when TypeChecker::Record
         mappings =
-          type.mappings.to_json
+          type.mappings.each_with_object({} of String => String | Nil) do |(key, value), memo|
+            field =
+              js.variable_of(type.name, key)
+
+            memo[field] = value
+          end.to_json
 
         decoder =
           begin

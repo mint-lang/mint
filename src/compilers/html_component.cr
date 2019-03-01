@@ -24,7 +24,7 @@ module Mint
       end
 
       contents =
-        ["$#{name}",
+        ["#{name}",
          "{ #{attributes.join(", ")} }",
          children]
           .reject(&.empty?)

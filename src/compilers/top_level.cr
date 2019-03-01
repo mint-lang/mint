@@ -207,12 +207,12 @@ module Mint
           'constructor'
         ]
 
-        const bindFunctions = (target) => {
+        const bindFunctions = (target, exclude) => {
           const descriptors =
             Object.getOwnPropertyDescriptors(Reflect.getPrototypeOf(target))
 
           for (let key in descriptors) {
-            if (excludedMethods[key]) { continue }
+            if (exclude && exclude[key]) { continue }
             const value = descriptors[key].value
             if (typeof value !== "function") { continue }
             target[key] = value.bind(target)
@@ -228,7 +228,7 @@ module Mint
         class Component extends Mint.Component {
           constructor(props) {
             super(props)
-            bindFunctions(this)
+            bindFunctions(this, excludedMethods)
           }
         }
         #{body}

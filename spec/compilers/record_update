@@ -20,14 +20,14 @@ component Main {
 --------------------------------------------------------------------------------
 class $$Record extends Record {}
 
-$$Record.mappings = {"name":null}
+$$Record.mappings = {"a":null}
 
 $$Record.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) { return name }
+  let a = Decoder.field(`name`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
   return new Ok(new $$Record({
-    name: name.value
+    a: a.value
   }))
 }
 
@@ -37,7 +37,7 @@ class A extends Component {
 
     this.defaultProps = {
       b: new B({
-        d: `Doe`
+        a: `Doe`
       })
     }
   }
@@ -47,7 +47,7 @@ class A extends Component {
   }
 
   a() {
-    return _update(this.b, { d: `John` })
+    return _update(this.b, { a: `John` })
   }
 
   render() {

@@ -9,12 +9,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
-    return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`, _createElement(React.Fragment, {
-      "key": `something`
-    }, [])])])
+    return _createElement("div", {}, [_createElement(React.Fragment, {}, [`A`, _createElement(React.Fragment, { "key": `something` }, [])])])
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

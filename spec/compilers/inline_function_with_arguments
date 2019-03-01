@@ -15,22 +15,22 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
-    let getName = ((a) => {
-      return a
-    })
+class A extends Component {
+  a() {
+    let b = (c) => {
+      return c
+    }
 
-    return getName(`Joe`)
+    return b(`Joe`)
   }
 
   render() {
     return (() => {
-      this.test()
+      this.a()
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

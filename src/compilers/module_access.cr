@@ -2,12 +2,12 @@ module Mint
   class Compiler
     def _compile(node : Ast::ModuleAccess) : String
       name =
-        underscorize node.name
+        js.class_of(lookups[node])
 
       variable =
-        node.variable.value
+        js.variable_of(lookups[node.variable])
 
-      "$#{name}.#{variable}"
+      "#{name}.#{variable}"
     end
   end
 end

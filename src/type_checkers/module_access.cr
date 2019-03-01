@@ -29,7 +29,8 @@ module Mint
         "node"   => node,
       } unless item
 
-      lookups[node] = item
+      lookups[node] = entity
+      lookups[node.variable] = item
 
       check!(entity)
 

@@ -21,6 +21,8 @@ module Mint
         type =
           resolve field, false
 
+        record_field_lookup[field] = target.name
+
         value_type =
           target.fields[field.key.value]?
 
