@@ -49,9 +49,9 @@ module Mint
 
       @decoders[node] =
         <<-JS
-        (_input) => {
+        ((_input) => {
         #{body.indent}
-        }
+        })
         JS
     end
 

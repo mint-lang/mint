@@ -6,7 +6,7 @@ module Math {
     Math.negate(1) == -1
   */
   fun negate (number : Number) : Number {
-    `-number`
+    `-#{number}`
   }
 
   /*
@@ -16,7 +16,7 @@ module Math {
     Math.abs(-1) == 1
   */
   fun abs (number : Number) : Number {
-    `Math.abs(number)`
+    `Math.abs(#{number})`
   }
 
   /*
@@ -25,7 +25,7 @@ module Math {
     Math.ceil(0.3) == 1
   */
   fun ceil (number : Number) : Number {
-    `Math.ceil(number)`
+    `Math.ceil(#{number})`
   }
 
   /*
@@ -34,7 +34,7 @@ module Math {
     Math.floor(0.8) == 0
   */
   fun floor (number : Number) : Number {
-    `Math.floor(number)`
+    `Math.floor(#{number})`
   }
 
   /*
@@ -43,7 +43,7 @@ module Math {
     Math.round(0.5) == 1
   */
   fun round (number : Number) : Number {
-    `Math.round(number)`
+    `Math.round(#{number})`
   }
 
   /*
@@ -52,7 +52,7 @@ module Math {
     Math.min(1, 2) == 1
   */
   fun min (number1 : Number, number2 : Number) : Number {
-    `Math.min(number1, number2)`
+    `Math.min(#{number1}, #{number2})`
   }
 
   /*
@@ -61,7 +61,7 @@ module Math {
     Math.min(1, 2) == 2
   */
   fun max (number1 : Number, number2 : Number) : Number {
-    `Math.max(number1, number2)`
+    `Math.max(#{number1}, #{number2})`
   }
 
   /*
@@ -70,7 +70,7 @@ module Math {
     Math.sqrt(4) == 2
   */
   fun sqrt (value : Number) : Number {
-    `Math.sqrt(value)`
+    `Math.sqrt(#{value})`
   }
 
   /*
@@ -79,7 +79,7 @@ module Math {
     Math.pow(2, 2) == 4
   */
   fun pow (exponent : Number, value : Number) : Number {
-    `Math.pow(value, exponent)`
+    `Math.pow(#{value}, #{exponent})`
   }
 
   /*
@@ -99,7 +99,7 @@ module Math {
     Math.fmod(18.5, 4.2) == 1.7
   */
   fun fmod (a : Number, b : Number) : Number {
-    `Number((a - (Math.floor(a / b) * b)).toPrecision(8))`
+    `Number((#{a} - (Math.floor(#{a} / #{b}) * #{b})).toPrecision(8))`
   }
 
   /*
@@ -108,7 +108,7 @@ module Math {
     Math.truncate(0.123456) == 0.12
   */
   fun truncate (to : Number, value : Number) : Number {
-    `Math.trunc(value * #{multiplier}) / #{multiplier}`
+    `Math.trunc(#{value} * #{multiplier}) / #{multiplier}`
   } where {
     multiplier =
       if (to == 0) {

@@ -23,13 +23,9 @@ class A extends Component {
 
       if (_compare(b, `test`)) {
         return true
-      }
-
-      else if (_compare(b, `Hello`)) {
+      } else if (_compare(b, `Hello`)) {
         return false
-      }
-
-      else {
+      } else {
         return false
       }
     })()

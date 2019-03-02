@@ -34,11 +34,11 @@ class A extends Component {
   }
 
   get b() {
-    return this.props.b || this.defaultProps.b
+    return 'b' in this.props ? this.props.b : this.defaultProps.b
   }
 
   get a() {
-    return this.props.a || this.defaultProps.a
+    return 'a' in this.props ? this.props.a : this.defaultProps.a
   }
 
   render() {

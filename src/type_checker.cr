@@ -29,7 +29,8 @@ module Mint
 
     property checking : Bool = true
 
-    delegate types, variables, html_elements, ast, lookups, cache, checked, record_field_lookup, to: artifacts
+    delegate types, variables, html_elements, ast, lookups, cache, to: artifacts
+    delegate checked, record_field_lookup, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 

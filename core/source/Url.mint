@@ -20,17 +20,19 @@ module Url {
         this._a = document.createElement('a')
       }
 
-      this._a.href = url
+      this._a.href = #{url}
 
-      return {
-        hostname: this._a.hostname || "",
-        protocol: this._a.protocol || "",
-        origin: this._a.origin || "",
-        path: this._a.pathname || "",
-        search: this._a.search || "",
-        hash: this._a.hash || "",
-        host: this._a.host || "",
-        port: this._a.port || ""
+      return #{
+        {
+          hostname = `this._a.hostname || ""`,
+          protocol = `this._a.protocol || ""`,
+          origin = `this._a.origin || ""`,
+          path = `this._a.pathname || ""`,
+          search = `this._a.search || ""`,
+          hash = `this._a.hash || ""`,
+          host = `this._a.host || ""`,
+          port = `this._a.port || ""`
+        }
       }
     })()
     `
@@ -45,7 +47,7 @@ module Url {
   fun createObjectUrlFromString (string : String, type : String) : String {
     `
     (() => {
-      let blob = new Blob([string], {type : type})
+      let blob = new Blob([#{string}], {type : #{type}})
       return URL.createObjectURL(blob)
     })()
     `
@@ -59,7 +61,7 @@ module Url {
     |> Url.createObjectUrlFromFile()
   */
   fun createObjectUrlFromFile (file : File) : String {
-    `URL.createObjectURL(file)`
+    `URL.createObjectURL(#{file})`
   }
 
   /*
@@ -69,6 +71,6 @@ module Url {
     |> Url.revokeObjectUrl()
   */
   fun revokeObjectUrl (url : String) : Void {
-    `URL.revokeObjectURL(url)`
+    `URL.revokeObjectURL(#{url})`
   }
 }

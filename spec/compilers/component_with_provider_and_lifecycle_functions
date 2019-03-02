@@ -37,8 +37,8 @@ component Main {
 class A extends Record {}
 
 A.mappings = {
-  a: null,
-  b: null
+  a: "moves",
+  b: "ups"
 }
 
 A.decode = () => {

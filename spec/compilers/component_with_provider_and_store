@@ -35,8 +35,8 @@ component Main {
 class A extends Record {}
 
 A.mappings = {
-  a: null,
-  b: null
+  a: "moves",
+  b: "ups"
 }
 
 A.decode = () => {
@@ -50,11 +50,11 @@ const B = new(class extends Provider {
 })
 
 class C extends Component {
-  get test() {
+  get d() {
     return D.c
   }
 
-  x (...params) { return D.x(...params) }
+  f (...params) { return D.e(...params) }
 
   componentWillUnmount() {
     D._unsubscribe(this)
@@ -113,7 +113,7 @@ const D = new(class extends Store {
     return this.state.c
   }
 
-  d() {
+  e() {
     return `hello`
   }
 })

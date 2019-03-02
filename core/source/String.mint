@@ -6,7 +6,7 @@ module String {
      String.toLowerCase("ABC") == "abc"
   */
   fun toLowerCase (string : String) : String {
-    `string.toLowerCase()`
+    `#{string}.toLowerCase()`
   }
 
   /*
@@ -15,7 +15,7 @@ module String {
      String.toUpperCase("abc") == "ABC"
   */
   fun toUpperCase (string : String) : String {
-    `string.toUpperCase()`
+    `#{string}.toUpperCase()`
   }
 
   /*
@@ -24,7 +24,7 @@ module String {
      String.reverse("ABC") == "CBA"
   */
   fun reverse (string : String) : String {
-    `[...string].reverse().join('')`
+    `[...#{string}].reverse().join('')`
   }
 
   /*
@@ -45,7 +45,7 @@ module String {
      String.match("X", "ABC") == false
   */
   fun match (pattern : String, string : String) : Bool {
-    `string.indexOf(pattern) != -1`
+    `#{string}.indexOf(#{pattern}) != -1`
   }
 
   /*
@@ -54,7 +54,7 @@ module String {
     String.split("", "AAA") = ["A", "A", "A"]
   */
   fun split (separator : String, string : String) : Array(String) {
-    `string.split(separator)`
+    `#{string}.split(#{separator})`
   }
 
   /*
@@ -63,7 +63,7 @@ module String {
     String.size("ABC") == 3
   */
   fun size (string : String) : Number {
-    `string.length`
+    `#{string}.length`
   }
 
   /*
@@ -72,7 +72,7 @@ module String {
     String.capitalize("the cake is a lie!") == "The Cake Is A Lie!"
   */
   fun capitalize (string : String) : String {
-    `string.replace(/\b[a-z]/g, char => char.toUpperCase())`
+    `#{string}.replace(/\b[a-z]/g, char => char.toUpperCase())`
   }
 
   /*
@@ -81,7 +81,7 @@ module String {
     String.repeat(5, "A") == "AAAAA"
   */
   fun repeat (times : Number, string : String) : String {
-    `string.repeat(times)`
+    `#{string}.repeat(#{times})`
   }
 
   /*
@@ -90,7 +90,7 @@ module String {
     String.join(",", ["A","B","C"]) == "A,B,C"
   */
   fun join (separator : String, array : Array(String)) : String {
-    `array.join(separator)`
+    `#{array}.join(#{separator})`
   }
 
   /*
@@ -119,7 +119,7 @@ module String {
           .sort()
           .join('');
 
-      return normalize(string1) === normalize(string2);
+      return normalize(#{string1}) === normalize(#{string2});
     })()
     `
   }

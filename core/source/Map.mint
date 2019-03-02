@@ -16,11 +16,11 @@ module Map {
     (() => {
       const newMap = new Map()
 
-      for (let item of map) {
+      for (let item of #{map}) {
         newMap.set(item[0], item[1])
       }
 
-      newMap.set(key, value)
+      newMap.set(#{key}, #{value})
 
       return newMap
     })()
@@ -37,8 +37,8 @@ module Map {
   fun get (key : x, map : Map(x, z)) : Maybe(z) {
     `
     (() => {
-      if (map.has(key)) {
-        return new Just(map.get(key))
+      if (#{map}.has(#{key})) {
+        return new Just(#{map}.get(#{key}))
       } else {
         return new Nothing()
       }
@@ -58,7 +58,7 @@ module Map {
     |> Map.getWithDefault("key", "fallback")) == "fallback"
   */
   fun getWithDefault (key : key, value : value, map : Map(key, value)) : value {
-    Map.get(key, map)
+    get(key, map)
     |> Maybe.withDefault(value)
   }
 
@@ -81,11 +81,11 @@ module Map {
     (() => {
       const map = new Map()
 
-      for (let item of map1) {
+      for (let item of #{map1}) {
         map.set(item[0], item[1])
       }
 
-      for (let item of map2) {
+      for (let item of #{map2}) {
         map.set(item[0], item[1])
       }
 
@@ -111,8 +111,10 @@ module Map {
   ) : memo {
     `
     (() => {
-      for (let item of map) {
-        memo = method(memo, item[0], item[1])
+      let memo = #{memo}
+
+      for (let item of #{map}) {
+        memo = #{method}(memo, item[0], item[1])
       }
 
       return memo
@@ -136,8 +138,8 @@ module Map {
   ) : Maybe(key) {
     `
     (() => {
-      for (let item of map) {
-        if (method(item[1])) {
+      for (let item of #{map}) {
+        if (#{method}(item[1])) {
           return new Just(item[0])
         }
       }
@@ -160,8 +162,8 @@ module Map {
     (() => {
       const newMap = new Map()
 
-      for (let item of map) {
-        if (!_compare(item[1], value)) {
+      for (let item of #{map}) {
+        if (!_compare(item[1], #{value})) {
           newMap.set(item[0], item[1])
         }
       }
@@ -183,8 +185,8 @@ module Map {
     (() => {
       const newMap = new Map()
 
-      for (let item of map) {
-        if (!_compare(item[0], key)) {
+      for (let item of #{map}) {
+        if (!_compare(item[0], #{key})) {
           newMap.set(item[0], item[1])
         }
       }
@@ -203,7 +205,7 @@ module Map {
     |> Map.values()) == [1, 2]
   */
   fun values (map : Map(k, a)) : Array(a) {
-    `Array.from(map.values())`
+    `Array.from(#{map}.values())`
   }
 
   /*
@@ -215,7 +217,7 @@ module Map {
     |> Map.values()) == ["a", "b"]
   */
   fun keys (map : Map(k, a)) : Array(k) {
-    `Array.from(map.keys())`
+    `Array.from(#{map}.keys())`
   }
 
   /*
@@ -232,9 +234,9 @@ module Map {
   fun sortBy (method : Function(k, v, b), map : Map(k, v)) : Map(k, v) {
     `
     (() => {
-      return new Map(Array.from(map).sort((a, b) => {
-        let aVal = method(a[0], a[1])
-        let bVal = method(b[0], b[1])
+      return new Map(Array.from(#{map}).sort((a, b) => {
+        let aVal = #{method}(a[0], a[1])
+        let bVal = #{method}(b[0], b[1])
 
         if (aVal < bVal) {
           return -1
@@ -282,8 +284,8 @@ module Map {
     (() => {
       const newMap = new Map()
 
-      for (let item of map) {
-        newMap.set(item[0], method(item[0], item[1]))
+      for (let item of #{map}) {
+        newMap.set(item[0], #{method}(item[0], item[1]))
       }
 
       return newMap
@@ -299,7 +301,7 @@ module Map {
     |> Map.has("a")) == true
   */
   fun has (key : k, map : Map(k, a)) : Bool {
-    `map.has(key)`
+    `#{map}.has(#{key})`
   }
 
   /*
@@ -310,6 +312,6 @@ module Map {
     |> Map.size()) == 1
   */
   fun size (map : Map(key, value)) : Number {
-    `map.size`
+    `#{map}.size`
   }
 }

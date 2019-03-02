@@ -20,7 +20,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        storage.setItem(key, value)
+        #{storage}.setItem(#{key}, #{value})
         return new Ok(null)
       } catch (error) {
         switch(error.name) {
@@ -45,7 +45,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        let value = storage.getItem(key)
+        let value = #{storage}.getItem(#{key})
 
         if (typeof value === "string") {
           return new Ok(value)
@@ -69,7 +69,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        storage.removeItem(key)
+        #{storage}.removeItem(#{key})
         return new Ok(null)
       } catch (error) {
         switch(error.name) {
@@ -88,7 +88,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        storage.clear()
+        #{storage}.clear()
         return new Ok(null)
       } catch (error) {
         switch(error.name) {
@@ -107,7 +107,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        return new Ok(storage.length)
+        return new Ok(#{storage}.length)
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
@@ -125,7 +125,7 @@ module Storage.Common {
     `
     (() => {
       try {
-        return new Ok(Object.keys(storage).sort())
+        return new Ok(Object.keys(#{storage}).sort())
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':

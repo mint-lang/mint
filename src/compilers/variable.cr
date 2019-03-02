@@ -8,6 +8,36 @@ module Mint
         return "this._subscriptions"
       end
 
+      connected = nil
+
+      case parent
+      when Ast::Component
+        parent.connects.each do |connect|
+          store = ast.stores.find(&.name.==(connect.store))
+
+          name =
+            case entity
+            when Ast::Function
+              entity.name.value
+            when Ast::State
+              entity.name.value
+            when Ast::Get
+              entity.name.value
+            end
+
+          if store
+            connect.keys.each do |key|
+              if (store.functions.includes?(entity) ||
+                 store.states.includes?(entity) ||
+                 store.gets.includes?(entity)) &&
+                 key.variable.value == name
+                connected = key
+              end
+            end
+          end
+        end
+      end
+
       case parent
       when Tuple(String, TypeChecker::Checkable, Ast::Node)
         js.variable_of(parent[2])
@@ -17,7 +47,11 @@ module Mint
           "this._#{node.value}"
         when Ast::Function
           function =
-            js.variable_of(entity.as(Ast::Node))
+            if connected
+              js.variable_of(connected)
+            else
+              js.variable_of(entity.as(Ast::Node))
+            end
 
           case parent
           when Ast::Module, Ast::Store
@@ -30,7 +64,11 @@ module Mint
           end
         when Ast::Property, Ast::Get, Ast::State
           name =
-            js.variable_of(entity.as(Ast::Node))
+            if connected
+              js.variable_of(connected)
+            else
+              js.variable_of(entity.as(Ast::Node))
+            end
 
           "this.#{name}"
         when Ast::Argument

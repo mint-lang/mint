@@ -11,13 +11,6 @@ module Mint
       @decoder = Decoder.new(@js)
     end
 
-    # Helper for converting type ids
-    # ----------------------------------------------------------------------------
-
-    def underscorize(name)
-      name.gsub('.', '_')
-    end
-
     # Helpers for compiling things
     # ----------------------------------------------------------------------------
 

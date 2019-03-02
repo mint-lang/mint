@@ -138,7 +138,7 @@ module Http {
     |> Http.send()
   */
   fun stringBody (body : String, request : Http.Request) : Http.Request {
-    { request | body = `body` }
+    { request | body = `#{body}` }
   }
 
   /*
@@ -149,7 +149,7 @@ module Http {
     |> Http.send()
   */
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
-    { request | body = `JSON.stringify(body)` }
+    { request | body = `JSON.stringify(#{body})` }
   }
 
   /*
@@ -164,7 +164,7 @@ module Http {
     |> Http.send()
   */
   fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
-    { request | body = `body` }
+    { request | body = `#{body}` }
   }
 
   /*
@@ -207,7 +207,7 @@ module Http {
     { request |
       headers =
         Array.push(
-          `new Record({ value: value, key: key })`,
+          `new Record({ value: #{value}, key: #{key} })`,
           request.headers)
     }
   }
@@ -224,6 +224,10 @@ module Http {
       delete this._requests[uid]
     })
     `
+  }
+
+  fun requests : Map(String, Http.NativeRequest) {
+    `this._requests`
   }
 
   /*
@@ -249,63 +253,76 @@ module Http {
 
       let xhr = new XMLHttpRequest()
 
-      this._requests[uid] = xhr
+      this._requests[#{uid}] = xhr
 
-      xhr.withCredentials = request.withCredentials
+      xhr.withCredentials = #{request.withCredentials}
 
       try {
-        xhr.open(request.method.toUpperCase(), request.url, true)
+        xhr.open(#{request.method}.toUpperCase(), #{request.url}, true)
       } catch (error) {
-        delete this._requests[uid]
+        delete this._requests[#{uid}]
 
-        reject({
-          type: #{Http.Error::BadUrl},
-          status: xhr.status,
-          url: request.url
+        reject(#{
+          {
+            type = Http.Error::BadUrl,
+            status = `xhr.status`,
+            url = request.url
+          }
         })
       }
 
-      request.headers.forEach((item) => {
+      #{request.headers}.forEach((item) => {
         xhr.setRequestHeader(item.key, item.value)
       })
 
       xhr.addEventListener('error', (event) => {
-        delete this._requests[uid]
+        delete this._requests[#{uid}]
 
-        reject({
-          type: #{Http.Error::NetworkError},
-          status: xhr.status,
-          url: request.url
+        reject(#{
+          {
+            type = Http.Error::NetworkError,
+            status = `xhr.status`,
+            url = request.url
+          }
         })
       })
 
       xhr.addEventListener('timeout', (event) => {
-        delete this._requests[uid]
+        delete this._requests[#{uid}]
 
-        reject({
-          type: #{Http.Error::Timeout},
-          status: xhr.status,
-          url: request.url
+        reject(#{
+          {
+            type = Http.Error::Timeout,
+            status = `xhr.status`,
+            url = request.url
+          }
         })
       })
 
       xhr.addEventListener('load', (event) => {
-        delete this._requests[uid]
+        delete this._requests[#{uid}]
 
-        resolve({ body: xhr.responseText, status: xhr.status })
-      })
-
-      xhr.addEventListener('abort', (event) => {
-        delete this._requests[uid]
-
-        reject({
-          type: #{Http.Error::Aborted},
-          status: xhr.status,
-          url: request.url
+        resolve(#{
+          {
+            body = `xhr.responseText`,
+            status = `xhr.status`
+          }
         })
       })
 
-      xhr.send(request.body)
+      xhr.addEventListener('abort', (event) => {
+        delete this._requests[#{uid}]
+
+        reject(#{
+          {
+            type = Http.Error::Aborted,
+            status = `xhr.status`,
+            url = request.url
+          }
+        })
+      })
+
+      xhr.send(#{request.body})
     })
     `
   }

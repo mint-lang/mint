@@ -7,6 +7,7 @@ module Mint
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
+    abstract def ifchain(items : Array(String)) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
     abstract def provider(name : String, body : Array(String)) : String
@@ -38,7 +39,7 @@ module Mint
     end
 
     def arrow_function(arguments : Array(String), body : String) : String
-      "(#{arguments.join(", ")})=>{#{body}}"
+      "((#{arguments.join(", ")})=>{#{body}})"
     end
 
     def const(name : String, value : String) : String
@@ -55,6 +56,10 @@ module Mint
 
     def statements(items : Array(String)) : String
       items.join(";")
+    end
+
+    def ifchain(items : Array(String)) : String
+      items.join("")
     end
 
     def store(name : String, body : Array(String)) : String
@@ -161,6 +166,10 @@ module Mint
         memo += item
         memo
       end
+    end
+
+    def ifchain(items : Array(String)) : String
+      items.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
@@ -331,6 +340,12 @@ module Mint
 
     private def next_variable
       @next_variable = @next_variable.succ
+
+      if ["do", "in", "for", "if"].includes?(@next_variable)
+        next_variable
+      else
+        @next_variable
+      end
     end
 
     private def next_class

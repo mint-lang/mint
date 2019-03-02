@@ -32,28 +32,28 @@ A.mappings = {
   a: "SIIIZEEE"
 }
 
-A.decode = (_input) => {
+A.decode = ((_input) => {
   let a = Decoder.field(`SIIIZEEE`, Decoder.number)(_input)
   if (a instanceof Err) { return a }
 
   return new Ok(new A({
     a: a.value
   }))
-}
+})
 
 class B extends Record {}
 
 B.mappings = {
-  a: null,
-  b: null,
-  c: null,
-  d: null,
-  e: null,
-  f: null,
-  g: null
+  a: "string",
+  b: "number",
+  c: "bool",
+  d: "time",
+  e: "maybe",
+  f: "array",
+  g: "y"
 }
 
-B.decode = (_input) => {
+B.decode = ((_input) => {
   let a = Decoder.field(`string`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
@@ -84,7 +84,7 @@ B.decode = (_input) => {
     f: f.value,
     g: g.value
   }))
-}
+})
 
 class C extends Component {
   a(b) {

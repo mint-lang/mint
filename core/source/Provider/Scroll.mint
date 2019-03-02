@@ -18,7 +18,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   fun attach : Void {
     `
     (() => {
-      const scrolls = this._scrolls || (this._scrolls = this.scrolls.bind(this))
+      const scrolls = this._scrolls || (this._scrolls = #{scrolls}.bind(this))
 
       window.addEventListener("scroll", scrolls)
     })()

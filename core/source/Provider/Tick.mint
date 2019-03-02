@@ -18,7 +18,7 @@ provider Provider.Tick : Provider.Tick.Subscription {
     `
     (() => {
       this.detach()
-      this.id = setInterval(this.update.bind(this), 1000)
+      this.id = setInterval(#{update}.bind(this), 1000)
     })()
     `
   }

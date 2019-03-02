@@ -7,16 +7,16 @@ store Test {
 }
 
 component Main {
-  connect Test exposing { test }
+  connect Test exposing { test as xxx }
 
   fun render : String {
-    ""
+    xxx
   }
 }
 --------------------------------------------------------------------------------
 class A extends Component {
-  get test() {
-    return B.a
+  get a() {
+    return B.b
   }
 
   componentWillUnmount() {
@@ -28,7 +28,7 @@ class A extends Component {
   }
 
   render() {
-    return ``
+    return this.a
   }
 }
 
@@ -39,15 +39,15 @@ const B = new(class extends Store {
     super()
 
     this.state = {
-      a: ``
+      b: ``
     }
   }
 
-  get a() {
-    return this.state.a
+  get b() {
+    return this.state.b
   }
 
-  get b() {
+  get c() {
     return `hello`
   }
 })

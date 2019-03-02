@@ -18,7 +18,7 @@ component Main {
 
       "blah"
     } catch String => a {
-      "hello"
+      a
     } catch Number => a {
       "asd"
     }
@@ -50,7 +50,7 @@ class A extends Component {
             return await B.c(`x`)
           } catch (_error) {
             let d = _error
-            _ = `hello`
+            _ = d
             throw new DoError()
           }
         })()
@@ -60,7 +60,7 @@ class A extends Component {
             return await B.c(`y`)
           } catch (_error) {
             let d = _error
-            _ = `hello`
+            _ = d
             throw new DoError()
           }
         })()

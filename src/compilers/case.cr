@@ -13,7 +13,7 @@ module Mint
           .sort_by(&.match.nil?.to_s)
           .map_with_index { |branch, index| compile branch, index, variable }
 
-      js.iif body: js.statements([condition_let] + body)
+      js.iif body: js.statements([condition_let, js.ifchain(body)])
     end
   end
 end

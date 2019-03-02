@@ -23,11 +23,11 @@ component Main {
 class A extends Record {}
 
 A.mappings = {
-  a: null,
-  b: null
+  a: "a",
+  b: "b"
 }
 
-A.decode = (_input) => {
+A.decode = ((_input) => {
   let a = Decoder.field(`a`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
@@ -38,7 +38,7 @@ A.decode = (_input) => {
     a: a.value,
     b: b.value
   }))
-}
+})
 
 class B extends Component {
   a() {

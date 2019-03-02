@@ -13,17 +13,17 @@ component Main {
 class A extends Record {}
 
 A.mappings = {
-  a: null
+  a: "name"
 }
 
-A.decode = (_input) => {
+A.decode = ((_input) => {
   let a = Decoder.field(`name`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
   return new Ok(new A({
     a: a.value
   }))
-}
+})
 
 class B extends Component {
   render() {

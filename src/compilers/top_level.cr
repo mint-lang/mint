@@ -15,8 +15,11 @@ module Mint
       compiler =
         new(artifacts, options[:optimize])
 
+      main =
+        compiler.js.class_of(compiler.ast.components.find(&.name.==("Main")).not_nil!)
+
       result =
-        compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
+        compiler.wrap_runtime(compiler.compile + "\nconst $Main = #{main}\n_program.render($Main)")
 
       if options[:beautify]
         RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
@@ -39,7 +42,7 @@ module Mint
     # Compiles the application with the runtime and the tests
     def self.compile_with_tests(artifacts : TypeChecker::Artifacts) : String
       compiler =
-        new(artifacts, options[:optimize])
+        new(artifacts)
 
       base =
         compiler.compile
@@ -133,11 +136,22 @@ module Mint
           .map { |file| File.read(file) }
           .join("\n\n")
 
+      html_event_module =
+        ast.modules.find(&.name.==("Html.Event")).not_nil!
+
+      from_event =
+        html_event_module.functions.find(&.name.value.==("fromEvent")).not_nil!
+
+      from_event_call =
+        js.class_of(html_event_module) + "." + js.variable_of(from_event)
+
       <<-RESULT
       #{javascripts}
 
       (() => {
-        const _normalizeEvent = Mint.normalizeEvent;
+        const _normalizeEvent = function (event) {
+          return #{from_event_call}(Mint.normalizeEvent(event))
+        };
         const _createElement = Mint.createElement;
         const _createPortal = Mint.createPortal;
         const _insertStyles = Mint.insertStyles;
@@ -147,6 +161,7 @@ module Mint
         const _update = Mint.update;
         const _encode = Mint.encode;
         const _at = Mint.at;
+
         const _array = function() {
           let items = Array.from(arguments)
           if (Array.isArray(items[0]) && items.length === 1) {

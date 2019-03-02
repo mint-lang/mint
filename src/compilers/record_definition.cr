@@ -14,7 +14,7 @@ module Mint
               field =
                 js.variable_of(type.name, key)
 
-              memo[field] = value ? %("#{value}") : "null"
+              memo[field] = value ? %("#{value}") : %("#{key}")
             end)
 
         decoder =

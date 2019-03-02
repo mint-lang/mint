@@ -18,19 +18,15 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
     `
     (() => {
       this.detach()
-      this.frame()
-    })()
-    `
-  }
 
-  /* This function handles the animation frame. */
-  fun frame : Void {
-    `
-    (() => {
-      this.id = requestAnimationFrame(() => {
-        this.update()
-        this.frame()
-      })
+      const fn = () => {
+        requestAnimationFrame(() => {
+          #{update()}
+          fn()
+        })
+      }
+
+      this.id = fn()
     })()
     `
   }

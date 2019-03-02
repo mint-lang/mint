@@ -9,7 +9,7 @@ module Array {
   fun first (array : Array(a)) : Maybe(a) {
     `
     (() => {
-      let first = array[0]
+      let first = #{array}[0]
       if (first !== undefined) {
         return new Just(first)
       } else {
@@ -39,7 +39,7 @@ module Array {
   fun last (array : Array(a)) : Maybe(a) {
     `
     (() => {
-      let last = array[array.length - 1]
+      let last = #{array}[#{array}.length - 1]
       if (last !== undefined) {
         return new Just(last)
       } else {
@@ -67,7 +67,7 @@ module Array {
     Array.size([1, 2, 3]) == 3
   */
   fun size (array : Array(a)) : Number {
-    `array.length`
+    `#{array}.length`
   }
 
   /*
@@ -77,7 +77,7 @@ module Array {
     Array.push(4, [1, 2, 3]) == [1, 2, 3, 4]
   */
   fun push (item : a, array : Array(a)) : Array(a) {
-    `[...array, item]`
+    `[...#{array}, #{item}]`
   }
 
   /*
@@ -87,7 +87,7 @@ module Array {
     Array.reverse([1, 2, 3]) == [4, 3, 2, 1]
   */
   fun reverse (array : Array(a)) : Array(a) {
-    `array.slice().reverse()`
+    `#{array}.slice().reverse()`
   }
 
   /*
@@ -97,7 +97,7 @@ module Array {
     Array.map((number : Number) : Number { number + 1 }, [1, 2, 3]) == [2, 3, 4]
   */
   fun map (func : Function(a, b), array : Array(a)) : Array(b) {
-    `array.map(func)`
+    `#{array}.map(#{func})`
   }
 
   /*
@@ -109,7 +109,7 @@ module Array {
       (index : Number, number : Number) : Number { number + index }, [1, 2, 3]) == [2, 4, 6]
   */
   fun mapWithIndex (func : Function(a, Number, b), array : Array(a)) : Array(b) {
-    `array.map(func)`
+    `#{array}.map(#{func})`
   }
 
   /*
@@ -118,7 +118,7 @@ module Array {
     Array.select((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [2, 4]
   */
   fun select (func : Function(a, Bool), array : Array(a)) : Array(a) {
-    `array.filter(func)`
+    `#{array}.filter(#{func})`
   }
 
   /*
@@ -127,7 +127,7 @@ module Array {
     Array.reject((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [1, 3]
   */
   fun reject (func : Function(a, Bool), array : Array(a)) : Array(a) {
-    `array.filter((item) => !func(item))`
+    `#{array}.filter((item) => !#{func}(item))`
   }
 
   /*
@@ -138,7 +138,7 @@ module Array {
   fun find (func : Function(a, Bool), array : Array(a)) : Maybe(a) {
     `
     (() => {
-      let item = array.find(func)
+      let item = #{array}.find(#{func})
 
       if (item != undefined) {
         return new Just(item)
@@ -157,7 +157,7 @@ module Array {
     Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 3]) == false
   */
   fun any (func : Function(a, Bool), array : Array(a)) : Bool {
-    `!!array.find(func)`
+    `!!#{array}.find(#{func})`
   }
 
   /*
@@ -166,7 +166,7 @@ module Array {
     Array.sort((a : Number, b : Number) : Number { a - b }, [4, 1, 3, 2]) == [1, 2, 3, 4]
   */
   fun sort (func : Function(a, a, Number), array : Array(a)) : Array(a) {
-    `array.slice().sort(func)`
+    `#{array}.slice().sort(#{func})`
   }
 
   /*
@@ -179,9 +179,9 @@ module Array {
   fun sortBy (func : Function(a, b), array : Array(a)) : Array(a) {
     `
     (() => {
-      return array.sort((a, b) => {
-        let aVal = func(a)
-        let bVal = func(b)
+      return #{array}.sort((a, b) => {
+        let aVal = #{func}(a)
+        let bVal = #{func}(b)
 
         if (aVal < bVal) {
           return -1
@@ -203,7 +203,7 @@ module Array {
     Array.slice(2, 4, ["ant", "bison", "camel", "duck", "elephant"]) == ["camel", "duck"]
   */
   fun slice (begin : Number, end : Number, array : Array(a)) : Array(a) {
-    `array.slice(begin, end)`
+    `#{array}.slice(#{begin}, #{end})`
   }
 
   /*
@@ -222,7 +222,7 @@ module Array {
     Array.intersperse("a", ["x", "y", "z"]) == ["x", "a", "y", "a", "z"]
   */
   fun intersperse (item : a, array : Array(a)) : Array(a) {
-    `array.reduce((a,v)=>[...a,v,item],[]).slice(0,-1)`
+    `#{array}.reduce((a,v)=>[...a,v,#{item}],[]).slice(0,-1)`
   }
 
   /*
@@ -234,8 +234,8 @@ module Array {
   fun contains (other : a, array : Array(a)) : Bool {
     `
     (() => {
-      for (let item of array) {
-        if (_compare(other, item)) {
+      for (let item of #{array}) {
+        if (_compare(#{other}, item)) {
           return true
         }
       }
@@ -252,7 +252,7 @@ module Array {
     Array.range(0, 5) == [0, 1, 2, 3, 4, 5]
   */
   fun range (from : Number, to : Number) : Array(Number) {
-    `Array.from({ length: (to + 1) - from }).map((v, i) => i + from)`
+    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, i) => i + #{from})`
   }
 
   /*
@@ -271,7 +271,7 @@ module Array {
     Array.max([]) == 0
   */
   fun max (array : Array(Number)) : Number {
-    `Math.max(...array)`
+    `Math.max(...#{array})`
   }
 
   /*
@@ -283,8 +283,8 @@ module Array {
   fun sample (array : Array(a)) : Maybe(a) {
     `
     (() => {
-      if (array.length) {
-        return new Just(array[Math.floor(Math.random() * array.length)])
+      if (#{array}.length) {
+        return new Just(#{array}[Math.floor(Math.random() * #{array}.length)])
       } else {
         return new Nothing()
       }
@@ -299,16 +299,7 @@ module Array {
     Array.at(1, [0]) == Maybe.nothing()
   */
   fun at (index : Number, array : Array(a)) : Maybe(a) {
-    `
-    (() => {
-      let item = array[index]
-      if (item !== undefined) {
-        return new Just(item)
-      } else {
-        return new Nothing()
-      }
-    })()
-    `
+    `_at(#{array}, #{index})`
   }
 
   /*
@@ -317,7 +308,7 @@ module Array {
     Array.Extra.append([1,1,2] [3,5,8]) == [1,1,2,3,5,8]
   */
   fun append (array1 : Array(a), array2 : Array(a)) : Array(a) {
-    `[].concat(array1).concat(array2)`
+    `[].concat(#{array1}).concat(#{array2})`
   }
 
   /*
@@ -343,7 +334,7 @@ module Array {
     method : Function(b, a, b),
     array : Array(a)
   ) : b {
-    `array.reduce(method, initial)`
+    `#{array}.reduce(#{method}, #{initial})`
   }
 
   /*
@@ -357,7 +348,7 @@ module Array {
     func : Function(b, a, b),
     array : Array(a)
   ) : b {
-    `array.reduceRight(func, initial)`
+    `#{array}.reduceRight(#{func}, #{initial})`
   }
 
   /*
@@ -378,7 +369,7 @@ module Array {
     Array.take(2, [1,2,3,4]) == [1,2]
   */
   fun take (number : Number, array : Array(a)) : Array(a) {
-    `array.slice(0, number)`
+    `#{array}.slice(0, #{number})`
   }
 
   /*
@@ -387,7 +378,7 @@ module Array {
     Array.drop(2, [1,2,3,4]) == [3,4]
   */
   fun drop (number : Number, array : Array(a)) : Array(a) {
-    `array.slice(number)`
+    `#{array}.slice(#{number})`
   }
 
   /*
@@ -398,8 +389,8 @@ module Array {
   fun dropRight (number : Number, array : Array(a)) : Array(a) {
     `
     (() => {
-      if (number < 0) { return array }
-      return array.slice(0, -number)
+      if (#{number} < 0) { return #{array} }
+      return #{array}.slice(0, -#{number})
     })()
     `
   }
@@ -413,13 +404,13 @@ module Array {
   fun groupsOf (size : Number, array : Array(a)) : Array(Array(a)) {
     `
     (() => {
-      let groups = Math.ceil(array.length/size)
+      let groups = Math.ceil(#{array}.length/#{size})
       let lowerLimit = 0
       let result = []
 
       for (var i= 0; i < groups; i++) {
-        lowerLimit = i*size;
-        result.push(array.slice(lowerLimit, lowerLimit + size))
+        lowerLimit = i*#{size};
+        result.push(#{array}.slice(lowerLimit, lowerLimit + #{size}))
       }
 
       return result;
@@ -435,8 +426,8 @@ module Array {
   fun unshift (item : a, array : Array(a)) : Array(a) {
     `
     (() => {
-      const result = Array.from(array)
-      result.unshift(item)
+      const result = Array.from(#{array})
+      result.unshift(#{item})
       return result
     })()
     `
@@ -453,7 +444,7 @@ module Array {
     (() => {
       const result = []
 
-      for (let item of array) {
+      for (let item of #{array}) {
         if (item instanceof Just) {
           result.push(item.value)
         }
@@ -489,19 +480,19 @@ module Array {
   fun move (from : Number, to : Number, array : Array(a)) : Array(a) {
     `
     (() => {
-      const result = Array.from(array)
+      const result = Array.from(#{array})
 
-      if (from == to || from < 0 || from >= result.length) {
+      if (#{from} == #{to} || #{from} < 0 || #{from} >= result.length) {
         return result
-      } else if (to < 0) {
+      } else if (#{to} < 0) {
         /* If the desired position is lower then zero put at the front. */
-        result.unshift(result.splice(from, 1)[0])
-      } else if (to >= result.length) {
+        result.unshift(result.splice(#{from}, 1)[0])
+      } else if (#{to} >= result.length) {
         /* If the desired position is bigger then length put at the back. */
-        result.push(result.splice(from, 1)[0])
+        result.push(result.splice(#{from}, 1)[0])
       } else {
         /* Else we just move. */
-        result.splice(to, 0, result.splice(from, 1)[0])
+        result.splice(#{to}, 0, result.splice(#{from}, 1)[0])
       }
 
       return result
@@ -517,12 +508,12 @@ module Array {
   fun insertAt (item : a, position : Number, array : Array(a)) : Array(a) {
     `
     (() => {
-      const result = Array.from(array)
+      const result = Array.from(#{array})
 
-      if (position <= 0) {
-        result.unshift(item)
+      if (#{position} <= 0) {
+        result.unshift(#{item})
       } else {
-        result.splice(position, 0, item)
+        result.splice(#{position}, 0, #{item})
       }
 
       return result
@@ -539,17 +530,17 @@ module Array {
   fun swap (index1 : Number, index2 : Number, array : Array(a)) : Array(a) {
     `
     (() => {
-      if (index1 < 0 ||
-          index2 < 0 ||
-          index1 >= array.length ||
-          index2 >= array.length) {
-        return array
+      if (#{index1} < 0 ||
+          #{index2} < 0 ||
+          #{index1} >= #{array}.length ||
+          #{index2} >= #{array}.length) {
+        return #{array}
       }
 
-      const result = Array.from(array)
-      const saved = result[index1]
-      result[index1] = result[index2]
-      result[index2] = saved;
+      const result = Array.from(#{array})
+      const saved = result[#{index1}]
+      result[#{index1}] = result[#{index2}]
+      result[#{index2}] = saved;
       return result
     })()
     `
@@ -559,9 +550,9 @@ module Array {
   fun deleteAt (index : Number, array : Array(a)) : Array(a) {
     `
     (() => {
-      if (index < 0 || index >= array.length) { return array }
-      const result = Array.from(array)
-      result.splice(index, 1)
+      if (#{index} < 0 || #{index} >= #{array}.length) { return #{array} }
+      const result = Array.from(#{array})
+      result.splice(#{index}, 1)
       return result
     })()
     `
@@ -583,10 +574,10 @@ module Array {
   ) : Array(a) {
     `
     (() => {
-      if (array[index]) {
-        return #{setAt(index, method(`array[index]`), array)}
+      if (#{array}[#{index}]) {
+        return #{setAt(index, method(`#{array}[#{index}]`), array)}
       } else {
-        return array
+        return #{array}
       }
     })()
     `
@@ -600,9 +591,9 @@ module Array {
   fun setAt (index : Number, item : a, array : Array(a)) : Array(a) {
     `
     (() => {
-      if (index < 0 || index >= array.length) { return array }
-      const result = Array.from(array)
-      result[index] = item
+      if (#{index} < 0 || #{index} >= #{array}.length) { return #{array} }
+      const result = Array.from(#{array})
+      result[#{index}] = #{item}
       return result
     })()
     `
@@ -616,8 +607,8 @@ module Array {
   fun indexOf (item : a, array : Array(a)) : Number {
     `
     (() => {
-      for (let index = 0; index < array.length; index++) {
-        if (_compare(item, array[index])) {
+      for (let index = 0; index < #{array}.length; index++) {
+        if (_compare(#{item}, #{array}[index])) {
           return index
         }
       }

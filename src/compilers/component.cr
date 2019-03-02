@@ -71,18 +71,17 @@ module Mint
           item.keys.map do |key|
             store_name = js.class_of(store)
 
-            name = (key.name || key.variable).value
             original = key.variable.value
 
-            if state = store.states.find(&.name.value.==(original))
-              original_var =
-                js.variable_of(state)
+            id = js.variable_of(lookups[key])
+            name = js.variable_of(key)
 
-              memo << js.get(name, "return #{store_name}.#{original_var}")
+            if store.states.find(&.name.value.==(original))
+              memo << js.get(name, "return #{store_name}.#{id}")
             elsif store.gets.any? { |get| get.name.value == original }
-              memo << js.get(name, "return #{store_name}.#{original}")
+              memo << js.get(name, "return #{store_name}.#{id}")
             elsif store.functions.any? { |func| func.name.value == original }
-              memo << "#{name} (...params) { return #{store_name}.#{original}(...params) }"
+              memo << "#{name} (...params) { return #{store_name}.#{id}(...params) }"
             end
           end
         end

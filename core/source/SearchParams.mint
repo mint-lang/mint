@@ -7,14 +7,14 @@ module SearchParams {
 
   /* Parses a string into a search parameters object. */
   fun fromString (value : String) : SearchParams {
-    `new URLSearchParams(value)`
+    `new URLSearchParams(#{value})`
   }
 
   /* Returns the first value associated to the given search parameter. */
   fun get (key : String, params : SearchParams) : Maybe(String) {
     `
     (() => {
-      let value = params.get(key)
+      let value = #{params}.get(#{key})
 
       if (value === null) {
         return new Nothing()
@@ -27,7 +27,7 @@ module SearchParams {
 
   /* Returns a `Bool` indicating if such a search parameter exists. */
   fun has (key : String, params : SearchParams) : Bool {
-    `params.has(key)`
+    `#{params}.has(#{key})`
   }
 
   /*
@@ -37,8 +37,8 @@ module SearchParams {
   fun delete (key : String, params : SearchParams) : SearchParams {
     `
     (() => {
-      let newParams = new URLSearchParams(params.toString())
-      newParams.delete(key)
+      let newParams = new URLSearchParams(#{params}.toString())
+      newParams.delete(#{key})
       return newParams
     })()
     `
@@ -51,8 +51,8 @@ module SearchParams {
   fun set (key : String, value : String, params : SearchParams) : SearchParams {
     `
     (() => {
-      let newParams = new URLSearchParams(params.toString())
-      newParams.set(key, value)
+      let newParams = new URLSearchParams(#{params}.toString())
+      newParams.set(#{key}, #{value})
       return newParams
     })()
     `
@@ -62,8 +62,8 @@ module SearchParams {
   fun append (key : String, value : String, params : SearchParams) : SearchParams {
     `
     (() => {
-      let newParams = new URLSearchParams(params.toString())
-      newParams.append(key, value)
+      let newParams = new URLSearchParams(#{params}.toString())
+      newParams.append(#{key}, #{value})
       return newParams
     })()
     `
@@ -71,6 +71,6 @@ module SearchParams {
 
   /* Returns a string containing a query string suitable for use in a URL. */
   fun toString (params : SearchParams) : String {
-    `params.toString()`
+    `#{params}.toString()`
   }
 }

@@ -23,7 +23,14 @@ module Mint
         "readOnly: #{value}"
       end
 
-      "\"#{node.name.value}\": #{value}"
+      name =
+        if is_element
+          node.name.value
+        else
+          js.variable_of(lookups[node])
+        end
+
+      "\"#{name}\": #{value}"
     end
   end
 end

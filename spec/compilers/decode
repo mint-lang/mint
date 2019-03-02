@@ -24,26 +24,26 @@ component Main {
 class A extends Record {}
 
 A.mappings = {
-  a: null
+  a: "blah"
 }
 
-A.decode = (_input) => {
+A.decode = ((_input) => {
   let a = Decoder.field(`blah`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
   return new Ok(new A({
     a: a.value
   }))
-}
+})
 
 class B extends Record {}
 
 B.mappings = {
-  a: null,
-  b: null
+  a: "name",
+  b: "y"
 }
 
-B.decode = (_input) => {
+B.decode = ((_input) => {
   let a = Decoder.field(`name`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
@@ -54,7 +54,7 @@ B.decode = (_input) => {
     a: a.value,
     b: b.value
   }))
-}
+})
 
 class C extends Component {
   a(b) {

@@ -6,7 +6,7 @@ module Maybe {
 
   /* Returns a maybe containing just the given value. */
   fun just (value : a) : Maybe(a) {
-    `new Just(value)`
+    `new Just(#{value})`
   }
 
   /*
@@ -16,7 +16,7 @@ module Maybe {
      Maybe.isJust(Maybe.nothing()) == false
   */
   fun isJust (maybe : Maybe(a)) : Bool {
-    `maybe instanceof Just`
+    `#{maybe} instanceof Just`
   }
 
   /*
@@ -26,7 +26,7 @@ module Maybe {
     Maybe.isNothing(Maybe.nothing("A")) == false
   */
   fun isNothing (maybe : Maybe(a)) : Bool {
-    `maybe instanceof Nothing`
+    `#{maybe} instanceof Nothing`
   }
 
   /*
@@ -38,10 +38,10 @@ module Maybe {
   fun map (func : Function(a, b), maybe : Maybe(a)) : Maybe(b) {
     `
     (() => {
-     	if (maybe instanceof Just) {
-     		return new Just(func(maybe.value))
+     	if (#{maybe} instanceof Just) {
+     		return new Just(#{func}(#{maybe}.value))
      	} else {
-     		return maybe
+     		return #{maybe}
      	}
     })()
     `
@@ -56,10 +56,10 @@ module Maybe {
   fun withDefault (value : a, maybe : Maybe(a)) : a {
     `
     (() => {
-    	if (maybe instanceof Just) {
-    		return maybe.value
+    	if (#{maybe} instanceof Just) {
+    		return #{maybe}.value
     	} else {
-    		return value
+    		return #{value}
     	}
     })()
     `
@@ -74,10 +74,10 @@ module Maybe {
   fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
     `
     (() => {
-      if (maybe instanceof Just) {
-        return new Ok(maybe.value)
+      if (#{maybe} instanceof Just) {
+        return new Ok(#{maybe}.value)
       } else {
-        return new Err(error)
+        return new Err(#{error})
       }
     })()
     `
@@ -93,10 +93,10 @@ module Maybe {
   fun flatten (maybe : Maybe(Maybe(a))) : Maybe(a) {
     `
     (() => {
-      if (maybe instanceof Just) {
-        return maybe.value
+      if (#{maybe} instanceof Just) {
+        return #{maybe}.value
       } else {
-        return maybe
+        return #{maybe}
       }
     })()
     `

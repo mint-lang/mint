@@ -30,7 +30,7 @@ class A extends Component {
   }
 
   get a() {
-    return this.props.a || this.defaultProps.a
+    return 'a' in this.props ? this.props.a : this.defaultProps.a
   }
 
   render() {

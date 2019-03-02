@@ -6,7 +6,7 @@ module Number {
     Number.isOdd(2) == true
   */
   fun isOdd (input : Number) : Bool {
-    `input % 2 === 1`
+    `#{input} % 2 === 1`
   }
 
   /*
@@ -16,7 +16,7 @@ module Number {
     Number.isEven(2) == false
   */
   fun isEven (input : Number) : Bool {
-    `Math.abs(input % 2) === 0`
+    `Math.abs(#{input} % 2) === 0`
   }
 
   /*
@@ -26,7 +26,7 @@ module Number {
     Number.isNaN(0) == false
   */
   fun isNaN (input : Number) : Bool {
-    `isNaN(input)`
+    `isNaN(#{input})`
   }
 
   /*
@@ -35,7 +35,7 @@ module Number {
     Number.toString(123) == 123
   */
   fun toString (input : Number) : String {
-    `input.toString()`
+    `#{input}.toString()`
   }
 
   /*
@@ -47,7 +47,7 @@ module Number {
     Number.toFixed(2, 0.1234567) == "0.12"
   */
   fun toFixed (decimalPlaces : Number, input : Number) : String {
-    `input.toFixed(decimalPlaces)`
+    `#{input}.toFixed(#{decimalPlaces})`
   }
 
   /*
@@ -59,7 +59,7 @@ module Number {
   fun fromString (input : String) : Maybe(Number) {
     `
     (() => {
-      let value = parseFloat(input)
+      let value = parseFloat(#{input})
       if (isNaN(value)) {
         return new Nothing()
       } else {

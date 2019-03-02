@@ -20,7 +20,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends Component {
-  get a() {
+  get c() {
     return B.b
   }
 
@@ -52,7 +52,7 @@ const B = new(class extends Store {
     return this.state.b
   }
 
-  c() {
+  d() {
     return `hello`
   }
 })
