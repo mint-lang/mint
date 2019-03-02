@@ -1,16 +1,13 @@
 module Mint
   class Compiler
     def _compile(node : Ast::EnumId) : String
-      prefix =
-        underscorize node.name
-
       name =
-        underscorize node.option
+        js.class_of(lookups[node])
 
       expressions =
         compile node.expressions, ","
 
-      "new $$#{prefix}_#{name}(#{expressions})"
+      "new #{name}(#{expressions})"
     end
   end
 end

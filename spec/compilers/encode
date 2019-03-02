@@ -17,45 +17,41 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Test extends Record {}
+class A extends Record {}
 
-$$Test.mappings = {
-  "name": null,
-  "age": null
+A.mappings = {
+  a: null,
+  b: null
 }
 
-$$Test.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
+A.decode = (_input) => {
+  let a = Decoder.field(`name`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
-  let age = Decoder.field(`age`, Decoder.number)(_input)
-  if (age instanceof Err) {
-    return age
-  }
+  let b = Decoder.field(`age`, Decoder.number)(_input)
+  if (b instanceof Err) { return b }
 
-  return new Ok(new $$Test({
-    name: name.value,
-    age: age.value
+  return new Ok(new A({
+    a: a.value,
+    b: b.value
   }))
 }
 
-class $Main extends Component {
-  encode() {
-    return _encode(new $$Test({
-      name: `Hello`,
-      age: 20
+class B extends Component {
+  a() {
+    return _encode(new A({
+      a: `Hello`,
+      b: 20
     }))
   }
 
   render() {
     return (() => {
-      this.encode()
+      this.a()
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

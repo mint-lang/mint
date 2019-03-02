@@ -23,6 +23,8 @@ module Mint
         "node"        => node,
       } unless option
 
+      lookups[node] = option
+
       node.parameters.each_with_index do |param, index|
         raise EnumDestructuringNoParameter, {
           "size"   => option.parameters.size.to_s,

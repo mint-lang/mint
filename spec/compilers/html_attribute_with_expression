@@ -5,7 +5,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
     return _createElement("div", {
       "title": `Hello ` + `there!`
@@ -13,4 +13,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

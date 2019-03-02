@@ -18,25 +18,27 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Record extends Record {}
+class A extends Record {}
 
-$$Record.mappings = {"a":null}
+A.mappings = {
+  a: null
+}
 
-$$Record.decode = (_input) => {
+A.decode = (_input) => {
   let a = Decoder.field(`name`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
-  return new Ok(new $$Record({
+  return new Ok(new A({
     a: a.value
   }))
 }
 
-class A extends Component {
+class B extends Component {
   constructor(props) {
     super(props)
 
     this.defaultProps = {
-      b: new B({
+      b: new A({
         a: `Doe`
       })
     }
@@ -59,4 +61,4 @@ class A extends Component {
   }
 }
 
-A.displayName = "Main"
+B.displayName = "Main"

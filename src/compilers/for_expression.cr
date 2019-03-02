@@ -9,9 +9,9 @@ module Mint
 
       arguments =
         if node.arguments.size == 1
-          node.arguments[0].value
+          js.variable_of(node.arguments[0])
         else
-          "[" + node.arguments.map(&.value).join(",") + "]"
+          "[" + node.arguments.map { |arg| js.variable_of(arg) }.join(",") + "]"
         end
 
       condition =

@@ -25,6 +25,8 @@ module Mint
           resolved =
             resolve node.fields[1]
 
+          lookups[node.fields[1]] = second if second.is_a?(Ast::Node)
+
           if resolved.is_a?(Record)
             check_record_access(node.fields[1], node, 2)
           else
@@ -57,6 +59,8 @@ module Mint
             "target" => target,
             "node"   => field,
           } unless new_target
+
+          record_field_lookup[field] = target.name
 
           target = new_target
         else

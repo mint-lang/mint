@@ -5,14 +5,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
     return _createElement("div", {
-      ref: (element) => {
-        this._input = element
-      }
+      ref: (element) => { this._input = element }
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

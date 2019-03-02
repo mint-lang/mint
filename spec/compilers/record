@@ -20,26 +20,29 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Test extends Record {}
+class A extends Record {}
 
-$$Test.mappings = {"a":null,"b":null}
+A.mappings = {
+  a: null,
+  b: null
+}
 
-$$Test.decode = (_input) => {
+A.decode = (_input) => {
   let a = Decoder.field(`a`, Decoder.string)(_input)
   if (a instanceof Err) { return a }
 
   let b = Decoder.field(`b`, Decoder.number)(_input)
   if (b instanceof Err) { return b }
 
-  return new Ok(new $$Test({
+  return new Ok(new A({
     a: a.value,
     b: b.value
   }))
 }
 
-class A extends Component {
+class B extends Component {
   a() {
-    return new B({
+    return new A({
       a: `Hello`,
       b: 0
     })
@@ -54,4 +57,4 @@ class A extends Component {
   }
 }
 
-A.displayName = "Main"
+B.displayName = "Main"

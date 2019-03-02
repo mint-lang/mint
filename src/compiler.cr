@@ -6,8 +6,8 @@ module Mint
 
     getter js
 
-    def initialize(@artifacts : TypeChecker::Artifacts)
-      @js = Js.new(optimize: false)
+    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false)
+      @js = Js.new(optimize: @optimize)
       @decoder = Decoder.new(@js)
     end
 

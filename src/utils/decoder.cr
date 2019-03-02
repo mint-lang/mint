@@ -42,7 +42,7 @@ module Mint
         <<-JS
         #{consts.join("\n\n")}
 
-        return new Ok(new $$#{underscorize(node.name)}({
+        return new Ok(new #{js.class_of(node.name)}({
         #{fields.join(",\n").indent}
         }))
         JS
@@ -67,7 +67,7 @@ module Mint
     def generate(node : TypeChecker::Record)
       compile node
 
-      "$$#{underscorize(node.name)}.decode"
+      "#{js.class_of(node.name)}.decode"
     end
 
     def generate(node : TypeChecker::Type)

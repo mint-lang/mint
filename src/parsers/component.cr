@@ -53,9 +53,7 @@ module Mint
           when Ast::Function
             functions << item
 
-            if item.name.value == "render"
-              item.is_render = true
-            end
+            item.keep_name = true if item.name.value == "render"
           when Ast::Connect
             connects << item
           when Ast::Style

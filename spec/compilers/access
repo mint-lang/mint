@@ -10,31 +10,29 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$X extends Record {}
+class A extends Record {}
 
-$$X.mappings = {
-  "name": null
+A.mappings = {
+  a: null
 }
 
-$$X.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
+A.decode = (_input) => {
+  let a = Decoder.field(`name`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
-  return new Ok(new $$X({
-    name: name.value
+  return new Ok(new A({
+    a: a.value
   }))
 }
 
-class $Main extends Component {
+class B extends Component {
   render() {
-    let x = new $$X({
-      name: `test`
+    let a = new A({
+      a: `test`
     })
 
-    return x.name
+    return a.a
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

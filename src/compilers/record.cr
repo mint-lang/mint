@@ -9,7 +9,7 @@ module Mint
 
       if type
         name =
-          js.class_of(node)
+          js.class_of(type.name)
 
         "new #{name}({\n#{fields.indent}\n})"
       else

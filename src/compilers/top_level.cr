@@ -5,15 +5,15 @@ module Mint
       sbx.eval! Assets.read("js_beautify.js")
     end
 
-    DEFAULT_OPTIONS = {beautify: false}
+    DEFAULT_OPTIONS = {beautify: false, optimize: false}
 
-    alias Options = NamedTuple(beautify: Bool)
+    alias Options = NamedTuple(beautify: Bool, optimize: Bool)
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts)
+        new(artifacts, options[:optimize])
 
       result =
         compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
@@ -27,7 +27,7 @@ module Mint
 
     # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
-      compiler = new(artifacts)
+      compiler = new(artifacts, options[:optimize])
 
       if options[:beautify]
         RUNTIME.call(["global", "js_beautify"], compiler.compile, {indent_size: 2}).to_s
@@ -39,7 +39,7 @@ module Mint
     # Compiles the application with the runtime and the tests
     def self.compile_with_tests(artifacts : TypeChecker::Artifacts) : String
       compiler =
-        new(artifacts)
+        new(artifacts, options[:optimize])
 
       base =
         compiler.compile

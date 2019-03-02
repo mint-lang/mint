@@ -11,7 +11,7 @@ module Mint
           case
           when (index + 1) == node.statements.size
             "return "
-          when name = statement.name
+          when statement.name
             "let #{js.variable_of(statement)} = "
           end
 

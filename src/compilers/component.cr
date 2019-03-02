@@ -74,7 +74,7 @@ module Mint
             name = (key.name || key.variable).value
             original = key.variable.value
 
-            if state = store.states.find { |state| state.name.value == original }
+            if state = store.states.find(&.name.value.==(original))
               original_var =
                 js.variable_of(state)
 
@@ -116,19 +116,19 @@ module Mint
           use.condition ? compile(use.condition.not_nil!) : "true"
 
         name =
-          underscorize(use.provider)
+          js.class_of(lookups[use])
 
         data =
           compile use.data
 
         body =
           "if (#{condition}) {\n" \
-          "  $#{name}._subscribe(this, #{data})\n" \
+          "  #{name}._subscribe(this, #{data})\n" \
           "} else {\n" \
-          "  $#{name}._unsubscribe(this)\n" \
+          "  #{name}._unsubscribe(this)\n" \
           "}"
 
-        heads["componentWillUnmount"] << "$#{name}._unsubscribe(this)"
+        heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
         heads["componentDidUpdate"] << body
         heads["componentDidMount"] << body
       end
@@ -146,7 +146,9 @@ module Mint
 
           # If the user defined the same function the code goes after it.
           if function && value
-            compile function, value.join(";")
+            function.keep_name = true
+
+            compile function, value.join("")
           elsif value.any?
             js.function(key, [] of String, js.statements(value))
           end

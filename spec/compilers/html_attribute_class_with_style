@@ -9,7 +9,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends Component {
   render() {
     return _createElement("div", {
       className: `something` + ` main-base`
@@ -17,7 +17,7 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
 _insertStyles(`
   .main-base {

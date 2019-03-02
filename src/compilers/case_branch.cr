@@ -17,43 +17,36 @@ module Mint
         when Ast::EnumDestructuring
           variables =
             match.parameters.map_with_index do |param, index1|
-              "const #{param.value} = #{variable}._#{index1}"
+              "const #{js.variable_of(param)} = #{variable}._#{index1}"
             end
 
           name =
-            "$$#{underscorize(match.name)}_#{underscorize(match.option)}"
+            js.class_of(lookups[match])
 
-          <<-RESULT
-            if (#{variable} instanceof #{name}) {
-              #{variables.join("\n")}
-
-              return #{expression}
-            }
-          RESULT
+          js.if("#{variable} instanceof #{name}") do
+            js.statements([
+              variables.join("\n"),
+              js.return(expression),
+            ])
+          end
         else
           compiled =
             compile match
 
           if index == 0
-            <<-RESULT
-            if (_compare(#{variable}, #{compiled})) {
-              return #{expression}
-            }
-            RESULT
+            js.if("_compare(#{variable}, #{compiled})") do
+              js.return(expression)
+            end
           else
-            <<-RESULT
-            else if (_compare(#{variable}, #{compiled})) {
-              return #{expression}
-            }
-            RESULT
+            js.elseif("_compare(#{variable}, #{compiled})") do
+              js.return(expression)
+            end
           end
         end
       else
-        <<-RESULT
-        else {
-          return #{expression}
-        }
-        RESULT
+        js.else do
+          "return #{expression}"
+        end
       end
     end
   end

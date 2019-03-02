@@ -26,39 +26,36 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$A_B extends Enum {
+class B extends Enum {
   constructor(_0) {
     super()
-
     this._0 = _0
-
     this.length = 1
   }
-};
+}
 
-class $$C_D extends Enum {
+class C extends Enum {
   constructor(_0) {
     super()
-
     this._0 = _0
-
     this.length = 1
   }
-};
+}
 
-class $Main extends Component {
-  test(a) {
+class A extends Component {
+  a(b) {
     return (() => {
-      let b = a;
-      if (b instanceof $$C_D) {
-        const a = b._0
+      let c = b
+
+      if (c instanceof C) {
+        const d = c._0
 
         return (() => {
-          let c = a;
-          if (c instanceof $$A_B) {
-            const c = c._0
+          let e = d
 
-            return c
+          if (e instanceof B) {
+            const f = e._0
+            return f
           }
         })()
       }
@@ -67,11 +64,11 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test(new $$C_D(new $$A_B(``)))
+      this.a(new C(new B(``)))
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

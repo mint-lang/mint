@@ -17,8 +17,8 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get color() {
+class A extends Component {
+  get a() {
     return `blue`
   }
 
@@ -26,13 +26,13 @@ class $Main extends Component {
     return _createElement("div", {
       className: `main-test`,
       style: {
-        [`--main-test-div-color`]: this.color
+        [`--main-test-div-color`]: this.a
       }
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
 _insertStyles(`
   .main-test {

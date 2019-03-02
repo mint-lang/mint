@@ -21,55 +21,49 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$X_Y extends Record {}
+class A extends Record {}
 
-$$X_Y.mappings = {
-  "blah": null
+A.mappings = {
+  a: null
 }
 
-$$X_Y.decode = (_input) => {
-  let blah = Decoder.field(`blah`, Decoder.string)(_input)
-  if (blah instanceof Err) {
-    return blah
-  }
+A.decode = (_input) => {
+  let a = Decoder.field(`blah`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
-  return new Ok(new $$X_Y({
-    blah: blah.value
+  return new Ok(new A({
+    a: a.value
   }))
 }
 
-class $$X extends Record {}
+class B extends Record {}
 
-$$X.mappings = {
-  "name": null,
-  "y": null
+B.mappings = {
+  a: null,
+  b: null
 }
 
-$$X.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
+B.decode = (_input) => {
+  let a = Decoder.field(`name`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
-  let y = Decoder.field(`y`, $$X_Y.decode)(_input)
-  if (y instanceof Err) {
-    return y
-  }
+  let b = Decoder.field(`y`, A.decode)(_input)
+  if (b instanceof Err) { return b }
 
-  return new Ok(new $$X({
-    name: name.value,
-    y: y.value
+  return new Ok(new B({
+    a: a.value,
+    b: b.value
   }))
 }
 
-class $Main extends Component {
-  x(a) {
-    return $$X.decode(a)
+class C extends Component {
+  a(b) {
+    return B.decode(b)
   }
 
   render() {
     return (() => {
-      let _0 = this.x();
+      let _0 = this.a();
 
       if (_0 instanceof Err) {
         let _error = _0.value
@@ -83,4 +77,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+C.displayName = "Main"

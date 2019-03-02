@@ -26,90 +26,74 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Y extends Record {}
+class A extends Record {}
 
-$$Y.mappings = {
-  "size": "SIIIZEEE"
+A.mappings = {
+  a: "SIIIZEEE"
 }
 
-$$Y.decode = (_input) => {
-  let size = Decoder.field(`SIIIZEEE`, Decoder.number)(_input)
-  if (size instanceof Err) {
-    return size
-  }
+A.decode = (_input) => {
+  let a = Decoder.field(`SIIIZEEE`, Decoder.number)(_input)
+  if (a instanceof Err) { return a }
 
-  return new Ok(new $$Y({
-    size: size.value
+  return new Ok(new A({
+    a: a.value
   }))
 }
 
-class $$X extends Record {}
+class B extends Record {}
 
-$$X.mappings = {
-  "string": null,
-  "number": null,
-  "bool": null,
-  "time": null,
-  "maybe": null,
-  "array": null,
-  "y": null
+B.mappings = {
+  a: null,
+  b: null,
+  c: null,
+  d: null,
+  e: null,
+  f: null,
+  g: null
 }
 
-$$X.decode = (_input) => {
-  let string = Decoder.field(`string`, Decoder.string)(_input)
-  if (string instanceof Err) {
-    return string
-  }
+B.decode = (_input) => {
+  let a = Decoder.field(`string`, Decoder.string)(_input)
+  if (a instanceof Err) { return a }
 
-  let number = Decoder.field(`number`, Decoder.number)(_input)
-  if (number instanceof Err) {
-    return number
-  }
+  let b = Decoder.field(`number`, Decoder.number)(_input)
+  if (b instanceof Err) { return b }
 
-  let bool = Decoder.field(`bool`, Decoder.boolean)(_input)
-  if (bool instanceof Err) {
-    return bool
-  }
+  let c = Decoder.field(`bool`, Decoder.boolean)(_input)
+  if (c instanceof Err) { return c }
 
-  let time = Decoder.field(`time`, Decoder.time)(_input)
-  if (time instanceof Err) {
-    return time
-  }
+  let d = Decoder.field(`time`, Decoder.time)(_input)
+  if (d instanceof Err) { return d }
 
-  let maybe = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(_input)
-  if (maybe instanceof Err) {
-    return maybe
-  }
+  let e = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(_input)
+  if (e instanceof Err) { return e }
 
-  let array = Decoder.field(`array`, Decoder.array(Decoder.string))(_input)
-  if (array instanceof Err) {
-    return array
-  }
+  let f = Decoder.field(`array`, Decoder.array(Decoder.string))(_input)
+  if (f instanceof Err) { return f }
 
-  let y = Decoder.field(`y`, $$Y.decode)(_input)
-  if (y instanceof Err) {
-    return y
-  }
+  let g = Decoder.field(`y`, A.decode)(_input)
+  if (g instanceof Err) { return g }
 
-  return new Ok(new $$X({
-    string: string.value,
-    number: number.value,
-    bool: bool.value,
-    time: time.value,
-    maybe: maybe.value,
-    array: array.value,
-    y: y.value
+  return new Ok(new B({
+    a: a.value,
+    b: b.value,
+    c: c.value,
+    d: d.value,
+    e: e.value,
+    f: f.value,
+    g: g.value
   }))
 }
 
-class $Main extends Component {
-  x(a) {
-    return $$X.decode(a)
+class C extends Component {
+  a(b) {
+    return B.decode(b)
   }
 
   render() {
     return (() => {
-      let _0 = this.x();
+      let _0 = this.a();
 
       if (_0 instanceof Err) {
         let _error = _0.value
@@ -123,4 +107,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+C.displayName = "Main"

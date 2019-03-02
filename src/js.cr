@@ -9,11 +9,14 @@ module Mint
     abstract def statements(items : Array(String)) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
+    abstract def provider(name : String, body : Array(String)) : String
     abstract def iic(body : Array(String)) : String
     abstract def iif(body : String) : String
     abstract def asynciif(body : String) : String
     abstract def get(name : String, body : String) : String
     abstract def if(condition : String, body : String) : String
+    abstract def elseif(condition, &block : Proc(String)) : String
+    abstract def else(&block : Proc(String)) : String
     abstract def catch(condition : String, body : String) : String
     abstract def try(body : String, catches : Array(String), finally : String) : String
     abstract def promise(body : String) : String
@@ -62,6 +65,10 @@ module Mint
       const(name, "new(class extends Module{#{body.join("")}})")
     end
 
+    def provider(name : String, body : Array(String)) : String
+      const(name, "new(class extends Provider{#{body.join("")}})")
+    end
+
     def iic(body : Array(String)) : String
       "new(class{#{body.join("")}})"
     end
@@ -80,6 +87,14 @@ module Mint
 
     def if(condition : String, body : String)
       "if(#{condition}){#{body}}"
+    end
+
+    def elseif(condition, &block : Proc(String)) : String
+      "else if(#{condition}){#{yield}}"
+    end
+
+    def else(&block : Proc(String)) : String
+      "else{#{yield}}"
     end
 
     def catch(condition : String, body : String)
@@ -132,7 +147,6 @@ module Mint
     def statements(items : Array(String)) : String
       items.each_with_index.reduce("") do |memo, (item, index)|
         last = items[index - 1]? if index > 0
-        next_item = items[index + 1]?
 
         if last
           if last.includes?("\n")
@@ -157,6 +171,10 @@ module Mint
       const(name, "new(class extends Module #{class_body(body)})")
     end
 
+    def provider(name : String, body : Array(String)) : String
+      const(name, "new(class extends Provider #{class_body(body)})")
+    end
+
     def iic(body : Array(String)) : String
       "new(class #{class_body(body)})"
     end
@@ -175,6 +193,14 @@ module Mint
 
     def if(condition : String, body : String)
       "if (#{condition}) #{class_body(body)}"
+    end
+
+    def elseif(condition, &block : Proc(String)) : String
+      "else if (#{condition}) #{class_body(yield)}"
+    end
+
+    def else(&block : Proc(String)) : String
+      "else #{class_body(yield)}"
     end
 
     def catch(condition : String, body : String)
@@ -211,6 +237,7 @@ module Mint
     @record_field_cache : Hash(String, Hash(String, String)) = {} of String => Hash(String, String)
     @record_cache : Hash(String, String) = {} of String => String
     @cache : Hash(Ast::Node, String) = {} of Ast::Node => String
+    @type_cache : Hash(String, String) = {} of String => String
 
     @next_variable : String = 'a'.pred.to_s
     @next_class : String = 'A'.pred.to_s
@@ -238,13 +265,17 @@ module Mint
     def variable_of(node)
       case node
       when Ast::Function
-        return "render" if node.is_render
+        return node.name.value if node.keep_name
       end
 
       @cache[node] ||= next_variable
     end
 
-    def class_of(node)
+    def class_of(name : String)
+      @type_cache[name] ||= next_class
+    end
+
+    def class_of(node : Ast::Node)
       @cache[node] ||= next_class
     end
 

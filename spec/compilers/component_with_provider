@@ -22,55 +22,55 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$MouseProvider_Data extends Record {}
+class A extends Record {}
 
-$$MouseProvider_Data.mappings = {
-  "moves": null,
-  "ups": null
+A.mappings = {
+  a: null,
+  b: null
 }
 
-$$MouseProvider_Data.decode = () => {
+A.decode = () => {
   console.warn('Cannot decode this record!')
 }
 
-const $MouseProvider = new(class extends Provider {
+const B = new(class extends Provider {
   attach() {
     return null
   }
 })
 
-class $Main extends Component {
+class C extends Component {
   componentWillUnmount() {
-    $MouseProvider._unsubscribe(this)
+    B._unsubscribe(this)
   }
 
   componentDidUpdate() {
     if (false) {
-      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((a) => {
-          return null
-        }),
-        ups: ((b) => {
-          return null
-        })
-      }))
+      B._subscribe(this, new A({
+      a: (a) => {
+        return null
+      },
+      b: (b) => {
+        return null
+      }
+    }))
     } else {
-      $MouseProvider._unsubscribe(this)
+      B._unsubscribe(this)
     }
   }
 
   componentDidMount() {
     if (false) {
-      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((a) => {
-          return null
-        }),
-        ups: ((b) => {
-          return null
-        })
-      }))
+      B._subscribe(this, new A({
+      a: (a) => {
+        return null
+      },
+      b: (b) => {
+        return null
+      }
+    }))
     } else {
-      $MouseProvider._unsubscribe(this)
+      B._unsubscribe(this)
     }
   }
 
@@ -79,4 +79,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+C.displayName = "Main"

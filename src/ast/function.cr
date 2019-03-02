@@ -4,7 +4,7 @@ module Mint
       getter name, where, arguments, body, type
       getter comment, head_comments, tail_comments
 
-      property is_render : Bool = false
+      property keep_name : Bool = false
 
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),

@@ -22,24 +22,24 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
+class A extends Component {
+  a() {
     return _at([`Hello`, `Blah`, `Joe`], 1)
   }
 
-  test1() {
+  b() {
     return _at([], 1)
   }
 
   render() {
     return (() => {
-      this.test()
+      this.a()
 
-      this.test1()
+      this.b()
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
