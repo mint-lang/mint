@@ -16,10 +16,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a() {
     let b = `Asd`
-    return _createElement("div", {}, [b])
+    return _h("div", {}, [b])
   }
 
   render() {

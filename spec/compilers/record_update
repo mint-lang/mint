@@ -18,34 +18,25 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Record {}
-
-A.mappings = {
-  a: "name"
-}
-
-A.decode = ((_input) => {
-  let a = Decoder.field(`name`, Decoder.string)(_input)
-  if (a instanceof Err) { return a }
-
-  return new Ok(new A({
-    a: a.value
-  }))
+const A = _createRecord({
+  a: [
+    "name",
+    Decoder.string
+  ]
 })
 
-class B extends Component {
+class B extends _C {
   constructor(props) {
     super(props)
 
-    this.defaultProps = {
-      b: new A({
-        a: `Doe`
-      })
-    }
-  }
-
-  get b() {
-    return 'b' in this.props ? this.props.b : this.defaultProps.b
+    this._d({
+      b: [
+        null,
+        new A({
+          a: `Doe`
+        })
+      ]
+    })
   }
 
   a() {
@@ -56,7 +47,7 @@ class B extends Component {
     return (() => {
       this.a()
 
-      return _createElement("div", {})
+      return _h("div", {})
     })()
   }
 }

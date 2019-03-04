@@ -25,15 +25,7 @@ module Mint
 
       class_name =
         if node.style && component
-          name =
-            node.style.as(Ast::Variable).value
-
-          component_name =
-            component.name
-
-          StringInflection
-            .kebab(component_name + "_" + name)
-            .gsub('.', '_')
+          js.style_of(lookups[node])
         end
 
       class_names =
@@ -110,7 +102,7 @@ module Mint
           .reject(&.empty?)
           .join(", ")
 
-      "_createElement(#{contents})"
+      "_h(#{contents})"
     end
   end
 end

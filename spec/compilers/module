@@ -14,11 +14,11 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends Module {
   a() {
-    return _createElement("p", {}, [`It should work`])
+    return _h("p", {}, [`It should work`])
   }
 })
 
-class A extends Component {
+class A extends _C {
   render() {
     return B.a()
   }

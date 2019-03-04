@@ -17,7 +17,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
 
@@ -57,7 +57,7 @@ class A extends Component {
     return (() => {
       this.a()
 
-      return _createElement("div", {})
+      return _h("div", {})
     })()
   }
 }

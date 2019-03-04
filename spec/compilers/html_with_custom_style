@@ -11,25 +11,24 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
 
-    this.defaultProps = {
-      b: `blue`
-    }
+    this._d({
+      b: [
+        null,
+        `blue`
+      ]
+    })
   }
 
   get a() {
     return
   }
 
-  get b() {
-    return 'b' in this.props ? this.props.b : this.defaultProps.b
-  }
-
   render() {
-    return _createElement("div", {
+    return _h("div", {
       style: _style([this.a])
     })
   }

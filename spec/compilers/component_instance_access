@@ -20,27 +20,27 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   get a() {
     return `Instance`
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 
 A.displayName = "Instance"
 
-class B extends Component {
+class B extends _C {
   b() {
     return this._instance.a
   }
 
   render() {
-    return _createElement("div", {
+    return _h("div", {
       "onClick": (event => (this.b)(_normalizeEvent(event)))
-    }, [_createElement(A, { ref: (instance) => { this._instance = instance } })])
+    }, [_h(A, { ref: (instance) => { this._instance = instance } })])
   }
 }
 

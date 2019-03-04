@@ -16,7 +16,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a() {
     return (async () => {
       let _ = null

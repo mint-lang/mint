@@ -12,7 +12,7 @@ module Mint
         js.variable_of(node)
 
       body =
-        "return '#{prop_name}' in this.props ? this.props.#{prop_name} : this.defaultProps.#{name}"
+        "return this._p('#{prop_name}')"
 
       js.get(name, body)
     end

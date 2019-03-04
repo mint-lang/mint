@@ -24,10 +24,10 @@ module Mint
       end
 
       name =
-        if is_element
-          node.name.value
-        else
+        if lookups[node]?
           js.variable_of(lookups[node])
+        else
+          node.name.value
         end
 
       "\"#{name}\": #{value}"

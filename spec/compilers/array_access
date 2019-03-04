@@ -22,7 +22,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a() {
     return _at([`Hello`, `Blah`, `Joe`], 1)
   }

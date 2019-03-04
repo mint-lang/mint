@@ -9,30 +9,13 @@ module Mint
       case type
       when TypeChecker::Record
         mappings =
-          js.object(
-            type.mappings.each_with_object({} of String => String) do |(key, value), memo|
-              field =
-                js.variable_of(type.name, key)
-
-              memo[field] = value ? %("#{value}") : %("#{key}")
-            end)
-
-        decoder =
           begin
             @decoder.compile type
           rescue
-            js.arrow_function([] of String) do
-              "console.warn('Cannot decode this record!')"
-            end
+            "{}"
           end
 
-        <<-JS
-        class #{name} extends Record {}
-
-        #{name}.mappings = #{mappings}
-
-        #{name}.decode = #{decoder}
-        JS
+        "const #{name} = _createRecord(#{mappings})"
       else
         ""
       end

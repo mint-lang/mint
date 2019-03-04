@@ -17,27 +17,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Record {}
-
-A.mappings = {
-  a: "name",
-  b: "age"
-}
-
-A.decode = ((_input) => {
-  let a = Decoder.field(`name`, Decoder.string)(_input)
-  if (a instanceof Err) { return a }
-
-  let b = Decoder.field(`age`, Decoder.number)(_input)
-  if (b instanceof Err) { return b }
-
-  return new Ok(new A({
-    a: a.value,
-    b: b.value
-  }))
+const A = _createRecord({
+  a: [
+    "name",
+    Decoder.string
+  ],
+  b: [
+    "age",
+    Decoder.number
+  ]
 })
 
-class B extends Component {
+class B extends _C {
   a() {
     return _encode(new A({
       a: `Hello`,

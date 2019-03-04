@@ -34,16 +34,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Record {}
-
-A.mappings = {
-  a: "moves",
-  b: "ups"
-}
-
-A.decode = () => {
-  console.warn('Cannot decode this record!')
-}
+const A = _createRecord({})
 
 const B = new(class extends Provider {
   attach() {
@@ -51,7 +42,7 @@ const B = new(class extends Provider {
   }
 })
 
-class C extends Component {
+class C extends _C {
   componentWillUnmount() {
     B._unsubscribe(this)
     return null
@@ -92,7 +83,7 @@ class C extends Component {
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 

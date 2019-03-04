@@ -243,13 +243,18 @@ module Mint
 
     getter optimize, renderer
 
+    @style_prop_cache : Hash(String, String) = {} of String => String
+    @style_cache : Hash(Ast::Node, String) = {} of Ast::Node => String
+
+    @cache : Hash(Ast::Node, String) = {} of Ast::Node => String
+
     @record_field_cache : Hash(String, Hash(String, String)) = {} of String => Hash(String, String)
     @record_cache : Hash(String, String) = {} of String => String
-    @cache : Hash(Ast::Node, String) = {} of Ast::Node => String
     @type_cache : Hash(String, String) = {} of String => String
 
     @next_variable : String = 'a'.pred.to_s
     @next_class : String = 'A'.pred.to_s
+    @next_style : String = 'a'.pred.to_s
 
     @optimize = true
 
@@ -286,6 +291,14 @@ module Mint
 
     def class_of(node : Ast::Node)
       @cache[node] ||= next_class
+    end
+
+    def style_of(node : Ast::Node)
+      @style_cache[node] ||= next_style
+    end
+
+    def style_next_property(name)
+      @style_prop_cache[name] = (@style_prop_cache[name]? || INITIAL).succ
     end
 
     def variable
@@ -346,6 +359,10 @@ module Mint
       else
         @next_variable
       end
+    end
+
+    private def next_style
+      @next_style = @next_style.succ
     end
 
     private def next_class

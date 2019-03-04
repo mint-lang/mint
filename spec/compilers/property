@@ -6,21 +6,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
 
-    this.defaultProps = {
-      a: `Joe`
-    }
-  }
-
-  get a() {
-    return 'a' in this.props ? this.props.a : this.defaultProps.a
+    this._d({
+      a: [
+        null,
+        `Joe`
+      ]
+    })
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 

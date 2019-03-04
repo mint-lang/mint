@@ -9,10 +9,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   render() {
-    return _createElement("div", {
-      className: `something` + ` main-base`
+    return _h("div", {
+      className: `something` + ` a`
     })
   }
 }
@@ -20,7 +20,7 @@ class A extends Component {
 A.displayName = "Main"
 
 _insertStyles(`
-  .main-base {
+  .a {
     width: 100%;
   }
 `)

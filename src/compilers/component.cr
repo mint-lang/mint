@@ -12,9 +12,6 @@ module Mint
       gets =
         compile node.gets
 
-      properties =
-        compile node.properties
-
       states =
         compile node.states
 
@@ -28,10 +25,17 @@ module Mint
 
       default_props =
         node.properties.each_with_object({} of String => String) do |prop, memo|
-          memo[js.variable_of(prop)] = compile prop.default
+          prop_name =
+            if prop.name.value == "children"
+              %("children")
+            else
+              "null"
+            end
+
+          memo[js.variable_of(prop)] = js.array([prop_name, compile prop.default])
         end
 
-      constructor_body << js.assign("this.defaultProps", js.object(default_props)) if default_props.any?
+      constructor_body << js.call("this._d", [js.object(default_props)]) if default_props.any?
 
       if node.states.any?
         values =
@@ -54,11 +58,11 @@ module Mint
         end
 
       body =
-        ([constructor] + gets + properties + states + store_stuff + functions)
+        ([constructor] + gets + states + store_stuff + functions)
           .compact
 
       js.statements([
-        js.class(name, extends: "Component", body: body),
+        js.class(name, extends: "_C", body: body),
         display_name,
       ])
     end

@@ -30,7 +30,7 @@ const B = new(class extends Module {
   }
 })
 
-class A extends Component {
+class A extends _C {
   a() {
     return (async () => {
       let _ = null
@@ -64,7 +64,7 @@ class A extends Component {
     return (() => {
       this.a()
 
-      return _createElement("div", {})
+      return _h("div", {})
     })()
   }
 }

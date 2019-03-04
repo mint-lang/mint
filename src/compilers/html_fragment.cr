@@ -18,7 +18,7 @@ module Mint
           "[#{items}]"
         end
 
-      "_createElement(React.Fragment, #{attributes}, #{children})"
+      "_h(React.Fragment, #{attributes}, #{children})"
     end
   end
 end

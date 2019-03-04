@@ -1,20 +1,18 @@
 module Mint
   class Compiler
-    def compile(prefix : String, key : String,
+    def compile(selector : String, key : String,
                 definitions : Array(Ast::CssDefinition),
                 media = nil) : Hash(String, String)
-      cleaned =
-        prefix
-          .gsub(/[^A-Za-z0-9]/, '-')
-          .gsub(/\-+/, '-')
-
       dynamics = {} of String => String
       regulars = {} of String => String
 
       definitions.each do |item|
         if item.value.any?(&.is_a?(Ast::CssInterpolation))
+          name =
+            js.style_next_property key
+
           variable =
-            "--#{cleaned}-#{item.name}"
+            "--#{key}-#{name}"
 
           value = item.value.map do |part|
             case part
@@ -44,11 +42,11 @@ module Mint
 
       if media
         medias[media] ||= {} of String => Hash(String, String)
-        medias[media][prefix] ||= {} of String => String
-        medias[media][prefix].merge!(regulars)
+        medias[media][selector] ||= {} of String => String
+        medias[media][selector].merge!(regulars)
       else
-        styles[prefix] ||= {} of String => String
-        styles[prefix].merge!(regulars)
+        styles[selector] ||= {} of String => String
+        styles[selector].merge!(regulars)
       end
     end
   end

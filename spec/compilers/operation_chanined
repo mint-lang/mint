@@ -12,7 +12,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a() {
     return _compare(`a`, `b`) && !_compare(true, false)
   }

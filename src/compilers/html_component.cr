@@ -30,7 +30,7 @@ module Mint
           .reject(&.empty?)
           .join(", ")
 
-      "_createElement(#{contents})"
+      "_h(#{contents})"
     end
   end
 end

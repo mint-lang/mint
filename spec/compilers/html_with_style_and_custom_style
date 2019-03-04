@@ -16,28 +16,27 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
 
-    this.defaultProps = {
-      a: `blue`
-    }
+    this._d({
+      a: [
+        null,
+        `blue`
+      ]
+    })
   }
 
   get b() {
     return
   }
 
-  get a() {
-    return 'a' in this.props ? this.props.a : this.defaultProps.a
-  }
-
   render() {
-    return _createElement("div", {
-      className: `main-test`,
+    return _h("div", {
+      className: `a`,
       style: _style([{
-        [`--main-test-background`]: this.a
+        [`--a-a`]: this.a
       }, this.b])
     })
   }
@@ -46,8 +45,8 @@ class A extends Component {
 A.displayName = "Main"
 
 _insertStyles(`
-  .main-test {
-    background: var(--main-test-background);
+  .a {
+    background: var(--a-a);
     color: red;
   }
 `)

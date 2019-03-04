@@ -12,16 +12,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   get a() {
     return 10
   }
 
   render() {
-    return _createElement("div", {
-      className: `main-test`,
+    return _h("div", {
+      className: `a`,
       style: {
-        [`--main-test-margin`]: this.a + `px 0px`
+        [`--a-a`]: this.a + `px 0px`
       }
     })
   }
@@ -30,7 +30,7 @@ class A extends Component {
 A.displayName = "Main"
 
 _insertStyles(`
-  .main-test {
-    margin: var(--main-test-margin);
+  .a {
+    margin: var(--a-a);
   }
 `)

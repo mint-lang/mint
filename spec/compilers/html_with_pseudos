@@ -23,31 +23,29 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
 
-    this.defaultProps = {
-      b: `yellow`,
-      a: `blue`
-    }
-  }
-
-  get b() {
-    return 'b' in this.props ? this.props.b : this.defaultProps.b
-  }
-
-  get a() {
-    return 'a' in this.props ? this.props.a : this.defaultProps.a
+    this._d({
+      b: [
+        null,
+        `yellow`
+      ],
+      a: [
+        null,
+        `blue`
+      ]
+    })
   }
 
   render() {
-    return _createElement("div", {
-      className: `main-test`,
+    return _h("div", {
+      className: `a`,
       style: {
-        [`--main-test-background`]: this.a,
-        [`--main-test-hover-background`]: this.b,
-        [`--main-test-div-font-family`]: `Hello`
+        [`--a-a`]: this.a,
+        [`--a-b`]: this.b,
+        [`--a-c`]: `Hello`
       }
     })
   }
@@ -56,18 +54,18 @@ class A extends Component {
 A.displayName = "Main"
 
 _insertStyles(`
-  .main-test {
-    background: var(--main-test-background);
+  .a {
+    background: var(--a-a);
     color: red;
   }
 
-  .main-test:hover {
-    background: var(--main-test-hover-background);
+  .a:hover {
+    background: var(--a-b);
     color: cyan;
   }
 
-  .main-test div {
-    font-family: var(--main-test-div-font-family);
+  .a div {
+    font-family: var(--a-c);
     color: blue;
   }
 `)

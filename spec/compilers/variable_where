@@ -11,7 +11,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a() {
     let b = `Hello`
     return b

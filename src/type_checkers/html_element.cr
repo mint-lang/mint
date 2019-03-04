@@ -23,6 +23,7 @@ module Mint
 
         resolve style_node
 
+        lookups[node] = style_node
         html_elements[node] = component
       end
 

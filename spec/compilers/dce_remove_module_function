@@ -20,7 +20,7 @@ const B = new(class extends Module {
   }
 })
 
-class A extends Component {
+class A extends _C {
   render() {
     return B.a()
   }

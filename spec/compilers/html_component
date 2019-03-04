@@ -10,17 +10,17 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 
 A.displayName = "Test"
 
-class B extends Component {
+class B extends _C {
   render() {
-    return _createElement(A, {  })
+    return _h(A, {  })
   }
 }
 

@@ -8,7 +8,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Component {
+class A extends _C {
   a(b) {
     return b
   }

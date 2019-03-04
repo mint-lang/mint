@@ -152,7 +152,8 @@ module Mint
         const _normalizeEvent = function (event) {
           return #{from_event_call}(Mint.normalizeEvent(event))
         };
-        const _createElement = Mint.createElement;
+        const _createRecord = Mint.createRecord;
+        const _h = Mint.createElement;
         const _createPortal = Mint.createPortal;
         const _insertStyles = Mint.insertStyles;
         const _navigate = Mint.navigate;
@@ -240,10 +241,27 @@ module Mint
           }
         }
 
-        class Component extends Mint.Component {
+        class _C extends Mint.Component {
           constructor(props) {
             super(props)
             bindFunctions(this, excludedMethods)
+          }
+
+          _d(object) {
+            const properties = {}
+
+            Object.keys(object).forEach((item) => {
+              const [foreign, value] = object[item]
+              const key = foreign || item
+
+              properties[item] = {
+                get: () => {
+                  return key in this.props ? this.props[key] : value
+                }
+              }
+            })
+
+            Object.defineProperties(this, properties)
           }
         }
         #{body}

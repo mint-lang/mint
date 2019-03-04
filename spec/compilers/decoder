@@ -26,69 +26,47 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends Record {}
-
-A.mappings = {
-  a: "SIIIZEEE"
-}
-
-A.decode = ((_input) => {
-  let a = Decoder.field(`SIIIZEEE`, Decoder.number)(_input)
-  if (a instanceof Err) { return a }
-
-  return new Ok(new A({
-    a: a.value
-  }))
+const A = _createRecord({
+  a: [
+    "SIIIZEEE",
+    Decoder.number
+  ]
 })
 
-class B extends Record {}
-
-B.mappings = {
-  a: "string",
-  b: "number",
-  c: "bool",
-  d: "time",
-  e: "maybe",
-  f: "array",
-  g: "y"
-}
-
-B.decode = ((_input) => {
-  let a = Decoder.field(`string`, Decoder.string)(_input)
-  if (a instanceof Err) { return a }
-
-  let b = Decoder.field(`number`, Decoder.number)(_input)
-  if (b instanceof Err) { return b }
-
-  let c = Decoder.field(`bool`, Decoder.boolean)(_input)
-  if (c instanceof Err) { return c }
-
-  let d = Decoder.field(`time`, Decoder.time)(_input)
-  if (d instanceof Err) { return d }
-
-  let e = Decoder.field(`maybe`, Decoder.maybe(Decoder.string))(_input)
-  if (e instanceof Err) { return e }
-
-  let f = Decoder.field(`array`, Decoder.array(Decoder.string))(_input)
-  if (f instanceof Err) { return f }
-
-  let g = Decoder.field(`y`, A.decode)(_input)
-  if (g instanceof Err) { return g }
-
-  return new Ok(new B({
-    a: a.value,
-    b: b.value,
-    c: c.value,
-    d: d.value,
-    e: e.value,
-    f: f.value,
-    g: g.value
-  }))
+const B = _createRecord({
+  a: [
+    "string",
+    Decoder.string
+  ],
+  b: [
+    "number",
+    Decoder.number
+  ],
+  c: [
+    "bool",
+    Decoder.boolean
+  ],
+  d: [
+    "time",
+    Decoder.time
+  ],
+  e: [
+    "maybe",
+    Decoder.maybe(Decoder.string)
+  ],
+  f: [
+    "array",
+    Decoder.array(Decoder.string)
+  ],
+  g: [
+    "y",
+    ((_)=>A.decode(_))
+  ]
 })
 
-class C extends Component {
+class C extends _C {
   a(b) {
-    return B.decode(b)
+    return ((_)=>B.decode(_))(b)
   }
 
   render() {
