@@ -40,6 +40,8 @@ module Mint
     @types = {} of String => Ast::Node
     @records = [] of Record
 
+    @record_name_char : String = 'A'.pred.to_s
+
     @stack = [] of Ast::Node
 
     def initialize(ast : Ast)
@@ -63,6 +65,30 @@ module Mint
         check! record
         add_record check(record), record
       end
+    end
+
+    def create_record(fields)
+      name =
+        (@record_name_char = @record_name_char.succ)
+
+      compiled_fields =
+        fields.map do |key, value|
+          "#{key} : #{value.to_mint}"
+        end.join(",\n").indent
+
+      contents =
+        <<-MINT
+        record #{name} {
+        #{compiled_fields}
+        }
+        MINT
+
+      node = Parser.parse(contents, "").records[0]
+
+      record = resolve(node)
+      ast.records.push(node)
+      add_record record, node
+      record
     end
 
     def resolve_type(node : Record | Variable)

@@ -15,7 +15,7 @@ component Main {
     ""
   }
 }
-----------------------------------------------------RecordNotFoundMatchingRecord
+------------------------------------------------------------FunctionTypeMismatch
 record Test {
   a : String,
   b : Number

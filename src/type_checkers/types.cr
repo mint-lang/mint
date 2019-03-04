@@ -14,6 +14,10 @@ module Mint
         @id = (@@id += 1)
       end
 
+      def to_mint
+        to_s
+      end
+
       def to_s
         @instance.try(&.to_s) || name
       end
@@ -28,6 +32,10 @@ module Mint
       getter name : String
 
       def initialize(@name, @parameters = [] of Checkable)
+      end
+
+      def to_mint
+        to_s
       end
 
       def to_pretty
@@ -92,6 +100,10 @@ module Mint
         else
           "#{name}(#{defs.join(", ")})"
         end
+      end
+
+      def to_mint
+        name
       end
 
       def to_s

@@ -19,7 +19,7 @@ module Mint
 
       node.fields.each do |field|
         type =
-          resolve field, false
+          resolve field
 
         record_field_lookup[field] = target.name
 
