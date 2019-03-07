@@ -37,7 +37,8 @@ record Html.Event {
   animationName : String,
   pseudoElement : String,
   propertyName : String,
-  elapsedTime : Number
+  elapsedTime : Number,
+  event : Html.NativeEvent
 }
 
 /* Utilit functions for `Html.Event` */
@@ -81,7 +82,8 @@ module Html.Event {
       animationName = `#{event}.animationName`,
       pseudoElement = `#{event}.pseudoElement`,
       propertyName = `#{event}.propertyName`,
-      elapsedTime = `#{event}.elapsedTime`
+      elapsedTime = `#{event}.elapsedTime`,
+      event = event
     }
   }
 
@@ -94,7 +96,7 @@ module Html.Event {
     }
   */
   fun stopPropagation (event : Html.Event) : Void {
-    `#{event}.stopPropagation()`
+    `#{event.event}.stopPropagation()`
   }
 
   /*
@@ -103,7 +105,7 @@ module Html.Event {
     Html.Event.isPropagationStopped(event)
   */
   fun isPropagationStopped (event : Html.Event) : Bool {
-    `#{event}.isPropagationStopped()`
+    `#{event.event}.isPropagationStopped()`
   }
 
   /*
@@ -115,6 +117,6 @@ module Html.Event {
     }
   */
   fun preventDefault (event : Html.Event) : Void {
-    `#{event}.preventDefault()`
+    `#{event.event}.preventDefault()`
   }
 }

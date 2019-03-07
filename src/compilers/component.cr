@@ -151,7 +151,7 @@ module Mint
           if function && value
             function.keep_name = true
 
-            compile function, value.join("")
+            compile function, js.statements(value)
           elsif value.any?
             js.function(key, [] of String, js.statements(value))
           end
