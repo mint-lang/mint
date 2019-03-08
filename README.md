@@ -31,7 +31,7 @@ The project is in development, we are still tweaking the language and standard l
 There are two bigger applications which can be used as examples / learning material:
 
 * the Mint website (~3100 LOC) [SOURCE](https://github.com/mint-lang/mint-website)
-* the Mint implementation of [reaworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)  
+* the Mint implementation of [realworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)  
 
 Installing
 ----------
