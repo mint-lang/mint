@@ -55,10 +55,10 @@ class C extends _C {
   componentDidUpdate() {
     if (false) {
       B._subscribe(this, new A({
-      a: (a) => {
+      moves: (a) => {
         return null
       },
-      b: (b) => {
+      ups: (b) => {
         return null
       }
     }))
@@ -72,10 +72,10 @@ class C extends _C {
 
     if (false) {
       B._subscribe(this, new A({
-      a: (a) => {
+      moves: (a) => {
         return null
       },
-      b: (b) => {
+      ups: (b) => {
         return null
       }
     }))

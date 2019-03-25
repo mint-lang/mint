@@ -22,18 +22,18 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = _createRecord({
-  a: [
+  blah: [
     "blah",
     Decoder.string
   ]
 })
 
 const B = _createRecord({
-  a: [
+  name: [
     "name",
     Decoder.string
   ],
-  b: [
+  y: [
     "y",
     ((_)=>A.decode(_))
   ]

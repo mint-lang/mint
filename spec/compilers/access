@@ -11,7 +11,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = _createRecord({
-  a: [
+  name: [
     "name",
     Decoder.string
   ]
@@ -20,10 +20,10 @@ const A = _createRecord({
 class B extends _C {
   render() {
     let a = new A({
-      a: `test`
+      name: `test`
     })
 
-    return a.a
+    return a.name
   }
 }
 

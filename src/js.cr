@@ -248,8 +248,6 @@ module Mint
 
     @cache : Hash(Ast::Node, String) = {} of Ast::Node => String
 
-    @record_field_cache : Hash(String, Hash(String, String)) = {} of String => Hash(String, String)
-    @record_cache : Hash(String, String) = {} of String => String
     @type_cache : Hash(String, String) = {} of String => String
 
     @next_variable : String = 'a'.pred.to_s
@@ -267,13 +265,6 @@ module Mint
         else
           Normal.new
         end
-    end
-
-    def variable_of(name, field)
-      @record_cache[name] = (@record_cache[name]? || INITIAL).succ
-
-      @record_field_cache[name] ||= {} of String => String
-      @record_field_cache[name][field] ||= @record_cache[name]
     end
 
     def variable_of(node)

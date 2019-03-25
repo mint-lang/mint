@@ -17,10 +17,7 @@ module Mint
             from =
               node.mappings[key]? || key
 
-            field =
-              js.variable_of(node.name, key)
-
-            memo[field] = js.array([%("#{from}"), decoder])
+            memo[key] = js.array([%("#{from}"), decoder])
           end
 
         @mappings[node] = js.object(mappings)

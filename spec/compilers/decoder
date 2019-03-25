@@ -27,38 +27,38 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = _createRecord({
-  a: [
+  size: [
     "SIIIZEEE",
     Decoder.number
   ]
 })
 
 const B = _createRecord({
-  a: [
+  string: [
     "string",
     Decoder.string
   ],
-  b: [
+  number: [
     "number",
     Decoder.number
   ],
-  c: [
+  bool: [
     "bool",
     Decoder.boolean
   ],
-  d: [
+  time: [
     "time",
     Decoder.time
   ],
-  e: [
+  maybe: [
     "maybe",
     Decoder.maybe(Decoder.string)
   ],
-  f: [
+  array: [
     "array",
     Decoder.array(Decoder.string)
   ],
-  g: [
+  y: [
     "y",
     ((_)=>A.decode(_))
   ]

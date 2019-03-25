@@ -9,13 +9,28 @@ module Mint
     def check(node : Ast::ModuleCall) : Checkable
       entity =
         ast.modules.find(&.name.==(node.name)) ||
-          ast.stores.find(&.name.==(node.name))
+          ast.stores.find(&.name.==(node.name)) ||
+          ast.providers.find(&.name.==(node.name))
+
+      functions =
+        case entity
+        when Ast::Module
+          entity.functions
+        when Ast::Store
+          entity.functions
+        when Ast::Provider
+          entity.functions
+        else
+          [] of Ast::Function
+        end
 
       case entity
-      when Ast::Module, Ast::Store
+      when Ast::Module, Ast::Store, Ast::Provider
+        entity = entity.not_nil!
+
         check! entity
 
-        function = entity.functions.find(&.name.value.==(node.function.value))
+        function = functions.find(&.name.value.==(node.function.value))
 
         raise ModuleCallNotFoundFunction, {
           "name"        => node.function.value,

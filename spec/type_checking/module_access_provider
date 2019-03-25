@@ -1,0 +1,21 @@
+record Test {
+  test : String
+}
+provider Test : Test {
+  fun print (a : String) : String {
+    a
+  }
+}
+
+component Main {
+  use Test {
+    test = ""
+  }
+
+  fun render : String {
+    x
+  } where {
+    x =
+      Test.print("x")
+  }
+}

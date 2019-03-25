@@ -19,7 +19,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = _createRecord({
-  a: [
+  name: [
     "name",
     Decoder.string
   ]
@@ -33,14 +33,14 @@ class B extends _C {
       b: [
         null,
         new A({
-          a: `Doe`
+          name: `Doe`
         })
       ]
     })
   }
 
   a() {
-    return _update(this.b, { a: `John` })
+    return _update(this.b, { name: `John` })
   }
 
   render() {

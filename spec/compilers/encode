@@ -18,11 +18,11 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = _createRecord({
-  a: [
+  name: [
     "name",
     Decoder.string
   ],
-  b: [
+  age: [
     "age",
     Decoder.number
   ]
@@ -31,8 +31,8 @@ const A = _createRecord({
 class B extends _C {
   a() {
     return _encode(new A({
-      a: `Hello`,
-      b: 20
+      name: `Hello`,
+      age: 20
     }))
   }
 

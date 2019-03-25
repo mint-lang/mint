@@ -5,7 +5,7 @@ module Mint
         compile node.value
 
       name =
-        js.variable_of(record_field_lookup[node], node.key.value)
+        node.key.value
 
       "#{name}: #{value}"
     end
