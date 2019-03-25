@@ -38,9 +38,9 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   fun attach : Void {
     `
     (() => {
-      const clicks = this._clicks || ((event) => #{clicks}(_normalizeEvent(event)))
-      const moves = this._moves || ((event) => #{moves}(_normalizeEvent(event)))
-      const ups = this._ups || ((event) => #{ups}(_normalizeEvent(event)))
+      const clicks = this._clicks || (this._clicks = ((event) => #{clicks}(_normalizeEvent(event))))
+      const moves = this._moves || (this._moves = ((event) => #{moves}(_normalizeEvent(event))))
+      const ups = this._ups || (this._ups = ((event) => #{ups}(_normalizeEvent(event))))
 
       window.addEventListener("click", clicks, true)
       window.addEventListener("mousemove", moves)
