@@ -43,18 +43,12 @@ border-block
 border-block-color
 border-block-end
 border-block-end-color
-border-block-end-color	Level 1
 border-block-end-style
-border-block-end-style	Level 1
 border-block-end-width
-border-block-end-width	Level 1
 border-block-start
 border-block-start-color
-border-block-start-color	Level 1
 border-block-start-style
-border-block-start-style	Level 1
 border-block-start-width
-border-block-start-width	Level 1
 border-block-style
 border-block-width
 border-bottom
@@ -65,12 +59,10 @@ border-bottom-image
 border-bottom-left-fit-width
 border-bottom-left-image
 border-bottom-left-radius
-border-bottom-left-radius	Module Level 3
 border-bottom-right-fit-length
 border-bottom-right-fit-width
 border-bottom-right-image
 border-bottom-right-radius
-border-bottom-right-radius	Borders Module Level 3
 border-bottom-style
 border-bottom-width
 border-bottoml-eft-fit-length
@@ -83,7 +75,6 @@ border-corner-image
 border-corner-image-transform
 border-end-end-radius
 border-end-start-radius
-border-end-start-radius	Level 1
 border-fit
 border-fit-length
 border-fit-width
@@ -98,18 +89,12 @@ border-inline
 border-inline-color
 border-inline-end
 border-inline-end-color
-border-inline-end-color	Level 1
 border-inline-end-style
-border-inline-end-style	Level 1
 border-inline-end-width
-border-inline-end-width	Level 1
 border-inline-start
 border-inline-start-color
-border-inline-start-color	Level 1
 border-inline-start-style
-border-inline-start-style	Level 1
 border-inline-start-width
-border-inline-start-width	Level 1
 border-inline-style
 border-inline-width
 border-left
@@ -129,9 +114,7 @@ border-right-style
 border-right-width
 border-spacing
 border-start-end-radius
-border-start-end-radius	Level 1
 border-start-start-radius
-border-start-start-radius	Level 1
 border-style
 border-top
 border-top-color
@@ -142,12 +125,10 @@ border-top-left-fit-length
 border-top-left-fit-width
 border-top-left-image
 border-top-left-radius
-border-top-left-radius	Level 3
 border-top-right-fit-length
 border-top-right-fit-width
 border-top-right-image
 border-top-right-radius
-border-top-right-radius	Level 3
 border-top-style
 border-top-width
 border-width
@@ -171,7 +152,6 @@ clip-rule
 color
 color-adjust
 color-interpolation-filters
-color-interpolation-filters	Level 1
 column-count
 column-fill
 column-gap
@@ -456,7 +436,6 @@ scroll-margin-bottom
 scroll-margin-inline
 scroll-margin-inline-end
 scroll-margin-inline-start
-scroll-margin-inline-start	Level 1
 scroll-margin-left
 scroll-margin-right
 scroll-margin-top
@@ -464,12 +443,10 @@ scroll-padding
 scroll-padding-block
 scroll-padding-block-end
 scroll-padding-block-start
-scroll-padding-block-start	Level 1
 scroll-padding-bottom
 scroll-padding-inline
 scroll-padding-inline-end
 scroll-padding-inline-start
-scroll-padding-inline-start	Level 1
 scroll-padding-left
 scroll-padding-right
 scroll-padding-top
@@ -522,7 +499,6 @@ text-decoration-color
 text-decoration-line
 text-decoration-skip
 text-decoration-skip-ink
-text-decoration-skip-ink	Level 4
 text-decoration-style
 text-decoration-width
 text-emphasis
