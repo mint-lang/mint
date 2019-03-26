@@ -29,3 +29,23 @@ component Main {
     <div::test/>
   }
 }
+-------------------------------------------------------------------CssNoProperty
+component Main {
+  style test {
+    colorasd: hello;
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  style test {
+    -colorasd: hello;
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
