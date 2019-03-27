@@ -1,0 +1,18 @@
+component Test {
+  /* Comment */propertyname:String=
+  "hello"
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  /* Comment */
+  property name : String =
+    "hello"
+
+  fun render : Html {
+    <div/>
+  }
+}
