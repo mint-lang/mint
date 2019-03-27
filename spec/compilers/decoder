@@ -26,14 +26,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _createRecord({
+const A = _R({
   size: [
     "SIIIZEEE",
     Decoder.number
   ]
 })
 
-const B = _createRecord({
+const B = _R({
   string: [
     "string",
     Decoder.string

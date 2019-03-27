@@ -16,7 +16,7 @@ module Mint
         compile node.states
 
       display_name =
-        js.assign "#{name}.displayName", "\"#{node.name}\""
+        js.display_name(name, node.name)
 
       store_stuff =
         compile_component_store_data node

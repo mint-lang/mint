@@ -15,7 +15,7 @@ module Mint
             "{}"
           end
 
-        "const #{name} = _createRecord(#{mappings})"
+        "const #{name} = _R(#{mappings})"
       else
         ""
       end

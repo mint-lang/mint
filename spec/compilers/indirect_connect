@@ -39,7 +39,7 @@ class A extends _C {
 
 A.displayName = "Main"
 
-const B = new(class extends Store {
+const B = new(class extends _S {
   constructor() {
     super()
 
@@ -57,7 +57,7 @@ const B = new(class extends Store {
   }
 })
 
-const C = new(class extends Store {
+const C = new(class extends _S {
   constructor() {
     super()
 

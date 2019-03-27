@@ -8,17 +8,14 @@ module Mint
           "{}"
         end
 
-      children =
-        if node.children.empty?
-          "[]"
-        else
-          items =
-            compile node.children, ", "
+      if node.children.empty? && !node.key
+        "null"
+      else
+        items =
+          compile node.children, ", "
 
-          "[#{items}]"
-        end
-
-      "_h(React.Fragment, #{attributes}, #{children})"
+        "_h(React.Fragment, #{attributes}, [#{items}])"
+      end
     end
   end
 end

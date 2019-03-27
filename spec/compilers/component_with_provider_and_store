@@ -32,9 +32,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _createRecord({})
+const A = _R({})
 
-const B = new(class extends Provider {
+const B = new(class extends _P {
   attach() {
     return null
   }
@@ -91,7 +91,7 @@ class C extends _C {
 
 C.displayName = "Main"
 
-const D = new(class extends Store {
+const D = new(class extends _S {
   constructor() {
     super()
 

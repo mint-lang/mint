@@ -24,10 +24,7 @@ module Mint
             js.class_of(lookups[match])
 
           js.if("#{variable} instanceof #{name}") do
-            js.statements([
-              variables.join("\n"),
-              js.return(expression),
-            ])
+            js.statements(variables + [js.return(expression)])
           end
         else
           compiled =
@@ -45,7 +42,7 @@ module Mint
         end
       else
         js.else do
-          "return #{expression}"
+          js.return(expression)
         end
       end
     end

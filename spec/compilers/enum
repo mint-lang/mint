@@ -34,19 +34,19 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class B extends Enum {
+class B extends _E {
   constructor() {
     super()
     this.length = 0
   }
 }
-class F extends Enum {
+class F extends _E {
   constructor() {
     super()
     this.length = 0
   }
 }
-class D extends Enum {
+class D extends _E {
   constructor(_0) {
     super()
     this._0 = _0
@@ -54,21 +54,21 @@ class D extends Enum {
   }
 }
 
-class E extends Enum {
+class E extends _E {
   constructor(_0) {
     super()
     this._0 = _0
     this.length = 1
   }
 }
-class G extends Enum {
+class G extends _E {
   constructor(_0) {
     super()
     this._0 = _0
     this.length = 1
   }
 }
-class C extends Enum {
+class C extends _E {
   constructor(_0, _1) {
     super()
     this._0 = _0

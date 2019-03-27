@@ -1,13 +1,8 @@
 module Mint
   class Compiler
-    RUNTIME = Duktape::Runtime.new do |sbx|
-      sbx.eval!("var global = {}")
-      sbx.eval! Assets.read("js_beautify.js")
-    end
+    DEFAULT_OPTIONS = {optimize: false}
 
-    DEFAULT_OPTIONS = {beautify: false, optimize: false}
-
-    alias Options = NamedTuple(beautify: Bool, optimize: Bool)
+    alias Options = NamedTuple(optimize: Bool)
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
@@ -18,25 +13,13 @@ module Mint
       main =
         compiler.js.class_of(compiler.ast.components.find(&.name.==("Main")).not_nil!)
 
-      result =
-        compiler.wrap_runtime(compiler.compile + "\nconst $Main = #{main}\n_program.render($Main)")
-
-      if options[:beautify]
-        RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
-      else
-        result
-      end
+      compiler.wrap_runtime(compiler.compile + "\nconst $Main = #{main}\n_program.render($Main)")
     end
 
     # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler = new(artifacts, options[:optimize])
-
-      if options[:beautify]
-        RUNTIME.call(["global", "js_beautify"], compiler.compile, {indent_size: 2}).to_s
-      else
-        compiler.compile
-      end
+      compiler.compile
     end
 
     # Compiles the application with the runtime and the tests
@@ -152,7 +135,7 @@ module Mint
         const _normalizeEvent = function (event) {
           return #{from_event_call}(Mint.normalizeEvent(event))
         };
-        const _createRecord = Mint.createRecord;
+        const _R = Mint.createRecord;
         const _h = Mint.createElement;
         const _createPortal = Mint.createPortal;
         const _insertStyles = Mint.insertStyles;
@@ -190,17 +173,18 @@ module Mint
 
         const TestContext = Mint.TestContext;
         const ReactDOM = Mint.ReactDOM;
-        const Provider = Mint.Provider;
         const Nothing = Mint.Nothing;
         const Decoder = Mint.Decoder;
         const DateFNS = Mint.DateFNS;
         const Record = Mint.Record;
-        const Store = Mint.Store;
         const React = Mint.React;
         const Just = Mint.Just;
-        const Enum = Mint.Enum;
         const Err = Mint.Err;
         const Ok = Mint.Ok;
+
+        const _P = Mint.Provider;
+        const _S = Mint.Store;
+        const _E = Mint.Enum;
 
         class DoError extends Error {}
 
@@ -235,7 +219,7 @@ module Mint
           }
         }
 
-        class Module {
+        class _M {
           constructor() {
             bindFunctions(this)
           }

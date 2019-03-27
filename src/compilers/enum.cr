@@ -14,7 +14,7 @@ module Mint
 
         js.class(
           name,
-          extends: "Enum",
+          extends: "_E",
           body: [js.function("constructor", ids) do
                    js.statements([
                      js.call("super", [] of String),

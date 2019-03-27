@@ -34,9 +34,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _createRecord({})
+const A = _R({})
 
-const B = new(class extends Provider {
+const B = new(class extends _P {
   attach() {
     return null
   }

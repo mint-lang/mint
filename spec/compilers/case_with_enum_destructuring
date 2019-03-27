@@ -26,7 +26,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class B extends Enum {
+class B extends _E {
   constructor(_0) {
     super()
     this._0 = _0
@@ -34,7 +34,7 @@ class B extends Enum {
   }
 }
 
-class C extends Enum {
+class C extends _E {
   constructor(_0) {
     super()
     this._0 = _0

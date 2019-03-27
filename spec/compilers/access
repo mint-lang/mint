@@ -10,7 +10,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _createRecord({
+const A = _R({
   name: [
     "name",
     Decoder.string

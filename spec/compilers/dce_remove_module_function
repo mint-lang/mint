@@ -14,7 +14,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends Module {
+const B = new(class extends _M {
   a() {
     return ``
   }

@@ -21,14 +21,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _createRecord({
+const A = _R({
   test: [
     "test",
     Decoder.string
   ]
 })
 
-const B = new(class extends Provider {
+const B = new(class extends _P {
   a(b) {
     return b
   }

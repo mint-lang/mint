@@ -22,9 +22,14 @@ module Mint
     abstract def try(body : String, catches : Array(String), finally : String) : String
     abstract def promise(body : String) : String
     abstract def array(items : Array(String)) : String
+    abstract def display_name(name : String, real_name : String) : String
   end
 
   class Optimized < Renderer
+    def display_name(name, real_name)
+      ""
+    end
+
     def object(hash : Hash(String, String)) : String
       body =
         hash
@@ -63,15 +68,15 @@ module Mint
     end
 
     def store(name : String, body : Array(String)) : String
-      const(name, "new(class extends Store{#{body.join("")}})")
+      const(name, "new(class extends _S{#{body.join("")}})")
     end
 
     def module(name : String, body : Array(String)) : String
-      const(name, "new(class extends Module{#{body.join("")}})")
+      const(name, "new(class extends _M{#{body.join("")}})")
     end
 
     def provider(name : String, body : Array(String)) : String
-      const(name, "new(class extends Provider{#{body.join("")}})")
+      const(name, "new(class extends _P{#{body.join("")}})")
     end
 
     def iic(body : Array(String)) : String
@@ -120,6 +125,10 @@ module Mint
   end
 
   class Normal < Renderer
+    def display_name(name, real_name)
+      "#{name}.displayName = \"#{real_name}\""
+    end
+
     def object(hash : Hash(String, String)) : String
       body =
         hash
@@ -173,15 +182,15 @@ module Mint
     end
 
     def store(name : String, body : Array(String)) : String
-      const(name, "new(class extends Store #{class_body(body)})")
+      const(name, "new(class extends _S #{class_body(body)})")
     end
 
     def module(name : String, body : Array(String)) : String
-      const(name, "new(class extends Module #{class_body(body)})")
+      const(name, "new(class extends _M #{class_body(body)})")
     end
 
     def provider(name : String, body : Array(String)) : String
-      const(name, "new(class extends Provider #{class_body(body)})")
+      const(name, "new(class extends _P #{class_body(body)})")
     end
 
     def iic(body : Array(String)) : String
@@ -324,6 +333,10 @@ module Mint
 
     def asynciif
       asynciif(yield)
+    end
+
+    def iif
+      iif(yield)
     end
 
     def catch(condition)
