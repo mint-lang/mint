@@ -587,6 +587,41 @@ suite "Array.groupsOf" {
   }
 }
 
+suite "Array.groupsOfFromEnd" {
+  test "group into items of specified size" {
+    try {
+      result =
+        Array.groupsOfFromEnd(
+          2,
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ])
+
+      (result == [
+        [1],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ])
+    }
+  }
+}
+
 suite "Array.delete" {
   test "it removes the item" {
     Array.delete("a", [
