@@ -17,7 +17,9 @@ module Mint
       type =
         format node.type
 
-      if body.includes?("\n") || arguments.includes?("\n")
+      if body.includes?("\n") ||
+         arguments.includes?("\n") ||
+         ast.has_new_line?(node.type, node.body)
         "(#{arguments}) : #{type} {\n#{indent(body)}\n}"
       else
         "(#{arguments}) : #{type} { #{body} }"

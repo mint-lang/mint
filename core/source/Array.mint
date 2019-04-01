@@ -419,6 +419,33 @@ module Array {
   }
 
   /*
+  Group an array into sub groups of specified length (all items are included so
+  the last group maybe shorter if after grouping there is a remainder) starting
+  from the end of the array.
+7
+    Array.groupsOfFromEnd(2, [1,2,3,4,5,6,7]) == [[1],[2,3],[4,5],[6,7]]
+  */
+  fun groupsOfFromEnd (size : Number, array : Array(a)) : Array(Array(a)) {
+    `
+    (() => {
+      let groups = Math.ceil(#{array}.length / #{size})
+      let lowerLimit = 0
+      let result = []
+
+      array =
+        Array.from(#{array}).reverse()
+
+      for (var i= 0; i < groups; i++) {
+        lowerLimit = i* #{size};
+        result.unshift(#{array}.slice(lowerLimit, lowerLimit +  #{size}).reverse())
+      }
+
+      return result;
+    })()
+    `
+  }
+
+  /*
   Pushes a new item at the head of the array.
 
     Array.unshift(2, [3,4]) == [2,3,4]

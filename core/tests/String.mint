@@ -101,3 +101,15 @@ suite "String.isAnagram" {
     String.isAnagarm("rail safety", "fairy tales") == true
   }
 }
+
+suite "String.rchop" {
+  test "it removes strings from the end of the string" {
+    String.rchop("!", "Hello!!!") == "Hello"
+  }
+}
+
+suite "String.lchop" {
+  test "it removes strings from the start of the string" {
+    String.lchop("!", "!!!Hello") == "Hello"
+  }
+}

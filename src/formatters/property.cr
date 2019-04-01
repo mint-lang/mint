@@ -13,7 +13,11 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}property #{name} : #{type} = #{default}"
+      if ast.has_new_line?(node.type, node.default)
+        "#{comment}property #{name} : #{type} =\n#{indent(default)}"
+      else
+        "#{comment}property #{name} : #{type} = #{default}"
+      end
     end
   end
 end

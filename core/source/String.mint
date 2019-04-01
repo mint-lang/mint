@@ -123,4 +123,38 @@ module String {
     })()
     `
   }
+
+  /* Removes all occurances of the given character from the end of the
+  given string.
+
+    String.rchop("!", "Hello!!!") == "Hello"
+  */
+  fun rchop (char : String, string : String) : String {
+    `
+    (() => {
+      while (#{string}.slice(-#{char}.length) == #{char}) {
+        #{string} = #{string}.slice(0,-#{char}.length)
+      }
+
+      return #{string}
+    })()
+    `
+  }
+
+  /* Removes all occurances of the given character from the start of the
+  given string.
+
+    String.lchop("!", "!!!Hello") == "Hello"
+  */
+  fun lchop (char : String, string : String) : String {
+    `
+    (() => {
+      while (#{string}.slice(0, #{char}.length) == #{char}) {
+        #{string} = #{string}.slice(#{char}.length)
+      }
+
+      return #{string}
+    })()
+    `
+  }
 }
