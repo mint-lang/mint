@@ -432,7 +432,7 @@ module Array {
       let lowerLimit = 0
       let result = []
 
-      array =
+      #{array} =
         Array.from(#{array}).reverse()
 
       for (var i= 0; i < groups; i++) {

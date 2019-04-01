@@ -135,6 +135,7 @@ module Mint
         const _normalizeEvent = function (event) {
           return #{from_event_call}(Mint.normalizeEvent(event))
         };
+
         const _R = Mint.createRecord;
         const _h = Mint.createElement;
         const _createPortal = Mint.createPortal;
@@ -144,32 +145,9 @@ module Mint
         const _program = Mint.program;
         const _update = Mint.update;
         const _encode = Mint.encode;
+        const _style = Mint.style;
+        const _array = Mint.array;
         const _at = Mint.at;
-
-        const _array = function() {
-          let items = Array.from(arguments)
-          if (Array.isArray(items[0]) && items.length === 1) {
-            return items[0]
-          } else {
-            return items
-          }
-        }
-
-        const _style = function(items) {
-          const result = {}
-          for (let item of items) {
-            if (item instanceof Map) {
-              for (let [key, value] of item) {
-                result[key] = value
-              }
-            } else {
-              for (let key in item) {
-                result[key] = item[key]
-              }
-            }
-          }
-          return result
-        }
 
         const TestContext = Mint.TestContext;
         const ReactDOM = Mint.ReactDOM;
@@ -182,72 +160,14 @@ module Mint
         const Err = Mint.Err;
         const Ok = Mint.Ok;
 
+        const _C = Mint.Component;
         const _P = Mint.Provider;
+        const _M = Mint.Module;
         const _S = Mint.Store;
         const _E = Mint.Enum;
 
         class DoError extends Error {}
 
-        const excludedMethods = [
-          'componentWillMount',
-          'UNSAFE_componentWillMount',
-          'render',
-          'getSnapshotBeforeUpdate',
-          'componentDidMount',
-          'componentWillReceiveProps',
-          'UNSAFE_componentWillReceiveProps',
-          'shouldComponentUpdate',
-          'componentWillUpdate',
-          'UNSAFE_componentWillUpdate',
-          'componentDidUpdate',
-          'componentWillUnmount',
-          'componentDidCatch',
-          'setState',
-          'forceUpdate',
-          'constructor'
-        ]
-
-        const bindFunctions = (target, exclude) => {
-          const descriptors =
-            Object.getOwnPropertyDescriptors(Reflect.getPrototypeOf(target))
-
-          for (let key in descriptors) {
-            if (exclude && exclude[key]) { continue }
-            const value = descriptors[key].value
-            if (typeof value !== "function") { continue }
-            target[key] = value.bind(target)
-          }
-        }
-
-        class _M {
-          constructor() {
-            bindFunctions(this)
-          }
-        }
-
-        class _C extends Mint.Component {
-          constructor(props) {
-            super(props)
-            bindFunctions(this, excludedMethods)
-          }
-
-          _d(object) {
-            const properties = {}
-
-            Object.keys(object).forEach((item) => {
-              const [foreign, value] = object[item]
-              const key = foreign || item
-
-              properties[item] = {
-                get: () => {
-                  return key in this.props ? this.props[key] : value
-                }
-              }
-            })
-
-            Object.defineProperties(this, properties)
-          }
-        }
         #{body}
       })()
       RESULT
