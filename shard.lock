@@ -6,7 +6,7 @@ shards:
 
   ameba:
     github: veelenga/ameba
-    commit: 62c8247e21a890845b91677d3b32e6164830f725
+    version: 0.9.1
 
   baked_file_system:
     github: schovi/baked_file_system
@@ -18,15 +18,11 @@ shards:
 
   dotenv:
     github: gdotdesign/cr-dotenv
-    version: 0.1.0
-
-  duktape:
-    github: jessedoyle/duktape.cr
-    version: 0.14.1
+    version: 0.2.0
 
   exception_page:
     github: crystal-loot/exception_page
-    version: 0.1.1
+    version: 0.1.2
 
   kemal:
     github: kemalcr/kemal

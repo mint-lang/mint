@@ -1,6 +1,5 @@
 require "string_inflection"
 require "baked_file_system"
-require "duktape/runtime"
 require "tree_template"
 require "time_format"
 require "file_utils"
