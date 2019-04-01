@@ -20,7 +20,7 @@ class A extends _C {
 A.displayName = "Main"
 
 _insertStyles(`
-  .a {
-    width: 100%;
-  }
+.a {
+  width: 100%;
+}
 `)

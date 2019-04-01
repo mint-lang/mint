@@ -15,7 +15,9 @@ class A extends _C {
       const _1 = [`A`, `B`]
 
       for (let a of _1) {
-        _0.push(_h("div", {}, [a]))
+        _0.push(_h("div", {}, [
+          a
+        ]))
       }
 
       return _0

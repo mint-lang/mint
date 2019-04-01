@@ -38,7 +38,7 @@ class A extends _C {
         let b = await `hello`
 
         _ = await new Promise((_resolve) => {
-          this.setState(_update(this.state, new Record({
+          this.setState(_u(this.state, new Record({
             c: b
           })), _resolve)
         })
@@ -56,7 +56,6 @@ class A extends _C {
   render() {
     return (() => {
       this.a()
-
       return _h("div", {})
     })()
   }

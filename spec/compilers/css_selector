@@ -35,15 +35,15 @@ class A extends _C {
 A.displayName = "Main"
 
 _insertStyles(`
-  .a {
+.a {
 
-  }
+}
 
-  .a div {
-    color: var(--a-a);
-  }
+.a div {
+  color: var(--a-a);
+}
 
-  .a:focus {
-    color: red;
-  }
+.a:focus {
+  color: red;
+}
 `)

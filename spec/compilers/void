@@ -20,7 +20,6 @@ class A extends _C {
   render() {
     return (() => {
       let b = this.a
-
       return ``
     })()
   }

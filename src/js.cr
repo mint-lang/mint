@@ -23,9 +23,24 @@ module Mint
     abstract def promise(body : String) : String
     abstract def array(items : Array(String)) : String
     abstract def display_name(name : String, real_name : String) : String
+    abstract def css_rule(name : String, definitions : Array(String)) : String
+    abstract def css_rules(rules : Array(String)) : String
+    abstract def for(condition : String, body : String) : String
   end
 
   class Optimized < Renderer
+    def for(condition, body)
+      "for(#{condition}){#{body}}"
+    end
+
+    def css_rule(name, definitions)
+      "#{name}{#{definitions.join("")}}"
+    end
+
+    def css_rules(rules)
+      rules.join("")
+    end
+
     def display_name(name, real_name)
       ""
     end
@@ -125,17 +140,33 @@ module Mint
   end
 
   class Normal < Renderer
+    def for(condition, body)
+      "for (#{condition}) #{class_body(body)}"
+    end
+
+    def css_rule(name, definitions)
+      "#{name} {\n#{definitions.join("\n").indent}\n}"
+    end
+
+    def css_rules(rules)
+      rules.join("\n\n")
+    end
+
     def display_name(name, real_name)
       "#{name}.displayName = \"#{real_name}\""
     end
 
     def object(hash : Hash(String, String)) : String
-      body =
-        hash
-          .map { |key, value| "#{key}: #{value}" }
-          .join(",\n")
+      if hash.any?
+        body =
+          hash
+            .map { |key, value| "#{key}: #{value}" }
+            .join(",\n")
 
-      "{\n#{body.indent}\n}"
+        "{\n#{body.indent}\n}"
+      else
+        "{}"
+      end
     end
 
     def function(name : String, arguments : Array(String), body : String) : String
@@ -235,7 +266,11 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      "[\n#{items.join(",\n").indent}\n]"
+      if items.any?
+        "[\n#{items.join(",\n").indent}\n]"
+      else
+        "[]"
+      end
     end
 
     private def class_body(body : String)

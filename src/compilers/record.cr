@@ -2,7 +2,9 @@ module Mint
   class Compiler
     def _compile(node : Ast::Record) : String
       fields =
-        compile node.fields, ",\n"
+        node.fields.each_with_object({} of String => String) do |field, memo|
+          memo[field.key.value] = compile field.value
+        end
 
       type =
         types[node]?
@@ -11,9 +13,9 @@ module Mint
         name =
           js.class_of(type.name)
 
-        "new #{name}({\n#{fields.indent}\n})"
+        "new #{name}(#{js.object(fields)})"
       else
-        "new Record({\n#{fields.indent}\n})"
+        "new Record(#{js.object(fields)})"
       end
     end
   end

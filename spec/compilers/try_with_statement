@@ -13,7 +13,6 @@ class A extends _C {
   render() {
     return (() => {
       let a = `hello`
-
       return a
     })()
   }

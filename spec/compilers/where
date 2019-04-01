@@ -19,7 +19,10 @@ component Main {
 class A extends _C {
   a() {
     let b = `Asd`
-    return _h("div", {}, [b])
+
+    return _h("div", {}, [
+      b
+    ])
   }
 
   render() {

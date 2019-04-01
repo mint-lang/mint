@@ -40,7 +40,11 @@ class B extends _C {
   render() {
     return _h("div", {
       "onClick": (event => (this.b)(_normalizeEvent(event)))
-    }, [_h(A, { ref: (instance) => { this._instance = instance } })])
+    }, [
+      _h(A, {
+        ref: (instance) => { this._instance = instance }
+      })
+    ])
   }
 }
 

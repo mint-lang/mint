@@ -7,7 +7,7 @@ module Mint
       fields =
         compile node.fields, ", "
 
-      "_update(#{variable}, { #{fields} })"
+      "_u(#{variable}, { #{fields} })"
     end
   end
 end

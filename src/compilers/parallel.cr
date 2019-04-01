@@ -104,11 +104,7 @@ module Mint
             ].compact),
             [
               js.catch("_error") do
-                <<-JS
-                if (_error instanceof DoError) {} else {
-                #{catch_all.indent}
-                }
-                JS
+                js.if("!(_error instanceof DoError)", catch_all)
               end,
             ],
             finally || ""),

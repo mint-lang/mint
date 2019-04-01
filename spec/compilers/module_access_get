@@ -25,10 +25,7 @@ A.displayName = "Main"
 const B = new(class extends _S {
   constructor() {
     super()
-
-    this.state = {
-
-    }
+    this.state = {}
   }
 
   get b() {

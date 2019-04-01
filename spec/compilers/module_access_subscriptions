@@ -62,7 +62,6 @@ class C extends _C {
   render() {
     return (() => {
       B._subscriptions
-
       return B.a(`a`)
     })()
   }

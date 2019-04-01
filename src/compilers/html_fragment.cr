@@ -3,7 +3,7 @@ module Mint
     def _compile(node : Ast::HtmlFragment) : String
       attributes =
         if key = node.key
-          "{ #{compile key} }"
+          js.object({"key" => compile key.value})
         else
           "{}"
         end
@@ -12,9 +12,9 @@ module Mint
         "null"
       else
         items =
-          compile node.children, ", "
+          compile node.children
 
-        "_h(React.Fragment, #{attributes}, [#{items}])"
+        "_h(React.Fragment, #{attributes}, #{js.array(items)})"
       end
     end
   end

@@ -20,7 +20,7 @@ A.displayName = "Test"
 
 class B extends _C {
   render() {
-    return _h(A, {  })
+    return _h(A, {})
   }
 }
 

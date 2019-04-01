@@ -30,7 +30,7 @@ class A extends _C {
 A.displayName = "Main"
 
 _insertStyles(`
-  .a {
-    margin: var(--a-a);
-  }
+.a {
+  margin: var(--a-a);
+}
 `)

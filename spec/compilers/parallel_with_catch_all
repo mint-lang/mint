@@ -61,7 +61,7 @@ class A extends _C {
 
         _ = d + e
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           return `Hmm...`
         }
       }
@@ -73,7 +73,6 @@ class A extends _C {
   render() {
     return (() => {
       this.a()
-
       return ``
     })()
   }

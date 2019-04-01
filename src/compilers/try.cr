@@ -33,12 +33,15 @@ module Mint
                     variable =
                       js.variable_of(catch)
 
-                    "let #{variable} = _error\n  return #{catch_body}"
+                    js.statements([
+                      js.let(variable, "_error"),
+                      "return #{catch_body}",
+                    ])
                   end
                 end
 
               if catched.any?
-                catched.join("\n\n")
+                js.statements(catched.compact)
               else
                 "return _catch_all()"
               end
@@ -46,22 +49,22 @@ module Mint
           end
 
         if catches && !catches.empty?
-          <<-JS
-          let _#{index} = #{expression};
-
-          if (_#{index} instanceof Err) {
-            let _error = _#{index}.value
-            #{catches}
-          }
-
-          #{prefix}_#{index}.value;
-          JS
+          js.statements([
+            js.let("_#{index}", expression),
+            js.if("_#{index} instanceof Err") do
+              js.statements([
+                js.let("_error", "_#{index}.value"),
+                catches,
+              ])
+            end,
+            "#{prefix}_#{index}.value",
+          ])
         else
           "#{prefix}#{expression}"
         end
-      end.join("\n\n")
+      end
 
-      js.iif("#{catch_all}#{body}")
+      js.iif("#{catch_all}#{js.statements(body)}")
     end
   end
 end

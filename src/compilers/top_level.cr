@@ -72,36 +72,30 @@ module Mint
           selectors =
             rules.map do |name, items|
               definitions =
-                items
-                  .map { |key, value| "#{key}: #{value};" }
-                  .join("\n")
-                  .indent
+                items.map { |key, value| "#{key}: #{value};" }
 
-              ".#{name} {\n#{definitions}\n}"
-            end.join("\n\n")
-              .indent
+              js.css_rule(".#{name}", definitions)
+            end
 
-          "@media #{condition} {\n#{selectors}\}"
-        end.join("\n\n")
-          .indent
+          js.css_rule("@media #{condition}", selectors)
+        end
 
       css =
         styles.map do |name, items|
           definitions =
-            items
-              .map { |key, value| "#{key}: #{value};" }
-              .join("\n")
-              .indent
+            items.map { |key, value| "#{key}: #{value};" }
 
-          ".#{name} {\n#{definitions}\n}"
-        end.join("\n\n")
-          .indent
+          js.css_rule(".#{name}", definitions)
+        end
+
+      all_css =
+        media_css + css
 
       footer =
-        if css.strip.empty?
+        if all_css.empty?
           ""
         else
-          "_insertStyles(`\n#{css + media_css}\n`)"
+          "_insertStyles(`\n#{js.css_rules(all_css)}\n`)"
         end
 
       elements =
@@ -143,11 +137,11 @@ module Mint
         const _navigate = Mint.navigate;
         const _compare = Mint.compare;
         const _program = Mint.program;
-        const _update = Mint.update;
         const _encode = Mint.encode;
         const _style = Mint.style;
         const _array = Mint.array;
         const _at = Mint.at;
+        const _u = Mint.update;
 
         const TestContext = Mint.TestContext;
         const ReactDOM = Mint.ReactDOM;

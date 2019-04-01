@@ -14,7 +14,9 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   a() {
-    return _h("p", {}, [`It should work`])
+    return _h("p", {}, [
+      `It should work`
+    ])
   }
 })
 

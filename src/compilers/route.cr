@@ -5,23 +5,18 @@ module Mint
         compile node.expression
 
       arguments =
-        compile node.arguments, ", "
+        compile node.arguments
 
       mapping =
         node
           .arguments
           .map { |argument| "'#{argument.name.value}'" }
-          .join(", ")
 
-      <<-RESULT
-      {
-        handler: ((#{arguments}) => {
-          #{expression}
-        }),
-        mapping: [#{mapping}],
-        path: `#{node.url}`
-      }
-      RESULT
+      js.object({
+        "handler" => js.arrow_function(arguments, expression),
+        "mapping" => js.array(mapping),
+        "path"    => "`#{node.url}`",
+      })
     end
   end
 end

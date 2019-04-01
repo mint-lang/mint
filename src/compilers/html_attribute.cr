@@ -1,14 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlAttribute, is_element = true) : String
-      if checked.includes?(node)
-        _compile node, is_element
-      else
-        ""
-      end
-    end
-
-    def _compile(node : Ast::HtmlAttribute, is_element = true) : String
+    def resolve(node : Ast::HtmlAttribute, is_element = true) : Hash(String, String)
       value =
         compile node.value
 
@@ -30,7 +22,7 @@ module Mint
           node.name.value
         end
 
-      "\"#{name}\": #{value}"
+      { %("#{name}") => value }
     end
   end
 end

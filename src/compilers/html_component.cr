@@ -17,15 +17,16 @@ module Mint
       attributes =
         node
           .attributes
-          .map { |item| compile(item, false).as(String) }
+          .map { |item| resolve(item, false) }
+          .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       node.ref.try do |ref|
-        attributes << "ref: (instance) => { this._#{ref.value} = instance }"
+        attributes["ref"] = "(instance) => { this._#{ref.value} = instance }"
       end
 
       contents =
         ["#{name}",
-         "{ #{attributes.join(", ")} }",
+         js.object(attributes),
          children]
           .reject(&.empty?)
           .join(", ")

@@ -23,7 +23,7 @@ module Mint
 
       js.promise do
         js.arrow_function(["_resolve"]) do
-          "this.setState(_update(this.state, new Record(#{js.object(state)})), _resolve)\n"
+          "this.setState(_u(this.state, new Record(#{js.object(state)})), _resolve)\n"
         end
       end
     end

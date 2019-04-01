@@ -54,18 +54,18 @@ class A extends _C {
 A.displayName = "Main"
 
 _insertStyles(`
-  .a {
-    background: var(--a-a);
-    color: red;
-  }
+.a {
+  background: var(--a-a);
+  color: red;
+}
 
-  .a:hover {
-    background: var(--a-b);
-    color: cyan;
-  }
+.a:hover {
+  background: var(--a-b);
+  color: cyan;
+}
 
-  .a div {
-    font-family: var(--a-c);
-    color: blue;
-  }
+.a div {
+  font-family: var(--a-c);
+  color: blue;
+}
 `)

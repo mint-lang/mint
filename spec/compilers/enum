@@ -40,12 +40,14 @@ class B extends _E {
     this.length = 0
   }
 }
+
 class F extends _E {
   constructor() {
     super()
     this.length = 0
   }
 }
+
 class D extends _E {
   constructor(_0) {
     super()
@@ -61,6 +63,7 @@ class E extends _E {
     this.length = 1
   }
 }
+
 class G extends _E {
   constructor(_0) {
     super()
@@ -68,6 +71,7 @@ class G extends _E {
     this.length = 1
   }
 }
+
 class C extends _E {
   constructor(_0, _1) {
     super()
@@ -93,11 +97,8 @@ class A extends _C {
   render() {
     return (() => {
       this.a()
-
       this.b()
-
       this.c()
-
       return ``
     })()
   }

@@ -81,7 +81,7 @@ class A extends _C {
 
         _ = `blah`
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in parallel expression:`)
           console.warn(_error)
         }
@@ -94,7 +94,6 @@ class A extends _C {
   render() {
     return (() => {
       this.a()
-
       return ``
     })()
   }
