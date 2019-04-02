@@ -8,7 +8,7 @@ Dir.glob("./spec/type_checking/**").sort.each do |file|
   position = 0
   error = nil
 
-  contents.scan(/\-+(\w+)?/) do |match|
+  contents.scan(/^\-+(\w+)?/m) do |match|
     samples << {contents[position, match.begin.not_nil! - position], error}
     position = match.end.not_nil!
     error = match[1]?
