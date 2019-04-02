@@ -12,6 +12,7 @@ module Mint
         html_element ||
         html_component ||
         html_fragment ||
+        access_call ||
         access ||
         module_call ||
         module_access ||

@@ -15,7 +15,12 @@ Dir.glob("./spec/formatters/**/*").each do |file|
 
     # Format and compare the results
     result = Mint::Formatter.new(ast).format
-    result.should eq(expected.lstrip)
+
+    begin
+      result.should eq(expected.lstrip)
+    rescue error
+      fail diff(expected, result)
+    end
 
     # Parse the result, format again and compare
     ast = Mint::Parser.parse(result, file)

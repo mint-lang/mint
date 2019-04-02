@@ -19,7 +19,13 @@ module Mint
         end
 
       case right
-      when Ast::ModuleCall, Ast::FunctionCall
+      when Ast::ModuleCall
+        right.arguments << left
+        right.piped = true
+      when Ast::FunctionCall
+        right.arguments << left
+        right.piped = true
+      when Ast::AccessCall
         right.arguments << left
         right.piped = true
       else

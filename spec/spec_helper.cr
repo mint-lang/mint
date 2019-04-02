@@ -14,6 +14,23 @@ class Mint::Error < Exception
   end
 end
 
+def diff(a, b)
+  file1 = File.tempfile
+  file1.puts a.strip
+  file1.flush
+  file2 = File.tempfile
+  file2.puts b
+  file2.flush
+
+  io = IO::Memory.new
+  Process.run("git", ["--no-pager", "diff", "--no-index", "--color=always", file1.path, file2.path], output: io)
+
+  file1.delete
+  file2.delete
+
+  io.to_s
+end
+
 require "../src/all"
 
 # Mock things

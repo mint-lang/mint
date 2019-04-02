@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(prefix : String, node : Ast::FunctionCall | Ast::ModuleCall) : String
+    def format(prefix : String, node : Ast::FunctionCall | Ast::ModuleCall | Ast::AccessCall) : String
       return "#{prefix}()" if node.arguments.empty?
 
       items =
