@@ -2,9 +2,9 @@ module Mint
   class Compiler
     def _compile(node : Ast::Record) : String
       fields =
-        node.fields.each_with_object({} of String => String) do |field, memo|
-          memo[field.key.value] = compile field.value
-        end
+        node.fields
+          .map { |item| resolve(item) }
+          .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       type =
         types[node]?

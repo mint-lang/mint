@@ -1,0 +1,16 @@
+component Main {
+  fun render : Html {
+    <div readonly={true}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      readOnly: true
+    })
+  }
+}
+
+A.displayName = "Main"

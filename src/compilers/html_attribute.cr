@@ -12,7 +12,7 @@ module Mint
       when "ref"
         value = "(ref => { ref ? #{value}.call(this, ref) : null })"
       when "readonly"
-        "readOnly: #{value}"
+        return {"readOnly" => value}
       end
 
       name =

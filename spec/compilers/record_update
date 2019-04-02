@@ -40,7 +40,9 @@ class B extends _C {
   }
 
   a() {
-    return _u(this.b, { name: `John` })
+    return _u(this.b, {
+      name: `John`
+    })
   }
 
   render() {
