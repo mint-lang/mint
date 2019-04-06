@@ -13,12 +13,10 @@ module Mint
                        HtmlFragment |
                        RecordUpdate |
                        ModuleAccess |
-                       FunctionCall |
                        ArrayLiteral |
                        ArrayAccess |
                        BoolLiteral |
                        HtmlElement |
-                       ModuleCall |
                        Operation |
                        NextCall |
                        Variable |
