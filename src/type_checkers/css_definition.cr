@@ -18,7 +18,7 @@ module Mint
             STRING
           end
 
-        if !node.name.starts_with?('-')
+        unless node.name.starts_with?('-')
           raise CssNoProperty, {
             "name" => node.name,
             "node" => node,
