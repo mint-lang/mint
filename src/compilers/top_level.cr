@@ -11,9 +11,11 @@ module Mint
         new(artifacts, options[:optimize])
 
       main =
-        compiler.js.class_of(compiler.ast.components.find(&.name.==("Main")).not_nil!)
+        compiler.ast.components.find(&.name.==("Main")).try do |main|
+          "\n_program.render(#{compiler.js.class_of(main)})"
+        end || ""
 
-      compiler.wrap_runtime(compiler.compile + "\nconst $Main = #{main}\n_program.render($Main)")
+      compiler.wrap_runtime(compiler.compile + main)
     end
 
     # Compiles the application without the runtime.
