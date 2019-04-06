@@ -37,7 +37,7 @@ component Main {
     </div>
   }
 }
-----------------------------------------------------------AccessCallNotAFunction
+----------------------------------------------------------------CallNotAFunction
 component Test {
   state something : String = ""
 
@@ -57,7 +57,7 @@ component Main {
     </div>
   }
 }
---------------------------------------------------AccessCallArgumentTypeMismatch
+--------------------------------------------------------CallArgumentTypeMismatch
 component Test {
   fun something (string : String): String  {
     string
@@ -79,7 +79,7 @@ component Main {
     </div>
   }
 }
---------------------------------------------------AccessCallArgumentSizeMismatch
+--------------------------------------------------------CallArgumentSizeMismatch
 component Test {
   fun something (string : String): String  {
     string

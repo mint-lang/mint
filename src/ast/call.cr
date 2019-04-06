@@ -1,12 +1,12 @@
 module Mint
   class Ast
-    class AccessCall < Node
-      getter arguments, access
+    class Call < Node
+      getter arguments, expression
 
       property piped
 
       def initialize(@arguments : Array(Expression),
-                     @access : Access,
+                     @expression : Expression,
                      @piped : Bool,
                      @input : Data,
                      @from : Int32,

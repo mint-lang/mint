@@ -1,11 +1,11 @@
-message AccessCallExpectedClosingParentheses do
+message CallExpectedClosingParentheses do
   title "Syntax Error"
 
   block do
     text "The"
     bold "arguments"
     text "of a"
-    bold "function call"
+    bold "call"
     text "must be enclosed by parenthesis."
   end
 

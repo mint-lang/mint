@@ -1,4 +1,4 @@
-message AccessCallArgumentTypeMismatch do
+message CallArgumentTypeMismatch do
   title "Type Error"
 
   block do

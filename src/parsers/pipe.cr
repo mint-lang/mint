@@ -4,7 +4,7 @@ module Mint
 
     # This method rolls an operation where the operator is "|>" into a single
     # call. Every other operation is passed trough.
-    def rollup_pipe(operation) : Ast::ModuleCall | Ast::FunctionCall | Ast::Operation
+    def rollup_pipe(operation) : Ast::Call | Ast::Operation
       return operation unless operation.operator == "|>"
 
       right = operation.right
@@ -19,13 +19,7 @@ module Mint
         end
 
       case right
-      when Ast::ModuleCall
-        right.arguments << left
-        right.piped = true
-      when Ast::FunctionCall
-        right.arguments << left
-        right.piped = true
-      when Ast::AccessCall
+      when Ast::Call
         right.arguments << left
         right.piped = true
       else

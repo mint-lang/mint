@@ -11,7 +11,7 @@ component Main {
     <div/>
   }
 }
-----------------------------------------------------FunctionCallNotFoundFunction
+-----------------------------------------------------------------VariableMissing
 component Main {
   fun b : String {
     x()
@@ -25,7 +25,7 @@ component Main {
     }
   }
 }
---------------------------------------------------------FunctionCallNotAFunction
+----------------------------------------------------------------CallNotAFunction
 component Main {
   property x : String = ""
 
@@ -41,7 +41,7 @@ component Main {
     }
   }
 }
-------------------------------------------------FunctionCallArgumentTypeMismatch
+--------------------------------------------------------CallArgumentTypeMismatch
 component Main {
   fun a (input : String) : String {
     input
@@ -59,7 +59,7 @@ component Main {
     }
   }
 }
-------------------------------------------------FunctionCallArgumentSizeMismatch
+--------------------------------------------------------CallArgumentSizeMismatch
 component Main {
   fun a (input : String) : String {
     input

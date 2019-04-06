@@ -5,7 +5,7 @@ describe "Pipe" do
     call =
       Mint::Parser.new("a |> b()", "TestFile.mint")
         .expression!(Mint::SyntaxError)
-        .as(Mint::Ast::FunctionCall)
+        .as(Mint::Ast::Call)
 
     call.arguments.last?.should be_a(Mint::Ast::Variable)
   end

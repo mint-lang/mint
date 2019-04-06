@@ -37,7 +37,7 @@ module Mint
     end
 
     def operation(left : Ast::Expression, operator : String) : Ast::Operation
-      right = basic_expression! OperationExpectedExpression
+      right = array_access_or_call(basic_expression!(OperationExpectedExpression))
 
       if next_operator = self.operator
         if OPERATORS[next_operator] > OPERATORS[operator]

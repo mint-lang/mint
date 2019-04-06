@@ -23,7 +23,7 @@ module Mint
 
         char "]", ArrayAccessExpectedClosingBracket
 
-        array_access(Ast::ArrayAccess.new(
+        array_access_or_call(Ast::ArrayAccess.new(
           from: start_position,
           to: position,
           index: index,

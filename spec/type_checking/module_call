@@ -14,7 +14,7 @@ component Main {
     Test.b()
   }
 }
---------------------------------------------------------ModuleCallNotFoundModule
+------------------------------------------------------ModuleAccessNotFoundModule
 module Test {
   fun b : String {
     X.x()
@@ -26,7 +26,7 @@ component Main {
     Test.b()
   }
 }
-------------------------------------------------------ModuleCallNotFoundFunction
+----------------------------------------------------ModuleAccessNotFoundFunction
 module Test {
   fun b : String {
     Test.a("test")
@@ -38,23 +38,27 @@ component Main {
     Test.b()
   }
 }
---------------------------------------------------ModuleCallArgumentSizeMismatch
+--------------------------------------------------------------------------------
 module Test {
   fun a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : String {
+  fun b : Function(Bool, String) {
     Test.a("test")
   }
 }
 
 component Main {
   fun render : String {
-    Test.b()
+    try {
+      z = Test.b()
+
+      z(true)
+    }
   }
 }
---------------------------------------------------ModuleCallArgumentTypeMismatch
+--------------------------------------------------------CallArgumentTypeMismatch
 module Test {
   fun a (value : String, x : Bool) : String {
     value
@@ -70,7 +74,7 @@ component Main {
     Test.b()
   }
 }
-----------------------------------------------------------ModuleCallTypeMismatch
+----------------------------------------------------------------CallTypeMismatch
 module Test {
   fun a (value : a, x : a) : String {
     value
