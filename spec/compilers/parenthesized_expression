@@ -12,18 +12,17 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (true)
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

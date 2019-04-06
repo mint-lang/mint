@@ -34,83 +34,74 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Test_X extends Enum {
+class B extends _E {
   constructor() {
     super()
-
     this.length = 0
   }
-};
-class $$Test_Y extends Enum {
+}
+
+class F extends _E {
   constructor() {
     super()
-
     this.length = 0
   }
-};
-class $$Test_Z extends Enum {
+}
+
+class D extends _E {
   constructor(_0) {
     super()
-
     this._0 = _0
-
     this.length = 1
   }
-};
+}
 
-class $$Res_Error extends Enum {
+class E extends _E {
   constructor(_0) {
     super()
-
     this._0 = _0
-
     this.length = 1
   }
-};
-class $$Res_Ok extends Enum {
+}
+
+class G extends _E {
   constructor(_0) {
     super()
-
     this._0 = _0
-
     this.length = 1
   }
-};
-class $$Res_Other extends Enum {
+}
+
+class C extends _E {
   constructor(_0, _1) {
     super()
-
     this._0 = _0
     this._1 = _1
-
     this.length = 2
   }
-};
+}
 
-class $Main extends Component {
+class A extends _C {
   a() {
-    return new $$Test_X()
+    return new B()
   }
 
   b() {
-    return new $$Res_Other(``, ``)
+    return new C(``,``)
   }
 
   c() {
-    return new $$Test_Z(new $$Res_Error(``))
+    return new D(new E(``))
   }
 
   render() {
     return (() => {
       this.a()
-
       this.b()
-
       this.c()
-
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

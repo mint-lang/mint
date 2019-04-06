@@ -9,9 +9,9 @@ module Mint
 
       arguments =
         if node.arguments.size == 1
-          node.arguments[0].value
+          js.variable_of(node.arguments[0])
         else
-          "[" + node.arguments.map(&.value).join(",") + "]"
+          js.array(node.arguments.map { |arg| js.variable_of(arg) })
         end
 
       condition =
@@ -24,23 +24,19 @@ module Mint
 
       contents =
         if condition
-          "#{condition}\n_0.push(#{body})"
+          js.statements([condition, "_0.push(#{body})"])
         else
           "_0.push(#{body})"
         end
 
-      <<-JS
-      (() => {
-        const _0 = []
-        const _1 = #{subject}
-
-        for (let #{arguments} of _1) {
-          #{contents}
-        }
-
-        return _0
-      })()
-      JS
+      js.iif do
+        js.statements([
+          "const _0 = []",
+          "const _1 = #{subject}",
+          js.for("let #{arguments} of _1", contents),
+          js.return("_0"),
+        ])
+      end
     end
   end
 end

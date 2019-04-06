@@ -5,9 +5,13 @@ module Mint
         compile node.expression
 
       variable =
-        node.variable.value
+        js.variable_of(node)
 
-      "let #{variable} = _error;\n\n _result = #{body}\n\nthrow new DoError()"
+      js.statements([
+        js.let(variable, "_error"),
+        js.assign("_", body),
+        "throw new DoError()",
+      ])
     end
   end
 end

@@ -4,10 +4,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   render() {
     return `Hello There`
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

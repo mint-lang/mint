@@ -4,21 +4,18 @@ module Mint
       condition =
         compile node.condition
 
-      condition_let =
-        "let __condition = #{condition}\n\n"
+      variable, condition_let =
+        js.let condition
 
       body =
         node
           .branches
           .sort_by(&.match.nil?.to_s)
-          .map_with_index { |branch, index| compile branch, index }
-          .reduce(condition_let) { |memo, branch| memo + " " + branch }
+          .map_with_index { |branch, index| compile branch, index, variable }
 
-      <<-RESULT
-      (() => {
-      #{body.indent}
-      })()
-      RESULT
+      js.iif do
+        js.statements([condition_let, js.ifchain(body)])
+      end
     end
   end
 end

@@ -1,40 +1,41 @@
 component Main {
-  state a : String = "Hello"
-  state b : String = "0"
+  state test : String = "Hello"
+  state blah : String = "0"
 
-  fun x : String {
-    a + b
+  fun asd : String {
+    test + blah
   }
 
   fun render : String {
-    x()
+    asd()
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
-    this.state = new Record({
-      a: `Hello`,
-      b: `0`
-    })
-  }
 
-  get a() {
-    return this.state.a
+    this.state = new Record({
+      b: `Hello`,
+      c: `0`
+    })
   }
 
   get b() {
     return this.state.b
   }
 
-  x() {
-    return this.a + this.b
+  get c() {
+    return this.state.c
+  }
+
+  a() {
+    return this.b + this.c
   }
 
   render() {
-    return this.x()
+    return this.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -1,53 +1,53 @@
 store Test {
-  state a : String = ""
+  state test : String = ""
 
-  get b : String {
+  get hello : String {
     "hello"
   }
 }
 
 component Main {
-  connect Test exposing { a }
+  connect Test exposing { test as xxx }
 
   fun render : String {
-    ""
+    xxx
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   get a() {
-    return $Test.a
+    return B.b
   }
 
   componentWillUnmount() {
-    $Test._unsubscribe(this)
+    B._unsubscribe(this)
   }
 
   componentDidMount() {
-    $Test._subscribe(this)
+    B._subscribe(this)
   }
 
   render() {
-    return ``
+    return this.a
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
-const $Test = new(class extends Store {
+const B = new(class extends _S {
   constructor() {
     super()
+
     this.state = {
-      a: ``
+      b: ``
     }
   }
 
-  get a() {
-    return this.state.a
+  get b() {
+    return this.state.b
   }
 
-  get b() {
+  get c() {
     return `hello`
   }
 })
-$Test.__displayName = `Test`

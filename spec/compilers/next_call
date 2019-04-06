@@ -19,39 +19,39 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   constructor(props) {
     super(props)
+
     this.state = new Record({
-      name: `Joe`,
-      age: 24
+      b: `Joe`,
+      c: 24
     })
   }
 
-  get name() {
-    return this.state.name
+  get b() {
+    return this.state.b
   }
 
-  get age() {
-    return this.state.age
+  get c() {
+    return this.state.c
   }
 
-  test() {
+  a() {
     return new Promise((_resolve) => {
-      this.setState(_update(this.state, new Record({
-        name: `Hello`,
-        age: 30
+      this.setState(_u(this.state, new Record({
+        b: `Hello`,
+        c: 30
       })), _resolve)
     })
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

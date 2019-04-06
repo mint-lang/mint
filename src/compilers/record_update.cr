@@ -5,9 +5,11 @@ module Mint
         compile node.variable
 
       fields =
-        compile node.fields, ", "
+        node.fields
+          .map { |item| resolve(item) }
+          .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
-      "_update(#{variable}, { #{fields} })"
+      "_u(#{variable}, #{js.object(fields)})"
     end
   end
 end

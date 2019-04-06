@@ -6,7 +6,7 @@ module File {
     File.fromString("Some contents...", "test.txt", "text/plain")
   */
   fun fromString (contents : String, name : String, type : String) : File {
-    `new File([contents], name, { type: type })`
+    `new File([#{contents}], #{name}, { type: #{type} })`
   }
 
   /*
@@ -16,7 +16,7 @@ module File {
     |> File.name()) == "test.txt"
   */
   fun name (file : File) : String {
-    `file.name`
+    `#{file}.name`
   }
 
   /*
@@ -26,7 +26,7 @@ module File {
     |> File.size()) == 16
   */
   fun size (file : File) : Number {
-    `file.size`
+    `#{file}.size`
   }
 
   /*
@@ -36,7 +36,7 @@ module File {
     |> File.mimeType()) == "text/plain"
   */
   fun mimeType (file : File) : String {
-    `file.type`
+    `#{file}.type`
   }
 
   /*
@@ -64,8 +64,8 @@ module File {
       input.style.left = '-1px'
       input.style.top = '-1px'
 
+      input.accept = #{accept}
       input.multiple = true
-      input.accept = accept
       input.type = 'file'
 
       document.body.appendChild(input)
@@ -106,7 +106,7 @@ module File {
       input.style.left = '-1px'
       input.style.top = '-1px'
 
-      input.accept = accept
+      input.accept = #{accept}
       input.type = 'file'
 
       document.body.appendChild(input)
@@ -143,7 +143,7 @@ module File {
         reader.addEventListener('load', (event) => {
           resolve(reader.result)
         })
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(#{file})
       })
     })()
     `
@@ -170,7 +170,7 @@ module File {
         reader.addEventListener('load', (event) => {
           resolve(reader.result)
         })
-        reader.readAsText(file)
+        reader.readAsText(#{file})
       })
     })()
     `

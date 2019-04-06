@@ -1,27 +1,27 @@
-module X {
-  fun a : String {
+module SomeModule {
+  fun someFunction : String {
     ""
   }
 }
 
 component Main {
   fun render : String {
-    with X {
-      a()
+    with SomeModule {
+      someFunction()
     }
   }
 }
 --------------------------------------------------------------------------------
-const $X = new(class extends Module {
+const B = new(class extends _M {
   a() {
     return ``
   }
 })
 
-class $Main extends Component {
+class A extends _C {
   render() {
-    return $X.a()
+    return B.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

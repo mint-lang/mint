@@ -1,11 +1,11 @@
-message ModuleCallExpectedClosingParentheses do
+message CallExpectedClosingParentheses do
   title "Syntax Error"
 
   block do
     text "The"
     bold "arguments"
     text "of a"
-    bold "module call"
+    bold "call"
     text "must be enclosed by parenthesis."
   end
 

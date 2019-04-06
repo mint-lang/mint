@@ -1,14 +1,14 @@
 component Main {
-  fun a : String {
+  fun test : String {
     "Hello"
   }
 
   fun render : String {
-    a()
+    test()
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   a() {
     return `Hello`
   }
@@ -18,4 +18,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

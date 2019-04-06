@@ -11,6 +11,22 @@ module Mint
         .find(&.name.==("Main"))
         .try { |component| resolve component }
 
+      node
+        .modules
+        .find(&.name.==("Html.Event"))
+        .try do |item|
+          resolve item
+
+          item
+            .functions
+            .find(&.name.value.==("fromEvent"))
+            .try do |function|
+              scope item do
+                resolve function
+              end
+            end
+        end
+
       # Resolve routes
       resolve node.routes
       resolve node.suites

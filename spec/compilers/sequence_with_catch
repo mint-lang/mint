@@ -18,7 +18,7 @@ component Main {
 
       "blah"
     } catch String => a {
-      "hello"
+      a
     } catch Number => a {
       "asd"
     }
@@ -33,73 +33,66 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Promise = new(class extends Module {
-  reject(input) {
+const B = new(class extends _M {
+  c(h) {
     return
   }
 })
 
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let greeting = await (async () => {
-          try {
-            return await $Promise.reject(`x`)
-          } catch (_error) {
-            let a = _error;
-
-            _result = `hello`
-
-            throw new DoError()
-          }
-        })()
-
         let b = await (async () => {
           try {
-            return await $Promise.reject(`y`)
+            return await B.c(`x`)
           } catch (_error) {
-            let a = _error;
-
-            _result = `hello`
-
+            let d = _error
+            _ = d
             throw new DoError()
           }
         })()
 
-        let a = await (async () => {
+        let e = await (async () => {
           try {
-            return await $Promise.reject(0)
+            return await B.c(`y`)
           } catch (_error) {
-            let a = _error;
-
-            _result = `asd`
-
+            let d = _error
+            _ = d
             throw new DoError()
           }
         })()
 
-        _result = await `blah`
+        let f = await (async () => {
+          try {
+            return await B.c(0)
+          } catch (_error) {
+            let g = _error
+            _ = `asd`
+            throw new DoError()
+          }
+        })()
+
+        _ = await `blah`
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in sequence expression:`)
           console.warn(_error)
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
-
-      return _createElement("div", {})
+      this.a()
+      return _h("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

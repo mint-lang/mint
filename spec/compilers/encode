@@ -17,33 +17,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Test extends Record {}
+const A = _R({
+  name: [
+    "name",
+    Decoder.string
+  ],
+  age: [
+    "age",
+    Decoder.number
+  ]
+})
 
-$$Test.mappings = {
-  "name": null,
-  "age": null
-}
-
-$$Test.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
-
-  let age = Decoder.field(`age`, Decoder.number)(_input)
-  if (age instanceof Err) {
-    return age
-  }
-
-  return new Ok(new $$Test({
-    name: name.value,
-    age: age.value
-  }))
-}
-
-class $Main extends Component {
-  encode() {
-    return _encode(new $$Test({
+class B extends _C {
+  a() {
+    return _encode(new A({
       name: `Hello`,
       age: 20
     }))
@@ -51,11 +38,10 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.encode()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

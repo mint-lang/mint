@@ -1,0 +1,33 @@
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : Function(Bool, String) {
+    Test.a("test")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()(true)
+  }
+}
+--------------------------------------------------------------------------------
+const B = new(class extends _M {
+  b(c, d) {
+    return c
+  }
+
+  a() {
+    return ((..._) => B.b(`test`, ..._))
+  }
+})
+
+class A extends _C {
+  render() {
+    return B.a()(true)
+  }
+}
+
+A.displayName = "Main"

@@ -23,50 +23,49 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get hoverBackground() {
-    if (this.props.hoverBackground != undefined) {
-      return this.props.hoverBackground
-    } else {
-      return `yellow`
-    }
-  }
+class A extends _C {
+  constructor(props) {
+    super(props)
 
-  get background() {
-    if (this.props.background != undefined) {
-      return this.props.background
-    } else {
-      return `blue`
-    }
+    this._d({
+      b: [
+        null,
+        `yellow`
+      ],
+      a: [
+        null,
+        `blue`
+      ]
+    })
   }
 
   render() {
-    return _createElement("div", {
-      className: `main-test`,
+    return _h("div", {
+      className: `a`,
       style: {
-        [`--main-test-background`]: this.background,
-        [`--main-test-hover-background`]: this.hoverBackground,
-        [`--main-test-div-font-family`]: `Hello`
+        [`--a-a`]: this.a,
+        [`--a-b`]: this.b,
+        [`--a-c`]: `Hello`
       }
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
 _insertStyles(`
-  .main-test {
-    background: var(--main-test-background);
-    color: red;
-  }
+.a {
+  background: var(--a-a);
+  color: red;
+}
 
-  .main-test:hover {
-    background: var(--main-test-hover-background);
-    color: cyan;
-  }
+.a:hover {
+  background: var(--a-b);
+  color: cyan;
+}
 
-  .main-test div {
-    font-family: var(--main-test-div-font-family);
-    color: blue;
-  }
+.a div {
+  font-family: var(--a-c);
+  color: blue;
+}
 `)

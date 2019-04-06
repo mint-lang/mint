@@ -20,32 +20,32 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Instance extends Component {
-  get name() {
+class A extends _C {
+  get a() {
     return `Instance`
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 
-$Instance.displayName = "Instance"
+A.displayName = "Instance"
 
-class $Main extends Component {
-  handleClick() {
-    return this._instance.name
+class B extends _C {
+  b() {
+    return this._instance.a
   }
 
   render() {
-    return _createElement("div", {
-      "onClick": (event => (this.handleClick)(_normalizeEvent(event)))
-    }, [_createElement($Instance, {
-      ref: (instance) => {
-        this._instance = instance
-      }
-    })])
+    return _h("div", {
+      "onClick": (event => (this.b)(_normalizeEvent(event)))
+    }, [
+      _h(A, {
+        ref: (instance) => { this._instance = instance }
+      })
+    ])
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

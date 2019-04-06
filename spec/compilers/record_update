@@ -18,47 +18,39 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$Record extends Record {}
+const A = _R({
+  name: [
+    "name",
+    Decoder.string
+  ]
+})
 
-$$Record.mappings = {
-  "name": null
-}
+class B extends _C {
+  constructor(props) {
+    super(props)
 
-$$Record.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
+    this._d({
+      b: [
+        null,
+        new A({
+          name: `Doe`
+        })
+      ]
+    })
   }
 
-  return new Ok(new $$Record({
-    name: name.value
-  }))
-}
-
-class $Main extends Component {
-  get record() {
-    if (this.props.record != undefined) {
-      return this.props.record
-    } else {
-      return new $$Record({
-        name: `Doe`
-      })
-    }
-  }
-
-  test() {
-    return _update(this.record, {
+  a() {
+    return _u(this.b, {
       name: `John`
     })
   }
 
   render() {
     return (() => {
-      this.test()
-
-      return _createElement("div", {})
+      this.a()
+      return _h("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

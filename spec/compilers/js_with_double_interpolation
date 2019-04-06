@@ -8,14 +8,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test(input) {
-    return input
+class A extends _C {
+  a(b) {
+    return b
   }
 
   render() {
-    return "Hello" + this.test("World!")
+    return "Hello" + this.a("World!")
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -28,7 +28,7 @@ suite "Object.Encode.field" {
       object =
         Object.Encode.field("test", `"a"`)
 
-      `object.name == "test" && object.value == "a"`
+      `#{object}.name == "test" && #{object}.value == "a"`
     }
   }
 }
@@ -43,7 +43,7 @@ suite "Object.Encode.object" {
         encodedObject =
           object([encodedField])
 
-        `encodedObject.test == "a"`
+        `#{encodedObject}.test == "a"`
       }
     }
   }

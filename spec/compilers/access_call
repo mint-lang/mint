@@ -1,0 +1,51 @@
+component Test {
+  fun something (string : String) : String {
+    string
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something("asd")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a(b) {
+    return b
+  }
+
+  render() {
+    return _h("div", {})
+  }
+}
+
+A.displayName = "Test"
+
+class B extends _C {
+  c() {
+    return this._test.a(`asd`)
+  }
+
+  render() {
+    return _h("div", {
+      "onClick": (event => (this.c)(_normalizeEvent(event)))
+    }, [
+      _h(A, {
+        ref: (instance) => { this._test = instance }
+      })
+    ])
+  }
+}
+
+B.displayName = "Main"

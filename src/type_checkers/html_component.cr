@@ -24,6 +24,8 @@ module Mint
 
       check_html node.children
 
+      lookups[node] = component
+
       HTML
     end
   end

@@ -34,7 +34,7 @@ module Mint
               resolved_type =
                 Comparer.fill(option_type, mapping)
 
-              {param.value, resolved_type.not_nil!}
+              {param.value, resolved_type.not_nil!, param}
             end
 
           scope(variables) do

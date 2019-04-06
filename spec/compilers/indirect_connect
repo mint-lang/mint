@@ -19,29 +19,48 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get a() {
-    return $Test.a
+class A extends _C {
+  get c() {
+    return B.b
   }
 
   componentWillUnmount() {
-    $Test._unsubscribe(this)
+    B._unsubscribe(this)
   }
 
   componentDidMount() {
-    $Test._subscribe(this)
+    B._subscribe(this)
   }
 
   render() {
-    return $A.other
+    return C.a
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
-const $Test = new(class extends Store {
+const B = new(class extends _S {
   constructor() {
     super()
+
+    this.state = {
+      b: ``
+    }
+  }
+
+  get b() {
+    return this.state.b
+  }
+
+  d() {
+    return `hello`
+  }
+})
+
+const C = new(class extends _S {
+  constructor() {
+    super()
+
     this.state = {
       a: ``
     }
@@ -50,23 +69,4 @@ const $Test = new(class extends Store {
   get a() {
     return this.state.a
   }
-
-  b() {
-    return `hello`
-  }
 })
-$Test.__displayName = `Test`
-
-const $A = new(class extends Store {
-  constructor() {
-    super()
-    this.state = {
-      other: ``
-    }
-  }
-
-  get other() {
-    return this.state.other
-  }
-})
-$A.__displayName = `A`

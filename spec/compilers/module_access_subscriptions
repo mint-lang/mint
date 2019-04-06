@@ -1,0 +1,70 @@
+record Test {
+  test : String
+}
+
+provider Test : Test {
+  fun print (a : String) : String {
+    a
+  }
+}
+
+component Main {
+  use Test {
+    test = ""
+  }
+
+  fun render : String {
+    try {
+      Test.subscriptions
+      Test.print("a")
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const A = _R({
+  test: [
+    "test",
+    Decoder.string
+  ]
+})
+
+const B = new(class extends _P {
+  a(b) {
+    return b
+  }
+})
+
+class C extends _C {
+  componentWillUnmount() {
+    B._unsubscribe(this)
+  }
+
+  componentDidUpdate() {
+    if (true) {
+      B._subscribe(this, new A({
+      test: ``
+    }))
+    } else {
+      B._unsubscribe(this)
+    }
+  }
+
+  componentDidMount() {
+    if (true) {
+      B._subscribe(this, new A({
+      test: ``
+    }))
+    } else {
+      B._unsubscribe(this)
+    }
+  }
+
+  render() {
+    return (() => {
+      B._subscriptions
+      return B.a(`a`)
+    })()
+  }
+}
+
+C.displayName = "Main"

@@ -13,7 +13,6 @@ module Mint
         html_component ||
         html_fragment ||
         access ||
-        module_call ||
         module_access ||
         decode ||
         encode ||
@@ -25,7 +24,6 @@ module Mint
         parallel ||
         try_expression ||
         case_expression ||
-        function_call ||
         inline_function_or_parenthesized_expression ||
         negated_expression ||
         enum_id ||

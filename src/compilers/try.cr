@@ -3,16 +3,16 @@ module Mint
     def _compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
-          "let _catch_all = (() => { return #{compile(catch.expression)} })\n\n"
+          js.let("_catch_all", js.arrow_function([] of String, "return #{compile(catch.expression)}")) + "\n\n"
         end
 
       body = node.statements.map_with_index do |statement, index|
         prefix =
           case
           when (index + 1) == node.statements.size
-            "return"
-          when name = statement.name
-            "let #{name.value} ="
+            "return "
+          when statement.name
+            "let #{js.variable_of(statement)} = "
           end
 
         expression =
@@ -31,14 +31,17 @@ module Mint
                       compile catch.expression
 
                     variable =
-                      catch.variable.value
+                      js.variable_of(catch)
 
-                    "let #{variable} = _error\n return #{catch_body}"
+                    js.statements([
+                      js.let(variable, "_error"),
+                      "return #{catch_body}",
+                    ])
                   end
                 end
 
               if catched.any?
-                catched.join("\n\n")
+                js.statements(catched.compact)
               else
                 "return _catch_all()"
               end
@@ -46,22 +49,22 @@ module Mint
           end
 
         if catches && !catches.empty?
-          <<-JS
-          let _#{index} = #{expression};
-
-          if (_#{index} instanceof Err) {
-             let _error = _#{index}.value
-             #{catches}
-          }
-
-          #{prefix} _#{index}.value;
-          JS
+          js.statements([
+            js.let("_#{index}", expression),
+            js.if("_#{index} instanceof Err") do
+              js.statements([
+                js.let("_error", "_#{index}.value"),
+                catches,
+              ])
+            end,
+            "#{prefix}_#{index}.value",
+          ])
         else
-          "#{prefix} #{expression}"
+          "#{prefix}#{expression}"
         end
-      end.join("\n\n")
+      end
 
-      "(() => { #{catch_all}#{body} })()"
+      js.iif("#{catch_all}#{js.statements(body)}")
     end
   end
 end

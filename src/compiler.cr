@@ -2,16 +2,13 @@ module Mint
   class Compiler
     delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
     delegate html_elements, medias, lookups, checked, to: @artifacts
+    delegate record_field_lookup, to: @artifacts
 
-    def initialize(@artifacts : TypeChecker::Artifacts)
-      @decoder = Decoder.new
-    end
+    getter js
 
-    # Helper for converting type ids
-    # ----------------------------------------------------------------------------
-
-    def underscorize(name)
-      name.gsub('.', '_')
+    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false)
+      @js = Js.new(optimize: @optimize)
+      @decoder = Decoder.new(@js)
     end
 
     # Helpers for compiling things

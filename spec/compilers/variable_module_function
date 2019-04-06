@@ -16,23 +16,22 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $A = new(class extends Module {
-  a() {
+const B = new(class extends _M {
+  c() {
     return `Hello`
   }
 
   b() {
-    return $A.a
+    return B.c
   }
 })
 
-class $Main extends Component {
+class A extends _C {
   render() {
-    let a = $A.b()
-
+    let a = B.b()
     return a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 

@@ -1,6 +1,9 @@
 module Mint
   class Compiler
     def _compile(node : Ast::HtmlComponent) : String
+      name =
+        js.class_of(lookups[node])
+
       children =
         if node.children.empty?
           ""
@@ -14,20 +17,21 @@ module Mint
       attributes =
         node
           .attributes
-          .map { |item| compile(item, false).as(String) }
+          .map { |item| resolve(item, false) }
+          .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       node.ref.try do |ref|
-        attributes << "ref: (instance) => { this._#{ref.value} = instance }"
+        attributes["ref"] = "(instance) => { this._#{ref.value} = instance }"
       end
 
       contents =
-        ["$#{underscorize(node.component)}",
-         "{ #{attributes.join(", ")} }",
+        ["#{name}",
+         js.object(attributes),
          children]
           .reject(&.empty?)
           .join(", ")
 
-      "_createElement(#{contents})"
+      "_h(#{contents})"
     end
   end
 end

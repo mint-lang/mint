@@ -32,89 +32,79 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$MouseProvider_Data extends Record {}
+const A = _R({})
 
-$$MouseProvider_Data.mappings = {
-  "moves": null,
-  "ups": null
-}
-
-$$MouseProvider_Data.decode = () => {
-  console.warn('Cannot decode this record!')
-}
-
-const $MouseProvider = new(class extends Provider {
+const B = new(class extends _P {
   attach() {
     return null
   }
 })
 
-class $Main extends Component {
-  get test() {
-    return $Blah.test
+class C extends _C {
+  get d() {
+    return D.c
   }
 
-  x(...params) {
-    return $Blah.x(...params)
-  }
+  f (...params) { return D.e(...params) }
 
   componentWillUnmount() {
-    $Blah._unsubscribe(this);
-    $MouseProvider._unsubscribe(this)
+    D._unsubscribe(this)
+    B._unsubscribe(this)
   }
 
   componentDidUpdate() {
     if (false) {
-      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
-          return null
-        }),
-        ups: ((data) => {
-          return null
-        })
-      }))
+      B._subscribe(this, new A({
+      moves: (a) => {
+        return null
+      },
+      ups: (b) => {
+        return null
+      }
+    }))
     } else {
-      $MouseProvider._unsubscribe(this)
+      B._unsubscribe(this)
     }
   }
 
   componentDidMount() {
-    $Blah._subscribe(this);
+    D._subscribe(this)
+
     if (false) {
-      $MouseProvider._subscribe(this, new $$MouseProvider_Data({
-        moves: ((data) => {
-          return null
-        }),
-        ups: ((data) => {
-          return null
-        })
-      }))
+      B._subscribe(this, new A({
+      moves: (a) => {
+        return null
+      },
+      ups: (b) => {
+        return null
+      }
+    }))
     } else {
-      $MouseProvider._unsubscribe(this)
+      B._unsubscribe(this)
     }
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 
-$Main.displayName = "Main"
+C.displayName = "Main"
 
-const $Blah = new(class extends Store {
+const D = new(class extends _S {
   constructor() {
     super()
+
     this.state = {
-      test: ``
+      c: ``
     }
   }
 
-  get test() {
-    return this.state.test
+  get c() {
+    return this.state.c
   }
 
-  x() {
+  e() {
     return `hello`
   }
 })
-$Blah.__displayName = `Blah`

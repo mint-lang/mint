@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Argument) : String
-      node.name.value
+      js.variable_of(node)
     end
   end
 end

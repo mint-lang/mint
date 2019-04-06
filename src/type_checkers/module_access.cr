@@ -6,10 +6,30 @@ module Mint
     def check(node : Ast::ModuleAccess) : Checkable
       entity =
         ast.modules.find(&.name.==(node.name)) ||
-          ast.stores.find(&.name.==(node.name))
+          ast.stores.find(&.name.==(node.name)) ||
+          ast.providers.find(&.name.==(node.name))
 
       item =
         case entity
+        when Ast::Provider
+          if node.variable.value == "subscriptions"
+            subscription =
+              scope entity do
+                lookup(node.variable)
+              end
+
+            case subscription
+            when Type
+              check!(entity)
+              lookups[node] = entity
+              return subscription
+            else
+              # Should not happen
+              raise TypeError
+            end
+          else
+            entity.functions.find(&.name.value.==(node.variable.value))
+          end
         when Ast::Module
           entity.functions.find(&.name.value.==(node.variable.value))
         when Ast::Store
@@ -29,7 +49,8 @@ module Mint
         "node"   => node,
       } unless item
 
-      lookups[node] = item
+      lookups[node] = entity
+      lookups[node.variable] = item
 
       check!(entity)
 

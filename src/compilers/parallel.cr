@@ -3,11 +3,13 @@ module Mint
     def _compile(node : Ast::Parallel) : String
       body = node.statements.map do |statement|
         name =
-          statement.name.try(&.value)
+          if statement.name
+            js.variable_of(statement)
+          end
 
         prefix =
           if name
-            "#{name} ="
+            "#{name} = "
           end
 
         expression =
@@ -24,68 +26,58 @@ module Mint
                 .catches
                 .select { |item| item.type == type.parameters[0].name }
                 .map { |item| compile(item).as(String) }
-                .join("\n")
             end
-          end
+          end || [] of String
 
         case type
         when TypeChecker::Type
           case type.name
           when "Result"
             if catches && catches.empty?
-              <<-JS
-              (async () => {
-                let _result = #{expression}
-
-                if (_result instanceof Err) {
-                  throw _result.value
-                }
-
-                #{prefix} _result.value
-              })()
-              JS
+              js.asynciif do
+                js.statements([
+                  js.let("_", expression),
+                  js.if("_ instanceof Err") do
+                    "throw _.value"
+                  end,
+                  "#{prefix}_.value",
+                ])
+              end
             else
-              <<-JS
-              (() => {
-                let _result = #{expression}
-
-                if (_result instanceof Err) {
-                  let _error = _result.value
-
-                  #{catches}
-                }
-
-                #{prefix} _result.value
-              })()
-              JS
+              js.asynciif do
+                js.statements([
+                  js.let("_", expression),
+                  js.if("_ instanceof Err") do
+                    js.statements([
+                      js.let("_error", "_.value"),
+                    ] + catches)
+                  end,
+                  "#{prefix}_.value",
+                ])
+              end
             end
           when "Promise"
             if catches && !catches.empty?
-              <<-JS
-              (async () => {
-                try {
-                  #{prefix} await #{expression}
-                } catch (_error) {
-                  #{catches}
-                }
-              })()
-              JS
+              js.asynciif do
+                js.try("#{prefix}await #{expression}",
+                  [js.catch("_error", js.statements(catches))],
+                  "")
+              end
             end
           end
-        end || <<-JS
-          (async () => {
-            #{prefix} await #{expression}
-          })()
-          JS
-      end.join(",\n\n").indent
+        end || js.asynciif do
+          "#{prefix}await #{expression}"
+        end
+      end
 
       catch_all =
         node.catch_all.try do |catch|
           "return #{compile catch.expression}"
-        end || <<-JS
-          console.warn(`Unhandled error in parallel expression:`)
-          console.warn(_error)
-        JS
+        end ||
+          js.statements([
+            "console.warn(`Unhandled error in parallel expression:`)",
+            "console.warn(_error)",
+          ])
 
       finally =
         if node.finally
@@ -94,39 +86,31 @@ module Mint
 
       then_block =
         if node.then_branch
-          "_result = #{compile node.then_branch.not_nil!.expression}"
+          js.assign("_", compile(node.then_branch.not_nil!.expression))
         end
 
       names =
         node.statements.map do |statement|
-          if statement.name
-            <<-JS
-            let #{statement.name.not_nil!.value} = null;
-            JS
-          end
-        end.compact.join("\n")
+          js.let(js.variable_of(statement), "null") if statement.name
+        end.compact
 
-      <<-JS
-      (async () => {
-        let _result = null;
-
-        try {
-          #{names}
-
-          await Promise.all([
-          #{body}
-          ])
-
-          #{then_block}
-        } catch (_error) {
-          if (_error instanceof DoError) {} else {
-            #{catch_all}
-          }
-        } #{finally}
-
-        return _result
-      })()
-      JS
+      js.asynciif do
+        js.statements([
+          js.let("_", "null"),
+          js.try(
+            js.statements(names + [
+              js.call("await Promise.all", [js.array(body)]),
+              then_block,
+            ].compact),
+            [
+              js.catch("_error") do
+                js.if("!(_error instanceof DoError)", catch_all)
+              end,
+            ],
+            finally || ""),
+          js.return("_"),
+        ])
+      end
     end
   end
 end

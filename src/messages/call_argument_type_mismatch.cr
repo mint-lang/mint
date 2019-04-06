@@ -1,4 +1,4 @@
-message FunctionCallArgumentTypeMismatch do
+message CallArgumentTypeMismatch do
   title "Type Error"
 
   block do
@@ -11,5 +11,4 @@ message FunctionCallArgumentTypeMismatch do
   type_with_text got, "Instead it is:"
 
   snippet node, "You tried to call it here:"
-  snippet function, "The called function is defined here:"
 end

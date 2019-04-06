@@ -10,18 +10,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Ui_Dropdown extends Component {
+class A extends _C {
   render() {
     return `test`
   }
 }
 
-$Ui_Dropdown.displayName = "Ui.Dropdown"
+A.displayName = "Ui.Dropdown"
 
-class $Main extends Component {
+class B extends _C {
   render() {
-    return _createElement($Ui_Dropdown, {})
+    return _h(A, {})
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

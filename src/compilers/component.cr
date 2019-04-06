@@ -1,6 +1,9 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Component) : String
+      name =
+        js.class_of(node)
+
       compile node.styles, node
 
       functions =
@@ -9,48 +12,59 @@ module Mint
       gets =
         compile node.gets
 
-      properties =
-        compile node.properties
-
       states =
         compile node.states
 
-      name =
-        underscorize node.name
-
       display_name =
-        "\n\n$#{name}.displayName = \"#{node.name}\""
+        js.display_name(name, node.name)
 
       store_stuff =
         compile_component_store_data node
 
-      state =
-        if node.states.any?
-          values =
-            node
-              .states
-              .map { |item| "#{item.name.value}: #{compile item.default}" }
-              .join(",\n")
+      constructor_body = [] of String
 
-          "new Record({\n#{values.indent}\n})"
+      default_props =
+        node.properties.each_with_object({} of String => String) do |prop, memo|
+          prop_name =
+            if prop.name.value == "children"
+              %("children")
+            else
+              "null"
+            end
+
+          memo[js.variable_of(prop)] = js.array([prop_name, compile prop.default])
         end
 
-      constructor_contents =
-        "super(props)\nthis.state = #{state}"
+      constructor_body << js.call("this._d", [js.object(default_props)]) if default_props.any?
+
+      if node.states.any?
+        values =
+          node
+            .states
+            .each_with_object({} of String => String) do |item, memo|
+              memo[js.variable_of(item)] = compile item.default
+            end
+
+        constructor_body << "this.state = new Record(#{js.object(values)})"
+      end
 
       constructor =
-        if state
-          "constructor(props) {\n#{constructor_contents.indent}\n}"
+        if constructor_body.any?
+          js.function("constructor", ["props"]) do
+            constructor_body.unshift js.call("super", ["props"])
+
+            js.statements(constructor_body)
+          end
         end
 
       body =
-        ([constructor] + gets + properties + states + store_stuff + functions)
+        ([constructor] + gets + states + store_stuff + functions)
           .compact
-          .join("\n\n")
-          .indent
 
-      "class $#{name} extends Component {\n#{body}\n}" \
-      "#{display_name}"
+      js.statements([
+        js.class(name, extends: "_C", body: body),
+        display_name,
+      ])
     end
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
@@ -59,15 +73,19 @@ module Mint
 
         if store
           item.keys.map do |key|
-            name = (key.name || key.variable).value
+            store_name = js.class_of(store)
+
             original = key.variable.value
 
-            if store.states.any? { |state| state.name.value == original }
-              memo << "get #{name} () { return $#{underscorize(store.name)}.#{original} }"
+            id = js.variable_of(lookups[key])
+            name = js.variable_of(key)
+
+            if store.states.find(&.name.value.==(original))
+              memo << js.get(name, "return #{store_name}.#{id}")
             elsif store.gets.any? { |get| get.name.value == original }
-              memo << "get #{name} () { return $#{underscorize(store.name)}.#{original} }"
+              memo << js.get(name, "return #{store_name}.#{id}")
             elsif store.functions.any? { |func| func.name.value == original }
-              memo << "#{name} (...params) { return $#{underscorize(store.name)}.#{original}(...params) }"
+              memo << "#{name} (...params) { return #{store_name}.#{id}(...params) }"
             end
           end
         end
@@ -84,11 +102,16 @@ module Mint
       }
 
       node.connects.each do |item|
-        name =
-          underscorize item.store
+        store =
+          ast.stores.find { |entity| entity.name == item.store }
 
-        heads["componentWillUnmount"] << "$#{name}._unsubscribe(this)"
-        heads["componentDidMount"] << "$#{name}._subscribe(this)"
+        if store
+          name =
+            js.class_of(store)
+
+          heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
+          heads["componentDidMount"] << "#{name}._subscribe(this)"
+        end
       end
 
       node.uses.each do |use|
@@ -96,19 +119,19 @@ module Mint
           use.condition ? compile(use.condition.not_nil!) : "true"
 
         name =
-          underscorize(use.provider)
+          js.class_of(lookups[use])
 
         data =
           compile use.data
 
         body =
           "if (#{condition}) {\n" \
-          "  $#{name}._subscribe(this, #{data})\n" \
+          "  #{name}._subscribe(this, #{data})\n" \
           "} else {\n" \
-          "  $#{name}._unsubscribe(this)\n" \
+          "  #{name}._unsubscribe(this)\n" \
           "}"
 
-        heads["componentWillUnmount"] << "$#{name}._unsubscribe(this)"
+        heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
         heads["componentDidUpdate"] << body
         heads["componentDidMount"] << body
       end
@@ -126,9 +149,11 @@ module Mint
 
           # If the user defined the same function the code goes after it.
           if function && value
-            compile function, value.join(";")
+            function.keep_name = true
+
+            compile function, js.statements(value)
           elsif value.any?
-            "#{key} () {\n#{value.join(";").indent}\n}"
+            js.function(key, [] of String, js.statements(value))
           end
         end
 

@@ -1,9 +1,9 @@
 component Main {
   fun test : String {
-    a("Joe")
+    getName("Joe")
   } where {
-    a =
-      (b : String) : String { b }
+    getName =
+      (name : String) : String { name }
   }
 
   fun render : String {
@@ -15,22 +15,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
-    let a = ((b) => {
-      return b
-    })
+class A extends _C {
+  a() {
+    let b = (c) => {
+      return c
+    }
 
-    return a(`Joe`)
+    return b(`Joe`)
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

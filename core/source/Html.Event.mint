@@ -37,11 +37,56 @@ record Html.Event {
   animationName : String,
   pseudoElement : String,
   propertyName : String,
-  elapsedTime : Number
+  elapsedTime : Number,
+  event : Html.NativeEvent
 }
 
 /* Utilit functions for `Html.Event` */
 module Html.Event {
+  fun fromEvent (event : Html.NativeEvent) : Html.Event {
+    {
+      bubbles = `#{event}.bubbles`,
+      cancelable = `#{event}.cancelable`,
+      currentTarget = `#{event}.currentTarget`,
+      defaultPrevented = `#{event}.defaultPrevented`,
+      eventPhase = `#{event}.eventPhase`,
+      isTrusted = `#{event}.isTrusted`,
+      target = `#{event}.target`,
+      timeStamp = `#{event}.timeStamp`,
+      type = `#{event}.type`,
+      data = `#{event}.data`,
+      altKey = `#{event}.altKey`,
+      charCode = `#{event}.charCode`,
+      ctrlKey = `#{event}.ctrlKey`,
+      key = `#{event}.key`,
+      keyCode = `#{event}.keyCode`,
+      locale = `#{event}.locale`,
+      location = `#{event}.location`,
+      metaKey = `#{event}.metaKey`,
+      repeat = `#{event}.repeat`,
+      shiftKey = `#{event}.shiftKey`,
+      which = `#{event}.which`,
+      button = `#{event}.button`,
+      buttons = `#{event}.buttons`,
+      clientX = `#{event}.clientX`,
+      clientY = `#{event}.clientY`,
+      pageX = `#{event}.pageX`,
+      pageY = `#{event}.pageY`,
+      screenX = `#{event}.screenX`,
+      screenY = `#{event}.screenY`,
+      detail = `#{event}.detail`,
+      deltaMode = `#{event}.deltaMode`,
+      deltaX = `#{event}.deltaX`,
+      deltaY = `#{event}.deltaY`,
+      deltaZ = `#{event}.deltaZ`,
+      animationName = `#{event}.animationName`,
+      pseudoElement = `#{event}.pseudoElement`,
+      propertyName = `#{event}.propertyName`,
+      elapsedTime = `#{event}.elapsedTime`,
+      event = event
+    }
+  }
+
   /*
   Stops the propagation of the given event.
 
@@ -51,7 +96,7 @@ module Html.Event {
     }
   */
   fun stopPropagation (event : Html.Event) : Void {
-    `event.stopPropagation()`
+    `#{event.event}.stopPropagation()`
   }
 
   /*
@@ -60,7 +105,7 @@ module Html.Event {
     Html.Event.isPropagationStopped(event)
   */
   fun isPropagationStopped (event : Html.Event) : Bool {
-    `event.isPropagationStopped()`
+    `#{event.event}.isPropagationStopped()`
   }
 
   /*
@@ -72,6 +117,6 @@ module Html.Event {
     }
   */
   fun preventDefault (event : Html.Event) : Void {
-    `event.preventDefault()`
+    `#{event.event}.preventDefault()`
   }
 }

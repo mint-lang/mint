@@ -16,14 +16,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (() => {
-      let __condition = `Hello`
+      let b = `Hello`
 
-      if (_compare(__condition, `test`)) {
+      if (_compare(b, `test`)) {
         return true
-      } else if (_compare(__condition, `Hello`)) {
+      } else if (_compare(b, `Hello`)) {
         return false
       } else {
         return false
@@ -33,11 +33,10 @@ class $Main extends Component {
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

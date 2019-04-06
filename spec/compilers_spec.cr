@@ -15,13 +15,7 @@ Dir.glob("./spec/compilers/**/*").sort.each do |file|
     begin
       result.should eq(expected.strip)
     rescue error
-      diff =
-        Diff.diff(expected.strip, result).map do |chunk|
-          chunk.data.colorize(
-            chunk.append? ? :green : chunk.delete? ? :red : :dark_gray)
-        end.join("")
-
-      fail "#{diff}\n\nExpected:\n\n#{expected.strip}\n\nGot:\n\n#{result}".colorize(:red).to_s
+      fail diff(expected, result)
     end
   end
 end

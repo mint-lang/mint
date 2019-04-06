@@ -11,7 +11,7 @@ module Test.Context {
     }
   */
   fun of (a : a) : Test.Context(a) {
-    `new TestContext(a)`
+    `new TestContext(#{a})`
   }
 
   /*
@@ -30,8 +30,8 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(c) {
     `
-    context.step((subject)=> {
-      return proc(subject)
+    #{context}.step((subject)=> {
+      return #{proc}(subject)
     })
     `
   }
@@ -55,13 +55,13 @@ module Test.Context {
   */
   fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
     `
-    context.step((subject)=> {
-      let result = _compare(a, subject)
+    #{context}.step((subject)=> {
+      let result = _compare(#{a}, subject)
 
       if (result) {
         return subject
       } else {
-        throw \`Assertion failed ${a} === ${subject}\`
+        throw \`Assertion failed ${#{a}} === ${subject}\`
       }
     })
     `
@@ -73,10 +73,10 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(a) {
     `
-    context.step((item) {
-      let actual = method(item)
+    #{context}.step((item) {
+      let actual = #{method}(item)
 
-      if (actual == value) {
+      if (actual == #{value}) {
         return item
       } else {
         throw \`Assertion failed ${actual} === ${value}\`

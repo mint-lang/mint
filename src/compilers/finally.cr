@@ -4,7 +4,7 @@ module Mint
       body =
         compile node.expression
 
-      "finally {\n#{body}\n}"
+      "finally {\n#{body.indent}\n}"
     end
   end
 end

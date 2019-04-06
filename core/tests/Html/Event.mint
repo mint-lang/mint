@@ -1,18 +1,20 @@
 suite "Html.Event.stopPropagation" {
   test "it stops propagation" {
-    Html.Event.stopPropagation(`{ stopPropagation: () => "A"}`) == `"A"`
+    Html.Event.stopPropagation(
+      `{ event: { stopPropagation: () => "A" }}`) == `"A"`
   }
 }
 
 suite "Html.Event.preventDefault" {
   test "it prevents default" {
-    Html.Event.preventDefault(`{ preventDefault: () => "A"}`) == `"A"`
+    Html.Event.preventDefault(
+      `{ event: { preventDefault: () => "A" }}`) == `"A"`
   }
 }
 
 suite "Html.Event.isPropagationStopped" {
   test "it prevents default" {
     Html.Event.isPropagationStopped(
-      `{ isPropagationStopped: () => true}`) == true
+      `{ event: { isPropagationStopped: () => true } }`) == true
   }
 }

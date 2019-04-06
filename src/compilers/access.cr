@@ -5,7 +5,13 @@ module Mint
         compile node.fields.first
 
       rest =
-        node.fields[1..-1].map(&.value)
+        node.fields[1..-1].map do |field|
+          if record_field_lookup[field]?
+            field.value
+          else
+            js.variable_of(lookups[field])
+          end
+        end
 
       ([first] + rest).join(".")
     end

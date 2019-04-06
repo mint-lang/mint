@@ -7,11 +7,11 @@ module Promise {
 
   /* Creates an already rejected `Promise` */
   fun reject (input : a) : Promise(a, b) {
-    `Promise.reject(input)`
+    `Promise.reject(#{input})`
   }
 
   /* Creates an already resolved `Promise` */
   fun resolve (input : a) : Promise(b, a) {
-    `Promise.resolve(input)`
+    `Promise.resolve(#{input})`
   }
 }

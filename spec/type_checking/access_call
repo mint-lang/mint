@@ -1,0 +1,103 @@
+component Test {
+  fun something (string : String) : String {
+    string
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something("asd")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+------------------------------------------------------------AccessFieldNotRecord
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something()
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+----------------------------------------------------------------CallNotAFunction
+component Test {
+  state something : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something("asd")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+--------------------------------------------------------CallArgumentTypeMismatch
+component Test {
+  fun something (string : String): String  {
+    string
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something(0)
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+--------------------------------------------------------CallArgumentSizeMismatch
+component Test {
+  fun something (string : String): String  {
+    string
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    test.something("asd", "asd")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}

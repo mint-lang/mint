@@ -5,9 +5,9 @@ module Mint
         prefix =
           case
           when (index + 1) == node.statements.size
-            "_result ="
-          when name = statement.name
-            "let #{name.value} ="
+            "_ = "
+          when statement.name
+            "let #{js.variable_of(statement)} = "
           end
 
         expression =
@@ -24,82 +24,80 @@ module Mint
                 .catches
                 .select { |item| item.type == type.parameters[0].name }
                 .map { |item| compile(item).as(String) }
-                .join("\n")
+            else
+              [] of String
             end
+          else
+            [] of String
           end
 
         case type
         when TypeChecker::Type
           case type.name
           when "Result"
-            if catches && catches.empty?
-              <<-JS
-              let _#{index} = #{expression}
-
-              if (_#{index} instanceof Err) {
-                throw _#{index}.value
-              }
-
-              #{prefix} _#{index}.value
-              JS
+            if catches.empty?
+              js.statements([
+                js.let("_#{index}", expression),
+                js.if("_#{index} instanceof Err") do
+                  "throw _#{index}.value"
+                end,
+                "#{prefix}_#{index}.value",
+              ])
             else
-              <<-JS
-              let _#{index} = #{expression}
-
-              if (_#{index} instanceof Err) {
-                let _error = _#{index}.value
-
-                #{catches}
-              }
-
-              #{prefix} _#{index}.value
-              JS
+              js.statements([
+                js.let("_#{index}", expression),
+                js.if("_#{index} instanceof Err") do
+                  js.statements([
+                    js.let("_error", "_#{index}.value"),
+                  ] + catches)
+                end,
+                "#{prefix}_#{index}.value",
+              ])
             end
           when "Promise"
-            if catches && !catches.empty?
-              <<-JS
-              #{prefix} await (async () => {
-                try {
-                  return await #{expression}
-                } catch (_error) {
-                  #{catches}
-                }
-              })()
-              JS
+            if catches.any?
+              try = js.asynciif do
+                js.try(
+                  body: "return await #{expression}",
+                  catches: [
+                    js.catch("_error") { js.statements(catches) },
+                  ],
+                  finally: "")
+              end
+
+              "#{prefix}await #{try}"
             end
           end
-        end || "#{prefix} await #{expression}"
-      end.join("\n\n").indent
+        end || "#{prefix}await #{expression}"
+      end
 
       catch_all =
         node.catch_all.try do |catch|
-          "_result = #{compile catch.expression}"
-        end || <<-JS
-          console.warn(`Unhandled error in sequence expression:`)
-          console.warn(_error)
-        JS
+          "_ = #{compile catch.expression}"
+        end || js.statements([
+          "console.warn(`Unhandled error in sequence expression:`)",
+          "console.warn(_error)",
+        ])
 
       finally =
         if node.finally
           compile node.finally.not_nil!
         end
 
-      <<-JS
-      (async () => {
-        let _result = null;
-
-        try {
-        #{body}
-        }
-        catch (_error) {
-          if (_error instanceof DoError) {} else {
-            #{catch_all}
-          }
-        } #{finally}
-
-        return _result
-      })()
-      JS
+      js.asynciif do
+        js.statements([
+          js.let("_", "null"),
+          js.try(
+            body: js.statements(body),
+            catches: [
+              js.catch("_error") do
+                js.if("!(_error instanceof DoError)", catch_all)
+              end,
+            ],
+            finally: finally.to_s),
+          "return _",
+        ])
+      end
     end
   end
 end

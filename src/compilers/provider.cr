@@ -2,12 +2,12 @@ module Mint
   class Compiler
     def _compile(node : Ast::Provider) : String
       body =
-        compile node.functions, "\n\n"
+        compile node.functions
 
       name =
-        underscorize(node.name)
+        js.class_of(node)
 
-      "const $#{name} = new (class extends Provider {\n#{body}\n})"
+      js.provider(name, body)
     end
   end
 end

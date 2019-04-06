@@ -30,7 +30,7 @@ module Mint
           maybe_name = statement.name
 
           if maybe_name
-            {maybe_name.value, type}.as(Tuple(String, Checkable))
+            {maybe_name.value, type, statement}.as(Tuple(String, Checkable, Ast::Node))
           end
         end.compact
 
@@ -51,7 +51,7 @@ module Mint
 
         check_variable catch.variable
 
-        scope({catch.variable.value, catch_type}) do
+        scope({catch.variable.value, catch_type, catch}) do
           catch_return_type = resolve catch
 
           if final_type

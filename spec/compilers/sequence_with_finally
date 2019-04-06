@@ -16,15 +16,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        _result = await null
+        _ = await null
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in sequence expression:`)
           console.warn(_error)
         }
@@ -32,17 +32,16 @@ class $Main extends Component {
         null
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
-
-      return _createElement("div", {})
+      this.a()
+      return _h("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -1,4 +1,4 @@
-message ModuleCallTypeMismatch do
+message CallTypeMismatch do
   title "Type Error"
 
   block do
@@ -10,5 +10,4 @@ message ModuleCallTypeMismatch do
   type_with_text got, "You tried to call it as:"
 
   snippet node, "You tried to call it here:"
-  snippet function, "The called function is defined here:"
 end

@@ -6,9 +6,6 @@ targets:
     main: src/mint.cr
 
 dependencies:
-  duktape:
-    github: jessedoyle/duktape.cr
-    version: 0.14.1
   string_inflection:
     github: mosop/string_inflection
     version: 0.2.1

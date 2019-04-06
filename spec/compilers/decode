@@ -21,66 +21,43 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$X_Y extends Record {}
+const A = _R({
+  blah: [
+    "blah",
+    Decoder.string
+  ]
+})
 
-$$X_Y.mappings = {
-  "blah": null
-}
+const B = _R({
+  name: [
+    "name",
+    Decoder.string
+  ],
+  y: [
+    "y",
+    ((_)=>A.decode(_))
+  ]
+})
 
-$$X_Y.decode = (_input) => {
-  let blah = Decoder.field(`blah`, Decoder.string)(_input)
-  if (blah instanceof Err) {
-    return blah
-  }
-
-  return new Ok(new $$X_Y({
-    blah: blah.value
-  }))
-}
-
-class $$X extends Record {}
-
-$$X.mappings = {
-  "name": null,
-  "y": null
-}
-
-$$X.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
-
-  let y = Decoder.field(`y`, $$X_Y.decode)(_input)
-  if (y instanceof Err) {
-    return y
-  }
-
-  return new Ok(new $$X({
-    name: name.value,
-    y: y.value
-  }))
-}
-
-class $Main extends Component {
-  x(input) {
-    return $$X.decode(input)
+class C extends _C {
+  a(b) {
+    return ((_)=>B.decode(_))(b)
   }
 
   render() {
     return (() => {
-      let _0 = this.x();
+      let _0 = this.a()
 
       if (_0 instanceof Err) {
         let _error = _0.value
         return _catch_all()
       }
 
-      _0.value;
+      _0.value
 
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+C.displayName = "Main"

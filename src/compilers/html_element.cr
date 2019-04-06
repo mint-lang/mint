@@ -9,31 +9,25 @@ module Mint
           ""
         else
           items =
-            compile node.children, ", "
+            compile node.children
 
-          "[#{items}]"
+          js.array(items)
         end
 
       attributes =
-        compile node
+        node
           .attributes
           .reject(&.name.value.==("class"))
           .reject(&.name.value.==("style"))
+          .map { |attribute| resolve(attribute) }
+          .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       component =
         html_elements[node]?
 
       class_name =
         if node.style && component
-          name =
-            node.style.as(Ast::Variable).value
-
-          component_name =
-            component.name
-
-          StringInflection
-            .kebab(component_name + "_" + name)
-            .gsub('.', '_')
+          js.style_of(lookups[node])
         end
 
       class_names =
@@ -66,17 +60,15 @@ module Mint
           "`#{class_names}`"
         end
 
-      attributes.push "className: #{classes}" if classes
+      attributes["className"] = classes if classes
 
       variables =
         if styles = dynamic_styles[class_name]?
           items =
             styles
-              .map { |key, value| "[`#{key}`]: #{value}" }
-              .join(",\n")
-              .indent
+              .each_with_object({} of String => String) { |(key, value), memo| memo["[`#{key}`]"] = value }
 
-          "{\n#{items}\n}" unless items.strip.empty?
+          js.object(items) unless items.empty?
         end
 
       custom_styles = node
@@ -85,22 +77,22 @@ module Mint
         .try { |attribute| compile(attribute.value) }
 
       if custom_styles && variables
-        attributes.push "style: _style([#{variables}, #{custom_styles}])"
+        attributes["style"] = "_style([#{variables}, #{custom_styles}])"
       elsif custom_styles
-        attributes.push "style: _style([#{custom_styles}])"
+        attributes["style"] = "_style([#{custom_styles}])"
       elsif variables
-        attributes.push "style: #{variables}"
+        attributes["style"] = variables
       end
 
       node.ref.try do |ref|
-        attributes << "ref: (element) => { this._#{ref.value} = element }"
+        attributes["ref"] = "(element) => { this._#{ref.value} = element }"
       end
 
       attributes =
         if attributes.empty?
           "{}"
         else
-          "{\n#{attributes.join(",\n").indent}\n}"
+          js.object(attributes)
         end
 
       contents =
@@ -110,7 +102,7 @@ module Mint
           .reject(&.empty?)
           .join(", ")
 
-      "_createElement(#{contents})"
+      "_h(#{contents})"
     end
   end
 end

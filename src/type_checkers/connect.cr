@@ -24,6 +24,8 @@ module Mint
           "store" => node.store,
           "node"  => node,
         } unless found
+
+        lookups[key] = found
       end
 
       NEVER

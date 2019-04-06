@@ -15,6 +15,9 @@ module Mint
         state =
           case entity
           when Ast::Component, Ast::Store
+            lookups[node] =
+              entity
+
             entity
               .states
               .find(&.name.value.==(item.key.value))

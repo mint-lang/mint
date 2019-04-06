@@ -100,7 +100,7 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        compiled = Compiler.compile type_checker.artifacts, {beautify: false}
+        compiled = Compiler.compile type_checker.artifacts, {optimize: true}
       end
 
       runtime + compiled

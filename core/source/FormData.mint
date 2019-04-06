@@ -22,7 +22,7 @@ module FormData {
     |> FormData.keys() == ["key"]
   */
   fun keys (formData : FormData) : Array(String) {
-    `Array.from(formData.keys())`
+    `Array.from(#{formData}.keys())`
   }
 
   /*
@@ -38,11 +38,11 @@ module FormData {
       var newFormData = new FormData();
 
       // Create new FormData object
-      for(let pair of formData.entries()) {
+      for(let pair of #{formData}.entries()) {
         newFormData.append(pair[0], pair[1])
       }
 
-      newFormData.append(key, value)
+      newFormData.append(#{key}, #{value})
 
       return newFormData
     })()
@@ -63,11 +63,11 @@ module FormData {
       var newFormData = new FormData();
 
       // Create new FormData object
-      for(let pair of formData.entries()) {
+      for(let pair of #{formData}.entries()) {
         newFormData.append(pair[0], pair[1])
       }
 
-      newFormData.append(key, value)
+      newFormData.append(#{key}, #{value})
 
       return newFormData
     })()

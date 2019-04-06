@@ -6,18 +6,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get name() {
-    if (this.props.name != undefined) {
-      return this.props.name
-    } else {
-      return `Joe`
-    }
+class A extends _C {
+  constructor(props) {
+    super(props)
+
+    this._d({
+      a: [
+        null,
+        `Joe`
+      ]
+    })
   }
 
   render() {
-    return _createElement("div", {})
+    return _h("div", {})
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

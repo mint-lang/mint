@@ -80,6 +80,8 @@ module Mint
           "node"       => node,
         } unless prop
 
+        lookups[node] = prop
+
         prop_type =
           scope component do
             resolve prop

@@ -1,14 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::HtmlAttribute, is_element = true) : String
-      if checked.includes?(node)
-        _compile node, is_element
-      else
-        ""
-      end
-    end
-
-    def _compile(node : Ast::HtmlAttribute, is_element = true) : String
+    def resolve(node : Ast::HtmlAttribute, is_element = true) : Hash(String, String)
       value =
         compile node.value
 
@@ -20,10 +12,17 @@ module Mint
       when "ref"
         value = "(ref => { ref ? #{value}.call(this, ref) : null })"
       when "readonly"
-        "readOnly: #{value}"
+        return {"readOnly" => value}
       end
 
-      "\"#{node.name.value}\": #{value}"
+      name =
+        if lookups[node]?
+          js.variable_of(lookups[node])
+        else
+          node.name.value
+        end
+
+      { %("#{name}") => value }
     end
   end
 end

@@ -1,10 +1,13 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::RecordField) : String
+    def resolve(node : Ast::RecordField) : Hash(String, String)
       value =
         compile node.value
 
-      "#{node.key.value}: #{value}"
+      name =
+        node.key.value
+
+      {name => value}
     end
   end
 end

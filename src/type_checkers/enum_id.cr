@@ -58,6 +58,8 @@ module Mint
           end
         end
 
+      lookups[node] = option
+
       Type.new(parent_type.name, final_parameters)
     end
 

@@ -29,7 +29,8 @@ module Mint
 
     property checking : Bool = true
 
-    delegate types, variables, html_elements, ast, lookups, cache, checked, to: artifacts
+    delegate types, variables, html_elements, ast, lookups, cache, to: artifacts
+    delegate checked, record_field_lookup, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
@@ -38,6 +39,8 @@ module Mint
     @names = {} of String => Ast::Node
     @types = {} of String => Ast::Node
     @records = [] of Record
+
+    @record_name_char : String = 'A'.pred.to_s
 
     @stack = [] of Ast::Node
 
@@ -62,6 +65,30 @@ module Mint
         check! record
         add_record check(record), record
       end
+    end
+
+    def create_record(fields)
+      name =
+        (@record_name_char = @record_name_char.succ)
+
+      compiled_fields =
+        fields.map do |key, value|
+          "#{key} : #{value.to_mint}"
+        end.join(",\n").indent
+
+      contents =
+        <<-MINT
+        record #{name} {
+        #{compiled_fields}
+        }
+        MINT
+
+      node = Parser.parse(contents, "").records[0]
+
+      record = resolve(node)
+      ast.records.push(node)
+      add_record record, node
+      record
     end
 
     def resolve_type(node : Record | Variable)
@@ -142,7 +169,7 @@ module Mint
       end
     end
 
-    def scope(nodes : Array(Tuple(String, Checkable)))
+    def scope(nodes : Array(Tuple(String, Checkable, Ast::Node)))
       # There is no recursive call check because these are just variables...
       scope.with nodes do
         yield

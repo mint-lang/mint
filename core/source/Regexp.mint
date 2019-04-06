@@ -23,7 +23,7 @@ module Regexp {
     |> Regexp.toString()) == "/test/"
   */
   fun create (input : String) : Regexp {
-    `new RegExp(input)`
+    `new RegExp(#{input})`
   }
 
   /*
@@ -45,13 +45,13 @@ module Regexp {
     (() => {
       let flags = ""
 
-      if (options.caseInsensitive) { flags += "i" }
-      if (options.multiline) { flags += "m" }
-      if (options.unicode) { flags += "u" }
-      if (options.global) { flags += "g" }
-      if (options.sticky) { flags += "y" }
+      if (#{options.caseInsensitive}) { flags += "i" }
+      if (#{options.multiline}) { flags += "m" }
+      if (#{options.unicode}) { flags += "u" }
+      if (#{options.global}) { flags += "g" }
+      if (#{options.sticky}) { flags += "y" }
 
-      return new RegExp(input, flags)
+      return new RegExp(#{input}, flags)
     })()
     `
   }
@@ -63,7 +63,7 @@ module Regexp {
     |> Regexp.toString()) == "/test/"
   */
   fun toString (regexp : Regexp) : String {
-    `regexp.toString()`
+    `#{regexp}.toString()`
   }
 
   /*
@@ -72,7 +72,7 @@ module Regexp {
     Regexp.escape("-{") == "\\-\\{"
   */
   fun escape (input : String) : String {
-    `input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')`
+    `#{input}.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')`
   }
 
   /*
@@ -82,7 +82,7 @@ module Regexp {
     |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
   */
   fun split (input : String, regexp : Regexp) : Array(String) {
-    `input.split(regexp)`
+    `#{input}.split(#{regexp})`
   }
 
   /*
@@ -92,7 +92,7 @@ module Regexp {
     |> Regexp.match("asd,asd")) == true
   */
   fun match (input : String, regexp : Regexp) : Bool {
-    `regexp.test(input)`
+    `#{regexp}.test(#{input})`
   }
 
   /*
@@ -123,7 +123,7 @@ module Regexp {
       let results = []
       let index = 0
 
-      input.replace(regexp, function() {
+      #{input}.replace(#{regexp}, function() {
         const args =
           Array.from(arguments)
 
@@ -135,11 +135,13 @@ module Regexp {
 
         index += 1
 
-        results.push(new Record({
-          submatches: submatches,
-          index: index,
-          match: match
-        }))
+        results.push(#{
+          {
+            submatches = `submatches`,
+            index = `index`,
+            match = `match`
+          }
+        })
       })
 
       return results
@@ -173,7 +175,7 @@ module Regexp {
     (() => {
       let index = 0
 
-      return input.replace(regexp, function() {
+      return #{input}.replace(#{regexp}, function() {
         const args =
           Array.from(arguments)
 
@@ -185,10 +187,12 @@ module Regexp {
 
         index += 1
 
-        return replacer({
-          submatches: submatches,
-          index: index,
-          match: match
+        return #{replacer}(#{
+          {
+            submatches = `submatches`,
+            index = `index`,
+            match = `match`
+          }
         })
       })
     })()

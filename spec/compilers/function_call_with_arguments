@@ -16,23 +16,22 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  call(a, b) {
+class A extends _C {
+  a(c, b) {
     return b
   }
 
-  test() {
-    return this.call(`Hello`, true)
+  d() {
+    return this.a(`Hello`, true)
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.d()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 

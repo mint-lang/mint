@@ -14,16 +14,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get test() {
-    let x = `Hello`
-
-    return x
+class A extends _C {
+  get a() {
+    let b = `Hello`
+    return b
   }
 
   render() {
-    return this.test
+    return this.a
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

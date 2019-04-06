@@ -143,7 +143,7 @@ suite "Http.sendWithID" {
         Http.get("/blah")
         |> Http.sendWithID("A")
 
-      `$Http._requests["A"] != undefined`
+      `#{Http.requests()}["A"] != undefined`
     }
   }
 }
@@ -163,7 +163,7 @@ component Test.Http {
     method : Function(Promise(a, b), Void),
     input : Promise(a, b)
   ) : Promise(a, b) {
-    `method(input)`
+    `#{method}(#{input})`
   }
 
   fun componentDidMount : Promise(Never, Void) {
@@ -176,12 +176,14 @@ component Test.Http {
         |> wrap(
           `
           (async (promise) => {
-            if (this.shouldError) {
-              $Http._requests["test"].dispatchEvent(new CustomEvent("error"))
-            } else if (this.timeout) {
-              $Http._requests["test"].dispatchEvent(new CustomEvent("timeout"))
-            } else if (this.abort) {
-              $Http._requests["test"].abort()
+            let _requests = #{Http.requests()}
+
+            if (#{shouldError}) {
+              _requests["test"].dispatchEvent(new CustomEvent("error"))
+            } else if (#{timeout}) {
+              _requests["test"].dispatchEvent(new CustomEvent("timeout"))
+            } else if (#{abort}) {
+              _requests["test"].abort()
             }
 
             const result = await promise

@@ -2,6 +2,6 @@
 module Object.Error {
   /* Formats the error as string. */
   fun toString (error : Object.Error) : String {
-    `error.toString()`
+    `#{error}.toString()`
   }
 }

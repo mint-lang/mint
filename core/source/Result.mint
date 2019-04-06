@@ -7,7 +7,7 @@ module Result {
     |> Result.isOk()) == true
   */
   fun ok (input : a) : Result(b, a) {
-    `new Ok(input)`
+    `new Ok(#{input})`
   }
 
   /*
@@ -17,7 +17,7 @@ module Result {
     |> Result.isError()) == true
   */
   fun error (input : a) : Result(a, b) {
-    `new Err(input)`
+    `new Err(#{input})`
   }
 
   /*
@@ -30,7 +30,7 @@ module Result {
     |> Result.withDefault("a")) == "ok"
   */
   fun withDefault (value : b, input : Result(a, b)) : b {
-    `input instanceof Ok ? input.value : value`
+    `#{input} instanceof Ok ? #{input}.value : #{value}`
   }
 
   /*
@@ -43,7 +43,7 @@ module Result {
     |> Result.withDefault("a")) == "a"
   */
   fun withError (value : a, input : Result(a, b)) : a {
-    `input instanceof Err ? input.value : value`
+    `#{input} instanceof Err ? #{input}.value : #{value}`
   }
 
   /*
@@ -56,7 +56,7 @@ module Result {
     |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
   */
   fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
-    `input instanceof Ok ? new Ok(func(input.value)) : input`
+    `#{input} instanceof Ok ? new Ok(#{func}(#{input}.value)) : #{input}`
   }
 
   /*
@@ -69,7 +69,7 @@ module Result {
     |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
   */
   fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
-    `input instanceof Err ? new Err(func(input.value)) : input`
+    `#{input} instanceof Err ? new Err(#{func}(#{input}.value)) : #{input}`
   }
 
   /*
@@ -79,7 +79,7 @@ module Result {
     |> Result.isOk()) == true
   */
   fun isOk (input : Result(a, b)) : Bool {
-    `input instanceof Ok`
+    `#{input} instanceof Ok`
   }
 
   /*
@@ -89,7 +89,7 @@ module Result {
     |> Result.isError()) == true
   */
   fun isError (input : Result(a, b)) : Bool {
-    `input instanceof Err`
+    `#{input} instanceof Err`
   }
 
   /*
@@ -104,8 +104,8 @@ module Result {
   fun toMaybe (result : Result(a, b)) : Maybe(b) {
     `
     (() => {
-      if (result instanceof Ok) {
-        return new Just(result.value)
+      if (#{result} instanceof Ok) {
+        return new Just(#{result}.value)
       } else {
         return new Nothing()
       }
@@ -115,7 +115,7 @@ module Result {
 
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     if (Result.isOk(input)) {
-      `input.value`
+      `#{input}.value`
     } else {
       `new Err()`
     }

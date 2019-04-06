@@ -2,7 +2,7 @@
 module Dom {
   /* Creates a new `Dom.Element` with the given tag. */
   fun createElement (tag : String) : Dom.Element {
-    `document.createElement(tag)`
+    `document.createElement(#{tag})`
   }
 
   /*
@@ -13,7 +13,7 @@ module Dom {
   fun getElementById (id : String) : Maybe(Dom.Element) {
     `
     (() => {
-      let element = document.getElementById(id)
+      let element = document.getElementById(#{id})
 
       if (element) {
         return new Just(element)
@@ -33,7 +33,7 @@ module Dom {
     `
     (() => {
       try {
-        let element = document.querySelector(selector)
+        let element = document.querySelector(#{selector})
 
         if (element) {
           return new Just(element)
@@ -64,18 +64,20 @@ module Dom {
   fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
     `
     (() => {
-      const rect = dom.getBoundingClientRect()
+      const rect = #{dom}.getBoundingClientRect()
 
-      return new Record({
-        bottom: rect.bottom,
-        height: rect.height,
-        width: rect.width,
-        right: rect.right,
-        left: rect.left,
-        top: rect.top,
-        x: rect.x,
-        y: rect.y
-      })
+      return #{
+        {
+          bottom = `rect.bottom`,
+          height = `rect.height`,
+          width = `rect.width`,
+          right = `rect.right`,
+          left = `rect.left`,
+          top = `rect.top`,
+          x = `rect.x`,
+          y = `rect.y`
+        }
+      }
     })()
     `
   }
@@ -92,7 +94,7 @@ module Dom {
   fun getValue (dom : Dom.Element) : String {
     `
     (() => {
-      let value = dom.value
+      let value = #{dom}.value
 
       if (typeof value === "string") {
         return value
@@ -109,7 +111,7 @@ module Dom {
   It is used to set the value of `input` fields programatically.
   */
   fun setValue (value : String, dom : Dom.Element) : Dom.Element {
-    `(dom.value = value) && dom`
+    `(#{dom}.value = #{value}) && #{dom}`
   }
 
   /*
@@ -122,7 +124,7 @@ module Dom {
     `
     (() => {
       try {
-        return dom.matches(selector)
+        return #{dom}.matches(#{selector})
       } catch (error) {
         return false
       }

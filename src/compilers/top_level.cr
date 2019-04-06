@@ -1,39 +1,25 @@
 module Mint
   class Compiler
-    RUNTIME = Duktape::Runtime.new do |sbx|
-      sbx.eval!("var global = {}")
-      sbx.eval! Assets.read("js_beautify.js")
-    end
+    DEFAULT_OPTIONS = {optimize: false}
 
-    DEFAULT_OPTIONS = {beautify: true}
-
-    alias Options = NamedTuple(beautify: Bool)
+    alias Options = NamedTuple(optimize: Bool)
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts)
+        new(artifacts, options[:optimize])
 
-      result =
-        compiler.wrap_runtime(compiler.compile + "\n_program.render($Main)")
+      main =
+        compiler.js.class_of(compiler.ast.components.find(&.name.==("Main")).not_nil!)
 
-      if options[:beautify]
-        RUNTIME.call(["global", "js_beautify"], result, {indent_size: 2}).to_s
-      else
-        result
-      end
+      compiler.wrap_runtime(compiler.compile + "\nconst $Main = #{main}\n_program.render($Main)")
     end
 
     # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
-      compiler = new(artifacts)
-
-      if options[:beautify]
-        RUNTIME.call(["global", "js_beautify"], compiler.compile, {indent_size: 2}).to_s
-      else
-        compiler.compile
-      end
+      compiler = new(artifacts, options[:optimize])
+      compiler.compile
     end
 
     # Compiles the application with the runtime and the tests
@@ -86,41 +72,37 @@ module Mint
           selectors =
             rules.map do |name, items|
               definitions =
-                items
-                  .map { |key, value| "#{key}: #{value};" }
-                  .join("\n")
-                  .indent
+                items.map { |key, value| "#{key}: #{value};" }
 
-              ".#{name} {\n#{definitions}\n}"
-            end.join("\n\n")
-              .indent
+              js.css_rule(".#{name}", definitions)
+            end
 
-          "@media #{condition} {\n#{selectors}\}"
-        end.join("\n\n")
-          .indent
+          js.css_rule("@media #{condition}", selectors)
+        end
 
       css =
         styles.map do |name, items|
           definitions =
-            items
-              .map { |key, value| "#{key}: #{value};" }
-              .join("\n")
-              .indent
+            items.map { |key, value| "#{key}: #{value};" }
 
-          ".#{name} {\n#{definitions}\n}"
-        end.join("\n\n")
-          .indent
-
-      footer =
-        if css.strip.empty?
-          ""
-        else
-          "_insertStyles(`\n#{css + media_css}\n`)"
+          js.css_rule(".#{name}", definitions)
         end
 
-      (enums + records + providers + routes + modules + components + stores + [footer])
-        .reject(&.empty?)
-        .join("\n\n")
+      all_css =
+        media_css + css
+
+      footer =
+        if all_css.empty?
+          ""
+        else
+          "_insertStyles(`\n#{js.css_rules(all_css)}\n`)"
+        end
+
+      elements =
+        enums + records + providers + routes + modules + components + stores + [footer]
+          .reject(&.empty?)
+
+      js.statements(elements)
     end
 
     # Wraps the application with the runtime
@@ -131,104 +113,55 @@ module Mint
           .map { |file| File.read(file) }
           .join("\n\n")
 
+      html_event_module =
+        ast.modules.find(&.name.==("Html.Event")).not_nil!
+
+      from_event =
+        html_event_module.functions.find(&.name.value.==("fromEvent")).not_nil!
+
+      from_event_call =
+        js.class_of(html_event_module) + "." + js.variable_of(from_event)
+
       <<-RESULT
       #{javascripts}
 
       (() => {
-        const _normalizeEvent = Mint.normalizeEvent;
-        const _createElement = Mint.createElement;
+        const _normalizeEvent = function (event) {
+          return #{from_event_call}(Mint.normalizeEvent(event))
+        };
+
+        const _R = Mint.createRecord;
+        const _h = Mint.createElement;
         const _createPortal = Mint.createPortal;
         const _insertStyles = Mint.insertStyles;
         const _navigate = Mint.navigate;
         const _compare = Mint.compare;
         const _program = Mint.program;
-        const _update = Mint.update;
         const _encode = Mint.encode;
+        const _style = Mint.style;
+        const _array = Mint.array;
         const _at = Mint.at;
-        const _array = function() {
-          let items = Array.from(arguments)
-          if (Array.isArray(items[0]) && items.length === 1) {
-            return items[0]
-          } else {
-            return items
-          }
-        }
-
-        const _style = function(items) {
-          const result = {}
-          for (let item of items) {
-            if (item instanceof Map) {
-              for (let [key, value] of item) {
-                result[key] = value
-              }
-            } else {
-              for (let key in item) {
-                result[key] = item[key]
-              }
-            }
-          }
-          return result
-        }
+        const _u = Mint.update;
 
         const TestContext = Mint.TestContext;
         const ReactDOM = Mint.ReactDOM;
-        const Provider = Mint.Provider;
         const Nothing = Mint.Nothing;
         const Decoder = Mint.Decoder;
         const DateFNS = Mint.DateFNS;
         const Record = Mint.Record;
-        const Store = Mint.Store;
         const React = Mint.React;
         const Just = Mint.Just;
-        const Enum = Mint.Enum;
         const Err = Mint.Err;
         const Ok = Mint.Ok;
 
+        const _C = Mint.Component;
+        const _P = Mint.Provider;
+        const _M = Mint.Module;
+        const _S = Mint.Store;
+        const _E = Mint.Enum;
+
         class DoError extends Error {}
 
-        const excludedMethods = [
-          'componentWillMount',
-          'UNSAFE_componentWillMount',
-          'render',
-          'getSnapshotBeforeUpdate',
-          'componentDidMount',
-          'componentWillReceiveProps',
-          'UNSAFE_componentWillReceiveProps',
-          'shouldComponentUpdate',
-          'componentWillUpdate',
-          'UNSAFE_componentWillUpdate',
-          'componentDidUpdate',
-          'componentWillUnmount',
-          'componentDidCatch',
-          'setState',
-          'forceUpdate',
-          'constructor'
-        ]
-
-        const bindFunctions = (target) => {
-          const descriptors =
-            Object.getOwnPropertyDescriptors(Reflect.getPrototypeOf(target))
-
-          for (let key in descriptors) {
-            if (excludedMethods[key]) { continue }
-            const value = descriptors[key].value
-            if (typeof value !== "function") { continue }
-            target[key] = value.bind(target)
-          }
-        }
-
-        class Module {
-          constructor() {
-            bindFunctions(this)
-          }
-        }
-
-        class Component extends Mint.Component {
-          constructor(props) {
-            super(props)
-            bindFunctions(this)
-          }
-        }
         #{body}
       })()
       RESULT

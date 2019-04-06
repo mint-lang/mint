@@ -7,6 +7,6 @@ module Bool {
     Bool.toString(false) == "false"
   */
   fun toString (item : Bool) : String {
-    `item.toString()`
+    `#{item}.toString()`
   }
 }

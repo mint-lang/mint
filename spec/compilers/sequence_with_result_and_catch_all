@@ -1,6 +1,6 @@
 module Result {
   fun error (input : a) : Result(a, b) {
-    `new Err(input)`
+    `new Err(#{input})`
   }
 }
 
@@ -24,19 +24,19 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Result = new(class extends Module {
-  error(input) {
-    return new Err(input)
+const B = new(class extends _M {
+  b(c) {
+    return new Err(c)
   }
 })
 
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let _0 = $Result.error(``)
+        let _0 = B.b(``)
 
         if (_0 instanceof Err) {
           throw _0.value
@@ -44,24 +44,23 @@ class $Main extends Component {
 
         _0.value
 
-        _result = await `test`
+        _ = await `test`
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
-          _result = `test`
+        if (!(_error instanceof DoError)) {
+          _ = `test`
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
-
-      return _createElement("div", {})
+      this.a()
+      return _h("div", {})
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

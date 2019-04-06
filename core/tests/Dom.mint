@@ -4,7 +4,7 @@ suite "Dom.createElement" {
       element =
         Dom.createElement("div")
 
-      `element.tagName === "DIV"`
+      `#{element}.tagName === "DIV"`
     }
   }
 }

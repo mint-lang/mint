@@ -4,27 +4,18 @@ module Mint
       type = types[node]
 
       name =
-        underscorize type.name
+        js.class_of(type.name)
 
       case type
       when TypeChecker::Record
         mappings =
-          type.mappings.to_json
-
-        decoder =
           begin
             @decoder.compile type
           rescue
-            "() => { console.warn('Cannot decode this record!') }"
+            "{}"
           end
 
-        <<-JS
-        class $$#{name} extends Record {}
-
-        $$#{name}.mappings = #{mappings}
-
-        $$#{name}.decode = #{decoder}
-        JS
+        "const #{name} = _R(#{mappings})"
       else
         ""
       end

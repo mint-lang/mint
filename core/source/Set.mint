@@ -13,7 +13,7 @@ module Set {
     |> Set.toArray()) == ["value"]
   */
   fun toArray (set : Set(a)) : Array(a) {
-    `Array.from(set)`
+    `Array.from(#{set})`
   }
 
   /*
@@ -23,7 +23,7 @@ module Set {
     |> Set.add("value")) == Set.fromArray(["value"])
   */
   fun fromArray (array : Array(a)) : Set(a) {
-    `new Set(array)`
+    `new Set(#{array})`
   }
 
   /*
@@ -36,8 +36,8 @@ module Set {
   fun has (value : a, set : Set(a)) : Bool {
     `
     (() => {
-      for (let item of set) {
-        if (_compare(item, value)) {
+      for (let item of #{set}) {
+        if (_compare(item, #{value})) {
           return true
         }
       }
@@ -58,11 +58,11 @@ module Set {
     (() => {
       const newSet = new Set()
 
-      set.forEach((item) => {
+      #{set}.forEach((item) => {
         newSet.add(item)
       })
 
-      newSet.add(value)
+      newSet.add(#{value})
 
       return newSet
     })()
@@ -81,11 +81,11 @@ module Set {
     (() => {
       const newSet = new Set()
 
-      set.forEach((item) => {
+      #{set}.forEach((item) => {
         newSet.add(item)
       })
 
-      newSet.delete(value)
+      newSet.delete(#{value})
 
       return newSet
     })()
@@ -103,8 +103,8 @@ module Set {
     (() => {
       const newSet = new Set()
 
-      set.forEach((item) => {
-        newSet.add(method(item))
+      #{set}.forEach((item) => {
+        newSet.add(#{method}(item))
       })
 
       return newSet

@@ -6,7 +6,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   render() {
     return (() => {
       return `hello`
@@ -14,4 +14,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

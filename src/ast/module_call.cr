@@ -8,9 +8,9 @@ module Mint
       def initialize(@arguments : Array(Expression),
                      @function : Variable,
                      @name : String,
+                     @piped : Bool,
                      @input : Data,
                      @from : Int32,
-                     @piped : Bool,
                      @to : Int32)
       end
     end

@@ -6,27 +6,27 @@ module Mint
       check node, false
     end
 
-    def check(node : Ast::Record, for_checking : Bool) : Checkable
+    def check(node : Ast::Record) : Checkable
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field, for_checking)} }
+          .map { |field| {field.key.value, resolve(field)} }
           .to_h
 
       record =
         records.find(&.==(fields))
 
-      if record
-        types[node] = record
-      else
-        if for_checking
-          record = Record.new("", fields)
-        else
-          raise RecordNotFoundMatchingRecord, {
-            "structure" => Record.new("", fields),
-            "node"      => node,
-          }
-        end
+      record = create_record(fields) unless record
+
+      types[node] = record
+
+      # raise RecordNotFoundMatchingRecord, {
+      #  "structure" => Record.new("", fields),
+      #  "node"      => node,
+      # }
+
+      node.fields.each do |field|
+        record_field_lookup[field] = record.name
       end
 
       record

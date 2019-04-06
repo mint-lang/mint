@@ -66,7 +66,7 @@ module Mint
       type_checker.check
 
       # Compile.
-      @script = Compiler.compile type_checker.artifacts, {beautify: false}
+      @script = Compiler.compile type_checker.artifacts
       @error = nil
     rescue exception : Error
       @error = exception.to_html

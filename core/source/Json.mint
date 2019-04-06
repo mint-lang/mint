@@ -11,7 +11,7 @@ module Json {
     `
     (() => {
       try {
-        return new Just(JSON.parse(input))
+        return new Just(JSON.parse(#{input}))
       } catch (error) {
         return new Nothing()
       }
@@ -25,6 +25,6 @@ module Json {
     Json.stringify(`{ a: "Hello" }`) == "{ \"a\": \"Hello\" }"
   */
   fun stringify (input : Object) : String {
-    `JSON.stringify(input)`
+    `JSON.stringify(#{input})`
   }
 }

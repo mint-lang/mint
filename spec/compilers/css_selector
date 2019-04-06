@@ -17,33 +17,33 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  get color() {
+class A extends _C {
+  get a() {
     return `blue`
   }
 
   render() {
-    return _createElement("div", {
-      className: `main-test`,
+    return _h("div", {
+      className: `a`,
       style: {
-        [`--main-test-div-color`]: this.color
+        [`--a-a`]: this.a
       }
     })
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
 
 _insertStyles(`
-  .main-test {
+.a {
 
-  }
+}
 
-  .main-test div {
-    color: var(--main-test-div-color);
-  }
+.a div {
+  color: var(--a-a);
+}
 
-  .main-test:focus {
-    color: red;
-  }
+.a:focus {
+  color: red;
+}
 `)

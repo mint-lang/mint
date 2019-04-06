@@ -33,79 +33,70 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Promise = new(class extends Module {
-  reject(input) {
+const B = new(class extends _M {
+  c(h) {
     return
   }
 })
 
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let greeting = null;
-        let b = null;
-        let a = null;
+        let b = null
+        let e = null
+        let f = null
 
         await Promise.all([
           (async () => {
             try {
-              greeting = await $Promise.reject(`x`)
+              b = await B.c(`x`)
             } catch (_error) {
-              let a = _error;
-
-              _result = `hello`
-
+              let d = _error
+              _ = `hello`
               throw new DoError()
             }
           })(),
-
           (async () => {
             try {
-              b = await $Promise.reject(`y`)
+              e = await B.c(`y`)
             } catch (_error) {
-              let a = _error;
-
-              _result = `hello`
-
+              let d = _error
+              _ = `hello`
               throw new DoError()
             }
           })(),
-
           (async () => {
             try {
-              a = await $Promise.reject(0)
+              f = await B.c(0)
             } catch (_error) {
-              let a = _error;
-
-              _result = `asd`
-
+              let g = _error
+              _ = `asd`
               throw new DoError()
             }
           })()
         ])
 
-        _result = `blah`
+        _ = `blah`
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in parallel expression:`)
           console.warn(_error)
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

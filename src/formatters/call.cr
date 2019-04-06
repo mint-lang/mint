@@ -1,7 +1,10 @@
 module Mint
   class Formatter
-    def format(prefix : String, node : Ast::FunctionCall | Ast::ModuleCall) : String
-      return "#{prefix}()" if node.arguments.empty?
+    def format(node : Ast::Call) : String
+      expression =
+        format node.expression
+
+      return "#{expression}()" if node.arguments.empty?
 
       items =
         if node.piped
@@ -20,16 +23,16 @@ module Mint
         arguments.join(", ")
 
       arguments =
-        if (prefix.size + joined_arguments.size) > 60
+        if (expression.size + joined_arguments.size) > 60
           indent("\n" + arguments.join(", \n"))
         else
           joined_arguments
         end
 
       if first
-        "#{first}\n|> #{prefix}(#{arguments})"
+        "#{first}\n|> #{expression}(#{arguments})"
       else
-        "#{prefix}(#{arguments})"
+        "#{expression}(#{arguments})"
       end
     end
   end

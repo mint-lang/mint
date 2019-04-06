@@ -1,45 +1,27 @@
 module Mint
   class Decoder
-    @decoders = {} of TypeChecker::Record => String
+    @mappings = {} of TypeChecker::Record => String
+
+    getter js : Js
+
+    def initialize(@js)
+    end
 
     def compile(node : TypeChecker::Record)
-      return @decoders[node] if @decoders[node]?
+      @mappings[node] ||= begin
+        mappings =
+          node.fields.each_with_object({} of String => String) do |(key, value), memo|
+            decoder =
+              generate value
 
-      consts =
-        node.fields.map do |key, value|
-          decoder =
-            generate value
+            from =
+              node.mappings[key]? || key
 
-          from =
-            node.mappings[key]? || key
+            memo[key] = js.array([%("#{from}"), decoder])
+          end
 
-          <<-JS
-          let #{key} = Decoder.field(`#{from}`, #{decoder})(_input)
-          if (#{key} instanceof Err) { return #{key} }
-          JS
-        end
-
-      fields =
-        node
-          .fields
-          .keys
-          .map { |key| "#{key}: #{key}.value" }
-
-      body =
-        <<-JS
-        #{consts.join("\n\n")}
-
-        return new Ok(new $$#{underscorize(node.name)}({
-        #{fields.join(",\n").indent}
-        }))
-        JS
-
-      @decoders[node] =
-        <<-JS
-        (_input) => {
-        #{body.indent}
-        }
-        JS
+        @mappings[node] = js.object(mappings)
+      end
     end
 
     def underscorize(value)
@@ -54,7 +36,7 @@ module Mint
     def generate(node : TypeChecker::Record)
       compile node
 
-      "$$#{underscorize(node.name)}.decode"
+      "((_)=>#{js.class_of(node.name)}.decode(_))"
     end
 
     def generate(node : TypeChecker::Type)

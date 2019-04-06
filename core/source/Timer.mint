@@ -8,8 +8,8 @@ module Timer {
     `
     new Promise((resolve) => {
     	setTimeout(() => {
-        resolve(subject)
-      }, duration)
+        resolve(#{subject})
+      }, #{duration})
     })
     `
   }
@@ -19,7 +19,7 @@ module Timer {
     `
     new Promise((resolve) => {
     	requestAnimationFrame(() => {
-        resolve(subject)
+        resolve(#{subject})
       })
     })
     `

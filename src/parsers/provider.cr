@@ -40,6 +40,8 @@ module Mint
           case item
           when Ast::Function
             functions << item
+
+            item.keep_name = true if item.name.value == "attach" || item.name.value == "detach"
           when Ast::Comment
             comments << item
           end

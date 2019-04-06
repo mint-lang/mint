@@ -7,20 +7,13 @@ module Mint
       wheres =
         compile node.where.try(&.statements) || [] of Ast::WhereStatement
 
-      wheres_separator =
-        wheres.any? ? "\n\n" : ""
-
       name =
-        node.name.value
+        js.variable_of(node)
 
       body =
-        [wheres.join("\n\n"),
-         wheres_separator,
-         "return #{body}",
-        ].join("")
-          .indent
+        js.statements(wheres + [js.return(body)])
 
-      "get #{name}() {\n#{body}\n}"
+      js.get(name, body)
     end
   end
 end

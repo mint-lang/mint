@@ -10,31 +10,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $$X extends Record {}
+const A = _R({
+  name: [
+    "name",
+    Decoder.string
+  ]
+})
 
-$$X.mappings = {
-  "name": null
-}
-
-$$X.decode = (_input) => {
-  let name = Decoder.field(`name`, Decoder.string)(_input)
-  if (name instanceof Err) {
-    return name
-  }
-
-  return new Ok(new $$X({
-    name: name.value
-  }))
-}
-
-class $Main extends Component {
+class B extends _C {
   render() {
-    let x = new $$X({
+    let a = new A({
       name: `test`
     })
 
-    return x.name
+    return a.name
   }
 }
 
-$Main.displayName = "Main"
+B.displayName = "Main"

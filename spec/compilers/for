@@ -8,14 +8,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
+class A extends _C {
   render() {
     return (() => {
       const _0 = []
       const _1 = [`A`, `B`]
 
-      for (let item of _1) {
-        _0.push(_createElement("div", {}, [item]))
+      for (let a of _1) {
+        _0.push(_h("div", {}, [
+          a
+        ]))
       }
 
       return _0
@@ -23,4 +25,4 @@ class $Main extends Component {
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

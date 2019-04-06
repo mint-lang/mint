@@ -35,8 +35,8 @@ module Mint
         node
           .arguments
           .each_with_index
-          .reduce([] of Tuple(String, Checkable)) do |memo, (argument, index)|
-            memo << {argument.value, subject.parameters[index]}
+          .reduce([] of Tuple(String, Checkable, Ast::Node)) do |memo, (argument, index)|
+            memo << {argument.value, subject.parameters[index], argument}
           end
 
       type = scope(arguments) do

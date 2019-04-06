@@ -16,9 +16,7 @@ module Mint
 
     def _compile(node : Ast::Style, component : Ast::Component) : Nil
       prefix =
-        StringInflection
-          .kebab(component.name + "_" + node.name.value)
-          .gsub('.', '_')
+        js.style_of(node)
 
       compile prefix, prefix, node.definitions
 

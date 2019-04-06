@@ -17,44 +17,42 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class $Main extends Component {
-  test() {
+class A extends _C {
+  a() {
     return (async () => {
-      let _result = null;
+      let _ = null
 
       try {
-        let a = null;
-        let b = null;
+        let b = null
+        let c = null
 
         await Promise.all([
           (async () => {
-            a = await `Hello`
+            b = await `Hello`
           })(),
-
           (async () => {
-            b = await `World`
+            c = await `World`
           })()
         ])
 
-        _result = a + b
+        _ = b + c
       } catch (_error) {
-        if (_error instanceof DoError) {} else {
+        if (!(_error instanceof DoError)) {
           console.warn(`Unhandled error in parallel expression:`)
           console.warn(_error)
         }
       }
 
-      return _result
+      return _
     })()
   }
 
   render() {
     return (() => {
-      this.test()
-
+      this.a()
       return ``
     })()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"

@@ -12,16 +12,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const $Html_Testing = new(class extends Module {
-  renderAll() {
-    return _createElement("p", {}, [`It should work`])
+const B = new(class extends _M {
+  a() {
+    return _h("p", {}, [
+      `It should work`
+    ])
   }
 })
 
-class $Main extends Component {
+class A extends _C {
   render() {
-    return $Html_Testing.renderAll()
+    return B.a()
   }
 }
 
-$Main.displayName = "Main"
+A.displayName = "Main"
