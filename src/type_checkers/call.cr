@@ -55,6 +55,8 @@ module Mint
           "node"     => node,
         } unless unified_type
 
+        node.partially_applied = true
+
         Type.new("Function", unified_type.parameters[range])
       else # This is a full call
         call_type =

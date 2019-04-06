@@ -7,7 +7,11 @@ module Mint
       arguments =
         compile node.arguments, ", "
 
-      "#{expression}(#{arguments})"
+      if node.partially_applied
+        "((..._) => #{expression}(#{arguments}, ..._))"
+      else
+        "#{expression}(#{arguments})"
+      end
     end
   end
 end

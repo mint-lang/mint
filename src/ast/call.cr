@@ -3,9 +3,10 @@ module Mint
     class Call < Node
       getter arguments, expression
 
-      property piped
+      property piped, partially_applied
 
       def initialize(@arguments : Array(Expression),
+                     @partially_applied : Bool,
                      @expression : Expression,
                      @piped : Bool,
                      @input : Data,

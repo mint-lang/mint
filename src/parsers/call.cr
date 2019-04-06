@@ -16,6 +16,7 @@ module Mint
         char ')', CallExpectedClosingParentheses
 
         array_access_or_call(Ast::Call.new(
+          partially_applied: false,
           from: start_position,
           arguments: arguments,
           expression: lhs,
