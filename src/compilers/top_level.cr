@@ -89,7 +89,7 @@ module Mint
         end
 
       all_css =
-        media_css + css
+        css + media_css
 
       footer =
         if all_css.empty?
