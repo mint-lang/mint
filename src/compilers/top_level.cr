@@ -11,8 +11,8 @@ module Mint
         new(artifacts, options[:optimize])
 
       main =
-        compiler.ast.components.find(&.name.==("Main")).try do |main|
-          "\n_program.render(#{compiler.js.class_of(main)})"
+        compiler.ast.components.find(&.name.==("Main")).try do |component|
+          "\n_program.render(#{compiler.js.class_of(component)})"
         end || ""
 
       compiler.wrap_runtime(compiler.compile + main)

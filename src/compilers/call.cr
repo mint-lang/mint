@@ -8,7 +8,12 @@ module Mint
         compile node.arguments, ", "
 
       if node.partially_applied
-        "((..._) => #{expression}(#{arguments}, ..._))"
+        # If there are no arguments just return the function
+        if node.arguments.empty?
+          expression
+        else
+          "((..._) => #{expression}(#{arguments}, ..._))"
+        end
       else
         "#{expression}(#{arguments})"
       end
