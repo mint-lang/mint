@@ -5,81 +5,97 @@
   "theme_color": "",
   "display": "",
   "orientation": "",
+  "start_url": "/",
   "icons": [
     {
-      "src": "dist/icon-16x16.png",
+      "src": "icon-16x16.png",
       "sizes": "16x16",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-32x32.png",
+      "src": "icon-32x32.png",
       "sizes": "32x32",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-36x36.png",
+      "src": "icon-36x36.png",
       "sizes": "36x36",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-57x57.png",
+      "src": "icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-57x57.png",
       "sizes": "57x57",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-76x76.png",
+      "src": "icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-76x76.png",
       "sizes": "76x76",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-96x96.png",
+      "src": "icon-96x96.png",
       "sizes": "96x96",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-120x120.png",
+      "src": "icon-120x120.png",
       "sizes": "120x120",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-128x128.png",
+      "src": "icon-128x128.png",
       "sizes": "128x128",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-144x144.png",
+      "src": "icon-144x144.png",
       "sizes": "144x144",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-152x152.png",
+      "src": "icon-152x152.png",
       "sizes": "152x152",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-167x167.png",
+      "src": "icon-167x167.png",
       "sizes": "167x167",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-180x180.png",
+      "src": "icon-180x180.png",
       "sizes": "180x180",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-196x196.png",
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-196x196.png",
       "sizes": "196x196",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-256x256.png",
+      "src": "icon-256x256.png",
       "sizes": "256x256",
-      "type": "images/png"
+      "type": "image/png"
     },
     {
-      "src": "dist/icon-512x512.png",
+      "src": "icon-512x512.png",
       "sizes": "512x512",
-      "type": "images/png"
+      "type": "image/png"
     }
   ]
 }
