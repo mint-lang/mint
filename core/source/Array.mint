@@ -649,13 +649,13 @@ module Array {
   Returns the index of the item in the given array which matches the given value
   using the given function the generate the compared value.
 
-    Arrray.indexBy("a", (item : String) { item }, ["a","b","c"]) == 1
+    Array.indexBy("a", (item : String) : String { item }, ["a","b","c"]) == 0
   */
   fun indexBy (value : b, method : Function(a, b), array : Array(a)) : Number {
     `
     (() => {
-      for (let index = 0; index < array.length; index++) {
-        if (_compare(value, method(array[index]))) {
+      for (let index = 0; index < #{array}.length; index++) {
+        if (_compare(#{value}, #{method}(#{array}[index]))) {
           return index
         }
       }

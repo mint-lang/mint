@@ -954,3 +954,16 @@ suite "Array.indexOf" {
     Array.indexOf(Http.Error::Aborted, [Http.Error::Aborted]) == 0
   }
 }
+
+suite "Array.indexBy" {
+  test "it returns the index of the item" {
+    Array.indexBy(
+      "a",
+      (item : String) : String { item },
+      [
+        "a",
+        "b",
+        "c"
+      ]) == 0
+  }
+}
