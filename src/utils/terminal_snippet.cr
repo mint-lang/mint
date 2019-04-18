@@ -40,7 +40,7 @@ module Mint
 
       def [](from, to)
         contents[from, to - from]
-      rescue IndexError
+      rescue IndexError | ArgumentError
         ""
       end
     end
