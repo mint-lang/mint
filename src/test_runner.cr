@@ -97,6 +97,7 @@ module Mint
       },
       chrome: {
         "chromium-browser",
+        "chromium",
         "google-chrome",
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       },
