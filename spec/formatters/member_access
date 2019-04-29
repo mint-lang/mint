@@ -1,0 +1,19 @@
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test({ test = "Hello" })
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test({ test = "Hello" })
+  }
+}

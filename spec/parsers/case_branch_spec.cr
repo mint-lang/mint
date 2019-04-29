@@ -4,7 +4,6 @@ describe "Case Branch" do
   subject case_branch
 
   expect_ignore ""
-  expect_ignore "."
   expect_ignore "???"
   expect_ignore "asd"
 

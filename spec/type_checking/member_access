@@ -1,0 +1,19 @@
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test({test = "Hello"})
+  }
+}
+--------------------------------------------------------CallArgumentTypeMismatch
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .asd({test = "Hello"})
+  }
+}

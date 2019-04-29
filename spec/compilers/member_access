@@ -1,0 +1,56 @@
+record X {
+  name : String
+}
+
+module Array {
+  fun map (method : Function(a, b), array : Array(a)) : Array(b) {
+    ``
+  }
+}
+
+component Main {
+  fun render : String {
+    try {
+      [
+        {
+          name = "Joe"
+        },
+        {
+          name = "Doe"
+        }
+      ]
+      |> Array.map(.name)
+
+      "asd"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const A = _R({
+  name: [
+    "name",
+    Decoder.string
+  ]
+})
+
+const C = new(class extends _M {
+  a(b, c) {
+    return
+  }
+})
+
+class B extends _C {
+  render() {
+    return (() => {
+      C.a(((_) => _.name), [new A({
+        name: `Joe`
+      }), new A({
+        name: `Doe`
+      })])
+
+      return `asd`
+    })()
+  }
+}
+
+B.displayName = "Main"
