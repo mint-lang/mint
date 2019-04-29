@@ -967,3 +967,25 @@ suite "Array.indexBy" {
       ]) == 0
   }
 }
+
+suite "Array.sumBy" {
+  test "it sums up the array by using the function" {
+    Array.sumBy(
+      (value : Number) : Number { value },
+      [
+        1,
+        2,
+        3
+      ]) == 6
+  }
+}
+
+suite "Array.sum" {
+  test "it sums up the array" {
+    Array.sum([
+      1,
+      2,
+      3
+    ]) == 6
+  }
+}

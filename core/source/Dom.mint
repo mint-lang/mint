@@ -131,4 +131,37 @@ module Dom {
     })()
     `
   }
+
+  /*
+  Tries to focus the given element in the next 150 milliseconds and warn
+  in the console if not successful.
+  */
+  fun focusWhenVisible (element : Dom.Element) : Promise(Never, Void) {
+    `
+    (() => {
+      let counter = 0
+
+      let focus = () => {
+        if (counter > 15) {
+          console.warn('Could not focus the element in 150ms. Is it visible?', #{element})
+          return
+        }
+
+        #{element}.focus()
+
+        if (document.activeElement != #{element}) {
+          counter++
+          setTimeout(focus, 10)
+        }
+      }
+
+      focus()
+    })()
+    `
+  }
+
+  /* Returns if the given base element contains the given element. */
+  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
+    `#{base}.contains(#{element})`
+  }
 }

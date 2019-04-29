@@ -73,7 +73,7 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(a) {
     `
-    #{context}.step((item) {
+    #{context}.step((item) => {
       let actual = #{method}(item)
 
       if (actual == #{value}) {

@@ -90,3 +90,70 @@ suite "Dom.matches" {
     |> Dom.matches("p")) == false
   }
 }
+
+suite "Dom.contains" {
+  test "it returns true if it contains the element" {
+    Dom.contains(`document.body`, `document`)
+  }
+
+  test "it returns false if it does not contain the element" {
+    Dom.contains(`document`, `document.body`) == false
+  }
+}
+
+component Test.Dom.Focus {
+  state shown : Bool = false
+
+  style input {
+    display: {display};
+  }
+
+  get display : String {
+    if (shown) {
+      "inline-block"
+    } else {
+      "none"
+    }
+  }
+
+  fun show : Promise(Never, Void) {
+    sequence {
+      Timer.timeout(100, "")
+      next { shown = true }
+    }
+  }
+
+  fun focus : Promise(Never, Void) {
+    Dom.focusWhenVisible(input)
+  }
+
+  fun render : Html {
+    <>
+      <input::input as input id="input"/>
+
+      <button
+        id="show"
+        onClick={show}/>
+
+      <button
+        id="focus"
+        onClick={focus}/>
+    </>
+  }
+}
+
+suite "Dom.focusWhenVisible" {
+  test "it waits for the element to be visible" {
+    with Test.Html {
+      with Test.Context {
+        <Test.Dom.Focus/>
+        |> start()
+        |> triggerClick("#focus")
+        |> triggerClick("#show")
+        |> timeout(200)
+        |> assertCSSOf("#input", "display", "inline-block")
+        |> assertActiveElement("#input")
+      }
+    }
+  }
+}

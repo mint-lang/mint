@@ -113,3 +113,9 @@ suite "String.lchop" {
     String.lchop("!", "!!!Hello") == "Hello"
   }
 }
+
+suite "String.replace" {
+  test "it replaces the given pattern with replacement" {
+    String.replace("a", "0", "aaaa") == "0000"
+  }
+}

@@ -157,4 +157,17 @@ module String {
     })()
     `
   }
+
+
+  /* Replaces the given pattern with the replacemet.
+
+    String.replace("a", "0", "aaaa") == "0000"
+  */
+  fun replace (
+    pattern : String,
+    replacement : String,
+    string : String
+  ) : String {
+    `#{string}.replace(new RegExp(#{pattern}, 'g'), #{replacement})`
+  }
 }

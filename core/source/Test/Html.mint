@@ -192,6 +192,27 @@ module Test.Html {
     `
   }
 
+  fun assertActiveElement (
+    selector : String,
+    context : Test.Context(Dom.Element)
+  ) : Test.Context(Dom.Element) {
+    `
+    #{context}.step((element) => {
+      let subject = element.querySelector(#{selector})
+
+      if (subject) {
+        if (subject == document.activeElement) {
+          return subject
+        }  else {
+          throw \`Element is not active ${subject}\`
+        }
+      } else {
+        throw \`Could not find element with selector: ${#{selector}}\`
+      }
+    })
+    `
+  }
+
   /* Asserts that there is an element that matches the given selector. */
   fun assertElementExists (
     selector : String,

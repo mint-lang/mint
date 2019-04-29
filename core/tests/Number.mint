@@ -64,3 +64,9 @@ suite "Number.fromString" {
     |> Maybe.withDefault(0)) == 100
   }
 }
+
+suite "Number.format" {
+  test "formats the number" {
+    Number.format("$ ", 1034150) == "$ 1,034,150"
+  }
+}

@@ -305,7 +305,7 @@ module Array {
   /*
   Put two lists together:
 
-    Array.Extra.append([1,1,2] [3,5,8]) == [1,1,2,3,5,8]
+    Array.append([1,1,2] [3,5,8]) == [1,1,2,3,5,8]
   */
   fun append (array1 : Array(a), array2 : Array(a)) : Array(a) {
     `[].concat(#{array1}).concat(#{array2})`
@@ -314,7 +314,7 @@ module Array {
   /*
   Concatenate a bunch of arrays into a single array:
 
-    Array.Extra.concat([[1,2],[3],[4,5]]) == [1,2,3,4,5]
+    Array.concat([[1,2],[3],[4,5]]) == [1,2,3,4,5]
   */
   fun concat (arrays : Array(Array(a))) : Array(a) {
     reduce([], append, arrays)
@@ -663,5 +663,28 @@ module Array {
       return -1
     })()
     `
+  }
+
+  /* Sums up the given array using the given function.
+
+    Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
+  */
+  fun sumBy (method : Function(a, Number), array : Array(a)) : Number {
+    array
+    |> Array.map(method)
+    |> Array.sum()
+  }
+
+  /* Sums up the given array of numbers.
+
+    Array.sum([1, 2, 3]) == 6
+  */
+  fun sum (array : Array(Number)) : Number {
+    Array.reduce(
+      0,
+      (memo : Number, item : Number) : Number {
+        item + memo
+      },
+      array)
   }
 }
