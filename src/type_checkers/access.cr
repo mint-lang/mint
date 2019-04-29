@@ -17,9 +17,8 @@ module Mint
             lookup node.fields[1]
 
           raise AccessFieldNotRecord, {
-            "field"  => node.fields[1].value,
-            "object" => second,
-            "node"   => node.fields[1],
+            "field" => node.fields[1].value,
+            "node"  => node.fields[1],
           } unless second
 
           resolved =

@@ -7,7 +7,5 @@ message AccessFieldNotRecord do
     text "on an object which is not a record:"
   end
 
-  type object
-
   snippet node
 end
