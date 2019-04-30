@@ -17,7 +17,9 @@ module Mint
       parameters = [] of Checkable
 
       raise CallArgumentSizeMismatch, {
-        "node" => node,
+        "call_size" => node.arguments.size.to_s,
+        "size"      => argument_size.to_s,
+        "node"      => node,
       } if node.arguments.size > argument_size
 
       node.arguments.each_with_index do |argument, index|
