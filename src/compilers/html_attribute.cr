@@ -4,25 +4,25 @@ module Mint
       value =
         compile node.value
 
-      case node.name.value.downcase
+      downcase_name =
+        node.name.value.downcase
+
+      case downcase_name
       when .starts_with?("on")
         if is_element
           value = "(event => (#{value})(_normalizeEvent(event)))"
         end
       when "ref"
         value = "(ref => { ref ? #{value}.call(this, ref) : null })"
-      when "readonly"
-        return {"readOnly" => value}
       end
 
-      name =
-        if lookups[node]?
-          js.variable_of(lookups[node])
-        else
-          node.name.value
-        end
-
-      { %("#{name}") => value }
+      if downcase_name == "readonly" && is_element
+        {"readOnly" => value}
+      elsif lookups[node]?
+        {js.variable_of(lookups[node]) => value}
+      else
+        { %("#{node.name.value}") => value }
+      end
     end
   end
 end
