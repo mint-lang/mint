@@ -1,18 +1,6 @@
 module Mint
   # Renders the main HTML file based on a mint.json file and an enviroment.
   class IndexHtml
-    GLOBAL_STYLES =
-      <<-CSS
-      body {
-        overflow-y: scroll;
-        margin: 0;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-      CSS
-
     getter json, env
 
     def self.render(env, relative = false, no_service_worker = false)
@@ -66,9 +54,6 @@ module Mint
                 rel: "apple-touch-icon-precomposed",
                 href: path_for("icon-#{size}x#{size}.png"))
             end
-
-            # Insert global styles
-            t.style(GLOBAL_STYLES)
           end
 
           t.body do
