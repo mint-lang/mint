@@ -40,7 +40,7 @@ module Mint
             "node" => node,
           }
         when "style"
-          [STYLE_MAP]
+          [STYLE_MAP, STRING]
         else
           [STRING]
         end

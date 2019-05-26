@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    <div style="opacity:0;"/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      style: _style([`opacity:0;`])
+    })
+  }
+}
+
+A.displayName = "Main"
