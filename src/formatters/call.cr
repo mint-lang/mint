@@ -4,8 +4,6 @@ module Mint
       expression =
         format node.expression
 
-      return "#{expression}()" if node.arguments.empty?
-
       items =
         if node.piped
           first =
@@ -29,10 +27,13 @@ module Mint
           joined_arguments
         end
 
+      safe_operator =
+        node.safe ? "&" : ""
+
       if first
-        "#{first}\n|> #{expression}(#{arguments})"
+        "#{first}\n|> #{expression}#{safe_operator}(#{arguments})"
       else
-        "#{expression}(#{arguments})"
+        "#{expression}#{safe_operator}(#{arguments})"
       end
     end
   end

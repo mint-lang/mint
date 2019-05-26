@@ -6,13 +6,22 @@ module Mint
     end
 
     def array_access_or_call(lhs)
-      case char
-      when '('
-        call(lhs)
-      when '['
-        array_access(lhs)
+      case input[position, 2]
+      when "&."
+        access(lhs, safe: true)
+      when "&("
+        call(lhs, safe: true)
       else
-        lhs
+        case char
+        when '.'
+          access(lhs)
+        when '('
+          call(lhs)
+        when '['
+          array_access(lhs)
+        else
+          lhs
+        end
       end
     end
 

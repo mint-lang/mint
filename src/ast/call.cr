@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Call < Node
-      getter arguments, expression
+      getter arguments, expression, safe
 
       property piped, partially_applied
 
@@ -11,6 +11,7 @@ module Mint
                      @piped : Bool,
                      @input : Data,
                      @from : Int32,
+                     @safe : Bool,
                      @to : Int32)
       end
     end

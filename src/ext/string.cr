@@ -29,7 +29,7 @@ class String
         .reject(&.strip.empty?)
         .map(&.leading_whitespace_count)
         .compact
-        .min
+        .min? || 0
 
     # Remove the minimum count of lines
     lines

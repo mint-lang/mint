@@ -9,8 +9,8 @@ component Test {
 }
 
 component Main {
-  fun handleClick : String {
-    test.something("asd")
+  fun handleClick : Maybe(String) {
+    test&.something&("asd")
   }
 
   fun render : Html {
@@ -34,7 +34,14 @@ A.displayName = "Test"
 
 class B extends _C {
   c() {
-    return this._test.a(`asd`)
+    return (() => {
+      const _ = (() => {
+        const _ = this._test
+        return _s(_,(_) => _.a)
+      })()
+
+      return _s(_,(_) => _(`asd`))
+    })()
   }
 
   render() {
@@ -42,7 +49,7 @@ class B extends _C {
       "onClick": (event => (this.c)(_normalizeEvent(event)))
     }, [
       _h(A, {
-        ref: (instance) => { this._test = instance }
+        ref: (instance) => { this._test = new Just(instance) }
       })
     ])
   }

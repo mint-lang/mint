@@ -21,7 +21,7 @@ module Mint
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       node.ref.try do |ref|
-        attributes["ref"] = "(instance) => { this._#{ref.value} = instance }"
+        attributes["ref"] = "(instance) => { this._#{ref.value} = new Just(instance) }"
       end
 
       contents =

@@ -22,7 +22,7 @@ component Main {
     blah = ""
   }
 }
-------------------------------------------------------------AccessFieldNotRecord
+-----------------------------------------------------------------AccessNotRecord
 record Blah {
   blah : String
 }

@@ -2,9 +2,13 @@ module Mint
   class Parser
     syntax_error CallExpectedClosingParentheses
 
-    def call(lhs : Ast::Expression) : Ast::Expression
+    def call(lhs : Ast::Expression, safe : Bool = false) : Ast::Expression
       start do |start_position|
-        char '(', SkipError
+        if safe
+          keyword! "&(", SkipError
+        else
+          char '(', SkipError
+        end
 
         whitespace
         arguments = list(
@@ -22,7 +26,8 @@ module Mint
           expression: lhs,
           piped: false,
           to: position,
-          input: data
+          input: data,
+          safe: safe
         ))
       end || lhs
     end

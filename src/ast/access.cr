@@ -1,9 +1,11 @@
 module Mint
   class Ast
     class Access < Node
-      getter fields
+      getter field, lhs, safe
 
-      def initialize(@fields : Array(Variable),
+      def initialize(@field : Variable,
+                     @lhs : Expression,
+                     @safe : Bool,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

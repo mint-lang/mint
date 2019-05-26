@@ -9,8 +9,8 @@ component Instance {
 }
 
 component Main {
-  fun handleClick : String {
-    instance.name
+  fun handleClick : Maybe(String) {
+    instance&.name
   }
 
   fun render : Html {
@@ -34,7 +34,10 @@ A.displayName = "Instance"
 
 class B extends _C {
   b() {
-    return this._instance.a
+    return (() => {
+      const _ = this._instance
+      return _s(_,(_) => _.a)
+    })()
   }
 
   render() {
@@ -42,7 +45,7 @@ class B extends _C {
       "onClick": (event => (this.b)(_normalizeEvent(event)))
     }, [
       _h(A, {
-        ref: (instance) => { this._instance = instance }
+        ref: (instance) => { this._instance = new Just(instance) }
       })
     ])
   }

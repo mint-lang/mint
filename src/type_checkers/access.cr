@@ -1,77 +1,76 @@
 module Mint
   class TypeChecker
-    type_error AccessFieldNotRecord
+    type_error AccessUnsafeComponent
     type_error AccessFieldNotFound
     type_error AccessNotRecord
 
     def check(node : Ast::Access) : Checkable
-      first =
-        lookup node.fields.first
+      check_component_access(node) || begin
+        target =
+          resolve node.lhs
 
-      case first
-      when Ast::Component
-        resolve node.fields.first
-
-        scope first do
-          second =
-            lookup node.fields[1]
-
-          raise AccessFieldNotRecord, {
-            "field" => node.fields[1].value,
-            "node"  => node.fields[1],
-          } unless second
-
-          resolved =
-            resolve node.fields[1]
-
-          lookups[node.fields[1]] = second if second.is_a?(Ast::Node)
-
-          if resolved.is_a?(Record)
-            check_record_access(node.fields[1], node, 2)
-          else
-            resolved
-          end
+        if node.safe && target.name == "Maybe"
+          Type.new("Maybe", [check_access(node, target.parameters[0])])
+        else
+          check_access(node, target)
         end
-      when Nil
-        resolve node.fields.first
-      else
-        check_record_access(node.fields.first, node, 1)
       end
     end
 
-    def check_record_access(first, node, from) : Checkable
-      target =
-        resolve first
-
+    def check_access(node, target) : Checkable
       raise AccessNotRecord, {
         "object" => target,
         "node"   => node,
       } unless target.is_a?(Record)
 
-      node.fields[from..node.fields.size].each do |field|
-        case target
-        when Record
-          new_target = target.fields[field.value]?
+      new_target = target.fields[node.field.value]?
 
-          raise AccessFieldNotFound, {
-            "field"  => field.value,
-            "target" => target,
-            "node"   => field,
-          } unless new_target
+      raise AccessFieldNotFound, {
+        "field"  => node.field.value,
+        "node"   => node.field,
+        "target" => target,
+      } unless new_target
 
-          record_field_lookup[field] = target.name
+      record_field_lookup[node.field] = new_target.name
 
-          target = new_target
-        else
-          raise AccessFieldNotRecord, {
-            "field"  => field.value,
-            "object" => target,
-            "node"   => field,
-          }
+      new_target
+    end
+
+    def check_component_access(node)
+      node.lhs.try do |lhs|
+        case lhs
+        when Ast::Variable
+          first =
+            lookup lhs
+
+          case first
+          when Ast::Component
+            raise AccessUnsafeComponent, {
+              "name" => node.field.value,
+              "node" => node,
+            } unless node.safe
+
+            resolve lhs
+
+            scope first do
+              second =
+                lookup node.field
+
+              raise AccessFieldNotFound, {
+                "field" => node.field.value,
+                "node"  => node.field,
+              } unless second
+
+              resolved =
+                resolve node.field
+
+              lookups[node.field] = second if second.is_a?(Ast::Node)
+
+              Type.new("Maybe", [resolved])
+            end
+          end
         end
       end
-
-      target
     end
   end
 end

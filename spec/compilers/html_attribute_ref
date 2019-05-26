@@ -8,7 +8,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      ref: (element) => { this._input = element }
+      ref: (element) => { this._input = new Just(element) }
     })
   }
 }

@@ -124,7 +124,9 @@ component Test.Dom.Focus {
   }
 
   fun focus : Promise(Never, Void) {
-    Dom.focusWhenVisible(input)
+    input
+    |> Maybe.withDefault(Dom.createElement("div"))
+    |> Dom.focusWhenVisible()
   }
 
   fun render : Html {

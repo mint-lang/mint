@@ -162,6 +162,16 @@ module Mint
         const _S = Mint.Store;
         const _E = Mint.Enum;
 
+        const _s = (item, callback) => {
+          if (item instanceof Nothing) {
+            return item
+          } else if (item instanceof Just) {
+            return new Just(callback(item.value))
+          } else {
+            return callback(item)
+          }
+        }
+
         class DoError extends Error {}
 
         #{body}

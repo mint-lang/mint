@@ -85,7 +85,7 @@ module Mint
       end
 
       node.ref.try do |ref|
-        attributes["ref"] = "(element) => { this._#{ref.value} = element }"
+        attributes["ref"] = "(element) => { this._#{ref.value} = new Just(element) }"
       end
 
       attributes =

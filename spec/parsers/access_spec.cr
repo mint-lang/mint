@@ -1,12 +1,9 @@
 require "../spec_helper"
 
 describe "Access" do
-  subject access
+  subject access(Mint::Ast::Record::UNIT)
 
-  expect_ignore "."
-  expect_ignore "asd"
+  expect_error ".", Mint::Parser::AccessExpectedVariable
 
-  expect_error "asd.", Mint::Parser::AccessExpectedVariable
-
-  expect_ok "asd.asd"
+  expect_ok ".asd"
 end
