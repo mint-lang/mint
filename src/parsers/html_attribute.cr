@@ -7,7 +7,7 @@ module Mint
 
     def html_attribute(with_dashes : Bool = true, fixed_name : String | Nil = nil) : Ast::HtmlAttribute | Nil
       start do |start_position|
-        name = with_dashes ? variable_with_dashes : variable
+        name = with_dashes ? variable_attribute_name : variable
 
         skip unless name
         skip if fixed_name && name.value != fixed_name
