@@ -42,7 +42,7 @@ module Mint
         } unless Comparer.compare(left, right)
 
         left
-      when "-", "*", "/"
+      when "-", "*", "/", "%"
         right = resolve node.right
         left = resolve node.left
 
