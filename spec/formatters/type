@@ -1,11 +1,11 @@
 record Test {
   number : Result(Number,Array(String)),
-  param : Error(a),
+  param : Error(Bool),
   string : String
 }
 --------------------------------------------------------------------------------
 record Test {
   number : Result(Number, Array(String)),
-  param : Error(a),
+  param : Error(Bool),
   string : String
 }

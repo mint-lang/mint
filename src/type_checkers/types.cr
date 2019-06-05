@@ -25,6 +25,10 @@ module Mint
       def to_pretty
         @instance.try(&.to_pretty) || name
       end
+
+      def have_holes?
+        true
+      end
     end
 
     class Type
@@ -51,6 +55,10 @@ module Mint
             "#{name}(#{params.join(", ")})"
           end
         end
+      end
+
+      def have_holes?
+        parameters.any?(&.have_holes?)
       end
 
       def to_s
@@ -113,6 +121,10 @@ module Mint
           defs = fields.map { |key, value| "#{key}: #{value.to_s}" }.join(", ")
           "#{name}(#{defs})"
         end
+      end
+
+      def have_holes?
+        fields.values.any?(&.have_holes?)
       end
 
       def ==(other : Record)

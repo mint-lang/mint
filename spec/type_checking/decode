@@ -41,7 +41,7 @@ component Main {
 }
 ---------------------------------------------------------------DecodeComplexType
 record X {
-  name : Maybe(a)
+  name : Maybe(Blah)
 }
 
 component Main {

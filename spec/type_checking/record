@@ -15,6 +15,11 @@ component Main {
     ""
   }
 }
+-----------------------------------------------------------------RecordWithHoles
+record Test {
+  a : Array(a),
+  b : Number
+}
 ------------------------------------------------------------FunctionTypeMismatch
 record Test {
   a : String,
