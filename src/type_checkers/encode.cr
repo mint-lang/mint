@@ -4,7 +4,14 @@ module Mint
 
     def check(node : Ast::Encode) : Checkable
       expression =
-        resolve node.expression
+        node.expression.try do |item|
+          case item
+          when Ast::Record
+            resolve item, true
+          else
+            resolve item
+          end
+        end
 
       raise EncodeComplexType, {
         "got"  => expression,

@@ -20,15 +20,10 @@ record Test {
   a : Array(a),
   b : Number
 }
-------------------------------------------------------------FunctionTypeMismatch
-record Test {
-  a : String,
-  b : Number
-}
-
+--------------------------------------------------------------------------------
 component Main {
-  fun test : Test {
-    {
+  fun test : Object {
+    encode {
       a = "Hello",
       b = "Blah"
     }

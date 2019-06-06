@@ -15,21 +15,3 @@ component Main {
     ""
   }
 }
-------------------------------------------------------------FunctionTypeMismatch
-record Test {
-  a : String,
-  b : Number
-}
-
-component Main {
-  fun test : Test {
-    {
-      a = "Hello",
-      b = "Asd"
-    }
-  }
-
-  fun render : String {
-    ""
-  }
-}

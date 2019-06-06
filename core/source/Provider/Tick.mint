@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Tick` */
 record Provider.Tick.Subscription {
-  ticks : Function(a)
+  ticks : Function(Promise(Never,Void))
 }
 
 /* A provider for periodic updated (every 1 seconds). */

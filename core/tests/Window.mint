@@ -1,5 +1,5 @@
 component ScrollTest {
-  use Provider.Scroll { scrolls = (event : Html.Event) : Void { `this.forceUpdate()` } }
+  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Never, Void) { `this.forceUpdate()` } }
 
   style base {
     height: 3000px;

@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Scroll` */
 record Provider.Scroll.Subscription {
-  scrolls : Function(Html.Event, a)
+  scrolls : Function(Html.Event, Promise(Never,Void))
 }
 
 /* A provider for global scroll events. */
