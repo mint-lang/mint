@@ -56,6 +56,8 @@ module Set {
   fun add (value : a, set : Set(a)) : Set(a) {
     `
     (() => {
+      if (#{has(value, set)}) { return #{set} }
+
       const newSet = new Set()
 
       #{set}.forEach((item) => {
@@ -82,10 +84,9 @@ module Set {
       const newSet = new Set()
 
       #{set}.forEach((item) => {
+        if (_compare(item, #{value})) { return }
         newSet.add(item)
       })
-
-      newSet.delete(#{value})
 
       return newSet
     })()
@@ -110,5 +111,14 @@ module Set {
       return newSet
     })()
     `
+  }
+
+  /*
+  Returns the size of a set
+
+    Set.size(Set.fromArray([0,1,2])) == 3
+  */
+  fun size (set : Set(a)) : Number {
+    `#{set}.size`
   }
 }
