@@ -6,7 +6,7 @@ shards:
 
   ameba:
     github: veelenga/ameba
-    version: 0.9.1
+    version: 0.10.0
 
   baked_file_system:
     github: schovi/baked_file_system
