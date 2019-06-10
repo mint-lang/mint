@@ -13,3 +13,12 @@ component Main {
     <div/>
   }
 }
+
+-----------------------------------------------------------------PropertyNotHole
+component Main {
+  property name : Test(a) = true
+
+  fun render : Html {
+    <div/>
+  }
+}

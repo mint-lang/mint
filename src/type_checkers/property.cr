@@ -1,6 +1,7 @@
 module Mint
   class TypeChecker
     type_error PropertyTypeMismatch
+    type_error PropertyNotHole
 
     def check(node : Ast::Property) : Checkable
       type =
@@ -8,6 +9,11 @@ module Mint
 
       default =
         resolve node.default
+
+      raise PropertyNotHole, {
+        "type" => type,
+        "node" => node,
+      } if type.have_holes?
 
       result =
         Comparer.compare type, default
