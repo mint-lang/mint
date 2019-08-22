@@ -73,7 +73,7 @@ module Time {
   Returns the UTC month of the given time.
 
     (Time.from(2018, 4, 5)
-    |> Time.day()) == 4
+    |> Time.month()) == 4
   */
   fun month (date : Time) : Number {
     `(#{date}.getUTCMonth() + 1)`
@@ -83,7 +83,7 @@ module Time {
   Returns the UTC year of the given time.
 
     (Time.from(2018, 4, 5)
-    |> Time.day()) == 2018
+    |> Time.year()) == 2018
   */
   fun year (date : Time) : Number {
     `#{date}.getUTCFullYear()`
