@@ -15,7 +15,7 @@ message RouteParamInvalid do
 
   type_list [
     TypeChecker::STRING,
-    TypeChecker::TIME,
+    TypeChecker::NUMBER,
   ] of TypeChecker::Checkable
 
   snippet node
