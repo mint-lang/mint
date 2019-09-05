@@ -14,7 +14,7 @@ component Main {
   }
 }
 
------------------------------------------------------------------PropertyNotHole
+-------------------------------------------------------PropertyWithTypeVariables
 component Main {
   property name : Test(a) = true
 

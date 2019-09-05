@@ -1,4 +1,4 @@
-message PropertyNotHole do
+message PropertyWithTypeVariables do
   title "Type Error"
 
   block do
