@@ -6,7 +6,7 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return "Hello"
+    return ("Hello")
   }
 }
 

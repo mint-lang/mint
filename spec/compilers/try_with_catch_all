@@ -19,7 +19,7 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   b(c) {
-    return new Err(c)
+    return (new Err(c))
   }
 })
 

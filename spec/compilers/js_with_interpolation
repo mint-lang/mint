@@ -14,7 +14,7 @@ class A extends _C {
   }
 
   render() {
-    return "Hello" + this.a()
+    return ("Hello" + this.a())
   }
 }
 
