@@ -3,6 +3,19 @@ module Mint
     type_error FunctionArgumentConflict
     type_error FunctionTypeMismatch
 
+    def static_type_signature(node : Ast::Function) : Checkable
+      arguments =
+        node.arguments.map { |argument| resolve argument.type }
+
+      return_type =
+        resolve node.type
+
+      defined_type =
+        Type.new("Function", arguments + [return_type])
+
+      Comparer.normalize(defined_type)
+    end
+
     def check(node : Ast::Function) : Checkable
       scope node do
         node.arguments.each do |argument|

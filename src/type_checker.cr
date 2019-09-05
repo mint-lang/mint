@@ -215,6 +215,8 @@ module Mint
           if @stack.includes?(node)
             if node.is_a?(Ast::Component)
               return NEVER.as(Checkable)
+            elsif node.is_a?(Ast::Function)
+              static_type_signature(node)
             else
               raise Recursion, {
                 "caller_node" => @stack.last,
