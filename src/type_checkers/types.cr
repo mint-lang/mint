@@ -185,6 +185,10 @@ module Mint
     module Comparer
       extend self
 
+      def matches_any?(node, targets)
+        targets.any? { |target| compare(node, target) }
+      end
+
       def compare(node1, node2)
         prune(unify(fresh(prune(node1)), fresh(prune(node2))))
       rescue

@@ -1,0 +1,21 @@
+routes {
+  /:name (name : String) {
+    "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+_program.addRoutes([
+  {
+    handler: (a) => {
+      `Hello`
+    },
+    decoders: [
+      Decoder.string
+    ],
+    mapping: [
+      'name'
+    ],
+    path: `/:name`
+  }
+])
+

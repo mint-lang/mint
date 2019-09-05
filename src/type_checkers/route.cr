@@ -1,8 +1,18 @@
 module Mint
   class TypeChecker
+    type_error RouteParamInvalid
+
     def check(node : Ast::Route) : Checkable
       args = node.arguments.map do |argument|
-        {argument.name.value, resolve(argument), argument}
+        argument_type =
+          resolve argument
+
+        raise RouteParamInvalid, {
+          "name" => argument.name.value,
+          "node" => argument,
+        } unless Comparer.matches_any?(argument_type, [STRING, NUMBER])
+
+        {argument.name.value, argument_type, argument}
       end
 
       scope args do

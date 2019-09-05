@@ -12,10 +12,16 @@ module Mint
           .arguments
           .map { |argument| "'#{argument.name.value}'" }
 
+      decoders =
+        node
+          .arguments
+          .map { |argument| @decoder.generate(cache[argument]) }
+
       js.object({
-        "handler" => js.arrow_function(arguments, expression),
-        "mapping" => js.array(mapping),
-        "path"    => "`#{node.url}`",
+        "handler"  => js.arrow_function(arguments, expression),
+        "decoders" => js.array(decoders),
+        "mapping"  => js.array(mapping),
+        "path"     => "`#{node.url}`",
       })
     end
   end

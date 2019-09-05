@@ -1,0 +1,11 @@
+routes {
+  /:name (name : String) {
+    void
+  }
+}
+---------------------------------------------------------------RouteParamInvalid
+routes {
+  /:name (name : Array(String)) {
+    void
+  }
+}
