@@ -103,11 +103,17 @@ module Mint
         # Set cache to expire in 30 days.
         env.response.headers["Cache-Control"] = "max-age=2592000"
 
+        # Try to figure out mime type form name in case it's baked or served
+        # from public. Later on for favicon and fallback the content_type is
+        # overriden.
+        env.response.content_type =
+          MIME.from_extension?(env.params.url["name"]).to_s
+
+        path = "./public/#{env.params.url["name"]}"
+
         # If there is any static file available serve that.
-        #
-        # TODO: Use right mime type if possible
-        if File.exists?("./public/#{env.params.url["name"]}")
-          File.read("./public/#{env.params.url["name"]}")
+        if File.exists?(path)
+          File.read(path)
         else
           # If there is a baked file serve that.
           begin
@@ -125,6 +131,9 @@ module Mint
 
               IconGenerator.convert(json.application.icon, match[1])
             else
+              env.response.content_type =
+                "text/html"
+
               # Else return the index so push state can work as intended.
               index
             end
