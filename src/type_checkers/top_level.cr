@@ -19,6 +19,13 @@ module Mint
         end
 
       node
+        .enums
+        .find(&.name.==("Result"))
+        .try do |item|
+          resolve item
+        end
+
+      node
         .modules
         .find(&.name.==("Html.Event"))
         .try do |item|

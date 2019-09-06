@@ -1,3 +1,8 @@
+enum Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
 /* Utility function for the `Result` type. */
 module Result {
   /*
@@ -30,7 +35,7 @@ module Result {
     |> Result.withDefault("a")) == "ok"
   */
   fun withDefault (value : b, input : Result(a, b)) : b {
-    `#{input} instanceof Ok ? #{input}.value : #{value}`
+    `#{input} instanceof Ok ? #{input}._0 : #{value}`
   }
 
   /*
@@ -43,7 +48,7 @@ module Result {
     |> Result.withDefault("a")) == "a"
   */
   fun withError (value : a, input : Result(a, b)) : a {
-    `#{input} instanceof Err ? #{input}.value : #{value}`
+    `#{input} instanceof Err ? #{input}._0 : #{value}`
   }
 
   /*
@@ -56,7 +61,7 @@ module Result {
     |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
   */
   fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
-    `#{input} instanceof Ok ? new Ok(#{func}(#{input}.value)) : #{input}`
+    `#{input} instanceof Ok ? new Ok(#{func}(#{input}._0)) : #{input}`
   }
 
   /*
@@ -69,7 +74,7 @@ module Result {
     |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
   */
   fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
-    `#{input} instanceof Err ? new Err(#{func}(#{input}.value)) : #{input}`
+    `#{input} instanceof Err ? new Err(#{func}(#{input}._0)) : #{input}`
   }
 
   /*
@@ -105,7 +110,7 @@ module Result {
     `
     (() => {
       if (#{result} instanceof Ok) {
-        return #{Maybe::Just(`#{result}.value`)}
+        return #{Maybe::Just(`#{result}._0`)}
       } else {
         return #{Maybe::Nothing}
       }
@@ -115,7 +120,7 @@ module Result {
 
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     if (Result.isOk(input)) {
-      `#{input}.value`
+      `#{input}._0`
     } else {
       `new Err()`
     }

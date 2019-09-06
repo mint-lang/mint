@@ -83,7 +83,7 @@ module Mint
 
                   // TODO: Reset Stores
 
-                  if (result instanceof Mint.TestContext) {
+                  if (result instanceof TestContext) {
                     try {
                       await result.run()
                       this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))

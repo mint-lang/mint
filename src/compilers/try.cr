@@ -53,11 +53,11 @@ module Mint
             js.let("_#{index}", expression),
             js.if("_#{index} instanceof Err") do
               js.statements([
-                js.let("_error", "_#{index}.value"),
+                js.let("_error", "_#{index}._0"),
                 catches,
               ])
             end,
-            "#{prefix}_#{index}.value",
+            "#{prefix}_#{index}._0",
           ])
         else
           "#{prefix}#{expression}"
