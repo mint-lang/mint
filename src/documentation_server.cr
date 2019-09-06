@@ -163,7 +163,7 @@ module Mint
     end
 
     def source(node)
-      @formatter.format(node)
+      @formatter.source(node)
     end
 
     def terminal

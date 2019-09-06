@@ -4,16 +4,20 @@ module Mint
       value =
         node.value.gsub('"', "\\\"")
 
+      # Check if we need to break the string or not
       if value.size > 56 && node.broken
-        result = "\"#{value[0, 56]}\" \\\n"
-        position = 56
+        position = 0
+        result = ""
+
         while value.size > position
-          result += "\"#{value[position, 56]}\" \\\n"
+          result += "\"#{skip { value[position, 56] }}\" \\\n"
           position += 56
         end
+
+        # Remove the last "\\ \n"
         result.rstrip("\\ \n")
       else
-        %("#{value}")
+        %("#{skip { value }}")
       end
     end
   end

@@ -20,7 +20,7 @@ module Mint
         end
 
       condition =
-        if condition.includes?("\n")
+        if replace_skipped(condition).includes?("\n")
           condition
             .remove_all_leading_whitespace
             .indent(4)

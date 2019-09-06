@@ -21,9 +21,12 @@ module Mint
           format node
         end
 
-      body
-        .join("\n\n")
-        .remove_trailing_whitespace + "\n"
+      result =
+        body
+          .join("\n\n")
+          .remove_trailing_whitespace + "\n"
+
+      replace_skipped(result)
     end
   end
 end

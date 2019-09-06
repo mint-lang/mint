@@ -14,6 +14,6 @@ module Test {
   }
 
   fun render : String {
-    `"Hello" + #{test(`"World!"`)}`
+    `      "Hello" + #{test(`"World!"`)}   `
   }
 }
