@@ -4,7 +4,9 @@ module Mint
       body =
         format node.fields
 
-      if node.fields.size >= 2 || body.any?(&.includes?("\n")) || multiline
+      if node.fields.size >= 2 || multiline || body.any? do |string|
+           replace_skipped(string).includes?("\n")
+         end
         "{\n#{indent(body.join(",\n"))}\n}"
       else
         "{ #{body.join(", ")} }"

@@ -8,7 +8,7 @@ module Mint
       when Ast::If, Ast::For, Ast::StringLiteral, Ast::With, Ast::Case, Ast::Try, Ast::ArrayLiteral
         expression
       else
-        if expression.includes?("\n")
+        if replace_skipped(expression).includes?("\n")
           "<{\n#{indent(expression)}\n}>"
         else
           "<{ #{expression} }>"

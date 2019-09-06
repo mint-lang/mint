@@ -1,3 +1,5 @@
+require "digest/md5"
+
 module Mint
   class Formatter
     class Config
@@ -10,10 +12,29 @@ module Mint
     getter ast, config
 
     def initialize(@ast : Ast, @config : Config = Config.new)
+      @skip = [] of {String, String}
     end
 
     def indent(string : String)
       string.indent(config.indent_size.to_i32)
+    end
+
+    def replace_skipped(result)
+      @skip.reverse.reduce(result) do |memo, (digest, item)|
+        memo.sub(digest, item)
+      end
+    end
+
+    def skip
+      result =
+        yield
+
+      digest =
+        Digest::MD5.hexdigest(result)
+
+      @skip << {digest, result}
+
+      digest
     end
 
     # Helpers for formatting things
@@ -52,6 +73,10 @@ module Mint
 
     def format(node : Ast::Node) : String
       raise "Formatter not implemented for node '#{node}' (this should not happen!)"
+    end
+
+    def source(node : Ast::Node) : String
+      replace_skipped(format(node))
     end
   end
 end

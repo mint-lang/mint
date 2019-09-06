@@ -1,7 +1,7 @@
 module Test {
   fun test : String {
     `
-    			"Hello"\`
+          "Hello"\`
     `
   }
 }
@@ -9,7 +9,7 @@ module Test {
 module Test {
   fun test : String {
     `
-    "Hello"\`
+          "Hello"\`
     `
   }
 }

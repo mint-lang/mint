@@ -34,8 +34,8 @@ module Mint
                 "\n\n"
               elsif last.is_a?(Ast::Comment)
                 "\n"
-              elsif last_formatted.includes?("\n") ||
-                    formatted.includes?("\n") ||
+              elsif replace_skipped(last_formatted).includes?("\n") ||
+                    replace_skipped(formatted).includes?("\n") ||
                     space_separated
                 "\n\n"
               else

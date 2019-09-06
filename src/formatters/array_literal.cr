@@ -6,7 +6,7 @@ module Mint
 
       if node.items.empty?
         "[]"
-      elsif node.items.size == 1 && !items.includes?("\n")
+      elsif node.items.size == 1 && !replace_skipped(items).includes?("\n")
         "[#{items}]"
       else
         "[\n#{indent(items)}\n]"

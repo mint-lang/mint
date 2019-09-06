@@ -11,16 +11,13 @@ module Mint
           end
         end.join("")
 
-      if body.includes?("\n") || body.includes?("\r")
-        value =
-          body.remove_leading_whitespace
+      result =
+        "`#{body}`"
 
-        "`\n#{value}\n`"
+      if result.includes?("\n")
+        skip { result }
       else
-        value =
-          body.strip
-
-        "`#{value}`"
+        result
       end
     end
   end

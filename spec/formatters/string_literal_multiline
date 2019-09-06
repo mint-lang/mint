@@ -1,21 +1,19 @@
-module Test {
+module A {
   fun test : String {
-    `
-          "Hello"
-  asd
-    asd
-      asd
-    `
+    "
+    Hello there
+  Hello there
+Hello there
+    "
   }
 }
 --------------------------------------------------------------------------------
-module Test {
+module A {
   fun test : String {
-    `
-          "Hello"
-  asd
-    asd
-      asd
-    `
+    "
+    Hello there
+  Hello there
+Hello there
+    "
   }
 }

@@ -56,7 +56,7 @@ module Mint
 
           options =
             not_matched.map do |option|
-              "#{item.name}::#{format(option)}"
+              "#{item.name}::#{formatter.replace_skipped(format(option))}"
             end
 
           raise CaseEnumNotCovered, {
