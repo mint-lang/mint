@@ -1,5 +1,13 @@
 module Mint
   class Formatter
+    def skip_string(string)
+      if string.includes?("\n")
+        skip { string }
+      else
+        string
+      end
+    end
+
     def format(node : Ast::StringLiteral) : String
       value =
         node.value.gsub('"', "\\\"")
@@ -10,14 +18,14 @@ module Mint
         result = ""
 
         while value.size > position
-          result += "\"#{skip { value[position, 56] }}\" \\\n"
+          result += "\"#{skip_string(value[position, 56])}\" \\\n"
           position += 56
         end
 
         # Remove the last "\\ \n"
         result.rstrip("\\ \n")
       else
-        %("#{skip { value }}")
+        %("#{skip_string(value)}")
       end
     end
   end
