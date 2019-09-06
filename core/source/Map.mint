@@ -38,9 +38,9 @@ module Map {
     `
     (() => {
       if (#{map}.has(#{key})) {
-        return new Just(#{map}.get(#{key}))
+        return #{Maybe::Just(`#{map}.get(#{key})`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -140,11 +140,11 @@ module Map {
     (() => {
       for (let item of #{map}) {
         if (#{method}(item[1])) {
-          return new Just(item[0])
+          return #{Maybe::Just(`item[0]`)}
         }
       }
 
-      return new Nothing()
+      return #{Maybe::Nothing}
     })()
     `
   }

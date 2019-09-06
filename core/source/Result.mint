@@ -105,9 +105,9 @@ module Result {
     `
     (() => {
       if (#{result} instanceof Ok) {
-        return new Just(#{result}.value)
+        return #{Maybe::Just(`#{result}.value`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `

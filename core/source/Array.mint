@@ -11,9 +11,9 @@ module Array {
     (() => {
       let first = #{array}[0]
       if (first !== undefined) {
-        return new Just(first)
+        return #{Maybe::Just(`first`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -41,9 +41,9 @@ module Array {
     (() => {
       let last = #{array}[#{array}.length - 1]
       if (last !== undefined) {
-        return new Just(last)
+        return #{Maybe::Just(`last`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -141,9 +141,9 @@ module Array {
       let item = #{array}.find(#{func})
 
       if (item != undefined) {
-        return new Just(item)
+        return #{Maybe::Just(`item`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -284,9 +284,11 @@ module Array {
     `
     (() => {
       if (#{array}.length) {
-        return new Just(#{array}[Math.floor(Math.random() * #{array}.length)])
+        const item = #{array}[Math.floor(Math.random() * #{array}.length)]
+
+        return #{Maybe::Just(`item`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -467,19 +469,15 @@ module Array {
     Array.compact([Maybe.just("A"), Maybe.nothing()]) == ["A"]
   */
   fun compact (array : Array(Maybe(a))) : Array(a) {
-    `
-    (() => {
-      const result = []
-
-      for (let item of #{array}) {
-        if (item instanceof Just) {
-          result.push(item.value)
+    Array.reduce(
+      [],
+      (memo : Array(a), item : Maybe(a)) : Array(a) {
+        case (item) {
+          Maybe::Just value => Array.push(value, memo)
+          Maybe::Nothing => memo
         }
-      }
-
-      return result
-    })()
-    `
+      },
+      array)
   }
 
   /*

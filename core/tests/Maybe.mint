@@ -93,7 +93,7 @@ suite "Maybe.flatten" {
     |> Maybe.flatten()) == Maybe.just("A")
   }
 
-  test "returns nested nothing" {
+  test "returns nested nothing a" {
     (Maybe.nothing()
     |> Maybe.just()
     |> Maybe.flatten()) == Maybe.nothing()
@@ -109,7 +109,7 @@ suite "Maybe.oneOf" {
     |> Maybe.oneOf()) == Maybe.just("A")
   }
 
-  test "returns nested nothing" {
+  test "returns nested nothing b" {
     ([
       Maybe.nothing(),
       Maybe.nothing()

@@ -17,9 +17,9 @@ module SearchParams {
       let value = #{params}.get(#{key})
 
       if (value === null) {
-        return new Nothing()
+        return #{Maybe::Nothing}
       } else {
-        return new Just(value)
+        return #{Maybe::Just(`value`)}
       }
     })()
     `

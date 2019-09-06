@@ -60,10 +60,11 @@ module Number {
     `
     (() => {
       let value = parseFloat(#{input})
+
       if (isNaN(value)) {
-        return new Nothing()
+        return #{Maybe::Nothing}
       } else {
-        return new Just(value)
+        return #{Maybe::Just(`value`)}
       }
     })()
     `

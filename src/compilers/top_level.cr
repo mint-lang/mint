@@ -107,6 +107,24 @@ module Mint
       js.statements(elements)
     end
 
+    def maybe
+      ast.enums.find(&.name.==("Maybe")).not_nil!
+    end
+
+    def just
+      node =
+        maybe.options.find(&.value.==("Just")).not_nil!
+
+      js.class_of(node)
+    end
+
+    def nothing
+      node =
+        maybe.options.find(&.value.==("Nothing")).not_nil!
+
+      js.class_of(node)
+    end
+
     # Wraps the application with the runtime
     def wrap_runtime(body)
       javascripts =
@@ -142,7 +160,6 @@ module Mint
         const _encode = Mint.encode;
         const _style = Mint.style;
         const _array = Mint.array;
-        const _at = Mint.at;
         const _u = Mint.update;
 
         const TestContext = Mint.TestContext;
@@ -162,11 +179,19 @@ module Mint
         const _S = Mint.Store;
         const _E = Mint.Enum;
 
+        const _at = (array, index) => {
+          if (array.length >= index + 1 && index >= 0) {
+            return new #{just}(array[index]);
+          } else {
+            return new #{nothing}();
+          }
+        };
+
         const _s = (item, callback) => {
           if (item instanceof Nothing) {
             return item
-          } else if (item instanceof Just) {
-            return new Just(callback(item.value))
+          } else if (item instanceof #{just}) {
+            return new #{just}(callback(item.value))
           } else {
             return callback(item)
           }

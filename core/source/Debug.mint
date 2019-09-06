@@ -4,7 +4,12 @@ module Debug {
   fun log (value : a) : a {
     `
     (() => {
-      console.log(#{value})
+      if (window.DEBUG) {
+        window.DEBUG.log(#{value})
+      } else {
+        console.log(#{value})
+      }
+
       return #{value}
     })()
     `

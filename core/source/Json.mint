@@ -11,9 +11,9 @@ module Json {
     `
     (() => {
       try {
-        return new Just(JSON.parse(#{input}))
+        return #{Maybe::Just(`JSON.parse(#{input})`)}
       } catch (error) {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
