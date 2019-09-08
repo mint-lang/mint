@@ -1,3 +1,7 @@
+enum Maybe(value) {
+  Just(value)
+}
+
 component Main {
   fun render : Html {
     <div as input>
@@ -5,10 +9,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super()
+    this._0 = _0
+    this.length = 1
+  }
+}
+
 class A extends _C {
   render() {
     return _h("div", {
-      ref: (element) => { this._input = new Just(element) }
+      ref: (element) => { this._input = new B(element) }
     })
   }
 }

@@ -13,9 +13,9 @@ module Time {
     `
     (() => {
       try {
-        return new Just(new Date(#{raw}))
+        return #{Maybe::Just(`new Date(#{raw})`)}
       } catch (error) {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `

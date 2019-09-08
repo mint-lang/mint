@@ -39,14 +39,14 @@ class A extends _C {
         let _0 = B.b(``)
 
         if (_0 instanceof Err) {
-          let _error = _0.value
+          let _error = _0._0
 
           let c = _error
           _ = `test`
           throw new DoError()
         }
 
-        _0.value
+        _0._0
 
         _ = await `test`
       } catch (_error) {

@@ -16,9 +16,9 @@ module Dom {
       let element = document.getElementById(#{id})
 
       if (element) {
-        return new Just(element)
+        return #{Maybe::Just(`element`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -36,12 +36,12 @@ module Dom {
         let element = document.querySelector(#{selector})
 
         if (element) {
-          return new Just(element)
+          return #{Maybe::Just(`element`)}
         } else {
-          return new Nothing()
+          return #{Maybe::Nothing}
         }
       } catch (error) {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `

@@ -15,7 +15,7 @@ module Mint
           "\n_program.render(#{compiler.js.class_of(component)})"
         end || ""
 
-      compiler.wrap_runtime(compiler.compile + main)
+      compiler.wrap_runtime(compiler.compile, main)
     end
 
     # Compiles the application without the runtime.
@@ -107,8 +107,50 @@ module Mint
       js.statements(elements)
     end
 
+    # --------------------------------------------------------------------------
+
+    def maybe
+      ast.enums.find(&.name.==("Maybe")).not_nil!
+    end
+
+    def just
+      node =
+        maybe.options.find(&.value.==("Just")).not_nil!
+
+      js.class_of(node)
+    end
+
+    def nothing
+      node =
+        maybe.options.find(&.value.==("Nothing")).not_nil!
+
+      js.class_of(node)
+    end
+
+    # --------------------------------------------------------------------------
+
+    def result
+      ast.enums.find(&.name.==("Result")).not_nil!
+    end
+
+    def ok
+      node =
+        result.options.find(&.value.==("Ok")).not_nil!
+
+      js.class_of(node)
+    end
+
+    def err
+      node =
+        result.options.find(&.value.==("Err")).not_nil!
+
+      js.class_of(node)
+    end
+
+    # --------------------------------------------------------------------------
+
     # Wraps the application with the runtime
-    def wrap_runtime(body)
+    def wrap_runtime(body, main = "")
       javascripts =
         SourceFiles
           .javascripts
@@ -128,45 +170,45 @@ module Mint
       #{javascripts}
 
       (() => {
+        const _enums = {}
+        const mint = Mint(_enums)
+
         const _normalizeEvent = function (event) {
-          return #{from_event_call}(Mint.normalizeEvent(event))
+          return #{from_event_call}(mint.normalizeEvent(event))
         };
 
-        const _R = Mint.createRecord;
-        const _h = Mint.createElement;
-        const _createPortal = Mint.createPortal;
-        const _insertStyles = Mint.insertStyles;
-        const _navigate = Mint.navigate;
-        const _compare = Mint.compare;
-        const _program = Mint.program;
-        const _encode = Mint.encode;
-        const _style = Mint.style;
-        const _array = Mint.array;
-        const _at = Mint.at;
-        const _u = Mint.update;
+        const _R = mint.createRecord;
+        const _h = mint.createElement;
+        const _createPortal = mint.createPortal;
+        const _insertStyles = mint.insertStyles;
+        const _navigate = mint.navigate;
+        const _compare = mint.compare;
+        const _program = mint.program;
+        const _encode = mint.encode;
+        const _style = mint.style;
+        const _array = mint.array;
+        const _u = mint.update;
+        const _at = mint.at;
 
-        const TestContext = Mint.TestContext;
-        const ReactDOM = Mint.ReactDOM;
-        const Nothing = Mint.Nothing;
-        const Decoder = Mint.Decoder;
-        const DateFNS = Mint.DateFNS;
-        const Record = Mint.Record;
-        const React = Mint.React;
-        const Just = Mint.Just;
-        const Err = Mint.Err;
-        const Ok = Mint.Ok;
+        window.TestContext = mint.TestContext;
+        const TestContext = mint.TestContext;
+        const ReactDOM = mint.ReactDOM;
+        const Decoder = mint.Decoder;
+        const DateFNS = mint.DateFNS;
+        const Record = mint.Record;
+        const React = mint.React;
 
-        const _C = Mint.Component;
-        const _P = Mint.Provider;
-        const _M = Mint.Module;
-        const _S = Mint.Store;
-        const _E = Mint.Enum;
+        const _C = mint.Component;
+        const _P = mint.Provider;
+        const _M = mint.Module;
+        const _S = mint.Store;
+        const _E = mint.Enum;
 
         const _s = (item, callback) => {
           if (item instanceof Nothing) {
             return item
-          } else if (item instanceof Just) {
-            return new Just(callback(item.value))
+          } else if (item instanceof #{just}) {
+            return new #{just}(callback(item.value))
           } else {
             return callback(item)
           }
@@ -175,6 +217,18 @@ module Mint
         class DoError extends Error {}
 
         #{body}
+
+        const Nothing = #{nothing}
+        const Just = #{just}
+        const Err = #{err}
+        const Ok = #{ok}
+
+        _enums.nothing = #{nothing}
+        _enums.just = #{just}
+        _enums.err = #{err}
+        _enums.ok = #{ok}
+
+        #{main}
       })()
       RESULT
     end

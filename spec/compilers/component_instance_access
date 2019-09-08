@@ -1,3 +1,7 @@
+enum Maybe(value) {
+  Just(value)
+}
+
 component Instance {
   get name : String {
     "Instance"
@@ -20,6 +24,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class C extends _E {
+  constructor(_0) {
+    super()
+    this._0 = _0
+    this.length = 1
+  }
+}
+
 class A extends _C {
   get a() {
     return `Instance`
@@ -45,7 +57,7 @@ class B extends _C {
       "onClick": (event => (this.b)(_normalizeEvent(event)))
     }, [
       _h(A, {
-        ref: (instance) => { this._instance = new Just(instance) }
+        ref: (instance) => { this._instance = new C(instance) }
       })
     ])
   }

@@ -38,9 +38,9 @@ module Mint
                 js.statements([
                   js.let("_", expression),
                   js.if("_ instanceof Err") do
-                    "throw _.value"
+                    "throw _._0"
                   end,
-                  "#{prefix}_.value",
+                  "#{prefix}_._0",
                 ])
               end
             else
@@ -49,10 +49,10 @@ module Mint
                   js.let("_", expression),
                   js.if("_ instanceof Err") do
                     js.statements([
-                      js.let("_error", "_.value"),
+                      js.let("_error", "_._0"),
                     ] + catches)
                   end,
-                  "#{prefix}_.value",
+                  "#{prefix}_._0",
                 ])
               end
             end

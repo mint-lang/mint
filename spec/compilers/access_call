@@ -1,3 +1,7 @@
+enum Maybe(value) {
+  Just(value)
+}
+
 component Test {
   fun something (string : String) : String {
     string
@@ -20,6 +24,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class C extends _E {
+  constructor(_0) {
+    super()
+    this._0 = _0
+    this.length = 1
+  }
+}
+
 class A extends _C {
   a(b) {
     return b
@@ -49,7 +61,7 @@ class B extends _C {
       "onClick": (event => (this.c)(_normalizeEvent(event)))
     }, [
       _h(A, {
-        ref: (instance) => { this._test = new Just(instance) }
+        ref: (instance) => { this._test = new C(instance) }
       })
     ])
   }

@@ -19,6 +19,27 @@ module Mint
             class TestRunner {
               constructor (suites) {
                 this.socket = new WebSocket("ws://localhost:3001/")
+
+                window.DEBUG = {
+                  log: (value) => {
+                    let result = ""
+
+                    if (value === undefined) {
+                      result = "undefined"
+                    } else if (value === null) {
+                      result = "null"
+                    } else {
+                      result = value.toString()
+                    }
+
+                    this.socket.send(JSON.stringify({
+                      result: result,
+                      name: "",
+                      type: "LOG",
+                    }))
+                  }
+                }
+
                 this.suites = suites
 
                 this.socket.onopen = () => {
@@ -62,7 +83,7 @@ module Mint
 
                   // TODO: Reset Stores
 
-                  if (result instanceof Mint.TestContext) {
+                  if (result instanceof TestContext) {
                     try {
                       await result.run()
                       this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
@@ -295,6 +316,8 @@ module Mint
           else
             data = Message.from_json(message)
             case data.type
+            when "LOG"
+              puts data.result
             when "SUITE"
               @reporter.suite data.name
             when "SUCCEEDED"

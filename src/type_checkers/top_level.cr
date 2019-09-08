@@ -12,6 +12,20 @@ module Mint
         .try { |component| resolve component }
 
       node
+        .enums
+        .find(&.name.==("Maybe"))
+        .try do |item|
+          resolve item
+        end
+
+      node
+        .enums
+        .find(&.name.==("Result"))
+        .try do |item|
+          resolve item
+        end
+
+      node
         .modules
         .find(&.name.==("Html.Event"))
         .try do |item|

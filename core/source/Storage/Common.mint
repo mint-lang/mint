@@ -21,19 +21,19 @@ module Storage.Common {
     (() => {
       try {
         #{storage}.setItem(#{key}, #{value})
-        return new Ok(null)
+        return #{Result::Ok(void)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           case 'QUOTA_EXCEEDED_ERR':
-            return new Err(#{Storage.Error::QuotaExceeded})
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
           case 'QuotaExceededError':
-            return new Err(#{Storage.Error::QuotaExceeded})
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
           case 'NS_ERROR_DOM_QUOTA_REACHED':
-            return new Err(#{Storage.Error::QuotaExceeded})
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
@@ -48,16 +48,16 @@ module Storage.Common {
         let value = #{storage}.getItem(#{key})
 
         if (typeof value === "string") {
-          return new Ok(value)
+          return #{Result::Ok(`value`)}
         } else {
-          return new Err(#{Storage.Error::NotFound})
+          return #{Result::Err(Storage.Error::NotFound)}
         }
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
@@ -70,13 +70,13 @@ module Storage.Common {
     (() => {
       try {
         #{storage}.removeItem(#{key})
-        return new Ok(null)
+        return #{Result::Ok(void)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
@@ -89,13 +89,13 @@ module Storage.Common {
     (() => {
       try {
         #{storage}.clear()
-        return new Ok(null)
+        return #{Result::Ok(void)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
@@ -107,13 +107,13 @@ module Storage.Common {
     `
     (() => {
       try {
-        return new Ok(#{storage}.length)
+        return #{Result::Ok(`#{storage}.length`)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
@@ -125,13 +125,13 @@ module Storage.Common {
     `
     (() => {
       try {
-        return new Ok(Object.keys(#{storage}).sort())
+        return #{Result::Ok(`Object.keys(#{storage}).sort()`)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
-            return new Err(#{Storage.Error::SecurityError})
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return new Err(#{Storage.Error::Unkown})
+            return #{Result::Err(Storage.Error::Unkown)}
         }
       }
     })()
