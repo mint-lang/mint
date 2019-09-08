@@ -10,7 +10,7 @@ module Mint
       end
 
       def to_html
-        Markdown.to_html(value)
+        Markd.to_html(value)
       end
     end
   end

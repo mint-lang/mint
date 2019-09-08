@@ -26,6 +26,8 @@ dependencies:
     version: 0.1.1
   dotenv:
     github: gdotdesign/cr-dotenv
+  markd:
+    github: icyleaf/markd
 
 development_dependencies:
   ameba:
