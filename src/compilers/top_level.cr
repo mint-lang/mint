@@ -15,7 +15,7 @@ module Mint
           "\n_program.render(#{compiler.js.class_of(component)})"
         end || ""
 
-      compiler.wrap_runtime(compiler.compile + main)
+      compiler.wrap_runtime(compiler.compile, main)
     end
 
     # Compiles the application without the runtime.
@@ -150,7 +150,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     # Wraps the application with the runtime
-    def wrap_runtime(body)
+    def wrap_runtime(body, main = "")
       javascripts =
         SourceFiles
           .javascripts
@@ -227,6 +227,8 @@ module Mint
         _enums.just = #{just}
         _enums.err = #{err}
         _enums.ok = #{ok}
+
+        #{main}
       })()
       RESULT
     end
