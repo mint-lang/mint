@@ -39,10 +39,10 @@ class A extends _C {
         let _0 = B.b(``)
 
         if (_0 instanceof Err) {
-          throw _0.value
+          throw _0._0
         }
 
-        _0.value
+        _0._0
 
         _ = await `test`
       } catch (_error) {

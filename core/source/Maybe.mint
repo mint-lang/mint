@@ -74,8 +74,8 @@ module Maybe {
   */
   fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
     case (maybe) {
-      Maybe::Just value => `new Ok(#{value})`
-      Maybe::Nothing => `new Err(#{error})`
+      Maybe::Just value => Result::Ok(value)
+      Maybe::Nothing => Result::Err(error)
     }
   }
 

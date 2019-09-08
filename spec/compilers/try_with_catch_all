@@ -33,11 +33,11 @@ class A extends _C {
       let _0 = B.b(`Blah`)
 
       if (_0 instanceof Err) {
-        let _error = _0.value
+        let _error = _0._0
         return _catch_all()
       }
 
-      let a = _0.value
+      let a = _0._0
 
       return `Hello`
     })()
