@@ -21,14 +21,14 @@ before_deploy:
     fi
 
 deploy:
-  - provider: bintray
+  - provider: s3
+    access_key_id: AKIAJIQ3HKG3DMFSDRFA
+    secret_access_key:
+      secure: clxV2kBzgqKUIgkNjnm/y5Tc3SWqW8VgX/cP97TFCtRMsVJKWwReTi9LkbcB2RHmOoj7OMbJ4XEI9vdK/yE19p/9p+9s27qc9gMyDPtWy3cC1xKHukjjC8FQWNdhb5DEuZKf1KtQW/8Lr1M8PwynF54qiJ2tKiwpU7v6QCWggR+YC7UwF2pIZZhGCv2eeTl4Szw9LqMFwLL213coTVOz6cUSrdgILaH3bAv72QsPHWUT1B9keE51RFjjGINCX0x/Ui9DnR/ILlXFDnq2khmCiQ8d2CUvNH/NgBlc0DUsuxsBl3SiZnkMc4ElMYmhEcBm78XQ5zMqxZbcio/Zni7QEqqmkxhjXIbe0ycuLHv4UCS/9Io5KqP2G1zorQa3R5CMej/F55D4c/SYEWikialZeDPrySqzzROVJN4lAgBHgI3iiqgVKvwPJvDuZLGRhAU78lFdCqlcJh7LyOsbmAIF9+yOpRsDXnPpyZlFGH/MKAQWoZSFt7WUYAF6Thk6taCChg+ju934QAM7kcprBAR6LWG19AHpQTn/T4CUXMatz5Jjjlj98uRWBS4VX/xgrCHGXmTz08KWOwDbe0dTxDhBXy430MXQd+9nrPfJFJ6iGNfbvPNveqRsdNJP3NdzxodPCTwxjgVU7Wunm/qkhxNt0zwJH4wiyy3SlVscWK2+OTw=
+    bucket: mint-lang
+    acl: public_read
+    local_dir: build
     skip_cleanup: true
-    user: gdotdesign
-    key:
-      secure: lueJ8NuexW7k7UeEotqm/k1N/7WY7KGKL3N3b3jMZxybhKa9DsaRy4huRgNL110G+joSSbA55rlQ9XfDO2eRnkao/jwhOygcTIhvjCc2Fs+WOrSLZlVXCp5mweUrcZXvEjGotMc7Un+McVT/tv0b55a9Bb+2xN+FKrJiJf+WTn21BoPzTTOzB4Pspp7iqV7+qjiqLirJ+MObeToYqVlN317GJjaUeTvSwJLMVBsMXWISTd2HS6uXgjvltMXCBjDwg9/BZr20BesfzSGzRpAt8dgzNDm/9wwPOheoFJc6vw3KA/mUX1XhX2lWhwU2QC7hnUmjg2wVrNZQgBq1S2u/wpcElpCF2s79qst7wWW6ZWle9kMVv+CZYR2fpnP3YmKb5PCnx0YB/JmRBnIQXMCWhJmQ9XGaesTv0jwE8qc4/27GvT8dPced9f+vVFRhGHjyPLFR+6Eu6suz/TKwsTcyZD8ZETDClWKICa8hF44PJXW0dGE9kzNwc5bZOUGHj/o6p/X3CC9WuyzZt40O0jnSlFfXs2mT9CTeBM73H7H8j11e7cEPEEUrxZl0bm+V1JYkqo5lZy6n+8JF4zb0kI4xBwtB1IWvboKFetxYr3qpNNvtmighf3kSVtp6HZh0oFKGADUSiRcbGJWiq4CoYu0pes+g357yTI9CtQ5S23Ve2/E=
-    file: config/bintray.json
-    on:
-      branch: master
 
   - provider: releases
     skip_cleanup: true
