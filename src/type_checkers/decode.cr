@@ -38,7 +38,7 @@ module Mint
         false
       else
         case type.name
-        when "String", "Time", "Number", "Bool"
+        when "String", "Time", "Number", "Bool", "Object"
           true
         when "Map"
           type.parameters.first.name == "String" &&

@@ -20,6 +20,7 @@ message DecodeComplexType do
     TypeChecker::NUMBER,
     TypeChecker::TIME,
     TypeChecker::BOOL,
+    TypeChecker::OBJECT,
   ] of TypeChecker::Checkable
 
   snippet node
