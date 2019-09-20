@@ -42,7 +42,7 @@ module Mint
     def generate(node : TypeChecker::Type)
       case node.name
       when "Object"
-        "((value) => value)"
+        "Decoder.object"
       when "String"
         "Decoder.string"
       when "Bool"
