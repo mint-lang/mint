@@ -17,9 +17,9 @@ Dir.glob("./spec/type_checking/**").sort.each do |file|
   samples << {contents[position, contents.size - position], error}
 
   samples.each_with_index do |sample, index|
-    source, error = sample
-
     it "#{name} ##{index}" do
+      source, error = sample
+
       ast = Mint::Ast.new
 
       # Parse source

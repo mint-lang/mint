@@ -29,19 +29,19 @@ module Mint
   end
 
   class Optimized < Renderer
-    def for(condition, body)
+    def for(condition, body) : String
       "for(#{condition}){#{body}}"
     end
 
-    def css_rule(name, definitions)
+    def css_rule(name, definitions) : String
       "#{name}{#{definitions.join("")}}"
     end
 
-    def css_rules(rules)
+    def css_rules(rules) : String
       rules.join("")
     end
 
-    def display_name(name, real_name)
+    def display_name(name, real_name) : String
       ""
     end
 
@@ -106,11 +106,11 @@ module Mint
       "(async()=>{#{body}})()"
     end
 
-    def get(name : String, body : String)
+    def get(name : String, body : String) : String
       "get #{name}(){#{body}}"
     end
 
-    def if(condition : String, body : String)
+    def if(condition : String, body : String) : String
       "if(#{condition}){#{body}}"
     end
 
@@ -122,7 +122,7 @@ module Mint
       "else{#{yield}}"
     end
 
-    def catch(condition : String, body : String)
+    def catch(condition : String, body : String) : String
       "catch(#{condition}){#{body}}"
     end
 
@@ -140,19 +140,19 @@ module Mint
   end
 
   class Normal < Renderer
-    def for(condition, body)
+    def for(condition, body) : String
       "for (#{condition}) #{class_body(body)}"
     end
 
-    def css_rule(name, definitions)
+    def css_rule(name, definitions) : String
       "#{name} {\n#{definitions.join("\n").indent}\n}"
     end
 
-    def css_rules(rules)
+    def css_rules(rules) : String
       rules.join("\n\n")
     end
 
-    def display_name(name, real_name)
+    def display_name(name, real_name) : String
       "#{name}.displayName = \"#{real_name}\""
     end
 
@@ -240,7 +240,7 @@ module Mint
       "get #{name}() #{class_body(body)}"
     end
 
-    def if(condition : String, body : String)
+    def if(condition : String, body : String) : String
       "if (#{condition}) #{class_body(body)}"
     end
 
@@ -252,7 +252,7 @@ module Mint
       "else #{class_body(yield)}"
     end
 
-    def catch(condition : String, body : String)
+    def catch(condition : String, body : String) : String
       "catch (#{condition}) #{class_body(body)}"
     end
 
