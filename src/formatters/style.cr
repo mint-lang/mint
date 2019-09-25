@@ -1,14 +1,11 @@
 module Mint
   class Formatter
     def format(node : Ast::Style) : String
-      items =
-        node.definitions + node.selectors + node.medias + node.comments
-
       name =
         format node.name
 
       body =
-        list items
+        list node.body
 
       "style #{name} {\n#{indent(body)}\n}"
     end

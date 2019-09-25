@@ -18,15 +18,48 @@ module Mint
       prefix =
         js.style_of(node)
 
-      compile prefix, prefix, node.definitions
+      definitions = [] of Ast::CssDefinition
+      selectors = [] of Ast::CssSelector
+      medias = [] of Ast::CssMedia
 
-      node.medias.each_with_index do |item, index|
-        compile prefix + "_media_#{index}", prefix, item.definitions, item.content
+      node.body.each do |item|
+        case item
+        when Ast::CssDefinition
+          definitions << item
+        when Ast::CssSelector
+          selectors << item
+        when Ast::CssMedia
+          medias << item
+        end
       end
 
-      node.selectors.each do |item|
+      compile prefix, prefix, definitions
+
+      medias.each_with_index do |item, index|
+        defs = [] of Ast::CssDefinition
+
+        item.body.each do |part|
+          case part
+          when Ast::CssDefinition
+            defs << part
+          end
+        end
+
+        compile prefix + "_media_#{index}", prefix, defs, item.content
+      end
+
+      selectors.each do |item|
         item.selectors.each do |selector|
-          compile prefix + selector, prefix, item.definitions
+          defs = [] of Ast::CssDefinition
+
+          item.body.each do |part|
+            case part
+            when Ast::CssDefinition
+              defs << part
+            end
+          end
+
+          compile prefix + selector, prefix, defs
         end
       end
     end

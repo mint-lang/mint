@@ -16,37 +16,24 @@ module Mint
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          many { css_definition || css_selector || css_media || comment }.compact
-        end
-
-        definitions = [] of Ast::CssDefinition
-        selectors = [] of Ast::CssSelector
-        comments = [] of Ast::Comment
-        medias = [] of Ast::CssMedia
-
-        body.each do |item|
-          case item
-          when Ast::CssDefinition
-            definitions << item
-          when Ast::CssSelector
-            selectors << item
-          when Ast::CssMedia
-            medias << item
-          when Ast::Comment
-            comments << item
-          end
+          css_body_with_media
         end
 
         Ast::Style.new(
-          definitions: definitions,
-          selectors: selectors,
           from: start_position,
-          comments: comments,
-          medias: medias,
           to: position,
           input: data,
+          body: body,
           name: name)
       end
+    end
+
+    def css_body_with_media
+      many { comment || css_definition || css_media || css_selector }.compact
+    end
+
+    def css_body
+      many { comment || css_definition || css_selector }.compact
     end
   end
 end

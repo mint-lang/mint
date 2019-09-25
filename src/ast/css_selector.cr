@@ -1,11 +1,10 @@
 module Mint
   class Ast
     class CssSelector < Node
-      getter selectors, definitions, comments
+      getter selectors, body
 
-      def initialize(@definitions : Array(CssDefinition),
-                     @comments : Array(Comment),
-                     @selectors : Array(String),
+      def initialize(@selectors : Array(String),
+                     @body : Array(Node),
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

@@ -19,28 +19,15 @@ module Mint
         body = block(
           opening_bracket: CssMediaExpectedOpeningBracket,
           closing_bracket: CssMediaExpectedClosingBracket) do
-          many { css_definition || comment }.compact
-        end
-
-        definitions = [] of Ast::CssDefinition
-        comments = [] of Ast::Comment
-
-        body.each do |item|
-          case item
-          when Ast::CssDefinition
-            definitions << item
-          when Ast::Comment
-            comments << item
-          end
+          css_body
         end
 
         Ast::CssMedia.new(
-          definitions: definitions,
           from: start_position,
-          comments: comments,
           content: content,
           to: position,
-          input: data)
+          input: data,
+          body: body)
       end
     end
   end

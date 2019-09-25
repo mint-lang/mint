@@ -1,10 +1,9 @@
 module Mint
   class Ast
     class CssMedia < Node
-      getter content, definitions, comments
+      getter content, body
 
-      def initialize(@definitions : Array(CssDefinition),
-                     @comments : Array(Comment),
+      def initialize(@body : Array(Node),
                      @content : String,
                      @input : Data,
                      @from : Int32,

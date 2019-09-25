@@ -7,7 +7,6 @@ describe "Css Definition" do
   expect_ignore "A"
   expect_ignore ":"
 
-  expect_error "a", Mint::Parser::CssDefinitionExpectedColon
   expect_error "a:", Mint::Parser::CssDefinitionExpectedSemicolon
   expect_error "a: b", Mint::Parser::CssDefinitionExpectedSemicolon
   expect_error "a: {", Mint::Parser::CssInterpolationExpectedExpression
