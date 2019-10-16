@@ -12,9 +12,9 @@ module Mint
 
         whitespace! CssMediaExpectedSpaceAfterKeyword
 
-        content = gather { chars "^{" }.to_s
+        content = gather { chars "^{" }.to_s.strip
 
-        raise CssMediaExpectedName if content.strip.empty?
+        raise CssMediaExpectedName if content.empty?
 
         body = block(
           opening_bracket: CssMediaExpectedOpeningBracket,

@@ -16,7 +16,7 @@ module Mint
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          css_body_with_media
+          css_body
         end
 
         Ast::Style.new(
@@ -28,12 +28,8 @@ module Mint
       end
     end
 
-    def css_body_with_media
-      many { comment || css_definition || css_media || css_selector }.compact
-    end
-
     def css_body
-      many { comment || css_definition || css_selector }.compact
+      many { comment || css_definition || css_media || css_selector }.compact
     end
   end
 end

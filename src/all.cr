@@ -32,6 +32,8 @@ require "./ast/node"
 require "./ast/**"
 require "./ast"
 
+require "./style_builder"
+
 require "./type_checkers/**"
 require "./type_checker"
 
