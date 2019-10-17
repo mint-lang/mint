@@ -29,7 +29,7 @@ module Mint
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, Selector).new
-      @style_pool = NamePool(Ast::Style, Nil).new
+      @style_pool = NamePool(Ast::Node, Nil).new
       @name_pool = NamePool(Selector, Nil).new
 
       # This is the main data structure:
@@ -92,7 +92,7 @@ module Mint
 
       parents.each do |parent|
         node.selectors.map do |item|
-          selectors << parent + " " + item
+          selectors << parent + item
         end
       end
 
@@ -132,7 +132,7 @@ module Mint
             variable =
               "--#{block_id}-#{variable_id}"
 
-            selector[item.name] = variable
+            selector[item.name] = "var(#{variable})"
 
             # Save the actual data for the variable for compiling later.
             variables[style_node] ||= {} of String => Array(String | Ast::CssInterpolation)

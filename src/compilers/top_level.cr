@@ -69,35 +69,14 @@ module Mint
       enums =
         compile ast.enums
 
-      media_css =
-        medias.map do |condition, rules|
-          selectors =
-            rules.map do |name, items|
-              definitions =
-                items.map { |key, value| "#{key}: #{value};" }
-
-              js.css_rule(".#{name}", definitions)
-            end
-
-          js.css_rule("@media #{condition}", selectors)
-        end
-
-      css =
-        styles.map do |name, items|
-          definitions =
-            items.map { |key, value| "#{key}: #{value};" }
-
-          js.css_rule(".#{name}", definitions)
-        end
-
       all_css =
-        css + media_css
+        style_builder.compile
 
       footer =
         if all_css.empty?
           ""
         else
-          "_insertStyles(`\n#{js.css_rules(all_css)}\n`)"
+          "_insertStyles(`\n#{all_css}\n`)"
         end
 
       elements =

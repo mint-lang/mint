@@ -4,8 +4,8 @@ component Main {
       color: {color};
     }
 
-    &:focus {
-      color: red;
+    @media (screen) {
+      color: {color};
     }
   }
 
@@ -27,7 +27,8 @@ class A extends _C {
     return _h("div", {
       className: `a`,
       style: {
-        [`--a-a`]: this.a
+        [`--a-a`]: this.a,
+        [`--b-a`]: this.a
       }
     })
   }
@@ -40,7 +41,9 @@ _insertStyles(`
   color: var(--a-a);
 }
 
-.a:focus {
-  color: red;
+@media (screen) {
+  .a {
+    color: var(--b-a);
+  }
 }
 `)

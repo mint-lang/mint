@@ -44,8 +44,8 @@ class A extends _C {
       className: `a`,
       style: {
         [`--a-a`]: this.a,
-        [`--a-b`]: this.b,
-        [`--a-c`]: `Hello`
+        [`--b-a`]: this.b,
+        [`--c-a`]: `Hello`
       }
     })
   }
@@ -60,12 +60,12 @@ _insertStyles(`
 }
 
 .a:hover {
-  background: var(--a-b);
+  background: var(--b-a);
   color: cyan;
 }
 
 .a div {
-  font-family: var(--a-c);
+  font-family: var(--c-a);
   color: blue;
 }
 `)
