@@ -6,6 +6,11 @@ module Mint
 
       compile node.styles, node
 
+      styles =
+        node.styles.map do |style_node|
+          style_builder.compile_style(style_node, self)
+        end.reject(&.empty?)
+
       functions =
         compile_component_functions node
 
@@ -58,7 +63,7 @@ module Mint
         end
 
       body =
-        ([constructor] + gets + states + store_stuff + functions)
+        ([constructor] + styles + gets + states + store_stuff + functions)
           .compact
 
       js.statements([

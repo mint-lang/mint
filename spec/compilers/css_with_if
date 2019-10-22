@@ -1,16 +1,10 @@
 component Main {
   style test {
-    div {
-      color: {color};
-    }
-
-    &:focus {
+    if (true) {
       color: red;
+    } else {
+      color: blue;
     }
-  }
-
-  get color : String {
-    "blue"
   }
 
   fun render : Html {
@@ -19,16 +13,26 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  get a() {
-    return `blue`
+  get _a() {
+    const _ = {}
+
+    if (true) {
+      Object.assign(_, {
+        [`--a-a`]: `red`
+      })
+    } else {
+      Object.assign(_, {
+        [`--a-a`]: `blue`
+      })
+    }
+
+    return _
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: _style([{
-        [`--a-a`]: this.a
-      }])
+      style: _style([this._a])
     })
   }
 }
@@ -36,11 +40,7 @@ class A extends _C {
 A.displayName = "Main"
 
 _insertStyles(`
-.a div {
+.a {
   color: var(--a-a);
-}
-
-.a:focus {
-  color: red;
 }
 `)

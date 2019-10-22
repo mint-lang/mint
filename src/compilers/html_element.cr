@@ -1,5 +1,23 @@
 module Mint
   class Compiler
+    def compile(value : Array(Ast::CssInterpolation | String))
+      if value.any?(&.is_a?(Ast::CssInterpolation))
+        value.map do |part|
+          case part
+          when String
+            "`#{part}`"
+          else
+            compile part
+          end
+        end.reject(&.empty?)
+          .join(" + ")
+      else
+        value
+          .select(&.is_a?(String))
+          .join(" ")
+      end
+    end
+
     def _compile(node : Ast::HtmlElement) : String
       tag =
         node.tag.value
@@ -60,22 +78,7 @@ module Mint
             .variables[style_node]?
             .try do |hash|
               items = hash.each_with_object({} of String => String) do |(key, value), memo|
-                memo["[`#{key}`]"] =
-                  if value.any?(&.is_a?(Ast::CssInterpolation))
-                    value.map do |part|
-                      case part
-                      when String
-                        "`#{part}`"
-                      else
-                        compile part
-                      end
-                    end.reject(&.empty?)
-                      .join(" + ")
-                  else
-                    value
-                      .select(&.is_a?(String))
-                      .join(" ")
-                  end
+                memo["[`#{key}`]"] = compile value
               end
 
               js.object(items) unless items.empty?
@@ -87,12 +90,14 @@ module Mint
         .find(&.name.value.==("style"))
         .try { |attribute| compile(attribute.value) }
 
-      if custom_styles && variables
-        attributes["style"] = "_style([#{variables}, #{custom_styles}])"
-      elsif custom_styles
-        attributes["style"] = "_style([#{custom_styles}])"
-      elsif variables
-        attributes["style"] = variables
+      styles = [] of String
+
+      styles << "this._#{class_name}" if style_builder.ifs.any?(&.first.first.==(style_node))
+      styles << variables if variables
+      styles << custom_styles if custom_styles
+
+      if styles.any?
+        attributes["style"] = "_style([#{styles.join(", ")}])"
       end
 
       node.ref.try do |ref|

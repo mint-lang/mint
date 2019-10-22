@@ -23,7 +23,7 @@ module Mint
   class StyleBuilder
     alias Selector = Hash(String, String)
 
-    getter selectors, property_pool, name_pool, style_pool, variables
+    getter selectors, property_pool, name_pool, style_pool, variables, ifs
 
     def initialize
       # Three name pools so there would be no clashes,
@@ -45,6 +45,7 @@ module Mint
       # be compiled by the compiler itself when compiling an HTML element
       # which uses the specific style tag.
       @variables = {} of Ast::Node => Hash(String, Array(String | Ast::CssInterpolation))
+      @ifs = {} of Tuple(Ast::Node, Selector) => Array(Ast::If)
     end
 
     # Compiles the processed data into a CSS style sheet.
@@ -73,6 +74,77 @@ module Mint
           rules.join("\n\n")
         end
       end.join("\n\n")
+    end
+
+    def compile_style(node : Ast::Style, compiler : Compiler)
+      ifs.select(&.first.==(node))
+        .map do |(_, selector), selector_ifs|
+          selector_ifs.map do |item|
+            condition =
+              compiler.compile item.condition
+
+            thruty, falsy =
+              item.branches
+
+            thruty_items =
+              case thruty
+              when Array(Ast::Node)
+                items =
+                  thruty
+                    .select(&.is_a?(Ast::CssDefinition))
+                    .each_with_object({} of String => String) do |definition, memo|
+                      a =
+                        definition.as(Ast::CssDefinition)
+
+                      variable =
+                        variable_name a.name, selector
+
+                      selector[a.name] =
+                        "var(#{variable})"
+
+                      value =
+                        compiler.compile a.value
+
+                      memo["[`#{variable}`]"] = "`#{value}`"
+                    end
+
+                compiler.js.object(items)
+              end
+
+            falsy_items =
+              case falsy
+              when Array(Ast::Node)
+                items =
+                  falsy
+                    .select(&.is_a?(Ast::CssDefinition))
+                    .each_with_object({} of String => String) do |definition, memo|
+                      a =
+                        definition.as(Ast::CssDefinition)
+
+                      variable =
+                        variable_name a.name, selector
+
+                      selector[a.name] =
+                        "var(#{variable})"
+
+                      value =
+                        compiler.compile a.value
+
+                      memo["[`#{variable}`]"] = "`#{value}`"
+                    end
+
+                compiler.js.object(items)
+              end
+
+            compiler.js.get("_" + style_pool.of(node, nil),
+              compiler.js.statements([
+                compiler.js.const("_", "{}"),
+                compiler.js.if(condition, "Object.assign(_, #{thruty_items})") + " " +
+                compiler.js.else { "Object.assign(_, #{falsy_items})" },
+                compiler.js.return("_"),
+              ]))
+          end.join("\n\n")
+        end.join("\n\n")
     end
 
     # The main entry point for processing a "style" tag.
@@ -120,17 +192,9 @@ module Mint
         case item
         when Ast::CssDefinition
           if item.value.any?(Ast::CssInterpolation)
-            # Get the unique ID of the selector
-            block_id =
-              name_pool.of(selector, nil)
-
-            # Get the unique ID of the property
-            variable_id =
-              property_pool.of(item.name, selector)
-
             # Get the name of the variable
             variable =
-              "--#{block_id}-#{variable_id}"
+              variable_name(item.name, selector)
 
             selector[item.name] = "var(#{variable})"
 
@@ -144,8 +208,23 @@ module Mint
           process(item, selectors, media, style_node)
         when Ast::CssMedia
           process(item, selectors, media, style_node)
+        when Ast::If
+          ifs[{style_node, selector}] ||= [] of Ast::If
+          ifs[{style_node, selector}] << item
         end
       end
+    end
+
+    private def variable_name(name, selector)
+      # Get the unique ID of the selector
+      block_id =
+        name_pool.of(selector, nil)
+
+      # Get the unique ID of the property
+      variable_id =
+        property_pool.of(name, selector)
+
+      "--#{block_id}-#{variable_id}"
     end
   end
 end

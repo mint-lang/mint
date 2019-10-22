@@ -26,10 +26,10 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `a`,
-      style: {
+      style: _style([{
         [`--a-a`]: this.a,
         [`--b-a`]: this.a
-      }
+      }])
     })
   }
 }

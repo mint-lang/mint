@@ -29,7 +29,7 @@ module Mint
     end
 
     def css_body
-      many { comment || css_definition || css_media || css_selector }.compact
+      many { comment || css_definition || css_if_expression || css_media || css_selector }.compact
     end
   end
 end

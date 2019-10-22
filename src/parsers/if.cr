@@ -11,7 +11,15 @@ module Mint
     syntax_error IfExpectedCondition
     syntax_error IfExpectedElse
 
-    def if_expression : Ast::If | Nil
+    def if_expression
+      if_expression { }
+    end
+
+    def css_if_expression
+      if_expression(true) { css_definition }
+    end
+
+    def if_expression(multiple = false, &block : -> Ast::Node | Nil) : Ast::If | Nil
       start do |start_position|
         skip unless keyword "if"
 
@@ -27,7 +35,11 @@ module Mint
             opening_bracket: IfExpectedTruthyOpeningBracket,
             closing_bracket: IfExpectedTruthyClosingBracket
           ) do
-            expression! IfExpectedTruthyExpression
+            if multiple
+              many { block.call }.compact
+            else
+              expression! IfExpectedTruthyExpression
+            end
           end
 
         whitespace
@@ -43,7 +55,11 @@ module Mint
               opening_bracket: IfExpectedFalsyOpeningBracket,
               closing_bracket: IfExpectedFalsyClosingBracket
             ) do
-              expression! IfExpectedFalsyExpression
+              if multiple
+                many { block.call }.compact
+              else
+                expression! IfExpectedFalsyExpression
+              end
             end
         end
 
@@ -53,8 +69,7 @@ module Mint
           falsy_head_comments: falsy_head_comments,
           falsy_tail_comments: falsy_tail_comments,
           condition: condition.as(Ast::Expression),
-          truthy: truthy.as(Ast::Expression),
-          falsy: falsy.as(Ast::Expression),
+          branches: {truthy, falsy},
           from: start_position,
           to: position,
           input: data)

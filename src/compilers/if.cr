@@ -4,11 +4,14 @@ module Mint
       condition =
         compile node.condition
 
+      truthy_item, falsy_item =
+        node.branches
+
       truthy =
-        compile node.truthy
+        compile truthy_item
 
       falsy =
-        compile node.falsy
+        compile falsy_item
 
       "(#{condition} ? #{truthy} : #{falsy})"
     end
