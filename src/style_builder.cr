@@ -17,6 +17,21 @@ module Mint
     end
   end
 
+  class PropertyValue
+    property default : String | Nil
+    property variable : String | Nil
+
+    def to_s
+      if variable && default
+        "var(#{variable}, #{default})"
+      elsif variable
+        "var(#{variable})"
+      else
+        default
+      end
+    end
+  end
+
   # Compiles the variables of a style node into a computed property.
   class VariableCompiler
     delegate ifs, variables, variable_name, any?, style_pool, to: @builder
@@ -100,8 +115,8 @@ module Mint
             variable =
               variable_name definition.name, selector
 
-            selector[definition.name] =
-              "var(#{variable})"
+            selector[definition.name] ||= PropertyValue.new
+            selector[definition.name].variable = variable
 
             value =
               compile definition.value
@@ -117,7 +132,7 @@ module Mint
   # nested media queries and selectors, handling cases of the same rules in
   # different places.
   class StyleBuilder
-    alias Selector = Hash(String, String)
+    alias Selector = Hash(String, PropertyValue)
 
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
 
@@ -156,7 +171,7 @@ module Mint
 
           body =
             properties
-              .map { |key, value| "#{key}: #{value};" }
+              .map { |key, value| "#{key}: #{value.to_s};" }
               .join("\n")
 
           output[medias] ||= [] of String
@@ -235,13 +250,15 @@ module Mint
             variable =
               variable_name(item.name, selector)
 
-            selector[item.name] = "var(#{variable})"
+            selector[item.name] ||= PropertyValue.new
+            selector[item.name].variable = variable
 
             # Save the actual data for the variable for compiling later.
             variables[style_node] ||= {} of String => Array(String | Ast::CssInterpolation)
             variables[style_node][variable] = item.value
           else
-            selector[item.name] = item.value.join("")
+            selector[item.name] ||= PropertyValue.new
+            selector[item.name].default = item.value.join("")
           end
         when Ast::CssSelector
           process(item, selectors, media, style_node)

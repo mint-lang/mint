@@ -2,10 +2,10 @@ component Main {
   style test {
     color: yellow;
 
-    if (true) {
-      color: red;
-    } else {
-      color: blue;
+    @media (max-width: 300px) {
+      if (true) {
+        color: red;
+      }
     }
   }
 
@@ -21,10 +21,6 @@ class A extends _C {
     if (true) {
       Object.assign(_, {
         [`--a-a`]: `red`
-      })
-    } else {
-      Object.assign(_, {
-        [`--a-a`]: `blue`
       })
     }
 
@@ -43,6 +39,12 @@ A.displayName = "Main"
 
 _insertStyles(`
 .a {
-  color: var(--a-a, yellow);
+  color: yellow;
+}
+
+@media (max-width: 300px) {
+  .a {
+    color: var(--a-a);
+  }
 }
 `)
