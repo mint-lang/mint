@@ -11,7 +11,7 @@ module Mint
         compile truthy_item
 
       falsy =
-        compile falsy_item
+        falsy_item.try { |item| compile item }
 
       "(#{condition} ? #{truthy} : #{falsy})"
     end

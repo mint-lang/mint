@@ -6,6 +6,7 @@ module Mint
       getter condition, branches
 
       alias Branches = Tuple(Array(Node), Array(Node)) |
+                       Tuple(Array(Node), Nil) |
                        Tuple(Array(Node), If) |
                        Tuple(Node, Node)
 

@@ -32,6 +32,10 @@ describe Mint::StyleBuilder do
           @media (screen) {
             div, p {
               font-size: 30px;
+
+              if (true) {
+                color: red;
+              }
             }
           }
 

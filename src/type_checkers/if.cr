@@ -33,7 +33,7 @@ module Mint
         truthy
       else
         resolve truthy_item
-        resolve falsy_item
+        falsy_item.try { |data| resolve data }
 
         NEVER
       end

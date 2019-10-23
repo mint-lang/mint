@@ -19,7 +19,7 @@ module Mint
       if_expression(true) { css_definition }
     end
 
-    def if_expression(multiple = false, &block : -> Ast::Node | Nil) : Ast::If | Nil
+    def if_expression(for_css = false, &block : -> Ast::Node | Nil) : Ast::If | Nil
       start do |start_position|
         skip unless keyword "if"
 
@@ -35,32 +35,36 @@ module Mint
             opening_bracket: IfExpectedTruthyOpeningBracket,
             closing_bracket: IfExpectedTruthyClosingBracket
           ) do
-            if multiple
+            if for_css
               many { block.call }.compact
             else
               expression! IfExpectedTruthyExpression
             end
           end
 
-        whitespace
-        keyword! "else", IfExpectedElse
+        falsy_head_comments = [] of Ast::Comment
+        falsy_tail_comments = [] of Ast::Comment
+        falsy = nil
+
         whitespace
 
-        if falsy = if_expression
-          falsy_head_comments = [] of Ast::Comment
-          falsy_tail_comments = [] of Ast::Comment
-        else
-          falsy_head_comments, falsy, falsy_tail_comments =
-            block_with_comments(
-              opening_bracket: IfExpectedFalsyOpeningBracket,
-              closing_bracket: IfExpectedFalsyClosingBracket
-            ) do
-              if multiple
-                many { block.call }.compact
-              else
-                expression! IfExpectedFalsyExpression
+        if !for_css || keyword_ahead "else"
+          keyword! "else", IfExpectedElse
+          whitespace
+
+          unless falsy = if_expression
+            falsy_head_comments, falsy, falsy_tail_comments =
+              block_with_comments(
+                opening_bracket: IfExpectedFalsyOpeningBracket,
+                closing_bracket: IfExpectedFalsyClosingBracket
+              ) do
+                if for_css
+                  many { block.call }.compact
+                else
+                  expression! IfExpectedFalsyExpression
+                end
               end
-            end
+          end
         end
 
         Ast::If.new(
