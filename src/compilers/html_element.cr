@@ -72,19 +72,6 @@ module Mint
 
       attributes["className"] = classes if classes
 
-      variables =
-        if style_node
-          style_builder
-            .variables[style_node]?
-            .try do |hash|
-              items = hash.each_with_object({} of String => String) do |(key, value), memo|
-                memo["[`#{key}`]"] = compile value
-              end
-
-              js.object(items) unless items.empty?
-            end
-        end
-
       custom_styles = node
         .attributes
         .find(&.name.value.==("style"))
@@ -92,8 +79,7 @@ module Mint
 
       styles = [] of String
 
-      styles << "this._#{class_name}" if style_builder.ifs.any?(&.first.first.==(style_node))
-      styles << variables if variables
+      styles << "this._#{class_name}" if style_builder.any?(style_node)
       styles << custom_styles if custom_styles
 
       if styles.any?

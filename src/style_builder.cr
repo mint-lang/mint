@@ -76,75 +76,82 @@ module Mint
       end.join("\n\n")
     end
 
+    private def compile_branch(items : Array(Ast::Node), compiler : Compiler, selector : Selector)
+      compiled = items
+        .select(&.is_a?(Ast::CssDefinition))
+        .each_with_object({} of String => String) do |definition, memo|
+          a =
+            definition.as(Ast::CssDefinition)
+
+          variable =
+            variable_name a.name, selector
+
+          selector[a.name] =
+            "var(#{variable})"
+
+          value =
+            compiler.compile a.value
+
+          memo["[`#{variable}`]"] = "`#{value}`"
+        end
+
+      compiler.js.object(compiled)
+    end
+
+    def any?(node : Ast::Node)
+      variables[node]? || ifs.any?(&.first.first.==(node))
+    end
+
+    def any?(node : Nil)
+      false
+    end
+
     def compile_style(node : Ast::Style, compiler : Compiler)
-      ifs.select(&.first.==(node))
-        .map do |(_, selector), selector_ifs|
-          selector_ifs.map do |item|
-            condition =
-              compiler.compile item.condition
+      return "" unless any?(node)
 
-            thruty, falsy =
-              item.branches
+      static =
+        variables[node]?
+          .try do |hash|
+            items = hash.each_with_object({} of String => String) do |(key, value), memo|
+              memo["[`#{key}`]"] = compiler.compile value
+            end
 
-            thruty_items =
-              case thruty
-              when Array(Ast::Node)
-                items =
-                  thruty
-                    .select(&.is_a?(Ast::CssDefinition))
-                    .each_with_object({} of String => String) do |definition, memo|
-                      a =
-                        definition.as(Ast::CssDefinition)
+            compiler.js.object(items) unless items.empty?
+          end || "{}"
 
-                      variable =
-                        variable_name a.name, selector
+      compiled_ifs =
+        ifs.select(&.first.==(node))
+          .map do |(_, selector), selector_ifs|
+            selector_ifs.map do |item|
+              condition =
+                compiler.compile item.condition
 
-                      selector[a.name] =
-                        "var(#{variable})"
+              thruty, falsy =
+                item.branches
 
-                      value =
-                        compiler.compile a.value
+              thruty_items =
+                case thruty
+                when Array(Ast::Node)
+                  compile_branch thruty, compiler, selector
+                end
 
-                      memo["[`#{variable}`]"] = "`#{value}`"
-                    end
+              falsy_items =
+                case falsy
+                when Array(Ast::Node)
+                  compile_branch falsy, compiler, selector
+                end
 
-                compiler.js.object(items)
-              end
-
-            falsy_items =
-              case falsy
-              when Array(Ast::Node)
-                items =
-                  falsy
-                    .select(&.is_a?(Ast::CssDefinition))
-                    .each_with_object({} of String => String) do |definition, memo|
-                      a =
-                        definition.as(Ast::CssDefinition)
-
-                      variable =
-                        variable_name a.name, selector
-
-                      selector[a.name] =
-                        "var(#{variable})"
-
-                      value =
-                        compiler.compile a.value
-
-                      memo["[`#{variable}`]"] = "`#{value}`"
-                    end
-
-                compiler.js.object(items)
-              end
-
-            compiler.js.get("_" + style_pool.of(node, nil),
-              compiler.js.statements([
-                compiler.js.const("_", "{}"),
-                compiler.js.if(condition, "Object.assign(_, #{thruty_items})") + " " +
-                compiler.js.else { "Object.assign(_, #{falsy_items})" },
-                compiler.js.return("_"),
-              ]))
+              compiler.js.if(condition, "Object.assign(_, #{thruty_items})") + " " +
+                compiler.js.else { "Object.assign(_, #{falsy_items})" }
+            end.join("\n\n")
           end.join("\n\n")
-        end.join("\n\n")
+
+      compiler.js.get("_" + style_pool.of(node, nil),
+        compiler.js.statements([[
+          compiler.js.const("_", static),
+          compiled_ifs,
+          compiler.js.return("_"),
+        ]].flatten.reject(&.empty?)))
     end
 
     # The main entry point for processing a "style" tag.
@@ -155,7 +162,7 @@ module Mint
       process(node.body, selectors, [] of String, node)
     end
 
-    # Processes an Ast::CssSelector
+    # Processes a Ast::CssSelector
     def process(node : Ast::CssSelector,
                 parents : Array(String),
                 media : Array(String),

@@ -28,6 +28,14 @@ class A extends _C {
     })
   }
 
+  get _a() {
+    const _ = {
+      [`--a-a`]: this.a
+    }
+
+    return _
+  }
+
   get b() {
     return
   }
@@ -35,9 +43,7 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `a`,
-      style: _style([{
-        [`--a-a`]: this.a
-      }, this.b])
+      style: _style([this._a, this.b])
     })
   }
 }
