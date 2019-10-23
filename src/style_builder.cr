@@ -17,6 +17,102 @@ module Mint
     end
   end
 
+  # Compiles the variables of a style node into a computed property.
+  class VariableCompiler
+    delegate ifs, variables, variable_name, any?, style_pool, to: @builder
+    delegate js, compile, to: @compiler
+
+    getter compiler : Compiler
+    getter builder : StyleBuilder
+
+    def initialize(@builder, @compiler)
+    end
+
+    def compile(node : Ast::Style)
+      return "" unless any?(node)
+
+      static =
+        variables[node]?
+          .try do |hash|
+            items =
+              hash
+                .each_with_object({} of String => String) do |(key, value), memo|
+                  memo["[`#{key}`]"] = compile value
+                end
+
+            js.object(items) unless items.empty?
+          end || "{}"
+
+      compiled_ifs =
+        ifs
+          .select(&.first.==(node))
+          .map do |(_, selector), selector_ifs|
+            statements =
+              selector_ifs.map do |item|
+                condition =
+                  compile item.condition
+
+                thruty, falsy =
+                  item.branches
+
+                thruty_items =
+                  case thruty
+                  when Array(Ast::Node)
+                    compile_branch thruty, selector
+                  end
+
+                falsy_items =
+                  case falsy
+                  when Array(Ast::Node)
+                    compile_branch falsy, selector
+                  end
+
+                thruty_branch =
+                  js.if(condition, "Object.assign(_, #{thruty_items})")
+
+                falsy_branch =
+                  if falsy_items
+                    js.else { "Object.assign(_, #{falsy_items})" }
+                  end
+
+                [thruty_branch, falsy_branch]
+                  .compact
+                  .join(" ")
+              end
+
+            js.statements(statements)
+          end
+
+      js.get("_" + style_pool.of(node, nil),
+        js.statements([[
+          js.const("_", static),
+          compiled_ifs,
+          js.return("_"),
+        ]].flatten.reject(&.empty?)))
+    end
+
+    def compile_branch(items : Array(Ast::Node), selector : StyleBuilder::Selector)
+      compiled =
+        items
+          .select(&.is_a?(Ast::CssDefinition))
+          .map(&.as(Ast::CssDefinition))
+          .each_with_object({} of String => String) do |definition, memo|
+            variable =
+              variable_name definition.name, selector
+
+            selector[definition.name] =
+              "var(#{variable})"
+
+            value =
+              compile definition.value
+
+            memo["[`#{variable}`]"] = "`#{value}`"
+          end
+
+      js.object(compiled)
+    end
+  end
+
   # This class is responsible to build the CSS of "style" tags by resolving
   # nested media queries and selectors, handling cases of the same rules in
   # different places.
@@ -76,26 +172,10 @@ module Mint
       end.join("\n\n")
     end
 
-    private def compile_branch(items : Array(Ast::Node), compiler : Compiler, selector : Selector)
-      compiled = items
-        .select(&.is_a?(Ast::CssDefinition))
-        .each_with_object({} of String => String) do |definition, memo|
-          a =
-            definition.as(Ast::CssDefinition)
-
-          variable =
-            variable_name a.name, selector
-
-          selector[a.name] =
-            "var(#{variable})"
-
-          value =
-            compiler.compile a.value
-
-          memo["[`#{variable}`]"] = "`#{value}`"
-        end
-
-      compiler.js.object(compiled)
+    def compile_style(node : Ast::Style, compiler : Compiler)
+      VariableCompiler
+        .new(self, compiler)
+        .compile(node)
     end
 
     def any?(node : Ast::Node)
@@ -104,54 +184,6 @@ module Mint
 
     def any?(node : Nil)
       false
-    end
-
-    def compile_style(node : Ast::Style, compiler : Compiler)
-      return "" unless any?(node)
-
-      static =
-        variables[node]?
-          .try do |hash|
-            items = hash.each_with_object({} of String => String) do |(key, value), memo|
-              memo["[`#{key}`]"] = compiler.compile value
-            end
-
-            compiler.js.object(items) unless items.empty?
-          end || "{}"
-
-      compiled_ifs =
-        ifs.select(&.first.==(node))
-          .map do |(_, selector), selector_ifs|
-            selector_ifs.map do |item|
-              condition =
-                compiler.compile item.condition
-
-              thruty, falsy =
-                item.branches
-
-              thruty_items =
-                case thruty
-                when Array(Ast::Node)
-                  compile_branch thruty, compiler, selector
-                end
-
-              falsy_items =
-                case falsy
-                when Array(Ast::Node)
-                  compile_branch falsy, compiler, selector
-                end
-
-              compiler.js.if(condition, "Object.assign(_, #{thruty_items})") + " " +
-                compiler.js.else { "Object.assign(_, #{falsy_items})" }
-            end.join("\n\n")
-          end.join("\n\n")
-
-      compiler.js.get("_" + style_pool.of(node, nil),
-        compiler.js.statements([[
-          compiler.js.const("_", static),
-          compiled_ifs,
-          compiler.js.return("_"),
-        ]].flatten.reject(&.empty?)))
     end
 
     # The main entry point for processing a "style" tag.
@@ -222,7 +254,7 @@ module Mint
       end
     end
 
-    private def variable_name(name, selector)
+    def variable_name(name, selector)
       # Get the unique ID of the selector
       block_id =
         name_pool.of(selector, nil)
