@@ -14,6 +14,8 @@ describe "Html Element" do
   expect_error "<a::a a={a}b={b}", Mint::Parser::HtmlElementExpectedClosingBracket
 
   expect_ok "<a::a/>"
+  expect_ok "<a::a::b/>"
+  expect_ok "<a::a::b::c/>"
   expect_ok "<a::a></a>"
   expect_ok "<a > </a>"
   expect_ok "<a > <b></b> </a>"

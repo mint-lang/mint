@@ -43,12 +43,16 @@ module Mint
       component =
         html_elements[node]?
 
-      style_node =
-        node.style && component && lookups[node]
+      style_nodes =
+        if node.styles && component
+          style_lookups[node]
+        end
 
       class_name =
-        if style_node
-          style_builder.style_pool.of(style_node, nil)
+        if style_nodes
+          style_nodes.map do |style_node|
+            style_builder.style_pool.of(style_node, nil)
+          end.join(" ")
         end
 
       class_name_attribute =
@@ -79,7 +83,12 @@ module Mint
 
       styles = [] of String
 
-      styles << "this._#{class_name}()" if style_builder.any?(style_node)
+      if style_nodes
+        style_nodes.each do |style_node|
+          styles << "this._#{class_name}()" if style_builder.any?(style_node)
+        end
+      end
+
       styles << custom_styles if custom_styles
 
       if styles.any?

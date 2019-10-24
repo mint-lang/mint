@@ -5,25 +5,30 @@ module Mint
     type_error HtmlElementNotFoundStyle
 
     def check(node : Ast::HtmlElement) : Checkable
-      style =
-        node.style
+      styles =
+        node.styles
 
-      if style
+      if styles
         raise HtmlElementStyleOutsideOfComponent, {
-          "node" => style,
+          "node" => styles.map(&.value).join("::"),
         } unless component?
 
-        style_node =
-          component.styles.find(&.name.value.==(style.value))
+        style_nodes =
+          styles.map do |style|
+            style_node =
+              component.styles.find(&.name.value.==(style.value))
 
-        raise HtmlElementNotFoundStyle, {
-          "style" => style.value,
-          "node"  => style,
-        } unless style_node
+            raise HtmlElementNotFoundStyle, {
+              "style" => style.value,
+              "node"  => style,
+            } unless style_node
 
-        resolve style_node
+            resolve style_node
 
-        lookups[node] = style_node
+            style_node
+          end
+
+        style_lookups[node] = style_nodes
         html_elements[node] = component
       end
 

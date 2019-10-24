@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     delegate html_elements, lookups, checked, cache, to: @artifacts
-    delegate ast, types, variables, to: @artifacts
+    delegate ast, types, variables, style_lookups, to: @artifacts
     delegate record_field_lookup, to: @artifacts
 
     getter js, style_builder

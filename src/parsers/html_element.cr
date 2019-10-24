@@ -16,7 +16,22 @@ module Mint
         skip unless tag
 
         if keyword "::"
-          style = variable_with_dashes! HtmlElementExpectedStyle
+          styles = [] of Ast::Variable
+
+          many(parse_whitespace: false) do
+            if styles.any?
+              if keyword_ahead "::"
+                keyword "::"
+              else
+                break
+              end
+            end
+
+            style = variable_with_dashes
+            styles << style if style
+          end
+
+          raise HtmlElementExpectedStyle if styles.empty?
         end
 
         ref = start do
@@ -37,7 +52,7 @@ module Mint
           from: start_position,
           children: children,
           comments: comments,
-          style: style,
+          styles: styles,
           to: position,
           input: data,
           tag: tag,

@@ -4,12 +4,12 @@ module Mint
       tag =
         format node.tag
 
-      style =
-        format node.style
+      styles =
+        format node.styles
 
       prefix =
-        if style
-          "#{tag}::#{style}"
+        if styles
+          "#{tag}::#{styles.join("::")}"
         else
           tag
         end
