@@ -79,7 +79,7 @@ module Mint
 
       styles = [] of String
 
-      styles << "this._#{class_name}" if style_builder.any?(style_node)
+      styles << "this._#{class_name}()" if style_builder.any?(style_node)
       styles << custom_styles if custom_styles
 
       if styles.any?

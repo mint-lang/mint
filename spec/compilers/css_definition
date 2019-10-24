@@ -13,7 +13,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  get _a() {
+  _a() {
     const _ = {
       [`--a-a`]: this.a + `px 0px`
     }
@@ -28,7 +28,7 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `a`,
-      style: _style([this._a])
+      style: _style([this._a()])
     })
   }
 }

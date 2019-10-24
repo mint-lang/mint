@@ -98,7 +98,7 @@ module Mint
             js.statements(statements)
           end
 
-      js.get("_" + style_pool.of(node, nil),
+      js.function("_" + style_pool.of(node, nil), [] of String,
         js.statements([[
           js.const("_", static),
           compiled_ifs,
