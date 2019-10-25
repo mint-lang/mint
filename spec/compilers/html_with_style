@@ -6,10 +6,10 @@ component Main {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
-    border-color: {background};
-    background: {background};
-    border: {background};
-    color: {color};
+    border-color: #{background};
+    background: #{background};
+    border: #{background};
+    color: #{color};
   }
 
   fun render : Html {

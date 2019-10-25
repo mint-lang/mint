@@ -1,6 +1,6 @@
 component Main {
   style test(color : String) {
-    color: {color};
+    color: #{color};
   }
 
   fun render : Html {

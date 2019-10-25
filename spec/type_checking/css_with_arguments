@@ -1,6 +1,6 @@
 component Main {
   style test(name : String) {
-    color: {name};
+    color: #{name};
   }
 
   fun render : Html {
@@ -10,7 +10,7 @@ component Main {
 -----------------------------------------------------------------VariableMissing
 component Main {
   style test(name : String) {
-    color: {name2};
+    color: #{name2};
   }
 
   fun render : Html {

@@ -1,7 +1,7 @@
 component Main {
   style test {
     & div {
-      color: {color};
+      color: #{color};
     }
 
     &:focus {
@@ -21,7 +21,7 @@ component Main {
 component Main {
   style test {
     & div {
-      color: {color};
+      color: #{color};
     }
     &:focus {
       color: red;

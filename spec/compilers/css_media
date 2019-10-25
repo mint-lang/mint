@@ -1,11 +1,11 @@
 component Main {
   style test {
     div {
-      color: {color};
+      color: #{color};
     }
 
     @media (screen) {
-      color: {color};
+      color: #{color};
     }
   }
 

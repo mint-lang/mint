@@ -4,7 +4,7 @@ module Mint
       body =
         format node.expression
 
-      "{#{body}}"
+      "\#{#{body}}"
     end
   end
 end

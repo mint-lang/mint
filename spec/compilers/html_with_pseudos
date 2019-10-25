@@ -3,16 +3,16 @@ component Main {
   property background : String = "blue"
 
   style test {
-    background: {background};
+    background: #{background};
     color: red;
 
     &:hover {
-      background: {hoverBackground};
+      background: #{hoverBackground};
       color: cyan;
     }
 
     div {
-      font-family: {"Hello"};
+      font-family: #{"Hello"};
       color: blue;
     }
   }

@@ -1,7 +1,7 @@
 component Main {
   style test {
     div {
-      color: {color};
+      color: #{color};
     }
 
     &:focus {

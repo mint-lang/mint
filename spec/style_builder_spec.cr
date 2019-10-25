@@ -10,7 +10,7 @@ describe Mint::StyleBuilder do
 
             span, strong {
               pre {
-                color: {"red"};
+                color: \#{"red"};
               }
             }
 
@@ -47,7 +47,7 @@ describe Mint::StyleBuilder do
             @media (print) {
               div, p {
                 color: black;
-                border-radius: {10}px;
+                border-radius: \#{10}px;
               }
             }
           }

@@ -16,7 +16,7 @@ module Mint
         whitespace
 
         value = many(parse_whitespace: false) do
-          css_interpolation || gather { chars "^{;}" }
+          css_interpolation || gather { chars "^#;}" }
         end.compact
 
         char ';', CssDefinitionExpectedSemicolon

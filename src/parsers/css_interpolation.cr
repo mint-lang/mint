@@ -5,7 +5,7 @@ module Mint
 
     def css_interpolation : Ast::CssInterpolation | Nil
       start do |start_position|
-        skip unless char! '{'
+        skip unless keyword "\#{"
 
         whitespace
         expression = expression! CssInterpolationExpectedExpression

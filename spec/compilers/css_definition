@@ -1,6 +1,6 @@
 component Main {
   style test {
-    margin: {margin}px 0px;
+    margin: #{margin}px 0px;
   }
 
   get margin : Number {
