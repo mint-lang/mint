@@ -1,9 +1,12 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Style) : Checkable
-      resolve node.body
+      scope node do
+        resolve node.arguments
+        resolve node.body
 
-      NEVER
+        NEVER
+      end
     end
   end
 end

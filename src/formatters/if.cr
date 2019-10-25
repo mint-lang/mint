@@ -9,7 +9,7 @@ module Mint
 
       truthy =
         case truthy_item
-        when Array(Ast::Node)
+        when Array(Ast::CssDefinition)
           list truthy_item + node.truthy_head_comments + node.truthy_tail_comments
         when Ast::Node
           list [truthy_item] + node.truthy_head_comments + node.truthy_tail_comments
@@ -21,19 +21,17 @@ module Mint
         if falsy_item.is_a?(Ast::If) &&
            node.falsy_head_comments.empty? &&
            node.falsy_tail_comments.empty?
-          format falsy_item
+          " else " + format(falsy_item)
         else
           body =
             case falsy_item
-            when Array(Ast::Node)
+            when Array(Ast::CssDefinition)
               list falsy_item + node.falsy_head_comments + node.falsy_tail_comments
             when Ast::Node
               list [falsy_item] + node.falsy_head_comments + node.falsy_tail_comments
-            else
-              ""
             end
 
-          "{\n#{indent(body)}\n}"
+          " else {\n#{indent(body)}\n}" if body
         end
 
       condition =
@@ -46,7 +44,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) {\n#{indent(truthy)}\n} else #{falsy}"
+      "if (#{condition}) {\n#{indent(truthy)}\n}#{falsy}"
     end
   end
 end

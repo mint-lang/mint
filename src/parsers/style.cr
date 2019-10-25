@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error StyleExpectedClosingParentheses
     syntax_error StyleExpectedOpeningBracket
     syntax_error StyleExpectedClosingBracket
     syntax_error StyleExpectedName
@@ -9,8 +10,22 @@ module Mint
         skip unless keyword "style"
 
         whitespace
-
         name = variable_with_dashes! StyleExpectedName
+        whitespace
+
+        arguments = [] of Ast::Argument
+
+        if char! '('
+          whitespace
+
+          arguments.concat list(
+            terminator: ')',
+            separator: ','
+          ) { argument }.compact
+
+          whitespace
+          char ')', StyleExpectedClosingParentheses
+        end
 
         body = block(
           opening_bracket: StyleExpectedOpeningBracket,
@@ -21,6 +36,7 @@ module Mint
 
         Ast::Style.new(
           from: start_position,
+          arguments: arguments,
           to: position,
           input: data,
           body: body,

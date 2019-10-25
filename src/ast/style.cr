@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class Style < Node
-      getter name, body
+      getter name, body, arguments
 
-      def initialize(@body : Array(Node),
+      def initialize(@arguments : Array(Argument),
+                     @body : Array(Node),
                      @name : Variable,
                      @input : Data,
                      @from : Int32,

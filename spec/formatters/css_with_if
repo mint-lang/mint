@@ -1,0 +1,23 @@
+component A {
+  styletest{background: red;color: blue;
+    if(true){color:yellow;}}
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    background: red;
+    color: blue;
+
+    if (true) {
+      color: yellow;
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

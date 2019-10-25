@@ -8,6 +8,7 @@ module Mint
                    Ast::Provider |
                    Ast::Module |
                    Ast::Store |
+                   Ast::Style |
                    Ast::Get
 
       alias Level = Tuple(Ast::Node | Checkable, Node)
@@ -37,6 +38,8 @@ module Mint
         when Ast::Provider
           node.name
         when Ast::Function
+          node.name.value
+        when Ast::Style
           node.name.value
         else
           "" # Cannot happen
@@ -105,6 +108,10 @@ module Mint
       def find(variable : String, node : Ast::Function)
         node.arguments.find(&.name.value.==(variable)) ||
           node.where.try(&.statements.find(&.name.value.==(variable)))
+      end
+
+      def find(variable : String, node : Ast::Style)
+        node.arguments.find(&.name.value.==(variable))
       end
 
       def find(variable : String, node : Ast::Get)

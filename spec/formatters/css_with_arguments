@@ -1,0 +1,18 @@
+component A {
+  styletest(name:String){background: red;color: blue;}
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test (name : String) {
+    background: red;
+    color: blue;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
