@@ -11,15 +11,17 @@ module Mint
           chars "a-zA-Z-"
         end
 
-        skip unless char!(':')
+        skip unless char! ':'
 
         whitespace
 
         value = many(parse_whitespace: false) do
-          css_interpolation || gather { chars "^#;}" }
+          css_interpolation || gather do
+            consume_while char.in_set?("^;{\0") && !keyword_ahead("\#{")
+          end
         end.compact
 
-        char ';', CssDefinitionExpectedSemicolon
+        skip unless char! ';'
 
         Ast::CssDefinition.new(
           from: start_position,
