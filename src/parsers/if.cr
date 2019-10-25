@@ -11,15 +11,7 @@ module Mint
     syntax_error IfExpectedCondition
     syntax_error IfExpectedElse
 
-    def if_expression
-      if_expression { }
-    end
-
-    def css_if_expression
-      if_expression(true) { css_definition }
-    end
-
-    def if_expression(for_css = false, &block : -> Ast::Node | Nil) : Ast::If | Nil
+    def if_expression(for_css = false) : Ast::If | Nil
       start do |start_position|
         skip unless keyword "if"
 
@@ -36,7 +28,7 @@ module Mint
             closing_bracket: IfExpectedTruthyClosingBracket
           ) do
             if for_css
-              many { block.call }.compact
+              many { css_definition }.compact
             else
               expression! IfExpectedTruthyExpression
             end
@@ -52,14 +44,14 @@ module Mint
           keyword! "else", IfExpectedElse
           whitespace
 
-          unless falsy = if_expression
+          unless falsy = if_expression(for_css)
             falsy_head_comments, falsy, falsy_tail_comments =
               block_with_comments(
                 opening_bracket: IfExpectedFalsyOpeningBracket,
                 closing_bracket: IfExpectedFalsyClosingBracket
               ) do
                 if for_css
-                  many { block.call }.compact
+                  many { css_definition }.compact
                 else
                   expression! IfExpectedFalsyExpression
                 end

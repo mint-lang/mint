@@ -58,52 +58,13 @@ module Mint
             js.object(items) unless items.empty?
           end || "{}"
 
-      compiled_ifs =
+      compiled_conditions =
         ifs
           .select(&.first.==(node))
-          .map do |(_, selector), selector_ifs|
+          .merge(cases.select(&.first.==(node)))
+          .map do |(_, selector), conditions|
             statements =
-              selector_ifs.map do |item|
-                condition =
-                  compile item.condition
-
-                thruty, falsy =
-                  item.branches
-
-                thruty_items =
-                  case thruty
-                  when Array(Ast::Node)
-                    compile_branch thruty, selector
-                  end
-
-                falsy_items =
-                  case falsy
-                  when Array(Ast::Node)
-                    compile_branch falsy, selector
-                  end
-
-                thruty_branch =
-                  js.if(condition, "Object.assign(_, #{thruty_items})")
-
-                falsy_branch =
-                  if falsy_items
-                    js.else { "Object.assign(_, #{falsy_items})" }
-                  end
-
-                [thruty_branch, falsy_branch]
-                  .compact
-                  .join(" ")
-              end
-
-            js.statements(statements)
-          end
-
-      compiled_cases =
-        cases
-          .select(&.first.==(node))
-          .map do |(_, selector), selector_cases|
-            statements =
-              selector_cases.map do |item|
+              conditions.map do |item|
                 proc =
                   (Proc(String, String).new { |name|
                     variable =
@@ -115,7 +76,12 @@ module Mint
                     variable
                   }).as(Proc(String, String) | Nil)
 
-                compiler.compile item, proc
+                case item
+                when Ast::If, Ast::Case
+                  compile item, proc
+                else
+                  ""
+                end
               end
 
             js.statements(statements)
@@ -124,17 +90,14 @@ module Mint
       js.function("_" + style_pool.of(node, nil), [] of String,
         js.statements([[
           js.const("_", static),
-          compiled_ifs,
-          compiled_cases,
+          compiled_conditions,
           js.return("_"),
         ]].flatten.reject(&.empty?)))
     end
 
-    def compile_branch(items : Array(Ast::Node), selector : StyleBuilder::Selector)
+    def compile_branch(items : Array(Ast::CssDefinition), selector : StyleBuilder::Selector)
       compiled =
         items
-          .select(&.is_a?(Ast::CssDefinition))
-          .map(&.as(Ast::CssDefinition))
           .each_with_object({} of String => String) do |definition, memo|
             variable =
               variable_name definition.name, selector

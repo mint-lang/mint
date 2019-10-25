@@ -23,7 +23,7 @@ class A extends _C {
     (() => {
       let a = `a`
 
-      if (_compare(--a-a, `a`)) {
+      if (_compare(a, `a`)) {
         Object.assign(_, {
           [`--a-a`]: `red`
         })

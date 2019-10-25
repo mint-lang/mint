@@ -5,9 +5,9 @@ module Mint
       getter falsy_head_comments, falsy_tail_comments
       getter condition, branches
 
-      alias Branches = Tuple(Array(Node), Array(Node)) |
-                       Tuple(Array(Node), Nil) |
-                       Tuple(Array(Node), If) |
+      alias Branches = Tuple(Array(CssDefinition), Array(CssDefinition)) |
+                       Tuple(Array(CssDefinition), Nil) |
+                       Tuple(Array(CssDefinition), If) |
                        Tuple(Node, Node)
 
       def initialize(@truthy_head_comments : Array(Comment),

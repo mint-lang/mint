@@ -18,11 +18,9 @@ class A extends _C {
   _a() {
     const _ = {}
 
-    if (true) {
-      Object.assign(_, {
-        [`--a-a`]: `red`
-      })
-    }
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : null)
 
     return _
   }

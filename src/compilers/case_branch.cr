@@ -19,21 +19,11 @@ module Mint
         case item = node.expression
         when Array(Ast::CssDefinition)
           compiled =
-            item.each_with_object({} of String => String) do |definition, memo|
-              variable =
-                if block
-                  block.call(definition.name)
-                else
-                  ""
-                end
-
-              value =
-                compile definition.value
-
-              memo["[`#{variable}`]"] = "`#{value}`"
+            if block
+              _compile item, block
+            else
+              "{}"
             end
-
-          "Object.assign(_, #{js.object(compiled)})"
         when Ast::Node
           js.return(compile(item))
         else

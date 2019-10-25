@@ -32,8 +32,8 @@ module Mint
       many {
         comment ||
           css_definition ||
-          css_if_expression ||
           case_expression(for_css: true) ||
+          if_expression(for_css: true) ||
           css_media ||
           css_selector
       }.compact
