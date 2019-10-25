@@ -184,10 +184,10 @@ module Mint
         const _E = mint.Enum;
 
         const _s = (item, callback) => {
-          if (item instanceof Nothing) {
+          if (item instanceof #{nothing}) {
             return item
           } else if (item instanceof #{just}) {
-            return new #{just}(callback(item.value))
+            return new #{just}(callback(item._0))
           } else {
             return callback(item)
           }

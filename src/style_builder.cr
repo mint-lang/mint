@@ -90,7 +90,7 @@ module Mint
       arguments =
         compile node.arguments
 
-      js.function("_" + style_pool.of(node, nil), arguments,
+      js.function("$" + style_pool.of(node, nil), arguments,
         js.statements([[
           js.const("_", static),
           compiled_conditions,
@@ -122,7 +122,9 @@ module Mint
   # nested media queries and selectors, handling cases of the same rules in
   # different places.
   class StyleBuilder
-    alias Selector = Hash(String, PropertyValue)
+    class Selector < Hash(String, PropertyValue)
+      getter id : String = Random::Secure.hex
+    end
 
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
@@ -130,9 +132,9 @@ module Mint
     def initialize
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
-      @property_pool = NamePool(String, Selector).new
+      @property_pool = NamePool(String, String).new
       @style_pool = NamePool(Ast::Node, Nil).new
-      @name_pool = NamePool(Selector, Nil).new
+      @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:
       #
@@ -271,11 +273,11 @@ module Mint
     def variable_name(name, selector)
       # Get the unique ID of the selector
       block_id =
-        name_pool.of(selector, nil)
+        name_pool.of(selector.id, nil)
 
       # Get the unique ID of the property
       variable_id =
-        property_pool.of(name, selector)
+        property_pool.of(name, selector.id)
 
       "--#{block_id}-#{variable_id}"
     end

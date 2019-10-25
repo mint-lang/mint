@@ -83,7 +83,7 @@ module Mint
           arguments =
             compile item.arguments
 
-          styles << js.call("this._#{class_name}", arguments)
+          styles << js.call("this.$#{class_name}", arguments)
         end
       end
 

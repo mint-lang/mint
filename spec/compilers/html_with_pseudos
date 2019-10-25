@@ -11,7 +11,7 @@ component Main {
       color: cyan;
     }
 
-    & div {
+    div {
       font-family: {"Hello"};
       color: blue;
     }
@@ -39,7 +39,7 @@ class A extends _C {
     })
   }
 
-  _a() {
+  $a() {
     const _ = {
       [`--a-a`]: this.a,
       [`--b-a`]: this.b,
@@ -52,7 +52,7 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `a`,
-      style: _style([this._a()])
+      style: _style([this.$a()])
     })
   }
 }
