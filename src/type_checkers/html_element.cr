@@ -2,34 +2,14 @@ module Mint
   class TypeChecker
     type_error HtmlElementReferenceOutsideOfComponent
     type_error HtmlElementStyleOutsideOfComponent
-    type_error HtmlElementNotFoundStyle
 
     def check(node : Ast::HtmlElement) : Checkable
-      styles =
-        node.styles
-
-      if styles
+      if node.styles.any?
         raise HtmlElementStyleOutsideOfComponent, {
-          "node" => styles.map(&.value).join("::"),
+          "node" => node,
         } unless component?
 
-        style_nodes =
-          styles.map do |style|
-            style_node =
-              component.styles.find(&.name.value.==(style.value))
-
-            raise HtmlElementNotFoundStyle, {
-              "style" => style.value,
-              "node"  => style,
-            } unless style_node
-
-            resolve style_node
-
-            style_node
-          end
-
-        style_lookups[node] = style_nodes
-        html_elements[node] = component
+        resolve node.styles
       end
 
       node.ref.try do |ref|

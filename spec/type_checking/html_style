@@ -1,0 +1,39 @@
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello", true)/>
+  }
+}
+---------------------------------------------------HtmlStyleArgumentSizeMismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello")/>
+  }
+}
+---------------------------------------------------HtmlStyleArgumentSizeMismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base(0,1,2)/>
+  }
+}
+---------------------------------------------------HtmlStyleArgumentTypeMismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base(true, true)/>
+  }
+}

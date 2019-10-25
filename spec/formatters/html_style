@@ -1,0 +1,20 @@
+component Test {
+  style base(name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello", true)>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello", true)/>
+  }
+}

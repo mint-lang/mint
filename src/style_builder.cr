@@ -87,7 +87,10 @@ module Mint
             js.statements(statements)
           end
 
-      js.function("_" + style_pool.of(node, nil), [] of String,
+      arguments =
+        compile node.arguments
+
+      js.function("_" + style_pool.of(node, nil), arguments,
         js.statements([[
           js.const("_", static),
           compiled_conditions,

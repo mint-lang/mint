@@ -4,7 +4,7 @@ component Main {
   }
 
   fun render : Html {
-    <div::test/>
+    <div::test("Name")/>
   }
 }
 -----------------------------------------------------------------VariableMissing
@@ -14,6 +14,6 @@ component Main {
   }
 
   fun render : Html {
-    <div::test/>
+    <div::test("Name")/>
   }
 }

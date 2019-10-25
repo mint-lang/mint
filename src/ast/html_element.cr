@@ -4,9 +4,9 @@ module Mint
       getter attributes, children, styles, tag, comments, ref
 
       def initialize(@attributes : Array(HtmlAttribute),
-                     @styles : Array(Variable) | Nil,
                      @children : Array(HtmlContent),
                      @comments : Array(Comment),
+                     @styles : Array(HtmlStyle),
                      @ref : Variable | Nil,
                      @tag : Variable,
                      @input : Data,

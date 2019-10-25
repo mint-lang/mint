@@ -8,7 +8,7 @@ component Main {
     </div>
   }
 }
---------------------------------------------------------HtmlElementNotFoundStyle
+---------------------------------------------------------------HtmlStyleNotFound
 component Main {
   fun render : Html {
     <div::base/>

@@ -40,16 +40,11 @@ module Mint
           .map { |attribute| resolve(attribute) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
-      component =
-        html_elements[node]?
-
       style_nodes =
-        if node.styles && component
-          style_lookups[node]
-        end
+        node.styles.map { |item| lookups[item] }
 
       class_name =
-        if style_nodes
+        if style_nodes.any?
           style_nodes.map do |style_node|
             style_builder.style_pool.of(style_node, nil)
           end.join(" ")
@@ -83,9 +78,12 @@ module Mint
 
       styles = [] of String
 
-      if style_nodes
-        style_nodes.each do |style_node|
-          styles << "this._#{class_name}()" if style_builder.any?(style_node)
+      node.styles.each do |item|
+        if style_builder.any?(lookups[item])
+          arguments =
+            compile item.arguments
+
+          styles << js.call("this._#{class_name}", arguments)
         end
       end
 

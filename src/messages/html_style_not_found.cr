@@ -1,4 +1,4 @@
-message HtmlElementNotFoundStyle do
+message HtmlStyleNotFound do
   title "Type Error"
 
   block do

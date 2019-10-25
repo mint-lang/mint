@@ -15,21 +15,12 @@ module Mint
 
         skip unless tag
 
-        if keyword "::"
-          styles = [] of Ast::Variable
+        styles = [] of Ast::HtmlStyle
 
-          many(parse_whitespace: false) do
-            if styles.any?
-              if keyword_ahead "::"
-                keyword "::"
-              else
-                break
-              end
-            end
-
-            style = variable_with_dashes
-            styles << style if style
-          end
+        if keyword_ahead "::"
+          styles.concat(many(parse_whitespace: false) do
+            html_style
+          end.compact)
 
           raise HtmlElementExpectedStyle if styles.empty?
         end
