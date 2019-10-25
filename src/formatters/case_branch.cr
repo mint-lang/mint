@@ -2,7 +2,14 @@ module Mint
   class Formatter
     def format(node : Ast::CaseBranch) : String
       expression =
-        format node.expression
+        case item = node.expression
+        when Array(Ast::CssDefinition)
+          list item
+        when Ast::Node
+          format item
+        else
+          ""
+        end
 
       match =
         format node.match

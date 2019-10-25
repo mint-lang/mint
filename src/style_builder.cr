@@ -34,7 +34,7 @@ module Mint
 
   # Compiles the variables of a style node into a computed property.
   class VariableCompiler
-    delegate ifs, variables, variable_name, any?, style_pool, to: @builder
+    delegate ifs, variables, variable_name, any?, style_pool, cases, to: @builder
     delegate js, compile, to: @compiler
 
     getter compiler : Compiler
@@ -98,10 +98,34 @@ module Mint
             js.statements(statements)
           end
 
+      compiled_cases =
+        cases
+          .select(&.first.==(node))
+          .map do |(_, selector), selector_cases|
+            statements =
+              selector_cases.map do |item|
+                proc =
+                  (Proc(String, String).new { |name|
+                    variable =
+                      variable_name name, selector
+
+                    selector[name] ||= PropertyValue.new
+                    selector[name].variable = variable
+
+                    variable
+                  }).as(Proc(String, String) | Nil)
+
+                compiler.compile item, proc
+              end
+
+            js.statements(statements)
+          end
+
       js.function("_" + style_pool.of(node, nil), [] of String,
         js.statements([[
           js.const("_", static),
           compiled_ifs,
+          compiled_cases,
           js.return("_"),
         ]].flatten.reject(&.empty?)))
     end
@@ -135,6 +159,7 @@ module Mint
     alias Selector = Hash(String, PropertyValue)
 
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
+    getter cases
 
     def initialize
       # Three name pools so there would be no clashes,
@@ -156,6 +181,7 @@ module Mint
       # be compiled by the compiler itself when compiling an HTML element
       # which uses the specific style tag.
       @variables = {} of Ast::Node => Hash(String, Array(String | Ast::CssInterpolation))
+      @cases = {} of Tuple(Ast::Node, Selector) => Array(Ast::Case)
       @ifs = {} of Tuple(Ast::Node, Selector) => Array(Ast::If)
     end
 
@@ -194,7 +220,9 @@ module Mint
     end
 
     def any?(node : Ast::Node)
-      variables[node]? || ifs.any?(&.first.first.==(node))
+      variables[node]? ||
+        ifs.any?(&.first.first.==(node)) ||
+        cases.any?(&.first.first.==(node))
     end
 
     def any?(node : Nil)
@@ -264,6 +292,9 @@ module Mint
           process(item, selectors, media, style_node)
         when Ast::CssMedia
           process(item, selectors, media, style_node)
+        when Ast::Case
+          cases[{style_node, selector}] ||= [] of Ast::Case
+          cases[{style_node, selector}] << item
         when Ast::If
           ifs[{style_node, selector}] ||= [] of Ast::If
           ifs[{style_node, selector}] << item

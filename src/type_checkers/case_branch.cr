@@ -3,6 +3,18 @@ module Mint
     type_error CaseBranchNotMatchCondition
 
     def check(node : Ast::CaseBranch, condition : Checkable) : Checkable
+      resolve_expression = ->{
+        case expression = node.expression
+        when Array(Ast::CssDefinition)
+          resolve expression
+          NEVER
+        when Ast::Node
+          resolve expression
+        else
+          NEVER
+        end
+      }
+
       node.match.try do |item|
         match = resolve item
 
@@ -38,10 +50,10 @@ module Mint
             end
 
           scope(variables) do
-            resolve node.expression
+            resolve_expression.call
           end
         end
-      end || resolve node.expression
+      end || resolve_expression.call
     end
   end
 end

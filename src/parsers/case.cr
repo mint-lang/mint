@@ -7,7 +7,7 @@ module Mint
     syntax_error CaseExpectedCondition
     syntax_error CaseExpectedBranches
 
-    def case_expression : Ast::Case | Nil
+    def case_expression(for_css : Bool = false) : Ast::Case | Nil
       start do |start_position|
         skip unless keyword "case"
 
@@ -25,7 +25,7 @@ module Mint
           opening_bracket: CaseExpectedOpeningBracket,
           closing_bracket: CaseExpectedClosingBracket
         ) do
-          items = many { case_branch || comment }.compact
+          items = many { case_branch(for_css) || comment }.compact
           raise CaseExpectedBranches if items.empty?
           items
         end
