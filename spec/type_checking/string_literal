@@ -3,3 +3,23 @@ component Main {
     "Hello There"
   }
 }
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    try {
+      name = 0
+
+      "Hello There #{name}!"
+    }
+  }
+}
+------------------------------------------StringLiteralInterpolationTypeMismatch
+component Main {
+  fun render : String {
+    try {
+      name = {}
+
+      "Hello There #{name}!"
+    }
+  }
+}

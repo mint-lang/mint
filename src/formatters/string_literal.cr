@@ -9,24 +9,61 @@ module Mint
     end
 
     def format(node : Ast::StringLiteral) : String
-      value =
-        node.value.gsub('"', "\\\"")
+      position = 0
 
-      # Check if we need to break the string or not
-      if value.size > 56 && node.broken
-        position = 0
-        result = ""
+      ('"' + node.value.reduce("") do |memo, item|
+        case item
+        when Ast::Node
+          formatted =
+            "\#{#{format(item)}}"
 
-        while value.size > position
-          result += "\"#{skip_string(value[position, 56])}\" \\\n"
-          position += 56
+          position +=
+            replace_skipped(formatted).size
+
+          memo + formatted
+        when String
+          item =
+            item.gsub('"', "\\\"")
+
+          size =
+            item.size + position
+
+          if size > 56 && node.broken
+            item_array =
+              item.split("")
+
+            head =
+              if position > 56
+                [[""]]
+              else
+                diff =
+                  56 - position
+
+                [item_array.shift(diff)]
+              end
+
+            parts =
+              (head + item_array.each_slice(56).to_a)
+                .map(&.join(""))
+
+            position =
+              if parts.last.size == 56
+                0
+              else
+                parts.last.size
+              end
+
+            parts.reduce(memo) do |part_memo, part|
+              part_memo + skip_string(part) + "\" \\\n\""
+            end
+          else
+            position += item.size
+            memo + skip_string(item)
+          end
+        else
+          memo
         end
-
-        # Remove the last "\\ \n"
-        result.rstrip("\\ \n")
-      else
-        %("#{skip_string(value)}")
-      end
+      end.rchop("\" \\\n\"") + '"')
     end
   end
 end

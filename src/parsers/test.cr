@@ -10,7 +10,10 @@ module Mint
         skip unless keyword "test"
 
         whitespace
-        name = string_literal! TestExpectedName
+
+        name = string_literal! TestExpectedName,
+          with_interpolation: false
+
         whitespace
 
         head_comments, expression, tail_comments = block_with_comments(
