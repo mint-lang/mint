@@ -47,12 +47,21 @@ module Mint
     def css_body
       many {
         comment ||
-          css_definition ||
           case_expression(for_css: true) ||
           if_expression(for_css: true) ||
           css_media ||
-          css_selector
+          css_definition_or_selector
       }.compact
+    end
+
+    def css_definition_or_selector
+      css_definition || css_selector
+    rescue definition_errror : CssDefinitionExpectedSemicolon
+      begin
+        css_selector
+      rescue
+        raise definition_errror
+      end
     end
   end
 end

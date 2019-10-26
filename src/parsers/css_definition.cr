@@ -21,7 +21,7 @@ module Mint
           end
         end.compact
 
-        skip unless char! ';'
+        char ';', CssDefinitionExpectedSemicolon
 
         Ast::CssDefinition.new(
           from: start_position,
