@@ -95,7 +95,9 @@ module Mint
     def setup_kemal
       gzip true
 
-      get "/index.js" do
+      get "/index.js" do |env|
+        env.response.content_type = "application/javascript"
+
         script
       end
 
@@ -107,7 +109,7 @@ module Mint
         # from public. Later on for favicon and fallback the content_type is
         # overriden.
         env.response.content_type =
-          MIME.from_extension?(env.params.url["name"]).to_s
+          MIME.from_filename?(env.params.url["name"]).to_s
 
         path = "./public/#{env.params.url["name"]}"
 
