@@ -1,6 +1,14 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Case) : String
+    def compile(node : Ast::Case, block : Proc(String, String) | Nil = nil) : String
+      if checked.includes?(node)
+        _compile node, block
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Case, block : Proc(String, String) | Nil = nil) : String
       condition =
         compile node.condition
 
@@ -11,7 +19,9 @@ module Mint
         node
           .branches
           .sort_by(&.match.nil?.to_s)
-          .map_with_index { |branch, index| compile branch, index, variable }
+          .map_with_index do |branch, index|
+            compile branch, index, variable, block
+          end
 
       js.iif do
         js.statements([condition_let, js.ifchain(body)])

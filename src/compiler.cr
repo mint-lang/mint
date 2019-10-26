@@ -1,12 +1,13 @@
 module Mint
   class Compiler
-    delegate dynamic_styles, styles, ast, types, variables, to: @artifacts
-    delegate html_elements, medias, lookups, checked, cache, to: @artifacts
+    delegate lookups, checked, cache, to: @artifacts
+    delegate ast, types, variables, to: @artifacts
     delegate record_field_lookup, to: @artifacts
 
-    getter js
+    getter js, style_builder
 
     def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false)
+      @style_builder = StyleBuilder.new
       @js = Js.new(optimize: @optimize)
       @decoder = Decoder.new(@js)
     end

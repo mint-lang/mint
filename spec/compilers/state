@@ -13,29 +13,29 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = new Record({
       b: `Hello`,
       c: `0`
-    })
+    });
   }
 
   get b() {
-    return this.state.b
+    return this.state.b;
   }
 
   get c() {
-    return this.state.c
+    return this.state.c;
   }
 
   a() {
-    return this.b + this.c
+    return this.b + this.c;
   }
 
   render() {
-    return this.a()
+    return this.a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

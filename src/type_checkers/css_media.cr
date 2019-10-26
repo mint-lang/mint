@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::CssMedia) : Checkable
-      resolve node.definitions
+      resolve node.body
 
       NEVER
     end

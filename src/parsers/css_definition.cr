@@ -1,7 +1,6 @@
 module Mint
   class Parser
     syntax_error CssDefinitionExpectedSemicolon
-    syntax_error CssDefinitionExpectedColon
 
     def css_definition : Ast::CssDefinition | Nil
       start do |start_position|
@@ -12,12 +11,14 @@ module Mint
           chars "a-zA-Z-"
         end
 
-        char ':', CssDefinitionExpectedColon
+        skip unless char! ':'
 
         whitespace
 
         value = many(parse_whitespace: false) do
-          css_interpolation || gather { chars "^{;}" }
+          css_interpolation || gather do
+            consume_while char.in_set?("^;{\0") && !keyword_ahead("\#{")
+          end
         end.compact
 
         char ';', CssDefinitionExpectedSemicolon

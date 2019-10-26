@@ -36,72 +36,72 @@ component Main {
 --------------------------------------------------------------------------------
 class B extends _E {
   constructor() {
-    super()
-    this.length = 0
+    super();
+    this.length = 0;
   }
-}
+};
 
 class F extends _E {
   constructor() {
-    super()
-    this.length = 0
+    super();
+    this.length = 0;
   }
-}
+};
 
 class D extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class E extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class G extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class C extends _E {
   constructor(_0, _1) {
-    super()
-    this._0 = _0
-    this._1 = _1
-    this.length = 2
+    super();
+    this._0 = _0;
+    this._1 = _1;
+    this.length = 2;
   }
-}
+};
 
 class A extends _C {
   a() {
-    return new B()
+    return new B();
   }
 
   b() {
-    return new C(``,``)
+    return new C(``,``);
   }
 
   c() {
-    return new D(new E(``))
+    return new D(new E(``));
   }
 
   render() {
     return (() => {
-      this.a()
-      this.b()
-      this.c()
-      return ``
-    })()
+      this.a();
+      this.b();
+      this.c();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

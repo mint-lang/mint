@@ -14,29 +14,29 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       a: [
         null,
         false
       ]
-    })
+    });
   }
 
   render() {
-    return _h("div", {})
+    return _h("div", {});
   }
-}
+};
 
-A.displayName = "Test"
+A.displayName = "Test";
 
 class B extends _C {
   render() {
     return _h(A, {
       a: true
-    })
+    });
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

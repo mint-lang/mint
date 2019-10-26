@@ -16,23 +16,23 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return B.a()
+    return B.a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 const B = new(class extends _S {
   constructor() {
-    super()
-    this.state = {}
+    super();
+    this.state = {};
   }
 
   get b() {
-    return `Hello`
+    return `Hello`;
   }
 
   a() {
-    return B.b
+    return B.b;
   }
-})
+});

@@ -6,7 +6,7 @@ component Main {
   }
 
   style test {
-    background: {background};
+    background: #{background};
     color: red;
   }
 
@@ -18,35 +18,41 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       a: [
         null,
         `blue`
       ]
-    })
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a
+    };
+
+    return _;
   }
 
   get b() {
-    return
+    return;
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: _style([{
-        [`--a-a`]: this.a
-      }, this.b])
-    })
+      style: _style([this.$a(), this.b])
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   background: var(--a-a);
   color: red;
 }
-`)
+`);

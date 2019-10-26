@@ -1,0 +1,54 @@
+component Main {
+  style test {
+    color: yellow;
+
+    case ("a") {
+      "a" =>
+        color: red;
+
+      =>
+        color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a() {
+    const _ = {};
+
+    (() => {
+      let a = `a`;
+
+      if (_compare(a, `a`)) {
+        Object.assign(_, {
+          [`--a-a`]: `red`
+        })
+      } else {
+        Object.assign(_, {
+          [`--a-a`]: `blue`
+        })
+      };
+    })();
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a {
+  color: var(--a-a, yellow);
+}
+`);

@@ -3,16 +3,16 @@ component Main {
   property background : String = "blue"
 
   style test {
-    background: {background};
+    background: #{background};
     color: red;
 
     &:hover {
-      background: {hoverBackground};
+      background: #{hoverBackground};
       color: cyan;
     }
 
-    & div {
-      font-family: {"Hello"};
+    div {
+      font-family: #{"Hello"};
       color: blue;
     }
   }
@@ -25,7 +25,7 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       b: [
@@ -36,22 +36,28 @@ class A extends _C {
         null,
         `blue`
       ]
-    })
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a,
+      [`--b-a`]: this.b,
+      [`--c-a`]: `Hello`
+    };
+
+    return _;
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: {
-        [`--a-a`]: this.a,
-        [`--a-b`]: this.b,
-        [`--a-c`]: `Hello`
-      }
-    })
+      style: _style([this.$a()])
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
@@ -60,12 +66,12 @@ _insertStyles(`
 }
 
 .a:hover {
-  background: var(--a-b);
+  background: var(--b-a);
   color: cyan;
 }
 
 .a div {
-  font-family: var(--a-c);
+  font-family: var(--c-a);
   color: blue;
 }
-`)
+`);

@@ -16,14 +16,14 @@ const B = new(class extends _M {
   a() {
     return _h("p", {}, [
       `It should work`
-    ])
+    ]);
   }
-})
+});
 
 class A extends _C {
   render() {
-    return B.a()
+    return B.a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

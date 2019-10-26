@@ -1,0 +1,55 @@
+component Main {
+  style test {
+    div {
+      color: #{color};
+    }
+
+    @media (screen) {
+      color: #{color};
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a,
+      [`--b-a`]: this.a
+    };
+
+    return _;
+  }
+
+  get a() {
+    return `blue`;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a div {
+  color: var(--a-a);
+}
+
+@media (screen) {
+  .a {
+    color: var(--b-a);
+  }
+}
+`);

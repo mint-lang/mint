@@ -6,8 +6,8 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return `YES`
+    return `YES`;
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

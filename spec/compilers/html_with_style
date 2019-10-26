@@ -1,9 +1,15 @@
 component Main {
   property background : String = "blue"
+  property color : String = "yellow"
 
   style test {
-    background: {background};
-    color: red;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+
+    border-color: #{background};
+    background: #{background};
+    border: #{background};
+    color: #{color};
   }
 
   fun render : Html {
@@ -14,31 +20,48 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       a: [
         null,
         `blue`
+      ],
+      b: [
+        null,
+        `yellow`
       ]
-    })
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a,
+      [`--a-b`]: this.a,
+      [`--a-c`]: this.a,
+      [`--a-d`]: this.b
+    };
+
+    return _;
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: {
-        [`--a-a`]: this.a
-      }
-    })
+      style: _style([this.$a()])
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
-  background: var(--a-a);
-  color: red;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-touch-callout: none;
+  border-color: var(--a-a);
+  background: var(--a-b);
+  border: var(--a-c);
+  color: var(--a-d);
 }
-`)
+`);

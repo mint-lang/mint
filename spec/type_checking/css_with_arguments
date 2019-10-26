@@ -1,0 +1,19 @@
+component Main {
+  style test(name : String) {
+    color: #{name};
+  }
+
+  fun render : Html {
+    <div::test("Name")/>
+  }
+}
+-----------------------------------------------------------------VariableMissing
+component Main {
+  style test(name : String) {
+    color: #{name2};
+  }
+
+  fun render : Html {
+    <div::test("Name")/>
+  }
+}

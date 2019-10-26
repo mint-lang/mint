@@ -4,14 +4,11 @@ module Mint
       selectors =
         node
           .selectors
-          .map { |item| "&#{item}" }
+          .map { |item| item.starts_with?(" ") ? item.lstrip : "&#{item}" }
           .join(",\n")
 
-      items =
-        node.definitions + node.comments
-
       body =
-        list items
+        list node.body
 
       "#{selectors} {\n#{indent(body)}\n}"
     end

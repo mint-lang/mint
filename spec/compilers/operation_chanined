@@ -14,15 +14,15 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    return _compare(`a`, `b`) && !_compare(true, false)
+    return _compare(`a`, `b`) && !_compare(true, false);
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

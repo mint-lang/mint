@@ -1,16 +1,27 @@
 module Mint
   class Formatter
     def format(node : Ast::Style) : String
-      items =
-        node.definitions + node.selectors + node.medias + node.comments
-
       name =
         format node.name
 
       body =
-        list items
+        list node.body
 
-      "style #{name} {\n#{indent(body)}\n}"
+      arguments =
+        unless node.arguments.empty?
+          value =
+            format node.arguments
+
+          if value
+               .map { |string| replace_skipped(string) }
+               .map(&.size).sum > 50
+            "(\n#{indent(value.join(",\n"))}\n) "
+          else
+            "(#{value.join(", ")}) "
+          end
+        end
+
+      "style #{name} #{arguments}{\n#{indent(body)}\n}"
     end
   end
 end

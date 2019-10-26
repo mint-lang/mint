@@ -10,12 +10,12 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a(b) {
-    return b
+    return b;
   }
 
   render() {
-    return ("Hello" + this.a(("World!")))
+    return ("Hello" + this.a(("World!")));
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

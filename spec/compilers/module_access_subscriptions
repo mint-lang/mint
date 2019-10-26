@@ -26,17 +26,17 @@ const A = _R({
     "test",
     Decoder.string
   ]
-})
+});
 
 const B = new(class extends _P {
   a(b) {
-    return b
+    return b;
   }
-})
+});
 
 class C extends _C {
   componentWillUnmount() {
-    B._unsubscribe(this)
+    B._unsubscribe(this);
   }
 
   componentDidUpdate() {
@@ -46,7 +46,7 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   componentDidMount() {
@@ -56,15 +56,15 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   render() {
     return (() => {
-      B._subscriptions
-      return B.a(`a`)
-    })()
+      B._subscriptions;
+      return B.a(`a`);
+    })();
   }
-}
+};
 
-C.displayName = "Main"
+C.displayName = "Main";

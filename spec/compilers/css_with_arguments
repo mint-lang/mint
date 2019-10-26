@@ -1,0 +1,34 @@
+component Main {
+  style test(color : String) {
+    color: #{color};
+  }
+
+  fun render : Html {
+    <div::test("red")/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a(a) {
+    const _ = {
+      [`--a-a`]: a
+    };
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a(`red`)])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a {
+  color: var(--a-a);
+}
+`);

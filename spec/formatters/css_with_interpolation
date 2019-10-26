@@ -1,5 +1,5 @@
 component A {
-  styletest{background: { "red"
+  styletest{background: #{ "red"
   };color: blue;}
 
   fun render : Html {
@@ -9,7 +9,7 @@ component A {
 --------------------------------------------------------------------------------
 component A {
   style test {
-    background: {"red"};
+    background: #{"red"};
     color: blue;
   }
 

@@ -13,25 +13,25 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       b: [
         null,
         `blue`
       ]
-    })
+    });
   }
 
   get a() {
-    return
+    return;
   }
 
   render() {
     return _h("div", {
       style: _style([this.a])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

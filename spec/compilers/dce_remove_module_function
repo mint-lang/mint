@@ -16,14 +16,14 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   a() {
-    return ``
+    return ``;
   }
-})
+});
 
 class A extends _C {
   render() {
-    return B.a()
+    return B.a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

@@ -31,13 +31,13 @@ const A = _R({
     "name",
     Decoder.string
   ]
-})
+});
 
 const C = new(class extends _M {
   a(b, c) {
-    return
+    return;
   }
-})
+});
 
 class B extends _C {
   render() {
@@ -46,11 +46,11 @@ class B extends _C {
         name: `Joe`
       }), new A({
         name: `Doe`
-      })])
+      })]);
 
-      return `asd`
-    })()
+      return `asd`;
+    })();
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

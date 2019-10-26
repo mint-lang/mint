@@ -6,6 +6,11 @@ module Mint
 
       compile node.styles, node
 
+      styles =
+        node.styles.map do |style_node|
+          style_builder.compile_style(style_node, self)
+        end.reject(&.empty?)
+
       functions =
         compile_component_functions node
 
@@ -58,7 +63,7 @@ module Mint
         end
 
       body =
-        ([constructor] + gets + states + store_stuff + functions)
+        ([constructor] + styles + gets + states + store_stuff + functions)
           .compact
 
       js.statements([
@@ -81,11 +86,11 @@ module Mint
             name = js.variable_of(key)
 
             if store.states.find(&.name.value.==(original))
-              memo << js.get(name, "return #{store_name}.#{id}")
+              memo << js.get(name, "return #{store_name}.#{id};")
             elsif store.gets.any? { |get| get.name.value == original }
-              memo << js.get(name, "return #{store_name}.#{id}")
+              memo << js.get(name, "return #{store_name}.#{id};")
             elsif store.functions.any? { |func| func.name.value == original }
-              memo << "#{name} (...params) { return #{store_name}.#{id}(...params) }"
+              memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end
           end
         end

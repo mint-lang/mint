@@ -19,29 +19,29 @@ component Main {
 class A extends _C {
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
-        _ = await null
+        _ = await null;
       } catch (_error) {
         if (!(_error instanceof DoError)) {
-          console.warn(`Unhandled error in sequence expression:`)
-          console.warn(_error)
+          console.warn(`Unhandled error in sequence expression:`);
+          console.warn(_error);
         }
       } finally {
         null
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

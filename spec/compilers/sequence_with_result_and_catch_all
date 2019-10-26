@@ -26,41 +26,41 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   b(c) {
-    return (new Err(c))
+    return (new Err(c));
   }
-})
+});
 
 class A extends _C {
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
-        let _0 = B.b(``)
+        let _0 = B.b(``);
 
         if (_0 instanceof Err) {
           throw _0._0
-        }
+        };
 
-        _0._0
+        _0._0;
 
-        _ = await `test`
+        _ = await `test`;
       } catch (_error) {
         if (!(_error instanceof DoError)) {
           _ = `test`
         }
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

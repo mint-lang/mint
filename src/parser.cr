@@ -143,6 +143,7 @@ module Mint
 
     def keyword(word) : Bool
       result = input[position, word.size]
+
       if result == word
         @position += word.size
         true

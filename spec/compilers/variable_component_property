@@ -8,19 +8,19 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       a: [
         null,
         `Hello`
       ]
-    })
+    });
   }
 
   render() {
-    return this.a
+    return this.a;
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

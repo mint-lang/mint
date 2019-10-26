@@ -1,6 +1,6 @@
 component Main {
   style test {
-    margin: {margin}px 0px;
+    margin: #{margin}px 0px;
   }
 
   get margin : Number {
@@ -13,24 +13,30 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a + `px 0px`
+    };
+
+    return _;
+  }
+
   get a() {
-    return 10
+    return 10;
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: {
-        [`--a-a`]: this.a + `px 0px`
-      }
-    })
+      style: _style([this.$a()])
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   margin: var(--a-a);
 }
-`)
+`);

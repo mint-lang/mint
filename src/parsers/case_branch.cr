@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error CaseBranchExpectedExpression
 
-    def case_branch : Ast::CaseBranch | Nil
+    def case_branch(for_css : Bool = false) : Ast::CaseBranch | Nil
       start do |start_position|
         unless keyword "=>"
           match = enum_destructuring || expression
@@ -12,11 +12,16 @@ module Mint
 
         whitespace
 
-        raise CaseBranchExpectedExpression unless expression = self.expression
+        expression =
+          if for_css
+            many { css_definition }.compact
+          else
+            self.expression! CaseBranchExpectedExpression
+          end
 
         Ast::CaseBranch.new(
           match: match.as(Ast::EnumDestructuring | Ast::Expression | Nil),
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

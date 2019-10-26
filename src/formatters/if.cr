@@ -4,19 +4,34 @@ module Mint
       condition =
         format node.condition
 
+      truthy_item, falsy_item =
+        node.branches
+
       truthy =
-        list [node.truthy] + node.truthy_head_comments + node.truthy_tail_comments
+        case truthy_item
+        when Array(Ast::CssDefinition)
+          list truthy_item + node.truthy_head_comments + node.truthy_tail_comments
+        when Ast::Node
+          list [truthy_item] + node.truthy_head_comments + node.truthy_tail_comments
+        else
+          ""
+        end
 
       falsy =
-        if node.falsy.is_a?(Ast::If) &&
+        if falsy_item.is_a?(Ast::If) &&
            node.falsy_head_comments.empty? &&
            node.falsy_tail_comments.empty?
-          format node.falsy
+          " else " + format(falsy_item)
         else
           body =
-            list [node.falsy] + node.falsy_head_comments + node.falsy_tail_comments
+            case falsy_item
+            when Array(Ast::CssDefinition)
+              list falsy_item + node.falsy_head_comments + node.falsy_tail_comments
+            when Ast::Node
+              list [falsy_item] + node.falsy_head_comments + node.falsy_tail_comments
+            end
 
-          "{\n#{indent(body)}\n}"
+          " else {\n#{indent(body)}\n}" if body
         end
 
       condition =
@@ -29,7 +44,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) {\n#{indent(truthy)}\n} else #{falsy}"
+      "if (#{condition}) {\n#{indent(truthy)}\n}#{falsy}"
     end
   end
 end

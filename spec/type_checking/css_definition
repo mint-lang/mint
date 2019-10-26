@@ -1,10 +1,10 @@
 component Main {
   style test {
-    color: {"blue"};
-    color: {color};
+    color: #{"blue"};
+    color: #{color};
     color: red;
-    color: {0};
-    top: {top};
+    color: #{0};
+    top: #{top};
   }
 
   get color : String {
@@ -22,7 +22,7 @@ component Main {
 -------------------------------------------------------CssDefinitionTypeMismatch
 component Main {
   style test {
-    color: {true};
+    color: #{true};
   }
 
   fun render : Html {

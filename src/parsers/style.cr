@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error StyleExpectedClosingParentheses
     syntax_error StyleExpectedOpeningBracket
     syntax_error StyleExpectedClosingBracket
     syntax_error StyleExpectedName
@@ -9,43 +10,57 @@ module Mint
         skip unless keyword "style"
 
         whitespace
-
         name = variable_with_dashes! StyleExpectedName
+        whitespace
+
+        arguments = [] of Ast::Argument
+
+        if char! '('
+          whitespace
+
+          arguments.concat list(
+            terminator: ')',
+            separator: ','
+          ) { argument }.compact
+
+          whitespace
+          char ')', StyleExpectedClosingParentheses
+        end
 
         body = block(
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          many { css_definition || css_selector || css_media || comment }.compact
-        end
-
-        definitions = [] of Ast::CssDefinition
-        selectors = [] of Ast::CssSelector
-        comments = [] of Ast::Comment
-        medias = [] of Ast::CssMedia
-
-        body.each do |item|
-          case item
-          when Ast::CssDefinition
-            definitions << item
-          when Ast::CssSelector
-            selectors << item
-          when Ast::CssMedia
-            medias << item
-          when Ast::Comment
-            comments << item
-          end
+          css_body
         end
 
         Ast::Style.new(
-          definitions: definitions,
-          selectors: selectors,
           from: start_position,
-          comments: comments,
-          medias: medias,
+          arguments: arguments,
           to: position,
           input: data,
+          body: body,
           name: name)
+      end
+    end
+
+    def css_body
+      many {
+        comment ||
+          case_expression(for_css: true) ||
+          if_expression(for_css: true) ||
+          css_media ||
+          css_definition_or_selector
+      }.compact
+    end
+
+    def css_definition_or_selector
+      css_definition || css_selector
+    rescue definition_errror : CssDefinitionExpectedSemicolon
+      begin
+        css_selector
+      rescue
+        raise definition_errror
       end
     end
   end

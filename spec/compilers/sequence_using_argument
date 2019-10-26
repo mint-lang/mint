@@ -19,46 +19,46 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = new Record({
       c: `ho`
-    })
+    });
   }
 
   get c() {
-    return this.state.c
+    return this.state.c;
   }
 
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
-        let b = await `hello`
+        let b = await `hello`;
 
         _ = await new Promise((_resolve) => {
           this.setState(_u(this.state, new Record({
             c: b
           })), _resolve)
-        })
+        });
       } catch (_error) {
         if (!(_error instanceof DoError)) {
-          console.warn(`Unhandled error in sequence expression:`)
-          console.warn(_error)
+          console.warn(`Unhandled error in sequence expression:`);
+          console.warn(_error);
         }
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

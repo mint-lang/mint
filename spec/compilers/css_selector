@@ -1,8 +1,9 @@
 component Main {
   style test {
-    & div {
-      color: {color};
+    div {
+      color: #{color};
     }
+
     &:focus {
       color: red;
     }
@@ -18,27 +19,29 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a
+    };
+
+    return _;
+  }
+
   get a() {
-    return `blue`
+    return `blue`;
   }
 
   render() {
     return _h("div", {
       className: `a`,
-      style: {
-        [`--a-a`]: this.a
-      }
-    })
+      style: _style([this.$a()])
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
-.a {
-
-}
-
 .a div {
   color: var(--a-a);
 }
@@ -46,4 +49,4 @@ _insertStyles(`
 .a:focus {
   color: red;
 }
-`)
+`);

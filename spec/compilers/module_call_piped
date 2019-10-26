@@ -17,18 +17,18 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   b(c, d) {
-    return c
+    return c;
   }
 
   a() {
-    return B.b(`Lorem ipsum dolor sit amet`, true)
+    return B.b(`Lorem ipsum dolor sit amet`, true);
   }
-})
+});
 
 class A extends _C {
   render() {
-    return B.a()
+    return B.a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

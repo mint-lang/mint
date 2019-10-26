@@ -105,7 +105,7 @@ component Test.Dom.Focus {
   state shown : Bool = false
 
   style input {
-    display: {display};
+    display: #{display};
   }
 
   get display : String {

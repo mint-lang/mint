@@ -26,30 +26,30 @@ component Main {
 --------------------------------------------------------------------------------
 class C extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class A extends _C {
   get a() {
-    return `Instance`
+    return `Instance`;
   }
 
   render() {
-    return _h("div", {})
+    return _h("div", {});
   }
-}
+};
 
-A.displayName = "Instance"
+A.displayName = "Instance";
 
 class B extends _C {
   b() {
     return (() => {
-      const _ = this._instance
-      return _s(_,(_) => _.a)
-    })()
+      const _ = this._instance;
+      return _s(_,(_) => _.a);
+    })();
   }
 
   render() {
@@ -59,8 +59,8 @@ class B extends _C {
       _h(A, {
         ref: (instance) => { this._instance = new C(instance) }
       })
-    ])
+    ]);
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

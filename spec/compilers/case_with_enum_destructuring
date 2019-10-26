@@ -28,46 +28,46 @@ component Main {
 --------------------------------------------------------------------------------
 class B extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class C extends _E {
   constructor(_0) {
-    super()
-    this._0 = _0
-    this.length = 1
+    super();
+    this._0 = _0;
+    this.length = 1;
   }
-}
+};
 
 class A extends _C {
   a(b) {
     return (() => {
-      let c = b
+      let c = b;
 
       if (c instanceof C) {
-        const d = c._0
+        const d = c._0;
 
         return (() => {
-          let e = d
+          let e = d;
 
           if (e instanceof B) {
-            const f = e._0
-            return f
-          }
-        })()
-      }
-    })()
+            const f = e._0;
+            return f;
+          };
+        })();
+      };
+    })();
   }
 
   render() {
     return (() => {
-      this.a(new C(new B(``)))
-      return ``
-    })()
+      this.a(new C(new B(``)));
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

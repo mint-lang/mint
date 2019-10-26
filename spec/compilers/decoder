@@ -31,7 +31,7 @@ const A = _R({
     "SIIIZEEE",
     Decoder.number
   ]
-})
+});
 
 const B = _R({
   string: [
@@ -62,27 +62,27 @@ const B = _R({
     "y",
     ((_)=>A.decode(_))
   ]
-})
+});
 
 class C extends _C {
   a(b) {
-    return ((_)=>B.decode(_))(b)
+    return ((_)=>B.decode(_))(b);
   }
 
   render() {
     return (() => {
-      let _0 = this.a()
+      let _0 = this.a();
 
       if (_0 instanceof Err) {
-        let _error = _0._0
-        return _catch_all()
-      }
+        let _error = _0._0;
+        return _catch_all();
+      };
 
-      _0._0
+      _0._0;
 
-      return ``
-    })()
+      return ``;
+    })();
   }
-}
+};
 
-C.displayName = "Main"
+C.displayName = "Main";

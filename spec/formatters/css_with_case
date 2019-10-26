@@ -1,0 +1,31 @@
+component A {
+  style test {
+    case (true) {
+      false =>
+        background: red;
+        color: blue;
+
+      true => color: red;
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    case (true) {
+      false =>
+        background: red;
+        color: blue;
+
+      true => color: red;
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

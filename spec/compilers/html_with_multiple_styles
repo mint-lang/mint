@@ -1,0 +1,34 @@
+component Main {
+  style one {
+    color: red;
+  }
+
+  style two {
+    color: blue;
+  }
+
+  fun render : Html {
+    <div::one::two>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      className: `a b`
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a {
+  color: red;
+}
+
+.b {
+  color: blue;
+}
+`);

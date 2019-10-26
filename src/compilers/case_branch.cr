@@ -1,16 +1,34 @@
 module Mint
   class Compiler
-    def compile(node : Ast::CaseBranch, index : Int32, variable : String) : String
+    def compile(node : Ast::CaseBranch,
+                index : Int32,
+                variable : String,
+                block : Proc(String, String) | Nil = nil) : String
       if checked.includes?(node)
-        _compile node, index, variable
+        _compile node, index, variable, block
       else
         ""
       end
     end
 
-    def _compile(node : Ast::CaseBranch, index : Int32, variable : String) : String
+    def _compile(node : Ast::CaseBranch,
+                 index : Int32,
+                 variable : String,
+                 block : Proc(String, String) | Nil = nil) : String
       expression =
-        compile node.expression
+        case item = node.expression
+        when Array(Ast::CssDefinition)
+          compiled =
+            if block
+              _compile item, block
+            else
+              "{}"
+            end
+        when Ast::Node
+          js.return(compile(item))
+        else
+          ""
+        end
 
       if match = node.match
         case match
@@ -24,7 +42,7 @@ module Mint
             js.class_of(lookups[match])
 
           js.if("#{variable} instanceof #{name}") do
-            js.statements(variables + [js.return(expression)])
+            js.statements(variables + [expression])
           end
         else
           compiled =
@@ -32,17 +50,17 @@ module Mint
 
           if index == 0
             js.if("_compare(#{variable}, #{compiled})") do
-              js.return(expression)
+              expression
             end
           else
             js.elseif("_compare(#{variable}, #{compiled})") do
-              js.return(expression)
+              expression
             end
           end
         end
       else
         js.else do
-          js.return(expression)
+          expression
         end
       end
     end

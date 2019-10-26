@@ -18,20 +18,20 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   c() {
-    return `Hello`
+    return `Hello`;
   }
 
   b() {
-    return B.c
+    return B.c;
   }
-})
+});
 
 class A extends _C {
   render() {
-    let a = B.b()
-    return a()
+    let a = B.b();
+    return a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 

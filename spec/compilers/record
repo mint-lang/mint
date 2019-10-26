@@ -29,22 +29,22 @@ const A = _R({
     "b",
     Decoder.number
   ]
-})
+});
 
 class B extends _C {
   a() {
     return new A({
       a: `Hello`,
       b: 0
-    })
+    });
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

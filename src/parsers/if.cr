@@ -11,7 +11,7 @@ module Mint
     syntax_error IfExpectedCondition
     syntax_error IfExpectedElse
 
-    def if_expression : Ast::If | Nil
+    def if_expression(for_css = false) : Ast::If | Nil
       start do |start_position|
         skip unless keyword "if"
 
@@ -27,24 +27,36 @@ module Mint
             opening_bracket: IfExpectedTruthyOpeningBracket,
             closing_bracket: IfExpectedTruthyClosingBracket
           ) do
-            expression! IfExpectedTruthyExpression
+            if for_css
+              many { css_definition }.compact
+            else
+              expression! IfExpectedTruthyExpression
+            end
           end
 
-        whitespace
-        keyword! "else", IfExpectedElse
+        falsy_head_comments = [] of Ast::Comment
+        falsy_tail_comments = [] of Ast::Comment
+        falsy = nil
+
         whitespace
 
-        if falsy = if_expression
-          falsy_head_comments = [] of Ast::Comment
-          falsy_tail_comments = [] of Ast::Comment
-        else
-          falsy_head_comments, falsy, falsy_tail_comments =
-            block_with_comments(
-              opening_bracket: IfExpectedFalsyOpeningBracket,
-              closing_bracket: IfExpectedFalsyClosingBracket
-            ) do
-              expression! IfExpectedFalsyExpression
-            end
+        if !for_css || keyword_ahead "else"
+          keyword! "else", IfExpectedElse
+          whitespace
+
+          unless falsy = if_expression(for_css)
+            falsy_head_comments, falsy, falsy_tail_comments =
+              block_with_comments(
+                opening_bracket: IfExpectedFalsyOpeningBracket,
+                closing_bracket: IfExpectedFalsyClosingBracket
+              ) do
+                if for_css
+                  many { css_definition }.compact
+                else
+                  expression! IfExpectedFalsyExpression
+                end
+              end
+          end
         end
 
         Ast::If.new(
@@ -53,8 +65,7 @@ module Mint
           falsy_head_comments: falsy_head_comments,
           falsy_tail_comments: falsy_tail_comments,
           condition: condition.as(Ast::Expression),
-          truthy: truthy.as(Ast::Expression),
-          falsy: falsy.as(Ast::Expression),
+          branches: {truthy, falsy},
           from: start_position,
           to: position,
           input: data)

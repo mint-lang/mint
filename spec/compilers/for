@@ -11,18 +11,18 @@ component Main {
 class A extends _C {
   render() {
     return (() => {
-      const _0 = []
-      const _1 = [`A`, `B`]
+      const _0 = [];
+      const _1 = [`A`, `B`];
 
       for (let a of _1) {
         _0.push(_h("div", {}, [
           a
         ]))
-      }
+      };
 
-      return _0
-    })()
+      return _0;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

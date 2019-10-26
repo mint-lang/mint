@@ -15,6 +15,8 @@ describe "Component Style" do
   expect_error "style t {", Mint::Parser::StyleExpectedClosingBracket
   expect_error "style t { a: b;", Mint::Parser::StyleExpectedClosingBracket
   expect_error "style t { a: b; ", Mint::Parser::StyleExpectedClosingBracket
+  expect_error "style t (name : String", Mint::Parser::StyleExpectedClosingParentheses
 
   expect_ok "style t { a: b; }"
+  expect_ok "style t (name : String) { a: name; }"
 end

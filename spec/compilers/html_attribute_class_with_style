@@ -13,14 +13,14 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `something` + ` a`
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   width: 100%;
 }
-`)
+`);

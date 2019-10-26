@@ -1,12 +1,10 @@
 module Mint
   class Ast
     class Style < Node
-      getter name, definitions, selectors, medias, comments
+      getter name, body, arguments
 
-      def initialize(@definitions : Array(CssDefinition),
-                     @selectors : Array(CssSelector),
-                     @comments : Array(Comment),
-                     @medias : Array(CssMedia),
+      def initialize(@arguments : Array(Argument),
+                     @body : Array(Node),
                      @name : Variable,
                      @input : Data,
                      @from : Int32,

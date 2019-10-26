@@ -26,7 +26,7 @@ component A {
     color: blue;
 
     /* C */
-    & selector {
+    selector {
       /* D */
       x: y;
 

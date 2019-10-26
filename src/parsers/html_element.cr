@@ -15,8 +15,14 @@ module Mint
 
         skip unless tag
 
-        if keyword "::"
-          style = variable_with_dashes! HtmlElementExpectedStyle
+        styles = [] of Ast::HtmlStyle
+
+        if keyword_ahead "::"
+          styles.concat(many(parse_whitespace: false) do
+            html_style
+          end.compact)
+
+          raise HtmlElementExpectedStyle if styles.empty?
         end
 
         ref = start do
@@ -37,7 +43,7 @@ module Mint
           from: start_position,
           children: children,
           comments: comments,
-          style: style,
+          styles: styles,
           to: position,
           input: data,
           tag: tag,
