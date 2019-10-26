@@ -19,7 +19,7 @@ component Main {
 class A extends _C {
   a() {
     return (() => {
-      let b = `Hello`
+      let b = `Hello`;
 
       if (_compare(b, `test`)) {
         return true
@@ -27,16 +27,16 @@ class A extends _C {
         return false
       } else {
         return false
-      }
-    })()
+      };
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

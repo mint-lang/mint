@@ -35,64 +35,64 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   c(h) {
-    return
+    return;
   }
-})
+});
 
 class A extends _C {
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
         let b = await (async () => {
           try {
             return await B.c(`x`)
           } catch (_error) {
-            let d = _error
-            _ = d
-            throw new DoError()
+            let d = _error;
+            _ = d;
+            throw new DoError();
           }
-        })()
+        })();
 
         let e = await (async () => {
           try {
             return await B.c(`y`)
           } catch (_error) {
-            let d = _error
-            _ = d
-            throw new DoError()
+            let d = _error;
+            _ = d;
+            throw new DoError();
           }
-        })()
+        })();
 
         let f = await (async () => {
           try {
             return await B.c(0)
           } catch (_error) {
-            let g = _error
-            _ = `asd`
-            throw new DoError()
+            let g = _error;
+            _ = `asd`;
+            throw new DoError();
           }
-        })()
+        })();
 
-        _ = await `blah`
+        _ = await `blah`;
       } catch (_error) {
         if (!(_error instanceof DoError)) {
-          console.warn(`Unhandled error in sequence expression:`)
-          console.warn(_error)
+          console.warn(`Unhandled error in sequence expression:`);
+          console.warn(_error);
         }
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

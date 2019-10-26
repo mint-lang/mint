@@ -21,52 +21,52 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   get c() {
-    return B.b
+    return B.b;
   }
 
   componentWillUnmount() {
-    B._unsubscribe(this)
+    B._unsubscribe(this);
   }
 
   componentDidMount() {
-    B._subscribe(this)
+    B._subscribe(this);
   }
 
   render() {
-    return C.a
+    return C.a;
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 const B = new(class extends _S {
   constructor() {
-    super()
+    super();
 
     this.state = {
       b: ``
-    }
+    };
   }
 
   get b() {
-    return this.state.b
+    return this.state.b;
   }
 
   d() {
-    return `hello`
+    return `hello`;
   }
-})
+});
 
 const C = new(class extends _S {
   constructor() {
-    super()
+    super();
 
     this.state = {
       a: ``
-    }
+    };
   }
 
   get a() {
-    return this.state.a
+    return this.state.a;
   }
-})
+});

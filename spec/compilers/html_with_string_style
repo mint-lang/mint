@@ -8,8 +8,8 @@ class A extends _C {
   render() {
     return _h("div", {
       style: _style([`opacity:0;`])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

@@ -22,17 +22,17 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({})
+const A = _R({});
 
 const B = new(class extends _P {
   attach() {
-    return null
+    return null;
   }
-})
+});
 
 class C extends _C {
   componentWillUnmount() {
-    B._unsubscribe(this)
+    B._unsubscribe(this);
   }
 
   componentDidUpdate() {
@@ -47,7 +47,7 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   componentDidMount() {
@@ -62,12 +62,12 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   render() {
-    return _h("div", {})
+    return _h("div", {});
   }
-}
+};
 
-C.displayName = "Main"
+C.displayName = "Main";

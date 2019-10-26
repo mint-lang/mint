@@ -21,20 +21,20 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = new Record({
       b: `Joe`,
       c: 24
-    })
+    });
   }
 
   get b() {
-    return this.state.b
+    return this.state.b;
   }
 
   get c() {
-    return this.state.c
+    return this.state.c;
   }
 
   a() {
@@ -43,15 +43,15 @@ class A extends _C {
         b: `Hello`,
         c: 30
       })), _resolve)
-    })
+    });
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

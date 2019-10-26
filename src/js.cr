@@ -204,6 +204,7 @@ module Mint
         end
 
         memo += item
+        memo += ";" unless memo.ends_with?(";")
         memo
       end
     end

@@ -27,44 +27,44 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   c(e) {
-    return
+    return;
   }
-})
+});
 
 class A extends _C {
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
         let b = await (async () => {
           try {
             return await B.c(`hello`)
           } catch (_error) {
-            let d = _error
-            _ = null
-            throw new DoError()
+            let d = _error;
+            _ = null;
+            throw new DoError();
           }
-        })()
+        })();
 
-        _ = await null
+        _ = await null;
       } catch (_error) {
         if (!(_error instanceof DoError)) {
-          console.warn(`Unhandled error in sequence expression:`)
-          console.warn(_error)
+          console.warn(`Unhandled error in sequence expression:`);
+          console.warn(_error);
         }
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

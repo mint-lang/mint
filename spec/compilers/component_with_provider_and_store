@@ -32,24 +32,24 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({})
+const A = _R({});
 
 const B = new(class extends _P {
   attach() {
-    return null
+    return null;
   }
-})
+});
 
 class C extends _C {
   get d() {
-    return D.c
+    return D.c;
   }
 
-  f (...params) { return D.e(...params) }
+  f (...params) { return D.e(...params); }
 
   componentWillUnmount() {
-    D._unsubscribe(this)
-    B._unsubscribe(this)
+    D._unsubscribe(this);
+    B._unsubscribe(this);
   }
 
   componentDidUpdate() {
@@ -64,11 +64,11 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   componentDidMount() {
-    D._subscribe(this)
+    D._subscribe(this);
 
     if (false) {
       B._subscribe(this, new A({
@@ -81,30 +81,30 @@ class C extends _C {
     }))
     } else {
       B._unsubscribe(this)
-    }
+    };
   }
 
   render() {
-    return _h("div", {})
+    return _h("div", {});
   }
-}
+};
 
-C.displayName = "Main"
+C.displayName = "Main";
 
 const D = new(class extends _S {
   constructor() {
-    super()
+    super();
 
     this.state = {
       c: ``
-    }
+    };
   }
 
   get c() {
-    return this.state.c
+    return this.state.c;
   }
 
   e() {
-    return `hello`
+    return `hello`;
   }
-})
+});

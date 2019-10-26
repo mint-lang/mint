@@ -20,7 +20,7 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       a: [
@@ -31,7 +31,7 @@ class A extends _C {
         null,
         `yellow`
       ]
-    })
+    });
   }
 
   $a() {
@@ -40,20 +40,20 @@ class A extends _C {
       [`--a-b`]: this.a,
       [`--a-c`]: this.a,
       [`--a-d`]: this.b
-    }
+    };
 
-    return _
+    return _;
   }
 
   render() {
     return _h("div", {
       className: `a`,
       style: _style([this.$a()])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
@@ -64,4 +64,4 @@ _insertStyles(`
   border: var(--a-c);
   color: var(--a-d);
 }
-`)
+`);

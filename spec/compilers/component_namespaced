@@ -12,16 +12,16 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return `test`
+    return `test`;
   }
-}
+};
 
-A.displayName = "Ui.Dropdown"
+A.displayName = "Ui.Dropdown";
 
 class B extends _C {
   render() {
-    return _h(A, {})
+    return _h(A, {});
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

@@ -11,8 +11,8 @@ class A extends _C {
   render() {
     return _h("div", {}, [
       null
-    ])
+    ]);
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

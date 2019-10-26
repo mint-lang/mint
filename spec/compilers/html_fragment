@@ -18,8 +18,8 @@ class A extends _C {
           key: `something`
         }, [])
       ])
-    ])
+    ]);
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

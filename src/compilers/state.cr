@@ -4,7 +4,7 @@ module Mint
       name =
         js.variable_of(node)
 
-      js.get(name, "return this.state.#{name}")
+      js.get(name, "return this.state.#{name};")
     end
   end
 end

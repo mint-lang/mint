@@ -24,20 +24,20 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    return _at([`Hello`, `Blah`, `Joe`], 1)
+    return _at([`Hello`, `Blah`, `Joe`], 1);
   }
 
   b() {
-    return _at([], 1)
+    return _at([], 1);
   }
 
   render() {
     return (() => {
-      this.a()
-      this.b()
-      return ``
-    })()
+      this.a();
+      this.b();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

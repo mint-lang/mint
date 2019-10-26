@@ -23,11 +23,11 @@ const A = _R({
     "name",
     Decoder.string
   ]
-})
+});
 
 class B extends _C {
   constructor(props) {
-    super(props)
+    super(props);
 
     this._d({
       b: [
@@ -36,21 +36,21 @@ class B extends _C {
           name: `Doe`
         })
       ]
-    })
+    });
   }
 
   a() {
     return _u(this.b, {
       name: `John`
-    })
+    });
   }
 
   render() {
     return (() => {
-      this.a()
-      return _h("div", {})
-    })()
+      this.a();
+      return _h("div", {});
+    })();
   }
-}
+};
 
-B.displayName = "Main"
+B.displayName = "Main";

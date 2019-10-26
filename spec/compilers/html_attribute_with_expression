@@ -9,8 +9,8 @@ class A extends _C {
   render() {
     return _h("div", {
       "title": `Hello ` + `there!`
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

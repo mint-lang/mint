@@ -16,29 +16,29 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   $a() {
-    const _ = {}
+    const _ = {};
 
     (true ? Object.assign(_, {
       [`--a-a`]: `red`
     }) : Object.assign(_, {
       [`--a-a`]: `blue`
-    }))
+    }));
 
-    return _
+    return _;
   }
 
   render() {
     return _h("div", {
       className: `a`,
       style: _style([this.$a()])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   color: var(--a-a, yellow);
 }
-`)
+`);

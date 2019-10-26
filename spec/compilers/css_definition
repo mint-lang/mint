@@ -16,27 +16,27 @@ class A extends _C {
   $a() {
     const _ = {
       [`--a-a`]: this.a + `px 0px`
-    }
+    };
 
-    return _
+    return _;
   }
 
   get a() {
-    return 10
+    return 10;
   }
 
   render() {
     return _h("div", {
       className: `a`,
       style: _style([this.$a()])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   margin: var(--a-a);
 }
-`)
+`);

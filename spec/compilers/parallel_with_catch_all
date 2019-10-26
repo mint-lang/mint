@@ -33,19 +33,19 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   c(f) {
-    return
+    return;
   }
-})
+});
 
 class A extends _C {
   a() {
     return (async () => {
-      let _ = null
+      let _ = null;
 
       try {
-        let b = null
-        let d = null
-        let e = null
+        let b = null;
+        let d = null;
+        let e = null;
 
         await Promise.all([
           (async () => {
@@ -57,25 +57,25 @@ class A extends _C {
           (async () => {
             e = await `World`
           })()
-        ])
+        ]);
 
-        _ = d + e
+        _ = d + e;
       } catch (_error) {
         if (!(_error instanceof DoError)) {
           return `Hmm...`
         }
-      }
+      };
 
-      return _
-    })()
+      return _;
+    })();
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

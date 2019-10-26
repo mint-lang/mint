@@ -18,20 +18,20 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a(c, b) {
-    return b
+    return b;
   }
 
   d() {
-    return this.a(`Hello`, true)
+    return this.a(`Hello`, true);
   }
 
   render() {
     return (() => {
-      this.d()
-      return ``
-    })()
+      this.d();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 

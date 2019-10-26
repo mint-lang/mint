@@ -10,10 +10,10 @@ class A extends _C {
   render() {
     let a = () => {
       return `Hello`
-    }
+    };
 
-    return a()
+    return a();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

@@ -14,15 +14,15 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    return null
+    return null;
   }
 
   render() {
     return (() => {
-      let b = this.a
-      return ``
-    })()
+      let b = this.a;
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

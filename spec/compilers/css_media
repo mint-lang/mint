@@ -23,24 +23,24 @@ class A extends _C {
     const _ = {
       [`--a-a`]: this.a,
       [`--b-a`]: this.a
-    }
+    };
 
-    return _
+    return _;
   }
 
   get a() {
-    return `blue`
+    return `blue`;
   }
 
   render() {
     return _h("div", {
       className: `a`,
       style: _style([this.$a()])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a div {
@@ -52,4 +52,4 @@ _insertStyles(`
     color: var(--b-a);
   }
 }
-`)
+`);

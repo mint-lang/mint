@@ -14,16 +14,16 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    return true
+    return true;
   }
 
   render() {
     return (() => {
-      this.a()
-      return ``
-    })()
+      this.a();
+      return ``;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 

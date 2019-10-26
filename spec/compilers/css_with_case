@@ -18,10 +18,10 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   $a() {
-    const _ = {}
+    const _ = {};
 
     (() => {
-      let a = `a`
+      let a = `a`;
 
       if (_compare(a, `a`)) {
         Object.assign(_, {
@@ -31,24 +31,24 @@ class A extends _C {
         Object.assign(_, {
           [`--a-a`]: `blue`
         })
-      }
-    })()
+      };
+    })();
 
-    return _
+    return _;
   }
 
   render() {
     return _h("div", {
       className: `a`,
       style: _style([this.$a()])
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
   color: var(--a-a, yellow);
 }
-`)
+`);

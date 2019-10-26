@@ -17,11 +17,11 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `a b`
-    })
+    });
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
 
 _insertStyles(`
 .a {
@@ -31,4 +31,4 @@ _insertStyles(`
 .b {
   color: blue;
 }
-`)
+`);

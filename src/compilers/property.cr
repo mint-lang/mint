@@ -12,7 +12,7 @@ module Mint
         js.variable_of(node)
 
       body =
-        "return this._p('#{prop_name}')"
+        "return this._p('#{prop_name}');"
 
       js.get(name, body)
     end

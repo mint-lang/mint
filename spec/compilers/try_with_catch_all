@@ -19,9 +19,9 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   b(c) {
-    return (new Err(c))
+    return (new Err(c));
   }
-})
+});
 
 class A extends _C {
   render() {
@@ -30,18 +30,18 @@ class A extends _C {
         return `Blah`
       }
 
-      let _0 = B.b(`Blah`)
+      let _0 = B.b(`Blah`);
 
       if (_0 instanceof Err) {
-        let _error = _0._0
-        return _catch_all()
-      }
+        let _error = _0._0;
+        return _catch_all();
+      };
 
-      let a = _0._0
+      let a = _0._0;
 
-      return `Hello`
-    })()
+      return `Hello`;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";

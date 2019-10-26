@@ -9,9 +9,9 @@ component Main {
 class A extends _C {
   render() {
     return (() => {
-      return `hello`
-    })()
+      return `hello`;
+    })();
   }
-}
+};
 
-A.displayName = "Main"
+A.displayName = "Main";
