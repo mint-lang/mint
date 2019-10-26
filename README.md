@@ -6,10 +6,6 @@
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
 
-:warning: *Mint is currently in development, although it's usable for testing purposes.* :warning:
-
-:warning: *The documentation is currently work in progress.* :warning:
-
 ------
 
 A refreshing programming language for the front-end web, aiming to solve the most common issues of **Single Page Applications (SPAs)** at a language level:
