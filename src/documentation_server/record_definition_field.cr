@@ -4,7 +4,7 @@ module Mint
       json.object do
         json.field "key", node.key.value
         json.field "type", stringify(node.type)
-        json.field "mapping", node.mapping.try(&.value)
+        json.field "mapping", node.mapping.try(&.string_value)
       end
     end
   end

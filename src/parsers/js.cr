@@ -7,7 +7,7 @@ module Mint
         skip unless char! '`'
 
         value = many(parse_whitespace: false) do
-          (js_part || js_interpolation).as(Ast::Node | String | Nil)
+          (not_interpolation_part('`') || js_interpolation).as(Ast::Node | String | Nil)
         end.compact
 
         char '`', JsExpectedClosingTick
@@ -20,9 +20,9 @@ module Mint
       end
     end
 
-    def js_part : String | Nil
+    def not_interpolation_part(terminator : Char) : String | Nil
       # We geather characters until we find either a backtick or interpolation
-      value = gather { chars "^`#" }
+      value = gather { chars "^#{terminator}#" }
 
       if char == '#' && next_char != '{'
         # If we found a hashtag then it could be an interpolation, if
@@ -36,13 +36,13 @@ module Mint
 
         # The rchop here removes the escape slash "\"
         value.to_s.rchop + "#"
-      elsif char == '`' && prev_char == '\\'
+      elsif char == terminator && prev_char == '\\'
         # if we found a backtick and the previous char is backslash then it
         # means it's an escape so we consume it and return.
         step
 
         # The rchop here removes the escape slash "\"
-        value.to_s.rchop + '`'
+        value.to_s.rchop + terminator
       else
         value
       end

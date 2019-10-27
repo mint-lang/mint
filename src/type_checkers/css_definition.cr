@@ -29,8 +29,7 @@ module Mint
           "name" => node.name,
           "node" => node,
           "got"  => type,
-        } unless Comparer.compare(type, STRING) ||
-                 Comparer.compare(type, NUMBER)
+        } unless Comparer.matches_any?(type, [STRING, NUMBER])
       end
 
       NEVER

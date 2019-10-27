@@ -10,7 +10,10 @@ module Mint
         skip unless keyword "suite"
 
         whitespace
-        name = string_literal! SuiteExpectedName
+
+        name = string_literal! SuiteExpectedName,
+          with_interpolation: false
+
         whitespace
 
         body = block(

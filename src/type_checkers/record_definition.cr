@@ -12,7 +12,7 @@ module Mint
       mappings =
         node
           .fields
-          .map { |field| {field.key.value, field.mapping.try(&.value)} }
+          .map { |field| {field.key.value, field.mapping.try(&.string_value)} }
           .to_h
 
       type = Record.new(node.name, fields, mappings)
