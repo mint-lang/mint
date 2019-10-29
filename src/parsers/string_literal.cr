@@ -15,10 +15,10 @@ module Mint
 
         value = many(parse_whitespace: false) do
           if with_interpolation
-            (not_interpolation_part('"') || js_interpolation)
+            (not_interpolation_part('"') || interpolation)
           else
             not_interpolation_part('"')
-          end.as(Ast::Node | String | Nil)
+          end.as(Ast::Interpolation | String | Nil)
         end.compact
 
         char '"', StringExpectedEndQuote
@@ -38,7 +38,7 @@ module Mint
 
         # Normalize the value so there are consecutive Strings
         value =
-          value.reduce([] of Ast::Node | String) do |memo, item|
+          value.reduce([] of Ast::Interpolation | String) do |memo, item|
             if memo.last?.try(&.is_a?(String)) && item.is_a?(String)
               memo << (memo.pop.as(String) + item.as(String))
             else

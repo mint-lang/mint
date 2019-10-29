@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::CssInterpolation) : Checkable
+    def check(node : Ast::Interpolation) : Checkable
       resolve node.expression
     end
   end

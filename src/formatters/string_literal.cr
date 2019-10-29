@@ -15,7 +15,7 @@ module Mint
         case item
         when Ast::Node
           formatted =
-            "\#{#{format(item)}}"
+            format(item)
 
           position +=
             replace_skipped(formatted).size

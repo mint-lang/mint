@@ -3,7 +3,7 @@ module Mint
     class StringLiteral < Node
       getter value, broken
 
-      def initialize(@value : Array(String | Expression),
+      def initialize(@value : Array(String | Interpolation),
                      @broken : Bool,
                      @input : Data,
                      @from : Int32,

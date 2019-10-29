@@ -16,7 +16,7 @@ module Mint
         whitespace
 
         value = many(parse_whitespace: false) do
-          css_interpolation || gather do
+          interpolation || gather do
             consume_while char.in_set?("^;{\0") && !keyword_ahead("\#{")
           end
         end.compact

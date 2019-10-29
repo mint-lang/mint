@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::CssInterpolation) : String
+    def format(node : Ast::Interpolation) : String
       body =
         format node.expression
 

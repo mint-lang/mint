@@ -8,8 +8,8 @@ describe "Js" do
   expect_ignore "blah blah"
 
   expect_error %q(`asd"), Mint::Parser::JsExpectedClosingTick
-  expect_error %q(`sad #{), Mint::Parser::JsInterpolationExpectedExpression
-  expect_error %q(`asd #{x), Mint::Parser::JsInterpolationExpectedClosingBracket
+  expect_error %q(`sad #{), Mint::Parser::InterpolationExpectedExpression
+  expect_error %q(`asd #{x), Mint::Parser::InterpolationExpectedClosingBracket
 
   expect_ok %q(`hello`)
   expect_ok %q(`\`Hello`)

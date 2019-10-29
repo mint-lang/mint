@@ -1,6 +1,6 @@
 module Mint
   class Ast
-    class CssInterpolation < Node
+    class Interpolation < Node
       getter expression
 
       def initialize(@expression : Expression,

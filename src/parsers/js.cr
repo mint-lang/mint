@@ -7,7 +7,7 @@ module Mint
         skip unless char! '`'
 
         value = many(parse_whitespace: false) do
-          (not_interpolation_part('`') || js_interpolation).as(Ast::Node | String | Nil)
+          (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String | Nil)
         end.compact
 
         char '`', JsExpectedClosingTick

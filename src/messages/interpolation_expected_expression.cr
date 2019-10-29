@@ -1,4 +1,4 @@
-message CssInterpolationExpectedExpression do
+message InterpolationExpectedExpression do
   title "Syntax Error"
 
   block do

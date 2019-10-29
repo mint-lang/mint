@@ -1,4 +1,4 @@
-message CssInterpolationExpectedClosingBracket do
+message InterpolationExpectedClosingBracket do
   title "Syntax Error"
 
   block do

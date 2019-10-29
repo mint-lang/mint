@@ -9,8 +9,8 @@ describe "Css Definition" do
 
   expect_error "a:", Mint::Parser::CssDefinitionExpectedSemicolon
   expect_error "a: b", Mint::Parser::CssDefinitionExpectedSemicolon
-  expect_error "a: \#{", Mint::Parser::CssInterpolationExpectedExpression
-  expect_error "a: \#{a", Mint::Parser::CssInterpolationExpectedClosingBracket
+  expect_error "a: \#{", Mint::Parser::InterpolationExpectedExpression
+  expect_error "a: \#{a", Mint::Parser::InterpolationExpectedClosingBracket
 
   expect_ok "a: \#{a};"
   expect_ok "a: x \#{a} v;"
