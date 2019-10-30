@@ -29,7 +29,12 @@ module Mint
         # then it means it's an escape so we consume it and return.
         step
 
-        value.to_s + prev_char
+        # This is different in the JS interpolation
+        if prev_char == '`' && terminator == '`'
+          value.to_s.rchop + prev_char
+        else
+          value.to_s + prev_char
+        end
       elsif char == '#' && next_char != '{'
         # If we found a hashtag then it could be an interpolation, if
         # not we consume the character and return.
