@@ -36,7 +36,9 @@ module Mint
             item[0].properties.find(&.name.value.==(node.field.value)) ||
             item[0].states.find(&.name.value.==(node.field.value))).not_nil!
 
-        resolve lookups[node.field]
+        scope(item[0]) do
+          resolve lookups[node.field]
+        end
       else
         record_field_lookup[node.field] = new_target.name
       end
