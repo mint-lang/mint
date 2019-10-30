@@ -5,15 +5,13 @@ module Mint
     type_error AccessNotRecord
 
     def check(node : Ast::Access) : Checkable
-      check_component_access(node) || begin
-        target =
-          resolve node.lhs
+      target =
+        resolve node.lhs
 
-        if node.safe && target.name == "Maybe"
-          Type.new("Maybe", [check_access(node, target.parameters[0])])
-        else
-          check_access(node, target)
-        end
+      if node.safe && target.name == "Maybe"
+        Type.new("Maybe", [check_access(node, target.parameters[0])])
+      else
+        check_access(node, target)
       end
     end
 
@@ -31,46 +29,19 @@ module Mint
         "target" => target,
       } unless new_target
 
-      record_field_lookup[node.field] = new_target.name
+      if item = component_records.find(&.last.==(target))
+        lookups[node.field] =
+          (item[0].gets.find(&.name.value.==(node.field.value)) ||
+            item[0].functions.find(&.name.value.==(node.field.value)) ||
+            item[0].properties.find(&.name.value.==(node.field.value)) ||
+            item[0].states.find(&.name.value.==(node.field.value))).not_nil!
+
+        resolve lookups[node.field]
+      else
+        record_field_lookup[node.field] = new_target.name
+      end
 
       new_target
-    end
-
-    def check_component_access(node)
-      node.lhs.try do |lhs|
-        case lhs
-        when Ast::Variable
-          first =
-            lookup lhs
-
-          case first
-          when Ast::Component
-            raise AccessUnsafeComponent, {
-              "name" => node.field.value,
-              "node" => node,
-            } unless node.safe
-
-            resolve lhs
-
-            scope first do
-              second =
-                lookup node.field
-
-              raise AccessFieldNotFound, {
-                "field" => node.field.value,
-                "node"  => node.field,
-              } unless second
-
-              resolved =
-                resolve node.field
-
-              lookups[node.field] = second if second.is_a?(Ast::Node)
-
-              Type.new("Maybe", [resolved])
-            end
-          end
-        end
-      end
     end
   end
 end

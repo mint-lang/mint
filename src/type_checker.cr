@@ -25,16 +25,15 @@ module Mint
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
     STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
 
-    getter records, scope, artifacts, formatter, component_records
+    getter records, scope, artifacts, formatter
 
     property checking : Bool = true
 
+    delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, to: artifacts
-    delegate checked, record_field_lookup, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
-    @component_records = {} of Ast::Component => Record
     @record_names = {} of String => Ast::Node
     @formatter = Formatter.new(Ast.new)
     @names = {} of String => Ast::Node
@@ -68,7 +67,7 @@ module Mint
       end
 
       ast.components.each do |component|
-        @component_records[component] = static_type_signature(component)
+        component_records[component] = static_type_signature(component)
       end
     end
 

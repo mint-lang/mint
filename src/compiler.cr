@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    delegate lookups, checked, cache, to: @artifacts
+    delegate lookups, checked, cache, component_records, to: @artifacts
     delegate ast, types, variables, to: @artifacts
     delegate record_field_lookup, to: @artifacts
 
