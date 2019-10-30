@@ -3,6 +3,10 @@ module Mint
     type_error PropertyWithTypeVariables
     type_error PropertyTypeMismatch
 
+    def static_type_signature(node : Ast::Property) : Checkable
+      resolve node.type
+    end
+
     def check(node : Ast::Property) : Checkable
       type =
         resolve node.type

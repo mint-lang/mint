@@ -2,6 +2,10 @@ module Mint
   class TypeChecker
     type_error StateTypeMismatch
 
+    def static_type_signature(node : Ast::State) : Checkable
+      resolve node.type
+    end
+
     def check(node : Ast::State) : Checkable
       type =
         resolve node.type

@@ -25,6 +25,8 @@ module Mint
 
       if item[0].is_a?(Ast::HtmlElement) && item[1].is_a?(Ast::Component)
         Type.new("Maybe", [Type.new("Dom.Element")] of Checkable)
+      elsif item[0].is_a?(Ast::Component) && item[1].is_a?(Ast::Component)
+        Type.new("Maybe", [component_records[item[0]]] of Checkable)
       else
         resolve item[0]
       end

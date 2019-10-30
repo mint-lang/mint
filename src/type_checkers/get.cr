@@ -2,6 +2,10 @@ module Mint
   class TypeChecker
     type_error GetTypeMismatch
 
+    def static_type_signature(node : Ast::Get) : Checkable
+      resolve node.type
+    end
+
     def check(node : Ast::Get) : Checkable
       scope node do
         body_type =

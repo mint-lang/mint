@@ -12,6 +12,28 @@ module Mint
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
 
+    def static_type_signature(node : Ast::Component)
+      fields = {} of String => Checkable
+
+      node.gets.each do |item|
+        fields[item.name.value] = static_type_signature(item)
+      end
+
+      node.functions.each do |item|
+        fields[item.name.value] = static_type_signature(item)
+      end
+
+      node.properties.each do |item|
+        fields[item.name.value] = static_type_signature(item)
+      end
+
+      node.states.each do |item|
+        fields[item.name.value] = static_type_signature(item)
+      end
+
+      Record.new(node.name, fields)
+    end
+
     # Check all nodes that were not checked before
     def check_all(node : Ast::Component) : Checkable
       resolve node
