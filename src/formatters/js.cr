@@ -3,12 +3,7 @@ module Mint
     def format(node : Ast::Js) : String
       body =
         node.value.map do |item|
-          case item
-          when Ast::Node
-            format(item)
-          else
-            format(item).gsub(/`/, "\\`")
-          end
+          format(item)
         end.join("")
 
       result =

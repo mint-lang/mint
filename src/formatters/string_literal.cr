@@ -22,9 +22,6 @@ module Mint
 
           memo + formatted
         when String
-          item =
-            item.gsub('"', "\\\"")
-
           size =
             item.size + position
 

@@ -24,25 +24,17 @@ module Mint
       # We geather characters until we find either a backtick or interpolation
       value = gather { chars "^#{terminator}#" }
 
-      if char == '#' && next_char != '{'
+      if prev_char == '\\'
+        # if we found a terminator or hashtag and the previous char is backslash
+        # then it means it's an escape so we consume it and return.
+        step
+
+        value.to_s + prev_char
+      elsif char == '#' && next_char != '{'
         # If we found a hashtag then it could be an interpolation, if
         # not we consume the character and return.
         step
         value.to_s + '#'
-      elsif char == '#' && prev_char == '\\'
-        # if we found a backtick and the previous char is backslash then it
-        # means it's an escape so we consume it and return.
-        step
-
-        # The rchop here removes the escape slash "\"
-        value.to_s.rchop + "#"
-      elsif char == terminator && prev_char == '\\'
-        # if we found a backtick and the previous char is backslash then it
-        # means it's an escape so we consume it and return.
-        step
-
-        # The rchop here removes the escape slash "\"
-        value.to_s.rchop + terminator
       else
         value
       end
