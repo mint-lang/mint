@@ -49,7 +49,8 @@ require "./installer"
 require "./parsers/**"
 require "./parser"
 
-require "./documentation_server/**"
+require "./documentation_generator/**"
+require "./documentation_generator"
 require "./documentation_server"
 
 require "./test_runner/**"

@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationServer
+  class DocumentationGenerator
     def stringify(node : Ast::TypeVariable)
       node.value
     end

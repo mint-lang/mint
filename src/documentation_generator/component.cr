@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationServer
+  class DocumentationGenerator
     def generate(node : Ast::Component, json : JSON::Builder)
       json.object do
         json.field "description", node.comment.try(&.to_html)

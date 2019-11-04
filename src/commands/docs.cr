@@ -5,6 +5,8 @@ module Mint
 
       define_help description: "Starts the documentation server"
 
+      register_sub_command generate, type: DocsGenerate
+
       def run
         execute "Running the documentation server" do
           DocumentationServer.start
