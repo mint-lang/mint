@@ -1,5 +1,8 @@
 {
   "name": "core",
+  "source-directories": [
+    "source"
+  ],
   "test-directories": [
     "tests"
   ]

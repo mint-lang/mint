@@ -30,7 +30,7 @@ module File {
   }
 
   /*
-  Returns the size of the file in bytes.
+  Returns the mime type of the file.
 
     (File.fromString("Some contents...", "test.txt", "text/plain")
     |> File.mimeType()) == "text/plain"
@@ -40,13 +40,12 @@ module File {
   }
 
   /*
-  Opens the browsers file dialog for selecting multiple files using a promise.
+  Opens the browsers file dialog for selecting multiple files.
 
-  The mime type can be restricted to the given one.
+  * The mime type can be restricted to the given one.
+  * It might not resolve if the user cancels the dialog.
 
-  It might not esolve if the user cancels the dialog.
-
-    do {
+    sequence {
       files =
         File.selectMultiple("application/json")
 
@@ -82,13 +81,12 @@ module File {
   }
 
   /*
-  Opens the browsers file dialog for selecting a single file using a promise.
+  Opens the browsers file dialog for selecting a single file.
 
-  The mime type can be restricted to the given one.
+  * The mime type can be restricted to the given one.
+  * It might not esolve if the user cancels the dialog.
 
-  It might not esolve if the user cancels the dialog.
-
-    do {
+    sequence {
       file =
         File.select("application/json")
 
@@ -125,9 +123,9 @@ module File {
   /*
   Reads the contents of the given file as a Data URL.
 
-    do {
+    sequence {
       file =
-        File.create("Some content...", "test.txt", "text/plain")
+        File.fromString("Some content...", "test.txt", "text/plain")
 
       url =
         File.readAsDataURL(file)
@@ -150,9 +148,9 @@ module File {
   }
 
   /*
-  Reads the contents of the given file as a Data URL.
+  Reads the contents of the given file as a String.
 
-    do {
+    sequence {
       file =
         File.create("Some content...", "test.txt", "text/plain")
 

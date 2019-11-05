@@ -90,7 +90,7 @@ module Html.Event {
   /*
   Stops the propagation of the given event.
 
-    do {
+    try {
       Html.Event.stopPropagation(event)
       doSomethingElse()
     }
@@ -111,7 +111,7 @@ module Html.Event {
   /*
   Prevents the default action of the event from happening.
 
-    do {
+    try {
       Html.Event.preventDefault(event)
       doSomethingElse()
     }
