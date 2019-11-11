@@ -1,0 +1,50 @@
+component Main {
+  style base(color : String) {
+    height: 20px;
+
+    if (color == "red") {
+      background: red;
+    } else if (color == "blue") {
+      background: blue;
+    }
+  }
+
+
+  fun render : Html {
+    <div>
+      <div::base("blue")/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a(a) {
+    const _ = {};
+
+    (_compare(a, `red`) ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : (_compare(a, `blue`) ? Object.assign(_, {
+      [`--a-a`]: `blue`
+    }) : null));
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {}, [
+      _h("div", {
+        className: `a`,
+        style: _style([this.$a(`blue`)])
+      })
+    ]);
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a {
+  height: 20px;
+  background: var(--a-a);
+}
+`);

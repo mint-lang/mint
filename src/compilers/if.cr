@@ -46,6 +46,8 @@ module Mint
         case item = falsy_item
         when Array(Ast::CssDefinition)
           _compile item, block: block
+        when Ast::If
+          compile item, block: block
         when Ast::Node
           compile item
         else
