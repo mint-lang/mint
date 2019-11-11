@@ -1,0 +1,43 @@
+component Main {
+  style test {
+    &:focus {
+      color: red;
+    }
+
+    &[someattribute] {
+      color: red;
+    }
+
+    &.someclass {
+      color: red;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      className: `a`
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a:focus {
+  color: red;
+}
+
+.a[someattribute] {
+  color: red;
+}
+
+.a.someclass {
+  color: red;
+}
+`);

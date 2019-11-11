@@ -31,10 +31,14 @@ module Mint
     def css_selector_name : String | Nil
       colon = nil
       double_colon = nil
+      dot = nil
+      bracket = nil
 
       if char! '&'
         colon = char!(':')
         double_colon = keyword("::")
+        dot = char!('.')
+        bracket = char!('[')
       end
 
       name =
@@ -44,6 +48,10 @@ module Mint
         ":#{name}"
       elsif double_colon
         "::#{name}"
+      elsif dot
+        ".#{name}"
+      elsif bracket
+        "[#{name}"
       else
         " #{name}"
       end
