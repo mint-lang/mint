@@ -13,7 +13,7 @@ module Mint
           value =
             compile definition.value
 
-          memo["[`#{variable}`]"] = "`#{value}`"
+          memo["[`#{variable}`]"] = value
         end
 
       "Object.assign(_, #{js.object(compiled)})"

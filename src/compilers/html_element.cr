@@ -12,9 +12,12 @@ module Mint
         end.reject(&.empty?)
           .join(" + ")
       else
-        value
-          .select(&.is_a?(String))
-          .join(" ")
+        result =
+          value
+            .select(&.is_a?(String))
+            .join(" ")
+
+        "`#{result}`"
       end
     end
 

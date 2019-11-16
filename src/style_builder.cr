@@ -97,25 +97,6 @@ module Mint
           js.return("_"),
         ]].flatten.reject(&.empty?)))
     end
-
-    def compile_branch(items : Array(Ast::CssDefinition), selector : StyleBuilder::Selector)
-      compiled =
-        items
-          .each_with_object({} of String => String) do |definition, memo|
-            variable =
-              variable_name definition.name, selector
-
-            selector[definition.name] ||= PropertyValue.new
-            selector[definition.name].variable = variable
-
-            value =
-              compile definition.value
-
-            memo["[`#{variable}`]"] = "`#{value}`"
-          end
-
-      js.object(compiled)
-    end
   end
 
   # This class is responsible to build the CSS of "style" tags by resolving
