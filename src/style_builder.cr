@@ -59,33 +59,45 @@ module Mint
           end || "{}"
 
       compiled_conditions =
-        ifs
-          .select(&.first.==(node))
-          .merge(cases.select(&.first.==(node)))
-          .map do |(_, selector), conditions|
+        begin
+          all_ifs =
+            ifs.select(&.first.==(node))
+
+          all_cases =
+            cases.select(&.first.==(node))
+
+          (all_ifs.keys | all_cases.keys).map do |_, selector|
+            conditions =
+              all_ifs.select(&.last.==(selector)).values +
+                all_cases.select(&.last.==(selector)).values
+
             statements =
-              conditions.map do |item|
-                proc =
-                  (Proc(String, String).new { |name|
-                    variable =
-                      variable_name name, selector
+              conditions
+                .flatten
+                .sort_by(&.from)
+                .map do |item|
+                  proc =
+                    (Proc(String, String).new { |name|
+                      variable =
+                        variable_name name, selector
 
-                    selector[name] ||= PropertyValue.new
-                    selector[name].variable = variable
+                      selector[name] ||= PropertyValue.new
+                      selector[name].variable = variable
 
-                    variable
-                  }).as(Proc(String, String) | Nil)
+                      variable
+                    }).as(Proc(String, String) | Nil)
 
-                case item
-                when Ast::If, Ast::Case
-                  compile item, proc
-                else
-                  ""
+                  case item
+                  when Ast::If, Ast::Case
+                    compile item, proc
+                  else
+                    ""
+                  end
                 end
-              end
 
             js.statements(statements)
           end
+        end
 
       arguments =
         compile node.arguments

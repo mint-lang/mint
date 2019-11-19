@@ -1,0 +1,63 @@
+component Main {
+  style test {
+    color: yellow;
+
+    case (true) {
+      true => color: yellow;
+      => color: cyan;
+    }
+
+    if (true) {
+      color: red;
+    } else {
+      color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a() {
+    const _ = {};
+
+    (() => {
+      let a = true;
+
+      if (_compare(a, true)) {
+        Object.assign(_, {
+          [`--a-a`]: `yellow`
+        })
+      } else {
+        Object.assign(_, {
+          [`--a-a`]: `cyan`
+        })
+      };
+    })();
+
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : Object.assign(_, {
+      [`--a-a`]: `blue`
+    }));
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a {
+  color: var(--a-a, yellow);
+}
+`);
