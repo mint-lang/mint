@@ -44,16 +44,12 @@ module Mint
       name =
         gather { chars "^,{}" }.to_s.strip
 
-      if colon
-        ":#{name}"
-      elsif double_colon
-        "::#{name}"
-      elsif dot
-        ".#{name}"
-      elsif bracket
-        "[#{name}"
-      else
-        " #{name}"
+      case
+      when colon        then ":#{name}"
+      when double_colon then "::#{name}"
+      when dot          then ".#{name}"
+      when bracket      then "[#{name}"
+      else                   " #{name}"
       end
     end
   end

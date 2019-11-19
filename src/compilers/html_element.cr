@@ -14,7 +14,7 @@ module Mint
       else
         result =
           value
-            .select(&.is_a?(String))
+            .select(String)
             .join(" ")
 
         "`#{result}`"
