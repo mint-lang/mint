@@ -16,19 +16,20 @@ module Mint
       truthy_item, falsy_item =
         node.branches
 
-      if truthy_item.is_a?(Ast::Node) &&
-         falsy_item.is_a?(Ast::Node)
+      if truthy_item.is_a?(Ast::Node)
         truthy =
           resolve truthy_item.as(Ast::Node)
 
-        falsy =
-          resolve falsy_item.as(Ast::Node)
+        if falsy_item
+          falsy =
+            resolve falsy_item.as(Ast::Node)
 
-        raise IfElseTypeMismatch, {
-          "node"     => falsy_item.as(Ast::Node),
-          "expected" => truthy,
-          "got"      => falsy,
-        } unless Comparer.compare(truthy, falsy)
+          raise IfElseTypeMismatch, {
+            "node"     => falsy_item.as(Ast::Node),
+            "expected" => truthy,
+            "got"      => falsy,
+          } unless Comparer.compare(truthy, falsy)
+        end
 
         truthy
       else

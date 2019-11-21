@@ -7,7 +7,7 @@ module Mint
         html_fragment ||
         string_literal ||
         array ||
-        if_expression ||
+        if_expression(for_html: true) ||
         for_expression ||
         with_expression ||
         try_expression ||

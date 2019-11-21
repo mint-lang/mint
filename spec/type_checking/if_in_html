@@ -1,0 +1,21 @@
+component Main {
+  fun render : Html {
+    <div>
+      if ("a" == "b") {
+        "x"
+      }
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div>
+      if ("a" == "b") {
+        "x"
+      } else {
+        "x"
+      }
+    </div>
+  }
+}

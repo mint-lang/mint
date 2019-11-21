@@ -11,7 +11,7 @@ module Mint
     syntax_error IfExpectedCondition
     syntax_error IfExpectedElse
 
-    def if_expression(for_css = false) : Ast::If | Nil
+    def if_expression(for_css = false, for_html = false) : Ast::If | Nil
       start do |start_position|
         skip unless keyword "if"
 
@@ -40,11 +40,11 @@ module Mint
 
         whitespace
 
-        if !for_css || keyword_ahead "else"
+        if (!for_css && !for_html) || keyword_ahead "else"
           keyword! "else", IfExpectedElse
           whitespace
 
-          unless falsy = if_expression(for_css)
+          unless falsy = if_expression(for_css: for_css, for_html: for_html)
             falsy_head_comments, falsy, falsy_tail_comments =
               block_with_comments(
                 opening_bracket: IfExpectedFalsyOpeningBracket,
