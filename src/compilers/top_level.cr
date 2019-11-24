@@ -188,11 +188,11 @@ module Mint
         const _S = mint.Store;
         const _E = mint.Enum;
 
-        const _m = (function) => {
+        const _m = (method) => {
           let value;
           return () => {
             if (value) { return value }
-            value = function()
+            value = method()
             return value
           }
         }
