@@ -12,7 +12,25 @@ module Mint
 
       main =
         compiler.ast.components.find(&.name.==("Main")).try do |component|
-          "\n_program.render(#{compiler.js.class_of(component)})"
+          globals =
+            compiler
+              .ast
+              .components
+              .select(&.global)
+              .each_with_object({} of String => String) do |item, memo|
+                name =
+                  compiler.js.class_of(item)
+
+                memo[name] = "$#{name}"
+              end
+
+          main_class =
+            compiler.js.class_of(component)
+
+          globals_object =
+            compiler.js.object(globals)
+
+          "\n_program.render(#{main_class}, #{globals_object})"
         end || ""
 
       compiler.wrap_runtime(compiler.compile, main)

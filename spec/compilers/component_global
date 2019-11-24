@@ -1,0 +1,48 @@
+global component Notifications {
+  fun notify (value : String) : String {
+    value
+  }
+
+  fun render : Html {
+    <div>
+      "Test"
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Notifications.notify("Hello") }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends _C {
+  a(b) {
+    return b;
+  }
+
+  render() {
+    return _h("div", {}, [
+      `Test`
+    ]);
+  }
+
+  _persist() {
+    A = this
+  }
+};
+
+$A.displayName = "Notifications";
+let A;
+
+class B extends _C {
+  render() {
+    return _h("div", {}, [
+      A.a(`Hello`)
+    ]);
+  }
+};
+
+B.displayName = "Main";

@@ -4,6 +4,16 @@ module Mint
       name =
         js.class_of(node)
 
+      prefixed_name =
+        if node.global
+          "$" + name
+        else
+          name
+        end
+
+      global_let =
+        "let #{name}" if node.global
+
       compile node.styles, node
 
       styles =
@@ -21,7 +31,7 @@ module Mint
         compile node.states
 
       display_name =
-        js.display_name(name, node.name)
+        js.display_name(prefixed_name, node.name)
 
       store_stuff =
         compile_component_store_data node
@@ -62,14 +72,17 @@ module Mint
           end
         end
 
+      functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
+
       body =
         ([constructor] + styles + gets + states + store_stuff + functions)
           .compact
 
       js.statements([
-        js.class(name, extends: "_C", body: body),
+        js.class(prefixed_name, extends: "_C", body: body),
         display_name,
-      ])
+        global_let,
+      ].compact)
     end
 
     def compile_component_store_data(node : Ast::Component) : Array(String)

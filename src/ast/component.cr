@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Component < Node
-      getter properties, connects, styles, states, comments
+      getter properties, connects, styles, states, comments, global
       getter functions, gets, uses, name, comment, refs
 
       def initialize(@refs : Array(Tuple(Variable, Node)),
@@ -14,6 +14,7 @@ module Mint
                      @comment : Comment?,
                      @gets : Array(Get),
                      @uses : Array(Use),
+                     @global : Bool,
                      @name : String,
                      @input : Data,
                      @from : Int32,
