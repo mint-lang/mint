@@ -19,8 +19,8 @@ module Mint
 
       def static_hash
         component +
-          attributes.map(&.static_value).join("") +
-          children.map(&.static_value).join("")
+          attributes.map(&.static_value).join +
+          children.map(&.static_value).join
       end
     end
   end

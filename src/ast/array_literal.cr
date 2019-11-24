@@ -10,12 +10,12 @@ module Mint
       end
 
       def static?
-        items.all?(static?)
+        items.all?(&.static?)
       end
 
       def static_value
         values =
-          items.map(&.static_value).join(",")
+          items.map(&.static_value).join(',')
 
         "[#{values}]"
       end
