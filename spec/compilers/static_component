@@ -6,13 +6,31 @@ component Test {
   }
 }
 
+component TestWithChildren {
+  property children : Array(Html) = []
+  property text : String = ""
+
+  fun render : Html {
+    <div><{ text }></div>
+  }
+}
+
 component Main {
   fun render : Html {
     <>
       <Test/>
       <Test/>
+
       <Test text="Hello"/>
       <Test text="Hello"/>
+
+      <TestWithChildren>
+        <span>"Hello"</span>
+      </TestWithChildren>
+
+      <TestWithChildren>
+        <span>"Hello"</span>
+      </TestWithChildren>
     </>
   }
 }
@@ -44,7 +62,9 @@ class B extends _C {
       $a(),
       $a(),
       $b(),
-      $b()
+      $b(),
+      $c(),
+      $c(),
     ]);
   }
 };
@@ -56,3 +76,7 @@ const $a = _m(() => _h(A, {}));
 const $b = _m(() => _h(A, {
   a: `Hello`
 }));
+
+const $c = _m(() => _h(B, {}, _array(_h("span", {}, [
+  `Hello`
+]))));

@@ -3,6 +3,8 @@ module Mint
     class HtmlExpression < Node
       getter expression
 
+      delegate static?, static_value, to: @expression
+
       def initialize(@expression : Expression,
                      @input : Data,
                      @from : Int32,

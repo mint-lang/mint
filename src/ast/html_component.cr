@@ -14,11 +14,13 @@ module Mint
       end
 
       def static?
-        children.empty? && ref.nil? && attributes.all?(&.static?)
+        children.all?(&.static?) && ref.nil? && attributes.all?(&.static?)
       end
 
       def static_hash
-        component + attributes.map(&.static_value).join("")
+        component +
+          attributes.map(&.static_value).join("") +
+          children.map(&.static_value).join("")
       end
     end
   end
