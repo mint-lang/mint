@@ -12,6 +12,14 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def static?
+        children.empty? && ref.nil? && attributes.all?(&.static?)
+      end
+
+      def static_hash
+        component + attributes.map(&.static_value).join("")
+      end
     end
   end
 end

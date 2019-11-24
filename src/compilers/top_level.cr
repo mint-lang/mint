@@ -79,8 +79,13 @@ module Mint
           "_insertStyles(`\n#{all_css}\n`)"
         end
 
+      static =
+        static_components.map do |name, compiled|
+          js.const("$#{name}", "_m(() => #{compiled})")
+        end
+
       elements =
-        enums + records + providers + routes + modules + components + stores + [footer]
+        enums + records + providers + routes + modules + components + static + stores + [footer]
           .reject(&.empty?)
 
       js.statements(elements)
@@ -182,6 +187,15 @@ module Mint
         const _M = mint.Module;
         const _S = mint.Store;
         const _E = mint.Enum;
+
+        const _m = (function) => {
+          let value;
+          return () => {
+            if (value) { return value }
+            value = function()
+            return value
+          }
+        }
 
         const _s = (item, callback) => {
           if (item instanceof #{nothing}) {

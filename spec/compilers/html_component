@@ -20,8 +20,10 @@ A.displayName = "Test";
 
 class B extends _C {
   render() {
-    return _h(A, {});
+    return $a();
   }
 };
 
 B.displayName = "Main";
+
+const $a = _m(() => _h(A, {}));

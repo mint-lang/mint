@@ -1,14 +1,19 @@
 component Test {
-  property readonly : Bool = false
+  property text : String = ""
 
   fun render : Html {
-    <div></div>
+    <div><{ text }></div>
   }
 }
 
 component Main {
   fun render : Html {
-    <Test readonly={true}/>
+    <>
+      <Test/>
+      <Test/>
+      <Test text="Hello"/>
+      <Test text="Hello"/>
+    </>
   }
 }
 --------------------------------------------------------------------------------
@@ -19,13 +24,15 @@ class A extends _C {
     this._d({
       a: [
         null,
-        false
+        ``
       ]
     });
   }
 
   render() {
-    return _h("div", {});
+    return _h("div", {}, [
+      this.a
+    ]);
   }
 };
 
@@ -33,12 +40,19 @@ A.displayName = "Test";
 
 class B extends _C {
   render() {
-    return $a();
+    return _h(React.Fragment, {}, [
+      $a(),
+      $a(),
+      $b(),
+      $b()
+    ]);
   }
 };
 
 B.displayName = "Main";
 
-const $a = _m(() => _h(A, {
-  a: true
+const $a = _m(() => _h(A, {}));
+
+const $b = _m(() => _h(A, {
+  a: `Hello`
 }));

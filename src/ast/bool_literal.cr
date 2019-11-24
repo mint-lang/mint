@@ -8,6 +8,14 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def static?
+        true
+      end
+
+      def static_value
+        value.to_s
+      end
     end
   end
 end

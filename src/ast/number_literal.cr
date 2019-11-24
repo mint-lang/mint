@@ -9,6 +9,18 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def static?
+        true
+      end
+
+      def static_value
+        if float
+          value.to_s
+        else
+          value.to_i64.to_s
+        end
+      end
     end
   end
 end

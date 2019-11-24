@@ -3,6 +3,8 @@ module Mint
     class HtmlAttribute < Node
       getter value, name
 
+      delegate static?, static_value, to: @value
+
       def initialize(@value : Expression,
                      @name : Variable,
                      @input : Data,

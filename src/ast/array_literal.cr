@@ -8,6 +8,17 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def static?
+        items.all?(static?)
+      end
+
+      def static_value
+        values =
+          items.map(&.static_value).join(",")
+
+        "[#{values}]"
+      end
     end
   end
 end
