@@ -6,7 +6,11 @@ install:
 script:
   - crystal spec
   - bin/ameba
-  - make test-core
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then
+    echo "Not testing core on osx!";
+    else
+    make test-core;
+    fi
 
 os:
   - linux
@@ -40,4 +44,4 @@ deploy:
       tags: true
 
 addons:
-  firefox: latest
+  chrome: stable

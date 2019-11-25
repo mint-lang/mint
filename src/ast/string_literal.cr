@@ -12,9 +12,16 @@ module Mint
 
       def string_value
         value
-          .select(&.is_a?(String))
-          .map(&.as(String))
+          .select(String)
           .join("")
+      end
+
+      def static?
+        value.all?(String)
+      end
+
+      def static_value
+        string_value
       end
     end
   end

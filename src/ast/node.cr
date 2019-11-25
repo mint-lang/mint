@@ -11,6 +11,14 @@ module Mint
       def to_tuple
         {input: input, from: from, to: to}
       end
+
+      def static?
+        false
+      end
+
+      def static_value
+        ""
+      end
     end
   end
 end

@@ -4,7 +4,10 @@ module Mint
     delegate ast, types, variables, to: @artifacts
     delegate record_field_lookup, to: @artifacts
 
-    getter js, style_builder
+    getter js, style_builder, static_components, static_components_pool
+
+    @static_components = {} of String => String
+    @static_components_pool = NamePool(String, Nil).new
 
     def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false)
       @style_builder = StyleBuilder.new

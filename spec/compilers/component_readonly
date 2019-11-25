@@ -1,9 +1,9 @@
 component Test {
-	property readonly : Bool = false
+  property readonly : Bool = false
 
-	fun render : Html {
-		<div></div>
-	}
+  fun render : Html {
+    <div></div>
+  }
 }
 
 component Main {
@@ -33,10 +33,12 @@ A.displayName = "Test";
 
 class B extends _C {
   render() {
-    return _h(A, {
-      a: true
-    });
+    return $a();
   }
 };
 
 B.displayName = "Main";
+
+const $a = _m(() => _h(A, {
+  a: true
+}));
