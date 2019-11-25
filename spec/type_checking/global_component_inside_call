@@ -1,0 +1,19 @@
+global component Test {
+  fun c : String {
+    ""
+  }
+
+  fun b : String {
+    c()
+  }
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}

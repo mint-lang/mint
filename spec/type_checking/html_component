@@ -15,3 +15,15 @@ component Main {
     <X/>
   }
 }
+----------------------------------------------------HtmlComponentGlobalComponent
+global component X {
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X/>
+  }
+}

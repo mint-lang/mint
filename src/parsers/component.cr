@@ -9,6 +9,9 @@ module Mint
       start do |start_position|
         comment = self.comment
 
+        global = keyword "global"
+        whitespace
+
         skip unless keyword "component"
         whitespace
 
@@ -70,6 +73,7 @@ module Mint
         end
 
         Ast::Component.new(
+          global: global || false,
           properties: properties,
           functions: functions,
           from: start_position,

@@ -2,6 +2,7 @@ module Mint
   class TypeChecker
     type_error HtmlComponentReferenceOutsideOfComponent
     type_error HtmlComponentNotFoundComponent
+    type_error HtmlComponentGlobalComponent
 
     def check(node : Ast::HtmlComponent) : Checkable
       component =
@@ -11,6 +12,11 @@ module Mint
         "name" => node.component,
         "node" => node,
       } unless component
+
+      raise HtmlComponentGlobalComponent, {
+        "name" => node.component,
+        "node" => node,
+      } if component.global
 
       resolve component
 
