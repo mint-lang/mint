@@ -40,4 +40,4 @@ deploy:
       tags: true
 
 addons:
-  firefox: latest
+  chrome: stable
