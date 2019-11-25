@@ -16,10 +16,10 @@ module Mint
 
       def static_value
         if float
-          value.to_s
+          value
         else
-          value.to_i64.to_s
-        end
+          value.to_i64
+        end.to_s
       end
     end
   end

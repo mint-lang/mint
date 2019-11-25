@@ -29,25 +29,11 @@ module Mint
       compiler =
         new(artifacts)
 
-      base =
-        compiler.compile
-
-      tests =
-        compiler.compile_tests
-
-      compiler.wrap_runtime(base + "\n\n" + tests)
-    end
-
-    # Compiles the tests
-    def compile_tests
-      suites =
-        compile ast.suites, ","
-
-      "SUITES = [#{suites}]"
+      compiler.wrap_runtime(compiler.compile(include_tests: true))
     end
 
     # Compiles the application
-    def compile : String
+    def compile(include_tests : Bool = false) : String
       records =
         compile ast.records
 
@@ -79,13 +65,20 @@ module Mint
           "_insertStyles(`\n#{all_css}\n`)"
         end
 
+      suites =
+        if include_tests
+          ["SUITES = [#{compile(ast.suites, ",")}]"]
+        else
+          [] of String
+        end
+
       static =
         static_components.map do |name, compiled|
           js.const("$#{name}", "_m(() => #{compiled})")
         end
 
       elements =
-        enums + records + providers + routes + modules + components + static + stores + [footer]
+        enums + records + providers + routes + modules + components + static + stores + [footer] + suites
           .reject(&.empty?)
 
       js.statements(elements)

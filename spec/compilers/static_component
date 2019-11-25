@@ -57,6 +57,31 @@ class A extends _C {
 A.displayName = "Test";
 
 class B extends _C {
+  constructor(props) {
+    super(props);
+
+    this._d({
+      c: [
+        "children",
+        []
+      ],
+      b: [
+        null,
+        ``
+      ]
+    });
+  }
+
+  render() {
+    return _h("div", {}, [
+      this.b
+    ]);
+  }
+};
+
+B.displayName = "TestWithChildren";
+
+class C extends _C {
   render() {
     return _h(React.Fragment, {}, [
       $a(),
@@ -64,12 +89,12 @@ class B extends _C {
       $b(),
       $b(),
       $c(),
-      $c(),
+      $c()
     ]);
   }
 };
 
-B.displayName = "Main";
+C.displayName = "Main";
 
 const $a = _m(() => _h(A, {}));
 

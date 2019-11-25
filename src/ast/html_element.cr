@@ -21,8 +21,8 @@ module Mint
           styles.empty?
       end
 
-      def static_hash
-        component +
+      def static_value
+        tag.value +
           attributes.map(&.static_value).join +
           children.map(&.static_value).join
       end
