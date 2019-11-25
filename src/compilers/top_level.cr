@@ -78,7 +78,7 @@ module Mint
         end
 
       elements =
-        enums + records + providers + routes + modules + components + static + stores + [footer] + suites
+        (enums + records + providers + routes + modules + components + static + stores + [footer] + suites)
           .reject(&.empty?)
 
       js.statements(elements)
