@@ -1,3 +1,5 @@
+# TODO: Refactor this file into a different class because it should not be
+# in the compiler.
 module Mint
   class Compiler
     DEFAULT_OPTIONS = {optimize: false}
@@ -31,6 +33,36 @@ module Mint
             compiler.js.object(globals)
 
           "\n_program.render(#{main_class}, #{globals_object})"
+        end || ""
+
+      compiler.wrap_runtime(compiler.compile, main)
+    end
+
+    def self.compile_embed(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
+      compiler =
+        new(artifacts, options[:optimize])
+
+      main =
+        compiler.ast.components.find(&.name.==("Main")).try do |component|
+          globals =
+            compiler
+              .ast
+              .components
+              .select(&.global)
+              .each_with_object({} of String => String) do |item, memo|
+                name =
+                  compiler.js.class_of(item)
+
+                memo[name] = "$#{name}"
+              end
+
+          main_class =
+            compiler.js.class_of(component)
+
+          globals_object =
+            compiler.js.object(globals)
+
+          "\n Mint.embed = (base) => (new mint.EmbeddedProgram(base)).render(#{main_class}, #{globals_object})"
         end || ""
 
       compiler.wrap_runtime(compiler.compile, main)
