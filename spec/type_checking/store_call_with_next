@@ -1,0 +1,20 @@
+store Test {
+  fun set : Promise(Never, Void) {
+    next {}
+  }
+}
+
+component Main {
+  fun render : Html {
+    try {
+      Test.set()
+      <div></div>
+    }
+  }
+}
+
+routes {
+  / {
+    Test.set()
+  }
+}

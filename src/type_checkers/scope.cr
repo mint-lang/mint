@@ -163,7 +163,10 @@ module Mint
             @functions[node]?
           end
 
-        if node.is_a?(Ast::Component)
+        if node.is_a?(Ast::Component) ||
+           node.is_a?(Ast::Provider) ||
+           node.is_a?(Ast::Module) ||
+           node.is_a?(Ast::Store)
           old_levels = @levels
           @levels = [node] of Node
           result = yield
