@@ -86,7 +86,10 @@ module Mint
           arguments =
             compile item.arguments
 
-          styles << js.call("this.$#{class_name}", arguments)
+          style_name =
+            style_builder.style_pool.of(lookups[item], nil)
+
+          styles << js.call("this.$#{style_name}", arguments)
         end
       end
 
