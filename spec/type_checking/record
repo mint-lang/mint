@@ -33,3 +33,18 @@ component Main {
     ""
   }
 }
+--------------------------------------------------------------------------------
+component Main {
+  fun test : Object {
+    encode {
+      a = "Hello",
+      b = {
+        c = "Blah"
+      }
+    }
+  }
+
+  fun render : String {
+    ""
+  }
+}

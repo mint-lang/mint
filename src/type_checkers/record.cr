@@ -10,7 +10,7 @@ module Mint
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field)} }
+          .map { |field| {field.key.value, resolve(field, should_create_record)} }
           .to_h
 
       record =
