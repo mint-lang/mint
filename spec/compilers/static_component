@@ -77,10 +77,6 @@ class B extends _C {
     super(props);
 
     this._d({
-      c: [
-        "children",
-        []
-      ],
       b: [
         null,
         ``
@@ -95,9 +91,34 @@ class B extends _C {
   }
 };
 
-B.displayName = "TestWithChildren";
+B.displayName = "Test2";
 
 class C extends _C {
+  constructor(props) {
+    super(props);
+
+    this._d({
+      d: [
+        "children",
+        []
+      ],
+      c: [
+        null,
+        ``
+      ]
+    });
+  }
+
+  render() {
+    return _h("div", {}, [
+      this.c
+    ]);
+  }
+};
+
+C.displayName = "TestWithChildren";
+
+class D extends _C {
   render() {
     return _h(React.Fragment, {}, [
       $a(),
@@ -105,12 +126,14 @@ class C extends _C {
       $b(),
       $b(),
       $c(),
-      $c()
+      $c(),
+      $d(),
+      $e()
     ]);
   }
 };
 
-C.displayName = "Main";
+D.displayName = "Main";
 
 const $a = _m(() => _h(A, {}));
 
@@ -118,6 +141,10 @@ const $b = _m(() => _h(A, {
   a: `Hello`
 }));
 
-const $c = _m(() => _h(B, {}, _array(_h("span", {}, [
+const $c = _m(() => _h(C, {}, _array(_h("span", {}, [
   `Hello`
 ]))));
+
+const $d = _m(() => _h(C, {}, _array($a())));
+const $f = _m(() => _h(B, {}));
+const $e = _m(() => _h(C, {}, _array($f())));
