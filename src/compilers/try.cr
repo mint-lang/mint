@@ -7,9 +7,12 @@ module Mint
         end
 
       body = node.statements.map_with_index do |statement, index|
+        is_last =
+          (index + 1) == node.statements.size
+
         prefix =
           case
-          when (index + 1) == node.statements.size
+          when is_last
             "return "
           when statement.name
             "let #{js.variable_of(statement)} = "
@@ -23,7 +26,7 @@ module Mint
         catches =
           case type
           when TypeChecker::Type
-            if type.name == "Result" && type.parameters[0]
+            if type.name == "Result" && type.parameters[0] && !is_last
               catched =
                 node.catches.map do |catch|
                   if catch.type == type.parameters[0].name

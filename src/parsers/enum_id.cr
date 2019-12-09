@@ -20,7 +20,7 @@ module Mint
           expressions.concat list(
             terminator: ')',
             separator: ','
-          ) { expression.as(Ast::Expression) }.compact
+          ) { expression.as(Ast::Expression | Nil) }.compact
 
           whitespace
           char ')', EnumIdExpectedClosingParentheses
