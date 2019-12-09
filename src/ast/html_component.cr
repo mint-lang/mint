@@ -17,6 +17,10 @@ module Mint
         children.all?(&.static?) && ref.nil? && attributes.all?(&.static?)
       end
 
+      def static_value
+        static_hash
+      end
+
       def static_hash
         component +
           attributes.map(&.static_value).join +

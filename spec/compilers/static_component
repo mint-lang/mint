@@ -6,6 +6,14 @@ component Test {
   }
 }
 
+component Test2 {
+  property text : String = ""
+
+  fun render : Html {
+    <div><{ text }></div>
+  }
+}
+
 component TestWithChildren {
   property children : Array(Html) = []
   property text : String = ""
@@ -30,6 +38,14 @@ component Main {
 
       <TestWithChildren>
         <span>"Hello"</span>
+      </TestWithChildren>
+
+      <TestWithChildren>
+        <Test/>
+      </TestWithChildren>
+
+      <TestWithChildren>
+        <Test2/>
       </TestWithChildren>
     </>
   }
