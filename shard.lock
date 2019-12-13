@@ -5,8 +5,8 @@ shards:
     version: 1.7.3
 
   ameba:
-    github: veelenga/ameba
-    version: 0.10.1
+    github: crystal-ameba/ameba
+    version: 0.11.0
 
   baked_file_system:
     github: schovi/baked_file_system
