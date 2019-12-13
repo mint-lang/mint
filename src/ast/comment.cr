@@ -1,5 +1,3 @@
-require "compiler/crystal/tools/doc/markdown"
-
 module Mint
   class Ast
     class Comment < Node
@@ -12,7 +10,7 @@ module Mint
       end
 
       def to_html
-        Crystal::Doc::Markdown.to_html(value)
+        Markd.to_html(value)
       end
     end
   end
