@@ -135,6 +135,30 @@ module Dom {
   }
 
   /*
+  Tries to focus the given element (if exists) in the next 150 milliseconds.
+  Fails silently if there is no element or if the element cannot be focused.
+
+    "my-id"
+    |> Dom.focus
+    |> Dom.getElementById()
+  */
+  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never , Void) {
+    case (maybeElement) {
+      Maybe::Just element =>
+        sequence {
+          focusWhenVisible(element)
+
+          Promise.never()
+        } catch {
+          Promise.never()
+        }
+
+      Maybe::Nothing =>
+        Promise.never()
+    }
+  }
+
+  /*
   Tries to focus the given element in the next 150 milliseconds.
 
     "my-div"
