@@ -76,7 +76,7 @@ module Number {
 
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
-  fun format  (prefix : String, number : Number) : String {
+  fun format (prefix : String, number : Number) : String {
     try {
       string =
         Number.toFixed(2, number)

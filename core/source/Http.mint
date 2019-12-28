@@ -269,13 +269,11 @@ module Http {
       } catch (error) {
         delete this._requests[#{uid}]
 
-        reject(#{
-          {
-            type = Http.Error::BadUrl,
-            status = `xhr.status`,
-            url = request.url
-          }
-        })
+        reject(#{{
+          type = Http.Error::BadUrl,
+          status = `xhr.status`,
+          url = request.url
+        }})
       }
 
       #{request.headers}.forEach((item) => {
@@ -285,48 +283,40 @@ module Http {
       xhr.addEventListener('error', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{
-          {
-            type = Http.Error::NetworkError,
-            status = `xhr.status`,
-            url = request.url
-          }
-        })
+        reject(#{{
+          type = Http.Error::NetworkError,
+          status = `xhr.status`,
+          url = request.url
+        }})
       })
 
       xhr.addEventListener('timeout', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{
-          {
-            type = Http.Error::Timeout,
-            status = `xhr.status`,
-            url = request.url
-          }
-        })
+        reject(#{{
+          type = Http.Error::Timeout,
+          status = `xhr.status`,
+          url = request.url
+        }})
       })
 
       xhr.addEventListener('load', (event) => {
         delete this._requests[#{uid}]
 
-        resolve(#{
-          {
-            body = `xhr.responseText`,
-            status = `xhr.status`
-          }
-        })
+        resolve(#{{
+          body = `xhr.responseText`,
+          status = `xhr.status`
+        }})
       })
 
       xhr.addEventListener('abort', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{
-          {
-            type = Http.Error::Aborted,
-            status = `xhr.status`,
-            url = request.url
-          }
-        })
+        reject(#{{
+          type = Http.Error::Aborted,
+          status = `xhr.status`,
+          url = request.url
+        }})
       })
 
       xhr.send(#{request.body})

@@ -124,7 +124,8 @@ module String {
     `
   }
 
-  /* Removes all occurances of the given character from the end of the
+  /*
+  Removes all occurances of the given character from the end of the
   given string.
 
     String.rchop("!", "Hello!!!") == "Hello"
@@ -141,7 +142,8 @@ module String {
     `
   }
 
-  /* Removes all occurances of the given character from the start of the
+  /*
+  Removes all occurances of the given character from the start of the
   given string.
 
     String.lchop("!", "!!!Hello") == "Hello"
@@ -158,8 +160,8 @@ module String {
     `
   }
 
-
-  /* Replaces the given pattern with the replacemet.
+  /*
+  Replaces the given pattern with the replacemet.
 
     String.replace("a", "0", "aaaa") == "0000"
   */
@@ -169,5 +171,28 @@ module String {
     string : String
   ) : String {
     `#{string}.replace(new RegExp(#{pattern}, 'g'), #{replacement})`
+  }
+
+  /*
+  Removes whitespace from the beginning and end of the string.
+
+    String.trim("  asd ") == "asd"
+  */
+  fun trim (value : String) : String {
+    `value.trim()`
+  }
+
+  /*
+  Returns the given string or the given default value if the string is empty.
+
+    String.withDefault("default", "") == "default"
+    String.withDefault("default", "something") == "something"
+  */
+  fun withDefault (value : String, string : String) : String {
+    if (String.isEmpty(string)) {
+      value
+    } else {
+      string
+    }
   }
 }

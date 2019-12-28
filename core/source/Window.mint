@@ -70,20 +70,91 @@ module Window {
   }
 
   /*
+  Shows the default prompt popup of the browser with the given message and
+  value.
+
+  This function returns a promise but blocks execution until the popup is
+  closed.
+  */
+
+  fun prompt (label : String, current : String) : Promise(String, String) {
+    `
+    new Promise((resolve, reject) => {
+      let result = window.prompt(#{label}, #{current})
+
+      if (result) {
+        resolve(result)
+      } else {
+        reject("User cancelled!")
+      }
+    })
+    `
+  }
+
+  /*
   Shows the default confirm popup of the browser with the given message.
+
   This function returns a promise but blocks execution until the popup is
   closed.
   */
   fun confirm (message : String) : Promise(String, Void) {
     `
-    (() => {
+    new Promise((resolve, reject) => {
       let result = window.confirm(#{message})
 
       if (result) {
-        return result;
+        resolve(result);
       } else {
-        return Promise.reject("User cancelled!")
+        reject("User cancelled!")
       }
+    })
+    `
+  }
+
+  /*
+  Opens the given url in a new window.
+
+    Window.open("https://www.google.com")
+  */
+  fun open (url : String) : Promise(Never, Void) {
+    `window.open(url)`
+  }
+
+  /*
+  Gets the with of the scrollbar.
+
+    Window.getScrollbarWidth() == 10
+  */
+  fun getScrollbarWidth : Number {
+    `
+    (() => {
+      // Create an outer div which is scrollable
+      const outer = document.createElement("div");
+
+      // Set the needed styles
+      outer.style.visibility = "hidden";
+      outer.style.width = "100px";
+      outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+
+      // Append it to the body
+      document.body.appendChild(outer);
+
+      const widthNoScroll = outer.offsetWidth;
+
+      // Force scrollbars
+      outer.style.overflow = "scroll";
+
+      // Add innerdiv
+      const inner = document.createElement("div");
+      inner.style.width = "100%";
+      outer.appendChild(inner);
+
+      const widthWithScroll = inner.offsetWidth;
+
+      // remove divs
+      outer.parentNode.removeChild(outer);
+
+      return widthNoScroll - widthWithScroll;
     })()
     `
   }

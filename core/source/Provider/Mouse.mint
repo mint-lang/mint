@@ -1,8 +1,8 @@
 /* Represents a subscription for `Provider.Mouse` */
 record Provider.Mouse.Subscription {
-  clicks : Function(Html.Event, Promise(Never,Void)),
-  moves : Function(Html.Event, Promise(Never,Void)),
-  ups : Function(Html.Event, Promise(Never,Void))
+  clicks : Function(Html.Event, Promise(Never, Void)),
+  moves : Function(Html.Event, Promise(Never, Void)),
+  ups : Function(Html.Event, Promise(Never, Void))
 }
 
 /* A provider for global mouse events. */

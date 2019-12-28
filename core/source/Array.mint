@@ -424,7 +424,7 @@ module Array {
   Group an array into sub groups of specified length (all items are included so
   the last group maybe shorter if after grouping there is a remainder) starting
   from the end of the array.
-7
+
     Array.groupsOfFromEnd(2, [1,2,3,4,5,6,7]) == [[1],[2,3],[4,5],[6,7]]
   */
   fun groupsOfFromEnd (size : Number, array : Array(a)) : Array(Array(a)) {
@@ -663,7 +663,8 @@ module Array {
     `
   }
 
-  /* Sums up the given array using the given function.
+  /*
+  Sums up the given array using the given function.
 
     Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
   */
@@ -673,7 +674,8 @@ module Array {
     |> Array.sum()
   }
 
-  /* Sums up the given array of numbers.
+  /*
+  Sums up the given array of numbers.
 
     Array.sum([1, 2, 3]) == 6
   */

@@ -135,13 +135,11 @@ module Regexp {
 
         index += 1
 
-        results.push(#{
-          {
-            submatches = `submatches`,
-            index = `index`,
-            match = `match`
-          }
-        })
+        results.push(#{{
+          submatches = `submatches`,
+          index = `index`,
+          match = `match`
+        }})
       })
 
       return results
@@ -187,13 +185,11 @@ module Regexp {
 
         index += 1
 
-        return #{replacer}(#{
-          {
-            submatches = `submatches`,
-            index = `index`,
-            match = `match`
-          }
-        })
+        return #{replacer}(#{{
+          submatches = `submatches`,
+          index = `index`,
+          match = `match`
+        }})
       })
     })()
     `

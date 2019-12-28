@@ -1,6 +1,10 @@
 /* Functions for working with the DOM. */
 module Dom {
-  /* Creates a new `Dom.Element` with the given tag. */
+  /*
+  Creates a new `Dom.Element` with the given tag.
+
+    Dom.createElement("div")
+  */
   fun createElement (tag : String) : Dom.Element {
     `document.createElement(#{tag})`
   }
@@ -66,18 +70,16 @@ module Dom {
     (() => {
       const rect = #{dom}.getBoundingClientRect()
 
-      return #{
-        {
-          bottom = `rect.bottom`,
-          height = `rect.height`,
-          width = `rect.width`,
-          right = `rect.right`,
-          left = `rect.left`,
-          top = `rect.top`,
-          x = `rect.x`,
-          y = `rect.y`
-        }
-      }
+      return #{{
+        bottom = `rect.bottom`,
+        height = `rect.height`,
+        width = `rect.width`,
+        right = `rect.right`,
+        left = `rect.left`,
+        top = `rect.top`,
+        x = `rect.x`,
+        y = `rect.y`
+      }}
     })()
     `
   }
@@ -133,18 +135,20 @@ module Dom {
   }
 
   /*
-  Tries to focus the given element in the next 150 milliseconds and warn
-  in the console if not successful.
+  Tries to focus the given element in the next 150 milliseconds.
+
+    "my-div"
+    |> Dom.getElementById
+    |> Dom.focusWhenVisible()
   */
-  fun focusWhenVisible (element : Dom.Element) : Promise(Never, Void) {
+  fun focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
     `
-    (() => {
+    new Promise((resolve, reject) => {
       let counter = 0
 
       let focus = () => {
         if (counter > 15) {
-          console.warn('Could not focus the element in 150ms. Is it visible?', #{element})
-          return
+          reject('Could not focus the element in 150ms. Is it visible?')
         }
 
         #{element}.focus()
@@ -152,16 +156,95 @@ module Dom {
         if (document.activeElement != #{element}) {
           counter++
           setTimeout(focus, 10)
+        } else {
+          resolve(#{void})
         }
       }
 
       focus()
+    })
+    `
+  }
+
+  /*
+  Returns if the given base element contains the given element.
+
+    body =
+      Dom.getElementBySelector("body")
+
+    div =
+      Dom.getElementBySelector("div")
+
+    Dom.contains(div, body) == true
+  */
+  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
+    `#{base}.contains(#{element})`
+  }
+
+  /*
+  Returns if the given element is in an element that matches the given
+  selector.
+
+    Dom.containedInSelector("body", Dom.getElementBySelector("div"))
+  */
+  fun containedInSelector (selector : String, element : Dom.Element) : Bool {
+    `
+    (() => {
+      for (let base of document.querySelectorAll(selector)) {
+        if (base.contains(element)) {
+          return true
+        }
+      }
+
+      return false
     })()
     `
   }
 
-  /* Returns if the given base element contains the given element. */
-  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
-    `#{base}.contains(#{element})`
+  /*
+  Returns the content of the given attribute of the given element.
+
+    "my-div"
+    |> Dom.getElementById()
+    |> Dom.getAttribute("id") == "my-div"
+  */
+  fun getAttribute (name : String, element : Dom.Element) : String {
+    `element.getAttribute(name) || ""`
+  }
+
+  /*
+  Sets the given style to the given value of the given element.
+
+    "my-div"
+    |> Dom.getElementById()
+    |> Dom.setStyle("background", "red")
+    |> Dom.setStyle("color", "white")
+  */
+  fun setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
+    `
+    (() => {
+      #{element}.style[#{name}] = #{value}
+      return #{element}
+    })()
+    `
+  }
+
+  /*
+  Gets the element from a point on the screen.
+
+    Dom.getElementFromPoint(0, 0)
+  */
+  fun getElementFromPoint (left : Number, top : Number) : Maybe(Dom.Element) {
+    `
+    (() => {
+      const element = document.elementFromPoint(left, top)
+
+      if (element) {
+        return new Just(element)
+      } else {
+        return new Nothing()
+      }
+    })()
+    `
   }
 }

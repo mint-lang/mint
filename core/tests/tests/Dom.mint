@@ -123,7 +123,7 @@ component Test.Dom.Focus {
     }
   }
 
-  fun focus : Promise(Never, Void) {
+  fun focus : Promise(String, Void) {
     input
     |> Maybe.withDefault(Dom.createElement("div"))
     |> Dom.focusWhenVisible()
