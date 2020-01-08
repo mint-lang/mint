@@ -4,7 +4,7 @@ message MintJsonExternalJavascriptNotExists do
   block do
     text "The external JavaScript file"
     bold path
-    text "does not exists."
+    text "does not exist."
   end
 
   snippet node

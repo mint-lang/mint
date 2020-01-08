@@ -81,7 +81,7 @@ module Mint
         Watcher.new(@pattern)
 
       static_watcher =
-        Watcher.new(SourceFiles.javascripts)
+        Watcher.new(SourceFiles.external_files)
 
       spawn do
         # When the mint.json changes
@@ -99,7 +99,7 @@ module Mint
             {} of String => Ast
 
           static_watcher.pattern =
-            SourceFiles.javascripts
+            SourceFiles.external_files
 
           # Update the pattern on the watcher.
           source_watcher.pattern =

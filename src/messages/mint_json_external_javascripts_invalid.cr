@@ -3,13 +3,13 @@ message MintJsonExternalJavascriptsInvalid do
 
   block do
     text "The"
-    bold "external-javascripts"
+    bold "javascripts"
     text "field should be an array."
   end
 
   block do
     text "The"
-    bold "external-javascripts"
+    bold "javascripts"
     text "field lists all JavaScript files (relative to the mint.json file)"
     text "which should be compiled alongside the application."
   end

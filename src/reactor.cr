@@ -1,6 +1,6 @@
 module Mint
-  # Reactor is the development server of Mint, it have the following features:
-  # * Servers the compiled application script, index file and favicons
+  # Reactor is the development server of Mint, it has the following features:
+  # * Server the compiled application script, index file, and favicons
   # * Watches all source files (application and packages as well) and if any
   #   changed it removes its AST from the cache, parses it
   #   again and then recompiles the application script

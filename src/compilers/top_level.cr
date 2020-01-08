@@ -180,7 +180,7 @@ module Mint
     def wrap_runtime(body, main = "")
       javascripts =
         SourceFiles
-          .javascripts
+          .external_javascripts
           .map { |file| File.read(file) }
           .join("\n\n")
 

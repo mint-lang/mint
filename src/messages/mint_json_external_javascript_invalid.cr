@@ -3,7 +3,7 @@ message MintJsonExternalJavascriptInvalid do
 
   block do
     text "All entires in the"
-    bold "external-javascripts"
+    bold "javascripts"
     text "array should be string."
   end
 
