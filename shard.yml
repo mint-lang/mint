@@ -8,28 +8,28 @@ targets:
 dependencies:
   string_inflection:
     github: mosop/string_inflection
-    version: 0.2.1
+    version: ~> 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
-    version: 0.9.8
+    version: ~> 0.9.8
   kemal:
     github: kemalcr/kemal
-    version: 0.26.1
+    version: ~> 0.26.1
   admiral:
     github: jwaldrip/admiral.cr
-    version: 1.9.0
+    version: ~> 1.9.0
   tree_template:
     github: anykeyh/tree_template
     commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
   time_format:
     github: vladfaust/time_format.cr
-    version: 0.1.1
+    version: ~> 0.1.1
   dotenv:
     github: gdotdesign/cr-dotenv
-    version: 0.3.1
+    version: ~> 0.3.1
   markd:
     github: icyleaf/markd
-    version: 0.2.0
+    version: ~> 0.2.0
 
 development_dependencies:
   ameba:
