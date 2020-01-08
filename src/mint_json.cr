@@ -217,7 +217,7 @@ module Mint
         when "javascripts"
           parse_external_javascripts
         when "css"
-          parse_external_css
+          parse_external_style_sheets
         else
           raise MintJsonExternalInvalid, {
             "node" => current_node,
@@ -227,9 +227,7 @@ module Mint
       end
     end
 
-    json_error MintJsonExternalJavascriptNotExists
     json_error MintJsonExternalJavascriptsInvalid
-    json_error MintJsonExternalJavascriptInvalid
 
     def parse_external_javascripts
       @parser.read_array { parse_external_javascript }
@@ -238,6 +236,9 @@ module Mint
         "node" => node(exception),
       }
     end
+
+    json_error MintJsonExternalJavascriptNotExists
+    json_error MintJsonExternalJavascriptInvalid
 
     def parse_external_javascript
       location =
@@ -261,8 +262,39 @@ module Mint
       }
     end
 
-    def parse_external_css
-      raise Exception.new("CSS Not Yet Implemented.")
+    json_error MintJsonExternalStylesheetsInvalid
+
+    def parse_external_style_sheets
+      @parser.read_array { parse_external_style_sheet }
+    rescue exception : JSON::ParseException
+      raise MintJsonExternalStylesheetsInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    json_error MintJsonExternalStylesheetNotExists
+    json_error MintJsonExternalStylesheetInvalid
+
+    def parse_external_style_sheet
+      location =
+        @parser.location
+
+      file =
+        @parser.read_string
+
+      path =
+        File.join(@root, file)
+
+      raise MintJsonExternalStylesheetNotExists, {
+        "node" => node(location),
+        "path" => path,
+      } if !File.exists?(path) || Dir.exists?(path)
+
+      @external_files["css"] << path
+    rescue exception : JSON::ParseException
+      raise MintJsonExternalStylesheetInvalid, {
+        "node" => node(exception),
+      }
     end
 
     # Parsing the source directories

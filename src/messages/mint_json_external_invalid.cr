@@ -18,7 +18,7 @@ message MintJsonExternalInvalid do
     text "The"
     bold "css"
     text "field lists all CSS files (relative to the mint.json file)"
-    text "which should be compiled alongside the application."
+    text "which should be included alongside the application."
   end
 
   snippet node
