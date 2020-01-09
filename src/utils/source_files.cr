@@ -16,38 +16,21 @@ module Mint
         .map { |dir| "#{dir}/**/*.mint" }
     end
 
-    def external_files
-      [SourceFiles.external_javascripts, SourceFiles.external_css].flatten
-    end
+    def external_files(files_type : String = "")
+      if files_type.empty?
+        [external_files("javascripts"), external_files("css")].flatten
+      else
+        external_files =
+          Dir
+            .glob("./.mint/packages/**/mint.json")
+            .reduce([] of String) do |acc, file|
+              files =
+                MintJson.new(File.read(file), File.dirname(file), file).external_files[files_type]
 
-    def external_javascripts
-      external_javascripts =
-        Dir
-          .glob("./.mint/packages/**/mint.json")
-          .reduce([] of String) do |acc, file|
-            files =
-              MintJson.new(File.read(file), File.dirname(file), file).external_files["javascripts"]
-
-            puts files
-            acc + files
-          end
-
-      external_javascripts + MintJson.parse_current.external_files["javascripts"]
-    end
-
-    def external_css
-      external_css =
-        Dir
-          .glob("./.mint/packages/**/mint.json")
-          .reduce([] of String) do |acc, file|
-            files =
-              MintJson.new(File.read(file), File.dirname(file), file).external_files["css"]
-
-            puts files
-            acc + files
-          end
-
-      external_css + MintJson.parse_current.external_files["css"]
+              acc + files
+            end
+        external_files + MintJson.parse_current.external_files[files_type]
+      end
     end
 
     def packages

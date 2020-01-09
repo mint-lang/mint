@@ -56,6 +56,15 @@ module Mint
                   href: path_for("icon-#{size}x#{size}.png"))
               end
             end
+
+            unless json.external_files["css"].empty?
+              json.external_files["css"].each do |stylesheet|
+                t.link(
+                  rel: "stylesheet",
+                  href: path_for(File.join(@relative ? "css" : CSS_DIR, File.basename(stylesheet)))
+                )
+              end
+            end
           end
 
           t.body do

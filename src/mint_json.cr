@@ -290,7 +290,7 @@ module Mint
         "path" => path,
       } if !File.exists?(path) || Dir.exists?(path)
 
-      @external_files["css"] << path
+      @external_files["css"] << file
     rescue exception : JSON::ParseException
       raise MintJsonExternalStylesheetInvalid, {
         "node" => node(exception),
