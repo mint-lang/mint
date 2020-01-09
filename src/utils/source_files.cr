@@ -18,7 +18,7 @@ module Mint
 
     def external_files(files_type : String = "")
       if files_type.empty?
-        [external_files("javascripts"), external_files("css")].flatten
+        [external_files("javascripts"), external_files("stylesheets")].flatten
       else
         external_files =
           Dir

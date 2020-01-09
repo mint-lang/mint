@@ -21,7 +21,7 @@ module Mint
     @test_directories = [] of String
     @external_files = {
       "javascripts" => [] of String,
-      "css"         => [] of String,
+      "stylesheets" => [] of String,
     }
     @application = Application.new
     @name = ""
@@ -216,7 +216,7 @@ module Mint
         case key
         when "javascripts"
           parse_external_javascripts
-        when "css"
+        when "stylesheets"
           parse_external_style_sheets
         else
           raise MintJsonExternalInvalid, {
@@ -290,7 +290,7 @@ module Mint
         "path" => path,
       } if !File.exists?(path) || Dir.exists?(path)
 
-      @external_files["css"] << file
+      @external_files["stylesheets"] << file
     rescue exception : JSON::ParseException
       raise MintJsonExternalStylesheetInvalid, {
         "node" => node(exception),

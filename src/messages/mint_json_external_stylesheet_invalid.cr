@@ -3,7 +3,7 @@ message MintJsonExternalStylesheetInvalid do
 
   block do
     text "All entires in the"
-    bold "css"
+    bold "stylesheets"
     text "array should be string."
   end
 

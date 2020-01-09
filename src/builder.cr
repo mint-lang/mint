@@ -5,7 +5,7 @@ module Mint
 
       stylesheets =
         SourceFiles
-          .external_files("css")
+          .external_files("stylesheets")
 
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!

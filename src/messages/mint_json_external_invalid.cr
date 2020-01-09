@@ -4,7 +4,7 @@ message MintJsonExternalInvalid do
   block do
     text "The"
     bold "external"
-    text "field should be an should at least one item."
+    text "field contain at least one item."
   end
 
   block do
@@ -16,7 +16,7 @@ message MintJsonExternalInvalid do
 
   block do
     text "The"
-    bold "css"
+    bold "stylesheets"
     text "field lists all CSS files (relative to the mint.json file)"
     text "which should be included alongside the application."
   end
