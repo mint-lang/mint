@@ -2,7 +2,7 @@ version: 1.0
 shards:
   admiral:
     github: jwaldrip/admiral.cr
-    version: 1.7.3
+    version: 1.9.0
 
   ameba:
     github: crystal-ameba/ameba
@@ -10,11 +10,11 @@ shards:
 
   baked_file_system:
     github: schovi/baked_file_system
-    version: 0.9.7
+    version: 0.9.8
 
   diff:
     github: MakeNowJust/crystal-diff
-    commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63
+    version: 1.1.0
 
   dotenv:
     github: gdotdesign/cr-dotenv
@@ -26,7 +26,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    version: 0.25.1
+    version: 0.26.1
 
   kilt:
     github: jeromegn/kilt
