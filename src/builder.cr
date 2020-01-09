@@ -25,7 +25,7 @@ module Mint
 
       if Dir.exists?(CSS_DIR)
         terminal.measure "#{COG} Clearing the \"#{CSS_DIR}\" directory... " do
-          FileUtils.rm_rf "#{CSS_DIR}"
+          FileUtils.rm_rf CSS_DIR
         end
       end
 
@@ -38,10 +38,10 @@ module Mint
       end
 
       terminal.print "#{COG} Compiling your application:\n"
-      File.write "#{DIST_DIR}/index.js", index
+      File.write Path[DIST_DIR, "index.js"], index
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write "#{DIST_DIR}/index.html", IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
+        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
       end
 
       terminal.measure "#{COG} Writing manifest.json..." do

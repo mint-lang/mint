@@ -14,5 +14,5 @@ module Mint
 
   DIST_DIR   = "dist"
   PUBLIC_DIR = "public"
-  CSS_DIR    = "#{DIST_DIR}/css"
+  CSS_DIR    = File.join(DIST_DIR, "css")
 end
