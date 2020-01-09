@@ -59,9 +59,16 @@ module Mint
 
             unless json.external_files["css"].empty?
               json.external_files["css"].each do |stylesheet|
+                # Assuming File Is In `public` Directory
+                if env.development?
+                  file_path = File.basename(stylesheet)
+                else
+                  file_path = File.join(@relative ? "css" : CSS_DIR, File.basename(stylesheet))
+                end
+
                 t.link(
                   rel: "stylesheet",
-                  href: path_for(File.join(@relative ? "css" : CSS_DIR, File.basename(stylesheet)))
+                  href: path_for(file_path)
                 )
               end
             end
