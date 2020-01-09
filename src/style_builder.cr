@@ -153,16 +153,15 @@ module Mint
       selectors
         .reject { |_, v| v.empty? }
         .each do |(medias, rules), properties|
-          selector =
-            rules.join(",\n")
-
           body =
             properties
               .map { |key, value| "#{key}: #{value.to_s};" }
               .join("\n")
 
-          output[medias] ||= [] of String
-          output[medias] << "#{selector} {\n#{body.indent}\n}"
+          rules.each do |rule|
+            output[medias] ||= [] of String
+            output[medias] << "#{rule} {\n#{body.indent}\n}"
+          end
         end
 
       output.map do |medias, rules|
