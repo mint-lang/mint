@@ -1,9 +1,9 @@
 module Mint
   # Reactor is the development server of Mint, it has the following features:
-  # * Server the compiled application script, index file, and favicons
-  # * Watches all source files (application and packages as well) and if any
+  # * Serve the compiled application script, index file, and favicons
+  # * Watch all source files (application and packages as well) and if any
   #   changed it removes its AST from the cache, parses it
-  #   again and then recompiles the application script
+  #   again and then recompile the application script
   # * Renders any error as HTML
   # * Keeps a cache of ASTs of the parsed files for faster recompilation
   # * When --auto-format flag is passed all source files are watched and if
@@ -105,9 +105,8 @@ module Mint
         # Set cache to expire in 30 days.
         env.response.headers["Cache-Control"] = "max-age=2592000"
 
-        # Try to figure out mime type form name in case it's baked or served
-        # from public. Later on for favicon and fallback the content_type is
-        # overriden.
+        # Try to figure out mime type from name in case it's baked or served
+        # from public. Later on favicon and fallback content_type is overriden.
         env.response.content_type =
           MIME.from_filename?(env.params.url["name"]).to_s
 

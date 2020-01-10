@@ -23,20 +23,6 @@ module Mint
         FileUtils.mkdir DIST_DIR
       end
 
-      if Dir.exists?(CSS_DIR)
-        terminal.measure "#{COG} Clearing the \"#{CSS_DIR}\" directory... " do
-          FileUtils.rm_rf CSS_DIR
-        end
-      end
-
-      if stylesheets.size
-        FileUtils.mkdir CSS_DIR
-
-        terminal.measure "#{COG} Copying CSS files to \"#{CSS_DIR}\"... " do
-          FileUtils.cp(stylesheets, CSS_DIR)
-        end
-      end
-
       terminal.print "#{COG} Compiling your application:\n"
       File.write Path[DIST_DIR, "index.js"], index
 

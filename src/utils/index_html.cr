@@ -59,7 +59,6 @@ module Mint
 
             unless json.external_files["stylesheets"].empty?
               json.external_files["stylesheets"].each do |stylesheet|
-                # Assuming File Is In `public` Directory
                 if env.development?
                   file_path = File.basename(stylesheet)
                 else
