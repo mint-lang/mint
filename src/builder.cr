@@ -3,10 +3,6 @@ module Mint
     def initialize(relative, skip_service_worker)
       json = MintJson.parse_current
 
-      stylesheets =
-        SourceFiles
-          .external_files("stylesheets")
-
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
       end
