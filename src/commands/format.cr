@@ -34,8 +34,8 @@ module Mint
             terminal.puts "All files are formatted!" if results.empty?
           end
         rescue
-          print "I was looking for a pattern that contains \".mint\" files,\n"
-          print "such as \"source/**/*.mint\". Got \"#{arguments.pattern}\" instead.\n"
+          puts %(I was looking for a pattern that contains ".mint" files,)
+          puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
         end
       end
     end
