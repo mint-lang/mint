@@ -14,7 +14,7 @@ shards:
 
   diff:
     github: MakeNowJust/crystal-diff
-    commit: 51962dc36f9bbb1b926d557f7cb8993a6c73cc63
+    version: 1.1.0
 
   dotenv:
     github: gdotdesign/cr-dotenv
