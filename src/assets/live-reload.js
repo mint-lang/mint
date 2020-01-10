@@ -2,7 +2,7 @@
   // Connect to websocket on the same url
   var ws = new WebSocket("ws://" + location.host);
 
-  // On open reload if neccessary
+  // On open reload if necessary
   ws.onopen = () => {
     if (reload) {
       window.location.reload();

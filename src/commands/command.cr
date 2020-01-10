@@ -43,7 +43,7 @@ module Mint
           error nil, position
         end
 
-        # Format the elapsed time into a uman readable format
+        # Format the elapsed time into a human readable format
         formatted =
           TimeFormat.auto(elapsed).colorize.mode(:bold)
 

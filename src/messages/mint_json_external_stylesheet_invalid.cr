@@ -1,9 +1,9 @@
-message MintJsonExternalJavascriptInvalid do
+message MintJsonExternalStylesheetInvalid do
   title "mint.json Error"
 
   block do
     text "All entires in the"
-    bold "javascripts"
+    bold "stylesheets"
     text "array should be string."
   end
 

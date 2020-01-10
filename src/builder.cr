@@ -7,23 +7,23 @@ module Mint
         json.check_dependencies!
       end
 
-      terminal.measure "#{COG} Clearing the \"dist\" directory... " do
-        FileUtils.rm_rf "dist"
+      terminal.measure "#{COG} Clearing the \"#{DIST_DIR}\" directory... " do
+        FileUtils.rm_rf DIST_DIR
       end
 
-      if Dir.exists?("public")
-        terminal.measure "#{COG} Copying public folder contents... " do
-          FileUtils.cp_r "public", "dist"
+      if Dir.exists?(PUBLIC_DIR)
+        terminal.measure "#{COG} Copying \"#{PUBLIC_DIR}\" folder contents... " do
+          FileUtils.cp_r PUBLIC_DIR, DIST_DIR
         end
       else
-        FileUtils.mkdir "dist"
+        FileUtils.mkdir DIST_DIR
       end
 
       terminal.print "#{COG} Compiling your application:\n"
-      File.write "dist/index.js", index
+      File.write Path[DIST_DIR, "index.js"], index
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write "dist/index.html", IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
+        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
       end
 
       terminal.measure "#{COG} Writing manifest.json..." do
@@ -63,7 +63,7 @@ module Mint
     def icons(json)
       ICON_SIZES.each do |size|
         destination =
-          File.join("dist", "icon-#{size}x#{size}.png")
+          File.join(DIST_DIR, "icon-#{size}x#{size}.png")
 
         icon =
           IconGenerator.convert(json.application.icon, size)

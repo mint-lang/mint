@@ -11,4 +11,8 @@ module Mint
   ARROW     = "➔".colorize(:dark_gray).to_s
   CHECKMARK = "✔".colorize(:light_green).to_s
   DIAMOND   = "◈"
+
+  DIST_DIR   = "dist"
+  PUBLIC_DIR = "public"
+  CSS_DIR    = File.join(DIST_DIR, "css")
 end
