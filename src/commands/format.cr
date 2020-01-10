@@ -10,29 +10,33 @@ module Mint
         default: "source/**/*.mint"
 
       def run
-        execute "Formatting files" do
-          files = Dir.glob(arguments.pattern.to_s)
+        begin
+          execute "Formatting files" do
+            files = Dir.glob(arguments.pattern.to_s)
 
-          if files.empty?
-            terminal.puts "Nothing to format!"
-          else
-            results =
-              files.map do |file|
-                artifact =
-                  Parser.parse(file)
+            if files.empty?
+              terminal.puts "Nothing to format!"
+            else
+              results =
+                files.map do |file|
+                  artifact =
+                    Parser.parse(file)
 
-                formatted =
-                  Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+                  formatted =
+                    Formatter.new(artifact, MintJson.parse_current.formatter_config).format
 
-                if formatted != File.read(file)
-                  File.write(file, formatted)
-                  terminal.puts "Formatted: #{file}"
-                  true
-                end
-              end.compact
+                  if formatted != File.read(file)
+                    File.write(file, formatted)
+                    terminal.puts "Formatted: #{file}"
+                    true
+                  end
+                end.compact
 
-            terminal.puts "All files are formatted!" if results.empty?
+              terminal.puts "All files are formatted!" if results.empty?
+            end
           end
+        rescue
+          print "I was looking for a valid pattern such \"source/**/*.mint\" \ngot \"#{arguments.pattern.to_s}\" instead.\n"
         end
       end
     end
