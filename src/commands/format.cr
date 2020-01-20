@@ -6,12 +6,15 @@ module Mint
       define_help description: "Formats source files"
 
       define_argument pattern,
-        description: "The pattern which determines which files to format",
-        default: "source/**/*.mint"
+        description: "The pattern which determines which files to format"
 
       def run
         execute "Formatting files" do
-          files = Dir.glob(arguments.pattern.to_s)
+          if arguments.pattern.to_s.empty?
+            files = Dir.glob(["tests/**/*.mint", "source/**/*.mint"])
+          else
+            files = Dir.glob(arguments.pattern.to_s)
+          end
 
           if files.empty?
             terminal.puts "Nothing to format!"
