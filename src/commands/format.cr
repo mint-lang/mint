@@ -10,8 +10,19 @@ module Mint
 
       def run
         execute "Formatting files" do
+          current =
+            MintJson.parse_current
+
+          format_directories =
+            current.source_directories | current.test_directories
+
+          format_directories_patterns =
+            format_directories.map do |dir|
+              File.join(dir, "**/*.mint")
+            end
+
           if arguments.pattern.to_s.empty?
-            files = Dir.glob(["tests/**/*.mint", "source/**/*.mint"])
+            files = Dir.glob(format_directories_patterns)
           else
             files = Dir.glob(arguments.pattern.to_s)
           end
