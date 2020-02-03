@@ -119,3 +119,9 @@ suite "String.replace" {
     String.replace("a", "0", "aaaa") == "0000"
   }
 }
+
+suite "String.trim" {
+  test "it removes whitespace from the string" {
+    String.trim("   \n\n\r\r   ") == ""
+  }
+}

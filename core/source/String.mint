@@ -179,7 +179,7 @@ module String {
     String.trim("  asd ") == "asd"
   */
   fun trim (value : String) : String {
-    `value.trim()`
+    `#{value}.trim()`
   }
 
   /*
