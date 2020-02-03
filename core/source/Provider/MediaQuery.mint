@@ -20,13 +20,16 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
       #{subscriptions}.forEach((subscription) => {
         const listeners = this.listeners.get(subscription.query)
 
+        // Add a listener
         if (!listeners) {
           const query = window.matchMedia(subscription.query)
 
           const listener = () => {
-            #{subscriptions}.forEach((item) => {
-              item.changes(query.matches)
-            })
+            #{subscriptions}
+              .filter((item) => item.query === subscription.query)
+              .forEach((item) => {
+                item.changes(query.matches)
+              })
           }
 
           query.addListener(listener)
@@ -38,13 +41,8 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
         // Call all listeners...
         this.listeners.forEach((listener) => listener())
       })
-    })()
-    `
-  }
 
-  fun detach : Void {
-    `
-    (() => {
+      // Check if we need to remove some keys
       this.listeners.forEach((value, key) => {
         const present = #{subscriptions}.filter((subscription) => subscription.query === key).length > 0
 
@@ -53,6 +51,18 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           this.queries.get(key).removeListener(value)
           this.queries.delete(key)
         }
+      })
+    })()
+    `
+  }
+
+  fun detach : Void {
+    `
+    (() => {
+      this.listeners.forEach((value, key) => {
+        this.listeners.delete(key)
+        this.queries.get(key).removeListener(value)
+        this.queries.delete(key)
       })
     })()
     `
