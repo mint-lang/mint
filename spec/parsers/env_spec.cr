@@ -10,6 +10,7 @@ describe "Env" do
   expect_error "@", Mint::Parser::EnvExpectedName
   expect_error "@a", Mint::Parser::EnvExpectedName
 
+  expect_ok "@API_ENDPOINT"
   expect_ok "@ENDPOINT"
   expect_ok "@HOST"
 end

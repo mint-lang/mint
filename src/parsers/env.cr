@@ -6,8 +6,14 @@ module Mint
       start do |start_position|
         char '@', SkipError
 
-        name =
+        head =
           gather { chars("A-Z") }.to_s
+
+        tail =
+          gather { chars("A-Z_") }.to_s
+
+        name =
+          "#{head}#{tail}"
 
         raise EnvExpectedName if name.empty?
 
