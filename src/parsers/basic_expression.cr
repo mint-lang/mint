@@ -27,6 +27,7 @@ module Mint
         inline_function_or_parenthesized_expression ||
         negated_expression ||
         enum_id ||
+        constant_variable ||
         js ||
         void ||
         variable

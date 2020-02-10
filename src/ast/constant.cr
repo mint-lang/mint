@@ -1,11 +1,9 @@
 module Mint
   class Ast
-    class Module < Node
-      getter name, functions, comment, comments, constants
+    class Constant < Node
+      getter name, value, comment
 
-      def initialize(@functions : Array(Function),
-                     @constants : Array(Constant),
-                     @comments : Array(Comment),
+      def initialize(@value : Expression,
                      @comment : Comment?,
                      @name : String,
                      @input : Data,

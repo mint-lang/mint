@@ -168,8 +168,18 @@ module Mint
       scope.find(node.value)
     end
 
-    def lookup_with_level(node : Ast::Variable)
-      scope.find_with_level(node.value).try do |item|
+    def lookup_with_level(node : Ast::Variable | Ast::ConstantVariable)
+      name =
+        case node
+        when Ast::Variable
+          node.value
+        when Ast::ConstantVariable
+          node.name
+        else
+          ""
+        end
+
+      scope.find_with_level(name).try do |item|
         {item[0], item[1], scope.levels.dup}
       end
     end
