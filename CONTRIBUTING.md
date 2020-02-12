@@ -2,11 +2,11 @@
 
 Read the general [Contributing guide][1], and then:
 
-* Fork it (<https://github.com/mint-lang/mint/fork>)
-* Create your feature branch (`git checkout -b my-new-feature`)
-* Commit your changes (`git commit -am 'Add some feature'`)
-* Push to the branch (`git push origin my-new-feature`)
-* Create a new [Pull Request](https://github.com/mint-lang/mint/pulls)
+- Fork it (<https://github.com/mint-lang/mint/fork>)
+- Create your feature branch (`git checkout -b my-new-feature`)
+- Commit your changes (`git commit -am 'Add some feature'`)
+- Push to the branch (`git push origin my-new-feature`)
+- Create a new [Pull Request](https://github.com/mint-lang/mint/pulls)
 
 [1]: https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md
 
@@ -46,4 +46,3 @@ $ echo 'export PATH=$PATH:$HOME/.bin' >> ~/.profile
 $ source ~/.profile
 $ which mint-dev
 ```
-
