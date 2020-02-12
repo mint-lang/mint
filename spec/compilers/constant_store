@@ -1,0 +1,36 @@
+store Test {
+  constant NAME = "ASD"
+
+  get test : String {
+    NAME
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Test.test }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {}, [
+      B.a
+    ]);
+  }
+};
+
+A.displayName = "Main";
+
+const B = new(class extends _S {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  get a() {
+    return this.b;
+  }
+});

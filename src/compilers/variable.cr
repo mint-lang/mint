@@ -28,6 +28,7 @@ module Mint
           if store
             connect.keys.each do |key|
               if (store.functions.includes?(entity) ||
+                 store.constants.includes?(entity) ||
                  store.states.includes?(entity) ||
                  store.gets.includes?(entity)) &&
                  key.variable.value == name
@@ -62,7 +63,7 @@ module Mint
           else
             "this.#{function}"
           end
-        when Ast::Property, Ast::Get, Ast::State
+        when Ast::Property, Ast::Get, Ast::State, Ast::Constant
           name =
             if connected
               js.variable_of(connected)

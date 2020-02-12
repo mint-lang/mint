@@ -1,0 +1,16 @@
+module Test {
+  /* Comment */constantNAME="hello"
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  /* Comment */
+  constant NAME = "hello"
+
+  fun render : Html {
+    <div/>
+  }
+}

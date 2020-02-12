@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Module) : String
       body =
-        list node.functions + node.comments
+        list node.functions + node.comments + node.constants
 
       comment =
         node.comment.try { |item| "#{format item}\n" }

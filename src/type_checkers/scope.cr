@@ -130,7 +130,8 @@ module Mint
       def find(variable : String, node : Ast::Store)
         node.functions.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
-          node.gets.find(&.name.value.==(variable))
+          node.gets.find(&.name.value.==(variable)) ||
+          node.constants.find(&.name.==(variable))
       end
 
       def find(variable : String, node : Ast::Provider)

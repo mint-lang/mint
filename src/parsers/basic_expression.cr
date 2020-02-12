@@ -25,12 +25,23 @@ module Mint
         try_expression ||
         case_expression ||
         inline_function_or_parenthesized_expression ||
+        starts_with_uppercase ||
         negated_expression ||
-        enum_id ||
-        constant_variable ||
         js ||
         void ||
         variable
+    end
+
+    def starts_with_uppercase
+      item =
+        begin
+          enum_id
+        rescue
+        end
+
+      return item if item
+
+      constant_variable
     end
 
     def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil

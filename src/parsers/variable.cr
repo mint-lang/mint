@@ -12,6 +12,7 @@ module Mint
 
       Ast::Variable.new(
         from: start_position,
+        constant: false,
         value: value,
         to: position,
         input: data)
@@ -28,6 +29,7 @@ module Mint
 
         Ast::Variable.new(
           from: start_position,
+          constant: false,
           value: value,
           to: position,
           input: data)
@@ -46,6 +48,7 @@ module Mint
 
       Ast::Variable.new(
         from: start_position,
+        constant: false,
         value: value,
         to: position,
         input: data)

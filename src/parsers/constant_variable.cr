@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def constant_variable : Ast::ConstantVariable | Nil
+    def constant_variable : Ast::Variable | Nil
       start do |start_position|
         head =
           gather { chars("A-Z") }.to_s
@@ -13,11 +13,12 @@ module Mint
 
         skip if name.empty?
 
-        Ast::ConstantVariable.new(
+        Ast::Variable.new(
           from: start_position,
+          constant: true,
           to: position,
           input: data,
-          name: name)
+          value: name)
       end
     end
   end
