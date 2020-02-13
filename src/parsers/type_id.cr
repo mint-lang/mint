@@ -26,15 +26,19 @@ module Mint
 
       return unless name
 
-      if char == '.'
-        other = start do
-          step
-          next_part = type_id
-          skip unless next_part
-          next_part
-        end
+      start do
+        if char == '.'
+          other = start do
+            step
+            next_part = type_id
+            skip unless next_part
+            next_part
+          end
 
-        name += ".#{other}" if other
+          skip unless other
+
+          name += ".#{other}"
+        end
       end
 
       name

@@ -102,6 +102,8 @@ module Mint
               memo << js.get(name, "return #{store_name}.#{id};")
             elsif store.gets.any? { |get| get.name.value == original }
               memo << js.get(name, "return #{store_name}.#{id};")
+            elsif store.constants.any? { |constant| constant.name == original }
+              memo << js.get(name, "return #{store_name}.#{id};")
             elsif store.functions.any? { |func| func.name.value == original }
               memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end

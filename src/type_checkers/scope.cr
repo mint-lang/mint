@@ -150,6 +150,7 @@ module Mint
           node.properties.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
           refs(component)[variable]? ||
+          store_constants(component)[variable]? ||
           store_states(component)[variable]? ||
           store_functions(component)[variable]? ||
           store_gets(component)[variable]?
@@ -262,6 +263,26 @@ module Mint
                 store
                   .functions
                   .find(&.name.value.==(key.variable.value))
+                  .try do |function|
+                    memo[(key.name || key.variable).value] = function
+                  end
+              end
+            end
+
+          memo
+        end
+      end
+
+      private def store_constants(component)
+        component.connects.reduce({} of String => Ast::Constant) do |memo, item|
+          @ast
+            .stores
+            .find(&.name.==(item.store))
+            .try do |store|
+              item.keys.each do |key|
+                store
+                  .constants
+                  .find(&.name.==(key.variable.value))
                   .try do |function|
                     memo[(key.name || key.variable).value] = function
                   end

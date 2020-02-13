@@ -3,17 +3,31 @@ store Test {
 }
 
 component Main {
+  connect Test exposing { NAME }
+
   fun render : Html {
     <div>
-      <{ Test:NAME }>
+      <{ NAME }>
     </div>
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
+  get a() {
+    return B.b;
+  }
+
+  componentWillUnmount() {
+    B._unsubscribe(this);
+  }
+
+  componentDidMount() {
+    B._subscribe(this);
+  }
+
   render() {
     return _h("div", {}, [
-      B.a
+      this.a
     ]);
   }
 };
@@ -26,7 +40,7 @@ const B = new(class extends _S {
     this.state = {};
   }
 
-  get a() {
+  get b() {
     return `ASD`;
   }
 });

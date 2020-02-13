@@ -13,6 +13,7 @@ module Mint
         html_component ||
         html_fragment ||
         member_access ||
+        constant_access ||
         module_access ||
         decode ||
         encode ||
@@ -33,11 +34,7 @@ module Mint
     end
 
     def starts_with_uppercase
-      item =
-        begin
-          enum_id
-        rescue
-        end
+      item = enum_id rescue nil
 
       return item if item
 

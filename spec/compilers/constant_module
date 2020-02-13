@@ -1,33 +1,25 @@
 module Test {
   constant NAME = "ASD"
-
-  fun test : String {
-    NAME
-  }
 }
 
 component Main {
   fun render : Html {
     <div>
-      <{ Test.test() }>
+      <{ Test:NAME }>
     </div>
   }
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  get b() {
+  get a() {
     return `ASD`;
-  }
-
-  a() {
-    return this.b;
   }
 });
 
 class A extends _C {
   render() {
     return _h("div", {}, [
-      B.a()
+      B.a
     ]);
   }
 };

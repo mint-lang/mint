@@ -23,6 +23,8 @@ module Mint
               entity.name.value
             when Ast::Get
               entity.name.value
+            when Ast::Constant
+              entity.name
             end
 
           if store
