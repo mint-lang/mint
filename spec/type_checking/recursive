@@ -7,3 +7,42 @@ component Main {
     ""
   }
 }
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial(n : Number) : Number {
+    helper(n, 1)
+  } where {
+    helper = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        helper(n - 1, acc * n)
+      }
+    }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun a(n : Number) : Number {
+    c(n, 1)
+  } where {
+    b = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        c(n - 1, acc * n)
+      }
+    }
+
+    c = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        b(n - 1, acc * n)
+      }
+    }
+  }
+}

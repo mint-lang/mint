@@ -222,6 +222,15 @@ module Mint
               return NEVER.as(Checkable)
             elsif node.is_a?(Ast::Function)
               static_type_signature(node)
+            elsif node.is_a?(Ast::WhereStatement)
+              expression =
+                node.expression
+
+              if expression.is_a?(Ast::InlineFunction)
+                static_type_signature(expression)
+              else
+                resolve expression
+              end
             else
               raise Recursion, {
                 "caller_node" => @stack.last,
