@@ -16,6 +16,18 @@ module Mint
         .map { |dir| "#{dir}/**/*.mint" }
     end
 
+    def external_javascripts
+      external_files("javascripts")
+        .map { |file| File.read(file) }
+        .join(";\n")
+    end
+
+    def external_stylesheets
+      external_files("stylesheets")
+        .map { |file| File.read(file) }
+        .join("\n\n")
+    end
+
     def external_files(files_type : String = "")
       if files_type.empty?
         [external_files("javascripts"), external_files("stylesheets")].flatten

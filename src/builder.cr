@@ -22,6 +22,24 @@ module Mint
       terminal.print "#{COG} Compiling your application:\n"
       File.write Path[DIST_DIR, "index.js"], index
 
+      javascripts =
+        SourceFiles.external_javascripts
+
+      unless javascripts.empty?
+        terminal.measure "#{COG} Writing external javascripts..." do
+          File.write Path[DIST_DIR, "external-javascripts.js"], javascripts
+        end
+      end
+
+      stylesheets =
+        SourceFiles.external_stylesheets
+
+      unless stylesheets.empty?
+        terminal.measure "#{COG} Writing external stylesheets..." do
+          File.write Path[DIST_DIR, "external-stylesheets.css"], stylesheets
+        end
+      end
+
       terminal.measure "#{COG} Writing index.html... " do
         File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
       end
