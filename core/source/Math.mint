@@ -117,4 +117,11 @@ module Math {
         to * 100
       }
   }
+
+  /*
+  Returns a pseudo-random number in the range 0 to less than 1.
+  */
+  fun random () : Number {
+    `Math.random()`
+  }
 }
