@@ -21,7 +21,7 @@ module Mint
       start do |start_position|
         value = gather do
           next unless char.in_set? "a-z"
-          chars "a-zA-Z0-9\:-"
+          chars "a-zA-Z0-9:-"
         end
 
         skip unless value
