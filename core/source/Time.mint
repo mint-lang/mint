@@ -132,7 +132,12 @@ module Time {
 
   /* Returns an array of days from the given start to given end time. */
   fun range (from : Time, to : Time) : Array(Time) {
-    `DateFNS.eachDay(#{from}, #{to})`
+    `
+    DateFNS.eachDay({
+      start: #{from},
+      end: #{to}
+    })
+    `
   }
 
   /* Returns the next month from the given time. */
