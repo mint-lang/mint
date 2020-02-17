@@ -11,7 +11,7 @@ describe "String Literal" do
   expect_error %("asd" \\), Mint::Parser::StringExpectedOtherString
 
   expect_ok %("OK")
-  expect_ok %("\"OK")
+  expect_ok %(""OK")
   expect_ok %("OK"\\"OK")
   expect_ok %("OK" \\ "OK")
 end

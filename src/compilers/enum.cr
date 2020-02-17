@@ -17,12 +17,12 @@ module Mint
             name,
             extends: "_E",
             body: [js.function("constructor", ids) do
-                     js.statements([
-                       js.call("super", [] of String),
-                       assignments,
-                       "this.length = #{option.parameters.size}",
-                     ].flatten)
-                   end])
+              js.statements([
+                js.call("super", [] of String),
+                assignments,
+                "this.length = #{option.parameters.size}",
+              ].flatten)
+            end])
         end
 
       js.statements(enum_ids)
