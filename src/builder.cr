@@ -22,21 +22,15 @@ module Mint
       terminal.print "#{COG} Compiling your application:\n"
       File.write Path[DIST_DIR, "index.js"], index
 
-      javascripts =
-        SourceFiles.external_javascripts
-
-      unless javascripts.empty?
+      if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
-          File.write Path[DIST_DIR, "external-javascripts.js"], javascripts
+          File.write Path[DIST_DIR, "external-javascripts.js"], SourceFiles.external_javascripts
         end
       end
 
-      stylesheets =
-        SourceFiles.external_stylesheets
-
-      unless stylesheets.empty?
+      if SourceFiles.external_stylesheets?
         terminal.measure "#{COG} Writing external stylesheets..." do
-          File.write Path[DIST_DIR, "external-stylesheets.css"], stylesheets
+          File.write Path[DIST_DIR, "external-stylesheets.css"], SourceFiles.external_stylesheets
         end
       end
 

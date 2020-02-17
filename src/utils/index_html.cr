@@ -57,9 +57,11 @@ module Mint
               end
             end
 
-            t.link(
-              rel: "stylesheet",
-              href: "/external-stylesheets.css")
+            if SourceFiles.external_stylesheets?
+              t.link(
+                rel: "stylesheet",
+                href: "/external-stylesheets.css")
+            end
           end
 
           t.body do
@@ -82,7 +84,10 @@ module Mint
               end
             end
 
-            t.script(src: path_for("external-javascripts.js")) { }
+            if SourceFiles.external_javascripts?
+              t.script(src: path_for("external-javascripts.js")) { }
+            end
+
             t.script(src: path_for("index.js")) { }
 
             t.noscript do
