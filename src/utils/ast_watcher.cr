@@ -7,6 +7,8 @@ module Mint
     @pattern = [] of String
     @progress = false
     @include_core = true
+    @external_javascripts : String | Nil = nil
+    @external_stylesheets : String | Nil = nil
 
     getter include_core
 
@@ -28,6 +30,14 @@ module Mint
         @channel.receive
         yield compile
       end
+    end
+
+    def external_javascripts
+      @external_javascripts ||= SourceFiles.external_javascripts
+    end
+
+    def external_stylesheets
+      @external_stylesheets ||= SourceFiles.external_stylesheets
     end
 
     def terminal
@@ -111,6 +121,9 @@ module Mint
 
       spawn do
         static_watcher.watch do
+          @external_javascripts = nil
+          @external_stylesheets = nil
+
           @channel.send(nil)
         end
       end

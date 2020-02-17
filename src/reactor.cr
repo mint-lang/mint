@@ -101,6 +101,18 @@ module Mint
         script
       end
 
+      get "/external-javascripts.js" do |env|
+        env.response.content_type = "application/javascript"
+
+        @watcher.external_javascripts.to_s
+      end
+
+      get "/external-stylesheets.css" do |env|
+        env.response.content_type = "text/css"
+
+        @watcher.external_stylesheets.to_s
+      end
+
       get "/:name" do |env|
         # Set cache to expire in 30 days.
         env.response.headers["Cache-Control"] = "max-age=2592000"

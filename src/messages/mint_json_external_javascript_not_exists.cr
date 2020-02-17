@@ -7,10 +7,5 @@ message MintJsonExternalJavascriptNotExists do
     text "does not exist."
   end
 
-  block do
-    text "Any external files should be"
-    text "placed inside the \"public\" directory."
-  end
-
   snippet node
 end

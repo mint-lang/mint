@@ -57,19 +57,10 @@ module Mint
               end
             end
 
-            unless json.external_files["stylesheets"].empty?
-              json.external_files["stylesheets"].each do |stylesheet|
-                if env.development?
-                  file_path = File.basename(stylesheet)
-                else
-                  file_path = File.join(@relative ? "css" : CSS_DIR, File.basename(stylesheet))
-                end
-
-                t.link(
-                  rel: "stylesheet",
-                  href: path_for(file_path)
-                )
-              end
+            if SourceFiles.external_stylesheets?
+              t.link(
+                rel: "stylesheet",
+                href: "/external-stylesheets.css")
             end
           end
 
@@ -91,6 +82,10 @@ module Mint
                   JS
                 end
               end
+            end
+
+            if SourceFiles.external_javascripts?
+              t.script(src: path_for("external-javascripts.js")) { }
             end
 
             t.script(src: path_for("index.js")) { }
