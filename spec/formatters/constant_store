@@ -1,16 +1,8 @@
-module Test {
+store Test {
   /* Comment */constantNAME="hello"
-
-  fun render : Html {
-    <div/>
-  }
 }
 --------------------------------------------------------------------------------
-module Test {
+store Test {
   /* Comment */
   constant NAME = "hello"
-
-  fun render : Html {
-    <div/>
-  }
 }

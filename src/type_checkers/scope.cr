@@ -149,6 +149,7 @@ module Mint
           node.gets.find(&.name.value.==(variable)) ||
           node.properties.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
+          node.constants.find(&.name.==(variable)) ||
           refs(component)[variable]? ||
           store_constants(component)[variable]? ||
           store_states(component)[variable]? ||

@@ -24,6 +24,9 @@ module Mint
       functions =
         compile_component_functions node
 
+      constants =
+        compile node.constants
+
       gets =
         compile node.gets
 
@@ -75,7 +78,7 @@ module Mint
       functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
 
       body =
-        ([constructor] + styles + gets + states + store_stuff + functions)
+        ([constructor] + styles + gets + constants + states + store_stuff + functions)
           .compact
 
       js.statements([

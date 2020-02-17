@@ -15,7 +15,6 @@ module Mint
 
         Ast::Variable.new(
           from: start_position,
-          constant: true,
           to: position,
           input: data,
           value: name)
