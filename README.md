@@ -1,7 +1,7 @@
 # Mint
 
 [![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/mint-lang/Lobby)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
 [![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
@@ -49,25 +49,43 @@ Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lo
 
 Read the general [Contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md), and then:
 
-1. Fork it ( https://github.com/mint-lang/mint/fork )
+1. Fork it ( <https://github.com/mint-lang/mint/fork> )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
 
+### Ways you can contribute
+
+- **use the language** - this is the most helpful thing at this stage because we can discover bugs and missing features this way
+- **documentation and website** - the documentation always needs some work, if you discover that something is not documented or can be improved you can create a PR for it in the [website repository](https://github.com/mint-lang/mint-website-rails)
+- **language features** - if you have any idea about a new language feature, create a detailed issue about it with examples and description (why is it needed? what problems does it solve?)
+- **code review** - the compiler can use a thorough code review, also code reviews for PRs are welcome
+- **standard library** - the standard library is incomplete and needs a lot of work:
+  - create modules for not yet implemented Web APIs (or a separate package)
+  - `Time` module needs some rethinking and possibly a rewrite
+  - a lot of modules like `String`, `Dom`, etc... are missing a lot of features, you can add new functions here (with tests)
+- **write a package** - if you have a feature you use and can be moved into a package it can be good for other developers
+- **marketing** - write blog posts and such to help others become aware of the language
+- **compiler** - there are a few issues that could be fixed and features that can be implemented in the compiler
+
+### Questions, Proposals?
+
+Let's discuss in the [Mint Gitter Lobby](https://gitter.im/mint-lang/Lobby), otherwise please create at [new issue](https://github.com/mint-lang/mint/issues/new)
+
 ## FAQ
 
 ### Why functions called `fun` instead of `function`?
 
-You can find an explanation in this issue: https://github.com/mint-lang/mint/issues/55#issuecomment-404886342
+You can find an explanation in this issue: <https://github.com/mint-lang/mint/issues/55#issuecomment-404886342>
 
 ### Why is the language called Mint?
 
-You can find an explanation in this issue: https://github.com/mint-lang/mint/issues/53#issuecomment-404717310
+You can find an explanation in this issue: <https://github.com/mint-lang/mint/issues/53#issuecomment-404717310>
 
 ### What makes Mint unique?
 
-You can find an explanation in this issue: https://github.com/mint-lang/mint/issues/70#issuecomment-412324721
+You can find an explanation in this issue: <https://github.com/mint-lang/mint/issues/70#issuecomment-412324721>
 
 ## Contributors
 

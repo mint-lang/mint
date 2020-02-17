@@ -26,7 +26,7 @@ module Mint
       def path(node : Node)
         case node
         when Ast::InlineFunction
-          "Inline function"
+          node.name.value
         when Tuple(String, Checkable, Ast::Node)
           node[0]
         when Ast::Component

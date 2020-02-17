@@ -1,0 +1,58 @@
+module Test {
+  fun a(n : Number) : Number {
+    c(n, 1)
+  } where {
+    b = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        c(n - 1, acc * n)
+      }
+    }
+
+    c = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        b(n - 1, acc * n)
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    try {
+      Test.a(3)
+
+      ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+const B = new(class extends _M {
+  a(c) {
+    let d = (e, f) => {
+      return (_compare(e, 0) ? f : b(e - 1, f * e))
+    };
+
+    let b = (g, h) => {
+      return (_compare(g, 0) ? h : d(g - 1, h * g))
+    };
+
+    return b(c, 1);
+  }
+});
+
+class A extends _C {
+  render() {
+    return (() => {
+      B.a(3);
+      return ``;
+    })();
+  }
+};
+
+A.displayName = "Main";

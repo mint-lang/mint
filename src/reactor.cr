@@ -147,7 +147,7 @@ module Mint
         halt env, response: index, status_code: 200
       end
 
-      # On websocket connections save the socket for notificaitons.
+      # On websocket connections save the socket for notifications.
       ws "/" do |socket|
         @sockets.push socket
 
@@ -157,7 +157,7 @@ module Mint
       end
     end
 
-    # Notifies all connected scokets to reload the page.
+    # Notifies all connected sockets to reload the page.
     def notify
       @sockets.each do |socket|
         socket.send("reload")
