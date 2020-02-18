@@ -25,12 +25,13 @@ module Mint
     }
     @application = Application.new
     @name = ""
+    @mint_version = ""
 
     json_error MintJsonRootNotAnObject
     json_error MintJsonRootInvalidKey
 
     getter test_directories, source_directories, dependencies, application
-    getter external_files, name, root, formatter_config
+    getter external_files, name, mint_version, root, formatter_config
 
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
@@ -111,6 +112,8 @@ module Mint
         case key
         when "name"
           parse_name
+        when "mint-version"
+          parse_mint_version
         when "source-directories"
           parse_source_directories
         when "test-directories"
@@ -154,6 +157,34 @@ module Mint
       } if @name.empty?
     rescue exception : JSON::ParseException
       raise MintJsonNameNotString, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the mint version
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonMintVersionNotString
+    json_error MintJsonMintVersionMismatch
+    json_error MintJsonMintVersionIsEmpty
+
+    def parse_mint_version
+      location =
+        @parser.location
+
+      @mint_version =
+        @parser.read_string
+
+      raise MintJsonMintVersionIsEmpty, {
+        "node" => node(location),
+      } if @mint_version.empty?
+      raise MintJsonMintVersionMismatch, {
+        "node"             => node(location),
+        "expected_version" => @mint_version,
+        "current_version"  => Mint::VERSION,
+      } if @mint_version != Mint::VERSION
+    rescue exception : JSON::ParseException
+      raise MintJsonMintVersionNotString, {
         "node" => node(exception),
       }
     end
