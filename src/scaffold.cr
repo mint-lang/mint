@@ -75,6 +75,7 @@ module Mint
     def json
       {
         "name"               => name,
+        "mint-version"       => Mint::VERSION,
         "source-directories" => [
           "source",
         ],
