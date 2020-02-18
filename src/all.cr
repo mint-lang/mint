@@ -11,6 +11,8 @@ require "json"
 
 MINT_ENV = {} of String => String
 
+require "./version"
+
 require "./ext/**"
 
 require "./errors/error"
