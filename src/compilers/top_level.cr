@@ -197,7 +197,6 @@ module Mint
         };
 
         const _R = mint.createRecord;
-        const _h = mint.createElement;
         const _createPortal = mint.createPortal;
         const _insertStyles = mint.insertStyles;
         const _navigate = mint.navigate;
@@ -211,11 +210,10 @@ module Mint
 
         window.TestContext = mint.TestContext;
         const TestContext = mint.TestContext;
-        const ReactDOM = mint.ReactDOM;
         const Decoder = mint.Decoder;
         const DateFNS = mint.DateFNS;
         const Record = mint.Record;
-        const React = mint.React;
+        const Preact = mint.Preact;
 
         const _C = mint.Component;
         const _P = mint.Provider;

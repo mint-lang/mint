@@ -5,6 +5,6 @@ component Html.Portals.Body {
 
   /* Renders the children into the documents body. */
   fun render : Html {
-    `_createPortal(#{children}, document.body)`
+    `Preact.createPortal(#{children}, document.body)`
   }
 }

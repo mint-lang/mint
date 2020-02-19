@@ -117,7 +117,7 @@ module Mint
           .reject(&.empty?)
           .join(", ")
 
-      "_h(#{contents})"
+      "Preact.h(#{contents})"
     end
   end
 end

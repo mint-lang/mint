@@ -10,9 +10,9 @@ module Test.Html {
     (() => {
       let root = document.createElement('div')
       document.body.appendChild(root)
-      ReactDOM.render(#{node}, root)
+      Preact.render(#{node}, root)
       return new TestContext(root, () => {
-        ReactDOM.unmountComponentAtNode(root)
+        console.log('root children', root._children);
         document.body.removeChild(root)
       })
     })()
