@@ -9,10 +9,10 @@ module Mint
         node.input.input
 
       start_line =
-        input[0, node.from].count("\n\r")
+        input[0, node.from].lines.size
 
       end_line =
-        input[0, node.to].count("\n\r")
+        input[0, node.to].lines.size
 
       start =
         Math.max(0, start_line - 4)
@@ -52,7 +52,7 @@ module Mint
       line_numbers =
         content.map_with_index do |_, index|
           "<div class='line-number'>#{index + start + 1}</div>"
-        end.join("")
+        end.join("\n")
 
       <<-HTML
       <div class="snippet">
