@@ -1,0 +1,8 @@
+module Test {
+  /* Comment */constNAME="hello"
+}
+--------------------------------------------------------------------------------
+module Test {
+  /* Comment */
+  const NAME = "hello"
+}

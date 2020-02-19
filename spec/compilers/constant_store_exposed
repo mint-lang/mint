@@ -1,0 +1,46 @@
+store Test {
+  const NAME = "ASD"
+}
+
+component Main {
+  connect Test exposing { NAME }
+
+  fun render : Html {
+    <div>
+      <{ NAME }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  get a() {
+    return B.b;
+  }
+
+  componentWillUnmount() {
+    B._unsubscribe(this);
+  }
+
+  componentDidMount() {
+    B._subscribe(this);
+  }
+
+  render() {
+    return _h("div", {}, [
+      this.a
+    ]);
+  }
+};
+
+A.displayName = "Main";
+
+const B = new(class extends _S {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  get b() {
+    return `ASD`;
+  }
+});

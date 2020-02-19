@@ -13,8 +13,11 @@ module Mint
       constructor =
         compile_constructor node
 
+      constants =
+        compile node.constants
+
       body =
-        [constructor] + states + gets + functions
+        [constructor] + states + gets + functions + constants
 
       name =
         js.class_of(node)

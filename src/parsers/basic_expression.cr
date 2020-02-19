@@ -13,6 +13,7 @@ module Mint
         html_component ||
         html_fragment ||
         member_access ||
+        constant_access ||
         module_access ||
         decode ||
         encode ||
@@ -25,11 +26,19 @@ module Mint
         try_expression ||
         case_expression ||
         inline_function_or_parenthesized_expression ||
+        starts_with_uppercase ||
         negated_expression ||
-        enum_id ||
         js ||
         void ||
         variable
+    end
+
+    def starts_with_uppercase
+      item = enum_id rescue nil
+
+      return item if item
+
+      constant_variable
     end
 
     def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil

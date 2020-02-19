@@ -27,6 +27,7 @@ module Mint
           items = many do
             property ||
               connect ||
+              constant ||
               function ||
               style ||
               state ||
@@ -42,6 +43,7 @@ module Mint
 
         properties = [] of Ast::Property
         functions = [] of Ast::Function
+        constants = [] of Ast::Constant
         connects = [] of Ast::Connect
         comments = [] of Ast::Comment
         styles = [] of Ast::Style
@@ -57,12 +59,14 @@ module Mint
             functions << item
 
             item.keep_name = true if item.name.value == "render"
+          when Ast::Constant
+            constants << item
           when Ast::Connect
             connects << item
-          when Ast::Style
-            styles << item
           when Ast::Comment
             comments << item
+          when Ast::Style
+            styles << item
           when Ast::State
             states << item
           when Ast::Get
@@ -76,6 +80,7 @@ module Mint
           global: global || false,
           properties: properties,
           functions: functions,
+          constants: constants,
           from: start_position,
           connects: connects,
           comments: comments,

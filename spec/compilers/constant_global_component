@@ -1,0 +1,42 @@
+global component Test {
+  const NAME = "ASD"
+
+  fun render : String {
+    NAME
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Test:NAME }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class $A extends _C {
+  get a() {
+    return `ASD`;
+  }
+
+  render() {
+    return this.a;
+  }
+
+  _persist() {
+    A = this
+  }
+};
+
+$A.displayName = "Test";
+let A;
+
+class B extends _C {
+  render() {
+    return _h("div", {}, [
+      A.a
+    ]);
+  }
+};
+
+B.displayName = "Main";

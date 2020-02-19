@@ -24,6 +24,9 @@ module Mint
       functions =
         compile_component_functions node
 
+      constants =
+        compile node.constants
+
       gets =
         compile node.gets
 
@@ -75,7 +78,7 @@ module Mint
       functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
 
       body =
-        ([constructor] + styles + gets + states + store_stuff + functions)
+        ([constructor] + styles + gets + constants + states + store_stuff + functions)
           .compact
 
       js.statements([
@@ -98,11 +101,12 @@ module Mint
             id = js.variable_of(lookups[key])
             name = js.variable_of(key)
 
-            if store.states.find(&.name.value.==(original))
+            case
+            when store.constants.any? { |constant| constant.name == original },
+                 store.gets.any? { |get| get.name.value == original },
+                 store.states.find(&.name.value.==(original))
               memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.gets.any? { |get| get.name.value == original }
-              memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.functions.any? { |func| func.name.value == original }
+            when store.functions.any? { |func| func.name.value == original }
               memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end
           end

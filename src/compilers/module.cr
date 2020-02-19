@@ -4,10 +4,13 @@ module Mint
       name =
         js.class_of(node)
 
-      body =
+      functions =
         compile node.functions
 
-      js.module(name, body)
+      constants =
+        compile node.constants
+
+      js.module(name, constants + functions)
     end
   end
 end
