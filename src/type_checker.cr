@@ -218,11 +218,12 @@ module Mint
       when Ast::Node
         cache[node]? || begin
           if @stack.includes?(node)
-            if node.is_a?(Ast::Component)
+            case node
+            when Ast::Component
               return NEVER.as(Checkable)
-            elsif node.is_a?(Ast::Function)
+            when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            elsif node.is_a?(Ast::WhereStatement)
+            when Ast::WhereStatement
               expression =
                 node.expression
 
