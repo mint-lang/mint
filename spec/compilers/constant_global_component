@@ -1,5 +1,5 @@
 global component Test {
-  constant NAME = "ASD"
+  const NAME = "ASD"
 
   fun render : String {
     NAME

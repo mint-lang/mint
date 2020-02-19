@@ -1,5 +1,5 @@
 store Test {
-  constant NAME = "ASD"
+  const NAME = "ASD"
 }
 
 component Main {

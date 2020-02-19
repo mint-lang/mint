@@ -1,8 +1,8 @@
 store Test {
-  /* Comment */constantNAME="hello"
+  /* Comment */constNAME="hello"
 }
 --------------------------------------------------------------------------------
 store Test {
   /* Comment */
-  constant NAME = "hello"
+  const NAME = "hello"
 }

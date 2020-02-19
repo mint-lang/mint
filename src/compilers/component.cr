@@ -101,13 +101,12 @@ module Mint
             id = js.variable_of(lookups[key])
             name = js.variable_of(key)
 
-            if store.states.find(&.name.value.==(original))
+            case
+            when store.constants.any? { |constant| constant.name == original },
+                 store.gets.any? { |get| get.name.value == original },
+                 store.states.find(&.name.value.==(original))
               memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.gets.any? { |get| get.name.value == original }
-              memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.constants.any? { |constant| constant.name == original }
-              memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.functions.any? { |func| func.name.value == original }
+            when store.functions.any? { |func| func.name.value == original }
               memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end
           end

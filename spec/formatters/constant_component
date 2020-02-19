@@ -1,5 +1,5 @@
 component Test {
-  /* Comment */constantNAME="hello"
+  /* Comment */constNAME="hello"
 
   fun render : Html {
     <div/>
@@ -8,7 +8,7 @@ component Test {
 --------------------------------------------------------------------------------
 component Test {
   /* Comment */
-  constant NAME = "hello"
+  const NAME = "hello"
 
   fun render : Html {
     <div/>

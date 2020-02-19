@@ -1,5 +1,5 @@
 component Main {
-  constant NAME = "ASD"
+  const NAME = "ASD"
 
   fun render : String {
     NAME

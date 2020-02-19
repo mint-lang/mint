@@ -1,8 +1,8 @@
 module Test {
-  /* Comment */constantNAME="hello"
+  /* Comment */constNAME="hello"
 }
 --------------------------------------------------------------------------------
 module Test {
   /* Comment */
-  constant NAME = "hello"
+  const NAME = "hello"
 }

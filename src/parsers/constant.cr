@@ -9,7 +9,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        skip unless keyword "constant"
+        skip unless keyword "const"
 
         whitespace
 

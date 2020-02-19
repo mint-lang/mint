@@ -10,7 +10,7 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}constant #{name} = #{value}"
+      "#{comment}const #{name} = #{value}"
     end
   end
 end
