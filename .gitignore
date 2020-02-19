@@ -5,3 +5,4 @@ dist
 mint
 docs
 bin
+*.dwarf

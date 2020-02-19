@@ -248,7 +248,7 @@ module Mint
         @parser.read_string
 
       path =
-        File.join(@root, PUBLIC_DIR, file)
+        File.join(@root, file)
 
       raise MintJsonExternalJavascriptNotExists, {
         "node" => node(location),
@@ -283,7 +283,7 @@ module Mint
         @parser.read_string
 
       path =
-        File.join(@root, PUBLIC_DIR, file)
+        File.join(@root, file)
 
       raise MintJsonExternalStylesheetNotExists, {
         "node" => node(location),

@@ -178,12 +178,6 @@ module Mint
 
     # Wraps the application with the runtime
     def wrap_runtime(body, main = "")
-      javascripts =
-        SourceFiles
-          .external_files("javascripts")
-          .map { |file| File.read(file) }
-          .join("\n\n")
-
       html_event_module =
         ast.modules.find(&.name.==("Html.Event")).not_nil!
 
@@ -194,8 +188,6 @@ module Mint
         js.class_of(html_event_module) + "." + js.variable_of(from_event)
 
       <<-RESULT
-      #{javascripts}
-
       (() => {
         const _enums = {}
         const mint = Mint(_enums)
