@@ -1,0 +1,28 @@
+component Main {
+  fun test : Number {
+    42
+  }
+
+  fun render : String {
+    try {
+      -test()
+
+      ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a() {
+    return 42;
+  }
+
+  render() {
+    return (() => {
+      -(this.a());
+      return ``;
+    })();
+  }
+};
+
+A.displayName = "Main";

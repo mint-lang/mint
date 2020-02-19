@@ -6,6 +6,7 @@ module Mint
         string_literal ||
         bool_literal ||
         number_literal ||
+        unary_minus ||
         array ||
         record_update ||
         record ||
