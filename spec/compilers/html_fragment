@@ -12,9 +12,9 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {}, [
-      _h(React.Fragment, {}, [
+      _h(Fragment, {}, [
         `A`,
-        _h(React.Fragment, {
+        _h(Fragment, {
           key: `something`
         }, [])
       ])

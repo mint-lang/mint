@@ -120,7 +120,7 @@ C.displayName = "TestWithChildren";
 
 class D extends _C {
   render() {
-    return _h(React.Fragment, {}, [
+    return _h(Fragment, {}, [
       $a(),
       $a(),
       $b(),

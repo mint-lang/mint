@@ -10,7 +10,7 @@ module Test.Html {
     (() => {
       let root = document.createElement('div')
       document.body.appendChild(root)
-      Preact.render(#{node}, root)
+      _render(#{node}, root)
       return new TestContext(root, () => {
         document.body.removeChild(root)
       })

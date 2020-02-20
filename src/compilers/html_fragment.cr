@@ -14,7 +14,7 @@ module Mint
         items =
           compile node.children
 
-        "Preact.h(Preact.Fragment, #{attributes}, #{js.array(items)})"
+        "_h(Fragment, #{attributes}, #{js.array(items)})"
       end
     end
   end

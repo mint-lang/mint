@@ -196,9 +196,11 @@ module Mint
           return #{from_event_call}(mint.normalizeEvent(event))
         };
 
+        const _h = mint.Preact.h;
         const _R = mint.createRecord;
-        const _createPortal = mint.createPortal;
+        const _createPortal = mint.Preact.createPortal;
         const _insertStyles = mint.insertStyles;
+        const _render = mint.Preact.render;
         const _navigate = mint.navigate;
         const _compare = mint.compare;
         const _program = mint.program;
@@ -213,7 +215,7 @@ module Mint
         const Decoder = mint.Decoder;
         const DateFNS = mint.DateFNS;
         const Record = mint.Record;
-        const Preact = mint.Preact;
+        const Fragment = mint.Preact.Fragment;
 
         const _C = mint.Component;
         const _P = mint.Provider;
