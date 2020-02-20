@@ -121,25 +121,25 @@ suite "Maybe.oneOf" {
 suite "Maybe.andThen" {
   test "transforms the value" {
     (Maybe::Just(6)
-    |> Maybe.andThen((num : Number) : Maybe(String) {
-      if (num > 4) {
-        Maybe::Just(Number.toString(num * num))
-      }
-      else {
-        Maybe::Nothing
-      }
-    })) == Maybe::Just("36")
+    |> Maybe.andThen(
+      (num : Number) : Maybe(String) {
+        if (num > 4) {
+          Maybe::Just(Number.toString(num * num))
+        } else {
+          Maybe::Nothing
+        }
+      })) == Maybe::Just("36")
   }
 
   test "discards the value" {
     (Maybe::Just(4)
-    |> Maybe.andThen((num : Number) : Maybe(String) {
-      if (num > 4) {
-        Maybe::Just(Number.toString(num))
-      }
-      else {
-        Maybe::Nothing
-      }
-    })) == Maybe::Nothing
+    |> Maybe.andThen(
+      (num : Number) : Maybe(String) {
+        if (num > 4) {
+          Maybe::Just(Number.toString(num))
+        } else {
+          Maybe::Nothing
+        }
+      })) == Maybe::Nothing
   }
 }

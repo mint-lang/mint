@@ -34,16 +34,19 @@ module Mint
             entity.functions.find(&.name.value.==(node.variable.value))
           end
         when Ast::Module
-          entity.functions.find(&.name.value.==(node.variable.value))
+          entity.functions.find(&.name.value.==(node.variable.value)) ||
+            entity.constants.find(&.name.==(node.variable.value))
         when Ast::Component
           entity.properties.find(&.name.value.==(node.variable.value)) ||
             entity.functions.find(&.name.value.==(node.variable.value)) ||
             entity.states.find(&.name.value.==(node.variable.value)) ||
+            entity.constants.find(&.name.==(node.variable.value)) ||
             entity.gets.find(&.name.value.==(node.variable.value))
         when Ast::Store
           entity.functions.find(&.name.value.==(node.variable.value)) ||
             entity.states.find(&.name.value.==(node.variable.value)) ||
-            entity.gets.find(&.name.value.==(node.variable.value))
+            entity.gets.find(&.name.value.==(node.variable.value)) ||
+            entity.constants.find(&.name.==(node.variable.value))
         else
           raise ModuleAccessNotFoundModule, {
             "name" => node.name,

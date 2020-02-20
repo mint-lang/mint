@@ -1,0 +1,19 @@
+component Main {
+  const NAME = "ASD"
+
+  fun render : String {
+    NAME
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  get a() {
+    return `ASD`;
+  }
+
+  render() {
+    return this.a;
+  }
+};
+
+A.displayName = "Main";

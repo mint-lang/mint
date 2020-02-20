@@ -1,0 +1,27 @@
+module Test {
+  const NAME = "ASD"
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Test:NAME }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+const B = new(class extends _M {
+  get a() {
+    return `ASD`;
+  }
+});
+
+class A extends _C {
+  render() {
+    return _h("div", {}, [
+      B.a
+    ]);
+  }
+};
+
+A.displayName = "Main";

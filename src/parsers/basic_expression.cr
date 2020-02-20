@@ -6,6 +6,7 @@ module Mint
         string_literal ||
         bool_literal ||
         number_literal ||
+        unary_minus ||
         array ||
         record_update ||
         tuple_literal_or_record ||
@@ -13,6 +14,7 @@ module Mint
         html_component ||
         html_fragment ||
         member_access ||
+        constant_access ||
         module_access ||
         decode ||
         encode ||
@@ -25,8 +27,8 @@ module Mint
         try_expression ||
         case_expression ||
         inline_function_or_parenthesized_expression ||
+        starts_with_uppercase ||
         negated_expression ||
-        enum_id ||
         js ||
         void ||
         variable
@@ -36,6 +38,14 @@ module Mint
       tuple_literal
     rescue error1
       record
+    end
+
+    def starts_with_uppercase
+      item = enum_id rescue nil
+
+      return item if item
+
+      constant_variable
     end
 
     def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil
