@@ -5,36 +5,18 @@ module Mint
     def tuple_literal : Ast::TupleLiteral | Nil
       start do |start_position|
         skip unless char! '{'
-
-        whitespace
-        head = expression
         whitespace
 
-        skip unless head
-
-        items = [] of Ast::Expression
-
-        case char
-        when ','
-          step
-          whitespace
-
-          items = list(
+        items = (
+          list(
             terminator: '}', separator: ','
           ) {
             expression.as(Ast::Expression | Nil)
           }.compact
+        )
 
-          whitespace
-
-          char "}", TupleLiteralExpectedClosingBracket
-        when '}'
-          step
-        else
-          skip
-        end
-
-        items.unshift(head)
+        whitespace
+        char "}", TupleLiteralExpectedClosingBracket
 
         Ast::TupleLiteral.new(
           from: start_position,

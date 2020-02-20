@@ -7,9 +7,8 @@ module Mint
         bool_literal ||
         number_literal ||
         array ||
-        tuple_literal ||
         record_update ||
-        record ||
+        tuple_literal_or_record ||
         html_element ||
         html_component ||
         html_fragment ||
@@ -33,14 +32,16 @@ module Mint
         variable
     end
 
+    def tuple_literal_or_record
+      tuple_literal
+    rescue error1
+      record
+    end
+
     def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil
       parenthesized_expression
     rescue error1
-      begin
-        inline_function
-      rescue error2
-        raise error2
-      end
+      inline_function
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression
