@@ -54,7 +54,7 @@ module Mint
       watch_for_changes
       setup_kemal
 
-      Server.run "Development", @host, @port
+      Server.run "Development", @host, @port, @host, @port
     end
 
     def compile_script
