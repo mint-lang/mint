@@ -12,7 +12,6 @@ module Test.Html {
       document.body.appendChild(root)
       Preact.render(#{node}, root)
       return new TestContext(root, () => {
-        console.log('root children', root._children);
         document.body.removeChild(root)
       })
     })()
