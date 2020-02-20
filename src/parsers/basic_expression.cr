@@ -7,6 +7,7 @@ module Mint
         bool_literal ||
         number_literal ||
         array ||
+        tuple_literal ||
         record_update ||
         record ||
         html_element ||
