@@ -8,7 +8,8 @@ module Mint
       })
     end
 
-    PAGE = <<-HTML
+    def page_source : String
+      @page_source ||= <<-HTML
       <html>
         <head>
         </head>
@@ -18,7 +19,7 @@ module Mint
           <script>
             class TestRunner {
               constructor (suites) {
-                this.socket = new WebSocket("ws://localhost:3001/")
+                this.socket = new WebSocket("ws://#{@flags.browser_host}:#{@flags.browser_port}/")
 
                 window.DEBUG = {
                   log: (value) => {
@@ -109,7 +110,8 @@ module Mint
           </div>
         </body>
       </html>
-    HTML
+      HTML
+    end
 
     BROWSER_PATHS = {
       firefox: {
@@ -137,7 +139,7 @@ module Mint
       @succeeded = 0
       @script = ""
 
-      browser_path
+      browser_path unless @flags.manual
     end
 
     def run
@@ -162,7 +164,7 @@ module Mint
       terminal.print "#{COG} Starting browser...\n"
       open_page
 
-      Server.run(name: "Test", port: 3001)
+      Server.run "Test", @flags.host, @flags.port, @flags.browser_host, @flags.browser_port
     end
 
     def browser_path
@@ -231,6 +233,7 @@ module Mint
 
     def open_process(profile_directory)
       path = browser_path
+      url = "http://#{@flags.browser_host}:#{@flags.browser_port}"
 
       case @flags.browser.downcase
       when "firefox"
@@ -244,7 +247,7 @@ module Mint
             "1080",
             "--profile",
             profile_directory,
-            "http://localhost:3001",
+            url,
           ]
         )
       when "chrome"
@@ -256,7 +259,7 @@ module Mint
             "--remote-debugging-port=9222",
             "--profile-directory=#{profile_directory}",
             "--window-size=1920,1080",
-            "http://localhost:3001",
+            url,
           ]
         )
       else
@@ -282,7 +285,7 @@ module Mint
       get "/" do
         @failed = [] of Message
         @succeeded = 0
-        PAGE
+        page_source
       end
 
       get "/runtime.js" do
