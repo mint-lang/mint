@@ -1,7 +1,9 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Statement) : Checkable
-      check_variable node.name
+      node.variables.try(&.each do |variable|
+        check_variable variable
+      end)
 
       types[node] = resolve node.expression
     end

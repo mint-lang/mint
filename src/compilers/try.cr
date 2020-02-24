@@ -10,13 +10,27 @@ module Mint
         is_last =
           (index + 1) == node.statements.size
 
-        prefix =
+        prefix = ->(value : String) {
           case
           when is_last
-            "return "
-          when statement.name
-            "let #{js.variable_of(statement)} = "
+            "return #{value}"
+          when variables = statement.variables
+            if variables.size == 1
+              js.let(js.variable_of(variables[0]), value)
+            else
+              statements =
+                [js.let("$$$", value)]
+
+              variables.each_with_index do |variable, variable_index|
+                statements << js.let(js.variable_of(variable), "$$$[#{variable_index}]")
+              end
+
+              js.statements(statements)
+            end
+          else
+            value
           end
+        }
 
         expression =
           compile statement
@@ -60,10 +74,10 @@ module Mint
                 catches,
               ])
             end,
-            "#{prefix}_#{index}._0",
+            prefix.call("_#{index}._0"),
           ])
         else
-          "#{prefix}#{expression}"
+          prefix.call(expression)
         end
       end
 

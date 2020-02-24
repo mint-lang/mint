@@ -11,15 +11,6 @@ module Mint
       node
         .statements
         .reduce([] of Tuple(String, Checkable, Ast::Node)) do |items, statement|
-          maybe_name = statement.name
-
-          name =
-            if maybe_name
-              maybe_name.value
-            else
-              ""
-            end
-
           scope(items) do
             new_type = resolve statement
 
@@ -36,7 +27,24 @@ module Mint
                 resolve_type(new_type)
               end
 
-            items << {name, type, statement}
+            variables =
+              statement.variables || [] of Ast::Variable
+
+            # If there is only one variable we assign it the whole type
+            # otherwise it's a destructuring and we need to assign
+            # each variable the corresponding parameter.
+            if variables.size == 1
+              variable = variables[0]
+
+              items << {variable.value, type || new_type, variable}
+            elsif variables.size > 1
+              variables.map_with_index do |var, index|
+                items << {var.value, (type || new_type).parameters[index], var}
+                  .as(Tuple(String, Checkable, Ast::Node))
+              end
+            else
+              items << {"", type || new_type, statement}
+            end
           end
 
           items

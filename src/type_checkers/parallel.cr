@@ -10,8 +10,6 @@ module Mint
 
       scope_items =
         node.statements.map do |statement|
-          check_variable statement.name
-
           new_type = resolve statement
 
           type =
@@ -27,12 +25,22 @@ module Mint
               resolve_type(new_type)
             end
 
-          maybe_name = statement.name
+          variables = statement.variables || [] of Ast::Variable
 
-          if maybe_name
-            {maybe_name.value, type, statement}.as(Tuple(String, Checkable, Ast::Node))
+          # If there is only one variable we assign it the whole type
+          # otherwise it's a destructuring and we need to assign
+          # each variable the corresponding parameter.
+          if variables.size == 1
+            variable = variables[0]
+
+            {variable.value, type || new_type, variable}
+          elsif variables.size > 1
+            variables.map_with_index do |var, index|
+              {var.value, (type || new_type).parameters[index], var}
+                .as(Tuple(String, Checkable, Ast::Node))
+            end
           end
-        end.compact
+        end.flatten.compact
 
       final_type =
         node.then_branch.try do |branch|

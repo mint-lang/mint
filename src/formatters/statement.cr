@@ -4,14 +4,12 @@ module Mint
       expression =
         format node.expression
 
-      name =
-        format node.name
+      node.variables.try do |variables|
+        formatted =
+          format variables, ", "
 
-      if name
-        "#{name} =\n#{indent(expression)}"
-      else
-        expression
-      end
+        "#{formatted} =\n#{indent(expression)}"
+      end || expression
     end
   end
 end

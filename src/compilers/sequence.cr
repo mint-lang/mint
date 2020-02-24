@@ -2,13 +2,27 @@ module Mint
   class Compiler
     def _compile(node : Ast::Sequence) : String
       body = node.statements.map_with_index do |statement, index|
-        prefix =
+        prefix = ->(value : String) {
           case
           when (index + 1) == node.statements.size
-            "_ = "
-          when statement.name
-            "let #{js.variable_of(statement)} = "
+            "_ = #{value}"
+          when variables = statement.variables
+            if variables.size == 1
+              js.let(js.variable_of(variables[0]), value)
+            else
+              statements =
+                [js.let("$$$", value)]
+
+              variables.each_with_index do |variable, variable_index|
+                statements << js.let(js.variable_of(variable), "$$$[#{variable_index}]")
+              end
+
+              js.statements(statements)
+            end
+          else
+            value
           end
+        }
 
         expression =
           compile statement.expression
@@ -41,7 +55,7 @@ module Mint
                 js.if("_#{index} instanceof Err") do
                   "throw _#{index}._0"
                 end,
-                "#{prefix}_#{index}._0",
+                prefix.call("_#{index}._0"),
               ])
             else
               js.statements([
@@ -51,7 +65,7 @@ module Mint
                     js.let("_error", "_#{index}._0"),
                   ] + catches)
                 end,
-                "#{prefix}_#{index}._0",
+                prefix.call("_#{index}._0"),
               ])
             end
           when "Promise"
@@ -65,10 +79,10 @@ module Mint
                   finally: "")
               end
 
-              "#{prefix}await #{try}"
+              prefix.call("await #{try}")
             end
           end
-        end || "#{prefix}await #{expression}"
+        end || prefix.call("await #{expression}")
       end
 
       catch_all =

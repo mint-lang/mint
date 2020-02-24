@@ -1,10 +1,10 @@
 module Mint
   class Ast
     class Statement < Node
-      getter name, expression
+      getter variables, expression
 
-      def initialize(@expression : Expression,
-                     @name : Variable | Nil,
+      def initialize(@variables : Array(Variable) | Nil,
+                     @expression : Expression,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

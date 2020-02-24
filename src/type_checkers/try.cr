@@ -13,17 +13,13 @@ module Mint
         node
           .statements
           .reduce([] of Tuple(String, Checkable, Ast::Node)) do |items, statement|
-            name =
-              statement.name.try(&.value).to_s
-
             # Scope based on the previous statements
             scope(items) do
               new_type = resolve statement
 
               # If the statement has a name and it's a result
               type =
-                if statement.name &&
-                   new_type.name == "Result" &&
+                if new_type.name == "Result" &&
                    new_type.parameters.size == 2
                   # If the error is not Never then that type needs to be catched
                   if new_type.parameters[0].name != "Never"
@@ -33,7 +29,24 @@ module Mint
                 end
 
               # Append the type
-              items << {name, resolve_type(type || new_type), statement}
+              variables =
+                statement.variables || [] of Ast::Variable
+
+              # If there is only one variable we assign it the whole type
+              # otherwise it's a destructuring and we need to assign
+              # each variable the corresponding parameter.
+              if variables.size == 1
+                variable = variables[0]
+
+                items << {variable.value, type || new_type, variable}
+              elsif variables.size > 1
+                variables.map_with_index do |var, index|
+                  items << {var.value, (type || new_type).parameters[index], var}
+                    .as(Tuple(String, Checkable, Ast::Node))
+                end
+              else
+                items << {"", type || new_type, statement}
+              end
             end
 
             # Return the memo

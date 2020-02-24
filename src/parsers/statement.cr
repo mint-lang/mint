@@ -2,8 +2,8 @@ module Mint
   class Parser
     def statement : Ast::Statement | Nil
       start do |start_position|
-        name = start do
-          value = variable
+        variables = start do
+          value = list(terminator: nil, separator: ',') { variable }.compact
           whitespace
           skip unless keyword "="
           whitespace
@@ -17,9 +17,9 @@ module Mint
         Ast::Statement.new(
           expression: body.as(Ast::Expression),
           from: start_position,
+          variables: variables,
           to: position,
-          input: data,
-          name: name)
+          input: data)
       end
     end
   end

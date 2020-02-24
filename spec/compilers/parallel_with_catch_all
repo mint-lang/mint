@@ -32,7 +32,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  c(f) {
+  b(f) {
     return;
   }
 });
@@ -43,13 +43,13 @@ class A extends _C {
       let _ = null;
 
       try {
-        let b = null;
+        let c = null;
         let d = null;
         let e = null;
 
         await Promise.all([
           (async () => {
-            b = await B.c(`x`)
+            c = await B.b(`x`)
           })(),
           (async () => {
             d = await `Hello`
