@@ -13,7 +13,9 @@ module Mint
     end
 
     def port_open?(ip, port)
-      TCPSocket.new(ip, port, 0.25, 0.25).close
+      client = Socket.tcp(Socket::Family::INET, true)
+      client.connect(ip, port, 0.25)
+      client.close
       false
     rescue
       true
