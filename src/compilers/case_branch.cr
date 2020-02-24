@@ -32,6 +32,19 @@ module Mint
 
       if match = node.match
         case match
+        when Ast::TupleDestructuring
+          variables =
+            match
+              .parameters
+              .map { |param| js.variable_of(param) }
+              .join(",")
+
+          js.if("Array.isArray(#{variable})") do
+            js.statements([
+              "const [#{variables}] = #{variable}",
+              expression,
+            ])
+          end
         when Ast::EnumDestructuring
           variables =
             match.parameters.map_with_index do |param, index1|

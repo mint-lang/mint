@@ -1,6 +1,8 @@
 module Mint
   class TypeChecker
     type_error CaseBranchNotMatchCondition
+    type_error CaseBranchTupleMismatch
+    type_error CaseBranchNotTuple
 
     def check(node : Ast::CaseBranch, condition : Checkable) : Checkable
       resolve_expression = ->{
@@ -15,7 +17,7 @@ module Mint
         end
       }
 
-      node.match.try do |item|
+      check_match = ->(item : Ast::Node) {
         match = resolve item
 
         raise CaseBranchNotMatchCondition, {
@@ -23,9 +25,33 @@ module Mint
           "got"      => match,
           "node"     => item,
         } unless Comparer.compare(match, condition)
+      }
 
+      node.match.try do |item|
         case item
+        when Ast::TupleDestructuring
+          raise CaseBranchNotTuple, {
+            "got"  => condition,
+            "node" => item,
+          } unless condition.name == "Tuple"
+
+          raise CaseBranchTupleMismatch, {
+            "size" => item.parameters.size.to_s,
+            "got"  => condition,
+            "node" => item,
+          } if item.parameters.size > condition.parameters.size
+
+          variables =
+            item.parameters.map_with_index do |variable, index|
+              {variable.value, condition.parameters[index], variable}
+            end
+
+          scope(variables) do
+            resolve_expression.call
+          end
         when Ast::EnumDestructuring
+          check_match.call(item)
+
           variables =
             item.parameters.map_with_index do |param, index|
               entity =
@@ -52,6 +78,8 @@ module Mint
           scope(variables) do
             resolve_expression.call
           end
+        else
+          check_match.call(item)
         end
       end || resolve_expression.call
     end
