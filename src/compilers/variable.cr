@@ -77,7 +77,12 @@ module Mint
         when Ast::Argument
           compile entity
         when Tuple(Ast::Node, Int32)
-          js.variable_of(entity[0])
+          case item = entity[0]
+          when Ast::WhereStatement
+            js.variable_of(item.variables[entity[1]])
+          else
+            js.variable_of(node)
+          end
         else
           "this.#{node.value}"
         end

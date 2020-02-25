@@ -31,7 +31,16 @@ module Mint
       else
         case value = item[0]
         when Tuple(Ast::Node, Int32)
-          resolve value[0]
+          statement = value[0]
+
+          type =
+            resolve statement
+
+          if statement.variables.size == 1
+            type
+          else
+            type.parameters[value[1]]
+          end
         when Ast::Node
           resolve value
         when Checkable
