@@ -29,7 +29,16 @@ module Mint
       elsif item[0].is_a?(Ast::Component) && item[1].is_a?(Ast::Component)
         Type.new("Maybe", [component_records[item[0]]] of Checkable)
       else
-        resolve item[0]
+        case value = item[0]
+        when Tuple(Ast::Node, Int32)
+          resolve value[0]
+        when Ast::Node
+          resolve value
+        when Checkable
+          value
+        else
+          NEVER
+        end
       end
     end
   end

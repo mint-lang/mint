@@ -7,14 +7,12 @@ module Mint
     end
 
     def check(node : Ast::Get) : Checkable
-      scope node do
+      scope node.where.try(&.statements) || [] of Ast::WhereStatement do
         body_type =
           resolve node.body
 
         return_type =
           resolve node.type
-
-        node.where.try { |item| resolve item }
 
         raise GetTypeMismatch, {
           "expected" => return_type,

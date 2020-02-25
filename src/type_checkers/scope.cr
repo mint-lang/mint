@@ -3,16 +3,16 @@ module Mint
     class Scope
       alias Node = Ast::InlineFunction |
                    Tuple(String, Checkable, Ast::Node) |
+                   Ast::WhereStatement |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
                    Ast::Store |
-                   Ast::Style |
-                   Ast::Get
+                   Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable, Node)
-      alias Lookup = Tuple(Ast::Node | Checkable, Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
@@ -106,16 +106,15 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Function)
-        node.arguments.find(&.name.value.==(variable)) ||
-          node.where.try(&.statements.find(&.name.value.==(variable)))
+        node.arguments.find(&.name.value.==(variable))
+      end
+
+      def find(variable : String, node : Ast::WhereStatement)
+        {node, 0} if node.name.value == variable
       end
 
       def find(variable : String, node : Ast::Style)
         node.arguments.find(&.name.value.==(variable))
-      end
-
-      def find(variable : String, node : Ast::Get)
-        node.where.try(&.statements.find(&.name.value.==(variable)))
       end
 
       def find(variable : String, node : Ast::InlineFunction)
