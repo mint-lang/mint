@@ -30,7 +30,7 @@ module Mint
     property checking : Bool = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate types, variables, ast, lookups, cache, to: artifacts
+    delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
@@ -243,6 +243,7 @@ module Mint
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
+            resolve_order << node
 
             check! node
 

@@ -4,11 +4,11 @@ component Main {
       <{ something }>
     </div>
   } where {
-    otherThing =
-      "Asd"
-
     something =
       otherThing
+
+    otherThing =
+      "Asd"
   }
 }
 --------------------------------------------------------------------------------
