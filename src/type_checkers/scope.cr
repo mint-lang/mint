@@ -110,7 +110,9 @@ module Mint
       end
 
       def find(variable : String, node : Ast::WhereStatement)
-        {node, 0} if node.name.value == variable
+        node.variables.find(&.value.==(variable)).try do |item|
+          {node, node.variables.index(item).not_nil!}
+        end
       end
 
       def find(variable : String, node : Ast::Style)
