@@ -3,7 +3,7 @@ module Mint
     class Statement < Node
       getter variables, expression
 
-      def initialize(@variables : Array(Variable) | Nil,
+      def initialize(@variables : Array(Variable),
                      @expression : Expression,
                      @input : Data,
                      @from : Int32,

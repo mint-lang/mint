@@ -4,19 +4,16 @@ module Mint
       body = node.statements.map do |statement|
         prefix = ->(value : String) {
           case
-          when variables = statement.variables
-            if variables.size == 1
-              js.assign(js.variable_of(variables[0]), value)
-            else
-              statements =
-                [js.let("$$$", value)]
+          when statement.variables.size == 1
+            js.assign(js.variable_of(statement.variables[0]), value)
+          when statement.variables.size > 1
+            variables =
+              statement
+                .variables
+                .map { |param| js.variable_of(param) }
+                .join(",")
 
-              variables.each_with_index do |variable, variable_index|
-                statements << js.assign(js.variable_of(variable), "$$$[#{variable_index}]")
-              end
-
-              js.statements(statements)
-            end
+            "[#{variables}] = #{value}"
           else
             value
           end

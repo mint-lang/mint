@@ -15,9 +15,9 @@ module Mint
         skip unless body
 
         Ast::Statement.new(
+          variables: variables || [] of Ast::Variable,
           expression: body.as(Ast::Expression),
           from: start_position,
-          variables: variables,
           to: position,
           input: data)
       end

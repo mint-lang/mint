@@ -161,7 +161,12 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Checkable | Array(TypeChecker::Checkable) | Array(String) | Tuple(Ast::Node, Int32))
+    def initialize(@data = {} of String => String |
+                                           Ast::Node |
+                                           TypeChecker::Checkable |
+                                           Array(TypeChecker::Checkable) |
+                                           Array(String) |
+                                           Tuple(Ast::Node, Int32))
     end
 
     macro method_missing(call)

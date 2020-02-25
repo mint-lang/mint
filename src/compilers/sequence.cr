@@ -6,19 +6,16 @@ module Mint
           case
           when (index + 1) == node.statements.size
             "_ = #{value}"
-          when variables = statement.variables
-            if variables.size == 1
-              js.let(js.variable_of(variables[0]), value)
-            else
-              statements =
-                [js.let("$$$", value)]
+          when statement.variables.size == 1
+            js.let(js.variable_of(statement.variables[0]), value)
+          when statement.variables.size > 1
+            variables =
+              statement
+                .variables
+                .map { |param| js.variable_of(param) }
+                .join(",")
 
-              variables.each_with_index do |variable, variable_index|
-                statements << js.let(js.variable_of(variable), "$$$[#{variable_index}]")
-              end
-
-              js.statements(statements)
-            end
+            "const [#{variables}] = #{value}"
           else
             value
           end
