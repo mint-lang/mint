@@ -78,7 +78,7 @@ module Mint
           compile entity
         when Tuple(Ast::Node, Int32)
           case item = entity[0]
-          when Ast::WhereStatement
+          when Ast::WhereStatement, Ast::Statement
             js.variable_of(item.variables[entity[1]])
           else
             js.variable_of(node)

@@ -222,7 +222,7 @@ module Mint
               return NEVER.as(Checkable)
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            when Ast::WhereStatement
+            when Ast::WhereStatement, Ast::Statement
               expression =
                 node.expression
 

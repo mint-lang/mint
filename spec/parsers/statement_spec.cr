@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe "Statement" do
-  subject statement
+  subject statement(Mint::Ast::Statement::Parent::Try)
 
   expect_ignore ""
   expect_ignore "??"

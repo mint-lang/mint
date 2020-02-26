@@ -31,13 +31,38 @@ module Mint
       else
         case value = item[0]
         when Tuple(Ast::Node, Int32)
-          statement = value[0]
+          item = value[0]
 
           type =
-            resolve statement
+            resolve item
 
-          if statement.variables.size == 1
-            type
+          case item
+          when Ast::WhereStatement
+            if item.variables.size == 1
+              type
+            else
+              type.parameters[value[1]]
+            end
+          when Ast::Statement
+            if item.variables.size == 1
+              if item.parent == Ast::Statement::Parent::Try
+                if type.name == "Result" &&
+                   type.parameters.size == 2
+                  type.parameters[1]
+                else
+                  type
+                end
+              else
+                if (type.name == "Result" || type.name == "Promise") &&
+                   type.parameters.size == 2
+                  type.parameters[1]
+                else
+                  type
+                end
+              end
+            else
+              type.parameters[value[1]]
+            end
           else
             type.parameters[value[1]]
           end

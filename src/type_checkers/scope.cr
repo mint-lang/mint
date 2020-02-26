@@ -4,6 +4,7 @@ module Mint
       alias Node = Ast::InlineFunction |
                    Tuple(String, Checkable, Ast::Node) |
                    Ast::WhereStatement |
+                   Ast::Statement |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
@@ -110,6 +111,12 @@ module Mint
       end
 
       def find(variable : String, node : Ast::WhereStatement)
+        node.variables.find(&.value.==(variable)).try do |item|
+          {node, node.variables.index(item).not_nil!}
+        end
+      end
+
+      def find(variable : String, node : Ast::Statement)
         node.variables.find(&.value.==(variable)).try do |item|
           {node, node.variables.index(item).not_nil!}
         end

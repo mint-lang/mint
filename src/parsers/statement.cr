@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def statement : Ast::Statement | Nil
+    def statement(parent) : Ast::Statement | Nil
       start do |start_position|
         variables = start do
           value = list(terminator: nil, separator: ',') { variable }.compact
@@ -18,6 +18,7 @@ module Mint
           variables: variables || [] of Ast::Variable,
           expression: body.as(Ast::Expression),
           from: start_position,
+          parent: parent,
           to: position,
           input: data)
       end

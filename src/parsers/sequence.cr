@@ -14,7 +14,7 @@ module Mint
           opening_bracket: SequenceExpectedOpeningBracket,
           closing_bracket: SequenceExpectedClosingBracket
         ) do
-          results = many { statement || comment }.compact
+          results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
 
           raise SequenceExpectedStatement if results
                                                .select(&.is_a?(Ast::Statement))
