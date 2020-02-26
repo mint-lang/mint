@@ -139,14 +139,6 @@ module Mint
         "node"   => node,
       } if record.have_holes?
 
-      other = records.find(&.==(record))
-
-      raise RecordFieldsConflict, {
-        "other" => @record_names[other.name],
-        "name"  => record.name,
-        "node"  => node,
-      } if other && other.name != record.name
-
       other = @record_names[record.name]?
 
       if other && node != other
