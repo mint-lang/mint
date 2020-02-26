@@ -20,12 +20,18 @@ class A extends _C {
         return ``
       } else if (_compare(a, [`a`])) {
         return ``
-      } else if (_compare(a, )) {
-        return ``
-      } else if (_compare(a, )) {
-        return ``
-      } else if (_compare(a, )) {
-        return ``
+      } else if (Array.isArray(a) && a.length === 1) {
+        const [b] = a;
+        return ``;
+      } else if (Array.isArray(a) && a.length === 2) {
+        const [c,d] = a;
+        return ``;
+      } else if (Array.isArray(a)) {
+        const _ = Array.from(a);
+        const e = _.shift();
+        const f = _.pop();
+        const g = _;
+        return ``;
       } else {
         return ``
       };

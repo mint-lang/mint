@@ -4,11 +4,13 @@ enum A(a) {
 
 enum C(a) {
   D(A(a))
+  X
 }
 
 component Main {
   fun test (b : C(a)) : a {
     case (b) {
+      C::X => ""
       C::D a =>
         case (a) {
           A::B c =>
@@ -26,14 +28,6 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class B extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
 class C extends _E {
   constructor(_0) {
     super();
@@ -42,18 +36,35 @@ class C extends _E {
   }
 };
 
+class D extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class B extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
 class A extends _C {
   a(b) {
     return (() => {
       let c = b;
 
-      if (c instanceof C) {
+      if (c instanceof B) {
+        return ``;
+      } else if (c instanceof D) {
         const d = c._0;
 
         return (() => {
           let e = d;
 
-          if (e instanceof B) {
+          if (e instanceof C) {
             const f = e._0;
             return f;
           };
@@ -64,7 +75,7 @@ class A extends _C {
 
   render() {
     return (() => {
-      this.a(new C(new B(``)));
+      this.a(new D(new C(``)));
       return ``;
     })();
   }

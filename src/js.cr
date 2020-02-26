@@ -7,7 +7,7 @@ module Mint
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
-    abstract def ifchain(items : Array(String)) : String
+    abstract def ifchain(items : Array(Tuple(String | Nil, String))) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
     abstract def provider(name : String, body : Array(String)) : String
@@ -78,8 +78,17 @@ module Mint
       items.join(";")
     end
 
-    def ifchain(items : Array(String)) : String
-      items.join("")
+    def ifchain(items : Array(Tuple(String | Nil, String))) : String
+      items.map_with_index do |(condition, body), index|
+        case
+        when index == 0
+          self.if(condition.to_s, body)
+        when condition.nil?
+          self.else { body }
+        else
+          self.elseif(condition) { body }
+        end
+      end.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
@@ -209,8 +218,17 @@ module Mint
       end
     end
 
-    def ifchain(items : Array(String)) : String
-      items.join(" ")
+    def ifchain(items : Array(Tuple(String | Nil, String))) : String
+      items.map_with_index do |(condition, body), index|
+        case
+        when index == 0
+          self.if(condition.to_s, body)
+        when condition.nil?
+          self.else { body }
+        else
+          self.elseif(condition) { body }
+        end
+      end.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
