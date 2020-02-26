@@ -6,7 +6,6 @@ component Main {
       [a] => ""
       [a, b] => ""
       [a, ...middle, b] => ""
-      => ""
     }
   }
 }
@@ -32,8 +31,6 @@ class A extends _C {
         const f = _.pop();
         const g = _;
         return ``;
-      } else {
-        return ``
       };
     })();
   }
