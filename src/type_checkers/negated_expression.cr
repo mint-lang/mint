@@ -9,6 +9,7 @@ module Mint
       raise NegatedExpressionNotBool, {
         "got"      => expression,
         "expected" => BOOL,
+        "node"     => node,
       } unless Comparer.compare(BOOL, expression)
 
       expression

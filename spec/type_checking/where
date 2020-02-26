@@ -10,3 +10,19 @@ component Main {
     ""
   }
 }
+---------------------------------------------------------------StatementNotTuple
+component Main {
+  fun render : String {
+    x
+  } where {
+    x, y, z = "hello"
+  }
+}
+----------------------------------------------------------StatementTupleMismatch
+component Main {
+  fun render : String {
+    x
+  } where {
+    x, y, z = {"hello", "a"}
+  }
+}

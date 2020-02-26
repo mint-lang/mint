@@ -9,6 +9,7 @@ module Mint
 
         raise RouteParamInvalid, {
           "name" => argument.name.value,
+          "got"  => argument_type,
           "node" => argument,
         } unless Comparer.matches_any?(argument_type, [STRING, NUMBER])
 

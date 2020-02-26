@@ -9,6 +9,7 @@ module Mint
       raise UnaryMinusNotNumber, {
         "got"      => expression,
         "expected" => NUMBER,
+        "node"     => node,
       } unless Comparer.compare(NUMBER, expression)
 
       expression
