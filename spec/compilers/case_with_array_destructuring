@@ -1,0 +1,36 @@
+component Main {
+  fun render : String {
+    case ([]) {
+      [] => ""
+      ["a"] => ""
+      [a] => ""
+      [a, b] => ""
+      [a, ...middle, b] => ""
+      => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (() => {
+      let a = [];
+
+      if (_compare(a, [])) {
+        return ``
+      } else if (_compare(a, [`a`])) {
+        return ``
+      } else if (_compare(a, )) {
+        return ``
+      } else if (_compare(a, )) {
+        return ``
+      } else if (_compare(a, )) {
+        return ``
+      } else {
+        return ``
+      };
+    })();
+  }
+};
+
+A.displayName = "Main";

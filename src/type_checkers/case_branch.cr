@@ -29,6 +29,20 @@ module Mint
 
       node.match.try do |item|
         case item
+        when Ast::ArrayDestructuring
+          variables =
+            item.items.map do |variable|
+              case variable
+              when Ast::Variable
+                {variable.value, condition.parameters[0], variable}
+              when Ast::Spread
+                {variable.variable.value, condition, variable.variable}
+              end
+            end.compact
+
+          scope(variables) do
+            resolve_expression.call
+          end
         when Ast::TupleDestructuring
           raise CaseBranchNotTuple, {
             "got"  => condition,
