@@ -10,7 +10,7 @@ component Main {
 component Main {
   fun render : String {
     case ({"A","B"}) {
-      a, b => ""
+      {a, b} => ""
       => ""
     }
   }
