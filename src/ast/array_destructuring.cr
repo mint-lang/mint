@@ -8,6 +8,10 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def spread?
+        items.any?(Ast::Spread)
+      end
     end
   end
 end

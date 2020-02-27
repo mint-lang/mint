@@ -26,10 +26,10 @@ class A extends _C {
         const [c,d] = a;
         return ``;
       } else if (Array.isArray(a)) {
-        const _ = Array.from(a);
-        const e = _.shift();
-        const f = _.pop();
-        const g = _;
+        const __ = Array.from(a);
+        const e = __.shift();
+        const f = __.pop();
+        const g = __;
         return ``;
       };
     })();

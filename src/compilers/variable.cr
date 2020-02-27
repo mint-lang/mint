@@ -87,6 +87,15 @@ module Mint
           case item = entity[0]
           when Ast::WhereStatement, Ast::Statement
             case target = item.target
+            when Ast::ArrayDestructuring
+              case var = target.items[entity[1]]
+              when Ast::Variable
+                js.variable_of(var)
+              when Ast::Spread
+                js.variable_of(var.variable)
+              else
+                js.variable_of(node)
+              end
             when Ast::TupleDestructuring
               js.variable_of(target.parameters[entity[1]])
             else

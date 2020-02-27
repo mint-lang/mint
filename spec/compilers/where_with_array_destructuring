@@ -1,0 +1,22 @@
+component Main {
+  fun render : Html {
+    <div>
+      <{ a }>
+    </div>
+  } where {
+    [a, b] =
+      ["A", "B"]
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    const [a,b] = [`A`, `B`];
+
+    return _h("div", {}, [
+      a
+    ]);
+  }
+};
+
+A.displayName = "Main";

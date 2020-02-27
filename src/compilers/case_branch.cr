@@ -22,43 +22,17 @@ module Mint
       if match = node.match
         case match
         when Ast::ArrayDestructuring
-          if match.items.any?(Ast::Spread)
-            statements = [
-              "const _ = Array.from(#{variable})",
-            ]
+          statements =
+            _compile(match, variable)
 
-            match
-              .items
-              .take_while(&.is_a?(Ast::Variable))
-              .each do |var|
-                statements << "const #{js.variable_of(var)} = _.shift()"
-              end
+          statements << expression
 
-            match
-              .items
-              .reverse
-              .take_while(&.is_a?(Ast::Variable))
-              .each do |var|
-                statements << "const #{js.variable_of(var)} = _.pop()"
-              end
-
-            statements << "const #{js.variable_of(match.items.select(Ast::Spread).first.variable)} = _"
-            statements << expression
-
+          if match.spread?
             {"Array.isArray(#{variable})", js.statements(statements)}
           else
-            variables =
-              match
-                .items
-                .map { |param| js.variable_of(param) }
-                .join(",")
-
             {
               "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
-              js.statements([
-                "const [#{variables}] = #{variable}",
-                expression,
-              ]),
+              js.statements(statements),
             }
           end
         when Ast::TupleDestructuring
