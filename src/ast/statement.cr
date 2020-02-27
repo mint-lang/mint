@@ -7,9 +7,9 @@ module Mint
         Parallel
       end
 
-      getter variables, expression, parent
+      getter target, expression, parent
 
-      def initialize(@variables : Array(Variable),
+      def initialize(@target : Node | Nil,
                      @expression : Expression,
                      @parent : Parent,
                      @input : Data,

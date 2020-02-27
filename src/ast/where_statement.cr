@@ -1,9 +1,9 @@
 module Mint
   class Ast
     class WhereStatement < Node
-      getter variables, expression
+      getter target, expression
 
-      def initialize(@variables : Array(Variable),
+      def initialize(@target : Node,
                      @expression : Expression,
                      @input : Data,
                      @from : Int32,

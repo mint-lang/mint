@@ -4,19 +4,20 @@ module Mint
       expression =
         compile node.expression
 
-      if node.variables.size > 1
+      case target = node.target
+      when Ast::Variable
+        name =
+          js.variable_of(target)
+
+        "let #{name} = #{expression}"
+      when Ast::TupleDestructuring
         variables =
-          node
-            .variables
+          target
+            .parameters
             .map { |param| js.variable_of(param) }
             .join(",")
 
         "const [#{variables}] = #{expression}"
-      elsif node.variables.size == 1
-        name =
-          js.variable_of(node.variables[0])
-
-        "let #{name} = #{expression}"
       else
         ""
       end

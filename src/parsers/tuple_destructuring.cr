@@ -3,9 +3,10 @@ module Mint
     def tuple_destructuring
       start do |start_position|
         head = start do
+          skip unless char! '{'
           value = variable
           whitespace
-          skip unless keyword ","
+          char! ','
           whitespace
           value
         end
@@ -13,7 +14,11 @@ module Mint
         skip unless head
 
         parameters = [head].concat(
-          list(terminator: nil, separator: ',') { variable }.compact)
+          list(terminator: '}', separator: ',') { variable }.compact)
+
+        whitespace
+
+        char "}", SyntaxError
 
         Ast::TupleDestructuring.new(
           parameters: parameters,

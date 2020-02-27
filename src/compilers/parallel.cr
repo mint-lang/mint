@@ -3,13 +3,13 @@ module Mint
     def _compile(node : Ast::Parallel) : String
       body = node.statements.map do |statement|
         prefix = ->(value : String) {
-          case
-          when statement.variables.size == 1
-            js.assign(js.variable_of(statement.variables[0]), value)
-          when statement.variables.size > 1
+          case target = statement.target
+          when Ast::Variable
+            js.assign(js.variable_of(target), value)
+          when Ast::TupleDestructuring
             variables =
-              statement
-                .variables
+              target
+                .parameters
                 .map { |param| js.variable_of(param) }
                 .join(",")
 
@@ -98,8 +98,13 @@ module Mint
 
       names =
         node.statements.map do |statement|
-          (statement.variables || [] of Ast::Variable).map do |variable|
-            js.let(js.variable_of(variable), "null")
+          case target = statement.target
+          when Ast::Variable
+            js.let(js.variable_of(target), "null")
+          when Ast::TupleDestructuring
+            target.parameters.each do |variable|
+              js.let(js.variable_of(variable), "null")
+            end
           end
         end.flatten.compact
 

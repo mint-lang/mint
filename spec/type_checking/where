@@ -15,7 +15,7 @@ component Main {
   fun render : String {
     x
   } where {
-    x, y, z = "hello"
+    {x, y, z} = "hello"
   }
 }
 ----------------------------------------------------------StatementTupleMismatch
@@ -23,6 +23,6 @@ component Main {
   fun render : String {
     x
   } where {
-    x, y, z = {"hello", "a"}
+    {x, y, z} = {"hello", "a"}
   }
 }

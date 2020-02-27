@@ -4,7 +4,7 @@ component Main {
       <{ something }>
     </div>
   } where {
-    something, otherThing =
+    {something, otherThing} =
       {"Asd", 0}
   }
 }

@@ -6,18 +6,21 @@ module Mint
     def check(node : Ast::Statement | Ast::WhereStatement) : Checkable
       type = resolve node.expression
 
-      if node.variables.size > 1
-        raise StatementNotTuple, {
-          "node" => node.expression,
-          "got"  => type,
-        } unless type.name == "Tuple"
+      case target = node.target
+      when Ast::TupleDestructuring
+        if target.parameters.size > 1
+          raise StatementNotTuple, {
+            "node" => node.expression,
+            "got"  => type,
+          } unless type.name == "Tuple"
 
-        raise StatementTupleMismatch, {
-          "parameters" => type.parameters.size.to_s,
-          "variables"  => node.variables.size.to_s,
-          "node"       => node.expression,
-          "got"        => type,
-        } if type.parameters.size < node.variables.size
+          raise StatementTupleMismatch, {
+            "parameters" => type.parameters.size.to_s,
+            "variables"  => target.parameters.size.to_s,
+            "node"       => node.expression,
+            "got"        => type,
+          } if type.parameters.size < target.parameters.size
+        end
       end
 
       types[node] = type

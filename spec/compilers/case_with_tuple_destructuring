@@ -7,7 +7,7 @@ component Main {
       {"A", 0, true} =>
         "A"
 
-      a, b, c =>
+      {a, b, c} =>
         a
 
       => ""

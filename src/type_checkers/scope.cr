@@ -110,15 +110,25 @@ module Mint
         node.arguments.find(&.name.value.==(variable))
       end
 
-      def find(variable : String, node : Ast::WhereStatement)
-        node.variables.find(&.value.==(variable)).try do |item|
-          {node, node.variables.index(item).not_nil!}
+      def find(variable : String, node : Ast::Statement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
         end
       end
 
-      def find(variable : String, node : Ast::Statement)
-        node.variables.find(&.value.==(variable)).try do |item|
-          {node, node.variables.index(item).not_nil!}
+      def find(variable : String, node : Ast::WhereStatement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
         end
       end
 

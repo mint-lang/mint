@@ -7,21 +7,23 @@ module Mint
           .sort_by { |item| resolve_order.index(item) || -1 }
           .map_with_index do |statement, index|
             prefix = ->(value : String) {
-              case
-              when (index + 1) == node.statements.size
+              if (index + 1) == node.statements.size
                 "_ = #{value}"
-              when statement.variables.size == 1
-                js.let(js.variable_of(statement.variables[0]), value)
-              when statement.variables.size > 1
-                variables =
-                  statement
-                    .variables
-                    .map { |param| js.variable_of(param) }
-                    .join(",")
-
-                "const [#{variables}] = #{value}"
               else
-                value
+                case target = statement.target
+                when Ast::Variable
+                  js.let(js.variable_of(target), value)
+                when Ast::TupleDestructuring
+                  variables =
+                    target
+                      .parameters
+                      .map { |param| js.variable_of(param) }
+                      .join(",")
+
+                  "const [#{variables}] = #{value}"
+                else
+                  value
+                end
               end
             }
 

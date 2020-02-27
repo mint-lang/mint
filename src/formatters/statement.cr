@@ -4,13 +4,14 @@ module Mint
       expression =
         format node.expression
 
-      if node.variables.empty?
+      case node.target
+      when Nil
         expression
       else
-        variables =
-          format node.variables, ", "
+        target =
+          format node.target
 
-        "#{variables} =\n#{indent(expression)}"
+        "#{target} =\n#{indent(expression)}"
       end
     end
   end

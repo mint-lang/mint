@@ -30,42 +30,31 @@ module Mint
         Type.new("Maybe", [component_records[item[0]]] of Checkable)
       else
         case value = item[0]
+        when Ast::Statement
+          type = resolve value
+
+          if value.parent == Ast::Statement::Parent::Try
+            if type.name == "Result" &&
+               type.parameters.size == 2
+              type.parameters[1]
+            else
+              type
+            end
+          else
+            if (type.name == "Result" || type.name == "Promise") &&
+               type.parameters.size == 2
+              type.parameters[1]
+            else
+              type
+            end
+          end
         when Tuple(Ast::Node, Int32)
           item = value[0]
 
           type =
             resolve item
 
-          case item
-          when Ast::WhereStatement
-            if item.variables.size == 1
-              type
-            else
-              type.parameters[value[1]]
-            end
-          when Ast::Statement
-            if item.variables.size == 1
-              if item.parent == Ast::Statement::Parent::Try
-                if type.name == "Result" &&
-                   type.parameters.size == 2
-                  type.parameters[1]
-                else
-                  type
-                end
-              else
-                if (type.name == "Result" || type.name == "Promise") &&
-                   type.parameters.size == 2
-                  type.parameters[1]
-                else
-                  type
-                end
-              end
-            else
-              type.parameters[value[1]]
-            end
-          else
-            type.parameters[value[1]]
-          end
+          type.parameters[value[1]]
         when Ast::Node
           resolve value
         when Checkable

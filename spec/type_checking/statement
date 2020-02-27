@@ -9,7 +9,7 @@ component Main {
 component Main {
   fun render : String {
     try {
-      x, y, z = "hello"
+      {x, y, z} = "hello"
     }
   }
 }
@@ -17,7 +17,7 @@ component Main {
 component Main {
   fun render : String {
     try {
-      x, y, z = {"hello", "a"}
+      {x, y, z} = {"hello", "a"}
     }
   }
 }
