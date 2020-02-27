@@ -1,0 +1,17 @@
+module Test {
+  fun test : String {
+    a
+  } where {
+    [a, b, ...rest] =
+      ["A", "B"]
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : String {
+    a
+  } where {
+    [a, b, ...rest] =
+      ["A", "B"]
+  }
+}
