@@ -21,8 +21,6 @@ module Mint
                 case target = statement.target
                 when Ast::Variable
                   js.let(js.variable_of(target), value)
-                when Ast::ArrayDestructuring
-                  js.statements(_compile(target, value))
                 when Ast::TupleDestructuring
                   variables =
                     target

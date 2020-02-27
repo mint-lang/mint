@@ -114,17 +114,6 @@ module Mint
         case target = node.target
         when Ast::Variable
           node if target.value == variable
-        when Ast::ArrayDestructuring
-          target.items.find do |item|
-            case item
-            when Ast::Variable
-              item.value == variable
-            when Ast::Spread
-              item.variable.value == variable
-            end
-          end.try do |item|
-            {node, target.items.index(item).not_nil!}
-          end
         when Ast::TupleDestructuring
           target.parameters.find(&.value.==(variable)).try do |item|
             {node, target.parameters.index(item).not_nil!}
@@ -136,17 +125,6 @@ module Mint
         case target = node.target
         when Ast::Variable
           node if target.value == variable
-        when Ast::ArrayDestructuring
-          target.items.find do |item|
-            case item
-            when Ast::Variable
-              item.value == variable
-            when Ast::Spread
-              item.variable.value == variable
-            end
-          end.try do |item|
-            {node, target.items.index(item).not_nil!}
-          end
         when Ast::TupleDestructuring
           target.parameters.find(&.value.==(variable)).try do |item|
             {node, target.parameters.index(item).not_nil!}

@@ -56,14 +56,7 @@ module Mint
 
           case item
           when Ast::Statement, Ast::WhereStatement
-            case target = item.target
-            when Ast::ArrayDestructuring
-              case target.items[value[1]]
-              when Ast::Spread
-                type
-              else
-                type.parameters[0]
-              end
+            case item.target
             when Ast::TupleDestructuring
               type.parameters[value[1]]
             else

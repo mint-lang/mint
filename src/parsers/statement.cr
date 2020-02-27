@@ -3,7 +3,7 @@ module Mint
     def statement(parent) : Ast::Statement | Nil
       start do |start_position|
         target = start do
-          value = variable || tuple_destructuring || array_destructuring
+          value = variable || tuple_destructuring
           whitespace
           skip unless keyword "="
           whitespace

@@ -1,17 +1,15 @@
 module Test {
   fun test : String {
-    a
-  } where {
-    [a, b, ...rest] =
-      ["A", "B"]
+    case ([]) {
+      [a, b, ...rest] => ""
+    }
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    a
-  } where {
-    [a, b, ...rest] =
-      ["A", "B"]
+    case ([]) {
+      [a, b, ...rest] => ""
+    }
   }
 }

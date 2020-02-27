@@ -6,8 +6,6 @@ module Mint
           case target = statement.target
           when Ast::Variable
             js.assign(js.variable_of(target), value)
-          when Ast::ArrayDestructuring
-            js.statements(_compile(target, value, assign: true))
           when Ast::TupleDestructuring
             variables =
               target
@@ -103,15 +101,6 @@ module Mint
           case target = statement.target
           when Ast::Variable
             js.let(js.variable_of(target), "null")
-          when Ast::ArrayDestructuring
-            target.items.map do |item|
-              case item
-              when Ast::Variable
-                js.let(js.variable_of(item), "null")
-              when Ast::Spread
-                js.let(js.variable_of(item.variable), "null")
-              end
-            end
           when Ast::TupleDestructuring
             target.parameters.map do |variable|
               js.let(js.variable_of(variable), "null")

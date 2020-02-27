@@ -5,7 +5,7 @@ module Mint
 
     def where_statement : Ast::WhereStatement | Nil
       start do |start_position|
-        target = variable || tuple_destructuring || array_destructuring
+        target = variable || tuple_destructuring
         skip unless target
         whitespace
 
