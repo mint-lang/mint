@@ -44,7 +44,7 @@ module Mint
         node.where.try { |item| resolve item }
 
         defined_type =
-          Type.new("Function", arguments + [return_type])
+          Comparer.normalize(Type.new("Function", arguments + [return_type]))
 
         final_typed =
           Type.new("Function", arguments + [body_type])
@@ -58,7 +58,7 @@ module Mint
           "node"     => node,
         } unless resolved
 
-        Comparer.normalize(defined_type)
+        resolved
       end
     end
   end

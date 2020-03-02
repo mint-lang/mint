@@ -233,14 +233,12 @@ module Mint
             node1.instance = node2
           end
           node1
+        elsif node2.is_a?(Variable)
+          unify(node2, node1)
         elsif node1.is_a?(Record) && node2.is_a?(Type)
           raise "Not unified!" if node1.name != node2.name
           node1
         elsif node2.is_a?(Record) && node1.is_a?(Type)
-          unify(node2, node1)
-        elsif node1.is_a?(Record) && node2.is_a?(Variable)
-          unify(node2, node1)
-        elsif node1.is_a?(Type) && node2.is_a?(Variable)
           unify(node2, node1)
         elsif node1.is_a?(Record) && node2.is_a?(Record)
           raise "Not unified!" if node1 != node2

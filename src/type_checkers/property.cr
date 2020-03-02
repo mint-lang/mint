@@ -19,7 +19,7 @@ module Mint
         "node" => node,
       } if type.have_holes?
 
-      result =
+      resolved =
         Comparer.compare type, default
 
       raise PropertyTypeMismatch, {
@@ -27,9 +27,9 @@ module Mint
         "got"      => default,
         "expected" => type,
         "node"     => node,
-      } unless result
+      } unless resolved
 
-      type
+      resolved
     end
   end
 end
