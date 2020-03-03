@@ -26,6 +26,23 @@ module Mint
     abstract def css_rule(name : String, definitions : Array(String)) : String
     abstract def css_rules(rules : Array(String)) : String
     abstract def for(condition : String, body : String) : String
+
+    def ifchain(items : Array(Tuple(String | Nil, String))) : String
+      items
+        .sort_by { |(condition, _)| condition.nil? ? 1 : -1 }
+        .map_with_index do |(condition, body), index|
+          case
+          when index == 0 && condition.nil?
+            body # This branch handles only one item which does not have condition
+          when condition.nil?
+            self.else { body }
+          when index == 0
+            self.if(condition.to_s, body)
+          else
+            self.elseif(condition) { body }
+          end
+        end.join(" ")
+    end
   end
 
   class Optimized < Renderer
@@ -76,19 +93,6 @@ module Mint
 
     def statements(items : Array(String)) : String
       items.join(";")
-    end
-
-    def ifchain(items : Array(Tuple(String | Nil, String))) : String
-      items.map_with_index do |(condition, body), index|
-        case
-        when index == 0
-          self.if(condition.to_s, body)
-        when condition.nil?
-          self.else { body }
-        else
-          self.elseif(condition) { body }
-        end
-      end.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
@@ -216,19 +220,6 @@ module Mint
         memo += ";" unless memo.ends_with?(";")
         memo
       end
-    end
-
-    def ifchain(items : Array(Tuple(String | Nil, String))) : String
-      items.map_with_index do |(condition, body), index|
-        case
-        when index == 0
-          self.if(condition.to_s, body)
-        when condition.nil?
-          self.else { body }
-        else
-          self.elseif(condition) { body }
-        end
-      end.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
