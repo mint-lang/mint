@@ -14,13 +14,18 @@ module Mint
         return_type =
           resolve node.type
 
+        node.where.try { |item| resolve item }
+
+        resolved =
+          Comparer.compare(body_type, return_type)
+
         raise GetTypeMismatch, {
           "expected" => return_type,
           "got"      => body_type,
           "node"     => node,
-        } unless Comparer.compare(body_type, return_type)
+        } unless resolved
 
-        return_type
+        resolved
       end
     end
   end

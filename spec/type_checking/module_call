@@ -90,7 +90,7 @@ component Main {
     Test.b()
   }
 }
-----------------------------------------------------------------CallTypeMismatch
+--------------------------------------------------------CallArgumentTypeMismatch
 module Test {
   fun a (value : a, x : a) : String {
     value
