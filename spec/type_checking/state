@@ -6,9 +6,17 @@ component Main {
     <div/>
   }
 }
--------------------------------------------------------------StateTypeMismatch
+---------------------------------------------------------------StateTypeMismatch
 component Main {
   state b : String = 0
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------------StateTypeMismatch
+component Main {
+  state name : Test = { a = "Hello" }
 
   fun render : Html {
     <div/>

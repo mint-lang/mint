@@ -22,3 +22,12 @@ component Main {
     <div/>
   }
 }
+------------------------------------------------------------PropertyTypeMismatch
+component Main {
+  property name : Test = { a = "Hello" }
+
+  fun render : Html {
+    <div/>
+  }
+}
+

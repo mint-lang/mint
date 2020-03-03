@@ -11,7 +11,11 @@ module Mint
         resolve node.type
 
       default =
-        resolve node.default
+        begin
+          resolve node.default
+        rescue error : RecordNotFoundMatchingRecord
+          error.locals["structure"]?.as(Checkable)
+        end
 
       resolved =
         Comparer.compare(type, default)
