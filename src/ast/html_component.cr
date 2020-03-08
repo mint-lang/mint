@@ -7,7 +7,7 @@ module Mint
                      @children : Array(HtmlContent),
                      @comments : Array(Comment),
                      @ref : Variable | Nil,
-                     @component : String,
+                     @component : Variable,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
@@ -22,7 +22,7 @@ module Mint
       end
 
       def static_hash
-        component +
+        component.value +
           attributes.map(&.static_value).join +
           children.map(&.static_value).join
       end

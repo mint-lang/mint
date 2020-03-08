@@ -202,7 +202,7 @@ module Mint
           when Ast::HtmlComponent
             @ast
               .components
-              .find(&.name.==(item.component))
+              .find(&.name.==(item.component.value))
               .try do |entity|
                 memo[variable.value] = entity
               end

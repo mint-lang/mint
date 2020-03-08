@@ -6,15 +6,15 @@ module Mint
 
     def check(node : Ast::HtmlComponent) : Checkable
       component =
-        ast.components.find(&.name.==(node.component))
+        ast.components.find(&.name.==(node.component.value))
 
       raise HtmlComponentNotFoundComponent, {
-        "name" => node.component,
+        "name" => node.component.value,
         "node" => node,
       } unless component
 
       raise HtmlComponentGlobalComponent, {
-        "name" => node.component,
+        "name" => node.component.value,
         "node" => node,
       } if component.global
 

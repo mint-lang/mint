@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::HtmlComponent) : String
       component =
-        format node.component
+        format node.component.value
 
       ref =
         node.ref.try do |variable|

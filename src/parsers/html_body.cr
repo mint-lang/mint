@@ -17,7 +17,7 @@ module Mint
 
     def html_body(expected_closing_bracket : SyntaxError.class,
                   expected_closing_tag : SyntaxError.class,
-                  tag : Ast::Variable | String,
+                  tag : Ast::Variable,
                   with_dashes : Bool)
       whitespace
       attributes = many { html_attribute(with_dashes) }.compact
@@ -44,7 +44,9 @@ module Mint
             tag
           end
 
-        keyword! "</#{closing_tag}>", expected_closing_tag
+        raise expected_closing_tag, position, {
+          "opening_tag" => tag,
+        } unless keyword "</#{closing_tag}>"
 
         items.each do |item|
           case item

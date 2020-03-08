@@ -40,7 +40,7 @@ module Mint
     # Helpers for raising errors
     # ----------------------------------------------------------------------------
 
-    def raise(error : SyntaxError.class, position : Int32)
+    def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
       to =
         input[position, input.size]
           .split(/\s|\n|\r/)
@@ -59,11 +59,15 @@ module Mint
       raise error, {
         "node" => node,
         "got"  => part,
-      }
+      }.merge(raw)
+    end
+
+    def raise(error : SyntaxError.class, position : Int32)
+      raise error, position, {} of String => String
     end
 
     def raise(error : SyntaxError.class)
-      raise error, position
+      raise error, position, {} of String => String
     end
 
     def raise(error : SkipError.class)
