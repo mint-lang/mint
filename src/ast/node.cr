@@ -20,7 +20,7 @@ module Mint
         ""
       end
 
-      def has_new_line?
+      def new_line?
         input.input[from, to - from].includes?("\n")
       end
     end

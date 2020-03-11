@@ -5,7 +5,7 @@ module Mint
         node.store
 
       separated =
-        ast.has_new_line?(node.keys.first, node.keys.last)
+        ast.new_line?(node.keys.first, node.keys.last)
 
       should_break =
         node.keys.size > 6 || separated

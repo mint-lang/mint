@@ -19,7 +19,7 @@ module Mint
 
       if replace_skipped(body).includes?("\n") ||
          replace_skipped(arguments).includes?("\n") ||
-         ast.has_new_line?(node.type, node.body)
+         ast.new_line?(node.type, node.body)
         "(#{arguments}) : #{type} {\n#{indent(body)}\n}"
       else
         "(#{arguments}) : #{type} { #{body} }"

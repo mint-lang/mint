@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::ArrayLiteral) : String
       multiline =
-        node.has_new_line?
+        node.new_line?
 
       items =
         format node.items, multiline ? ",\n" : ", "
