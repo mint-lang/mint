@@ -1,5 +1,7 @@
 module Mint
   class Parser
+    syntax_error TupleDestructuringExpectedClosingBracket
+
     def tuple_destructuring
       start do |start_position|
         head = start do
@@ -18,7 +20,7 @@ module Mint
 
         whitespace
 
-        char "}", SyntaxError
+        char "}", TupleDestructuringExpectedClosingBracket
 
         Ast::TupleDestructuring.new(
           parameters: parameters,
