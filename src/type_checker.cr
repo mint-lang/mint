@@ -30,7 +30,7 @@ module Mint
     property checking : Bool = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate types, variables, ast, lookups, cache, to: artifacts
+    delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
     delegate component?, component, stateful?, to: scope
     delegate format, to: formatter
 
@@ -172,8 +172,7 @@ module Mint
       end
     end
 
-    def scope(nodes : Array(Tuple(String, Checkable, Ast::Node)))
-      # There is no recursive call check because these are just variables...
+    def scope(nodes)
       scope.with nodes do
         yield
       end
@@ -215,7 +214,7 @@ module Mint
               return NEVER.as(Checkable)
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            when Ast::WhereStatement
+            when Ast::WhereStatement, Ast::Statement
               expression =
                 node.expression
 
@@ -236,6 +235,7 @@ module Mint
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
+            resolve_order << node
 
             check! node
 

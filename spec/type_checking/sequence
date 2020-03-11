@@ -9,3 +9,24 @@ component Main {
     <div/>
   }
 }
+--------------------------------------------------------------------------------
+module Promise {
+  fun resolve (input : b) : Promise(Never, b) {
+    ``
+  }
+}
+
+component Main {
+  fun test : Promise(Never, String) {
+    sequence {
+      x =
+        Promise.resolve("Hello")
+
+      x + " World!"
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

@@ -20,7 +20,7 @@ module Mint
           .branches
           .sort_by(&.match.nil?.to_s)
           .map_with_index do |branch, index|
-            compile branch, index, variable, block
+            _compile branch, index, variable, block
           end
 
       js.iif do

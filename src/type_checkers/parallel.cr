@@ -8,35 +8,21 @@ module Mint
     def check(node : Ast::Parallel) : Checkable
       to_catch = [] of Checkable
 
-      scope_items =
-        node.statements.map do |statement|
-          check_variable statement.name
+      node.statements.map do |statement|
+        new_type = resolve statement
 
-          new_type = resolve statement
-
-          type =
-            if (new_type.name == "Promise" || new_type.name == "Result") &&
-               new_type.parameters.size == 2
-              if new_type.parameters[0].name != "Void" &&
-                 new_type.parameters[0].name != "Never"
-                to_catch << new_type.parameters[0]
-              end
-
-              resolve_type(new_type.parameters[1])
-            else
-              resolve_type(new_type)
-            end
-
-          maybe_name = statement.name
-
-          if maybe_name
-            {maybe_name.value, type, statement}.as(Tuple(String, Checkable, Ast::Node))
+        if (new_type.name == "Promise" || new_type.name == "Result") &&
+           new_type.parameters.size == 2
+          if new_type.parameters[0].name != "Void" &&
+             new_type.parameters[0].name != "Never"
+            to_catch << new_type.parameters[0]
           end
-        end.compact
+        end
+      end
 
       final_type =
-        node.then_branch.try do |branch|
-          scope(scope_items) do
+        scope node.statements do
+          node.then_branch.try do |branch|
             resolve branch.expression
           end
         end

@@ -76,8 +76,25 @@ module Mint
           "this.#{name}"
         when Ast::Argument
           compile entity
-        when Ast::WhereStatement, Ast::Statement
-          js.variable_of(entity.as(Ast::Node))
+        when Ast::Statement, Ast::WhereStatement
+          case target = entity.target
+          when Ast::Variable
+            js.variable_of(target)
+          else
+            "SHOULD NEVER HAPPEN"
+          end
+        when Tuple(Ast::Node, Int32)
+          case item = entity[0]
+          when Ast::WhereStatement, Ast::Statement
+            case target = item.target
+            when Ast::TupleDestructuring
+              js.variable_of(target.parameters[entity[1]])
+            else
+              js.variable_of(node)
+            end
+          else
+            js.variable_of(node)
+          end
         else
           "this.#{node.value}"
         end

@@ -4,10 +4,10 @@ module Mint
       expression =
         format node.expression
 
-      name =
-        format node.name
+      target =
+        format node.target
 
-      "#{name} =\n#{indent(expression)}"
+      "#{target} =\n#{indent(expression)}"
     end
   end
 end

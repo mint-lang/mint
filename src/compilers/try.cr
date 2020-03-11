@@ -6,66 +6,83 @@ module Mint
           js.let("_catch_all", js.arrow_function([] of String, "return #{compile(catch.expression)}")) + "\n\n"
         end
 
-      body = node.statements.map_with_index do |statement, index|
-        is_last =
-          (index + 1) == node.statements.size
+      body =
+        node
+          .statements
+          .sort_by { |item| resolve_order.index(item) || -1 }
+          .map_with_index do |statement, index|
+            is_last =
+              (index + 1) == node.statements.size
 
-        prefix =
-          case
-          when is_last
-            "return "
-          when statement.name
-            "let #{js.variable_of(statement)} = "
-          end
+            prefix = ->(value : String) {
+              if is_last
+                "return #{value}"
+              else
+                case target = statement.target
+                when Ast::Variable
+                  js.let(js.variable_of(target), value)
+                when Ast::TupleDestructuring
+                  variables =
+                    target
+                      .parameters
+                      .map { |param| js.variable_of(param) }
+                      .join(",")
 
-        expression =
-          compile statement
+                  "const [#{variables}] = #{value}"
+                else
+                  value
+                end
+              end
+            }
 
-        type = types[statement]?
+            expression =
+              compile statement
 
-        catches =
-          case type
-          when TypeChecker::Type
-            if type.name == "Result" && type.parameters[0] && !is_last
-              catched =
-                node.catches.map do |catch|
-                  if catch.type == type.parameters[0].name
-                    catch_body =
-                      compile catch.expression
+            type = types[statement]?
 
-                    variable =
-                      js.variable_of(catch)
+            catches =
+              case type
+              when TypeChecker::Type
+                if type.name == "Result" && type.parameters[0] && !is_last
+                  catched =
+                    node.catches.map do |catch|
+                      if catch.type == type.parameters[0].name
+                        catch_body =
+                          compile catch.expression
 
-                    js.statements([
-                      js.let(variable, "_error"),
-                      "return #{catch_body}",
-                    ])
+                        variable =
+                          js.variable_of(catch)
+
+                        js.statements([
+                          js.let(variable, "_error"),
+                          "return #{catch_body}",
+                        ])
+                      end
+                    end
+
+                  if catched.any?
+                    js.statements(catched.compact)
+                  else
+                    "return _catch_all()"
                   end
                 end
-
-              if catched.any?
-                js.statements(catched.compact)
-              else
-                "return _catch_all()"
               end
+
+            if catches && !catches.empty?
+              js.statements([
+                js.let("_#{index}", expression),
+                js.if("_#{index} instanceof Err") do
+                  js.statements([
+                    js.let("_error", "_#{index}._0"),
+                    catches,
+                  ])
+                end,
+                prefix.call("_#{index}._0"),
+              ])
+            else
+              prefix.call(expression)
             end
           end
-
-        if catches && !catches.empty?
-          js.statements([
-            js.let("_#{index}", expression),
-            js.if("_#{index} instanceof Err") do
-              js.statements([
-                js.let("_error", "_#{index}._0"),
-                catches,
-              ])
-            end,
-            "#{prefix}_#{index}._0",
-          ])
-        else
-          "#{prefix}#{expression}"
-        end
-      end
 
       js.iif("#{catch_all}#{js.statements(body)}")
     end

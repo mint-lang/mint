@@ -3,16 +3,17 @@ module Mint
     class Scope
       alias Node = Ast::InlineFunction |
                    Tuple(String, Checkable, Ast::Node) |
+                   Ast::WhereStatement |
+                   Ast::Statement |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
                    Ast::Store |
-                   Ast::Style |
-                   Ast::Get
+                   Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable, Node)
-      alias Lookup = Tuple(Ast::Node | Checkable, Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
@@ -106,16 +107,33 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Function)
-        node.arguments.find(&.name.value.==(variable)) ||
-          node.where.try(&.statements.find(&.name.value.==(variable)))
+        node.arguments.find(&.name.value.==(variable))
+      end
+
+      def find(variable : String, node : Ast::Statement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
+        end
+      end
+
+      def find(variable : String, node : Ast::WhereStatement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
+        end
       end
 
       def find(variable : String, node : Ast::Style)
         node.arguments.find(&.name.value.==(variable))
-      end
-
-      def find(variable : String, node : Ast::Get)
-        node.where.try(&.statements.find(&.name.value.==(variable)))
       end
 
       def find(variable : String, node : Ast::InlineFunction)

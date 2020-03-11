@@ -5,7 +5,8 @@ module Mint
 
     def where_statement : Ast::WhereStatement | Nil
       start do |start_position|
-        skip unless name = variable
+        target = variable || tuple_destructuring
+        skip unless target
         whitespace
 
         char '=', WhereExpectedEqualSign
@@ -16,9 +17,9 @@ module Mint
         Ast::WhereStatement.new(
           expression: expression,
           from: start_position,
+          target: target,
           to: position,
-          input: data,
-          name: name)
+          input: data)
       end
     end
   end

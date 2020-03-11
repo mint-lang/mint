@@ -17,3 +17,35 @@ component Main {
     }
   }
 }
+-------------------------------------------------------CaseBranchMultipleSpreads
+component Main {
+  fun render : String {
+    case ([]) {
+      [...a,...b] => "a"
+    }
+  }
+}
+--------------------------------------------------------------CaseBranchNotArray
+component Main {
+  fun render : String {
+    case ("") {
+      [...a,...b] => "a"
+    }
+  }
+}
+---------------------------------------------------------CaseBranchTupleMismatch
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {a, b, c} => "a"
+    }
+  }
+}
+--------------------------------------------------------------CaseBranchNotTuple
+component Main {
+  fun render : String {
+    case ("") {
+      {a, b} => "a"
+    }
+  }
+}

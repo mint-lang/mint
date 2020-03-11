@@ -1,0 +1,18 @@
+component Main {
+  fun render : String {
+    case ("Hello") {
+      => "false"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (() => {
+      let a = `Hello`;
+      return `false`;
+    })();
+  }
+};
+
+A.displayName = "Main";

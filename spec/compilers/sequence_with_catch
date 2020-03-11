@@ -34,7 +34,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  c(h) {
+  b(h) {
     return;
   }
 });
@@ -45,31 +45,31 @@ class A extends _C {
       let _ = null;
 
       try {
-        let b = await (async () => {
+        let d = await (async () => {
           try {
-            return await B.c(`x`)
+            return await B.b(`x`)
           } catch (_error) {
-            let d = _error;
-            _ = d;
+            let c = _error;
+            _ = c;
             throw new DoError();
           }
         })();
 
         let e = await (async () => {
           try {
-            return await B.c(`y`)
+            return await B.b(`y`)
           } catch (_error) {
-            let d = _error;
-            _ = d;
+            let c = _error;
+            _ = c;
             throw new DoError();
           }
         })();
 
-        let f = await (async () => {
+        let g = await (async () => {
           try {
-            return await B.c(0)
+            return await B.b(0)
           } catch (_error) {
-            let g = _error;
+            let f = _error;
             _ = `asd`;
             throw new DoError();
           }

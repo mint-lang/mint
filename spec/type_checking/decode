@@ -8,6 +8,8 @@ component Main {
       decode `{}` as X
 
       <div/>
+    } catch {
+      <div/>
     }
   }
 }

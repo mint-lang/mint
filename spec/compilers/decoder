@@ -22,6 +22,8 @@ component Main {
       x(``)
 
       ""
+    } catch {
+      ""
     }
   }
 }
@@ -71,6 +73,10 @@ class C extends _C {
 
   render() {
     return (() => {
+      let _catch_all = () => {
+        return ``
+      }
+
       let _0 = this.a();
 
       if (_0 instanceof Err) {

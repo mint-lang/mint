@@ -5,7 +5,7 @@ module Mint
     def case_branch(for_css : Bool = false) : Ast::CaseBranch | Nil
       start do |start_position|
         unless keyword "=>"
-          match = enum_destructuring || expression
+          match = enum_destructuring || tuple_destructuring || array_destructuring || expression
           whitespace
           skip unless keyword "=>"
         end
@@ -20,7 +20,7 @@ module Mint
           end
 
         Ast::CaseBranch.new(
-          match: match.as(Ast::EnumDestructuring | Ast::Expression | Nil),
+          match: match.as(Ast::EnumDestructuring | Ast::TupleDestructuring | Ast::Expression | Nil),
           expression: expression,
           from: start_position,
           to: position,

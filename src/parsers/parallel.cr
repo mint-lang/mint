@@ -14,7 +14,7 @@ module Mint
           opening_bracket: ParallelExpectedOpeningBracket,
           closing_bracket: ParallelExpectedClosingBracket
         ) do
-          results = many { statement || comment }.compact
+          results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
 
           raise ParallelExpectedStatement if results
                                                .reject(&.is_a?(Ast::Comment))

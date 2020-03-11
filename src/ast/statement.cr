@@ -1,10 +1,17 @@
 module Mint
   class Ast
     class Statement < Node
-      getter name, expression
+      enum Parent
+        Try
+        Sequence
+        Parallel
+      end
 
-      def initialize(@expression : Expression,
-                     @name : Variable | Nil,
+      getter target, expression, parent
+
+      def initialize(@target : Node | Nil,
+                     @expression : Expression,
+                     @parent : Parent,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

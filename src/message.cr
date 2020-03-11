@@ -34,6 +34,8 @@ module Mint
 
       def snippet(value, message = "Here is the relevant code snippet:")
         case value
+        when Tuple(Ast::Node, Int32)
+          snippet value[0], message
         when TypeChecker::Checkable
           type_with_text value, message
         when Ast::Node
@@ -159,7 +161,12 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Checkable | Array(TypeChecker::Checkable) | Array(String))
+    def initialize(@data = {} of String => String |
+                                           Ast::Node |
+                                           TypeChecker::Checkable |
+                                           Array(TypeChecker::Checkable) |
+                                           Array(String) |
+                                           Tuple(Ast::Node, Int32))
     end
 
     macro method_missing(call)
