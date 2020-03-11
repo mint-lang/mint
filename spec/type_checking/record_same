@@ -1,0 +1,44 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+record Test2 {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    {
+      a = "Hello",
+      b = 0
+    }
+  }
+
+  fun render : String {
+    test().a
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+record Test2 {
+  a : String,
+  b : Number
+}
+
+component Main {
+  property test : Test =
+    {
+      a = "Hello",
+      b = 0
+    }
+
+  fun render : String {
+    test.a
+  }
+}

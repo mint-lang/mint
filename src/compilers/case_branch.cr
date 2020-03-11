@@ -1,20 +1,9 @@
 module Mint
   class Compiler
-    def compile(node : Ast::CaseBranch,
-                index : Int32,
-                variable : String,
-                block : Proc(String, String) | Nil = nil) : String
-      if checked.includes?(node)
-        _compile node, index, variable, block
-      else
-        ""
-      end
-    end
-
     def _compile(node : Ast::CaseBranch,
                  index : Int32,
                  variable : String,
-                 block : Proc(String, String) | Nil = nil) : String
+                 block : Proc(String, String) | Nil = nil) : Tuple(String | Nil, String)
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
@@ -32,6 +21,20 @@ module Mint
 
       if match = node.match
         case match
+        when Ast::ArrayDestructuring
+          statements =
+            _compile(match, variable)
+
+          statements << expression
+
+          if match.spread?
+            {"Array.isArray(#{variable})", js.statements(statements)}
+          else
+            {
+              "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
+              js.statements(statements),
+            }
+          end
         when Ast::TupleDestructuring
           variables =
             match
@@ -39,12 +42,13 @@ module Mint
               .map { |param| js.variable_of(param) }
               .join(",")
 
-          js.if("Array.isArray(#{variable})") do
+          {
+            "Array.isArray(#{variable})",
             js.statements([
               "const [#{variables}] = #{variable}",
               expression,
-            ])
-          end
+            ]),
+          }
         when Ast::EnumDestructuring
           variables =
             match.parameters.map_with_index do |param, index1|
@@ -54,27 +58,21 @@ module Mint
           name =
             js.class_of(lookups[match])
 
-          js.if("#{variable} instanceof #{name}") do
-            js.statements(variables + [expression])
-          end
+          {
+            "#{variable} instanceof #{name}",
+            js.statements(variables + [expression]),
+          }
         else
           compiled =
             compile match
 
-          if index == 0
-            js.if("_compare(#{variable}, #{compiled})") do
-              expression
-            end
-          else
-            js.elseif("_compare(#{variable}, #{compiled})") do
-              expression
-            end
-          end
+          {
+            "_compare(#{variable}, #{compiled})",
+            expression,
+          }
         end
       else
-        js.else do
-          expression
-        end
+        {nil, expression}
       end
     end
   end

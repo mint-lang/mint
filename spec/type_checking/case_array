@@ -1,0 +1,26 @@
+component Main {
+  fun render : String {
+    case ([]) {
+      [] => ""
+      => ""
+    }
+  }
+}
+--------------------------------------------------------------CaseUnnecessaryAll
+component Main {
+  fun render : String {
+    case ([]) {
+      [] => ""
+      [...a] => ""
+      => ""
+    }
+  }
+}
+------------------------------------------------------------------CaseNotCovered
+component Main {
+  fun render : String {
+    case ([]) {
+      [] => ""
+    }
+  }
+}

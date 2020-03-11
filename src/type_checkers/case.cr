@@ -63,6 +63,28 @@ module Mint
             "options" => options,
             "node"    => node,
           } if not_matched.any? && !catch_all
+        elsif condition.name == "Array"
+          destructured =
+            node.branches.map(&.match).any?(Ast::ArrayDestructuring)
+
+          raise CaseUnnecessaryAll, {
+            "node" => catch_all,
+          } if destructured && catch_all
+
+          raise CaseNotCovered, {
+            "node" => node,
+          } if !destructured && !catch_all
+        elsif condition.name == "Tuple"
+          destructured =
+            node.branches.map(&.match).any?(Ast::TupleDestructuring)
+
+          raise CaseUnnecessaryAll, {
+            "node" => catch_all,
+          } if destructured && catch_all
+
+          raise CaseNotCovered, {
+            "node" => node,
+          } if !destructured && !catch_all
         elsif !catch_all
           raise CaseNotCovered, {
             "node" => node,

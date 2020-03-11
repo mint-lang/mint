@@ -102,7 +102,7 @@ module Mint
           when Ast::Variable
             js.let(js.variable_of(target), "null")
           when Ast::TupleDestructuring
-            target.parameters.each do |variable|
+            target.parameters.map do |variable|
               js.let(js.variable_of(variable), "null")
             end
           end

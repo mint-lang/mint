@@ -23,7 +23,7 @@ module Mint
         "got"      => default,
       } unless resolved
 
-      type
+      resolved
     end
   end
 end

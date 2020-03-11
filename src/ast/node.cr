@@ -19,6 +19,10 @@ module Mint
       def static_value
         ""
       end
+
+      def has_new_line?
+        input.input[from, to - from].includes?("\n")
+      end
     end
   end
 end

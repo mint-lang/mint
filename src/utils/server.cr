@@ -21,14 +21,14 @@ module Mint
       true
     end
 
-    def run(name : String, host : String = "127.0.0.1", port : Int32 = 3000)
+    def run(name, host = "127.0.0.1", port = 3000, browser_host = "127.0.0.1", browser_port = 3000)
       config = Kemal.config
       config.logger = Logger.new
       config.setup
 
       if port_open?(host, port)
         server = HTTP::Server.new(config.handlers)
-        terminal.print "#{COG} #{name} server started on http://#{host}:#{port}/\n"
+        terminal.print "#{COG} #{name} server started on http://#{browser_host}:#{browser_port}/\n"
       elsif STDIN.tty?
         new_port = config.port + 1
         until port_open?(host, new_port)

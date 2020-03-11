@@ -15,12 +15,7 @@ component Test {
   fun render : Html {
     <div>
       <Test things=["x"]/>
-
-      <Test
-        things=[
-          "a",
-          "b"
-        ]/>
+      <Test things=["a", "b"]/>
     </div>
   }
 }

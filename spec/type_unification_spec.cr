@@ -134,6 +134,8 @@ describe Mint::TypeChecker do
     "Array(Result(String, String), y)"
 
   expect_result "Maybe(a)", "Maybe(Array(a))", "Maybe(Array(a))"
+  expect_result "Function(a, a, a)", "Function(a, a, String)", "Function(String, String, String)"
+  expect_result "Function(a, a, String)", "Function(a, a, a)", "Function(String, String, String)"
 
   describe "JS vs Record" do
     it "returns record" do

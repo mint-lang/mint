@@ -26,3 +26,13 @@ component Main {
     {x, y, z} = {"hello", "a"}
   }
 }
+------------------------------------------------------InlineFunctionTypeMismatch
+module Test {
+  fun test1(a : Number) : String {
+    ""
+  } where {
+    test2 = (a : Number) : String {
+      0
+    }
+  }
+}

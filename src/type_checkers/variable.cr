@@ -54,7 +54,17 @@ module Mint
           type =
             resolve item
 
-          type.parameters[value[1]]
+          case item
+          when Ast::Statement, Ast::WhereStatement
+            case item.target
+            when Ast::TupleDestructuring
+              type.parameters[value[1]]
+            else
+              type
+            end
+          else
+            type
+          end
         when Ast::Node
           resolve value
         when Checkable

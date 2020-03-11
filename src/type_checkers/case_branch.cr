@@ -3,6 +3,8 @@ module Mint
     type_error CaseBranchNotMatchCondition
     type_error CaseBranchTupleMismatch
     type_error CaseBranchNotTuple
+    type_error CaseBranchMultipleSpreads
+    type_error CaseBranchNotArray
 
     def check(node : Ast::CaseBranch, condition : Checkable) : Checkable
       resolve_expression = ->{
@@ -29,6 +31,33 @@ module Mint
 
       node.match.try do |item|
         case item
+        when Ast::ArrayDestructuring
+          raise CaseBranchNotArray, {
+            "got"  => condition,
+            "node" => node,
+          } unless condition.name == "Array"
+
+          spreads =
+            item.items.select(Ast::Spread).size
+
+          raise CaseBranchMultipleSpreads, {
+            "count" => spreads.to_s,
+            "node"  => node,
+          } if spreads > 1
+
+          variables =
+            item.items.map do |variable|
+              case variable
+              when Ast::Variable
+                {variable.value, condition.parameters[0], variable}
+              when Ast::Spread
+                {variable.variable.value, condition, variable.variable}
+              end
+            end.compact
+
+          scope(variables) do
+            resolve_expression.call
+          end
         when Ast::TupleDestructuring
           raise CaseBranchNotTuple, {
             "got"  => condition,
