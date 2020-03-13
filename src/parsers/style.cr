@@ -8,8 +8,8 @@ module Mint
     def style : Ast::Style | Nil
       start do |start_position|
         skip unless keyword "style"
+        whitespace! SkipError
 
-        whitespace
         name = variable_with_dashes! StyleExpectedName
         whitespace
 

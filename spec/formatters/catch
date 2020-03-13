@@ -1,11 +1,11 @@
 module Promise {
-  fun reject (input : a) : Promise(a, b) {
+  reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {
     	a =
     		Promise.reject("hello")
@@ -15,13 +15,13 @@ module A {
 }
 --------------------------------------------------------------------------------
 module Promise {
-  fun reject (input : a) : Promise(a, b) {
+  reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {
       a =
         Promise.reject("hello")

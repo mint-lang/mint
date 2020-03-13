@@ -10,7 +10,7 @@ store A {
 component Main {
   connect A exposing { test }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
@@ -27,7 +27,7 @@ store A {
 component Main {
   connect A exposing { test }
 
-  fun render : String {
+  render : String {
     ""
   }
 }

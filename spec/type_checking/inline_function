@@ -1,35 +1,35 @@
 component Main {
-  fun test : String {
+  test : String {
     a()
   } where {
     a = () : String { "Hello" }
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  fun test : String {
+  test : String {
     a()
   } where {
     a = () : Bool { true }
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
 ------------------------------------------------------InlineFunctionTypeMismatch
 component Main {
-  fun test : String {
+  test : String {
     a()
   } where {
     a = () : String { true }
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }

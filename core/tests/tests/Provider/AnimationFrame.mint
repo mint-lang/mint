@@ -3,7 +3,7 @@ component Test.Provider.AnimationFrame {
 
   use Provider.AnimationFrame { frames = () : Promise(Never, Void) { next { frames = frames + 1 } } }
 
-  fun render : Html {
+  render : Html {
     <div>
       <{ Number.toString(frames) }>
     </div>

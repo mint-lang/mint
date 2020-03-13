@@ -11,8 +11,8 @@ module Mint
         whitespace
 
         skip unless keyword "state"
+        whitespace! SkipError
 
-        whitespace
         name = variable! StateExpectedName
         whitespace
 

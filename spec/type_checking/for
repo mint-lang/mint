@@ -1,5 +1,5 @@
 component Main {
-  fun render : Array(Html) {
+  render : Array(Html) {
     for (item of ["A", "B"]) {
       <div>
         <{ item }>
@@ -9,7 +9,7 @@ component Main {
 }
 -----------------------------------------------------------------ForTypeMismatch
 component Main {
-  fun render : Array(Html) {
+  render : Array(Html) {
     for (item of "A") {
       <div>
         <{ item }>
@@ -20,7 +20,7 @@ component Main {
 
 --------------------------------------------------ForArrayOrSetArgumentsMismatch
 component Main {
-  fun render : Array(Html) {
+  render : Array(Html) {
     for (item, item2 of ["A", "B"]) {
       <div>
         <{ item }>
@@ -34,7 +34,7 @@ component Main {
     ``
   }
 
-  fun render : Array(Html) {
+  render : Array(Html) {
     for (item of map) {
       <div>
         <{ item }>
@@ -44,7 +44,7 @@ component Main {
 }
 --------------------------------------------------------ForConditionTypeMismatch
 component Main {
-  fun render : Array(Html) {
+  render : Array(Html) {
     for (item of ["A", "B"]) {
       <div>
         <{ item }>

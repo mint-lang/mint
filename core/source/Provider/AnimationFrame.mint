@@ -6,7 +6,7 @@ record Provider.AnimationFrame.Subscription {
 /* A provider for the `requestAnimationFrame` API. */
 provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
   /* Updates the subscribers. */
-  fun update : Array(a) {
+  update : Array(a) {
     subscriptions
     |> Array.map(
       (item : Provider.AnimationFrame.Subscription) : Function(a) { item.frames })
@@ -14,7 +14,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
   }
 
   /* Attaches the provider. */
-  fun attach : Void {
+  attach : Void {
     `
     (() => {
       this.detach()
@@ -32,7 +32,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
   }
 
   /* Detaches the provider. */
-  fun detach : Void {
+  detach : Void {
     `cancelAnimationFrame(this.id)`
   }
 }

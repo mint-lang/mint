@@ -1,72 +1,72 @@
 module Test {
-  fun a (value : String, x : Bool) : String {
+  a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : String {
+  b : String {
     true
     |> Test.a("test")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }
 --------------------------------------------------------------------------------
 global component Test {
-  fun b : String {
+  b : String {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div></div>
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }
 ------------------------------------------------------ModuleAccessNotFoundModule
 module Test {
-  fun b : String {
+  b : String {
     X.x()
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }
 ----------------------------------------------------ModuleAccessNotFoundFunction
 module Test {
-  fun b : String {
+  b : String {
     Test.a("test")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun a (value : String, x : Bool) : String {
+  a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : Function(Bool, String) {
+  b : Function(Bool, String) {
     Test.a("test")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     try {
       z = Test.b()
 
@@ -76,33 +76,33 @@ component Main {
 }
 --------------------------------------------------------CallArgumentTypeMismatch
 module Test {
-  fun a (value : String, x : Bool) : String {
+  a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : String {
+  b : String {
     Test.a("test", "z")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }
 --------------------------------------------------------CallArgumentTypeMismatch
 module Test {
-  fun a (value : a, x : a) : String {
+  a (value : a, x : a) : String {
     value
   }
 
-  fun b : String {
+  b : String {
     Test.a("test", 0)
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }

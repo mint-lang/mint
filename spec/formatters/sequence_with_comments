@@ -1,11 +1,11 @@
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {/* A *//* B */a="hello"/* C *//* D */}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {
       /* A */
 

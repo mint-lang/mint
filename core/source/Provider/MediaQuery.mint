@@ -9,7 +9,7 @@ This provider sends changes when the given media query in the subscription
 changes.
 */
 provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
-  fun attach : Void {
+  attach : Void {
     `
     (() => {
       if (!this.listeners) {
@@ -56,7 +56,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
     `
   }
 
-  fun detach : Void {
+  detach : Void {
     `
     (() => {
       this.listeners.forEach((value, key) => {

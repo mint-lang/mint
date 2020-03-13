@@ -1,7 +1,7 @@
 /* Utility functions for the window when testing. */
 module Test.Window {
   /* Sets the horizontal scroll position of the window during a test. */
-  fun setScrollLeft (to : Number, context : Test.Context(a)) : Test.Context(a) {
+  setScrollLeft (to : Number, context : Test.Context(a)) : Test.Context(a) {
     Test.Context.then(
       (subject : Dom.Element) : Promise(Never, a) {
         try {
@@ -13,7 +13,7 @@ module Test.Window {
   }
 
   /* Sets the vertical scroll position of the window during a test. */
-  fun setScrollTop (to : Number, context : Test.Context(a)) : Test.Context(a) {
+  setScrollTop (to : Number, context : Test.Context(a)) : Test.Context(a) {
     Test.Context.then(
       (subject : Dom.Element) : Promise(Never, a) {
         try {

@@ -1,23 +1,23 @@
 component Main {
-  fun a : String {
+  a : String {
     "Hello"
   }
 
-  fun b : String {
+  b : String {
     a()
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 -----------------------------------------------------------------VariableMissing
 component Main {
-  fun b : String {
+  b : String {
     x()
   }
 
-  fun render : Html {
+  render : Html {
     try {
       b()
 
@@ -29,11 +29,11 @@ component Main {
 component Main {
   property x : String = ""
 
-  fun b : String {
+  b : String {
     x()
   }
 
-  fun render : Html {
+  render : Html {
     try {
       b()
 
@@ -43,15 +43,15 @@ component Main {
 }
 --------------------------------------------------------CallArgumentTypeMismatch
 component Main {
-  fun a (input : String) : String {
+  a (input : String) : String {
     input
   }
 
-  fun b : String {
+  b : String {
     a(0)
   }
 
-  fun render : Html {
+  render : Html {
     try {
       b()
 
@@ -61,15 +61,15 @@ component Main {
 }
 --------------------------------------------------------CallArgumentSizeMismatch
 component Main {
-  fun a (input : String) : String {
+  a (input : String) : String {
     input
   }
 
-  fun b : String {
+  b : String {
     a("Hello", "There")
   }
 
-  fun render : Html {
+  render : Html {
     try {
       b()
 
@@ -79,15 +79,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 module Maybe {
-  fun nothing : Maybe(a) {
+  nothing : Maybe(a) {
     `new Nothing()`
   }
 
-  fun just (value : a) : Maybe(a) {
+  just (value : a) : Maybe(a) {
     `new Just(value)`
   }
 
-  fun withDefault (value : a, maybe : Maybe(a)) : a {
+  withDefault (value : a, maybe : Maybe(a)) : a {
     `
     (() => {
       if (maybe instanceof Just) {
@@ -99,7 +99,7 @@ module Maybe {
     `
   }
 
-  fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
+  toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
     `
     (() => {
       if (maybe instanceof Just) {
@@ -128,7 +128,7 @@ store X {
 component Main {
   connect X exposing { test }
 
-  fun render : String {
+  render : String {
     try {
       resolved =
         test

@@ -1,11 +1,11 @@
 component Main {
-  fun render : String {
+  render : String {
     "Hello There"
   }
 }
 --------------------------------------------------------------------------------
 component Main {
-  fun render : String {
+  render : String {
     try {
       name = 0
 
@@ -15,7 +15,7 @@ component Main {
 }
 ------------------------------------------StringLiteralInterpolationTypeMismatch
 component Main {
-  fun render : String {
+  render : String {
     try {
       name = {}
 

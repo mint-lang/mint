@@ -1,15 +1,15 @@
 module Test {
-  fun a (value : String, x : Bool) : String {
+  a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : Function(Bool, String) {
+  b : Function(Bool, String) {
     Test.a("test")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()(true)
   }
 }

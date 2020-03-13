@@ -1,19 +1,19 @@
 component Test {
-  fun toString (input : Number) : String {
+  toString (input : Number) : String {
     `input`
   }
 
-  fun render : Html {
+  render : Html {
     <div name="Hello" value={   toString(0) }/>
   }
 }
 --------------------------------------------------------------------------------
 component Test {
-  fun toString (input : Number) : String {
+  toString (input : Number) : String {
     `input`
   }
 
-  fun render : Html {
+  render : Html {
     <div
       name="Hello"
       value={toString(0)}/>

@@ -1,21 +1,21 @@
 component Test {
-  fun something (string : String) : String {
+  something (string : String) : String {
     string
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component Main {
-  fun handleClick : Maybe(String) {
+  handleClick : Maybe(String) {
     test&.something&(
       "asd"
     )
   }
 
-  fun render : Html {
+  render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -23,21 +23,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 component Test {
-  fun something (string : String) : String {
+  something (string : String) : String {
     string
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component Main {
-  fun handleClick : Maybe(String) {
+  handleClick : Maybe(String) {
     test&.something&("asd")
   }
 
-  fun render : Html {
+  render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>

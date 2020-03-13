@@ -1,9 +1,9 @@
 component Main {
-  fun test {
+  test {
     true
   }
 
-  fun render {
+  render {
     try {
       test()
 

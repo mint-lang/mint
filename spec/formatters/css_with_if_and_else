@@ -1,8 +1,8 @@
 component A {
-  styletest{background: red;color: blue;
+  style test{background: red;color: blue;
     if(true){color:yellow;}else{color:brown;}}
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -19,7 +19,7 @@ component A {
     }
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

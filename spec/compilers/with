@@ -1,11 +1,11 @@
 module SomeModule {
-  fun someFunction : String {
+  someFunction : String {
     ""
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     with SomeModule {
       someFunction()
     }

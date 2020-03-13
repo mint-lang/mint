@@ -1,7 +1,7 @@
 component A {
-  styletest{background: red;color: blue;}
+  style test{background: red;color: blue;}
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -12,7 +12,7 @@ component A {
     color: blue;
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

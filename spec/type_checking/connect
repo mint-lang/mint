@@ -1,7 +1,7 @@
 store Test {
   state x : String = ""
 
-  fun y : String {
+  y : String {
     `hello`
   }
 }
@@ -9,7 +9,7 @@ store Test {
 component Main {
   connect Test exposing { x, y }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -21,7 +21,7 @@ store Test {
 component Main {
   connect Test exposing { x, y }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -29,7 +29,7 @@ component Main {
 component Main {
   connect Test exposing { x, y }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -45,7 +45,7 @@ component A {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -61,7 +61,7 @@ component A {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -77,7 +77,7 @@ component A {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

@@ -1,5 +1,5 @@
 module Test {
-  fun test : Array(String) {
+  test : Array(String) {
     [
       "Hello", "Blah", "Joe"
     ]
@@ -7,7 +7,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun test : Array(String) {
+  test : Array(String) {
     [
       "Hello",
       "Blah",

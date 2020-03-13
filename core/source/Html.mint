@@ -11,7 +11,7 @@ module Html {
       </div>
     }
   */
-  fun empty : Html {
+  empty : Html {
     `false`
   }
 }

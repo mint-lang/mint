@@ -1,9 +1,9 @@
 component Main {
-  fun test : String {
+  test : String {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

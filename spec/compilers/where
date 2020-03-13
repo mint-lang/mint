@@ -1,5 +1,5 @@
 component Main {
-  fun test : Html {
+  test : Html {
     <div>
       <{ something }>
     </div>
@@ -11,7 +11,7 @@ component Main {
       0
   }
 
-  fun render : Html {
+  render : Html {
     test()
   }
 }

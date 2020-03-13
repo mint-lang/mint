@@ -1,7 +1,7 @@
 component Main {
   property name : String = "Joe"
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -9,7 +9,7 @@ component Main {
 component Main {
   property name : String = true
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -18,7 +18,7 @@ component Main {
 component Main {
   property name : Test(a) = true
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -26,7 +26,7 @@ component Main {
 component Main {
   property name = []
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -34,7 +34,7 @@ component Main {
 component Main {
   property name : Test = { a = "Hello" }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

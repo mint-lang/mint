@@ -7,7 +7,7 @@ component Main {
     10
   }
 
-  fun render : Html {
+  render : Html {
     <div::test/>
   }
 }

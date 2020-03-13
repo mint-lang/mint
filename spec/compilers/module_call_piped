@@ -1,16 +1,16 @@
 module Test {
-  fun a (value : String, x : Bool) : String {
+  a (value : String, x : Bool) : String {
     value
   }
 
-  fun b : String {
+  b : String {
     true
     |> Test.a("Lorem ipsum dolor sit amet")
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     Test.b()
   }
 }

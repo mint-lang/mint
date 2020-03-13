@@ -1,11 +1,11 @@
 component Main {
-  fun render : Html {
+  render : Html {
     <div name="hello"/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
 component Main {
-  fun render : Html {
+  render : Html {
     <div name={0}/>
   }
 }

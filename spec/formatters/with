@@ -1,23 +1,23 @@
 module X {
-  fun a : Void {
+  a : Void {
     void
   }
 }
 
 module Test {
-  fun test : Void {
+  test : Void {
     with X{void}
   }
 }
 --------------------------------------------------------------------------------
 module X {
-  fun a : Void {
+  a : Void {
     void
   }
 }
 
 module Test {
-  fun test : Void {
+  test : Void {
     with X {
       void
     }

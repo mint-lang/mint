@@ -1,23 +1,23 @@
 component Test {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component X {
-  fun render : Html {
+  render : Html {
     <Test/>
   }
 }
 --------------------------------------------------------------------------------
 component Test {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component X {
-  fun render : Html {
+  render : Html {
     <Test/>
   }
 }

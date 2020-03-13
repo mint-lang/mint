@@ -3,7 +3,7 @@ component Main {
     a
   }
 
-  fun render : String {
+  render : String {
   	""
   }
 }

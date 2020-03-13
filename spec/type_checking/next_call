@@ -2,26 +2,26 @@ component Main {
   state name : String = "Joe"
   state age : Number = 24
 
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     next {
       name = "Hello",
       age=30
     }
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 -------------------------------------------------------NextCallInvalidInvokation
 module Test {
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     next { age = 30 }
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     <div/>
   } where {
     test = Test.test()
@@ -31,7 +31,7 @@ component Main {
 component Main {
   state name : String = "Joe"
 
-  fun render : Html {
+  render : Html {
     try {
       next { name = 30 }
 
@@ -43,7 +43,7 @@ component Main {
 component Main {
   state name : String = "Joe"
 
-  fun render : Html {
+  render : Html {
     try {
       next { age = 30 }
 

@@ -1,5 +1,5 @@
 component Main {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     parallel {
       a = "Hello"
       b = "World"
@@ -8,7 +8,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

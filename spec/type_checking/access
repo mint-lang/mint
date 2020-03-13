@@ -7,7 +7,7 @@ record Blah {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     blah.blah.blah
   } where {
     blah =
@@ -16,7 +16,7 @@ component Main {
 }
 -----------------------------------------------------------------AccessNotRecord
 component Main {
-  fun render : Bool {
+  render : Bool {
     blah.blah.blah
   } where {
     blah = ""
@@ -28,7 +28,7 @@ record Blah {
 }
 
 component Main {
-  fun render : Bool {
+  render : Bool {
     blah.blah.blah
   } where {
     blah =
@@ -41,7 +41,7 @@ record Blah {
 }
 
 component Main {
-  fun render : Bool {
+  render : Bool {
     blah.blaha
   } where {
     blah =

@@ -1,23 +1,23 @@
 component X {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     <X key="wtf"/>
   }
 }
 -------------------------------------------HtmlAttributeComponentKeyTypeMismatch
 component X {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     <X key={0}/>
   }
 }

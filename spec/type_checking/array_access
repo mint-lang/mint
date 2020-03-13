@@ -1,5 +1,5 @@
 component Main {
-  fun test : Maybe(String) {
+  test : Maybe(String) {
     [
       "Hello",
       "Blah",
@@ -7,13 +7,13 @@ component Main {
     ][1]
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
 -------------------------------------------------------ArrayAccessIndexNotNumber
 component Main {
-  fun test : Maybe(String) {
+  test : Maybe(String) {
     [
       "Hello",
       "Blah",
@@ -21,7 +21,7 @@ component Main {
     ]["asd"]
   }
 
-  fun render : Html {
+  render : Html {
     try {
       test()
 
@@ -31,11 +31,11 @@ component Main {
 }
 -----------------------------------------------------------ArrayAccessNotAnArray
 component Main {
-  fun test : Maybe(String) {
+  test : Maybe(String) {
     {}[0]
   }
 
-  fun render : Html {
+  render : Html {
     try {
       test()
 

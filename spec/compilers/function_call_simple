@@ -1,13 +1,13 @@
 component Main {
-  fun a : String {
+  a : String {
     "test"
   }
 
-  fun test : String {
+  test : String {
     a()
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

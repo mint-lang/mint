@@ -28,12 +28,12 @@ module Mint
             property ||
               connect ||
               constant ||
-              function ||
               style ||
               state ||
               use ||
               get ||
-              self.comment
+              self.comment ||
+              function
           end.compact
 
           raise ComponentExpectedBody if items.empty?

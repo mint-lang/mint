@@ -1,5 +1,5 @@
 store A {
-  gettest:Void{b}where{b=void}
+  get test:Void{b}where{b=void}
 }
 --------------------------------------------------------------------------------
 store A {

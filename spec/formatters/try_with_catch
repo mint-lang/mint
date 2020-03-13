@@ -1,23 +1,23 @@
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 module A {
-  fun test : String {
+  test : String {
     try{x=Result.error("hello")}catch String => a {"blah"}
   }
 }
 --------------------------------------------------------------------------------
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 module A {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("hello")

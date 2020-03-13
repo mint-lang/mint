@@ -1,7 +1,7 @@
 enum A(b,c) {B(b) C D(c)}
 
 module X {
-  fun y : A(String, String) {
+  y : A(String, String) {
     A::B(
     "Hello"
     )
@@ -15,7 +15,7 @@ enum A(b, c) {
 }
 
 module X {
-  fun y : A(String, String) {
+  y : A(String, String) {
     A::B("Hello")
   }
 }

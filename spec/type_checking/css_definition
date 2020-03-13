@@ -15,7 +15,7 @@ component Main {
     0
   }
 
-  fun render : Html {
+  render : Html {
     <div::test/>
   }
 }
@@ -25,7 +25,7 @@ component Main {
     color: #{true};
   }
 
-  fun render : Html {
+  render : Html {
     <div::test/>
   }
 }
@@ -35,7 +35,7 @@ component Main {
     colorasd: hello;
   }
 
-  fun render : Html {
+  render : Html {
     <div::test/>
   }
 }
@@ -45,7 +45,7 @@ component Main {
     -colorasd: hello;
   }
 
-  fun render : Html {
+  render : Html {
     <div::test/>
   }
 }

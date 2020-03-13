@@ -11,19 +11,19 @@ enum Res(error, value) {
 }
 
 component Main {
-  fun a : Test(a) {
+  a : Test(a) {
     Test::X
   }
 
-  fun b : Res(String, String) {
+  b : Res(String, String) {
     Res::Other("", "")
   }
 
-  fun c : Test(String) {
+  c : Test(String) {
     Test::Z(Res::Error(""))
   }
 
-  fun render : String {
+  render : String {
     try {
       a()
       b()

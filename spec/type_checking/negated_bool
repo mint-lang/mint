@@ -1,5 +1,5 @@
 module A {
-  fun test : Bool {
+  test : Bool {
     !true && !false
   }
 }

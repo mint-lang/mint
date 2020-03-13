@@ -6,8 +6,8 @@ describe "Component Style" do
   expect_ignore "asd"
   expect_ignore "."
   expect_ignore ":"
+  expect_ignore "style"
 
-  expect_error "style", Mint::Parser::StyleExpectedName
   expect_error "style ", Mint::Parser::StyleExpectedName
   expect_error "style .", Mint::Parser::StyleExpectedName
   expect_error "style T", Mint::Parser::StyleExpectedName

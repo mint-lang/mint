@@ -19,7 +19,13 @@ module Mint
           opening_bracket: StoreExpectedOpeningBracket,
           closing_bracket: StoreExpectedClosingBracket
         ) do
-          items = many { state || function || get || constant || self.comment }.compact
+          items = many {
+            state ||
+              get ||
+              constant ||
+              self.comment ||
+              function
+          }.compact
 
           raise StoreExpectedBody if items
                                        .reject(&.is_a?(Ast::Comment))

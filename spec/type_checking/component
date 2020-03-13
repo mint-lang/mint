@@ -1,17 +1,17 @@
 component Main {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 -----------------------------------------------------ComponentRenderTypeMismatch
 component Main {
-  fun render : Bool {
+  render : Bool {
     true
   }
 }
 ---------------------------------------------------------ComponentNotFoundRender
 component Main {
-  fun a : String {
+  a : String {
     ""
   }
 }
@@ -19,13 +19,13 @@ component Main {
 component Main {
   property render : String = ""
 
-  fun render : Bool {
+  render : Bool {
     true
   }
 }
 --------------------------------------------------ComponentReferenceNameConflict
 component Main {
-  fun render : Html {
+  render : Html {
     <div as x>
       <div as x/>
     </div>
@@ -33,11 +33,11 @@ component Main {
 }
 ----------------------------------------------------ComponentFunctionTypeMismatch
 component Main {
-  fun componentDidUpdate (a : String) : String {
+  componentDidUpdate (a : String) : String {
     ""
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

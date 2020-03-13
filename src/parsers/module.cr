@@ -17,7 +17,7 @@ module Mint
         items = block(
           opening_bracket: ModuleExpectedOpeningBracket,
           closing_bracket: ModuleExpectedClosingBracket) do
-          many { function || constant || self.comment }.compact
+          many { constant || self.comment || function }.compact
         end.compact
 
         functions = [] of Ast::Function

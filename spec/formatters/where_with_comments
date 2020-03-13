@@ -1,5 +1,5 @@
 module A {
-  fun test () : Number {
+  test () : Number {
     something
   } where {
     /*A*/something = 0.100
@@ -9,7 +9,7 @@ module A {
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Number {
+  test : Number {
     something
   } where {
     /* A */

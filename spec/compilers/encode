@@ -4,11 +4,11 @@ record Test {
 }
 
 component Main {
-  fun encode : Object {
+  encode : Object {
     encode { name = "Hello", age = 20 }
   }
 
-  fun render : String {
+  render : String {
     try {
       encode()
 

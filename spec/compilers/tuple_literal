@@ -1,5 +1,5 @@
 component Main {
-  fun test : Tuple(String, String, String) {
+  test : Tuple(String, String, String) {
     {
       "Hello",
       "Blah",
@@ -7,7 +7,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

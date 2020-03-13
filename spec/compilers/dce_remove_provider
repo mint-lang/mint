@@ -1,5 +1,5 @@
 provider MouseProvider : Unit {
-  fun attach : Void {
+  attach : Void {
     void
   }
 }

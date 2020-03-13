@@ -9,7 +9,7 @@ component A {
     }
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -25,7 +25,7 @@ component A {
     }
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

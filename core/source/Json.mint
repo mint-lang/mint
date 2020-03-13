@@ -7,7 +7,7 @@ module Json {
     Json.parse("{}") == Maybe.just(`{}`)
     Json.parse("{") == Maybe.nothing()
   */
-  fun parse (input : String) : Maybe(Object) {
+  parse (input : String) : Maybe(Object) {
     `
     (() => {
       try {
@@ -24,7 +24,7 @@ module Json {
 
     Json.stringify(`{ a: "Hello" }`) == "{ \"a\": \"Hello\" }"
   */
-  fun stringify (input : Object) : String {
+  stringify (input : Object) : String {
     `JSON.stringify(#{input})`
   }
 }

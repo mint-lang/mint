@@ -1,5 +1,5 @@
 component Main {
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     sequence {
       void
     } finally {
@@ -7,7 +7,7 @@ component Main {
     }
   }
 
-  fun render : Html {
+  render : Html {
     try {
       test()
 

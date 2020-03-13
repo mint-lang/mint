@@ -116,20 +116,20 @@ component Test.Dom.Focus {
     }
   }
 
-  fun show : Promise(Never, Void) {
+  show : Promise(Never, Void) {
     sequence {
       Timer.timeout(100, "")
       next { shown = true }
     }
   }
 
-  fun focus : Promise(String, Void) {
+  focus : Promise(String, Void) {
     input
     |> Maybe.withDefault(Dom.createElement("div"))
     |> Dom.focusWhenVisible()
   }
 
-  fun render : Html {
+  render : Html {
     <>
       <input::input as input id="input"/>
 

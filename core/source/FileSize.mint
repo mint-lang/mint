@@ -7,7 +7,7 @@ module FileSize {
     FileSize.format(1048576) == "1 MB"
     FileSize.format(1073741824) == "1 GB"
   */
-  fun format (size : Number) : String {
+  format (size : Number) : String {
     `
     (() => {
       if (#{size} == 0){

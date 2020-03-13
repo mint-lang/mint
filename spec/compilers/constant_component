@@ -1,7 +1,7 @@
 component Main {
   const NAME = "ASD"
 
-  fun render : String {
+  render : String {
     NAME
   }
 }

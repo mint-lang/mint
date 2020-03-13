@@ -21,7 +21,7 @@ record Provider.Shortcuts.Subscription {
 /* This provider allows components to subscribe to global shortcuts. */
 provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   /* Handles keypress events. */
-  fun actions (event : Html.Event) : Void {
+  actions (event : Html.Event) : Void {
     `
      (() => {
       /* Start the combo with the pressed key */
@@ -48,7 +48,7 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     `
   }
 
-  fun attach : Void {
+  attach : Void {
     `
     (() => {
       const actions = this._actions || (this._actions = #{actions}.bind(this))
@@ -57,7 +57,7 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     `
   }
 
-  fun detach : Void {
+  detach : Void {
     `
     (() => {
       window.removeEventListener("keydown", this._actions, true)

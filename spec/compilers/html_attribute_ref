@@ -3,7 +3,7 @@ enum Maybe(value) {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     <div as input>
     </div>
   }

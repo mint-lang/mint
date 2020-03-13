@@ -11,7 +11,7 @@ module Result {
     (Result.ok("ok")
     |> Result.isOk()) == true
   */
-  fun ok (input : a) : Result(b, a) {
+  ok (input : a) : Result(b, a) {
     Result::Ok(input)
   }
 
@@ -21,7 +21,7 @@ module Result {
     (Result.error("error")
     |> Result.isError()) == true
   */
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     Result::Err(input)
   }
 
@@ -34,7 +34,7 @@ module Result {
     (Result.ok("ok")
     |> Result.withDefault("a")) == "ok"
   */
-  fun withDefault (defaultValue : b, input : Result(a, b)) : b {
+  withDefault (defaultValue : b, input : Result(a, b)) : b {
     case (input) {
       Result::Ok value => value
       Result::Err => defaultValue
@@ -50,7 +50,7 @@ module Result {
     (Result.ok("ok")
     |> Result.withDefault("a")) == "a"
   */
-  fun withError (defaultError : a, input : Result(a, b)) : a {
+  withError (defaultError : a, input : Result(a, b)) : a {
     case (input) {
       Result::Err value => value
       Result::Ok => defaultError
@@ -66,7 +66,7 @@ module Result {
     (Result.ok("ok")
     |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
   */
-  fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
+  map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
     case (input) {
       Result::Ok value => Result::Ok(func(value))
       Result::Err => input
@@ -82,7 +82,7 @@ module Result {
     (Result.ok("ok")
     |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
   */
-  fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
+  mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
     case (input) {
       Result::Err value => Result::Err(func(value))
       Result::Ok => input
@@ -95,7 +95,7 @@ module Result {
     (Result.ok("ok")
     |> Result.isOk()) == true
   */
-  fun isOk (input : Result(a, b)) : Bool {
+  isOk (input : Result(a, b)) : Bool {
     case (input) {
       Result::Err => false
       Result::Ok => true
@@ -108,7 +108,7 @@ module Result {
     (Result.error("error")
     |> Result.isError()) == true
   */
-  fun isError (input : Result(a, b)) : Bool {
+  isError (input : Result(a, b)) : Bool {
     case (input) {
       Result::Err => true
       Result::Ok => false
@@ -124,21 +124,21 @@ module Result {
     (Result.error("blah")
     |> Result.toMaybe()) == Maybe.nothing()
   */
-  fun toMaybe (result : Result(a, b)) : Maybe(b) {
+  toMaybe (result : Result(a, b)) : Maybe(b) {
     case (result) {
       Result::Ok value => Maybe::Just(value)
       Result::Err => Maybe::Nothing
     }
   }
 
-  fun join (input : Result(error, Result(error, value))) : Result(error, value) {
+  join (input : Result(error, Result(error, value))) : Result(error, value) {
     case (input) {
       Result::Ok value => value
       Result::Err => input
     }
   }
 
-  fun flatMap (
+  flatMap (
     func : Function(a, Result(error, b)),
     input : Result(error, a)
   ) : Result(error, b) {

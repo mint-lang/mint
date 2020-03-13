@@ -3,50 +3,50 @@ component Main {
     color: red;
   }
 
-  fun render : Html {
+  render : Html {
     <div::base>
     </div>
   }
 }
 ----------------------------------------------HtmlElementStyleOutsideOfComponent
 module X {
-  fun render : Html {
+  render : Html {
     <div::base/>
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     X.render()
   }
 }
 ------------------------------------------HtmlElementReferenceOutsideOfComponent
 module X {
-  fun render : Html {
+  render : Html {
     <div as x/>
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     X.render()
   }
 }
 ----------------------------------------HtmlComponentReferenceOutsideOfComponent
 module X {
-  fun render : Html {
+  render : Html {
     <Test as x/>
   }
 }
 
 component Test {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     X.render()
   }
 }

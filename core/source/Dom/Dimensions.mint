@@ -13,7 +13,7 @@ record Dom.Dimensions {
 /* Methods to work with dimensions in the DOM */
 module Dom.Dimensions {
   /* Returns an empty Dom.Dimensions record. */
-  fun empty : Dom.Dimensions {
+  empty : Dom.Dimensions {
     {
       bottom = 0,
       height = 0,

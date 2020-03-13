@@ -1,7 +1,7 @@
 component Test.Promise {
   state result : String = ""
 
-  fun reject : Promise(Never, Void) {
+  reject : Promise(Never, Void) {
     sequence {
       rejected =
         Promise.reject("rejected")
@@ -12,7 +12,7 @@ component Test.Promise {
     }
   }
 
-  fun resolve : Promise(Never, Void) {
+  resolve : Promise(Never, Void) {
     sequence {
       newResult =
         Promise.resolve("resolved")
@@ -23,7 +23,7 @@ component Test.Promise {
     }
   }
 
-  fun render : Html {
+  render : Html {
     <div>
       <result>
         <{ result }>

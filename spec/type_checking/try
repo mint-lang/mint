@@ -1,11 +1,11 @@
 component Main {
-  fun test : String {
+  test : String {
     try {
       "hello"
     }
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }

@@ -9,7 +9,7 @@ component Main {
       0
   }
 
-  fun render : String {
+  render : String {
     test
   }
 }

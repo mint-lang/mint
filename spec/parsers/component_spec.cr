@@ -15,7 +15,7 @@ describe "Component Definition" do
   expect_error "component T {", Mint::Parser::ComponentExpectedBody
   expect_error "component T { ", Mint::Parser::ComponentExpectedBody
   expect_error "component T.", Mint::Parser::ComponentExpectedName
-  expect_error "component T.T { property a : T = a a", Mint::Parser::ComponentExpectedClosingBracket
+  expect_error "component T.T { property a : T = a", Mint::Parser::ComponentExpectedClosingBracket
 
   expect_ok "component T { get a : T { a } }"
   expect_ok "component T { property a : T = b }"

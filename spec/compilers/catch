@@ -1,11 +1,11 @@
 module Promise {
-  fun reject (input : a) : Promise(a, b) {
+  reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     sequence {
       greeting =
         Promise.reject("hello")
@@ -16,7 +16,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

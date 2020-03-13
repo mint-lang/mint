@@ -3,13 +3,13 @@ record X {
 }
 
 module Array {
-  fun map (method : Function(a, b), array : Array(a)) : Array(b) {
+  map (method : Function(a, b), array : Array(a)) : Array(b) {
     ``
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     try {
       [
         {

@@ -6,11 +6,11 @@ component ScrollTest {
     width: 3000px;
   }
 
-  fun componentDidMount : Void {
+  componentDidMount : Void {
     `this.forceUpdate()`
   }
 
-  fun render : Html {
+  render : Html {
     <div::base>
       <scroll-width>
         <{ Number.toString(Window.scrollWidth()) }>

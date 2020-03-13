@@ -9,7 +9,7 @@ component Test.Provider.Mouse {
     ups = (event : Html.Event) : Promise(Never, Void) { next { ups = ups + 1 } }
   }
 
-  fun render : Html {
+  render : Html {
     <div>
       <clicks>
         <{ Number.toString(clicks) }>

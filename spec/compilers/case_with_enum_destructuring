@@ -8,7 +8,7 @@ enum C(a) {
 }
 
 component Main {
-  fun test (b : C(a)) : a {
+  test (b : C(a)) : a {
     case (b) {
       C::X => ""
       C::D a =>
@@ -19,7 +19,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test(C::D(A::B("")))
 

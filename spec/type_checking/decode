@@ -3,7 +3,7 @@ record X {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     try {
       decode `{}` as X
 
@@ -19,7 +19,7 @@ record X {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     try {
       decode "" as X
 
@@ -33,7 +33,7 @@ record X {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     try {
       decode `{}` as X
 
@@ -47,7 +47,7 @@ record X {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     try {
       decode `{}` as X
 

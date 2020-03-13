@@ -1,11 +1,11 @@
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -16,7 +16,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -26,7 +26,7 @@ component Main {
 }
 ---------------------------------------------------------------TryCatchesNothing
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         ""
@@ -35,7 +35,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -45,13 +45,13 @@ component Main {
 }
 ------------------------------------------------------------------TryDidNotCatch
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -60,7 +60,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -70,13 +70,13 @@ component Main {
 }
 ------------------------------------------------------------TryCatchTypeMismatch
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -87,7 +87,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -97,13 +97,13 @@ component Main {
 }
 -------------------------------------------------------------------TryCatchedAll
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -116,7 +116,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -126,13 +126,13 @@ component Main {
 }
 ------------------------------------------------------------TryCatchTypeMismatch
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -143,7 +143,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 
@@ -153,13 +153,13 @@ component Main {
 }
 ------------------------------------------------------------FunctionTypeMismatch
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  fun test : String {
+  test : String {
     try {
       x =
         Result.error("Blah")
@@ -170,7 +170,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

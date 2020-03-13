@@ -2,7 +2,7 @@ component Main {
   state name : String = "Joe"
   state age : Number = 24
 
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     next
       {
         name = "Hello",
@@ -10,7 +10,7 @@ component Main {
       }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

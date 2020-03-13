@@ -1,11 +1,11 @@
 module A {
-  fun test : String {
+  test : String {
     "Hello"
   }
 }
 
 component Main {
-  fun render : String  {
+  render : String  {
     A.test()
   }
 }

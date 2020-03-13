@@ -8,7 +8,7 @@ component Test.Provider.Scroll {
     width: 3000px;
   }
 
-  fun render : Html {
+  render : Html {
     <div::base>
       <{ Number.toString(position) }>
     </div>

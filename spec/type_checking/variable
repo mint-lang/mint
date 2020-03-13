@@ -3,11 +3,11 @@ component Main {
     "Hello"
   }
 
-  fun b : String {
+  b : String {
     a
   }
 
-  fun render : String {
+  render : String {
     b()
   }
 }
@@ -17,21 +17,21 @@ component Main {
     "Hello"
   }
 
-  fun b : String {
+  b : String {
     c
   }
 
-  fun render : Html {
+  render : Html {
     b()
   }
 }
 ----------------------------------------------------------------VariableReserved
 component Main {
-  fun b(default : String) : String {
+  b(default : String) : String {
     default
   }
 
-  fun render : Html {
+  render : Html {
     b("")
   }
 }

@@ -3,11 +3,11 @@ component Test {
   property b : String = ""
 
   property c : String = ""
-  fun test:Html {
+  test:Html {
     <div>
     </div>
   }
-  fun render:Html{
+  render:Html{
     <div>
     </div>
   }
@@ -20,11 +20,11 @@ component Test {
 
   property c : String = ""
 
-  fun test : Html {
+  test : Html {
     <div/>
   }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

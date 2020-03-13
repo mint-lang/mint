@@ -1,11 +1,11 @@
 module Test {
-  fun test : Bool {
+  test : Bool {
     if(true){ true }elseif(false){false}else{true}
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun test : Bool {
+  test : Bool {
     if (true) {
       true
     } else if (false) {

@@ -1,7 +1,7 @@
 component Main {
   property things : Array(String) = []
 
-  fun render : Html {
+  render : Html {
     <Main things=["x"]/>
   }
 }
@@ -9,13 +9,13 @@ component Main {
 component Main {
   property things : Array(String) = []
 
-  fun render : Html {
+  render : Html {
     <Main things=[0]/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
 component Main {
-  fun render : Html {
+  render : Html {
     <div things=[0]/>
   }
 }

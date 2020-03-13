@@ -4,7 +4,7 @@ record MouseProvider.Data {
 }
 
 provider MouseProvider : MouseProvider.Data {
-  fun attach : Void {
+  attach : Void {
     void
   }
 }
@@ -12,7 +12,7 @@ provider MouseProvider : MouseProvider.Data {
 store Blah {
   state test : String = ""
 
-  fun x : String {
+  x : String {
     "hello"
   }
 }
@@ -27,7 +27,7 @@ component Main {
 
   connect Blah exposing { test, x }
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

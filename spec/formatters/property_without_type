@@ -1,7 +1,7 @@
 component Test {
-  /* Comment */propertyname="hello"
+  /* Comment */property name="hello"
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
@@ -10,7 +10,7 @@ component Test {
   /* Comment */
   property name = "hello"
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

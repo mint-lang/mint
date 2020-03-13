@@ -3,7 +3,7 @@ component Test.Provider.Tick {
 
   use Provider.Tick { ticks = () : Promise(Never, Void) { next { counter = counter + 1 } } }
 
-  fun render : Html {
+  render : Html {
     <div>
       <{ Number.toString(counter) }>
     </div>

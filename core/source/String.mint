@@ -5,7 +5,7 @@ module String {
 
      String.toLowerCase("ABC") == "abc"
   */
-  fun toLowerCase (string : String) : String {
+  toLowerCase (string : String) : String {
     `#{string}.toLowerCase()`
   }
 
@@ -14,7 +14,7 @@ module String {
 
      String.toUpperCase("abc") == "ABC"
   */
-  fun toUpperCase (string : String) : String {
+  toUpperCase (string : String) : String {
     `#{string}.toUpperCase()`
   }
 
@@ -23,7 +23,7 @@ module String {
 
      String.reverse("ABC") == "CBA"
   */
-  fun reverse (string : String) : String {
+  reverse (string : String) : String {
     `[...#{string}].reverse().join('')`
   }
 
@@ -34,7 +34,7 @@ module String {
      String.isEmpty("a") == false
      String.isEmpty(" ") == false
   */
-  fun isEmpty (string : String) : Bool {
+  isEmpty (string : String) : Bool {
     string == ""
   }
 
@@ -44,7 +44,7 @@ module String {
      String.match("A", "ABC") == true
      String.match("X", "ABC") == false
   */
-  fun match (pattern : String, string : String) : Bool {
+  match (pattern : String, string : String) : Bool {
     `#{string}.indexOf(#{pattern}) != -1`
   }
 
@@ -53,7 +53,7 @@ module String {
 
     String.split("", "AAA") = ["A", "A", "A"]
   */
-  fun split (separator : String, string : String) : Array(String) {
+  split (separator : String, string : String) : Array(String) {
     `#{string}.split(#{separator})`
   }
 
@@ -62,7 +62,7 @@ module String {
 
     String.size("ABC") == 3
   */
-  fun size (string : String) : Number {
+  size (string : String) : Number {
     `#{string}.length`
   }
 
@@ -71,7 +71,7 @@ module String {
 
     String.capitalize("the cake is a lie!") == "The Cake Is A Lie!"
   */
-  fun capitalize (string : String) : String {
+  capitalize (string : String) : String {
     `#{string}.replace(/\b[a-z]/g, char => char.toUpperCase())`
   }
 
@@ -80,7 +80,7 @@ module String {
 
     String.repeat(5, "A") == "AAAAA"
   */
-  fun repeat (times : Number, string : String) : String {
+  repeat (times : Number, string : String) : String {
     `#{string}.repeat(#{times})`
   }
 
@@ -89,7 +89,7 @@ module String {
 
     String.join(",", ["A","B","C"]) == "A,B,C"
   */
-  fun join (separator : String, array : Array(String)) : String {
+  join (separator : String, array : Array(String)) : String {
     `#{array}.join(#{separator})`
   }
 
@@ -98,7 +98,7 @@ module String {
 
     String.concat(["A","B","C"]) == "ABC"
   */
-  fun concat (array : Array(String)) : String {
+  concat (array : Array(String)) : String {
     join("", array)
   }
 
@@ -108,7 +108,7 @@ module String {
     String.isAnagarm("asd", "blah") == false
     String.isAnagarm("rail safety", "fairy tales") == true
   */
-  fun isAnagarm (string1 : String, string2 : String) : Bool {
+  isAnagarm (string1 : String, string2 : String) : Bool {
     `
     (() => {
       const normalize = string =>
@@ -130,7 +130,7 @@ module String {
 
     String.rchop("!", "Hello!!!") == "Hello"
   */
-  fun rchop (char : String, string : String) : String {
+  rchop (char : String, string : String) : String {
     `
     (() => {
       while (#{string}.slice(-#{char}.length) == #{char}) {
@@ -148,7 +148,7 @@ module String {
 
     String.lchop("!", "!!!Hello") == "Hello"
   */
-  fun lchop (char : String, string : String) : String {
+  lchop (char : String, string : String) : String {
     `
     (() => {
       while (#{string}.slice(0, #{char}.length) == #{char}) {
@@ -165,7 +165,7 @@ module String {
 
     String.replace("a", "0", "aaaa") == "0000"
   */
-  fun replace (
+  replace (
     pattern : String,
     replacement : String,
     string : String
@@ -178,7 +178,7 @@ module String {
 
     String.trim("  asd ") == "asd"
   */
-  fun trim (value : String) : String {
+  trim (value : String) : String {
     `#{value}.trim()`
   }
 
@@ -188,7 +188,7 @@ module String {
     String.withDefault("default", "") == "default"
     String.withDefault("default", "something") == "something"
   */
-  fun withDefault (value : String, string : String) : String {
+  withDefault (value : String, string : String) : String {
     if (String.isEmpty(string)) {
       value
     } else {

@@ -1,9 +1,9 @@
 component Main {
-  fun test : Number {
+  test : Number {
     0
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }

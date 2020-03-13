@@ -9,8 +9,8 @@ module Mint
     def use : Ast::Use | Nil
       start do |start_position|
         skip unless keyword "use"
+        whitespace! SkipError
 
-        whitespace
         provider = type_id! UseExpectedProvider
 
         whitespace

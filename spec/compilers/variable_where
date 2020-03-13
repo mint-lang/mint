@@ -1,12 +1,12 @@
 component Main {
-  fun test : String {
+  test : String {
     a
   } where {
     a =
       "Hello"
   }
 
-  fun render : String {
+  render : String {
     test()
   }
 }

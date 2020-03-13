@@ -3,7 +3,7 @@ record Test {
 }
 
 provider Test : Test {
-  fun print (a : String) : String {
+  print (a : String) : String {
     a
   }
 }
@@ -13,7 +13,7 @@ component Main {
     test = ""
   }
 
-  fun render : String {
+  render : String {
     try {
       Test.subscriptions
       Test.print("a")

@@ -4,7 +4,7 @@ enum A {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     case (A::B) {
       => ""
     }
@@ -17,7 +17,7 @@ enum A {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     case (A::B(0)) {
       => ""
     }
@@ -30,7 +30,7 @@ enum A {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     case (A::D(0)) {
       => ""
     }
@@ -38,7 +38,7 @@ component Main {
 }
 ---------------------------------------------------------------EnumIdTypeMissing
 component Main {
-  fun render : String {
+  render : String {
     case (C::D(0)) {
       => ""
     }

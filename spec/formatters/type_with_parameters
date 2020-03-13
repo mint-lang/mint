@@ -1,9 +1,9 @@
 module Test {
-	fun a : Array(Result(String,String)) {	[] }
+	a : Array(Result(String,String)) {	[] }
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun a : Array(Result(String, String)) {
+  a : Array(Result(String, String)) {
     []
   }
 }

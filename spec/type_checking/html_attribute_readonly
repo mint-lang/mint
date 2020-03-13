@@ -1,11 +1,11 @@
 component Main {
-  fun render : Html {
+  render : Html {
     <div readOnly={false}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
 component Main {
-  fun render : Html {
+  render : Html {
     <div readonly="WTF"/>
   }
 }

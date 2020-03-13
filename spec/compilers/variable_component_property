@@ -1,7 +1,7 @@
 component Main {
   property test : String = "Hello"
 
-  fun render : String {
+  render : String {
     test
   }
 }

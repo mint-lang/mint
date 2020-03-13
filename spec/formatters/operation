@@ -1,11 +1,11 @@
 module Test {
-  fun test : Bool {
+  test : Bool {
     "Hello"   ==   "True"
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun test : Bool {
+  test : Bool {
     "Hello" == "True"
   }
 }

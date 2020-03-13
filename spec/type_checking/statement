@@ -1,5 +1,5 @@
 component Main {
-  fun render : String {
+  render : String {
     try {
       x = "hello"
     }
@@ -7,7 +7,7 @@ component Main {
 }
 ---------------------------------------------------------------StatementNotTuple
 component Main {
-  fun render : String {
+  render : String {
     try {
       {x, y, z} = "hello"
     }
@@ -15,7 +15,7 @@ component Main {
 }
 ----------------------------------------------------------StatementTupleMismatch
 component Main {
-  fun render : String {
+  render : String {
     try {
       {x, y, z} = {"hello", "a"}
     }

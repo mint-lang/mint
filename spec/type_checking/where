@@ -1,18 +1,18 @@
 component Main {
-  fun test : Number {
+  test : Number {
     value
   } where {
     value =
       10
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
 ---------------------------------------------------------------StatementNotTuple
 component Main {
-  fun render : String {
+  render : String {
     x
   } where {
     {x, y, z} = "hello"
@@ -20,7 +20,7 @@ component Main {
 }
 ----------------------------------------------------------StatementTupleMismatch
 component Main {
-  fun render : String {
+  render : String {
     x
   } where {
     {x, y, z} = {"hello", "a"}
@@ -28,7 +28,7 @@ component Main {
 }
 ------------------------------------------------------InlineFunctionTypeMismatch
 module Test {
-  fun test1(a : Number) : String {
+  test1(a : Number) : String {
     ""
   } where {
     test2 = (a : Number) : String {

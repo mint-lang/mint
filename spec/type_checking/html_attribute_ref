@@ -1,11 +1,11 @@
 component Main {
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }
 ---------------------------------------------------------HtmlElementRefForbidden
 component Main {
-  fun render : Html {
+  render : Html {
     <div ref="Hello"/>
   }
 }

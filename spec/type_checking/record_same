@@ -9,14 +9,14 @@ record Test2 {
 }
 
 component Main {
-  fun test : Test {
+  test : Test {
     {
       a = "Hello",
       b = 0
     }
   }
 
-  fun render : String {
+  render : String {
     test().a
   }
 }
@@ -38,7 +38,7 @@ component Main {
       b = 0
     }
 
-  fun render : String {
+  render : String {
     test.a
   }
 }

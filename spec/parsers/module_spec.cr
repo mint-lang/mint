@@ -17,7 +17,7 @@ describe "Module" do
   expect_error "module Test ", Mint::Parser::ModuleExpectedOpeningBracket
   expect_error "module Test {", Mint::Parser::ModuleExpectedClosingBracket
   expect_error "module Test { ", Mint::Parser::ModuleExpectedClosingBracket
-  expect_error "module Test { fun a : Test { blah }", Mint::Parser::ModuleExpectedClosingBracket
+  expect_error "module Test { a : Test { blah }", Mint::Parser::ModuleExpectedClosingBracket
 
   expect_ok "module Test { }"
 end

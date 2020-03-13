@@ -3,14 +3,14 @@ component Main {
     color: red;
   }
 
-  fun render : Html {
+  render : Html {
     <div::base>
     </div>
   }
 }
 ---------------------------------------------------------------HtmlStyleNotFound
 component Main {
-  fun render : Html {
+  render : Html {
     <div::base/>
   }
 }

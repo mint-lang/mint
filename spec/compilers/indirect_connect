@@ -1,7 +1,7 @@
 store Test {
   state a : String = ""
 
-  fun b : String {
+  b : String {
     "hello"
   }
 }
@@ -14,7 +14,7 @@ store A {
 component Main {
   connect Test exposing { a }
 
-  fun render : String {
+  render : String {
     A.other
   }
 }

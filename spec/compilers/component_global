@@ -1,9 +1,9 @@
 global component Notifications {
-  fun notify (value : String) : String {
+  notify (value : String) : String {
     value
   }
 
-  fun render : Html {
+  render : Html {
     <div>
       "Test"
     </div>
@@ -11,7 +11,7 @@ global component Notifications {
 }
 
 component Main {
-  fun render : Html {
+  render : Html {
     <div>
       <{ Notifications.notify("Hello") }>
     </div>

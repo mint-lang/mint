@@ -1,12 +1,12 @@
 component Main {
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     sequence {
       greeting = "hello"
       void
     }
   }
 
-  fun render : Html {
+  render : Html {
     try {
       test()
 

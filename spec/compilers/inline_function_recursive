@@ -1,5 +1,5 @@
 module Test {
-  fun factorial(n : Number) : Number {
+  factorial(n : Number) : Number {
     helper(n, 1)
   } where {
     helper = (n : Number, acc : Number) : Number {
@@ -13,7 +13,7 @@ module Test {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     try {
       Test.factorial(3)
 

@@ -1,11 +1,11 @@
 component Main {
-  fun render : String {
+  render : String {
     @TEST
   }
 }
 -------------------------------------------------------------EnvNotFoundVariable
 component Main {
-  fun render : String {
+  render : String {
     @XXX
   }
 }

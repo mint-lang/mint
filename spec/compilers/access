@@ -3,7 +3,7 @@ record X {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     x.name
   } where {
     x = { name = "test" }

@@ -1,11 +1,11 @@
 module A {
-  fun test : Number {
+  test : Number {
     0.100
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Number {
+  test : Number {
     0.1
   }
 }

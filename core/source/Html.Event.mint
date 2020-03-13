@@ -43,7 +43,7 @@ record Html.Event {
 
 /* Utilit functions for `Html.Event` */
 module Html.Event {
-  fun fromEvent (event : Html.NativeEvent) : Html.Event {
+  fromEvent (event : Html.NativeEvent) : Html.Event {
     {
       bubbles = `#{event}.bubbles`,
       cancelable = `#{event}.cancelable`,
@@ -95,7 +95,7 @@ module Html.Event {
       doSomethingElse()
     }
   */
-  fun stopPropagation (event : Html.Event) : Void {
+  stopPropagation (event : Html.Event) : Void {
     `#{event.event}.stopPropagation()`
   }
 
@@ -104,7 +104,7 @@ module Html.Event {
 
     Html.Event.isPropagationStopped(event)
   */
-  fun isPropagationStopped (event : Html.Event) : Bool {
+  isPropagationStopped (event : Html.Event) : Bool {
     `#{event.event}.isPropagationStopped()`
   }
 
@@ -116,7 +116,7 @@ module Html.Event {
       doSomethingElse()
     }
   */
-  fun preventDefault (event : Html.Event) : Void {
+  preventDefault (event : Html.Event) : Void {
     `#{event.event}.preventDefault()`
   }
 }

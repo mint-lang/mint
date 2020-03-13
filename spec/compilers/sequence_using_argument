@@ -1,14 +1,14 @@
 component Main {
   state greeting : String = "ho"
 
-  fun test : Promise(Never, Void) {
+  test : Promise(Never, Void) {
     sequence {
       newGreeting = "hello"
       next { greeting = newGreeting }
     }
   }
 
-  fun render : Html {
+  render : Html {
     try {
       test()
 

@@ -1,7 +1,7 @@
 store Test {
   state a : String = ""
 
-  fun b : Promise(Never, Void) {
+  b : Promise(Never, Void) {
     next { a = "Blah" }
   }
 }
@@ -9,7 +9,7 @@ store Test {
 component Main {
   connect Test exposing { a, b }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
@@ -17,7 +17,7 @@ component Main {
 store Test {
   state a : String = ""
 
-  fun b : Promise(Never, Void) {
+  b : Promise(Never, Void) {
     next { b = "Blah" }
   }
 }
@@ -27,11 +27,11 @@ component Main {
 }
 ---------------------------------------------------------StoreEntityNameConflict
 store Test {
-  fun a : String {
+  a : String {
     ""
   }
 
-  fun a : String {
+  a : String {
     ""
   }
 }

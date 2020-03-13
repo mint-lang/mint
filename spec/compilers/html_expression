@@ -1,5 +1,5 @@
 component Main {
-  fun render : Html {
+  render : Html {
     <div><{ "Hello" }></div>
   }
 }

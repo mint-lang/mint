@@ -4,7 +4,7 @@ record Subscription {
 
 /*A*/providerProvider:Subscription {
   /*B*/
-  fun test : Void {
+  test : Void {
     void
   }
   /*C*/
@@ -17,7 +17,7 @@ record Subscription {
 /* A */
 provider Provider : Subscription {
   /* B */
-  fun test : Void {
+  test : Void {
     void
   }
 

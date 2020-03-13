@@ -1,7 +1,7 @@
 component Main {
   property name : String = "Joe"
 
-  fun render : Html {
+  render : Html {
     <div/>
   }
 }

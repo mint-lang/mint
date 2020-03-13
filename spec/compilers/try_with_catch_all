@@ -1,11 +1,11 @@
 module Result {
-  fun error (input : a) : Result(a, b) {
+  error (input : a) : Result(a, b) {
     `new Err(#{input})`
   }
 }
 
 component Main {
-  fun render : String {
+  render : String {
     try {
       x =
         Result.error("Blah")

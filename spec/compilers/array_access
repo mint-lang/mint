@@ -1,5 +1,5 @@
 component Main {
-  fun test : Maybe(String) {
+  test : Maybe(String) {
     [
       "Hello",
       "Blah",
@@ -7,11 +7,11 @@ component Main {
     ][1]
   }
 
-  fun test1 : Maybe(a) {
+  test1 : Maybe(a) {
     [][1]
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

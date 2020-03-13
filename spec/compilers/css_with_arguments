@@ -3,7 +3,7 @@ component Main {
     color: #{color};
   }
 
-  fun render : Html {
+  render : Html {
     <div::test("red")/>
   }
 }

@@ -1,5 +1,5 @@
 component Main {
-  fun render : String {
+  render : String {
     case ("x") {
       "a" => "a"
       "b" => "b"
@@ -9,7 +9,7 @@ component Main {
 }
 ------------------------------------------------------------CaseBranchNotMatches
 component Main {
-  fun render : String {
+  render : String {
     case ("x") {
       "a" => "a"
       "b" => true
@@ -24,7 +24,7 @@ enum A {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     case (A::B) {
       A::B => "a"
       A::C => "c"
@@ -34,7 +34,7 @@ component Main {
 }
 ------------------------------------------------------------------CaseNotCovered
 component Main {
-  fun render : String {
+  render : String {
     case ("a") {
       "a" => "a"
     }
@@ -48,7 +48,7 @@ enum A {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     case (A::B) {
       A::B => "a"
       A::C => "c"

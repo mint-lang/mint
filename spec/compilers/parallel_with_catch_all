@@ -1,11 +1,11 @@
 module Promise {
-  fun reject (input : a) : Promise(a, b) {
+  reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     parallel {
       greeting =
         Promise.reject("x")
@@ -22,7 +22,7 @@ component Main {
     }
   }
 
-  fun render : String {
+  render : String {
     try {
       test()
 

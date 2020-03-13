@@ -1,5 +1,5 @@
 component Main {
-  fun render : String {
+  render : String {
     try {
       "hello"
     }

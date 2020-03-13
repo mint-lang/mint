@@ -1,5 +1,5 @@
 component Main {
-  fun render : String {
+  render : String {
     try {
       -(10)
 
@@ -9,7 +9,7 @@ component Main {
 }
 -------------------------------------------------------------UnaryMinusNotNumber
 component Main {
-  fun render : String {
+  render : String {
     try {
       -"ASD"
 

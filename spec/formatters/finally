@@ -1,5 +1,5 @@
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {
       a =
         "hello"
@@ -8,7 +8,7 @@ module A {
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Promise(Never, String) {
+  test : Promise(Never, String) {
     sequence {
       a =
         "hello"

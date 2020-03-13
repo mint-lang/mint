@@ -10,7 +10,7 @@ module FormData {
     FormData.empty()
     |> FormData.addString("key", "value")
   */
-  fun empty : FormData {
+  empty : FormData {
     `new FormData`
   }
 
@@ -21,7 +21,7 @@ module FormData {
     |> FormData.addString("key", "value")
     |> FormData.keys() == ["key"]
   */
-  fun keys (formData : FormData) : Array(String) {
+  keys (formData : FormData) : Array(String) {
     `Array.from(#{formData}.keys())`
   }
 
@@ -32,7 +32,7 @@ module FormData {
     FormData.empty()
     |> FormData.addString("key", "value")
   */
-  fun addString (key : String, value : String, formData : FormData) : FormData {
+  addString (key : String, value : String, formData : FormData) : FormData {
     `
      (() => {
       var newFormData = new FormData();
@@ -57,7 +57,7 @@ module FormData {
     |> FormData.addFile(
       "key", File.fromString("Contents", "text.txt", "text/plain"))
   */
-  fun addFile (key : String, value : File, formData : FormData) : FormData {
+  addFile (key : String, value : File, formData : FormData) : FormData {
     `
      (() => {
       var newFormData = new FormData();

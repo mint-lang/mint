@@ -1,5 +1,5 @@
 module Test {
-  fun a(n : Number) : Number {
+  a(n : Number) : Number {
     c(n, 1)
   } where {
     b = (n : Number, acc : Number) : Number {
@@ -23,7 +23,7 @@ module Test {
 }
 
 component Main {
-  fun render : String {
+  render : String {
     try {
       Test.a(3)
 

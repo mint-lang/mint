@@ -1,19 +1,19 @@
 component Main {
-  fun test : Bool {
+  test : Bool {
     "Hello" == "There"
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  fun test : String {
+  test : String {
     "Hello" == "There"
   }
 
-  fun render : String {
+  render : String {
     ""
   }
 }

@@ -1,5 +1,5 @@
 component Main {
-  fun render : String {
+  render : String {
     case ({"A","B"}) {
       {"A","B"} => ""
       => ""
@@ -8,7 +8,7 @@ component Main {
 }
 --------------------------------------------------------------CaseUnnecessaryAll
 component Main {
-  fun render : String {
+  render : String {
     case ({"A","B"}) {
       {a, b} => ""
       => ""
@@ -17,7 +17,7 @@ component Main {
 }
 ------------------------------------------------------------------CaseNotCovered
 component Main {
-  fun render : String {
+  render : String {
     case ({"A","B"}) {
       {"A","B"} => ""
     }

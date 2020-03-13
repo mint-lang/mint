@@ -1,11 +1,11 @@
 module A {
-  fun test : Bool {
+  test : Bool {
     try{x="hello"y=truez=false}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  fun test : Bool {
+  test : Bool {
     try {
       x =
         "hello"
