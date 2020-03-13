@@ -8,7 +8,7 @@ module Mint
                      @name : Variable,
                      @input : Data,
                      @from : Int32,
-                     @type : Type,
+                     @type : Type?,
                      @to : Int32)
       end
     end

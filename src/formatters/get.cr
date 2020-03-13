@@ -5,7 +5,9 @@ module Mint
         format node.name
 
       type =
-        format node.type
+        node.type.try do |item|
+          " : #{format(item)}"
+        end
 
       body =
         list [node.body] + node.head_comments + node.tail_comments
@@ -16,7 +18,7 @@ module Mint
       comment =
         node.comment.try { |item| "#{format(item)}\n" }
 
-      "#{comment}get #{name} : #{type} {\n#{indent(body)}\n}#{where}"
+      "#{comment}get #{name}#{type} {\n#{indent(body)}\n}#{where}"
     end
   end
 end

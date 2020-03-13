@@ -2,7 +2,6 @@ module Mint
   class Parser
     syntax_error PropertyExpectedDefaultValue
     syntax_error PropertyExpectedEqualSign
-    syntax_error PropertyExpectedColon
     syntax_error PropertyExpectedName
     syntax_error PropertyExpectedType
 
@@ -15,14 +14,16 @@ module Mint
 
         whitespace
         name = variable! PropertyExpectedName
-
-        whitespace
-        char ':', PropertyExpectedColon
         whitespace
 
-        type = type! PropertyExpectedType
+        type =
+          if char! ':'
+            whitespace
+            item = type! PropertyExpectedType
+            whitespace
+            item
+          end
 
-        whitespace
         char '=', PropertyExpectedEqualSign
         whitespace
 

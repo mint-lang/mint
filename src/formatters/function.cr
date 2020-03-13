@@ -5,7 +5,9 @@ module Mint
         format node.name
 
       type =
-        format node.type
+        node.type.try do |item|
+          ": #{format(item)}"
+        end
 
       body =
         list [node.body] + node.head_comments + node.tail_comments
@@ -16,9 +18,9 @@ module Mint
             format node.arguments
 
           if value.map { |string| replace_skipped(string) }.map(&.size).sum > 50
-            "(\n#{indent(value.join(",\n"))}\n) "
+            "(\n#{indent(value.join(",\n"))}\n)"
           else
-            "(#{value.join(", ")}) "
+            "(#{value.join(", ")})"
           end
         end
 
@@ -28,7 +30,10 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}fun #{name} #{arguments}: #{type} {\n#{indent(body)}\n}#{where}"
+      head =
+        ["#{comment}fun", name, arguments, type].compact.join(" ")
+
+      "#{head} {\n#{indent(body)}\n}#{where}"
     end
   end
 end

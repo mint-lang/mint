@@ -10,8 +10,8 @@ describe "State" do
   expect_error "state", Mint::Parser::StateExpectedName
   expect_error "state ", Mint::Parser::StateExpectedName
   expect_error "state .", Mint::Parser::StateExpectedName
-  expect_error "state  a.", Mint::Parser::StateExpectedColon
-  expect_error "state a .", Mint::Parser::StateExpectedColon
+  expect_error "state  a.", Mint::Parser::StateExpectedEqualSign
+  expect_error "state a .", Mint::Parser::StateExpectedEqualSign
   expect_error "state a :", Mint::Parser::StateExpectedType
   expect_error "state a : ", Mint::Parser::StateExpectedType
   expect_error "state a : T", Mint::Parser::StateExpectedEqualSign

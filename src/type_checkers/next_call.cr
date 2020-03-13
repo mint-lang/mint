@@ -32,7 +32,7 @@ module Mint
           resolve item.value
 
         state_type =
-          resolve state.type
+          resolve state
 
         raise NextCallStateTypeMismatch, {
           "name"     => item.key.value,

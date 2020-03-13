@@ -4,13 +4,10 @@ module Mint
     type_error PropertyTypeMismatch
 
     def static_type_signature(node : Ast::Property) : Checkable
-      resolve node.type
+      node.type.try { |type| resolve type } || Variable.new("a")
     end
 
     def check(node : Ast::Property) : Checkable
-      type =
-        resolve node.type
-
       default =
         begin
           resolve node.default
@@ -18,22 +15,32 @@ module Mint
           error.locals["structure"]?.as(Checkable)
         end
 
+      final =
+        if item = node.type
+          type =
+            resolve item
+
+          resolved =
+            Comparer.compare type, default
+
+          raise PropertyTypeMismatch, {
+            "name"     => node.name.value,
+            "got"      => default,
+            "expected" => type,
+            "node"     => node,
+          } unless resolved
+
+          resolved
+        else
+          default
+        end
+
       raise PropertyWithTypeVariables, {
-        "type" => type,
+        "type" => final,
         "node" => node,
-      } if type.have_holes?
+      } if final.have_holes?
 
-      resolved =
-        Comparer.compare type, default
-
-      raise PropertyTypeMismatch, {
-        "name"     => node.name.value,
-        "got"      => default,
-        "expected" => type,
-        "node"     => node,
-      } unless resolved
-
-      resolved
+      final
     end
   end
 end
