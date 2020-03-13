@@ -150,7 +150,7 @@ module Array {
   }
 
   /*
-  Returns `true` if any item in the array matches the prdicate function
+  Returns `true` if any item in the array matches the predicate function
   `false` otherwise.
 
     Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == true
