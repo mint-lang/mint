@@ -188,7 +188,7 @@ module Mint
       type || type_variable
     end
 
-    def type_or_type_variable!(error : SyntaxError.class)
+    def type_or_type_variable!(error : SyntaxError.class | SkipError.class)
       raise error unless result = type_or_type_variable
       result
     end

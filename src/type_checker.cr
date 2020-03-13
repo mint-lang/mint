@@ -208,6 +208,29 @@ module Mint
         node
       when Ast::Node
         cache[node]? || begin
+          @stack.each_with_index do |i, index|
+            x = case i
+                when Ast::Component
+                  i.name
+                when Ast::Function
+                  i.name.value
+                when Ast::With
+                  "<with>"
+                when Ast::Try
+                  "<try>"
+                when Ast::Call
+                  "<call>"
+                else
+                  i
+                end
+
+            if index == 0
+              puts x.to_s
+            else
+              puts "#{" " * (index - 1)} ↳ #{x}"
+            end
+          end
+
           if @stack.includes?(node)
             case node
             when Ast::Component

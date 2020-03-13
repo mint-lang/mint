@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-Dir.glob("./spec/type_checking/**").sort.each do |file|
+Dir.glob("./spec/type_checking/function").sort.each do |file|
   # Read samples
   samples = [] of Tuple(String, String | Nil)
   contents = File.read(file)

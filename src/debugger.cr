@@ -10,7 +10,11 @@ module Mint
     end
 
     def debug(node : Ast::Node)
-      ""
+      "#{node}"
+    end
+
+    def debug(node : Tuple(String, TypeChecker::Checkable, Ast::Node))
+      "#{node[0]} => #{node[1].to_s}"
     end
 
     def debug(node : Tuple(String, TypeChecker::Checkable))
@@ -32,7 +36,7 @@ module Mint
       statements =
         node.where.try do |where|
           where.statements.map do |statement|
-            "#{statement.name.value} => #{statement}"
+            "#{statement.target.class.name} => #{statement}"
           end.join("\n")
         end.to_s
 
@@ -42,7 +46,7 @@ module Mint
     def debug(node : Ast::Get)
       node.where.try do |where|
         where.statements.map do |statement|
-          "#{statement.name.value} => #{statement}"
+          "#{statement.target.class.name} => #{statement}"
         end.join("\n")
       end.to_s
     end
