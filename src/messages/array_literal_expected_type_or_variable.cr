@@ -1,11 +1,11 @@
-message JsExpectedTypeOrVariable do
+message ArrayLiteralExpectedTypeOrVariable do
   title "Syntax Error"
 
   block do
-    text "The type of"
-    bold "inlined JavaScript"
+    text "The type of an"
+    bold "array literal"
     text "must be defined after the"
-    bold "as"
+    bold "of"
     text "keyword."
   end
 
