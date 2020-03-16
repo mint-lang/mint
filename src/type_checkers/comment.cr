@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Comment) : Checkable
-      JS
+      NEVER
     end
   end
 end

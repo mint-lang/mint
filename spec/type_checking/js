@@ -3,3 +3,9 @@ component Main {
     `"Hello"`
   }
 }
+------------------------------------------------------------FunctionTypeMismatch
+component Main {
+  render : String {
+    `"Hello"` as Number
+  }
+}

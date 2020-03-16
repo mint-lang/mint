@@ -75,13 +75,6 @@ module Mint
       end
     end
 
-    class Js < Type
-      def initialize
-        @parameters = [] of Checkable
-        @name = "JS"
-      end
-    end
-
     class Record
       property parameters : Array(Checkable) = [] of Checkable
       getter name, fields, mappings
@@ -221,11 +214,7 @@ module Mint
         node1 = prune(node1)
         node2 = prune(node2)
 
-        if node1.is_a?(Js)
-          node2
-        elsif node2.is_a?(Js)
-          node1
-        elsif node1.is_a?(Variable)
+        if node1.is_a?(Variable)
           if node1 != node2
             if (occurns_in_type(node1, node2))
               raise "Recursive unification!"
@@ -298,10 +287,6 @@ module Mint
 
       def fresh(node : Variable)
         Variable.new(node.name)
-      end
-
-      def fresh(node : Js, mapping = {} of Int32 => Variable)
-        Js.new
       end
 
       def fresh(node : Type, mapping = {} of Int32 => Variable)

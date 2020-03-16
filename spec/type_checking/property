@@ -14,7 +14,7 @@ component Main {
   }
 }
 
--------------------------------------------------------PropertyWithTypeVariables
+------------------------------------------------------------PropertyTypeMismatch
 component Main {
   property name : Test(a) = true
 

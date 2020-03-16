@@ -1,9 +1,9 @@
 component Main {
-  function (a : a) : a {
+  test (a : a) : a {
     a
   }
 
   render : String {
-  	""
+    ""
   }
 }

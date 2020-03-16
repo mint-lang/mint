@@ -3,7 +3,6 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    JS             = Js.new
     STRING         = Type.new("String")
     BOOL           = Type.new("Bool")
     NUMBER         = Type.new("Number")
