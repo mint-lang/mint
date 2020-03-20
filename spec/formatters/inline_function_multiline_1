@@ -1,5 +1,5 @@
 module A {
-  test : String {
+  fun test : String {
     a()
   } where {
     a = ():String{
@@ -8,7 +8,7 @@ module A {
 }
 --------------------------------------------------------------------------------
 module A {
-  test : String {
+  fun test : String {
     a()
   } where {
     a =

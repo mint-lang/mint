@@ -5,7 +5,7 @@ store Test {
 component Main {
   connect Test exposing { NAME }
 
-  render : Html {
+  fun render : Html {
     <div>
       <{ NAME }>
     </div>

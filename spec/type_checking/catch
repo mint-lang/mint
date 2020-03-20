@@ -1,11 +1,11 @@
 module Result {
-  error (input : a) : Result(a, b) {
+  fun error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     try {
       x =
         Result.error("Blah")
@@ -18,13 +18,13 @@ component Main {
 }
 ------------------------------------------------------------------TryDidNotCatch
 module Result {
-  error (input : a) : Result(a, b) {
+  fun error (input : a) : Result(a, b) {
     `new Err(input)`
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     try {
       x =
         Result.error("Blah")

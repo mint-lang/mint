@@ -1,71 +1,71 @@
 module Window {
   /* Navigates to the given URL. */
-  navigate (url : String) : Promise(Never, Void) {
+  fun navigate (url : String) : Promise(Never, Void) {
     `_navigate(#{url})`
   }
 
   /* Sets the URL of the window without navigating to it. */
-  setUrl (url : String) : Promise(Never, Void) {
+  fun setUrl (url : String) : Promise(Never, Void) {
     `_navigate(#{url}, false)`
   }
 
   /* Returns the windows title. */
-  title : String {
+  fun title : String {
     `document.title`
   }
 
   /* Sets the windows title. */
-  setTitle (title : String) : Promise(Never, Void) {
+  fun setTitle (title : String) : Promise(Never, Void) {
     `document.title = #{title}`
   }
 
   /* Returns the current `Url` of the window. */
-  url : Url {
+  fun url : Url {
     Url.parse(href())
   }
 
   /* Returns the windows URL as a string. */
-  href : String {
+  fun href : String {
     `window.location.href`
   }
 
   /* Returns the width of the window in pixels. */
-  width : Number {
+  fun width : Number {
     `window.innerWidth`
   }
 
   /* Returns the height of the window in pixels. */
-  height : Number {
+  fun height : Number {
     `window.innerHeight`
   }
 
   /* Returns the scrollable height of the window in pixels. */
-  scrollHeight : Number {
+  fun scrollHeight : Number {
     `document.body.scrollHeight`
   }
 
   /* Returns the scrollable width of the window in pixels. */
-  scrollWidth : Number {
+  fun scrollWidth : Number {
     `document.body.scrollWidth`
   }
 
   /* Returns the horizontal scroll position of the window in pixels. */
-  scrollLeft : Number {
+  fun scrollLeft : Number {
     `document.body.scrollLeft`
   }
 
   /* Returns the vertical scroll position of the window in pixels. */
-  scrollTop : Number {
+  fun scrollTop : Number {
     `document.body.scrollTop`
   }
 
   /* Sets the horizontal scroll position of the window in pixels. */
-  setScrollTop (position : Number) : Promise(Never, Void) {
+  fun setScrollTop (position : Number) : Promise(Never, Void) {
     `window.scrollTo(#{scrollTop()}, #{position})`
   }
 
   /* Sets the vertical scroll position of the window in pixels. */
-  setScrollLeft (position : Number) : Promise(Never, Void) {
+  fun setScrollLeft (position : Number) : Promise(Never, Void) {
     `window.scrollTo(#{position}, #{scrollLeft()})`
   }
 
@@ -77,7 +77,7 @@ module Window {
   closed.
   */
 
-  prompt (label : String, current : String) : Promise(String, String) {
+  fun prompt (label : String, current : String) : Promise(String, String) {
     `
     new Promise((resolve, reject) => {
       let result = window.prompt(#{label}, #{current})
@@ -97,7 +97,7 @@ module Window {
   This function returns a promise but blocks execution until the popup is
   closed.
   */
-  confirm (message : String) : Promise(String, Void) {
+  fun confirm (message : String) : Promise(String, Void) {
     `
     new Promise((resolve, reject) => {
       let result = window.confirm(#{message})
@@ -116,7 +116,7 @@ module Window {
 
     Window.open("https://www.google.com")
   */
-  open (url : String) : Promise(Never, Void) {
+  fun open (url : String) : Promise(Never, Void) {
     `window.open(url)`
   }
 
@@ -125,7 +125,7 @@ module Window {
 
     Window.getScrollbarWidth() == 10
   */
-  getScrollbarWidth : Number {
+  fun getScrollbarWidth : Number {
     `
     (() => {
       // Create an outer div which is scrollable

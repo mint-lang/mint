@@ -4,7 +4,7 @@ record Provider.Subscription {
 }
 
 provider Provider : Provider.Subscription {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -12,7 +12,7 @@ provider Provider : Provider.Subscription {
 component Test {
   use Provider{a = "Hello",b = "Blah"}when{true}
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -23,7 +23,7 @@ record Provider.Subscription {
 }
 
 provider Provider : Provider.Subscription {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -36,7 +36,7 @@ component Test {
     true
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

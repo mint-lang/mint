@@ -1,15 +1,15 @@
 component Main {
-  a : Void {
+  fun a : Void {
     void
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  factorial(n : Number) : Number {
+  fun factorial(n : Number) : Number {
     helper(n, 1)
   } where {
     helper = (n : Number, acc : Number) : Number {
@@ -24,7 +24,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  factorial (n : Number) : Number {
+  fun factorial (n : Number) : Number {
     1
   } where {
     helper =
@@ -39,7 +39,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-   factorial (n : Number) : Number {
+  fun factorial (n : Number) : Number {
     1
   } where {
     helper =
@@ -56,7 +56,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  a(n : Number) : Number {
+  fun a(n : Number) : Number {
     c(n, 1)
   } where {
     b = (n : Number, acc : Number) : Number {
@@ -80,7 +80,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  factorial (n : Number) : Number {
+  fun factorial (n : Number) : Number {
     try {
       helper =
         (n : Number, acc : Number) : Number {

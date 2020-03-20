@@ -1,7 +1,7 @@
 store Test {
   state test : String = ""
 
-  hello : String {
+  fun hello : String {
     "hello"
   }
 }
@@ -9,7 +9,7 @@ store Test {
 component Main {
   connect Test exposing { test }
 
-  render : String {
+  fun render : String {
     test
   }
 }

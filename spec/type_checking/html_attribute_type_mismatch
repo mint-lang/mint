@@ -1,13 +1,13 @@
 component X {
   property test : String = ""
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <X key="wtf" test="asd"/>
   }
 }
@@ -15,13 +15,13 @@ component Main {
 component X {
   property test : String = ""
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <X key="wtf" test={0}/>
   }
 }

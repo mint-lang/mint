@@ -1,7 +1,7 @@
 component Test {
   /*HEAD*/get test:Number{/*A*/0/*B*/}
 
-  render : Html {
+  fun render : Html {
     <div></div>
   }
 }
@@ -15,7 +15,7 @@ component Test {
     /* B */
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

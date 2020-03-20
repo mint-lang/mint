@@ -12,7 +12,7 @@ component A {
     }/*I*/
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -44,7 +44,7 @@ component A {
     /* I */
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

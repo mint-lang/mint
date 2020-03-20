@@ -1,23 +1,23 @@
 component Main {
-  a : String {
+  fun a : String {
     "Hello"
   }
 
-  b : String {
+  fun b : String {
     a()
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 -----------------------------------------------------------------VariableMissing
 component Main {
-  b : String {
+  fun b : String {
     x()
   }
 
-  render : Html {
+  fun render : Html {
     try {
       b()
 
@@ -29,11 +29,11 @@ component Main {
 component Main {
   property x : String = ""
 
-  b : String {
+  fun b : String {
     x()
   }
 
-  render : Html {
+  fun render : Html {
     try {
       b()
 
@@ -43,15 +43,15 @@ component Main {
 }
 --------------------------------------------------------CallArgumentTypeMismatch
 component Main {
-  a (input : String) : String {
+  fun a (input : String) : String {
     input
   }
 
-  b : String {
+  fun b : String {
     a(0)
   }
 
-  render : Html {
+  fun render : Html {
     try {
       b()
 
@@ -61,15 +61,15 @@ component Main {
 }
 --------------------------------------------------------CallArgumentSizeMismatch
 component Main {
-  a (input : String) : String {
+  fun a (input : String) : String {
     input
   }
 
-  b : String {
+  fun b : String {
     a("Hello", "There")
   }
 
-  render : Html {
+  fun render : Html {
     try {
       b()
 
@@ -79,36 +79,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 module Maybe {
-  nothing : Maybe(a) {
-    `new Nothing()`
+  fun nothing : Maybe(a) {
+    ``
   }
 
-  just (value : a) : Maybe(a) {
-    `new Just(value)`
+  fun just (value : a) : Maybe(a) {
+    ``
   }
 
-  withDefault (value : a, maybe : Maybe(a)) : a {
-    `
-    (() => {
-      if (maybe instanceof Just) {
-        return maybe.value
-      } else {
-        return value
-      }
-    })()
-    `
+  fun withDefault (value : a, maybe : Maybe(a)) : a {
+    ``
   }
 
-  toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
-    `
-    (() => {
-      if (maybe instanceof Just) {
-        return new Ok(maybe.value)
-      } else {
-        return new Err(error)
-      }
-    })()
-    `
+  fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
+    ``
   }
 }
 
@@ -128,7 +112,7 @@ store X {
 component Main {
   connect X exposing { test }
 
-  render : String {
+  fun render : String {
     try {
       resolved =
         test

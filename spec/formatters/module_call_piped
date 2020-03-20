@@ -1,19 +1,19 @@
 module Test {
-  a (value : String) : String {
+  fun a (value : String) : String {
     value
   }
 
-  b : String {
+  fun b : String {
     "Hello"  |>  Test.a()
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  a (value : String) : String {
+  fun a (value : String) : String {
     value
   }
 
-  b : String {
+  fun b : String {
     "Hello"
     |> Test.a()
   }

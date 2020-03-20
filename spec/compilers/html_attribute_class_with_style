@@ -3,7 +3,7 @@ component Main {
     width: 100%;
   }
 
-  render : Html {
+  fun render : Html {
     <div::base class="something">
     </div>
   }

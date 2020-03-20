@@ -3,7 +3,7 @@ record Subscription {
 }
 
 providerProvider:Subscription {
-  test : Void {
+  fun test : Void {
     void
   }
 }
@@ -13,7 +13,7 @@ record Subscription {
 }
 
 provider Provider : Subscription {
-  test : Void {
+  fun test : Void {
     void
   }
 }

@@ -1,7 +1,7 @@
 /* Functions for decoding specific types from an `Object`. */
 module Object.Decode {
   /* Decodes an field from an object using the given decoder. */
-  field (
+  fun field (
     key : String,
     decoder : Function(Object, Result(Object.Error, a)),
     input : Object
@@ -10,27 +10,27 @@ module Object.Decode {
   }
 
   /* Decodes the object as a `String` */
-  string (input : Object) : Result(Object.Error, String) {
+  fun string (input : Object) : Result(Object.Error, String) {
     `Decoder.string(#{input})`
   }
 
   /* Decodes the object as a `Time` */
-  time (input : Object) : Result(Object.Error, Time) {
+  fun time (input : Object) : Result(Object.Error, Time) {
     `Decoder.time(#{input})`
   }
 
   /* Decodes the object as a `Number` */
-  number (input : Object) : Result(Object.Error, Number) {
+  fun number (input : Object) : Result(Object.Error, Number) {
     `Decoder.number(#{input})`
   }
 
   /* Decodes the object as a `Bool` */
-  boolean (input : Object) : Result(Object.Error, Bool) {
+  fun boolean (input : Object) : Result(Object.Error, Bool) {
     `Decoder.boolean(#{input})`
   }
 
   /* Decodes the object as a `Array` using the given decoder. */
-  array (
+  fun array (
     decoder : Function(Object, Result(Object.Error, a)),
     input : Object
   ) : Result(Object.Error, Array(a)) {
@@ -38,7 +38,7 @@ module Object.Decode {
   }
 
   /* Decodes the object as a `Maybe(a)` using the given decoder. */
-  maybe (
+  fun maybe (
     decoder : Function(Object, Result(Object.Error, a)),
     input : Object
   ) : Result(Object.Error, Maybe(a)) {

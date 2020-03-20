@@ -1,12 +1,12 @@
 module Test {
-  test : Bool {
+  fun test : Bool {
     (         true
         )
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : Bool {
+  fun test : Bool {
     (true)
   }
 }

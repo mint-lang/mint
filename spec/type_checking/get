@@ -3,7 +3,7 @@ component Main {
     0
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test
 
@@ -17,7 +17,7 @@ component Main {
     "asd"
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

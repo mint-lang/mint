@@ -1,5 +1,5 @@
 component Main {
-  render : String {
+  fun render : String {
     case ("x") {
       "a" => "a"
       "b" => "b"
@@ -9,7 +9,7 @@ component Main {
 }
 -----------------------------------------------------CaseBranchNotMatchCondition
 component Main {
-  render : String {
+  fun render : String {
     case ("x") {
       true => "a"
       "b" => "b"
@@ -19,7 +19,7 @@ component Main {
 }
 -------------------------------------------------------CaseBranchMultipleSpreads
 component Main {
-  render : String {
+  fun render : String {
     case ([]) {
       [...a,...b] => "a"
     }
@@ -27,7 +27,7 @@ component Main {
 }
 --------------------------------------------------------------CaseBranchNotArray
 component Main {
-  render : String {
+  fun render : String {
     case ("") {
       [...a,...b] => "a"
     }
@@ -35,7 +35,7 @@ component Main {
 }
 ---------------------------------------------------------CaseBranchTupleMismatch
 component Main {
-  render : String {
+  fun render : String {
     case ({"a", "b"}) {
       {a, b, c} => "a"
     }
@@ -43,7 +43,7 @@ component Main {
 }
 --------------------------------------------------------------CaseBranchNotTuple
 component Main {
-  render : String {
+  fun render : String {
     case ("") {
       {a, b} => "a"
     }

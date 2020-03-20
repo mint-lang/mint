@@ -11,12 +11,10 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        if keyword "fun"
-          puts "The 'fun' keyword for functions is now deprecated and will be removed in the next version!"
-          whitespace
-        end
+        skip unless keyword "fun"
+        whitespace
 
-        skip unless name = variable
+        skip unless name = variable! FunctionExpectedName
         whitespace
 
         arguments = [] of Ast::Argument

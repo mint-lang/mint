@@ -1,7 +1,7 @@
 component Test {
   property text : String = ""
 
-  render : Html {
+  fun render : Html {
     <div><{ text }></div>
   }
 }
@@ -9,7 +9,7 @@ component Test {
 component Test2 {
   property text : String = ""
 
-  render : Html {
+  fun render : Html {
     <div><{ text }></div>
   }
 }
@@ -18,13 +18,13 @@ component TestWithChildren {
   property children : Array(Html) = []
   property text : String = ""
 
-  render : Html {
+  fun render : Html {
     <div><{ text }></div>
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <>
       <Test/>
       <Test/>

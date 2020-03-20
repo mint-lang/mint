@@ -5,7 +5,7 @@ module Dom {
 
     Dom.createElement("div")
   */
-  createElement (tag : String) : Dom.Element {
+  fun createElement (tag : String) : Dom.Element {
     `document.createElement(#{tag})`
   }
 
@@ -14,7 +14,7 @@ module Dom {
 
     Dom.getElementById("my-div")
   */
-  getElementById (id : String) : Maybe(Dom.Element) {
+  fun getElementById (id : String) : Maybe(Dom.Element) {
     `
     (() => {
       let element = document.getElementById(#{id})
@@ -33,7 +33,7 @@ module Dom {
 
     Dom.getElementById("body section > p:first-child")
   */
-  getElementBySelector (selector : String) : Maybe(Dom.Element) {
+  fun getElementBySelector (selector : String) : Maybe(Dom.Element) {
     `
     (() => {
       try {
@@ -65,7 +65,7 @@ module Dom {
       y = 0
     }
   */
-  getDimensions (dom : Dom.Element) : Dom.Dimensions {
+  fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
     `
     (() => {
       const rect = #{dom}.getBoundingClientRect()
@@ -93,7 +93,7 @@ module Dom {
     Dom.getValue("input[value=hello]") == "hello"
     Dom.getValue("div") == ""
   */
-  getValue (dom : Dom.Element) : String {
+  fun getValue (dom : Dom.Element) : String {
     `
     (() => {
       let value = #{dom}.value
@@ -112,7 +112,7 @@ module Dom {
 
   It is used to set the value of `input` fields programatically.
   */
-  setValue (value : String, dom : Dom.Element) : Dom.Element {
+  fun setValue (value : String, dom : Dom.Element) : Dom.Element {
     `(#{dom}.value = #{value}) && #{dom}`
   }
 
@@ -122,7 +122,7 @@ module Dom {
     Dom.matches("div", Dom.createElement("div")) == true
     Dom.matches("p", Dom.createElement("div")) == false
   */
-  matches (selector : String, dom : Dom.Element) : Bool {
+  fun matches (selector : String, dom : Dom.Element) : Bool {
     `
     (() => {
       try {
@@ -142,7 +142,7 @@ module Dom {
     |> Dom.focus
     |> Dom.getElementById()
   */
-  focus (maybeElement : Maybe(Dom.Element)) : Promise(Never , Void) {
+  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never , Void) {
     case (maybeElement) {
       Maybe::Just element =>
         sequence {
@@ -165,7 +165,7 @@ module Dom {
     |> Dom.getElementById
     |> Dom.focusWhenVisible()
   */
-  focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
+  fun focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
     `
     new Promise((resolve, reject) => {
       let counter = 0
@@ -201,7 +201,7 @@ module Dom {
 
     Dom.contains(div, body) == true
   */
-  contains (element : Dom.Element, base : Dom.Element) : Bool {
+  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
     `#{base}.contains(#{element})`
   }
 
@@ -211,7 +211,7 @@ module Dom {
 
     Dom.containedInSelector("body", Dom.getElementBySelector("div"))
   */
-  containedInSelector (selector : String, element : Dom.Element) : Bool {
+  fun containedInSelector (selector : String, element : Dom.Element) : Bool {
     `
     (() => {
       for (let base of document.querySelectorAll(selector)) {
@@ -232,7 +232,7 @@ module Dom {
     |> Dom.getElementById()
     |> Dom.getAttribute("id") == "my-div"
   */
-  getAttribute (name : String, element : Dom.Element) : String {
+  fun getAttribute (name : String, element : Dom.Element) : String {
     `element.getAttribute(name) || ""`
   }
 
@@ -244,7 +244,7 @@ module Dom {
     |> Dom.setStyle("background", "red")
     |> Dom.setStyle("color", "white")
   */
-  setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
+  fun setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
     `
     (() => {
       #{element}.style[#{name}] = #{value}
@@ -258,7 +258,7 @@ module Dom {
 
     Dom.getElementFromPoint(0, 0)
   */
-  getElementFromPoint (left : Number, top : Number) : Maybe(Dom.Element) {
+  fun getElementFromPoint (left : Number, top : Number) : Maybe(Dom.Element) {
     `
     (() => {
       const element = document.elementFromPoint(left, top)

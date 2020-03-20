@@ -1,5 +1,5 @@
 module Test {
-  test : Tuple(String, String, String) {
+  fun test : Tuple(String, String, String) {
     {
       "Hello",
       "Blah", "Joe"
@@ -8,7 +8,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : Tuple(String, String, String) {
+  fun test : Tuple(String, String, String) {
     {
       "Hello",
       "Blah",

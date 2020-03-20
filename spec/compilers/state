@@ -2,11 +2,11 @@ component Main {
   state test : String = "Hello"
   state blah : String = "0"
 
-  asd : String {
+  fun asd : String {
     test + blah
   }
 
-  render : String {
+  fun render : String {
     asd()
   }
 }

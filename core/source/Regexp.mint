@@ -22,7 +22,7 @@ module Regexp {
     (Regexp.create("test")
     |> Regexp.toString()) == "/test/"
   */
-  create (input : String) : Regexp {
+  fun create (input : String) : Regexp {
     `new RegExp(#{input})`
   }
 
@@ -40,7 +40,7 @@ module Regexp {
       })
     |> Regexp.toString()) == "/test/gimuy"
   */
-  createWithOptions (input : String, options : Regexp.Options) : Regexp {
+  fun createWithOptions (input : String, options : Regexp.Options) : Regexp {
     `
     (() => {
       let flags = ""
@@ -62,7 +62,7 @@ module Regexp {
     (Regexp.create("test")
     |> Regexp.toString()) == "/test/"
   */
-  toString (regexp : Regexp) : String {
+  fun toString (regexp : Regexp) : String {
     `#{regexp}.toString()`
   }
 
@@ -71,7 +71,7 @@ module Regexp {
 
     Regexp.escape("-{") == "\\-\\{"
   */
-  escape (input : String) : String {
+  fun escape (input : String) : String {
     `#{input}.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')`
   }
 
@@ -81,7 +81,7 @@ module Regexp {
     (Regexp.create(",")
     |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
   */
-  split (input : String, regexp : Regexp) : Array(String) {
+  fun split (input : String, regexp : Regexp) : Array(String) {
     `#{input}.split(#{regexp})`
   }
 
@@ -91,7 +91,7 @@ module Regexp {
     (Regexp.create(",")
     |> Regexp.match("asd,asd")) == true
   */
-  match (input : String, regexp : Regexp) : Bool {
+  fun match (input : String, regexp : Regexp) : Bool {
     `#{regexp}.test(#{input})`
   }
 
@@ -117,7 +117,7 @@ module Regexp {
     ]
       \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
   */
-  matches (input : String, regexp : Regexp) : Array(Regexp.Match) {
+  fun matches (input : String, regexp : Regexp) : Array(Regexp.Match) {
     `
     (() => {
       let results = []
@@ -164,7 +164,7 @@ module Regexp {
       "a,b,c,d",
       \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
   */
-  replace (
+  fun replace (
     input : String,
     replacer : Function(Regexp.Match, String),
     regexp : Regexp

@@ -1,5 +1,5 @@
 module Test {
-  test : String {
+  fun test : String {
     a
   } where {
     {a, b} =
@@ -8,7 +8,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : String {
+  fun test : String {
     a
   } where {
     {a, b} =

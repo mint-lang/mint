@@ -1,11 +1,11 @@
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       greeting =
         Promise.reject("hello")
@@ -21,7 +21,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -31,13 +31,13 @@ component Main {
 }
 -------------------------------------------------------------SequenceDidNotCatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       greeting =
         Promise.reject("hello")
@@ -49,7 +49,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -59,7 +59,7 @@ component Main {
 }
 ----------------------------------------------------------SequenceCatchesNothing
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       true
     } catch String => error {
@@ -67,7 +67,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -77,13 +77,13 @@ component Main {
 }
 -------------------------------------------------------SequenceCatchTypeMismatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       blah =
         Promise.reject(0)
@@ -94,7 +94,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -105,13 +105,13 @@ component Main {
 
 -------------------------------------------------------SequenceCatchTypeMismatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       blah =
         Promise.reject(0)
@@ -122,7 +122,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -132,13 +132,13 @@ component Main {
 }
 --------------------------------------------------------------SequenceCatchedAll
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       blah =
         Promise.reject(0)
@@ -151,7 +151,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

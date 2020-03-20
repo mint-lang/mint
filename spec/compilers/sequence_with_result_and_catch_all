@@ -1,11 +1,11 @@
 module Result {
-  error (input : a) : Result(a, b) {
+  fun error (input : a) : Result(a, b) {
     `new Err(#{input})`
   }
 }
 
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       Result.error("")
 
@@ -15,7 +15,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

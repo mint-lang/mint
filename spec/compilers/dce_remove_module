@@ -1,5 +1,5 @@
 module Test {
-  test : String {
+  fun test : String {
     ""
   }
 }

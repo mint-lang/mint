@@ -1,7 +1,7 @@
 /* Functions for the Map data structure for mapping keys to values. */
 module Map {
   /* Returns an empty map. */
-  empty : Map(x, z) {
+  fun empty : Map(x, z) {
     `new Map()`
   }
 
@@ -11,7 +11,7 @@ module Map {
     Map.empty()
     |> Map.set("key", "value")
   */
-  set (key : x, value : z, map : Map(x, z)) : Map(x, z) {
+  fun set (key : x, value : z, map : Map(x, z)) : Map(x, z) {
     `
     (() => {
       const newMap = new Map()
@@ -34,7 +34,7 @@ module Map {
     |> Map.set("key", "value")
     |> Map.get("key") == Maybe.just("value")
   */
-  get (key : x, map : Map(x, z)) : Maybe(z) {
+  fun get (key : x, map : Map(x, z)) : Maybe(z) {
     `
     (() => {
       if (#{map}.has(#{key})) {
@@ -57,7 +57,7 @@ module Map {
     (Map.empty()
     |> Map.getWithDefault("key", "fallback")) == "fallback"
   */
-  getWithDefault (key : key, value : value, map : Map(key, value)) : value {
+  fun getWithDefault (key : key, value : value, map : Map(key, value)) : value {
     get(key, map)
     |> Maybe.withDefault(value)
   }
@@ -76,7 +76,7 @@ module Map {
     (Map.merge(a, b)
     |> Map.get("a")) == Maybe.just("y")
   */
-  merge (map1 : Map(x, z), map2 : Map(x, z)) : Map(x, z) {
+  fun merge (map1 : Map(x, z), map2 : Map(x, z)) : Map(x, z) {
     `
     (() => {
       const map = new Map()
@@ -104,7 +104,7 @@ module Map {
       0,
       (memo : Number, key : String, value : Number) : Number { memo + value })) == 3
   */
-  reduce (
+  fun reduce (
     memo : memo,
     method : Function(memo, key, value, memo),
     map : Map(key, value)
@@ -132,7 +132,7 @@ module Map {
       value == 1
     })) == Maybe.just("b")
   */
-  findKey (
+  fun findKey (
     method : Function(value, Bool),
     map : Map(key, value)
   ) : Maybe(key) {
@@ -157,7 +157,7 @@ module Map {
     |> Map.set("b", 1)
     |> Map.deleteValue(1)) == Map.empty()
   */
-  deleteValue (value : value, map : Map(key, value)) : Map(key, value) {
+  fun deleteValue (value : value, map : Map(key, value)) : Map(key, value) {
     `
     (() => {
       const newMap = new Map()
@@ -180,7 +180,7 @@ module Map {
     |> Map.set("a", 1)
     |> Map.delete("a")) == Map.empty()
   */
-  delete (key : key, map : Map(key, value)) : Map(key, value) {
+  fun delete (key : key, map : Map(key, value)) : Map(key, value) {
     `
     (() => {
       const newMap = new Map()
@@ -204,7 +204,7 @@ module Map {
     |> Map.set("b", 2)
     |> Map.values()) == [1, 2]
   */
-  values (map : Map(k, a)) : Array(a) {
+  fun values (map : Map(k, a)) : Array(a) {
     `Array.from(#{map}.values())`
   }
 
@@ -216,7 +216,7 @@ module Map {
     |> Map.set("b", 2)
     |> Map.values()) == ["a", "b"]
   */
-  keys (map : Map(k, a)) : Array(k) {
+  fun keys (map : Map(k, a)) : Array(k) {
     `Array.from(#{map}.keys())`
   }
 
@@ -231,7 +231,7 @@ module Map {
     })
     |> Map.values()) == ["b", "a"]
   */
-  sortBy (method : Function(k, v, b), map : Map(k, v)) : Map(k, v) {
+  fun sortBy (method : Function(k, v, b), map : Map(k, v)) : Map(k, v) {
     `
     (() => {
       return new Map(Array.from(#{map}).sort((a, b) => {
@@ -262,7 +262,7 @@ module Map {
     |> Map.set("a", "b")
     |> Map.isEmpty()) == false
   */
-  isEmpty (map : Map(k, a)) : Bool {
+  fun isEmpty (map : Map(k, a)) : Bool {
     map
     |> keys()
     |> Array.isEmpty()
@@ -279,7 +279,7 @@ module Map {
     })
     |> Map.values()) == [2,4]
   */
-  map (method : Function(k, a, b), map : Map(k, a)) : Map(k, b) {
+  fun map (method : Function(k, a, b), map : Map(k, a)) : Map(k, b) {
     `
     (() => {
       const newMap = new Map()
@@ -300,7 +300,7 @@ module Map {
     |> Map.set("a", 1)
     |> Map.has("a")) == true
   */
-  has (key : k, map : Map(k, a)) : Bool {
+  fun has (key : k, map : Map(k, a)) : Bool {
     `#{map}.has(#{key})`
   }
 
@@ -311,7 +311,7 @@ module Map {
     |> Map.set("a", 1)
     |> Map.size()) == 1
   */
-  size (map : Map(key, value)) : Number {
+  fun size (map : Map(key, value)) : Number {
     `#{map}.size`
   }
 }

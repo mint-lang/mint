@@ -1,13 +1,13 @@
 component Test {
   property readonly : Bool = false
 
-  render : Html {
+  fun render : Html {
     <div></div>
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <Test readonly={true}/>
   }
 }

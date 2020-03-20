@@ -1,11 +1,11 @@
 component Test {
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <Test></Test>
   }
 }

@@ -4,7 +4,7 @@ enum Result(error, value) {
 }
 
 component Main {
-  test : Result(String, value) {
+  fun test : Result(String, value) {
     try {
       x =
         Result::Err("Hello")
@@ -15,7 +15,7 @@ component Main {
     }
   }
 
-  render : String {
+  fun render : String {
     try {
       x = test()
 

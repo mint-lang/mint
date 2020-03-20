@@ -10,7 +10,7 @@ component Main {
     color: red;
   }
 
-  render : Html {
+  fun render : Html {
     <div::test style={styles}>
     </div>
   }

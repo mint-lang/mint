@@ -3,13 +3,13 @@ store Test {
     "Hello"
   }
 
-  b : String {
+  fun b : String {
     Test.a
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     Test.b()
   }
 }

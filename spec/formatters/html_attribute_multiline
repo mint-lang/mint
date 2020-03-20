@@ -1,11 +1,11 @@
 component Test {
-  render : Html {
+  fun render : Html {
     <div name="Hello" value={ "HelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello" }/>
   }
 }
 --------------------------------------------------------------------------------
 component Test {
-  render : Html {
+  fun render : Html {
     <div
       name="Hello"
       value={

@@ -1,12 +1,12 @@
 component Main {
-  test : String {
+  fun test : String {
     getName("Joe")
   } where {
     getName =
       (name : String) : String { name }
   }
 
-  render : String {
+  fun render : String {
     try {
       test()
 

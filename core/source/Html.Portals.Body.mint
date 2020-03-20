@@ -4,7 +4,7 @@ component Html.Portals.Body {
   property children : Array(Html) = []
 
   /* Renders the children into the documents body. */
-  render : Html {
+  fun render : Html {
     `_createPortal(#{children}, document.body)`
   }
 }

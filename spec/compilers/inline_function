@@ -1,5 +1,5 @@
 component Main {
-  render : String {
+  fun render : String {
     a()
   } where {
     a = () : String { "Hello" }

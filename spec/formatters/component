@@ -1,7 +1,7 @@
-componentTest{render:Html{<div></div>}}
+componentTest{fun render:Html{<div></div>}}
 --------------------------------------------------------------------------------
 component Test {
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

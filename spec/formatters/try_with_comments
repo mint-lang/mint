@@ -1,11 +1,11 @@
 module A {
-  test : String {
+  fun test : String {
     try{/*A*/"hello"/*B*/}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  test : String {
+  fun test : String {
     try {
       /* A */
       "hello"

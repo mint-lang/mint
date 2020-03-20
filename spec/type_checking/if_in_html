@@ -1,5 +1,5 @@
 component Main {
-  render : Html {
+  fun render : Html {
     <div>
       if ("a" == "b") {
         "x"
@@ -9,7 +9,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 component Main {
-  render : Html {
+  fun render : Html {
     <div>
       if ("a" == "b") {
         "x"

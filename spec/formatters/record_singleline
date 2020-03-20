@@ -3,7 +3,7 @@ record A {
 }
 
 module Test {
-  test : A {
+  fun test : A {
     {
 a="Hello"
 }
@@ -15,7 +15,7 @@ record A {
 }
 
 module Test {
-  test : A {
+  fun test : A {
     { a = "Hello" }
   }
 }

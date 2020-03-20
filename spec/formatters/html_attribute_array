@@ -1,7 +1,7 @@
 component Test {
   property things : Array(String) = []
 
-  render : Html {
+  fun render : Html {
     <div>
       <Test things=["x"]/>
       <Test things=["a", "b"]/>
@@ -12,7 +12,7 @@ component Test {
 component Test {
   property things : Array(String) = []
 
-  render : Html {
+  fun render : Html {
     <div>
       <Test things=["x"]/>
       <Test things=["a", "b"]/>

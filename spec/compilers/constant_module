@@ -3,7 +3,7 @@ module Test {
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <div>
       <{ Test:NAME }>
     </div>

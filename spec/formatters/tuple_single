@@ -1,5 +1,5 @@
 module Test {
-  test : Tuple(String) {
+  fun test : Tuple(String) {
     {
       "Hello"
     }
@@ -7,7 +7,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : Tuple(String) {
+  fun test : Tuple(String) {
     {"Hello"}
   }
 }

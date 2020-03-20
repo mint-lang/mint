@@ -1,19 +1,19 @@
 module Test {
-  test (input : String) : String {
+  fun test (input : String) : String {
     input
   }
 
-  render : String {
+  fun render : String {
     `      "Hello" + #{test(`"World!"`)}   `
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  test (input : String) : String {
+  fun test (input : String) : String {
     input
   }
 
-  render : String {
+  fun render : String {
     `      "Hello" + #{test(`"World!"`)}   `
   }
 }

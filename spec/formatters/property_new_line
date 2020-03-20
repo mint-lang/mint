@@ -2,7 +2,7 @@ component Test {
   /* Comment */property name:String=
   "hello"
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -12,7 +12,7 @@ component Test {
   property name : String =
     "hello"
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

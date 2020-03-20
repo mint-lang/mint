@@ -1,11 +1,11 @@
 component Main {
-  render : Html {
+  fun render : Html {
     <div disabled={true}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
 component Main {
-  render : Html {
+  fun render : Html {
     <div disabled="WTF"/>
   }
 }

@@ -5,7 +5,7 @@ component A {
     &:active,&:hover{color: yellow;}
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -26,7 +26,7 @@ component A {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

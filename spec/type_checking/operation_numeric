@@ -1,39 +1,39 @@
 component Main {
-  test : Number {
+  fun test : Number {
     0 * 10
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
 component Main {
-  test : Number {
+  fun test : Number {
     "Hello" * 0
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
 component Main {
-  test : Number {
+  fun test : Number {
     0 * "Hello"
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
 component Main {
-  test : Number {
+  fun test : Number {
     "Blah" * "Hello"
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

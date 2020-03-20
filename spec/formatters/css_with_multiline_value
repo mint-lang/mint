@@ -4,7 +4,7 @@ component A {
     0 0 12px rgba(0,0,0,0.1);
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -15,7 +15,7 @@ component A {
                 0 0 12px rgba(0,0,0,0.1);
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

@@ -1,19 +1,19 @@
 component Test {
-  something (string : String) : String {
+  fun something (string : String) : String {
     string
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : Maybe(String) {
+  fun handleClick : Maybe(String) {
     test&.something&("asd")
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -26,24 +26,24 @@ enum Maybe(value) {
 }
 
 component Test {
-  something (string : String) : String {
+  fun something (string : String) : String {
     string
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     case (test) {
       Maybe::Just component => component.something("asd")
       Maybe::Nothing => "asd"
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -56,28 +56,28 @@ enum Maybe(value) {
 }
 
 component Test {
-  something (string : String) : String {
+  fun something (string : String) : String {
     string
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     case (test) {
       Maybe::Just component => handleComponent(component)
       Maybe::Nothing => "asd"
     }
   }
 
-  handleComponent (component : Test) : String {
+  fun handleComponent (component : Test) : String {
     component.something("asd")
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -85,17 +85,17 @@ component Main {
 }
 -------------------------------------------------------------AccessFieldNotFound
 component Test {
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     test&.something&()
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -105,17 +105,17 @@ component Main {
 component Test {
   state something : String = ""
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     test&.something&("asd")
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -123,21 +123,21 @@ component Main {
 }
 --------------------------------------------------------CallArgumentTypeMismatch
 component Test {
-  something (string : String): String  {
+  fun something (string : String): String  {
     string
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     test&.something&(0)
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>
@@ -145,21 +145,21 @@ component Main {
 }
 --------------------------------------------------------CallArgumentSizeMismatch
 component Test {
-  something (string : String): String  {
+  fun something (string : String): String  {
     string
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Main {
-  handleClick : String {
+  fun handleClick : String {
     test&.something&("asd", "asd")
   }
 
-  render : Html {
+  fun render : Html {
     <div onClick={handleClick}>
       <Test as test/>
     </div>

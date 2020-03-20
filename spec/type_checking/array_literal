@@ -1,5 +1,5 @@
 component Main {
-  test : Array(String) {
+  fun test : Array(String) {
     [
       "Hello",
       "Blah",
@@ -7,7 +7,7 @@ component Main {
     ]
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -17,7 +17,7 @@ component Main {
 }
 -----------------------------------------------------------------ArrayNotMatches
 component Main {
-  test : Array(String) {
+  fun test : Array(String) {
     [
       "Hello",
       true,
@@ -25,7 +25,7 @@ component Main {
     ]
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -35,14 +35,14 @@ component Main {
 }
 ------------------------------------------------------ArrayNotMatchesDefinedType
 component Main {
-  test : Array(String) {
+  fun test : Array(String) {
     [
       "Hello",
       "Joe"
     ] of Number
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

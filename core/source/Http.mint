@@ -65,7 +65,7 @@ module Http {
         url = ""
       }
   */
-  empty : Http.Request {
+  fun empty : Http.Request {
     {
       withCredentials = false,
       method = "GET",
@@ -83,7 +83,7 @@ module Http {
 
     request.method == "DELETE"
   */
-  delete (urlValue : String) : Http.Request {
+  fun delete (urlValue : String) : Http.Request {
     empty()
     |> method("DELETE")
     |> url(urlValue)
@@ -97,7 +97,7 @@ module Http {
 
     request.method == "GET"
   */
-  get (urlValue : String) : Http.Request {
+  fun get (urlValue : String) : Http.Request {
     empty()
     |> method("GET")
     |> url(urlValue)
@@ -111,7 +111,7 @@ module Http {
 
     request.method == "PUT"
   */
-  put (urlValue : String) : Http.Request {
+  fun put (urlValue : String) : Http.Request {
     empty()
     |> method("PUT")
     |> url(urlValue)
@@ -125,7 +125,7 @@ module Http {
 
     request.method == "POST"
   */
-  post (urlValue : String) : Http.Request {
+  fun post (urlValue : String) : Http.Request {
     empty()
     |> method("POST")
     |> url(urlValue)
@@ -139,7 +139,7 @@ module Http {
     |> Http.stringBody("Some string that will come back.")
     |> Http.send()
   */
-  stringBody (body : String, request : Http.Request) : Http.Request {
+  fun stringBody (body : String, request : Http.Request) : Http.Request {
     { request | body = `#{body}` }
   }
 
@@ -151,7 +151,7 @@ module Http {
     |> Http.jsonBody(encode { name = "John" })
     |> Http.send()
   */
-  jsonBody (body : Object, request : Http.Request) : Http.Request {
+  fun jsonBody (body : Object, request : Http.Request) : Http.Request {
     { request | body = `JSON.stringify(#{body})` }
   }
 
@@ -167,7 +167,7 @@ module Http {
     |> Http.formDataBody(formData)
     |> Http.send()
   */
-  formDataBody (body : FormData, request : Http.Request) : Http.Request {
+  fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
     { request | body = `#{body}` }
   }
 
@@ -177,7 +177,7 @@ module Http {
     Http.empty()
     |> Http.method("PATCH")
   */
-  method (method : String, request : Http.Request) : Http.Request {
+  fun method (method : String, request : Http.Request) : Http.Request {
     { request | method = method }
   }
 
@@ -187,7 +187,7 @@ module Http {
     Http.empty()
     |> Http.withCredentials(true)
   */
-  withCredentials (value : Bool, request : Http.Request) : Http.Request {
+  fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
     { request | withCredentials = value }
   }
 
@@ -197,7 +197,7 @@ module Http {
     Http.empty()
     |> Http.url("https://httpbin.org/anything")
   */
-  url (url : String, request : Http.Request) : Http.Request {
+  fun url (url : String, request : Http.Request) : Http.Request {
     { request | url = url }
   }
 
@@ -207,7 +207,7 @@ module Http {
     Http.empty()
     |> Http.header("Content-Type", "application/json")
   */
-  header (key : String, value : String, request : Http.Request) : Http.Request {
+  fun header (key : String, value : String, request : Http.Request) : Http.Request {
     { request |
       headers =
         Array.push(
@@ -221,7 +221,7 @@ module Http {
 
     Http.abortAll()
   */
-  abortAll : Void {
+  fun abortAll : Void {
     `
     this._requests && Object.keys(this._requests).forEach((uid) => {
       this._requests[uid].abort()
@@ -231,7 +231,7 @@ module Http {
   }
 
   /* Returns all running requuests. */
-  requests : Map(String, Http.NativeRequest) {
+  fun requests : Map(String, Http.NativeRequest) {
     `this._requests`
   }
 
@@ -242,7 +242,7 @@ module Http {
     |> Http.get()
     |> Http.send()
   */
-  send (request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun send (request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
     sendWithID(Uid.generate(), request)
   }
 
@@ -253,7 +253,7 @@ module Http {
     |> Http.get()
     |> Http.sendWithID("my-request")
   */
-  sendWithID (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun sendWithID (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
     `
     new Promise((resolve, reject) => {
       if (!this._requests) { this._requests = {} }

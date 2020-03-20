@@ -1,15 +1,15 @@
 module Test {
-  test : String {
+  fun test : String {
     ""
   }
 
-  x : String {
+  fun x : String {
     ""
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     Test.test()
   }
 }

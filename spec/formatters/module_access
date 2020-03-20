@@ -1,19 +1,19 @@
 module Test {
-  a : String {
+  fun a : String {
     "Hello"
   }
 
-  b : Function(String) {
+  fun b : Function(String) {
     Test.a
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  a : String {
+  fun a : String {
     "Hello"
   }
 
-  b : Function(String) {
+  fun b : Function(String) {
     Test.a
   }
 }

@@ -1,31 +1,31 @@
 module Test {
-  test1 : a {
+  fun test1 : a {
     "I'm a String"
   }
 
-  test2 : a {
+  fun test2 : a {
     "I'm a string too!"
   }
 
-  test4 : String {
+  fun test4 : String {
     test1() + test2()
   }
 }
 ----------------------------------------------------OperationNumericTypeMismatch
 module Test {
-  test1 : a {
+  fun test1 : a {
     "I'm a String"
   }
 
-  test2 : a {
+  fun test2 : a {
     123
   }
 
-  test3 : a {
+  fun test3 : a {
     [4, 5, 6, 7]
   }
 
-  test4 : String {
+  fun test4 : String {
     try {
       test1() * test2() * test3()
 

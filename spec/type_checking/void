@@ -1,9 +1,9 @@
 component A {
-  test : Void {
+  fun test : Void {
     void
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

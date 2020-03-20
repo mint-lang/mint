@@ -1,25 +1,25 @@
 component Main {
-  test : Bool {
+  fun test : Bool {
     x
   } where {
     x =
       true
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  test : Bool {
+  fun test : Bool {
     x
   } where {
     x =
       "hello"
   }
 
-  render : Html {
+  fun render : Html {
     ""
   }
 }

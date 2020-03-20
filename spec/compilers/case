@@ -1,5 +1,5 @@
 component Main {
-  test : Bool {
+  fun test : Bool {
     case ("Hello") {
       "test" => true
       "Hello" => false
@@ -7,7 +7,7 @@ component Main {
     }
   }
 
-  render : String {
+  fun render : String {
     try {
       test()
 

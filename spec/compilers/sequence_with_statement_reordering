@@ -1,5 +1,5 @@
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       b = a
 
@@ -9,7 +9,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

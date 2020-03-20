@@ -1,11 +1,11 @@
 component Ui.Dropdown {
-  render : String {
+  fun render : String {
     "test"
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <Ui.Dropdown/>
   }
 }

@@ -9,7 +9,7 @@ module Time {
 
     Time.fromIso("2018-04-05T00:00:00.000Z")
   */
-  fromIso (raw : String) : Maybe(Time) {
+  fun fromIso (raw : String) : Maybe(Time) {
     `
     (() => {
       try {
@@ -26,17 +26,17 @@ module Time {
 
     Time.toIso(Tome.today()) == "2018-04-05T00:00:00.000Z"
   */
-  toIso (date : Time) : String {
+  fun toIso (date : Time) : String {
     `#{date}.toISOString()`
   }
 
   /* Returns the current time. */
-  now : Time {
+  fun now : Time {
     `new Date()`
   }
 
   /* Returns the time of the begging of today. */
-  today : Time {
+  fun today : Time {
     `
     (() => {
       const date = new Date()
@@ -55,7 +55,7 @@ module Time {
 
     Time.from(2018, 4, 5)
   */
-  from (year : Number, month : Number, day : Number) : Time {
+  fun from (year : Number, month : Number, day : Number) : Time {
     `new Date(Date.UTC(#{year}, #{month} - 1, #{day}))`
   }
 
@@ -65,7 +65,7 @@ module Time {
     (Time.from(2018, 4, 5)
     |> Time.day()) == 5
   */
-  day (date : Time) : Number {
+  fun day (date : Time) : Number {
     `#{date}.getUTCDate()`
   }
 
@@ -75,7 +75,7 @@ module Time {
     (Time.from(2018, 4, 5)
     |> Time.month()) == 4
   */
-  month (date : Time) : Number {
+  fun month (date : Time) : Number {
     `(#{date}.getUTCMonth() + 1)`
   }
 
@@ -85,17 +85,17 @@ module Time {
     (Time.from(2018, 4, 5)
     |> Time.year()) == 2018
   */
-  year (date : Time) : Number {
+  fun year (date : Time) : Number {
     `#{date}.getUTCFullYear()`
   }
 
   /* Formats the time using the given pattern. */
-  format (pattern : String, date : Time) : String {
+  fun format (pattern : String, date : Time) : String {
     `DateFNS.format(#{date}, #{pattern})`
   }
 
   /* Returns the start of the day / month / week of the given time. */
-  startOf (what : String, date : Time) : Time {
+  fun startOf (what : String, date : Time) : Time {
     `
     (() => {
       switch (#{what}) {
@@ -113,7 +113,7 @@ module Time {
   }
 
   /* Returns the end of the day / month / week of the given time. */
-  endOf (what : String, date : Time) : Time {
+  fun endOf (what : String, date : Time) : Time {
     `
     (() => {
       switch (#{what}) {
@@ -131,7 +131,7 @@ module Time {
   }
 
   /* Returns an array of days from the given start to given end time. */
-  range (from : Time, to : Time) : Array(Time) {
+  fun range (from : Time, to : Time) : Array(Time) {
     `
     DateFNS.eachDay({
       start: #{from},
@@ -141,7 +141,7 @@ module Time {
   }
 
   /* Returns the next month from the given time. */
-  nextMonth (date : Time) : Time {
+  fun nextMonth (date : Time) : Time {
     `
     (() => {
       return DateFNS.addMonths(#{date}, 1)
@@ -150,7 +150,7 @@ module Time {
   }
 
   /* Returns the previous month from the given time. */
-  previousMonth (date : Time) : Time {
+  fun previousMonth (date : Time) : Time {
     `
     (() => {
       return DateFNS.addMonths(#{date}, -1)
@@ -159,7 +159,7 @@ module Time {
   }
 
   /* Returns the relative time from the given times (in english). */
-  relative (other : Time, now : Time) : String {
+  fun relative (other : Time, now : Time) : String {
     `
     (() => {
       return DateFNS.distanceInWordsStrict(#{now}, #{other}, { addSuffix: true })

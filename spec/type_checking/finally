@@ -1,5 +1,5 @@
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       true
     } finally {
@@ -7,7 +7,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -17,7 +17,7 @@ component Main {
 }
 -----------------------------------------------------------OperationTypeMismatch
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     sequence {
       true
     } finally {
@@ -25,7 +25,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

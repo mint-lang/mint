@@ -2,7 +2,7 @@ component A {
   style test{background: red;color: blue;
     if(true){color:yellow;}}
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -17,7 +17,7 @@ component A {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

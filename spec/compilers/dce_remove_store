@@ -1,5 +1,5 @@
 store Test {
-  test : String {
+  fun test : String {
     ""
   }
 }

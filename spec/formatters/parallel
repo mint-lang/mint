@@ -1,11 +1,11 @@
 module X {
-  x : Promise(Never, String) {
+  fun x : Promise(Never, String) {
     parallel {/* Head Comment */a="Hello"b="World"/* Tail Comment */}then{/* Head Comment */a + b/* Tail Comment */}
   }
 }
 --------------------------------------------------------------------------------
 module X {
-  x : Promise(Never, String) {
+  fun x : Promise(Never, String) {
     parallel {
       /* Head Comment */
       a =

@@ -6,7 +6,7 @@ record Provider.Scroll.Subscription {
 /* A provider for global scroll events. */
 provider Provider.Scroll : Provider.Scroll.Subscription {
   /* Calls the `scrolls` function of the subscribers with the given value. */
-  scrolls (event : Html.Event) : Array(a) {
+  fun scrolls (event : Html.Event) : Array(a) {
     subscriptions
     |> Array.map(.scrolls)
     |> Array.map(
@@ -14,7 +14,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   }
 
   /* Attaches the provider. */
-  attach : Void {
+  fun attach : Void {
     `
     (() => {
       const scrolls = this._scrolls || (this._scrolls = ((event) => #{scrolls}(_normalizeEvent(event))))
@@ -25,7 +25,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   }
 
   /* Detaches the provider. */
-  detach : Void {
+  fun detach : Void {
     `
     (() => {
       window.removeEventListener("scroll", this._scrolls)

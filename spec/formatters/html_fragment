@@ -1,5 +1,5 @@
 component Test {
-  render : Html {
+  fun render : Html {
     <>
       "Hello There"
 
@@ -11,7 +11,7 @@ component Test {
 }
 --------------------------------------------------------------------------------
 component Test {
-  render : Html {
+  fun render : Html {
     <>
       "Hello There"
 

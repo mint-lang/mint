@@ -1,7 +1,7 @@
-moduleA{a () : String { "" }}
+moduleA{fun a () : String { "" }}
 --------------------------------------------------------------------------------
 module A {
-  a : String {
+  fun a : String {
     ""
   }
 }

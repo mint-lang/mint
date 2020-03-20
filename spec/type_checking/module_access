@@ -1,15 +1,15 @@
 module Test {
-  a : String {
+  fun a : String {
     "Hello"
   }
 
-  b : Function(String) {
+  fun b : Function(String) {
     Test.a
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     x()
   } where {
     x =
@@ -18,25 +18,25 @@ component Main {
 }
 ----------------------------------------------------ModuleAccessNotFoundFunction
 module Test {
-  b : Function(String) {
+  fun b : Function(String) {
     Test.a
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     Test.b()
   }
 }
 ------------------------------------------------------ModuleAccessNotFoundModule
 module Test {
-  b : Function(String) {
+  fun b : Function(String) {
     XTest.a
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     Test.b()
   }
 }

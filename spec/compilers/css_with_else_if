@@ -10,7 +10,7 @@ component Main {
   }
 
 
-  render : Html {
+  fun render : Html {
     <div>
       <div::base("blue")/>
     </div>

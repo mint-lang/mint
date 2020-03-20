@@ -1,15 +1,15 @@
 module A {
-  a : String {
+  fun a : String {
     "Hello"
   }
 
-  b : Function(String) {
+  fun b : Function(String) {
     a
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     a()
   } where {
     a = A.b()

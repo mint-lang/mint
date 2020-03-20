@@ -10,7 +10,7 @@ component ScrollTest {
     `this.forceUpdate()`
   }
 
-  render : Html {
+  fun render : Html {
     <div::base>
       <scroll-width>
         <{ Number.toString(Window.scrollWidth()) }>

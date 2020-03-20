@@ -7,7 +7,7 @@ component Main {
     color: blue;
   }
 
-  render : Html {
+  fun render : Html {
     <div::one::two>
     </div>
   }

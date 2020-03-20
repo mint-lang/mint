@@ -5,7 +5,7 @@ module Number {
     Number.isOdd(1) == false
     Number.isOdd(2) == true
   */
-  isOdd (input : Number) : Bool {
+  fun isOdd (input : Number) : Bool {
     `#{input} % 2 === 1`
   }
 
@@ -15,7 +15,7 @@ module Number {
     Number.isEven(1) == true
     Number.isEven(2) == false
   */
-  isEven (input : Number) : Bool {
+  fun isEven (input : Number) : Bool {
     `Math.abs(#{input} % 2) === 0`
   }
 
@@ -25,7 +25,7 @@ module Number {
     Number.isNaN(`NaN`) == true
     Number.isNaN(0) == false
   */
-  isNaN (input : Number) : Bool {
+  fun isNaN (input : Number) : Bool {
     `isNaN(#{input})`
   }
 
@@ -34,7 +34,7 @@ module Number {
 
     Number.toString(123) == 123
   */
-  toString (input : Number) : String {
+  fun toString (input : Number) : String {
     `#{input}.toString()`
   }
 
@@ -46,7 +46,7 @@ module Number {
 
     Number.toFixed(2, 0.1234567) == "0.12"
   */
-  toFixed (decimalPlaces : Number, input : Number) : String {
+  fun toFixed (decimalPlaces : Number, input : Number) : String {
     `#{input}.toFixed(#{decimalPlaces})`
   }
 
@@ -56,7 +56,7 @@ module Number {
     Number.fromString("asd") == Maybe.nothing()
     Number.fromString("012") == Maybe.just(12)
   */
-  fromString (input : String) : Maybe(Number) {
+  fun fromString (input : String) : Maybe(Number) {
     `
     (() => {
       let value = parseFloat(#{input})
@@ -76,7 +76,7 @@ module Number {
 
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
-  format (prefix : String, number : Number) : String {
+  fun format (prefix : String, number : Number) : String {
     try {
       string =
         Number.toFixed(2, number)

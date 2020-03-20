@@ -1,5 +1,5 @@
 component Main {
-  render : String {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {
@@ -9,7 +9,7 @@ component Main {
 }
 ---------------------------------------------------------IfConditionTypeMismatch
 component Main {
-  render : String {
+  fun render : String {
     if ("a") {
       "x"
     } else {
@@ -19,7 +19,7 @@ component Main {
 }
 --------------------------------------------------------------IfElseTypeMismatch
 component Main {
-  render : String {
+  fun render : String {
     if ("a" == "b") {
       "x"
     } else {

@@ -1,9 +1,9 @@
 component Main {
-  test : Bool {
+  fun test : Bool {
     false
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 
@@ -13,11 +13,11 @@ component Main {
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  test : String {
+  fun test : String {
     false
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

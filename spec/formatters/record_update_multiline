@@ -4,7 +4,7 @@ record A {
 }
 
 module Test {
-  test : A {
+  fun test : A {
     {x|a="Hello",b=true}
   } where {
     x =
@@ -18,7 +18,7 @@ record A {
 }
 
 module Test {
-  test : A {
+  fun test : A {
     { x |
       a = "Hello",
       b = true

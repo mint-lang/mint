@@ -13,7 +13,7 @@ component Main {
     "blue"
   }
 
-  render : Html {
+  fun render : Html {
     <div::test/>
   }
 }

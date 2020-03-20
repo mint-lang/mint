@@ -1,11 +1,11 @@
 module Test {
-  test : Bool {
+  fun test : Bool {
     !false
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     if (Test.test()) {
       "Hello"
     } else {
@@ -15,13 +15,13 @@ component Main {
 }
 --------------------------------------------------------NegatedExpressionNotBool
 module Test {
-  test : Bool {
+  fun test : Bool {
     !"asd"
   }
 }
 
 component Main {
-  render : String {
+  fun render : String {
     if (Test.test()) {
       "Hello"
     } else {

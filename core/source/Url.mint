@@ -13,7 +13,7 @@ record Url {
 /* Utility functions for working with `Url` */
 module Url {
   /* Parses the given string as an `Url`. */
-  parse (url : String) : Url {
+  fun parse (url : String) : Url {
     `
     (() => {
       if (!this._a) {
@@ -42,7 +42,7 @@ module Url {
 
     Url.createObjectUrlFromString("Content", "text/html")
   */
-  createObjectUrlFromString (string : String, type : String) : String {
+  fun createObjectUrlFromString (string : String, type : String) : String {
     `
     (() => {
       let blob = new Blob([#{string}], {type : #{type}})
@@ -58,7 +58,7 @@ module Url {
     File.fromString("Content", "test.html", "text/html")
     |> Url.createObjectUrlFromFile()
   */
-  createObjectUrlFromFile (file : File) : String {
+  fun createObjectUrlFromFile (file : File) : String {
     `URL.createObjectURL(#{file})`
   }
 
@@ -68,7 +68,7 @@ module Url {
     Url.createObjectUrlFromString("Content", "text/html")
     |> Url.revokeObjectUrl()
   */
-  revokeObjectUrl (url : String) : Void {
+  fun revokeObjectUrl (url : String) : Void {
     `URL.revokeObjectURL(#{url})`
   }
 }

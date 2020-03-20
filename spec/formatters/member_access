@@ -3,7 +3,7 @@ record Test {
 }
 
 component Main {
-  render : String {
+  fun render : String {
     .test({ test = "Hello" })
   }
 }
@@ -13,7 +13,7 @@ record Test {
 }
 
 component Main {
-  render : String {
+  fun render : String {
     .test({ test = "Hello" })
   }
 }

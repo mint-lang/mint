@@ -7,7 +7,7 @@ record Blah {
 }
 
 module Test {
-  test : Bool {
+  fun test : Bool {
     blah.blah.blah
   } where {
     blah =
@@ -24,7 +24,7 @@ record Blah {
 }
 
 module Test {
-  test : Bool {
+  fun test : Bool {
     blah.blah.blah
   } where {
     blah =

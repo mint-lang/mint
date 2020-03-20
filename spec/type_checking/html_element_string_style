@@ -1,5 +1,5 @@
 component Main {
-  render : Html {
+  fun render : Html {
     <div style="opacity:0;"/>
   }
 }
@@ -8,7 +8,7 @@ component Main {
   style base {
   }
 
-  render : Html {
+  fun render : Html {
     <div::base style="opacity:0;"/>
   }
 }

@@ -1,11 +1,11 @@
 component Main {
-  render : Html {
+  fun render : Html {
     <div><{ "Hello" }></div>
   }
 }
 ---------------------------------------------------------HtmlContentTypeMismatch
 component Main {
-  render : Html {
+  fun render : Html {
     <div><{ 0 }></div>
   }
 }

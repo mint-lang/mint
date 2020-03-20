@@ -6,7 +6,7 @@ record Provider.Resize.Subscription {
 /* A provider for handling changes of the viewport. */
 provider Provider.Resize : Provider.Resize.Subscription {
   /* Calls the `resizes` function of the subscribers with the given value. */
-  resizes (event : Html.Event) : Array(a) {
+  fun resizes (event : Html.Event) : Array(a) {
     subscriptions
     |> Array.map(.resizes)
     |> Array.map(
@@ -14,7 +14,7 @@ provider Provider.Resize : Provider.Resize.Subscription {
   }
 
   /* Attaches the provider. */
-  attach : Void {
+  fun attach : Void {
     `
     (() => {
       const resizes = this._resizes || (this._resizes = ((event) => #{resizes}(_normalizeEvent(event))))
@@ -25,7 +25,7 @@ provider Provider.Resize : Provider.Resize.Subscription {
   }
 
   /* Detaches the provider. */
-  detach : Void {
+  fun detach : Void {
     `
     (() => {
       window.removeEventListener("resize", this._resizes)

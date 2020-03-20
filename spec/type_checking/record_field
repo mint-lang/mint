@@ -4,14 +4,14 @@ record Test {
 }
 
 component Main {
-  test : Test {
+  fun test : Test {
     {
       a = "Hello",
       b = 0
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

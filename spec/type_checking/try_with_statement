@@ -1,12 +1,12 @@
 component Main {
-  test : String {
+  fun test : String {
     try {
       x = "hello"
       x
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

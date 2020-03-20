@@ -1,11 +1,11 @@
 module Test {
-  test : Bool {
+  fun test : Bool {
     if(true){/*A*/true/*B*/}else{/*C*/false/*D*/}
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : Bool {
+  fun test : Bool {
     if (true) {
       /* A */
       true

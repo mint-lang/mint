@@ -1,11 +1,11 @@
 module A {
-  test : Void {
+  fun test : Void {
     void
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  test : Void {
+  fun test : Void {
     void
   }
 }

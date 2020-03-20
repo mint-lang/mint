@@ -6,7 +6,7 @@ record Provider.Tick.Subscription {
 /* A provider for periodic updated (every 1 seconds). */
 provider Provider.Tick : Provider.Tick.Subscription {
   /* Updates the subscribers. */
-  update : Array(a) {
+  fun update : Array(a) {
     subscriptions
     |> Array.map(
       (item : Provider.Tick.Subscription) : Function(a) { item.ticks })
@@ -14,7 +14,7 @@ provider Provider.Tick : Provider.Tick.Subscription {
   }
 
   /* Attaches the provider. */
-  attach : Void {
+  fun attach : Void {
     `
     (() => {
       this.detach()
@@ -24,7 +24,7 @@ provider Provider.Tick : Provider.Tick.Subscription {
   }
 
   /* Detaches the provider. */
-  detach : Void {
+  fun detach : Void {
     `clearInterval(this.id)`
   }
 }

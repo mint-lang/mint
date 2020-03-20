@@ -1,11 +1,11 @@
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     parallel {
       greeting =
         Promise.reject("hello")
@@ -21,19 +21,19 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 -------------------------------------------------------------ParallelDidNotCatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     parallel {
       greeting =
         Promise.reject("hello")
@@ -45,13 +45,13 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 ----------------------------------------------------------ParallelCatchesNothing
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     parallel {
       true
     } then {
@@ -61,19 +61,19 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 -------------------------------------------------------ParallelCatchTypeMismatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     parallel {
       blah =
         Promise.reject(0)
@@ -84,20 +84,20 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 -------------------------------------------------------ParallelCatchTypeMismatch
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     parallel {
       blah =
         Promise.reject(0)
@@ -108,19 +108,19 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 --------------------------------------------------------------ParallelCatchedAll
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, Bool) {
+  fun test : Promise(Never, Bool) {
     parallel {
       blah =
         Promise.reject(0)
@@ -134,7 +134,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

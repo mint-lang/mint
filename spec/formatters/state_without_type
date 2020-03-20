@@ -1,7 +1,7 @@
 component Test {
   state a=0
   state b="hello"
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -10,7 +10,7 @@ component Test {
   state a = 0
   state b = "hello"
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

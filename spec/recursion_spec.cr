@@ -7,7 +7,7 @@ describe "variable" do
       component Main {
         state greeting : String = ""
 
-        test : Void {
+        fun test : Void {
           sequence {
             next { greeting = greeting }
           }
@@ -20,7 +20,7 @@ describe "variable" do
             }
         }
 
-        render : Html {
+        fun render : Html {
           try {
             test()
 
@@ -47,11 +47,11 @@ describe "function" do
       component Main {
         state greeting : String = ""
 
-        test : Void {
+        fun test : Void {
           test()
         }
 
-        render : Html {
+        fun render : Html {
           try {
             test()
 
@@ -76,7 +76,7 @@ describe "state" do
       component Main {
         state greeting : String = greeting
 
-        render : Html {
+        fun render : Html {
           <div></div>
         }
       }
@@ -99,7 +99,7 @@ describe "property" do
       component Main {
         property greeting : String = greeting
 
-        render : Html {
+        fun render : Html {
           <div></div>
         }
       }

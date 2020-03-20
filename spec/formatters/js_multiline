@@ -1,5 +1,5 @@
 module Test {
-  test : String {
+  fun test : String {
     `
           "Hello"
   asd
@@ -10,7 +10,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : String {
+  fun test : String {
     `
           "Hello"
   asd

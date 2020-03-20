@@ -1,17 +1,17 @@
 /* Module for manipulating search parameters. */
 module SearchParams {
   /* Returns an empty search parameters object. */
-  empty : SearchParams {
+  fun empty : SearchParams {
     `new URLSearchParams()`
   }
 
   /* Parses a string into a search parameters object. */
-  fromString (value : String) : SearchParams {
+  fun fromString (value : String) : SearchParams {
     `new URLSearchParams(#{value})`
   }
 
   /* Returns the first value associated to the given search parameter. */
-  get (key : String, params : SearchParams) : Maybe(String) {
+  fun get (key : String, params : SearchParams) : Maybe(String) {
     `
     (() => {
       let value = #{params}.get(#{key})
@@ -26,7 +26,7 @@ module SearchParams {
   }
 
   /* Returns a `Bool` indicating if such a search parameter exists. */
-  has (key : String, params : SearchParams) : Bool {
+  fun has (key : String, params : SearchParams) : Bool {
     `#{params}.has(#{key})`
   }
 
@@ -34,7 +34,7 @@ module SearchParams {
   Deletes the given search parameter, and its associated value, from the
   list of all search parameters.
   */
-  delete (key : String, params : SearchParams) : SearchParams {
+  fun delete (key : String, params : SearchParams) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
@@ -48,7 +48,7 @@ module SearchParams {
   Sets the value associated to a given search parameter to the given value.
   If there were several values, delete the others.
   */
-  set (key : String, value : String, params : SearchParams) : SearchParams {
+  fun set (key : String, value : String, params : SearchParams) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
@@ -59,7 +59,7 @@ module SearchParams {
   }
 
   /* Appends a specified key/value pair as a new search parameter. */
-  append (key : String, value : String, params : SearchParams) : SearchParams {
+  fun append (key : String, value : String, params : SearchParams) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
@@ -70,7 +70,7 @@ module SearchParams {
   }
 
   /* Returns a string containing a query string suitable for use in a URL. */
-  toString (params : SearchParams) : String {
+  fun toString (params : SearchParams) : String {
     `#{params}.toString()`
   }
 }

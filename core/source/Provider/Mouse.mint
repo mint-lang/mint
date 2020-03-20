@@ -8,7 +8,7 @@ record Provider.Mouse.Subscription {
 /* A provider for global mouse events. */
 provider Provider.Mouse : Provider.Mouse.Subscription {
   /* Calls the `moves` function on the subscribers with the given event. */
-  moves (event : Html.Event) : Array(a) {
+  fun moves (event : Html.Event) : Array(a) {
     subscriptions
     |> Array.map(
       (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.moves })
@@ -17,7 +17,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   }
 
   /* Calls the `clicks` function on the subscribers with the given event. */
-  clicks (event : Html.Event) : Array(a) {
+  fun clicks (event : Html.Event) : Array(a) {
     subscriptions
     |> Array.map(
       (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.clicks })
@@ -26,7 +26,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   }
 
   /* Calls the `ups` function on the subscribers with the given event. */
-  ups (event : Html.Event) : Array(a) {
+  fun ups (event : Html.Event) : Array(a) {
     subscriptions
     |> Array.map(
       (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.ups })
@@ -35,7 +35,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   }
 
   /* Attaches the provider. */
-  attach : Void {
+  fun attach : Void {
     `
     (() => {
       const clicks = this._clicks || (this._clicks = ((event) => #{clicks}(_normalizeEvent(event))))
@@ -50,7 +50,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   }
 
   /* Detaches the provider. */
-  detach : Void {
+  fun detach : Void {
     `
     (() => {
       window.removeEventListener("click", this._clicks, true)

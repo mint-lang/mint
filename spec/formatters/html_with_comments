@@ -1,23 +1,23 @@
 component X {
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Test {
-  render : Html {
+  fun render : Html {
     /*E*/<div>/*A*/<div><X>/*B*/<div/></X></div>/* C */</div>/*D*/
   }
 }
 --------------------------------------------------------------------------------
 component X {
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 
 component Test {
-  render : Html {
+  fun render : Html {
     /* E */
     <div>
       /* A */

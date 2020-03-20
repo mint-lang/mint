@@ -1,9 +1,9 @@
 module A {
-  test(a:String):Void{b}where{b=void}
+  fun test(a:String):Void{b}where{b=void}
 }
 --------------------------------------------------------------------------------
 module A {
-  test (a : String) : Void {
+  fun test (a : String) : Void {
     b
   } where {
     b =

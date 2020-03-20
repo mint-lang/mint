@@ -1,5 +1,5 @@
 module A {
-  test : String {
+  fun test : String {
     "
     Hello there
   Hello there
@@ -9,7 +9,7 @@ Hello there
 }
 --------------------------------------------------------------------------------
 module A {
-  test : String {
+  fun test : String {
     "
     Hello there
   Hello there

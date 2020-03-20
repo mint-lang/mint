@@ -1,11 +1,11 @@
 component Test {
   state name : String = "Joe"
 
-  test : Promise(Never, Void) {
+  fun test : Promise(Never, Void) {
     next {name = "Hello"}
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -13,11 +13,11 @@ component Test {
 component Test {
   state name : String = "Joe"
 
-  test : Promise(Never, Void) {
+  fun test : Promise(Never, Void) {
     next { name = "Hello" }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

@@ -1,5 +1,5 @@
 component Main {
-  render : String {
+  fun render : String {
     case ({"A", 0, true}) {
       {"A", 0, false} =>
         "B"

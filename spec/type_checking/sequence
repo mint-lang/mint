@@ -1,23 +1,23 @@
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       "Hello"
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
 --------------------------------------------------------------------------------
 module Promise {
-  resolve (input : b) : Promise(Never, b) {
+  fun resolve (input : b) : Promise(Never, b) {
     ``
   }
 }
 
 component Main {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       x =
         Promise.resolve("Hello")
@@ -26,7 +26,7 @@ component Main {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

@@ -4,14 +4,14 @@ record Test {
 }
 
 component Main {
-  test : Test {
+  fun test : Test {
     {
       a = "Hello",
       b = 0
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
@@ -22,20 +22,20 @@ record Test {
 }
 --------------------------------------------------------------------------------
 component Main {
-  test : Object {
+  fun test : Object {
     encode {
       a = "Hello",
       b = "Blah"
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 --------------------------------------------------------------------------------
 component Main {
-  test : Object {
+  fun test : Object {
     encode {
       a = "Hello",
       b = {
@@ -44,7 +44,7 @@ component Main {
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

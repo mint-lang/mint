@@ -9,7 +9,7 @@ store Test {
 component Main {
   connect Test exposing { test as xxx }
 
-  render : String {
+  fun render : String {
     xxx
   }
 }

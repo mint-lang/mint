@@ -1,10 +1,10 @@
 module A {
-  /* Comment */test(a:String){/*HEAD*/void/*TAIL*/}
+  /* Comment */fun test(a:String){/*HEAD*/void/*TAIL*/}
 }
 --------------------------------------------------------------------------------
 module A {
   /* Comment */
-  test (a : String) {
+  fun test (a : String) {
     /* HEAD */
     void
 

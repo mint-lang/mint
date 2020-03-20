@@ -1,17 +1,17 @@
 component Main {
-  render : Html {
+  fun render : Html {
     <div onClick={(event : Html.Event) : a { void }}/>
   }
 }
 --------------------------------------------------------------------------------
 component Test {
-  render : Html {
+  fun render : Html {
     <div onClick={() : a { void }}/>
   }
 }
 ---------------------------------------HtmlAttributeElementAttributeTypeMismatch
 component Main {
-  render : Html {
+  fun render : Html {
     <div onClick="Hello"/>
   }
 }

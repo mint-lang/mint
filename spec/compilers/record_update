@@ -5,11 +5,11 @@ record Record {
 component Main {
   property record : Record = { name = "Doe" }
 
-  test : Record {
+  fun test : Record {
     { record | name = "John" }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

@@ -12,7 +12,7 @@ describe "Provider" do
   expect_error "provider Test: ", Mint::Parser::ProviderExpectedSubscription
   expect_error "provider Test:TestSub", Mint::Parser::ProviderExpectedOpeningBracket
   expect_error "provider Test:TestSub {", Mint::Parser::ProviderExpectedBody
-  expect_error "provider Test:TestSub { test : Void {void}", Mint::Parser::ProviderExpectedClosingBracket
+  expect_error "provider Test:TestSub { fun test : Void {void}", Mint::Parser::ProviderExpectedClosingBracket
 
-  expect_ok "provider Test:TestSub { test : Void {void} }"
+  expect_ok "provider Test:TestSub { fun test : Void {void} }"
 end

@@ -5,7 +5,7 @@ module File {
 
     File.fromString("Some contents...", "test.txt", "text/plain")
   */
-  fromString (contents : String, name : String, type : String) : File {
+  fun fromString (contents : String, name : String, type : String) : File {
     `new File([#{contents}], #{name}, { type: #{type} })`
   }
 
@@ -15,7 +15,7 @@ module File {
     (File.fromString("Some contents...", "test.txt", "text/plain")
     |> File.name()) == "test.txt"
   */
-  name (file : File) : String {
+  fun name (file : File) : String {
     `#{file}.name`
   }
 
@@ -25,7 +25,7 @@ module File {
     (File.fromString("Some contents...", "test.txt", "text/plain")
     |> File.size()) == 16
   */
-  size (file : File) : Number {
+  fun size (file : File) : Number {
     `#{file}.size`
   }
 
@@ -35,7 +35,7 @@ module File {
     (File.fromString("Some contents...", "test.txt", "text/plain")
     |> File.mimeType()) == "text/plain"
   */
-  mimeType (file : File) : String {
+  fun mimeType (file : File) : String {
     `#{file}.type`
   }
 
@@ -52,7 +52,7 @@ module File {
       Debug.log(files)
     }
   */
-  selectMultiple (accept : String) : Promise(Never, Array(File)) {
+  fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
     `
     (() => {
       let input = document.createElement('input')
@@ -93,7 +93,7 @@ module File {
       Debug.log(file)
     }
   */
-  select (accept : String) : Promise(Never, File) {
+  fun select (accept : String) : Promise(Never, File) {
     `
     (() => {
       let input = document.createElement('input')
@@ -133,7 +133,7 @@ module File {
       url == "data:text/plain;...."
     }
   */
-  readAsDataURL (file : File) : Promise(Never, String) {
+  fun readAsDataURL (file : File) : Promise(Never, String) {
     `
     (() => {
       let reader = new FileReader();
@@ -160,7 +160,7 @@ module File {
       url == "Some content..."
     }
   */
-  readAsString (file : File) : Promise(Never, String) {
+  fun readAsString (file : File) : Promise(Never, String) {
     `
     (() => {
       let reader = new FileReader();

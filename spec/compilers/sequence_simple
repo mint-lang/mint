@@ -1,11 +1,11 @@
 component Main {
-  test : Promise(Never, Void) {
+  fun test : Promise(Never, Void) {
     sequence {
       void
     }
   }
 
-  render : Html {
+  fun render : Html {
     try {
       test()
 

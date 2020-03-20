@@ -10,7 +10,7 @@ module Test.Context {
       }
     }
   */
-  of (a : a) : Test.Context(a) {
+  fun of (a : a) : Test.Context(a) {
     `new TestContext(#{a})`
   }
 
@@ -25,7 +25,7 @@ module Test.Context {
       }
     }
   */
-  then (
+  fun then (
     proc : Function(a, Promise(b, c)),
     context : Test.Context(a)
   ) : Test.Context(c) {
@@ -37,7 +37,7 @@ module Test.Context {
   }
 
   /* Adds a timeout to the text using the given duration (in milliseconds). */
-  timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
+  fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
     then(
       (subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) },
       context)
@@ -53,7 +53,7 @@ module Test.Context {
       }
     }
   */
-  assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
+  fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
     `
     #{context}.step((subject)=> {
       let result = _compare(#{a}, subject)
@@ -67,7 +67,7 @@ module Test.Context {
     `
   }
 
-  assertOf (
+  fun assertOf (
     value : b,
     method : Function(a, b),
     context : Test.Context(a)
@@ -85,7 +85,7 @@ module Test.Context {
     `
   }
 
-  map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
+  fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
     then(
       (item : a) : Promise(Never, Test.Context(a)) { Promise.resolve(method(item)) },
       context)

@@ -8,11 +8,11 @@ record X {
 }
 
 component Main {
-  x (input : Object) : Result(Object.Error, x) {
+  fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
 
-  render : String {
+  fun render : String {
     try {
       x(``)
 

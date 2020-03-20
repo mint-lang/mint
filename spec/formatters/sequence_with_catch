@@ -1,23 +1,23 @@
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 module A {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {a=Promise.reject("hello") ""}catchString=>a{"blah"}
   }
 }
 --------------------------------------------------------------------------------
 module Promise {
-  reject (input : a) : Promise(a, b) {
+  fun reject (input : a) : Promise(a, b) {
     ``
   }
 }
 
 module A {
-  test : Promise(Never, String) {
+  fun test : Promise(Never, String) {
     sequence {
       a =
         Promise.reject("hello")

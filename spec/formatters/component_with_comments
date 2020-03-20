@@ -3,7 +3,7 @@
   property something : String = ""
   /* Comment2 */
   /* Comment */
-  render:Html{<div></div>}
+  fun render:Html{<div></div>}
   /* End Comment */
 }
 --------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ component Test {
   /* Comment2 */
 
   /* Comment */
-  render : Html {
+  fun render : Html {
     <div/>
   }
 

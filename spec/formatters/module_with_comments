@@ -1,9 +1,9 @@
-/* Comment */moduleA{/*A*/a () : String { "" }/*B*//*C*/}
+/* Comment */moduleA{/*A*/fun a () : String { "" }/*B*//*C*/}
 --------------------------------------------------------------------------------
 /* Comment */
 module A {
   /* A */
-  a : String {
+  fun a : String {
     ""
   }
 

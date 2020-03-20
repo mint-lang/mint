@@ -1,5 +1,5 @@
 module Html.Testing {
-  renderAll : Html {
+  fun renderAll : Html {
     <p>
       <{ "It should work" }>
     </p>
@@ -7,7 +7,7 @@ module Html.Testing {
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     Html.Testing.renderAll()
   }
 }

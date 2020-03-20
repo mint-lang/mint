@@ -1,13 +1,13 @@
 global component Test {
   const NAME = "ASD"
 
-  render : String {
+  fun render : String {
     NAME
   }
 }
 
 component Main {
-  render : Html {
+  fun render : Html {
     <div>
       <{ Test:NAME }>
     </div>

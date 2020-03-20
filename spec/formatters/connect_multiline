@@ -11,7 +11,7 @@ store Test {
 component A {
   connect Test exposing{a,b,c,d,e,f,g}
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -37,7 +37,7 @@ component A {
     g
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

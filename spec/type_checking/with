@@ -1,29 +1,29 @@
 module X {
-  a : Void {
+  fun a : Void {
     void
   }
 }
 
 component Main {
-  test : Void {
+  fun test : Void {
     with X {
       a()
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 --------------------------------------------------------------WithNotFoundModule
 component Main {
-  test : Void {
+  fun test : Void {
     with XXX {
       void
     }
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

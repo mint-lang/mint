@@ -1,19 +1,19 @@
 component Main {
-  test (a : Bool) : Bool {
+  fun test (a : Bool) : Bool {
     a
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  test (a : String) : Bool {
+  fun test (a : String) : Bool {
     a
   }
 
-  render : String {
+  fun render : String {
     ""
   }
 }

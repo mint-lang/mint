@@ -3,7 +3,7 @@ record Test {
 }
 
 module Test {
-  get : Test {
+  fun get : Test {
     {a="HelloHelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"}
   }
 }
@@ -13,7 +13,7 @@ record Test {
 }
 
 module Test {
-  get : Test {
+  fun get : Test {
     {
       a =
         "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \

@@ -1,7 +1,7 @@
 /* Functions for the Set data structure which represents a set of unique values. */
 module Set {
   /* Returns an empty set. */
-  empty : Set(a) {
+  fun empty : Set(a) {
     `new Set()`
   }
 
@@ -12,7 +12,7 @@ module Set {
     |> Set.add("value")
     |> Set.toArray()) == ["value"]
   */
-  toArray (set : Set(a)) : Array(a) {
+  fun toArray (set : Set(a)) : Array(a) {
     `Array.from(#{set})`
   }
 
@@ -22,7 +22,7 @@ module Set {
     (Set.empty()
     |> Set.add("value")) == Set.fromArray(["value"])
   */
-  fromArray (array : Array(a)) : Set(a) {
+  fun fromArray (array : Array(a)) : Set(a) {
     `new Set(#{array})`
   }
 
@@ -33,7 +33,7 @@ module Set {
     |> Set.add(Maybe.just("value"))
     |> Set.has(Maybe.just("value"))) == true
   */
-  has (value : a, set : Set(a)) : Bool {
+  fun has (value : a, set : Set(a)) : Bool {
     `
     (() => {
       for (let item of #{set}) {
@@ -53,7 +53,7 @@ module Set {
     (Set.empty()
     |> Set.add("value")) == Set.fromArray(["value"])
   */
-  add (value : a, set : Set(a)) : Set(a) {
+  fun add (value : a, set : Set(a)) : Set(a) {
     `
     (() => {
       if (#{has(value, set)}) { return #{set} }
@@ -78,7 +78,7 @@ module Set {
     |> Set.add("value")
     |> Set.delete("value")) == Set.empty()
   */
-  delete (value : a, set : Set(a)) : Set(a) {
+  fun delete (value : a, set : Set(a)) : Set(a) {
     `
     (() => {
       const newSet = new Set()
@@ -99,7 +99,7 @@ module Set {
     (Set.fromArray([0])
     |> Set.map(Number.toString)) == Set.fromArray(["0"])
   */
-  map (method : Function(a, b), set : Set(a)) : Set(b) {
+  fun map (method : Function(a, b), set : Set(a)) : Set(b) {
     `
     (() => {
       const newSet = new Set()
@@ -118,7 +118,7 @@ module Set {
 
     Set.size(Set.fromArray([0,1,2])) == 3
   */
-  size (set : Set(a)) : Number {
+  fun size (set : Set(a)) : Number {
     `#{set}.size`
   }
 }

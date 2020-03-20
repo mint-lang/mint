@@ -1,5 +1,5 @@
 module Test {
-  test : String {
+  fun test : String {
     case ([]) {
       [a, b, ...rest] => ""
     }
@@ -7,7 +7,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : String {
+  fun test : String {
     case ([]) {
       [a, b, ...rest] => ""
     }

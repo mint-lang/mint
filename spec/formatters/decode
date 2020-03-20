@@ -3,13 +3,13 @@ record X {
 }
 
 component A {
-  x (input : Object) : Result(Object.Error, x) {
+  fun x (input : Object) : Result(Object.Error, x) {
     decode
       input as
         X
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -19,11 +19,11 @@ record X {
 }
 
 component A {
-  x (input : Object) : Result(Object.Error, x) {
+  fun x (input : Object) : Result(Object.Error, x) {
     decode input as X
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

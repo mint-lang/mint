@@ -1,5 +1,5 @@
 component Main {
-  render : Array(Html) {
+  fun render : Array(Html) {
     for (item of ["A", "B"]) {
       <div>
         <{ item }>

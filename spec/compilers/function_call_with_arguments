@@ -1,13 +1,13 @@
 component Main {
-  call (a : String, b : Bool) : Bool {
+  fun call (a : String, b : Bool) : Bool {
     b
   }
 
-  test : Bool {
+  fun test : Bool {
     call("Hello", true)
   }
 
-  render : String {
+  fun render : String {
     try {
       test()
 

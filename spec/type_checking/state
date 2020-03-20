@@ -2,7 +2,7 @@ component Main {
   state b : String = "Hello"
   state a : Number = 0
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -10,7 +10,7 @@ component Main {
 component Main {
   state b : String = 0
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -18,7 +18,7 @@ component Main {
 component Main {
   state name : Test = { a = "Hello" }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

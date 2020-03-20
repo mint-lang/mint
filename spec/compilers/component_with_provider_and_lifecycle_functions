@@ -4,7 +4,7 @@ record MouseProvider.Data {
 }
 
 provider MouseProvider : MouseProvider.Data {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -17,19 +17,19 @@ component Main {
     false
   }
 
-  componentWillUnmount : Void {
+  fun componentWillUnmount : Void {
     void
   }
 
-  componentDidUpdate : Void {
+  fun componentDidUpdate : Void {
     void
   }
 
-  componentDidMount : Void {
+  fun componentDidMount : Void {
     void
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

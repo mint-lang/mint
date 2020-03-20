@@ -4,7 +4,7 @@ record Provider.Data {
 }
 
 provider Provider : Provider.Data {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -17,7 +17,7 @@ component Main {
     true
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -30,7 +30,7 @@ component Main {
     true
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -41,7 +41,7 @@ record Provider.Data {
 }
 
 provider Provider : Provider.Data {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -54,7 +54,7 @@ component Main {
     "asd"
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }
@@ -70,7 +70,7 @@ record Test {
 }
 
 provider Provider : Provider.Data {
-  attach : Void {
+  fun attach : Void {
     void
   }
 }
@@ -83,7 +83,7 @@ component Main {
     true
   }
 
-  render : Html {
+  fun render : Html {
     <div/>
   }
 }

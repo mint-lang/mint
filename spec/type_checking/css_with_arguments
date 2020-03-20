@@ -3,7 +3,7 @@ component Main {
     color: #{name};
   }
 
-  render : Html {
+  fun render : Html {
     <div::test("Name")/>
   }
 }
@@ -13,7 +13,7 @@ component Main {
     color: #{name2};
   }
 
-  render : Html {
+  fun render : Html {
     <div::test("Name")/>
   }
 }

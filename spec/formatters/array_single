@@ -1,11 +1,11 @@
 module Test {
-  test : Array(String) {
+  fun test : Array(String) {
     ["Hello"]
   }
 }
 --------------------------------------------------------------------------------
 module Test {
-  test : Array(String) {
+  fun test : Array(String) {
     ["Hello"]
   }
 }

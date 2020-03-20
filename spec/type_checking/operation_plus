@@ -1,23 +1,23 @@
 component Main {
-  render : String {
+  fun render : String {
     "Hello" + "There"
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  render : String {
+  fun render : String {
     "Hello" + void
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  render : String {
+  fun render : String {
     "Hello" + true
   }
 }
 -------------------------------------------------------OperationPlusTypeMismatch
 component Main {
-  render : String {
+  fun render : String {
     true + "Hello"
   }
 }

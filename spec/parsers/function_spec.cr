@@ -5,14 +5,14 @@ describe "Function Definition" do
 
   expect_ignore ":"
 
-  expect_error "a (", Mint::Parser::FunctionExpectedClosingParentheses
-  expect_error "a ( ", Mint::Parser::FunctionExpectedClosingParentheses
-  expect_error "a () :", Mint::Parser::FunctionExpectedTypeOrVariable
-  expect_error "a () : ", Mint::Parser::FunctionExpectedTypeOrVariable
+  expect_error "fun a (", Mint::Parser::FunctionExpectedClosingParentheses
+  expect_error "fun a ( ", Mint::Parser::FunctionExpectedClosingParentheses
+  expect_error "fun a () :", Mint::Parser::FunctionExpectedTypeOrVariable
+  expect_error "fun a () : ", Mint::Parser::FunctionExpectedTypeOrVariable
 
-  expect_ok "a { true } "
-  expect_ok "a : T { true } "
-  expect_ok "a : x { true } "
-  expect_ok "a () : T { false }"
-  expect_ok "a ( ) : T { balh }"
+  expect_ok "fun a { true } "
+  expect_ok "fun a : T { true } "
+  expect_ok "fun a : x { true } "
+  expect_ok "fun a () : T { false }"
+  expect_ok "fun a ( ) : T { balh }"
 end

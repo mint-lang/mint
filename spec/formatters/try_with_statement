@@ -1,11 +1,11 @@
 module A {
-  test : String {
+  fun test : String {
     try{x="hello"x}
   }
 }
 --------------------------------------------------------------------------------
 module A {
-  test : String {
+  fun test : String {
     try {
       x =
         "hello"
