@@ -6,7 +6,7 @@ component ScrollTest {
     width: 3000px;
   }
 
-  componentDidMount : Void {
+  fun componentDidMount : Void {
     `this.forceUpdate()`
   }
 

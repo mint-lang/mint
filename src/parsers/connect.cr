@@ -9,7 +9,7 @@ module Mint
     def connect : Ast::Connect | Nil
       start do |start_position|
         skip unless keyword "connect"
-        whitespace! SkipError
+        whitespace
 
         store = type_id! ConnectExpectedType
         whitespace

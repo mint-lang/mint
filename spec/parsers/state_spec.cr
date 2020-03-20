@@ -6,7 +6,6 @@ describe "State" do
   expect_ignore "."
   expect_ignore "::"
   expect_ignore "asd"
-  expect_ignore "state"
 
   expect_error "state ", Mint::Parser::StateExpectedName
   expect_error "state .", Mint::Parser::StateExpectedName

@@ -5,7 +5,6 @@ describe "Constant" do
 
   expect_ignore "prop"
   expect_ignore "asd"
-  expect_ignore "const"
 
   expect_error "const ", Mint::Parser::ConstantExpectedName
   expect_error "const .", Mint::Parser::ConstantExpectedName

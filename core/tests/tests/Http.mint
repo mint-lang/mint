@@ -159,14 +159,14 @@ component Test.Http {
   state status : Number = 0
   state body : String = ""
 
-  wrap (
+  fun wrap (
     method : Function(Promise(a, b), Void),
     input : Promise(a, b)
   ) : Promise(a, b) {
     `#{method}(#{input})`
   }
 
-  componentDidMount : Promise(Never, Void) {
+  fun componentDidMount : Promise(Never, Void) {
     sequence {
       response =
         Http.empty()
@@ -225,7 +225,7 @@ component Test.Http {
     }
   }
 
-  render : Html {
+  fun render : Html {
     <div>
       <error>
         <{ errorMessage }>

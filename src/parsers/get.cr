@@ -12,7 +12,7 @@ module Mint
         comment = self.comment
 
         skip unless keyword "get"
-        whitespace! SkipError
+        whitespace
 
         name = variable! GetExpectedName
         whitespace

@@ -1,5 +1,5 @@
 component A {
-  style test(name:String){background: red;color: blue;}
+  styletest(name:String){background: red;color: blue;}
 
   fun render : Html {
     <div/>

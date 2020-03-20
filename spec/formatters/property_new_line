@@ -1,5 +1,5 @@
 component Test {
-  /* Comment */property name:String=
+  /* Comment */propertyname:String=
   "hello"
 
   fun render : Html {

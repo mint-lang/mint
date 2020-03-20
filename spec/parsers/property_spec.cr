@@ -5,7 +5,6 @@ describe "Component Property" do
 
   expect_ignore "prop"
   expect_ignore "asd"
-  expect_ignore "property"
 
   expect_error "property ", Mint::Parser::PropertyExpectedName
   expect_error "property .", Mint::Parser::PropertyExpectedName

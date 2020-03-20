@@ -11,7 +11,7 @@ module Mint
         whitespace
 
         skip unless keyword "property"
-        whitespace! SkipError
+        whitespace
 
         name = variable! PropertyExpectedName
         whitespace

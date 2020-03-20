@@ -10,7 +10,7 @@ provider Provider : Provider.Subscription {
 }
 
 component Test {
-  use Provider{a = "Hello",b = "Blah"}when{true}
+  useProvider{a = "Hello",b = "Blah"}when{true}
 
   fun render : Html {
     <div/>

@@ -1,5 +1,5 @@
 component A {
-  style test{
+  styletest{
     /*A*/background: red;
     /*B*/color: blue;
 

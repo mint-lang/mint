@@ -9,7 +9,7 @@ store Test {
 }
 
 component A {
-  connect Test exposing{a,b,c,d,e,f,g}
+  connectTest exposing{a,b,c,d,e,f,g}
 
   fun render : Html {
     <div/>

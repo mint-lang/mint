@@ -6,7 +6,6 @@ describe "Component Get" do
   expect_ignore "a"
   expect_ignore "."
   expect_ignore "ge"
-  expect_ignore "get"
 
   expect_error "get ", Mint::Parser::GetExpectedName
   expect_error "get a", Mint::Parser::GetExpectedOpeningBracket

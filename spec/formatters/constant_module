@@ -1,5 +1,5 @@
 module Test {
-  /* Comment */const NAME="hello"
+  /* Comment */constNAME="hello"
 }
 --------------------------------------------------------------------------------
 module Test {

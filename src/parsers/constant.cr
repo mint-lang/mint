@@ -10,7 +10,7 @@ module Mint
         whitespace
 
         skip unless keyword "const"
-        whitespace! SkipError
+        whitespace
 
         head =
           gather { chars("A-Z") }.to_s

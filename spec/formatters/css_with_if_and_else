@@ -1,5 +1,5 @@
 component A {
-  style test{background: red;color: blue;
+  styletest{background: red;color: blue;
     if(true){color:yellow;}else{color:brown;}}
 
   fun render : Html {

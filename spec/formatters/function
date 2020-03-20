@@ -1,5 +1,5 @@
 module A {
-  /* Comment */fun test(a:String):Void{/*HEAD*/void/*TAIL*/}
+  /* Comment */funtest(a:String):Void{/*HEAD*/void/*TAIL*/}
 }
 --------------------------------------------------------------------------------
 module A {

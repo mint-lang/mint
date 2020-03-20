@@ -1,5 +1,5 @@
 store Test {
-  /* Comment */const NAME="hello"
+  /* Comment */constNAME="hello"
 }
 --------------------------------------------------------------------------------
 store Test {

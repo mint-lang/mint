@@ -5,7 +5,6 @@ describe "Component Use" do
 
   expect_ignore "."
   expect_ignore "us"
-  expect_ignore "use"
 
   expect_error "use ", Mint::Parser::UseExpectedProvider
   expect_error "use Test", Mint::Parser::UseExpectedRecord
