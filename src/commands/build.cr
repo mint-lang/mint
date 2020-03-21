@@ -14,9 +14,13 @@ module Mint
         description: "If specified the service worker functionality will be disabled",
         default: false
 
+      define_flag skip_icons : Bool,
+        description: "If specified the application icons will not be generated"  ,
+        default: false
+
       def run
         execute "Building for production" do
-          Builder.new(flags.relative, flags.skip_service_worker)
+          Builder.new(flags.relative, flags.skip_service_worker, flags.skip_icons)
         end
       end
     end
