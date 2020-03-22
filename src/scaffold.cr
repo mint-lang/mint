@@ -15,7 +15,7 @@ module Mint
           width: 100vw;
         }
 
-        render : Html {
+        fun render : Html {
           <div::base>
             <{ "Hello Mint!" }>
           </div>

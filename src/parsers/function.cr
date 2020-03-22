@@ -14,7 +14,7 @@ module Mint
         skip unless keyword "fun"
         whitespace
 
-        skip unless name = variable! FunctionExpectedName
+        name = variable! FunctionExpectedName
         whitespace
 
         arguments = [] of Ast::Argument

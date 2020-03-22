@@ -1,5 +1,5 @@
 module A {
-  fun test(a:String):Void{b}where{b=void}
+  funtest(a:String):Void{b}where{b=void}
 }
 --------------------------------------------------------------------------------
 module A {
