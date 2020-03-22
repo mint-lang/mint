@@ -27,3 +27,17 @@ component Main {
     <X/>
   }
 }
+--------------------------------------------------HtmlComponentAttributeRequired
+component Test {
+  property name : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}

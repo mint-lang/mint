@@ -50,7 +50,12 @@ module Mint
               "null"
             end
 
-          memo[js.variable_of(prop)] = js.array([prop_name, compile prop.default])
+          value =
+            prop.default.try do |item|
+              compile item
+            end || "null"
+
+          memo[js.variable_of(prop)] = js.array([prop_name, value])
         end
 
       constructor_body << js.call("this._d", [js.object(default_props)]) if default_props.any?

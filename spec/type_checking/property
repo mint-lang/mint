@@ -38,4 +38,11 @@ component Main {
     <div/>
   }
 }
+-----------------------------------------------------PropertyTypeOrDefaultNeeded
+component Main {
+  property name
 
+  fun render : Html {
+    <div/>
+  }
+}

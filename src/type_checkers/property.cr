@@ -1,5 +1,6 @@
 module Mint
   class TypeChecker
+    type_error PropertyTypeOrDefaultNeeded
     type_error PropertyWithTypeVariables
     type_error PropertyTypeMismatch
 
@@ -9,17 +10,22 @@ module Mint
 
     def check(node : Ast::Property) : Checkable
       default =
-        begin
-          resolve node.default
-        rescue error : RecordNotFoundMatchingRecord
-          error.locals["structure"]?.as(Checkable)
+        node.default.try do |item|
+          begin
+            resolve item
+          rescue error : RecordNotFoundMatchingRecord
+            error.locals["structure"]?.as(Checkable)
+          end
+        end
+
+      type =
+        node.type.try do |item|
+          resolve item
         end
 
       final =
-        if item = node.type
-          type =
-            resolve item
-
+        case {default, type}
+        when {Checkable, Checkable}
           resolved =
             Comparer.compare type, default
 
@@ -31,8 +37,14 @@ module Mint
           } unless resolved
 
           resolved
-        else
+        when {Checkable, Nil}
           default
+        when {Nil, Checkable}
+          type
+        else
+          raise PropertyTypeOrDefaultNeeded, {
+            "node" => node,
+          }
         end
 
       raise PropertyWithTypeVariables, {
