@@ -450,7 +450,12 @@ suite "Array.flatMap" {
           [5]
         ]
         |> Array.flatMap(
-          (n : Array(Number)) : Array(Number) { [Array.max(n)] })
+          (n : Array(Number)) : Array(Number) {
+            [
+              Array.max(n)
+              |> Maybe.withDefault(0)
+            ]
+          })
 
       (result == [
         3,
@@ -987,5 +992,33 @@ suite "Array.sum" {
       2,
       3
     ]) == 6
+  }
+}
+
+suite "Array.max" {
+  test "it returns the largest number" {
+    Array.max([
+      1,
+      2,
+      3
+    ]) == Maybe.just(3)
+  }
+
+  test "it returns nothing" {
+    Array.max([]) == Maybe.nothing()
+  }
+}
+
+suite "Array.min" {
+  test "it returns smallest number" {
+    Array.min([
+      0,
+      2,
+      3
+    ]) == Maybe.just(1)
+  }
+
+  test "it returns nothing" {
+    Array.min([]) == Maybe.nothing()
   }
 }
