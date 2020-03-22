@@ -267,11 +267,29 @@ module Array {
   /*
   Returns the maximum value of an array of numbers.
 
-    Array.max([0, 1, 2, 3, 4]) == 4
-    Array.max([]) == 0
+    Array.max([0, 1, 2, 3, 4]) == Maybe.just(4)
+    Array.max([]) == Maybe.nothing()
   */
-  fun max (array : Array(Number)) : Number {
-    `Math.max(...#{array})`
+  fun max (array : Array(Number)) : Maybe(Number) {
+    if (Array.size(array) > 0) {
+      Maybe.just(`Math.max(...#{array})`)
+    } else {
+      Maybe.nothing()
+    }
+  }
+
+  /*
+  Returns the minimum value of an array of numbers.
+
+    Array.min([0, 1, 2, 3, 4]) == Maybe.just(0)
+    Array.min([]) == Maybe.nothing()
+  */
+  fun min (array : Array(Number)) : Maybe(Number) {
+    if (Array.size(array) > 0) {
+      Maybe.just(`Math.min(...#{array})`)
+    } else {
+      Maybe.nothing()
+    }
   }
 
   /*
@@ -357,8 +375,8 @@ module Array {
   Map over a nested array and then flatten.
 
     [[1,2],[1,5]]
-    |> Array.flatMap((a : Array(Number) : Array(Number) {
-      [Array.max(n)]
+    |> Array.flatMap((a : Array(Number) : Array(Maybe(Number)) {
+      [Maybe.withDefault(Array.max(n), 0)]
     }) == [2,5]
   */
   fun flatMap (func : Function(a, Array(b)), array : Array(a)) : Array(b) {
