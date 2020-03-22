@@ -3,11 +3,11 @@ module Mint
   class IndexHtml
     getter json, env
 
-    def self.render(env, relative = false, no_service_worker = false)
-      new(env, relative, no_service_worker).to_s
+    def self.render(env, relative = false, no_service_worker = false, no_icons = false)
+      new(env, relative, no_service_worker, no_icons).to_s
     end
 
-    def initialize(@env : Environment, @relative : Bool, @no_service_worker : Bool)
+    def initialize(@env : Environment, @relative : Bool, @no_service_worker : Bool, @no_icons : Bool)
       @json = MintJson.parse_current
     end
 
@@ -41,7 +41,7 @@ module Mint
             # Insert the extra head content
             t.unsafe json.application.head
 
-            unless json.application.icon.empty?
+            if !json.application.icon.empty? || !@no_icons
               ICON_SIZES.each do |size|
                 t.link(
                   rel: "icon",

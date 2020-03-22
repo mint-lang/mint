@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative, skip_service_worker)
+    def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
 
       terminal.measure "#{COG} Ensuring dependencies... " do
@@ -35,15 +35,17 @@ module Mint
       end
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
+        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
       end
 
       terminal.measure "#{COG} Writing manifest.json..." do
-        File.write "dist/manifest.json", manifest(json)
+        File.write "dist/manifest.json", manifest(json, skip_icons)
       end
 
-      terminal.measure "#{COG} Generating icons... " do
-        icons(json)
+      unless skip_icons
+        terminal.measure "#{COG} Generating icons... " do
+          icons(json)
+        end
       end
 
       if !skip_service_worker
@@ -53,7 +55,7 @@ module Mint
       end
     end
 
-    def manifest(json)
+    def manifest(json, skip_icons)
       {
         "name"             => json.application.name,
         "short_name"       => json.application.name,
@@ -62,14 +64,19 @@ module Mint
         "display"          => json.application.display,
         "orientation"      => json.application.orientation,
         "start_url"        => "/",
-        "icons"            => ICON_SIZES.map do |size|
-          {
-            "src"   => "icon-#{size}x#{size}.png",
-            "sizes" => "#{size}x#{size}",
-            "type"  => "image/png",
-          }
-        end,
+        "icons"            => manifest_icons(skip_icons),
       }.to_pretty_json
+    end
+
+    private def manifest_icons(skip_icons)
+      return [] of String if skip_icons
+      ICON_SIZES.map do |size|
+        {
+          "src"   => "icon-#{size}x#{size}.png",
+          "sizes" => "#{size}x#{size}",
+          "type"  => "image/png",
+        }
+      end
     end
 
     def icons(json)
