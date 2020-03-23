@@ -4,29 +4,27 @@ module Mint
 
     # This method rolls an operation where the operator is "|>" into a single
     # call. Every other operation is passed trough.
-    def rollup_pipe(operation) : Ast::Call | Ast::Operation
+    def rollup_pipe(operation) : Ast::Pipe | Ast::Operation
       return operation unless operation.operator == "|>"
 
-      right = operation.right
-      left = operation.left
+      expression = operation.right
+      argument = operation.left
 
-      left =
-        case left
+      argument =
+        case argument
         when Ast::Operation
-          rollup_pipe(left)
+          rollup_pipe(argument)
         else
-          left
+          argument
         end
 
-      case right
-      when Ast::Call
-        right.arguments << left
-        right.piped = true
-      else
-        raise PipeExpectedCall, right.from
-      end
+      Ast::Pipe.new(
+        expression: expression,
+        argument: argument,
 
-      right
+        from: argument.from,
+        to: expression.to,
+        input: data)
     end
   end
 end

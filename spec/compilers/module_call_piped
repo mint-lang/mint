@@ -21,7 +21,7 @@ const B = new(class extends _M {
   }
 
   a() {
-    return B.b(`Lorem ipsum dolor sit amet`, true);
+    return ((..._) => B.b(`Lorem ipsum dolor sit amet`, ..._))(true);
   }
 });
 
