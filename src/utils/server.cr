@@ -38,7 +38,7 @@ module Mint
         terminal.print "#{COG} Would you like to to use port #{new_port} instead? (Y/n)\n"
 
         use_new_port = gets
-        if !use_new_port.nil? && use_new_port == "" || use_new_port.downcase == "y"
+        if !use_new_port.nil? && (use_new_port.empty? || use_new_port.downcase == "y")
           run(name, host, new_port)
         else
           terminal.print "#{COG} Exiting...\n"
