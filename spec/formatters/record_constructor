@@ -1,0 +1,31 @@
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    try {
+      item =
+        Test("Joe",32)
+
+      item.name
+    }
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    try {
+      item =
+        Test("Joe", 32)
+
+      item.name
+    }
+  }
+}

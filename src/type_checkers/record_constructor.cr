@@ -33,6 +33,8 @@ module Mint
         } unless Comparer.compare(type, fields[index])
       end
 
+      types[node] = record
+
       if record.fields.size == node.arguments.size
         record
       else
