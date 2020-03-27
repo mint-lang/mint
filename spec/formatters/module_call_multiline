@@ -4,7 +4,8 @@ module Test {
   }
 
   fun b : String {
-    Test.a("Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")
+    Test.a("Lorem ipsum dolor sit amet",
+  "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet")
   }
 }
 --------------------------------------------------------------------------------

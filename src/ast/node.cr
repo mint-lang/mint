@@ -20,8 +20,12 @@ module Mint
         ""
       end
 
+      def source
+        input.input[from, to - from]
+      end
+
       def new_line?
-        input.input[from, to - from].includes?("\n")
+        source.includes?("\n")
       end
     end
   end

@@ -226,6 +226,9 @@ module Mint
         # Add item to results
         result << item
 
+        # Consume whitespace before the separator
+        whitespace
+
         # Break if there is no separator, consume it otherwise
         break unless char! separator
 

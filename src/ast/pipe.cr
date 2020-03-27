@@ -15,7 +15,6 @@ module Mint
           partially_applied: false,
           expression: expression,
           arguments: [argument],
-          piped: false,
           safe: false,
           input: input,
           from: from,
