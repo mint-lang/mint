@@ -57,16 +57,11 @@ module Mint
     def print_stack
       @stack.each_with_index do |i, index|
         x = case i
-            when Ast::Component
-              i.name
-            when Ast::Function
-              i.name.value
-            when Ast::With
-              "<with>"
-            when Ast::Try
-              "<try>"
-            when Ast::Call
-              "<call>"
+            when Ast::Component then i.name
+            when Ast::Function  then i.name.value
+            when Ast::With      then "<with>"
+            when Ast::Try       then "<try>"
+            when Ast::Call      then "<call>"
             else
               i
             end
