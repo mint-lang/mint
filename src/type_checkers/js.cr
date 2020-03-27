@@ -8,7 +8,7 @@ module Mint
         end
       end
 
-      JS
+      node.type.try { |type| resolve type } || Variable.new("a")
     end
   end
 end

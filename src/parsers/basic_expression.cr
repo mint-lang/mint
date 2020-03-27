@@ -42,6 +42,7 @@ module Mint
 
     def starts_with_uppercase
       item = enum_id rescue nil
+      item ||= record_constructor rescue nil
 
       return item if item
 

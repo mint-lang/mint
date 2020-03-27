@@ -15,14 +15,16 @@ module Mint
         end
 
       type =
-        format node.type
+        node.type.try do |item|
+          " : #{format(item)}"
+        end
 
       if replace_skipped(body).includes?("\n") ||
          replace_skipped(arguments).includes?("\n") ||
-         ast.new_line?(node.type, node.body)
-        "(#{arguments}) : #{type} {\n#{indent(body)}\n}"
+         node.type.try { |item| ast.new_line?(item, node.body) }
+        "(#{arguments})#{type} {\n#{indent(body)}\n}"
       else
-        "(#{arguments}) : #{type} { #{body} }"
+        "(#{arguments})#{type} { #{body} }"
       end
     end
   end

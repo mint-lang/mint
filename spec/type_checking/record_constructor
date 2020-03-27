@@ -1,0 +1,54 @@
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    try {
+      item = Test("Joe", 32)
+
+      item.name
+    }
+  }
+}
+-------------------------------------------------RecordConstructorNotFoundRecord
+component Main {
+  fun render : String {
+    try {
+      item = Test("Joe")
+
+      item.name
+    }
+  }
+}
+-------------------------------------------RecordConstructorArgumentTypeMismatch
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    try {
+      item = Test(32, "Joe")
+
+      item.name
+    }
+  }
+}
+-------------------------------------------RecordConstructorArgumentSizeMismatch
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    try {
+      item = Test(32, "Joe", "Third")
+
+      item.name
+    }
+  }
+}

@@ -10,7 +10,6 @@ module Mint
         whitespace
 
         skip unless keyword "const"
-
         whitespace
 
         head =

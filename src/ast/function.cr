@@ -9,7 +9,7 @@ module Mint
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),
                      @arguments : Array(Argument),
-                     @type : TypeOrVariable,
+                     @type : TypeOrVariable?,
                      @comment : Comment?,
                      @body : Expression,
                      @name : Variable,

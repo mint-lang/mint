@@ -5,13 +5,13 @@ module Mint
 
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),
+                     @type : TypeOrVariable?,
                      @comment : Comment?,
                      @body : Expression,
                      @name : Variable,
                      @where : Where?,
                      @input : Data,
                      @from : Int32,
-                     @type : Type,
                      @to : Int32)
       end
     end

@@ -1,0 +1,21 @@
+component Test {
+  /*HEAD*/get test{/*A*/0/*B*/}
+
+  fun render : Html {
+    <div></div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  /* HEAD */
+  get test {
+    /* A */
+    0
+
+    /* B */
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

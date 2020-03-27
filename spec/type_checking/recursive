@@ -39,7 +39,7 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-   fun factorial (n : Number) : Number {
+  fun factorial (n : Number) : Number {
     1
   } where {
     helper =

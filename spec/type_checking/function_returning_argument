@@ -1,5 +1,5 @@
 component Main {
-  function (a : Bool) : Bool {
+  fun test (a : Bool) : Bool {
     a
   }
 
@@ -9,7 +9,7 @@ component Main {
 }
 ------------------------------------------------------------FunctionTypeMismatch
 component Main {
-  function (a : String) : Bool {
+  fun test (a : String) : Bool {
     a
   }
 

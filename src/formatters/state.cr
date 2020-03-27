@@ -8,12 +8,14 @@ module Mint
         format node.name
 
       type =
-        format node.type
+        node.type.try do |item|
+          " : #{format(item)}"
+        end
 
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}state #{name} : #{type} = #{default}"
+      "#{comment}state #{name}#{type} = #{default}"
     end
   end
 end

@@ -42,7 +42,7 @@ const C = new(class extends _M {
 class B extends _C {
   render() {
     return (() => {
-      C.a(((_) => _.name), [new A({
+      ((..._) => C.a(((_) => _.name), ..._))([new A({
         name: `Joe`
       }), new A({
         name: `Doe`

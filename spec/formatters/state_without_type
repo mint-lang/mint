@@ -1,0 +1,16 @@
+component Test {
+  state a=0
+  state b="hello"
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  state a = 0
+  state b = "hello"
+
+  fun render : Html {
+    <div/>
+  }
+}

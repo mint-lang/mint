@@ -1,0 +1,26 @@
+component Main {
+  property name : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  constructor(props) {
+    super(props);
+
+    this._d({
+      a: [
+        null,
+        null
+      ]
+    });
+  }
+
+  render() {
+    return _h("div", {});
+  }
+};
+
+A.displayName = "Main";

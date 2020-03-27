@@ -1,11 +1,12 @@
 module Mint
   class Ast
     class ArrayLiteral < Node
-      getter items
+      getter items, type
 
       def initialize(@items : Array(Expression),
                      @input : Data,
                      @from : Int32,
+                     @type : Node?,
                      @to : Int32)
       end
 

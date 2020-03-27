@@ -24,7 +24,6 @@ module Mint
           from: start_position,
           arguments: arguments,
           expression: lhs,
-          piped: false,
           to: position,
           input: data,
           safe: safe

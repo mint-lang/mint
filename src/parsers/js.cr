@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    syntax_error JsExpectedTypeOrVariable
     syntax_error JsExpectedClosingTick
 
     def js : Ast::Js | Nil
@@ -12,9 +13,17 @@ module Mint
 
         char '`', JsExpectedClosingTick
 
+        type = start do
+          whitespace
+          skip unless keyword "as"
+          whitespace
+          type_or_type_variable! JsExpectedTypeOrVariable
+        end
+
         Ast::Js.new(
           from: start_position,
           value: value,
+          type: type,
           to: position,
           input: data)
       end

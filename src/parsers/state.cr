@@ -2,7 +2,6 @@ module Mint
   class Parser
     syntax_error StateExpectedDefaultValue
     syntax_error StateExpectedEqualSign
-    syntax_error StateExpectedColon
     syntax_error StateExpectedName
     syntax_error StateExpectedType
 
@@ -12,15 +11,18 @@ module Mint
         whitespace
 
         skip unless keyword "state"
-
         whitespace
+
         name = variable! StateExpectedName
-
-        whitespace
-        char ':', StateExpectedColon
         whitespace
 
-        type = type! StateExpectedType
+        type =
+          if char! ':'
+            whitespace
+            item = type! StateExpectedType
+            whitespace
+            item
+          end
 
         whitespace
         char '=', StateExpectedEqualSign

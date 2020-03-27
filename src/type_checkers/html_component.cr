@@ -1,6 +1,7 @@
 module Mint
   class TypeChecker
     type_error HtmlComponentReferenceOutsideOfComponent
+    type_error HtmlComponentAttributeRequired
     type_error HtmlComponentNotFoundComponent
     type_error HtmlComponentGlobalComponent
 
@@ -20,7 +21,22 @@ module Mint
 
       resolve component
 
-      node.attributes.each { |attribute| resolve attribute, component }
+      attributes =
+        node
+          .attributes
+          .map do |attribute|
+            resolve attribute, component
+            attribute.name.value
+          end
+
+      component.properties.each do |property|
+        next if property.default
+
+        raise HtmlComponentAttributeRequired, {
+          "property" => property,
+          "node"     => node,
+        } unless attributes.includes?(property.name.value)
+      end
 
       node.ref.try do |ref|
         raise HtmlComponentReferenceOutsideOfComponent, {

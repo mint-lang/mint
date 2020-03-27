@@ -5,7 +5,6 @@ module Mint
     syntax_error FunctionExpectedClosingBracket
     syntax_error FunctionExpectedTypeOrVariable
     syntax_error FunctionExpectedExpression
-    syntax_error FunctionExpectedColon
     syntax_error FunctionExpectedName
 
     def function : Ast::Function | Nil
@@ -33,10 +32,14 @@ module Mint
         end
 
         whitespace
-        char ':', FunctionExpectedColon
-        whitespace
 
-        type = type_or_type_variable! FunctionExpectedTypeOrVariable
+        type =
+          if char! ':'
+            whitespace
+            item = type_or_type_variable! FunctionExpectedTypeOrVariable
+            whitespace
+            item
+          end
 
         head_comments, body, tail_comments = block_with_comments(
           opening_bracket: FunctionExpectedOpeningBracket,

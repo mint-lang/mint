@@ -80,35 +80,19 @@ component Main {
 --------------------------------------------------------------------------------
 module Maybe {
   fun nothing : Maybe(a) {
-    `new Nothing()`
+    ``
   }
 
   fun just (value : a) : Maybe(a) {
-    `new Just(value)`
+    ``
   }
 
   fun withDefault (value : a, maybe : Maybe(a)) : a {
-    `
-    (() => {
-      if (maybe instanceof Just) {
-        return maybe.value
-      } else {
-        return value
-      }
-    })()
-    `
+    ``
   }
 
   fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
-    `
-    (() => {
-      if (maybe instanceof Just) {
-        return new Ok(maybe.value)
-      } else {
-        return new Err(error)
-      }
-    })()
-    `
+    ``
   }
 }
 

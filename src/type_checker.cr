@@ -3,7 +3,6 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    JS             = Js.new
     STRING         = Type.new("String")
     BOOL           = Type.new("Bool")
     NUMBER         = Type.new("Number")
@@ -53,6 +52,26 @@ module Mint
 
     def debug
       puts Debugger.new(@scope).run
+    end
+
+    def print_stack
+      @stack.each_with_index do |i, index|
+        x = case i
+            when Ast::Component then i.name
+            when Ast::Function  then i.name.value
+            when Ast::With      then "<with>"
+            when Ast::Try       then "<try>"
+            when Ast::Call      then "<call>"
+            else
+              i
+            end
+
+        if index == 0
+          puts x.to_s
+        else
+          puts "#{" " * (index - 1)} ↳ #{x}"
+        end
+      end
     end
 
     # Helpers for resolving records, types and record definitions
