@@ -28,7 +28,11 @@ module Mint
 
       if port_open?(host, port)
         server = HTTP::Server.new(config.handlers)
-        terminal.print "#{COG} #{name} server started on http://#{browser_host}:#{browser_port}/\n"
+        terminal.print "#{COG} #{name} server started on http://#{host}:#{port}/\n"
+
+        if browser_host != host || browser_port != port
+          terminal.print "  Also available here http://#{browser_host}:#{browser_port || port}/\n"
+        end
       elsif STDIN.tty?
         new_port = config.port + 1
         until port_open?(host, new_port)
@@ -39,7 +43,7 @@ module Mint
 
         use_new_port = gets
         if !use_new_port.nil? && (use_new_port.empty? || use_new_port.downcase == "y")
-          run(name, host, new_port)
+          run(name, host, new_port, browser_host, browser_port)
         else
           terminal.print "#{COG} Exiting...\n"
         end
