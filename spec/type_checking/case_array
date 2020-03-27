@@ -10,9 +10,56 @@ component Main {
 component Main {
   fun render : String {
     case ([]) {
-      [] => ""
       [...a] => ""
+      [] => ""
       => ""
+    }
+  }
+}
+------------------------------------------------------------------CaseNotCovered
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, ...rest] => ""
+    }
+  }
+}
+------------------------------------------------------------------CaseNotCovered
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, ...rest] => ""
+      [x] => ""
+    }
+  }
+}
+------------------------------------------------------------------CaseNotCovered
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, b, c, ...rest] => ""
+      [x] => ""
+      [] => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, b, ...rest] => ""
+      [x] => ""
+      [] => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, b, c, ...rest] => ""
+      [x, ...rest] => ""
+      [] => ""
     }
   }
 }
