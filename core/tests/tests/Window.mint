@@ -39,7 +39,7 @@ suite "Window.navigate" {
 
       Window.navigate("/blah")
 
-      (Window.href() == "http://localhost:" + url.port + "/blah")
+      Window.href() == "http://127.0.0.1:#{url.port}/blah"
     }
   }
 }
@@ -66,7 +66,7 @@ suite "Window.url" {
       url =
         Window.url()
 
-      (url.hostname == "localhost")
+      (url.hostname == "127.0.0.1")
     }
   }
 }
@@ -77,7 +77,7 @@ suite "Window.href" {
       url =
         Window.url()
 
-      (Window.href() == "http://localhost:" + url.port + "/")
+      (Window.href() == "http://127.0.0.1:" + url.port + "/")
     }
   }
 }
