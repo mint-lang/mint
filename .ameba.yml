@@ -1,2 +1,4 @@
 Metrics/CyclomaticComplexity:
   Enabled: false
+Lint/RedundantStringCoercion:
+  Enabled: false

@@ -230,6 +230,7 @@ module Mint
           if @stack.includes?(node)
             case node
             when Ast::Component
+              # ameba:disable Style/RedundantReturn
               return NEVER.as(Checkable)
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
