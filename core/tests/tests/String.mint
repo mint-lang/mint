@@ -54,6 +54,12 @@ suite "String.concat" {
   }
 }
 
+suite "String.fromArray" {
+  test "joins an array of strings together" {
+    String.fromArray(["a", "b", "c"]) == "abc"
+  }
+}
+
 suite "String.isEmpty" {
   test "returns true if the string is empty" {
     String.isEmpty("")
@@ -83,6 +89,12 @@ suite "String.split" {
     ("a,b,c,d,e"
     |> String.split(",")
     |> Array.size()) == 5
+  }
+}
+
+suite "String.toArray" {
+  test "converts a string to an array of strings" {
+    String.toArray("abcde") == ["a", "b", "c", "d", "e"]
   }
 }
 

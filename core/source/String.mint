@@ -195,4 +195,22 @@ module String {
       string
     }
   }
+
+  /*
+  Convert the given string into an array of strings.
+
+    String.toArray(AAA") = ["A", "A", "A"]
+  */
+  fun toArray (string : String) : Array(String) {
+    split("", string)
+  }
+
+  /*
+  Joins the given array of strings, alias for `String.concat`.
+
+    String.fromArray(["A","B","C"]) == "ABC"
+  */
+  fun fromArray (array : Array(String)) : String {
+    concat(array)
+  }
 }
