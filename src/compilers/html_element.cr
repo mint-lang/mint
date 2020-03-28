@@ -48,9 +48,9 @@ module Mint
 
       class_name =
         if style_nodes.any?
-          style_nodes.map do |style_node|
+          style_nodes.join(" ") do |style_node|
             style_builder.style_pool.of(style_node, nil)
-          end.join(" ")
+          end
         end
 
       class_name_attribute =

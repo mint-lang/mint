@@ -82,8 +82,7 @@ module Mint
       Dir
         .glob("**/*")
         .reject { |file| File.directory?(file) }
-        .map { |file| "'/#{file}'" }
-        .join(",\n")
+        .join(",\n") { |file| "'/#{file}'" }
     end
 
     def calculate_hash

@@ -72,7 +72,7 @@ module Mint
     end
 
     def stringify(nodes : Array(Ast::Node))
-      nodes.map { |node| stringify node }.join(", ")
+      nodes.join(", ") { |node| stringify node }
     end
 
     def generate(nodes : Array(Ast::Node), json : JSON::Builder)

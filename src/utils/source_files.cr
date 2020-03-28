@@ -18,14 +18,12 @@ module Mint
 
     def external_javascripts
       external_files("javascripts")
-        .map { |file| File.read(file) }
-        .join(";\n")
+        .join(";\n") { |file| File.read(file) }
     end
 
     def external_stylesheets
       external_files("stylesheets")
-        .map { |file| File.read(file) }
-        .join("\n\n")
+        .join("\n\n") { |file| File.read(file) }
     end
 
     def external_stylesheets?

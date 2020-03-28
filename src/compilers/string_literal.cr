@@ -4,7 +4,7 @@ module Mint
       value =
         node
           .value
-          .map do |item|
+          .join do |item|
             case item
             when Ast::Node
               "${#{compile(item)}}"
@@ -16,7 +16,6 @@ module Mint
               ""
             end
           end
-          .join("")
 
       "`#{value}`"
     end

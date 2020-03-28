@@ -154,9 +154,7 @@ module Mint
         .reject { |_, v| v.empty? }
         .each do |(medias, rules), properties|
           body =
-            properties
-              .map { |key, value| "#{key}: #{value};" }
-              .join("\n")
+            properties.join("\n") { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
             output[medias] ||= [] of String
@@ -164,13 +162,13 @@ module Mint
           end
         end
 
-      output.map do |medias, rules|
+      output.join("\n\n") do |medias, rules|
         if medias.any?
           "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
         else
           rules.join("\n\n")
         end
-      end.join("\n\n")
+      end
     end
 
     def compile_style(node : Ast::Style, compiler : Compiler)

@@ -64,9 +64,7 @@ module Mint
 
     def object(hash : Hash(String, String)) : String
       body =
-        hash
-          .map { |key, value| "#{key}:#{value}" }
-          .join(",")
+        hash.join(",") { |key, value| "#{key}:#{value}" }
 
       "{#{body}}"
     end
@@ -172,9 +170,7 @@ module Mint
     def object(hash : Hash(String, String)) : String
       if hash.any?
         body =
-          hash
-            .map { |key, value| "#{key}: #{value}" }
-            .join(",\n")
+          hash.join(",\n") { |key, value| "#{key}: #{value}" }
 
         "{\n#{body.indent}\n}"
       else

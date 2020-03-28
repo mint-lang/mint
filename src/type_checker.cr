@@ -95,9 +95,9 @@ module Mint
         (@record_name_char = @record_name_char.succ)
 
       compiled_fields =
-        fields.map do |key, value|
+        fields.join(",\n") do |key, value|
           "#{key} : #{value.to_mint}"
-        end.join(",\n").indent
+        end.indent
 
       contents =
         <<-MINT
