@@ -25,8 +25,7 @@ class String
     count =
       lines
         .reject(&.strip.empty?)
-        .map(&.leading_whitespace_count)
-        .compact
+        .compact_map(&.leading_whitespace_count)
         .min? || 0
 
     # Remove the minimum count of lines

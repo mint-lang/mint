@@ -31,7 +31,7 @@ module Mint
             terminal.puts "Nothing to format!"
           else
             results =
-              files.map do |file|
+              files.compact_map do |file|
                 artifact =
                   Parser.parse(file)
 
@@ -43,7 +43,7 @@ module Mint
                   terminal.puts "Formatted: #{file}"
                   true
                 end
-              end.compact
+              end
 
             terminal.puts "All files are formatted!" if results.empty?
           end

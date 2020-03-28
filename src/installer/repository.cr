@@ -64,8 +64,7 @@ module Mint
             output
               .strip
               .split
-              .map { |version| Semver.parse(version) }
-              .compact
+              .compact_map { |version| Semver.parse(version) }
               .sort_by(&.to_s)
               .reverse
           else

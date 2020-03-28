@@ -38,8 +38,7 @@ module Mint
             item.options.reject do |option|
               node
                 .branches
-                .map(&.match)
-                .compact
+                .compact_map(&.match)
                 .any? do |match|
                   case match
                   when Ast::EnumDestructuring
