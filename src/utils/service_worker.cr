@@ -75,7 +75,7 @@ module Mint
 
       Dir.cd ".."
 
-      [head, SOURCE].join("\n\n")
+      {head, SOURCE}.join("\n\n")
     end
 
     def files

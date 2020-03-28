@@ -40,7 +40,7 @@ module Mint
           end
         end.to_s
 
-      [arguments, statements].join("\n")
+      {arguments, statements}.join("\n")
     end
 
     def debug(node : Ast::Get)
@@ -73,7 +73,7 @@ module Mint
           "#{get.name.value} => #{get}"
         end
 
-      [functions, states, gets].join("\n")
+      {functions, states, gets}.join("\n")
     end
 
     def debug(node : Ast::Component)
@@ -97,7 +97,7 @@ module Mint
           "#{get.name.value} => #{get}"
         end
 
-      [functions, states, gets, properties].join("\n")
+      {functions, states, gets, properties}.join("\n")
     end
   end
 end
