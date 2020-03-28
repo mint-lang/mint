@@ -29,7 +29,7 @@ module Mint
             expression =
               compile statement.expression
 
-            # Get the time of the statment
+            # Get the time of the statement
             type = types[statement]?
 
             catches =

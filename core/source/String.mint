@@ -125,7 +125,7 @@ module String {
   }
 
   /*
-  Removes all occurances of the given character from the end of the
+  Removes all occurrences of the given character from the end of the
   given string.
 
     String.rchop("!", "Hello!!!") == "Hello"
@@ -143,7 +143,7 @@ module String {
   }
 
   /*
-  Removes all occurances of the given character from the start of the
+  Removes all occurrences of the given character from the start of the
   given string.
 
     String.lchop("!", "!!!Hello") == "Hello"
@@ -161,7 +161,7 @@ module String {
   }
 
   /*
-  Replaces the given pattern with the replacemet.
+  Replaces the given pattern with the replacements.
 
     String.replace("a", "0", "aaaa") == "0000"
   */

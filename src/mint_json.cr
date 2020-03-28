@@ -639,8 +639,8 @@ module Mint
         end
       end
 
-      raise "Should not happend" unless repository
-      raise "Should not happend" unless constraint
+      raise "Should not happen" unless repository
+      raise "Should not happen" unless constraint
 
       Mint::Installer::Dependency.new key, repository, constraint
     rescue exception : JSON::ParseException

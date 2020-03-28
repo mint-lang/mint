@@ -39,7 +39,7 @@ module Mint
           # In case of an error print it
           error exception.to_terminal, position
         rescue CliException
-          # In case of a CLI expection just exit
+          # In case of a CLI exception just exit
           error nil, position
         end
 
@@ -73,7 +73,7 @@ module Mint
 
         terminal.print "There was an error exiting...\n".colorize.mode(:bold)
 
-        # Exit with one to trigger faliures in CI environments
+        # Exit with one to trigger failures in CI environments
         exit 1
       end
 

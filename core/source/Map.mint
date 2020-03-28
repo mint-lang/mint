@@ -63,7 +63,7 @@ module Map {
   }
 
   /*
-  Merges two maps together where the second has the precendence.
+  Merges two maps together where the second has the precedence.
 
     a =
       Map.empty()

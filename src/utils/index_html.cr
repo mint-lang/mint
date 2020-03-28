@@ -1,5 +1,5 @@
 module Mint
-  # Renders the main HTML file based on a mint.json file and an enviroment.
+  # Renders the main HTML file based on a mint.json file and an environment.
   class IndexHtml
     getter json, env
 

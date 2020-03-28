@@ -47,7 +47,7 @@ module Mint
       end
     end
 
-    # Prints the resolved packages adn their verions
+    # Prints the resolved packages and their verions
     def print_resolved
       @resolved.each do |name, version|
         name =
@@ -95,7 +95,7 @@ module Mint
         repository =
           @repositories[dependency]
 
-        # Check if this was resolved aready
+        # Check if this was resolved already
         resolved =
           @resolved[dependency]?
 

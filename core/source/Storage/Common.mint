@@ -9,8 +9,8 @@ enum Storage.Error {
   /* The key in the storage does not exists. */
   NotFound
 
-  /* The reason for the faliure is unkown. */
-  Unkown
+  /* The reason for the faliure is unknown. */
+  Unknown
 }
 
 /* Common implementation of the storage api. */
@@ -33,7 +33,7 @@ module Storage.Common {
           case 'NS_ERROR_DOM_QUOTA_REACHED':
             return #{Result::Err(Storage.Error::QuotaExceeded)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -57,7 +57,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -76,7 +76,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -95,7 +95,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -113,7 +113,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -131,7 +131,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()

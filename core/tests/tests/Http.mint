@@ -242,7 +242,7 @@ component Test.Http {
   }
 }
 
-suite "Successfull request" {
+suite "Successful request" {
   test "it loads" {
     with Test.Html {
       <Test.Http/>

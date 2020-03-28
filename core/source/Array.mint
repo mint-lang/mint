@@ -246,7 +246,7 @@ module Array {
   }
 
   /*
-  Creates an array of numbers starting from the first agrument and
+  Creates an array of numbers starting from the first argument and
   ending in the last.
 
     Array.range(0, 5) == [0, 1, 2, 3, 4, 5]
@@ -256,7 +256,7 @@ module Array {
   }
 
   /*
-  Deletes every occurence of the given element from the array.
+  Deletes every occurrence of the given element from the array.
 
     Array.delete("a", ["a", "b", "c"]) == ["b", "c"]
   */

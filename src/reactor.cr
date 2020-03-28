@@ -118,7 +118,7 @@ module Mint
         env.response.headers["Cache-Control"] = "max-age=2592000"
 
         # Try to figure out mime type from name in case it's baked or served
-        # from public. Later on favicon and fallback content_type is overriden.
+        # from public. Later on favicon and fallback content_type is overridden.
         env.response.content_type =
           MIME.from_filename?(env.params.url["name"]).to_s
 

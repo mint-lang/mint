@@ -309,9 +309,9 @@ module Mint
             puts "  #{ARROW} #{@succeeded} passed"
             puts "  #{ARROW} #{@failed.size} failed"
 
-            @failed.each do |faliure|
-              puts "    #{faliure.name}".colorize(:red).to_s
-              puts "    |> #{faliure.result}".colorize(:red).to_s
+            @failed.each do |failure|
+              puts "    #{failure.name}".colorize(:red).to_s
+              puts "    |> #{failure.result}".colorize(:red).to_s
             end
 
             Kemal.config.server.try(&.close) unless @flags.manual
