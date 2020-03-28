@@ -6,13 +6,8 @@ module Mint
       def initialize(@lower : Semver, @upper : Semver)
       end
 
-      def to_s
-        "#{@lower} <= v < #{@upper}"
-      end
-
-      def to_s(io)
-        io << to_s
-        io
+      def to_s(io : IO)
+        io << lower << " <= v < " << upper
       end
 
       def ==(other)

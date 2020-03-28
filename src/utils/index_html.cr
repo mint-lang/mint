@@ -19,8 +19,8 @@ module Mint
       end
     end
 
-    def to_s
-      TreeTemplate.new(formatter: TreeTemplate::PrettyFormatter) do |t|
+    def to_s(io : IO)
+      template = TreeTemplate.new(formatter: TreeTemplate::PrettyFormatter) do |t|
         t.doctype :html5
 
         t.html do
@@ -95,7 +95,8 @@ module Mint
             end
           end
         end
-      end.render
+      end
+      io << template.render
     end
   end
 end

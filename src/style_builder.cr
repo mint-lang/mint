@@ -21,13 +21,13 @@ module Mint
     property default : String | Nil
     property variable : String | Nil
 
-    def to_s
+    def to_s(io : IO)
       if variable && default
-        "var(#{variable}, #{default})"
+        io << "var(" << variable << ", " << default << ')'
       elsif variable
-        "var(#{variable})"
+        io << "var(" << variable << ')'
       else
-        default
+        io << default
       end
     end
   end
@@ -155,7 +155,7 @@ module Mint
         .each do |(medias, rules), properties|
           body =
             properties
-              .map { |key, value| "#{key}: #{value.to_s};" }
+              .map { |key, value| "#{key}: #{value};" }
               .join("\n")
 
           rules.each do |rule|
