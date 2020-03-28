@@ -19,7 +19,7 @@ module Mint
 
       def failed(name, error)
         with_count do
-          print ".".colorize(:red).to_s
+          print "F".colorize(:red).to_s
         end
       end
 
