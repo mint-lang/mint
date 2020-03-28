@@ -32,7 +32,7 @@ module Mint
         else
           part
             .lines
-            .join("\n") do |line|
+            .join('\n') do |line|
               line.gsub(/^(\s*)(.*)(\s*)$/) do |_, match|
                 "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
               end
@@ -52,7 +52,7 @@ module Mint
       line_numbers =
         content.map_with_index do |_, index|
           "<div class='line-number'>#{index + start + 1}</div>"
-        end.join("\n")
+        end.join('\n')
 
       <<-HTML
       <div class="snippet">
@@ -63,7 +63,7 @@ module Mint
           <div class="line-numbers">
               #{line_numbers}
           </div>
-          <pre>#{content.join("\n")}</pre>
+          <pre>#{content.join('\n')}</pre>
         </div>
       </div>
       HTML

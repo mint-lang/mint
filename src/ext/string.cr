@@ -11,13 +11,13 @@ class String
   end
 
   def indent(spaces : Int32 = 2)
-    lines.join("\n") do |line|
+    lines.join('\n') do |line|
       line.empty? ? line : (" " * spaces) + line
     end
   end
 
   def remove_all_leading_whitespace
-    lines.join("\n", &.lstrip(" \t"))
+    lines.join('\n', &.lstrip(" \t"))
   end
 
   def remove_leading_whitespace
@@ -30,7 +30,7 @@ class String
 
     # Remove the minimum count of lines
     lines
-      .join("\n") { |line| line.lchop(line[0, count]) }
+      .join('\n') { |line| line.lchop(line[0, count]) }
       .strip("\n\r")
   end
 
@@ -46,6 +46,6 @@ class String
   end
 
   def remove_trailing_whitespace
-    lines.join("\n", &.rstrip)
+    lines.join('\n', &.rstrip)
   end
 end

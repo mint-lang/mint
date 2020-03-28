@@ -134,7 +134,7 @@ module Mint
         "#{header_start} #{title} #{divider}#{header_end}"
 
       result =
-        result.join("\n")
+        result.join('\n')
 
       "#{header}\n#{result}\n#{footer}"
     end

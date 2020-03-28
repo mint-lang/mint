@@ -7,7 +7,7 @@ module Mint
           .remove_leading_whitespace
           .rstrip
 
-      if replace_skipped(value).includes?("\n")
+      if replace_skipped(value).includes?('\n')
         "/*\n#{value}\n*/"
       else
         "/* #{value} */"

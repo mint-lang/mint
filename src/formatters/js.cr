@@ -14,7 +14,7 @@ module Mint
       result =
         "`#{body}`"
 
-      if result.includes?("\n")
+      if result.includes?('\n')
         skip { result }
       else
         result

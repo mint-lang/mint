@@ -507,7 +507,7 @@ module Mint
         keywords << parse_keyword
       end
 
-      keywords.join(",")
+      keywords.join(',')
     rescue exception : JSON::ParseException
       raise MintJsonKeywordsInvalid, {
         "node" => node(exception),

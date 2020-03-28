@@ -11,7 +11,7 @@ module Mint
         catches.push format(catch)
       end
 
-      "try {\n#{indent(statements)}\n} #{catches.join(" ")}".strip
+      "try {\n#{indent(statements)}\n} #{catches.join(' ')}".strip
     end
   end
 end

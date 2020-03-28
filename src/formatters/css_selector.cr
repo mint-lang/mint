@@ -4,7 +4,7 @@ module Mint
       selectors =
         node
           .selectors
-          .join(",\n") { |item| item.starts_with?(" ") ? item.lstrip : "&#{item}" }
+          .join(",\n") { |item| item.starts_with?(' ') ? item.lstrip : "&#{item}" }
 
       body =
         list node.body

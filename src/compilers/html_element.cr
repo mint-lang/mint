@@ -15,7 +15,7 @@ module Mint
         result =
           value
             .select(String)
-            .join(" ")
+            .join(' ')
 
         "`#{result}`"
       end
@@ -48,7 +48,7 @@ module Mint
 
       class_name =
         if style_nodes.any?
-          style_nodes.join(" ") do |style_node|
+          style_nodes.join(' ') do |style_node|
             style_builder.style_pool.of(style_node, nil)
           end
         end

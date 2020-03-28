@@ -27,7 +27,7 @@ module Mint
         variables =
           node
             .items
-            .join(",") { |param| js.variable_of(param) }
+            .join(',') { |param| js.variable_of(param) }
 
         ["const [#{variables}] = #{value}"]
       end

@@ -154,7 +154,7 @@ module Mint
         .reject { |_, v| v.empty? }
         .each do |(medias, rules), properties|
           body =
-            properties.join("\n") { |key, value| "#{key}: #{value};" }
+            properties.join('\n') { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
             output[medias] ||= [] of String

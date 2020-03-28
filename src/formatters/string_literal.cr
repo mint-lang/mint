@@ -1,7 +1,7 @@
 module Mint
   class Formatter
     def skip_string(string)
-      if string.includes?("\n")
+      if string.includes?('\n')
         skip { string }
       else
         string

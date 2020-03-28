@@ -39,7 +39,7 @@ module Mint
           variables =
             match
               .parameters
-              .join(",") { |param| js.variable_of(param) }
+              .join(',') { |param| js.variable_of(param) }
 
           {
             "Array.isArray(#{variable})",

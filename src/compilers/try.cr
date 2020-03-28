@@ -25,7 +25,7 @@ module Mint
                   variables =
                     target
                       .parameters
-                      .join(",") { |param| js.variable_of(param) }
+                      .join(',') { |param| js.variable_of(param) }
 
                   "const [#{variables}] = #{value}"
                 else

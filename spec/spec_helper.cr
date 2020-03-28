@@ -47,7 +47,7 @@ class Mint::Installer::Repository
 
   def run(command, chdir = directory)
     content =
-      case command.split(" ")[1]
+      case command.split(' ')[1]
       when "tag"
         "0.1.0\n0.2.0"
       when "fetch"
