@@ -1,11 +1,9 @@
 module Mint
   module Render
     class Html
+      getter io : IO
+
       delegate escape, to: self.class
-
-      getter io
-
-      @io : IO
 
       def self.escape(code)
         HTML.escape(code)

@@ -221,7 +221,7 @@ module Mint
 
         if node1.is_a?(Variable)
           if node1 != node2
-            if (occurns_in_type(node1, node2))
+            if occurns_in_type(node1, node2)
               raise "Recursive unification!"
             end
             node1.instance = node2
@@ -254,7 +254,7 @@ module Mint
       def occurns_in_type(node1, node2)
         node2 = prune(node2)
 
-        if (node1 == node2)
+        if node1 == node2
           true
         elsif node2.is_a?(Type)
           occurns_in_type_array(node1, node2.parameters)
