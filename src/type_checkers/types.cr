@@ -53,7 +53,7 @@ module Mint
           params =
             parameters.map(&.to_pretty.as(String))
 
-          if params.any?(&.=~(/\n/)) || params.size > 4
+          if params.any?(&.includes?('\n')) || params.size > 4
             "#{name}(\n#{params.join(",\n").indent})"
           else
             "#{name}(#{params.join(", ")})"
@@ -89,14 +89,14 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
               end
             end
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "#{name}(\n#{defs.join(",\n").indent})"
         else
           "#{name}(#{defs.join(", ")})"
@@ -156,7 +156,7 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
@@ -165,7 +165,7 @@ module Mint
 
         defs << "..."
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "(\n#{defs.join(",\n").indent})"
         else
           "(#{defs.join(", ")})"
