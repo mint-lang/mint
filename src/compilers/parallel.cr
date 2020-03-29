@@ -27,7 +27,7 @@ module Mint
         catches =
           case type
           when TypeChecker::Type
-            if (type.name == "Promise" || type.name == "Result") && type.parameters[0]
+            if type.name.in?("Promise", "Result") && type.parameters[0]
               node
                 .catches
                 .select { |item| item.type == type.parameters[0].name }

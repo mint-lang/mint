@@ -12,10 +12,8 @@ module Mint
         node.statements.map do |statement|
           new_type = resolve statement
 
-          if (new_type.name == "Promise" || new_type.name == "Result") &&
-             new_type.parameters.size == 2
-            if new_type.parameters[0].name != "Void" &&
-               new_type.parameters[0].name != "Never"
+          if new_type.name.in?("Promise", "Result") && new_type.parameters.size == 2
+            unless new_type.parameters[0].name.in?("Void", "Never")
               to_catch << new_type.parameters[0]
             end
           end

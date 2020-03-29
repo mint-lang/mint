@@ -41,7 +41,7 @@ module Mint
           when Ast::Function
             functions << item
 
-            item.keep_name = true if item.name.value == "attach" || item.name.value == "detach"
+            item.keep_name = true if item.name.value.in?("attach", "detach")
           when Ast::Comment
             comments << item
           end

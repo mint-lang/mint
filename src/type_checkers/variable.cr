@@ -34,15 +34,13 @@ module Mint
           type = resolve value
 
           if value.parent == Ast::Statement::Parent::Try
-            if type.name == "Result" &&
-               type.parameters.size == 2
+            if type.name == "Result" && type.parameters.size == 2
               type.parameters[1]
             else
               type
             end
           else
-            if (type.name == "Result" || type.name == "Promise") &&
-               type.parameters.size == 2
+            if type.name.in?("Result", "Promise") && type.parameters.size == 2
               type.parameters[1]
             else
               type

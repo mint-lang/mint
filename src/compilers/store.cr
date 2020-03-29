@@ -29,7 +29,7 @@ module Mint
       states =
         node
           .states
-          .select { |state| checked.includes?(state) }
+          .select(&.in?(checked))
           .each_with_object({} of String => String) do |state, memo|
             name =
               js.variable_of(state)
