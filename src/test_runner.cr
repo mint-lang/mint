@@ -154,14 +154,14 @@ module Mint
       end
 
       if ast.try(&.suites.empty?)
-        terminal.print "\nThere are no tests to run!\n"
+        terminal.puts "\nThere are no tests to run!"
         return
       end
 
-      terminal.print "#{COG} Starting test server...\n"
+      terminal.puts "#{COG} Starting test server..."
       setup_kemal
 
-      terminal.print "#{COG} Starting browser...\n"
+      terminal.puts "#{COG} Starting browser..."
       open_page
 
       Server.run "Test", @flags.host, @flags.port, @flags.browser_host, @flags.browser_port
@@ -297,7 +297,7 @@ module Mint
       end
 
       ws "/" do |socket|
-        terminal.print "#{COG} Running tests:\n"
+        terminal.puts "#{COG} Running tests:"
 
         socket.on_message do |message|
           if message == "DONE"
@@ -310,8 +310,8 @@ module Mint
             puts "  #{ARROW} #{@failed.size} failed"
 
             @failed.each do |failure|
-              puts "    #{failure.name}".colorize(:red).to_s
-              puts "    |> #{failure.result}".colorize(:red).to_s
+              puts "    #{failure.name}".colorize(:red)
+              puts "    |> #{failure.result}".colorize(:red)
             end
 
             Kemal.config.server.try(&.close) unless @flags.manual

@@ -14,7 +14,7 @@ module Mint
         Signal::INT.trap do
           terminal.print "\n"
           terminal.divider
-          terminal.print "Aborted! Exiting...\n"
+          terminal.puts "Aborted! Exiting..."
           exit 1
         end
 
@@ -49,7 +49,7 @@ module Mint
 
         # Print all done mssage
         terminal.divider
-        terminal.print "All done in #{formatted}!\n"
+        terminal.puts "All done in #{formatted}!"
       end
 
       # Handles an error
@@ -71,7 +71,7 @@ module Mint
           terminal.divider
         end
 
-        terminal.print "There was an error exiting...\n".colorize.mode(:bold)
+        terminal.puts "There was an error exiting...".colorize.mode(:bold)
 
         # Exit with one to trigger failures in CI environments
         exit 1

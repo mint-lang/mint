@@ -66,8 +66,8 @@ module Mint
       end
 
       if print
-        elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold).to_s
-        terminal.io.print "#{prefix}... #{elapsed}".ljust(line.size) + "\n"
+        elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold)
+        terminal.io.puts "#{prefix}... #{elapsed}".ljust(line.size)
       end
 
       @progress = false

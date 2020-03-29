@@ -67,7 +67,7 @@ module Mint
             end
 
         if index == 0
-          puts x.to_s
+          puts x
         else
           puts "#{" " * (index - 1)} ↳ #{x}"
         end
