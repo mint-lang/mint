@@ -58,9 +58,9 @@ module Mint
           memo[js.variable_of(prop)] = js.array([prop_name, value])
         end
 
-      constructor_body << js.call("this._d", [js.object(default_props)]) if default_props.any?
+      constructor_body << js.call("this._d", [js.object(default_props)]) unless default_props.empty?
 
-      if node.states.any?
+      unless node.states.empty?
         values =
           node
             .states
@@ -72,7 +72,7 @@ module Mint
       end
 
       constructor =
-        if constructor_body.any?
+        unless constructor_body.empty?
           js.function("constructor", ["props"]) do
             constructor_body.unshift js.call("super", ["props"])
 
@@ -179,7 +179,7 @@ module Mint
             function.keep_name = true
 
             compile function, js.statements(value)
-          elsif value.any?
+          elsif !value.empty?
             js.function(key, [] of String, js.statements(value))
           end
         end

@@ -61,7 +61,7 @@ module Mint
           raise CaseEnumNotCovered, {
             "options" => options,
             "node"    => node,
-          } if not_matched.any? && !catch_all
+          } if !not_matched.empty? && !catch_all
         elsif condition.name == "Array"
           destructurings =
             node.branches.map(&.match).select(Ast::ArrayDestructuring)

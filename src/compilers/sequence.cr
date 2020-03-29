@@ -71,7 +71,7 @@ module Mint
                   ])
                 end
               when "Promise"
-                if catches.any?
+                unless catches.empty?
                   try = js.asynciif do
                     js.try(
                       body: "return await #{expression}",

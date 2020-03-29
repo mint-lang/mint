@@ -59,10 +59,10 @@ module Mint
                       end
                     end
 
-                  if catched.any?
-                    js.statements(catched.compact)
-                  else
+                  if catched.empty?
                     "return _catch_all()"
+                  else
+                    js.statements(catched.compact)
                   end
                 end
               end

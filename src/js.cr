@@ -168,13 +168,13 @@ module Mint
     end
 
     def object(hash : Hash(String, String)) : String
-      if hash.any?
+      if hash.empty?
+        "{}"
+      else
         body =
           hash.join(",\n") { |key, value| "#{key}: #{value}" }
 
         "{\n#{body.indent}\n}"
-      else
-        "{}"
       end
     end
 
@@ -272,10 +272,10 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      if items.any?
-        "[\n#{items.join(",\n").indent}\n]"
-      else
+      if items.empty?
         "[]"
+      else
+        "[\n#{items.join(",\n").indent}\n]"
       end
     end
 

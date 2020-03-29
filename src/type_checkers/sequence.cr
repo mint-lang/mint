@@ -71,7 +71,7 @@ module Mint
       raise SequenceDidNotCatch, {
         "remaining" => to_catch,
         "node"      => node,
-      } if to_catch.any? && catch_all_type.nil?
+      } if !to_catch.empty? && catch_all_type.nil?
 
       promise_type =
         Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)

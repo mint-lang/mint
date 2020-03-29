@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::RecordConstructor)
       arguments =
-        if node.arguments.any?
+        unless node.arguments.empty?
           "(#{format(node.arguments, ", ")})"
         end
 

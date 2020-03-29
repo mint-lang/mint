@@ -27,11 +27,11 @@ module Mint
     end
 
     def external_stylesheets?
-      external_files("stylesheets").any?
+      !external_files("stylesheets").empty?
     end
 
     def external_javascripts?
-      external_files("javascripts").any?
+      !external_files("javascripts").empty?
     end
 
     def external_files

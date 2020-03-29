@@ -163,10 +163,10 @@ module Mint
         end
 
       output.join("\n\n") do |medias, rules|
-        if medias.any?
-          "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
-        else
+        if medias.empty?
           rules.join("\n\n")
+        else
+          "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
         end
       end
     end
