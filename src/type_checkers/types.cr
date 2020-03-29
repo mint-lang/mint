@@ -18,8 +18,8 @@ module Mint
         to_s
       end
 
-      def to_s
-        @instance.try(&.to_s) || name
+      def to_s(io)
+        io << (@instance.try(&.to_s) || name)
       end
 
       def to_pretty
@@ -61,8 +61,8 @@ module Mint
         parameters.any?(&.have_holes?)
       end
 
-      def to_s
-        if parameters.empty?
+      def to_s(io)
+        io << if parameters.empty?
           name
         else
           formatted =
@@ -107,11 +107,11 @@ module Mint
         name
       end
 
-      def to_s
-        if fields.empty?
+      def to_s(io)
+        io << if fields.empty?
           name
         else
-          defs = fields.map { |key, value| "#{key}: #{value.to_s}" }.join(", ")
+          defs = fields.map { |key, value| "#{key}: #{value}" }.join(", ")
           "#{name}(#{defs})"
         end
       end
@@ -135,11 +135,11 @@ module Mint
     end
 
     class PartialRecord < Record
-      def to_s
-        if fields.empty?
+      def to_s(io)
+        io << if fields.empty?
           "(...)"
         else
-          defs = fields.map { |key, value| "#{key}: #{value.to_s}" }.join(", ")
+          defs = fields.map { |key, value| "#{key}: #{value}" }.join(", ")
           "(#{defs}, ...)"
         end
       end
@@ -234,7 +234,7 @@ module Mint
           node1
         elsif node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name || node1.parameters.size != node2.parameters.size
-            raise "Type error: #{node1.to_s} is not #{node2.to_s}!"
+            raise "Type error: #{node1} is not #{node2}!"
           else
             node1.parameters.each_with_index do |item, index|
               unify(item, node2.parameters[index])

@@ -19,13 +19,8 @@ module Mint
       def initialize(@major = 0, @minor = 0, @patch = 0)
       end
 
-      def to_s
-        "#{major}.#{minor}.#{patch}"
-      end
-
       def to_s(io)
-        io << to_s
-        io
+        io << "#{major}.#{minor}.#{patch}"
       end
 
       def next_patch

@@ -14,11 +14,11 @@ module Mint
     end
 
     def debug(node : Tuple(String, TypeChecker::Checkable, Ast::Node))
-      "#{node[0]} => #{node[1].to_s}"
+      "#{node[0]} => #{node[1]}"
     end
 
     def debug(node : Tuple(String, TypeChecker::Checkable))
-      "#{node[0]} => #{node[1].to_s}"
+      "#{node[0]} => #{node[1]}"
     end
 
     def debug(node : Ast::InlineFunction)
