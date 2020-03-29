@@ -6,7 +6,7 @@ module Mint
       end
 
       def with_count
-        print "\n" if @count > 0 && @count % 80 == 0
+        puts if @count > 0 && @count % 80 == 0
         yield
         @count += 1
       end
@@ -27,7 +27,7 @@ module Mint
       end
 
       def done
-        print "\n"
+        puts
       end
     end
   end

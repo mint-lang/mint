@@ -10,7 +10,7 @@ module Mint
         end
 
         def close
-          print "\n" unless @last.in?("\n", "\r")
+          puts unless @last.in?("\n", "\r")
         end
 
         def print(contents : String)
@@ -20,6 +20,11 @@ module Mint
 
         def print(contents)
           print contents.to_s
+        end
+
+        def puts(contents = nil)
+          print contents if contents
+          print "\n"
         end
 
         def text(contents)
@@ -64,10 +69,10 @@ module Mint
             if ((char && char.whitespace?) || !char) && part.size > 0
               if @cursor > @width
                 @cursor = part.size
-                print "\n"
+                puts
               end
 
-              print (yield part).to_s
+              print yield part
               part = ""
             end
 
@@ -159,7 +164,7 @@ module Mint
       end
 
       def header(text)
-        print "#{text.colorize.mode(:bold)}\n"
+        puts text.colorize.mode(:bold)
       end
 
       def divider
@@ -182,17 +187,18 @@ module Mint
         io.print "#{content}#{divider}\n\n"
       end
 
-      def puts(message)
-        print "#{message}\n"
-      end
-
-      def print(object)
-        print object.to_s
-      end
-
       def print(contents : String)
         @position += contents.size
         io.print contents
+      end
+
+      def print(contents)
+        print contents.to_s
+      end
+
+      def puts(contents = nil)
+        print contents if contents
+        print "\n"
       end
     end
   end
