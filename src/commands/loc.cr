@@ -27,7 +27,7 @@ module Mint
           count =
             File
               .read(file)
-              .split('\n')
+              .lines
               .count { |line| !line.empty? }
 
           count + memo
