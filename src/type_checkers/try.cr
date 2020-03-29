@@ -83,7 +83,7 @@ module Mint
       raise TryDidNotCatch, {
         "remaining" => to_catch.uniq(&.to_s),
         "node"      => node,
-      } if to_catch.any? && catch_all_type.nil?
+      } if !to_catch.empty? && catch_all_type.nil?
 
       final_type
     end

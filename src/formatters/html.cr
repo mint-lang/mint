@@ -8,16 +8,16 @@ module Mint
 
       multiline =
         attributes.size >= 2 || attributes.any? do |attribute|
-          replace_skipped(attribute).includes?("\n")
+          replace_skipped(attribute).includes?('\n')
         end
 
       attributes =
         if attributes.empty?
           ""
         elsif multiline
-          indent("\n" + attributes.join("\n"))
+          indent("\n" + attributes.join('\n'))
         else
-          " " + attributes.join(" ")
+          " " + attributes.join(' ')
         end
 
       children =
@@ -25,7 +25,7 @@ module Mint
 
       if node.children.empty?
         "<#{prefix}#{attributes}/>"
-      elsif replace_skipped(attributes).includes?("\n")
+      elsif replace_skipped(attributes).includes?('\n')
         "<#{prefix}#{attributes}>\n\n#{children}\n\n</#{tag}>"
       else
         "<#{prefix}#{attributes}>\n#{children}\n</#{tag}>"

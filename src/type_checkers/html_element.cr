@@ -4,7 +4,7 @@ module Mint
     type_error HtmlElementStyleOutsideOfComponent
 
     def check(node : Ast::HtmlElement) : Checkable
-      if node.styles.any?
+      unless node.styles.empty?
         raise HtmlElementStyleOutsideOfComponent, {
           "node" => node,
         } unless component?

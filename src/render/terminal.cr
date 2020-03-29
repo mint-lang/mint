@@ -107,22 +107,21 @@ module Mint
       end
 
       def render(io)
-        print io.to_s
+        print io
       end
 
       def block
         block = Block.new(width: @width)
         with block yield
         block.close
-        print block.io
-        print "\n"
+        puts block.io
       end
 
       def measure(message)
         print message
         result = nil
         elapsed = Time.measure { result = yield }
-        print TimeFormat.auto(elapsed).colorize.mode(:bold).to_s + "\n"
+        puts TimeFormat.auto(elapsed).colorize.mode(:bold)
         result
       end
 
@@ -160,7 +159,7 @@ module Mint
       end
 
       def divider
-        print ("━" * @width).colorize(:dark_gray).mode(:dim).to_s + "\n"
+        puts ("━" * @width).colorize(:dark_gray).mode(:dim)
       end
 
       def title(text)

@@ -1,5 +1,5 @@
 suite "Storage.Session.set" {
-  test "returns void for successfull set" {
+  test "returns void for successful set" {
     Storage.Session.set("test", "value")
     |> Result.isOk()
   }
@@ -21,7 +21,7 @@ suite "Storage.Session.set" {
     try {
       result =
         Storage.Session.set("test", String.repeat(10000000, "test"))
-        |> Result.withError(Storage.Error::Unkown)
+        |> Result.withError(Storage.Error::Unknown)
 
       (result == Storage.Error::QuotaExceeded)
     }

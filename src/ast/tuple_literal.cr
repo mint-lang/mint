@@ -15,7 +15,7 @@ module Mint
 
       def static_value
         values =
-          items.map(&.static_value).join(',')
+          items.join(',', &.static_value)
 
         "[#{values}]"
       end

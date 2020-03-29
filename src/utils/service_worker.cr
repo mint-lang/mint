@@ -75,15 +75,14 @@ module Mint
 
       Dir.cd ".."
 
-      [head, SOURCE].join("\n\n")
+      {head, SOURCE}.join("\n\n")
     end
 
     def files
       Dir
         .glob("**/*")
         .reject { |file| File.directory?(file) }
-        .map { |file| "'/#{file}'" }
-        .join(",\n")
+        .join(",\n") { |file| "'/#{file}'" }
     end
 
     def calculate_hash

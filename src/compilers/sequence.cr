@@ -17,8 +17,7 @@ module Mint
                   variables =
                     target
                       .parameters
-                      .map { |param| js.variable_of(param) }
-                      .join(",")
+                      .join(',') { |param| js.variable_of(param) }
 
                   "const [#{variables}] = #{value}"
                 else
@@ -30,7 +29,7 @@ module Mint
             expression =
               compile statement.expression
 
-            # Get the time of the statment
+            # Get the time of the statement
             type = types[statement]?
 
             catches =
@@ -72,7 +71,7 @@ module Mint
                   ])
                 end
               when "Promise"
-                if catches.any?
+                unless catches.empty?
                   try = js.asynciif do
                     js.try(
                       body: "return await #{expression}",

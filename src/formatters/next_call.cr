@@ -4,7 +4,7 @@ module Mint
       data =
         format node.data
 
-      if replace_skipped(data).includes?("\n")
+      if replace_skipped(data).includes?('\n')
         "next\n#{indent(data)}"
       else
         "next #{data}"

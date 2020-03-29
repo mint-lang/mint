@@ -18,51 +18,54 @@ module Mint
 
     def external_javascripts
       external_files("javascripts")
-        .map { |file| File.read(file) }
-        .join(";\n")
+        .join(";\n") { |file| File.read(file) }
     end
 
     def external_stylesheets
       external_files("stylesheets")
-        .map { |file| File.read(file) }
-        .join("\n\n")
+        .join("\n\n") { |file| File.read(file) }
     end
 
     def external_stylesheets?
-      external_files("stylesheets").any?
+      !external_files("stylesheets").empty?
     end
 
     def external_javascripts?
-      external_files("javascripts").any?
+      !external_files("javascripts").empty?
     end
 
-    def external_files(files_type : String = "")
-      if files_type.empty?
-        [external_files("javascripts"), external_files("stylesheets")].flatten
-      else
-        external_files =
-          Dir
-            .glob("./.mint/packages/**/mint.json")
-            .reduce([] of String) do |acc, file|
-              files =
-                MintJson.new(File.read(file), File.dirname(file), file).external_files[files_type]
+    def external_files
+      [external_files("javascripts"), external_files("stylesheets")].flatten
+    end
 
-              acc + files
-            end
-        external_files + MintJson.parse_current.external_files[files_type]
+    def external_files(files_type : String)
+      %w[].tap do |external_files|
+        each_package do |json|
+          files =
+            json.external_files[files_type]
+
+          external_files.concat files
+        end
+        external_files.concat MintJson.parse_current.external_files[files_type]
+      end
+    end
+
+    def each_package
+      Dir.glob("./.mint/packages/**/mint.json").each do |file|
+        yield MintJson.new(File.read(file), File.dirname(file), file)
       end
     end
 
     def packages
-      Dir.glob("./.mint/packages/**/mint.json").map do |file|
-        MintJson.new(File.read(file), File.dirname(file), file)
+      ([] of MintJson).tap do |package_definitions|
+        each_package { |json| package_definitions << json }
       end
     end
 
     def all
       package_dirs = [] of String
 
-      packages.each do |json|
+      each_package do |json|
         package_dirs.concat json.source_directories.map { |dir| "#{json.root}/#{dir}" }
       end
 

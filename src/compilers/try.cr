@@ -25,8 +25,7 @@ module Mint
                   variables =
                     target
                       .parameters
-                      .map { |param| js.variable_of(param) }
-                      .join(",")
+                      .join(',') { |param| js.variable_of(param) }
 
                   "const [#{variables}] = #{value}"
                 else
@@ -60,10 +59,10 @@ module Mint
                       end
                     end
 
-                  if catched.any?
-                    js.statements(catched.compact)
-                  else
+                  if catched.empty?
                     "return _catch_all()"
+                  else
+                    js.statements(catched.compact)
                   end
                 end
               end

@@ -13,13 +13,13 @@ module Mint
 
       def succeeded(name)
         with_count do
-          print ".".colorize(:green).to_s
+          print ".".colorize(:green)
         end
       end
 
       def failed(name, error)
         with_count do
-          print "F".colorize(:red).to_s
+          print "F".colorize(:red)
         end
       end
 

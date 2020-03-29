@@ -18,10 +18,10 @@ module Mint
       end
 
       ["sequence {\n#{indent(body)}\n}",
-       catches.join(" "),
+       catches.join(' '),
        finally.to_s,
       ].reject(&.strip.empty?)
-        .join(" ")
+        .join(' ')
     end
   end
 end

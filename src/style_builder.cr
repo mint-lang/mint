@@ -21,13 +21,13 @@ module Mint
     property default : String | Nil
     property variable : String | Nil
 
-    def to_s
+    def to_s(io : IO)
       if variable && default
-        "var(#{variable}, #{default})"
+        io << "var(" << variable << ", " << default << ')'
       elsif variable
-        "var(#{variable})"
+        io << "var(" << variable << ')'
       else
-        default
+        io << default
       end
     end
   end
@@ -154,9 +154,7 @@ module Mint
         .reject { |_, v| v.empty? }
         .each do |(medias, rules), properties|
           body =
-            properties
-              .map { |key, value| "#{key}: #{value.to_s};" }
-              .join("\n")
+            properties.join('\n') { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
             output[medias] ||= [] of String
@@ -164,13 +162,13 @@ module Mint
           end
         end
 
-      output.map do |medias, rules|
-        if medias.any?
-          "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
-        else
+      output.join("\n\n") do |medias, rules|
+        if medias.empty?
           rules.join("\n\n")
+        else
+          "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
         end
-      end.join("\n\n")
+      end
     end
 
     def compile_style(node : Ast::Style, compiler : Compiler)

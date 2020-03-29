@@ -38,8 +38,7 @@ module Mint
             item.options.reject do |option|
               node
                 .branches
-                .map(&.match)
-                .compact
+                .compact_map(&.match)
                 .any? do |match|
                   case match
                   when Ast::EnumDestructuring
@@ -62,7 +61,7 @@ module Mint
           raise CaseEnumNotCovered, {
             "options" => options,
             "node"    => node,
-          } if not_matched.any? && !catch_all
+          } if !not_matched.empty? && !catch_all
         elsif condition.name == "Array"
           destructurings =
             node.branches.map(&.match).select(Ast::ArrayDestructuring)

@@ -6,13 +6,8 @@ module Mint
       def initialize(@input : String, @file : String)
       end
 
-      def to_s
-        "<#{file} #{@input[0, 10]}...>"
-      end
-
-      def to_s(io)
-        io << to_s
-        io
+      def to_s(io : IO)
+        io << '<' << file << ' ' << input[0, 10] << "...>"
       end
     end
   end

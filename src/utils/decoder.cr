@@ -68,7 +68,7 @@ module Mint
         "Decoder.map(#{decoder})"
       else
         # This should never happen because of the typechecker!
-        raise "Cannot generate a decoder for #{node.to_s}!"
+        raise "Cannot generate a decoder for #{node}!"
       end
     end
   end

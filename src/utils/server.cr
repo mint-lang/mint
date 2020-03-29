@@ -28,27 +28,27 @@ module Mint
 
       if port_open?(host, port)
         server = HTTP::Server.new(config.handlers)
-        terminal.print "#{COG} #{name} server started on http://#{host}:#{port}/\n"
+        terminal.puts "#{COG} #{name} server started on http://#{host}:#{port}/"
 
         if browser_host != host || browser_port != port
-          terminal.print "  Also available here http://#{browser_host}:#{browser_port || port}/\n"
+          terminal.puts "  Also available here http://#{browser_host}:#{browser_port || port}/"
         end
       elsif STDIN.tty?
         new_port = config.port + 1
         until port_open?(host, new_port)
           new_port = new_port + 1
         end
-        terminal.print "#{COG} Port #{port} is used by a different application!\n"
-        terminal.print "#{COG} Would you like to to use port #{new_port} instead? (Y/n)\n"
+        terminal.puts "#{COG} Port #{port} is used by a different application!"
+        terminal.puts "#{COG} Would you like to to use port #{new_port} instead? (Y/n)"
 
         use_new_port = gets
         if !use_new_port.nil? && (use_new_port.empty? || use_new_port.downcase == "y")
           run(name, host, new_port, browser_host, browser_port)
         else
-          terminal.print "#{COG} Exiting...\n"
+          terminal.puts "#{COG} Exiting..."
         end
       else
-        terminal.print "#{COG} Port #{port} is used by a different application!\n"
+        terminal.puts "#{COG} Port #{port} is used by a different application!"
         exit 1
       end
 

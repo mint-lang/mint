@@ -10,8 +10,7 @@ module Mint
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field, should_create_record)} }
-          .to_h
+          .to_h { |field| {field.key.value, resolve(field, should_create_record)} }
 
       record =
         records.find(&.==(fields))

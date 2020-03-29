@@ -2,7 +2,7 @@ module Mint
   class DocumentationGenerator
     def stringify(node : Ast::Type)
       parameters =
-        if node.parameters.any?
+        unless node.parameters.empty?
           "(" + stringify(node.parameters) + ")"
         end
 

@@ -10,8 +10,7 @@ module Mint
             variables =
               target
                 .parameters
-                .map { |param| js.variable_of(param) }
-                .join(",")
+                .join(',') { |param| js.variable_of(param) }
 
             "[#{variables}] = #{value}"
           else
@@ -22,7 +21,7 @@ module Mint
         expression =
           compile statement.expression
 
-        # Get the time of the statment
+        # Get the time of the statement
         type = types[statement]?
 
         catches =

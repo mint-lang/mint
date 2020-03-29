@@ -21,7 +21,7 @@ module Mint
       getter levels
 
       def path : String
-        @levels.reverse.map { |node| path(node) }.join(" -> ")
+        @levels.reverse.join(" -> ") { |node| path(node) }
       end
 
       def path(node : Node)

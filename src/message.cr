@@ -61,7 +61,7 @@ module Mint
       def list(value, message)
         case value
         when Array(String)
-          if value.any?
+          unless value.empty?
             block do
               text message
             end
@@ -73,7 +73,7 @@ module Mint
       def list(value)
         case value
         when Array(String)
-          if value.any?
+          unless value.empty?
             @elements << StringList.new(value: value)
           end
         end

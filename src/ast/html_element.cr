@@ -23,8 +23,8 @@ module Mint
 
       def static_value
         tag.value +
-          attributes.map(&.static_value).join +
-          children.map(&.static_value).join
+          attributes.join(&.static_value) +
+          children.join(&.static_value)
       end
     end
   end

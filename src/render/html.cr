@@ -30,18 +30,18 @@ module Mint
 
       def type_list(data)
         items =
-          data.map do |item|
+          data.join do |item|
             "<li><code>#{escape(item.to_pretty)}</code></li>"
-          end.join("")
+          end
 
         print "<ul>#{items}</ul>"
       end
 
       def list(data)
         items =
-          data.map do |item|
+          data.join do |item|
             "<li><b>#{escape(item)}</b></li>"
-          end.join("")
+          end
 
         print "<ul>#{items}</ul>"
       end

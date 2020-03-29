@@ -17,7 +17,7 @@ module Mint
 
         name = type_id! ComponentExpectedName
 
-        # Clear refs here beacuse it's on the parser
+        # Clear refs here because it's on the parser
         refs.clear
 
         body = block(

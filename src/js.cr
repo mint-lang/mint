@@ -41,7 +41,7 @@ module Mint
           else
             self.elseif(condition) { body }
           end
-        end.join(" ")
+        end.join(' ')
     end
   end
 
@@ -64,15 +64,13 @@ module Mint
 
     def object(hash : Hash(String, String)) : String
       body =
-        hash
-          .map { |key, value| "#{key}:#{value}" }
-          .join(",")
+        hash.join(',') { |key, value| "#{key}:#{value}" }
 
       "{#{body}}"
     end
 
     def function(name : String, arguments : Array(String), body : String) : String
-      "#{name}(#{arguments.join(",")}){#{body}}"
+      "#{name}(#{arguments.join(',')}){#{body}}"
     end
 
     def arrow_function(arguments : Array(String), body : String) : String
@@ -92,7 +90,7 @@ module Mint
     end
 
     def statements(items : Array(String)) : String
-      items.join(";")
+      items.join(';')
     end
 
     def store(name : String, body : Array(String)) : String
@@ -148,7 +146,7 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      "[#{items.join(",")}]"
+      "[#{items.join(',')}]"
     end
   end
 
@@ -158,7 +156,7 @@ module Mint
     end
 
     def css_rule(name, definitions) : String
-      "#{name} {\n#{definitions.join("\n").indent}\n}"
+      "#{name} {\n#{definitions.join('\n').indent}\n}"
     end
 
     def css_rules(rules) : String
@@ -170,15 +168,13 @@ module Mint
     end
 
     def object(hash : Hash(String, String)) : String
-      if hash.any?
+      if hash.empty?
+        "{}"
+      else
         body =
-          hash
-            .map { |key, value| "#{key}: #{value}" }
-            .join(",\n")
+          hash.join(",\n") { |key, value| "#{key}: #{value}" }
 
         "{\n#{body.indent}\n}"
-      else
-        "{}"
       end
     end
 
@@ -207,9 +203,9 @@ module Mint
         last = items[index - 1]? if index > 0
 
         if last
-          if last.includes?("\n")
+          if last.includes?('\n')
             memo += "\n\n"
-          elsif item.includes?("\n")
+          elsif item.includes?('\n')
             memo += "\n\n"
           else
             memo += "\n"
@@ -217,7 +213,7 @@ module Mint
         end
 
         memo += item
-        memo += ";" unless memo.ends_with?(";")
+        memo += ";" unless memo.ends_with?(';')
         memo
       end
     end
@@ -276,10 +272,10 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      if items.any?
-        "[\n#{items.join(",\n").indent}\n]"
-      else
+      if items.empty?
         "[]"
+      else
+        "[\n#{items.join(",\n").indent}\n]"
       end
     end
 
@@ -361,7 +357,7 @@ module Mint
     end
 
     def call(name, props)
-      "#{name}(#{props.join(",")})"
+      "#{name}(#{props.join(',')})"
     end
 
     def function(name, arguments = [] of String) : String

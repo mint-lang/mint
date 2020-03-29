@@ -32,7 +32,9 @@ module Mint
     def initialize
       @root_dependencies = MintJson.parse_current.dependencies
 
-      if @root_dependencies.any?
+      if @root_dependencies.empty?
+        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
+      else
         terminal.puts "#{COG} Constructing dependency tree..."
         resolve_dependencies
 
@@ -42,12 +44,10 @@ module Mint
 
         terminal.puts "\n#{COG} Copying packages..."
         populate
-      else
-        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
       end
     end
 
-    # Prints the resolved packages adn their verions
+    # Prints the resolved packages and their verions
     def print_resolved
       @resolved.each do |name, version|
         name =
@@ -95,7 +95,7 @@ module Mint
         repository =
           @repositories[dependency]
 
-        # Check if this was resolved aready
+        # Check if this was resolved already
         resolved =
           @resolved[dependency]?
 

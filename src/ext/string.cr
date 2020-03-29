@@ -11,15 +11,13 @@ class String
   end
 
   def indent(spaces : Int32 = 2)
-    lines.map do |line|
+    lines.join('\n') do |line|
       line.empty? ? line : (" " * spaces) + line
-    end.join("\n")
+    end
   end
 
   def remove_all_leading_whitespace
-    lines
-      .map(&.lstrip(" \t"))
-      .join("\n")
+    lines.join('\n', &.lstrip(" \t"))
   end
 
   def remove_leading_whitespace
@@ -27,14 +25,12 @@ class String
     count =
       lines
         .reject(&.strip.empty?)
-        .map(&.leading_whitespace_count)
-        .compact
+        .compact_map(&.leading_whitespace_count)
         .min? || 0
 
     # Remove the minimum count of lines
     lines
-      .map { |line| line.lchop(line[0, count]) }
-      .join("\n")
+      .join('\n') { |line| line.lchop(line[0, count]) }
       .strip("\n\r")
   end
 
@@ -50,8 +46,6 @@ class String
   end
 
   def remove_trailing_whitespace
-    lines
-      .map(&.rstrip)
-      .join("\n")
+    lines.join('\n', &.rstrip)
   end
 end

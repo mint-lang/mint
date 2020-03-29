@@ -19,7 +19,7 @@ module Mint
         FileUtils.mkdir DIST_DIR
       end
 
-      terminal.print "#{COG} Compiling your application:\n"
+      terminal.puts "#{COG} Compiling your application:"
       File.write Path[DIST_DIR, "index.js"], index
 
       if SourceFiles.external_javascripts?

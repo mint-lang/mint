@@ -22,10 +22,10 @@ module Mint
 
       ["parallel {\n#{indent(body)}\n}",
        then_branch.to_s,
-       catches.join(" "),
+       catches.join(' '),
        finally.to_s,
       ].reject(&.strip.empty?)
-        .join(" ")
+        .join(' ')
     end
   end
 end

@@ -64,8 +64,7 @@ module Mint
             output
               .strip
               .split
-              .map { |version| Semver.parse(version) }
-              .compact
+              .compact_map { |version| Semver.parse(version) }
               .sort_by(&.to_s)
               .reverse
           else
@@ -123,7 +122,7 @@ module Mint
         status, _, error = run "git fetch --tags --force"
 
         if status.success?
-          terminal.print "  #{CHECKMARK} Updated #{id}\n"
+          terminal.puts "  #{CHECKMARK} Updated #{id}"
         else
           raise RepositoryCouldNotUpdate, {
             "result" => error,
@@ -137,7 +136,7 @@ module Mint
         status, _, error = run "git clone #{url} #{directory}", Dir.current
 
         if status.success?
-          terminal.print "  #{CHECKMARK} Cloned #{id}\n"
+          terminal.puts "  #{CHECKMARK} Cloned #{id}"
         else
           raise RepositoryCouldNotClone, {
             "result" => error,

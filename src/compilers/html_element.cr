@@ -15,7 +15,7 @@ module Mint
         result =
           value
             .select(String)
-            .join(" ")
+            .join(' ')
 
         "`#{result}`"
       end
@@ -47,10 +47,10 @@ module Mint
         node.styles.map { |item| lookups[item] }
 
       class_name =
-        if style_nodes.any?
-          style_nodes.map do |style_node|
+        unless style_nodes.empty?
+          style_nodes.join(' ') do |style_node|
             style_builder.style_pool.of(style_node, nil)
-          end.join(" ")
+          end
         end
 
       class_name_attribute =
@@ -95,7 +95,7 @@ module Mint
 
       styles << custom_styles if custom_styles
 
-      if styles.any?
+      unless styles.empty?
         attributes["style"] = "_style([#{styles.join(", ")}])"
       end
 

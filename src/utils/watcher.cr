@@ -26,7 +26,7 @@ module Mint
     def watch
       loop do
         detect do |diff|
-          yield diff.map(&.[0]).uniq if diff.any?
+          yield diff.map(&.[0]).uniq unless diff.empty?
         end
 
         sleep 0.5

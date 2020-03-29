@@ -46,14 +46,14 @@ module Mint
           } if spreads > 1
 
           variables =
-            item.items.map do |variable|
+            item.items.compact_map do |variable|
               case variable
               when Ast::Variable
                 {variable.value, condition.parameters[0], variable}
               when Ast::Spread
                 {variable.variable.value, condition, variable.variable}
               end
-            end.compact
+            end
 
           scope(variables) do
             resolve_expression.call

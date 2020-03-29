@@ -21,7 +21,7 @@ module Mint
           "=>"
         end
 
-      if replace_skipped(expression).includes?("\n")
+      if replace_skipped(expression).includes?('\n')
         "#{head}\n#{indent(expression)}"
       else
         "#{head} #{expression}"

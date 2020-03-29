@@ -11,7 +11,7 @@ module Mint
       items =
         format node.items, mutliline ? ",\n" : ", "
 
-      if mutliline || replace_skipped(items).includes?("\n")
+      if mutliline || replace_skipped(items).includes?('\n')
         "{\n#{indent(items)}\n}"
       else
         "{#{items}}"

@@ -9,7 +9,7 @@ module Mint
 
       if node.items.empty?
         "[]"
-      elsif multiline || replace_skipped(items).includes?("\n")
+      elsif multiline || replace_skipped(items).includes?('\n')
         "[\n#{indent(items)}\n]"
       else
         "[#{items}]"

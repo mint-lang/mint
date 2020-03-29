@@ -7,7 +7,7 @@ module Mint
       fields =
         format node.fields
 
-      if node.fields.size >= 2 || fields.any? { |string| replace_skipped(string).includes?("\n") }
+      if node.fields.size >= 2 || fields.any? { |string| replace_skipped(string).includes?('\n') }
         "{ #{variable} |\n#{indent(fields.join(",\n"))}\n}"
       else
         "{ #{variable} | #{fields.join("")} }"

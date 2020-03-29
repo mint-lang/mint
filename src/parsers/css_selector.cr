@@ -10,7 +10,7 @@ module Mint
           separator: ','
         ) { css_selector_name }.reject(&.empty?)
 
-        skip unless selectors.any?
+        skip if selectors.empty?
         skip unless char == '{'
 
         body = block(

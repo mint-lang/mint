@@ -15,7 +15,7 @@ message InstallerFailedToInstall do
 
   case eliminated
   when Array(String)
-    if eliminated.any?
+    unless eliminated.empty?
       block do
         text "All versions of"
         bold name

@@ -54,7 +54,7 @@ module Mint
     end
 
     def run
-      terminal.print "#{COG} Creating directory structure...\n"
+      terminal.puts "#{COG} Creating directory structure..."
       source_file_name = "source"
       tests_file_name = "tests"
 
@@ -63,7 +63,7 @@ module Mint
       FileUtils.mkdir source_file_name if !File.exists? source_file_name
       FileUtils.mkdir tests_file_name if !File.exists? tests_file_name
 
-      terminal.print "#{COG} Writing initial files...\n\n"
+      terminal.puts "#{COG} Writing initial files...\n"
       File.write(File.join(source_file_name, "Main.mint"), MAIN)
       File.write(File.join(tests_file_name, "Main.mint"), TEST)
       File.write("mint.json", json.to_pretty_json)
