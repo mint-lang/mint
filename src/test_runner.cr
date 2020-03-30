@@ -305,13 +305,13 @@ module Mint
             sum = @succeeded + @failed.size
 
             terminal.divider
-            puts "#{sum} tests"
-            puts "  #{ARROW} #{@succeeded} passed"
-            puts "  #{ARROW} #{@failed.size} failed"
+            terminal.puts "#{sum} tests"
+            terminal.puts "  #{ARROW} #{@succeeded} passed"
+            terminal.puts "  #{ARROW} #{@failed.size} failed"
 
             @failed.each do |failure|
-              puts "    #{failure.name}".colorize(:red)
-              puts "    |> #{failure.result}".colorize(:red)
+              terminal.puts "    #{failure.name}".colorize(:red)
+              terminal.puts "    |> #{failure.result}".colorize(:red)
             end
 
             Kemal.config.server.try(&.close) unless @flags.manual
@@ -320,7 +320,7 @@ module Mint
             data = Message.from_json(message)
             case data.type
             when "LOG"
-              puts data.result
+              terminal.puts data.result
             when "SUITE"
               @reporter.suite data.name
             when "SUCCEEDED"
