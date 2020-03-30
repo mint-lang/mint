@@ -158,7 +158,7 @@ module Mint
 
           rules.each do |rule|
             output[{at, condition}] ||= [] of String
-            output[{at, condition}] << "#{rule} {\n#{body.indent}\n}"
+            output[{at, condition}] << "#{rule.strip} {\n#{body.indent}\n}"
           end
         end
 
@@ -249,6 +249,8 @@ module Mint
             selector[item.name] ||= PropertyValue.new
             selector[item.name].default = item.value.join("")
           end
+        when Ast::CssKeyframes
+          process(item.selectors, "keyframes", [""], [item.name], style_node)
         when Ast::CssSelector
           process(item, at, selectors, conditions, style_node)
         when Ast::CssNestedAt
