@@ -1,10 +1,11 @@
 module Mint
   class Ast
-    class CssMedia < Node
-      getter content, body
+    class CssNestedAt < Node
+      getter content, body, name
 
       def initialize(@body : Array(Node),
                      @content : String,
+                     @name : String,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

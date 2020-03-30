@@ -1,0 +1,51 @@
+component Main {
+  property color : String = "blue"
+
+  style test {
+    @supports (screen) {
+      color: #{color};
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  constructor(props) {
+    super(props);
+
+    this._d({
+      a: [
+        null,
+        `blue`
+      ]
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a
+    };
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+@supports (screen) {
+  .a {
+    color: var(--a-a);
+  }
+}
+`);

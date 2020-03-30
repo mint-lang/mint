@@ -49,7 +49,7 @@ module Mint
         comment ||
           case_expression(for_css: true) ||
           if_expression(for_css: true) ||
-          css_media ||
+          css_nested_at ||
           css_definition_or_selector
       }.compact
     end
