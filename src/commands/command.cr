@@ -12,7 +12,7 @@ module Mint
       def execute(message)
         # On Ctrl+C and abort and exit
         Signal::INT.trap do
-          terminal.print "\n"
+          terminal.puts
           terminal.divider
           terminal.puts "Aborted! Exiting..."
           exit 1
@@ -61,7 +61,7 @@ module Mint
 
         # If printed we need to print a divider
         if printed
-          terminal.print "\n"
+          terminal.puts
           terminal.divider
         end
 

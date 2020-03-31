@@ -26,7 +26,7 @@ module Mint
 
     def run
       execute "Help" do
-        puts help
+        terminal.puts help
       end
     end
   end

@@ -16,7 +16,7 @@ module Mint
         execute "Showing version" do
           shard_file = read_file_at_compile_time("shard.yml")
           version = YAML.parse(shard_file)["version"]
-          puts "Mint #{version}"
+          terminal.puts "Mint #{version}"
         end
       end
     end

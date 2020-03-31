@@ -3,7 +3,7 @@ module Mint
     CSS_PROPERTY_NAMES =
       {{ read_file("#{__DIR__}/../assets/css_properties") }}
         .strip
-        .split('\n')
+        .lines
 
     type_error CssDefinitionTypeMismatch
     type_error CssNoProperty

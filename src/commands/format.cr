@@ -48,8 +48,8 @@ module Mint
             terminal.puts "All files are formatted!" if results.empty?
           end
         rescue
-          puts %(I was looking for a pattern that contains ".mint" files,)
-          puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
+          terminal.puts %(I was looking for a pattern that contains ".mint" files,)
+          terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
         end
       end
     end

@@ -399,7 +399,7 @@ module Mint
     private def next_variable
       @next_variable = @next_variable.succ
 
-      if ["do", "in", "for", "if"].includes?(@next_variable)
+      if @next_variable.in?("do", "in", "for", "if")
         next_variable
       else
         @next_variable

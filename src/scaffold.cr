@@ -63,7 +63,7 @@ module Mint
       FileUtils.mkdir source_file_name if !File.exists? source_file_name
       FileUtils.mkdir tests_file_name if !File.exists? tests_file_name
 
-      terminal.puts "#{COG} Writing initial files...\n"
+      terminal.print "#{COG} Writing initial files...\n\n"
       File.write(File.join(source_file_name, "Main.mint"), MAIN)
       File.write(File.join(tests_file_name, "Main.mint"), TEST)
       File.write("mint.json", json.to_pretty_json)

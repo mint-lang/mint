@@ -6,7 +6,7 @@ module Mint
 
       case lookups[node]
       when Ast::Provider
-        if (node.variable.value == "subscriptions")
+        if node.variable.value == "subscriptions"
           return "#{name}._subscriptions"
         end
       end

@@ -17,7 +17,7 @@ module Mint
           end
         else
           execute "Please provide project name" do
-            puts "Example: mint init my-project-name"
+            terminal.puts "Example: mint init my-project-name"
           end
         end
       end

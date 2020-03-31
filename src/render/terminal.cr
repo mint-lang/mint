@@ -10,12 +10,21 @@ module Mint
         end
 
         def close
-          print "\n" unless @last =~ /\n|\r/
+          puts unless @last.in?("\n", "\r")
+        end
+
+        def print(contents : String)
+          @last = contents.last
+          @io.print contents
         end
 
         def print(contents)
-          @last = contents.last
-          @io.print contents
+          print contents.to_s
+        end
+
+        def puts(contents = nil)
+          print contents if contents
+          print "\n"
         end
 
         def text(contents)
@@ -55,29 +64,29 @@ module Mint
           part = ""
 
           loop do
-            char = contents[index]?.try(&.to_s)
+            char = contents[index]?
 
-            if ((char && char =~ /\s|\n|\r/) || !char) && part.size > 0
+            if ((char && char.whitespace?) || !char) && part.size > 0
               if @cursor > @width
                 @cursor = part.size
-                print "\n"
+                puts
               end
 
-              print (yield part).to_s
+              print yield part
               part = ""
             end
 
             break unless char
 
             case char
-            when "\n", "\r"
+            when '\n', '\r'
               @cursor = 0
               print char
-            when .=~(/\s/)
-              @cursor += char.size
+            when .whitespace?
+              @cursor += 1
               print char
             else
-              @cursor += char.size
+              @cursor += 1
               part += char
             end
 
@@ -155,7 +164,7 @@ module Mint
       end
 
       def header(text)
-        print "#{text.colorize.mode(:bold)}\n"
+        puts text.colorize.mode(:bold)
       end
 
       def divider
@@ -178,17 +187,18 @@ module Mint
         io.print "#{content}#{divider}\n\n"
       end
 
-      def puts(message)
-        print "#{message}\n"
-      end
-
-      def print(object)
-        print object.to_s
-      end
-
       def print(contents : String)
         @position += contents.size
         io.print contents
+      end
+
+      def print(contents)
+        print contents.to_s
+      end
+
+      def puts(contents = nil)
+        print contents if contents
+        print "\n"
       end
     end
   end

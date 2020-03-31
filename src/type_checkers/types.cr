@@ -53,7 +53,7 @@ module Mint
           params =
             parameters.map(&.to_pretty.as(String))
 
-          if params.any?(&.=~(/\n/)) || params.size > 4
+          if params.any?(&.includes?('\n')) || params.size > 4
             "#{name}(\n#{params.join(",\n").indent})"
           else
             "#{name}(#{params.join(", ")})"
@@ -89,14 +89,14 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
               end
             end
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "#{name}(\n#{defs.join(",\n").indent})"
         else
           "#{name}(#{defs.join(", ")})"
@@ -156,7 +156,7 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
@@ -165,7 +165,7 @@ module Mint
 
         defs << "..."
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "(\n#{defs.join(",\n").indent})"
         else
           "(#{defs.join(", ")})"
@@ -221,7 +221,7 @@ module Mint
 
         if node1.is_a?(Variable)
           if node1 != node2
-            if (occurns_in_type(node1, node2))
+            if occurns_in_type(node1, node2)
               raise "Recursive unification!"
             end
             node1.instance = node2
@@ -254,7 +254,7 @@ module Mint
       def occurns_in_type(node1, node2)
         node2 = prune(node2)
 
-        if (node1 == node2)
+        if node1 == node2
           true
         elsif node2.is_a?(Type)
           occurns_in_type_array(node1, node2.parameters)
