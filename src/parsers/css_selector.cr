@@ -3,7 +3,7 @@ module Mint
     syntax_error CssSelectorExpectedOpeningBracket
     syntax_error CssSelectorExpectedClosingBracket
 
-    def css_selector(only_defintions : Bool = false) : Ast::CssSelector | Nil
+    def css_selector(only_definitions : Bool = false) : Ast::CssSelector | Nil
       start do |start_position|
         selectors = list(
           terminator: '{',
@@ -16,7 +16,7 @@ module Mint
         body = block(
           opening_bracket: CssSelectorExpectedOpeningBracket,
           closing_bracket: CssSelectorExpectedClosingBracket) do
-          if only_defintions
+          if only_definitions
             many { comment || css_definition }.compact
           else
             css_body

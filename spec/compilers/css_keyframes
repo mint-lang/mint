@@ -11,6 +11,16 @@ component Main {
         opacity: #{opacity};
       }
     }
+
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
   }
 
   fun render : Html {
@@ -56,6 +66,16 @@ _insertStyles(`
 
   to {
     opacity: var(--a-a);
+  }
+}
+
+@keyframes animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 `);

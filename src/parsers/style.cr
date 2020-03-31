@@ -31,7 +31,7 @@ module Mint
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          many { css_keyframes || css_node }.compact
+          many { css_keyframes || css_font_face || css_node }.compact
         end
 
         Ast::Style.new(
