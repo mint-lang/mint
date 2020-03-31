@@ -112,7 +112,7 @@ module Mint
   end
 
   # This class is responsible to build the CSS of "style" tags by resolving
-  # nested media queries and selectors, handling cases of the same rules in
+  # nested nested at queries and selectors, handling cases of the same rules in
   # different places.
   class StyleBuilder
     class Selector < Hash(String, PropertyValue)
@@ -131,12 +131,12 @@ module Mint
 
       # This is the main data structure:
       #
-      #   Hash(Tuple(MediaQueries, Selectors), Selector)
+      #   Hash(Tuple(String, Array(String), Array(String)), Selector)
       #
       # Basically it allows to identify a specific set of rules in a
-      # specific set of media queries in case their properties are
-      # defined in serveral places.
-      @selectors = {} of Tuple(Array(String), Array(String)) => Selector
+      # specific set of nested at queries (media, supports) in case their
+      # properties are defined in serveral places.
+      @selectors = {} of Tuple(String | Nil, String | Nil, Array(String), Array(String)) => Selector
 
       # This hash contains variables for a specific "style" tag, which will
       # be compiled by the compiler itself when compiling an HTML element
@@ -148,25 +148,25 @@ module Mint
 
     # Compiles the processed data into a CSS style sheet.
     def compile
-      output = {} of Array(String) => Array(String)
+      output = {} of Tuple(String | Nil, String | Nil, Array(String)) => Array(String)
 
       selectors
         .reject { |_, v| v.empty? }
-        .each do |(medias, rules), properties|
+        .each do |(id, at, condition, rules), properties|
           body =
             properties.join('\n') { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
-            output[medias] ||= [] of String
-            output[medias] << "#{rule} {\n#{body.indent}\n}"
+            output[{id, at, condition}] ||= [] of String
+            output[{id, at, condition}] << "#{rule.strip} {\n#{body.indent}\n}"
           end
         end
 
-      output.join("\n\n") do |medias, rules|
-        if medias.empty?
+      output.join("\n\n") do |(_, at, condition), rules|
+        if at.nil? && condition.empty?
           rules.join("\n\n")
         else
-          "@media #{medias.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
+          "@#{at} #{condition.join(" and ")} {\n#{rules.join("\n\n").indent}\n}"
         end
       end
     end
@@ -192,13 +192,15 @@ module Mint
       selectors =
         ["." + style_pool.of(node, nil)]
 
-      process(node.body, selectors, [] of String, node)
+      process(node.body, nil, nil, selectors, [] of String, node)
     end
 
     # Processes a Ast::CssSelector
     def process(node : Ast::CssSelector,
+                id : String | Nil,
+                at : String | Nil,
                 parents : Array(String),
-                media : Array(String),
+                conditions : Array(String),
                 style_node : Ast::Node)
       selectors = [] of String
 
@@ -208,25 +210,29 @@ module Mint
         end
       end
 
-      process(node.body, selectors, media, style_node)
+      process(node.body, id, at, selectors, conditions, style_node)
     end
 
-    # Processes an Ast::Media
-    def process(node : Ast::CssMedia,
+    # Processes an Ast::CssNestedAt
+    def process(node : Ast::CssNestedAt,
+                id : String | Nil,
+                at : String | Nil,
                 selectors : Array(String),
-                media : Array(String),
+                conditions : Array(String),
                 style_node : Ast::Node)
-      process(node.body, selectors, media + [node.content], style_node)
+      process(node.body, id, at, selectors, conditions + [node.content], style_node)
     end
 
     # Processes the body of a CSS Ast::Node.
     def process(body : Array(Ast::Node),
+                id : String | Nil,
+                at : String | Nil,
                 selectors : Array(String),
-                media : Array(String),
+                conditions : Array(String),
                 style_node : Ast::Node)
       # Create a selector for this specific state
       selector =
-        @selectors[{media, selectors}] ||= Selector.new
+        @selectors[{id, at, conditions, selectors}] ||= Selector.new
 
       body.each do |item|
         case item
@@ -246,10 +252,14 @@ module Mint
             selector[item.name] ||= PropertyValue.new
             selector[item.name].default = item.value.join("")
           end
+        when Ast::CssFontFace
+          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], [] of String, style_node)
+        when Ast::CssKeyframes
+          process(item.selectors, UUID.random.to_s, "keyframes", [""], [item.name], style_node)
         when Ast::CssSelector
-          process(item, selectors, media, style_node)
-        when Ast::CssMedia
-          process(item, selectors, media, style_node)
+          process(item, id, at, selectors, conditions, style_node)
+        when Ast::CssNestedAt
+          process(item, id, item.name, selectors, conditions, style_node)
         when Ast::Case
           cases[{style_node, selector}] ||= [] of Ast::Case
           cases[{style_node, selector}] << item

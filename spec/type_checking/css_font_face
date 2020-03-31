@@ -1,0 +1,31 @@
+component Main {
+  style test {
+    @font-face {
+      src: url(sansation_light.woff);
+      font-family: myFirstFont;
+    }
+
+    @font-face {
+      src: url(sansation_light2.woff);
+      font-family: myFirstFont;
+      font-weight: bold;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------CssFontFaceInterpolation
+component Main {
+  style test {
+    @font-face {
+      src: url(sansation_light.woff);
+      font-family: #{"myFirstFont"};
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}

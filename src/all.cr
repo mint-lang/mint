@@ -6,6 +6,7 @@ require "file_utils"
 require "colorize"
 require "markd"
 require "kemal"
+require "uuid"
 require "html"
 require "json"
 

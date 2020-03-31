@@ -1,11 +1,11 @@
-message CssMediaExpectedSpaceAfterKeyword do
+message CssNestedAtExpectedSpaceAfterKeyword do
   title "Syntax Error"
 
   block do
     text "There must be a space between the"
-    bold "@media keyword"
+    bold "at rule"
     text "and any"
-    bold "media feature expressions."
+    bold "conditions."
   end
 
   was_looking_for "space", got

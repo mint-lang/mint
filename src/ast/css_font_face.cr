@@ -1,10 +1,9 @@
 module Mint
   class Ast
-    class CssMedia < Node
-      getter content, body
+    class CssFontFace < Node
+      getter definitions
 
-      def initialize(@body : Array(Node),
-                     @content : String,
+      def initialize(@definitions : Array(Node),
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
