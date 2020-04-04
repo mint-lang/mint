@@ -28,7 +28,10 @@ module Mint
           statements << expression
 
           if match.spread?
-            {"Array.isArray(#{variable})", js.statements(statements)}
+            {
+              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size}",
+              js.statements(statements),
+            }
           else
             {
               "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",

@@ -25,7 +25,7 @@ class A extends _C {
       } else if (Array.isArray(a) && a.length === 2) {
         const [c,d] = a;
         return ``;
-      } else if (Array.isArray(a)) {
+      } else if (Array.isArray(a) && a.length >= 3) {
         const __ = Array.from(a);
         const e = __.shift();
         const f = __.pop();
