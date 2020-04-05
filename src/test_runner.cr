@@ -12,8 +12,10 @@ module Mint
       @page_source ||= <<-HTML
       <html>
         <head>
+          <link rel="stylesheet" href="external-stylesheets.css">
         </head>
         <body>
+          <script src="/external-javascripts.js"></script>
           <script src="/runtime.js"></script>
           <script src="/tests"></script>
           <script>
@@ -286,6 +288,18 @@ module Mint
         @failed = [] of Message
         @succeeded = 0
         page_source
+      end
+
+      get "/external-javascripts.js" do |env|
+        env.response.content_type = "application/javascript"
+
+        SourceFiles.external_javascripts.to_s
+      end
+
+      get "/external-stylesheets.css" do |env|
+        env.response.content_type = "text/css"
+
+        SourceFiles.external_stylesheets.to_s
       end
 
       get "/runtime.js" do
