@@ -33,6 +33,15 @@ component Main {
     }
   }
 }
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case ([]) {
+      [x, ...rest] => ""
+      [] => ""
+    }
+  }
+}
 ------------------------------------------------------------------CaseNotCovered
 component Main {
   fun render : String {

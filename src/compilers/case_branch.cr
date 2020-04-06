@@ -29,7 +29,7 @@ module Mint
 
           if match.spread?
             {
-              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size}",
+              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size - 1}",
               js.statements(statements),
             }
           else
