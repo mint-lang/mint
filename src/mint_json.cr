@@ -35,7 +35,7 @@ module Mint
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
       new File.read(path), Dir.current, path
-    rescue exception : Errno
+    rescue exception : IO::Error
       raise MintJsonInvalidFile, {
         "result" => exception.to_s,
         "path"   => path,
