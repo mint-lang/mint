@@ -74,6 +74,6 @@ suite "Set.map" {
 
 suite "Set.size" {
   test "it returns the size of the set" {
-    Set.size(Set.fromArray([0,1,2])) == 3
+    Set.size(Set.fromArray([0, 1, 2])) == 3
   }
 }

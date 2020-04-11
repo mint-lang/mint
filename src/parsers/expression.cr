@@ -28,6 +28,9 @@ module Mint
     def expression : Ast::Expression | Nil
       return unless left = basic_expression
 
+      # Make sure there is no whitespace after an expression
+      track_back_whitespace
+
       # Handle array access
       left = array_access_or_call(left)
 
