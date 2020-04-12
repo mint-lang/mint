@@ -82,7 +82,7 @@ module Mint
         ].max
 
       result =
-        relevant_lines.map do |line|
+        relevant_lines.map do |line| # ameba:disable Lint/ShadowingOuterLocalVar
           line_number =
             (line.index + 1).to_s.rjust(gutter_width)
 
@@ -109,8 +109,17 @@ module Mint
           "#{gutter} #{line.highlight(from, to)} #{line_padding}#{divier}"
         end
 
+      line =
+        input[0..from].lines.size
+
+      column =
+        input[0..from].lines.last.size
+
+      title =
+        "#{filename}:#{line}:#{column}"
+
       divider =
-        ("─" * (min_width - filename.size - gutter_width - 5)).colorize.mode(:dim)
+        ("─" * (min_width - title.size - gutter_width - 5)).colorize.mode(:dim)
 
       gutter_divider =
         "─" * gutter_width
@@ -121,17 +130,17 @@ module Mint
       footer =
         ("└#{gutter_divider}┴#{footer_divider}┘").colorize.mode(:dim)
 
-      title =
-        filename.colorize.mode(:bold)
-
       header_start =
         "┌#{gutter_divider}┬".colorize.mode(:dim)
 
       header_end =
         "┐".colorize.mode(:dim).to_s
 
+      title_colorized =
+        title.colorize.mode(:bold)
+
       header =
-        "#{header_start} #{title} #{divider}#{header_end}"
+        "#{header_start} #{title_colorized} #{divider}#{header_end}"
 
       result =
         result.join('\n')
