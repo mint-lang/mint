@@ -1,5 +1,10 @@
 module Mint
   class Scaffold
+    HEAD =
+      <<-HEAD
+      <!-- Put HTML tags here for loading JavaScript or CSS files. -->
+      HEAD
+
     MAIN =
       <<-MAIN
       component Main {
@@ -54,27 +59,41 @@ module Mint
     end
 
     def run
-      terminal.puts "#{COG} Creating directory structure..."
-      source_file_name = "source"
-      tests_file_name = "tests"
+      files = {
+        File.join("assets", "head.html") => HEAD,
+        File.join("source", "Main.mint") => MAIN,
+        File.join("tests", "Main.mint")  => TEST,
+        "mint.json"                      => json.to_pretty_json,
+        ".gitignore"                     => GIT_IGNORE,
+      }
+
+      directory =
+        name
+          .colorize(:light_green)
+          .mode(:bold)
+
+      terminal.puts "#{COG} Creating directory: #{directory}"
 
       FileUtils.mkdir_p path
       FileUtils.cd path
-      FileUtils.mkdir source_file_name if !File.exists? source_file_name
-      FileUtils.mkdir tests_file_name if !File.exists? tests_file_name
 
-      terminal.print "#{COG} Writing initial files...\n\n"
-      File.write(File.join(source_file_name, "Main.mint"), MAIN)
-      File.write(File.join(tests_file_name, "Main.mint"), TEST)
-      File.write("mint.json", json.to_pretty_json)
-      File.write(".gitignore", GIT_IGNORE)
+      terminal.puts "#{COG} Writing initial files:"
 
-      Installer.new
+      files.each do |path, contents|
+        FileUtils.mkdir_p File.dirname(path)
+        terminal.puts "  #{ARROW} #{path}"
+
+        File.write(path, contents)
+      end
     end
 
     def json
       {
-        "name"               => name,
+        "name"        => name,
+        "application" => {
+          "head"  => "assets/head.html",
+          "title" => name,
+        },
         "source-directories" => [
           "source",
         ],
