@@ -1,12 +1,18 @@
-component Main {
+component Test {
   property name : String = "Joe"
 
   fun render : Html {
     <div/>
   }
 }
-------------------------------------------------------------PropertyTypeMismatch
+
 component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+------------------------------------------------------------PropertyTypeMismatch
+component Test {
   property name : String = true
 
   fun render : Html {
@@ -14,33 +20,70 @@ component Main {
   }
 }
 
-------------------------------------------------------------PropertyTypeMismatch
 component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+------------------------------------------------------------PropertyTypeMismatch
+component Test {
   property name : Test(a) = true
 
   fun render : Html {
     <div/>
   }
 }
--------------------------------------------------------PropertyWithTypeVariables
+
 component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-------------------------------------------------------PropertyWithTypeVariables
+component Test {
   property name = []
 
   fun render : Html {
     <div/>
   }
 }
-------------------------------------------------------------PropertyTypeMismatch
+
 component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+------------------------------------------------------------PropertyTypeMismatch
+component Test {
   property name : Test = { a = "Hello" }
 
   fun render : Html {
     <div/>
   }
 }
------------------------------------------------------PropertyTypeOrDefaultNeeded
+
 component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-----------------------------------------------------PropertyTypeOrDefaultNeeded
+component Test {
   property name
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-----------------------------------------------------------ComponentMainProperty
+component Main {
+  property name : String = "Joe"
 
   fun render : Html {
     <div/>

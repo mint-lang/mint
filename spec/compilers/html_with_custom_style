@@ -1,5 +1,5 @@
 component Main {
-  property background : String = "blue"
+  state background : String = "blue"
 
   get styles : Map(String, String) {
     ``
@@ -15,16 +15,17 @@ class A extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      b: [
-        null,
-        `blue`
-      ]
+    this.state = new Record({
+      b: `blue`
     });
   }
 
   get a() {
     return;
+  }
+
+  get b() {
+    return this.state.b;
   }
 
   render() {

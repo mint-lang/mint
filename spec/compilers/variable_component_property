@@ -1,8 +1,14 @@
-component Main {
+component Test {
   property test : String = "Hello"
 
   fun render : String {
     test
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
   }
 }
 --------------------------------------------------------------------------------
@@ -23,4 +29,14 @@ class A extends _C {
   }
 };
 
-A.displayName = "Main";
+A.displayName = "Test";
+
+class B extends _C {
+  render() {
+    return $a();
+  }
+};
+
+B.displayName = "Main";
+
+const $a = _m(() => _h(A, {}));

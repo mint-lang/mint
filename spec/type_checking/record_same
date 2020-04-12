@@ -32,7 +32,7 @@ record Test2 {
 }
 
 component Main {
-  property test : Test =
+  state test : Test =
     {
       a = "Hello",
       b = 0

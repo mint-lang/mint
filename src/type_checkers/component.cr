@@ -11,6 +11,7 @@ module Mint
     type_error ComponentMultipleExposed
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
+    type_error ComponentMainProperty
 
     def static_type_signature(node : Ast::Component)
       fields = {} of String => Checkable
@@ -58,6 +59,15 @@ module Mint
       check_names(node.functions, ComponentEntityNameConflict, checked)
       check_names(node.states, ComponentStateNameConflict, checked)
       check_names(node.gets, ComponentEntityNameConflict, checked)
+
+      # Checking for properties in Main
+
+      if node.name == "Main" && (property = node.properties.first?)
+        raise ComponentMainProperty, {
+          "property" => property,
+          "node"     => node,
+        }
+      end
 
       # Checking for ref conflicts
       node.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|

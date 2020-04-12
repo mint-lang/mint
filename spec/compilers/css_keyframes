@@ -1,5 +1,5 @@
 component Main {
-  property opacity : Number = 1
+  state opacity : Number = 1
 
   style test {
     @keyframes animation {
@@ -32,11 +32,8 @@ class A extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      a: [
-        null,
-        1
-      ]
+    this.state = new Record({
+      a: 1
     });
   }
 
@@ -46,6 +43,10 @@ class A extends _C {
     };
 
     return _;
+  }
+
+  get a() {
+    return this.state.a;
   }
 
   render() {

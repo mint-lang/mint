@@ -27,7 +27,7 @@ component Main {
 }
 ----------------------------------------------------------------CallNotAFunction
 component Main {
-  property x : String = ""
+  state x : String = ""
 
   fun b : String {
     x()

@@ -1,5 +1,5 @@
 component Main {
-  property color : String = "blue"
+  state color : String = "blue"
 
   style test {
     @supports (screen) {
@@ -16,11 +16,8 @@ class A extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      a: [
-        null,
-        `blue`
-      ]
+    this.state = new Record({
+      a: `blue`
     });
   }
 
@@ -30,6 +27,10 @@ class A extends _C {
     };
 
     return _;
+  }
+
+  get a() {
+    return this.state.a;
   }
 
   render() {
