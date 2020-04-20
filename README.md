@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
-[![Discord](https://img.shields.io/discord/698214718241767445)](https://discordapp.com/invite/ytxVNw)
+[![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
 [![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
