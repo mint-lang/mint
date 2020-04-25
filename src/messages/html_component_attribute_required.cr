@@ -5,6 +5,6 @@ message HtmlComponentAttributeRequired do
     text "One of the required properties were not specified for a component."
   end
 
-  snippet property, "The property in question is:"
+  snippet property_node, "The property in question is:"
   snippet node, "The component was referenced here:"
 end

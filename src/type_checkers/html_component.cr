@@ -33,8 +33,8 @@ module Mint
         next if property.default
 
         raise HtmlComponentAttributeRequired, {
-          "property" => property,
-          "node"     => node,
+          "property_node" => property,
+          "node"          => node,
         } unless attributes.includes?(property.name.value)
       end
 
