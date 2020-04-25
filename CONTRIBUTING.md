@@ -28,6 +28,12 @@ Then, follow [this instruction][2].
 
 [2]: https://crystal-lang.org/docs/installation/on_debian_and_ubuntu.html
 
+### Installing Mint dependencies
+
+```
+$ shards install
+```
+
 ### Building Mint
 
 We use Makefile build automation. Before running this command, create a
