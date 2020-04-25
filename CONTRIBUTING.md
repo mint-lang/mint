@@ -31,7 +31,7 @@ Then, follow [this instruction][2].
 ### Install the project's crystal dependencies
 
 ```
-shards install
+$ shards install
 ```
 
 ### Building Mint
