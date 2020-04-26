@@ -13,6 +13,7 @@ install:
 
 script:
   - crystal spec --error-on-warnings
+  - crystal tool format --check
   - bin/ameba
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
     echo "Not testing core on osx!";
