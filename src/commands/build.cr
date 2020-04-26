@@ -15,7 +15,7 @@ module Mint
         default: false
 
       define_flag skip_icons : Bool,
-        description: "If specified the application icons will not be generated"  ,
+        description: "If specified the application icons will not be generated",
         default: false
 
       def run

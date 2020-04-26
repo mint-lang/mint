@@ -1,15 +1,25 @@
 language: crystal
 
+crystal:
+  - latest
+  - nightly
+
+jobs:
+  allow_failures:
+    - crystal: nightly
+
 install:
   - shards install
 
 script:
-  - crystal spec
+  - crystal spec --error-on-warnings --error-trace
+  - crystal tool format --check
   - bin/ameba
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then
-    echo "Not testing core on osx!";
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+        echo "Not testing core on osx!"
     else
-    make test-core;
+        make test-core
     fi
 
 os:
@@ -18,10 +28,11 @@ os:
 
 before_deploy:
   - mkdir build
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release;
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+        crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release
     else
-    crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --static;
+        crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME --release --static
     fi
 
 deploy:
@@ -32,11 +43,9 @@ deploy:
     bucket: mint-lang
     acl: public_read
     local_dir: build
-    skip_cleanup: true
 
   - provider: releases
-    skip_cleanup: true
-    api_key:
+    token:
       secure: j24NX9YWlWigJ1L5csx+GpbcLBY0RUzD029uFBNGEN9C1nXGIdtXVaxUrd+vCqJf3I40qykKZdajwW8bkt/79KDGDehytDPczP6FKk1NBMR+6usNzgzTMQLg0e7AGn7tVrBRS2cZUaiB6V23K7TNt6O67/jf55CgMsCUXAqycs8TowcXQ7KQvLrN1c2L1X5ypzGgF6Lc484ry9NVsXmr0fcKMJfCaOlJxMhg479GNPwS3EwGs9GrT5STLO+XcssfdFE8ij6eTE7SDtEQgm2MNlysQ6pPbs24k77coC6bVm/KIJMHyResBmOuKRLiY07fEt6LemdxOcfwK59LZCh4ccdawUhI/EhGg6K8QLXeStmRw835pD2juNqfg9Icje1eCkLQJ+6I+FD9QhwRr2ix+yCzVYX3Vfe6wCKqNfnc/kEz/z2UubXrcZeADsOTWIbJXOx0pLue9SnPFXVc/kjp1tUtgQMaZeC8dAhO0Il6miRP5uSEO6Fd/LRFs0LxHoSpbrPLbXggVQd9qm1RKIHaksn8Ajy35DO+vmA0XfXeuAtSlSECsyKXmueGnF+yTXAy/8+S/eKQQbfIAMRUx0SIPKdS86Z5ziWU/afcZNaWWtgI73So88DUG3rPlPwLayV6BpwVxMKbbyDMBOUxWIcZ17orr3KhXVJgpklrFVrdUuU=
     file_glob: true
     file: build/*
