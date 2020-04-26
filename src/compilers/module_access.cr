@@ -9,6 +9,8 @@ module Mint
         if node.variable.value == "subscriptions"
           return "#{name}._subscriptions"
         end
+      else
+        # ignore
       end
 
       variable =

@@ -29,5 +29,7 @@ message InstallerFailedToInstall do
         bold name
       end
     end
+  else
+    # ignore
   end
 end

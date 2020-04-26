@@ -5,6 +5,8 @@ module Mint
         case item
         when Ast::Node
           resolve item
+        else
+          # ignore
         end
       end
 

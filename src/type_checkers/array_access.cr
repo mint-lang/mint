@@ -20,6 +20,8 @@ module Mint
           "node"     => index,
           "got"      => type,
         } unless Comparer.compare(type, NUMBER)
+      else
+        # ignore
       end
 
       type =

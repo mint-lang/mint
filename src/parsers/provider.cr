@@ -44,6 +44,8 @@ module Mint
             item.keep_name = true if item.name.value.in?("attach", "detach")
           when Ast::Comment
             comments << item
+          else
+            # ignore
           end
         end
 

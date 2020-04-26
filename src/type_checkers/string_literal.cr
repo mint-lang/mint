@@ -14,6 +14,8 @@ module Mint
             "got"      => item_type,
             "node"     => item,
           } unless Comparer.matches_any?(item_type, [STRING, NUMBER])
+        else
+          # ignore
         end
       end
 

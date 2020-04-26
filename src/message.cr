@@ -327,9 +327,13 @@ module Mint
                 bold item.value
               when Code
                 code item.value
+              else
+                # ignore
               end
             end
           end
+        else
+          # ignore
         end
       end
 

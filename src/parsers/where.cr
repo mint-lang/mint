@@ -29,6 +29,8 @@ module Mint
             statements << item
           when Ast::Comment
             comments << item
+          else
+            # ignore
           end
         end
 

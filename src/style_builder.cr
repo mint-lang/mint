@@ -266,6 +266,8 @@ module Mint
         when Ast::If
           ifs[{style_node, selector}] ||= [] of Ast::If
           ifs[{style_node, selector}] << item
+        else
+          # ignore
         end
       end
     end
