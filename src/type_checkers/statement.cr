@@ -21,6 +21,8 @@ module Mint
             "got"        => type,
           } if type.parameters.size < target.parameters.size
         end
+      else
+        # ignore
       end
 
       types[node] = type

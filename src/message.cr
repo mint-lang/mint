@@ -9,6 +9,8 @@ module Mint
         case value
         when String
           @block << Text.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -41,6 +43,8 @@ module Mint
         when Ast::Node
           block { text message } if message
           @elements << Snippet.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -48,6 +52,8 @@ module Mint
         case value
         when TypeChecker::Checkable
           @elements << Type.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -55,6 +61,8 @@ module Mint
         case value
         when String
           @elements << Pre.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -67,6 +75,8 @@ module Mint
             end
             @elements << StringList.new(value: value)
           end
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -76,6 +86,8 @@ module Mint
           unless value.empty?
             @elements << StringList.new(value: value)
           end
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -83,6 +95,8 @@ module Mint
         case value
         when Array(TypeChecker::Checkable)
           @elements << TypeList.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -327,9 +341,13 @@ module Mint
                 bold item.value
               when Code
                 code item.value
+              else
+                # ignore
               end
             end
           end
+        else
+          # ignore
         end
       end
 

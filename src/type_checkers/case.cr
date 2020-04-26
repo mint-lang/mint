@@ -110,6 +110,8 @@ module Mint
             "node" => node,
           }
         end
+      else
+        # ignore
       end
 
       first

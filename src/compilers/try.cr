@@ -65,6 +65,8 @@ module Mint
                     js.statements(catched.compact)
                   end
                 end
+              else
+                # ignore
               end
 
             if catches && !catches.empty?

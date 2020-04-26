@@ -75,6 +75,8 @@ module Mint
         case result
         when .is_a?(Level)
           result[0]
+        else
+          # ignore
         end
       end
 
@@ -118,6 +120,8 @@ module Mint
           target.parameters.find(&.value.==(variable)).try do |item|
             {node, target.parameters.index(item).not_nil!}
           end
+        else
+          # ignore
         end
       end
 
@@ -129,6 +133,8 @@ module Mint
           target.parameters.find(&.value.==(variable)).try do |item|
             {node, target.parameters.index(item).not_nil!}
           end
+        else
+          # ignore
         end
       end
 
@@ -183,6 +189,8 @@ module Mint
           case node
           when Ast::Function, Ast::Get
             @functions[node]?
+          else
+            # ignore
           end
 
         if node.is_a?(Ast::Component) ||
@@ -226,6 +234,8 @@ module Mint
               end
           when Ast::HtmlElement
             memo[variable.value] = item
+          else
+            # ignore
           end
 
           memo

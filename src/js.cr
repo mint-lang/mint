@@ -321,6 +321,8 @@ module Mint
       case node
       when Ast::Function
         return node.name.value if node.keep_name
+      else
+        # ignore
       end
 
       @cache[node] ||= next_variable
