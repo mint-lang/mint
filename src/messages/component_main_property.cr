@@ -7,6 +7,6 @@ message ComponentMainProperty do
     text "component cannot have properties."
   end
 
-  snippet property, "A property is defined here:"
+  snippet property_node, "A property is defined here:"
   snippet node, "The component is here:"
 end

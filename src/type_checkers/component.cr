@@ -64,8 +64,8 @@ module Mint
 
       if node.name == "Main" && (property = node.properties.first?)
         raise ComponentMainProperty, {
-          "property" => property,
-          "node"     => node,
+          "property_node" => property,
+          "node"          => node,
         }
       end
 
