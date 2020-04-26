@@ -12,7 +12,7 @@ install:
   - shards install
 
 script:
-  - crystal spec
+  - crystal spec --error-on-warnings
   - bin/ameba
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
     echo "Not testing core on osx!";
