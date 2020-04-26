@@ -343,6 +343,8 @@ module Mint
             when "FAILED"
               @reporter.failed data.name, data.result
               @failed << data
+            else
+              # ignore
             end
           end
         end
