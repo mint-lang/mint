@@ -24,7 +24,7 @@ class String
     # Count the leading whitespace in each line
     count =
       lines
-        .reject(&.strip.empty?)
+        .reject!(&.strip.empty?)
         .compact_map(&.leading_whitespace_count)
         .min? || 0
 

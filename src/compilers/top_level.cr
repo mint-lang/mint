@@ -129,7 +129,7 @@ module Mint
 
       elements =
         (enums + records + providers + routes + modules + components + static + stores + [footer] + suites)
-          .reject(&.empty?)
+          .reject!(&.empty?)
 
       js.statements(elements)
     end

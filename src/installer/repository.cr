@@ -65,8 +65,8 @@ module Mint
               .strip
               .split
               .compact_map { |version| Semver.parse(version) }
-              .sort_by(&.to_s)
-              .reverse
+              .sort_by!(&.to_s)
+              .reverse!
           else
             raise RepositoryCouldNotGetVersions, {
               "result" => error,

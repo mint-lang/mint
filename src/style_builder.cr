@@ -74,7 +74,7 @@ module Mint
             statements =
               conditions
                 .flatten
-                .sort_by(&.from)
+                .sort_by!(&.from)
                 .map do |item|
                   proc =
                     (Proc(String, String).new { |name|
@@ -107,7 +107,7 @@ module Mint
           js.const("_", static),
           compiled_conditions,
           js.return("_"),
-        ]].flatten.reject(&.empty?)))
+        ]].flatten.reject!(&.empty?)))
     end
   end
 

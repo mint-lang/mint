@@ -16,7 +16,7 @@ module Mint
         ast.suites +
         ast.enums +
         ast.comments
-      ).sort_by(&.from)
+      ).sort_by!(&.from)
         .map do |node|
           format node
         end

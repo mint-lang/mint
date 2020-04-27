@@ -9,7 +9,7 @@ module Mint
           else
             compile part
           end
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
           .join(" + ")
       else
         result =
@@ -38,8 +38,9 @@ module Mint
       attributes =
         node
           .attributes
-          .reject(&.name.value.==("class"))
-          .reject(&.name.value.==("style"))
+          .dup
+          .reject!(&.name.value.==("class"))
+          .reject!(&.name.value.==("style"))
           .map { |attribute| resolve(attribute) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
@@ -114,7 +115,7 @@ module Mint
         [%("#{tag}"),
          attributes,
          children]
-          .reject(&.empty?)
+          .reject!(&.empty?)
           .join(", ")
 
       "_h(#{contents})"

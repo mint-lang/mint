@@ -19,7 +19,7 @@ module Mint
       styles =
         node.styles.map do |style_node|
           style_builder.compile_style(style_node, self)
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
 
       functions =
         compile_component_functions node
@@ -184,7 +184,7 @@ module Mint
           end
         end
 
-      (specials + others).compact.reject(&.empty?)
+      (specials + others).compact.reject!(&.empty?)
     end
   end
 end

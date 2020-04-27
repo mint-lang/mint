@@ -31,7 +31,7 @@ module Mint
         node.comment.try { |item| "#{format item}\n" }
 
       head =
-        ["fun", name, arguments, type].compact.join(' ')
+        ["fun", name, arguments, type].compact!.join(' ')
 
       "#{comment}#{head} {\n#{indent(body)}\n}#{where}"
     end
