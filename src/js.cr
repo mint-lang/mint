@@ -356,7 +356,7 @@ module Mint
       "#{name}(#{props.join(',')})"
     end
 
-    def function(name, arguments = [] of String) : String
+    def function(name, arguments = %w[]) : String
       function(name, arguments, yield)
     end
 

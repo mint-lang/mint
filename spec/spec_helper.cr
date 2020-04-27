@@ -2,7 +2,7 @@ require "spec"
 require "diff"
 
 MINT_ENV["TEST"] = "TRUE"
-ERROR_MESSAGES = [] of String
+ERROR_MESSAGES = %w[]
 
 class Mint::Error < Exception
   macro inherited

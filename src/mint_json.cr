@@ -18,11 +18,11 @@ module Mint
 
     getter dependencies = [] of Mint::Installer::Dependency
     getter formatter_config = Formatter::Config.new
-    getter source_directories = [] of String
-    getter test_directories = [] of String
+    getter source_directories = %w[]
+    getter test_directories = %w[]
     getter external_files = {
-      "javascripts" => [] of String,
-      "stylesheets" => [] of String,
+      "javascripts" => %w[],
+      "stylesheets" => %w[],
     }
     getter application = Application.new
     getter name = ""
@@ -499,7 +499,7 @@ module Mint
     end
 
     def parse_keywords
-      keywords = [] of String
+      keywords = %w[]
 
       @parser.read_array do
         keywords << parse_keyword

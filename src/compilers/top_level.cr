@@ -119,7 +119,7 @@ module Mint
         if include_tests
           ["SUITES = [#{compile(ast.suites, ",")}]"]
         else
-          [] of String
+          %w[]
         end
 
       static =

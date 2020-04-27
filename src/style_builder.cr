@@ -157,7 +157,7 @@ module Mint
             properties.join('\n') { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
-            output[{id, at, condition}] ||= [] of String
+            output[{id, at, condition}] ||= %w[]
             output[{id, at, condition}] << "#{rule.strip} {\n#{body.indent}\n}"
           end
         end
@@ -192,7 +192,7 @@ module Mint
       selectors =
         ["." + style_pool.of(node, nil)]
 
-      process(node.body, nil, nil, selectors, [] of String, node)
+      process(node.body, nil, nil, selectors, %w[], node)
     end
 
     # Processes a Ast::CssSelector
@@ -202,7 +202,7 @@ module Mint
                 parents : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
-      selectors = [] of String
+      selectors = %w[]
 
       parents.each do |parent|
         node.selectors.map do |item|
@@ -253,7 +253,7 @@ module Mint
             selector[item.name].default = item.value.join
           end
         when Ast::CssFontFace
-          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], [] of String, style_node)
+          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], %w[], style_node)
         when Ast::CssKeyframes
           process(item.selectors, UUID.random.to_s, "keyframes", [""], [item.name], style_node)
         when Ast::CssSelector

@@ -76,7 +76,7 @@ module Mint
         .find(&.name.value.==("style"))
         .try { |attribute| compile(attribute.value) }
 
-      styles = [] of String
+      styles = %w[]
 
       node.styles.each do |item|
         if style_builder.any?(lookups[item])
