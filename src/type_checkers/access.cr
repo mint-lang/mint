@@ -8,7 +8,7 @@ module Mint
       target =
         resolve node.lhs
 
-      if node.safe && target.name == "Maybe"
+      if node.safe? && target.name == "Maybe"
         Type.new("Maybe", [check_access(node, target.parameters[0])])
       else
         check_access(node, target)

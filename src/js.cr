@@ -320,7 +320,7 @@ module Mint
     def variable_of(node)
       case node
       when Ast::Function
-        return node.name.value if node.keep_name
+        return node.name.value if node.keep_name?
       else
         # ignore
       end

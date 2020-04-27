@@ -18,7 +18,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)
@@ -48,7 +48,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)

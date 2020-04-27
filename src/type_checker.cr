@@ -26,7 +26,7 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
-    property checking : Bool = true
+    property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
@@ -217,7 +217,7 @@ module Mint
     type_error Recursion
 
     def check!(node)
-      return unless checking
+      return unless checking?
       checked.add(node)
     end
 

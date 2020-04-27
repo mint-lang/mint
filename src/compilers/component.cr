@@ -5,14 +5,14 @@ module Mint
         js.class_of(node)
 
       prefixed_name =
-        if node.global
+        if node.global?
           "$" + name
         else
           name
         end
 
       global_let =
-        "let #{name}" if node.global
+        "let #{name}" if node.global?
 
       compile node.styles, node
 
@@ -80,7 +80,7 @@ module Mint
           end
         end
 
-      functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
+      functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global?
 
       body =
         ([constructor] + styles + gets + constants + states + store_stuff + functions)

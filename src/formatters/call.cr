@@ -15,7 +15,7 @@ module Mint
         end
 
       safe_operator =
-        node.safe ? "&" : ""
+        node.safe? ? "&" : ""
 
       "#{expression}#{safe_operator}(#{arguments})"
     end

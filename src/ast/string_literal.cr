@@ -1,7 +1,8 @@
 module Mint
   class Ast
     class StringLiteral < Node
-      getter value, broken
+      getter value
+      getter? broken
 
       def initialize(@value : Array(String | Interpolation),
                      @broken : Bool,

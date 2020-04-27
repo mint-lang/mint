@@ -25,7 +25,7 @@ module Mint
           size =
             item.size + position
 
-          if size > 56 && node.broken
+          if size > 56 && node.broken?
             item_array =
               item.split("")
 
