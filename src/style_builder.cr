@@ -250,7 +250,7 @@ module Mint
             variables[style_node][variable] = item.value
           else
             selector[item.name] ||= PropertyValue.new
-            selector[item.name].default = item.value.join("")
+            selector[item.name].default = item.value.join
           end
         when Ast::CssFontFace
           process(item.definitions, UUID.random.to_s, nil, ["@font-face"], [] of String, style_node)

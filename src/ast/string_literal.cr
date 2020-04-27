@@ -14,7 +14,7 @@ module Mint
       def string_value
         value
           .select(String)
-          .join("")
+          .join
       end
 
       def static?

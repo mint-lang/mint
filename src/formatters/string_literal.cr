@@ -41,7 +41,7 @@ module Mint
 
             parts =
               (head + item_array.each_slice(56).to_a)
-                .map(&.join(""))
+                .map(&.join)
 
             position =
               if parts.last.size == 56

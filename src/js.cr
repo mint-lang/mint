@@ -51,11 +51,11 @@ module Mint
     end
 
     def css_rule(name, definitions) : String
-      "#{name}{#{definitions.join("")}}"
+      "#{name}{#{definitions.join}}"
     end
 
     def css_rules(rules) : String
-      rules.join("")
+      rules.join
     end
 
     def display_name(name, real_name) : String
@@ -86,7 +86,7 @@ module Mint
     end
 
     def class(name, extends : String, body : Array(String)) : String
-      "class #{name} extends #{extends}{#{body.join("")}}"
+      "class #{name} extends #{extends}{#{body.join}}"
     end
 
     def statements(items : Array(String)) : String
@@ -94,19 +94,19 @@ module Mint
     end
 
     def store(name : String, body : Array(String)) : String
-      const(name, "new(class extends _S{#{body.join("")}})")
+      const(name, "new(class extends _S{#{body.join}})")
     end
 
     def module(name : String, body : Array(String)) : String
-      const(name, "new(class extends _M{#{body.join("")}})")
+      const(name, "new(class extends _M{#{body.join}})")
     end
 
     def provider(name : String, body : Array(String)) : String
-      const(name, "new(class extends _P{#{body.join("")}})")
+      const(name, "new(class extends _P{#{body.join}})")
     end
 
     def iic(body : Array(String)) : String
-      "new(class{#{body.join("")}})"
+      "new(class{#{body.join}})"
     end
 
     def iif(body : String) : String
@@ -138,7 +138,7 @@ module Mint
     end
 
     def try(body : String, catches : Array(String), finally : String) : String
-      "try{#{body}}#{catches.join("")}#{finally}"
+      "try{#{body}}#{catches.join}#{finally}"
     end
 
     def promise(body : String) : String
