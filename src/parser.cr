@@ -160,7 +160,7 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def whitespace!(error : SyntaxError.class | SkipError.class) : String?
-      if char.in_set? "^ \n\t\r"
+      if !char.ascii_whitespace?
         raise error
       else
         whitespace
@@ -168,7 +168,7 @@ module Mint
     end
 
     def whitespace?
-      char.in_set? " \n\t\r"
+      char.ascii_whitespace?
     end
 
     def whitespace : String?
@@ -176,7 +176,7 @@ module Mint
     end
 
     def track_back_whitespace : Nil
-      while prev_char.in_set? " \n\t\r"
+      while prev_char.ascii_whitespace?
         @position -= 1
       end
     end

@@ -37,7 +37,7 @@ class String
   def leading_whitespace_count
     i = 0
     begin
-      while self[i].in_set?(" \n\r\t")
+      while self[i].ascii_whitespace?
         i += 1
       end
     rescue IndexError
