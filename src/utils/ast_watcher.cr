@@ -7,8 +7,8 @@ module Mint
     @pattern = [] of String
     @progress = false
     @include_core = true
-    @external_javascripts : String | Nil = nil
-    @external_stylesheets : String | Nil = nil
+    @external_javascripts : String? = nil
+    @external_stylesheets : String? = nil
 
     getter include_core
 

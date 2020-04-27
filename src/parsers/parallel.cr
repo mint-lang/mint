@@ -4,7 +4,7 @@ module Mint
     syntax_error ParallelExpectedClosingBracket
     syntax_error ParallelExpectedStatement
 
-    def parallel : Ast::Parallel | Nil
+    def parallel : Ast::Parallel?
       start do |start_position|
         skip unless keyword "parallel"
 

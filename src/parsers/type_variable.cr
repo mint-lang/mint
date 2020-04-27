@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def type_variable : Ast::TypeVariable | Nil
+    def type_variable : Ast::TypeVariable?
       return unless var = variable
 
       Ast::TypeVariable.new(

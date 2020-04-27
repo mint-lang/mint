@@ -11,7 +11,7 @@ module Mint
     syntax_error IfExpectedCondition
     syntax_error IfExpectedElse
 
-    def if_expression(for_css = false, for_html = false) : Ast::If | Nil
+    def if_expression(for_css = false, for_html = false) : Ast::If?
       start do |start_position|
         skip unless keyword "if"
 

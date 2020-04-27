@@ -6,7 +6,7 @@ module Mint
       def initialize(@attributes : Array(HtmlAttribute),
                      @children : Array(HtmlContent),
                      @comments : Array(Comment),
-                     @ref : Variable | Nil,
+                     @ref : Variable?,
                      @component : Variable,
                      @input : Data,
                      @from : Int32,

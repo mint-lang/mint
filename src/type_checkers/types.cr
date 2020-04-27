@@ -6,7 +6,7 @@ module Mint
       @@id = 0
 
       property parameters : Array(Checkable) = [] of Checkable
-      property instance : Checkable | Nil
+      property instance : Checkable?
       getter name : String
       getter id : Int32
 

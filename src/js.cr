@@ -7,7 +7,7 @@ module Mint
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
-    abstract def ifchain(items : Array(Tuple(String | Nil, String))) : String
+    abstract def ifchain(items : Array(Tuple(String?, String))) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
     abstract def provider(name : String, body : Array(String)) : String
@@ -27,7 +27,7 @@ module Mint
     abstract def css_rules(rules : Array(String)) : String
     abstract def for(condition : String, body : String) : String
 
-    def ifchain(items : Array(Tuple(String | Nil, String))) : String
+    def ifchain(items : Array(Tuple(String?, String))) : String
       items
         .sort_by { |(condition, _)| condition.nil? ? 1 : -1 }
         .map_with_index do |(condition, body), index|

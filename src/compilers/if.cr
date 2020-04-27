@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(items : Array(Ast::CssDefinition), block : Proc(String, String) | Nil)
+    def _compile(items : Array(Ast::CssDefinition), block : Proc(String, String)?)
       compiled =
         items.each_with_object({} of String => String) do |definition, memo|
           variable =
@@ -19,7 +19,7 @@ module Mint
       "Object.assign(_, #{js.object(compiled)})"
     end
 
-    def compile(node : Ast::If, block : Proc(String, String) | Nil = nil) : String
+    def compile(node : Ast::If, block : Proc(String, String)? = nil) : String
       if checked.includes?(node)
         _compile node, block
       else
@@ -27,7 +27,7 @@ module Mint
       end
     end
 
-    def _compile(node : Ast::If, block : Proc(String, String) | Nil = nil) : String
+    def _compile(node : Ast::If, block : Proc(String, String)? = nil) : String
       condition =
         compile node.condition
 

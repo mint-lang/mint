@@ -7,7 +7,7 @@ module Mint
     syntax_error CaseExpectedCondition
     syntax_error CaseExpectedBranches
 
-    def case_expression(for_css : Bool = false) : Ast::Case | Nil
+    def case_expression(for_css : Bool = false) : Ast::Case?
       start do |start_position|
         skip unless keyword "case"
 

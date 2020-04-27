@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def comment : Ast::Comment | Nil
+    def comment : Ast::Comment?
       start do |start_position|
         skip unless keyword "/*"
 

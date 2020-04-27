@@ -6,7 +6,7 @@ module Mint
     syntax_error InlineFunctionExpectedExpression
     syntax_error InlineFunctionExpectedType
 
-    def inline_function : Ast::InlineFunction | Nil
+    def inline_function : Ast::InlineFunction?
       start do |start_position|
         skip unless char! '('
 

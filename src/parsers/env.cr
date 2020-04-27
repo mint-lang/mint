@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error EnvExpectedName
 
-    def env : Ast::Env | Nil
+    def env : Ast::Env?
       start do |start_position|
         char '@', SkipError
 

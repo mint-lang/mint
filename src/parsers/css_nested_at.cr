@@ -6,7 +6,7 @@ module Mint
 
     syntax_error CssNestedAtExpectedSpaceAfterKeyword
 
-    def css_nested_at : Ast::CssNestedAt | Nil
+    def css_nested_at : Ast::CssNestedAt?
       start do |start_position|
         skip unless char! '@'
 

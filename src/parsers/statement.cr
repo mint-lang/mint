@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def statement(parent) : Ast::Statement | Nil
+    def statement(parent) : Ast::Statement?
       start do |start_position|
         target = start do
           value = variable || tuple_destructuring

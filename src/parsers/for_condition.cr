@@ -4,7 +4,7 @@ module Mint
     syntax_error ForConditionExpectedClosingBracket
     syntax_error ForConditionExpectedBody
 
-    def for_condition : Ast::ForCondition | Nil
+    def for_condition : Ast::ForCondition?
       start do |start_position|
         skip unless keyword "when"
 

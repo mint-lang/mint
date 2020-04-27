@@ -101,7 +101,7 @@ module Mint
       end
     end
 
-    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32 | Nil
+    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32?
       if !char.in_set?(set)
         raise error
       else
@@ -109,7 +109,7 @@ module Mint
       end
     end
 
-    def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32 | Nil
+    def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32?
       if char != next_char
         raise error
       else
@@ -117,14 +117,14 @@ module Mint
       end
     end
 
-    def chars(set) : String | Nil
+    def chars(set) : String?
       consume_while char != '\0' && char.in_set? set
     end
 
     # Gathering many consumes
     # ----------------------------------------------------------------------------
 
-    def gather : String | Nil
+    def gather : String?
       start_position = position
       yield
       if position > start_position
@@ -135,7 +135,7 @@ module Mint
     # Consuming keywords
     # ----------------------------------------------------------------------------
 
-    def keyword!(word, error) : Bool | Nil
+    def keyword!(word, error) : Bool?
       raise error unless keyword(word)
     end
 
@@ -159,7 +159,7 @@ module Mint
     # Consuming whitespaces
     # ----------------------------------------------------------------------------
 
-    def whitespace!(error : SyntaxError.class | SkipError.class) : String | Nil
+    def whitespace!(error : SyntaxError.class | SkipError.class) : String?
       if char.in_set? "^ \n\t\r"
         raise error
       else
@@ -171,7 +171,7 @@ module Mint
       char.in_set? " \n\t\r"
     end
 
-    def whitespace : String | Nil
+    def whitespace : String?
       consume_while whitespace?
     end
 
@@ -213,7 +213,7 @@ module Mint
       result
     end
 
-    def list(terminator : Char | Nil, separator : Char, &block : -> T) : Array(T) forall T
+    def list(terminator : Char?, separator : Char, &block : -> T) : Array(T) forall T
       result = [] of T
 
       loop do

@@ -6,7 +6,7 @@ module Mint
     syntax_error CatchExpectedVariable
     syntax_error CatchExpectedArrow
 
-    def catch : Ast::Catch | Nil
+    def catch : Ast::Catch?
       start do |start_position|
         skip unless keyword "catch"
 

@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error NegatedExpressionExpectedExpression
 
-    def negated_expression : Ast::NegatedExpression | Nil
+    def negated_expression : Ast::NegatedExpression?
       start do |start_position|
         negations = gather { chars("!") }.to_s
         skip if negations.empty?

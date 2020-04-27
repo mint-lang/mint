@@ -3,7 +3,7 @@ module Mint
     syntax_error ParenthesizedExpressionExpectedClosingParentheses
     syntax_error ParenthesizedExpressionExpectedExpression
 
-    def parenthesized_expression : Ast::ParenthesizedExpression | Nil
+    def parenthesized_expression : Ast::ParenthesizedExpression?
       start do |start_position|
         skip unless char! '('
 

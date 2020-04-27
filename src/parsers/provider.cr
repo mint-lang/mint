@@ -7,7 +7,7 @@ module Mint
     syntax_error ProviderExpectedName
     syntax_error ProviderExpectedBody
 
-    def provider : Ast::Provider | Nil
+    def provider : Ast::Provider?
       start do |start_position|
         comment = self.comment
 

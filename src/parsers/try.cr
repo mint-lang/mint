@@ -4,7 +4,7 @@ module Mint
     syntax_error TryExpectedClosingBracket
     syntax_error TryExpectedStatement
 
-    def try_expression : Ast::Try | Nil
+    def try_expression : Ast::Try?
       start do |start_position|
         skip unless keyword "try"
 

@@ -15,7 +15,7 @@ module Mint
       name
     end
 
-    def type_id : String | Nil
+    def type_id : String?
       name = gather do
         start do
           skip unless char.in_set? "A-Z"
@@ -44,7 +44,7 @@ module Mint
       name
     end
 
-    def type_id(error : SyntaxError.class) : String | Nil
+    def type_id(error : SyntaxError.class) : String?
       return unless char.in_set?("A-Z")
       type_id! error
     end

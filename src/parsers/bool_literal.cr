@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def bool_literal : Ast::BoolLiteral | Nil
+    def bool_literal : Ast::BoolLiteral?
       start do |start_position|
         value =
           if keyword "true"

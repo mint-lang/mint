@@ -5,7 +5,7 @@ module Mint
     syntax_error StateExpectedName
     syntax_error StateExpectedType
 
-    def state : Ast::State | Nil
+    def state : Ast::State?
       start do |start_position|
         comment = self.comment
         whitespace

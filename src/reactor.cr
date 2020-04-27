@@ -16,7 +16,7 @@ module Mint
     getter script, ast
 
     @sockets = [] of HTTP::WebSocket
-    @error : String | Nil = nil
+    @error : String? = nil
     @watcher : AstWatcher
     @ast : Ast = Ast.new
     @script = ""

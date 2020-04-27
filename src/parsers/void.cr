@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def void : Ast::Void | Nil
+    def void : Ast::Void?
       start do |start_position|
         skip unless keyword "void"
 

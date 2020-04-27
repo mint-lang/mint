@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error TupleLiteralExpectedClosingBracket
 
-    def tuple_literal : Ast::TupleLiteral | Nil
+    def tuple_literal : Ast::TupleLiteral?
       start do |start_position|
         skip unless char! '{'
         whitespace
@@ -11,7 +11,7 @@ module Mint
           list(
             terminator: '}', separator: ','
           ) {
-            expression.as(Ast::Expression | Nil)
+            expression.as(Ast::Expression?)
           }.compact
         )
 

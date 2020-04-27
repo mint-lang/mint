@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error EncodeExpectedExpression
 
-    def encode : Ast::Encode | Nil
+    def encode : Ast::Encode?
       start do |start_position|
         skip unless keyword "encode"
 

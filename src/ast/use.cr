@@ -3,7 +3,7 @@ module Mint
     class Use < Node
       getter data, provider, condition
 
-      def initialize(@condition : Expression | Nil,
+      def initialize(@condition : Expression?,
                      @provider : String,
                      @data : Record,
                      @input : Data,

@@ -3,7 +3,7 @@ module Mint
     syntax_error ArrayLiteralExpectedTypeOrVariable
     syntax_error ArrayExpectedClosingBracket
 
-    def array : Ast::ArrayLiteral | Nil
+    def array : Ast::ArrayLiteral?
       start do |start_position|
         skip unless char! '['
 
@@ -12,7 +12,7 @@ module Mint
         items = list(
           terminator: ']', separator: ','
         ) {
-          expression.as(Ast::Expression | Nil)
+          expression.as(Ast::Expression?)
         }.compact
 
         whitespace

@@ -14,8 +14,8 @@ module Mint
     class Repository
       getter name, url, target, version
 
-      @version : Semver | Nil
-      @target : String | Nil
+      @version : Semver?
+      @target : String?
 
       def self.open(name = "", url = "", target = nil, version = nil)
         if url.starts_with?("http") && !url.ends_with?(".git")

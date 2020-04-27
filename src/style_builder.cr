@@ -18,8 +18,8 @@ module Mint
   end
 
   class PropertyValue
-    property default : String | Nil
-    property variable : String | Nil
+    property default : String?
+    property variable : String?
 
     def to_s(io : IO)
       if variable && default
@@ -85,7 +85,7 @@ module Mint
                       selector[name].variable = variable
 
                       variable
-                    }).as(Proc(String, String) | Nil)
+                    }).as(Proc(String, String)?)
 
                   case item
                   when Ast::If, Ast::Case
@@ -136,7 +136,7 @@ module Mint
       # Basically it allows to identify a specific set of rules in a
       # specific set of nested at queries (media, supports) in case their
       # properties are defined in serveral places.
-      @selectors = {} of Tuple(String | Nil, String | Nil, Array(String), Array(String)) => Selector
+      @selectors = {} of Tuple(String?, String?, Array(String), Array(String)) => Selector
 
       # This hash contains variables for a specific "style" tag, which will
       # be compiled by the compiler itself when compiling an HTML element
@@ -148,7 +148,7 @@ module Mint
 
     # Compiles the processed data into a CSS style sheet.
     def compile
-      output = {} of Tuple(String | Nil, String | Nil, Array(String)) => Array(String)
+      output = {} of Tuple(String?, String?, Array(String)) => Array(String)
 
       selectors
         .reject { |_, v| v.empty? }
@@ -197,8 +197,8 @@ module Mint
 
     # Processes a Ast::CssSelector
     def process(node : Ast::CssSelector,
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 parents : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
@@ -215,8 +215,8 @@ module Mint
 
     # Processes an Ast::CssNestedAt
     def process(node : Ast::CssNestedAt,
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 selectors : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
@@ -225,8 +225,8 @@ module Mint
 
     # Processes the body of a CSS Ast::Node.
     def process(body : Array(Ast::Node),
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 selectors : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)

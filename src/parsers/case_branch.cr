@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error CaseBranchExpectedExpression
 
-    def case_branch(for_css : Bool = false) : Ast::CaseBranch | Nil
+    def case_branch(for_css : Bool = false) : Ast::CaseBranch?
       start do |start_position|
         unless keyword "=>"
           match = enum_destructuring || tuple_destructuring || array_destructuring || expression
@@ -20,7 +20,7 @@ module Mint
           end
 
         Ast::CaseBranch.new(
-          match: match.as(Ast::EnumDestructuring | Ast::TupleDestructuring | Ast::Expression | Nil),
+          match: match.as(Ast::EnumDestructuring | Ast::TupleDestructuring | Ast::Expression?),
           expression: expression,
           from: start_position,
           to: position,

@@ -5,7 +5,7 @@ module Mint
     syntax_error StoreExpectedBody
     syntax_error StoreExpectedName
 
-    def store : Ast::Store | Nil
+    def store : Ast::Store?
       start do |start_position|
         comment = self.comment
         whitespace

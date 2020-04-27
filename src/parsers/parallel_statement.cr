@@ -3,7 +3,7 @@ module Mint
     syntax_error ParallelStatementExpectedExpression
     syntax_error ParallelStatementExpectedEqualSign
 
-    def parallel_statement : Ast::ParallelStatement | Nil
+    def parallel_statement : Ast::ParallelStatement?
       start do |start_position|
         skip unless name = variable
 

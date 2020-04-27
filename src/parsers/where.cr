@@ -4,7 +4,7 @@ module Mint
     syntax_error WhereExpectedClosingBracket
     syntax_error WhereExpectedWhere
 
-    def where : Ast::Where | Nil
+    def where : Ast::Where?
       start do |start_position|
         skip unless keyword "where"
 

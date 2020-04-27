@@ -26,7 +26,7 @@ module Mint
       "!"  => 16,
     }
 
-    def operator : String | Nil
+    def operator : String?
       start do
         whitespace
         operator = OPERATORS.keys.find { |item| keyword item }
