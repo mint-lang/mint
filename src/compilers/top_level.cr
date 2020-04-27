@@ -2,9 +2,9 @@
 # in the compiler.
 module Mint
   class Compiler
-    DEFAULT_OPTIONS = {optimize: false}
-
     alias Options = NamedTuple(optimize: Bool)
+
+    DEFAULT_OPTIONS = {optimize: false}
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.

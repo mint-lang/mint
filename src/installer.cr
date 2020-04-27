@@ -18,16 +18,11 @@ module Mint
     @repositories =
       {} of String => Repository
 
-    @root_dependencies =
-      [] of Dependency
-
     @resolved =
       {} of String => Semver
 
-    @root =
-      {name: "root", version: "0.0.0"}
-
-    getter root, root_dependencies
+    getter root = {name: "root", version: "0.0.0"}
+    getter root_dependencies = [] of Dependency
 
     def initialize
       @root_dependencies = MintJson.parse_current.dependencies

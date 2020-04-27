@@ -14,16 +14,12 @@ module Mint
       node
         .enums
         .find(&.name.==("Maybe"))
-        .try do |item|
-          resolve item
-        end
+        .try { |item| resolve item }
 
       node
         .enums
         .find(&.name.==("Result"))
-        .try do |item|
-          resolve item
-        end
+        .try { |item| resolve item }
 
       node
         .modules

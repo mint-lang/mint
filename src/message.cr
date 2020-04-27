@@ -1,9 +1,7 @@
 module Mint
   class Message
     class BlockBuilder
-      getter block
-
-      @block = Block.new
+      getter block = Block.new
 
       def text(value)
         case value
@@ -24,9 +22,7 @@ module Mint
     end
 
     class Builder
-      getter elements
-
-      @elements = [] of Element
+      getter elements = [] of Element
 
       def self.build
         builder = new
@@ -34,7 +30,7 @@ module Mint
         builder.elements
       end
 
-      def snippet(value, message = "Here is the relevant code snippet:")
+      def snippet(value, message : String = "Here is the relevant code snippet:")
         case value
         when Tuple(Ast::Node, Int32)
           snippet value[0], message
@@ -66,7 +62,7 @@ module Mint
         end
       end
 
-      def list(value, message)
+      def list(value, message : String)
         case value
         when Array(String)
           unless value.empty?
@@ -111,7 +107,7 @@ module Mint
       end
 
       # Pre defined blocks
-      def type_with_text(item, text)
+      def type_with_text(item, text : String)
         block do
           text text
         end

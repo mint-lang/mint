@@ -1,12 +1,14 @@
 module Mint
   class Parser
-    getter input, position, file, ast, data, refs
+    getter input : String
+    getter file : String
+    getter ast = Ast.new
+    getter data : Ast::Data
+    getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
+    getter position = 0
 
-    def initialize(@input : String, @file : String)
-      @refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
+    def initialize(@input, @file)
       @data = Ast::Data.new(@input, @file)
-      @ast = Ast.new
-      @position = 0
     end
 
     # Helpers for manipulating position
@@ -93,28 +95,19 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def char!(next_char : Char)
-      if char == next_char
-        step
-        true
-      else
-        false
-      end
-    end
-
-    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32?
-      if !char.in_set?(set)
-        raise error
-      else
-        step
-      end
+      return false unless char == next_char
+      step
+      true
     end
 
     def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32?
-      if char != next_char
-        raise error
-      else
-        step
-      end
+      raise error unless char == next_char
+      step
+    end
+
+    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32?
+      raise error unless char.in_set?(set)
+      step
     end
 
     def chars(set) : String?
@@ -160,11 +153,8 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def whitespace!(error : SyntaxError.class | SkipError.class) : String?
-      if !char.ascii_whitespace?
-        raise error
-      else
-        whitespace
-      end
+      raise error unless whitespace?
+      whitespace
     end
 
     def whitespace?
@@ -189,8 +179,7 @@ module Mint
     end
 
     def type_or_type_variable!(error : SyntaxError.class | SkipError.class)
-      raise error unless result = type_or_type_variable
-      result
+      type_or_type_variable || raise error
     end
 
     # Consuming many things

@@ -19,7 +19,7 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def compile(nodes : Array(Ast::Node), separator : String)
-      compile(nodes).reject(&.empty?).join(separator)
+      compile(nodes).join(separator)
     end
 
     def compile(nodes : Array(Ast::Node))

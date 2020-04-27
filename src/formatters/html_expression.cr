@@ -5,7 +5,8 @@ module Mint
         format node.expression
 
       case node.expression
-      when Ast::If, Ast::For, Ast::StringLiteral, Ast::With, Ast::Case, Ast::Try, Ast::ArrayLiteral
+      when Ast::If, Ast::Case, Ast::For, Ast::Try, Ast::With,
+           Ast::StringLiteral, Ast::ArrayLiteral
         expression
       else
         if replace_skipped(expression).includes?('\n')

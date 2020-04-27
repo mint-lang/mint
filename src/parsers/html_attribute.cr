@@ -14,9 +14,10 @@ module Mint
 
         char '=', HtmlAttributeExpectedEqualSign
 
-        if char == '"' && (value = string_literal)
+        case
+        when char == '"' && (value = string_literal)
           value
-        elsif char == '[' && (value = array)
+        when char == '[' && (value = array)
           value
         else
           char '{', HtmlAttributeExpectedOpeningBracket

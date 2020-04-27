@@ -219,25 +219,26 @@ module Mint
         node1 = prune(node1)
         node2 = prune(node2)
 
-        if node1.is_a?(Variable)
-          if node1 != node2
+        case
+        when node1.is_a?(Variable)
+          unless node1 == node2
             if occurns_in_type(node1, node2)
               raise "Recursive unification!"
             end
             node1.instance = node2
           end
           node1
-        elsif node2.is_a?(Variable)
+        when node2.is_a?(Variable)
           unify(node2, node1)
-        elsif node1.is_a?(Record) && node2.is_a?(Type)
-          raise "Not unified!" if node1.name != node2.name
+        when node1.is_a?(Record) && node2.is_a?(Type)
+          raise "Not unified!" unless node1.name == node2.name
           node1
-        elsif node2.is_a?(Record) && node1.is_a?(Type)
+        when node2.is_a?(Record) && node1.is_a?(Type)
           unify(node2, node1)
-        elsif node1.is_a?(Record) && node2.is_a?(Record)
-          raise "Not unified!" if node1 != node2
+        when node1.is_a?(Record) && node2.is_a?(Record)
+          raise "Not unified!" unless node1 == node2
           node1
-        elsif node1.is_a?(Type) && node2.is_a?(Type)
+        when node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name || node1.parameters.size != node2.parameters.size
             raise "Type error: #{node1} is not #{node2}!"
           else
@@ -254,9 +255,10 @@ module Mint
       def occurns_in_type(node1, node2)
         node2 = prune(node2)
 
-        if node1 == node2
+        case
+        when node1 == node2
           true
-        elsif node2.is_a?(Type)
+        when node2.is_a?(Type)
           occurns_in_type_array(node1, node2.parameters)
         else
           false

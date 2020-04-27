@@ -38,9 +38,7 @@ module Mint
       attributes =
         node
           .attributes
-          .dup
-          .reject!(&.name.value.==("class"))
-          .reject!(&.name.value.==("style"))
+          .reject(&.name.value.in?("class", "style"))
           .map { |attribute| resolve(attribute) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
@@ -60,8 +58,6 @@ module Mint
       class_name_attribute_value =
         if class_name_attribute
           compile(class_name_attribute.value)
-        else
-          nil
         end
 
       classes =

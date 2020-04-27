@@ -16,7 +16,7 @@ module Mint
           if for_css
             many { css_definition }.compact
           else
-            self.expression! CaseBranchExpectedExpression
+            expression! CaseBranchExpectedExpression
           end
 
         Ast::CaseBranch.new(
