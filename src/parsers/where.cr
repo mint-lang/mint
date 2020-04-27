@@ -15,7 +15,7 @@ module Mint
           items = many { where_statement || comment }.compact
 
           raise WhereExpectedWhere if items
-                                        .reject(&.is_a?(Ast::Comment))
+                                        .reject(Ast::Comment)
                                         .empty?
           items
         end

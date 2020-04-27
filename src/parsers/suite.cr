@@ -23,7 +23,7 @@ module Mint
           items = many { test || comment }.compact
 
           raise SuiteExpectedTests if items
-                                        .reject(&.is_a?(Ast::Comment))
+                                        .reject(Ast::Comment)
                                         .empty?
 
           items

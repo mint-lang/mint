@@ -17,7 +17,7 @@ module Mint
           results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
 
           raise ParallelExpectedStatement if results
-                                               .reject(&.is_a?(Ast::Comment))
+                                               .reject(Ast::Comment)
                                                .empty?
           results
         end

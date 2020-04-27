@@ -15,7 +15,7 @@ module Mint
           items = many { comment || route }.compact
 
           raise RoutesExpectedRoute if items
-                                         .reject(&.is_a?(Ast::Comment))
+                                         .reject(Ast::Comment)
                                          .empty?
           items
         end

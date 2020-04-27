@@ -15,7 +15,7 @@ module Mint
           items = many { statement(Ast::Statement::Parent::Try) || comment }.compact
 
           raise TryExpectedStatement if items
-                                          .reject(&.is_a?(Ast::Comment))
+                                          .reject(Ast::Comment)
                                           .empty?
 
           items

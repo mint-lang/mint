@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def compile(value : Array(Ast::Interpolation | String))
-      if value.any?(&.is_a?(Ast::Interpolation))
+      if value.any?(Ast::Interpolation)
         value.map do |part|
           case part
           when String

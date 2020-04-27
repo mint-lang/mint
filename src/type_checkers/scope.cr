@@ -89,7 +89,7 @@ module Mint
       end
 
       def component?
-        @levels.any?(&.is_a?(Ast::Component))
+        @levels.any?(Ast::Component)
       end
 
       def component

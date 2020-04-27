@@ -28,7 +28,7 @@ module Mint
         ) do
           items = many { function || self.comment }.compact
           raise ProviderExpectedBody if items
-                                          .select(&.is_a?(Ast::Function))
+                                          .select(Ast::Function)
                                           .empty?
           items
         end

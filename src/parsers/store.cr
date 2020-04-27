@@ -22,7 +22,7 @@ module Mint
           items = many { state || function || get || constant || self.comment }.compact
 
           raise StoreExpectedBody if items
-                                       .reject(&.is_a?(Ast::Comment))
+                                       .reject(Ast::Comment)
                                        .empty?
           items
         end
