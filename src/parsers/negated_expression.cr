@@ -15,7 +15,7 @@ module Mint
         expression = expression! NegatedExpressionExpectedExpression
 
         Ast::NegatedExpression.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           negations: negations,
           from: start_position,
           to: position,

@@ -14,7 +14,7 @@ module Mint
         char ')', ParenthesizedExpressionExpectedClosingParentheses
 
         Ast::ParenthesizedExpression.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

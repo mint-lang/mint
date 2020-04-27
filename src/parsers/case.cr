@@ -45,7 +45,7 @@ module Mint
         end
 
         Ast::Case.new(
-          condition: condition.as(Ast::Expression),
+          condition: condition,
           from: start_position,
           branches: branches,
           comments: comments,

@@ -14,7 +14,7 @@ module Mint
         keyword! "}>", HtmlExpressionExpectedClosingTag
 
         Ast::HtmlExpression.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

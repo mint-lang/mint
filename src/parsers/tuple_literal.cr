@@ -5,17 +5,14 @@ module Mint
     def tuple_literal : Ast::TupleLiteral?
       start do |start_position|
         skip unless char! '{'
-        whitespace
-
-        items = (
-          list(
-            terminator: '}', separator: ','
-          ) {
-            expression.as(Ast::Expression?)
-          }.compact
-        )
 
         whitespace
+        items = list(
+          terminator: '}',
+          separator: ','
+        ) { expression }.compact
+        whitespace
+
         char "}", TupleLiteralExpectedClosingBracket
 
         Ast::TupleLiteral.new(

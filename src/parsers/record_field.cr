@@ -16,7 +16,7 @@ module Mint
         value = expression! RecordFieldExpectedExpression
 
         Ast::RecordField.new(
-          value: value.as(Ast::Expression),
+          value: value,
           from: start_position,
           comment: comment,
           to: position,

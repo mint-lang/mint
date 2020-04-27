@@ -64,7 +64,7 @@ module Mint
           truthy_tail_comments: truthy_tail_comments,
           falsy_head_comments: falsy_head_comments,
           falsy_tail_comments: falsy_tail_comments,
-          condition: condition.as(Ast::Expression),
+          condition: condition,
           branches: {truthy, falsy},
           from: start_position,
           to: position,

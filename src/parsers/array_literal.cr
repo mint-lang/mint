@@ -8,13 +8,10 @@ module Mint
         skip unless char! '['
 
         whitespace
-
         items = list(
-          terminator: ']', separator: ','
-        ) {
-          expression.as(Ast::Expression?)
-        }.compact
-
+          terminator: ']',
+          separator: ','
+        ) { expression }.compact
         whitespace
 
         char "]", ArrayExpectedClosingBracket

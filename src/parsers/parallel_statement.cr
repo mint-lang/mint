@@ -14,7 +14,7 @@ module Mint
         body = expression! ParallelStatementExpectedExpression
 
         Ast::ParallelStatement.new(
-          expression: body.as(Ast::Expression),
+          expression: body,
           from: start_position,
           to: position,
           input: data,
