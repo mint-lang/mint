@@ -81,7 +81,7 @@ module Mint
       }.max
 
       result =
-        relevant_lines.map do |line| # ameba:disable Lint/ShadowingOuterLocalVar
+        relevant_lines.map do |line|
           line_number =
             (line.index + 1).to_s.rjust(gutter_width)
 
