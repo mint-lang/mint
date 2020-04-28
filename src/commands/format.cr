@@ -30,22 +30,23 @@ module Mint
           if files.empty?
             terminal.puts "Nothing to format!"
           else
-            results =
-              files.compact_map do |file|
-                artifact =
-                  Parser.parse(file)
+            all_formatted = true
 
-                formatted =
-                  Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+            files.each do |file|
+              artifact =
+                Parser.parse(file)
 
-                if formatted != File.read(file)
-                  File.write(file, formatted)
-                  terminal.puts "Formatted: #{file}"
-                  true
-                end
+              formatted =
+                Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+
+              unless formatted == File.read(file)
+                File.write(file, formatted)
+                terminal.puts "Formatted: #{file}"
+                all_formatted = false
               end
+            end
 
-            terminal.puts "All files are formatted!" if results.empty?
+            terminal.puts "All files are formatted!" if all_formatted
           end
         rescue
           terminal.puts %(I was looking for a pattern that contains ".mint" files,)
