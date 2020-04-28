@@ -2,7 +2,7 @@ module Mint
   module SourceFiles
     extend self
 
-    private def filepath(*dirs)
+    def glob_pattern(*dirs : Path | String)
       File.join(*dirs, "**", "*.mint")
     end
 
@@ -10,14 +10,14 @@ module Mint
       MintJson
         .parse_current
         .test_directories
-        .map { |dir| filepath(dir) }
+        .map { |dir| glob_pattern(dir) }
     end
 
     def current
       MintJson
         .parse_current
         .source_directories
-        .map { |dir| filepath(dir) }
+        .map { |dir| glob_pattern(dir) }
     end
 
     def external_javascripts
@@ -75,7 +75,7 @@ module Mint
         each_package do |json|
           dirs =
             json.source_directories.map do |dir|
-              filepath(json.root, dir)
+              glob_pattern(json.root, dir)
             end
 
           package_dirs.concat dirs

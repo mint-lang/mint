@@ -18,7 +18,7 @@ module Mint
 
           format_directories_patterns =
             format_directories.map do |dir|
-              File.join(dir, "**", "*.mint")
+              SourceFiles.glob_pattern(dir)
             end
 
           if arguments.pattern.to_s.empty?
