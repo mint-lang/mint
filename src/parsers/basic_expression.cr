@@ -2,7 +2,9 @@ module Mint
   class Parser
     # NOTE: The order of the parsing is important!
     def basic_expression : Ast::Expression | Nil
-      env ||
+      format_directive ||
+        documentation_directive ||
+        env ||
         string_literal ||
         bool_literal ||
         number_literal ||

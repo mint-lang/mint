@@ -1,7 +1,7 @@
-require "digest/md5"
-
 module Mint
   class Formatter
+    include Skippable
+
     class Config
       getter indent_size
 
@@ -12,29 +12,10 @@ module Mint
     getter ast, config
 
     def initialize(@ast : Ast, @config : Config = Config.new)
-      @skip = [] of {String, String}
     end
 
     def indent(string : String)
       string.indent(config.indent_size.to_i32)
-    end
-
-    def replace_skipped(result)
-      @skip.reverse.reduce(result) do |memo, (digest, item)|
-        memo.sub(digest, item)
-      end
-    end
-
-    def skip
-      result =
-        yield
-
-      digest =
-        Digest::MD5.hexdigest(result)
-
-      @skip << {digest, result}
-
-      digest
     end
 
     # Helpers for formatting things

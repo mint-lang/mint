@@ -1,0 +1,23 @@
+component Main {
+  fun render : String {
+    try {
+      {result, formatted} =
+        @format {
+          "Hello"
+        }
+
+      result + formatted
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (() => {
+      const [a,b] = [`Hello`, `"Hello"`];
+      return a + b;
+    })();
+  }
+};
+
+A.displayName = "Main";
