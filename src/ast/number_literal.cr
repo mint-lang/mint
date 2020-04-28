@@ -3,7 +3,7 @@ module Mint
     class NumberLiteral < Node
       getter value, float
 
-      def initialize(@value : Float64,
+      def initialize(@value : BigDecimal,
                      @input : Data,
                      @float : Bool,
                      @from : Int32,
