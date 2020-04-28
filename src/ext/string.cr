@@ -1,25 +1,25 @@
 class String
-  def uncolorize
+  def uncolorize : String
     gsub(/[ \t]+$/m, "")
       .gsub(/\e\[(\d+;?)*m/, "")
       .rstrip
   end
 
-  def last?
+  def last? : Char?
     self[size - 1] unless empty?
   end
 
-  def indent(spaces : Int32 = 2)
+  def indent(spaces : Int32 = 2) : String
     lines.join('\n') do |line|
       line.empty? ? line : (" " * spaces) + line
     end
   end
 
-  def remove_all_leading_whitespace
+  def remove_all_leading_whitespace : String
     lines.join('\n', &.lstrip(" \t"))
   end
 
-  def remove_leading_whitespace
+  def remove_leading_whitespace : String
     # Count the leading whitespace in each line
     count =
       lines
@@ -33,7 +33,7 @@ class String
       .strip("\n\r")
   end
 
-  def leading_whitespace_count
+  def leading_whitespace_count : Int32
     return 0 if empty?
     i = 0
     while self[i].ascii_whitespace?
@@ -42,7 +42,7 @@ class String
     i
   end
 
-  def remove_trailing_whitespace
+  def remove_trailing_whitespace : String
     lines.join('\n', &.rstrip)
   end
 end
