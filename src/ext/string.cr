@@ -23,8 +23,7 @@ class String
     # Count the leading whitespace in each line
     count =
       lines
-        .reject!(&.blank?)
-        .compact_map(&.leading_whitespace_count)
+        .compact_map { |line| line.presence.try(&.leading_whitespace_count) }
         .min? || 0
 
     # Remove the minimum count of lines
@@ -34,9 +33,8 @@ class String
   end
 
   def leading_whitespace_count : Int32
-    return 0 if empty?
     i = 0
-    while self[i].ascii_whitespace?
+    while self[i]?.try(&.ascii_whitespace?)
       i += 1
     end
     i
