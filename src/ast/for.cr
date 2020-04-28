@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),
-                     @condition : ForCondition | Nil,
+                     @condition : ForCondition?,
                      @arguments : Array(Variable),
                      @subject : Expression,
                      @body : Expression,

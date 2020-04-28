@@ -3,7 +3,7 @@ module Mint
     syntax_error InterpolationExpectedClosingBracket
     syntax_error InterpolationExpectedExpression
 
-    def interpolation : Ast::Interpolation | Nil
+    def interpolation : Ast::Interpolation?
       start do |start_position|
         skip unless keyword "\#{"
 

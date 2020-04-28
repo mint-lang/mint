@@ -47,9 +47,7 @@ module Mint
           end
         end
 
-        to_catch.reject! { |item|
-          Comparer.compare(catch_type, item)
-        }
+        to_catch.reject! { |item| Comparer.compare(catch_type, item) }
       end
 
       resolve node.finally.not_nil! if node.finally

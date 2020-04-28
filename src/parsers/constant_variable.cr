@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def constant_variable : Ast::Variable | Nil
+    def constant_variable : Ast::Variable?
       start do |start_position|
         head =
           gather { chars("A-Z") }.to_s

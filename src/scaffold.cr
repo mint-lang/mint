@@ -47,15 +47,18 @@ module Mint
       }
     TEST
 
-    getter path, name
+    getter path : Path
 
-    def self.run(name : String)
-      path = File.expand_path(name)
-      name = File.basename(path)
-      new(path, name).run
+    def self.run(name : Path | String)
+      new(Path[name]).run
     end
 
-    def initialize(@path : String, @name : String)
+    def initialize(path : Path)
+      @path = path.expand
+    end
+
+    def name
+      path.basename
     end
 
     def run
@@ -74,8 +77,8 @@ module Mint
 
       terminal.puts "#{COG} Creating directory: #{directory}"
 
-      FileUtils.mkdir_p path
-      FileUtils.cd path
+      FileUtils.mkdir_p path.to_s
+      FileUtils.cd path.to_s
 
       terminal.puts "#{COG} Writing initial files:"
 

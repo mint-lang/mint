@@ -41,7 +41,7 @@ module Mint
         ["#{name}",
          js.object(attributes),
          children]
-          .reject(&.empty?)
+          .reject!(&.empty?)
           .join(", ")
 
       "_h(#{contents})"

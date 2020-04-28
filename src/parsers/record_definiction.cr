@@ -4,7 +4,7 @@ module Mint
     syntax_error RecordDefinitionExpectedClosingBracket
     syntax_error RecordDefinitionExpectedName
 
-    def record_definition : Ast::RecordDefinition | Nil
+    def record_definition : Ast::RecordDefinition?
       start do |start_position|
         comment = self.comment
 

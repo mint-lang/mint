@@ -3,18 +3,15 @@ module Mint
     syntax_error ArrayLiteralExpectedTypeOrVariable
     syntax_error ArrayExpectedClosingBracket
 
-    def array : Ast::ArrayLiteral | Nil
+    def array : Ast::ArrayLiteral?
       start do |start_position|
         skip unless char! '['
 
         whitespace
-
         items = list(
-          terminator: ']', separator: ','
-        ) {
-          expression.as(Ast::Expression | Nil)
-        }.compact
-
+          terminator: ']',
+          separator: ','
+        ) { expression }.compact
         whitespace
 
         char "]", ArrayExpectedClosingBracket

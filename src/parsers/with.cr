@@ -5,7 +5,7 @@ module Mint
     syntax_error WithExpectedExpression
     syntax_error WithExpectedModule
 
-    def with_expression : Ast::With | Nil
+    def with_expression : Ast::With?
       start do |start_position|
         skip unless keyword "with"
 

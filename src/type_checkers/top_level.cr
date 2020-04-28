@@ -14,16 +14,12 @@ module Mint
       node
         .enums
         .find(&.name.==("Maybe"))
-        .try do |item|
-          resolve item
-        end
+        .try { |item| resolve item }
 
       node
         .enums
         .find(&.name.==("Result"))
-        .try do |item|
-          resolve item
-        end
+        .try { |item| resolve item }
 
       node
         .modules
@@ -44,7 +40,7 @@ module Mint
       # Resolve routes
       resolve node.routes
       resolve node.suites
-      resolve node.components.select(&.global)
+      resolve node.components.select(&.global?)
 
       # We are turning off checking here which means that what we check after
       # this will not be compiled.

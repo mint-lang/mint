@@ -3,12 +3,12 @@ module Mint
     syntax_error JsExpectedTypeOrVariable
     syntax_error JsExpectedClosingTick
 
-    def js : Ast::Js | Nil
+    def js : Ast::Js?
       start do |start_position|
         skip unless char! '`'
 
         value = many(parse_whitespace: false) do
-          (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String | Nil)
+          (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String?)
         end.compact
 
         char '`', JsExpectedClosingTick
@@ -29,7 +29,7 @@ module Mint
       end
     end
 
-    def not_interpolation_part(terminator : Char) : String | Nil
+    def not_interpolation_part(terminator : Char) : String?
       # We geather characters until we find either a backtick or interpolation
       value = gather { chars "^#{terminator}#" }
 

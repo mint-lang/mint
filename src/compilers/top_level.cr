@@ -2,9 +2,9 @@
 # in the compiler.
 module Mint
   class Compiler
-    DEFAULT_OPTIONS = {optimize: false}
-
     alias Options = NamedTuple(optimize: Bool)
+
+    DEFAULT_OPTIONS = {optimize: false}
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
@@ -18,7 +18,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)
@@ -48,7 +48,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)
@@ -119,7 +119,7 @@ module Mint
         if include_tests
           ["SUITES = [#{compile(ast.suites, ",")}]"]
         else
-          [] of String
+          %w[]
         end
 
       static =
@@ -129,7 +129,7 @@ module Mint
 
       elements =
         (enums + records + providers + routes + modules + components + static + stores + [footer] + suites)
-          .reject(&.empty?)
+          .reject!(&.empty?)
 
       js.statements(elements)
     end

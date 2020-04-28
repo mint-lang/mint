@@ -6,7 +6,7 @@ module Mint
 
       value =
         format(node.value)
-          .join("")
+          .join
           .remove_all_leading_whitespace
           .indent(head.size)
           .lstrip

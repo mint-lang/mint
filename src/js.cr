@@ -7,7 +7,7 @@ module Mint
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
-    abstract def ifchain(items : Array(Tuple(String | Nil, String))) : String
+    abstract def ifchain(items : Array(Tuple(String?, String))) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
     abstract def provider(name : String, body : Array(String)) : String
@@ -27,16 +27,16 @@ module Mint
     abstract def css_rules(rules : Array(String)) : String
     abstract def for(condition : String, body : String) : String
 
-    def ifchain(items : Array(Tuple(String | Nil, String))) : String
+    def ifchain(items : Array(Tuple(String?, String))) : String
       items
         .sort_by { |(condition, _)| condition.nil? ? 1 : -1 }
         .map_with_index do |(condition, body), index|
-          case
-          when index == 0 && condition.nil?
+          case {index, condition}
+          when {0, nil}
             body # This branch handles only one item which does not have condition
-          when condition.nil?
+          when {_, nil}
             self.else { body }
-          when index == 0
+          when {0, _}
             self.if(condition.to_s, body)
           else
             self.elseif(condition) { body }
@@ -51,11 +51,11 @@ module Mint
     end
 
     def css_rule(name, definitions) : String
-      "#{name}{#{definitions.join("")}}"
+      "#{name}{#{definitions.join}}"
     end
 
     def css_rules(rules) : String
-      rules.join("")
+      rules.join
     end
 
     def display_name(name, real_name) : String
@@ -86,7 +86,7 @@ module Mint
     end
 
     def class(name, extends : String, body : Array(String)) : String
-      "class #{name} extends #{extends}{#{body.join("")}}"
+      "class #{name} extends #{extends}{#{body.join}}"
     end
 
     def statements(items : Array(String)) : String
@@ -94,19 +94,19 @@ module Mint
     end
 
     def store(name : String, body : Array(String)) : String
-      const(name, "new(class extends _S{#{body.join("")}})")
+      const(name, "new(class extends _S{#{body.join}})")
     end
 
     def module(name : String, body : Array(String)) : String
-      const(name, "new(class extends _M{#{body.join("")}})")
+      const(name, "new(class extends _M{#{body.join}})")
     end
 
     def provider(name : String, body : Array(String)) : String
-      const(name, "new(class extends _P{#{body.join("")}})")
+      const(name, "new(class extends _P{#{body.join}})")
     end
 
     def iic(body : Array(String)) : String
-      "new(class{#{body.join("")}})"
+      "new(class{#{body.join}})"
     end
 
     def iif(body : String) : String
@@ -138,7 +138,7 @@ module Mint
     end
 
     def try(body : String, catches : Array(String), finally : String) : String
-      "try{#{body}}#{catches.join("")}#{finally}"
+      "try{#{body}}#{catches.join}#{finally}"
     end
 
     def promise(body : String) : String
@@ -291,8 +291,6 @@ module Mint
   class Js
     INITIAL = 'a'.pred.to_s
 
-    getter optimize, renderer
-
     @style_prop_cache : Hash(String, String) = {} of String => String
     @style_cache : Hash(Ast::Node, String) = {} of Ast::Node => String
 
@@ -304,23 +302,19 @@ module Mint
     @next_class : String = 'A'.pred.to_s
     @next_style : String = 'a'.pred.to_s
 
-    @optimize = true
+    getter? optimize = true
+    getter renderer
 
     forward_missing_to renderer
 
     def initialize(@optimize)
-      @renderer =
-        if optimize
-          Optimized.new
-        else
-          Normal.new
-        end
+      @renderer = optimize ? Optimized.new : Normal.new
     end
 
     def variable_of(node)
       case node
       when Ast::Function
-        return node.name.value if node.keep_name
+        return node.name.value if node.keep_name?
       else
         # ignore
       end
@@ -362,7 +356,7 @@ module Mint
       "#{name}(#{props.join(',')})"
     end
 
-    def function(name, arguments = [] of String) : String
+    def function(name, arguments = %w[]) : String
       function(name, arguments, yield)
     end
 

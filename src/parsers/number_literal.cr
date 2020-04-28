@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error NumberLiteralExpectedDecimal
 
-    def number_literal : Ast::NumberLiteral | Nil
+    def number_literal : Ast::NumberLiteral?
       start do |start_position|
         negation = char! '-'
 
@@ -23,7 +23,7 @@ module Mint
 
         Ast::NumberLiteral.new(
           from: start_position,
-          value: BigDecimal.new(value),
+          value: value.to_big_d,
           float: float,
           to: position,
           input: data)

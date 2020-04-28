@@ -7,7 +7,7 @@ module Mint
     syntax_error FunctionExpectedExpression
     syntax_error FunctionExpectedName
 
-    def function : Ast::Function | Nil
+    def function : Ast::Function?
       start do |start_position|
         comment = self.comment
 

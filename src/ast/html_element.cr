@@ -7,7 +7,7 @@ module Mint
                      @children : Array(HtmlContent),
                      @comments : Array(Comment),
                      @styles : Array(HtmlStyle),
-                     @ref : Variable | Nil,
+                     @ref : Variable?,
                      @tag : Variable,
                      @input : Data,
                      @from : Int32,

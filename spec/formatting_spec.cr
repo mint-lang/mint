@@ -3,7 +3,7 @@ require "./spec_helper"
 Dir.glob("./spec/formatters/**/*").each do |file|
   it file do
     # Read and separate sample from expected
-    sample, expected = File.read(file).split("-"*80)
+    sample, expected = File.read(file).split("-" * 80)
 
     # Parse sample
     ast = Mint::Parser.parse(sample, file)

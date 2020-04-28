@@ -17,7 +17,7 @@ module Mint
       raise HtmlComponentGlobalComponent, {
         "name" => node.component.value,
         "node" => node,
-      } if component.global
+      } if component.global?
 
       resolve component
 

@@ -150,9 +150,7 @@ module Mint
       end
 
       ast = terminal.measure "#{COG} Compiling tests... " do
-        a = compile_ast
-        compile_script(a)
-        a
+        compile_ast.tap { |a| compile_script(a) }
       end
 
       if ast.try(&.suites.empty?)
@@ -170,18 +168,20 @@ module Mint
     end
 
     def browser_path
-      if paths = BROWSER_PATHS[@flags.browser.downcase]?
-        path =
-          paths.find { |item| Process.run("which", args: [item]).success? }
+      paths = BROWSER_PATHS[@flags.browser.downcase]?
 
-        raise BrowserNotFound, {
-          "browser" => @flags.browser,
-        } unless path
+      raise InvalidBrowser, {
+        "browser" => @flags.browser,
+      } unless paths
 
-        path
-      else
-        raise InvalidBrowser, {"browser" => @flags.browser}
-      end
+      path =
+        paths.find { |item| Process.run("which", args: [item]).success? }
+
+      raise BrowserNotFound, {
+        "browser" => @flags.browser,
+      } unless path
+
+      path
     end
 
     def compile_ast
@@ -198,13 +198,13 @@ module Mint
           Dir.glob(SourceFiles.tests + SourceFiles.all)
         end
 
-      sources.uniq.reduce(ast) do |memo, file|
+      sources.uniq!.reduce(ast) do |memo, file|
         artifact = Parser.parse(file)
 
         formatted =
           Formatter.new(artifact, MintJson.parse_current.formatter_config).format
 
-        if formatted != File.read(file)
+        unless formatted == File.read(file)
           File.write(file, formatted)
         end
 
@@ -314,7 +314,8 @@ module Mint
         terminal.puts "#{COG} Running tests:"
 
         socket.on_message do |message|
-          if message == "DONE"
+          case message
+          when "DONE"
             @reporter.done
             sum = @succeeded + @failed.size
 

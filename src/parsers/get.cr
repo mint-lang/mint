@@ -7,7 +7,7 @@ module Mint
     syntax_error GetExpectedName
     syntax_error GetExpectedType
 
-    def get : Ast::Get | Nil
+    def get : Ast::Get?
       start do |start_position|
         comment = self.comment
 

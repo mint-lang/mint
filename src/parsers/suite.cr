@@ -5,7 +5,7 @@ module Mint
     syntax_error SuiteExpectedTests
     syntax_error SuiteExpectedName
 
-    def suite : Ast::Suite | Nil
+    def suite : Ast::Suite?
       start do |start_position|
         skip unless keyword "suite"
 
@@ -23,7 +23,7 @@ module Mint
           items = many { test || comment }.compact
 
           raise SuiteExpectedTests if items
-                                        .reject(&.is_a?(Ast::Comment))
+                                        .reject(Ast::Comment)
                                         .empty?
 
           items

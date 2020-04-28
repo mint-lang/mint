@@ -4,7 +4,7 @@ module Mint
     syntax_error FinallyExpectedClosingBracket
     syntax_error FinallyExpectedExpression
 
-    def finally : Ast::Finally | Nil
+    def finally : Ast::Finally?
       start do |start_position|
         whitespace
 

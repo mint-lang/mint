@@ -18,8 +18,8 @@ module Mint
   end
 
   class PropertyValue
-    property default : String | Nil
-    property variable : String | Nil
+    property default : String?
+    property variable : String?
 
     def to_s(io : IO)
       if variable && default
@@ -74,7 +74,7 @@ module Mint
             statements =
               conditions
                 .flatten
-                .sort_by(&.from)
+                .sort_by!(&.from)
                 .map do |item|
                   proc =
                     (Proc(String, String).new { |name|
@@ -85,7 +85,7 @@ module Mint
                       selector[name].variable = variable
 
                       variable
-                    }).as(Proc(String, String) | Nil)
+                    }).as(Proc(String, String)?)
 
                   case item
                   when Ast::If, Ast::Case
@@ -107,7 +107,7 @@ module Mint
           js.const("_", static),
           compiled_conditions,
           js.return("_"),
-        ]].flatten.reject(&.empty?)))
+        ]].flatten.reject!(&.empty?)))
     end
   end
 
@@ -136,7 +136,7 @@ module Mint
       # Basically it allows to identify a specific set of rules in a
       # specific set of nested at queries (media, supports) in case their
       # properties are defined in serveral places.
-      @selectors = {} of Tuple(String | Nil, String | Nil, Array(String), Array(String)) => Selector
+      @selectors = {} of Tuple(String?, String?, Array(String), Array(String)) => Selector
 
       # This hash contains variables for a specific "style" tag, which will
       # be compiled by the compiler itself when compiling an HTML element
@@ -148,7 +148,7 @@ module Mint
 
     # Compiles the processed data into a CSS style sheet.
     def compile
-      output = {} of Tuple(String | Nil, String | Nil, Array(String)) => Array(String)
+      output = {} of Tuple(String?, String?, Array(String)) => Array(String)
 
       selectors
         .reject { |_, v| v.empty? }
@@ -157,7 +157,7 @@ module Mint
             properties.join('\n') { |key, value| "#{key}: #{value};" }
 
           rules.each do |rule|
-            output[{id, at, condition}] ||= [] of String
+            output[{id, at, condition}] ||= %w[]
             output[{id, at, condition}] << "#{rule.strip} {\n#{body.indent}\n}"
           end
         end
@@ -192,17 +192,17 @@ module Mint
       selectors =
         ["." + style_pool.of(node, nil)]
 
-      process(node.body, nil, nil, selectors, [] of String, node)
+      process(node.body, nil, nil, selectors, %w[], node)
     end
 
     # Processes a Ast::CssSelector
     def process(node : Ast::CssSelector,
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 parents : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
-      selectors = [] of String
+      selectors = %w[]
 
       parents.each do |parent|
         node.selectors.map do |item|
@@ -215,8 +215,8 @@ module Mint
 
     # Processes an Ast::CssNestedAt
     def process(node : Ast::CssNestedAt,
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 selectors : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
@@ -225,8 +225,8 @@ module Mint
 
     # Processes the body of a CSS Ast::Node.
     def process(body : Array(Ast::Node),
-                id : String | Nil,
-                at : String | Nil,
+                id : String?,
+                at : String?,
                 selectors : Array(String),
                 conditions : Array(String),
                 style_node : Ast::Node)
@@ -250,10 +250,10 @@ module Mint
             variables[style_node][variable] = item.value
           else
             selector[item.name] ||= PropertyValue.new
-            selector[item.name].default = item.value.join("")
+            selector[item.name].default = item.value.join
           end
         when Ast::CssFontFace
-          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], [] of String, style_node)
+          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], %w[], style_node)
         when Ast::CssKeyframes
           process(item.selectors, UUID.random.to_s, "keyframes", [""], [item.name], style_node)
         when Ast::CssSelector

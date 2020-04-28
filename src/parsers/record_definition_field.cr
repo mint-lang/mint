@@ -4,7 +4,7 @@ module Mint
     syntax_error RecordDefinitionFieldExpectedColon
     syntax_error RecordDefinitionFieldExpectedType
 
-    def record_definition_field : Ast::RecordDefinitionField | Nil
+    def record_definition_field : Ast::RecordDefinitionField?
       start do |start_position|
         comment = self.comment
 

@@ -4,7 +4,7 @@ module Mint
     syntax_error RoutesExpectedClosingBracket
     syntax_error RoutesExpectedRoute
 
-    def routes : Ast::Routes | Nil
+    def routes : Ast::Routes?
       start do |start_position|
         skip unless keyword "routes"
 
@@ -15,7 +15,7 @@ module Mint
           items = many { comment || route }.compact
 
           raise RoutesExpectedRoute if items
-                                         .reject(&.is_a?(Ast::Comment))
+                                         .reject(Ast::Comment)
                                          .empty?
           items
         end

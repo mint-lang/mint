@@ -5,7 +5,7 @@ module Mint
     syntax_error HtmlComponentExpectedReference
     syntax_error HtmlComponentExpectedType
 
-    def html_component : Ast::HtmlComponent | Nil
+    def html_component : Ast::HtmlComponent?
       start do |start_position|
         component = start do |start_pos|
           skip unless char! '<'

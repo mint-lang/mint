@@ -5,7 +5,7 @@ module Mint
     syntax_error TestExpectedExpression
     syntax_error TestExpectedName
 
-    def test : Ast::Test | Nil
+    def test : Ast::Test?
       start do |start_position|
         skip unless keyword "test"
 

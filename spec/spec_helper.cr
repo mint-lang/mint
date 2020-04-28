@@ -1,8 +1,8 @@
 require "spec"
 require "diff"
 
-MINT_ENV["TEST"] = "YES"
-ERROR_MESSAGES = [] of String
+MINT_ENV["TEST"] = "TRUE"
+ERROR_MESSAGES = %w[]
 
 class Mint::Error < Exception
   macro inherited
@@ -15,20 +15,26 @@ class Mint::Error < Exception
 end
 
 def diff(a, b)
-  file1 = File.tempfile
-  file1.puts a.strip
-  file1.flush
-  file2 = File.tempfile
-  file2.puts b
-  file2.flush
+  file1 = File.tempfile do |f|
+    f.puts a.strip
+    f.flush
+  end
+  file2 = File.tempfile do |f|
+    f.puts b
+    f.flush
+  end
 
   io = IO::Memory.new
-  Process.run("git", ["--no-pager", "diff", "--no-index", "--color=always", file1.path, file2.path], output: io)
 
-  file1.delete
-  file2.delete
+  Process.run("git", [
+    "--no-pager", "diff", "--no-index", "--color=always",
+    file1.path, file2.path,
+  ], output: io)
 
   io.to_s
+ensure
+  file1.try &.delete
+  file2.try &.delete
 end
 
 require "../src/all"

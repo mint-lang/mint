@@ -9,7 +9,7 @@ module Mint
       node
     end
 
-    def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral | Nil
+    def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral?
       start do |start_position|
         skip unless char! '"'
 
@@ -18,7 +18,7 @@ module Mint
             (not_interpolation_part('"') || interpolation)
           else
             not_interpolation_part('"')
-          end.as(Ast::Interpolation | String | Nil)
+          end.as(Ast::Interpolation | String?)
         end.compact
 
         char '"', StringExpectedEndQuote
@@ -39,7 +39,7 @@ module Mint
         # Normalize the value so there are consecutive Strings
         value =
           value.reduce([] of Ast::Interpolation | String) do |memo, item|
-            if memo.last?.try(&.is_a?(String)) && item.is_a?(String)
+            if memo.last?.is_a?(String) && item.is_a?(String)
               memo << (memo.pop.as(String) + item.as(String))
             else
               memo << item

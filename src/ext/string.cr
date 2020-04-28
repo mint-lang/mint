@@ -24,7 +24,7 @@ class String
     # Count the leading whitespace in each line
     count =
       lines
-        .reject(&.strip.empty?)
+        .reject!(&.blank?)
         .compact_map(&.leading_whitespace_count)
         .min? || 0
 
@@ -35,12 +35,10 @@ class String
   end
 
   def leading_whitespace_count
+    return 0 if empty?
     i = 0
-    begin
-      while self[i].in_set?(" \n\r\t")
-        i += 1
-      end
-    rescue IndexError
+    while self[i].ascii_whitespace?
+      i += 1
     end
     i
   end

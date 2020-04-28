@@ -9,20 +9,19 @@ module Mint
   # * When --auto-format flag is passed all source files are watched and if
   #   any changes it formats the file
   class Reactor
-    def self.start(host : String, port : Int32, auto_format : Bool)
-      new host, port, auto_format
-    end
-
-    getter script, ast
-
     @sockets = [] of HTTP::WebSocket
-    @error : String | Nil = nil
+    @error : String?
     @watcher : AstWatcher
-    @ast : Ast = Ast.new
-    @script = ""
     @host : String
     @port : Int32
     @auto_format : Bool
+
+    getter ast : Ast = Ast.new
+    getter script = ""
+
+    def self.start(host : String, port : Int32, auto_format : Bool)
+      new host, port, auto_format
+    end
 
     def initialize(@host, @port, @auto_format)
       terminal.measure "#{COG} Ensuring dependencies... " do
@@ -36,7 +35,7 @@ module Mint
               formatted =
                 Formatter.new(ast, MintJson.parse_current.formatter_config).format
 
-              if formatted != File.read(file)
+              unless formatted == File.read(file)
                 File.write(file, formatted)
               end
             end
@@ -126,30 +125,30 @@ module Mint
 
         # If there is any static file available serve that.
         if File.exists?(path)
-          File.read(path)
-        else
-          # If there is a baked file serve that.
-          begin
-            Assets.read(env.params.url["name"])
-          rescue BakedFileSystem::NoSuchFileError
-            match = env.params.url["name"].match(/icon-(\d+)x\d+\.png$/)
+          next File.read(path)
+        end
 
-            # If it's a favicon generate it and return that.
-            if match
-              env.response.content_type =
-                "image/png"
+        # If there is a baked file serve that.
+        begin
+          Assets.read(env.params.url["name"])
+        rescue BakedFileSystem::NoSuchFileError
+          match = env.params.url["name"].match(/icon-(\d+)x\d+\.png$/)
 
-              json =
-                MintJson.parse_current
+          # If it's a favicon generate it and return that.
+          if match
+            env.response.content_type =
+              "image/png"
 
-              IconGenerator.convert(json.application.icon, match[1])
-            else
-              env.response.content_type =
-                "text/html"
+            json =
+              MintJson.parse_current
 
-              # Else return the index so push state can work as intended.
-              index
-            end
+            IconGenerator.convert(json.application.icon, match[1])
+          else
+            env.response.content_type =
+              "text/html"
+
+            # Else return the index so push state can work as intended.
+            index
           end
         end
       end

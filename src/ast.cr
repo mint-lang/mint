@@ -49,7 +49,7 @@ module Mint
                    @enums = [] of Enum)
     end
 
-    def main : Component | Nil
+    def main : Component?
       @components.find(&.name.==("Main"))
     end
 

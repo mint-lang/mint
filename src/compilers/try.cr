@@ -3,7 +3,7 @@ module Mint
     def _compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
-          js.let("_catch_all", js.arrow_function([] of String, "return #{compile(catch.expression)}")) + "\n\n"
+          js.let("_catch_all", js.arrow_function(%w[], "return #{compile(catch.expression)}")) + "\n\n"
         end
 
       body =

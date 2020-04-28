@@ -3,7 +3,7 @@ module Mint
     syntax_error CssSelectorExpectedOpeningBracket
     syntax_error CssSelectorExpectedClosingBracket
 
-    def css_selector(only_definitions : Bool = false) : Ast::CssSelector | Nil
+    def css_selector(only_definitions : Bool = false) : Ast::CssSelector?
       start do |start_position|
         selectors = list(
           terminator: '{',
@@ -32,7 +32,7 @@ module Mint
       end
     end
 
-    def css_selector_name : String | Nil
+    def css_selector_name : String?
       colon = nil
       double_colon = nil
       dot = nil

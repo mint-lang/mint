@@ -16,8 +16,8 @@ module Mint
         ) do
           whitespace
           type =
-            self.type.as(Ast::Type | Nil) ||
-              type_variable.as(Ast::TypeVariable | Nil)
+            self.type.as(Ast::Type?) ||
+              type_variable.as(Ast::TypeVariable?)
           whitespace
           raise TypeExpectedTypeOrVariable unless type
           type
@@ -33,7 +33,7 @@ module Mint
         name: name)
     end
 
-    def type : Ast::Type | Nil
+    def type : Ast::Type?
       return unless char.in_set? "A-Z"
       type! TypeExpectedType
     end

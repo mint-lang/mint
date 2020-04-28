@@ -6,7 +6,7 @@ module Mint
     syntax_error ConnectExpectedType
     syntax_error ConnectExpectedKeys
 
-    def connect : Ast::Connect | Nil
+    def connect : Ast::Connect?
       start do |start_position|
         skip unless keyword "connect"
         whitespace

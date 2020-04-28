@@ -18,7 +18,7 @@ module Mint
             extends: "_E",
             body: [js.function("constructor", ids) do
               js.statements([
-                js.call("super", [] of String),
+                js.call("super", %w[]),
                 assignments,
                 "this.length = #{option.parameters.size}",
               ].flatten)

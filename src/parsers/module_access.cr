@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error ModuleAccessExpectedFunction
 
-    def module_access : Ast::ModuleAccess | Nil
+    def module_access : Ast::ModuleAccess?
       start do |start_position|
         name = start do
           value = type_id

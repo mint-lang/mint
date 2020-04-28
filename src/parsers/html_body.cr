@@ -31,7 +31,7 @@ module Mint
 
       unless self_closing
         items = many do
-          html_content.as(Ast::HtmlContent | Ast::Comment | Nil)
+          html_content.as(Ast::HtmlContent | Ast::Comment?)
         end.compact
 
         whitespace

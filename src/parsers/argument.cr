@@ -3,7 +3,7 @@ module Mint
     syntax_error ArgumentExpectedTypeOrVariable
     syntax_error ArgumentExpectedColon
 
-    def argument : Ast::Argument | Nil
+    def argument : Ast::Argument?
       start do |start_position|
         skip unless name = variable
 

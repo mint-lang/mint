@@ -4,7 +4,7 @@ module Mint
     syntax_error ModuleExpectedClosingBracket
     syntax_error ModuleExpectedName
 
-    def module_definition : Ast::Module | Nil
+    def module_definition : Ast::Module?
       start do |start_position|
         comment = self.comment
         whitespace

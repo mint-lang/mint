@@ -9,7 +9,7 @@ module Mint
         name =
           js.class_of(type.name)
 
-        args = [] of String
+        args = %w[]
 
         fields =
           type

@@ -3,7 +3,7 @@ module Mint
     syntax_error CssFontFaceExpectedOpeningBracket
     syntax_error CssFontFaceExpectedClosingBracket
 
-    def css_font_face : Ast::CssFontFace | Nil
+    def css_font_face : Ast::CssFontFace?
       start do |start_position|
         skip unless keyword "@font-face"
 

@@ -35,7 +35,7 @@ module Mint
             end
           else
             # ignore
-          end || [] of String
+          end || %w[]
 
         case type
         when TypeChecker::Type

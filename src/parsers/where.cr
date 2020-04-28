@@ -4,7 +4,7 @@ module Mint
     syntax_error WhereExpectedClosingBracket
     syntax_error WhereExpectedWhere
 
-    def where : Ast::Where | Nil
+    def where : Ast::Where?
       start do |start_position|
         skip unless keyword "where"
 
@@ -15,7 +15,7 @@ module Mint
           items = many { where_statement || comment }.compact
 
           raise WhereExpectedWhere if items
-                                        .reject(&.is_a?(Ast::Comment))
+                                        .reject(Ast::Comment)
                                         .empty?
           items
         end

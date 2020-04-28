@@ -19,7 +19,7 @@ module Mint
         list items
 
       global =
-        node.global ? "global " : ""
+        node.global? ? "global " : ""
 
       comment =
         node.comment.try { |item| "#{format item}\n" }

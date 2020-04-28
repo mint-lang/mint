@@ -6,7 +6,7 @@ module Mint
     syntax_error UseExpectedProvider
     syntax_error UseExpectedRecord
 
-    def use : Ast::Use | Nil
+    def use : Ast::Use?
       start do |start_position|
         skip unless keyword "use"
 

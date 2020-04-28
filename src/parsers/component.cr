@@ -5,7 +5,7 @@ module Mint
     syntax_error ComponentExpectedBody
     syntax_error ComponentExpectedName
 
-    def component : Ast::Component | Nil
+    def component : Ast::Component?
       start do |start_position|
         comment = self.comment
 

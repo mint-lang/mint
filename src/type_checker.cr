@@ -26,7 +26,7 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
-    property checking : Bool = true
+    property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
@@ -160,16 +160,14 @@ module Mint
 
       other = @record_names[record.name]?
 
-      if other && node != other
-        raise RecordNameConflict, {
-          "name"  => record.name,
-          "other" => other,
-          "node"  => node,
-        }
-      else
-        records << record
-        @record_names[record.name] = node
-      end
+      raise RecordNameConflict, {
+        "name"  => record.name,
+        "other" => other,
+        "node"  => node,
+      } if other && node != other
+
+      records << record
+      @record_names[record.name] = node
     end
 
     # Scope specific helpers
@@ -186,15 +184,11 @@ module Mint
     end
 
     def scope(node : Scope::Node)
-      scope.with node do
-        yield
-      end
+      scope.with(node) { yield }
     end
 
     def scope(nodes)
-      scope.with nodes do
-        yield
-      end
+      scope.with(nodes) { yield }
     end
 
     type_error VariableTaken
@@ -217,8 +211,7 @@ module Mint
     type_error Recursion
 
     def check!(node)
-      return unless checking
-      checked.add(node)
+      checked.add(node) if checking?
     end
 
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
@@ -230,8 +223,7 @@ module Mint
           if @stack.includes?(node)
             case node
             when Ast::Component
-              # ameba:disable Style/RedundantReturn
-              return NEVER.as(Checkable)
+              NEVER
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
             when Ast::WhereStatement, Ast::Statement
@@ -289,10 +281,8 @@ module Mint
       if other && other != node
         what =
           case other
-          when Ast::Enum
-            "enum"
-          when Ast::RecordDefinition
-            "record"
+          when Ast::Enum             then "enum"
+          when Ast::RecordDefinition then "record"
           else
             ""
           end
@@ -314,14 +304,10 @@ module Mint
       if other
         what =
           case other
-          when Ast::Component
-            "component"
-          when Ast::Module
-            "module"
-          when Ast::Provider
-            "provider"
-          when Ast::Store
-            "store"
+          when Ast::Component then "component"
+          when Ast::Module    then "module"
+          when Ast::Provider  then "provider"
+          when Ast::Store     then "store"
           else
             ""
           end
@@ -350,14 +336,10 @@ module Mint
         if other
           what =
             case other
-            when Ast::State
-              "state"
-            when Ast::Function
-              "function"
-            when Ast::Get
-              "get"
-            when Ast::Property
-              "property"
+            when Ast::State    then "state"
+            when Ast::Function then "function"
+            when Ast::Get      then "get"
+            when Ast::Property then "property"
             else
               ""
             end
@@ -401,10 +383,10 @@ module Mint
           "th"
         else
           case abs_number % 10
-          when 1; "st"
-          when 2; "nd"
-          when 3; "rd"
-          else    "th"
+          when 1 then "st"
+          when 2 then "nd"
+          when 3 then "rd"
+          else        "th"
           end
         end
 

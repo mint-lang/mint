@@ -5,8 +5,8 @@ module Mint
 
       def initialize(@statements : Array(Statement),
                      @comments : Array(Comment),
-                     @then_branch : Then | Nil,
-                     @finally : Finally | Nil,
+                     @then_branch : Then?,
+                     @finally : Finally?,
                      @catches : Array(Catch),
                      @catch_all : CatchAll?,
                      @input : Data,

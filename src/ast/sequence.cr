@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@statements : Array(Statement),
                      @comments : Array(Comment),
-                     @finally : Finally | Nil,
+                     @finally : Finally?,
                      @catches : Array(Catch),
                      @catch_all : CatchAll?,
                      @input : Data,

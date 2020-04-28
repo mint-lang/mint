@@ -3,7 +3,7 @@ module Mint
     syntax_error HtmlExpressionExpectedExpression
     syntax_error HtmlExpressionExpectedClosingTag
 
-    def html_expression : Ast::HtmlExpression | Nil
+    def html_expression : Ast::HtmlExpression?
       start do |start_position|
         skip unless keyword "<{"
 
@@ -14,7 +14,7 @@ module Mint
         keyword! "}>", HtmlExpressionExpectedClosingTag
 
         Ast::HtmlExpression.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def compile(value : Array(Ast::Interpolation | String))
-      if value.any?(&.is_a?(Ast::Interpolation))
+      if value.any?(Ast::Interpolation)
         value.map do |part|
           case part
           when String
@@ -9,7 +9,7 @@ module Mint
           else
             compile part
           end
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
           .join(" + ")
       else
         result =
@@ -38,8 +38,7 @@ module Mint
       attributes =
         node
           .attributes
-          .reject(&.name.value.==("class"))
-          .reject(&.name.value.==("style"))
+          .reject(&.name.value.in?("class", "style"))
           .map { |attribute| resolve(attribute) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
@@ -59,8 +58,6 @@ module Mint
       class_name_attribute_value =
         if class_name_attribute
           compile(class_name_attribute.value)
-        else
-          nil
         end
 
       classes =
@@ -79,7 +76,7 @@ module Mint
         .find(&.name.value.==("style"))
         .try { |attribute| compile(attribute.value) }
 
-      styles = [] of String
+      styles = %w[]
 
       node.styles.each do |item|
         if style_builder.any?(lookups[item])
@@ -114,7 +111,7 @@ module Mint
         [%("#{tag}"),
          attributes,
          children]
-          .reject(&.empty?)
+          .reject!(&.empty?)
           .join(", ")
 
       "_h(#{contents})"
