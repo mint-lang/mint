@@ -1,14 +1,4 @@
-# Mint
-
-[![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
-[![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
-[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
-
----
+# ![Mint](src/assets/mint-logo.svg)
 
 A refreshing programming language for the front-end web, aiming to solve the most common issues of **Single Page Applications (SPAs)** at a language level:
 
@@ -32,6 +22,8 @@ There are two bigger applications which can be used as examples / learning mater
 
 - the Mint implementation of [realworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)
 - the old Mint website (~3100 LOC) [SOURCE](https://github.com/mint-lang/mint-website)
+
+It would be great if you could take part in this short [survey](https://cybergusztav.typeform.com/to/J5mBcK) to provide your feedback about Mint.
 
 ## Installing
 
@@ -117,3 +109,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_large)
+
+---
+
+[![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
+[![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
+[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
