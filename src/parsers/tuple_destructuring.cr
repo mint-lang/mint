@@ -6,7 +6,6 @@ module Mint
       start do |start_position|
         head = start do
           skip unless char! '{'
-          whitespace
           value = variable
           whitespace
           char! ','
