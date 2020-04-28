@@ -2,19 +2,20 @@ module Mint
   module Render
     class Terminal
       class Block
+        @cursor = 0
+        @last : Char?
+
         getter io : IO
 
         def initialize(@io = IO::Memory.new, @width = 50)
-          @cursor = 0
-          @last = ""
         end
 
         def close
-          puts unless @last.in?("\n", "\r")
+          puts unless @last.in?('\n', '\r')
         end
 
         def print(contents : String)
-          @last = contents.last
+          @last = contents.last?
           @io.print contents
         end
 

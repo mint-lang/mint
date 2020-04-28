@@ -92,7 +92,7 @@ module Mint
 
     def source_files
       glob =
-        source_directories.map { |dir| "#{@root}/#{dir}/**/*.mint" }
+        source_directories.map { |dir| SourceFiles.glob_pattern(@root, dir) }
 
       Dir.glob(glob)
     end

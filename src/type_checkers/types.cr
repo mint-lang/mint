@@ -127,7 +127,7 @@ module Mint
       end
 
       def ==(other : Hash(String, Checkable))
-        return false if fields.size != other.size
+        return false unless fields.size == other.size
 
         other.all? do |key, type|
           next false unless fields[key]?
