@@ -9,7 +9,6 @@ require "kemal"
 require "uuid"
 require "html"
 require "json"
-require "big"
 
 MINT_ENV = {} of String => String
 

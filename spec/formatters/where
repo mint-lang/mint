@@ -12,7 +12,7 @@ module A {
     something
   } where {
     something =
-      0.1
+      0.100
 
     otherThing =
       false

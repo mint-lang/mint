@@ -23,7 +23,7 @@ module Mint
 
         Ast::NumberLiteral.new(
           from: start_position,
-          value: value.to_big_d,
+          value: value,
           float: float,
           to: position,
           input: data)

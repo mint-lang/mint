@@ -14,7 +14,7 @@ module A {
   } where {
     /* A */
     something =
-      0.1
+      0.100
 
     /* B */
     otherThing =
