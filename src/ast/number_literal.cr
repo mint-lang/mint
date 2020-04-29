@@ -4,7 +4,7 @@ module Mint
       getter value
       getter? float
 
-      def initialize(@value : BigDecimal,
+      def initialize(@value : String,
                      @input : Data,
                      @float : Bool,
                      @from : Int32,
@@ -16,7 +16,7 @@ module Mint
       end
 
       def static_value
-        (float? ? value : value.to_i64).to_s
+        value
       end
     end
   end
