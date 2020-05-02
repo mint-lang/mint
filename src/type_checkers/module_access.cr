@@ -9,7 +9,7 @@ module Mint
           ast.stores.find(&.name.==(node.name)) ||
           ast.providers.find(&.name.==(node.name)) ||
           ast.components
-            .select(&.global)
+            .select(&.global?)
             .find(&.name.==(node.name))
 
       item =

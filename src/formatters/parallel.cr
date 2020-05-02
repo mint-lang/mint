@@ -24,7 +24,7 @@ module Mint
        then_branch.to_s,
        catches.join(' '),
        finally.to_s,
-      ].reject(&.strip.empty?)
+      ].reject!(&.blank?)
         .join(' ')
     end
   end

@@ -4,7 +4,7 @@ module Mint
     syntax_error TryExpectedClosingBracket
     syntax_error TryExpectedStatement
 
-    def try_expression : Ast::Try | Nil
+    def try_expression : Ast::Try?
       start do |start_position|
         skip unless keyword "try"
 
@@ -15,7 +15,7 @@ module Mint
           items = many { statement(Ast::Statement::Parent::Try) || comment }.compact
 
           raise TryExpectedStatement if items
-                                          .reject(&.is_a?(Ast::Comment))
+                                          .reject(Ast::Comment)
                                           .empty?
 
           items

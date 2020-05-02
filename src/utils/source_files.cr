@@ -2,18 +2,22 @@ module Mint
   module SourceFiles
     extend self
 
+    def glob_pattern(*dirs : Path | String)
+      File.join(*dirs, "**", "*.mint")
+    end
+
     def tests
       MintJson
         .parse_current
         .test_directories
-        .map { |dir| "#{dir}/**/*.mint" }
+        .map { |dir| glob_pattern(dir) }
     end
 
     def current
       MintJson
         .parse_current
         .source_directories
-        .map { |dir| "#{dir}/**/*.mint" }
+        .map { |dir| glob_pattern(dir) }
     end
 
     def external_javascripts
@@ -46,7 +50,11 @@ module Mint
 
           external_files.concat files
         end
-        external_files.concat MintJson.parse_current.external_files[files_type]
+
+        current_files =
+          MintJson.parse_current.external_files[files_type]
+
+        external_files.concat current_files
       end
     end
 
@@ -63,13 +71,16 @@ module Mint
     end
 
     def all
-      package_dirs = [] of String
+      current.dup.tap do |package_dirs|
+        each_package do |json|
+          dirs =
+            json.source_directories.map do |dir|
+              glob_pattern(json.root, dir)
+            end
 
-      each_package do |json|
-        package_dirs.concat json.source_directories.map { |dir| "#{json.root}/#{dir}" }
+          package_dirs.concat dirs
+        end
       end
-
-      current + package_dirs.map { |dir| "#{dir}/**/*.mint" }
     end
   end
 end

@@ -14,7 +14,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { expression.as(Ast::Expression | Nil) }.compact
+        ) { expression.as(Ast::Expression?) }.compact
         whitespace
 
         char ')', CallExpectedClosingParentheses

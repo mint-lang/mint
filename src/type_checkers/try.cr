@@ -18,7 +18,7 @@ module Mint
             if new_type.name == "Result" &&
                new_type.parameters.size == 2
               # If the error is not Never then that type needs to be catched
-              if new_type.parameters[0].name != "Never"
+              unless new_type.parameters[0].name == "Never"
                 to_catch << new_type.parameters[0]
               end
               new_type.parameters[1]

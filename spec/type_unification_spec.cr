@@ -19,7 +19,7 @@ class Parser
     @map = {} of String => Variable
   end
 
-  def parse_type : Checkable | Nil
+  def parse_type : Checkable?
     return if scanner.scan(/\)/)
     return if scanner.check(/,\s*/)
     return if scanner.eos?

@@ -9,7 +9,7 @@ module Mint
 
       getter target, expression, parent
 
-      def initialize(@target : Node | Nil,
+      def initialize(@target : Node?,
                      @expression : Expression,
                      @parent : Parent,
                      @input : Data,

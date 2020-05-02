@@ -16,10 +16,9 @@ module Mint
         ast.suites +
         ast.enums +
         ast.comments
-      ).sort_by(&.from)
-        .map do |node|
-          format node
-        end
+      )
+        .sort_by!(&.from)
+        .map { |node| format node }
 
       result =
         body

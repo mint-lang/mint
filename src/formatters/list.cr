@@ -26,17 +26,18 @@ module Mint
 
             # Decide the separator
             separator =
-              if last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+              case
+              when last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
                 "\n\n"
-              elsif !last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
+              when !last.is_a?(Ast::Comment) && node.is_a?(Ast::Comment)
                 "\n\n"
-              elsif last.is_a?(Ast::Comment) && node.responds_to?(:comment) && node.comment
+              when last.is_a?(Ast::Comment) && node.responds_to?(:comment) && node.comment
                 "\n\n"
-              elsif last.is_a?(Ast::Comment)
+              when last.is_a?(Ast::Comment)
                 "\n"
-              elsif replace_skipped(last_formatted).includes?('\n') ||
-                    replace_skipped(formatted).includes?('\n') ||
-                    space_separated
+              when replace_skipped(last_formatted).includes?('\n') ||
+                replace_skipped(formatted).includes?('\n') ||
+                space_separated
                 "\n\n"
               else
                 "\n"

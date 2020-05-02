@@ -25,7 +25,7 @@ module Mint
       end
     end
 
-    def expression : Ast::Expression | Nil
+    def expression : Ast::Expression?
       return unless left = basic_expression
 
       # Make sure there is no whitespace after an expression

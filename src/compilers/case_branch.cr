@@ -3,7 +3,7 @@ module Mint
     def _compile(node : Ast::CaseBranch,
                  index : Int32,
                  variable : String,
-                 block : Proc(String, String) | Nil = nil) : Tuple(String | Nil, String)
+                 block : Proc(String, String)? = nil) : Tuple(String?, String)
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)

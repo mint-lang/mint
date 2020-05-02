@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error ArrayDestructuringExpectedClosingBracket
 
-    def array_destructuring : Ast::ArrayDestructuring | Nil
+    def array_destructuring : Ast::ArrayDestructuring?
       start do |start_position|
         head = start do
           skip unless char! '['

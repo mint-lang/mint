@@ -41,10 +41,10 @@ module Mint
                     .select { |item| item.type == type.parameters[0].name }
                     .map { |item| compile(item).as(String) }
                 else
-                  [] of String
+                  %w[]
                 end
               else
-                [] of String
+                %w[]
               end
 
             case type

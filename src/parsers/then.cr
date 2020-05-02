@@ -4,7 +4,7 @@ module Mint
     syntax_error ThenExpectedClosingBracket
     syntax_error ThenExpectedExpression
 
-    def then_block : Ast::Then | Nil
+    def then_block : Ast::Then?
       start do |start_position|
         whitespace
 

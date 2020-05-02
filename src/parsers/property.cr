@@ -4,7 +4,7 @@ module Mint
     syntax_error PropertyExpectedName
     syntax_error PropertyExpectedType
 
-    def property : Ast::Property | Nil
+    def property : Ast::Property?
       start do
         comment = self.comment
         whitespace

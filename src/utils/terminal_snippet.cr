@@ -21,10 +21,10 @@ module Mint
 
       def highlight(from, to)
         diff_from =
-          [from - offset, 0].max
+          {from - offset, 0}.max
 
         diff_to =
-          [[to - offset, contents.size].min, 0].max
+          {[to - offset, contents.size].min, 0}.max
 
         left =
           self[0, diff_from]
@@ -62,27 +62,26 @@ module Mint
         end
 
       start_line =
-        [0, (lines.find(&.contains?(from)).try(&.index) || 0) - padding].max
+        {0, (lines.find(&.contains?(from)).try(&.index) || 0) - padding}.max
 
       end_line =
-        [(lines.find(&.contains?(to)).try(&.index) || 0) + padding + 1, lines.size].min
+        {(lines.find(&.contains?(to)).try(&.index) || 0) + padding + 1, lines.size}.min
 
-      gutter_width =
-        [(start_line + 1).to_s.size,
-         (end_line + 1).to_s.size,
-        ].max
+      gutter_width = {
+        (start_line + 1).to_s.size,
+        (end_line + 1).to_s.size,
+      }.max
 
       relevant_lines =
         lines[start_line, end_line - start_line]
 
-      min_width =
-        [
-          relevant_lines.map(&.size).max + gutter_width + 5,
-          width,
-        ].max
+      min_width = {
+        relevant_lines.map(&.size).max + gutter_width + 5,
+        width,
+      }.max
 
       result =
-        relevant_lines.map do |line| # ameba:disable Lint/ShadowingOuterLocalVar
+        relevant_lines.map do |line|
           line_number =
             (line.index + 1).to_s.rjust(gutter_width)
 

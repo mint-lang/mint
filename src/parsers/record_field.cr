@@ -3,7 +3,7 @@ module Mint
     syntax_error RecordFieldExpectedExpression
     syntax_error RecordFieldExpectedEqualSign
 
-    def record_field : Ast::RecordField | Nil
+    def record_field : Ast::RecordField?
       start do |start_position|
         comment = self.comment
 
@@ -16,7 +16,7 @@ module Mint
         value = expression! RecordFieldExpectedExpression
 
         Ast::RecordField.new(
-          value: value.as(Ast::Expression),
+          value: value,
           from: start_position,
           comment: comment,
           to: position,

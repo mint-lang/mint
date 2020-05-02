@@ -4,7 +4,7 @@ module Mint
     syntax_error CssKeyframesExpectedClosingBracket
     syntax_error CssKeyframesExpectedName
 
-    def css_keyframes : Ast::CssKeyframes | Nil
+    def css_keyframes : Ast::CssKeyframes?
       start do |start_position|
         skip unless keyword "@keyframes"
 

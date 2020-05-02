@@ -6,7 +6,7 @@ Dir
   .sort
   .each do |file|
     # Read samples
-    samples = [] of Tuple(String, String | Nil)
+    samples = [] of Tuple(String, String?)
     contents = File.read(file)
     name = File.basename(file)
     position = 0

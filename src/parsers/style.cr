@@ -5,7 +5,7 @@ module Mint
     syntax_error StyleExpectedClosingBracket
     syntax_error StyleExpectedName
 
-    def style : Ast::Style | Nil
+    def style : Ast::Style?
       start do |start_position|
         skip unless keyword "style"
 

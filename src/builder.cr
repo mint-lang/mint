@@ -69,7 +69,7 @@ module Mint
     end
 
     private def manifest_icons(skip_icons)
-      return [] of String if skip_icons
+      return %w[] if skip_icons
       ICON_SIZES.map do |size|
         {
           "src"   => "icon-#{size}x#{size}.png",

@@ -5,12 +5,13 @@ module Mint
     syntax_error RouteExpectedClosingBracket
     syntax_error RouteExpectedExpression
 
-    def route : Ast::Route | Nil
+    def route : Ast::Route?
       start do |start_position|
-        skip unless char.in_set? "*/"
+        skip unless char.in?('*', '/')
 
         url =
-          if char == "*"
+          case char
+          when '*'
             step
             "*"
           else

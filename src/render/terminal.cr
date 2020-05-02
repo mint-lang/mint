@@ -2,19 +2,20 @@ module Mint
   module Render
     class Terminal
       class Block
+        @cursor = 0
+        @last : Char?
+
         getter io : IO
 
         def initialize(@io = IO::Memory.new, @width = 50)
-          @cursor = 0
-          @last = ""
         end
 
         def close
-          puts unless @last.in?("\n", "\r")
+          puts unless @last.in?('\n', '\r')
         end
 
         def print(contents : String)
-          @last = contents.last
+          @last = contents.last?
           @io.print contents
         end
 
@@ -66,7 +67,7 @@ module Mint
           loop do
             char = contents[index]?
 
-            if ((char && char.whitespace?) || !char) && part.size > 0
+            if ((char && char.ascii_whitespace?) || !char) && part.size > 0
               if @cursor > @width
                 @cursor = part.size
                 puts
@@ -82,7 +83,7 @@ module Mint
             when '\n', '\r'
               @cursor = 0
               print char
-            when .whitespace?
+            when .ascii_whitespace?
               @cursor += 1
               print char
             else

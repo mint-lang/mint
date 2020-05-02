@@ -4,7 +4,7 @@ module Mint
     syntax_error ConstantExpectedValue
     syntax_error ConstantExpectedName
 
-    def constant : Ast::Constant | Nil
+    def constant : Ast::Constant?
       start do |start_position|
         comment = self.comment
         whitespace

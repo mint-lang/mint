@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error HtmlStyleExpectedClosingParentheses
 
-    def html_style : Ast::HtmlStyle | Nil
+    def html_style : Ast::HtmlStyle?
       start do |start_position|
         name = start do
           skip unless keyword "::"

@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def catch_all : Ast::CatchAll | Nil
+    def catch_all : Ast::CatchAll?
       start do |start_position|
         skip unless keyword "catch"
 

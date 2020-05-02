@@ -5,7 +5,7 @@ module Mint
     syntax_error StoreExpectedBody
     syntax_error StoreExpectedName
 
-    def store : Ast::Store | Nil
+    def store : Ast::Store?
       start do |start_position|
         comment = self.comment
         whitespace
@@ -22,7 +22,7 @@ module Mint
           items = many { state || function || get || constant || self.comment }.compact
 
           raise StoreExpectedBody if items
-                                       .reject(&.is_a?(Ast::Comment))
+                                       .reject(Ast::Comment)
                                        .empty?
           items
         end

@@ -81,14 +81,14 @@ module Mint
     def files
       Dir
         .glob("**/*")
-        .reject { |file| File.directory?(file) }
+        .reject! { |file| File.directory?(file) }
         .join(",\n") { |file| "'/#{file}'" }
     end
 
     def calculate_hash
       Dir
         .glob("**/*")
-        .reject { |file| File.directory?(file) }
+        .reject! { |file| File.directory?(file) }
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
           digest.update File.read(file)
         end.to_s

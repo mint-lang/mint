@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class NumberLiteral < Node
-      getter value, float
+      getter value
+      getter? float
 
-      def initialize(@value : Float64,
+      def initialize(@value : String,
                      @input : Data,
                      @float : Bool,
                      @from : Int32,
@@ -15,11 +16,7 @@ module Mint
       end
 
       def static_value
-        if float
-          value
-        else
-          value.to_i64
-        end.to_s
+        value
       end
     end
   end

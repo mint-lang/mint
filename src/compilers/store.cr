@@ -40,9 +40,9 @@ module Mint
             memo[name] = default
           end
 
-      js.function("constructor", [] of String) do
+      js.function("constructor", %w[]) do
         js.statements([
-          js.call("super", [] of String),
+          js.call("super", %w[]),
           js.assign("this.state", js.object(states)),
         ])
       end

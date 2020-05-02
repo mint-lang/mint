@@ -5,21 +5,21 @@ module Mint
         js.class_of(node)
 
       prefixed_name =
-        if node.global
+        if node.global?
           "$" + name
         else
           name
         end
 
       global_let =
-        "let #{name}" if node.global
+        "let #{name}" if node.global?
 
       compile node.styles, node
 
       styles =
         node.styles.map do |style_node|
           style_builder.compile_style(style_node, self)
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
 
       functions =
         compile_component_functions node
@@ -39,7 +39,7 @@ module Mint
       store_stuff =
         compile_component_store_data node
 
-      constructor_body = [] of String
+      constructor_body = %w[]
 
       default_props =
         node.properties.each_with_object({} of String => String) do |prop, memo|
@@ -80,7 +80,7 @@ module Mint
           end
         end
 
-      functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
+      functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
         ([constructor] + styles + gets + constants + states + store_stuff + functions)
@@ -94,7 +94,7 @@ module Mint
     end
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
-      node.connects.reduce([] of String) do |memo, item|
+      node.connects.reduce(%w[]) do |memo, item|
         store = ast.stores.find { |entity| entity.name == item.store }
 
         if store
@@ -123,9 +123,9 @@ module Mint
 
     def compile_component_functions(node : Ast::Component) : Array(String)
       heads = {
-        "componentWillUnmount" => [] of String,
-        "componentDidUpdate"   => [] of String,
-        "componentDidMount"    => [] of String,
+        "componentWillUnmount" => %w[],
+        "componentDidUpdate"   => %w[],
+        "componentDidMount"    => %w[],
       }
 
       node.connects.each do |item|
@@ -180,11 +180,11 @@ module Mint
 
             compile function, js.statements(value)
           elsif !value.empty?
-            js.function(key, [] of String, js.statements(value))
+            js.function(key, %w[], js.statements(value))
           end
         end
 
-      (specials + others).compact.reject(&.empty?)
+      (specials + others).compact.reject!(&.empty?)
     end
   end
 end

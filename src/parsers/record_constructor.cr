@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error RecordConstructorExpectedClosingParentheses
 
-    def record_constructor : Ast::RecordConstructor | Nil
+    def record_constructor : Ast::RecordConstructor?
       start do |start_position|
         name = start do
           value = type_id

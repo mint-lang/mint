@@ -20,6 +20,24 @@ module Mint
 
       getter levels
 
+      def initialize(@ast : Ast, @records : Array(Record))
+        @ast.stores.each do |store|
+          store.functions.each do |function|
+            @functions[function] = store
+          end
+
+          store.gets.each do |get|
+            @functions[get] = store
+          end
+        end
+
+        @ast.modules.each do |item|
+          item.functions.each do |function|
+            @functions[function] = item
+          end
+        end
+      end
+
       def path : String
         @levels.reverse.join(" -> ") { |node| path(node) }
       end
@@ -51,51 +69,26 @@ module Mint
         @levels.includes?(node)
       end
 
-      def initialize(@ast : Ast, @records : Array(Record))
-        @ast.stores.each do |store|
-          store.functions.each do |function|
-            @functions[function] = store
-          end
-
-          store.gets.each do |get|
-            @functions[get] = store
-          end
-        end
-
-        @ast.modules.each do |item|
-          item.functions.each do |function|
-            @functions[function] = item
-          end
-        end
-      end
-
       def find(variable : String)
-        result = find_with_level(variable)
-
-        case result
-        when .is_a?(Level)
+        if result = find_with_level(variable)
           result[0]
-        else
-          # ignore
         end
       end
 
-      def find_with_level(variable : String)
+      def find_with_level(variable : String) : Level?
         @levels.each do |level|
-          if item = find variable, level
+          if item = find(variable, level)
             return {item, level}
           end
         end
       end
 
       def component?
-        @levels.any?(&.is_a?(Ast::Component))
+        @levels.find(&.is_a?(Ast::Component)).as(Ast::Component?)
       end
 
       def component
-        entity = @levels.find(&.is_a?(Ast::Component))
-        raise "" unless entity
-        entity.as(Ast::Component)
+        component?.not_nil!
       end
 
       def stateful?

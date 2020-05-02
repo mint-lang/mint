@@ -21,7 +21,6 @@ module Mint
       Ast::Pipe.new(
         expression: expression,
         argument: argument,
-
         from: argument.from,
         to: expression.to,
         input: data)

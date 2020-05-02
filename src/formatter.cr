@@ -3,15 +3,16 @@ module Mint
     include Skippable
 
     class Config
-      getter indent_size
+      getter indent_size : Int32
 
-      def initialize(@indent_size : Int64 | Int32 = 2)
+      def initialize(@indent_size = 2)
       end
     end
 
-    getter ast, config
+    getter ast : Ast
+    getter config : Config
 
-    def initialize(@ast : Ast, @config : Config = Config.new)
+    def initialize(@ast, @config = Config.new)
     end
 
     def indent(string : String)

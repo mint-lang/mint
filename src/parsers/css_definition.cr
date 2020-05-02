@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error CssDefinitionExpectedSemicolon
 
-    def css_definition : Ast::CssDefinition | Nil
+    def css_definition : Ast::CssDefinition?
       start do |start_position|
         skip unless char.in_set? "a-z-"
 

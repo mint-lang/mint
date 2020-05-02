@@ -1,7 +1,8 @@
 module Mint
   class Ast
     class Access < Node
-      getter field, lhs, safe
+      getter field, lhs
+      getter? safe
 
       def initialize(@field : Variable,
                      @lhs : Expression,

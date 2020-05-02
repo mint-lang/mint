@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class Call < Node
-      getter arguments, expression, safe
+      getter arguments, expression
+      getter? safe
 
-      property partially_applied
+      property? partially_applied
 
       def initialize(@arguments : Array(Expression),
                      @partially_applied : Bool,

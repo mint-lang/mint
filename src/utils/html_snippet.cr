@@ -27,7 +27,7 @@ module Mint
         escape input[node.from, node.to - node.from]
 
       center =
-        if part.strip.empty?
+        if part.blank?
           "<highlighted>&nbsp;</highlighted>"
         else
           part

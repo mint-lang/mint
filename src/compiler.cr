@@ -21,11 +21,11 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def compile(nodes : Array(Ast::Node), separator : String)
-      compile(nodes).reject(&.empty?).join(separator)
+      compile(nodes).join(separator)
     end
 
     def compile(nodes : Array(Ast::Node))
-      nodes.map { |node| compile(node).as(String) }.reject(&.empty?)
+      nodes.map { |node| compile(node).as(String) }.reject!(&.empty?)
     end
 
     def compile(node : Ast::Node) : String

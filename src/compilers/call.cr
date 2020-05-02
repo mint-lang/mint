@@ -7,10 +7,10 @@ module Mint
       arguments =
         compile node.arguments, ", "
 
-      if node.safe
+      if node.safe?
         js.iif do
           result =
-            if node.partially_applied
+            if node.partially_applied?
               if node.arguments.empty?
                 "(_) => _"
               else
@@ -26,7 +26,7 @@ module Mint
           ])
         end
       else
-        if node.partially_applied
+        if node.partially_applied?
           if node.arguments.empty?
             expression
           else

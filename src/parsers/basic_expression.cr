@@ -1,7 +1,7 @@
 module Mint
   class Parser
     # NOTE: The order of the parsing is important!
-    def basic_expression : Ast::Expression | Nil
+    def basic_expression : Ast::Expression?
       format_directive ||
         documentation_directive ||
         env ||
@@ -51,7 +51,7 @@ module Mint
       constant_variable
     end
 
-    def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression | Nil
+    def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression?
       parenthesized_expression
     rescue error1
       inline_function

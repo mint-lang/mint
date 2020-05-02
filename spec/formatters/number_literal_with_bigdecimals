@@ -1,0 +1,25 @@
+module A {
+  const Y = 1.0 / 100000000
+  const X = 1.200000000
+
+  fun test : Number {
+    0.00000001
+  }
+
+  fun zeros : Number {
+    0.0
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  const Y = 1.0 / 100000000
+  const X = 1.200000000
+
+  fun test : Number {
+    0.00000001
+  }
+
+  fun zeros : Number {
+    0.0
+  }
+}
