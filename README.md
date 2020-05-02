@@ -38,6 +38,8 @@ It would be great if you could take part in this short [survey](https://cybergus
 
 Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby) or on [Spectrum](https://spectrum.chat/mint-lang).
 
+Also, visit [Awesome Mint](https://github.com/egajda/awesome-mint), to see more guides, tutorials and examples.
+
 ## Contributing
 
 Read the general [Contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md), and then:
