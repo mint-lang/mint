@@ -229,3 +229,17 @@ suite "Map.getWithDefault" {
     |> Map.getWithDefault("key", "fallback")) == "fallback"
   }
 }
+
+suite "Map.entries" {
+  test "returns an array of key-value tuple" {
+    (Map.empty()
+    |> Map.set("a", 100)
+    |> Map.set("b", 200)
+    |> Map.Extra.entries()) == [{"a", 100}, {"b", 200}]
+  }
+
+  test "returns an array of key-value tuple" {
+    (Map.empty()
+    |> Map.Extra.entries()) == []
+  }
+}
