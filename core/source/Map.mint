@@ -314,4 +314,26 @@ module Map {
   fun size (map : Map(key, value)) : Number {
     `#{map}.size`
   }
+
+  /*
+  Returns the array of {key, value} Tuple.
+
+    (Map.empty()
+    |> Map.set("a", 1)
+    |> Map.set("b", 2)
+    |> Map.entries()) == [{"a", 1}, {"b", 2}]
+  */
+  fun entries (map : Map(a, b)) : Array(Tuple(a, b)) {
+    keys
+    |> Array.mapWithIndex(
+      (key : a, i : Number) : Tuple(a, b) {
+        {key, (Maybe.withDefault(Maybe.nothing(), values[i]))}
+      })
+  } where {
+    keys =
+      Map.keys(map)
+
+    values =
+      Map.values(map)
+  }
 }
