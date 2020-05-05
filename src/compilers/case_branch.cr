@@ -52,16 +52,10 @@ module Mint
             ]),
           }
         when Ast::EnumDestructuring
-          variables =
-            match.parameters.map_with_index do |param, index1|
-              "const #{js.variable_of(param)} = #{variable}._#{index1}"
-            end
+          variables = get_enum_destruct_vars match, variable
 
-          name =
-            js.class_of(lookups[match])
-
-          {
-            "#{variable} instanceof #{name}",
+          res = {
+            get_enum_destruct_condition(match, variable),
             js.statements(variables + [expression]),
           }
         else
@@ -76,6 +70,36 @@ module Mint
       else
         {nil, expression}
       end
+    end
+
+    def get_enum_destruct_condition(match, variable)
+      pp match
+      name =
+        js.class_of(lookups[match]? || match)
+
+      condition = "#{variable} instanceof #{name}"
+      match.parameters.each_with_index do |param, index|
+        case param
+        when Ast::EnumDestructuring
+          condition += " && (" + get_enum_destruct_condition(param, "#{variable}._#{index}") + ")"
+        else
+        end
+      end
+      condition
+    end
+
+    def get_enum_destruct_vars(match, variable)
+      variables =
+        match.parameters.map_with_index do |param, index1|
+          vars = ["const #{js.variable_of(param)} = #{variable}._#{index1}"]
+          case param
+          when Ast::EnumDestructuring
+            vars += get_enum_destruct_vars param, variable
+          else
+          end
+          vars
+        end
+      variables.flatten
     end
   end
 end
