@@ -9,7 +9,7 @@ module Mint
         skip unless keyword "@format"
 
         content =
-          body = block(
+          block(
             opening_bracket: FormatDirectiveExpectedOpeningBracket,
             closing_bracket: FormatDirectiveExpectedClosingBracket
           ) do

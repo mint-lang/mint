@@ -5,7 +5,7 @@ module Mint
         list(node.children + node.comments)
 
       key =
-        node.key.try { |item| " #{item}" }
+        node.key.try { |item| " #{format(item)}" }
 
       if node.new_line?
         "<#{key}>\n#{indent(children)}\n</>"
