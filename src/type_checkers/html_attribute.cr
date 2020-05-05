@@ -87,13 +87,20 @@ module Mint
             resolve prop
           end
 
+        matches =
+          if Comparer.compare(prop_type, HTML)
+            Comparer.matches_any?(type, [HTML, STRING, HTML_CHILDREN, TEXT_CHILDREN])
+          else
+            Comparer.compare(prop_type, type)
+          end
+
         raise HtmlAttributeComponentPropertyTypeMismatch, {
           "name"      => prop.name.value,
           "component" => component.name,
           "expected"  => prop_type,
           "node"      => node,
           "got"       => type,
-        } unless Comparer.compare(prop_type, type)
+        } unless matches
       end
 
       type
