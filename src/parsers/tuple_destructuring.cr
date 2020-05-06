@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         head = start do
           skip unless char! '{'
-          value = variable
+          value = enum_destructuring || tuple_destructuring || array_destructuring || variable
           whitespace
           char! ','
           whitespace
@@ -16,7 +16,9 @@ module Mint
         skip unless head
 
         parameters = [head].concat(
-          list(terminator: '}', separator: ',') { variable }.compact)
+          list(terminator: '}', separator: ',') do
+            enum_destructuring || tuple_destructuring || array_destructuring || variable
+          end.compact)
 
         whitespace
 

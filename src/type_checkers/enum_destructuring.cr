@@ -33,6 +33,12 @@ module Mint
           "option" => option,
           "node"   => param,
         } unless option.parameters[index]?
+
+        case param
+        when Ast::DestructuringType
+          resolve param
+        else
+        end
       end
 
       resolve parent

@@ -21,42 +21,22 @@ module Mint
 
       if match = node.match
         case match
-        when Ast::ArrayDestructuring
-          statements =
-            _compile(match, variable)
-
-          statements << expression
-
-          if match.spread?
-            {
-              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size - 1}",
-              js.statements(statements),
-            }
+        when Ast::DestructuringType
+          tmp = case match
+          when Ast::ArrayDestructuring
+            _compile match, variable
+          when Ast::TupleDestructuring
+            _compile match, variable
+          when Ast::EnumDestructuring
+            _compile match, variable
           else
-            {
-              "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
-              js.statements(statements),
-            }
-          end
-        when Ast::TupleDestructuring
-          variables =
-            match
-              .parameters
-              .join(',') { |param| js.variable_of(param) }
+          end.not_nil!
 
           {
-            "Array.isArray(#{variable})",
-            js.statements([
-              "const [#{variables}] = #{variable}",
+            tmp[1],
+            js.statements(tmp[0].concat([
               expression,
-            ]),
-          }
-        when Ast::EnumDestructuring
-          variables = get_enum_destruct_vars match, variable
-
-          res = {
-            get_enum_destruct_condition(match, variable),
-            js.statements(variables + [expression]),
+            ])),
           }
         else
           compiled =
@@ -70,36 +50,6 @@ module Mint
       else
         {nil, expression}
       end
-    end
-
-    def get_enum_destruct_condition(match, variable)
-      pp match
-      name =
-        js.class_of(lookups[match]? || match)
-
-      condition = "#{variable} instanceof #{name}"
-      match.parameters.each_with_index do |param, index|
-        case param
-        when Ast::EnumDestructuring
-          condition += " && (" + get_enum_destruct_condition(param, "#{variable}._#{index}") + ")"
-        else
-        end
-      end
-      condition
-    end
-
-    def get_enum_destruct_vars(match, variable)
-      variables =
-        match.parameters.map_with_index do |param, index1|
-          vars = ["const #{js.variable_of(param)} = #{variable}._#{index1}"]
-          case param
-          when Ast::EnumDestructuring
-            vars += get_enum_destruct_vars param, variable
-          else
-          end
-          vars
-        end
-      variables.flatten
     end
   end
 end

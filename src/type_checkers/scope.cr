@@ -110,7 +110,7 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.find(&.value.==(variable)).try do |item|
+          target.parameters.find { |param| param.is_a?(Ast::Variable) && param.value.==(variable) }.try do |item|
             {node, target.parameters.index(item).not_nil!}
           end
         else
@@ -123,7 +123,7 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.find(&.value.==(variable)).try do |item|
+          target.parameters.find { |param| param.is_a?(Ast::Variable) && param.value.==(variable) }.try do |item|
             {node, target.parameters.index(item).not_nil!}
           end
         else

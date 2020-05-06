@@ -1,9 +1,11 @@
 module Mint
   class Ast
     class ArrayDestructuring < Node
+      alias ArrayDestructuringItem = DestructuringType | Variable | Spread
+
       getter items
 
-      def initialize(@items : Array(Node),
+      def initialize(@items : Array(ArrayDestructuringItem),
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

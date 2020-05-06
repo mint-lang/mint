@@ -29,7 +29,7 @@ module Mint
         } unless Comparer.compare(match, condition)
       }
 
-      destruct_node = ->(item : Ast::Node) {
+      node.match.try do |item|
         case item
         when Ast::ArrayDestructuring
           raise CaseBranchNotArray, {
@@ -45,19 +45,9 @@ module Mint
             "node"  => node,
           } if spreads > 1
 
-          variables =
-            item.items.compact_map do |variable|
-              case variable
-              when Ast::Variable
-                {variable.value, condition.parameters[0], variable}
-              when Ast::Spread
-                {variable.variable.value, condition, variable.variable}
-              else
-                # ignore
-              end
-            end
+          variables = get_destructuring_variables item, condition
 
-          scope(variables) do
+          scope(variables.not_nil!) do
             resolve_expression.call
           end
         when Ast::TupleDestructuring
@@ -72,10 +62,7 @@ module Mint
             "node" => item,
           } if item.parameters.size > condition.parameters.size
 
-          variables =
-            item.parameters.map_with_index do |variable, index|
-              {variable.value, condition.parameters[index], variable}
-            end
+          variables = get_destructuring_variables item, condition
 
           scope(variables) do
             resolve_expression.call
@@ -83,7 +70,7 @@ module Mint
         when Ast::EnumDestructuring
           check_match.call(item)
 
-          variables = get_enum_variables item, condition
+          variables = get_destructuring_variables item, condition
 
           scope(variables) do
             resolve_expression.call
@@ -91,43 +78,75 @@ module Mint
         else
           check_match.call(item)
         end
-      }
-
-      node.match.try do |item|
-        destruct_node.call item
       end || resolve_expression.call
     end
 
-    def get_enum_variables(item : Ast::EnumDestructuring, condition)
-      result = item.parameters.map_with_index do |param, index|
+    def get_destructuring_variables(item : Ast::DestructuringType, condition)
+      result = (case item
+      when Ast::EnumDestructuring
+        match = resolve item
+
+        raise CaseBranchNotMatchCondition, {
+          "expected" => condition,
+          "got"      => match,
+          "node"     => item,
+        } unless Comparer.compare(match, condition)
+
         entity =
           ast.enums.find(&.name.==(item.name)).not_nil!
 
         option =
           entity.options.find(&.value.==(item.option)).not_nil!
 
-        option_type =
-          resolve(option.parameters[index]).not_nil!
+        item.parameters.map_with_index do |param, index|
+          option_type =
+            resolve(option.parameters[index]).not_nil!
 
-        case param
-        when Ast::TypeVariable
-          mapping = {} of String => Checkable
+          case param
+          when Ast::TypeVariable
+            mapping = {} of String => Checkable
 
-          entity.parameters.each_with_index do |param2, index2|
-            mapping[param2.value] = condition.parameters[index2]
+            entity.parameters.each_with_index do |param2, index2|
+              mapping[param2.value] = condition.parameters[index2]
+            end
+
+            resolved_type =
+              Comparer.fill(option_type, mapping)
+
+            [{param.value, resolved_type.not_nil!, param.as(Ast::TypeOrVariable)}]
+          when Ast::DestructuringType
+            get_destructuring_variables param, option_type
+          else
+            # ignore
           end
-
-          resolved_type =
-            Comparer.fill(option_type, mapping)
-
-          [{param.value, resolved_type.not_nil!, param}]
-        when Ast::EnumDestructuring
-          get_enum_variables param, option_type
-        else
-          puts param.class
-          raise CaseBranchTupleMismatch
-        end
-      end
+        end.compact
+      when Ast::ArrayDestructuring
+        item.items.compact_map do |item1|
+          case item1
+          when Ast::Variable
+            [{item1.value, condition.parameters[0], item1.as(Ast::TypeOrVariable)}]
+          when Ast::Spread
+            [{item1.variable.value, condition, item1.variable.as(Ast::TypeOrVariable)}]
+          when Ast::DestructuringType
+            get_destructuring_variables item1, resolve(item1)
+          else
+            # ignore
+          end
+        end.compact
+      when Ast::TupleDestructuring
+        item.parameters.map_with_index do |variable, index|
+          case variable
+          when Ast::Variable
+            [{variable.value, condition.parameters[index], variable.as(Ast::TypeOrVariable)}]
+          when Ast::DestructuringType
+            get_destructuring_variables variable, resolve(variable)
+          else
+            # ignore
+          end
+        end.compact
+      else
+        # ignore
+      end) || [] of Array(Tuple(String, Checkable, Ast::TypeOrVariable))
 
       result.flatten
     end
