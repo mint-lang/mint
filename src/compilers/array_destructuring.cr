@@ -1,78 +1,58 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::ArrayDestructuring, start_variable, index : Int32? = nil, prev_cond_var_name : String? = nil) : {Array(String), String}
-      variable = "__"
+    private macro compile_item!(initial_var, item = item, index = index1)
+      var_name = js.variable_of({{ item }})
+      vars = [
+        {{ initial_var }}
+      ]
 
-      condition_var_name = prev_cond_var_name || start_variable
-      condition_var_name += "[#{index}]" if index
+      res = _compile_destructuring {{ item }}, var_name, "#{condition_var_name}[#{{{ index }}}]"
+      if res
+        condition += " && " + res[1]
+        vars.concat(res[0])
+      end
+
+      vars
+    end
+
+    def _compile(node : Ast::ArrayDestructuring, start_variable : String, condition_variable : String? = nil)
+      variable = "#{start_variable}__arr"
+
+      condition_var_name = condition_variable || start_variable
       if node.spread?
         condition = "Array.isArray(#{condition_var_name}) && #{condition_var_name}.length >== #{node.items.size - 1}"
       else
         condition = "Array.isArray(#{condition_var_name}) && #{condition_var_name}.length === #{node.items.size}"
       end
 
-      _compile_destruction_item = ->(item : Ast::Node, var_name : String, index : Int32, vars : Array(String)) {
-        if item.is_a? Ast::DestructuringType
-          res = case item
-                when Ast::ArrayDestructuring
-                  _compile item, var_name, index, condition_var_name
-                when Ast::TupleDestructuring
-                  _compile item, var_name, index
-                when Ast::EnumDestructuring
-                  _compile item, var_name, index
-                else
-                  # ignore
-                end.not_nil!
-          condition += " && " + res[1]
-          vars.concat(res[0])
-        end
-      }
-
       variables = [
         "const #{variable} = Array.from(#{start_variable})",
       ] + (
         unless node.spread?
           node.items.map_with_index do |item, index1|
-            var_name = js.variable_of(item)
-            vars = [
-              "const #{var_name} = #{variable}[#{index1}]",
-            ]
-
-            _compile_destruction_item.call item, var_name, index1, vars
-
-            vars
+            compile_item! "const #{var_name} = #{variable}[#{index1}]"
           end.flatten
         else
           tmp = [] of Array(String)
 
-          node
+          start_vars = node
             .items
             .take_while { |item| !item.is_a?(Ast::Spread) }
-            .each_with_index do |item, index1|
-              var_name = js.variable_of(item)
-              vars = [
-                "const #{var_name} = #{variable}.shift()",
-              ]
+            .map_with_index do |item, index1|
+              compile_item! "const #{var_name} = #{variable}.shift()"
+            end
 
-              _compile_destruction_item.call item, var_name, index1, vars
-
-              vars
-            end.try { |vars| tmp.concat(vars) }
-
-          node
+          end_vars = node
             .items
             .reverse
             .take_while { |item| !item.is_a?(Ast::Spread) }
-            .each_with_index do |item, index1|
-              var_name = js.variable_of(item)
-              vars = [
-                "const #{var_name} = #{variable}.pop()",
-              ]
+            .map_with_index do |item, index1|
+              compile_item! "const #{var_name} = #{variable}.pop()"
+            end
 
-              _compile_destruction_item.call item, var_name, index1, vars
+          tmp += start_vars if start_vars
+          tmp += end_vars if end_vars
 
-              vars
-            end.try { |vars| tmp.concat(vars) }
           tmp << ["const #{js.variable_of(node.items.select(Ast::Spread).first.variable)} = #{variable}"]
           tmp.flatten
         end

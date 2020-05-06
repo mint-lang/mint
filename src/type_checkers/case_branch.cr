@@ -121,14 +121,14 @@ module Mint
           end
         end.compact
       when Ast::ArrayDestructuring
-        item.items.compact_map do |item1|
+        item.items.compact.map_with_index do |item1, index|
           case item1
           when Ast::Variable
             [{item1.value, condition.parameters[0], item1.as(Ast::TypeOrVariable)}]
           when Ast::Spread
             [{item1.variable.value, condition, item1.variable.as(Ast::TypeOrVariable)}]
           when Ast::DestructuringType
-            get_destructuring_variables item1, resolve(item1)
+            get_destructuring_variables item1, condition.parameters[index]
           else
             # ignore
           end
@@ -139,7 +139,7 @@ module Mint
           when Ast::Variable
             [{variable.value, condition.parameters[index], variable.as(Ast::TypeOrVariable)}]
           when Ast::DestructuringType
-            get_destructuring_variables variable, resolve(variable)
+            get_destructuring_variables variable, condition.parameters[index]
           else
             # ignore
           end

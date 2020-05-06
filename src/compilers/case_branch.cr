@@ -20,18 +20,16 @@ module Mint
         end
 
       if match = node.match
-        case match
-        when Ast::DestructuringType
-          tmp = case match
-          when Ast::ArrayDestructuring
-            _compile match, variable
-          when Ast::TupleDestructuring
-            _compile match, variable
-          when Ast::EnumDestructuring
-            _compile match, variable
-          else
-          end.not_nil!
-
+        tmp = case match
+              when Ast::ArrayDestructuring
+                _compile match, variable
+              when Ast::TupleDestructuring
+                _compile match, variable
+              when Ast::EnumDestructuring
+                _compile match, variable
+              else
+              end
+        if tmp
           {
             tmp[1],
             js.statements(tmp[0].concat([

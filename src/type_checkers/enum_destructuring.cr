@@ -35,7 +35,7 @@ module Mint
         } unless option.parameters[index]?
 
         case param
-        when Ast::DestructuringType
+        when Ast::EnumDestructuring
           resolve param
         else
         end
