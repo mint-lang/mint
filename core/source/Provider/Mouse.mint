@@ -7,56 +7,56 @@ record Provider.Mouse.Subscription {
 
 /* A provider for global mouse events. */
 provider Provider.Mouse : Provider.Mouse.Subscription {
-  /* Calls the `moves` function on the subscribers with the given event. */
-  fun moves (event : Html.Event) : Array(a) {
-    subscriptions
-    |> Array.map(
-      (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.moves })
-    |> Array.map(
-      (func : Function(Html.Event, a)) : a { func(event) })
-  }
+  state clickListener : Function(Void) = () { void }
+  state moveListener : Function(Void) = () { void }
+  state upListener : Function(Void) = () { void }
 
-  /* Calls the `clicks` function on the subscribers with the given event. */
-  fun clicks (event : Html.Event) : Array(a) {
-    subscriptions
-    |> Array.map(
-      (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.clicks })
-    |> Array.map(
-      (func : Function(Html.Event, a)) : a { func(event) })
-  }
+  /* Updates the provider. */
+  fun update : Promise(Never, Void) {
+    if (Array.isEmpty(subscriptions)) {
+      try {
+        clickListener()
+        moveListener()
+        upListener()
 
-  /* Calls the `ups` function on the subscribers with the given event. */
-  fun ups (event : Html.Event) : Array(a) {
-    subscriptions
-    |> Array.map(
-      (subcription : Provider.Mouse.Subscription) : Function(Html.Event, a) { subcription.ups })
-    |> Array.map(
-      (func : Function(Html.Event, a)) : a { func(event) })
-  }
-
-  /* Attaches the provider. */
-  fun attach : Void {
-    `
-    (() => {
-      const clicks = this._clicks || (this._clicks = ((event) => #{clicks}(_normalizeEvent(event))))
-      const moves = this._moves || (this._moves = ((event) => #{moves}(_normalizeEvent(event))))
-      const ups = this._ups || (this._ups = ((event) => #{ups}(_normalizeEvent(event))))
-
-      window.addEventListener("click", clicks, true)
-      window.addEventListener("mousemove", moves)
-      window.addEventListener("mouseup", ups)
-    })()
-    `
-  }
-
-  /* Detaches the provider. */
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("click", this._clicks, true)
-      window.removeEventListener("mousemove", this._moves)
-      window.removeEventListener("mouseup", this._ups)
-    })()
-    `
+        next
+          {
+            clickListener = () { void },
+            moveListener = () { void },
+            upListener = () { void }
+          }
+      }
+    } else {
+      next
+        {
+          clickListener =
+            Window.addEventListener(
+              "click",
+              true,
+              (event : Html.Event) {
+                for (subscription of subscriptions) {
+                  subscription.clicks(event)
+                }
+              }),
+          moveListener =
+            Window.addEventListener(
+              "mousemove",
+              false,
+              (event : Html.Event) {
+                for (subscription of subscriptions) {
+                  subscription.moves(event)
+                }
+              }),
+          upListener =
+            Window.addEventListener(
+              "mouseup",
+              false,
+              (event : Html.Event) {
+                for (subscription of subscriptions) {
+                  subscription.ups(event)
+                }
+              })
+        }
+    }
   }
 }

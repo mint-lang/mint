@@ -5,31 +5,29 @@ record Provider.Resize.Subscription {
 
 /* A provider for handling changes of the viewport. */
 provider Provider.Resize : Provider.Resize.Subscription {
-  /* Calls the `resizes` function of the subscribers with the given value. */
-  fun resizes (event : Html.Event) : Array(a) {
-    subscriptions
-    |> Array.map(.resizes)
-    |> Array.map(
-      (method : Function(Html.Event, a)) : a { method(event) })
-  }
+  state listener : Function(Void) = () { void }
 
-  /* Attaches the provider. */
-  fun attach : Void {
-    `
-    (() => {
-      const resizes = this._resizes || (this._resizes = ((event) => #{resizes}(_normalizeEvent(event))))
+  /* Updates the provider. */
+  fun update : Promise(Never, Void) {
+    if (Array.isEmpty(subscriptions)) {
+      try {
+        listener()
 
-      window.addEventListener("resize", resizes)
-    })()
-    `
-  }
-
-  /* Detaches the provider. */
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("resize", this._resizes)
-    })()
-    `
+        next { listener = () { void } }
+      }
+    } else {
+      next
+        {
+          listener =
+            Window.addEventListener(
+              "resize",
+              false,
+              (event : Html.Event) {
+                for (subscription of subscriptions) {
+                  subscription.resizes(event)
+                }
+              })
+        }
+    }
   }
 }
