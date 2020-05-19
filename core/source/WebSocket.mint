@@ -29,12 +29,12 @@ module WebSocket {
     `
     (() => {
       /* Initialize a new WebSocket object. */
-      const socket = new WebSocket(#{config.url})
+      const socket = new WebSocket(#{config.url});
 
       /* Event handlers. */
       const onMessage = (event) => #{config.onMessage(`event.data`)}
-      const onError = () => #{config.onError()}
       const onOpen = () => #{config.onOpen(`socket`)}
+      const onError = () => #{config.onError()}
 
       /*
       *  The close event handler is different:
@@ -48,18 +48,20 @@ module WebSocket {
         socket.removeEventListener("close", onClose);
         socket.removeEventListener("open", onOpen);
 
-        #{config.onClose()}
+        #{config.onClose()};
 
         if (#{config.reconnect} && !socket.shouldNotReconnect) {
-          #{open(config)}
+          #{open(config)};
         }
+
+        delete socket.shouldNotReconnect;
       }
 
       /* Add event listeners. */
       socket.addEventListener("message", onMessage)
-      socket.addEventListener("error", onMrror)
-      socket.addEventListener("close", onMlose)
-      socket.addEventListener("open", onMpen)
+      socket.addEventListener("error", onError)
+      socket.addEventListener("close", onClose)
+      socket.addEventListener("open", onOpen)
 
       return socket
     })()
@@ -69,7 +71,7 @@ module WebSocket {
   /*
   Sends the given data to the given websocket connection.
 
-    WebSocket.send("some data", webscoket)
+    WebSocket.send("some data", websocket)
   */
   fun send (data : String, socket : WebSocket) : Promise(Never, Void) {
     `#{socket}.send(#{data})`
@@ -78,7 +80,7 @@ module WebSocket {
   /*
   Closes the given given websocket connection.
 
-    WebSocket.close(webscoket, true)
+    WebSocket.close(websocket)
 
   If the `reconnect` flag was specified then the connection will reconnect using
   this function.
@@ -91,7 +93,7 @@ module WebSocket {
   Closes the given given websocket connection without reconnecting, even if the
   `reconnect` flag was set.
 
-    WebSocket.close(webscoket, true)
+    WebSocket.closeWithoutReconnecting(websocket)
   */
   fun closeWithoutReconnecting (socket : WebSocket) : Promise(Never, Void) {
     `
