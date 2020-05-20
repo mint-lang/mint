@@ -88,7 +88,7 @@ module Map {
   */
   fun merge (map1 : Map(x, z), map2 : Map(x, z)) : Map(x, z) {
     map2
-    |> Map.reduce(map1, (memo : Map(x, z), key : x, value :z) {
+    |> Map.reduce(map1, (memo : Map(x, z), key : x, value : z) {
       Map.set(key, value, memo)
     })
   }
