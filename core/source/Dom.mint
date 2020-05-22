@@ -142,7 +142,7 @@ module Dom {
     |> Dom.focus
     |> Dom.getElementById()
   */
-  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never , Void) {
+  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never, Void) {
     case (maybeElement) {
       Maybe::Just element =>
         sequence {
@@ -153,8 +153,7 @@ module Dom {
           Promise.never()
         }
 
-      Maybe::Nothing =>
-        Promise.never()
+      Maybe::Nothing => Promise.never()
     }
   }
 

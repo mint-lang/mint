@@ -118,10 +118,8 @@ module Math {
       }
   }
 
-  /*
-  Returns a pseudo-random number in the range 0 to less than 1.
-  */
-  fun random () : Number {
+  /* Returns a pseudo-random number in the range 0 to less than 1. */
+  fun random : Number {
     `Math.random()`
   }
 }

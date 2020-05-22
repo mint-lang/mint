@@ -76,7 +76,6 @@ module Window {
   This function returns a promise but blocks execution until the popup is
   closed.
   */
-
   fun prompt (label : String, current : String) : Promise(String, String) {
     `
     new Promise((resolve, reject) => {
@@ -118,6 +117,33 @@ module Window {
   */
   fun open (url : String) : Promise(Never, Void) {
     `window.open(url)`
+  }
+
+  fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
+    `
+    (() => {
+      const query = window.matchMedia(#{query});
+      query.addListener(#{listener})
+      return () => query.removeListener(#{listener});
+    })()
+    `
+  }
+
+  fun addEventListener (
+    type : String,
+    capture : Bool,
+    listener : Function(Html.Event, a)
+  ) : Function(Void) {
+    `
+    (() => {
+      const listener = (event) => {
+        #{listener}(_normalizeEvent(event))
+      }
+
+      window.addEventListener(#{type}, listener, #{capture});
+      return () => window.removeEventListener(#{type}, listener, #{capture});
+    })()
+    `
   }
 
   /*

@@ -14,6 +14,13 @@ module Mint
       node.data.fields.each do |item|
         state =
           case entity
+          when Ast::Provider
+            lookups[node] =
+              entity
+
+            entity
+              .states
+              .find(&.name.value.==(item.key.value))
           when Ast::Component, Ast::Store
             lookups[node] =
               entity
