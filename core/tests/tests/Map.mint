@@ -1,3 +1,26 @@
+suite "Map with enums" {
+  test "Map.set" {
+    (Map.empty()
+    |> Map.set(Maybe::Just("a"), "a")
+    |> Map.set(Maybe::Just("a"), "a")
+    |> Map.size()) == 1
+  }
+
+  test "Equality" {
+    try {
+      map1 =
+        Map.empty()
+        |> Map.set(Maybe::Just("a"), "x")
+
+      map2 =
+        Map.empty()
+        |> Map.set(Maybe::Just("a"), "x")
+
+      (map1 == map2)
+    }
+  }
+}
+
 suite "Map equality" {
   test "maps which are not equal returns false" {
     try {

@@ -2,7 +2,7 @@
 module Map {
   /* Returns an empty map. */
   fun empty : Map(x, z) {
-    `new Map()`
+    `[]`
   }
 
   /*
@@ -14,15 +14,23 @@ module Map {
   fun set (key : x, value : z, map : Map(x, z)) : Map(x, z) {
     `
     (() => {
-      const newMap = new Map()
+      const result = []
+      let set = false
 
       for (let item of #{map}) {
-        newMap.set(item[0], item[1])
+        if (_compare(item[0], #{key})) {
+          set = true
+          result.push([#{key}, #{value}])
+        } else {
+          result.push(item)
+        }
       }
 
-      newMap.set(#{key}, #{value})
+      if (!set) {
+        result.push([#{key}, #{value}])
+      }
 
-      return newMap
+      return result
     })()
     `
   }
@@ -37,11 +45,13 @@ module Map {
   fun get (key : x, map : Map(x, z)) : Maybe(z) {
     `
     (() => {
-      if (#{map}.has(#{key})) {
-        return #{Maybe::Just(`#{map}.get(#{key})`)}
-      } else {
-        return #{Maybe::Nothing}
+      for (let item of #{map}) {
+        if (_compare(item[0], #{key})) {
+          return #{Maybe::Just(`item[1]`)}
+        }
       }
+
+      return #{Maybe::Nothing}
     })()
     `
   }
@@ -77,21 +87,10 @@ module Map {
     |> Map.get("a")) == Maybe.just("y")
   */
   fun merge (map1 : Map(x, z), map2 : Map(x, z)) : Map(x, z) {
-    `
-    (() => {
-      const map = new Map()
-
-      for (let item of #{map1}) {
-        map.set(item[0], item[1])
-      }
-
-      for (let item of #{map2}) {
-        map.set(item[0], item[1])
-      }
-
-      return map
-    })()
-    `
+    map2
+    |> Map.reduce(map1, (memo : Map(x, z), key : x, value : z) {
+      Map.set(key, value, memo)
+    })
   }
 
   /*
@@ -160,15 +159,15 @@ module Map {
   fun deleteValue (value : value, map : Map(key, value)) : Map(key, value) {
     `
     (() => {
-      const newMap = new Map()
+      const result = []
 
       for (let item of #{map}) {
         if (!_compare(item[1], #{value})) {
-          newMap.set(item[0], item[1])
+          result.push(item)
         }
       }
 
-      return newMap
+      return result
     })()
     `
   }
@@ -183,15 +182,15 @@ module Map {
   fun delete (key : key, map : Map(key, value)) : Map(key, value) {
     `
     (() => {
-      const newMap = new Map()
+      const result = []
 
       for (let item of #{map}) {
         if (!_compare(item[0], #{key})) {
-          newMap.set(item[0], item[1])
+          result.push(item)
         }
       }
 
-      return newMap
+      return result
     })()
     `
   }
@@ -205,7 +204,7 @@ module Map {
     |> Map.values()) == [1, 2]
   */
   fun values (map : Map(k, a)) : Array(a) {
-    `Array.from(#{map}.values())`
+    `#{map}.map((item) => item[1])`
   }
 
   /*
@@ -217,7 +216,7 @@ module Map {
     |> Map.values()) == ["a", "b"]
   */
   fun keys (map : Map(k, a)) : Array(k) {
-    `Array.from(#{map}.keys())`
+    `#{map}.map((item) => item[0])`
   }
 
   /*
@@ -233,22 +232,20 @@ module Map {
   */
   fun sortBy (method : Function(k, v, b), map : Map(k, v)) : Map(k, v) {
     `
-    (() => {
-      return new Map(Array.from(#{map}).sort((a, b) => {
-        let aVal = #{method}(a[0], a[1])
-        let bVal = #{method}(b[0], b[1])
+    Array.from(#{map}).sort((a, b) => {
+      let aVal = #{method}(a[0], a[1])
+      let bVal = #{method}(b[0], b[1])
 
-        if (aVal < bVal) {
-          return -1
-        }
+      if (aVal < bVal) {
+        return -1
+      }
 
-        if (aVal > bVal) {
-          return 1
-        }
+      if (aVal > bVal) {
+        return 1
+      }
 
-        return 0
-      }))
-    })()
+      return 0
+    })
     `
   }
 
@@ -263,9 +260,7 @@ module Map {
     |> Map.isEmpty()) == false
   */
   fun isEmpty (map : Map(k, a)) : Bool {
-    map
-    |> keys()
-    |> Array.isEmpty()
+    `#{map}.length === 0`
   }
 
   /*
@@ -282,13 +277,13 @@ module Map {
   fun map (method : Function(k, a, b), map : Map(k, a)) : Map(k, b) {
     `
     (() => {
-      const newMap = new Map()
+      const result = []
 
       for (let item of #{map}) {
-        newMap.set(item[0], #{method}(item[0], item[1]))
+        result.push([item[0], #{method}(item[0], item[1])])
       }
 
-      return newMap
+      return result
     })()
     `
   }
@@ -301,7 +296,17 @@ module Map {
     |> Map.has("a")) == true
   */
   fun has (key : k, map : Map(k, a)) : Bool {
-    `#{map}.has(#{key})`
+    `
+    (() => {
+      for (let item of #{map}) {
+        if (_compare(#{key}, item[0])) {
+          return true
+        }
+      }
+
+      return false
+    })()
+    `
   }
 
   /*
@@ -312,7 +317,7 @@ module Map {
     |> Map.size()) == 1
   */
   fun size (map : Map(key, value)) : Number {
-    `#{map}.size`
+    `#{map}.length`
   }
 
   /*
@@ -324,16 +329,6 @@ module Map {
     |> Map.entries()) == [{"a", 1}, {"b", 2}]
   */
   fun entries (map : Map(a, b)) : Array(Tuple(a, b)) {
-    keys
-    |> Array.mapWithIndex(
-      (key : a, i : Number) : Tuple(a, b) {
-        {key, (Maybe.withDefault(Maybe.nothing(), values[i]))}
-      })
-  } where {
-    keys =
-      Map.keys(map)
-
-    values =
-      Map.values(map)
+    `#{map}`
   }
 }

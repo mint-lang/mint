@@ -2,7 +2,7 @@
 module Set {
   /* Returns an empty set. */
   fun empty : Set(a) {
-    `new Set()`
+    `[]`
   }
 
   /*
@@ -23,7 +23,7 @@ module Set {
     |> Set.add("value")) == Set.fromArray(["value"])
   */
   fun fromArray (array : Array(a)) : Set(a) {
-    `new Set(#{array})`
+    `Array.from(#{array})`
   }
 
   /*
@@ -58,13 +58,8 @@ module Set {
     (() => {
       if (#{has(value, set)}) { return #{set} }
 
-      const newSet = new Set()
-
-      #{set}.forEach((item) => {
-        newSet.add(item)
-      })
-
-      newSet.add(#{value})
+      const newSet = Array.from(#{set})
+      newSet.push(#{value})
 
       return newSet
     })()
@@ -81,11 +76,11 @@ module Set {
   fun delete (value : a, set : Set(a)) : Set(a) {
     `
     (() => {
-      const newSet = new Set()
+      const newSet = []
 
       #{set}.forEach((item) => {
         if (_compare(item, #{value})) { return }
-        newSet.add(item)
+        newSet.push(item)
       })
 
       return newSet
@@ -102,10 +97,10 @@ module Set {
   fun map (method : Function(a, b), set : Set(a)) : Set(b) {
     `
     (() => {
-      const newSet = new Set()
+      const newSet = []
 
       #{set}.forEach((item) => {
-        newSet.add(#{method}(item))
+        newSet.push(#{method}(item))
       })
 
       return newSet
@@ -119,6 +114,6 @@ module Set {
     Set.size(Set.fromArray([0,1,2])) == 3
   */
   fun size (set : Set(a)) : Number {
-    `#{set}.size`
+    `#{set}.length`
   }
 }
