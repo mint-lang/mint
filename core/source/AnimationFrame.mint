@@ -14,7 +14,7 @@ module AnimationFrame {
 
     AnimationFrame.cancel(id)
   */
-  fun clear (id : Number) : Number {
+  fun cancel (id : Number) : Number {
     `cancelAnimationFrame(#{id}) || -1`
   }
 }

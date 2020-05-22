@@ -3,7 +3,7 @@ record WebSocket.Config {
   onMessage : Function(String, Promise(Never, Void)),
   onError : Function(Promise(Never, Void)),
   onClose : Function(Promise(Never, Void)),
-  reconnect : Bool,
+  reconnectOnClose : Bool,
   url : String
 }
 
@@ -15,15 +15,15 @@ module WebSocket {
     websocket =
       WebSocket.open({
         url = "wss://echo.websocket.org",
+        reconnectOnClose = true,
         onMessage = handleMessage,
         onError = handleError,
         onClose = handleClose,
-        onOpen = handleOpen,
-        reconnect = true
+        onOpen = handleOpen
       })
 
-  If `reconnect` is set then when a connection is closed it tries to reconnect,
-  using the same configuration (basically calls open again).
+  If `reconnectOnClose` is set then when a connection is closed it tries to
+  reconnect, using the same configuration (basically calls open again).
   */
   fun open (config : WebSocket.Config) : WebSocket {
     `
@@ -50,7 +50,7 @@ module WebSocket {
 
         #{config.onClose()};
 
-        if (#{config.reconnect} && !socket.shouldNotReconnect) {
+        if (#{config.reconnectOnClose} && !socket.shouldNotReconnect) {
           #{open(config)};
         }
 
@@ -82,8 +82,8 @@ module WebSocket {
 
     WebSocket.close(websocket)
 
-  If the `reconnect` flag was specified then the connection will reconnect using
-  this function.
+  If the `reconnectOnClose` flag was specified then the connection will
+  reconnect using this function.
   */
   fun close (socket : WebSocket) : Promise(Never, Void) {
     `#{socket}.close()`
@@ -91,7 +91,7 @@ module WebSocket {
 
   /*
   Closes the given given websocket connection without reconnecting, even if the
-  `reconnect` flag was set.
+  `reconnectOnClose` flag was set.
 
     WebSocket.closeWithoutReconnecting(websocket)
   */

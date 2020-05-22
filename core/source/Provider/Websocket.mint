@@ -70,7 +70,7 @@ provider Provider.WebSocket : WebSocket.Config {
                       onOpen = (socket : WebSocket) { onOpen(config.url, socket) },
                       onClose = () { onClose(config.url) },
                       onError = () { onError(config.url) },
-                      reconnect = config.reconnect,
+                      reconnectOnClose = config.reconnectOnClose,
                       url = config.url
                     }),
                   memo)
