@@ -128,7 +128,7 @@ module Mint
         end
 
       elements =
-        (enums + records + providers + routes + modules + components + static + stores + [footer] + suites)
+        (enums + records + modules + providers + routes + components + static + stores + [footer] + suites)
           .reject!(&.empty?)
 
       replace_skipped(js.statements(elements))

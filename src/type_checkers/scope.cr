@@ -93,7 +93,9 @@ module Mint
 
       def stateful?
         @levels.find do |item|
-          item.is_a?(Ast::Component) || item.is_a?(Ast::Store)
+          item.is_a?(Ast::Component) ||
+            item.is_a?(Ast::Store) ||
+            item.is_a?(Ast::Provider)
         end
       end
 
@@ -157,7 +159,8 @@ module Mint
                  Comparer.normalize(Type.new(node.subscription))
           Type.new("Array", [type.as(Checkable)])
         else
-          node.functions.find(&.name.value.==(variable))
+          node.functions.find(&.name.value.==(variable)) ||
+            node.states.find(&.name.value.==(variable))
         end
       end
 

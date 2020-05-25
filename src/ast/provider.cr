@@ -1,10 +1,11 @@
 module Mint
   class Ast
     class Provider < Node
-      getter subscription, functions, name, comment, comments
+      getter subscription, functions, name, comment, comments, states
 
       def initialize(@functions : Array(Function),
                      @comments : Array(Comment),
+                     @states : Array(State),
                      @subscription : String,
                      @comment : Comment?,
                      @name : String,

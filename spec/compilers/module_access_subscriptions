@@ -29,6 +29,11 @@ const A = _R({
 });
 
 const B = new(class extends _P {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   a(b) {
     return b;
   }

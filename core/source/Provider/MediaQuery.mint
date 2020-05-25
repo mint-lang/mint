@@ -9,62 +9,65 @@ This provider sends changes when the given media query in the subscription
 changes.
 */
 provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
-  fun attach : Void {
-    `
-    (() => {
-      if (!this.listeners) {
-        this.listeners = new Map
-        this.queries = new Map
-      }
+  state listeners : Map(String, Function(Void)) = Map.empty()
 
-      #{subscriptions}.forEach((subscription) => {
-        const listeners = this.listeners.get(subscription.query)
+  fun update : Promise(Never, Void) {
+    try {
+      updatedListeners =
+        subscriptions
+        |> Array.reduce(
+          listeners,
+          (
+            memo : Map(String, Function(Void)),
+            subscription : Provider.MediaQuery.Subscription
+          ) {
+            case (Map.get(subscription.query, listeners)) {
+              Maybe::Nothing =>
+                Map.set(
+                  subscription.query,
+                  Window.addMediaQueryListener(
+                    subscription.query,
+                    (active : Bool) {
+                      for (item of subscriptions) {
+                        subscription.changes(active)
+                      } when {
+                        item.query == subscription.query
+                      }
+                    }),
+                  memo)
 
-        // Add a listener
-        if (!listeners) {
-          const query = window.matchMedia(subscription.query)
+              Maybe::Just => memo
+            }
+          })
 
-          const listener = () => {
-            #{subscriptions}
-              .filter((item) => item.query === subscription.query)
-              .forEach((item) => {
-                item.changes(query.matches)
-              })
-          }
+      finalListeners =
+        updatedListeners
+        |> Map.reduce(
+          updatedListeners,
+          (
+            memo : Map(String, Function(Void)),
+            query : String,
+            listener : Function(Void)
+          ) {
+            try {
+              subscription =
+                subscriptions
+                |> Array.find(
+                  (item : Provider.MediaQuery.Subscription) { item.query == query })
 
-          query.addListener(listener)
+              case (subscription) {
+                Maybe::Just => memo
 
-          this.queries.set(subscription.query, query)
-          this.listeners.set(subscription.query, listener)
-        }
+                Maybe::Nothing =>
+                  try {
+                    listener()
+                    Map.delete(query, memo)
+                  }
+              }
+            }
+          })
 
-        // Call all listeners...
-        this.listeners.forEach((listener) => listener())
-      })
-
-      // Check if we need to remove some keys
-      this.listeners.forEach((value, key) => {
-        const present = #{subscriptions}.filter((subscription) => subscription.query === key).length > 0
-
-        if (!present) {
-          this.listeners.delete(key)
-          this.queries.get(key).removeListener(value)
-          this.queries.delete(key)
-        }
-      })
-    })()
-    `
-  }
-
-  fun detach : Void {
-    `
-    (() => {
-      this.listeners.forEach((value, key) => {
-        this.listeners.delete(key)
-        this.queries.get(key).removeListener(value)
-        this.queries.delete(key)
-      })
-    })()
-    `
+      next { listeners = finalListeners }
+    }
   }
 }

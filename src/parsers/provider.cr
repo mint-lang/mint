@@ -26,7 +26,7 @@ module Mint
           opening_bracket: ProviderExpectedOpeningBracket,
           closing_bracket: ProviderExpectedClosingBracket
         ) do
-          items = many { function || self.comment }.compact
+          items = many { function || state || self.comment }.compact
           raise ProviderExpectedBody if items
                                           .select(Ast::Function)
                                           .empty?
@@ -35,13 +35,16 @@ module Mint
 
         functions = [] of Ast::Function
         comments = [] of Ast::Comment
+        states = [] of Ast::State
 
         body.each do |item|
           case item
           when Ast::Function
             functions << item
 
-            item.keep_name = true if item.name.value.in?("attach", "detach")
+            item.keep_name = true if item.name.value == "update"
+          when Ast::State
+            states << item
           when Ast::Comment
             comments << item
           else
@@ -55,6 +58,7 @@ module Mint
           from: start_position,
           comments: comments,
           comment: comment,
+          states: states,
           to: position,
           input: data,
           name: name)

@@ -25,7 +25,7 @@ module Mint
       js.store(name, body)
     end
 
-    def compile_constructor(node : Ast::Store) : String
+    def compile_constructor(node : Ast::Store | Ast::Provider) : String
       states =
         node
           .states

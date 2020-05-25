@@ -8,7 +8,7 @@ module Mint
         node.subscription
 
       body =
-        list node.functions + node.comments
+        list node.functions + node.comments + node.states
 
       comment =
         node.comment.try { |item| "#{format(item)}\n" }

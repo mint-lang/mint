@@ -1,3 +1,26 @@
+suite "Map with enums" {
+  test "Map.set" {
+    (Map.empty()
+    |> Map.set(Maybe::Just("a"), "a")
+    |> Map.set(Maybe::Just("a"), "a")
+    |> Map.size()) == 1
+  }
+
+  test "Equality" {
+    try {
+      map1 =
+        Map.empty()
+        |> Map.set(Maybe::Just("a"), "x")
+
+      map2 =
+        Map.empty()
+        |> Map.set(Maybe::Just("a"), "x")
+
+      (map1 == map2)
+    }
+  }
+}
+
 suite "Map equality" {
   test "maps which are not equal returns false" {
     try {
@@ -227,5 +250,14 @@ suite "Map.getWithDefault" {
   test "returns fallback if not present" {
     (Map.empty()
     |> Map.getWithDefault("key", "fallback")) == "fallback"
+  }
+}
+
+suite "Map.entries" {
+  test "returns an array of key-value tuple" {
+    (Map.empty()
+    |> Map.set("a", 100)
+    |> Map.set("b", 200)
+    |> Map.entries()) == [{"a", 100}, {"b", 200}]
   }
 }
