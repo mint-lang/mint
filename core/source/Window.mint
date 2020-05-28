@@ -123,10 +123,16 @@ module Window {
     `
     (() => {
       const query = window.matchMedia(#{query});
-      query.addListener(#{listener})
-      return () => query.removeListener(#{listener});
+      const listener = (event) => #{listener}(query.matches);
+      query.addListener(listener)
+      #{listener}(query.matches)
+      return () => query.removeListener(listener);
     })()
     `
+  }
+
+  fun matchesMediaQuery (query : String) : Bool {
+    `window.matchMedia(#{query}).matches`
   }
 
   fun addEventListener (
