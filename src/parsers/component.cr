@@ -89,12 +89,12 @@ module Mint
           comment: comment,
           styles: styles,
           states: states,
+          refs: refs.dup,
           to: position,
           input: data,
           name: name,
           uses: uses,
-          gets: gets,
-          refs: refs
+          gets: gets
         )
       end
     end

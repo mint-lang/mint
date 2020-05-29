@@ -33,6 +33,11 @@ module Mint
       states =
         compile node.states
 
+      refs =
+        node.refs.map do |(ref, _)|
+          js.get(js.variable_of(ref), "return (this._#{ref.value} ? new #{just}(this._#{ref.value}) : new #{nothing});")
+        end
+
       display_name =
         js.display_name(prefixed_name, node.name)
 
@@ -83,7 +88,7 @@ module Mint
       functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + constants + states + store_stuff + functions)
+        ([constructor] + styles + gets + refs + constants + states + store_stuff + functions)
           .compact
 
       js.statements([

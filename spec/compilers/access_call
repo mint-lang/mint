@@ -1,5 +1,6 @@
 enum Maybe(value) {
   Just(value)
+  Nothing
 }
 
 component Test {
@@ -32,6 +33,13 @@ class C extends _E {
   }
 };
 
+class D extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
 class A extends _C {
   a(b) {
     return b;
@@ -45,10 +53,14 @@ class A extends _C {
 A.displayName = "Test";
 
 class B extends _C {
+  get d() {
+    return (this._test ? new C(this._test) : new D);
+  }
+
   c() {
     return (() => {
       const _ = (() => {
-        const _ = this._test;
+        const _ = this.d;
         return _s(_,(_) => _.a);
       })();
 
@@ -61,7 +73,7 @@ class B extends _C {
       "onClick": (event => (this.c)(_normalizeEvent(event)))
     }, [
       _h(A, {
-        ref: (instance) => { this._test = new C(instance) }
+        ref: (instance) => { this._test = instance }
       })
     ]);
   }
