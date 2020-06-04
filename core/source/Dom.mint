@@ -260,7 +260,7 @@ module Dom {
   fun getElementFromPoint (left : Number, top : Number) : Maybe(Dom.Element) {
     `
     (() => {
-      const element = document.elementFromPoint(left, top)
+      const element = document.elementFromPoint(#{left}, #{top})
 
       if (element) {
         return new Just(element)
