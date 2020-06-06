@@ -232,7 +232,7 @@ module Dom {
     |> Dom.getAttribute("id") == "my-div"
   */
   fun getAttribute (name : String, element : Dom.Element) : String {
-    `element.getAttribute(name) || ""`
+    `#{element}.getAttribute(#{name}) || ""`
   }
 
   /*
