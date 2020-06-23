@@ -23,7 +23,7 @@ test-core: build
 
 .PHONY: development
 development: build
-	cp bin/mint ~/.bin/mint-dev
+	mv bin/mint ~/.bin/mint-dev
 
 .PHONY: documentation
 documentation:
