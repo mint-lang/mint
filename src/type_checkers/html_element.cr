@@ -3,6 +3,10 @@ module Mint
     type_error HtmlElementReferenceOutsideOfComponent
     type_error HtmlElementStyleOutsideOfComponent
 
+    def static_type_signature(node : Ast::HtmlElement) : Checkable
+      Type.new("Dom.Element")
+    end
+
     def check(node : Ast::HtmlElement) : Checkable
       unless node.styles.empty?
         raise HtmlElementStyleOutsideOfComponent, {
