@@ -1,11 +1,11 @@
 module Mint
   class TestRunner
     class Message
-      JSON.mapping({
-        type:   String,
-        name:   String,
-        result: String,
-      })
+      include JSON::Serializable
+
+      property type : String
+      property name : String
+      property result : String
     end
 
     def page_source : String
@@ -275,7 +275,7 @@ module Mint
       Dir.mkdir(profile_directory)
       process = open_process(profile_directory)
       @channel.receive
-      process.kill
+      process.signal(Signal::KILL)
       FileUtils.rm_rf(profile_directory)
     end
 

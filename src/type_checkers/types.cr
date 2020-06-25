@@ -69,7 +69,7 @@ module Mint
         io << name
         unless parameters.empty?
           io << '('
-          parameters.join(", ", io)
+          parameters.join(io, ", ")
           io << ')'
         end
       end
@@ -111,7 +111,7 @@ module Mint
         io << name
         unless fields.empty?
           io << '('
-          fields.join(", ", io) do |(key, value), inner_io|
+          fields.join(io, ", ") do |(key, value), inner_io|
             inner_io << key << ": " << value
           end
           io << ')'
@@ -142,7 +142,7 @@ module Mint
           io << "(...)"
         else
           io << '('
-          fields.join(", ", io) do |(key, value), inner_io|
+          fields.join(io, ", ") do |(key, value), inner_io|
             inner_io << key << ": " << value
           end
           io << ", ...)"
