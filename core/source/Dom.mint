@@ -110,7 +110,7 @@ module Dom {
   /*
   Sets the value property of a `Dom.Element`.
 
-  It is used to set the value of `input` fields programatically.
+  It is used to set the value of `input` fields programmatically.
   */
   fun setValue (value : String, dom : Dom.Element) : Dom.Element {
     `(#{dom}.value = #{value}) && #{dom}`

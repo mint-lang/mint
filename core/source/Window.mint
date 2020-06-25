@@ -147,7 +147,7 @@ module Window {
   }
 
   /*
-  Gets the with of the scrollbar.
+  Gets the width of the scrollbar.
 
     Window.getScrollbarWidth() == 10
   */

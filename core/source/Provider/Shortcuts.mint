@@ -34,7 +34,7 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
 
       shift =
         if (event.shiftKey && event.keyCode != 16) {
-          Maybe::Just(17)
+          Maybe::Just(16)
         } else {
           Maybe::Nothing
         }

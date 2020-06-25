@@ -1,6 +1,6 @@
-/* Functions for debugging purpuses */
+/* Functions for debugging purposes */
 module Debug {
-  /* Logs an arbritaty value to the windows console. */
+  /* Logs an arbitrary value to the windows console. */
   fun log (value : a) : a {
     `
     (() => {

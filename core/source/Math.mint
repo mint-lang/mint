@@ -20,7 +20,7 @@ module Math {
   }
 
   /*
-  Returns the smallest integer greater than or equal to a given number.
+  Returns the smallest integer greater than or equal to the given number.
 
     Math.ceil(0.3) == 1
   */
@@ -29,7 +29,7 @@ module Math {
   }
 
   /*
-  Returns the largest integer less than or equal to a given number.
+  Returns the largest integer less than or equal to the given number.
 
     Math.floor(0.8) == 0
   */
@@ -103,7 +103,7 @@ module Math {
   }
 
   /*
-  Truncates the given number to the giver amount.
+  Truncates the given number to the given amount.
 
     Math.truncate(0.123456) == 0.12
   */

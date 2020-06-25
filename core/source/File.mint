@@ -84,7 +84,7 @@ module File {
   Opens the browsers file dialog for selecting a single file.
 
   * The mime type can be restricted to the given one.
-  * It might not esolve if the user cancels the dialog.
+  * It might not resolve if the user cancels the dialog.
 
     sequence {
       file =

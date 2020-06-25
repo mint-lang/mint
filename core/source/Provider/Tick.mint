@@ -3,7 +3,7 @@ record Provider.Tick.Subscription {
   ticks : Function(Promise(Never, Void))
 }
 
-/* A provider for periodic updated (every 1 seconds). */
+/* A provider for periodic updates (every 1 seconds). */
 provider Provider.Tick : Provider.Tick.Subscription {
   state id : Number = -1
 

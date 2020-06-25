@@ -231,7 +231,7 @@ module Test.Html {
     `
   }
 
-  /* Asserts the value of a css property on the element that matches the given selector. */
+  /* Asserts the value of a CSS property on the element that matches the given selector. */
   fun assertCSSOf (
     selector : String,
     property : String,

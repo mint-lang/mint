@@ -106,11 +106,11 @@ suite "String.capitalize" {
 
 suite "String.isAnagram" {
   test "returns false for non anagrams" {
-    String.isAnagarm("asd", "blah") == false
+    String.isAnagram("asd", "blah") == false
   }
 
   test "returns true for anagrams" {
-    String.isAnagarm("rail safety", "fairy tales") == true
+    String.isAnagram("rail safety", "fairy tales") == true
   }
 }
 
