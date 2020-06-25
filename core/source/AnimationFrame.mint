@@ -1,7 +1,7 @@
 /* This module provides a wrapper over the Animation Frame Web API. */
 module AnimationFrame {
   /*
-  Schedules the function to run on the next frame, and returns it's ID.
+  Schedules the function to run on the next frame, and returns its ID.
 
     id = AnimationFrame.request(() { Debug.log("Hello") })
   */

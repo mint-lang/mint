@@ -41,7 +41,7 @@ record Html.Event {
   event : Html.NativeEvent
 }
 
-/* Utilit functions for `Html.Event` */
+/* Utility functions for `Html.Event` */
 module Html.Event {
   fun fromEvent (event : Html.NativeEvent) : Html.Event {
     {

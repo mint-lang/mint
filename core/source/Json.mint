@@ -1,4 +1,4 @@
-/* A module for parsing and stringifing JSON format. */
+/* A module for parsing and stringifying JSON format. */
 module Json {
   /*
   Parses a string into an `Object`, returns `Maybe.nothing()`
@@ -20,7 +20,7 @@ module Json {
   }
 
   /*
-  Stringifies am `Object` into JSON string.
+  Stringifies an `Object` into JSON string.
 
     Json.stringify(`{ a: "Hello" }`) == "{ \"a\": \"Hello\" }"
   */

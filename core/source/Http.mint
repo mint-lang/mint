@@ -53,7 +53,7 @@ sequence {
 */
 module Http {
   /*
-  Creates an empty request record. It is useful if you want to use a non
+  Creates an empty request record. It is useful if you want to use a non-
   standard HTTP method.
 
     Http.empty() ==
@@ -230,13 +230,13 @@ module Http {
     `
   }
 
-  /* Returns all running requuests. */
+  /* Returns all running requests. */
   fun requests : Map(String, Http.NativeRequest) {
     `this._requests`
   }
 
   /*
-  Sends the request with a generated unique id.
+  Sends the request with a generated unique ID.
 
     "https://httpbin.org/get"
     |> Http.get()
