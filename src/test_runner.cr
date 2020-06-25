@@ -3,9 +3,9 @@ module Mint
     class Message
       include JSON::Serializable
 
-      @type : String
-      @name : String
-      @result : String
+      property type : String
+      property name : String
+      property result : String
     end
 
     def page_source : String
