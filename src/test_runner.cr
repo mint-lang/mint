@@ -1,11 +1,11 @@
 module Mint
   class TestRunner
     class Message
-      JSON.mapping({
-        type:   String,
-        name:   String,
-        result: String,
-      })
+      include JSON::Serializable
+
+      @type : String
+      @name : String
+      @result : String
     end
 
     def page_source : String
