@@ -275,7 +275,7 @@ module Mint
       Dir.mkdir(profile_directory)
       process = open_process(profile_directory)
       @channel.receive
-      process.kill
+      process.signal(Signal::KILL)
       FileUtils.rm_rf(profile_directory)
     end
 
