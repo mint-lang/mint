@@ -83,27 +83,37 @@ module Mint
         when Ast::EnumDestructuring
           check_match.call(item)
 
+          entity =
+            ast.enums.find(&.name.==(item.name)).not_nil!
+
+          option =
+            entity.options.find(&.value.==(item.option)).not_nil!
+
           variables =
-            item.parameters.map_with_index do |param, index|
-              entity =
-                ast.enums.find(&.name.==(item.name)).not_nil!
+            case option_param = option.parameters[0]?
+            when Ast::EnumRecordDefinition
+              item.parameters.map do |param|
+                record =
+                  resolve(option_param).as(Record)
 
-              option =
-                entity.options.find(&.value.==(item.option)).not_nil!
-
-              option_type =
-                resolve(option.parameters[index]).not_nil!
-
-              mapping = {} of String => Checkable
-
-              entity.parameters.each_with_index do |param2, index2|
-                mapping[param2.value] = condition.parameters[index2]
+                {param.value, record.fields[param.value], param}
               end
+            else
+              item.parameters.map_with_index do |param, index|
+                option_type =
+                  resolve(option.parameters[index]).not_nil!
 
-              resolved_type =
-                Comparer.fill(option_type, mapping)
+                mapping = {} of String => Checkable
 
-              {param.value, resolved_type.not_nil!, param}
+                entity.parameters.each_with_index do |param2, index2|
+                  mapping[param2.value] = condition.parameters[index2]
+                end
+
+                resolved_type =
+                  Comparer.fill(option_type, mapping)
+
+                {param.value, resolved_type.not_nil!, param}
+              end
             end
 
           scope(variables) do

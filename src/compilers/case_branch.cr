@@ -53,8 +53,15 @@ module Mint
           }
         when Ast::EnumDestructuring
           variables =
-            match.parameters.map_with_index do |param, index1|
-              "const #{js.variable_of(param)} = #{variable}._#{index1}"
+            case lookups[match].as(Ast::EnumOption).parameters[0]?
+            when Ast::EnumRecordDefinition
+              match.parameters.map do |param|
+                "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
+              end
+            else
+              match.parameters.map_with_index do |param, index1|
+                "const #{js.variable_of(param)} = #{variable}._#{index1}"
+              end
             end
 
           name =
