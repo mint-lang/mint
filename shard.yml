@@ -13,8 +13,8 @@ dependencies:
     github: schovi/baked_file_system
     version: ~> 0.9.8
   kemal:
-    github: kemalcr/kemal
-    commit: a8c0f09b858162bd13c96663febef5527b322a32
+    github: mint-lang/kemal
+    commit: 327c659912f0bf03f113c6a145c4a7b142ae96cc
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.11.2

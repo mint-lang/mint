@@ -25,8 +25,8 @@ shards:
     version: 0.1.4
 
   kemal:
-    git: https://github.com/kemalcr/kemal.git
-    version: 0.26.1+git.commit.a8c0f09b858162bd13c96663febef5527b322a32
+    git: https://github.com/mint-lang/kemal.git
+    version: 0.26.1+git.commit.327c659912f0bf03f113c6a145c4a7b142ae96cc
 
   kilt:
     git: https://github.com/jeromegn/kilt.git
