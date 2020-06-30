@@ -30,6 +30,9 @@ dependencies:
   markd:
     github: icyleaf/markd
     commit: 620845abb6776d1765d20d86cc0220aa40f89a91
+  img_kit:
+    github: Hentioe/imgkit.cr
+    commit: b219933b27126dc4db2ac8d6f856f0ef5fcdfe5c
 
 development_dependencies:
   ameba:

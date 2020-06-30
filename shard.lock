@@ -24,6 +24,10 @@ shards:
     git: https://github.com/crystal-loot/exception_page.git
     version: 0.1.4
 
+  img_kit:
+    git: https://github.com/Hentioe/imgkit.cr.git
+    version: 0.1.0-dev+git.commit.b219933b27126dc4db2ac8d6f856f0ef5fcdfe5c
+
   kemal:
     git: https://github.com/kemalcr/kemal.git
     version: 0.26.1+git.commit.a8c0f09b858162bd13c96663febef5527b322a32

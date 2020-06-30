@@ -142,7 +142,7 @@ module Mint
             json =
               MintJson.parse_current
 
-            IconGenerator.convert(json.application.icon, match[1])
+            IconGenerator.convert(json.application.icon, match[1].to_u16)
           else
             env.response.content_type =
               "text/html"
