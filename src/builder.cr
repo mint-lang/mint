@@ -84,7 +84,10 @@ module Mint
         destination =
           File.join(DIST_DIR, "icon-#{size}x#{size}.png")
 
-        IconGenerator.convert(json.application.icon, size, destination)
+        icon =
+          IconGenerator.convert(json.application.icon, size)
+
+        File.write(destination, icon)
       end
     end
 

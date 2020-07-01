@@ -56,11 +56,3 @@ deploy:
 
 addons:
   chrome: stable
-  apt:
-    packages:
-      - libmagickwand-dev
-      - liblcms2-dev
-      - liblqr-1-0-dev
-      - libfftw3-dev
-  homebrew:
-    packages: imagemagick
