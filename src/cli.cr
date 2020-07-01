@@ -4,8 +4,6 @@ require "./commands/**"
 
 module Mint
   command_error EnvFileNotFound
-  command_error ImageCorrupt
-  command_error ImageResizeFailed
 
   class CliException < Exception
   end
