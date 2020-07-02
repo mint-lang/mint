@@ -136,12 +136,12 @@ suite "Http.header" {
   }
 }
 
-suite "Http.sendWithID" {
+suite "Http.sendWithId" {
   test "sends the request with the given ID" {
     try {
       response =
         Http.get("/blah")
-        |> Http.sendWithID("A")
+        |> Http.sendWithId("A")
 
       `#{Http.requests()}["A"] != undefined`
     }
@@ -172,7 +172,7 @@ component Test.Http {
         Http.empty()
         |> Http.url(url)
         |> Http.method(method)
-        |> Http.sendWithID("test")
+        |> Http.sendWithId("test")
         |> wrap(
           `
           (async (promise) => {

@@ -153,7 +153,7 @@ suite "Dom.focusWhenVisible" {
         |> triggerClick("#focus")
         |> triggerClick("#show")
         |> timeout(200)
-        |> assertCSSOf("#input", "display", "inline-block")
+        |> assertCssOf("#input", "display", "inline-block")
         |> assertActiveElement("#input")
       }
     }

@@ -15,7 +15,7 @@ module FormData {
   }
 
   /*
-  Returns the keys of a FromData object.
+  Returns the keys of a FormData object.
 
     FormData.empty()
     |> FormData.addString("key", "value")
