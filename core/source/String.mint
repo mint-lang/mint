@@ -105,10 +105,10 @@ module String {
   /*
   Returns if the given string is an anagram of the other string.
 
-    String.isAnagarm("asd", "blah") == false
-    String.isAnagarm("rail safety", "fairy tales") == true
+    String.isAnagram("asd", "blah") == false
+    String.isAnagram("rail safety", "fairy tales") == true
   */
-  fun isAnagarm (string1 : String, string2 : String) : Bool {
+  fun isAnagram (string1 : String, string2 : String) : Bool {
     `
     (() => {
       const normalize = string =>

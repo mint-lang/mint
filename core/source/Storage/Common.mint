@@ -3,17 +3,17 @@ enum Storage.Error {
   /* The storage API is disabled. */
   SecurityError
 
-  /* The storage is full (over the qouta, usually 5MB). */
+  /* The storage is full (over the quota, usually 5MB). */
   QuotaExceeded
 
-  /* The key in the storage does not exists. */
+  /* The key in the storage does not exist. */
   NotFound
 
-  /* The reason for the faliure is unknown. */
+  /* The reason for the failure is unknown. */
   Unknown
 }
 
-/* Common implementation of the storage api. */
+/* Common implementation of the storage API. */
 module Storage.Common {
   /* Sets the given key to the given value in the given storage. */
   fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {

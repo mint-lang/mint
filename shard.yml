@@ -13,11 +13,11 @@ dependencies:
     github: schovi/baked_file_system
     version: ~> 0.9.8
   kemal:
-    github: kemalcr/kemal
-    version: ~> 0.26.1
+    github: mint-lang/kemal
+    commit: 327c659912f0bf03f113c6a145c4a7b142ae96cc
   admiral:
     github: jwaldrip/admiral.cr
-    version: ~> 1.9.0
+    version: ~> 1.11.2
   tree_template:
     github: anykeyh/tree_template
     commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
@@ -29,12 +29,12 @@ dependencies:
     version: ~> 0.3.1
   markd:
     github: icyleaf/markd
-    version: ~> 0.2.0
+    commit: 620845abb6776d1765d20d86cc0220aa40f89a91
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.12.0
+    version: ~> 0.13.0
   diff:
     github: MakeNowJust/crystal-diff
     version: ~> 1.1.0

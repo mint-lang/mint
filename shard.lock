@@ -1,54 +1,54 @@
-version: 1.0
+version: 2.0
 shards:
   admiral:
-    github: jwaldrip/admiral.cr
-    version: 1.9.0
+    git: https://github.com/jwaldrip/admiral.cr.git
+    version: 1.11.2
 
   ameba:
-    github: crystal-ameba/ameba
-    version: 0.12.1
+    git: https://github.com/crystal-ameba/ameba.git
+    version: 0.13.0
 
   baked_file_system:
-    github: schovi/baked_file_system
+    git: https://github.com/schovi/baked_file_system.git
     version: 0.9.8
 
   diff:
-    github: MakeNowJust/crystal-diff
+    git: https://github.com/MakeNowJust/crystal-diff.git
     version: 1.1.0
 
   dotenv:
-    github: gdotdesign/cr-dotenv
+    git: https://github.com/gdotdesign/cr-dotenv.git
     version: 0.3.1
 
   exception_page:
-    github: crystal-loot/exception_page
+    git: https://github.com/crystal-loot/exception_page.git
     version: 0.1.4
 
   kemal:
-    github: kemalcr/kemal
-    version: 0.26.1
+    git: https://github.com/mint-lang/kemal.git
+    version: 0.26.1+git.commit.327c659912f0bf03f113c6a145c4a7b142ae96cc
 
   kilt:
-    github: jeromegn/kilt
+    git: https://github.com/jeromegn/kilt.git
     version: 0.4.0
 
   markd:
-    github: icyleaf/markd
-    version: 0.2.0
+    git: https://github.com/icyleaf/markd.git
+    version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
 
   radix:
-    github: luislavena/radix
+    git: https://github.com/luislavena/radix.git
     version: 0.3.9
 
   string_inflection:
-    github: mosop/string_inflection
+    git: https://github.com/mosop/string_inflection.git
     version: 0.2.1
 
   time_format:
-    github: vladfaust/time_format.cr
+    git: https://github.com/vladfaust/time_format.cr.git
     version: 0.1.1
 
   tree_template:
-    github: anykeyh/tree_template
-    commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
+    git: https://github.com/anykeyh/tree_template.git
+    version: 0.1.0+git.commit.3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
 

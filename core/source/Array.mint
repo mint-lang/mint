@@ -113,7 +113,7 @@ module Array {
   }
 
   /*
-  Returns all elements that matches the predicate function.
+  Returns all elements that match the predicate function.
 
     Array.select((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [2, 4]
   */
@@ -122,7 +122,7 @@ module Array {
   }
 
   /*
-  Returns all elements that does not matches the predicate function.
+  Returns all elements that do not matches the predicate function.
 
     Array.reject((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [1, 3]
   */
@@ -293,7 +293,7 @@ module Array {
   }
 
   /*
-  Returns an random element from the array.
+  Returns a random element from the array.
 
     Array.sample(["a"]) == Maybe.just("a")
     Array.sample() == Maybe.nothing()
@@ -323,7 +323,7 @@ module Array {
   }
 
   /*
-  Put two lists together:
+  Puts two lists together:
 
     Array.append([1,1,2] [3,5,8]) == [1,1,2,3,5,8]
   */
@@ -482,7 +482,7 @@ module Array {
 
   /*
   Flattens an `Array(Maybe(a))` into an `Array(a)`, by unwrapping the items
-  and skipping nothings.
+  and skipping all elements of type `Nothing`.
 
     Array.compact([Maybe.just("A"), Maybe.nothing()]) == ["A"]
   */
@@ -565,8 +565,8 @@ module Array {
   }
 
   /*
-  Spaws the items at the given indexes of the given array. It returns the array
-  unchanged if there is no item at any of the given indexs.
+  Swaps the items at the given indexes of the given array. It returns the array
+  unchanged if there is no item at any of the given indexes.
 
     Array.swap(0, 1, ["a","b"]) == ["b", "a"]
   */

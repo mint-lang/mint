@@ -1,6 +1,6 @@
 module Html {
   /*
-  Returns an empty Html node. It is useful for example if you dont to
+  Returns an empty Html node. It is useful for example if you don't to
   render something conditionally.
 
     if (Array.isEmpty(items)) {

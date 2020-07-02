@@ -26,6 +26,8 @@ os:
   - linux
   - osx
 
+osx_image: xcode12
+
 before_deploy:
   - mkdir build
   - |

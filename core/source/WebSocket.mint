@@ -78,7 +78,7 @@ module WebSocket {
   }
 
   /*
-  Closes the given given websocket connection.
+  Closes the given websocket connection.
 
     WebSocket.close(websocket)
 
@@ -90,7 +90,7 @@ module WebSocket {
   }
 
   /*
-  Closes the given given websocket connection without reconnecting, even if the
+  Closes the given websocket connection without reconnecting, even if the
   `reconnectOnClose` flag was set.
 
     WebSocket.closeWithoutReconnecting(websocket)

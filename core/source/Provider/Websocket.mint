@@ -1,4 +1,4 @@
-/* Provider to handle webscoket connections. */
+/* Provider to handle websocket connections. */
 provider Provider.WebSocket : WebSocket.Config {
   state connections : Map(String, WebSocket) = Map.empty()
 

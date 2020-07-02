@@ -110,7 +110,7 @@ module Dom {
   /*
   Sets the value property of a `Dom.Element`.
 
-  It is used to set the value of `input` fields programatically.
+  It is used to set the value of `input` fields programmatically.
   */
   fun setValue (value : String, dom : Dom.Element) : Dom.Element {
     `(#{dom}.value = #{value}) && #{dom}`
@@ -232,7 +232,7 @@ module Dom {
     |> Dom.getAttribute("id") == "my-div"
   */
   fun getAttribute (name : String, element : Dom.Element) : String {
-    `element.getAttribute(name) || ""`
+    `#{element}.getAttribute(#{name}) || ""`
   }
 
   /*
@@ -260,7 +260,7 @@ module Dom {
   fun getElementFromPoint (left : Number, top : Number) : Maybe(Dom.Element) {
     `
     (() => {
-      const element = document.elementFromPoint(left, top)
+      const element = document.elementFromPoint(#{left}, #{top})
 
       if (element) {
         return new Just(element)

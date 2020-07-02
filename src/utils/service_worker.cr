@@ -91,7 +91,7 @@ module Mint
         .reject! { |file| File.directory?(file) }
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
           digest.update File.read(file)
-        end.to_s
+        end.final.hexstring
     end
   end
 end
