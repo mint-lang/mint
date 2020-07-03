@@ -224,7 +224,7 @@ module Mint
         }
 
         article > pre {
-          white-space: normal;
+          white-space: pre-wrap;
         }
 
         .grid {
