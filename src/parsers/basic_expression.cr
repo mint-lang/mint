@@ -4,6 +4,7 @@ module Mint
     def basic_expression : Ast::Expression?
       format_directive ||
         documentation_directive ||
+        svg_directive ||
         env ||
         string_literal ||
         bool_literal ||

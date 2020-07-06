@@ -9,6 +9,7 @@ require "kemal"
 require "uuid"
 require "html"
 require "json"
+require "xml"
 
 MINT_ENV = {} of String => String
 
