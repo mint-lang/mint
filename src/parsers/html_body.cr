@@ -1,7 +1,8 @@
 module Mint
   class Parser
     def html_content
-      html_element ||
+      svg_directive ||
+        html_element ||
         html_component ||
         html_expression ||
         html_fragment ||

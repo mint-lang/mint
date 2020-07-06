@@ -1,9 +1,6 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Directives::Svg) : String
-      id =
-        svgs_pool.of(node, nil)
-
       directory =
         Path[node.input.file].dirname
 
@@ -21,7 +18,7 @@ module Mint
           "{ width: '#{width}', height: '#{height}', viewBox: '#{view_box}', dangerouslySetInnerHTML: { __html: `#{data}` }}"
 
         name =
-          static_components_pool.of(id, nil)
+          static_components_pool.of(node.path, nil)
 
         static_components[name] ||= "_h('svg', #{attributes})"
 

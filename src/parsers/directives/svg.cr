@@ -1,24 +1,27 @@
 module Mint
   class Parser
-    syntax_error SvgDirectiveExpectedOpeningBracket
-    syntax_error SvgDirectiveExpectedClosingBracket
+    syntax_error SvgDirectiveExpectedOpeningParentheses
+    syntax_error SvgDirectiveExpectedClosingParentheses
     syntax_error SvgDirectiveExpectedPath
 
     def svg_directive : Ast::Directives::Svg | Nil
       start do |start_position|
         skip unless keyword "@svg"
 
-        char '(', SvgDirectiveExpectedOpeningBracket
+        char '(', SvgDirectiveExpectedOpeningParentheses
         whitespace
-        path = string_literal! SvgDirectiveExpectedPath
+
+        path = gather { chars "^)" }
+        raise SvgDirectiveExpectedPath unless path
+
         whitespace
-        char ')', SvgDirectiveExpectedClosingBracket
+        char ')', SvgDirectiveExpectedClosingParentheses
 
         Ast::Directives::Svg.new(
-          path: path.string_value,
           from: start_position,
           to: position,
-          input: data)
+          input: data,
+          path: path)
       end
     end
   end
