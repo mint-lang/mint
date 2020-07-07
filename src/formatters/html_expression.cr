@@ -4,16 +4,10 @@ module Mint
       expression =
         format node.expression
 
-      case node.expression
-      when Ast::If, Ast::Case, Ast::For, Ast::Try, Ast::With,
-           Ast::StringLiteral, Ast::ArrayLiteral
-        expression
+      if replace_skipped(expression).includes?('\n')
+        "<{\n#{indent(expression)}\n}>"
       else
-        if replace_skipped(expression).includes?('\n')
-          "<{\n#{indent(expression)}\n}>"
-        else
-          "<{ #{expression} }>"
-        end
+        "<{ #{expression} }>"
       end
     end
   end

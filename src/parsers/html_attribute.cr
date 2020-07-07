@@ -15,6 +15,8 @@ module Mint
         char '=', HtmlAttributeExpectedEqualSign
 
         case
+        when keyword_ahead("<{") && (value = html_expression)
+          value
         when char == '"' && (value = string_literal)
           value
         when char == '[' && (value = array)

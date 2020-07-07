@@ -1,7 +1,5 @@
 module Mint
   class Ast
-    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression | HtmlFragment
-
     alias TypeOrVariable = Type | TypeVariable
 
     alias Expression = ParenthesizedExpression |

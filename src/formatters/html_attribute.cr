@@ -14,6 +14,8 @@ module Mint
         else
           "#{name}=#{value}"
         end
+      when Ast::HtmlExpression
+        "#{name}=#{value}"
       when Ast::ArrayLiteral
         "#{name}=#{value}"
       else
