@@ -58,7 +58,7 @@ module Mint
         fields =
           format node.fields, ",\n"
 
-        "\n#{indent(fields).lstrip}"
+        "\n#{indent(fields)}"
       else
         format node.fields, ", "
       end

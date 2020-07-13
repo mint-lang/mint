@@ -14,6 +14,7 @@ module Mint
         record_update ||
         tuple_literal_or_record ||
         html_element ||
+        html_expression ||
         html_component ||
         html_fragment ||
         member_access ||
