@@ -232,7 +232,7 @@ module Dom {
       	Dom.getElementById("my-div")
 
       case (outcome) {
-      	Maybe::Just element => Dom.getAttribute("id", element) == "my-div"
+        Maybe::Just element => Dom.getAttribute("id", element) == "my-div"
         Maybe::Nothing => false
       }
     }
