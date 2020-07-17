@@ -29,7 +29,7 @@ module Dom {
   }
 
   /*
-  Gets the element with the given id from anywhere in the page.
+  Gets the first element to match the given selector from anywhere in the page.
 
     Dom.getElementById("body section > p:first-child")
   */
@@ -225,14 +225,30 @@ module Dom {
   }
 
   /*
-  Returns the content of the given attribute of the given element.
+  If the attribute is present, it will return its value on the given element.
 
-    "my-div"
-    |> Dom.getElementById()
-    |> Dom.getAttribute("id") == "my-div"
+    try {
+    	outcome =
+      	Dom.getElementById("my-div")
+
+      case (outcome) {
+        Maybe::Just element => Dom.getAttribute("id", element) == "my-div"
+        Maybe::Nothing => false
+      }
+    }
   */
-  fun getAttribute (name : String, element : Dom.Element) : String {
-    `#{element}.getAttribute(#{name}) || ""`
+  fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
+    `
+    (() => {
+      const el = #{element}.getAttribute(#{name})
+
+      if (el === "") {
+        return #{Maybe::Nothing}
+      } else {
+        return #{Maybe::Just(`el`)}
+      }
+    })()
+    `
   }
 
   /*
