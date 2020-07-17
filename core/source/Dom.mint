@@ -29,7 +29,7 @@ module Dom {
   }
 
   /*
-  Gets the element with the given id from anywhere in the page.
+  Gets the first element to match the given selector from anywhere in the page.
 
     Dom.getElementById("body section > p:first-child")
   */
