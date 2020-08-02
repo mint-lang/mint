@@ -6,7 +6,8 @@ module Mint
       start do |start_position|
         unless keyword "=>"
           match =
-            enum_destructuring ||
+            constant_access ||
+              enum_destructuring ||
               bool_tuple_literal ||
               tuple_destructuring ||
               array_destructuring ||
