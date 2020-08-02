@@ -243,7 +243,7 @@ module Http {
     |> Http.send()
   */
   fun send (request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
-    sendWithID(Uid.generate(), request)
+    sendWithId(Uid.generate(), request)
   }
 
   /*
@@ -251,9 +251,9 @@ module Http {
 
     "https://httpbin.org/get"
     |> Http.get()
-    |> Http.sendWithID("my-request")
+    |> Http.sendWithId("my-request")
   */
-  fun sendWithID (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun sendWithId (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
     `
     new Promise((resolve, reject) => {
       if (!this._requests) { this._requests = {} }

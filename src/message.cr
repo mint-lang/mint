@@ -223,6 +223,10 @@ module Mint
           margin-bottom: 20px;
         }
 
+        article > pre {
+          white-space: pre-wrap;
+        }
+
         .grid {
           border: 1px solid #DDD;
           background: #FFF;
