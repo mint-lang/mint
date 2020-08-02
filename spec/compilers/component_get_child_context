@@ -1,0 +1,29 @@
+component Main {
+  fun componentDidMount {
+    `a`
+  }
+
+  fun getChildContext {
+    `b`
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  componentDidMount() {
+    return (a);
+  }
+
+  getChildContext() {
+    return (b);
+  }
+
+  render() {
+    return _h("div", {});
+  }
+};
+
+A.displayName = "Main";

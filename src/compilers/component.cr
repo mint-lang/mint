@@ -131,6 +131,7 @@ module Mint
         "componentWillUnmount" => %w[],
         "componentDidUpdate"   => %w[],
         "componentDidMount"    => %w[],
+        "getChildContext"      => %w[],
       }
 
       node.connects.each do |item|
@@ -179,13 +180,15 @@ module Mint
           function =
             node.functions.find(&.name.value.==(key))
 
-          # If the user defined the same function the code goes after it.
-          if function && value
-            function.keep_name = true
+          function.keep_name = true if function
 
+          # If the user defined the same function the code goes after it.
+          if function && value.any?
             compile function, js.statements(value)
-          elsif !value.empty?
+          elsif value.any?
             js.function(key, %w[], js.statements(value))
+          elsif function
+            compile function, ""
           end
         end
 
