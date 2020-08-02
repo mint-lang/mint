@@ -137,3 +137,32 @@ suite "String.trim" {
     String.trim("   \n\n\r\r   ") == ""
   }
 }
+
+suite "String.isNotEmpty" {
+  test "it returns true for non-empty string" {
+    String.isNotEmpty("a") == true
+  }
+
+  test "it returns false for fully empty string" {
+    String.isNotEmpty("") == false
+  }
+
+  test "it returns false for empty string (whitespace)" {
+    String.isNotEmpty(
+      "
+      ") == false
+  }
+}
+
+suite "String.dropLeft" {
+  test "it removes the given number of characters" {
+    String.dropLeft(1, "abc") == "bc" &&
+      String.dropLeft(2, "abc") == "c"
+  }
+}
+
+suite "String.paramterize" {
+  test "it parameterizes the given string" {
+    String.parameterize("HELLO THERE!!!") == "hello-there"
+  }
+}

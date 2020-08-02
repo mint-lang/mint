@@ -213,4 +213,44 @@ module String {
   fun fromArray (array : Array(String)) : String {
     concat(array)
   }
+
+  /*
+  Returns whether or not the string is not empty (only contains whitespace).
+
+    String.isNotEmpty("a") == true
+    String.isNotEmpty("   ") == false
+  */
+  fun isNotEmpty (string : String) : Bool {
+    !String.isEmpty(String.trim(string))
+  }
+
+  /*
+  Drops the number of characters from the string.
+
+    String.dropLeft(1, "abc") == "bc"
+    String.dropLeft(2, "abc") == "c"
+  */
+  fun dropLeft (number : Number, string : String) : String {
+    `#{string}.slice(#{Math.clamp(0, number, String.size(string))})`
+  }
+
+  /*
+  Parameterizes the string:
+  - replaces non alphanumeric, dash and underscore characters with dash
+  - collapses multiple dashes into a single one
+  - removes the leading and trailing dash
+  - converts to lowercase
+
+    String.parameterize("HELLO THERE!!!") == "hello-there"
+    String.parameterize("-_!ASD!_-") == "asd"
+  */
+  fun parameterize (string : String) : String {
+    `
+    #{string}
+    .replace(/[^a-z0-9\-_]+/ig, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-|-$/i, '')
+    .toLowerCase()
+    `
+  }
 }
