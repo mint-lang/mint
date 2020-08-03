@@ -52,6 +52,16 @@ module Dom {
   }
 
   /*
+  Gets all descendant elements of an element which are matching
+  the given selector.
+
+    Dom.getElementsBySelector("a[name]", element)
+  */
+  fun getElementsBySelector (selector : String, element : Dom.Element) : Array(Dom.Element) {
+    `Array.from(#{element}.querySelectorAll(#{selector}))`
+  }
+
+  /*
   Returns the dimensions (BoundingClientRect) of a `Dom.Element`
 
     Dom.getDimensions(Dom.createElement("div")) = {
@@ -192,16 +202,34 @@ module Dom {
   /*
   Returns if the given base element contains the given element.
 
-    body =
-      Dom.getElementBySelector("body")
-
-    div =
-      Dom.getElementBySelector("div")
-
     Dom.contains(div, body) == true
   */
   fun contains (element : Dom.Element, base : Dom.Element) : Bool {
     `#{base}.contains(#{element})`
+  }
+
+  /*
+  Returns if the given base element contains the given element (as a maybe).
+
+    case (Dom.getElementBySelector("body")) {
+      Maybe::Just body =>
+        try {
+          div =
+            Dom.getElementBySelector("div")
+
+          Dom.contains(div, body) == true
+        }
+
+      => false
+    }
+  */
+  fun containsMaybe (
+    maybeElement : Maybe(Dom.Element),
+    base : Dom.Element
+  ) : Bool {
+    maybeElement
+    |> Maybe.map(Dom.contains(base))
+    |> Maybe.withDefault(false)
   }
 
   /*
@@ -240,15 +268,31 @@ module Dom {
   fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
     `
     (() => {
-      const el = #{element}.getAttribute(#{name})
+      const value = #{element}.getAttribute(#{name})
 
-      if (el === "") {
+      if (value === "") {
         return #{Maybe::Nothing}
       } else {
-        return #{Maybe::Just(`el`)}
+        return #{Maybe::Just(`value`)}
       }
     })()
     `
+  }
+
+  /*
+  Sets the given attribute to the given value of the given element and
+  returns the element.
+
+    "a"
+    |> Dom.createElement
+    |> Dom.setAttribute("name", "test")
+  */
+  fun setAttribute (
+    attribute : String,
+    value : String,
+    element : Dom.Element
+  ) : Dom.Element {
+    `#{element}.setAttribute(#{attribute}, #{value}) && element`
   }
 
   /*
@@ -285,5 +329,240 @@ module Dom {
       }
     })()
     `
+  }
+
+  /*
+  Returns the text content of the given element.
+
+    Dom.getTextContent(Dom.getElementBySelector("body"))
+  */
+  fun getTextContent (element : Dom.Element) : String {
+    `#{element}.textContent`
+  }
+
+  /*
+  Returns all child elements of the given element.
+
+    Dom.getChildren())
+  */
+  fun getChildren (element : Dom.Element) : Array(Dom.Element) {
+    `Array.from(#{element}.children)`
+  }
+
+  /*
+  Returns the tagname of the given element.
+
+    ("body"
+    |> Dom.getElementBySelector("body")
+    |> Dom.getTagName) == "BODY"
+  */
+  fun getTagName (element : Dom.Element) : String {
+    `#{element}.tagName`
+  }
+
+  /*
+  Returns the active (focused) element of the page.
+
+    Dom.getActiveElement() == Dom.getElementBySelector("body")
+  */
+  fun getActiveElement : Maybe(Dom.Element) {
+    `
+    (() => {
+      if (document.activeElement) {
+        return #{Maybe::Just(`document.activeElement`)}
+      } else {
+        return #{Maybe::Nothing}
+      }
+    })()
+    `
+  }
+
+  /*
+  Blurs the active element of the page.
+
+    Dom.blurActiveElement()
+  */
+  fun blurActiveElement : Promise(Never, Void) {
+    `document.activeElement && document.activeElement.blur()`
+  }
+
+  /*
+  Measures the given text with the given font using the canvas.
+
+    Dom.measureText("20px sans-serif", "Hello There") = 300
+  */
+  fun measureText (font : String, text : String) : Number {
+    `
+    (() => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext("2d");
+
+      context.font = #{font};
+
+      return context.measureText(#{text}).width
+    })()
+    `
+  }
+
+  /* Returns all focusable descendant elements. */
+  fun focusableElements (element : Dom.Element) : Array(Dom.Element) {
+    `
+    (() => {
+      /* Save focused element. */
+      const focused = document.activeElement
+
+      /* Save scroll position. */
+      const scrollX = window.scrollX
+      const scrollY = window.scrollY
+
+      /* Save the scroll position of each element. */
+      const scrollPositions =
+        Array.from(document.querySelectorAll("*")).reduce((memo, element) => {
+          if (element.scrollHeight > 0 || element.scrollWidth > 0) {
+            memo.set(element, [element.scrollLeft, element.scrollTop])
+          }
+
+          return memo
+        }, new Map)
+
+      /* Gather the focusable elements by focusing them and comparing it
+         with the focused element. */
+      const foundElements =
+        Array.from(#{element}.querySelectorAll("*")).reduce((memo ,element) => {
+          element.focus()
+          if (document.activeElement == element && element.tabIndex !== -1) {
+            memo.push(element)
+          }
+
+          return memo
+        }, [])
+
+      /* Restore scroll positions and focus. */
+      for (let element in scrollPositions) {
+        const [x, y] = scrollPositions[element]
+        element.scrollTo(x, y)
+      }
+
+      window.scrollTo(scrollX, scrollY)
+      focused.focus()
+
+      return foundElements
+    })()
+    `
+  }
+  /* Focuses the first focusable descendant of the given element. */
+  fun focusFirst (element : Dom.Element) {
+    element
+    |> focusableElements
+    |> Array.first
+    |> focus
+  }
+
+  /*
+  Smooth scroll the given element to the given position.
+
+    Dom.smoothScrollTo(element, 10, 10)
+  */
+  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+      behavior: 'smooth',
+      left: #{left},
+      top: #{top} })`
+  }
+
+  /*
+  Scrolls the given element to the given position.
+
+    Dom.scrollTo(element, 10, 10)
+  */
+  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+      left: #{left},
+      top: #{top} })`
+  }
+
+  /*
+  Returns the `clientWidth` of the given element.
+
+    Dom.getClientWidth(div) == 200
+  */
+  fun getClientWidth (element : Dom.Element) : Number {
+    `#{element}.clientWidth || 0`
+  }
+
+  /*
+  Returns the `clientHeight` of the given element.
+
+    Dom.getClientHeight(div) == 200
+  */
+  fun getClientHeight (element : Dom.Element) : Number {
+    `#{element}.clientHeight || 0`
+  }
+
+  /*
+  Returns the horizontal scroll position of the given element.
+
+    Dom.getScrollLeft(div) == 0
+  */
+  fun getScrollLeft (element : Dom.Element) : Number {
+    `#{element}.scrollLeft || 0`
+  }
+
+  /*
+  Returns the scrollable width of the given element.
+
+    Dom.getScrollWidth(div) == 300
+  */
+  fun getScrollWidth (element : Dom.Element) : Number {
+    `#{element}.scrollWidth || 0`
+  }
+
+  /*
+  Returns the vertical scroll position of the given element.
+
+    Dom.getScrollTop(div) == 0
+  */
+  fun getScrollTop (element : Dom.Element) : Number {
+    `#{element}.scrollTop || 0`
+  }
+
+  /*
+  Returns the scrollable height of the given element.
+
+    Dom.getScrollHeight(div) == 0
+  */
+  fun getScrollHeight (element : Dom.Element) : Number {
+    `#{element}.scrollHeight || 0`
+  }
+
+  /*
+  Returns the table of contents of the given element for the given selectors.
+
+    Dom.getTableOfContents("h1, h2, h3, h4", element) == [
+      {"h1", "The title of the page", "the-title-of-the-page"},
+      {"h2", "A subtitle of the page", "a-subtitle-of-the-page"},
+      {"h3", "A sub-subtitle of the page", "a-sub-subtitle-of-the-page"}
+    ]
+  */
+  fun getTableOfContents (selector : String, element : Dom.Element) : Array(Tuple(String, String, String)) {
+    element
+    |> getElementsBySelector(selector)
+    |> Array.map(
+      (item : Dom.Element) : Tuple(String, String, String) {
+        try {
+          tag =
+            item
+            |> getTagName()
+            |> String.toLowerCase()
+
+          text =
+            getTextContent(item)
+
+          hash =
+            String.parameterize(text)
+
+          {tag, text, hash}
+        }
+      })
   }
 }

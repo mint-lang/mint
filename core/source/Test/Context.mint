@@ -90,4 +90,50 @@ module Test.Context {
       (item : a) : Promise(Never, Test.Context(a)) { Promise.resolve(method(item)) },
       context)
   }
+
+  /* Spies on the given entity if it's a function. */
+  fun spyOn (entity : a) : a {
+    `
+    (() => {
+      if (typeof #{entity} == "function") {
+        let _;
+
+        _ = function(...args){
+          _._called = true
+          return #{entity}(...args)
+        }
+
+        return _
+      } else {
+        return #{entity}
+      }
+    })()
+    `
+  }
+
+  /* Asserts that a given spy (function) was called. */
+  fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+    `
+    #{context}.step((item) => {
+      if (#{entity}._called) {
+        return item
+      } else {
+        throw "The given function was not called!"
+      }
+    })
+    `
+  }
+
+  /* Asserts that a given spy (function) was not called. */
+  fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+    `
+    #{context}.step((item) => {
+      if (#{entity}._called) {
+        throw "The given function was called!"
+      } else {
+        return item
+      }
+    })
+    `
+  }
 }

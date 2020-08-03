@@ -43,6 +43,12 @@ record Html.Event {
 
 /* Utility functions for `Html.Event` */
 module Html.Event {
+  const ESCAPE = 27
+  const ENTER = 13
+  const SPACE = 32
+  const DOWN = 40
+  const UP = 38
+
   fun fromEvent (event : Html.NativeEvent) : Html.Event {
     {
       bubbles = `#{event}.bubbles`,
