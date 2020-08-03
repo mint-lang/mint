@@ -47,6 +47,7 @@ module Html.Event {
   const ENTER = 13
   const SPACE = 32
   const DOWN = 40
+  const TAB = 9
   const UP = 38
 
   fun fromEvent (event : Html.NativeEvent) : Html.Event {
