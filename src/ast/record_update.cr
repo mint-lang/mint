@@ -1,10 +1,10 @@
 module Mint
   class Ast
     class RecordUpdate < Node
-      getter fields, variable
+      getter fields, expression
 
       def initialize(@fields : Array(RecordField),
-                     @variable : Variable,
+                     @expression : Ast::Node,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

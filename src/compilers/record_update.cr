@@ -1,15 +1,15 @@
 module Mint
   class Compiler
     def _compile(node : Ast::RecordUpdate) : String
-      variable =
-        compile node.variable
+      expression =
+        compile node.expression
 
       fields =
         node.fields
           .map { |item| resolve(item) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
-      "_u(#{variable}, #{js.object(fields)})"
+      "_u(#{expression}, #{js.object(fields)})"
     end
   end
 end

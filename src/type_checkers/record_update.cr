@@ -6,10 +6,15 @@ module Mint
 
     def check(node : Ast::RecordUpdate) : Checkable
       target =
-        resolve node.variable
+        resolve node.expression
 
       target_node =
-        lookup(node.variable).not_nil!
+        case item = node.expression
+        when Ast::Variable
+          lookup(item).not_nil!
+        else
+          item
+        end
 
       raise RecordUpdateNotUpdatingRecord, {
         "target_node" => target_node,

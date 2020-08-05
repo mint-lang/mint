@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def expression!(error : SyntaxError.class) : Ast::Expression
+    def expression!(error : SyntaxError.class | SkipError.class) : Ast::Expression
       raise error unless exp = expression
       exp
     end
