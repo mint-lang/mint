@@ -5,7 +5,7 @@ module Mint
         format node.variable
 
       separator =
-        if node.constant
+        if node.constant?
           ":"
         else
           "."

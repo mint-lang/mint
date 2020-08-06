@@ -713,7 +713,7 @@ module Array {
     `
     (() => {
       for (let item of #{array}) {
-        const [found, value]   = #{method}(item)
+        const [found, value] = #{method}(item)
 
         if (found) {
           return #{Maybe::Just(`value`)}

@@ -1,7 +1,8 @@
 module Mint
   class Ast
     class ModuleAccess < Node
-      getter variable, name, constant
+      getter variable, name
+      getter? constant
 
       def initialize(@variable : Variable,
                      @name : String,

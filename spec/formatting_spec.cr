@@ -2,8 +2,8 @@ require "./spec_helper"
 
 Dir
   .glob("./spec/formatters/**/*")
-  .select { |file| File.file?(file) }
-  .sort
+  .select! { |file| File.file?(file) }
+  .sort!
   .each do |file|
     it file do
       # Read and separate sample from expected

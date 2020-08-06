@@ -1,10 +1,10 @@
 .PHONY: build
 build:
-	shards build --error-on-warnings --error-trace -p
+	shards build --error-on-warnings --error-trace --progress
 
 .PHONY: spec
 spec:
-	crystal spec --error-on-warnings --error-trace -p
+	crystal spec --error-on-warnings --error-trace --progress
 
 .PHONY: formatter
 formatter:
