@@ -17,7 +17,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails with two
   arguments which are ignored.
   */
-  fun never2 (param1 : a, param2 : b ) : Promise(Never, Void) {
+  fun never2 (param1 : a, param2 : b) : Promise(Never, Void) {
     Promise.resolve(void)
   }
 
@@ -25,7 +25,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails with three
   arguments which are ignored.
   */
-  fun never3 (param1 : a, param2 : b, param3 : c ) : Promise(Never, Void) {
+  fun never3 (param1 : a, param2 : b, param3 : c) : Promise(Never, Void) {
     Promise.resolve(void)
   }
 

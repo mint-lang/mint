@@ -247,10 +247,10 @@ module String {
   fun parameterize (string : String) : String {
     `
     #{string}
-    .replace(/[^a-z0-9\-_]+/ig, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-|-$/i, '')
-    .toLowerCase()
+      .replace(/[^a-z0-9\-_]+/ig, '-')
+      .replace(/-{2,}/g, '-')
+      .replace(/^-|-$/i, '')
+      .toLowerCase()
     `
   }
 }

@@ -387,7 +387,7 @@ module Dom {
   }
 
   /*
-  Measures the given text with the given font using the canvas.
+  Measures the given text width with the given font using the canvas.
 
     Dom.measureText("20px sans-serif", "Hello There") = 300
   */
@@ -465,9 +465,10 @@ module Dom {
   */
   fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
     `#{element}.scrollTo({
-      behavior: 'smooth',
-      left: #{left},
-      top: #{top} })`
+        behavior: 'smooth',
+        left: #{left},
+        top: #{top}
+      })`
   }
 
   /*
@@ -477,8 +478,9 @@ module Dom {
   */
   fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
     `#{element}.scrollTo({
-      left: #{left},
-      top: #{top} })`
+        left: #{left},
+        top: #{top}
+      })`
   }
 
   /*

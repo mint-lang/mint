@@ -2,8 +2,8 @@ require "./spec_helper"
 
 Dir
   .glob("./spec/type_checking/**/*")
-  .select { |file| File.file?(file) }
-  .sort
+  .select! { |file| File.file?(file) }
+  .sort!
   .each do |file|
     # Read samples
     samples = [] of Tuple(String, String?)

@@ -38,8 +38,6 @@ module Mint
             case item
             when Ast::TypeVariable
               item.value == field.key.value
-            else
-              nil
             end
           end
 

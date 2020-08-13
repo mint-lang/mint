@@ -41,8 +41,6 @@ module Mint
                 end
             when Ast::HtmlElement
               memo[variable.value] = ref
-            else
-              # ignore
             end
 
             memo

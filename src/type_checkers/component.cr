@@ -33,7 +33,7 @@ module Mint
       end
 
       node.refs.each do |variable, ref|
-        case (ref)
+        case ref
         when Ast::Component
           fields[variable.value] =
             Type.new("Maybe", [static_type_signature(ref)] of Checkable)
