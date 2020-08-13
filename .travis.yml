@@ -1,5 +1,7 @@
 language: crystal
 
+dist: trusty
+
 crystal:
   - latest
   - nightly
