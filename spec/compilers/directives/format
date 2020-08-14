@@ -3,7 +3,8 @@ component Main {
     try {
       {result, formatted} =
         @format {
-          "Hello"
+          "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
+          "Bello"
         }
 
       result + formatted
@@ -14,7 +15,8 @@ component Main {
 class A extends _C {
   render() {
     return (() => {
-      const [a,b] = [`Hello`, `"Hello"`];
+      const [a,b] = [`HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`, `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \\
+"Bello"`];
       return a + b;
     })();
   }

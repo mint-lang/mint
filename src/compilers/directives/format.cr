@@ -6,9 +6,11 @@ module Mint
 
       formatted =
         skip do
-          Formatter
-            .new(ast)
+          Formatter.new(ast)
             .format(node.content)
+            .gsub('\\', "\\\\")
+            .gsub('`', "\\`")
+            .gsub("${", "\\${")
         end
 
       "[#{content}, `#{formatted}`]"
