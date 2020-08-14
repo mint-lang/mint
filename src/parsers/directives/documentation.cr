@@ -4,7 +4,7 @@ module Mint
     syntax_error DocumentationDirectiveExpectedOpeningParentheses
     syntax_error DocumentationDirectiveExpectedEntity
 
-    def documentation_directive : Ast::Directives::Documentation | Nil
+    def documentation_directive : Ast::Directives::Documentation?
       start do |start_position|
         skip unless keyword "@documentation"
 

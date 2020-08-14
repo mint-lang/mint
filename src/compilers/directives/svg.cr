@@ -37,7 +37,7 @@ module Mint
 
       if svg
         data =
-          svg.children.map(&.to_s).join("").strip
+          svg.children.join.strip
 
         {svg["width"]?, svg["height"]?, svg["viewBox"]?, data}
       end

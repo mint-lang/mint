@@ -4,7 +4,7 @@ module Mint
     syntax_error FormatDirectiveExpectedClosingBracket
     syntax_error FormatDirectiveExpectedExpression
 
-    def format_directive : Ast::Directives::Format | Nil
+    def format_directive : Ast::Directives::Format?
       start do |start_position|
         skip unless keyword "@format"
 

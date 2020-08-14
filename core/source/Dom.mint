@@ -389,9 +389,9 @@ module Dom {
   /*
   Measures the given text width with the given font using the canvas.
 
-    Dom.measureText("20px sans-serif", "Hello There") = 300
+    Dom.getTextWidth("20px sans-serif", "Hello There") = 300
   */
-  fun measureText (font : String, text : String) : Number {
+  fun getTextWidth (font : String, text : String) : Number {
     `
     (() => {
       const canvas = document.createElement('canvas');

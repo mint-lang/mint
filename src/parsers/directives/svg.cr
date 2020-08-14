@@ -4,7 +4,7 @@ module Mint
     syntax_error SvgDirectiveExpectedClosingParentheses
     syntax_error SvgDirectiveExpectedPath
 
-    def svg_directive : Ast::Directives::Svg | Nil
+    def svg_directive : Ast::Directives::Svg?
       start do |start_position|
         skip unless keyword "@svg"
 

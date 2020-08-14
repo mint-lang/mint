@@ -185,7 +185,7 @@ module Mint
           # If the user defined the same function the code goes after it.
           if function && value.any?
             compile function, js.statements(value)
-          elsif value.any?
+          elsif !value.empty?
             js.function(key, %w[], js.statements(value))
           elsif function
             compile function, ""

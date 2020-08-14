@@ -57,7 +57,7 @@ module Mint
 
             "this.#{ref}"
           else
-            "SHOULD NOT HAPPEN"
+            raise "SHOULD NOT HAPPEN"
           end
         when Ast::Function
           function =

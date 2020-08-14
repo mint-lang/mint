@@ -120,13 +120,13 @@ module Validation {
   Returns the given error if the given string does not have at least the given
   number of characters.
 
-    Validation.hasNumberOfCharacters(
+    Validation.hasMinimumNumberOfCharacters(
       "",
       5,
-      {"zip", "Zip code does is not 5 characters!"}) ==
-        Maybe::Just({"zip", "Zip code does is not 5 characters!"})
+      {"zip", "Zip code does is not 5 characters or more!"}) ==
+        Maybe::Just({"zip", "Zip code does is not 5 characters or more!"})
   */
-  fun hasNumberOfCharacters (
+  fun hasMinimumNumberOfCharacters (
     value : String,
     size : Number,
     error : Tuple(String, String)
