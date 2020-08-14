@@ -38,13 +38,13 @@ suite "Validation.hasExactNumberOfCharacters" {
   }
 }
 
-suite "Validation.hasNumberOfCharacters" {
+suite "Validation.hasMinimumNumberOfCharacters" {
   test "it returns nothing if the string has at last the given number of characters" {
-    Validation.hasNumberOfCharacters("a", 1, {"key", "ERROR"}) == Maybe::Nothing
+    Validation.hasMinimumNumberOfCharacters("a", 1, {"key", "ERROR"}) == Maybe::Nothing
   }
 
   test "it returns the error if the string does not have at last the given number of characters" {
-    Validation.hasNumberOfCharacters("a", 2, {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+    Validation.hasMinimumNumberOfCharacters("a", 2, {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
   }
 }
 
