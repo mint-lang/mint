@@ -24,9 +24,11 @@ const B = new(class extends _S {
   constructor() {
     super();
     this.state = {};
-  }
 
-  get a() {
-    return `ASD`;
+    this._d({
+      a: () => {
+        return `ASD`
+      }
+    });
   }
 });

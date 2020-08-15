@@ -15,8 +15,14 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class $A extends _C {
-  get a() {
-    return `ASD`;
+  constructor(props) {
+    super(props);
+
+    this._d({},{
+      a: () => {
+        return `ASD`
+      }
+    });
   }
 
   render() {

@@ -26,7 +26,7 @@ module Mint
           opening_bracket: ProviderExpectedOpeningBracket,
           closing_bracket: ProviderExpectedClosingBracket
         ) do
-          items = many { function || state || self.comment }.compact
+          items = many { function || state || constant || self.comment }.compact
           raise ProviderExpectedBody if items
                                           .select(Ast::Function)
                                           .empty?
@@ -34,8 +34,10 @@ module Mint
         end
 
         functions = [] of Ast::Function
+        constants = [] of Ast::Constant
         comments = [] of Ast::Comment
         states = [] of Ast::State
+        gets = [] of Ast::Get
 
         body.each do |item|
           case item
@@ -45,8 +47,12 @@ module Mint
             item.keep_name = true if item.name.value == "update"
           when Ast::State
             states << item
+          when Ast::Constant
+            constants << item
           when Ast::Comment
             comments << item
+          when Ast::Get
+            gets << item
           else
             # ignore
           end
@@ -55,12 +61,14 @@ module Mint
         Ast::Provider.new(
           subscription: subscription,
           functions: functions,
+          constants: constants,
           from: start_position,
           comments: comments,
           comment: comment,
           states: states,
           to: position,
           input: data,
+          gets: gets,
           name: name)
       end
     end

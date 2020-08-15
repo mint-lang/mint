@@ -13,11 +13,8 @@ module Mint
       constructor =
         compile_constructor node
 
-      constants =
-        compile node.constants
-
       body =
-        [constructor] + states + gets + functions + constants
+        [constructor] + states + gets + functions
 
       name =
         js.class_of(node)
@@ -40,11 +37,17 @@ module Mint
             memo[name] = default
           end
 
+      constants =
+        if !node.constants.empty?
+          js.call("this._d", [js.object(compile_constants(node.constants))])
+        end
+
       js.function("constructor", %w[]) do
         js.statements([
           js.call("super", %w[]),
           js.assign("this.state", js.object(states)),
-        ])
+          constants,
+        ].compact)
       end
     end
   end

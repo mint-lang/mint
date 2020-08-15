@@ -1,17 +1,20 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Provider) : String
-      constructor =
-        compile_constructor node
+      functions =
+        compile node.functions
 
       states =
         compile node.states
 
-      functions =
-        compile node.functions
+      gets =
+        compile node.gets
+
+      constructor =
+        compile_constructor node
 
       body =
-        [constructor] + states + functions
+        [constructor] + states + gets + functions
 
       name =
         js.class_of(node)

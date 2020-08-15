@@ -25,7 +25,7 @@ module Mint
         compile_component_functions node
 
       constants =
-        compile node.constants
+        compile_constants node.constants
 
       gets =
         compile node.gets
@@ -63,7 +63,17 @@ module Mint
           memo[js.variable_of(prop)] = js.array([prop_name, value])
         end
 
-      constructor_body << js.call("this._d", [js.object(default_props)]) unless default_props.empty?
+      case {default_props.empty?, constants.empty?}
+      when {false, true}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+        ])
+      when {false, false}, {true, false}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+          js.object(constants),
+        ])
+      end
 
       unless node.states.empty?
         values =
@@ -88,7 +98,7 @@ module Mint
       functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + refs + constants + states + store_stuff + functions)
+        ([constructor] + styles + gets + refs + states + store_stuff + functions)
           .compact
 
       js.statements([

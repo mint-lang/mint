@@ -160,7 +160,9 @@ module Mint
           Type.new("Array", [type.as(Checkable)])
         else
           node.functions.find(&.name.value.==(variable)) ||
-            node.states.find(&.name.value.==(variable))
+            node.states.find(&.name.value.==(variable)) ||
+            node.gets.find(&.name.value.==(variable)) ||
+            node.constants.find(&.name.==(variable))
         end
       end
 
