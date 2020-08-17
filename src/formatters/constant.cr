@@ -10,7 +10,11 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}const #{name} = #{value}"
+      if node.value.new_line?
+        "#{comment}const #{name} =\n#{indent(value)}"
+      else
+        "#{comment}const #{name} = #{value}"
+      end
     end
   end
 end
