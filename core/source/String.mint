@@ -42,7 +42,7 @@ module String {
   Returns whether or not the string is not empty.
 
     String.isNotEmpty("a") == true
-    String.isNotEmpty("   ") == false
+    String.isNotEmpty("   ") == true
   */
   fun isNotEmpty (string : String) : Bool {
     !String.isEmpty(string)
