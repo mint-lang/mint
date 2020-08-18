@@ -57,7 +57,7 @@ module Validation {
       Maybe::Just({"name", "Name is empty!"})
   */
   fun isNotBlank (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (String.isNotEmpty(value)) {
+    if (String.isNotBlank(value)) {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
