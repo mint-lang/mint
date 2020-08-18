@@ -28,7 +28,7 @@ module String {
   }
 
   /*
-  Returns whether or not the string is empty.
+  Returns whether or not the string is empty ("").
 
      String.isEmpty("") == true
      String.isEmpty("a") == false
@@ -36,6 +36,37 @@ module String {
   */
   fun isEmpty (string : String) : Bool {
     string == ""
+  }
+
+  /*
+  Returns whether or not the string is not empty.
+
+    String.isNotEmpty("a") == true
+    String.isNotEmpty("   ") == false
+  */
+  fun isNotEmpty (string : String) : Bool {
+    !String.isEmpty(string)
+  }
+
+  /*
+  Returns whether or not the string is blank (only contains whitespace).
+
+     String.isBlank("") == true
+     String.isBlank(" ") == true
+     String.isBlank("a") == false
+  */
+  fun isBlank (string : String) : Bool {
+    String.trim(string) == ""
+  }
+
+  /*
+  Returns whether or not the string is not blank.
+
+    String.isNotBlank("a") == true
+    String.isNotBlank("   ") == false
+  */
+  fun isNotBlank (string : String) : Bool {
+    !String.isBlank(string)
   }
 
   /*
@@ -212,16 +243,6 @@ module String {
   */
   fun fromArray (array : Array(String)) : String {
     concat(array)
-  }
-
-  /*
-  Returns whether or not the string is not empty (only contains whitespace).
-
-    String.isNotEmpty("a") == true
-    String.isNotEmpty("   ") == false
-  */
-  fun isNotEmpty (string : String) : Bool {
-    !String.isEmpty(String.trim(string))
   }
 
   /*

@@ -74,6 +74,48 @@ suite "String.isEmpty" {
   }
 }
 
+suite "String.isNotEmpty" {
+  test "it returns true for non-empty string" {
+    String.isNotEmpty("a") == true
+  }
+
+  test "it returns false for fully empty string" {
+    String.isNotEmpty("") == false
+  }
+
+  test "it returns false for empty string (whitespace)" {
+    String.isNotEmpty(" ") == true
+  }
+}
+
+suite "String.isBlank" {
+  test "returns true if the string is empty" {
+    String.isBlank("")
+  }
+
+  test "returns false if the string contains whitespace" {
+    String.isBlank(" \n\r") == true
+  }
+
+  test "returns false if the string contains anything" {
+    String.isBlank("asd") == false
+  }
+}
+
+suite "String.isNotBlank" {
+  test "it returns true for non-empty string" {
+    String.isNotBlank("a") == true
+  }
+
+  test "it returns false for fully empty string" {
+    String.isNotBlank("") == false
+  }
+
+  test "it returns false for empty string (whitespace)" {
+    String.isNotBlank(" \n\r") == false
+  }
+}
+
 suite "String.size" {
   test "returns the size of the string" {
     String.size("123456") == 6
@@ -135,22 +177,6 @@ suite "String.replace" {
 suite "String.trim" {
   test "it removes whitespace from the string" {
     String.trim("   \n\n\r\r   ") == ""
-  }
-}
-
-suite "String.isNotEmpty" {
-  test "it returns true for non-empty string" {
-    String.isNotEmpty("a") == true
-  }
-
-  test "it returns false for fully empty string" {
-    String.isNotEmpty("") == false
-  }
-
-  test "it returns false for empty string (whitespace)" {
-    String.isNotEmpty(
-      "
-      ") == false
   }
 }
 
