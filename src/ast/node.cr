@@ -25,7 +25,7 @@ module Mint
       end
 
       def new_line?
-        source.includes?('\n')
+        source.strip.includes?('\n')
       end
     end
   end

@@ -2,7 +2,11 @@ module Mint
   class Formatter
     def format(node : Ast::EnumId)
       expressions =
-        unless node.expressions.empty?
+        if node.expressions.empty?
+          ""
+        elsif node.new_line?
+          "(\n#{indent(format(node.expressions, ",\n"))}\n)"
+        else
           "(#{format(node.expressions, ", ")})"
         end
 
