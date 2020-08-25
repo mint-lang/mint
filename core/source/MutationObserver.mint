@@ -37,10 +37,7 @@ module MutationObserver {
   }
 
   /* Unobserves the given element. */
-  fun unobserve (
-    element : Dom.Element,
-    observer : MutationObserver
-  ) : MutationObserver {
+  fun unobserve (element : Dom.Element, observer : MutationObserver) : MutationObserver {
     `#{observer}.disconnect(#{element}) || #{observer}`
   }
 }

@@ -7,7 +7,7 @@ record Provider.OutsideClick.Subscription {
 /* A provider to provide events when clicking outside of the given element. */
 provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   /* The listener unsubscribe function. */
-  state listener : Function(Void) = () { void }
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
   fun handle (event : Html.Event) {
@@ -29,12 +29,16 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next { listener = Window.addEventListener("mouseup", true, handle) }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("mouseup", true, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

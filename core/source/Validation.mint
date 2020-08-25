@@ -37,17 +37,18 @@ messages for that key.
 If the `errors` is empty that means that there are no errors.
 */
 module Validation {
-  const EMAIL_REGEXP = Regexp.createWithOptions(
-    "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-" \
-    "Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-" \
-    "]{0,61}[a-zA-Z0-9])?)*$",
-    {
-      caseInsensitive = true,
-      multiline = false,
-      unicode = false,
-      global = false,
-      sticky = false
-    })
+  const EMAIL_REGEXP =
+    Regexp.createWithOptions(
+      "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-" \
+      "Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-" \
+      "]{0,61}[a-zA-Z0-9])?)*$",
+      {
+        caseInsensitive = true,
+        multiline = false,
+        unicode = false,
+        global = false,
+        sticky = false
+      })
 
   /*
   Returns the given error when the given string is blank

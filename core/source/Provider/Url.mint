@@ -6,7 +6,7 @@ record Provider.Url.Subscription {
 /* A provider for global "popstate" events, which emit the current URL. */
 provider Provider.Url : Provider.Url.Subscription {
   /* The listener unsubscribe function. */
-  state listener : Function(Void) = () { void }
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
   fun handle (event : Html.Event) {
@@ -24,12 +24,16 @@ provider Provider.Url : Provider.Url.Subscription {
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next { listener = Window.addEventListener("popstate", false, handle) }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("popstate", false, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

@@ -48,14 +48,16 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
         for (subscription of subscriptions) {
           case (subscription.element) {
             Maybe::Just observed =>
-              Maybe::Just({
-                subscription,
-                IntersectionObserver.new(
-                  subscription.rootMargin,
-                  subscription.treshold,
-                  subscription.callback)
-                |> IntersectionObserver.observe(observed)
-              })
+              Maybe::Just(
+                {
+                  subscription,
+                  IntersectionObserver.new(
+                    subscription.rootMargin,
+                    subscription.treshold,
+                    subscription.callback)
+                  |> IntersectionObserver.observe(observed)
+                }
+              )
 
             => Maybe::Nothing
           }

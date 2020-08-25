@@ -5,29 +5,29 @@ record Provider.Resize.Subscription {
 
 /* A provider for handling changes of the viewport. */
 provider Provider.Resize : Provider.Resize.Subscription {
-  state listener : Function(Void) = () { void }
+  /* The listener unsubscribe function. */
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
+
+  fun handle (event : Html.Event) {
+    for (subscription of subscriptions) {
+      subscription.resizes(event)
+    }
+  }
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next
-        {
-          listener =
-            Window.addEventListener(
-              "resize",
-              false,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.resizes(event)
-                }
-              })
-        }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("resize", true, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

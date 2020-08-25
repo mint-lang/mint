@@ -7,11 +7,8 @@ record Provider.TabFocus.Subscription {
 
 /* A provider to provide the tab in and tab out events for an element. */
 provider Providers.TabFocus : Provider.TabFocus.Subscription {
-  /* The `keyDown` listener unsubscribe function. */
-  state keyDownListener : Function(Void) = () { void }
-
-  /* The `keyUp` listener unsubscribe function. */
-  state keyUpListener : Function(Void) = () { void }
+  /* The listener unsubscribe functions. */
+  state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe::Nothing
 
   /* The `keyUp` event handler. */
   fun handleKeyUp (event : Html.Event) {
@@ -53,21 +50,36 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        keyDownListener()
-        keyUpListener()
+        Maybe.map(
+          (methods : Tuple(Function(Void), Function(Void))) {
+            try {
+              {keyDownListener, keyUpListener} =
+                methods
 
-        next
-          {
-            keyDownListener = () { void },
-            keyUpListener = () { void }
-          }
+              keyDownListener()
+              keyUpListener()
+            }
+          },
+          listeners)
+
+        next { listeners = Maybe::Nothing }
       }
     } else {
-      next
-        {
-          keyDownListener = Window.addEventListener("keydown", true, handleKeyDown),
-          keyUpListener = Window.addEventListener("keyup", true, handleKeyUp)
-        }
+      case (listeners) {
+        Maybe::Nothing =>
+          next
+            {
+              listeners =
+                Maybe::Just(
+                  {
+                    Window.addEventListener("keydown", true, handleKeyDown),
+                    Window.addEventListener("keyup", true, handleKeyUp)
+                  }
+                )
+            }
+
+        => next {  }
+      }
     }
   }
 }

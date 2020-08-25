@@ -6,10 +6,10 @@ record Provider.Keydown.Subscription {
 /* A provider for global key down events. */
 provider Provider.Keydown : Provider.Keydown.Subscription {
   /* The listener unsubscribe function. */
-  state listener : Function(Void) = () { void }
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handleKeyDown (event : Html.Event) {
+  fun handle (event : Html.Event) {
     for (subscription of subscriptions) {
       subscription.keydowns(event)
     }
@@ -19,12 +19,16 @@ provider Provider.Keydown : Provider.Keydown.Subscription {
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next { listener = Window.addEventListener("keydown", true, handleKeyDown) }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("keydown", true, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

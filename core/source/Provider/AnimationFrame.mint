@@ -5,6 +5,7 @@ record Provider.AnimationFrame.Subscription {
 
 /* A provider for the `requestAnimationFrame` API. */
 provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
+  /* The current animation frame callback id. */
   state id : Number = -1
 
   /* Call the subscribers. */
