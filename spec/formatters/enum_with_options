@@ -24,7 +24,6 @@ module X {
 
   fun x : A(String, String) {
     A::B(
-      "Hello"
-    )
+      "Hello")
   }
 }

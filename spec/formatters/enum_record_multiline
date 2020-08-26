@@ -24,8 +24,7 @@ component Main {
   const X =
     A::B(
       color = "Blue",
-      name = "Joe"
-    )
+      name = "Joe")
 
   fun render : String {
     ""

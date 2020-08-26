@@ -6,7 +6,7 @@ module Mint
         when node.expressions.empty?
           ""
         when node.new_line?
-          "(\n#{indent(format(node.expressions, ",\n"))}\n)"
+          "(\n#{indent(format(node.expressions, ",\n"))})"
         else
           "(#{format(node.expressions, ", ")})"
         end
