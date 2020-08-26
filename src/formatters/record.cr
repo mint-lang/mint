@@ -7,7 +7,7 @@ module Mint
           format node.fields
 
         if node.new_line?
-          "\n#{indent(body.join(",\n"))}"
+          body.join(",\n")
         else
           body.join(", ")
         end
