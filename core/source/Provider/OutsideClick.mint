@@ -1,7 +1,7 @@
 /* Represents a subscription for `Provider.OutsideClick` */
 record Provider.OutsideClick.Subscription {
   clicks : Function(Promise(Never, Void)),
-  element : Maybe(Dom.Element)
+  elements : Array(Maybe(Dom.Element))
 }
 
 /* A provider to provide events when clicking outside of the given element. */
@@ -12,15 +12,17 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   /* The event handler. */
   fun handle (event : Html.Event) {
     for (subscription of subscriptions) {
-      case (subscription.element) {
-        Maybe::Just item =>
-          if (Dom.contains(event.target, item)) {
-            Promise.never()
-          } else {
-            subscription.clicks()
-          }
+      try {
+        inside =
+          subscription.elements
+          |> Array.compact()
+          |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) } )
 
-        => Promise.never()
+        if (inside) {
+          Promise.never()
+        } else {
+          subscription.clicks()
+        }
       }
     }
   }
