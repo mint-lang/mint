@@ -31,7 +31,7 @@ module Dom {
   /*
   Gets the first element to match the given selector from anywhere in the page.
 
-    Dom.getElementById("body section > p:first-child")
+    Dom.getElementBySelector("body section > p:first-child")
   */
   fun getElementBySelector (selector : String) : Maybe(Dom.Element) {
     `
