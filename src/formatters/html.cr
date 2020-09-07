@@ -23,7 +23,11 @@ module Mint
       children =
         indent(list(node.children + node.comments))
 
-      if node.children.empty?
+      if node.attributes.empty? &&
+         node.children.size == 1 &&
+         node.children.first.is_a?(Ast::StringLiteral)
+        "<#{prefix}#{attributes}>#{children.strip}</#{tag}>"
+      elsif node.children.empty?
         "<#{prefix}#{attributes}/>"
       elsif replace_skipped(attributes).includes?('\n')
         "<#{prefix}#{attributes}>\n\n#{children}\n\n</#{tag}>"
