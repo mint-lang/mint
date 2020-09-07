@@ -4,6 +4,8 @@ module Mint
 
     alias TypeOrVariable = Type | TypeVariable
 
+    alias DestructuringType = ArrayDestructuring | EnumDestructuring | TupleDestructuring
+
     alias Expression = ParenthesizedExpression |
                        NegatedExpression |
                        InlineFunction |

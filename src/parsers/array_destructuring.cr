@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         head = start do
           skip unless char! '['
-          value = variable || spread
+          value = enum_destructuring || tuple_destructuring || array_destructuring || variable || spread
           whitespace
           keyword ","
           whitespace
@@ -16,8 +16,8 @@ module Mint
         skip unless head
 
         items =
-          [head.as(Ast::Node)].concat(list(terminator: ']', separator: ',') do
-            variable || spread
+          [head.as(Ast::ArrayDestructuring::ArrayDestructuringItem)].concat(list(terminator: ']', separator: ',') do
+            value = enum_destructuring || tuple_destructuring || array_destructuring || variable || spread
           end.compact)
 
         whitespace
@@ -30,6 +30,9 @@ module Mint
           to: position,
           input: data)
       end
+    end
+
+    def parse_destructuring_item
     end
   end
 end

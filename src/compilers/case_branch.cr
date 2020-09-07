@@ -20,49 +20,21 @@ module Mint
         end
 
       if match = node.match
-        case match
-        when Ast::ArrayDestructuring
-          statements =
-            _compile(match, variable)
-
-          statements << expression
-
-          if match.spread?
-            {
-              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size - 1}",
-              js.statements(statements),
-            }
-          else
-            {
-              "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
-              js.statements(statements),
-            }
-          end
-        when Ast::TupleDestructuring
-          variables =
-            match
-              .parameters
-              .join(',') { |param| js.variable_of(param) }
-
+        tmp = case match
+              when Ast::ArrayDestructuring
+                _compile match, variable
+              when Ast::TupleDestructuring
+                _compile match, variable
+              when Ast::EnumDestructuring
+                _compile match, variable
+              else
+              end
+        if tmp
           {
-            "Array.isArray(#{variable})",
-            js.statements([
-              "const [#{variables}] = #{variable}",
+            tmp[1],
+            js.statements(tmp[0].concat([
               expression,
-            ]),
-          }
-        when Ast::EnumDestructuring
-          variables =
-            match.parameters.map_with_index do |param, index1|
-              "const #{js.variable_of(param)} = #{variable}._#{index1}"
-            end
-
-          name =
-            js.class_of(lookups[match])
-
-          {
-            "#{variable} instanceof #{name}",
-            js.statements(variables + [expression]),
+            ])),
           }
         else
           compiled =
