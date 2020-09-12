@@ -405,7 +405,7 @@ module Dom {
   }
 
   /* Returns all focusable descendant elements. */
-  fun focusableElements (element : Dom.Element) : Array(Dom.Element) {
+  fun getFocusableElements (element : Dom.Element) : Array(Dom.Element) {
     `
     (() => {
       /* Save focused element. */
@@ -453,7 +453,7 @@ module Dom {
   /* Focuses the first focusable descendant of the given element. */
   fun focusFirst (element : Dom.Element) {
     element
-    |> focusableElements
+    |> getFocusableElements
     |> Array.first
     |> focus
   }
