@@ -141,7 +141,6 @@ module Mint
         "componentWillUnmount" => %w[],
         "componentDidUpdate"   => %w[],
         "componentDidMount"    => %w[],
-        "getChildContext"      => %w[],
       }
 
       node.connects.each do |item|

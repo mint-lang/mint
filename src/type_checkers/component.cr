@@ -193,8 +193,7 @@ module Mint
             } unless matches
           when "componentDidMount",
                "componentDidUpdate",
-               "componentWillUnmount",
-               "getChildContext"
+               "componentWillUnmount"
             type =
               resolve function
 
