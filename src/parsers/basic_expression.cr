@@ -2,7 +2,10 @@ module Mint
   class Parser
     # NOTE: The order of the parsing is important!
     def basic_expression : Ast::Expression?
-      env ||
+      format_directive ||
+        documentation_directive ||
+        svg_directive ||
+        env ||
         string_literal ||
         bool_literal ||
         number_literal ||
@@ -11,6 +14,7 @@ module Mint
         record_update ||
         tuple_literal_or_record ||
         html_element ||
+        html_expression ||
         html_component ||
         html_fragment ||
         member_access ||

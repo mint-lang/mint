@@ -111,6 +111,45 @@ module Window {
   }
 
   /*
+  Shows the default alert popup of the browser with the given message.
+
+  This function returns a promise but blocks execution until the popup is
+  closed.
+  */
+  fun alert (message : String) : Promise(Never, Void) {
+    `
+    new Promise((resolve, reject) => {
+      window.alert(#{message})
+
+      resolve()
+    })
+    `
+  }
+
+  /* Returns true if the given url is the same as the current url of the page. */
+  fun isActiveURL (url : String) : Bool {
+    Window.url() == Url.parse(url)
+  }
+
+  /*
+  Triggers the hash location jump on the page.
+
+  When a page loads and the current url has a hash `#achor-name` the browser
+  automatically jumps to the matching anchor tag `<a name="achor-name">`, but
+  this behavior does not happen when the history is manipulated.
+
+  This function triggers that behavior.
+  */
+  fun triggerHashJump : Promise(Never, Void) {
+    `requestAnimationFrame(() => {
+      if (window.location.hash) {
+        window.location.href = window.location.hash
+      }
+    })
+    `
+  }
+
+  /*
   Opens the given url in a new window.
 
     Window.open("https://www.google.com")
@@ -119,16 +158,31 @@ module Window {
     `window.open(url)`
   }
 
+  /*
+  Adds a media query listener to the window and returns the function which
+  removes this listener.
+  */
   fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
     `
     (() => {
       const query = window.matchMedia(#{query});
-      query.addListener(#{listener})
-      return () => query.removeListener(#{listener});
+      const listener = (event) => #{listener}(query.matches);
+      query.addListener(listener)
+      #{listener}(query.matches)
+      return () => query.removeListener(listener);
     })()
     `
   }
 
+  /* Returns `true` if the given media query matches. */
+  fun matchesMediaQuery (query : String) : Bool {
+    `window.matchMedia(#{query}).matches`
+  }
+
+  /*
+  Adds a listener to the window and returns the function which
+  removes this listener.
+  */
   fun addEventListener (
     type : String,
     capture : Bool,

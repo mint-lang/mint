@@ -16,7 +16,7 @@ module Mint
           gather { chars("A-Z") }.to_s
 
         tail =
-          gather { chars("A-Z_") }.to_s
+          gather { chars("A-Z0-9_") }.to_s
 
         name =
           "#{head}#{tail}"

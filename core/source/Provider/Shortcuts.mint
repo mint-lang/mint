@@ -20,10 +20,11 @@ record Provider.Shortcuts.Subscription {
 
 /* This provider allows components to subscribe to global shortcuts. */
 provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
-  state listener : Function(Void) = () { void }
+  /* The listener unsubscribe function. */
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* Handles keypress events. */
-  fun process (event : Html.Event) : Array(Array(Promise(Never, Void))) {
+  fun handle (event : Html.Event) : Array(Array(Promise(Never, Void))) {
     try {
       control =
         if (event.ctrlKey && event.keyCode != 17) {
@@ -71,12 +72,16 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next { listener = Window.addEventListener("keydown", true, process) }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("keydown", true, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

@@ -5,29 +5,29 @@ record Provider.Scroll.Subscription {
 
 /* A provider for global scroll events. */
 provider Provider.Scroll : Provider.Scroll.Subscription {
-  state listener : Function(Void) = () { void }
+  /* The listener unsubscribe function. */
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
+
+  fun handle (event : Html.Event) {
+    for (subscription of subscriptions) {
+      subscription.scrolls(event)
+    }
+  }
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        listener()
-
-        next { listener = () { void } }
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
       }
     } else {
-      next
-        {
-          listener =
-            Window.addEventListener(
-              "scroll",
-              false,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.scrolls(event)
-                }
-              })
-        }
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("scroll", false, handle)) }
+
+        => next {  }
+      }
     }
   }
 }

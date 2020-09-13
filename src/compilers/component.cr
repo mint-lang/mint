@@ -25,13 +25,18 @@ module Mint
         compile_component_functions node
 
       constants =
-        compile node.constants
+        compile_constants node.constants
 
       gets =
         compile node.gets
 
       states =
         compile node.states
+
+      refs =
+        node.refs.map do |(ref, _)|
+          js.get(js.variable_of(ref), "return (this._#{ref.value} ? new #{just}(this._#{ref.value}) : new #{nothing});")
+        end
 
       display_name =
         js.display_name(prefixed_name, node.name)
@@ -58,7 +63,17 @@ module Mint
           memo[js.variable_of(prop)] = js.array([prop_name, value])
         end
 
-      constructor_body << js.call("this._d", [js.object(default_props)]) unless default_props.empty?
+      case {default_props.empty?, constants.empty?}
+      when {false, true}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+        ])
+      when {false, false}, {true, false}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+          js.object(constants),
+        ])
+      end
 
       unless node.states.empty?
         values =
@@ -83,7 +98,7 @@ module Mint
       functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + constants + states + store_stuff + functions)
+        ([constructor] + styles + gets + refs + states + store_stuff + functions)
           .compact
 
       js.statements([
@@ -174,13 +189,15 @@ module Mint
           function =
             node.functions.find(&.name.value.==(key))
 
-          # If the user defined the same function the code goes after it.
-          if function && value
-            function.keep_name = true
+          function.keep_name = true if function
 
+          # If the user defined the same function the code goes after it.
+          if function && value.any?
             compile function, js.statements(value)
           elsif !value.empty?
             js.function(key, %w[], js.statements(value))
+          elsif function
+            compile function, ""
           end
         end
 

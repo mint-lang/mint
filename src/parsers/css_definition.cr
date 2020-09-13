@@ -8,7 +8,7 @@ module Mint
 
         name = gather do
           step
-          chars "a-zA-Z-"
+          chars "a-zA-Z0-9-"
         end
 
         skip unless char! ':'

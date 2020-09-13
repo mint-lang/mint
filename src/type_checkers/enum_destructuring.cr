@@ -25,14 +25,34 @@ module Mint
 
       lookups[node] = option
 
-      node.parameters.each_with_index do |param, index|
-        raise EnumDestructuringNoParameter, {
-          "size"   => option.parameters.size.to_s,
-          "index"  => index.to_s,
-          "name"   => option.value,
-          "option" => option,
-          "node"   => param,
-        } unless option.parameters[index]?
+      if option.parameters.size == 1 &&
+         option.parameters[0].is_a?(Ast::EnumRecordDefinition)
+        fields =
+          option
+            .parameters[0]
+            .as(Ast::EnumRecordDefinition)
+            .fields
+
+        node.parameters.each do |item|
+          found = fields.find do |field|
+            case item
+            when Ast::TypeVariable
+              item.value == field.key.value
+            end
+          end
+
+          raise TypeError.new unless found
+        end
+      else
+        node.parameters.each_with_index do |param, index|
+          raise EnumDestructuringNoParameter, {
+            "size"   => option.parameters.size.to_s,
+            "index"  => index.to_s,
+            "name"   => option.value,
+            "option" => option,
+            "node"   => param,
+          } unless option.parameters[index]?
+        end
       end
 
       resolve parent

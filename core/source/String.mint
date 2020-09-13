@@ -28,7 +28,7 @@ module String {
   }
 
   /*
-  Returns whether or not the string is empty.
+  Returns whether or not the string is empty ("").
 
      String.isEmpty("") == true
      String.isEmpty("a") == false
@@ -36,6 +36,37 @@ module String {
   */
   fun isEmpty (string : String) : Bool {
     string == ""
+  }
+
+  /*
+  Returns whether or not the string is not empty.
+
+    String.isNotEmpty("a") == true
+    String.isNotEmpty("   ") == true
+  */
+  fun isNotEmpty (string : String) : Bool {
+    !String.isEmpty(string)
+  }
+
+  /*
+  Returns whether or not the string is blank (only contains whitespace).
+
+     String.isBlank("") == true
+     String.isBlank(" ") == true
+     String.isBlank("a") == false
+  */
+  fun isBlank (string : String) : Bool {
+    String.trim(string) == ""
+  }
+
+  /*
+  Returns whether or not the string is not blank.
+
+    String.isNotBlank("a") == true
+    String.isNotBlank("   ") == false
+  */
+  fun isNotBlank (string : String) : Bool {
+    !String.isBlank(string)
   }
 
   /*
@@ -212,5 +243,35 @@ module String {
   */
   fun fromArray (array : Array(String)) : String {
     concat(array)
+  }
+
+  /*
+  Drops the number of characters from the string.
+
+    String.dropLeft(1, "abc") == "bc"
+    String.dropLeft(2, "abc") == "c"
+  */
+  fun dropLeft (number : Number, string : String) : String {
+    `#{string}.slice(#{Math.clamp(0, number, String.size(string))})`
+  }
+
+  /*
+  Parameterizes the string:
+  - replaces non alphanumeric, dash and underscore characters with dash
+  - collapses multiple dashes into a single one
+  - removes the leading and trailing dash
+  - converts to lowercase
+
+    String.parameterize("HELLO THERE!!!") == "hello-there"
+    String.parameterize("-_!ASD!_-") == "asd"
+  */
+  fun parameterize (string : String) : String {
+    `
+    #{string}
+      .replace(/[^a-z0-9\-_]+/ig, '-')
+      .replace(/-{2,}/g, '-')
+      .replace(/^-|-$/i, '')
+      .toLowerCase()
+    `
   }
 }

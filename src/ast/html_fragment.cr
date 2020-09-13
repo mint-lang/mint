@@ -3,8 +3,8 @@ module Mint
     class HtmlFragment < Node
       getter key, children, tag, comments
 
-      def initialize(@children : Array(HtmlContent),
-                     @comments : Array(Comment),
+      def initialize(@comments : Array(Comment),
+                     @children : Array(Node),
                      @key : HtmlAttribute?,
                      @input : Data,
                      @from : Int32,

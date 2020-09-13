@@ -11,8 +11,14 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  get a() {
-    return `ASD`;
+  constructor() {
+    super();
+
+    this._d({
+      a: () => {
+        return `ASD`
+      }
+    });
   }
 });
 

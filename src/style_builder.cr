@@ -117,6 +117,8 @@ module Mint
   class StyleBuilder
     class Selector < Hash(String, PropertyValue)
       getter id : String = Random::Secure.hex
+
+      def_equals @id
     end
 
     getter selectors, property_pool, name_pool, style_pool, variables, ifs

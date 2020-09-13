@@ -18,6 +18,7 @@ module Mint
         Ast::ModuleAccess.new(
           from: start_position,
           variable: variable,
+          constant: true,
           to: position,
           input: data,
           name: name)

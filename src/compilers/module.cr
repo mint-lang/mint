@@ -8,9 +8,21 @@ module Mint
         compile node.functions
 
       constants =
-        compile node.constants
+        compile_constants node.constants
 
-      js.module(name, constants + functions)
+      constructor =
+        if !constants.empty?
+          [js.function("constructor", %w[]) do
+            js.statements([
+              js.call("super", %w[]),
+              js.call("this._d", [js.object(constants)]),
+            ])
+          end]
+        else
+          [] of String
+        end
+
+      js.module(name, functions + constructor)
     end
   end
 end

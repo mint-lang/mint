@@ -1,7 +1,5 @@
 module Mint
   class Ast
-    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression | HtmlFragment
-
     alias TypeOrVariable = Type | TypeVariable
 
     alias Expression = ParenthesizedExpression |
@@ -58,7 +56,13 @@ module Mint
     end
 
     def new_line?(node1, node2)
-      node1.input.input[node1.from, node2.from - node1.from].includes?('\n')
+      start_position =
+        node1.from
+
+      count =
+        node2.to - node1.from
+
+      node1.input.input[start_position, count].includes?('\n')
     end
 
     def merge(ast)

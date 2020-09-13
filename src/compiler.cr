@@ -1,5 +1,7 @@
 module Mint
   class Compiler
+    include Skippable
+
     delegate lookups, checked, cache, component_records, to: @artifacts
     delegate ast, types, variables, resolve_order, to: @artifacts
     delegate record_field_lookup, to: @artifacts

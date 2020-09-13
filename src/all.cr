@@ -9,6 +9,7 @@ require "kemal"
 require "uuid"
 require "html"
 require "json"
+require "xml"
 
 MINT_ENV = {} of String => String
 
@@ -21,6 +22,7 @@ require "./errors/**"
 require "./constants"
 require "./macros"
 require "./assets"
+require "./skippable"
 require "./js"
 require "./core"
 require "./env"

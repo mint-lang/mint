@@ -7,56 +7,66 @@ record Provider.Mouse.Subscription {
 
 /* A provider for global mouse events. */
 provider Provider.Mouse : Provider.Mouse.Subscription {
-  state clickListener : Function(Void) = () { void }
-  state moveListener : Function(Void) = () { void }
-  state upListener : Function(Void) = () { void }
+  /* The listener unsubscribe functions. */
+  state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
       try {
-        clickListener()
-        moveListener()
-        upListener()
+        Maybe.map(
+          (methods : Tuple(Function(Void), Function(Void), Function(Void))) {
+            try {
+              {clickListener, moveListener, upListener} =
+                methods
 
-        next
-          {
-            clickListener = () { void },
-            moveListener = () { void },
-            upListener = () { void }
-          }
+              clickListener()
+              moveListener()
+              upListener()
+            }
+          },
+          listeners)
+
+        next { listeners = Maybe::Nothing }
       }
     } else {
-      next
-        {
-          clickListener =
-            Window.addEventListener(
-              "click",
-              true,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.clicks(event)
-                }
-              }),
-          moveListener =
-            Window.addEventListener(
-              "mousemove",
-              false,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.moves(event)
-                }
-              }),
-          upListener =
-            Window.addEventListener(
-              "mouseup",
-              false,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.ups(event)
-                }
-              })
-        }
+      case (listeners) {
+        Maybe::Nothing =>
+          next
+            {
+              listeners =
+                Maybe::Just(
+                  {
+                    Window.addEventListener(
+                      "click",
+                      true,
+                      (event : Html.Event) {
+                        for (subscription of subscriptions) {
+                          subscription.clicks(event)
+                        }
+                      }),
+                    Window.addEventListener(
+                      "mousemove",
+                      false,
+                      (event : Html.Event) {
+                        for (subscription of subscriptions) {
+                          subscription.moves(event)
+                        }
+                      }),
+                    Window.addEventListener(
+                      "mouseup",
+                      false,
+                      (event : Html.Event) {
+                        for (subscription of subscriptions) {
+                          subscription.ups(event)
+                        }
+                      })
+                  }
+                )
+            }
+
+        => next {  }
+      }
     }
   }
 }

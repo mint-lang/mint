@@ -1,19 +1,13 @@
 module Mint
   class Formatter
     def format(node : Ast::HtmlExpression) : String
-      expression =
-        format node.expression
+      expressions =
+        list node.expressions
 
-      case node.expression
-      when Ast::If, Ast::Case, Ast::For, Ast::Try, Ast::With,
-           Ast::StringLiteral, Ast::ArrayLiteral
-        expression
+      if replace_skipped(expressions).includes?('\n')
+        "<{\n#{indent(expressions)}\n}>"
       else
-        if replace_skipped(expression).includes?('\n')
-          "<{\n#{indent(expression)}\n}>"
-        else
-          "<{ #{expression} }>"
-        end
+        "<{ #{expressions} }>"
       end
     end
   end

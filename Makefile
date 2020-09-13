@@ -1,10 +1,10 @@
 .PHONY: build
 build:
-	shards build --error-on-warnings --error-trace
+	shards build --error-on-warnings --error-trace --progress
 
 .PHONY: spec
 spec:
-	crystal spec --error-on-warnings --error-trace
+	crystal spec --error-on-warnings --error-trace --progress
 
 .PHONY: formatter
 formatter:
@@ -23,7 +23,7 @@ test-core: build
 
 .PHONY: development
 development: build
-	cp bin/mint ~/.bin/mint-dev
+	mv bin/mint ~/.bin/mint-dev
 
 .PHONY: documentation
 documentation:

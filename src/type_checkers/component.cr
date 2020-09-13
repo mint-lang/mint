@@ -32,6 +32,17 @@ module Mint
         fields[item.name.value] = static_type_signature(item)
       end
 
+      node.refs.each do |variable, ref|
+        case ref
+        when Ast::Component
+          fields[variable.value] =
+            Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+        when Ast::HtmlElement
+          fields[variable.value] =
+            Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+        end
+      end
+
       Record.new(node.name, fields)
     end
 

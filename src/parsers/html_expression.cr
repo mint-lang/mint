@@ -1,6 +1,5 @@
 module Mint
   class Parser
-    syntax_error HtmlExpressionExpectedExpression
     syntax_error HtmlExpressionExpectedClosingTag
 
     def html_expression : Ast::HtmlExpression?
@@ -8,13 +7,13 @@ module Mint
         skip unless keyword "<{"
 
         whitespace
-        expression = expression! HtmlExpressionExpectedExpression
+        expressions = many { expression }.compact
         whitespace
 
         keyword! "}>", HtmlExpressionExpectedClosingTag
 
         Ast::HtmlExpression.new(
-          expression: expression,
+          expressions: expressions,
           from: start_position,
           to: position,
           input: data)

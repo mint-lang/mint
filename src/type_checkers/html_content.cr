@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error HtmlContentTypeMismatch
 
-    def check_html(nodes : Array(Ast::HtmlContent)) : Checkable
+    def check_html(nodes : Array(Ast::Node)) : Checkable
       nodes.each do |child|
         type = resolve child
 

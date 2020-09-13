@@ -2,23 +2,15 @@ module Mint
   class Formatter
     def format(node : Ast::HtmlFragment) : String
       children =
-        indent(list(node.children + node.comments))
+        list(node.children + node.comments)
 
-      if node.key
-        key =
-          format node.key
+      key =
+        node.key.try { |item| " #{format(item)}" }
 
-        if node.children.empty?
-          "< #{key}></>"
-        else
-          "< #{key}>\n#{children}\n</>"
-        end
+      if node.new_line?
+        "<#{key}>\n#{indent(children)}\n</>"
       else
-        if node.children.empty?
-          "<></>"
-        else
-          "<>\n#{children}\n</>"
-        end
+        "<#{key}>#{children}</>"
       end
     end
   end

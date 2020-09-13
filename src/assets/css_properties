@@ -431,6 +431,9 @@ overflow-inline
 overflow-wrap
 overflow-x
 overflow-y
+overscroll-behavior
+overscroll-behavior-x
+overscroll-behavior-y
 overscroll-behavior-block
 overscroll-behavior-inline
 padding

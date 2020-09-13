@@ -17,10 +17,16 @@ module Mint
         if char! '('
           whitespace
 
-          expressions.concat list(
-            terminator: ')',
-            separator: ','
-          ) { expression }.compact
+          item = enum_record
+
+          if item
+            expressions << item
+          else
+            expressions.concat list(
+              terminator: ')',
+              separator: ','
+            ) { expression }.compact
+          end
 
           whitespace
           char ')', EnumIdExpectedClosingParentheses

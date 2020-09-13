@@ -705,4 +705,31 @@ module Array {
       },
       array)
   }
+
+  fun findByAndMap (
+    method : Function(a, Tuple(Bool, b)),
+    array : Array(a)
+  ) : Maybe(b) {
+    `
+    (() => {
+      for (let item of #{array}) {
+        const [found, value] = #{method}(item)
+
+        if (found) {
+          return #{Maybe::Just(`value`)}
+        }
+      }
+
+      return #{Maybe::Nothing}
+    })()
+    `
+  }
+
+  fun reverseIf (condition : Bool, array : Array(a)) : Array(a) {
+    if (condition) {
+      Array.reverse(array)
+    } else {
+      array
+    }
+  }
 }

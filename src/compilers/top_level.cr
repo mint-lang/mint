@@ -131,7 +131,7 @@ module Mint
         (enums + records + modules + providers + routes + components + static + stores + [footer] + suites)
           .reject!(&.empty?)
 
-      js.statements(elements)
+      replace_skipped(js.statements(elements))
     end
 
     # --------------------------------------------------------------------------

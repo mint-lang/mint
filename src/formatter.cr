@@ -1,7 +1,7 @@
-require "digest/md5"
-
 module Mint
   class Formatter
+    include Skippable
+
     class Config
       getter indent_size : Int32
 
@@ -13,29 +13,10 @@ module Mint
     getter config : Config
 
     def initialize(@ast, @config = Config.new)
-      @skip = [] of {String, String}
     end
 
     def indent(string : String)
       string.indent(config.indent_size.to_i32)
-    end
-
-    def replace_skipped(result)
-      @skip.reverse.reduce(result) do |memo, (digest, item)|
-        memo.sub(digest, item)
-      end
-    end
-
-    def skip
-      result =
-        yield
-
-      digest =
-        Digest::MD5.hexdigest(result)
-
-      @skip << {digest, result}
-
-      digest
     end
 
     # Helpers for formatting things
@@ -72,8 +53,25 @@ module Mint
       nil
     end
 
+    def format_enum_record_definition(node : Ast::EnumRecordDefinition) : String
+      if node.new_line?
+        fields =
+          format node.fields, ",\n"
+
+        "\n#{indent(fields)}"
+      else
+        format node.fields, ", "
+      end
+    end
+
     def format(node : Ast::Node) : String
-      raise "Formatter not implemented for node '#{node}' (this should not happen!)"
+      # This is required because the overloaded
+      case node
+      when Ast::EnumRecordDefinition
+        format_enum_record_definition(node)
+      else
+        raise "Formatter not implemented for node '#{node}' (this should not happen!)"
+      end
     end
 
     def source(node : Ast::Node) : String

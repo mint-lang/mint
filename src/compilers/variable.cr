@@ -47,7 +47,18 @@ module Mint
       else
         case entity
         when Ast::Component, Ast::HtmlElement
-          "this._#{node.value}"
+          case parent
+          when Ast::Component
+            ref =
+              parent
+                .refs
+                .find { |(ref, _)| ref.value == node.value }
+                .try { |(ref, _)| js.variable_of(ref) }
+
+            "this.#{ref}"
+          else
+            raise "SHOULD NOT HAPPEN"
+          end
         when Ast::Function
           function =
             if connected

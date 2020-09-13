@@ -1,0 +1,21 @@
+component Test {
+  property things : Html = <></>
+
+  fun render : Html {
+    <div>
+      <Test things=<{"x"}>/>
+      <Test things=<{<></>}>/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  property things : Html = <></>
+
+  fun render : Html {
+    <div>
+      <Test things=<{ "x" }>/>
+      <Test things=<{ <></> }>/>
+    </div>
+  }
+}

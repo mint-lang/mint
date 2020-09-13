@@ -14,4 +14,8 @@ module Html {
   fun empty : Html {
     `false`
   }
+
+  fun isNotEmpty (element : Html) {
+    `!!#{element}`
+  }
 }

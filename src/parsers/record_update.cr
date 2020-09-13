@@ -5,16 +5,20 @@ module Mint
 
     def record_update : Ast::RecordUpdate?
       start do |start_position|
-        variable = start do
+        expression = start do
           char '{', SkipError
+
           whitespace
-          value = variable! SkipError
+          value = variable || self.expression
           whitespace
+
+          skip unless value
+
           char '|', SkipError
           value
         end
 
-        skip unless variable
+        skip unless expression
 
         whitespace
 
@@ -30,8 +34,8 @@ module Mint
         char '}', RecordUpdateExpectedClosingBracket
 
         Ast::RecordUpdate.new(
+          expression: expression,
           from: start_position,
-          variable: variable,
           fields: fields,
           to: position,
           input: data)

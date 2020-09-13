@@ -9,6 +9,7 @@ This provider sends changes when the given media query in the subscription
 changes.
 */
 provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
+  /* The map of the listeners. */
   state listeners : Map(String, Function(Void)) = Map.empty()
 
   fun update : Promise(Never, Void) {
