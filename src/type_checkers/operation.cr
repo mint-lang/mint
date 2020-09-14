@@ -3,6 +3,7 @@ module Mint
     type_error OperationNumericTypeMismatch
     type_error OperationPlusTypeMismatch
     type_error OperationTypeMismatch
+    type_error OperationPipeAmbiguous
 
     def check(node : Ast::Operation) : Checkable
       case node.operator
@@ -42,7 +43,7 @@ module Mint
         } unless Comparer.compare(left, right)
 
         left
-      when "-", "*", "/", "%"
+      when "-", "*", "/", "%", "**"
         right = resolve node.right
         left = resolve node.left
 
@@ -67,6 +68,10 @@ module Mint
         } unless Comparer.compare(left, right)
 
         NUMBER
+      when "|>"
+        raise OperationPipeAmbiguous, {
+          "node" => node,
+        }
       else
         raise Mint::TypeError # Can never happen
       end
