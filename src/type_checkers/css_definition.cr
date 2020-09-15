@@ -12,7 +12,7 @@ module Mint
       node.value.each do |item|
         type =
           case item
-          when Ast::Interpolation
+          when Ast::Node
             resolve item
           else
             STRING

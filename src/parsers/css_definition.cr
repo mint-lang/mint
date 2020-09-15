@@ -15,11 +15,16 @@ module Mint
 
         whitespace
 
-        value = many(parse_whitespace: false) do
-          interpolation || gather do
-            consume_while char.in_set?("^;{\0") && !keyword_ahead("\#{")
-          end
-        end.compact
+        value =
+          many(parse_whitespace: false) do
+            string_literal ||
+              interpolation ||
+              gather do
+                consume_while char.in_set?("^;{\0") &&
+                              !keyword_ahead("\#{") &&
+                              char != '"'
+              end
+          end.compact
 
         char ';', CssDefinitionExpectedSemicolon
 

@@ -1,0 +1,54 @@
+component Main {
+  state name : String = "Joe"
+
+  style unicode {
+    span::after {
+      content: "Hi" blah #{name} "Here is some content; Thanks #{name}";
+    }
+  }
+
+  fun render {
+    <div::unicode>
+      <span/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  constructor(props) {
+    super(props);
+
+    this.state = new Record({
+      a: `Joe`
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: `Hi` + ` blah ` + this.a + ` ` + `Here is some content; Thanks ${this.a}`
+    };
+
+    return _;
+  }
+
+  get a() {
+    return this.state.a;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    }, [
+      _h("span", {})
+    ]);
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a span::after {
+  content: var(--a-a);
+}
+`);

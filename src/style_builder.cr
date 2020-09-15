@@ -143,7 +143,7 @@ module Mint
       # This hash contains variables for a specific "style" tag, which will
       # be compiled by the compiler itself when compiling an HTML element
       # which uses the specific style tag.
-      @variables = {} of Ast::Node => Hash(String, Array(String | Ast::Interpolation))
+      @variables = {} of Ast::Node => Hash(String, Array(String | Ast::Node))
       @cases = {} of Tuple(Ast::Node, Selector) => Array(Ast::Case)
       @ifs = {} of Tuple(Ast::Node, Selector) => Array(Ast::If)
     end
@@ -239,7 +239,7 @@ module Mint
       body.each do |item|
         case item
         when Ast::CssDefinition
-          if item.value.any?(Ast::Interpolation)
+          if item.value.any?(Ast::Node)
             # Get the name of the variable
             variable =
               variable_name(item.name, selector)
@@ -248,7 +248,7 @@ module Mint
             selector[item.name].variable = variable
 
             # Save the actual data for the variable for compiling later.
-            variables[style_node] ||= {} of String => Array(String | Ast::Interpolation)
+            variables[style_node] ||= {} of String => Array(String | Ast::Node)
             variables[style_node][variable] = item.value
           else
             selector[item.name] ||= PropertyValue.new
