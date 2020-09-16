@@ -1,11 +1,13 @@
 require "../spec_helper"
 
+tmp_dir = Mint::MINT_PACKAGES_DIR
+
 describe "Repository" do
   context "failures" do
     context "json" do
       it "raises error on bad mint.json" do
-        FileUtils.mkdir_p("#{MINT_PACKAGES_DIR}/success")
-        File.write("#{MINT_PACKAGES_DIR}/success/mint.json", "hello")
+        FileUtils.mkdir_p("#{tmp_dir}/success")
+        File.write("#{tmp_dir}/success/mint.json", "hello")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -25,7 +27,7 @@ describe "Repository" do
       end
 
       it "raises error on no mint.json" do
-        FileUtils.rm_rf("#{MINT_PACKAGES_DIR}/success")
+        FileUtils.rm_rf("#{tmp_dir}/success")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -89,7 +91,7 @@ describe "Repository" do
     end
 
     it "raises error on clone" do
-      FileUtils.rm_rf("#{MINT_PACKAGES_DIR}/error")
+      FileUtils.rm_rf("#{tmp_dir}/error")
 
       message = <<-MESSAGE
       ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -110,7 +112,7 @@ describe "Repository" do
     end
 
     it "raises error on update" do
-      FileUtils.mkdir_p("#{MINT_PACKAGES_DIR}/error")
+      FileUtils.mkdir_p("#{tmp_dir}/error")
 
       message = <<-MESSAGE
       ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -138,14 +140,14 @@ describe "Repository" do
     end
 
     it "clones successfully" do
-      FileUtils.rm_rf("#{MINT_PACKAGES_DIR}/success")
+      FileUtils.rm_rf("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Cloned name(success)")
     end
 
     it "updates successfully" do
-      FileUtils.mkdir_p("#{MINT_PACKAGES_DIR}/success")
+      FileUtils.mkdir_p("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Updated name(success)")
