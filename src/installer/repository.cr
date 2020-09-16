@@ -148,7 +148,7 @@ module Mint
 
       # The directory of the repository
       def directory
-        File.join(Dir.tempdir, "mint-packages", url)
+        File.join(MINT_PACKAGES_DIR, url)
       end
 
       # Runs a shell command and returns its status, output and error in a tuple.
