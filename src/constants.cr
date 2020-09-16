@@ -12,7 +12,8 @@ module Mint
   CHECKMARK = "✔".colorize(:light_green).to_s
   DIAMOND   = "◈"
 
-  DIST_DIR   = "dist"
-  PUBLIC_DIR = "public"
-  CSS_DIR    = File.join(DIST_DIR, "css")
+  DIST_DIR          = "dist"
+  PUBLIC_DIR        = "public"
+  CSS_DIR           = File.join(DIST_DIR, "css")
+  MINT_PACKAGES_DIR = File.join(Dir.tempdir, "mint-packages")
 end

@@ -19,6 +19,7 @@ module Mint
     register_sub_command format, type: Format
     register_sub_command build, type: Build
     register_sub_command start, type: Start
+    register_sub_command clean, type: Clean
     register_sub_command init, type: Init
     register_sub_command test, type: Test
     register_sub_command docs, type: Docs
