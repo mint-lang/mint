@@ -29,7 +29,7 @@ module Mint
 
             t.title json.application.title.to_s
 
-            t.link(rel: "manifest", href: "/manifest.json")
+            t.link(rel: "manifest", href: path_for("manifest.json"))
 
             json.application.meta.each do |name, content|
               next if name == "charset"
@@ -60,7 +60,7 @@ module Mint
             if SourceFiles.external_stylesheets?
               t.link(
                 rel: "stylesheet",
-                href: "/external-stylesheets.css")
+                href: path_for("external-stylesheets.css"))
             end
           end
 
