@@ -14,8 +14,13 @@ module Mint
 
     private def self.safe_delete(dir_path)
       if Dir.exists?(dir_path)
+        self.terminal.puts "Deleting: #{dir_path}"
         FileUtils.rm_rf(dir_path)
       end
+    end
+
+    def self.terminal
+      Render::Terminal::STDOUT
     end
   end
 end
