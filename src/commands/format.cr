@@ -14,9 +14,9 @@ module Mint
 
       def run
         if flags.stdin
-          self.format_stdin
+          format_stdin
         else
-          self.format_files
+          format_files
         end
       end
 
@@ -30,7 +30,7 @@ module Mint
         formatted =
           Formatter.new(artifact, MintJson.parse_current.formatter_config).format
 
-        puts formatted
+        terminal.puts formatted
       end
 
       private def format_files
