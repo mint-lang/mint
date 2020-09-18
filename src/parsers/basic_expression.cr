@@ -7,6 +7,7 @@ module Mint
         svg_directive ||
         env ||
         string_literal ||
+        regexp_literal ||
         bool_literal ||
         number_literal ||
         unary_minus ||

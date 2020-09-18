@@ -29,22 +29,29 @@ module Mint
       end
     end
 
-    def not_interpolation_part(terminator : Char) : String?
-      # We geather characters until we find either a backtick or interpolation
-      value = gather { chars "^#{terminator}#" }
+    def not_interpolation_part(terminator : Char, stop_on_interpolation : Bool = true) : String?
+      # What characters to match
+      chars_to_match =
+        if stop_on_interpolation
+          "^#{terminator}#" # Until we find either a terminator or interpolation
+        else
+          "^#{terminator}" # Until we find the terminator
+        end
+
+      value =
+        gather { chars chars_to_match }
 
       if prev_char == '\\'
-        # if we found a terminator or hashtag and the previous char is backslash
-        # then it means it's an escape so we consume it and return.
+        # if we found backslashthen it means it's an escape so we consume it
         step
 
-        # This is different in the JS interpolation
+        # if we are in an inline JavaScript
         if prev_char == '`' && terminator == '`'
           value.to_s.rchop + prev_char
         else
           value.to_s + prev_char
         end
-      elsif char == '#' && next_char != '{'
+      elsif char == '#' && next_char != '{' && stop_on_interpolation
         # If we found a hashtag then it could be an interpolation, if
         # not we consume the character and return.
         step

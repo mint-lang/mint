@@ -12,6 +12,7 @@ module Mint
     HTML           = Type.new("Html")
     EVENT          = Type.new("Html.Event")
     OBJECT         = Type.new("Object")
+    REGEXP         = Type.new("Regexp")
     OBJECT_ERROR   = Type.new("Object.Error")
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
     SET            = Type.new("Set", [Variable.new("a")] of Checkable)
