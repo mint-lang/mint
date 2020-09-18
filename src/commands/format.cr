@@ -8,7 +8,32 @@ module Mint
       define_argument pattern,
         description: "The pattern which determines which files to format"
 
+      define_flag stdin : Bool,
+        description: "Formats Mint code from STDIN",
+        default: false
+
       def run
+        if flags.stdin
+          self.format_stdin
+        else
+          self.format_files
+        end
+      end
+
+      private def format_stdin
+        input =
+          STDIN.gets_to_end
+
+        artifact =
+          Parser.parse(input, "stdin.mint")
+
+        formatted =
+          Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+
+        puts formatted
+      end
+
+      private def format_files
         execute "Formatting files" do
           current =
             MintJson.parse_current
