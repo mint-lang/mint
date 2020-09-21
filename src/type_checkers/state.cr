@@ -8,11 +8,7 @@ module Mint
 
     def check(node : Ast::State) : Checkable
       default =
-        begin
-          resolve node.default
-        rescue error : RecordNotFoundMatchingRecord
-          error.locals["structure"]?.as(Checkable)
-        end
+        resolve node.default
 
       if item = node.type
         type =

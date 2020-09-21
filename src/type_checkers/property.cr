@@ -11,11 +11,7 @@ module Mint
     def check(node : Ast::Property) : Checkable
       default =
         node.default.try do |item|
-          begin
-            resolve item
-          rescue error : RecordNotFoundMatchingRecord
-            error.locals["structure"]?.as(Checkable)
-          end
+          resolve item
         end
 
       type =

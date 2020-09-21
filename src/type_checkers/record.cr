@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    type_error RecordNotFoundMatchingRecord
+    type_error RecordNotFoundMatchingRecordDefinition
 
     def check(node : Ast::Record, should_create_record : Bool = false) : Checkable
       fields =
@@ -21,7 +21,7 @@ module Mint
 
         record = create_record(fields) if should_create_record && !record
 
-        raise RecordNotFoundMatchingRecord, {
+        raise RecordNotFoundMatchingRecordDefinition, {
           "structure" => Record.new("", fields),
           "node"      => node,
         } unless record

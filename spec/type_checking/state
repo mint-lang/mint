@@ -15,6 +15,10 @@ component Main {
   }
 }
 ---------------------------------------------------------------StateTypeMismatch
+record A {
+  a : String
+}
+
 component Main {
   state name : Test = { a = "Hello" }
 
