@@ -1,4 +1,4 @@
-message RecordNotFoundMatchingRecord do
+message RecordNotFoundMatchingRecordDefinition do
   title "Type Error"
 
   block do
