@@ -1,0 +1,39 @@
+module Test {
+  const FIRST = ""
+
+  fun hello : String {
+    "Hello"
+  }
+}
+
+module Test {
+  const SECOND = ""
+
+  fun greet : String {
+    "#{hello()} Bello"
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.greet() + Test:FIRST + Test:SECOND
+  }
+}
+--------------------------------------------------------ModuleEntityNameConflict
+module Test {
+  fun hello : String {
+    "Hello"
+  }
+}
+
+module Test {
+  fun hello : String {
+    "Overriden...."
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.hello()
+  }
+}

@@ -78,5 +78,24 @@ module Mint
 
       self
     end
+
+    # Normalizes the ast:
+    # - merges multiple modules with the same name
+    def normalize
+      @modules =
+        @modules
+          .group_by(&.name)
+          .values
+          .map do |modules|
+            first = modules.shift
+
+            modules.each do |item|
+              first.functions.concat(item.functions)
+              first.constants.concat(item.constants)
+            end
+
+            first
+          end
+    end
   end
 end

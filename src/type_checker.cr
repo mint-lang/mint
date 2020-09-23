@@ -47,6 +47,8 @@ module Mint
     @stack = [] of Ast::Node
 
     def initialize(ast : Ast)
+      ast.normalize
+
       @artifacts = Artifacts.new(ast)
       @scope = Scope.new(ast, records)
 
