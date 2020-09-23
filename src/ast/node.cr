@@ -12,6 +12,10 @@ module Mint
         {input: input, from: from, to: to}
       end
 
+      def owns?(node)
+        false
+      end
+
       def static?
         false
       end

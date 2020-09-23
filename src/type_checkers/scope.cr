@@ -87,6 +87,14 @@ module Mint
         @levels.find(&.is_a?(Ast::Component)).as(Ast::Component?)
       end
 
+      def current_top_level_entity?
+        @levels.find do |item|
+          item.is_a?(Ast::Store) || 0
+          item.is_a?(Ast::Provider) ||
+            item.is_a?(Ast::Component)
+        end.as(Ast::Node?)
+      end
+
       def component
         component?.not_nil!
       end

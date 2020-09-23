@@ -31,7 +31,7 @@ module Mint
 
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
-    delegate component?, component, stateful?, to: scope
+    delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
@@ -39,6 +39,8 @@ module Mint
     @names = {} of String => Ast::Node
     @types = {} of String => Ast::Node
     @records = [] of Record
+    @top_level_entity : Ast::Node?
+    @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
 
@@ -210,6 +212,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     type_error Recursion
+    type_error InvalidSelfReference
 
     def check!(node)
       checked.add(node) if checking?
@@ -220,7 +223,14 @@ module Mint
       when Checkable
         node
       when Ast::Node
-        cache[node]? || begin
+        if cached = cache[node]?
+          raise InvalidSelfReference, {
+            "referee" => @referee,
+            "node"    => node,
+          } if @top_level_entity.try(&.owns?(node))
+
+          cached
+        else
           if @stack.includes?(node)
             case node
             when Ast::Component
@@ -243,6 +253,11 @@ module Mint
               }
             end
           else
+            raise InvalidSelfReference, {
+              "referee" => @referee,
+              "node"    => node,
+            } if @top_level_entity.try(&.owns?(node))
+
             @stack.push node
 
             result = check(node, *args).as(Checkable)
@@ -392,6 +407,14 @@ module Mint
         end
 
       "#{number}#{affix}"
+    end
+
+    def with_restricted_top_level_entity(@referee)
+      @top_level_entity = current_top_level_entity?
+      yield
+    ensure
+      @top_level_entity = nil
+      @referee = nil
     end
   end
 end

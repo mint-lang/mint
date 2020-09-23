@@ -8,7 +8,9 @@ module Mint
 
     def check(node : Ast::State) : Checkable
       default =
-        resolve node.default
+        with_restricted_top_level_entity(node) do
+          resolve node.default
+        end
 
       if item = node.type
         type =

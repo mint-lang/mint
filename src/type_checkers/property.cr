@@ -10,8 +10,10 @@ module Mint
 
     def check(node : Ast::Property) : Checkable
       default =
-        node.default.try do |item|
-          resolve item
+        with_restricted_top_level_entity(node) do
+          node.default.try do |item|
+            resolve item
+          end
         end
 
       type =

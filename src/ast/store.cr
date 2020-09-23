@@ -14,6 +14,10 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def owns?(node)
+        (functions + constants + states + gets).includes?(node)
+      end
     end
   end
 end
