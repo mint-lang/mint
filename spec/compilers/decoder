@@ -50,19 +50,23 @@ const B = _R({
   ],
   time: [
     "time",
-    Decoder.time
+    Decoder.time,
+    Encoder.time
   ],
   maybe: [
     "maybe",
-    Decoder.maybe(Decoder.string)
+    Decoder.maybe(Decoder.string),
+    Encoder.maybe()
   ],
   array: [
     "array",
-    Decoder.array(Decoder.string)
+    Decoder.array(Decoder.string),
+    Encoder.array()
   ],
   y: [
     "y",
-    ((_)=>A.decode(_))
+    ((_)=>A.decode(_)),
+    ((_)=>A.encode(_))
   ]
 });
 

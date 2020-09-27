@@ -30,7 +30,7 @@ const A = _R({
 
 class B extends _C {
   a() {
-    return _encode(new A({
+    return ((_)=>A.encode(_))(new A({
       name: `Hello`,
       age: 20
     }));

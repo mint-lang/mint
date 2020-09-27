@@ -12,9 +12,14 @@ module Mint
     @static_components_pool = NamePool(String, Nil).new
 
     def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false)
-      @style_builder = StyleBuilder.new
-      @js = Js.new(optimize: @optimize)
-      @decoder = Decoder.new(@js)
+      @style_builder =
+        StyleBuilder.new
+
+      @js =
+        Js.new(optimize: @optimize)
+
+      @serializer =
+        ObjectSerializer.new(@js)
     end
 
     # Helpers for compiling things

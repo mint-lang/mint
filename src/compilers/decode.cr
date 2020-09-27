@@ -5,7 +5,7 @@ module Mint
         compile node.expression
 
       code =
-        @decoder.generate types[node]
+        @serializer.decoder types[node]
 
       "#{code}(#{expression})"
     end

@@ -213,6 +213,7 @@ module Mint
         const TestContext = mint.TestContext;
         const ReactDOM = mint.ReactDOM;
         const Decoder = mint.Decoder;
+        const Encoder = mint.Encoder;
         const DateFNS = mint.DateFNS;
         const Record = mint.Record;
         const React = mint.React;

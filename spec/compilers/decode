@@ -37,7 +37,8 @@ const B = _R({
   ],
   y: [
     "y",
-    ((_)=>A.decode(_))
+    ((_)=>A.decode(_)),
+    ((_)=>A.encode(_))
   ]
 });
 
