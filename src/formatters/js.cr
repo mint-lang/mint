@@ -11,14 +11,19 @@ module Mint
           end
         end
 
-      result =
-        "`#{body}`"
+      type =
+        node.type.try do |item|
+          " as #{format(item)}"
+        end
 
-      if result.includes?('\n')
-        skip { result }
-      else
-        result
-      end
+      body =
+        if body.includes?('\n')
+          skip { body }
+        else
+          body
+        end
+
+      "`#{body}`#{type}"
     end
   end
 end
