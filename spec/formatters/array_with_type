@@ -1,0 +1,11 @@
+module Test {
+  fun test : Array(String) {
+    [] of String
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Array(String) {
+    [] of String
+  }
+}
