@@ -19,7 +19,7 @@ test: spec formatter ameba
 
 .PHONY: test-core
 test-core: build
-	cd core/tests && ../../bin/mint test
+	cd core/tests && ../../bin/mint test -b firefox
 
 .PHONY: development
 development: build
