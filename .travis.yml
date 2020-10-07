@@ -60,3 +60,4 @@ deploy:
 
 addons:
   chrome: stable
+  firefox: latest
