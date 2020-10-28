@@ -252,7 +252,7 @@ module Array {
     Array.range(0, 5) == [0, 1, 2, 3, 4, 5]
   */
   fun range (from : Number, to : Number) : Array(Number) {
-    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, i) => i + #{from})`
+    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, $0) => $0 + #{from})`
   }
 
   /*
@@ -428,8 +428,8 @@ module Array {
       let lowerLimit = 0
       let result = []
 
-      for (var i= 0; i < groups; i++) {
-        lowerLimit = i*#{size};
+      for (var $0 = 0; $0 < groups; $0++) {
+        lowerLimit = $0 * #{size};
         result.push(#{array}.slice(lowerLimit, lowerLimit + #{size}))
       }
 
@@ -455,8 +455,8 @@ module Array {
       #{array} =
         Array.from(#{array}).reverse()
 
-      for (var i= 0; i < groups; i++) {
-        lowerLimit = i* #{size};
+      for (var $0 = 0; $0 < groups; $0++) {
+        lowerLimit = $0 * #{size};
         result.unshift(#{array}.slice(lowerLimit, lowerLimit +  #{size}).reverse())
       }
 
