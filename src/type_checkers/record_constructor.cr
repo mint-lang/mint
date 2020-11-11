@@ -38,7 +38,7 @@ module Mint
       if record.fields.size == node.arguments.size
         record
       else
-        Type.new("Function", fields.skip(node.arguments.size))
+        Type.new("Function", fields.skip(node.arguments.size) + [record])
       end
     end
   end

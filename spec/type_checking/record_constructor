@@ -52,3 +52,26 @@ component Main {
     }
   }
 }
+--------------------------------------------------------------------------------
+record User {
+  name : String,
+  age : Number,
+  active : Bool,
+}
+
+component Main {
+  fun render : String {
+    try {
+      partial =
+        User("John Doe", 32)
+
+      partial(true) == {
+        name = "John Doe",
+        active = true,
+        age = 32
+      }
+
+      ""
+    }
+  }
+}
