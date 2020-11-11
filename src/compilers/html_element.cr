@@ -1,9 +1,11 @@
 module Mint
   class Compiler
-    def compile(value : Array(Ast::Node | String))
+    def compile(value : Array(Ast::Node | String), qoute_string : Bool = false)
       if value.any?(Ast::Node)
         value.map do |part|
           case part
+          when Ast::StringLiteral
+            compile part, qoute: qoute_string
           when String
             "`#{part}`"
           else
