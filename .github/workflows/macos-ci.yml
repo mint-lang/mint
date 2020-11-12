@@ -32,7 +32,9 @@ jobs:
       run: make test-core
 
     - name: Build Binary
-      run: crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-osx --release
+      run: |
+        mkdir build
+        crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-osx --release
 
     - name: Upload to S3
       uses: shallwefootball/upload-s3-action@v1.1.2
