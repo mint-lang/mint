@@ -44,6 +44,7 @@ jobs:
         aws_bucket: ${{ secrets.AWS_BUCKET }}
         aws_key_id: ${{ secrets.AWS_KEY }}
         source_dir: build
+        destination_dir: ''
 
     - name: Upload to GitHub Releases
       uses: fnkr/github-action-ghr@v1.3
