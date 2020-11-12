@@ -1,14 +1,14 @@
 module Mint
   class Compiler
-    def compile(node : Ast::StringLiteral, qoute : Bool = false) : String
+    def compile(node : Ast::StringLiteral, quote : Bool = false) : String
       if checked.includes?(node)
-        _compile(node, qoute)
+        _compile(node, quote)
       else
         ""
       end
     end
 
-    def _compile(node : Ast::StringLiteral, qoute : Bool = false) : String
+    def _compile(node : Ast::StringLiteral, quote : Bool = false) : String
       value =
         node
           .value
@@ -25,7 +25,7 @@ module Mint
             end
           end
 
-      if qoute
+      if quote
         %(`"#{value}"`)
       else
         "`#{value}`"

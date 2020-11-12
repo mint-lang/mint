@@ -15,7 +15,7 @@ module Mint
       end
 
       def uniq_flags
-        flags.split.uniq.join
+        flags.split.uniq!.join
       end
 
       def static_value

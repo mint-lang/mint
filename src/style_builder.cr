@@ -52,7 +52,7 @@ module Mint
             items =
               hash
                 .each_with_object({} of String => String) do |(key, value), memo|
-                  memo["[`#{key}`]"] = compile value, qoute_string: true
+                  memo["[`#{key}`]"] = compile value, quote_string: true
                 end
 
             js.object(items) unless items.empty?
