@@ -1,0 +1,48 @@
+name: OSX CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Install Crystal
+      uses: oprypin/install-crystal@v1.2.4
+    
+    - name: Checkout Source
+      uses: actions/checkout@v2
+      
+    - name: Install Dependencies
+      run: shards install
+  
+    - name: Run Tests
+      run: crystal spec --error-on-warnings --error-trace
+    
+    - name: Check Formatting
+      run: crystal tool format --check
+    
+    - name: Run Ameba
+      run: bin/ameba
+    
+    - name: Run Core Tests
+      run: make test-core
+    
+    - name: Build Binary
+      run: crystal build src/mint.cr -o build/mint-${TRAVIS_TAG:-latest}-osx --release
+    
+    - name: Upload to S3
+      uses: shallwefootball/upload-s3-action@v1.1.2
+      if: github.ref == 'refs/heads/master'
+      with:
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_bucket: ${{ secrets.AWS_BUCKET }}
+        aws_key_id: ${{ secrets.AWS_KEY }}
+        source_dir: build
+
+    - name: Upload to GitHub Releases
+      uses: fnkr/github-action-ghr@v1.3
+      if: startsWith(github.ref, 'refs/tags/') 
+      env:
+        GHR_PATH: build/
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
