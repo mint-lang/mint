@@ -48,9 +48,10 @@ jobs:
 
     - name: Upload to GitHub Releases
       if: startsWith(github.ref, 'refs/tags/')
-      uses: skx/github-action-publish-binaries@release-0.14
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: svenstaro/upload-release-action@v2
       with:
-        releaseId: ${{ env.GITHUB_REF_SLUG }}
-        args: 'build/*'
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref }}
+        file: build/*
+        overwrite: true
+        file_glob: true
