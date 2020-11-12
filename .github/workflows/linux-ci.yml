@@ -7,18 +7,24 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: crystallang/crystal
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
+    - name: Install Crystal
+      uses: oprypin/install-crystal@v1.2.4
+    
+    - name: Checkout Source
+      uses: actions/checkout@v2
+      
+    - name: Install Dependencies
       run: shards install
-    - name: Run tests
+  
+    - name: Run Tests
       run: crystal spec --error-on-warnings --error-trace
-    - name: Check formatting
+    
+    - name: Check Formatting
       run: crystal tool format --check
+    
     - name: Run Ameba
       run: bin/ameba
-    - name: Run core tests
+    
+    - name: Run Core Tests
       run: make test-core
