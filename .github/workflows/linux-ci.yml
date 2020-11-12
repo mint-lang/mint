@@ -21,3 +21,4 @@ jobs:
     - name: Run Ameba
       run: bin/ameba
     - name: Run core tests
+      run: make test-core
