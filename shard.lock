@@ -49,6 +49,6 @@ shards:
     version: 0.1.1
 
   tree_template:
-    git: https://github.com/anykeyh/tree_template.git
-    version: 0.1.0+git.commit.3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
+    git: https://github.com/gdotdesign/tree_template.git
+    version: 0.1.0+git.commit.7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3
 

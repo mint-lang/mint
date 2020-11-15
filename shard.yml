@@ -19,8 +19,8 @@ dependencies:
     github: jwaldrip/admiral.cr
     version: ~> 1.11.2
   tree_template:
-    github: anykeyh/tree_template
-    commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
+    github: gdotdesign/tree_template
+    commit: 7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3
   time_format:
     github: vladfaust/time_format.cr
     version: ~> 0.1.1
