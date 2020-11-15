@@ -3,35 +3,84 @@ name: Linux CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  specs:
+    name: Specs
     runs-on: ubuntu-latest
-
     steps:
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
 
-      - name: Checkout Source
+      - name: Checkout source code
         uses: actions/checkout@v2
 
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Install Dependencies
+      - name: Install shards
         run: shards install
 
-      - name: Run Tests
+      - name: Run specs
         run: crystal spec --error-on-warnings --error-trace
 
-      - name: Check Formatting
-        run: crystal tool format --check
+  core-tests:
+    name: Core tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
 
-      - name: Run Ameba
-        run: bin/ameba
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
 
       - name: Run Core Tests
         run: make test-core
 
-      - name: Build Binary
+  check-format:
+    name: Check format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Check sources format
+        run: crystal tool format --check
+
+  ameba:
+    name: Ameba linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
+
+      - name: Run ameba
+        run: bin/ameba
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal
+        uses: oprypin/install-crystal@v1
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Build binary
         run: |
           mkdir build
           docker-compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --release --static
