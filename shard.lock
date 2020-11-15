@@ -6,11 +6,11 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.0
+    version: 0.13.2
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
-    version: 0.9.8
+    version: 0.9.8+git.commit.7183bfde8d86a976a6912f582b51cbd1783456af
 
   diff:
     git: https://github.com/MakeNowJust/crystal-diff.git
