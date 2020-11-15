@@ -1,6 +1,13 @@
 name: Linux CI (nightly)
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
 
 jobs:
   specs:
