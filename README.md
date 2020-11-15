@@ -114,7 +114,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ---
 
-[![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
+![Linux CI](https://github.com/mint-lang/mint/workflows/Linux%20CI/badge.svg)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
 [![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
