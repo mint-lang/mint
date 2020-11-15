@@ -1,7 +1,7 @@
 module Mint
   abstract class Renderer
     abstract def object(hash : Hash(String, String)) : String
-    abstract def function(name, arguments : Array(String), body : String) : String
+    abstract def function(name : String, arguments : Array(String), body : String) : String
     abstract def arrow_function(arguments : Array(String), body : String) : String
     abstract def const(name : String, value : String) : String
     abstract def class(name : String, extends : String, body : Array(String)) : String
