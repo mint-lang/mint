@@ -40,7 +40,7 @@ module Mint
                   memo[variable.value] = entity.first
                 end
             when Ast::HtmlElement
-              memo[variable.value] = ref
+              memo[variable.value] = variable
             end
 
             memo
