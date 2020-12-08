@@ -732,4 +732,12 @@ module Array {
       array
     }
   }
+
+  fun uniq (array : Array(a)) : Array(a) {
+    `
+    #{array}.filter((item, index, self) => {
+      return #{Array.indexOf(`item`, array)} === index
+    })
+    `
+  }
 }

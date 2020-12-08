@@ -15,6 +15,11 @@ suite "Set.fromArray" {
     (Set.empty()
     |> Set.add("value")) == Set.fromArray(["value"])
   }
+
+  test "uniques the array after converting" {
+    (Set.empty()
+    |> Set.add("value")) == Set.fromArray(["value", "value", "value"])
+  }
 }
 
 suite "Set.toArray" {

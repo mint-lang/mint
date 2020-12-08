@@ -573,3 +573,9 @@ suite "Array.min" {
     Array.min([]) == Maybe.nothing()
   }
 }
+
+suite "Array.uniq" {
+  test "removes duplicated from the array" {
+    Array.uniq([1, 2, 3, 1, 2, 3]) == [1, 2, 3]
+  }
+}
