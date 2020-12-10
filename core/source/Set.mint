@@ -24,7 +24,8 @@ module Set {
   */
   fun fromArray (array : Array(a)) : Set(a) {
     try {
-      unique = Array.uniq(array)
+      unique =
+        Array.uniq(array)
 
       `Array.from(#{unique})`
     }

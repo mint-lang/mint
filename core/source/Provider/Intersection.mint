@@ -56,8 +56,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
                     subscription.treshold,
                     subscription.callback)
                   |> IntersectionObserver.observe(observed)
-                }
-              )
+                })
 
             => Maybe::Nothing
           }

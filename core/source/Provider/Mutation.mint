@@ -16,7 +16,7 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   state observer = MutationObserver.new(notify)
 
   /* Notifies the subscribers when changes occur. */
-  fun notify (entries : Array(MutationObserver.Entry)) {
+  fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Never, Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
         case (subscription.element) {

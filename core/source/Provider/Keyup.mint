@@ -9,7 +9,7 @@ provider Provider.Keyup : Provider.Keyup.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handle (event : Html.Event) {
+  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
     for (subscription of subscriptions) {
       subscription.keyups(event)
     }

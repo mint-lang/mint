@@ -23,19 +23,28 @@ module Html.DataTransfer {
     `#{data}.files || []`
   }
 
-  fun getData(format : String, data : Html.DataTransfer) : String {
+  fun getData (format : String, data : Html.DataTransfer) : String {
     `#{data}.getData(#{format})`
   }
 
-  fun setData(format : String, value : String, data : Html.DataTransfer) : Html.DataTransfer {
+  fun setData (
+    format : String,
+    value : String,
+    data : Html.DataTransfer
+  ) : Html.DataTransfer {
     `#{data}.setData(#{format}, #{value}) || #{data}`
   }
 
-  fun clearData(data : Html.DataTransfer) : Html.DataTransfer {
+  fun clearData (data : Html.DataTransfer) : Html.DataTransfer {
     `#{data}.clearData() || #{data}`
   }
 
-  fun setDragImage(element : Dom.Element, offsetX : Number, offsetY: Number, data : Html.DataTransfer) : Html.DataTransfer {
+  fun setDragImage (
+    element : Dom.Element,
+    offsetX : Number,
+    offsetY : Number,
+    data : Html.DataTransfer
+  ) : Html.DataTransfer {
     `#{data}.setDragImage(#{element}, #{offsetX}, #{offsetY}) || #{data}`
   }
 }
