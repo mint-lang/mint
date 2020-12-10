@@ -46,6 +46,7 @@ module Mint
         raise NextCallStateTypeMismatch, {
           "name"     => item.key.value,
           "expected" => state_type,
+          "state"    => state,
           "node"     => item,
           "got"      => type,
         } unless Comparer.compare(state_type, type)
