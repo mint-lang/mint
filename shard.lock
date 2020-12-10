@@ -6,7 +6,7 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.2
+    version: 0.13.3
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
@@ -25,8 +25,8 @@ shards:
     version: 0.1.4
 
   kemal:
-    git: https://github.com/mint-lang/kemal.git
-    version: 0.26.1+git.commit.327c659912f0bf03f113c6a145c4a7b142ae96cc
+    git: https://github.com/kemalcr/kemal.git
+    version: 0.27.0
 
   kilt:
     git: https://github.com/jeromegn/kilt.git
