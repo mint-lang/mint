@@ -11,6 +11,6 @@ message NextCallStateTypeMismatch do
     bold got
   end
 
-  snippet(node, message = "Here is where you did the assignment:")
-  snippet(state, message = "And here is where the state is defined:")
+  snippet node, "Here is where you did the assignment:"
+  snippet state, "And here is where the state is defined:"
 end
