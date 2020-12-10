@@ -2,13 +2,19 @@ message NextCallStateTypeMismatch do
   title "Type Error"
 
   block do
-    text "The type of the state"
-    bold name
-    text "does not match of its definition in a"
-    bold "next call."
+    text "You were trying to assign an incompatible value to the status state."
   end
 
-  was_expecting_type expected, got
+  block do
+    text "The type of the state is:"
+    bold expected
+  end
 
-  snippet node
+  block do
+    text "But the type you are trying to assign to it:"
+    bold got
+  end
+
+  snippet node, "Here is where you did the assignment:"
+  snippet state, "And here is where the state is defined:"
 end
