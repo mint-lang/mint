@@ -3,11 +3,15 @@ message NextCallStateTypeMismatch do
 
   block do
     text "You were trying to assign an incompatible value to the status state."
+  end
 
-    text "\nThe type of the state is:"
+  block do
+    text "The type of the state is:"
     bold expected
+  end
 
-    text "\nBut the type you are trying to assign to it:"
+  block do
+    text "But the type you are trying to assign to it:"
     bold got
   end
 
