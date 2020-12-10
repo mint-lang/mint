@@ -1,0 +1,48 @@
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun test : String {
+    Maybe::Nothing or "Hello"
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class C extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class A extends _C {
+  a() {
+    return (new B()._0 || `Hello`);
+  }
+
+  render() {
+    return (() => {
+      this.a();
+      return ``;
+    })();
+  }
+};
+
+A.displayName = "Main";

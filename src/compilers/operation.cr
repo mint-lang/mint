@@ -8,6 +8,8 @@ module Mint
         compile node.right
 
       case node.operator
+      when "or"
+        "(#{left}._0 || #{right})"
       when "=="
         "_compare(#{left}, #{right})"
       when "!="

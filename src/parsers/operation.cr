@@ -4,6 +4,7 @@ module Mint
 
     OPERATORS = {
       "|>" => 0,
+      "or" => 0,
       "!=" => 10,
       "==" => 10,
 
