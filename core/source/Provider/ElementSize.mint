@@ -13,7 +13,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   state observer = ResizeObserver.new(notify)
 
   /* Notifies all subscribers when there are changes. */
-  fun notify (entries : Array(ResizeObserver.Entry)) {
+  fun notify (entries : Array(ResizeObserver.Entry)) : Array(Array(Promise(Never, Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
         if (subscription.element == Maybe::Just(entry.target)) {

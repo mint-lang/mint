@@ -15,7 +15,9 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
     if (Array.isEmpty(subscriptions)) {
       try {
         Maybe.map(
-          (methods : Tuple(Function(Void), Function(Void), Function(Void))) {
+          (
+            methods : Tuple(Function(Void), Function(Void), Function(Void))
+          ) {
             try {
               {clickListener, moveListener, upListener} =
                 methods
@@ -61,8 +63,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                           subscription.ups(event)
                         }
                       })
-                  }
-                )
+                  })
             }
 
         => next {  }

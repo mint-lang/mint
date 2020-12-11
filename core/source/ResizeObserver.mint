@@ -41,18 +41,12 @@ module ResizeObserver {
   }
 
   /* Observes the given element. */
-  fun observe (
-    element : Dom.Element,
-    observer : ResizeObserver
-  ) : ResizeObserver {
+  fun observe (element : Dom.Element, observer : ResizeObserver) : ResizeObserver {
     `#{observer}.observe(#{element}) || #{observer}`
   }
 
   /* Unobserves the given element. */
-  fun unobserve (
-    element : Dom.Element,
-    observer : ResizeObserver
-  ) : ResizeObserver {
+  fun unobserve (element : Dom.Element, observer : ResizeObserver) : ResizeObserver {
     `#{observer}.unobserve(#{element}) || #{observer}`
   }
 }
