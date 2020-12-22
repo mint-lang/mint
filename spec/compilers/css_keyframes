@@ -37,7 +37,7 @@ class A extends _C {
     });
   }
 
-  $a() {
+  $aa() {
     const _ = {
       [`--a-a`]: this.a
     };
@@ -51,8 +51,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `aa`,
+      style: _style([this.$aa()])
     });
   }
 };

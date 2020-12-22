@@ -28,7 +28,7 @@ class A extends _C {
     });
   }
 
-  $a() {
+  $aa() {
     const _ = {
       [`--a-a`]: this.a,
       [`--a-b`]: this.a,
@@ -49,8 +49,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `aa`,
+      style: _style([this.$aa()])
     });
   }
 };
@@ -58,7 +58,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.aa {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
   border-color: var(--a-a);

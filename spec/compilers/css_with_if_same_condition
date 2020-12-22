@@ -23,7 +23,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $a() {
+  $aa() {
     const _ = {};
 
     (true ? Object.assign(_, {
@@ -43,8 +43,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `aa`,
+      style: _style([this.$aa()])
     });
   }
 };
@@ -52,11 +52,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a .tag {
+.aa .tag {
   color: var(--a-a);
 }
 
-.a .string {
+.aa .string {
   color: var(--b-a);
 }
 `);

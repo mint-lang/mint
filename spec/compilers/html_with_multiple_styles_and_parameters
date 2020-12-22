@@ -14,7 +14,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $b(a) {
+  $ab(a) {
     const _ = {
       [`--a-a`]: a
     };
@@ -24,8 +24,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a b`,
-      style: _style([this.$b(`blue`)])
+      className: `aa ab`,
+      style: _style([this.$ab(`blue`)])
     });
   }
 };
@@ -33,11 +33,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.aa {
   color: red;
 }
 
-.b {
+.ab {
   color: var(--a-a);
 }
 `);
