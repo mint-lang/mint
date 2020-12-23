@@ -15,7 +15,8 @@ module Mint
 
     def of(subject : T, base : B)
       @cache[{base, subject}] ||= begin
-        @current[base] = @prefix + (@current[base]? || INITIAL).succ
+        @current[base] = (@current[base]? || INITIAL).succ
+        pp @prefix + @current[base]
       end
     end
   end
@@ -127,11 +128,12 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize
+    def initialize(css_prefix = "")
+      pp "In style builder #{css_prefix}"
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new(prefix: MintJson.parse_current.application.css_prefix)
+      @style_pool = NamePool(Ast::Node, Nil).new(prefix: css_prefix)
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:

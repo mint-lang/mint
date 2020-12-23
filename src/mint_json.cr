@@ -455,8 +455,6 @@ module Mint
         end
       end
 
-      pp css_prefix
-
       @application =
         Application.new(
           title: title,

@@ -92,6 +92,9 @@ module Mint
     end
 
     def index
+      json = 
+        MintJson.parse_current
+
       runtime =
         Assets.read("runtime.js")
 
@@ -119,7 +122,8 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        compiled = Compiler.compile type_checker.artifacts, {optimize: true}
+        options = {optimize: true, css_prefix: json.application.css_prefix}
+        compiled = Compiler.compile type_checker.artifacts, options
       end
 
       runtime + compiled

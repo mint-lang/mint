@@ -1,5 +1,8 @@
 {
   "name": "core-tests",
+  "application": {
+    "css-prefix": "titan-"
+  },
   "test-directories": [
     "tests"
   ]
