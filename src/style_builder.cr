@@ -10,12 +10,12 @@ module Mint
     @cache : Hash(Tuple(B, T), String) = {} of Tuple(B, T) => String
     @current : Hash(B, String) = {} of B => String
 
-    def initialize(@initial : String = INITIAL)
+    def initialize(@prefix : String = "")
     end
 
     def of(subject : T, base : B)
       @cache[{base, subject}] ||= begin
-        @current[base] = (@current[base]? || @initial).succ
+        @current[base] = @prefix + (@current[base]? || INITIAL).succ
       end
     end
   end
@@ -131,7 +131,7 @@ module Mint
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new(initial: "z")
+      @style_pool = NamePool(Ast::Node, Nil).new(prefix: MintJson.parse_current.application.css_prefix)
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:

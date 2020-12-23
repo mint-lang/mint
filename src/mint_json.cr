@@ -1,7 +1,7 @@
 module Mint
   class MintJson
     class Application
-      getter title, meta, icon, head, name, theme, display, orientation
+      getter title, meta, icon, head, name, theme, display, orientation, css_prefix
 
       def initialize(@meta = {} of String => String,
                      @orientation = "",
@@ -10,7 +10,8 @@ module Mint
                      @title = "",
                      @name = "",
                      @head = "",
-                     @icon = "")
+                     @icon = "",
+                     @css_prefix = "")
       end
     end
 
@@ -424,6 +425,7 @@ module Mint
       name = ""
       icon = ""
       head = ""
+      css_prefix = ""
 
       @parser.read_object do |key|
         case key
@@ -443,6 +445,8 @@ module Mint
           display = parse_display
         when "icon"
           icon = parse_icon
+        when "css-prefix"
+          css_prefix = parse_application_css_prefix
         else
           raise MintJsonApplicationInvalidKey, {
             "node" => current_node,
@@ -450,6 +454,8 @@ module Mint
           }
         end
       end
+
+      pp css_prefix
 
       @application =
         Application.new(
@@ -460,7 +466,8 @@ module Mint
           name: name,
           theme: theme,
           orientation: orientation,
-          display: display)
+          display: display,
+          css_prefix: css_prefix)
     rescue exception : JSON::ParseException
       raise MintJsonApplicationInvalid, {
         "node" => node(exception),
@@ -600,6 +607,19 @@ module Mint
       @parser.read_string
     rescue exception : JSON::ParseException
       raise MintJsonDisplayInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing the css prefix
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonCssPrefixInvalid
+
+    def parse_application_css_prefix
+      @parser.read_string
+    rescue exception : JSON::ParseException
+      raise MintJsonCssPrefixInvalid, {
         "node" => node(exception),
       }
     end
