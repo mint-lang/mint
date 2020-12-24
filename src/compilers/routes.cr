@@ -1,10 +1,10 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Routes) : String
+    def _compile(node : Ast::Routes) : Codegen::Node
       routes =
         compile node.routes
 
-      "_program.addRoutes(#{js.array(routes)})"
+      Codegen.join ["_program.addRoutes(", js.array(routes), ")"]
     end
   end
 end

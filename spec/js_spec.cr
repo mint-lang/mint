@@ -6,7 +6,13 @@ describe "JS" do
 
     context "object" do
       it "renders object Optimized" do
-        optimized.object({"a" => "b", "c" => "d"}).should eq("{a:b,c:d}")
+        subject =
+          optimized.object({"a" => "b", "c" => "d"})
+
+        result =
+          Mint::Codegen.build(subject)[:code]
+
+        result.should eq("{a:b,c:d}")
       end
     end
   end

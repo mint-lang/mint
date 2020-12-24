@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Provider) : String
+    def _compile(node : Ast::Provider) : Codegen::Node
       functions =
         compile node.functions
 
@@ -14,7 +14,7 @@ module Mint
         compile_constructor node
 
       body =
-        [constructor] &+ states &+ gets &+ functions
+        [constructor.as(Codegen::Node)] &+ states &+ gets &+ functions
 
       name =
         js.class_of(node)

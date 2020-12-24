@@ -1,29 +1,35 @@
 module Mint
   class Compiler
-    protected def prefix(_node : Ast::Try, statement : Ast::Statement, value : String)
+    protected def prefix(_node : Ast::Try, statement : Ast::Statement, value : Codegen::Node)
       case target = statement.target
       when Ast::Variable
         js.let(js.variable_of(target), value)
       when Ast::TupleDestructuring
-        variables =
-          target
-            .parameters
-            .join(',') { |param| js.variable_of(param) }
+        params =
+          target.parameters.map { |param| js.variable_of(param) }
 
-        "const [#{variables}] = #{value}"
+        variables =
+          Codegen.join(params, ",")
+
+        Codegen.join ["const [", variables, "] = ", value]
       else
         value
       end
     end
 
-    def _compile(node : Ast::Try) : String
+    def _compile(node : Ast::Try) : Codegen::Node
       _compile(node) { |statement| compile(statement) }
     end
 
-    def _compile(node : Ast::Try, & : Ast::Statement, Int32, Bool -> String) : String
+    def _compile(node : Ast::Try, & : Ast::Statement, Int32, Bool -> Codegen::Node) : Codegen::Node
       catch_all =
         node.catch_all.try do |catch|
-          js.let("_catch_all", js.arrow_function(%w[], "return #{compile(catch.expression)}")) + "\n\n"
+          Codegen.join [
+            js.let("_catch_all",
+              js.arrow_function([] of Codegen::Node,
+                Codegen.join(["return ", compile(catch.expression)]))),
+            "\n\n",
+          ]
         end
 
       statements = node.statements
@@ -36,9 +42,9 @@ module Mint
             is_last =
               (index + 1) == statements_size
 
-            inner_prefix = ->(value : String) {
+            inner_prefix = ->(value : Codegen::Node) {
               if is_last
-                "return #{value}"
+                Codegen.source_mapped(statement, Codegen.join ["return ", value])
               else
                 prefix(node, statement, value)
               end
@@ -64,7 +70,7 @@ module Mint
 
                         js.statements([
                           js.let(variable, "_error"),
-                          "return #{catch_body}",
+                          Codegen.join ["return ", catch_body],
                         ])
                       end
                     end
@@ -77,7 +83,7 @@ module Mint
                 end
               end
 
-            if catches && !catches.empty?
+            if catches && !Codegen.empty?(catches)
               js.statements([
                 js.let("_#{index}", expression),
                 js.if("_#{index} instanceof Err") do
@@ -93,7 +99,7 @@ module Mint
             end
           end
 
-      js.iif("#{catch_all}#{js.statements(body)}")
+      js.iif(Codegen.join [catch_all, js.statements(body)].compact)
     end
   end
 end

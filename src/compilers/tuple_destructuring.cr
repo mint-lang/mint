@@ -1,10 +1,15 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::TupleDestructuring, variable : String) : Tuple(String, Array(String))
-      conditions = ["Array.isArray(#{variable})"]
+    def _compile(node : Ast::TupleDestructuring, variable : String) : Tuple(String, Array(Codegen::Node))
+      conditions =
+        ["Array.isArray(#{variable})"]
+
       variables = node.parameters.map_with_index do |param, idx|
-        var_name = js.variable_of(param)
-        vars = ["const #{var_name} = #{variable}[#{idx}]"]
+        var_name =
+          js.variable_of(param)
+
+        vars =
+          ["const #{var_name} = #{variable}[#{idx}]"] of Codegen::Node
 
         if res = _compile_destructuring(param, "#{variable}[#{idx}]")
           conditions << res[0]

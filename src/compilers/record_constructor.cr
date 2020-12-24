@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::RecordConstructor) : String
+    def _compile(node : Ast::RecordConstructor) : Codegen::Node
       type =
         types[node]?
 
@@ -9,13 +9,13 @@ module Mint
         name =
           js.class_of(type.name)
 
-        args = %w[]
+        args = [] of Codegen::Node
 
         fields =
           type
             .fields
             .each_with_index
-            .reduce({} of String => String) do |memo, value|
+            .reduce({} of String => Codegen::Node) do |memo, value|
               field, index = value
               key, _ = field
 
@@ -32,7 +32,7 @@ module Mint
             end
 
         body =
-          "new #{name}(#{js.object(fields)})"
+          Codegen.join ["new ", name, "(", js.object(fields), ")"]
 
         if args.empty?
           body

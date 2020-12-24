@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Access) : String
+    def _compile(node : Ast::Access) : Codegen::Node
       first =
         compile node.lhs
 
@@ -13,13 +13,16 @@ module Mint
 
       if node.safe?
         js.iif do
+          access =
+            Codegen.symbol_mapped(node.lhs, node, Codegen.join ["_.", field])
+
           js.statements([
             js.const("_", first),
-            js.return(js.call("_s", ["_", "(_) => _.#{field}"])),
+            js.return(js.call("_s", ["_", Codegen.join ["(_) => ", access]])),
           ])
         end
       else
-        "#{first}.#{field}"
+        Codegen.symbol_mapped(node.lhs, node, Codegen.join [first, ".", field])
       end
     end
   end

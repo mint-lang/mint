@@ -1,11 +1,11 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::NextCall) : String
+    def _compile(node : Ast::NextCall) : Codegen::Node
       entity =
         lookups[node]?
 
       state =
-        node.data.fields.each_with_object({} of String => String) do |item, memo|
+        node.data.fields.each_with_object({} of Codegen::Node => Codegen::Node) do |item, memo|
           field =
             case entity
             when Ast::Provider
@@ -19,15 +19,18 @@ module Mint
             end
 
           if field
-            memo[js.variable_of(field)] = compile item.value
+            memo[js.variable_of(field)] =
+              Codegen.source_mapped(item.value, compile item.value)
           else
             memo
           end
         end
 
       js.promise do
-        js.arrow_function(%w[_resolve]) do
-          "this.setState(_u(this.state, new Record(#{js.object(state)})), _resolve)\n"
+        js.arrow_function(["_resolve"]) do
+          Codegen.join [
+            "this.setState(_u(this.state, new Record(", js.object(state), ")), _resolve)",
+          ]
         end
       end
     end

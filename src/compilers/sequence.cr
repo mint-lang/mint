@@ -1,26 +1,27 @@
 module Mint
   class Compiler
-    protected def prefix(_node : Ast::Sequence, statement : Ast::Statement, value : String)
+    protected def prefix(_node : Ast::Sequence, statement : Ast::Statement, value : Codegen::Node)
       case target = statement.target
       when Ast::Variable
         js.let(js.variable_of(target), value)
       when Ast::TupleDestructuring
-        variables =
-          target
-            .parameters
-            .join(',') { |param| js.variable_of(param) }
+        params =
+          target.parameters.map { |param| js.variable_of(param) }
 
-        "const [#{variables}] = #{value}"
+        variables =
+          Codegen.join(params, ",")
+
+        Codegen.join ["const [", variables, "] = ", value]
       else
         value
       end
     end
 
-    def _compile(node : Ast::Sequence) : String
+    def _compile(node : Ast::Sequence) : Codegen::Node
       _compile(node) { |statement| compile(statement) }
     end
 
-    def _compile(node : Ast::Sequence, & : Ast::Statement, Int32, Bool -> String) : String
+    def _compile(node : Ast::Sequence, & : Ast::Statement, Int32, Bool -> Codegen::Node) : Codegen::Node
       statements = node.statements
       statements_size = statements.size
 
@@ -31,9 +32,9 @@ module Mint
             is_last =
               (index + 1) == statements_size
 
-            inner_prefix = ->(value : String) {
+            inner_prefix = ->(value : Codegen::Node) {
               if is_last
-                "_ = #{value}"
+                Codegen.join(["_ = ", value])
               else
                 prefix(node, statement, value)
               end
@@ -52,12 +53,12 @@ module Mint
                   node
                     .catches
                     .select(&.type.==(type.parameters[0].name))
-                    .map { |item| compile(item).as(String) }
+                    .map { |item| compile(item) }
                 else
-                  %w[]
+                  [] of Codegen::Node
                 end
               else
-                %w[]
+                [] of Codegen::Node
               end
 
             case type
@@ -87,21 +88,21 @@ module Mint
                 unless catches.empty?
                   try = js.asynciif do
                     js.try(
-                      body: "return await #{expression}",
+                      body: Codegen.join(["return await ", expression]),
                       catches: [
                         js.catch("_error") { js.statements(catches) },
                       ],
                       finally: "")
                   end
-                  inner_prefix.call("await #{try}")
+                  inner_prefix.call(Codegen.join(["await ", try]))
                 end
               end
-            end || inner_prefix.call("await #{expression}")
+            end || inner_prefix.call(Codegen.join(["await ", expression]))
           end
 
       catch_all =
         node.catch_all.try do |catch|
-          "_ = #{compile catch.expression}"
+          Codegen.join ["_ = ", compile catch.expression]
         end || js.statements([
           "console.warn(`Unhandled error in sequence expression:`)",
           "console.warn(_error)",
@@ -122,7 +123,7 @@ module Mint
                 js.if("!(_error instanceof DoError)", catch_all)
               end,
             ],
-            finally: finally.to_s),
+            finally: finally),
           "return _",
         ])
       end

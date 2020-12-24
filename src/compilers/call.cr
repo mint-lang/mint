@@ -1,11 +1,11 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Call) : String
+    def _compile(node : Ast::Call) : Codegen::Node
       expression =
         compile node.expression
 
       arguments =
-        compile node.arguments, ", "
+        Codegen.join(node.arguments, ", ") { |arg| Codegen.source_mapped(arg, compile arg) }
 
       if node.safe?
         js.iif do
@@ -14,10 +14,10 @@ module Mint
               if node.arguments.empty?
                 "(_) => _"
               else
-                "((..._) => _(#{arguments}, ..._))"
+                Codegen.join ["((..._) => _(", arguments, ", ..._))"]
               end
             else
-              "(_) => _(#{arguments})"
+              Codegen.join ["(_) => _(", arguments, ")"]
             end
 
           js.statements([
@@ -31,12 +31,12 @@ module Mint
           if node.arguments.empty?
             expression
           else
-            "((..._) => #{expression}(#{arguments}, ..._))"
+            Codegen.join ["((..._) => ", expression, "(", arguments, ", ..._))"]
           end
         when node.expression.is_a?(Ast::InlineFunction)
-          "(#{expression})(#{arguments})"
+          Codegen.join ["(", expression, ")(", arguments, ")"]
         else
-          "#{expression}(#{arguments})"
+          Codegen.join [expression, "(", arguments, ")"]
         end
       end
     end

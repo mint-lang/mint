@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile_operation_test(operation : Ast::Operation) : String?
+    def _compile_operation_test(operation : Ast::Operation) : Codegen::Node?
       operator =
         operation.operator
 
@@ -12,20 +12,21 @@ module Mint
       left =
         compile operation.left
 
-      <<-JS
-      ((constants) => {
-        const context = new TestContext(#{left})
-        const right = #{right}
+      Codegen.join [
+        "((constants) => {
+          const context = new TestContext(", left, ")
+          const right = ", right, "
 
-        context.step((subject) => {
-          if (#{"!" if operator == "=="}_compare(subject, right)) {
-            throw `Assertion failed: ${right} #{operator} ${subject}`
-          }
-          return true
-        })
-        return context
-      })(constants)
-      JS
+          context.step((subject) => {
+            if (", operator == "==" ? "" : "!", "_compare(subject, right)) {
+              return true
+            } else {
+              throw `Assertion failed ${right.toString()} ", operator, " ${subject.toString()}`
+            }
+          })
+          return context
+        })(constants)",
+      ]
     end
 
     def unwrap_parenthesized_expression(node)
@@ -35,7 +36,7 @@ module Mint
       node
     end
 
-    def _compile(node : Ast::Test) : String
+    def _compile(node : Ast::Test) : Codegen::Node
       name =
         compile node.name
 
@@ -62,13 +63,15 @@ module Mint
                 end
               end
             end
+
             compile(statement)
           end
         end
 
       expression ||= compile(raw_expression)
 
-      "{ name: #{name}, location: #{location}, proc: (constants) => { return #{expression} } }"
+      Codegen.join(
+        ["{ name: ", name, ", location: ", location, ", proc: (constants) => { return ", expression, " } }"])
     end
   end
 end

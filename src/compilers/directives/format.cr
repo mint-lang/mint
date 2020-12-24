@@ -1,19 +1,18 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Format) : String
+    def _compile(node : Ast::Directives::Format) : Codegen::Node
       content =
         compile node.content
 
       formatted =
-        skip do
+        Codegen.no_indent(
           Formatter.new
             .format(node.content)
             .gsub('\\', "\\\\")
             .gsub('`', "\\`")
-            .gsub("${", "\\${")
-        end
+            .gsub("${", "\\${"))
 
-      "[#{content}, `#{formatted}`]"
+      Codegen.join ["[", content, ", `", formatted, "`]"]
     end
   end
 end

@@ -1,17 +1,17 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::WhereStatement) : String
+    def _compile(node : Ast::WhereStatement) : Codegen::Node
       expression =
         compile node.expression
 
       case target = node.target
       when Ast::Variable
         name =
-          js.variable_of(target)
+          Codegen.symbol_mapped(target, js.variable_of(target))
 
-        "let #{name} = #{expression}"
+        Codegen.join ["let ", name, " = ", expression]
       when Ast::TupleDestructuring
-        "const #{_to_variable(target)} = #{expression}"
+        Codegen.join ["const ", _to_variable(target), " = ", expression]
       else
         ""
       end
@@ -27,6 +27,7 @@ module Mint
               _to_variable(param)
             end
           end
+
       "[#{variables}]"
     end
 

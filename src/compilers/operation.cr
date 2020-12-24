@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Operation) : String
+    def _compile(node : Ast::Operation) : Codegen::Node
       left =
         compile node.left
 
@@ -9,13 +9,13 @@ module Mint
 
       case node.operator
       when "or"
-        "(#{left}._0 || #{right})"
+        Codegen.join ["(", left, "._0 || ", right, ")"]
       when "=="
-        "_compare(#{left}, #{right})"
+        Codegen.join ["_compare(", left, ", ", right, ")"]
       when "!="
-        "!_compare(#{left}, #{right})"
+        Codegen.join ["!_compare(", left, ", ", right, ")"]
       else
-        "#{left} #{node.operator} #{right}"
+        Codegen.join [left, node.operator, right], " "
       end
     end
   end

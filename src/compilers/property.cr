@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Property) : String
+    def _compile(node : Ast::Property) : Codegen::Node
       prop_name =
         if node.name.value == "children"
           "children"
@@ -12,7 +12,7 @@ module Mint
         js.variable_of(node)
 
       body =
-        "return this._p('#{prop_name}');"
+        Codegen.join ["return this._p('", prop_name, "');"]
 
       js.get(name, body)
     end

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Get) : String
+    def _compile(node : Ast::Get) : Codegen::Node
       body =
         compile node.body
 
@@ -17,7 +17,9 @@ module Mint
         [js.return(body)]
 
       body =
-        js.statements(%w[] &+ wheres &+ last)
+        js.statements(
+          ([] of Codegen::Node &+ wheres &+ last)
+            .reject! { |item| Codegen.empty?(item) })
 
       js.get(name, body)
     end

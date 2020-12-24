@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::InlineFunction) : String
+    def _compile(node : Ast::InlineFunction) : Codegen::Node
       body =
         compile node.body
 

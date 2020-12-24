@@ -1,20 +1,20 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Js) : String
+    def _compile(node : Ast::Js) : Codegen::Node
       value =
-        node.value.join do |item|
+        Codegen.strip(Codegen.join(node.value) do |item|
           case item
           when Ast::Node
             compile item
           else
             item
           end
-        end.strip
+        end)
 
-      if value.empty?
+      if Codegen.empty? value
         ""
       else
-        "(#{value})"
+        Codegen.join ["(", Codegen.source_mapped(node, value), ")"]
       end
     end
   end

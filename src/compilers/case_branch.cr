@@ -2,8 +2,8 @@ module Mint
   class Compiler
     def _compile(node : Ast::CaseBranch,
                  index : Int32,
-                 variable : String,
-                 block : Proc(String, String)? = nil) : Tuple(String?, String)
+                 variable : Codegen::Node,
+                 block : Proc(Codegen::Node, Codegen::Node)? = nil) : Tuple(Codegen::Node?, Codegen::Node)
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
@@ -14,7 +14,7 @@ module Mint
               "{}"
             end
         when Ast::Node
-          js.return(compile(item))
+          Codegen.source_mapped(item, js.return(compile(item)))
         else
           ""
         end
@@ -26,6 +26,7 @@ module Mint
             _compile(match, variable)
 
           compiled[1] << expression
+
           {
             compiled[0],
             js.statements(compiled[1]),
@@ -35,7 +36,7 @@ module Mint
             compile match
 
           {
-            "_compare(#{variable}, #{compiled})",
+            Codegen.join(["_compare(", variable, ", ", compiled, ")"]),
             expression,
           }
         end

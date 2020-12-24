@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile_destructuring(node : Ast::Node, variable : String) : Tuple(String, Array(String))?
+    def _compile_destructuring(node : Ast::Node, variable : String) : Tuple(String, Array(Codegen::Node))?
       case node
       when Ast::TupleDestructuring
         _compile(node, variable)

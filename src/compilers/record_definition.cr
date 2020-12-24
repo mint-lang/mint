@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::RecordDefinition) : String
+    def _compile(node : Ast::RecordDefinition) : Codegen::Node
       type = types[node]
 
       name =
@@ -15,7 +15,7 @@ module Mint
             "{}"
           end
 
-        "const #{name} = _R(#{mappings})"
+        Codegen.join ["const ", name, " = _R(", mappings, ")"]
       else
         ""
       end

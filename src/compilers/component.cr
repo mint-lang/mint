@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Component) : String
+    def _compile(node : Ast::Component) : Codegen::Node
       name =
         js.class_of(node)
 
@@ -12,13 +12,13 @@ module Mint
         end
 
       global_let =
-        "let #{name}" if node.global?
+        Codegen.join ["let ", name] if node.global?
 
       compile node.styles, node
 
       styles =
         node.styles.compact_map do |style_node|
-          style_builder.compile_style(style_node, self).presence
+          style_builder.compile_style(style_node, self)
         end
 
       functions =
@@ -35,7 +35,9 @@ module Mint
 
       refs =
         node.refs.map do |(ref, _)|
-          js.get(js.variable_of(ref), "return (this._#{ref.value} ? new #{just}(this._#{ref.value}) : new #{nothing});")
+          js.get(js.variable_of(ref),
+            Codegen.join(
+              ["return (this._", ref.value, " ? new ", just, "(this._", ref.value, ") : new ", nothing, ");"]))
         end
 
       display_name =
@@ -44,10 +46,10 @@ module Mint
       store_stuff =
         compile_component_store_data node
 
-      constructor_body = %w[]
+      constructor_body = [] of Codegen::Node
 
       default_props =
-        node.properties.each_with_object({} of String => String) do |prop, memo|
+        node.properties.each_with_object({} of Codegen::Node => Codegen::Node) do |prop, memo|
           prop_name =
             if prop.name.value == "children"
               %("children")
@@ -79,27 +81,29 @@ module Mint
         values =
           node
             .states
-            .each_with_object({} of String => String) do |item, memo|
+            .each_with_object({} of Codegen::Node => Codegen::Node) do |item, memo|
               memo[js.variable_of(item)] = compile item.default
             end
 
-        constructor_body << "this.state = new Record(#{js.object(values)})"
+        constructor_body << Codegen.join ["this.state = new Record(", js.object(values), ")"]
       end
 
       constructor =
-        unless constructor_body.empty?
-          js.function("constructor", %w[props]) do
+        if constructor_body.empty?
+          [] of Codegen::Node
+        else
+          [js.function("constructor", %w[props]) do
             constructor_body.unshift js.call("super", %w[props])
 
             js.statements(constructor_body)
-          end
+          end]
         end
 
-      functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
+      functions << js.function("_persist", [] of Codegen::Node, js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] &+ styles + gets &+ refs &+ states &+ store_stuff &+ functions)
-          .compact
+        (constructor + styles + gets + refs + states + store_stuff + functions)
+          .reject! { |item| Codegen.empty?(item) }
 
       js.statements([
         js.class(prefixed_name, extends: "_C", body: body),
@@ -108,8 +112,8 @@ module Mint
       ].compact)
     end
 
-    def compile_component_store_data(node : Ast::Component) : Array(String)
-      node.connects.reduce(%w[]) do |memo, item|
+    def compile_component_store_data(node : Ast::Component) : Array(Codegen::Node)
+      node.connects.reduce([] of Codegen::Node) do |memo, item|
         store = ast.stores.find(&.name.==(item.store))
 
         if store
@@ -125,9 +129,9 @@ module Mint
             when store.constants.any?(&.name.==(original)),
                  store.gets.any?(&.name.value.==(original)),
                  store.states.find(&.name.value.==(original))
-              memo << js.get(name, "return #{store_name}.#{id};")
+              memo << js.get(name, Codegen.join ["return ", store_name, ".", id, ";"])
             when store.functions.any?(&.name.value.==(original))
-              memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
+              memo << Codegen.join [name, " (...params) { return ", store_name, ".", id, "(...params); }"]
             end
           end
         end
@@ -136,11 +140,11 @@ module Mint
       end
     end
 
-    def compile_component_functions(node : Ast::Component) : Array(String)
+    def compile_component_functions(node : Ast::Component) : Array(Codegen::Node)
       heads = {
-        "componentWillUnmount" => %w[],
-        "componentDidUpdate"   => %w[],
-        "componentDidMount"    => %w[],
+        "componentWillUnmount" => [] of Codegen::Node,
+        "componentDidUpdate"   => [] of Codegen::Node,
+        "componentDidMount"    => [] of Codegen::Node,
       }
 
       node.connects.each do |item|
@@ -151,8 +155,8 @@ module Mint
           name =
             js.class_of(store)
 
-          heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
-          heads["componentDidMount"] << "#{name}._subscribe(this)"
+          heads["componentWillUnmount"] << Codegen.join [name, "._unsubscribe(this)"]
+          heads["componentDidMount"] << Codegen.join [name, "._subscribe(this)"]
         end
       end
 
@@ -168,16 +172,15 @@ module Mint
         data =
           compile use.data
 
-        body =
-          <<-JS
-          if (#{condition}) {
-            #{name}._subscribe(this, #{data})
-          } else {
-            #{name}._unsubscribe(this)
-          }
-          JS
+        body = Codegen.join [
+          "if (", condition, ") {\n",
+          Codegen.indent([name, "._subscribe(this, ", data, ")\n"]),
+          "} else {\n",
+          Codegen.indent([name, "._unsubscribe(this)\n"]),
+          "}",
+        ]
 
-        heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
+        heads["componentWillUnmount"] << Codegen.join([name, "._unsubscribe(this)"])
         heads["componentDidUpdate"] << body
         heads["componentDidMount"] << body
       end
@@ -186,7 +189,7 @@ module Mint
         node
           .functions
           .reject { |function| heads[function.name.value]? }
-          .map { |function| compile(function, "").as(String) }
+          .map { |function| compile(function, "") }
 
       specials =
         heads.map do |key, value|
@@ -205,7 +208,7 @@ module Mint
           end
         end
 
-      (specials + others).compact_map(&.presence)
+      (specials + others).compact
     end
   end
 end

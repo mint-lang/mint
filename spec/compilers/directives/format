@@ -17,6 +17,7 @@ class A extends _C {
     return (() => {
       const [a,b] = [`HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`, `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \\
 "Bello"`];
+
       return a + b;
     })();
   }

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::For) : String
+    def _compile(node : Ast::For) : Codegen::Node
       subject_type =
         cache[node.subject]
 
@@ -32,30 +32,30 @@ module Mint
 
       condition =
         node.condition.try do |item|
-          <<-JS
-          const _2 = #{compile(item.condition)}
-          if (!_2) { continue }
-          JS
+          Codegen.join [
+            "const _2 = ", compile(item.condition),
+            "\nif (!_2) { continue }",
+          ]
         end
 
       index =
         if index_arg
-          "const #{js.variable_of(index_arg)} = _i"
+          Codegen.join(["const ", js.variable_of(index_arg), " = _i"])
         end
 
       contents =
         if condition
-          [condition, index, "_0.push(#{body})", "_i++"]
+          [condition, index, Codegen.join(["_0.push(", body, ")"]), "_i++"].compact
         else
-          [index, "_0.push(#{body})", "_i++"]
+          [index, Codegen.join(["_0.push(", body, ")"]), "_i++"].compact
         end
 
       js.iif do
         js.statements([
           "const _0 = []",
-          "const _1 = #{subject}",
+          Codegen.join(["const _1 = ", subject]),
           "let _i = 0",
-          js.for("let #{arguments} of _1", js.statements(contents.compact)),
+          js.for("let #{arguments} of _1", js.statements(contents)),
           js.return("_0"),
         ])
       end

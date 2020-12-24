@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Svg) : String
+    def _compile(node : Ast::Directives::Svg) : Codegen::Node
       name =
         static_components_pool.of(node.path, nil)
 

@@ -73,7 +73,7 @@ module Mint
           .try do |hash|
             items =
               hash
-                .each_with_object({} of String => String) do |(key, value), memo|
+                .each_with_object({} of String => Codegen::Node) do |(key, value), memo|
                   memo["[`#{key}`]"] = compile value, quote_string: true
                 end
 
@@ -132,7 +132,7 @@ module Mint
           js.const("_", static),
           compiled_conditions,
           js.return("_"),
-        ]].flatten.reject!(&.empty?)))
+        ]].flatten.reject! { |item| Codegen.empty? item }))
     end
   end
 

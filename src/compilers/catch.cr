@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Catch) : String
+    def _compile(node : Ast::Catch) : Codegen::Node
       body =
         compile node.expression
 

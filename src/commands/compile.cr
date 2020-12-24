@@ -8,7 +8,6 @@ module Mint
       define_flag output : String,
         description: "The output file",
         default: "program.js",
-        required: false,
         short: "o"
 
       define_flag minify : Bool,
@@ -16,18 +15,29 @@ module Mint
         default: true,
         short: "m"
 
+      define_flag source_map : Bool,
+        description: "If specified generate source mappings for debugging",
+        default: false
+
       def run
         execute "Compiling" do
-          File.write(flags.output, compile(flags.minify))
+          result =
+            compile(flags.minify, flags.source_map)
+
+          File.write(flags.output, result[:code])
+
+          result[:source_map].try do |map|
+            File.write("#{flags.output}.map", map)
+          end
         end
       end
 
-      def compile(optimize)
+      def compile(optimize, generate_source_map : Bool)
         json =
           MintJson.parse_current
 
         runtime =
-          Assets.read("runtime.js")
+          Assets.read("runtime.js").as(Codegen::Node)
 
         sources =
           Dir.glob(SourceFiles.all)
@@ -60,7 +70,18 @@ module Mint
           }
         end
 
-        runtime + compiled.to_s
+        result =
+          Codegen.build(Codegen.join([runtime, compiled].compact), generate_source_map)
+
+        source_map : String? = nil
+
+        result[:source_map].try do |map|
+          terminal.measure "  #{ARROW} Generating source map: " do
+            source_map = map.build_json
+          end
+        end
+
+        {code: result[:code], source_map: source_map}
       end
     end
   end

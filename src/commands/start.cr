@@ -21,16 +21,21 @@ module Mint
         default: (ENV["PORT"]? || "3000").to_i,
         required: false,
         short: "p"
-
       define_flag live_reload : Bool,
         description: "Whether or not to reload the browser when something changes. (Default true)",
         required: false,
         default: true,
         short: "r"
 
+      define_flag source_map : Bool,
+        description: "If specified generate source mappings for debugging",
+        default: true,
+        required: false,
+        short: "m"
+
       def run
         execute "Running the development server" do
-          Reactor.start flags.host, flags.port, flags.auto_format, flags.live_reload
+          Reactor.start flags.host, flags.port, flags.auto_format, flags.live_reload, flags.source_map
         end
       end
     end
