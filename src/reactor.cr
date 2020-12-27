@@ -68,7 +68,6 @@ module Mint
       # Type check.
       type_checker.check
 
-      pp json.application.css_prefix
       # Compile.
       @script = Compiler.compile type_checker.artifacts, {optimize: false, css_prefix: json.application.css_prefix}
       @error = nil

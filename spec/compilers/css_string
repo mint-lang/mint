@@ -23,7 +23,7 @@ class A extends _C {
     });
   }
 
-  $aa() {
+  $foo-a() {
     const _ = {
       [`--a-a`]: `"Hi"` + ` blah ` + this.a + ` ` + `"Here is some content; Thanks ${this.a}"`
     };
@@ -37,8 +37,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `aa`,
-      style: _style([this.$aa()])
+      className: `foo-a`,
+      style: _style([this.$foo-a()])
     }, [
       _h("span", {})
     ]);
@@ -48,7 +48,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.aa span::after {
+.foo-a span::after {
   content: var(--a-a);
 }
 `);

@@ -13,10 +13,10 @@ module Mint
     def initialize(@prefix : String = "")
     end
 
-    def of(subject : T, base : B)
+    def of(subject : T, base : B) : String
       @cache[{base, subject}] ||= begin
         @current[base] = (@current[base]? || INITIAL).succ
-        pp @prefix + @current[base]
+        @prefix + @current[base]
       end
     end
   end
@@ -129,7 +129,6 @@ module Mint
     getter cases
 
     def initialize(css_prefix = "")
-      pp "In style builder #{css_prefix}"
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new

@@ -9,7 +9,6 @@ module Mint
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
-      pp options
       compiler =
         new(artifacts, options[:optimize], options[:css_prefix])
 

@@ -19,7 +19,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $aa() {
+  $foo-a() {
     const _ = {
       [`--a-a`]: this.a
     };
@@ -33,8 +33,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `aa`,
-      style: _style([this.$aa()])
+      className: `foo-a`,
+      style: _style([this.$foo-a()])
     });
   }
 };
@@ -42,11 +42,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.aa div {
+.foo-a div {
   color: var(--a-a);
 }
 
-.aa:focus {
+.foo-a:focus {
   color: red;
 }
 `);

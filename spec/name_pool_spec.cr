@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Mint::NamePool do
-  it "returns nex name" do
+  it "returns next name" do
     pool = Mint::NamePool(String, Mint::StyleBuilder::Selector).new
     object = Mint::StyleBuilder::Selector.new
 
@@ -9,5 +9,15 @@ describe Mint::NamePool do
     pool.of("a", object).should eq("a")
     pool.of("b", object).should eq("b")
     pool.of("c", object).should eq("c")
+  end
+
+  it "retruns next name with prefix" do
+    pool = Mint::NamePool(String, Mint::StyleBuilder::Selector).new(prefix: "foo-")
+    object = Mint::StyleBuilder::Selector.new
+
+    pool.of("a", object).should eq("foo-a")
+    pool.of("a", object).should eq("foo-a")
+    pool.of("b", object).should eq("foo-b")
+    pool.of("c", object).should eq("foo-c")
   end
 end

@@ -1,7 +1,11 @@
 module Mint
   class Builder
+    @css_prefix : String
+
     def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
+
+      @css_prefix = json.application.css_prefix || ""
 
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
@@ -92,9 +96,6 @@ module Mint
     end
 
     def index
-      json = 
-        MintJson.parse_current
-
       runtime =
         Assets.read("runtime.js")
 
@@ -122,7 +123,7 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        options = {optimize: true, css_prefix: json.application.css_prefix}
+        options = {optimize: true, css_prefix: @css_prefix}
         compiled = Compiler.compile type_checker.artifacts, options
       end
 
