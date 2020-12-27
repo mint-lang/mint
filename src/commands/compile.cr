@@ -18,7 +18,7 @@ module Mint
       end
 
       def compile
-        json = 
+        json =
           MintJson.parse_current
 
         runtime =
