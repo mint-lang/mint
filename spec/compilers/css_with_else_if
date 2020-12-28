@@ -18,7 +18,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $foo-a(a) {
+  $a(a) {
     const _ = {};
 
     (_compare(a, `red`) ? Object.assign(_, {
@@ -34,7 +34,7 @@ class A extends _C {
     return _h("div", {}, [
       _h("div", {
         className: `foo-a`,
-        style: _style([this.$foo-a(`blue`)])
+        style: _style([this.$a(`blue`)])
       })
     ]);
   }

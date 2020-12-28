@@ -13,7 +13,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $foo-a() {
+  $a() {
     const _ = {
       [`--a-a`]: this.a + `px 0px`
     };
@@ -28,7 +28,7 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `foo-a`,
-      style: _style([this.$foo-a()])
+      style: _style([this.$a()])
     });
   }
 };

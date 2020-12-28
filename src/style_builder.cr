@@ -10,14 +10,8 @@ module Mint
     @cache : Hash(Tuple(B, T), String) = {} of Tuple(B, T) => String
     @current : Hash(B, String) = {} of B => String
 
-    def initialize(@prefix : String = "")
-    end
-
     def of(subject : T, base : B) : String
-      @cache[{base, subject}] ||= begin
-        @current[base] = (@current[base]? || INITIAL).succ
-        @prefix + @current[base]
-      end
+      @cache[{base, subject}] ||= @current[base] = (@current[base]? || INITIAL).succ
     end
   end
 
@@ -128,11 +122,11 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(css_prefix = "")
+    def initialize(@css_prefix = "")
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new(prefix: css_prefix)
+      @style_pool = NamePool(Ast::Node, Nil).new
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:
@@ -193,10 +187,14 @@ module Mint
       false
     end
 
+    def prefixed_class_name(node)
+      @css_prefix + style_pool.of(node, nil)
+    end
+
     # The main entry point for processing a "style" tag.
     def process(node : Ast::Style)
       selectors =
-        ["." + style_pool.of(node, nil)]
+        ["." + prefixed_class_name(node)]
 
       process(node.body, nil, nil, selectors, %w[], node)
     end

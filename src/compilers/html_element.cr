@@ -50,7 +50,7 @@ module Mint
       class_name =
         unless style_nodes.empty?
           style_nodes.join(' ') do |style_node|
-            style_builder.style_pool.of(style_node, nil)
+            style_builder.prefixed_class_name(style_node)
           end
         end
 

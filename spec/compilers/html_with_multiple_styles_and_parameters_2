@@ -14,7 +14,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $foo-a(a) {
+  $a(a) {
     const _ = {
       [`--a-a`]: a
     };
@@ -22,7 +22,7 @@ class A extends _C {
     return _;
   }
 
-  $foo-b(b) {
+  $b(b) {
     const _ = {
       [`--b-a`]: b
     };
@@ -33,7 +33,7 @@ class A extends _C {
   render() {
     return _h("div", {
       className: `foo-a foo-b`,
-      style: _style([this.$foo-a(`red`), this.$foo-b(`blue`)])
+      style: _style([this.$a(`red`), this.$b(`blue`)])
     });
   }
 };
