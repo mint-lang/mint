@@ -10,8 +10,10 @@ module Mint
     @cache : Hash(Tuple(B, T), String) = {} of Tuple(B, T) => String
     @current : Hash(B, String) = {} of B => String
 
-    def of(subject : T, base : B) : String
-      @cache[{base, subject}] ||= @current[base] = (@current[base]? || INITIAL).succ
+    def of(subject : T, base : B)
+      @cache[{base, subject}] ||= begin
+        @current[base] = (@current[base]? || INITIAL).succ
+      end
     end
   end
 
