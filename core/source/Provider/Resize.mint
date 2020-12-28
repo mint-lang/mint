@@ -8,7 +8,7 @@ provider Provider.Resize : Provider.Resize.Subscription {
   /* The listener unsubscribe function. */
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
-  fun handle (event : Html.Event) {
+  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
     for (subscription of subscriptions) {
       subscription.resizes(event)
     }

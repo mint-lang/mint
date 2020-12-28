@@ -450,8 +450,9 @@ module Dom {
     })()
     `
   }
+
   /* Focuses the first focusable descendant of the given element. */
-  fun focusFirst (element : Dom.Element) {
+  fun focusFirst (element : Dom.Element) : Promise(Never, Void) {
     element
     |> getFocusableElements
     |> Array.first

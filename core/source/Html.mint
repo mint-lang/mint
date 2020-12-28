@@ -15,7 +15,7 @@ module Html {
     `false`
   }
 
-  fun isNotEmpty (element : Html) {
+  fun isNotEmpty (element : Html) : Bool {
     `!!#{element}`
   }
 }

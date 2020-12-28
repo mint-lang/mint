@@ -10,13 +10,13 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handle (event : Html.Event) {
+  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
     for (subscription of subscriptions) {
       try {
         inside =
           subscription.elements
           |> Array.compact()
-          |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) } )
+          |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
 
         if (inside) {
           Promise.never()

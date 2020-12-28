@@ -11,7 +11,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe::Nothing
 
   /* The `keyUp` event handler. */
-  fun handleKeyUp (event : Html.Event) {
+  fun handleKeyUp (event : Html.Event) : Array(Promise(Never, Void)) {
     if (event.keyCode == Html.Event:TAB) {
       try {
         activeElement =
@@ -29,7 +29,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   }
 
   /* The `keyDown` event handler. */
-  fun handleKeyDown (event : Html.Event) {
+  fun handleKeyDown (event : Html.Event) : Array(Promise(Never, Void)) {
     if (event.keyCode == Html.Event:TAB) {
       try {
         target =
@@ -74,8 +74,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
                   {
                     Window.addEventListener("keydown", true, handleKeyDown),
                     Window.addEventListener("keyup", true, handleKeyUp)
-                  }
-                )
+                  })
             }
 
         => next {  }
