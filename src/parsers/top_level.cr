@@ -26,6 +26,7 @@ module Mint
           self.enum ||
           provider ||
           routes ||
+          styles ||
           store ||
           suite ||
           comment
@@ -51,6 +52,8 @@ module Mint
           @ast.enums << item
         when Ast::Comment
           @ast.comments << item
+        when Ast::Styles
+          @ast.styles << item
         end
       end
     end

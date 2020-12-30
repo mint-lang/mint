@@ -15,6 +15,7 @@ module Mint
         ast.stores +
         ast.suites +
         ast.enums +
+        ast.styles +
         ast.comments
       )
         .sort_by!(&.from)

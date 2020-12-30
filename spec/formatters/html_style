@@ -1,20 +1,32 @@
+styles Test {
+  style common {
+    background: orangered;
+  }
+}
+
 component Test {
   style base(name : String, active : Bool) {
     color: red;
   }
 
   fun render : Html {
-    <div::base("Hello", true)>
+    <div::Test.common::base("Hello", true)>
     </div>
   }
 }
 --------------------------------------------------------------------------------
+styles Test {
+  style common {
+    background: orangered;
+  }
+}
+
 component Test {
   style base (name : String, active : Bool) {
     color: red;
   }
 
   fun render : Html {
-    <div::base("Hello", true)/>
+    <div::Test.common::base("Hello", true)/>
   }
 }

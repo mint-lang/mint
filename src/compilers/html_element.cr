@@ -91,7 +91,14 @@ module Mint
         style_name =
           style_builder.style_pool.of(lookups[item].as(Ast::Style), nil)
 
-        styles << js.call("this.$#{style_name}", arguments)
+        if item.entity
+          entity =
+            js.class_of(ast.styles.find(&.name.==(item.entity)).not_nil!) # Checked by the type checker!
+
+          styles << js.call("#{entity}.$#{style_name}", arguments)
+        else
+          styles << js.call("this.$#{style_name}", arguments)
+        end
       end
 
       styles << custom_styles if custom_styles

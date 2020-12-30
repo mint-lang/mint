@@ -1,0 +1,46 @@
+styles Theme {
+  style common(color : String) {
+    color: #{color};
+  }
+}
+
+component Main {
+  style base {
+    background: blue;
+  }
+
+  fun render {
+    <div::Theme.common("red")::base/>
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _C {
+  render() {
+    return _h("div", {
+      className: `Theme_common Main_base`,
+      style: _style([A.$Theme_common(`red`)])
+    });
+  }
+};
+
+B.displayName = "Main";
+
+const A = {
+  $Theme_common(a) {
+    const _ = {
+      [`--a-a`]: a
+    };
+
+    return _;
+  }
+};
+
+_insertStyles(`
+.Theme_common {
+  color: var(--a-a);
+}
+
+.Main_base {
+  background: blue;
+}
+`);

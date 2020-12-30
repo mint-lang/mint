@@ -41,6 +41,7 @@ module Mint
       resolve node.routes
       resolve node.suites
       resolve node.components.select(&.global?)
+      resolve node.styles
 
       # We are turning off checking here which means that what we check after
       # this will not be compiled.

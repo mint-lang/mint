@@ -34,7 +34,7 @@ module Mint
                        Js
 
     getter components, modules, records, stores, routes, providers
-    getter suites, enums, comments, nodes, unified_modules
+    getter suites, enums, comments, nodes, unified_modules, styles
 
     def initialize(@records = [] of RecordDefinition,
                    @unified_modules = [] of Module,
@@ -42,6 +42,7 @@ module Mint
                    @providers = [] of Provider,
                    @comments = [] of Comment,
                    @modules = [] of Module,
+                   @styles = [] of Styles,
                    @routes = [] of Routes,
                    @suites = [] of Suite,
                    @stores = [] of Store,
@@ -80,6 +81,7 @@ module Mint
       @stores.concat ast.stores
       @routes.concat ast.routes
       @suites.concat ast.suites
+      @styles.concat ast.styles
       @enums.concat ast.enums
       @nodes.concat ast.nodes
 

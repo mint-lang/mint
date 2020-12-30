@@ -2,7 +2,11 @@ module Mint
   class Formatter
     def format(node : Ast::HtmlStyle) : String
       name =
-        node.name.value
+        if node.entity
+          "#{node.entity}.#{node.name.value}"
+        else
+          node.name.value
+        end
 
       arguments =
         unless node.arguments.empty?

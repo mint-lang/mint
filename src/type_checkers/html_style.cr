@@ -5,8 +5,19 @@ module Mint
     type_error HtmlStyleNotFound
 
     def check(node : Ast::HtmlStyle) : Checkable
+      entity =
+        if node.entity
+          ast.styles.find(&.name.==(node.entity))
+        else
+          component
+        end
+
       style =
-        component.styles.find(&.name.value.==(node.name.value))
+        case entity
+        when Ast::Component, Ast::Styles
+          entity.styles.find(&.name.value.==(node.name.value))
+        else
+        end
 
       raise HtmlStyleNotFound, {
         "style" => node.name.value,
