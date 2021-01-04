@@ -16,16 +16,16 @@ Here is an example of doing validation for a checkout form:
   errors =
     Validation.merge(
       [
-        Validation.isNotBlank(firstName, {"firstName", "Plase enter the first name."}),
-        Validation.isNotBlank(message, {"message", "Plase enter the message."}),
-        Validation.isNotBlank(lastName, {"lastName", "Plase enter the last name."}),
-        Validation.isNotBlank(phone, {"phone", "Plase enter the phone number."}),
-        Validation.isNotBlank(email, {"email", "Plase enter the email address."}),
-        Validation.isValidEmail(email, {"email", "Plase enter the a valid email address."}),
-        Validation.isNotBlank(address, {"address", "Plase enter the address."}),
-        Validation.isNotBlank(city, {"city", "Plase enter the city address."}),
-        Validation.isNotBlank(country, {"country", "Plase select the country."}),
-        Validation.isNotBlank(zip, {"zip", "Plase enter the zip code."}),
+        Validation.isNotBlank(firstName, {"firstName", "Please enter the first name."}),
+        Validation.isNotBlank(message, {"message", "Please enter the message."}),
+        Validation.isNotBlank(lastName, {"lastName", "Please enter the last name."}),
+        Validation.isNotBlank(phone, {"phone", "Please enter the phone number."}),
+        Validation.isNotBlank(email, {"email", "Please enter the email address."}),
+        Validation.isValidEmail(email, {"email", "Please enter the a valid email address."}),
+        Validation.isNotBlank(address, {"address", "Please enter the address."}),
+        Validation.isNotBlank(city, {"city", "Please enter the city address."}),
+        Validation.isNotBlank(country, {"country", "Please select the country."}),
+        Validation.isNotBlank(zip, {"zip", "Please enter the zip code."}),
         Validation.isNumber(zip, {"zip", "The zip code can only contain numbers."}),
         Validation.hasExactNumberOfCharacters(zip, 5, {"zip", "The zip code needs to have 5 digits."})
       ])
@@ -167,11 +167,11 @@ module Validation {
   Merges the result of many validations into a `Map(String, Array(String))`.
 
     Validation.merge([
-      Validation.isNotBlank("", {"firstName", "Plase enter the first name."}),
-      Validation.isNotBlank("", {"message", "Plase enter the message."}),
+      Validation.isNotBlank("", {"firstName", "Please enter the first name."}),
+      Validation.isNotBlank("", {"message", "Please enter the message."}),
     ]) == (Map.empty()
-      |> Map.set("firstName", "Plase enter the first name.")
-      |> Map.set("message", "Plase enter the message."))
+      |> Map.set("firstName", "Please enter the first name.")
+      |> Map.set("message", "Please enter the message."))
   */
   fun merge (errors : Array(Maybe(Tuple(String, String)))) : Map(String, Array(String)) {
     errors

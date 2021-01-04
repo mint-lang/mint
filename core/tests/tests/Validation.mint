@@ -62,11 +62,11 @@ suite "Validation.merge" {
   test "it merges the results of each validation" {
     Validation.merge(
       [
-        Validation.isNotBlank("", {"firstName", "Plase enter the first name."}),
-        Validation.isNotBlank("", {"message", "Plase enter the message."})
+        Validation.isNotBlank("", {"firstName", "Please enter the first name."}),
+        Validation.isNotBlank("", {"message", "Please enter the message."})
       ]) == (Map.empty()
-    |> Map.set("firstName", ["Plase enter the first name."])
-    |> Map.set("message", ["Plase enter the message."]))
+    |> Map.set("firstName", ["Please enter the first name."])
+    |> Map.set("message", ["Please enter the message."]))
   }
 }
 
