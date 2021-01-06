@@ -20,7 +20,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `foo-a`
+      className: `a`
     });
   }
 };

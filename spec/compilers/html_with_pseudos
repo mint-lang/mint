@@ -53,7 +53,7 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `foo-a`,
+      className: `a`,
       style: _style([this.$a()])
     });
   }
@@ -62,17 +62,17 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.foo-a {
+.a {
   background: var(--a-a);
   color: red;
 }
 
-.foo-a:hover {
+.a:hover {
   background: var(--b-a);
   color: cyan;
 }
 
-.foo-a div {
+.a div {
   font-family: var(--c-a);
   color: blue;
 }

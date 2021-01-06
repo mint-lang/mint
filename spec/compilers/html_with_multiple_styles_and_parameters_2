@@ -32,7 +32,7 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `foo-a foo-b`,
+      className: `a b`,
       style: _style([this.$a(`red`), this.$b(`blue`)])
     });
   }
@@ -41,11 +41,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.foo-a {
+.a {
   color: var(--a-a);
 }
 
-.foo-b {
+.b {
   color: var(--b-a);
 }
 `);

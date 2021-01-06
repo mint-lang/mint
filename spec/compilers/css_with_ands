@@ -21,7 +21,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `foo-a`
+      className: `a`
     });
   }
 };
@@ -29,15 +29,15 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.foo-a:focus {
+.a:focus {
   color: red;
 }
 
-.foo-a[someattribute] {
+.a[someattribute] {
   color: red;
 }
 
-.foo-a.someclass {
+.a.someclass {
   color: red;
 }
 `);

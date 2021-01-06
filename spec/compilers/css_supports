@@ -35,7 +35,7 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `foo-a`,
+      className: `a`,
       style: _style([this.$a()])
     });
   }
@@ -45,7 +45,7 @@ A.displayName = "Main";
 
 _insertStyles(`
 @supports (screen) {
-  .foo-a {
+  .a {
     color: var(--a-a);
   }
 }
