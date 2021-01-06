@@ -20,7 +20,7 @@ module Mint
       end
 
       terminal.puts "#{COG} Compiling your application:"
-      File.write Path[DIST_DIR, "index.js"], index
+      File.write Path[DIST_DIR, "index.js"], index(json.application.css_prefix)
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
@@ -91,7 +91,7 @@ module Mint
       end
     end
 
-    def index
+    def index(css_prefix)
       runtime =
         Assets.read("runtime.js")
 
@@ -119,7 +119,10 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        compiled = Compiler.compile type_checker.artifacts, {optimize: true}
+        compiled = Compiler.compile type_checker.artifacts, {
+          optimize:   true,
+          css_prefix: css_prefix,
+        }
       end
 
       runtime + compiled

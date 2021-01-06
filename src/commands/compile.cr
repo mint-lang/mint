@@ -18,6 +18,9 @@ module Mint
       end
 
       def compile
+        json =
+          MintJson.parse_current
+
         runtime =
           Assets.read("runtime.js")
 
@@ -45,7 +48,10 @@ module Mint
         end
 
         terminal.measure "  #{ARROW} Compiling: " do
-          compiled = Compiler.compile_embed type_checker.artifacts, {optimize: true}
+          compiled = Compiler.compile_embed type_checker.artifacts, {
+            optimize:   true,
+            css_prefix: json.application.css_prefix,
+          }
         end
 
         runtime + compiled
