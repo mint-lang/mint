@@ -48,8 +48,10 @@ module Mint
         end
 
         terminal.measure "  #{ARROW} Compiling: " do
-          options = {optimize: true, css_prefix: json.application.css_prefix}
-          compiled = Compiler.compile_embed type_checker.artifacts, options
+          compiled = Compiler.compile_embed type_checker.artifacts, {
+            optimize:   true,
+            css_prefix: json.application.css_prefix,
+          }
         end
 
         runtime + compiled

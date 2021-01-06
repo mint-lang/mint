@@ -124,7 +124,7 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(@css_prefix = "")
+    def initialize(@css_prefix = nil)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
@@ -190,7 +190,7 @@ module Mint
     end
 
     def prefixed_class_name(node)
-      @css_prefix + style_pool.of(node, nil)
+      @css_prefix.to_s + style_pool.of(node, nil)
     end
 
     # The main entry point for processing a "style" tag.

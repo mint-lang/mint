@@ -2,9 +2,9 @@
 # in the compiler.
 module Mint
   class Compiler
-    alias Options = NamedTuple(optimize: Bool, css_prefix: String)
+    alias Options = NamedTuple(optimize: Bool, css_prefix: String?)
 
-    DEFAULT_OPTIONS = {optimize: false, css_prefix: ""}
+    DEFAULT_OPTIONS = {optimize: false, css_prefix: nil}
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.

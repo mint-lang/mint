@@ -615,7 +615,7 @@ module Mint
     json_error MintJsonCssPrefixInvalid
 
     def parse_application_css_prefix
-      @parser.read_string
+      @parser.read_string_or_null
     rescue exception : JSON::ParseException
       raise MintJsonCssPrefixInvalid, {
         "node" => node(exception),

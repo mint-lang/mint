@@ -5,7 +5,7 @@ module Mint
     def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
 
-      @css_prefix = json.application.css_prefix || ""
+      @css_prefix = json.application.css_prefix
 
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
@@ -123,8 +123,10 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        options = {optimize: true, css_prefix: @css_prefix}
-        compiled = Compiler.compile type_checker.artifacts, options
+        compiled = Compiler.compile type_checker.artifacts, {
+          optimize:   true,
+          css_prefix: @css_prefix,
+        }
       end
 
       runtime + compiled
