@@ -1,11 +1,7 @@
 module Mint
   class Builder
-    @css_prefix : String
-
     def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
-
-      @css_prefix = json.application.css_prefix
 
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
@@ -24,7 +20,7 @@ module Mint
       end
 
       terminal.puts "#{COG} Compiling your application:"
-      File.write Path[DIST_DIR, "index.js"], index
+      File.write Path[DIST_DIR, "index.js"], index(json.application.css_prefix)
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
@@ -95,7 +91,7 @@ module Mint
       end
     end
 
-    def index
+    def index(css_prefix)
       runtime =
         Assets.read("runtime.js")
 
@@ -125,7 +121,7 @@ module Mint
       terminal.measure "  #{ARROW} Compiling: " do
         compiled = Compiler.compile type_checker.artifacts, {
           optimize:   true,
-          css_prefix: @css_prefix,
+          css_prefix: css_prefix,
         }
       end
 
