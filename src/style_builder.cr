@@ -124,7 +124,7 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(@css_prefix = nil)
+    def initialize(@css_prefix : String | Nil = nil)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new

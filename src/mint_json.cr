@@ -11,7 +11,7 @@ module Mint
                      @name = "",
                      @head = "",
                      @icon = "",
-                     @css_prefix : String = "")
+                     @css_prefix : String | Nil = "")
       end
     end
 
