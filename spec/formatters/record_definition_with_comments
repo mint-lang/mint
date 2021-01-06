@@ -1,4 +1,4 @@
-/*A*/recordTest{/*B*/a:String,/*C*/b:Blah}
+/*A*/recordTest{/*B*/a:String,/*C*/b:Blah,/*D*/}
 --------------------------------------------------------------------------------
 /* A */
 record Test {
@@ -6,4 +6,5 @@ record Test {
   a : String,
   /* C */
   b : Blah
+  /* D */
 }

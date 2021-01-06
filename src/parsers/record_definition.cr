@@ -13,17 +13,21 @@ module Mint
 
         name = type_id! RecordDefinitionExpectedName
 
-        fields = block(
+        fields, block_comment = block(
           opening_bracket: RecordDefinitionExpectedOpeningBracket,
           closing_bracket: RecordDefinitionExpectedClosingBracket
         ) do
-          list(
-            terminator: '}',
-            separator: ','
-          ) { record_definition_field }.compact
+          {
+            list(
+              terminator: '}',
+              separator: ','
+            ) { record_definition_field }.compact,
+            self.comment,
+          }
         end
 
         Ast::RecordDefinition.new(
+          block_comment: block_comment,
           from: start_position,
           comment: comment,
           fields: fields,
