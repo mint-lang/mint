@@ -1,19 +1,6 @@
 name: Linux CI
 
-on:
-  push:
-    branches:
-      - master
-    tags:
-      - 0.*
-      - 1.*
-
-  pull_request:
-    branches:
-      - master
-
-  schedule:
-    - cron: "0 6 * * 1"
+on: [push, pull_request]
 
 jobs:
   specs:
