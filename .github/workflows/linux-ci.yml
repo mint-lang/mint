@@ -5,7 +5,8 @@ on:
     branches:
       - master
     tags:
-      - '*'
+      - 0.*
+      - 1.*
 
   pull_request:
     branches:
