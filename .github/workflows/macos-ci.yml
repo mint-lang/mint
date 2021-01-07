@@ -9,6 +9,9 @@ on:
     branches:
       - master
 
+  release:
+    types: [published]
+
   schedule:
     - cron: "0 6 * * 1"
 
