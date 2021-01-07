@@ -45,7 +45,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 component Main {
-  fun test : Maybe(String) {
+  fun test : String {
     {"Hello"}[0]
   }
 

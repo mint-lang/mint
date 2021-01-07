@@ -38,7 +38,7 @@ module Mint
             "node"  => lhs,
           } unless parameter
 
-          Type.new("Maybe", [parameter] of Checkable)
+          parameter
         else
           check_array_access(lhs, type)
         end
