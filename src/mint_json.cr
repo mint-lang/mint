@@ -11,7 +11,7 @@ module Mint
                      @name = "",
                      @head = "",
                      @icon = "",
-                     @css_prefix : String | Nil = "")
+                     @css_prefix : String? = nil)
       end
     end
 
@@ -286,7 +286,7 @@ module Mint
       raise MintJsonExternalStylesheetNotExists, {
         "node" => node(location),
         "path" => path,
-      } if !File.exists?(path) || Dir.exists?(path)
+      } unless File.file?(path)
 
       @external_files["stylesheets"] << file
     rescue exception : JSON::ParseException
@@ -425,7 +425,7 @@ module Mint
       name = ""
       icon = ""
       head = ""
-      css_prefix = ""
+      css_prefix = nil
 
       @parser.read_object do |key|
         case key

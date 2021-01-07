@@ -7,8 +7,8 @@ module Mint
   class NamePool(T, B)
     INITIAL = 'a'.pred.to_s
 
-    @cache : Hash(Tuple(B, T), String) = {} of Tuple(B, T) => String
-    @current : Hash(B, String) = {} of B => String
+    @cache = {} of Tuple(B, T) => String
+    @current = {} of B => String
 
     def of(subject : T, base : B)
       @cache[{base, subject}] ||= begin
@@ -124,7 +124,7 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(@css_prefix : String | Nil = nil)
+    def initialize(@css_prefix : String? = nil)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
