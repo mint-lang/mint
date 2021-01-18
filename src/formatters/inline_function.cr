@@ -8,7 +8,7 @@ module Mint
         format node.arguments
 
       arguments =
-        if value.map { |string| replace_skipped(string) }.map(&.size).sum > 50
+        if value.sum { |string| replace_skipped(string).size } > 50
           "\n#{indent(value.join(",\n"))}\n"
         else
           value.join(", ")
