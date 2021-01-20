@@ -1,51 +1,9 @@
 module Mint
   class Scaffold
-    HEAD =
-      <<-HEAD
-      <!-- Put HTML tags here for loading JavaScript or CSS files. -->
-      HEAD
-
-    MAIN =
-      <<-MAIN
-      component Main {
-        style base {
-          font-family: sans;
-          font-weight: bold;
-          font-size: 50px;
-
-          justify-content: center;
-          align-items: center;
-          display: flex;
-          height: 100vh;
-          width: 100vw;
-        }
-
-        fun render : Html {
-          <div::base>
-            <{ "Hello Mint!" }>
-          </div>
-        }
-      }
-      MAIN
-
-    GIT_IGNORE =
-      <<-GIT_IGNORE
-      .mint
-      dist
-      GIT_IGNORE
-
-    TEST =
-      <<-TEST
-      suite "Main" {
-        test "Greets Mint" {
-          with Test.Html {
-            <Main/>
-            |> start()
-            |> assertTextOf("div", "Hello Mint!")
-          }
-        }
-      }
-    TEST
+    HEAD = {{read_file("#{__DIR__}/app/assets/head.html")}}
+    MAIN = {{read_file("#{__DIR__}/app/source/Main.mint")}}
+    TEST = {{read_file("#{__DIR__}/app/tests/Main.mint")}}
+    GIT_IGNORE = {{read_file("#{__DIR__}/app/source/Main.mint")}}
 
     getter path : Path
 
