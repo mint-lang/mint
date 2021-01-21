@@ -46,21 +46,20 @@ module Mint
     end
 
     private def show_created_files(path : String, tabs : String)
-      # Show directories first
-      current_dir = Dir.open path
-
-      dirs = current_dir.select do |child| 
+      dirs = Dir.open(path).select do |child| 
         child != "." &&
         child != ".." &&
         File.directory? File.join(path, child)
       end
 
-      files = current_dir.select { |child| File.file? File.join(path, child) }
-
       dirs.each do |child|
         child_path = File.join(path, child)
         terminal.puts "#{tabs}#{ARROW} #{child}" 
         show_created_files(child_path, "  #{tabs}")
+      end
+
+      files = Dir.open(path).select do |child| 
+        File.file? File.join(path, child)
       end
 
       files.each do |child|
