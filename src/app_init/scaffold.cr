@@ -1,9 +1,6 @@
 module Mint
   class Scaffold
-    HEAD = {{read_file("#{__DIR__}/app/assets/head.html")}}
-    MAIN = {{read_file("#{__DIR__}/app/source/Main.mint")}}
-    TEST = {{read_file("#{__DIR__}/app/tests/Main.mint")}}
-    GIT_IGNORE = {{read_file("#{__DIR__}/app/source/Main.mint")}}
+    APP = "#{__DIR__}/app"
 
     getter path : Path
 
@@ -20,14 +17,6 @@ module Mint
     end
 
     def run
-      files = {
-        File.join("assets", "head.html") => HEAD,
-        File.join("source", "Main.mint") => MAIN,
-        File.join("tests", "Main.mint")  => TEST,
-        "mint.json"                      => json.to_pretty_json,
-        ".gitignore"                     => GIT_IGNORE,
-      }
-
       directory =
         name
           .colorize(:light_green)
@@ -40,11 +29,42 @@ module Mint
 
       terminal.puts "#{COG} Writing initial files:"
 
-      files.each do |path, contents|
-        FileUtils.mkdir_p File.dirname(path)
-        terminal.puts "  #{ARROW} #{path}"
+      touch_initial_files
+      touch_config
 
-        File.write(path, contents)
+      show_created_files(path.to_s, "  ")
+    end
+
+    private def touch_initial_files
+      FileUtils.cp_r(APP, "./")
+    end
+
+    private def touch_config
+        file_path = "mint.json"
+        FileUtils.mkdir_p File.dirname(file_path)
+        File.write(file_path, json.to_pretty_json)
+    end
+
+    private def show_created_files(path : String, tabs : String)
+      # Show directories first
+      current_dir = Dir.open path
+
+      dirs = current_dir.select do |child| 
+        child != "." &&
+        child != ".." &&
+        File.directory? File.join(path, child)
+      end
+
+      files = current_dir.select { |child| File.file? File.join(path, child) }
+
+      dirs.each do |child|
+        child_path = File.join(path, child)
+        terminal.puts "#{tabs}#{ARROW} #{child}" 
+        show_created_files(child_path, "  #{tabs}")
+      end
+
+      files.each do |child|
+        terminal.puts "#{tabs}#{ARROW} #{child}" 
       end
     end
 
@@ -54,6 +74,11 @@ module Mint
         "application" => {
           "head"  => "assets/head.html",
           "title" => name,
+        },
+        "external" => {
+          "stylesheets" => [
+            "assets/style.css" 
+          ]
         },
         "source-directories" => [
           "source",
