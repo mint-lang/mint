@@ -40,30 +40,30 @@ module Mint
     end
 
     private def touch_config
-        file_path = "mint.json"
-        FileUtils.mkdir_p File.dirname(file_path)
-        File.write(file_path, json.to_pretty_json)
+      file_path = "mint.json"
+      FileUtils.mkdir_p File.dirname(file_path)
+      File.write(file_path, json.to_pretty_json)
     end
 
     private def show_created_files(path : String, tabs : String)
-      dirs = Dir.open(path).select do |child| 
+      dirs = Dir.open(path).select do |child|
         child != "." &&
-        child != ".." &&
-        File.directory? File.join(path, child)
+          child != ".." &&
+          File.directory? File.join(path, child)
       end
 
       dirs.each do |child|
         child_path = File.join(path, child)
-        terminal.puts "#{tabs}#{ARROW} #{child}" 
+        terminal.puts "#{tabs}#{ARROW} #{child}"
         show_created_files(child_path, "  #{tabs}")
       end
 
-      files = Dir.open(path).select do |child| 
+      files = Dir.open(path).select do |child|
         File.file? File.join(path, child)
       end
 
       files.each do |child|
-        terminal.puts "#{tabs}#{ARROW} #{child}" 
+        terminal.puts "#{tabs}#{ARROW} #{child}"
       end
     end
 
@@ -76,8 +76,8 @@ module Mint
         },
         "external" => {
           "stylesheets" => [
-            "assets/style.css" 
-          ]
+            "assets/style.css",
+          ],
         },
         "source-directories" => [
           "source",
