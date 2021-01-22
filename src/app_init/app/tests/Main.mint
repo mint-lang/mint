@@ -3,7 +3,7 @@ suite "Main" {
     with Test.Html {
       <Main/>
       |> start()
-      |> assertTextOf("div", "Hello Mint!")
+      |> assertTextOf("a", "Learn Mint")
     }
   }
 }
