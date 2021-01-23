@@ -110,7 +110,7 @@ module Mint
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
       node.connects.reduce(%w[]) do |memo, item|
-        store = ast.stores.find { |entity| entity.name == item.store }
+        store = ast.stores.find(&.name.==(item.store))
 
         if store
           item.keys.map do |key|
@@ -122,11 +122,11 @@ module Mint
             name = js.variable_of(key)
 
             case
-            when store.constants.any? { |constant| constant.name == original },
-                 store.gets.any? { |get| get.name.value == original },
+            when store.constants.any?(&.name.==(original)),
+                 store.gets.any?(&.name.value.==(original)),
                  store.states.find(&.name.value.==(original))
               memo << js.get(name, "return #{store_name}.#{id};")
-            when store.functions.any? { |func| func.name.value == original }
+            when store.functions.any?(&.name.value.==(original))
               memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end
           end
@@ -192,7 +192,7 @@ module Mint
           function.keep_name = true if function
 
           # If the user defined the same function the code goes after it.
-          if function && value.any?
+          if function && !value.empty?
             compile function, js.statements(value)
           elsif !value.empty?
             js.function(key, %w[], js.statements(value))

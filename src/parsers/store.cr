@@ -45,8 +45,6 @@ module Mint
             states << item
           when Ast::Get
             gets << item
-          else
-            # ignore
           end
         end
 

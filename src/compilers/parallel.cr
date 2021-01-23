@@ -30,11 +30,9 @@ module Mint
             if type.name.in?("Promise", "Result") && type.parameters[0]
               node
                 .catches
-                .select { |item| item.type == type.parameters[0].name }
+                .select(&.type.==(type.parameters[0].name))
                 .map { |item| compile(item).as(String) }
             end
-          else
-            # ignore
           end || %w[]
 
         case type
@@ -72,11 +70,7 @@ module Mint
                   "")
               end
             end
-          else
-            # ignore
           end
-        else
-          # ignore
         end || js.asynciif do
           prefix.call("await #{expression}")
         end
@@ -110,8 +104,6 @@ module Mint
             target.parameters.map do |variable|
               js.let(js.variable_of(variable), "null")
             end
-          else
-            # ignore
           end
         end.flatten.compact
 

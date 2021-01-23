@@ -45,8 +45,6 @@ module Mint
             options << item
           when Ast::Comment
             comments << item
-          else
-            # ignore
           end
         end
 

@@ -73,8 +73,6 @@ module Mint
         end
       when Variable
         extracted[node.name] = Comparer.prune(node)
-      else
-        # ignore
       end
 
       extracted
