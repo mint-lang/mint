@@ -21,8 +21,6 @@ module Mint
             when Ast::State    then entity.name.value
             when Ast::Get      then entity.name.value
             when Ast::Constant then entity.name
-            else
-              # ignore
             end
 
           if store
@@ -37,8 +35,6 @@ module Mint
             end
           end
         end
-      else
-        # ignore
       end
 
       case parent

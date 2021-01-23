@@ -53,8 +53,6 @@ module Mint
             comments << item
           when Ast::Get
             gets << item
-          else
-            # ignore
           end
         end
 

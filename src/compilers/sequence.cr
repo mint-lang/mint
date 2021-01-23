@@ -83,11 +83,7 @@ module Mint
 
                   prefix.call("await #{try}")
                 end
-              else
-                # ignore
               end
-            else
-              # ignore
             end || prefix.call("await #{expression}")
           end
 

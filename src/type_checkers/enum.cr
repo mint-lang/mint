@@ -42,8 +42,6 @@ module Mint
           } unless param
 
           used_parameters.add param
-        else
-          # ignore
         end
       end
     end
