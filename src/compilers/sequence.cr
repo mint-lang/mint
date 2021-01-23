@@ -38,7 +38,7 @@ module Mint
                 if type.name.in?("Promise", "Result") && type.parameters[0]
                   node
                     .catches
-                    .select { |item| item.type == type.parameters[0].name }
+                    .select(&.type.==(type.parameters[0].name))
                     .map { |item| compile(item).as(String) }
                 else
                   %w[]
@@ -80,7 +80,6 @@ module Mint
                       ],
                       finally: "")
                   end
-
                   prefix.call("await #{try}")
                 end
               end

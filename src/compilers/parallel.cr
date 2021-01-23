@@ -30,7 +30,7 @@ module Mint
             if type.name.in?("Promise", "Result") && type.parameters[0]
               node
                 .catches
-                .select { |item| item.type == type.parameters[0].name }
+                .select(&.type.==(type.parameters[0].name))
                 .map { |item| compile(item).as(String) }
             end
           end || %w[]

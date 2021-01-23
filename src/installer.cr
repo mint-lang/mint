@@ -141,8 +141,10 @@ module Mint
         unless @resolved[dependency]?
           eliminated =
             @eliminated
-              .select { |item| item[0][:name] == dependency }
-              .map { |item| "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}" }
+              .select(&.[0][:name].==(dependency))
+              .map do |item|
+                "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}"
+              end
 
           raise InstallerFailedToInstall, {
             "package"    => "#{base[:name]}:#{base[:version]}",
