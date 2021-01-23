@@ -1,6 +1,6 @@
 module Mint
   class Scaffold
-    APP = "#{__DIR__}/app"
+    APP_DIR = Path[__DIR__, "app"]
 
     getter path : Path
 
@@ -25,18 +25,19 @@ module Mint
       terminal.puts "#{COG} Creating directory: #{directory}"
 
       FileUtils.mkdir_p path.to_s
-      FileUtils.cd path.to_s
 
-      terminal.puts "#{COG} Writing initial files:"
+      Dir.cd(path) do
+        terminal.puts "#{COG} Writing initial files:"
 
-      touch_initial_files
-      touch_config
+        touch_initial_files
+        touch_config
 
-      show_created_files(path.to_s, "  ")
+        show_created_files(path, indent: 2)
+      end
     end
 
     private def touch_initial_files
-      FileUtils.cp_r(APP, "./")
+      FileUtils.cp_r(APP_DIR.to_s, "./")
     end
 
     private def touch_config
@@ -45,21 +46,24 @@ module Mint
       File.write(file_path, json.to_pretty_json)
     end
 
-    private def show_created_files(path : String, tabs : String)
-      dirs = Dir.open(path).select do |child|
-        child != "." &&
-          child != ".." &&
-          File.directory? File.join(path, child)
+    private def show_created_files(path : Path, indent : Int32 = 0)
+      tabs = " " * indent
+      dirs = %w[]
+      files = %w[]
+
+      Dir.each_child(path) do |child|
+        child_path = File.join(path, child)
+        case
+        when File.directory?(child_path)
+          dirs << child
+        when File.file?(child_path)
+          files << child
+        end
       end
 
       dirs.each do |child|
-        child_path = File.join(path, child)
         terminal.puts "#{tabs}#{ARROW} #{child}"
-        show_created_files(child_path, "  #{tabs}")
-      end
-
-      files = Dir.open(path).select do |child|
-        File.file? File.join(path, child)
+        show_created_files(Path[path, child], indent + 2)
       end
 
       files.each do |child|
