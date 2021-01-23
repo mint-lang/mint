@@ -1,0 +1,62 @@
+component Main {
+  style test {
+    .tag {
+      if (true) {
+        color: red;
+      } else {
+        color: blue;
+      }
+    }
+
+    .string {
+      if (true) {
+        color: yellow;
+      } else {
+        color: cyan;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  $a() {
+    const _ = {};
+
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : Object.assign(_, {
+      [`--a-a`]: `blue`
+    }));
+
+    (true ? Object.assign(_, {
+      [`--b-a`]: `yellow`
+    }) : Object.assign(_, {
+      [`--b-a`]: `cyan`
+    }));
+
+    return _;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+.a .tag {
+  color: var(--a-a);
+}
+
+.a .string {
+  color: var(--b-a);
+}
+`);

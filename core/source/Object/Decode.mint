@@ -1,6 +1,6 @@
 /* Functions for decoding specific types from an `Object`. */
 module Object.Decode {
-  /* Decodes an field from an object using the given decoder. */
+  /* Decodes a field from an object using the given decoder. */
   fun field (
     key : String,
     decoder : Function(Object, Result(Object.Error, a)),
@@ -29,7 +29,7 @@ module Object.Decode {
     `Decoder.boolean(#{input})`
   }
 
-  /* Decodes the object as a `Array` using the given decoder. */
+  /* Decodes the object as an `Array` using the given decoder. */
   fun array (
     decoder : Function(Object, Result(Object.Error, a)),
     input : Object

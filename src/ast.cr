@@ -1,7 +1,5 @@
 module Mint
   class Ast
-    alias HtmlContent = HtmlElement | HtmlComponent | HtmlExpression | HtmlFragment
-
     alias TypeOrVariable = Type | TypeVariable
 
     alias Expression = ParenthesizedExpression |
@@ -49,7 +47,7 @@ module Mint
                    @enums = [] of Enum)
     end
 
-    def main : Component | Nil
+    def main : Component?
       @components.find(&.name.==("Main"))
     end
 
@@ -57,8 +55,14 @@ module Mint
       node1.input.input[node1.from, node2.from - node1.from].includes?("\n\n")
     end
 
-    def has_new_line?(node1, node2)
-      node1.input.input[node1.from, node2.from - node1.from].includes?("\n")
+    def new_line?(node1, node2)
+      start_position =
+        node1.from
+
+      count =
+        node2.to - node1.from
+
+      node1.input.input[start_position, count].includes?('\n')
     end
 
     def merge(ast)
@@ -73,6 +77,25 @@ module Mint
       @enums.concat ast.enums
 
       self
+    end
+
+    # Normalizes the ast:
+    # - merges multiple modules with the same name
+    def normalize
+      @modules =
+        @modules
+          .group_by(&.name)
+          .values
+          .map do |modules|
+            first = modules.shift
+
+            modules.each do |item|
+              first.functions.concat(item.functions)
+              first.constants.concat(item.constants)
+            end
+
+            first
+          end
     end
   end
 end

@@ -14,7 +14,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { expression.as(Ast::Expression | Nil) }.compact
+        ) { expression.as(Ast::Expression?) }.compact
         whitespace
 
         char ')', CallExpectedClosingParentheses
@@ -24,7 +24,6 @@ module Mint
           from: start_position,
           arguments: arguments,
           expression: lhs,
-          piped: false,
           to: position,
           input: data,
           safe: safe

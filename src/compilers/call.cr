@@ -7,10 +7,10 @@ module Mint
       arguments =
         compile node.arguments, ", "
 
-      if node.safe
+      if node.safe?
         js.iif do
           result =
-            if node.partially_applied
+            if node.partially_applied?
               if node.arguments.empty?
                 "(_) => _"
               else
@@ -26,12 +26,15 @@ module Mint
           ])
         end
       else
-        if node.partially_applied
+        case
+        when node.partially_applied?
           if node.arguments.empty?
             expression
           else
             "((..._) => #{expression}(#{arguments}, ..._))"
           end
+        when node.expression.is_a?(Ast::InlineFunction)
+          "(#{expression})(#{arguments})"
         else
           "#{expression}(#{arguments})"
         end

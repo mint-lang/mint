@@ -1,0 +1,49 @@
+component Main {
+  fun test : Promise(Never, String) {
+    sequence {
+      b = a
+
+      a = "hello"
+
+      b
+    }
+  }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a() {
+    return (async () => {
+      let _ = null;
+
+      try {
+        let b = await `hello`;
+        let c = await b;
+        _ = await c;
+      } catch (_error) {
+        if (!(_error instanceof DoError)) {
+          console.warn(`Unhandled error in sequence expression:`);
+          console.warn(_error);
+        }
+      };
+
+      return _;
+    })();
+  }
+
+  render() {
+    return (() => {
+      this.a();
+      return _h("div", {});
+    })();
+  }
+};
+
+A.displayName = "Main";

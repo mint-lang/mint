@@ -1,0 +1,82 @@
+component Main {
+  state opacity : Number = 1
+
+  style test {
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: #{opacity};
+      }
+    }
+
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  constructor(props) {
+    super(props);
+
+    this.state = new Record({
+      a: 1
+    });
+  }
+
+  $a() {
+    const _ = {
+      [`--a-a`]: this.a
+    };
+
+    return _;
+  }
+
+  get a() {
+    return this.state.a;
+  }
+
+  render() {
+    return _h("div", {
+      className: `a`,
+      style: _style([this.$a()])
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+@keyframes animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: var(--a-a);
+  }
+}
+
+@keyframes animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+`);

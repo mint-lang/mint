@@ -50,13 +50,13 @@ class A extends _C {
       if (_0 instanceof Err) {
         let _error = _0._0;
 
-        let c = _error;
-        return new B(c);
+        let b = _error;
+        return new B(b);
       };
 
-      let b = _0._0;
+      let c = _0._0;
 
-      return new C(b);
+      return new C(c);
     })();
   }
 
@@ -67,11 +67,11 @@ class A extends _C {
       if (_0 instanceof Err) {
         let _error = _0._0;
 
-        let e = _error;
+        let d = _error;
         return `error`;
       };
 
-      let d = _0._0;
+      let e = _0._0;
 
       return `success`;
     })();

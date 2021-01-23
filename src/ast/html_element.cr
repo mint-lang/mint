@@ -4,10 +4,10 @@ module Mint
       getter attributes, children, styles, tag, comments, ref
 
       def initialize(@attributes : Array(HtmlAttribute),
-                     @children : Array(HtmlContent),
                      @comments : Array(Comment),
                      @styles : Array(HtmlStyle),
-                     @ref : Variable | Nil,
+                     @children : Array(Node),
+                     @ref : Variable?,
                      @tag : Variable,
                      @input : Data,
                      @from : Int32,
@@ -23,8 +23,8 @@ module Mint
 
       def static_value
         tag.value +
-          attributes.map(&.static_value).join +
-          children.map(&.static_value).join
+          attributes.join(&.static_value) +
+          children.join(&.static_value)
       end
     end
   end

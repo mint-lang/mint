@@ -7,7 +7,7 @@ module Mint
     syntax_error ProviderExpectedName
     syntax_error ProviderExpectedBody
 
-    def provider : Ast::Provider | Nil
+    def provider : Ast::Provider?
       start do |start_position|
         comment = self.comment
 
@@ -26,35 +26,47 @@ module Mint
           opening_bracket: ProviderExpectedOpeningBracket,
           closing_bracket: ProviderExpectedClosingBracket
         ) do
-          items = many { function || self.comment }.compact
+          items = many { function || state || constant || self.comment }.compact
           raise ProviderExpectedBody if items
-                                          .select(&.is_a?(Ast::Function))
+                                          .select(Ast::Function)
                                           .empty?
           items
         end
 
         functions = [] of Ast::Function
+        constants = [] of Ast::Constant
         comments = [] of Ast::Comment
+        states = [] of Ast::State
+        gets = [] of Ast::Get
 
         body.each do |item|
           case item
           when Ast::Function
             functions << item
 
-            item.keep_name = true if item.name.value == "attach" || item.name.value == "detach"
+            item.keep_name = true if item.name.value == "update"
+          when Ast::State
+            states << item
+          when Ast::Constant
+            constants << item
           when Ast::Comment
             comments << item
+          when Ast::Get
+            gets << item
           end
         end
 
         Ast::Provider.new(
           subscription: subscription,
           functions: functions,
+          constants: constants,
           from: start_position,
           comments: comments,
           comment: comment,
+          states: states,
           to: position,
           input: data,
+          gets: gets,
           name: name)
       end
     end

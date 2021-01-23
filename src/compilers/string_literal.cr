@@ -1,10 +1,18 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::StringLiteral) : String
+    def compile(node : Ast::StringLiteral, quote : Bool = false) : String
+      if checked.includes?(node)
+        _compile(node, quote)
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::StringLiteral, quote : Bool = false) : String
       value =
         node
           .value
-          .map do |item|
+          .join do |item|
             case item
             when Ast::Node
               "${#{compile(item)}}"
@@ -16,9 +24,12 @@ module Mint
               ""
             end
           end
-          .join("")
 
-      "`#{value}`"
+      if quote
+        %(`"#{value}"`)
+      else
+        "`#{value}`"
+      end
     end
   end
 end

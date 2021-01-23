@@ -1,0 +1,19 @@
+component Test {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>"Hello"</div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>"Hello"</div>
+  }
+}

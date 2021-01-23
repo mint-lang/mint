@@ -3,7 +3,7 @@ module Mint
     class CssDefinition < Node
       getter name, value
 
-      def initialize(@value : Array(String | Interpolation),
+      def initialize(@value : Array(String | Node),
                      @name : String,
                      @input : Data,
                      @from : Int32,

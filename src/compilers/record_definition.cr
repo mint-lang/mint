@@ -10,7 +10,7 @@ module Mint
       when TypeChecker::Record
         mappings =
           begin
-            @decoder.compile type
+            @serializer.generate_mappings type
           rescue
             "{}"
           end

@@ -6,94 +6,98 @@ module Mint
     def run
       @scope.levels.reverse.map_with_index do |level, index|
         debug(level).indent((index + 1) * 2)
-      end.join("\n")
+      end.join('\n')
     end
 
     def debug(node : Ast::Node)
-      ""
+      "#{node}"
+    end
+
+    def debug(node : Tuple(String, TypeChecker::Checkable, Ast::Node))
+      "#{node[0]} => #{node[1]}"
     end
 
     def debug(node : Tuple(String, TypeChecker::Checkable))
-      "#{node[0]} => #{node[1].to_s}"
+      "#{node[0]} => #{node[1]}"
     end
 
     def debug(node : Ast::InlineFunction)
-      node.arguments.map do |argument|
+      node.arguments.join('\n') do |argument|
         "#{argument.name.value} => #{argument}"
-      end.join("\n")
+      end
     end
 
     def debug(node : Ast::Function)
       arguments =
-        node.arguments.map do |argument|
+        node.arguments.join('\n') do |argument|
           "#{argument.name.value} => #{argument}"
-        end.join("\n")
+        end
 
       statements =
         node.where.try do |where|
-          where.statements.map do |statement|
-            "#{statement.name.value} => #{statement}"
-          end.join("\n")
+          where.statements.join('\n') do |statement|
+            "#{statement.target.class.name} => #{statement}"
+          end
         end.to_s
 
-      [arguments, statements].join("\n")
+      {arguments, statements}.join('\n')
     end
 
     def debug(node : Ast::Get)
       node.where.try do |where|
-        where.statements.map do |statement|
-          "#{statement.name.value} => #{statement}"
-        end.join("\n")
+        where.statements.join('\n') do |statement|
+          "#{statement.target.class.name} => #{statement}"
+        end
       end.to_s
     end
 
     def debug(node : Ast::Module)
-      node.functions.map do |function|
+      node.functions.join('\n') do |function|
         "#{function.name.value} => #{function}"
-      end.join("\n")
+      end
     end
 
     def debug(node : Ast::Store)
       functions =
-        node.functions.map do |function|
+        node.functions.join('\n') do |function|
           "#{function.name.value} => #{function}"
-        end.join("\n")
+        end
 
       states =
-        node.states.map do |state|
+        node.states.join('\n') do |state|
           "#{state.name.value} => #{state}"
-        end.join("\n")
+        end
 
       gets =
-        node.gets.map do |get|
+        node.gets.join('\n') do |get|
           "#{get.name.value} => #{get}"
-        end.join("\n")
+        end
 
-      [functions, states, gets].join("\n")
+      {functions, states, gets}.join('\n')
     end
 
     def debug(node : Ast::Component)
       functions =
-        node.functions.map do |function|
+        node.functions.join('\n') do |function|
           "#{function.name.value} => #{function}"
-        end.join("\n")
+        end
 
       states =
-        node.states.map do |state|
+        node.states.join('\n') do |state|
           "#{state.name.value} => #{state}"
-        end.join("\n")
+        end
 
       properties =
-        node.properties.map do |state|
+        node.properties.join('\n') do |state|
           "#{state.name.value} => #{state}"
-        end.join("\n")
+        end
 
       gets =
-        node.gets.map do |get|
+        node.gets.join('\n') do |get|
           "#{get.name.value} => #{get}"
-        end.join("\n")
+        end
 
-      [functions, states, gets, properties].join("\n")
+      {functions, states, gets, properties}.join('\n')
     end
   end
 end

@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Mint::StyleBuilder do
-  it "builds simple styles" do
+  it "builds simple styles with css prefix" do
     example =
       <<-MINT
         style test {
@@ -58,9 +58,12 @@ describe Mint::StyleBuilder do
       Mint::Parser.new(example.strip, "test.mint")
 
     style =
-      parser.style.not_nil!
+      parser.style.should_not be_nil
 
-    builder = Mint::StyleBuilder.new
+    builder = Mint::StyleBuilder.new(css_prefix: "foo-")
     builder.process(style)
+
+    compiled = builder.compile
+    compiled.should contain(".foo-a div span pre a {")
   end
 end

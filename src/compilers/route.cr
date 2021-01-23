@@ -15,7 +15,7 @@ module Mint
       decoders =
         node
           .arguments
-          .map { |argument| @decoder.generate(cache[argument]) }
+          .map { |argument| @serializer.decoder(cache[argument]) }
 
       js.object({
         "handler"  => js.arrow_function(arguments, expression),

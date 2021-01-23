@@ -1,0 +1,33 @@
+component Main {
+  fun render : String {
+    case ({"A", 0, true}) {
+      {"A", 0, false} =>
+        "B"
+
+      {"A", 0, true} =>
+        "A"
+
+      {a, b, c} =>
+        a
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (() => {
+      let a = [`A`, 0, true];
+
+      if (_compare(a, [`A`, 0, false])) {
+        return `B`
+      } else if (_compare(a, [`A`, 0, true])) {
+        return `A`
+      } else if (Array.isArray(a)) {
+        const [b,c,d] = a;
+        return b;
+      };
+    })();
+  }
+};
+
+A.displayName = "Main";

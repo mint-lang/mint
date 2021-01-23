@@ -14,6 +14,13 @@ module Mint
       node.data.fields.each do |item|
         state =
           case entity
+          when Ast::Provider
+            lookups[node] =
+              entity
+
+            entity
+              .states
+              .find(&.name.value.==(item.key.value))
           when Ast::Component, Ast::Store
             lookups[node] =
               entity
@@ -32,11 +39,12 @@ module Mint
           resolve item.value
 
         state_type =
-          resolve state.type
+          resolve state
 
         raise NextCallStateTypeMismatch, {
           "name"     => item.key.value,
           "expected" => state_type,
+          "state"    => state,
           "node"     => item,
           "got"      => type,
         } unless Comparer.compare(state_type, type)

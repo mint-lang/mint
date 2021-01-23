@@ -6,7 +6,7 @@ message DecodeExpectedAs do
     bold "object to be decoded"
     text "and the"
     bold "type"
-    text "must be seperated by an"
+    text "must be separated by an"
     bold "as"
     text "keyword."
   end

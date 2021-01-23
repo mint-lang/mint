@@ -5,7 +5,7 @@ module Mint
     syntax_error HtmlElementExpectedReference
     syntax_error HtmlElementExpectedStyle
 
-    def html_element : Ast::HtmlElement | Nil
+    def html_element : Ast::HtmlElement?
       start do |start_position|
         tag = start do
           skip unless char! '<'

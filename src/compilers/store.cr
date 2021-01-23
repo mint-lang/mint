@@ -22,11 +22,11 @@ module Mint
       js.store(name, body)
     end
 
-    def compile_constructor(node : Ast::Store) : String
+    def compile_constructor(node : Ast::Store | Ast::Provider) : String
       states =
         node
           .states
-          .select { |state| checked.includes?(state) }
+          .select(&.in?(checked))
           .each_with_object({} of String => String) do |state, memo|
             name =
               js.variable_of(state)
@@ -37,11 +37,17 @@ module Mint
             memo[name] = default
           end
 
-      js.function("constructor", [] of String) do
+      constants =
+        if !node.constants.empty?
+          js.call("this._d", [js.object(compile_constants(node.constants))])
+        end
+
+      js.function("constructor", %w[]) do
         js.statements([
-          js.call("super", [] of String),
+          js.call("super", %w[]),
           js.assign("this.state", js.object(states)),
-        ])
+          constants,
+        ].compact)
       end
     end
   end

@@ -2,15 +2,15 @@
 # in the compiler.
 module Mint
   class Compiler
-    DEFAULT_OPTIONS = {optimize: false}
+    alias Options = NamedTuple(optimize: Bool, css_prefix: String?)
 
-    alias Options = NamedTuple(optimize: Bool)
+    DEFAULT_OPTIONS = {optimize: false, css_prefix: nil}
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts, options[:optimize])
+        new(artifacts, options[:optimize], options[:css_prefix])
 
       main =
         compiler.ast.components.find(&.name.==("Main")).try do |component|
@@ -18,7 +18,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)
@@ -48,7 +48,7 @@ module Mint
             compiler
               .ast
               .components
-              .select(&.global)
+              .select(&.global?)
               .each_with_object({} of String => String) do |item, memo|
                 name =
                   compiler.js.class_of(item)
@@ -70,7 +70,7 @@ module Mint
 
     # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
-      compiler = new(artifacts, options[:optimize])
+      compiler = new(artifacts, options[:optimize], options[:css_prefix])
       compiler.compile
     end
 
@@ -119,7 +119,7 @@ module Mint
         if include_tests
           ["SUITES = [#{compile(ast.suites, ",")}]"]
         else
-          [] of String
+          %w[]
         end
 
       static =
@@ -128,10 +128,10 @@ module Mint
         end
 
       elements =
-        (enums + records + providers + routes + modules + components + static + stores + [footer] + suites)
-          .reject(&.empty?)
+        (enums + records + modules + providers + routes + components + static + stores + [footer] + suites)
+          .reject!(&.empty?)
 
-      js.statements(elements)
+      replace_skipped(js.statements(elements))
     end
 
     # --------------------------------------------------------------------------
@@ -213,6 +213,7 @@ module Mint
         const TestContext = mint.TestContext;
         const ReactDOM = mint.ReactDOM;
         const Decoder = mint.Decoder;
+        const Encoder = mint.Encoder;
         const DateFNS = mint.DateFNS;
         const Record = mint.Record;
         const React = mint.React;

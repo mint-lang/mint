@@ -17,7 +17,7 @@ module Mint
         input: data)
     end
 
-    def variable_attribute_name : Ast::Variable | Nil
+    def variable_attribute_name : Ast::Variable?
       start do |start_position|
         value = gather do
           next unless char.in_set? "a-z"
@@ -51,11 +51,11 @@ module Mint
         input: data)
     end
 
-    def variable_with_dashes : Ast::Variable | Nil
+    def variable_with_dashes : Ast::Variable?
       start { variable_with_dashes! SkipError }
     end
 
-    def variable : Ast::Variable | Nil
+    def variable : Ast::Variable?
       start { variable! SkipError }
     end
   end

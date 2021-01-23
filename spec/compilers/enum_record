@@ -1,0 +1,49 @@
+enum A {
+  B(name : String, color : String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B(name = "Joe", color = "Blue")) {
+      A::B name color => ""
+      A::C => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class A extends _C {
+  render() {
+    return (() => {
+      let a = new B(new Record({
+        name: `Joe`,
+        color: `Blue`
+      }));
+
+      if (a instanceof B) {
+        const b = a._0.name;
+        const c = a._0.color;
+        return ``;
+      } else if (a instanceof C) {
+        return ``;
+      };
+    })();
+  }
+};
+
+A.displayName = "Main";

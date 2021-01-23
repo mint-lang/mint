@@ -4,7 +4,7 @@ record MouseProvider.Data {
 }
 
 provider MouseProvider : MouseProvider.Data {
-  fun attach : Void {
+  fun update : Void {
     void
   }
 }
@@ -35,7 +35,12 @@ component Main {
 const A = _R({});
 
 const B = new(class extends _P {
-  attach() {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  update() {
     return null;
   }
 });

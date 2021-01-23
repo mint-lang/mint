@@ -9,10 +9,10 @@ module Mint
         node.input.input
 
       start_line =
-        input[0, node.from].count("\n\r")
+        input[0, node.from].lines.size
 
       end_line =
-        input[0, node.to].count("\n\r")
+        input[0, node.to].lines.size
 
       start =
         Math.max(0, start_line - 4)
@@ -27,16 +27,16 @@ module Mint
         escape input[node.from, node.to - node.from]
 
       center =
-        if part.strip.empty?
+        if part.blank?
           "<highlighted>&nbsp;</highlighted>"
         else
           part
             .lines
-            .map do |line|
+            .join('\n') do |line|
               line.gsub(/^(\s*)(.*)(\s*)$/) do |_, match|
                 "#{match[1]}<highlighted>#{match[2]}</highlighted>#{match[3]}"
               end
-            end.join("\n")
+            end
         end
 
       right =
@@ -52,7 +52,7 @@ module Mint
       line_numbers =
         content.map_with_index do |_, index|
           "<div class='line-number'>#{index + start + 1}</div>"
-        end.join("")
+        end.join('\n')
 
       <<-HTML
       <div class="snippet">
@@ -63,7 +63,7 @@ module Mint
           <div class="line-numbers">
               #{line_numbers}
           </div>
-          <pre>#{content.join("\n")}</pre>
+          <pre>#{content.join('\n')}</pre>
         </div>
       </div>
       HTML

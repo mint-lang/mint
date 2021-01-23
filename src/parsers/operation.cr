@@ -4,6 +4,7 @@ module Mint
 
     OPERATORS = {
       "|>" => 0,
+      "or" => 0,
       "!=" => 10,
       "==" => 10,
 
@@ -26,7 +27,7 @@ module Mint
       "!"  => 16,
     }
 
-    def operator : String | Nil
+    def operator : String?
       start do
         whitespace
         operator = OPERATORS.keys.find { |item| keyword item }
@@ -45,8 +46,8 @@ module Mint
         else
           return operation(
             Ast::Operation.new(
-              right: right.as(Ast::Expression),
-              left: left.as(Ast::Expression),
+              right: right,
+              left: left,
               operator: operator,
               from: left.from,
               to: right.to,

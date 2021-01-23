@@ -1,5 +1,10 @@
 module Mint
   class Scaffold
+    HEAD =
+      <<-HEAD
+      <!-- Put HTML tags here for loading JavaScript or CSS files. -->
+      HEAD
+
     MAIN =
       <<-MAIN
       component Main {
@@ -42,46 +47,63 @@ module Mint
       }
     TEST
 
-    getter path, name
+    getter path : Path
 
-    def self.run(name : String)
-      path = File.expand_path(name)
-      name = File.basename(path)
-      new(path, name).run
+    def self.run(name : Path | String)
+      new(Path[name]).run
     end
 
-    def initialize(@path : String, @name : String)
+    def initialize(path : Path)
+      @path = path.expand
+    end
+
+    def name
+      path.basename
     end
 
     def run
-      terminal.print "#{COG} Creating directory structure...\n"
-      source_file_name = "source"
-      tests_file_name = "tests"
+      files = {
+        File.join("assets", "head.html") => HEAD,
+        File.join("source", "Main.mint") => MAIN,
+        File.join("tests", "Main.mint")  => TEST,
+        "mint.json"                      => json.to_pretty_json,
+        ".gitignore"                     => GIT_IGNORE,
+      }
 
-      FileUtils.mkdir_p path
-      FileUtils.cd path
-      FileUtils.mkdir source_file_name if !File.exists? source_file_name
-      FileUtils.mkdir tests_file_name if !File.exists? tests_file_name
+      directory =
+        name
+          .colorize(:light_green)
+          .mode(:bold)
 
-      terminal.print "#{COG} Writing initial files...\n\n"
-      File.write(File.join(source_file_name, "Main.mint"), MAIN)
-      File.write(File.join(tests_file_name, "Main.mint"), TEST)
-      File.write("mint.json", json.to_pretty_json)
-      File.write(".gitignore", GIT_IGNORE)
+      terminal.puts "#{COG} Creating directory: #{directory}"
 
-      Installer.new
+      FileUtils.mkdir_p path.to_s
+      FileUtils.cd path.to_s
+
+      terminal.puts "#{COG} Writing initial files:"
+
+      files.each do |path, contents|
+        FileUtils.mkdir_p File.dirname(path)
+        terminal.puts "  #{ARROW} #{path}"
+
+        File.write(path, contents)
+      end
     end
 
     def json
       {
-        "name"               => name,
-        "mint-version"       => Mint::VERSION,
+        "name"        => name,
+        "application" => {
+          "head"  => "assets/head.html",
+          "title" => name,
+        },
         "source-directories" => [
           "source",
         ],
         "test-directories" => [
           "tests",
         ],
+        "mint-version" => Mint::VERSION,
       }
     end
 

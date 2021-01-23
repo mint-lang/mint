@@ -15,7 +15,7 @@ module Mint
       name
     end
 
-    def type_id : String | Nil
+    def type_id : String?
       name = gather do
         start do
           skip unless char.in_set? "A-Z"
@@ -26,21 +26,25 @@ module Mint
 
       return unless name
 
-      if char == '.'
-        other = start do
-          step
-          next_part = type_id
-          skip unless next_part
-          next_part
-        end
+      start do
+        if char == '.'
+          other = start do
+            step
+            next_part = type_id
+            skip unless next_part
+            next_part
+          end
 
-        name += ".#{other}" if other
+          skip unless other
+
+          name += ".#{other}"
+        end
       end
 
       name
     end
 
-    def type_id(error : SyntaxError.class) : String | Nil
+    def type_id(error : SyntaxError.class) : String?
       return unless char.in_set?("A-Z")
       type_id! error
     end

@@ -6,14 +6,12 @@ module Mint
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field).as(Checkable)} }
-          .to_h
+          .to_h { |field| {field.key.value, resolve(field).as(Checkable)} }
 
       mappings =
         node
           .fields
-          .map { |field| {field.key.value, field.mapping.try(&.string_value)} }
-          .to_h
+          .to_h { |field| {field.key.value, field.mapping.try(&.string_value)} }
 
       type = Record.new(node.name, fields, mappings)
       types[node] = type

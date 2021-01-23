@@ -1,11 +1,12 @@
 module Mint
   class Ast
     class ArrayLiteral < Node
-      getter items
+      getter items, type
 
       def initialize(@items : Array(Expression),
                      @input : Data,
                      @from : Int32,
+                     @type : Node?,
                      @to : Int32)
       end
 
@@ -15,7 +16,7 @@ module Mint
 
       def static_value
         values =
-          items.map(&.static_value).join(',')
+          items.join(',', &.static_value)
 
         "[#{values}]"
       end

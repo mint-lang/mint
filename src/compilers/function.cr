@@ -16,7 +16,9 @@ module Mint
         compile node.body
 
       wheres =
-        compile node.where.try(&.statements) || [] of Ast::WhereStatement
+        compile(
+          (node.where.try(&.statements) || [] of Ast::WhereStatement)
+            .sort_by { |item| resolve_order.index(item) || -1 })
 
       arguments =
         compile node.arguments

@@ -20,48 +20,68 @@ record Provider.Shortcuts.Subscription {
 
 /* This provider allows components to subscribe to global shortcuts. */
 provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
+  /* The listener unsubscribe function. */
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
+
   /* Handles keypress events. */
-  fun actions (event : Html.Event) : Void {
-    `
-     (() => {
-      /* Start the combo with the pressed key */
-      const combo = [#{event.keyCode}]
+  fun handle (event : Html.Event) : Array(Array(Promise(Never, Void))) {
+    try {
+      control =
+        if (event.ctrlKey && event.keyCode != 17) {
+          Maybe::Just(17)
+        } else {
+          Maybe::Nothing
+        }
 
-      /* Add 17 if control is pressed. */
-      if (#{event.ctrlKey} && #{event.keyCode} != 17) { combo.push(17) }
+      shift =
+        if (event.shiftKey && event.keyCode != 16) {
+          Maybe::Just(16)
+        } else {
+          Maybe::Nothing
+        }
 
-      /* Add 16 if shift is pressed. */
-      if (#{event.shiftKey} && #{event.keyCode} != 16) { combo.push(16) }
+      combo =
+        [Maybe::Just(event.keyCode), control, shift]
+        |> Array.compact()
+        |> Array.sortBy((item : Number) { item })
 
-      #{subscriptions}.forEach((subscription) => {
-        subscription.shortcuts.forEach((data) => {
-          if (_compare(data.shortcut.sort(), combo.sort()) && data.condition()) {
-            if (!document.querySelector("*:focus") || data.bypassFocused) {
-              event.preventDefault()
-              event.stopPropagation()
-              data.action()
-            }
+      focused =
+        `document.querySelector("*:focus")`
+
+      for (subscription of subscriptions) {
+        for (item of subscription.shortcuts) {
+          try {
+            Html.Event.stopPropagation(event)
+            Html.Event.preventDefault(event)
+            item.action()
           }
-        })
-      })
-    })()
-    `
+        } when {
+          try {
+            sorted =
+              item.shortcut
+              |> Array.sortBy((item : Number) : Number { item })
+
+            (sorted == combo && item.condition()) && (!focused || item.bypassFocused)
+          }
+        }
+      }
+    }
   }
 
-  fun attach : Void {
-    `
-    (() => {
-      const actions = this._actions || (this._actions = #{actions}.bind(this))
-      window.addEventListener("keydown", actions, true)
-    })()
-    `
-  }
+  /* Updates the provider. */
+  fun update : Promise(Never, Void) {
+    if (Array.isEmpty(subscriptions)) {
+      try {
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
+      }
+    } else {
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("keydown", true, handle)) }
 
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("keydown", this._actions, true)
-    })()
-    `
+        => next {  }
+      }
+    }
   }
 }

@@ -6,7 +6,7 @@ module Mint
       @@id = 0
 
       property parameters : Array(Checkable) = [] of Checkable
-      property instance : Checkable | Nil
+      property instance : Checkable?
       getter name : String
       getter id : Int32
 
@@ -18,8 +18,12 @@ module Mint
         to_s
       end
 
-      def to_s
-        @instance.try(&.to_s) || name
+      def to_s(io : IO)
+        if obj = @instance
+          obj.to_s(io)
+        else
+          io << name
+        end
       end
 
       def to_pretty
@@ -49,7 +53,7 @@ module Mint
           params =
             parameters.map(&.to_pretty.as(String))
 
-          if params.any?(&.=~(/\n/)) || params.size > 4
+          if params.any?(&.includes?('\n')) || params.size > 4
             "#{name}(\n#{params.join(",\n").indent})"
           else
             "#{name}(#{params.join(", ")})"
@@ -61,24 +65,13 @@ module Mint
         parameters.any?(&.have_holes?)
       end
 
-      def to_s
-        if parameters.empty?
-          name
-        else
-          formatted =
-            parameters
-              .map(&.to_s)
-              .join(", ")
-
-          "#{name}(#{formatted})"
+      def to_s(io : IO)
+        io << name
+        unless parameters.empty?
+          io << '('
+          parameters.join(io, ", ")
+          io << ')'
         end
-      end
-    end
-
-    class Js < Type
-      def initialize
-        @parameters = [] of Checkable
-        @name = "JS"
       end
     end
 
@@ -96,14 +89,14 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
               end
             end
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "#{name}(\n#{defs.join(",\n").indent})"
         else
           "#{name}(#{defs.join(", ")})"
@@ -114,12 +107,14 @@ module Mint
         name
       end
 
-      def to_s
-        if fields.empty?
-          name
-        else
-          defs = fields.map { |key, value| "#{key}: #{value.to_s}" }.join(", ")
-          "#{name}(#{defs})"
+      def to_s(io : IO)
+        io << name
+        unless fields.empty?
+          io << '('
+          fields.join(io, ", ") do |(key, value), inner_io|
+            inner_io << key << ": " << value
+          end
+          io << ')'
         end
       end
 
@@ -132,7 +127,7 @@ module Mint
       end
 
       def ==(other : Hash(String, Checkable))
-        return false if fields.size != other.size
+        return false unless fields.size == other.size
 
         other.all? do |key, type|
           next false unless fields[key]?
@@ -142,12 +137,15 @@ module Mint
     end
 
     class PartialRecord < Record
-      def to_s
+      def to_s(io : IO)
         if fields.empty?
-          "(...)"
+          io << "(...)"
         else
-          defs = fields.map { |key, value| "#{key}: #{value.to_s}" }.join(", ")
-          "(#{defs}, ...)"
+          io << '('
+          fields.join(io, ", ") do |(key, value), inner_io|
+            inner_io << key << ": " << value
+          end
+          io << ", ...)"
         end
       end
 
@@ -158,7 +156,7 @@ module Mint
           fields
             .map do |key, value|
               result = value.to_pretty
-              if result =~ /\n/
+              if result.includes?('\n')
                 "#{key}:\n#{value.to_pretty.indent}"
               else
                 "#{key}: #{value.to_pretty}"
@@ -167,7 +165,7 @@ module Mint
 
         defs << "..."
 
-        if defs.any?(&.=~(/\n/)) || defs.size > 4
+        if defs.any?(&.includes?('\n')) || defs.size > 4
           "(\n#{defs.join(",\n").indent})"
         else
           "(#{defs.join(", ")})"
@@ -221,33 +219,28 @@ module Mint
         node1 = prune(node1)
         node2 = prune(node2)
 
-        if node1.is_a?(Js)
-          node2
-        elsif node2.is_a?(Js)
-          node1
-        elsif node1.is_a?(Variable)
-          if node1 != node2
-            if (occurns_in_type(node1, node2))
+        case
+        when node1.is_a?(Variable)
+          unless node1 == node2
+            if occurns_in_type(node1, node2)
               raise "Recursive unification!"
             end
             node1.instance = node2
           end
           node1
-        elsif node1.is_a?(Record) && node2.is_a?(Type)
-          raise "Not unified!" if node1.name != node2.name
+        when node2.is_a?(Variable)
+          unify(node2, node1)
+        when node1.is_a?(Record) && node2.is_a?(Type)
+          raise "Not unified!" unless node1.name == node2.name
           node1
-        elsif node2.is_a?(Record) && node1.is_a?(Type)
+        when node2.is_a?(Record) && node1.is_a?(Type)
           unify(node2, node1)
-        elsif node1.is_a?(Record) && node2.is_a?(Variable)
-          unify(node2, node1)
-        elsif node1.is_a?(Type) && node2.is_a?(Variable)
-          unify(node2, node1)
-        elsif node1.is_a?(Record) && node2.is_a?(Record)
-          raise "Not unified!" if node1 != node2
+        when node1.is_a?(Record) && node2.is_a?(Record)
+          raise "Not unified!" unless node1 == node2
           node1
-        elsif node1.is_a?(Type) && node2.is_a?(Type)
+        when node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name || node1.parameters.size != node2.parameters.size
-            raise "Type error: #{node1.to_s} is not #{node2.to_s}!"
+            raise "Type error: #{node1} is not #{node2}!"
           else
             node1.parameters.each_with_index do |item, index|
               unify(item, node2.parameters[index])
@@ -262,9 +255,10 @@ module Mint
       def occurns_in_type(node1, node2)
         node2 = prune(node2)
 
-        if (node1 == node2)
+        case
+        when node1 == node2
           true
-        elsif node2.is_a?(Type)
+        when node2.is_a?(Type)
           occurns_in_type_array(node1, node2.parameters)
         else
           false
@@ -300,10 +294,6 @@ module Mint
 
       def fresh(node : Variable)
         Variable.new(node.name)
-      end
-
-      def fresh(node : Js, mapping = {} of Int32 => Variable)
-        Js.new
       end
 
       def fresh(node : Type, mapping = {} of Int32 => Variable)

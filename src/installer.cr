@@ -18,21 +18,18 @@ module Mint
     @repositories =
       {} of String => Repository
 
-    @root_dependencies =
-      [] of Dependency
-
     @resolved =
       {} of String => Semver
 
-    @root =
-      {name: "root", version: "0.0.0"}
-
-    getter root, root_dependencies
+    getter root = {name: "root", version: "0.0.0"}
+    getter root_dependencies = [] of Dependency
 
     def initialize
       @root_dependencies = MintJson.parse_current.dependencies
 
-      if @root_dependencies.any?
+      if @root_dependencies.empty?
+        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
+      else
         terminal.puts "#{COG} Constructing dependency tree..."
         resolve_dependencies
 
@@ -42,12 +39,10 @@ module Mint
 
         terminal.puts "\n#{COG} Copying packages..."
         populate
-      else
-        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
       end
     end
 
-    # Prints the resolved packages adn their verions
+    # Prints the resolved packages and their verions
     def print_resolved
       @resolved.each do |name, version|
         name =
@@ -95,7 +90,7 @@ module Mint
         repository =
           @repositories[dependency]
 
-        # Check if this was resolved aready
+        # Check if this was resolved already
         resolved =
           @resolved[dependency]?
 
@@ -146,8 +141,10 @@ module Mint
         unless @resolved[dependency]?
           eliminated =
             @eliminated
-              .select { |item| item[0][:name] == dependency }
-              .map { |item| "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}" }
+              .select(&.[0][:name].==(dependency))
+              .map do |item|
+                "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}"
+              end
 
           raise InstallerFailedToInstall, {
             "package"    => "#{base[:name]}:#{base[:version]}",

@@ -14,10 +14,8 @@ module Mint
 
     def init(raw)
       env =
-        if raw.empty? && File.exists?(".env")
-          ".env"
-        elsif raw.empty?
-          nil
+        if raw.empty?
+          ".env" if File.exists?(".env")
         else
           raw
         end

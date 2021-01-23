@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def expression!(error : SyntaxError.class) : Ast::Expression
+    def expression!(error : SyntaxError.class | SkipError.class) : Ast::Expression
       raise error unless exp = expression
       exp
     end
@@ -25,8 +25,11 @@ module Mint
       end
     end
 
-    def expression : Ast::Expression | Nil
+    def expression : Ast::Expression?
       return unless left = basic_expression
+
+      # Make sure there is no whitespace after an expression
+      track_back_whitespace
 
       # Handle array access
       left = array_access_or_call(left)

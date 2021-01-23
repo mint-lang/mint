@@ -11,6 +11,7 @@ module Mint
     type_error ComponentMultipleExposed
     type_error ComponentNotFoundRender
     type_error ComponentMultipleUses
+    type_error ComponentMainProperty
 
     def static_type_signature(node : Ast::Component)
       fields = {} of String => Checkable
@@ -29,6 +30,17 @@ module Mint
 
       node.states.each do |item|
         fields[item.name.value] = static_type_signature(item)
+      end
+
+      node.refs.each do |variable, ref|
+        case ref
+        when Ast::Component
+          fields[variable.value] =
+            Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+        when Ast::HtmlElement
+          fields[variable.value] =
+            Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+        end
       end
 
       Record.new(node.name, fields)
@@ -58,6 +70,15 @@ module Mint
       check_names(node.functions, ComponentEntityNameConflict, checked)
       check_names(node.states, ComponentStateNameConflict, checked)
       check_names(node.gets, ComponentEntityNameConflict, checked)
+
+      # Checking for properties in Main
+
+      if node.name == "Main" && (property = node.properties.first?)
+        raise ComponentMainProperty, {
+          "property_node" => property,
+          "node"          => node,
+        }
+      end
 
       # Checking for ref conflicts
       node.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|

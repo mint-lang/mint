@@ -1,12 +1,14 @@
 module Mint
   class Parser
-    getter input, position, file, ast, data, refs
+    getter input : String
+    getter file : String
+    getter ast = Ast.new
+    getter data : Ast::Data
+    getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
+    getter position = 0
 
-    def initialize(@input : String, @file : String)
-      @refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
+    def initialize(@input, @file)
       @data = Ast::Data.new(@input, @file)
-      @ast = Ast.new
-      @position = 0
     end
 
     # Helpers for manipulating position
@@ -40,7 +42,7 @@ module Mint
     # Helpers for raising errors
     # ----------------------------------------------------------------------------
 
-    def raise(error : SyntaxError.class, position : Int32)
+    def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
       to =
         input[position, input.size]
           .split(/\s|\n|\r/)
@@ -59,11 +61,15 @@ module Mint
       raise error, {
         "node" => node,
         "got"  => part,
-      }
+      }.merge(raw)
+    end
+
+    def raise(error : SyntaxError.class, position : Int32)
+      raise error, position, {} of String => String
     end
 
     def raise(error : SyntaxError.class)
-      raise error, position
+      raise error, position, {} of String => String
     end
 
     def raise(error : SkipError.class)
@@ -89,38 +95,29 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def char!(next_char : Char)
-      if char == next_char
-        step
-        true
-      else
-        false
-      end
+      return false unless char == next_char
+      step
+      true
     end
 
-    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32 | Nil
-      if !char.in_set?(set)
-        raise error
-      else
-        step
-      end
+    def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32?
+      raise error unless char == next_char
+      step
     end
 
-    def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32 | Nil
-      if char != next_char
-        raise error
-      else
-        step
-      end
+    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32?
+      raise error unless char.in_set?(set)
+      step
     end
 
-    def chars(set) : String | Nil
+    def chars(set) : String?
       consume_while char != '\0' && char.in_set? set
     end
 
     # Gathering many consumes
     # ----------------------------------------------------------------------------
 
-    def gather : String | Nil
+    def gather : String?
       start_position = position
       yield
       if position > start_position
@@ -131,7 +128,7 @@ module Mint
     # Consuming keywords
     # ----------------------------------------------------------------------------
 
-    def keyword!(word, error) : Bool | Nil
+    def keyword!(word, error) : Bool?
       raise error unless keyword(word)
     end
 
@@ -155,24 +152,21 @@ module Mint
     # Consuming whitespaces
     # ----------------------------------------------------------------------------
 
-    def whitespace!(error : SyntaxError.class | SkipError.class) : String | Nil
-      if char.in_set? "^ \n\t\r"
-        raise error
-      else
-        whitespace
-      end
+    def whitespace!(error : SyntaxError.class | SkipError.class) : String?
+      raise error unless whitespace?
+      whitespace
     end
 
     def whitespace?
-      char.in_set? " \n\t\r"
+      char.ascii_whitespace?
     end
 
-    def whitespace : String | Nil
+    def whitespace : String?
       consume_while whitespace?
     end
 
     def track_back_whitespace : Nil
-      while prev_char.in_set? " \n\t\r"
+      while prev_char.ascii_whitespace?
         @position -= 1
       end
     end
@@ -184,9 +178,8 @@ module Mint
       type || type_variable
     end
 
-    def type_or_type_variable!(error : SyntaxError.class)
-      raise error unless result = type_or_type_variable
-      result
+    def type_or_type_variable!(error : SyntaxError.class | SkipError.class)
+      type_or_type_variable || raise error
     end
 
     # Consuming many things
@@ -209,7 +202,7 @@ module Mint
       result
     end
 
-    def list(terminator : Char, separator : Char, &block : -> T) : Array(T) forall T
+    def list(terminator : Char?, separator : Char, &block : -> T) : Array(T) forall T
       result = [] of T
 
       loop do
@@ -221,6 +214,9 @@ module Mint
 
         # Add item to results
         result << item
+
+        # Consume whitespace before the separator
+        whitespace
 
         # Break if there is no separator, consume it otherwise
         break unless char! separator

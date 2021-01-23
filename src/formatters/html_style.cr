@@ -5,13 +5,11 @@ module Mint
         node.name.value
 
       arguments =
-        if node.arguments.any?
+        unless node.arguments.empty?
           items =
             format node.arguments, ", "
 
           "(#{items})"
-        else
-          ""
         end
 
       "::#{name}#{arguments}"

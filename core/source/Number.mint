@@ -1,6 +1,6 @@
 module Number {
   /*
-  Returns true if number is odd.
+  Returns true if given number is odd.
 
     Number.isOdd(1) == false
     Number.isOdd(2) == true
@@ -10,7 +10,7 @@ module Number {
   }
 
   /*
-  Returns true if number is even.
+  Returns true if given number is even.
 
     Number.isEven(1) == true
     Number.isEven(2) == false
@@ -20,7 +20,7 @@ module Number {
   }
 
   /*
-  Returns true if a number is a `NaN`.
+  Returns true if given number is `NaN`.
 
     Number.isNaN(`NaN`) == true
     Number.isNaN(0) == false
@@ -41,7 +41,7 @@ module Number {
   /*
   Formats a number using fixed-point notation.
 
-  The first arguments speficies the number of digits to appear after the decimal
+  The first arguments specifies the number of digits to appear after the decimal
   point, it can be between 0 and 20.
 
     Number.toFixed(2, 0.1234567) == "0.12"
@@ -71,7 +71,7 @@ module Number {
   }
 
   /*
-  Formats the given number using the griven prefix and separating the digits
+  Formats the given number using the given prefix and separating the digits
   by 3 with a comma.
 
     Number.format("$ ", 1034150) == "$ 1,034,150"

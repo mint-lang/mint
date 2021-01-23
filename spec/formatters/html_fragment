@@ -17,10 +17,7 @@ component Test {
 
       <></>
       < key="Hello"></>
-
-      <>
-        "AA"
-      </>
+      <><{ "AA" }></>
     </>
   }
 }

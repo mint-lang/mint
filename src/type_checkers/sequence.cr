@@ -8,39 +8,17 @@ module Mint
     def check(node : Ast::Sequence) : Checkable
       to_catch = [] of Checkable
 
-      node
-        .statements
-        .reduce([] of Tuple(String, Checkable, Ast::Node)) do |items, statement|
-          maybe_name = statement.name
+      scope node.statements do
+        node.statements.map do |statement|
+          new_type = resolve statement
 
-          name =
-            if maybe_name
-              maybe_name.value
-            else
-              ""
+          if new_type.name.in?("Promise", "Result") && new_type.parameters.size == 2
+            unless new_type.parameters[0].name.in?("Void", "Never")
+              to_catch << new_type.parameters[0]
             end
-
-          scope(items) do
-            new_type = resolve statement
-
-            type =
-              if (new_type.name == "Promise" || new_type.name == "Result") &&
-                 new_type.parameters.size == 2
-                if new_type.parameters[0].name != "Void" &&
-                   new_type.parameters[0].name != "Never"
-                  to_catch << new_type.parameters[0]
-                end
-
-                resolve_type(new_type.parameters[1])
-              else
-                resolve_type(new_type)
-              end
-
-            items << {name, type, statement}
           end
-
-          items
         end
+      end
 
       final_type = resolve node.statements.last
 
@@ -64,9 +42,7 @@ module Mint
           } unless Comparer.compare(final_type, catch_return_type)
         end
 
-        to_catch.reject! { |item|
-          Comparer.compare(catch_type, item)
-        }
+        to_catch.reject! { |item| Comparer.compare(catch_type, item) }
       end
 
       resolve node.finally.not_nil! if node.finally
@@ -91,7 +67,7 @@ module Mint
       raise SequenceDidNotCatch, {
         "remaining" => to_catch,
         "node"      => node,
-      } if to_catch.any? && catch_all_type.nil?
+      } if !to_catch.empty? && catch_all_type.nil?
 
       promise_type =
         Type.new("Promise", [NEVER, Variable.new("a")] of Checkable)

@@ -1,35 +1,39 @@
 module Mint
   class TypeChecker
-    type_error RecordNotFoundMatchingRecord
-
-    def check(node : Ast::Record) : Checkable
-      check node, false
-    end
+    type_error RecordNotFoundMatchingRecordDefinition
 
     def check(node : Ast::Record, should_create_record : Bool = false) : Checkable
       fields =
         node
           .fields
-          .map { |field| {field.key.value, resolve(field, should_create_record)} }
-          .to_h
+          .to_h { |field| {field.key.value, resolve(field, should_create_record)} }
 
-      record =
-        records.find(&.==(fields))
+      if node.is_a?(Ast::EnumRecord)
+        params =
+          fields.each_with_object({} of String => Checkable) do |(key, type), memo|
+            memo[key] = type
+          end
 
-      record = create_record(fields) if should_create_record && !record
+        Record.new("", params)
+      else
+        record =
+          records.find(&.==(fields))
 
-      raise RecordNotFoundMatchingRecord, {
-        "structure" => Record.new("", fields),
-        "node"      => node,
-      } unless record
+        record = create_record(fields) if should_create_record && !record
 
-      types[node] = record
+        raise RecordNotFoundMatchingRecordDefinition, {
+          "structure" => Record.new("", fields),
+          "node"      => node,
+        } unless record
 
-      node.fields.each do |field|
-        record_field_lookup[field] = record.name
+        types[node] = record
+
+        node.fields.each do |field|
+          record_field_lookup[field] = record.name
+        end
+
+        record
       end
-
-      record
     end
   end
 end

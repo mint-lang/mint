@@ -5,8 +5,10 @@ record X {
 component Main {
   fun render : Html {
     try {
-      decode `{}` as X
+      decode (`{}`) as X
 
+      <div/>
+    } catch {
       <div/>
     }
   }
@@ -33,7 +35,7 @@ record X {
 component Main {
   fun render : Html {
     try {
-      decode `{}` as X
+      decode (`{}`) as X
 
       <div/>
     }
@@ -47,7 +49,7 @@ record X {
 component Main {
   fun render : Html {
     try {
-      decode `{}` as X
+      decode (`{}`) as X
 
       <div/>
     }

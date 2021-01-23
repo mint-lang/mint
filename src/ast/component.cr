@@ -1,11 +1,13 @@
 module Mint
   class Ast
     class Component < Node
-      getter properties, connects, styles, states, comments, global
-      getter functions, gets, uses, name, comment, refs
+      getter properties, connects, styles, states, comments
+      getter functions, gets, uses, name, comment, refs, constants
+      getter? global
 
       def initialize(@refs : Array(Tuple(Variable, Node)),
                      @properties : Array(Property),
+                     @constants : Array(Constant),
                      @functions : Array(Function),
                      @comments : Array(Comment),
                      @connects : Array(Connect),
@@ -19,6 +21,10 @@ module Mint
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
+      end
+
+      def owns?(node)
+        (functions + constants + states + gets + properties).includes?(node)
       end
     end
   end

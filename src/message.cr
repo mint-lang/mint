@@ -1,14 +1,14 @@
 module Mint
   class Message
     class BlockBuilder
-      getter block
-
-      @block = Block.new
+      getter block = Block.new
 
       def text(value)
         case value
         when String
           @block << Text.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -22,9 +22,7 @@ module Mint
     end
 
     class Builder
-      getter elements
-
-      @elements = [] of Element
+      getter elements = [] of Element
 
       def self.build
         builder = new
@@ -32,13 +30,17 @@ module Mint
         builder.elements
       end
 
-      def snippet(value, message = "Here is the relevant code snippet:")
+      def snippet(value, message : String = "Here is the relevant code snippet:")
         case value
+        when Tuple(Ast::Node, Int32)
+          snippet value[0], message
         when TypeChecker::Checkable
           type_with_text value, message
         when Ast::Node
           block { text message } if message
           @elements << Snippet.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -46,6 +48,8 @@ module Mint
         case value
         when TypeChecker::Checkable
           @elements << Type.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -53,27 +57,33 @@ module Mint
         case value
         when String
           @elements << Pre.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
-      def list(value, message)
+      def list(value, message : String)
         case value
         when Array(String)
-          if value.any?
+          unless value.empty?
             block do
               text message
             end
             @elements << StringList.new(value: value)
           end
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
       def list(value)
         case value
         when Array(String)
-          if value.any?
+          unless value.empty?
             @elements << StringList.new(value: value)
           end
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -81,6 +91,8 @@ module Mint
         case value
         when Array(TypeChecker::Checkable)
           @elements << TypeList.new(value: value)
+        else
+          raise ArgumentError.new "Invalid value type: #{value.class}"
         end
       end
 
@@ -95,7 +107,7 @@ module Mint
       end
 
       # Pre defined blocks
-      def type_with_text(item, text)
+      def type_with_text(item, text : String)
         block do
           text text
         end
@@ -159,7 +171,12 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String | Ast::Node | TypeChecker::Checkable | Array(TypeChecker::Checkable) | Array(String))
+    def initialize(@data = {} of String => String |
+                                           Ast::Node |
+                                           TypeChecker::Checkable |
+                                           Array(TypeChecker::Checkable) |
+                                           Array(String) |
+                                           Tuple(Ast::Node, Int32))
     end
 
     macro method_missing(call)
@@ -204,6 +221,10 @@ module Mint
 
           margin: -20px;
           margin-bottom: 20px;
+        }
+
+        article > pre {
+          white-space: pre-wrap;
         }
 
         .grid {

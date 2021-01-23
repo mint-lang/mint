@@ -1,6 +1,6 @@
 component Main {
-  property background : String = "blue"
-  property color : String = "yellow"
+  state background : String = "blue"
+  state color : String = "yellow"
 
   style test {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -22,15 +22,9 @@ class A extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      a: [
-        null,
-        `blue`
-      ],
-      b: [
-        null,
-        `yellow`
-      ]
+    this.state = new Record({
+      a: `blue`,
+      b: `yellow`
     });
   }
 
@@ -43,6 +37,14 @@ class A extends _C {
     };
 
     return _;
+  }
+
+  get a() {
+    return this.state.a;
+  }
+
+  get b() {
+    return this.state.b;
   }
 
   render() {

@@ -21,10 +21,10 @@ module Mint
 
       def highlight(from, to)
         diff_from =
-          [from - offset, 0].max
+          {from - offset, 0}.max
 
         diff_to =
-          [[to - offset, contents.size].min, 0].max
+          {[to - offset, contents.size].min, 0}.max
 
         left =
           self[0, diff_from]
@@ -62,24 +62,23 @@ module Mint
         end
 
       start_line =
-        [0, (lines.find(&.contains?(from)).try(&.index) || 0) - padding].max
+        {0, (lines.find(&.contains?(from)).try(&.index) || 0) - padding}.max
 
       end_line =
-        [(lines.find(&.contains?(to)).try(&.index) || 0) + padding + 1, lines.size].min
+        {(lines.find(&.contains?(to)).try(&.index) || 0) + padding + 1, lines.size}.min
 
-      gutter_width =
-        [(start_line + 1).to_s.size,
-         (end_line + 1).to_s.size,
-        ].max
+      gutter_width = {
+        (start_line + 1).to_s.size,
+        (end_line + 1).to_s.size,
+      }.max
 
       relevant_lines =
         lines[start_line, end_line - start_line]
 
-      min_width =
-        [
-          relevant_lines.map(&.size).max + gutter_width + 5,
-          width,
-        ].max
+      min_width = {
+        relevant_lines.map(&.size).max + gutter_width + 5,
+        width,
+      }.max
 
       result =
         relevant_lines.map do |line|
@@ -109,8 +108,17 @@ module Mint
           "#{gutter} #{line.highlight(from, to)} #{line_padding}#{divier}"
         end
 
+      line =
+        input[0..from].lines.size
+
+      column =
+        input[0..from].lines.last.size
+
+      title =
+        "#{filename}:#{line}:#{column}"
+
       divider =
-        ("─" * (min_width - filename.size - gutter_width - 5)).colorize.mode(:dim)
+        ("─" * (min_width - title.size - gutter_width - 5)).colorize.mode(:dim)
 
       gutter_divider =
         "─" * gutter_width
@@ -121,20 +129,20 @@ module Mint
       footer =
         ("└#{gutter_divider}┴#{footer_divider}┘").colorize.mode(:dim)
 
-      title =
-        filename.colorize.mode(:bold)
-
       header_start =
         "┌#{gutter_divider}┬".colorize.mode(:dim)
 
       header_end =
         "┐".colorize.mode(:dim).to_s
 
+      title_colorized =
+        title.colorize.mode(:bold)
+
       header =
-        "#{header_start} #{title} #{divider}#{header_end}"
+        "#{header_start} #{title_colorized} #{divider}#{header_end}"
 
       result =
-        result.join("\n")
+        result.join('\n')
 
       "#{header}\n#{result}\n#{footer}"
     end

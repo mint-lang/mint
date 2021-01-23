@@ -3,7 +3,7 @@ record Record {
 }
 
 component Main {
-  property record : Record = { name = "Doe" }
+  state record : Record = { name = "Doe" }
 
   fun test : Record {
     { record | name = "John" }
@@ -29,14 +29,15 @@ class B extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      b: [
-        null,
-        new A({
-          name: `Doe`
-        })
-      ]
+    this.state = new Record({
+      b: new A({
+        name: `Doe`
+      })
     });
+  }
+
+  get b() {
+    return this.state.b;
   }
 
   a() {

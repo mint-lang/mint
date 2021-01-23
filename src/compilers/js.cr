@@ -2,14 +2,14 @@ module Mint
   class Compiler
     def _compile(node : Ast::Js) : String
       value =
-        node.value.map do |item|
+        node.value.join do |item|
           case item
           when Ast::Node
             compile item
           else
             item
           end
-        end.join("").strip
+        end.strip
 
       if value.empty?
         ""

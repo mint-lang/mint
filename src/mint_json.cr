@@ -1,7 +1,7 @@
 module Mint
   class MintJson
     class Application
-      getter title, meta, icon, head, name, theme, display, orientation
+      getter title, meta, icon, head, name, theme, display, orientation, css_prefix
 
       def initialize(@meta = {} of String => String,
                      @orientation = "",
@@ -10,39 +10,48 @@ module Mint
                      @title = "",
                      @name = "",
                      @head = "",
-                     @icon = "")
+                     @icon = "",
+                     @css_prefix : String? = nil)
       end
     end
 
-    @dependencies = [] of Mint::Installer::Dependency
-    @formatter_config = Formatter::Config.new
     @parser = JSON::PullParser.new("{}")
-    @source_directories = [] of String
-    @test_directories = [] of String
-    @external_files = {
-      "javascripts" => [] of String,
-      "stylesheets" => [] of String,
+
+    getter dependencies = [] of Mint::Installer::Dependency
+    getter formatter_config = Formatter::Config.new
+    getter source_directories = %w[]
+    getter test_directories = %w[]
+    getter external_files = {
+      "javascripts" => %w[],
+      "stylesheets" => %w[],
     }
-    @application = Application.new
-    @name = ""
-    @mint_version = ""
+    getter application = Application.new
+    getter name = ""
+    getter root : String
+    getter mint_version = ""
 
     json_error MintJsonRootNotAnObject
     json_error MintJsonRootInvalidKey
 
-    getter test_directories, source_directories, dependencies, application
-    getter external_files, name, mint_version, root, formatter_config
-
     def self.parse_current : MintJson
       path = File.join(Dir.current, "mint.json")
       new File.read(path), Dir.current, path
-    rescue exception : Errno
+    rescue exception : IO::Error
       raise MintJsonInvalidFile, {
         "result" => exception.to_s,
         "path"   => path,
       }
-    rescue error
-      raise error
+    end
+
+    def initialize(@json : String, @root : String, @file : String)
+      begin
+        @parser = JSON::PullParser.new(@json)
+      rescue exception : JSON::ParseException
+        raise MintJsonInvalidJson, {
+          "node" => node(exception),
+        }
+      end
+      parse_root
     end
 
     # Calculating nodes for the snippet in errors.
@@ -83,20 +92,9 @@ module Mint
       node @parser.location
     end
 
-    def initialize(@json : String, @root : String, @file : String)
-      begin
-        @parser = JSON::PullParser.new(@json)
-      rescue exception : JSON::ParseException
-        raise MintJsonInvalidJson, {
-          "node" => node(exception),
-        }
-      end
-      parse_root
-    end
-
     def source_files
       glob =
-        source_directories.map { |dir| "#{root}/#{dir}/**/*.mint" }
+        source_directories.map { |dir| SourceFiles.glob_pattern(@root, dir) }
 
       Dir.glob(glob)
     end
@@ -319,7 +317,7 @@ module Mint
       raise MintJsonExternalStylesheetNotExists, {
         "node" => node(location),
         "path" => path,
-      } if !File.exists?(path) || Dir.exists?(path)
+      } unless File.file?(path)
 
       @external_files["stylesheets"] << file
     rescue exception : JSON::ParseException
@@ -397,6 +395,7 @@ module Mint
         "node"      => node(location),
         "directory" => directory,
       } unless Dir.exists?(File.join(@root, directory))
+
       @test_directories << directory
     rescue exception : JSON::ParseException
       raise MintJsonTestDirectoryInvalid, {
@@ -433,7 +432,7 @@ module Mint
     json_error MintJsonIndentSizeInvalid
 
     def parse_indent_size
-      @parser.read_int.clamp(0, 100)
+      @parser.read_int.clamp(0, 100).to_i
     rescue exception : JSON::ParseException
       raise MintJsonIndentSizeInvalid, {
         "node" => node(exception),
@@ -457,6 +456,7 @@ module Mint
       name = ""
       icon = ""
       head = ""
+      css_prefix = nil
 
       @parser.read_object do |key|
         case key
@@ -476,6 +476,8 @@ module Mint
           display = parse_display
         when "icon"
           icon = parse_icon
+        when "css-prefix"
+          css_prefix = parse_application_css_prefix
         else
           raise MintJsonApplicationInvalidKey, {
             "node" => current_node,
@@ -493,7 +495,8 @@ module Mint
           name: name,
           theme: theme,
           orientation: orientation,
-          display: display)
+          display: display,
+          css_prefix: css_prefix)
     rescue exception : JSON::ParseException
       raise MintJsonApplicationInvalid, {
         "node" => node(exception),
@@ -532,13 +535,13 @@ module Mint
     end
 
     def parse_keywords
-      keywords = [] of String
+      keywords = %w[]
 
       @parser.read_array do
         keywords << parse_keyword
       end
 
-      keywords.join(",")
+      keywords.join(',')
     rescue exception : JSON::ParseException
       raise MintJsonKeywordsInvalid, {
         "node" => node(exception),
@@ -637,6 +640,19 @@ module Mint
       }
     end
 
+    # Parsing the css prefix
+    # --------------------------------------------------------------------------
+
+    json_error MintJsonCssPrefixInvalid
+
+    def parse_application_css_prefix
+      @parser.read_string_or_null
+    rescue exception : JSON::ParseException
+      raise MintJsonCssPrefixInvalid, {
+        "node" => node(exception),
+      }
+    end
+
     # Parsing the dependencies
     # --------------------------------------------------------------------------
 
@@ -670,8 +686,8 @@ module Mint
         end
       end
 
-      raise "Should not happend" unless repository
-      raise "Should not happend" unless constraint
+      raise "Should not happen" unless repository
+      raise "Should not happen" unless constraint
 
       Mint::Installer::Dependency.new key, repository, constraint
     rescue exception : JSON::ParseException

@@ -3,17 +3,17 @@ enum Storage.Error {
   /* The storage API is disabled. */
   SecurityError
 
-  /* The storage is full (over the qouta, usually 5MB). */
+  /* The storage is full (over the quota, usually 5MB). */
   QuotaExceeded
 
-  /* The key in the storage does not exists. */
+  /* The key in the storage does not exist. */
   NotFound
 
-  /* The reason for the faliure is unkown. */
-  Unkown
+  /* The reason for the failure is unknown. */
+  Unknown
 }
 
-/* Common implementation of the storage api. */
+/* Common implementation of the storage API. */
 module Storage.Common {
   /* Sets the given key to the given value in the given storage. */
   fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {
@@ -33,7 +33,7 @@ module Storage.Common {
           case 'NS_ERROR_DOM_QUOTA_REACHED':
             return #{Result::Err(Storage.Error::QuotaExceeded)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -57,7 +57,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -76,7 +76,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -95,7 +95,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -113,7 +113,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()
@@ -131,7 +131,7 @@ module Storage.Common {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
           default:
-            return #{Result::Err(Storage.Error::Unkown)}
+            return #{Result::Err(Storage.Error::Unknown)}
         }
       }
     })()

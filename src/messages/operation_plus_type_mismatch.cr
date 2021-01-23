@@ -4,7 +4,7 @@ message OperationPlusTypeMismatch do
   block do
     text "The type of the"
     bold side
-    text "operand does not mach the type of the operation:"
+    text "operand does not match the type of the operation:"
     bold "+"
   end
 

@@ -1,8 +1,8 @@
 message EnvFileNotFound do
-  title "Enviroment Error"
+  title "Environment Error"
 
   block do
-    text "The enviroment file specified"
+    text "The environment file specified"
     code name
     text "does not exists"
   end

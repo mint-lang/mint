@@ -1,20 +1,9 @@
 module Mint
   class Compiler
-    def compile(node : Ast::CaseBranch,
-                index : Int32,
-                variable : String,
-                block : Proc(String, String) | Nil = nil) : String
-      if checked.includes?(node)
-        _compile node, index, variable, block
-      else
-        ""
-      end
-    end
-
     def _compile(node : Ast::CaseBranch,
                  index : Int32,
                  variable : String,
-                 block : Proc(String, String) | Nil = nil) : String
+                 block : Proc(String, String)? = nil) : Tuple(String?, String)
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
@@ -32,36 +21,67 @@ module Mint
 
       if match = node.match
         case match
+        when Ast::ArrayDestructuring
+          statements =
+            _compile(match, variable)
+
+          statements << expression
+
+          if match.spread?
+            {
+              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size - 1}",
+              js.statements(statements),
+            }
+          else
+            {
+              "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
+              js.statements(statements),
+            }
+          end
+        when Ast::TupleDestructuring
+          variables =
+            match
+              .parameters
+              .join(',') { |param| js.variable_of(param) }
+
+          {
+            "Array.isArray(#{variable})",
+            js.statements([
+              "const [#{variables}] = #{variable}",
+              expression,
+            ]),
+          }
         when Ast::EnumDestructuring
           variables =
-            match.parameters.map_with_index do |param, index1|
-              "const #{js.variable_of(param)} = #{variable}._#{index1}"
+            case lookups[match].as(Ast::EnumOption).parameters[0]?
+            when Ast::EnumRecordDefinition
+              match.parameters.map do |param|
+                "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
+              end
+            else
+              match.parameters.map_with_index do |param, index1|
+                "const #{js.variable_of(param)} = #{variable}._#{index1}"
+              end
             end
 
           name =
             js.class_of(lookups[match])
 
-          js.if("#{variable} instanceof #{name}") do
-            js.statements(variables + [expression])
-          end
+          {
+            "#{variable} instanceof #{name}",
+            js.statements(variables + [expression]),
+          }
         else
           compiled =
             compile match
 
-          if index == 0
-            js.if("_compare(#{variable}, #{compiled})") do
-              expression
-            end
-          else
-            js.elseif("_compare(#{variable}, #{compiled})") do
-              expression
-            end
-          end
+          {
+            "_compare(#{variable}, #{compiled})",
+            expression,
+          }
         end
       else
-        js.else do
-          expression
-        end
+        {nil, expression}
       end
     end
   end

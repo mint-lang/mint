@@ -3,7 +3,7 @@ module Mint
     syntax_error HtmlFragmentExpectedClosingBracket
     syntax_error HtmlFragmentExpectedClosingTag
 
-    def html_fragment : Ast::HtmlFragment | Nil
+    def html_fragment : Ast::HtmlFragment?
       start do |start_position|
         skip unless char! '<'
 
@@ -16,17 +16,17 @@ module Mint
 
         char '>', HtmlFragmentExpectedClosingBracket
 
-        children = [] of Ast::HtmlContent
+        children = [] of Ast::Node
         comments = [] of Ast::Comment
 
         many do
-          html_content.as(Ast::HtmlContent | Ast::Comment | Nil)
+          html_content.as(Ast::Node | Ast::Comment?)
         end.compact.each do |item|
           case item
-          when Ast::HtmlContent
-            children << item
           when Ast::Comment
             comments << item
+          when Ast::Node
+            children << item
           end
         end
 

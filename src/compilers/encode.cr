@@ -4,7 +4,10 @@ module Mint
       expression =
         compile node.expression
 
-      "_encode(#{expression})"
+      code =
+        @serializer.encoder cache[node.expression]
+
+      "#{code}(#{expression})"
     end
   end
 end

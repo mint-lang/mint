@@ -8,7 +8,7 @@ module Mint
     syntax_error ForExpectedBody
     syntax_error ForExpectedOf
 
-    def for_expression : Ast::For | Nil
+    def for_expression : Ast::For?
       start do |start_position|
         skip unless keyword "for"
         whitespace! SkipError

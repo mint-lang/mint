@@ -1,16 +1,27 @@
 module Mint
   class Formatter
     def format(node : Ast::ArrayLiteral) : String
-      items =
-        format node.items, ",\n"
+      multiline =
+        node.new_line?
 
-      if node.items.empty?
-        "[]"
-      elsif node.items.size == 1 && !replace_skipped(items).includes?("\n")
-        "[#{items}]"
-      else
-        "[\n#{indent(items)}\n]"
-      end
+      items =
+        format node.items, multiline ? ",\n" : ", "
+
+      type =
+        node.type.try do |item|
+          " of #{format(item)}"
+        end
+
+      head =
+        if node.items.empty?
+          "[]"
+        elsif multiline || replace_skipped(items).includes?('\n')
+          "[\n#{indent(items)}\n]"
+        else
+          "[#{items}]"
+        end
+
+      "#{head}#{type}"
     end
   end
 end

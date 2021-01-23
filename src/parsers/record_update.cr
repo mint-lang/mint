@@ -3,25 +3,29 @@ module Mint
     syntax_error RecordUpdateExpectedClosingBracket
     syntax_error RecordUpdateExpectedFields
 
-    def record_update : Ast::RecordUpdate | Nil
+    def record_update : Ast::RecordUpdate?
       start do |start_position|
-        variable = start do
+        expression = start do
           char '{', SkipError
+
           whitespace
-          value = variable! SkipError
+          value = variable || self.expression
           whitespace
+
+          skip unless value
+
           char '|', SkipError
           value
         end
 
-        skip unless variable
+        skip unless expression
 
         whitespace
 
         fields = list(
           terminator: '}',
           separator: ','
-        ) { record_field.as(Ast::RecordField | Nil) }.compact
+        ) { record_field.as(Ast::RecordField?) }.compact
 
         raise RecordUpdateExpectedFields if fields.empty?
 
@@ -30,8 +34,8 @@ module Mint
         char '}', RecordUpdateExpectedClosingBracket
 
         Ast::RecordUpdate.new(
+          expression: expression,
           from: start_position,
-          variable: variable,
           fields: fields,
           to: position,
           input: data)

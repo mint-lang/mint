@@ -8,6 +8,10 @@ module Mint
         node.data.fields.each_with_object({} of String => String) do |item, memo|
           field =
             case entity
+            when Ast::Provider
+              entity
+                .states
+                .find(&.name.value.==(item.key.value))
             when Ast::Component, Ast::Store
               entity
                 .states

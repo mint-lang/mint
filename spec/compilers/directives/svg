@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon.svg)
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return $a();
+  }
+};
+
+A.displayName = "Main";
+
+const $a = _m(() => _h('svg', { width: '24', height: '24', viewBox: '0 0 24 24', dangerouslySetInnerHTML: { __html: `<path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>` }}));

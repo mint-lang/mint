@@ -1,8 +1,13 @@
 module Mint
   class TypeChecker
     type_error OperationNumericTypeMismatch
-    type_error OperationPlusTypeMismatch
     type_error OperationTypeMismatch
+
+    type_error OperationPlusTypeMismatch
+    type_error OperationPipeAmbiguous
+
+    type_error OperationOrTypeMismatch
+    type_error OperationOrNotMaybe
 
     def check(node : Ast::Operation) : Checkable
       case node.operator
@@ -42,7 +47,7 @@ module Mint
         } unless Comparer.compare(left, right)
 
         left
-      when "-", "*", "/", "%"
+      when "-", "*", "/", "%", "**"
         right = resolve node.right
         left = resolve node.left
 
@@ -67,6 +72,30 @@ module Mint
         } unless Comparer.compare(left, right)
 
         NUMBER
+      when "|>"
+        raise OperationPipeAmbiguous, {
+          "node" => node,
+        }
+      when "or"
+        right = resolve node.right
+        left = resolve node.left
+
+        raise OperationOrNotMaybe, {
+          "expected" => MAYBE,
+          "node"     => node,
+          "got"      => left,
+        } unless Comparer.compare(left, MAYBE)
+
+        expected =
+          left.parameters[0]
+
+        raise OperationOrTypeMismatch, {
+          "expected" => expected,
+          "got"      => right,
+          "node"     => node,
+        } unless Comparer.compare(expected, right)
+
+        expected
       else
         raise Mint::TypeError # Can never happen
       end

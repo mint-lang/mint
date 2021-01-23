@@ -28,7 +28,7 @@ module String {
   }
 
   /*
-  Returns whether or not the string is empty.
+  Returns whether or not the string is empty ("").
 
      String.isEmpty("") == true
      String.isEmpty("a") == false
@@ -36,6 +36,37 @@ module String {
   */
   fun isEmpty (string : String) : Bool {
     string == ""
+  }
+
+  /*
+  Returns whether or not the string is not empty.
+
+    String.isNotEmpty("a") == true
+    String.isNotEmpty("   ") == true
+  */
+  fun isNotEmpty (string : String) : Bool {
+    !String.isEmpty(string)
+  }
+
+  /*
+  Returns whether or not the string is blank (only contains whitespace).
+
+     String.isBlank("") == true
+     String.isBlank(" ") == true
+     String.isBlank("a") == false
+  */
+  fun isBlank (string : String) : Bool {
+    String.trim(string) == ""
+  }
+
+  /*
+  Returns whether or not the string is not blank.
+
+    String.isNotBlank("a") == true
+    String.isNotBlank("   ") == false
+  */
+  fun isNotBlank (string : String) : Bool {
+    !String.isBlank(string)
   }
 
   /*
@@ -105,10 +136,10 @@ module String {
   /*
   Returns if the given string is an anagram of the other string.
 
-    String.isAnagarm("asd", "blah") == false
-    String.isAnagarm("rail safety", "fairy tales") == true
+    String.isAnagram("asd", "blah") == false
+    String.isAnagram("rail safety", "fairy tales") == true
   */
-  fun isAnagarm (string1 : String, string2 : String) : Bool {
+  fun isAnagram (string1 : String, string2 : String) : Bool {
     `
     (() => {
       const normalize = string =>
@@ -125,7 +156,7 @@ module String {
   }
 
   /*
-  Removes all occurances of the given character from the end of the
+  Removes all occurrences of the given character from the end of the
   given string.
 
     String.rchop("!", "Hello!!!") == "Hello"
@@ -143,7 +174,7 @@ module String {
   }
 
   /*
-  Removes all occurances of the given character from the start of the
+  Removes all occurrences of the given character from the start of the
   given string.
 
     String.lchop("!", "!!!Hello") == "Hello"
@@ -161,7 +192,7 @@ module String {
   }
 
   /*
-  Replaces the given pattern with the replacemet.
+  Replaces the given pattern with the replacements.
 
     String.replace("a", "0", "aaaa") == "0000"
   */
@@ -194,5 +225,53 @@ module String {
     } else {
       string
     }
+  }
+
+  /*
+  Convert the given string into an array of strings.
+
+    String.toArray(AAA") = ["A", "A", "A"]
+  */
+  fun toArray (string : String) : Array(String) {
+    split("", string)
+  }
+
+  /*
+  Joins the given array of strings, alias for `String.concat`.
+
+    String.fromArray(["A","B","C"]) == "ABC"
+  */
+  fun fromArray (array : Array(String)) : String {
+    concat(array)
+  }
+
+  /*
+  Drops the number of characters from the string.
+
+    String.dropLeft(1, "abc") == "bc"
+    String.dropLeft(2, "abc") == "c"
+  */
+  fun dropLeft (number : Number, string : String) : String {
+    `#{string}.slice(#{Math.clamp(0, number, String.size(string))})`
+  }
+
+  /*
+  Parameterizes the string:
+  - replaces non alphanumeric, dash and underscore characters with dash
+  - collapses multiple dashes into a single one
+  - removes the leading and trailing dash
+  - converts to lowercase
+
+    String.parameterize("HELLO THERE!!!") == "hello-there"
+    String.parameterize("-_!ASD!_-") == "asd"
+  */
+  fun parameterize (string : String) : String {
+    `
+    #{string}
+      .replace(/[^a-z0-9\-_]+/ig, '-')
+      .replace(/-{2,}/g, '-')
+      .replace(/^-|-$/i, '')
+      .toLowerCase()
+    `
   }
 }

@@ -7,7 +7,7 @@ module Mint
     syntax_error GetExpectedName
     syntax_error GetExpectedType
 
-    def get : Ast::Get | Nil
+    def get : Ast::Get?
       start do |start_position|
         comment = self.comment
 
@@ -17,10 +17,13 @@ module Mint
         name = variable! GetExpectedName
         whitespace
 
-        char ':', GetExpectedColon
-        whitespace
-
-        type = type! GetExpectedType
+        type =
+          if char! ':'
+            whitespace
+            item = type_or_type_variable! GetExpectedType
+            whitespace
+            item
+          end
 
         head_comments, body, tail_comments = block_with_comments(
           opening_bracket: GetExpectedOpeningBracket,

@@ -1,0 +1,18 @@
+module Test {
+  fun test : Tuple(String, String, String) {
+    {
+      "Hello",
+      "Blah", "Joe"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Tuple(String, String, String) {
+    {
+      "Hello",
+      "Blah",
+      "Joe"
+    }
+  }
+}

@@ -18,7 +18,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  b(c) {
+  a(c) {
     return (new Err(c));
   }
 });
@@ -30,14 +30,14 @@ class A extends _C {
         return `Blah`
       }
 
-      let _0 = B.b(`Blah`);
+      let _0 = B.a(`Blah`);
 
       if (_0 instanceof Err) {
         let _error = _0._0;
         return _catch_all();
       };
 
-      let a = _0._0;
+      let b = _0._0;
 
       return `Hello`;
     })();

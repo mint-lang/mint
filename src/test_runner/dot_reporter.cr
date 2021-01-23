@@ -6,20 +6,20 @@ module Mint
       end
 
       def with_count
-        print "\n" if @count > 0 && @count % 80 == 0
+        puts if @count > 0 && @count % 80 == 0
         yield
         @count += 1
       end
 
       def succeeded(name)
         with_count do
-          print ".".colorize(:green).to_s
+          print ".".colorize(:green)
         end
       end
 
       def failed(name, error)
         with_count do
-          print ".".colorize(:red).to_s
+          print "F".colorize(:red)
         end
       end
 
@@ -27,7 +27,7 @@ module Mint
       end
 
       def done
-        print "\n"
+        puts
       end
     end
   end

@@ -4,7 +4,7 @@ module Mint
     syntax_error DecodeExpectedType
     syntax_error DecodeExpectedAs
 
-    def decode : Ast::Decode | Nil
+    def decode : Ast::Decode?
       start do |start_position|
         skip unless keyword "decode"
         whitespace! SkipError
@@ -18,7 +18,7 @@ module Mint
         type = type! DecodeExpectedType
 
         Ast::Decode.new(
-          expression: expression.as(Ast::Expression),
+          expression: expression,
           from: start_position,
           type: type,
           to: position,

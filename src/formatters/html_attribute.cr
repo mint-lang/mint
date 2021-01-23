@@ -9,15 +9,17 @@ module Mint
 
       case node.value
       when Ast::StringLiteral
-        if replace_skipped(value).includes?("\n")
+        if replace_skipped(value).includes?('\n')
           "#{name}={\n#{indent(value)}\n}"
         else
           "#{name}=#{value}"
         end
+      when Ast::HtmlExpression
+        "#{name}=#{value}"
       when Ast::ArrayLiteral
         "#{name}=#{value}"
       else
-        if replace_skipped(value).includes?("\n")
+        if replace_skipped(value).includes?('\n')
           "#{name}={\n#{indent(value)}\n}"
         else
           "#{name}={#{value}}"

@@ -5,12 +5,17 @@ module Mint
     syntax_error HtmlComponentExpectedReference
     syntax_error HtmlComponentExpectedType
 
-    def html_component : Ast::HtmlComponent | Nil
+    def html_component : Ast::HtmlComponent?
       start do |start_position|
-        component = start do
+        component = start do |start_pos|
           skip unless char! '<'
           skip unless value = type_id HtmlComponentExpectedType
-          value
+
+          Ast::Variable.new(
+            from: start_pos + 1,
+            to: position,
+            value: value,
+            input: data)
         end
 
         skip unless component

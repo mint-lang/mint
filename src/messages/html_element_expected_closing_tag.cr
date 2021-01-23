@@ -6,6 +6,8 @@ message HtmlElementExpectedClosingTag do
     bold "closing tag."
   end
 
+  snippet opening_tag, "I am looking for the closing tag of:"
+
   was_looking_for "closing tag", got
 
   snippet node

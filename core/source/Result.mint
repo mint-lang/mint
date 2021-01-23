@@ -45,10 +45,10 @@ module Result {
   Returns the error of the given result or the default value if it's an ok.
 
     (Result.error("error")
-    |> Result.withDefault("a")) == "error"
+    |> Result.withError("a")) == "error"
 
     (Result.ok("ok")
-    |> Result.withDefault("a")) == "a"
+    |> Result.withError("a")) == "a"
   */
   fun withError (defaultError : a, input : Result(a, b)) : a {
     case (input) {

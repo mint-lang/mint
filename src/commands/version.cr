@@ -1,5 +1,3 @@
-require "yaml"
-
 module Mint
   class Cli < Admiral::Command
     class Version < Admiral::Command
@@ -9,7 +7,7 @@ module Mint
 
       def run
         execute "Showing version" do
-          puts "Mint #{Mint::VERSION}"
+          terminal.puts "Mint #{Mint::VERSION}"
         end
       end
     end

@@ -1,15 +1,30 @@
-development:
-	crystal build src/mint.cr -o mint-dev -p --error-trace && \
-	mv mint-dev ~/.bin/mint-dev && mint-dev
-
+.PHONY: build
 build:
-	crystal build src/mint.cr -o mint -p --error-trace && mv mint ~/.bin/mint && mint
+	shards build --error-on-warnings --error-trace --progress
 
-test:
-	crystal spec -p --error-trace && bin/ameba
+.PHONY: spec
+spec:
+	crystal spec --error-on-warnings --error-trace --progress
 
-test-core:
-	crystal build src/mint.cr -o mint -p --error-trace && cd core/tests && ../../mint test && cd ../../ && rm -f mint mint.dwarf
+.PHONY: formatter
+formatter:
+	crystal tool format --check
 
+.PHONY: ameba
+ameba:
+	bin/ameba
+
+.PHONY: test
+test: spec formatter ameba
+
+.PHONY: test-core
+test-core: build
+	cd core/tests && ../../bin/mint test -b firefox
+
+.PHONY: development
+development: build
+	mv bin/mint ~/.bin/mint-dev
+
+.PHONY: documentation
 documentation:
 	rm -rf docs && crystal docs

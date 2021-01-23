@@ -5,31 +5,29 @@ record Provider.Resize.Subscription {
 
 /* A provider for handling changes of the viewport. */
 provider Provider.Resize : Provider.Resize.Subscription {
-  /* Calls the `resizes` function of the subscribers with the given value. */
-  fun resizes (event : Html.Event) : Array(a) {
-    subscriptions
-    |> Array.map(.resizes)
-    |> Array.map(
-      (method : Function(Html.Event, a)) : a { method(event) })
+  /* The listener unsubscribe function. */
+  state listener : Maybe(Function(Void)) = Maybe::Nothing
+
+  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
+    for (subscription of subscriptions) {
+      subscription.resizes(event)
+    }
   }
 
-  /* Attaches the provider. */
-  fun attach : Void {
-    `
-    (() => {
-      const resizes = this._resizes || (this._resizes = ((event) => #{resizes}(_normalizeEvent(event))))
+  /* Updates the provider. */
+  fun update : Promise(Never, Void) {
+    if (Array.isEmpty(subscriptions)) {
+      try {
+        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+        next { listener = Maybe::Nothing }
+      }
+    } else {
+      case (listener) {
+        Maybe::Nothing =>
+          next { listener = Maybe::Just(Window.addEventListener("resize", true, handle)) }
 
-      window.addEventListener("resize", resizes)
-    })()
-    `
-  }
-
-  /* Detaches the provider. */
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("resize", this._resizes)
-    })()
-    `
+        => next {  }
+      }
+    }
   }
 }

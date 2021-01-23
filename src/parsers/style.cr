@@ -5,7 +5,7 @@ module Mint
     syntax_error StyleExpectedClosingBracket
     syntax_error StyleExpectedName
 
-    def style : Ast::Style | Nil
+    def style : Ast::Style?
       start do |start_position|
         skip unless keyword "style"
 
@@ -31,7 +31,7 @@ module Mint
           opening_bracket: StyleExpectedOpeningBracket,
           closing_bracket: StyleExpectedClosingBracket
         ) do
-          css_body
+          many { css_keyframes || css_font_face || css_node }.compact
         end
 
         Ast::Style.new(
@@ -44,14 +44,16 @@ module Mint
       end
     end
 
+    def css_node
+      comment ||
+        case_expression(for_css: true) ||
+        if_expression(for_css: true) ||
+        css_nested_at ||
+        css_definition_or_selector
+    end
+
     def css_body
-      many {
-        comment ||
-          case_expression(for_css: true) ||
-          if_expression(for_css: true) ||
-          css_media ||
-          css_definition_or_selector
-      }.compact
+      many { css_node }.compact
     end
 
     def css_definition_or_selector

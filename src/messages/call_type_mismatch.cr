@@ -2,7 +2,7 @@ message CallTypeMismatch do
   title "Type Error"
 
   block do
-    text "The type signature of the call does not match the singature"
+    text "The type signature of the call does not match the signature"
     text "of the function."
   end
 

@@ -1,0 +1,34 @@
+store Test {
+  const NAME = "ASD"
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Test:NAME }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {}, [
+      B.a
+    ]);
+  }
+};
+
+A.displayName = "Main";
+
+const B = new(class extends _S {
+  constructor() {
+    super();
+    this.state = {};
+
+    this._d({
+      a: () => {
+        return `ASD`
+      }
+    });
+  }
+});

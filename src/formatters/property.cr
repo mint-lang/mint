@@ -8,15 +8,24 @@ module Mint
         format node.name
 
       type =
-        format node.type
+        node.type.try do |item|
+          " : #{format(item)}"
+        end
 
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      if ast.has_new_line?(node.type, node.default)
-        "#{comment}property #{name} : #{type} =\n#{indent(default)}"
+      head =
+        "#{comment}property #{name}#{type}"
+
+      if default
+        if node.new_line?
+          "#{head} =\n#{indent(default)}"
+        else
+          "#{head} = #{default}"
+        end
       else
-        "#{comment}property #{name} : #{type} = #{default}"
+        head
       end
     end
   end

@@ -7,7 +7,6 @@ describe "Connect" do
   expect_ignore "component"
   expect_ignore ".*"
 
-  expect_error "connect", Mint::Parser::ConnectExpectedType
   expect_error "connect ", Mint::Parser::ConnectExpectedType
   expect_error "connect X", Mint::Parser::ConnectExpectedExposing
   expect_error "connect X ", Mint::Parser::ConnectExpectedExposing

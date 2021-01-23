@@ -1,9 +1,9 @@
 module Mint
   class Parser
-    def statement : Ast::Statement | Nil
+    def statement(parent) : Ast::Statement?
       start do |start_position|
-        name = start do
-          value = variable
+        target = start do
+          value = variable || tuple_destructuring
           whitespace
           skip unless keyword "="
           whitespace
@@ -15,11 +15,12 @@ module Mint
         skip unless body
 
         Ast::Statement.new(
-          expression: body.as(Ast::Expression),
+          expression: body,
           from: start_position,
+          target: target,
+          parent: parent,
           to: position,
-          input: data,
-          name: name)
+          input: data)
       end
     end
   end

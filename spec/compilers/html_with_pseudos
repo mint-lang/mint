@@ -1,6 +1,6 @@
 component Main {
-  property hoverBackground : String = "yellow"
-  property background : String = "blue"
+  state hoverBackground : String = "yellow"
+  state background : String = "blue"
 
   style test {
     background: #{background};
@@ -27,15 +27,9 @@ class A extends _C {
   constructor(props) {
     super(props);
 
-    this._d({
-      b: [
-        null,
-        `yellow`
-      ],
-      a: [
-        null,
-        `blue`
-      ]
+    this.state = new Record({
+      b: `yellow`,
+      a: `blue`
     });
   }
 
@@ -47,6 +41,14 @@ class A extends _C {
     };
 
     return _;
+  }
+
+  get b() {
+    return this.state.b;
+  }
+
+  get a() {
+    return this.state.a;
   }
 
   render() {

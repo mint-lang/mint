@@ -1,7 +1,8 @@
 module Mint
   class Parser
     def html_content
-      html_element ||
+      svg_directive ||
+        html_element ||
         html_component ||
         html_expression ||
         html_fragment ||
@@ -17,7 +18,7 @@ module Mint
 
     def html_body(expected_closing_bracket : SyntaxError.class,
                   expected_closing_tag : SyntaxError.class,
-                  tag : Ast::Variable | String,
+                  tag : Ast::Variable,
                   with_dashes : Bool)
       whitespace
       attributes = many { html_attribute(with_dashes) }.compact
@@ -26,12 +27,12 @@ module Mint
       self_closing = char! '/'
       char '>', expected_closing_bracket
 
-      children = [] of Ast::HtmlContent
+      children = [] of Ast::Node
       comments = [] of Ast::Comment
 
       unless self_closing
         items = many do
-          html_content.as(Ast::HtmlContent | Ast::Comment | Nil)
+          html_content.as(Ast::Node | Ast::Comment?)
         end.compact
 
         whitespace
@@ -44,13 +45,15 @@ module Mint
             tag
           end
 
-        keyword! "</#{closing_tag}>", expected_closing_tag
+        raise expected_closing_tag, position, {
+          "opening_tag" => tag,
+        } unless keyword "</#{closing_tag}>"
 
         items.each do |item|
           case item
           when Ast::Comment
             comments << item
-          when Ast::HtmlContent
+          when Ast::Node
             children << item
           end
         end

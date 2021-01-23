@@ -1,0 +1,89 @@
+name: Linux CI (nightly)
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  specs:
+    name: Specs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal (nightly)
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: nightly
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
+
+      - name: Run specs
+        run: crystal spec --error-on-warnings --error-trace
+
+  core-tests:
+    name: Core tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal (nightly)
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: nightly
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
+
+      - name: Run Core Tests
+        run: make test-core
+
+  check-format:
+    name: Check format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal (nightly)
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: nightly
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Check sources format
+        run: crystal tool format --check
+
+  ameba:
+    name: Ameba linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Crystal (nightly)
+        uses: oprypin/install-crystal@v1
+        with:
+          crystal: nightly
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install shards
+        run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
+
+      - name: Run ameba
+        run: bin/ameba

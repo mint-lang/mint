@@ -1,12 +1,6 @@
 suite "Array equality" {
   test "simple values" {
-    [
-      "a",
-      "b"
-    ] == [
-      "a",
-      "b"
-    ]
+    ["a", "b"] == ["a", "b"]
   }
 
   test "different values" {
@@ -22,19 +16,13 @@ suite "Array.first" {
   }
 
   test "returns just(a) for non-empty array" {
-    [
-      "a",
-      "b"
-    ]
+    ["a", "b"]
     |> Array.first()
     |> Maybe.isJust()
   }
 
   test "returns the first item of non-empty array" {
-    ([
-      "a",
-      "b"
-    ]
+    (["a", "b"]
     |> Array.first()
     |> Maybe.withDefault("")) == "a"
   }
@@ -42,11 +30,7 @@ suite "Array.first" {
 
 suite "Array.firstWithDefault" {
   test "returns the first item if exists" {
-    ([
-      "a",
-      "b",
-      "c"
-    ]
+    (["a", "b", "c"]
     |> Array.firstWithDefault("")) == "a"
   }
 
@@ -63,19 +47,13 @@ suite "Array.last" {
   }
 
   test "returns just(a) for non-empty array" {
-    [
-      "a",
-      "b"
-    ]
+    ["a", "b"]
     |> Array.last()
     |> Maybe.isJust()
   }
 
   test "returns the last item of non-empty array" {
-    ([
-      "a",
-      "b"
-    ]
+    (["a", "b"]
     |> Array.last()
     |> Maybe.withDefault("")) == "b"
   }
@@ -83,11 +61,7 @@ suite "Array.last" {
 
 suite "Array.lastWithDefault" {
   test "returns the first item if exists" {
-    ([
-      "a",
-      "b",
-      "c"
-    ]
+    (["a", "b", "c"]
     |> Array.lastWithDefault("")) == "c"
   }
 
@@ -106,13 +80,7 @@ suite "Array.size" {
   }
 
   test "returns 5 for an array with 5 items" {
-    Array.size([
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]) == 5
+    Array.size(["", "", "", "", ""]) == 5
   }
 }
 
@@ -124,11 +92,7 @@ suite "Array.push" {
   }
 
   test "appends item to the end" {
-    ([
-      "x",
-      "y",
-      "z"
-    ]
+    (["x", "y", "z"]
     |> Array.push("a")
     |> Array.last()
     |> Maybe.withDefault("")) == "a"
@@ -137,10 +101,7 @@ suite "Array.push" {
 
 suite "Array.reverse" {
   test "reverses an array" {
-    ([
-      "x",
-      "y"
-    ]
+    (["x", "y"]
     |> Array.reverse()
     |> Array.first()
     |> Maybe.withDefault("")) == "y"
@@ -149,10 +110,7 @@ suite "Array.reverse" {
 
 suite "Array.map" {
   test "maps over the items of the array" {
-    ([
-      "A",
-      "B"
-    ]
+    (["A", "B"]
     |> Array.map(String.toLowerCase)
     |> Array.first()
     |> Maybe.withDefault("")) == "a"
@@ -161,10 +119,7 @@ suite "Array.map" {
 
 suite "Array.mapWithIndex" {
   test "maps over the items and their indexes of the array" {
-    ([
-      "A",
-      "B"
-    ]
+    (["A", "B"]
     |> Array.mapWithIndex(
       (item : String, index : Number) : String { item + Number.toString(index) })
     |> Array.first()
@@ -174,13 +129,7 @@ suite "Array.mapWithIndex" {
 
 suite "Array.select" {
   test "keeps items that match that predicate" {
-    ([
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
+    ([1, 2, 3, 4, 5]
     |> Array.select(Number.isOdd)
     |> Array.size()) == 3
   }
@@ -188,13 +137,7 @@ suite "Array.select" {
 
 suite "Array.reject" {
   test "keeps items that match that does not predicate" {
-    ([
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
+    ([1, 2, 3, 4, 5]
     |> Array.reject(Number.isOdd)
     |> Array.size()) == 2
   }
@@ -202,51 +145,26 @@ suite "Array.reject" {
 
 suite "Array.find" {
   test "finds the first item that matches the predicate" {
-    ([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ]
+    ([1, 2, 3, 4, 5, 6]
     |> Array.find((number : Number) : Bool { number == 3 })
     |> Maybe.withDefault(0)) == 3
   }
 
   test "finds item if it equals to false" {
-    ([
-      true,
-      false
-    ]
+    ([true, false]
     |> Array.find((item : Bool) : Bool { item == false })
     |> Maybe.withDefault(true)) == false
   }
 }
 
 suite "Array.any" {
-  test "returns true if finds any item that matches the predicat" \
-  "e" {
-    [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ]
+  test "returns true if finds any item that matches the predicate" {
+    [1, 2, 3, 4, 5, 6]
     |> Array.any((number : Number) : Bool { number == 3 })
   }
 
   test "returns false if no item matches the predicate" {
-    ([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ]
+    ([1, 2, 3, 4, 5, 6]
     |> Array.any((number : Number) : Bool { number == 9 })) == false
   }
 }
@@ -285,13 +203,7 @@ suite "Array.slice" {
   }
 
   test "returns part of the array" {
-    ([
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
+    ([1, 2, 3, 4, 5]
     |> Array.slice(1, 3)
     |> Array.map(Number.toString)
     |> String.join("")) == "23"
@@ -310,12 +222,7 @@ suite "Array.isEmpty" {
 
 suite "Array.intersperse" {
   test "inserts the separator between items" {
-    ([
-      "a",
-      "b",
-      "c",
-      "d"
-    ]
+    (["a", "b", "c", "d"]
     |> Array.intersperse("|")
     |> String.join("")) == "a|b|c|d"
   }
@@ -323,39 +230,24 @@ suite "Array.intersperse" {
 
 suite "Array.concat" {
   test "concatenates multiple arrays together" {
-    Array.concat([
-      ["a"],
-      ["b"]
-    ]) == [
-      "a",
-      "b"
-    ]
+    Array.concat([["a"], ["b"]]) == ["a", "b"]
   }
 }
 
 suite "Array.append" {
   test "appends the second array before the first" {
-    Array.append(["a"], ["b"]) == [
-      "a",
-      "b"
-    ]
+    Array.append(["a"], ["b"]) == ["a", "b"]
   }
 }
 
 suite "Array.contains" {
   test "returns true if the array contains the exact item" {
-    [
-      "a",
-      "b"
-    ]
+    ["a", "b"]
     |> Array.contains("a")
   }
 
   test "returns false if the it does not contain the exact item" {
-    ([
-      "a",
-      "b"
-    ]
+    (["a", "b"]
     |> Array.contains("c")) == false
   }
 }
@@ -378,10 +270,7 @@ suite "Array.sample" {
   }
 
   test "it returns an item from the array" {
-    Array.sample([
-      0,
-      1
-    ])
+    Array.sample([0, 1])
     |> Maybe.isJust()
   }
 }
@@ -400,11 +289,7 @@ suite "Array.at" {
   }
 
   test "it returns item at index #2" {
-    Array.at(2, [
-      1,
-      2,
-      3
-    ]) == Maybe.just(3)
+    Array.at(2, [1, 2, 3]) == Maybe.just(3)
   }
 }
 
@@ -413,11 +298,7 @@ suite "Array.reduce" {
     Array.reduce(
       0,
       (memo : Number, item : Number) : Number { memo + item },
-      [
-        1,
-        2,
-        3
-      ]) == 6
+      [1, 2, 3]) == 6
   }
 }
 
@@ -426,11 +307,7 @@ suite "Array.reduceRight" {
     Array.reduceRight(
       0,
       (memo : Number, item : Number) : Number { memo + item },
-      [
-        1,
-        2,
-        3
-      ]) == 6
+      [1, 2, 3]) == 6
   }
 }
 
@@ -438,25 +315,16 @@ suite "Array.flatMap" {
   test "maps over a nested array and flattens" {
     try {
       result =
-        [
-          [
-            3,
-            1
-          ],
-          [
-            2,
-            0
-          ],
-          [5]
-        ]
+        [[3, 1], [2, 0], [5]]
         |> Array.flatMap(
-          (n : Array(Number)) : Array(Number) { [Array.max(n)] })
+          (n : Array(Number)) : Array(Number) {
+            [
+              Array.max(n)
+              |> Maybe.withDefault(0)
+            ]
+          })
 
-      (result == [
-        3,
-        2,
-        5
-      ])
+      (result == [3, 2, 5])
     }
   }
 }
@@ -465,22 +333,10 @@ suite "Array.take" {
   test "take n number of items" {
     try {
       result =
-        [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
+        [1, 2, 3, 4, 5, 6, 7, 8]
         |> Array.take(2)
 
-      (result == [
-        1,
-        2
-      ])
+      (result == [1, 2])
     }
   }
 }
@@ -489,63 +345,21 @@ suite "Array.drop" {
   test "drop n number of items" {
     try {
       result =
-        [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
+        [1, 2, 3, 4, 5, 6, 7, 8]
         |> Array.drop(2)
 
-      (result == [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ])
+      (result == [3, 4, 5, 6, 7, 8])
     }
   }
 }
 
 suite "Array.dropRight" {
   test "drop n number of items from the right" {
-    Array.dropRight(2, [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8
-    ]) == [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ]
+    Array.dropRight(2, [1, 2, 3, 4, 5, 6, 7, 8]) == [1, 2, 3, 4, 5, 6]
   }
 
   test "returns array if number of items is negative" {
-    Array.dropRight(-2, [
-      1,
-      2,
-      3,
-      4
-    ]) == [
-      1,
-      2,
-      3,
-      4
-    ]
+    Array.dropRight(-2, [1, 2, 3, 4]) == [1, 2, 3, 4]
   }
 }
 
@@ -553,35 +367,14 @@ suite "Array.groupsOf" {
   test "group into items of specified size" {
     try {
       result =
-        [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
+        [1, 2, 3, 4, 5, 6, 7, 8]
         |> Array.groupsOf(2)
 
       (result == [
-        [
-          1,
-          2
-        ],
-        [
-          3,
-          4
-        ],
-        [
-          5,
-          6
-        ],
-        [
-          7,
-          8
-        ]
+        [1, 2],
+        [3, 4],
+        [5, 6],
+        [7, 8]
       ])
     }
   }
@@ -591,32 +384,13 @@ suite "Array.groupsOfFromEnd" {
   test "group into items of specified size" {
     try {
       result =
-        Array.groupsOfFromEnd(
-          2,
-          [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7
-          ])
+        Array.groupsOfFromEnd(2, [1, 2, 3, 4, 5, 6, 7])
 
       (result == [
         [1],
-        [
-          2,
-          3
-        ],
-        [
-          4,
-          5
-        ],
-        [
-          6,
-          7
-        ]
+        [2, 3],
+        [4, 5],
+        [6, 7]
       ])
     }
   }
@@ -624,330 +398,137 @@ suite "Array.groupsOfFromEnd" {
 
 suite "Array.delete" {
   test "it removes the item" {
-    Array.delete("a", [
-      "a",
-      "b",
-      "c"
-    ]) == [
-      "b",
-      "c"
-    ]
+    Array.delete("a", ["a", "b", "c"]) == ["b", "c"]
   }
 }
 
 suite "Array.unshift" {
   test "it pushes a new item at the head of the array." {
-    Array.unshift(2, [
-      3,
-      4
-    ]) == [
-      2,
-      3,
-      4
-    ]
+    Array.unshift(2, [3, 4]) == [2, 3, 4]
   }
 }
 
 suite "Array.compact" {
   test "it flattens an array of maybes" {
-    Array.compact([
-      Maybe.just("A"),
-      Maybe.nothing()
-    ]) == ["A"]
+    Array.compact(
+      [
+        Maybe.just("A"),
+        Maybe.nothing()
+      ]) == ["A"]
   }
 }
 
 suite "Array.move" {
   test "it returns the array as is if from equals to to" {
-    Array.move(0, 0, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "A",
-      "B",
-      "C"
-    ]
+    Array.move(0, 0, ["A", "B", "C"]) == ["A", "B", "C"]
   }
 
   test "it returns the array as is if from is negative" {
-    Array.move(-1, 0, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "A",
-      "B",
-      "C"
-    ]
+    Array.move(-1, 0, ["A", "B", "C"]) == ["A", "B", "C"]
   }
 
   test "it returns the array as is if from is too big" {
-    Array.move(10, 0, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "A",
-      "B",
-      "C"
-    ]
+    Array.move(10, 0, ["A", "B", "C"]) == ["A", "B", "C"]
   }
 
   test "it moves the item to the front if to is negative" {
-    Array.move(2, -1, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "C",
-      "A",
-      "B"
-    ]
+    Array.move(2, -1, ["A", "B", "C"]) == ["C", "A", "B"]
   }
 
   test "it moves the item to the back if to is too big" {
-    Array.move(0, 10, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "B",
-      "C",
-      "A"
-    ]
+    Array.move(0, 10, ["A", "B", "C"]) == ["B", "C", "A"]
   }
 
   test "it moves the item #1" {
-    Array.move(1, 0, [
-      "A",
-      "B",
-      "C"
-    ]) == [
-      "B",
-      "A",
-      "C"
-    ]
+    Array.move(1, 0, ["A", "B", "C"]) == ["B", "A", "C"]
   }
 
   test "it moves the item #2" {
-    Array.move(0, 2, [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E"
-    ]) == [
-      "B",
-      "C",
-      "A",
-      "D",
-      "E"
-    ]
+    Array.move(0, 2, ["A", "B", "C", "D", "E"]) == ["B", "C", "A", "D", "E"]
   }
 
   test "it moves the item #2" {
-    Array.move(2, 0, [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E"
-    ]) == [
-      "C",
-      "A",
-      "B",
-      "D",
-      "E"
-    ]
+    Array.move(2, 0, ["A", "B", "C", "D", "E"]) == ["C", "A", "B", "D", "E"]
   }
 }
 
 suite "Array.insertAt" {
   test "it inserts item at front if the position below zero" {
-    Array.insertAt("a", -10, [
-      "b",
-      "c"
-    ]) == [
-      "a",
-      "b",
-      "c"
-    ]
+    Array.insertAt("a", -10, ["b", "c"]) == ["a", "b", "c"]
   }
 
   test "it inserts item at front if the position zero" {
-    Array.insertAt("a", 0, [
-      "b",
-      "c"
-    ]) == [
-      "a",
-      "b",
-      "c"
-    ]
+    Array.insertAt("a", 0, ["b", "c"]) == ["a", "b", "c"]
   }
 
   test "it inserts item at the given position" {
-    Array.insertAt("a", 1, [
-      "b",
-      "c"
-    ]) == [
-      "b",
-      "a",
-      "c"
-    ]
+    Array.insertAt("a", 1, ["b", "c"]) == ["b", "a", "c"]
   }
 
   test "it inserts item at the given position2" {
-    Array.insertAt("a", 2, [
-      "b",
-      "c"
-    ]) == [
-      "b",
-      "c",
-      "a"
-    ]
+    Array.insertAt("a", 2, ["b", "c"]) == ["b", "c", "a"]
   }
 
   test "it inserts item at back if the position is greater then " \
   "the length" {
-    Array.insertAt("a", 10, [
-      "b",
-      "c"
-    ]) == [
-      "b",
-      "c",
-      "a"
-    ]
+    Array.insertAt("a", 10, ["b", "c"]) == ["b", "c", "a"]
   }
 }
 
 suite "Array.deleteAt" {
   test "it deletes the item at the given index" {
-    Array.deleteAt(0, [
-      "a",
-      "b",
-      "c"
-    ]) == [
-      "b",
-      "c"
-    ]
+    Array.deleteAt(0, ["a", "b", "c"]) == ["b", "c"]
   }
 
   test "it returns array if the index is negative" {
-    Array.deleteAt(-1, [
-      "a",
-      "b",
-      "c"
-    ]) == [
-      "a",
-      "b",
-      "c"
-    ]
+    Array.deleteAt(-1, ["a", "b", "c"]) == ["a", "b", "c"]
   }
 
   test "it returns array if the index is bigger then length" {
-    Array.deleteAt(10, [
-      "a",
-      "b",
-      "c"
-    ]) == [
-      "a",
-      "b",
-      "c"
-    ]
+    Array.deleteAt(10, ["a", "b", "c"]) == ["a", "b", "c"]
   }
 }
 
 suite "Array.swap" {
   test "it swaps items" {
-    Array.swap(0, 1, [
-      "a",
-      "b"
-    ]) == [
-      "b",
-      "a"
-    ]
+    Array.swap(0, 1, ["a", "b"]) == ["b", "a"]
   }
 
   test "it returns array if index is negative #1" {
-    Array.swap(-1, 1, [
-      "a",
-      "b"
-    ]) == [
+    Array.swap(-1, 1, ["a", "b"]) == [
       "a",
       "b"
     ]
   }
 
   test "it returns array if index is negative #2" {
-    Array.swap(0, -1, [
-      "a",
-      "b"
-    ]) == [
-      "a",
-      "b"
-    ]
+    Array.swap(0, -1, ["a", "b"]) == ["a", "b"]
   }
 
   test "it returns array if index is bigger then the length #1" {
-    Array.swap(2, 0, [
-      "a",
-      "b"
-    ]) == [
-      "a",
-      "b"
-    ]
+    Array.swap(2, 0, ["a", "b"]) == ["a", "b"]
   }
 
   test "it returns array if index is bigger then the length #2" {
-    Array.swap(0, 2, [
-      "a",
-      "b"
-    ]) == [
-      "a",
-      "b"
-    ]
+    Array.swap(0, 2, ["a", "b"]) == ["a", "b"]
   }
 }
 
 suite "Array.updateAt" {
   test "it updates the item at the given index" {
-    Array.updateAt(
-      2,
-      (number : Number) : Number { number + 2 },
-      [
-        0,
-        1,
-        2
-      ]) == [
-      0,
-      1,
-      4
-    ]
+    Array.updateAt(2, (number : Number) : Number { number + 2 }, [0, 1, 2]) == [0, 1, 4]
   }
 }
 
 suite "Array.setAt" {
   test "it sets the item at the given index" {
-    Array.setAt(2, 5, [
-      1,
-      2,
-      3
-    ]) == [
-      1,
-      2,
-      5
-    ]
+    Array.setAt(2, 5, [1, 2, 3]) == [1, 2, 5]
   }
 }
 
 suite "Array.indexOf" {
   test "it returns the index of the item" {
-    Array.indexOf("a", [
-      "a",
-      "b",
-      "c"
-    ]) == 0
+    Array.indexOf("a", ["a", "b", "c"]) == 0
   }
 
   test "it returns the index of an enum" {
@@ -957,35 +538,44 @@ suite "Array.indexOf" {
 
 suite "Array.indexBy" {
   test "it returns the index of the item" {
-    Array.indexBy(
-      "a",
-      (item : String) : String { item },
-      [
-        "a",
-        "b",
-        "c"
-      ]) == 0
+    Array.indexBy("a", (item : String) : String { item }, ["a", "b", "c"]) == 0
   }
 }
 
 suite "Array.sumBy" {
   test "it sums up the array by using the function" {
-    Array.sumBy(
-      (value : Number) : Number { value },
-      [
-        1,
-        2,
-        3
-      ]) == 6
+    Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
   }
 }
 
 suite "Array.sum" {
   test "it sums up the array" {
-    Array.sum([
-      1,
-      2,
-      3
-    ]) == 6
+    Array.sum([1, 2, 3]) == 6
+  }
+}
+
+suite "Array.max" {
+  test "it returns the largest number" {
+    Array.max([1, 2, 3]) == Maybe.just(3)
+  }
+
+  test "it returns nothing" {
+    Array.max([]) == Maybe.nothing()
+  }
+}
+
+suite "Array.min" {
+  test "it returns smallest number" {
+    Array.min([1, 2, 3]) == Maybe.just(1)
+  }
+
+  test "it returns nothing" {
+    Array.min([]) == Maybe.nothing()
+  }
+}
+
+suite "Array.uniq" {
+  test "removes duplicated from the array" {
+    Array.uniq([1, 2, 3, 1, 2, 3]) == [1, 2, 3]
   }
 }

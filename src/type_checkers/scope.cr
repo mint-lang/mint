@@ -3,24 +3,43 @@ module Mint
     class Scope
       alias Node = Ast::InlineFunction |
                    Tuple(String, Checkable, Ast::Node) |
+                   Ast::WhereStatement |
+                   Ast::Statement |
                    Ast::Component |
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
                    Ast::Store |
-                   Ast::Style |
-                   Ast::Get
+                   Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable, Node)
-      alias Lookup = Tuple(Ast::Node | Checkable, Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
 
       getter levels
 
+      def initialize(@ast : Ast, @records : Array(Record))
+        @ast.stores.each do |store|
+          store.functions.each do |function|
+            @functions[function] = store
+          end
+
+          store.gets.each do |get|
+            @functions[get] = store
+          end
+        end
+
+        @ast.modules.each do |item|
+          item.functions.each do |function|
+            @functions[function] = item
+          end
+        end
+      end
+
       def path : String
-        @levels.reverse.map { |node| path(node) }.join(" -> ")
+        @levels.reverse.join(" -> ") { |node| path(node) }
       end
 
       def path(node : Node)
@@ -50,54 +69,41 @@ module Mint
         @levels.includes?(node)
       end
 
-      def initialize(@ast : Ast, @records : Array(Record))
-        @ast.stores.each do |store|
-          store.functions.each do |function|
-            @functions[function] = store
-          end
-
-          store.gets.each do |get|
-            @functions[get] = store
-          end
-        end
-
-        @ast.modules.each do |item|
-          item.functions.each do |function|
-            @functions[function] = item
-          end
-        end
-      end
-
       def find(variable : String)
-        result = find_with_level(variable)
-
-        case result
-        when .is_a?(Level)
+        if result = find_with_level(variable)
           result[0]
         end
       end
 
-      def find_with_level(variable : String)
+      def find_with_level(variable : String) : Level?
         @levels.each do |level|
-          if item = find variable, level
+          if item = find(variable, level)
             return {item, level}
           end
         end
       end
 
       def component?
-        @levels.any?(&.is_a?(Ast::Component))
+        @levels.find(&.is_a?(Ast::Component)).as(Ast::Component?)
+      end
+
+      def current_top_level_entity?
+        @levels.find do |item|
+          item.is_a?(Ast::Store) ||
+            item.is_a?(Ast::Provider) ||
+            item.is_a?(Ast::Component)
+        end.as(Ast::Node?)
       end
 
       def component
-        entity = @levels.find(&.is_a?(Ast::Component))
-        raise "" unless entity
-        entity.as(Ast::Component)
+        component?.not_nil!
       end
 
       def stateful?
         @levels.find do |item|
-          item.is_a?(Ast::Component) || item.is_a?(Ast::Store)
+          item.is_a?(Ast::Component) ||
+            item.is_a?(Ast::Store) ||
+            item.is_a?(Ast::Provider)
         end
       end
 
@@ -106,16 +112,33 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Function)
-        node.arguments.find(&.name.value.==(variable)) ||
-          node.where.try(&.statements.find(&.name.value.==(variable)))
+        node.arguments.find(&.name.value.==(variable))
+      end
+
+      def find(variable : String, node : Ast::Statement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
+        end
+      end
+
+      def find(variable : String, node : Ast::WhereStatement)
+        case target = node.target
+        when Ast::Variable
+          node if target.value == variable
+        when Ast::TupleDestructuring
+          target.parameters.find(&.value.==(variable)).try do |item|
+            {node, target.parameters.index(item).not_nil!}
+          end
+        end
       end
 
       def find(variable : String, node : Ast::Style)
         node.arguments.find(&.name.value.==(variable))
-      end
-
-      def find(variable : String, node : Ast::Get)
-        node.where.try(&.statements.find(&.name.value.==(variable)))
       end
 
       def find(variable : String, node : Ast::InlineFunction)
@@ -123,13 +146,15 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Module)
-        node.functions.find(&.name.value.==(variable))
+        node.functions.find(&.name.value.==(variable)) ||
+          node.constants.find(&.name.==(variable))
       end
 
       def find(variable : String, node : Ast::Store)
         node.functions.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
-          node.gets.find(&.name.value.==(variable))
+          node.gets.find(&.name.value.==(variable)) ||
+          node.constants.find(&.name.==(variable))
       end
 
       def find(variable : String, node : Ast::Provider)
@@ -138,7 +163,10 @@ module Mint
                  Comparer.normalize(Type.new(node.subscription))
           Type.new("Array", [type.as(Checkable)])
         else
-          node.functions.find(&.name.value.==(variable))
+          node.functions.find(&.name.value.==(variable)) ||
+            node.states.find(&.name.value.==(variable)) ||
+            node.gets.find(&.name.value.==(variable)) ||
+            node.constants.find(&.name.==(variable))
         end
       end
 
@@ -147,7 +175,9 @@ module Mint
           node.gets.find(&.name.value.==(variable)) ||
           node.properties.find(&.name.value.==(variable)) ||
           node.states.find(&.name.value.==(variable)) ||
+          node.constants.find(&.name.==(variable)) ||
           refs(component)[variable]? ||
+          store_constants(component)[variable]? ||
           store_states(component)[variable]? ||
           store_functions(component)[variable]? ||
           store_gets(component)[variable]?
@@ -198,7 +228,7 @@ module Mint
           when Ast::HtmlComponent
             @ast
               .components
-              .find(&.name.==(item.component))
+              .find(&.name.==(item.component.value))
               .try do |entity|
                 memo[variable.value] = entity
               end
@@ -260,6 +290,26 @@ module Mint
                 store
                   .functions
                   .find(&.name.value.==(key.variable.value))
+                  .try do |function|
+                    memo[(key.name || key.variable).value] = function
+                  end
+              end
+            end
+
+          memo
+        end
+      end
+
+      private def store_constants(component)
+        component.connects.reduce({} of String => Ast::Constant) do |memo, item|
+          @ast
+            .stores
+            .find(&.name.==(item.store))
+            .try do |store|
+              item.keys.each do |key|
+                store
+                  .constants
+                  .find(&.name.==(key.variable.value))
                   .try do |function|
                     memo[(key.name || key.variable).value] = function
                   end

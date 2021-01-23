@@ -24,12 +24,53 @@ module Mint
 
       variables[node] = item
 
-      if item[0].is_a?(Ast::HtmlElement) && item[1].is_a?(Ast::Component)
+      case
+      when item[0].is_a?(Ast::HtmlElement) && item[1].is_a?(Ast::Component)
         Type.new("Maybe", [Type.new("Dom.Element")] of Checkable)
-      elsif item[0].is_a?(Ast::Component) && item[1].is_a?(Ast::Component)
+      when item[0].is_a?(Ast::Component) && item[1].is_a?(Ast::Component)
         Type.new("Maybe", [component_records[item[0]]] of Checkable)
       else
-        resolve item[0]
+        case value = item[0]
+        when Ast::Statement
+          type = resolve value
+
+          if value.parent == Ast::Statement::Parent::Try
+            if type.name == "Result" && type.parameters.size == 2
+              type.parameters[1]
+            else
+              type
+            end
+          else
+            if type.name.in?("Result", "Promise") && type.parameters.size == 2
+              type.parameters[1]
+            else
+              type
+            end
+          end
+        when Tuple(Ast::Node, Int32)
+          item = value[0]
+
+          type =
+            resolve item
+
+          case item
+          when Ast::Statement, Ast::WhereStatement
+            case item.target
+            when Ast::TupleDestructuring
+              type.parameters[value[1]]
+            else
+              type
+            end
+          else
+            type
+          end
+        when Ast::Node
+          resolve value
+        when Checkable
+          value
+        else
+          NEVER
+        end
       end
     end
   end

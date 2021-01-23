@@ -1,7 +1,7 @@
 module Mint
   class DocumentationServer
     @asts : Hash(MintJson, Ast) = {} of MintJson => Ast
-    @error : String | Nil = nil
+    @error : String? = nil
     @ast : Ast = Ast.new
     @generator : DocumentationGenerator = DocumentationGenerator.new
 
@@ -70,6 +70,9 @@ module Mint
 
         # If there is a baked file serve that.
         begin
+          env.response.content_type =
+            MIME.from_filename?(env.params.url["name"]).to_s
+
           Assets.read("docs-viewer/" + env.params.url["name"])
         rescue BakedFileSystem::NoSuchFileError
           index

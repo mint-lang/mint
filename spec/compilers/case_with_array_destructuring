@@ -1,0 +1,39 @@
+component Main {
+  fun render : String {
+    case ([]) {
+      [] => ""
+      ["a"] => ""
+      [a] => ""
+      [a, b] => ""
+      [a, ...middle, b] => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (() => {
+      let a = [];
+
+      if (_compare(a, [])) {
+        return ``
+      } else if (_compare(a, [`a`])) {
+        return ``
+      } else if (Array.isArray(a) && a.length === 1) {
+        const [b] = a;
+        return ``;
+      } else if (Array.isArray(a) && a.length === 2) {
+        const [c,d] = a;
+        return ``;
+      } else if (Array.isArray(a) && a.length >= 2) {
+        const __ = Array.from(a);
+        const e = __.shift();
+        const f = __.pop();
+        const g = __;
+        return ``;
+      };
+    })();
+  }
+};
+
+A.displayName = "Main";

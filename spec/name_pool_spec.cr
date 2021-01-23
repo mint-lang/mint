@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Mint::NamePool do
-  it "returns nex name" do
+  it "returns next name" do
     pool = Mint::NamePool(String, Mint::StyleBuilder::Selector).new
     object = Mint::StyleBuilder::Selector.new
 

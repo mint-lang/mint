@@ -1,0 +1,19 @@
+component Main {
+  fun render : String {
+    try {
+      -(10)
+
+      ""
+    }
+  }
+}
+-------------------------------------------------------------UnaryMinusNotNumber
+component Main {
+  fun render : String {
+    try {
+      -"ASD"
+
+      ""
+    }
+  }
+}

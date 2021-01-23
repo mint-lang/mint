@@ -113,7 +113,7 @@ module Array {
   }
 
   /*
-  Returns all elements that matches the predicate function.
+  Returns all elements that match the predicate function.
 
     Array.select((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [2, 4]
   */
@@ -122,7 +122,7 @@ module Array {
   }
 
   /*
-  Returns all elements that does not matches the predicate function.
+  Returns all elements that do not matches the predicate function.
 
     Array.reject((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [1, 3]
   */
@@ -150,7 +150,7 @@ module Array {
   }
 
   /*
-  Returns `true` if any item in the array matches the prdicate function
+  Returns `true` if any item in the array matches the predicate function
   `false` otherwise.
 
     Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == true
@@ -246,17 +246,17 @@ module Array {
   }
 
   /*
-  Creates an array of numbers starting from the first agrument and
+  Creates an array of numbers starting from the first argument and
   ending in the last.
 
     Array.range(0, 5) == [0, 1, 2, 3, 4, 5]
   */
   fun range (from : Number, to : Number) : Array(Number) {
-    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, i) => i + #{from})`
+    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, $0) => $0 + #{from})`
   }
 
   /*
-  Deletes every occurence of the given element from the array.
+  Deletes every occurrence of the given element from the array.
 
     Array.delete("a", ["a", "b", "c"]) == ["b", "c"]
   */
@@ -267,15 +267,33 @@ module Array {
   /*
   Returns the maximum value of an array of numbers.
 
-    Array.max([0, 1, 2, 3, 4]) == 4
-    Array.max([]) == 0
+    Array.max([0, 1, 2, 3, 4]) == Maybe.just(4)
+    Array.max([]) == Maybe.nothing()
   */
-  fun max (array : Array(Number)) : Number {
-    `Math.max(...#{array})`
+  fun max (array : Array(Number)) : Maybe(Number) {
+    if (Array.size(array) > 0) {
+      Maybe.just(`Math.max(...#{array})`)
+    } else {
+      Maybe.nothing()
+    }
   }
 
   /*
-  Returns an random element from the array.
+  Returns the minimum value of an array of numbers.
+
+    Array.min([0, 1, 2, 3, 4]) == Maybe.just(0)
+    Array.min([]) == Maybe.nothing()
+  */
+  fun min (array : Array(Number)) : Maybe(Number) {
+    if (Array.size(array) > 0) {
+      Maybe.just(`Math.min(...#{array})`)
+    } else {
+      Maybe.nothing()
+    }
+  }
+
+  /*
+  Returns a random element from the array.
 
     Array.sample(["a"]) == Maybe.just("a")
     Array.sample() == Maybe.nothing()
@@ -305,7 +323,7 @@ module Array {
   }
 
   /*
-  Put two lists together:
+  Puts two lists together:
 
     Array.append([1,1,2] [3,5,8]) == [1,1,2,3,5,8]
   */
@@ -357,8 +375,8 @@ module Array {
   Map over a nested array and then flatten.
 
     [[1,2],[1,5]]
-    |> Array.flatMap((a : Array(Number) : Array(Number) {
-      [Array.max(n)]
+    |> Array.flatMap((a : Array(Number) : Array(Maybe(Number)) {
+      [Maybe.withDefault(Array.max(n), 0)]
     }) == [2,5]
   */
   fun flatMap (func : Function(a, Array(b)), array : Array(a)) : Array(b) {
@@ -410,8 +428,8 @@ module Array {
       let lowerLimit = 0
       let result = []
 
-      for (var i= 0; i < groups; i++) {
-        lowerLimit = i*#{size};
+      for (var $0 = 0; $0 < groups; $0++) {
+        lowerLimit = $0 * #{size};
         result.push(#{array}.slice(lowerLimit, lowerLimit + #{size}))
       }
 
@@ -437,8 +455,8 @@ module Array {
       #{array} =
         Array.from(#{array}).reverse()
 
-      for (var i= 0; i < groups; i++) {
-        lowerLimit = i* #{size};
+      for (var $0 = 0; $0 < groups; $0++) {
+        lowerLimit = $0 * #{size};
         result.unshift(#{array}.slice(lowerLimit, lowerLimit +  #{size}).reverse())
       }
 
@@ -464,7 +482,7 @@ module Array {
 
   /*
   Flattens an `Array(Maybe(a))` into an `Array(a)`, by unwrapping the items
-  and skipping nothings.
+  and skipping all elements of type `Nothing`.
 
     Array.compact([Maybe.just("A"), Maybe.nothing()]) == ["A"]
   */
@@ -547,8 +565,8 @@ module Array {
   }
 
   /*
-  Spaws the items at the given indexes of the given array. It returns the array
-  unchanged if there is no item at any of the given indexs.
+  Swaps the items at the given indexes of the given array. It returns the array
+  unchanged if there is no item at any of the given indexes.
 
     Array.swap(0, 1, ["a","b"]) == ["b", "a"]
   */
@@ -686,5 +704,40 @@ module Array {
         item + memo
       },
       array)
+  }
+
+  fun findByAndMap (
+    method : Function(a, Tuple(Bool, b)),
+    array : Array(a)
+  ) : Maybe(b) {
+    `
+    (() => {
+      for (let item of #{array}) {
+        const [found, value] = #{method}(item)
+
+        if (found) {
+          return #{Maybe::Just(`value`)}
+        }
+      }
+
+      return #{Maybe::Nothing}
+    })()
+    `
+  }
+
+  fun reverseIf (condition : Bool, array : Array(a)) : Array(a) {
+    if (condition) {
+      Array.reverse(array)
+    } else {
+      array
+    }
+  }
+
+  fun uniq (array : Array(a)) : Array(a) {
+    `
+    #{array}.filter((item, index, self) => {
+      return #{Array.indexOf(`item`, array)} === index
+    })
+    `
   }
 }

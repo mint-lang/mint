@@ -24,6 +24,38 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
+  fun factorial (n : Number) : Number {
+    1
+  } where {
+    helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    1
+  } where {
+    helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+
+    result = helper(n, 1)
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
   fun a(n : Number) : Number {
     c(n, 1)
   } where {
@@ -43,6 +75,23 @@ module Test {
       else {
         b(n - 1, acc * n)
       }
+    }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    try {
+      helper =
+        (n : Number, acc : Number) : Number {
+          if (n == 0) {
+            acc
+          } else {
+            helper(n - 1, acc * n)
+          }
+        }
+
+      helper(n, 1)
     }
   }
 }

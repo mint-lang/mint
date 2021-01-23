@@ -33,3 +33,20 @@ component Main {
     }
   }
 }
+------------------------------------------------------ArrayNotMatchesDefinedType
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      "Joe"
+    ] of Number
+  }
+
+  fun render : Html {
+    try {
+      test()
+
+      <div/>
+    }
+  }
+}

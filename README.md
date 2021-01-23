@@ -1,13 +1,4 @@
-# Mint
-
-[![Build Status](https://travis-ci.org/mint-lang/mint.svg?branch=master)](https://travis-ci.org/mint-lang/mint)
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
-[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)
-
----
+# ![Mint](src/assets/mint-logo.svg)
 
 A refreshing programming language for the front-end web, aiming to solve the most common issues of **Single Page Applications (SPAs)** at a language level:
 
@@ -32,6 +23,8 @@ There are two bigger applications which can be used as examples / learning mater
 - the Mint implementation of [realworld.io](https://github.com/gothinkster/realworld) (~3300 LOC) - [DEMO](https://mint-realworld.netlify.com) [SOURCE](https://github.com/mint-lang/mint-realworld)
 - the old Mint website (~3100 LOC) [SOURCE](https://github.com/mint-lang/mint-website)
 
+It would be great if you could take part in this short [survey](https://cybergusztav.typeform.com/to/J5mBcK) to provide your feedback about Mint.
+
 ## Installing
 
 [Follow these instructions](https://www.mint-lang.com/install)
@@ -45,14 +38,16 @@ There are two bigger applications which can be used as examples / learning mater
 
 Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby) or on [Spectrum](https://spectrum.chat/mint-lang).
 
+Also, visit [Awesome Mint](https://github.com/egajda/awesome-mint), to see more guides, tutorials and examples.
+
 ## Contributing
 
 Read the general [Contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md), and then:
 
-1. Fork it ( <https://github.com/mint-lang/mint/fork> )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
+1. Fork it (<https://github.com/mint-lang/mint/fork>)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
 ### Ways you can contribute
@@ -90,6 +85,7 @@ You can find an explanation in this issue: <https://github.com/mint-lang/mint/is
 ## Contributors
 
 This project exists thanks to all the people who contribute.
+
 <a href="https://github.com/mint-lang/mint/graphs/contributors"><img src="https://opencollective.com/mint/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
@@ -116,3 +112,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_large)
+
+---
+
+![Linux CI](https://github.com/mint-lang/mint/workflows/Linux%20CI/badge.svg)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
+[![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)
+[![Backers on Open Collective](https://opencollective.com/mint/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/mint/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmint-lang%2Fmint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmint-lang%2Fmint?ref=badge_shield)

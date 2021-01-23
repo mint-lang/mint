@@ -5,3 +5,19 @@ component Main {
     }
   }
 }
+---------------------------------------------------------------StatementNotTuple
+component Main {
+  fun render : String {
+    try {
+      {x, y, z} = "hello"
+    }
+  }
+}
+----------------------------------------------------------StatementTupleMismatch
+component Main {
+  fun render : String {
+    try {
+      {x, y, z} = {"hello", "a"}
+    }
+  }
+}

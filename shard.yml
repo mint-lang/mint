@@ -1,9 +1,8 @@
 name: mint
-version: 0.8.0-devel
+version: 0.12.0-devel
 
-targets:
-  mint:
-    main: src/mint.cr
+authors:
+  - Szikszai Gusztáv
 
 dependencies:
   string_inflection:
@@ -11,16 +10,16 @@ dependencies:
     version: ~> 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
-    version: ~> 0.9.8
+    commit: 7183bfde8d86a976a6912f582b51cbd1783456af
   kemal:
     github: kemalcr/kemal
-    version: ~> 0.26.1
+    version: ~> 0.27.0
   admiral:
     github: jwaldrip/admiral.cr
-    version: ~> 1.9.0
+    version: ~> 1.11.2
   tree_template:
-    github: anykeyh/tree_template
-    commit: 3fcb71ee6852040077dd1a2c8c55c67f4a95ba4e
+    github: gdotdesign/tree_template
+    commit: 7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3
   time_format:
     github: vladfaust/time_format.cr
     version: ~> 0.1.1
@@ -29,12 +28,20 @@ dependencies:
     version: ~> 0.3.1
   markd:
     github: icyleaf/markd
-    version: ~> 0.2.0
+    commit: 620845abb6776d1765d20d86cc0220aa40f89a91
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.11.0
+    version: ~> 0.13.0
   diff:
     github: MakeNowJust/crystal-diff
     version: ~> 1.1.0
+
+targets:
+  mint:
+    main: src/mint.cr
+
+crystal: ">= 0.35.0"
+
+license: BSD-3-Clause

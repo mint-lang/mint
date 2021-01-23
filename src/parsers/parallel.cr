@@ -4,7 +4,7 @@ module Mint
     syntax_error ParallelExpectedClosingBracket
     syntax_error ParallelExpectedStatement
 
-    def parallel : Ast::Parallel | Nil
+    def parallel : Ast::Parallel?
       start do |start_position|
         skip unless keyword "parallel"
 
@@ -14,10 +14,10 @@ module Mint
           opening_bracket: ParallelExpectedOpeningBracket,
           closing_bracket: ParallelExpectedClosingBracket
         ) do
-          results = many { statement || comment }.compact
+          results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
 
           raise ParallelExpectedStatement if results
-                                               .reject(&.is_a?(Ast::Comment))
+                                               .reject(Ast::Comment)
                                                .empty?
           results
         end

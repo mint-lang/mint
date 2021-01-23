@@ -4,13 +4,14 @@ module Mint
       expression =
         format node.expression
 
-      name =
-        format node.name
-
-      if name
-        "#{name} =\n#{indent(expression)}"
-      else
+      case node.target
+      when Nil
         expression
+      else
+        target =
+          format node.target
+
+        "#{target} =\n#{indent(expression)}"
       end
     end
   end

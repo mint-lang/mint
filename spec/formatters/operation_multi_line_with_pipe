@@ -1,0 +1,21 @@
+module Test {
+  fun identity (value : String) : String {
+    value
+  }
+
+  fun test : Bool {
+    ("Hello"
+    |> identity()) == "True"
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun identity (value : String) : String {
+    value
+  }
+
+  fun test : Bool {
+    ("Hello"
+    |> identity()) == "True"
+  }
+}

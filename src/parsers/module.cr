@@ -4,7 +4,7 @@ module Mint
     syntax_error ModuleExpectedClosingBracket
     syntax_error ModuleExpectedName
 
-    def module_definition : Ast::Module | Nil
+    def module_definition : Ast::Module?
       start do |start_position|
         comment = self.comment
         whitespace
@@ -17,16 +17,19 @@ module Mint
         items = block(
           opening_bracket: ModuleExpectedOpeningBracket,
           closing_bracket: ModuleExpectedClosingBracket) do
-          many { function || self.comment }.compact
+          many { function || constant || self.comment }.compact
         end.compact
 
         functions = [] of Ast::Function
+        constants = [] of Ast::Constant
         comments = [] of Ast::Comment
 
         items.each do |item|
           case item
           when Ast::Function
             functions << item
+          when Ast::Constant
+            constants << item
           when Ast::Comment
             comments << item
           end
@@ -34,6 +37,7 @@ module Mint
 
         Ast::Module.new(
           functions: functions,
+          constants: constants,
           from: start_position,
           comments: comments,
           comment: comment,

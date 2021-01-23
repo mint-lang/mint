@@ -1,13 +1,13 @@
 module Mint
   abstract class Renderer
     abstract def object(hash : Hash(String, String)) : String
-    abstract def function(name, arguments : Array(String), body : String) : String
+    abstract def function(name : String, arguments : Array(String), body : String) : String
     abstract def arrow_function(arguments : Array(String), body : String) : String
     abstract def const(name : String, value : String) : String
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
     abstract def statements(items : Array(String)) : String
-    abstract def ifchain(items : Array(String)) : String
+    abstract def ifchain(items : Array(Tuple(String?, String))) : String
     abstract def store(name : String, body : Array(String)) : String
     abstract def module(name : String, body : Array(String)) : String
     abstract def provider(name : String, body : Array(String)) : String
@@ -26,6 +26,23 @@ module Mint
     abstract def css_rule(name : String, definitions : Array(String)) : String
     abstract def css_rules(rules : Array(String)) : String
     abstract def for(condition : String, body : String) : String
+
+    def ifchain(items : Array(Tuple(String?, String))) : String
+      items
+        .sort_by { |(condition, _)| condition.nil? ? 1 : -1 }
+        .map_with_index do |(condition, body), index|
+          case {index, condition}
+          when {0, nil}
+            body # This branch handles only one item which does not have condition
+          when {_, nil}
+            self.else { body }
+          when {0, _}
+            self.if(condition.to_s, body)
+          else
+            self.elseif(condition) { body }
+          end
+        end.join(' ')
+    end
   end
 
   class Optimized < Renderer
@@ -34,11 +51,11 @@ module Mint
     end
 
     def css_rule(name, definitions) : String
-      "#{name}{#{definitions.join("")}}"
+      "#{name}{#{definitions.join}}"
     end
 
     def css_rules(rules) : String
-      rules.join("")
+      rules.join
     end
 
     def display_name(name, real_name) : String
@@ -47,15 +64,13 @@ module Mint
 
     def object(hash : Hash(String, String)) : String
       body =
-        hash
-          .map { |key, value| "#{key}:#{value}" }
-          .join(",")
+        hash.join(',') { |key, value| "#{key}:#{value}" }
 
       "{#{body}}"
     end
 
     def function(name : String, arguments : Array(String), body : String) : String
-      "#{name}(#{arguments.join(",")}){#{body}}"
+      "#{name}(#{arguments.join(',')}){#{body}}"
     end
 
     def arrow_function(arguments : Array(String), body : String) : String
@@ -71,31 +86,27 @@ module Mint
     end
 
     def class(name, extends : String, body : Array(String)) : String
-      "class #{name} extends #{extends}{#{body.join("")}}"
+      "class #{name} extends #{extends}{#{body.join}}"
     end
 
     def statements(items : Array(String)) : String
-      items.join(";")
-    end
-
-    def ifchain(items : Array(String)) : String
-      items.join("")
+      items.join(';')
     end
 
     def store(name : String, body : Array(String)) : String
-      const(name, "new(class extends _S{#{body.join("")}})")
+      const(name, "new(class extends _S{#{body.join}})")
     end
 
     def module(name : String, body : Array(String)) : String
-      const(name, "new(class extends _M{#{body.join("")}})")
+      const(name, "new(class extends _M{#{body.join}})")
     end
 
     def provider(name : String, body : Array(String)) : String
-      const(name, "new(class extends _P{#{body.join("")}})")
+      const(name, "new(class extends _P{#{body.join}})")
     end
 
     def iic(body : Array(String)) : String
-      "new(class{#{body.join("")}})"
+      "new(class{#{body.join}})"
     end
 
     def iif(body : String) : String
@@ -127,7 +138,7 @@ module Mint
     end
 
     def try(body : String, catches : Array(String), finally : String) : String
-      "try{#{body}}#{catches.join("")}#{finally}"
+      "try{#{body}}#{catches.join}#{finally}"
     end
 
     def promise(body : String) : String
@@ -135,7 +146,7 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      "[#{items.join(",")}]"
+      "[#{items.join(',')}]"
     end
   end
 
@@ -145,7 +156,7 @@ module Mint
     end
 
     def css_rule(name, definitions) : String
-      "#{name} {\n#{definitions.join("\n").indent}\n}"
+      "#{name} {\n#{definitions.join('\n').indent}\n}"
     end
 
     def css_rules(rules) : String
@@ -157,15 +168,13 @@ module Mint
     end
 
     def object(hash : Hash(String, String)) : String
-      if hash.any?
+      if hash.empty?
+        "{}"
+      else
         body =
-          hash
-            .map { |key, value| "#{key}: #{value}" }
-            .join(",\n")
+          hash.join(",\n") { |key, value| "#{key}: #{value}" }
 
         "{\n#{body.indent}\n}"
-      else
-        "{}"
       end
     end
 
@@ -194,9 +203,9 @@ module Mint
         last = items[index - 1]? if index > 0
 
         if last
-          if last.includes?("\n")
+          if last.includes?('\n')
             memo += "\n\n"
-          elsif item.includes?("\n")
+          elsif item.includes?('\n')
             memo += "\n\n"
           else
             memo += "\n"
@@ -204,13 +213,9 @@ module Mint
         end
 
         memo += item
-        memo += ";" unless memo.ends_with?(";")
+        memo += ";" unless memo.ends_with?(';')
         memo
       end
-    end
-
-    def ifchain(items : Array(String)) : String
-      items.join(" ")
     end
 
     def store(name : String, body : Array(String)) : String
@@ -267,10 +272,10 @@ module Mint
     end
 
     def array(items : Array(String)) : String
-      if items.any?
-        "[\n#{items.join(",\n").indent}\n]"
-      else
+      if items.empty?
         "[]"
+      else
+        "[\n#{items.join(",\n").indent}\n]"
       end
     end
 
@@ -286,8 +291,6 @@ module Mint
   class Js
     INITIAL = 'a'.pred.to_s
 
-    getter optimize, renderer
-
     @style_prop_cache : Hash(String, String) = {} of String => String
     @style_cache : Hash(Ast::Node, String) = {} of Ast::Node => String
 
@@ -299,23 +302,19 @@ module Mint
     @next_class : String = 'A'.pred.to_s
     @next_style : String = 'a'.pred.to_s
 
-    @optimize = true
+    getter? optimize = true
+    getter renderer
 
     forward_missing_to renderer
 
     def initialize(@optimize)
-      @renderer =
-        if optimize
-          Optimized.new
-        else
-          Normal.new
-        end
+      @renderer = optimize ? Optimized.new : Normal.new
     end
 
     def variable_of(node)
       case node
       when Ast::Function
-        return node.name.value if node.keep_name
+        return node.name.value if node.keep_name?
       end
 
       @cache[node] ||= next_variable
@@ -352,10 +351,10 @@ module Mint
     end
 
     def call(name, props)
-      "#{name}(#{props.join(",")})"
+      "#{name}(#{props.join(',')})"
     end
 
-    def function(name, arguments = [] of String) : String
+    def function(name, arguments = %w[]) : String
       function(name, arguments, yield)
     end
 
@@ -394,7 +393,7 @@ module Mint
     private def next_variable
       @next_variable = @next_variable.succ
 
-      if ["do", "in", "for", "if"].includes?(@next_variable)
+      if @next_variable.in?("do", "in", "for", "if")
         next_variable
       else
         @next_variable

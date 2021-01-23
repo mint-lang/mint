@@ -1,0 +1,21 @@
+component Main {
+  fun render : String {
+    try {
+      @documentation(
+        Main
+  )
+
+      "Hello There"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    try {
+      @documentation(Main)
+
+      "Hello There"
+    }
+  }
+}

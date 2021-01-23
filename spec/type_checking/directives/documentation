@@ -1,0 +1,19 @@
+component Main {
+  fun render : String {
+    try {
+      @documentation(Main)
+
+      "Hello There"
+    }
+  }
+}
+--------------------------------------------DocumentationDirectiveEntityNotFound
+component Main {
+  fun render : String {
+    try {
+      @documentation(X)
+
+      "Hello There"
+    }
+  }
+}

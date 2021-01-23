@@ -13,8 +13,8 @@ module Mint
           line_count =
             count.to_s.colorize.mode(:bold)
 
-          terminal.print "#{COG} Files: #{file_count}\n"
-          terminal.print "#{COG} Lines of code: #{line_count}\n"
+          terminal.puts "#{COG} Files: #{file_count}"
+          terminal.puts "#{COG} Lines of code: #{line_count}"
         end
       end
 
@@ -27,7 +27,7 @@ module Mint
           count =
             File
               .read(file)
-              .split("\n")
+              .lines
               .count { |line| !line.empty? }
 
           count + memo

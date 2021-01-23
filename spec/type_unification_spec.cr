@@ -5,7 +5,6 @@ alias Checkable = Mint::TypeChecker::Checkable
 alias Variable = Mint::TypeChecker::Variable
 alias Record = Mint::TypeChecker::Record
 alias Type = Mint::TypeChecker::Type
-alias Js = Mint::TypeChecker::Js
 
 class Parser
   getter scanner : StringScanner
@@ -20,7 +19,7 @@ class Parser
     @map = {} of String => Variable
   end
 
-  def parse_type : Checkable | Nil
+  def parse_type : Checkable?
     return if scanner.scan(/\)/)
     return if scanner.check(/,\s*/)
     return if scanner.eos?
@@ -134,26 +133,8 @@ describe Mint::TypeChecker do
     "Array(Result(String, String), y)"
 
   expect_result "Maybe(a)", "Maybe(Array(a))", "Maybe(Array(a))"
-
-  describe "JS vs Record" do
-    it "returns record" do
-      record = Record.new("Blah")
-      js = Js.new
-
-      Mint::TypeChecker::Comparer.compare(record, js).should eq(record)
-      Mint::TypeChecker::Comparer.compare(js, record).should eq(record)
-    end
-  end
-
-  describe "JS vs Type" do
-    it "returns record" do
-      type = Type.new("Blah")
-      js = Js.new
-
-      Mint::TypeChecker::Comparer.compare(type, js).should_not be_a(Js)
-      Mint::TypeChecker::Comparer.compare(js, type).should_not be_a(Js)
-    end
-  end
+  expect_result "Function(a, a, a)", "Function(a, a, String)", "Function(String, String, String)"
+  expect_result "Function(a, a, String)", "Function(a, a, a)", "Function(String, String, String)"
 
   describe "Record Vs Record" do
     it "returns null" do

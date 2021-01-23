@@ -8,7 +8,7 @@ module Mint
       target =
         resolve node.lhs
 
-      if node.safe && target.name == "Maybe"
+      if node.safe? && target.name == "Maybe"
         Type.new("Maybe", [check_access(node, target.parameters[0])])
       else
         check_access(node, target)
@@ -30,10 +30,27 @@ module Mint
       } unless new_target
 
       if item = component_records.find(&.last.==(target))
+        refs =
+          item[0].refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
+            case ref
+            when Ast::HtmlComponent
+              component_records
+                .find(&.first.name.==(ref.component.value))
+                .try do |entity|
+                  memo[variable.value] = entity.first
+                end
+            when Ast::HtmlElement
+              memo[variable.value] = variable
+            end
+
+            memo
+          end
+
         lookups[node.field] =
           (item[0].gets.find(&.name.value.==(node.field.value)) ||
             item[0].functions.find(&.name.value.==(node.field.value)) ||
             item[0].properties.find(&.name.value.==(node.field.value)) ||
+            refs[node.field.value]? ||
             item[0].states.find(&.name.value.==(node.field.value))).not_nil!
 
         scope(item[0]) do

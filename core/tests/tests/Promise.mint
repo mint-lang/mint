@@ -35,6 +35,67 @@ component Test.Promise {
   }
 }
 
+component Test.Promise2 {
+  state resolve : Function(String, Void) = (error : String) { void }
+  state reject : Function(String, Void) = (error : String) { void }
+  state result : String = ""
+
+  fun componentDidMount : Promise(Never, Void) {
+    try {
+      {resolve, reject, promise} =
+        Promise.create()
+
+      sequence {
+        next
+          {
+            resolve = resolve,
+            reject = reject
+          }
+
+        newResult =
+          promise
+
+        next { result = newResult }
+      } catch {
+        next { result = "rejected" }
+      }
+    }
+  }
+
+  fun render : Html {
+    <div>
+      <result>
+        <{ result }>
+      </result>
+
+      <resolve onClick={(event : Html.Event) { resolve("resolved") }}/>
+      <reject onClick={(event : Html.Event) { reject("rejected") }}/>
+    </div>
+  }
+}
+
+suite "Promise.create" {
+  test "resolve resolves a promise" {
+    with Test.Html {
+      <Test.Promise2/>
+      |> start()
+      |> assertTextOf("result", "")
+      |> triggerClick("resolve")
+      |> assertTextOf("result", "resolved")
+    }
+  }
+
+  test "reject rejects a promise" {
+    with Test.Html {
+      <Test.Promise2/>
+      |> start()
+      |> assertTextOf("result", "")
+      |> triggerClick("reject")
+      |> assertTextOf("result", "rejected")
+    }
+  }
+}
+
 suite "Promise.resolve" {
   test "resolves a promise" {
     with Test.Html {

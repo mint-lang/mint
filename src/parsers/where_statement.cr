@@ -3,9 +3,10 @@ module Mint
     syntax_error WhereExpectedExpression
     syntax_error WhereExpectedEqualSign
 
-    def where_statement : Ast::WhereStatement | Nil
+    def where_statement : Ast::WhereStatement?
       start do |start_position|
-        skip unless name = variable
+        target = variable || tuple_destructuring
+        skip unless target
         whitespace
 
         char '=', WhereExpectedEqualSign
@@ -16,9 +17,9 @@ module Mint
         Ast::WhereStatement.new(
           expression: expression,
           from: start_position,
+          target: target,
           to: position,
-          input: data,
-          name: name)
+          input: data)
       end
     end
   end

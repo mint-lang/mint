@@ -9,7 +9,8 @@ module Mint
           node.functions +
           node.gets +
           node.uses +
-          node.comments
+          node.comments +
+          node.constants
 
       name =
         format node.name
@@ -18,12 +19,12 @@ module Mint
         list items
 
       global =
-        node.global ? "global " : ""
+        node.global? ? "global " : ""
 
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{global}#{comment}component #{name} {\n#{indent(body)}\n}"
+      "#{comment}#{global}component #{name} {\n#{indent(body)}\n}"
     end
   end
 end

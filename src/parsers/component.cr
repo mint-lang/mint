@@ -5,7 +5,7 @@ module Mint
     syntax_error ComponentExpectedBody
     syntax_error ComponentExpectedName
 
-    def component : Ast::Component | Nil
+    def component : Ast::Component?
       start do |start_position|
         comment = self.comment
 
@@ -17,7 +17,7 @@ module Mint
 
         name = type_id! ComponentExpectedName
 
-        # Clear refs here beacuse it's on the parser
+        # Clear refs here because it's on the parser
         refs.clear
 
         body = block(
@@ -27,6 +27,7 @@ module Mint
           items = many do
             property ||
               connect ||
+              constant ||
               function ||
               style ||
               state ||
@@ -42,6 +43,7 @@ module Mint
 
         properties = [] of Ast::Property
         functions = [] of Ast::Function
+        constants = [] of Ast::Constant
         connects = [] of Ast::Connect
         comments = [] of Ast::Comment
         styles = [] of Ast::Style
@@ -57,12 +59,14 @@ module Mint
             functions << item
 
             item.keep_name = true if item.name.value == "render"
+          when Ast::Constant
+            constants << item
           when Ast::Connect
             connects << item
-          when Ast::Style
-            styles << item
           when Ast::Comment
             comments << item
+          when Ast::Style
+            styles << item
           when Ast::State
             states << item
           when Ast::Get
@@ -76,18 +80,19 @@ module Mint
           global: global || false,
           properties: properties,
           functions: functions,
+          constants: constants,
           from: start_position,
           connects: connects,
           comments: comments,
           comment: comment,
           styles: styles,
           states: states,
+          refs: refs.dup,
           to: position,
           input: data,
           name: name,
           uses: uses,
-          gets: gets,
-          refs: refs
+          gets: gets
         )
       end
     end

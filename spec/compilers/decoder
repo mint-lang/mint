@@ -22,6 +22,8 @@ component Main {
       x(``)
 
       ""
+    } catch {
+      ""
     }
   }
 }
@@ -48,19 +50,23 @@ const B = _R({
   ],
   time: [
     "time",
-    Decoder.time
+    Decoder.time,
+    Encoder.time
   ],
   maybe: [
     "maybe",
-    Decoder.maybe(Decoder.string)
+    Decoder.maybe(Decoder.string),
+    Encoder.maybe()
   ],
   array: [
     "array",
-    Decoder.array(Decoder.string)
+    Decoder.array(Decoder.string),
+    Encoder.array()
   ],
   y: [
     "y",
-    ((_)=>A.decode(_))
+    ((_)=>A.decode(_)),
+    ((_)=>A.encode(_))
   ]
 });
 
@@ -71,6 +77,10 @@ class C extends _C {
 
   render() {
     return (() => {
+      let _catch_all = () => {
+        return ``
+      }
+
       let _0 = this.a();
 
       if (_0 instanceof Err) {

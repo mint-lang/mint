@@ -4,7 +4,7 @@ describe "variable" do
   it "raises error" do
     example =
       <<-MINT
-      component Main {
+      component Test {
         state greeting : String = ""
 
         fun test : Void {
@@ -26,6 +26,12 @@ describe "variable" do
 
             <div/>
           }
+        }
+      }
+
+      component Main {
+        fun render : Html {
+          <Test/>
         }
       }
       MINT
@@ -96,11 +102,17 @@ describe "property" do
   it "raises error" do
     example =
       <<-MINT
-      component Main {
+      component Test {
         property greeting : String = greeting
 
         fun render : Html {
           <div></div>
+        }
+      }
+
+      component Main {
+        fun render : Html {
+          <Test/>
         }
       }
       MINT

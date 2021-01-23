@@ -10,3 +10,29 @@ component Main {
     ""
   }
 }
+---------------------------------------------------------------StatementNotTuple
+component Main {
+  fun render : String {
+    x
+  } where {
+    {x, y, z} = "hello"
+  }
+}
+----------------------------------------------------------StatementTupleMismatch
+component Main {
+  fun render : String {
+    x
+  } where {
+    {x, y, z} = {"hello", "a"}
+  }
+}
+------------------------------------------------------InlineFunctionTypeMismatch
+module Test {
+  fun test1(a : Number) : String {
+    ""
+  } where {
+    test2 = (a : Number) : String {
+      0
+    }
+  }
+}

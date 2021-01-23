@@ -4,10 +4,9 @@ module Mint
     syntax_error InlineFunctionExpectedOpeningBracket
     syntax_error InlineFunctionExpectedClosingBracket
     syntax_error InlineFunctionExpectedExpression
-    syntax_error InlineFunctionExpectedColon
     syntax_error InlineFunctionExpectedType
 
-    def inline_function : Ast::InlineFunction | Nil
+    def inline_function : Ast::InlineFunction?
       start do |start_position|
         skip unless char! '('
 
@@ -20,13 +19,15 @@ module Mint
 
         whitespace
         char ')', InlineFunctionExpectedClosingParentheses
-
-        whitespace
-        char ':', InlineFunctionExpectedColon
         whitespace
 
-        type = type_or_type_variable! InlineFunctionExpectedType
-        whitespace
+        type =
+          if char! ':'
+            whitespace
+            item = type_or_type_variable! InlineFunctionExpectedType
+            whitespace
+            item
+          end
 
         head_comments, body, tail_comments =
           block_with_comments(

@@ -2,23 +2,28 @@ module Mint
   class Formatter
     def format(node : Ast::Js) : String
       body =
-        node.value.map do |item|
+        node.value.join do |item|
           case item
           when Ast::Node
             format(item)
           else
             format(item).gsub('`', "\\`")
           end
-        end.join("")
+        end
 
-      result =
-        "`#{body}`"
+      type =
+        node.type.try do |item|
+          " as #{format(item)}"
+        end
 
-      if result.includes?("\n")
-        skip { result }
-      else
-        result
-      end
+      body =
+        if body.includes?('\n')
+          skip { body }
+        else
+          body
+        end
+
+      "`#{body}`#{type}"
     end
   end
 end

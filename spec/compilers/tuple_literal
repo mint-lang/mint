@@ -1,0 +1,32 @@
+component Main {
+  fun test : Tuple(String, String, String) {
+    {
+      "Hello",
+      "Blah",
+      "Joe"
+    }
+  }
+
+  fun render : String {
+    try {
+      test()
+
+      ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a() {
+    return [`Hello`, `Blah`, `Joe`];
+  }
+
+  render() {
+    return (() => {
+      this.a();
+      return ``;
+    })();
+  }
+};
+
+A.displayName = "Main";

@@ -1,14 +1,14 @@
 module Mint
   class AstWatcher
     @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
-    @pattern_proc : Proc(Array(String)) = ->{ [] of String }
+    @pattern_proc : Proc(Array(String)) = ->{ %w[] }
     @cache = {} of String => Ast
     @channel = Channel(Nil).new
-    @pattern = [] of String
+    @pattern = %w[]
     @progress = false
     @include_core = true
-    @external_javascripts : String | Nil = nil
-    @external_stylesheets : String | Nil = nil
+    @external_javascripts : String? = nil
+    @external_stylesheets : String? = nil
 
     getter include_core
 
@@ -66,8 +66,8 @@ module Mint
       end
 
       if print
-        elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold).to_s
-        terminal.io.print "#{prefix}... #{elapsed}".ljust(line.size) + "\n"
+        elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold)
+        terminal.io.puts "#{prefix}... #{elapsed}".ljust(line.size)
       end
 
       @progress = false

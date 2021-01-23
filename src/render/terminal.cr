@@ -2,20 +2,30 @@ module Mint
   module Render
     class Terminal
       class Block
+        @cursor = 0
+        @last : Char?
+
         getter io : IO
 
         def initialize(@io = IO::Memory.new, @width = 50)
-          @cursor = 0
-          @last = ""
         end
 
         def close
-          print "\n" unless @last =~ /\n|\r/
+          puts unless @last.in?('\n', '\r')
+        end
+
+        def print(contents : String)
+          @last = contents.last?
+          @io.print contents
         end
 
         def print(contents)
-          @last = contents.last
-          @io.print contents
+          print contents.to_s
+        end
+
+        def puts(contents = nil)
+          print contents if contents
+          print "\n"
         end
 
         def text(contents)
@@ -55,29 +65,29 @@ module Mint
           part = ""
 
           loop do
-            char = contents[index]?.try(&.to_s)
+            char = contents[index]?
 
-            if ((char && char =~ /\s|\n|\r/) || !char) && part.size > 0
+            if ((char && char.ascii_whitespace?) || !char) && part.size > 0
               if @cursor > @width
                 @cursor = part.size
-                print "\n"
+                puts
               end
 
-              print (yield part).to_s
+              print yield part
               part = ""
             end
 
             break unless char
 
             case char
-            when "\n", "\r"
+            when '\n', '\r'
               @cursor = 0
               print char
-            when .=~(/\s/)
-              @cursor += char.size
+            when .ascii_whitespace?
+              @cursor += 1
               print char
             else
-              @cursor += char.size
+              @cursor += 1
               part += char
             end
 
@@ -107,22 +117,21 @@ module Mint
       end
 
       def render(io)
-        print io.to_s
+        print io
       end
 
       def block
         block = Block.new(width: @width)
         with block yield
         block.close
-        print block.io
-        print "\n"
+        puts block.io
       end
 
       def measure(message)
         print message
         result = nil
         elapsed = Time.measure { result = yield }
-        print TimeFormat.auto(elapsed).colorize.mode(:bold).to_s + "\n"
+        puts TimeFormat.auto(elapsed).colorize.mode(:bold)
         result
       end
 
@@ -156,11 +165,11 @@ module Mint
       end
 
       def header(text)
-        print "#{text.colorize.mode(:bold)}\n"
+        puts text.colorize.mode(:bold)
       end
 
       def divider
-        print ("━" * @width).colorize(:dark_gray).mode(:dim).to_s + "\n"
+        puts ("━" * @width).colorize(:dark_gray).mode(:dim)
       end
 
       def title(text)
@@ -179,17 +188,18 @@ module Mint
         io.print "#{content}#{divider}\n\n"
       end
 
-      def puts(message)
-        print "#{message}\n"
-      end
-
-      def print(object)
-        print object.to_s
-      end
-
       def print(contents : String)
         @position += contents.size
         io.print contents
+      end
+
+      def print(contents)
+        print contents.to_s
+      end
+
+      def puts(contents = nil)
+        print contents if contents
+        print "\n"
       end
     end
   end

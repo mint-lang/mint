@@ -4,10 +4,10 @@ module Mint
       getter attributes, children, component, comments, ref
 
       def initialize(@attributes : Array(HtmlAttribute),
-                     @children : Array(HtmlContent),
                      @comments : Array(Comment),
-                     @ref : Variable | Nil,
-                     @component : String,
+                     @children : Array(Node),
+                     @ref : Variable?,
+                     @component : Variable,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
@@ -22,9 +22,9 @@ module Mint
       end
 
       def static_hash
-        component +
-          attributes.map(&.static_value).join +
-          children.map(&.static_value).join
+        component.value +
+          attributes.join(&.static_value) +
+          children.join(&.static_value)
       end
     end
   end

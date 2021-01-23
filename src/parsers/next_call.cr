@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error NextCallExpectedRecord
 
-    def next_call : Ast::NextCall | Nil
+    def next_call : Ast::NextCall?
       start do |start_position|
         skip unless keyword "next"
 

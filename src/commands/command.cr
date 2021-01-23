@@ -12,9 +12,9 @@ module Mint
       def execute(message)
         # On Ctrl+C and abort and exit
         Signal::INT.trap do
-          terminal.print "\n"
+          terminal.puts
           terminal.divider
-          terminal.print "Aborted! Exiting...\n"
+          terminal.puts "Aborted! Exiting..."
           exit 1
         end
 
@@ -39,7 +39,7 @@ module Mint
           # In case of an error print it
           error exception.to_terminal, position
         rescue CliException
-          # In case of a CLI expection just exit
+          # In case of a CLI exception just exit
           error nil, position
         end
 
@@ -49,7 +49,7 @@ module Mint
 
         # Print all done mssage
         terminal.divider
-        terminal.print "All done in #{formatted}!\n"
+        terminal.puts "All done in #{formatted}!"
       end
 
       # Handles an error
@@ -61,7 +61,7 @@ module Mint
 
         # If printed we need to print a divider
         if printed
-          terminal.print "\n"
+          terminal.puts
           terminal.divider
         end
 
@@ -71,9 +71,9 @@ module Mint
           terminal.divider
         end
 
-        terminal.print "There was an error exiting...\n".colorize.mode(:bold)
+        terminal.puts "There was an error exiting...".colorize.mode(:bold)
 
-        # Exit with one to trigger faliures in CI environments
+        # Exit with one to trigger failures in CI environments
         exit 1
       end
 

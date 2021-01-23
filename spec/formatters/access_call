@@ -10,9 +10,7 @@ component Test {
 
 component Main {
   fun handleClick : Maybe(String) {
-    test&.something&(
-      "asd"
-    )
+    test&.something&("asd")
   }
 
   fun render : Html {

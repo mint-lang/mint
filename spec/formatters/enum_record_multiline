@@ -1,0 +1,32 @@
+enum A {
+  B(name : String, color : String)
+  C
+}
+
+component Main {
+  const X =
+    A::B(
+      color = "Blue",
+      name = "Joe",
+    )
+
+  fun render : String {
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+enum A {
+  B(name : String, color : String)
+  C
+}
+
+component Main {
+  const X =
+    A::B(
+      color = "Blue",
+      name = "Joe")
+
+  fun render : String {
+    ""
+  }
+}

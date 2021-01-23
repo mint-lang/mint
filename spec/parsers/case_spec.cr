@@ -20,4 +20,5 @@ describe "Case Expression" do
   expect_ok "case (a) { a => b }"
   expect_ok "case (a) { a => b b => a }"
   expect_ok "case (a) { a => T.blah()b => a }"
+  expect_ok "case (a) { [] => try { a } [head, ...tail] => { try { a } } }"
 end

@@ -10,13 +10,8 @@ module Mint
         @lower = version
       end
 
-      def to_s
-        "#{target} as #{version}"
-      end
-
-      def to_s(io)
-        io << to_s
-        io
+      def to_s(io : IO)
+        io << target << " as " << version
       end
 
       def ==(other)

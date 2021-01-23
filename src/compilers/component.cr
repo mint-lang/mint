@@ -5,24 +5,27 @@ module Mint
         js.class_of(node)
 
       prefixed_name =
-        if node.global
+        if node.global?
           "$" + name
         else
           name
         end
 
       global_let =
-        "let #{name}" if node.global
+        "let #{name}" if node.global?
 
       compile node.styles, node
 
       styles =
         node.styles.map do |style_node|
           style_builder.compile_style(style_node, self)
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
 
       functions =
         compile_component_functions node
+
+      constants =
+        compile_constants node.constants
 
       gets =
         compile node.gets
@@ -30,13 +33,18 @@ module Mint
       states =
         compile node.states
 
+      refs =
+        node.refs.map do |(ref, _)|
+          js.get(js.variable_of(ref), "return (this._#{ref.value} ? new #{just}(this._#{ref.value}) : new #{nothing});")
+        end
+
       display_name =
         js.display_name(prefixed_name, node.name)
 
       store_stuff =
         compile_component_store_data node
 
-      constructor_body = [] of String
+      constructor_body = %w[]
 
       default_props =
         node.properties.each_with_object({} of String => String) do |prop, memo|
@@ -47,12 +55,27 @@ module Mint
               "null"
             end
 
-          memo[js.variable_of(prop)] = js.array([prop_name, compile prop.default])
+          value =
+            prop.default.try do |item|
+              compile item
+            end || "null"
+
+          memo[js.variable_of(prop)] = js.array([prop_name, value])
         end
 
-      constructor_body << js.call("this._d", [js.object(default_props)]) if default_props.any?
+      case {default_props.empty?, constants.empty?}
+      when {false, true}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+        ])
+      when {false, false}, {true, false}
+        constructor_body << js.call("this._d", [
+          js.object(default_props),
+          js.object(constants),
+        ])
+      end
 
-      if node.states.any?
+      unless node.states.empty?
         values =
           node
             .states
@@ -64,7 +87,7 @@ module Mint
       end
 
       constructor =
-        if constructor_body.any?
+        unless constructor_body.empty?
           js.function("constructor", ["props"]) do
             constructor_body.unshift js.call("super", ["props"])
 
@@ -72,10 +95,10 @@ module Mint
           end
         end
 
-      functions << js.function("_persist", [] of String, js.assign(name, "this")) if node.global
+      functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + states + store_stuff + functions)
+        ([constructor] + styles + gets + refs + states + store_stuff + functions)
           .compact
 
       js.statements([
@@ -86,8 +109,8 @@ module Mint
     end
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
-      node.connects.reduce([] of String) do |memo, item|
-        store = ast.stores.find { |entity| entity.name == item.store }
+      node.connects.reduce(%w[]) do |memo, item|
+        store = ast.stores.find(&.name.==(item.store))
 
         if store
           item.keys.map do |key|
@@ -98,11 +121,12 @@ module Mint
             id = js.variable_of(lookups[key])
             name = js.variable_of(key)
 
-            if store.states.find(&.name.value.==(original))
+            case
+            when store.constants.any?(&.name.==(original)),
+                 store.gets.any?(&.name.value.==(original)),
+                 store.states.find(&.name.value.==(original))
               memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.gets.any? { |get| get.name.value == original }
-              memo << js.get(name, "return #{store_name}.#{id};")
-            elsif store.functions.any? { |func| func.name.value == original }
+            when store.functions.any?(&.name.value.==(original))
               memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
             end
           end
@@ -114,9 +138,9 @@ module Mint
 
     def compile_component_functions(node : Ast::Component) : Array(String)
       heads = {
-        "componentWillUnmount" => [] of String,
-        "componentDidUpdate"   => [] of String,
-        "componentDidMount"    => [] of String,
+        "componentWillUnmount" => %w[],
+        "componentDidUpdate"   => %w[],
+        "componentDidMount"    => %w[],
       }
 
       node.connects.each do |item|
@@ -165,17 +189,19 @@ module Mint
           function =
             node.functions.find(&.name.value.==(key))
 
-          # If the user defined the same function the code goes after it.
-          if function && value
-            function.keep_name = true
+          function.keep_name = true if function
 
+          # If the user defined the same function the code goes after it.
+          if function && !value.empty?
             compile function, js.statements(value)
-          elsif value.any?
-            js.function(key, [] of String, js.statements(value))
+          elsif !value.empty?
+            js.function(key, %w[], js.statements(value))
+          elsif function
+            compile function, ""
           end
         end
 
-      (specials + others).compact.reject(&.empty?)
+      (specials + others).compact.reject!(&.empty?)
     end
   end
 end

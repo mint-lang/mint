@@ -46,7 +46,7 @@ module Mint
         end
 
       raise HtmlAttributeElementAttributeTypeMismatch, {
-        "expected" => expected.map(&.to_s).join(", "),
+        "expected" => expected.join(", "),
         "tag"      => element.tag.value,
         "name"     => node.name.value,
         "node"     => node,

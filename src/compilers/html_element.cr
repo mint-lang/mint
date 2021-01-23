@@ -1,21 +1,23 @@
 module Mint
   class Compiler
-    def compile(value : Array(Ast::Interpolation | String))
-      if value.any?(&.is_a?(Ast::Interpolation))
+    def compile(value : Array(Ast::Node | String), quote_string : Bool = false)
+      if value.any?(Ast::Node)
         value.map do |part|
           case part
+          when Ast::StringLiteral
+            compile part, quote: quote_string
           when String
             "`#{part}`"
           else
             compile part
           end
-        end.reject(&.empty?)
+        end.reject!(&.empty?)
           .join(" + ")
       else
         result =
           value
             .select(String)
-            .join(" ")
+            .join(' ')
 
         "`#{result}`"
       end
@@ -38,8 +40,7 @@ module Mint
       attributes =
         node
           .attributes
-          .reject(&.name.value.==("class"))
-          .reject(&.name.value.==("style"))
+          .reject(&.name.value.in?("class", "style"))
           .map { |attribute| resolve(attribute) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
@@ -47,10 +48,10 @@ module Mint
         node.styles.map { |item| lookups[item] }
 
       class_name =
-        if style_nodes.any?
-          style_nodes.map do |style_node|
-            style_builder.style_pool.of(style_node, nil)
-          end.join(" ")
+        unless style_nodes.empty?
+          style_nodes.join(' ') do |style_node|
+            style_builder.prefixed_class_name(style_node)
+          end
         end
 
       class_name_attribute =
@@ -59,8 +60,6 @@ module Mint
       class_name_attribute_value =
         if class_name_attribute
           compile(class_name_attribute.value)
-        else
-          nil
         end
 
       classes =
@@ -79,7 +78,7 @@ module Mint
         .find(&.name.value.==("style"))
         .try { |attribute| compile(attribute.value) }
 
-      styles = [] of String
+      styles = %w[]
 
       node.styles.each do |item|
         if style_builder.any?(lookups[item])
@@ -95,12 +94,12 @@ module Mint
 
       styles << custom_styles if custom_styles
 
-      if styles.any?
+      unless styles.empty?
         attributes["style"] = "_style([#{styles.join(", ")}])"
       end
 
       node.ref.try do |ref|
-        attributes["ref"] = "(element) => { this._#{ref.value} = new #{just}(element) }"
+        attributes["ref"] = "(element) => { this._#{ref.value} = element }"
       end
 
       attributes =
@@ -114,7 +113,7 @@ module Mint
         [%("#{tag}"),
          attributes,
          children]
-          .reject(&.empty?)
+          .reject!(&.empty?)
           .join(", ")
 
       "_h(#{contents})"

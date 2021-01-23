@@ -54,6 +54,12 @@ suite "String.concat" {
   }
 }
 
+suite "String.fromArray" {
+  test "joins an array of strings together" {
+    String.fromArray(["a", "b", "c"]) == "abc"
+  }
+}
+
 suite "String.isEmpty" {
   test "returns true if the string is empty" {
     String.isEmpty("")
@@ -65,6 +71,48 @@ suite "String.isEmpty" {
 
   test "returns false if the string contains anything" {
     String.isEmpty("asd") == false
+  }
+}
+
+suite "String.isNotEmpty" {
+  test "it returns true for non-empty string" {
+    String.isNotEmpty("a") == true
+  }
+
+  test "it returns false for fully empty string" {
+    String.isNotEmpty("") == false
+  }
+
+  test "it returns false for empty string (whitespace)" {
+    String.isNotEmpty(" ") == true
+  }
+}
+
+suite "String.isBlank" {
+  test "returns true if the string is empty" {
+    String.isBlank("")
+  }
+
+  test "returns false if the string contains whitespace" {
+    String.isBlank(" \n\r") == true
+  }
+
+  test "returns false if the string contains anything" {
+    String.isBlank("asd") == false
+  }
+}
+
+suite "String.isNotBlank" {
+  test "it returns true for non-empty string" {
+    String.isNotBlank("a") == true
+  }
+
+  test "it returns false for fully empty string" {
+    String.isNotBlank("") == false
+  }
+
+  test "it returns false for empty string (whitespace)" {
+    String.isNotBlank(" \n\r") == false
   }
 }
 
@@ -86,6 +134,12 @@ suite "String.split" {
   }
 }
 
+suite "String.toArray" {
+  test "converts a string to an array of strings" {
+    String.toArray("abcde") == ["a", "b", "c", "d", "e"]
+  }
+}
+
 suite "String.capitalize" {
   test "returns capitalized string" {
     String.capitalize("hello there mate!") == "Hello There Mate!"
@@ -94,11 +148,11 @@ suite "String.capitalize" {
 
 suite "String.isAnagram" {
   test "returns false for non anagrams" {
-    String.isAnagarm("asd", "blah") == false
+    String.isAnagram("asd", "blah") == false
   }
 
   test "returns true for anagrams" {
-    String.isAnagarm("rail safety", "fairy tales") == true
+    String.isAnagram("rail safety", "fairy tales") == true
   }
 }
 
@@ -123,5 +177,18 @@ suite "String.replace" {
 suite "String.trim" {
   test "it removes whitespace from the string" {
     String.trim("   \n\n\r\r   ") == ""
+  }
+}
+
+suite "String.dropLeft" {
+  test "it removes the given number of characters" {
+    String.dropLeft(1, "abc") == "bc" &&
+      String.dropLeft(2, "abc") == "c"
+  }
+}
+
+suite "String.paramterize" {
+  test "it parameterizes the given string" {
+    String.parameterize("HELLO THERE!!!") == "hello-there"
   }
 }

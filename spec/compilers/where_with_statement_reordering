@@ -1,0 +1,26 @@
+component Main {
+  fun render : Html {
+    <div>
+      <{ something }>
+    </div>
+  } where {
+    something =
+      otherThing
+
+    otherThing =
+      "Asd"
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    let b = `Asd`;
+    let a = b;
+
+    return _h("div", {}, [
+      a
+    ]);
+  }
+};
+
+A.displayName = "Main";

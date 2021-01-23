@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error RecordExpectedClosingBracket
 
-    def record : Ast::Record | Nil
+    def record : Ast::Record?
       start do |start_position|
         skip unless char! '{'
 

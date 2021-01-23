@@ -1,0 +1,41 @@
+component Main {
+  style test {
+    @font-face {
+      src: url(sansation_light.woff);
+      font-family: myFirstFont;
+    }
+
+    @font-face {
+      src: url(sansation_light2.woff);
+      font-family: myFirstFont;
+      font-weight: bold;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      className: `a`
+    });
+  }
+};
+
+A.displayName = "Main";
+
+_insertStyles(`
+@font-face {
+  src: url(sansation_light.woff);
+  font-family: myFirstFont;
+}
+
+@font-face {
+  src: url(sansation_light2.woff);
+  font-family: myFirstFont;
+  font-weight: bold;
+}
+`);

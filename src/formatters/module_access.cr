@@ -4,7 +4,14 @@ module Mint
       variable =
         format node.variable
 
-      "#{node.name}.#{variable}"
+      separator =
+        if node.constant?
+          ":"
+        else
+          "."
+        end
+
+      "#{node.name}#{separator}#{variable}"
     end
   end
 end

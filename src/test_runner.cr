@@ -1,24 +1,27 @@
 module Mint
   class TestRunner
     class Message
-      JSON.mapping({
-        type:   String,
-        name:   String,
-        result: String,
-      })
+      include JSON::Serializable
+
+      property type : String
+      property name : String
+      property result : String
     end
 
-    PAGE = <<-HTML
+    def page_source : String
+      @page_source ||= <<-HTML
       <html>
         <head>
+          <link rel="stylesheet" href="external-stylesheets.css">
         </head>
         <body>
+          <script src="/external-javascripts.js"></script>
           <script src="/runtime.js"></script>
           <script src="/tests"></script>
           <script>
             class TestRunner {
               constructor (suites) {
-                this.socket = new WebSocket("ws://localhost:3001/")
+                this.socket = new WebSocket("ws://#{@flags.browser_host}:#{@flags.browser_port}/")
 
                 window.DEBUG = {
                   log: (value) => {
@@ -109,7 +112,8 @@ module Mint
           </div>
         </body>
       </html>
-    HTML
+      HTML
+    end
 
     BROWSER_PATHS = {
       firefox: {
@@ -137,7 +141,7 @@ module Mint
       @succeeded = 0
       @script = ""
 
-      browser_path
+      browser_path unless @flags.manual
     end
 
     def run
@@ -146,38 +150,38 @@ module Mint
       end
 
       ast = terminal.measure "#{COG} Compiling tests... " do
-        a = compile_ast
-        compile_script(a)
-        a
+        compile_ast.tap { |a| compile_script(a) }
       end
 
       if ast.try(&.suites.empty?)
-        terminal.print "\nThere are no tests to run!\n"
+        terminal.puts "\nThere are no tests to run!"
         return
       end
 
-      terminal.print "#{COG} Starting test server...\n"
+      terminal.puts "#{COG} Starting test server..."
       setup_kemal
 
-      terminal.print "#{COG} Starting browser...\n"
+      terminal.puts "#{COG} Starting browser..."
       open_page
 
-      Server.run(name: "Test", port: 3001)
+      Server.run "Test", @flags.host, @flags.port, @flags.browser_host, @flags.browser_port
     end
 
     def browser_path
-      if paths = BROWSER_PATHS[@flags.browser.downcase]?
-        path =
-          paths.find { |item| Process.run("which", args: [item]).success? }
+      paths = BROWSER_PATHS[@flags.browser.downcase]?
 
-        raise BrowserNotFound, {
-          "browser" => @flags.browser,
-        } unless path
+      raise InvalidBrowser, {
+        "browser" => @flags.browser,
+      } unless paths
 
-        path
-      else
-        raise InvalidBrowser, {"browser" => @flags.browser}
-      end
+      path =
+        paths.find { |item| Process.run("which", args: [item]).success? }
+
+      raise BrowserNotFound, {
+        "browser" => @flags.browser,
+      } unless path
+
+      path
     end
 
     def compile_ast
@@ -194,13 +198,13 @@ module Mint
           Dir.glob(SourceFiles.tests + SourceFiles.all)
         end
 
-      sources.uniq.reduce(ast) do |memo, file|
+      sources.uniq!.reduce(ast) do |memo, file|
         artifact = Parser.parse(file)
 
         formatted =
           Formatter.new(artifact, MintJson.parse_current.formatter_config).format
 
-        if formatted != File.read(file)
+        unless formatted == File.read(file)
           File.write(file, formatted)
         end
 
@@ -231,6 +235,7 @@ module Mint
 
     def open_process(profile_directory)
       path = browser_path
+      url = "http://#{@flags.browser_host}:#{@flags.browser_port}"
 
       case @flags.browser.downcase
       when "firefox"
@@ -244,7 +249,7 @@ module Mint
             "1080",
             "--profile",
             profile_directory,
-            "http://localhost:3001",
+            url,
           ]
         )
       when "chrome"
@@ -256,7 +261,7 @@ module Mint
             "--remote-debugging-port=9222",
             "--profile-directory=#{profile_directory}",
             "--window-size=1920,1080",
-            "http://localhost:3001",
+            url,
           ]
         )
       else
@@ -270,7 +275,7 @@ module Mint
       Dir.mkdir(profile_directory)
       process = open_process(profile_directory)
       @channel.receive
-      process.kill
+      process.signal(Signal::KILL)
       FileUtils.rm_rf(profile_directory)
     end
 
@@ -282,7 +287,19 @@ module Mint
       get "/" do
         @failed = [] of Message
         @succeeded = 0
-        PAGE
+        page_source
+      end
+
+      get "/external-javascripts.js" do |env|
+        env.response.content_type = "application/javascript"
+
+        SourceFiles.external_javascripts.to_s
+      end
+
+      get "/external-stylesheets.css" do |env|
+        env.response.content_type = "text/css"
+
+        SourceFiles.external_stylesheets.to_s
       end
 
       get "/runtime.js" do
@@ -294,21 +311,22 @@ module Mint
       end
 
       ws "/" do |socket|
-        terminal.print "#{COG} Running tests:\n"
+        terminal.puts "#{COG} Running tests:"
 
         socket.on_message do |message|
-          if message == "DONE"
+          case message
+          when "DONE"
             @reporter.done
             sum = @succeeded + @failed.size
 
             terminal.divider
-            puts "#{sum} tests"
-            puts "  #{ARROW} #{@succeeded} passed"
-            puts "  #{ARROW} #{@failed.size} failed"
+            terminal.puts "#{sum} tests"
+            terminal.puts "  #{ARROW} #{@succeeded} passed"
+            terminal.puts "  #{ARROW} #{@failed.size} failed"
 
-            @failed.each do |faliure|
-              puts "    #{faliure.name}".colorize(:red).to_s
-              puts "    |> #{faliure.result}".colorize(:red).to_s
+            @failed.each do |failure|
+              terminal.puts "    #{failure.name}".colorize(:red)
+              terminal.puts "    |> #{failure.result}".colorize(:red)
             end
 
             Kemal.config.server.try(&.close) unless @flags.manual
@@ -317,7 +335,7 @@ module Mint
             data = Message.from_json(message)
             case data.type
             when "LOG"
-              puts data.result
+              terminal.puts data.result
             when "SUITE"
               @reporter.suite data.name
             when "SUCCEEDED"

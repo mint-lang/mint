@@ -5,7 +5,7 @@ message HtmlElementExpectedClosingBracket do
     text "I found a"
     bold "slash"
     code "/"
-    text "which indiates that the element does not have children. A"
+    text "which indicates that the element does not have children. A"
     bold "closing bracket"
     code ">"
     text "must follow the slash."

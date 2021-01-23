@@ -18,7 +18,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  b(d) {
+  a(d) {
     return (new Err(d));
   }
 });
@@ -26,18 +26,18 @@ const B = new(class extends _M {
 class A extends _C {
   render() {
     return (() => {
-      let _0 = B.b(`Blah`);
+      let _0 = B.a(`Blah`);
 
       if (_0 instanceof Err) {
         let _error = _0._0;
 
-        let c = _error;
-        return c;
+        let b = _error;
+        return b;
       };
 
-      let a = _0._0;
+      let c = _0._0;
 
-      return a;
+      return c;
     })();
   }
 };

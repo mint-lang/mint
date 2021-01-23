@@ -1,0 +1,44 @@
+component Thing {
+  property things : Html = <></>
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render {
+    <Thing things=<{"x"}>/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  constructor(props) {
+    super(props);
+
+    this._d({
+      a: [
+        null,
+        null
+      ]
+    });
+  }
+
+  render() {
+    return _h("div", {});
+  }
+};
+
+A.displayName = "Thing";
+
+class B extends _C {
+  render() {
+    return $a();
+  }
+};
+
+B.displayName = "Main";
+
+const $a = _m(() => _h(A, {
+  a: `x`
+}));

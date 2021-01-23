@@ -3,7 +3,6 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    JS             = Js.new
     STRING         = Type.new("String")
     BOOL           = Type.new("Bool")
     NUMBER         = Type.new("Number")
@@ -13,6 +12,7 @@ module Mint
     HTML           = Type.new("Html")
     EVENT          = Type.new("Html.Event")
     OBJECT         = Type.new("Object")
+    REGEXP         = Type.new("Regexp")
     OBJECT_ERROR   = Type.new("Object.Error")
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
     SET            = Type.new("Set", [Variable.new("a")] of Checkable)
@@ -27,11 +27,11 @@ module Mint
 
     getter records, scope, artifacts, formatter
 
-    property checking : Bool = true
+    property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate types, variables, ast, lookups, cache, to: artifacts
-    delegate component?, component, stateful?, to: scope
+    delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
+    delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
@@ -39,12 +39,16 @@ module Mint
     @names = {} of String => Ast::Node
     @types = {} of String => Ast::Node
     @records = [] of Record
+    @top_level_entity : Ast::Node?
+    @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
 
     @stack = [] of Ast::Node
 
     def initialize(ast : Ast)
+      ast.normalize
+
       @artifacts = Artifacts.new(ast)
       @scope = Scope.new(ast, records)
 
@@ -53,6 +57,26 @@ module Mint
 
     def debug
       puts Debugger.new(@scope).run
+    end
+
+    def print_stack
+      @stack.each_with_index do |i, index|
+        x = case i
+            when Ast::Component then i.name
+            when Ast::Function  then i.name.value
+            when Ast::With      then "<with>"
+            when Ast::Try       then "<try>"
+            when Ast::Call      then "<call>"
+            else
+              i
+            end
+
+        if index == 0
+          puts x
+        else
+          puts "#{" " * (index - 1)} ↳ #{x}"
+        end
+      end
     end
 
     # Helpers for resolving records, types and record definitions
@@ -76,9 +100,9 @@ module Mint
         (@record_name_char = @record_name_char.succ)
 
       compiled_fields =
-        fields.map do |key, value|
+        fields.join(",\n") do |key, value|
           "#{key} : #{value.to_mint}"
-        end.join(",\n").indent
+        end.indent
 
       contents =
         <<-MINT
@@ -139,26 +163,16 @@ module Mint
         "node"   => node,
       } if record.have_holes?
 
-      other = records.find(&.==(record))
-
-      raise RecordFieldsConflict, {
-        "other" => @record_names[other.name],
-        "name"  => record.name,
-        "node"  => node,
-      } if other && other.name != record.name
-
       other = @record_names[record.name]?
 
-      if other && node != other
-        raise RecordNameConflict, {
-          "name"  => record.name,
-          "other" => other,
-          "node"  => node,
-        }
-      else
-        records << record
-        @record_names[record.name] = node
-      end
+      raise RecordNameConflict, {
+        "name"  => record.name,
+        "other" => other,
+        "node"  => node,
+      } if other && node != other
+
+      records << record
+      @record_names[record.name] = node
     end
 
     # Scope specific helpers
@@ -175,16 +189,11 @@ module Mint
     end
 
     def scope(node : Scope::Node)
-      scope.with node do
-        yield
-      end
+      scope.with(node) { yield }
     end
 
-    def scope(nodes : Array(Tuple(String, Checkable, Ast::Node)))
-      # There is no recursive call check because these are just variables...
-      scope.with nodes do
-        yield
-      end
+    def scope(nodes)
+      scope.with(nodes) { yield }
     end
 
     type_error VariableTaken
@@ -205,10 +214,10 @@ module Mint
     # --------------------------------------------------------------------------
 
     type_error Recursion
+    type_error InvalidSelfReference
 
     def check!(node)
-      return unless checking
-      checked.add(node)
+      checked.add(node) if checking?
     end
 
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
@@ -216,13 +225,21 @@ module Mint
       when Checkable
         node
       when Ast::Node
-        cache[node]? || begin
+        if cached = cache[node]?
+          raise InvalidSelfReference, {
+            "referee" => @referee,
+            "node"    => node,
+          } if @top_level_entity.try(&.owns?(node))
+
+          cached
+        else
           if @stack.includes?(node)
-            if node.is_a?(Ast::Component)
-              return NEVER.as(Checkable)
-            elsif node.is_a?(Ast::Function)
+            case node
+            when Ast::Component
+              NEVER
+            when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            elsif node.is_a?(Ast::WhereStatement)
+            when Ast::WhereStatement, Ast::Statement
               expression =
                 node.expression
 
@@ -238,11 +255,17 @@ module Mint
               }
             end
           else
+            raise InvalidSelfReference, {
+              "referee" => @referee,
+              "node"    => node,
+            } if @top_level_entity.try(&.owns?(node))
+
             @stack.push node
 
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
+            resolve_order << node
 
             check! node
 
@@ -276,10 +299,8 @@ module Mint
       if other && other != node
         what =
           case other
-          when Ast::Enum
-            "enum"
-          when Ast::RecordDefinition
-            "record"
+          when Ast::Enum             then "enum"
+          when Ast::RecordDefinition then "record"
           else
             ""
           end
@@ -301,14 +322,10 @@ module Mint
       if other
         what =
           case other
-          when Ast::Component
-            "component"
-          when Ast::Module
-            "module"
-          when Ast::Provider
-            "provider"
-          when Ast::Store
-            "store"
+          when Ast::Component then "component"
+          when Ast::Module    then "module"
+          when Ast::Provider  then "provider"
+          when Ast::Store     then "store"
           else
             ""
           end
@@ -337,14 +354,10 @@ module Mint
         if other
           what =
             case other
-            when Ast::State
-              "state"
-            when Ast::Function
-              "function"
-            when Ast::Get
-              "get"
-            when Ast::Property
-              "property"
+            when Ast::State    then "state"
+            when Ast::Function then "function"
+            when Ast::Get      then "get"
+            when Ast::Property then "property"
             else
               ""
             end
@@ -388,14 +401,22 @@ module Mint
           "th"
         else
           case abs_number % 10
-          when 1; "st"
-          when 2; "nd"
-          when 3; "rd"
-          else    "th"
+          when 1 then "st"
+          when 2 then "nd"
+          when 3 then "rd"
+          else        "th"
           end
         end
 
       "#{number}#{affix}"
+    end
+
+    def with_restricted_top_level_entity(@referee)
+      @top_level_entity = current_top_level_entity?
+      yield
+    ensure
+      @top_level_entity = nil
+      @referee = nil
     end
   end
 end

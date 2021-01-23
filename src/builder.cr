@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative, skip_service_worker)
+    def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
 
       terminal.measure "#{COG} Ensuring dependencies... " do
@@ -19,8 +19,8 @@ module Mint
         FileUtils.mkdir DIST_DIR
       end
 
-      terminal.print "#{COG} Compiling your application:\n"
-      File.write Path[DIST_DIR, "index.js"], index
+      terminal.puts "#{COG} Compiling your application:"
+      File.write Path[DIST_DIR, "index.js"], index(json.application.css_prefix)
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
@@ -35,15 +35,17 @@ module Mint
       end
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker)
+        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
       end
 
       terminal.measure "#{COG} Writing manifest.json..." do
-        File.write "dist/manifest.json", manifest(json)
+        File.write "dist/manifest.json", manifest(json, skip_icons)
       end
 
-      terminal.measure "#{COG} Generating icons... " do
-        icons(json)
+      unless skip_icons
+        terminal.measure "#{COG} Generating icons... " do
+          icons(json)
+        end
       end
 
       if !skip_service_worker
@@ -53,7 +55,7 @@ module Mint
       end
     end
 
-    def manifest(json)
+    def manifest(json, skip_icons)
       {
         "name"             => json.application.name,
         "short_name"       => json.application.name,
@@ -62,14 +64,19 @@ module Mint
         "display"          => json.application.display,
         "orientation"      => json.application.orientation,
         "start_url"        => "/",
-        "icons"            => ICON_SIZES.map do |size|
-          {
-            "src"   => "icon-#{size}x#{size}.png",
-            "sizes" => "#{size}x#{size}",
-            "type"  => "image/png",
-          }
-        end,
+        "icons"            => manifest_icons(skip_icons),
       }.to_pretty_json
+    end
+
+    private def manifest_icons(skip_icons)
+      return %w[] if skip_icons
+      ICON_SIZES.map do |size|
+        {
+          "src"   => "icon-#{size}x#{size}.png",
+          "sizes" => "#{size}x#{size}",
+          "type"  => "image/png",
+        }
+      end
     end
 
     def icons(json)
@@ -84,7 +91,7 @@ module Mint
       end
     end
 
-    def index
+    def index(css_prefix)
       runtime =
         Assets.read("runtime.js")
 
@@ -112,7 +119,10 @@ module Mint
       end
 
       terminal.measure "  #{ARROW} Compiling: " do
-        compiled = Compiler.compile type_checker.artifacts, {optimize: true}
+        compiled = Compiler.compile type_checker.artifacts, {
+          optimize:   true,
+          css_prefix: css_prefix,
+        }
       end
 
       runtime + compiled
