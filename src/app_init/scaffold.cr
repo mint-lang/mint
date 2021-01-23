@@ -77,6 +77,7 @@ module Mint
         "application" => {
           "head"  => "assets/head.html",
           "title" => name,
+          "icon"  => "assets/favicon.png"
         },
         "external" => {
           "stylesheets" => [
