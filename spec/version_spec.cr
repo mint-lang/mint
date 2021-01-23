@@ -1,12 +1,9 @@
-require "./spec_helper"
 require "yaml"
+require "./spec_helper"
 
-describe "Mint::VERSION" do
-  it "matches version defined in shard.yml" do
-    contents = File.read(File.expand_path("../../shard.yml", __FILE__))
-    meta = YAML.parse(contents)
-
-    meta["version"]?.should_not be_falsey
-    Mint::VERSION.should eq(meta["version"].as_s)
+describe Mint::VERSION do
+  it "should match shard.yml" do
+    version = YAML.parse(File.read(Path[__DIR__, "..", "shard.yml"]))["version"].as_s
+    version.should eq Mint::VERSION
   end
 end
