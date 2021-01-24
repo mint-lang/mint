@@ -47,7 +47,6 @@ module Mint
     end
 
     private def show_created_files(path : Path, indent : Int32 = 0)
-      tabs = " " * indent
       dirs = %w[]
       files = %w[]
 
@@ -61,13 +60,15 @@ module Mint
         end
       end
 
+      prefix = "#{" " * indent}#{ARROW} "
+
       dirs.each do |child|
-        terminal.puts "#{tabs}#{ARROW} #{child}"
+        terminal << prefix << child << '\n'
         show_created_files(Path[path, child], indent + 2)
       end
 
       files.each do |child|
-        terminal.puts "#{tabs}#{ARROW} #{child}"
+        terminal << prefix << child << '\n'
       end
     end
 
