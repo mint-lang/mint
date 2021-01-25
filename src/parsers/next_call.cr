@@ -10,7 +10,7 @@ module Mint
 
         raise NextCallExpectedRecord unless item = record
 
-        Ast::NextCall.new(
+        self << Ast::NextCall.new(
           from: start_position,
           to: position,
           input: data,

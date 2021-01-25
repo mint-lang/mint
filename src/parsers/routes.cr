@@ -34,7 +34,7 @@ module Mint
           end
         end
 
-        Ast::Routes.new(
+        self << Ast::Routes.new(
           from: start_position,
           comments: comments,
           routes: routes,

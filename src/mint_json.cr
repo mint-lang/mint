@@ -32,16 +32,6 @@ module Mint
     json_error MintJsonRootNotAnObject
     json_error MintJsonRootInvalidKey
 
-    def self.parse_current : MintJson
-      path = File.join(Dir.current, "mint.json")
-      new File.read(path), Dir.current, path
-    rescue exception : IO::Error
-      raise MintJsonInvalidFile, {
-        "result" => exception.to_s,
-        "path"   => path,
-      }
-    end
-
     def initialize(@json : String, @root : String, @file : String)
       begin
         @parser = JSON::PullParser.new(@json)
@@ -51,6 +41,14 @@ module Mint
         }
       end
       parse_root
+    end
+
+    def self.from_file(path)
+      new File.read(path), File.dirname(path), path
+    end
+
+    def self.parse_current : MintJson
+      from_file(File.join(Dir.current, "mint.json"))
     end
 
     # Calculating nodes for the snippet in errors.
@@ -169,11 +167,14 @@ module Mint
       head =
         @parser.read_string
 
+      path =
+        File.join(@root, head)
+
       raise MintJsonHeadNotExists, {
         "node" => node(location),
-      } unless File.exists?(head)
+      } unless File.exists?(path)
 
-      File.read(head)
+      File.read(path)
     rescue exception : JSON::ParseException
       raise MintJsonHeadNotString, {
         "node" => node(exception),

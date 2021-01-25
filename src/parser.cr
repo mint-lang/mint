@@ -11,6 +11,11 @@ module Mint
       @data = Ast::Data.new(@input, @file)
     end
 
+    def <<(node)
+      ast.nodes << node
+      node
+    end
+
     # Helpers for manipulating position
     # ----------------------------------------------------------------------------
 

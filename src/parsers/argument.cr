@@ -13,7 +13,7 @@ module Mint
 
         type = type_or_type_variable! ArgumentExpectedTypeOrVariable
 
-        Ast::Argument.new(
+        self << Ast::Argument.new(
           from: start_position,
           to: position,
           input: data,

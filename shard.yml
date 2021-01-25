@@ -34,7 +34,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.0
+    commit: 7aa7efd4bdf08bfefb1901c97fe6db13ea1aafdf
   diff:
     github: MakeNowJust/crystal-diff
     version: ~> 1.1.0

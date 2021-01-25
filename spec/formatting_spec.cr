@@ -17,8 +17,10 @@ Dir
       type_checker = Mint::TypeChecker.new(ast)
       type_checker.check
 
+      formatter = Mint::Formatter.new
+
       # Format and compare the results
-      result = Mint::Formatter.new(ast).format
+      result = formatter.format(ast)
 
       begin
         result.should eq(expected.lstrip)
@@ -30,7 +32,7 @@ Dir
       ast = Mint::Parser.parse(result, file)
       ast.class.should eq(Mint::Ast)
 
-      result = Mint::Formatter.new(ast).format
+      result = formatter.format(ast)
       result.should eq(expected.lstrip)
     end
   end

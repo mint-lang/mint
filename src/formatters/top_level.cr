@@ -5,7 +5,7 @@ module Mint
       formatter.format
     end
 
-    def format : String
+    def format(ast : Ast) : String
       body = (
         ast.records +
         ast.providers +

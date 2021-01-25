@@ -45,7 +45,7 @@ module Mint
           end
         end
 
-        Ast::Parallel.new(
+        self << Ast::Parallel.new(
           then_branch: then_branch,
           statements: statements,
           catch_all: catch_all,

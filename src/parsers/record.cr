@@ -21,7 +21,7 @@ module Mint
           char '}', RecordExpectedClosingBracket
         end
 
-        Ast::Record.new(
+        self << Ast::Record.new(
           from: start_position,
           fields: fields,
           to: position,

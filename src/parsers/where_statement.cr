@@ -14,7 +14,7 @@ module Mint
 
         expression = expression! WhereExpectedExpression
 
-        Ast::WhereStatement.new(
+        self << Ast::WhereStatement.new(
           expression: expression,
           from: start_position,
           target: target,

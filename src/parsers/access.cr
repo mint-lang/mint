@@ -12,13 +12,15 @@ module Mint
 
         field = variable! AccessExpectedVariable
 
-        array_access_or_call(Ast::Access.new(
+        node = self << Ast::Access.new(
           lhs: lhs,
           safe: safe,
           field: field,
           from: start_position,
           to: position,
-          input: data))
+          input: data)
+
+        array_access_or_call(node)
       end || lhs
     end
   end

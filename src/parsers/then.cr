@@ -17,7 +17,7 @@ module Mint
           expression! ThenExpectedExpression
         end
 
-        Ast::Then.new(
+        self << Ast::Then.new(
           expression: expression.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

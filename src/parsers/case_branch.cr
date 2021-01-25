@@ -25,7 +25,7 @@ module Mint
             expression! CaseBranchExpectedExpression
           end
 
-        Ast::CaseBranch.new(
+        self << Ast::CaseBranch.new(
           match: match.as(Ast::EnumDestructuring | Ast::TupleDestructuring | Ast::Expression?),
           expression: expression,
           from: start_position,

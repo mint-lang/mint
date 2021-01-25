@@ -11,7 +11,8 @@ module Mint
   class Reactor
     @sockets = [] of HTTP::WebSocket
     @error : String?
-    @watcher : AstWatcher
+    @ast : Ast = Ast.new
+    @script = ""
     @host : String
     @port : Int32
     @auto_format : Bool
@@ -28,32 +29,59 @@ module Mint
         MintJson.parse_current.check_dependencies!
       end
 
-      @watcher =
-        AstWatcher.new(->{ SourceFiles.all },
-          ->(file : String, ast : Ast) {
-            if @auto_format
-              formatted =
-                Formatter.new(ast, MintJson.parse_current.formatter_config).format
+      workspace = Workspace.current
+      workspace.format = auto_format
 
-              unless formatted == File.read(file)
-                File.write(file, formatted)
-              end
-            end
-          }, true) do |result|
-          case result
-          when Ast
-            @ast = result
-            @error = nil
-            compile_script
-          when Error
-            @error = result.to_html
-          end
-        end
+      init(workspace)
+
+      workspace.on "change" do |result|
+        update result
+        notify
+      end
+
+      workspace.watch
 
       watch_for_changes
       setup_kemal
 
       Server.run "Development", @host, @port, @host, @port
+    end
+
+    def init(workspace)
+      prefix = "#{COG} Parsing files"
+      line = ""
+
+      elapsed = Time.measure do
+        workspace.initialize_cache do |_, index, size|
+          counter =
+            "#{index} / #{size}".colorize.mode(:bold)
+
+          line =
+            "#{prefix}: #{counter}".ljust(line.size)
+
+          terminal.io.print(line + "\r")
+          terminal.io.flush
+        end
+      end
+
+      elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold)
+      terminal.io.puts "#{prefix}... #{elapsed}".ljust(line.size)
+
+      @ast = workspace.ast
+      compile_script
+    rescue exception : Error
+      @error = exception.to_html
+    end
+
+    def update(result)
+      case result
+      when Ast
+        @ast = result
+        @error = nil
+        compile_script
+      when Error
+        @error = result.to_html
+      end
     end
 
     def compile_script
@@ -108,13 +136,13 @@ module Mint
       get "/external-javascripts.js" do |env|
         env.response.content_type = "application/javascript"
 
-        @watcher.external_javascripts.to_s
+        SourceFiles.external_javascripts.to_s
       end
 
       get "/external-stylesheets.css" do |env|
         env.response.content_type = "text/css"
 
-        @watcher.external_stylesheets.to_s
+        SourceFiles.external_stylesheets.to_s
       end
 
       get "/:name" do |env|
@@ -193,25 +221,6 @@ module Mint
               notify
             end
           end
-        end
-      end
-
-      spawn do
-        @watcher.watch do |result|
-          case result
-          when Ast
-            @ast = result
-            @error = nil
-
-            terminal.measure "#{COG} Files changed recompiling... " do
-              compile_script
-            end
-          when Error
-            @error = result.to_html
-            @ast = Ast.new
-          end
-
-          notify
         end
       end
     end

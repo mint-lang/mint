@@ -10,7 +10,7 @@ module Mint
           expression! CatchExpectedExpression
         end
 
-        Ast::CatchAll.new(
+        self << Ast::CatchAll.new(
           expression: expression.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

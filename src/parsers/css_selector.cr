@@ -23,7 +23,7 @@ module Mint
           end
         end
 
-        Ast::CssSelector.new(
+        self << Ast::CssSelector.new(
           selectors: selectors,
           from: start_position,
           to: position,

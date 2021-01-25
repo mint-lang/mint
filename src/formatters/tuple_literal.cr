@@ -3,7 +3,7 @@ module Mint
     def format(node : Ast::TupleLiteral) : String
       mutliline =
         if node.items.size > 0
-          ast.new_line?(node.items.first, node.items.last)
+          Ast.new_line?(node.items.first, node.items.last)
         else
           false
         end

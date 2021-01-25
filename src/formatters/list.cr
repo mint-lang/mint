@@ -22,7 +22,7 @@ module Mint
           else
             # Check if space the nodes are separated by new lines
             space_separated =
-              last && ast.space_separated?(last, node)
+              last && Ast.space_separated?(last, node)
 
             # Decide the separator
             separator =

@@ -23,7 +23,7 @@ module Mint
           expression! TestExpectedExpression
         end
 
-        Ast::Test.new(
+        self << Ast::Test.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           expression: expression,

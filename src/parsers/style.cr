@@ -34,7 +34,7 @@ module Mint
           many { css_keyframes || css_font_face || css_node }.compact
         end
 
-        Ast::Style.new(
+        self << Ast::Style.new(
           from: start_position,
           arguments: arguments,
           to: position,

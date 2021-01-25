@@ -17,7 +17,7 @@ module Mint
           expression! FinallyExpectedExpression
         end
 
-        Ast::Finally.new(
+        self << Ast::Finally.new(
           expression: expression.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

@@ -25,6 +25,10 @@ test-core: build
 development: build
 	mv bin/mint ~/.bin/mint-dev
 
+.PHONY: local
+local: build
+	mv bin/mint ~/.bin/mint
+
 .PHONY: documentation
 documentation:
 	rm -rf docs && crystal docs

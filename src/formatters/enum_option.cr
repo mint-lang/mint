@@ -5,9 +5,7 @@ module Mint
         node.comment.try { |item| "#{format item}\n" }
 
       parameters =
-        unless node.parameters.empty?
-          "(#{format(node.parameters, ", ")})"
-        end
+        format_parameters(node.parameters)
 
       "#{comment}#{node.value}#{parameters}"
     end

@@ -14,9 +14,7 @@ module Mint
         node.comment.try { |item| "#{format item}\n" }
 
       parameters =
-        unless node.parameters.empty?
-          "(#{format(node.parameters, ", ")})"
-        end
+        format_parameters(node.parameters)
 
       "#{comment}enum #{name}#{parameters} {\n#{indent(body)}\n}"
     end

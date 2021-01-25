@@ -13,7 +13,7 @@ module Mint
 
         parameters = many { type_variable }.compact
 
-        Ast::EnumDestructuring.new(
+        self << Ast::EnumDestructuring.new(
           parameters: parameters,
           from: start_position,
           option: option,

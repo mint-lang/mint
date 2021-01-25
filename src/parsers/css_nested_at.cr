@@ -26,7 +26,7 @@ module Mint
           css_body
         end
 
-        Ast::CssNestedAt.new(
+        self << Ast::CssNestedAt.new(
           from: start_position,
           content: content,
           to: position,
