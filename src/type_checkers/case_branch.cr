@@ -52,8 +52,6 @@ module Mint
                 {variable.value, condition.parameters[0], variable}
               when Ast::Spread
                 {variable.variable.value, condition, variable.variable}
-              else
-                # ignore
               end
             end
 

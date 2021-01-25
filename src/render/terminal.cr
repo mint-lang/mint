@@ -106,6 +106,11 @@ module Mint
         @position = 0
       end
 
+      def <<(obj) : self
+        io << obj
+        self
+      end
+
       def self.render
         terminal = new
         with terminal yield

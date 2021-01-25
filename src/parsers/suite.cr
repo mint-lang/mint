@@ -38,8 +38,6 @@ module Mint
             comments << item
           when Ast::Test
             tests << item
-          else
-            # ignore
           end
         end
 

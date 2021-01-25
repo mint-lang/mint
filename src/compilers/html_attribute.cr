@@ -14,8 +14,6 @@ module Mint
         end
       when "ref"
         value = "(ref => { ref ? #{value}.call(this, ref) : null })"
-      else
-        # ignore
       end
 
       if downcase_name == "readonly" && is_element

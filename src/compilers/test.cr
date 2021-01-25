@@ -31,8 +31,6 @@ module Mint
             return context
           })()"
           end
-        else
-          # ignore
         end
 
       expression = compile raw_expression unless expression
