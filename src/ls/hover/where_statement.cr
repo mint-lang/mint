@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::WhereStatement, workspace) : Array(String?)
+      def hover(node : Ast::WhereStatement, workspace) : Array(String)
         type =
           workspace
             .type_checker
@@ -17,7 +17,7 @@ module Mint
         [
           "**#{head} =**",
           type,
-        ] of String?
+        ].compact
       end
     end
   end

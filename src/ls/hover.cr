@@ -5,19 +5,19 @@ module Mint
       property params : LSP::TextDocumentPositionParams
 
       # Fallback handler for nil, obviously it should not happen.
-      def hover(node : Nil, workspace) : Array(String?)
-        ["This should not happen! Please create an issue about this!"] of String?
+      def hover(node : Nil, workspace) : Array(String)
+        ["This should not happen! Please create an issue about this!"]
       end
 
       # Fallback handler for nodes that does not have a handler yet.
-      def hover(node : Ast::Node, workspace) : Array(String?)
+      def hover(node : Ast::Node, workspace) : Array(String)
         type =
           type_of(node, workspace)
 
         [
           "Type information for: #{node.class}\n",
           type,
-        ]
+        ].compact
       end
 
       # Returns the type information of a node from the workspace

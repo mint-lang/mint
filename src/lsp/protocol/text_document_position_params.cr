@@ -38,14 +38,20 @@ module LSP
           break if position.line == line_count &&
                    position.character == line_char_count
 
-          case char
-          when '\n', '\r'
+          if contents[char_count..char_count + 1] == "\n\r"
+            char_count += 2
             line_count += 1
             line_char_count = 0
-          end
+          else
+            case char
+            when '\n', '\r'
+              line_count += 1
+              line_char_count = 0
+            end
 
-          line_char_count += 1
-          char_count += 1
+            line_char_count += 1
+            char_count += 1
+          end
         end
 
         char_count

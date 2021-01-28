@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::ModuleAccess, workspace) : Array(String?)
+      def hover(node : Ast::ModuleAccess, workspace) : Array(String)
         item =
           workspace.type_checker.lookups[node.variable]?
 

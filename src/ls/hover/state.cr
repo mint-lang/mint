@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::State, workspace) : Array(String?)
+      def hover(node : Ast::State, workspace) : Array(String)
         default =
           " = #{workspace.formatter.format(node.default)}"
 
@@ -13,7 +13,7 @@ module Mint
         [
           "**#{node.name.value}#{type}#{default}**\n",
           node.comment.try(&.value.strip),
-        ]
+        ].compact
       end
     end
   end

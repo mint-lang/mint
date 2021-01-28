@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Type, workspace) : Array(String?)
+      def hover(node : Ast::Type, workspace) : Array(String)
         enum_node =
           workspace
             .ast
@@ -21,7 +21,7 @@ module Mint
           type =
             workspace.formatter.format(node)
 
-          ["```\n#{record || type}\n```"] of String?
+          ["```\n#{record || type}\n```"]
         end
       end
     end

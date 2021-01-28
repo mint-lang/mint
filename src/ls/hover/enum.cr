@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Enum, workspace) : Array(String?)
+      def hover(node : Ast::Enum, workspace) : Array(String)
         parameters =
           workspace.formatter.format_parameters(node.parameters)
 
@@ -19,7 +19,7 @@ module Mint
         ([
           "**#{node.name}#{parameters}**\n",
           node.comment.try(&.value.strip.+("\n")),
-        ] + options)
+        ] + options).compact
       end
     end
   end

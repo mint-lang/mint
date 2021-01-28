@@ -221,7 +221,7 @@ module Mint
     private def process(contents, file)
       ast = Parser.parse(contents, File.real_path(file))
 
-      if format
+      if format?
         formatted =
           Formatter
             .new(json.formatter_config)

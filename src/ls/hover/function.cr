@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Function, workspace) : Array(String?)
+      def hover(node : Ast::Function, workspace) : Array(String)
         entity =
           workspace.ast.modules.find(&.functions.includes?(node)) ||
             workspace.ast.components.find(&.functions.includes?(node)) ||
@@ -31,7 +31,7 @@ module Mint
         [
           "**#{name}.#{node.name.value}#{arguments}#{type}**\n",
           node.comment.try(&.value.strip),
-        ]
+        ].compact
       end
     end
   end

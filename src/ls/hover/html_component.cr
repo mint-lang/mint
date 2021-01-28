@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Component, workspace) : Array(String?)
+      def hover(node : Ast::Component, workspace) : Array(String)
         properties =
           node
             .properties
@@ -12,16 +12,16 @@ module Mint
             "\n**Properties**\n"
           end
 
-        [
+        ([
           "**#{node.name}**\n",
           node.comment.try(&.value.strip),
           properties_title,
-        ] + properties
+        ] + properties).compact
       end
     end
 
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::HtmlComponent, workspace) : Array(String?)
+      def hover(node : Ast::HtmlComponent, workspace) : Array(String)
         component =
           workspace
             .type_checker

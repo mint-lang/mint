@@ -3,7 +3,7 @@ module LSP
     include JSON::Serializable
 
     # The server has support for workspace folders
-    property supported : Bool
+    property? supported : Bool
 
     # Whether the server wants to receive workspace folder
     # change notifications.
