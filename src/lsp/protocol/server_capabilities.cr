@@ -10,7 +10,7 @@ module LSP
 
     # The server provides hover support.
     @[JSON::Field(key: "hoverProvider")]
-    property hover_provider : Bool
+    property? hover_provider : Bool
 
     # The server provides completion support.
     @[JSON::Field(key: "completionProvider")]
@@ -22,31 +22,31 @@ module LSP
 
     # The server provides goto definition support.
     @[JSON::Field(key: "definitionProvider")]
-    property definition_provider : Bool
+    property? definition_provider : Bool
 
     # The server provides Goto Type Definition support.
     @[JSON::Field(key: "typeDefinitionProvider")]
-    property type_definition_provider : Bool
+    property? type_definition_provider : Bool
 
     # The server provides Goto Implementation support.
     @[JSON::Field(key: "implementationProvider")]
-    property implementation_provider : Bool
+    property? implementation_provider : Bool
 
     # The server provides find references support.
     @[JSON::Field(key: "referencesProvider")]
-    property references_provider : Bool
+    property? references_provider : Bool
 
     # The server provides document highlight support.
     @[JSON::Field(key: "documentHighlightProvider")]
-    property document_highlight_provider : Bool
+    property? document_highlight_provider : Bool
 
     # The server provides document symbol support.
     @[JSON::Field(key: "documentSymbolProvider")]
-    property document_symbol_provider : Bool
+    property? document_symbol_provider : Bool
 
     # The server provides workspace symbol support.
     @[JSON::Field(key: "workspaceSymbolProvider")]
-    property workspace_symbol_provider : Bool
+    property? workspace_symbol_provider : Bool
 
     # The server provides code actions. The `CodeActionOptions` return type is only
     # valid if the client signals code action literal support via the property
@@ -60,11 +60,11 @@ module LSP
 
     # The server provides document formatting.
     @[JSON::Field(key: "documentFormattingProvider")]
-    property document_formatting_provider : Bool
+    property? document_formatting_provider : Bool
 
     # The server provides document range formatting.
     @[JSON::Field(key: "documentRangeFormattingProvider")]
-    property document_range_formatting_provider : Bool
+    property? document_range_formatting_provider : Bool
 
     # The server provides document formatting on typing.
     @[JSON::Field(key: "documentOnTypeFormattingProvider")]
@@ -90,7 +90,7 @@ module LSP
 
     # The server provides go to declaration support.
     @[JSON::Field(key: "declarationProvider")]
-    property declaration_provider : Bool
+    property? declaration_provider : Bool
 
     # The server provides execute command support.
     @[JSON::Field(key: "executeCommandProvider")]

@@ -57,7 +57,7 @@ module Mint
     getter error : Error?
     getter root : String
 
-    property format : Bool = false
+    property? format : Bool = false
 
     def initialize(@root : String)
       json_path =

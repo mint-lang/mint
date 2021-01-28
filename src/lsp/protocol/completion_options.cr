@@ -6,7 +6,7 @@ module LSP
     # The server provides support to resolve additional
     # information for a completion item.
     @[JSON::Field(key: "resolveProvider")]
-    property resolve_provider : Bool
+    property? resolve_provider : Bool
 
     # The characters that trigger completion automatically.
     @[JSON::Field(key: "triggerCharacters")]

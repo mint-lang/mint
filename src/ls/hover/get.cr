@@ -12,8 +12,6 @@ module Mint
             entity.name
           when Ast::Store
             entity.name
-          else
-            ""
           end
 
         type =

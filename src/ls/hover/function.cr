@@ -18,8 +18,6 @@ module Mint
             entity.name
           when Ast::Module
             entity.name
-          else
-            ""
           end
 
         arguments =

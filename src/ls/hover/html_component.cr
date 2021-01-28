@@ -8,7 +8,7 @@ module Mint
             .flat_map { |property| hover(property, workspace) }
 
         properties_title =
-          if properties.any?
+          unless properties.empty?
             "\n**Properties**\n"
           end
 

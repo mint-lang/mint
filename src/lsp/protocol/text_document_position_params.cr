@@ -38,11 +38,10 @@ module LSP
           break if position.line == line_count &&
                    position.character == line_char_count
 
-          case char.to_s
-          when "\n", "\r"
+          case char
+          when '\n', '\r'
             line_count += 1
             line_char_count = 0
-          else
           end
 
           line_char_count += 1

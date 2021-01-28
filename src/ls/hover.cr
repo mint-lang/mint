@@ -6,7 +6,7 @@ module Mint
 
       # Fallback handler for nil, obviously it should not happen.
       def hover(node : Nil, workspace) : Array(String?)
-        ["This should not happen!Please create an issue about this!"] of String?
+        ["This should not happen! Please create an issue about this!"] of String?
       end
 
       # Fallback handler for nodes that does not have a handler yet.
