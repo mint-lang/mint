@@ -73,7 +73,7 @@ module Mint
 
                   let currentHistory = window.history.length
 
-                  let result = await test.proc()
+                  let result = await test.proc(this.suite.constants)
 
                   // Go back to the beginning
                   if (window.history.length - currentHistory) {

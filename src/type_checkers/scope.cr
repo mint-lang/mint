@@ -187,6 +187,10 @@ module Mint
           store_gets(component)[variable]?
       end
 
+      def find(variable : String, node : Ast::Suite)
+        node.constants.find(&.name.==(variable))
+      end
+
       def find(variable : String, node : Ast::Node)
       end
 
