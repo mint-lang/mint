@@ -73,8 +73,6 @@ module Mint
             gets << item
           when Ast::Use
             uses << item
-          else
-            # ignore
           end
         end
 

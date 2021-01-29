@@ -41,8 +41,6 @@ module Mint
             constants << item
           when Ast::Test
             tests << item
-          else
-            # ignore
           end
         end
 

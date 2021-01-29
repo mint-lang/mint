@@ -203,8 +203,6 @@ module Mint
               "node"     => function,
               "got"      => type,
             } unless Comparer.compare(type, VOID_FUNCTION)
-          else
-            # ignore
           end
         end
       end

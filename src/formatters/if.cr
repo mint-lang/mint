@@ -29,8 +29,6 @@ module Mint
               list falsy_item + node.falsy_head_comments + node.falsy_tail_comments
             when Ast::Node
               list [falsy_item] + node.falsy_head_comments + node.falsy_tail_comments
-            else
-              # ignore
             end
 
           " else {\n#{indent(body)}\n}" if body

@@ -29,8 +29,6 @@ module Mint
             routes << item
           when Ast::Comment
             comments << item
-          else
-            # ignore
           end
         end
 

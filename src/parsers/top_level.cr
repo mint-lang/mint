@@ -51,8 +51,6 @@ module Mint
           @ast.enums << item
         when Ast::Comment
           @ast.comments << item
-        else
-          # ignore
         end
       end
     end

@@ -16,8 +16,6 @@ module Mint
               entity
                 .states
                 .find(&.name.value.==(item.key.value))
-            else
-              # ignore
             end
 
           if field
