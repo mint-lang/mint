@@ -89,7 +89,7 @@ module Mint
             # The variable is a constant in a test suite
             "constants.#{name}()"
           else
-          "this.#{name}"
+            "this.#{name}"
           end
         when Ast::Argument
           compile entity

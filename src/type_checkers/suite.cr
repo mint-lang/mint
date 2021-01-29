@@ -3,7 +3,7 @@ module Mint
     def check(node : Ast::Suite)
       scope node do
         resolve node.name
-        resolve node.tests          
+        resolve node.tests
       end
       NEVER
     end
