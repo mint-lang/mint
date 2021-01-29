@@ -17,7 +17,7 @@ module Mint
             left =
               compile raw_expression.left
 
-            "(() => {
+            "((constants) => {
             const context = new TestContext(#{left})
             const right = #{right}
 
@@ -29,13 +29,13 @@ module Mint
               }
             })
             return context
-          })()"
+          })(constants)"
           end
         end
 
       expression = compile raw_expression unless expression
 
-      "{ name: #{name}, proc: () => { return #{expression} } }"
+      "{ name: #{name}, proc: (constants) => { return #{expression} } }"
     end
   end
 end

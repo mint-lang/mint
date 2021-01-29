@@ -7,7 +7,10 @@ module Mint
       tests =
         compile node.tests, ","
 
-      "{ name: #{name}, tests: [#{tests}] }"
+      constants =
+        compile_constants node.constants
+
+      "{ name: #{name}, tests: [#{tests}], constants: #{js.object(constants)} }"
     end
   end
 end
