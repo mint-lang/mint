@@ -6,7 +6,7 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.3+git.commit.7aa7efd4bdf08bfefb1901c97fe6db13ea1aafdf
+    version: 0.13.4
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
