@@ -33,7 +33,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.0
+    version: ~> 0.13.4
   diff:
     github: MakeNowJust/crystal-diff
     version: ~> 1.1.0
@@ -42,6 +42,6 @@ targets:
   mint:
     main: src/mint.cr
 
-crystal: ">= 0.35.0"
+crystal: ">= 0.36.0"
 
 license: BSD-3-Clause
