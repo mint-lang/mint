@@ -21,7 +21,7 @@ module Mint
 
       if replace_skipped(body).includes?('\n') ||
          replace_skipped(arguments).includes?('\n') ||
-         node.type.try { |item| ast.new_line?(item, node.body) }
+         node.type.try { |item| Ast.new_line?(item, node.body) }
         "(#{arguments})#{type} {\n#{indent(body)}\n}"
       else
         "(#{arguments})#{type} { #{body} }"

@@ -37,7 +37,7 @@ module Mint
             expression! InlineFunctionExpectedExpression
           end
 
-        Ast::InlineFunction.new(
+        self << Ast::InlineFunction.new(
           body: body.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

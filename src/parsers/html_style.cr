@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         name = start do
           skip unless keyword "::"
-          skip unless value = variable_with_dashes
+          skip unless value = variable_with_dashes track: false
           value
         end
 

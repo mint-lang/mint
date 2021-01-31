@@ -25,7 +25,7 @@ module Mint
         char ')', TypeExpectedClosingParentheses
       end
 
-      Ast::Type.new(
+      self << Ast::Type.new(
         parameters: parameters || [] of Ast::Type | Ast::TypeVariable,
         from: start_position,
         to: position,

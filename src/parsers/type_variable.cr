@@ -3,7 +3,7 @@ module Mint
     def type_variable : Ast::TypeVariable?
       return unless var = variable
 
-      Ast::TypeVariable.new(
+      self << Ast::TypeVariable.new(
         value: var.value,
         from: var.from,
         input: data,

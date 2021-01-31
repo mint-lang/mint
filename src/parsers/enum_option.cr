@@ -23,7 +23,7 @@ module Mint
           char ')', EnumOptionExpectedClosingParentheses
         end
 
-        Ast::EnumOption.new(
+        self << Ast::EnumOption.new(
           parameters: parameters,
           from: start_position,
           comment: comment,

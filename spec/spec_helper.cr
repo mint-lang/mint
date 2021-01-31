@@ -101,3 +101,114 @@ macro expect_error(sample, error)
     end
   end
 end
+
+module LSP
+  class Server
+    def log(message)
+    end
+  end
+end
+
+class Workspace
+  @files = {} of String => File
+  @id : String
+
+  def workspace
+    Mint::Workspace[File.join(@root, "test.file")]
+  end
+
+  def initialize
+    @id =
+      Random.new.hex(5)
+
+    @root =
+      File.join(Dir.tempdir, @id)
+
+    Dir.mkdir(@root)
+
+    file("mint.json", {
+      "name"               => "test",
+      "source-directories" => [
+        ".",
+      ],
+    }.to_json)
+  end
+
+  def file(name, contents) : File
+    file =
+      File.new(File.join(@root, name), "w+")
+
+    file.print(contents)
+    file.flush
+
+    @files[name] = file
+
+    file
+  end
+
+  def file_path(name)
+    "file://#{@files[name]?.try(&.path)}"
+  end
+
+  def cleanup
+    @files.values.each(&.delete)
+    Dir.delete(@root)
+  end
+end
+
+def with_workspace
+  workspace = Workspace.new
+
+  begin
+    yield workspace
+  ensure
+    workspace.cleanup
+  end
+end
+
+def notify_lsp(method, message)
+  in_io =
+    IO::Memory.new
+
+  out_io =
+    IO::Memory.new
+
+  server =
+    Mint::LS::Server.new(in_io, out_io)
+
+  body = {
+    jsonrpc: "2.0",
+    params:  message,
+    method:  method,
+  }.to_json
+
+  in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
+  in_io.rewind
+
+  server.read
+end
+
+def lsp(id, method, message)
+  in_io =
+    IO::Memory.new
+
+  out_io =
+    IO::Memory.new
+
+  server =
+    Mint::LS::Server.new(in_io, out_io)
+
+  body = {
+    jsonrpc: "2.0",
+    id:      id,
+    params:  message,
+    method:  method,
+  }.to_json
+
+  in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
+  in_io.rewind
+
+  server.read
+
+  LSP::MessageParser.parse(out_io.rewind) { |content| content }
+end

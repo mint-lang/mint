@@ -13,16 +13,7 @@ module Mint
         list [node.body] + node.head_comments + node.tail_comments
 
       arguments =
-        unless node.arguments.empty?
-          value =
-            format node.arguments
-
-          if value.sum { |string| replace_skipped(string).size } > 50
-            "(\n#{indent(value.join(",\n"))}\n)"
-          else
-            "(#{value.join(", ")})"
-          end
-        end
+        format_arguments node.arguments
 
       where =
         format node.where

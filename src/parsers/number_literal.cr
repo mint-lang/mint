@@ -21,7 +21,7 @@ module Mint
 
         value = "-#{value}" if negation
 
-        Ast::NumberLiteral.new(
+        self << Ast::NumberLiteral.new(
           from: start_position,
           value: value,
           float: float,

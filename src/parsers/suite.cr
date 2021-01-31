@@ -44,7 +44,7 @@ module Mint
           end
         end
 
-        Ast::Suite.new(
+        self << Ast::Suite.new(
           from: start_position,
           comments: comments,
           constants: constants,

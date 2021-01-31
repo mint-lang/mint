@@ -40,7 +40,7 @@ module Mint
           end
         end
 
-        Ast::Sequence.new(
+        self << Ast::Sequence.new(
           statements: statements,
           from: start_position,
           catch_all: catch_all,

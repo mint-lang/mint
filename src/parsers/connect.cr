@@ -25,7 +25,7 @@ module Mint
           items
         end
 
-        Ast::Connect.new(
+        self << Ast::Connect.new(
           from: start_position,
           store: store,
           to: position,

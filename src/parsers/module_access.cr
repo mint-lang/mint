@@ -13,9 +13,9 @@ module Mint
         skip unless name
 
         variable =
-          variable! ModuleAccessExpectedFunction
+          variable! ModuleAccessExpectedFunction, track: false
 
-        Ast::ModuleAccess.new(
+        self << Ast::ModuleAccess.new(
           from: start_position,
           variable: variable,
           to: position,

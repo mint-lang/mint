@@ -14,7 +14,7 @@ module Mint
         skip unless keyword "property"
         whitespace
 
-        name = variable! PropertyExpectedName
+        name = variable! PropertyExpectedName, track: false
         whitespace
 
         type =
@@ -31,10 +31,10 @@ module Mint
             expression! PropertyExpectedDefaultValue
           end
 
-        Ast::Property.new(
+        self << Ast::Property.new(
           from: start_position,
-          comment: comment,
           default: default,
+          comment: comment,
           to: position,
           input: data,
           type: type,

@@ -9,7 +9,7 @@ module Mint
       start do |start_position|
         tag = start do
           skip unless char! '<'
-          skip unless value = variable_with_dashes
+          skip unless value = variable_with_dashes track: false
           value
         end
 
@@ -38,7 +38,7 @@ module Mint
           with_dashes: true,
           tag: tag)
 
-        node = Ast::HtmlElement.new(
+        node = self << Ast::HtmlElement.new(
           attributes: attributes,
           from: start_position,
           children: children,

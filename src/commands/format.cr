@@ -28,7 +28,7 @@ module Mint
           Parser.parse(input, "stdin.mint")
 
         formatted =
-          Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+          Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
         terminal.puts formatted
       end
@@ -62,7 +62,7 @@ module Mint
                 Parser.parse(file)
 
               formatted =
-                Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+                Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
               unless formatted == File.read(file)
                 File.write(file, formatted)

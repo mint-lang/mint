@@ -28,7 +28,7 @@ module Mint
 
         char ';', CssDefinitionExpectedSemicolon
 
-        Ast::CssDefinition.new(
+        self << Ast::CssDefinition.new(
           from: start_position,
           name: name.to_s,
           value: value,

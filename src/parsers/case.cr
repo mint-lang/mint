@@ -42,7 +42,7 @@ module Mint
           end
         end
 
-        Ast::Case.new(
+        self << Ast::Case.new(
           condition: condition,
           from: start_position,
           branches: branches,

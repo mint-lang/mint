@@ -76,7 +76,7 @@ module Mint
           end
         end
 
-        Ast::Component.new(
+        self << Ast::Component.new(
           global: global || false,
           properties: properties,
           functions: functions,

@@ -16,7 +16,7 @@ module Mint
             expression! ForConditionExpectedBody
           end
 
-        Ast::ForCondition.new(
+        self << Ast::ForCondition.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           condition: condition,

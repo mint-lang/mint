@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def variable_with_dashes!(error : SyntaxError.class | SkipError.class) : Ast::Variable
+    def variable_with_dashes!(error : SyntaxError.class | SkipError.class, track = true) : Ast::Variable
       start_position = position
 
       value = gather do
@@ -10,11 +10,14 @@ module Mint
 
       raise error unless value
 
-      Ast::Variable.new(
+      node = Ast::Variable.new(
         from: start_position,
         value: value,
         to: position,
         input: data)
+
+      self << node if track
+      node
     end
 
     def variable_attribute_name : Ast::Variable?
@@ -34,7 +37,7 @@ module Mint
       end
     end
 
-    def variable!(error : SyntaxError.class | SkipError.class) : Ast::Variable
+    def variable!(error : SyntaxError.class | SkipError.class, track = true) : Ast::Variable
       start_position = position
 
       value = gather do
@@ -44,19 +47,22 @@ module Mint
 
       raise error unless value
 
-      Ast::Variable.new(
+      node = Ast::Variable.new(
         from: start_position,
         value: value,
         to: position,
         input: data)
+
+      self << node if track
+      node
     end
 
-    def variable_with_dashes : Ast::Variable?
-      start { variable_with_dashes! SkipError }
+    def variable_with_dashes(track = true) : Ast::Variable?
+      start { variable_with_dashes! SkipError, track }
     end
 
-    def variable : Ast::Variable?
-      start { variable! SkipError }
+    def variable(track = true) : Ast::Variable?
+      start { variable! SkipError, track }
     end
   end
 end

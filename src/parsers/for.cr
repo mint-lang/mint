@@ -42,7 +42,7 @@ module Mint
         condition = for_condition
         whitespace
 
-        Ast::For.new(
+        self << Ast::For.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           condition: condition,

@@ -32,7 +32,7 @@ module Mint
           end
         end
 
-        Ast::Where.new(
+        self << Ast::Where.new(
           statements: statements,
           from: start_position,
           comments: comments,

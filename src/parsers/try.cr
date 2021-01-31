@@ -39,7 +39,7 @@ module Mint
           end
         end
 
-        Ast::Try.new(
+        self << Ast::Try.new(
           statements: statements,
           catch_all: catch_all,
           from: start_position,

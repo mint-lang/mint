@@ -23,7 +23,7 @@ module Mint
           type_or_type_variable! ArrayLiteralExpectedTypeOrVariable
         end
 
-        Ast::ArrayLiteral.new(
+        self << Ast::ArrayLiteral.new(
           from: start_position,
           items: items,
           type: type,

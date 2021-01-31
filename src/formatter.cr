@@ -9,10 +9,9 @@ module Mint
       end
     end
 
-    getter ast : Ast
     getter config : Config
 
-    def initialize(@ast, @config = Config.new)
+    def initialize(@config = Config.new)
     end
 
     def indent(string : String)
@@ -61,6 +60,24 @@ module Mint
         "\n#{indent(fields)}"
       else
         format node.fields, ", "
+      end
+    end
+
+    def format_parameters(parameters)
+      return if parameters.empty?
+
+      "(#{format(parameters, ", ")})"
+    end
+
+    def format_arguments(arguments : Array(Ast::Argument))
+      return if arguments.empty?
+      value =
+        format arguments
+
+      if value.sum { |string| replace_skipped(string).size } > 50
+        "(\n#{indent(value.join(",\n"))}\n)"
+      else
+        "(#{value.join(", ")})"
       end
     end
 

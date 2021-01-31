@@ -14,7 +14,7 @@ module Mint
         skip unless keyword "get"
         whitespace
 
-        name = variable! GetExpectedName
+        name = variable! GetExpectedName, track: false
         whitespace
 
         type =
@@ -34,7 +34,7 @@ module Mint
 
         whitespace
 
-        Ast::Get.new(
+        self << Ast::Get.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           from: start_position,

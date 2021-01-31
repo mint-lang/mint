@@ -1,6 +1,6 @@
 module Mint
   class DocumentationGenerator
-    @formatter = Formatter.new(Ast.new)
+    @formatter = Formatter.new
 
     def generate(asts : Hash(MintJson, Ast))
       JSON.build do |json|

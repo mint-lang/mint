@@ -19,7 +19,7 @@ module Mint
 
         char ')', CallExpectedClosingParentheses
 
-        array_access_or_call(Ast::Call.new(
+        node = self << Ast::Call.new(
           partially_applied: false,
           from: start_position,
           arguments: arguments,
@@ -27,7 +27,9 @@ module Mint
           to: position,
           input: data,
           safe: safe
-        ))
+        )
+
+        array_access_or_call(node)
       end || lhs
     end
   end

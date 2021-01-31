@@ -53,10 +53,10 @@ module Mint
           params =
             parameters.map(&.to_pretty.as(String))
 
-          if params.any?(&.includes?('\n')) || params.size > 4
+          if params.size > 1 && params[0].includes?("\n")
             "#{name}(\n#{params.join(",\n").indent})"
           else
-            "#{name}(#{params.join(", ")})"
+            "#{name}(#{params[0]})"
           end
         end
       end

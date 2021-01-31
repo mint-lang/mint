@@ -35,7 +35,7 @@ module Mint
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @formatter = Formatter.new(Ast.new)
+    @formatter = Formatter.new
     @names = {} of String => Ast::Node
     @types = {} of String => Ast::Node
     @records = [] of Record
@@ -46,7 +46,7 @@ module Mint
 
     @stack = [] of Ast::Node
 
-    def initialize(ast : Ast)
+    def initialize(ast : Ast, @check_env = true)
       ast.normalize
 
       @artifacts = Artifacts.new(ast)

@@ -20,7 +20,7 @@ module Mint
           expression! WithExpectedExpression
         end
 
-        Ast::With.new(
+        self << Ast::With.new(
           body: body.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

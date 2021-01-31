@@ -33,7 +33,7 @@ module Mint
         whitespace
         keyword! "</>", HtmlFragmentExpectedClosingTag
 
-        Ast::HtmlFragment.new(
+        self << Ast::HtmlFragment.new(
           from: start_position,
           children: children,
           comments: comments,
