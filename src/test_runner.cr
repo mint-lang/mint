@@ -49,17 +49,14 @@ module Mint
 
                 window.onerror = (message) => {
                   if (this.socket.readyState === 1) {
-                    console.log("!!1");
                     this.crash(message);
                   } else {
-                    console.log("!!2");
-                    error ||= message;
+                    error = error || message;
                   }
                 }
 
                 this.socket.onopen = () => {
                   if (error != null) {
-                    console.log("!!3");
                     this.crash(error);
                   }
 
@@ -80,7 +77,7 @@ module Mint
               run () {
                 return new Promise((resolve, reject) => {
                   this.next(resolve, reject)
-                }).then(() => this.socket.send("DONE"));
+                }).finally(() => this.socket.send("DONE"));
               }
 
               crash (message) {
@@ -363,7 +360,7 @@ module Mint
               terminal.puts "    |> #{failure.result}".colorize(:red)
             end
 
-           stop_server
+            stop_server
           else
             data = Message.from_json(message)
             case data.type
