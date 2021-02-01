@@ -18,7 +18,6 @@ module Mint
         <body>
           <script src="/external-javascripts.js"></script>
           <script src="/runtime.js"></script>
-          <script src="/tests"></script>
           <script>
             class TestRunner {
               constructor (suites) {
@@ -46,19 +45,46 @@ module Mint
 
                 this.suites = suites
 
+                let error = null;
+
+                window.onerror = (message) => {
+                  if (this.socket.readyState === 1) {
+                    console.log("!!1");
+                    this.crash(message);
+                  } else {
+                    console.log("!!2");
+                    error ||= message;
+                  }
+                }
+
                 this.socket.onopen = () => {
+                  if (error != null) {
+                    console.log("!!3");
+                    this.crash(error);
+                  }
+
                   window.addEventListener('unhandledrejection', (event) => {
-                    event.promise.catch(e => this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: e.message })));
+                    event.promise.catch(e => crash(e.message));
                   });
-                  this.run()
-                    .then(() => this.socket.send("DONE"))
                 }
               }
 
-              async run () {
+              start (suites) {
+                if (this.socket.readState === 1) {
+                  this.run();
+                } else {
+                  this.socket.addEventListener("open", this.run);
+                }
+              }
+
+              run () {
                 return new Promise((resolve, reject) => {
                   this.next(resolve, reject)
-                })
+                }).then(() => this.socket.send("DONE"));
+              }
+
+              crash (message) {
+                this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: message }));
               }
 
               async next (resolve, reject) {
@@ -110,7 +136,11 @@ module Mint
               }
             }
 
-            new TestRunner(SUITES)
+            window.testRunner = new TestRunner();
+          </script>
+          <script src="/tests"></script>
+          <script>
+            window.testRunner.start(SUITES);
           </script>
           <div id="root">
           </div>
