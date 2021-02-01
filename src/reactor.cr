@@ -203,9 +203,7 @@ module Mint
 
     # Notifies all connected sockets to reload the page.
     def notify
-      @sockets.each do |socket|
-        socket.send("reload")
-      end
+      @sockets.each(&.send("reload"))
     end
 
     # Sets up watchers to detect changes

@@ -145,7 +145,7 @@ module Mint
 
       node.connects.each do |item|
         store =
-          ast.stores.find { |entity| entity.name == item.store }
+          ast.stores.find(&.name.==(item.store))
 
         if store
           name =
