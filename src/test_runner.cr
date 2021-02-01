@@ -12,6 +12,7 @@ module Mint
       @page_source ||= <<-HTML
       <html>
         <head>
+          <meta charset="UTF-8">
           <link rel="stylesheet" href="external-stylesheets.css">
         </head>
         <body>
@@ -46,6 +47,9 @@ module Mint
                 this.suites = suites
 
                 this.socket.onopen = () => {
+                  window.addEventListener('unhandledrejection', (event) => {
+                    event.promise.catch(e => this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: e.message })));
+                  });
                   this.run()
                     .then(() => this.socket.send("DONE"))
                 }
@@ -329,8 +333,7 @@ module Mint
               terminal.puts "    |> #{failure.result}".colorize(:red)
             end
 
-            Kemal.config.server.try(&.close) unless @flags.manual
-            @channel.send(nil)
+           stop_server
           else
             data = Message.from_json(message)
             case data.type
@@ -344,10 +347,19 @@ module Mint
             when "FAILED"
               @reporter.failed data.name, data.result
               @failed << data
+            when "CRASHED"
+              @reporter.crashed data.result
+
+              stop_server
             end
           end
         end
       end
+    end
+
+    def stop_server
+      Kemal.config.server.try(&.close) unless @flags.manual
+      @channel.send(nil)
     end
 
     def terminal
