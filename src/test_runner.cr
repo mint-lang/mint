@@ -20,7 +20,7 @@ module Mint
           <script src="/runtime.js"></script>
           <script>
             class TestRunner {
-              constructor (suites) {
+              constructor () {
                 this.socket = new WebSocket("ws://#{@flags.browser_host}:#{@flags.browser_port}/")
 
                 window.DEBUG = {
@@ -43,8 +43,6 @@ module Mint
                   }
                 }
 
-                this.suites = suites
-
                 let error = null;
 
                 window.onerror = (message) => {
@@ -61,22 +59,23 @@ module Mint
                   }
 
                   window.addEventListener('unhandledrejection', (event) => {
-                    event.promise.catch(e => crash(e.message));
+                    event.promise.catch(e => this.crash(e.toString()));
                   });
                 }
               }
 
               start (suites) {
+                this.suites = suites;
                 if (this.socket.readState === 1) {
                   this.run();
                 } else {
-                  this.socket.addEventListener("open", this.run);
+                  this.socket.addEventListener("open", () => this.run());
                 }
               }
 
               run () {
                 return new Promise((resolve, reject) => {
-                  this.next(resolve, reject)
+                  this.next(resolve, reject);
                 }).finally(() => this.socket.send("DONE"));
               }
 
