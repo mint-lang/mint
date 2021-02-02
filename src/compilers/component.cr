@@ -88,8 +88,8 @@ module Mint
 
       constructor =
         unless constructor_body.empty?
-          js.function("constructor", ["props"]) do
-            constructor_body.unshift js.call("super", ["props"])
+          js.function("constructor", %w[props]) do
+            constructor_body.unshift js.call("super", %w[props])
 
             js.statements(constructor_body)
           end

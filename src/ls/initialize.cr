@@ -25,7 +25,7 @@ module Mint
 
         document_on_type_formatting_provider =
           LSP::DocumentOnTypeFormattingOptions.new(
-            more_trigger_character: [] of String,
+            more_trigger_character: %w[],
             first_trigger_character: "")
 
         document_link_provider =

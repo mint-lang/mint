@@ -95,7 +95,7 @@ module Mint
 
       spawn do
         # When the mint.json changes
-        Watcher.watch(["mint.json"]) do
+        Watcher.watch(%w[mint.json]) do
           # We need to update the patterns because:
           # 1. packages could have been added or removed
           # 2. source directories could have been added or removed

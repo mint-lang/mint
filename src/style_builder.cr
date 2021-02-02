@@ -259,7 +259,7 @@ module Mint
             selector[item.name].default = item.value.join
           end
         when Ast::CssFontFace
-          process(item.definitions, UUID.random.to_s, nil, ["@font-face"], %w[], style_node)
+          process(item.definitions, UUID.random.to_s, nil, %w[@font-face], %w[], style_node)
         when Ast::CssKeyframes
           process(item.selectors, UUID.random.to_s, "keyframes", [""], [item.name], style_node)
         when Ast::CssSelector

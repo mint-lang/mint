@@ -1,7 +1,7 @@
 module Mint
   class ArtifactCleaner
     def self.clean(clean_global : Bool = false)
-      artifacts = [".mint", "dist"]
+      artifacts = %w[.mint dist]
 
       if clean_global
         self.safe_delete(MINT_PACKAGES_DIR)

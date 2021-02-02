@@ -27,7 +27,7 @@ module Mint
             )),
           ]
         else
-          [] of String
+          %w[]
         end
       end
     end

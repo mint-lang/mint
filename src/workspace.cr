@@ -48,7 +48,7 @@ module Mint
 
     @event_handlers = {} of String => Array(ChangeProc)
     @cache = {} of String => Ast
-    @pattern = [] of String
+    @pattern = %w[]
 
     getter type_checker : TypeChecker
     getter cache : Hash(String, Ast)
