@@ -14,7 +14,9 @@ module Mint
           workspace.format(uri.path.to_s)
 
         # If there is an error show that
-        server.show_message_request("Could not format the file because it contains errors!", 1) if workspace.error
+        if workspace.error
+          server.show_message_request("Could not format the file because it contains errors!", 1)
+        end
 
         # Respond with the formatted document or an empty response message
         # because SublimeText LSP client freezes if an error response is
