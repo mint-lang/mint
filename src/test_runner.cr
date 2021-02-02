@@ -59,7 +59,7 @@ module Mint
                   }
 
                   window.addEventListener('unhandledrejection', (event) => {
-                    event.promise.catch(e => this.crash(e.toString()));
+                    this.crash(event.reason);
                   });
                 }
               }
