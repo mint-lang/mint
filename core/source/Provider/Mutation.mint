@@ -5,7 +5,7 @@ record Provider.Mutation.Subscription {
 }
 
 /*
-A provider to provid events when the DOM strucutre of the given
+A provider to provide events when the DOM structure of the given
 element changes.
 */
 provider Provider.Mutation : Provider.Mutation.Subscription {
