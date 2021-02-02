@@ -2,11 +2,11 @@ message OperationPipeAmbiguous do
   title "Type Error"
 
   block do
-    text "We cannot determine the order of the operands becuase the pipe makes it ambiguous."
+    text "We cannot determine the order of the operands because the pipe makes it ambiguous."
   end
 
   block do
-    text "You sould add parentheses around the right operands."
+    text "Wrap operands in parentheses to avoid ambiguity."
   end
 
   snippet node
