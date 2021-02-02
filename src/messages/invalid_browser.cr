@@ -10,5 +10,5 @@ message InvalidBrowser do
     text "The available browsers are:"
   end
 
-  list ["chrome", "firefox"]
+  list %w[chrome firefox]
 end

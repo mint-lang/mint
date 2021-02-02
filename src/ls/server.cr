@@ -18,7 +18,7 @@ module Mint
         stack.each_with_index do |item, index|
           class_name = item.class
 
-          if index == 0
+          if index.zero?
             log(class_name.to_s)
           else
             log("#{" " * (index - 1)} ↳ #{class_name}")
@@ -31,10 +31,11 @@ module Mint
         workspace =
           Mint::Workspace[params.path]
 
-        workspace.ast.nodes.select do |item|
-          next unless item.input.file == params.path
-          item.from <= params.offset(item.input.input) <= item.to
-        end
+        workspace.ast.nodes
+          .select(&.input.file.==(params.path))
+          .select! do |item|
+            item.from <= params.offset(item.input.input) <= item.to
+          end
       end
     end
   end

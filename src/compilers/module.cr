@@ -19,7 +19,7 @@ module Mint
             ])
           end]
         else
-          [] of String
+          %w[]
         end
 
       js.module(name, functions + constructor)

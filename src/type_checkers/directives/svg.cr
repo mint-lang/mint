@@ -21,7 +21,7 @@ module Mint
         XML.parse(File.read(svg_path))
 
       raise SvgDirectiveExpectedSvg, {
-        "errors" => (document.errors || [] of String).map(&.to_s),
+        "errors" => document.errors.try(&.map(&.to_s)) || %w[],
         "node"   => node,
       } if document.errors
 

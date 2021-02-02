@@ -71,6 +71,7 @@ module Mint
 
     def format_arguments(arguments : Array(Ast::Argument))
       return if arguments.empty?
+
       value =
         format arguments
 
