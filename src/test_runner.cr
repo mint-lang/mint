@@ -35,11 +35,7 @@ module Mint
                       result = value.toString()
                     }
 
-                    this.socket.send(JSON.stringify({
-                      result: result,
-                      name: "",
-                      type: "LOG",
-                    }))
+                    this.log(result);
                   }
                 }
 
@@ -57,10 +53,6 @@ module Mint
                   if (error != null) {
                     this.crash(error);
                   }
-
-                  window.addEventListener('unhandledrejection', (event) => {
-                    this.crash(event.reason);
-                  });
                 }
               }
 
@@ -76,58 +68,68 @@ module Mint
               run () {
                 return new Promise((resolve, reject) => {
                   this.next(resolve, reject);
-                }).finally(() => this.socket.send("DONE"));
+                }).catch(e => this.log(e))
+                  .finally(() => this.socket.send("DONE"));
               }
 
               crash (message) {
                 this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: message }));
               }
 
-              async next (resolve, reject) {
+              log (message) {
+                this.socket.send(JSON.stringify({ type: "LOG", name: "", result: message }));
+              }
+
+              next (resolve, reject) {
                 requestAnimationFrame(async () => {
-                  if (!this.suite || this.suite.tests.length === 0) {
-                    this.suite = this.suites.shift()
+                  try {
+                    if (!this.suite || this.suite.tests.length === 0) {
+                      this.suite = this.suites.shift()
 
-                    if (this.suite) {
-                      this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
+                      if (this.suite) {
+                        this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
+                      } else {
+                        return resolve()
+                      }
+                    }
+
+                    let test = this.suite.tests.shift()
+
+                    let currentHistory = window.history.length
+
+                    let result = await test.proc(this.suite.constants)
+
+                    // Go back to the beginning
+                    if (window.history.length - currentHistory) {
+                      window.history.go(-(window.history.length - currentHistory))
+                    }
+
+                    // Clear storages
+                    sessionStorage.clear()
+                    localStorage.clear()
+
+                    // TODO: Reset Stores
+
+                    if (result instanceof TestContext) {
+                      try {
+                        await result.run()
+                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
+                      } catch (error) {
+                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
+                      }
                     } else {
-                      return resolve()
+                      if (result) {
+                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
+                      } else {
+                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
+                      }
                     }
+
+                    this.next(resolve, reject)
+                  } catch (error) {
+                    // An error occurred while trying to run a test; this is different from the test itself failing.
+                    reject(error.toString());
                   }
-
-                  let test = this.suite.tests.shift()
-
-                  let currentHistory = window.history.length
-
-                  let result = await test.proc(this.suite.constants)
-
-                  // Go back to the beginning
-                  if (window.history.length - currentHistory) {
-                    window.history.go(-(window.history.length - currentHistory))
-                  }
-
-                  // Clear storages
-                  sessionStorage.clear()
-                  localStorage.clear()
-
-                  // TODO: Reset Stores
-
-                  if (result instanceof TestContext) {
-                    try {
-                      await result.run()
-                      this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
-                    } catch (error) {
-                      this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
-                    }
-                  } else {
-                    if (result) {
-                      this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
-                    } else {
-                      this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
-                    }
-                  }
-
-                  this.next(resolve, reject)
                 })
               }
             }
