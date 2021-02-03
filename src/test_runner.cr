@@ -68,7 +68,7 @@ module Mint
               run () {
                 return new Promise((resolve, reject) => {
                   this.next(resolve, reject);
-                }).catch(e => this.log(e))
+                }).catch(e => this.log(e.reason))
                   .finally(() => this.socket.send("DONE"));
               }
 
