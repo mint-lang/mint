@@ -82,21 +82,21 @@ module Mint
 
               next (resolve, reject) {
                 requestAnimationFrame(async () => {
-                  try {
-                    if (!this.suite || this.suite.tests.length === 0) {
-                      this.suite = this.suites.shift()
+                  if (!this.suite || this.suite.tests.length === 0) {
+                    this.suite = this.suites.shift()
 
-                      if (this.suite) {
-                        this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
-                      } else {
-                        return resolve()
-                      }
+                    if (this.suite) {
+                      this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
+                    } else {
+                      return resolve()
                     }
+                  }
 
-                    let test = this.suite.tests.shift()
+                  let test = this.suite.tests.shift()
 
-                    let currentHistory = window.history.length
+                  let currentHistory = window.history.length
 
+                  try {
                     let result = await test.proc(this.suite.constants)
 
                     // Go back to the beginning
@@ -124,12 +124,11 @@ module Mint
                         this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
                       }
                     }
-
-                    this.next(resolve, reject)
                   } catch (error) {
                     // An error occurred while trying to run a test; this is different from the test itself failing.
-                    reject(error.toString());
+                    this.socket.send(JSON.stringify({ type: "ERRORED", name: test.name, result: error.toString() }));
                   }
+                  this.next(resolve, reject);
                 })
               }
             }
@@ -374,6 +373,9 @@ module Mint
               @succeeded += 1
             when "FAILED"
               @reporter.failed data.name, data.result
+              @failed << data
+            when "ERRORED"
+              terminal.puts "An error occurred when running the test #{data.name}: #{data.result}".colorize(:red)
               @failed << data
             when "CRASHED"
               @reporter.crashed data.result
