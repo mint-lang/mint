@@ -229,7 +229,8 @@ module Mint
           raise InvalidSelfReference, {
             "referee" => @referee,
             "node"    => node,
-          } if @top_level_entity.try(&.owns?(node))
+          } if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
+               @top_level_entity.try(&.owns?(node))
 
           cached
         else
