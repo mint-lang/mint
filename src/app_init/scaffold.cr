@@ -1,6 +1,6 @@
 module Mint
   class Scaffold
-    APP_DIR = Path[__DIR__, "app"]
+    BakedFileSystem.load("app")
 
     getter path : Path
 
@@ -37,7 +37,14 @@ module Mint
     end
 
     private def touch_initial_files
-      FileUtils.cp_r(APP_DIR.to_s, "./")
+      @@files.each do |file|
+        # The baked files start with a slash "/"
+        file_path =
+          file.path.lchop
+
+        FileUtils.mkdir_p File.dirname(file_path)
+        File.write(file_path, file)
+      end
     end
 
     private def touch_config

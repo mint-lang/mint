@@ -1,11 +1,11 @@
 component Link {
-  property href : String
   property children : Array(Html) = []
+  property href : String
 
   style link {
-    color: rgb(221, 221, 221);
-    text-decoration: none;
     font-size: calc(10px + 2vmin);
+    text-decoration: none;
+    color:  #DDDDDD;
 
     &:hover {
       text-decoration: underline;

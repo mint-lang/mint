@@ -1,16 +1,16 @@
 component Info {
-  property mainpath : String
+  property mainPath : String
 
   style info {
     font-size: calc(10px + 2vmin);
-    color: #939db0;
+    color: #939DB0;
   }
 
   style path {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    font-weight: 100;
     font-style: italic;
-    color: #e06c75;
+    font-weight: 100;
+    color: #E06C75;
   }
 
   fun render : Html {
@@ -18,7 +18,7 @@ component Info {
       <{ "Edit " }>
 
       <code::path>
-        <{ mainpath }>
+        <{ mainPath }>
       </code>
 
       <{ " and save to reload." }>
