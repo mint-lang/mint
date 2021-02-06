@@ -1,0 +1,59 @@
+component Main {
+  state opacity : Number = 1
+
+  style test {
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: #{opacity};
+      }
+    }
+
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  state opacity : Number = 1
+
+  style test {
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: #{opacity};
+      }
+    }
+
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
