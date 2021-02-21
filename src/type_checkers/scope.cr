@@ -199,6 +199,7 @@ module Mint
 
         if node.is_a?(Ast::Component) ||
            node.is_a?(Ast::Provider) ||
+           node.is_a?(Ast::Module) ||
            node.is_a?(Ast::Store)
           old_levels = @levels
           @levels = [node] of Node
@@ -211,12 +212,18 @@ module Mint
           result = yield
           @levels = old_levels
         else
-          @levels.unshift node
-          result = yield
-          @levels.delete node
+          result =
+            push(node) { yield }
         end
 
         result
+      end
+
+      def push(node : Node)
+        @levels.unshift node
+        yield
+      ensure
+        @levels.delete node
       end
 
       def with(nodes)

@@ -13,7 +13,7 @@ module Mint
 
       check! entity
 
-      scope entity do
+      scope.push entity do
         resolve node.body
       end
     end
