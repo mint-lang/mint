@@ -14,7 +14,7 @@ module Mint
       def execute(server)
         global_completions =
           (workspace.ast.stores +
-            workspace.ast.modules +
+            workspace.ast.unified_modules +
             workspace.ast.components.select(&.global?))
             .flat_map { |node| completions(node, global: true) }
 

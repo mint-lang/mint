@@ -3,7 +3,7 @@ module Mint
     class Hover < LSP::RequestMessage
       def hover(node : Ast::Function, workspace) : Array(String)
         entity =
-          workspace.ast.modules.find(&.functions.includes?(node)) ||
+          workspace.ast.unified_modules.find(&.functions.includes?(node)) ||
             workspace.ast.components.find(&.functions.includes?(node)) ||
             workspace.ast.providers.find(&.functions.includes?(node)) ||
             workspace.ast.stores.find(&.functions.includes?(node))

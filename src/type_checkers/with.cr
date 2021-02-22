@@ -4,7 +4,7 @@ module Mint
 
     def check(node : Ast::With) : Checkable
       entity =
-        ast.modules.find(&.name.==(node.name))
+        ast.unified_modules.find(&.name.==(node.name))
 
       raise WithNotFoundModule, {
         "name" => node.name,

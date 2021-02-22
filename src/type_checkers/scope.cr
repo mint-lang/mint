@@ -31,7 +31,7 @@ module Mint
           end
         end
 
-        @ast.modules.each do |item|
+        @ast.unified_modules.each do |item|
           item.functions.each do |function|
             @functions[function] = item
           end

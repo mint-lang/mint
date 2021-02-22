@@ -5,7 +5,7 @@ module Mint
 
     def check(node : Ast::ModuleAccess) : Checkable
       entity =
-        ast.modules.find(&.name.==(node.name)) ||
+        ast.unified_modules.find(&.name.==(node.name)) ||
           ast.stores.find(&.name.==(node.name)) ||
           ast.providers.find(&.name.==(node.name)) ||
           ast.components

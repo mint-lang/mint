@@ -1,0 +1,24 @@
+module A {
+  fun a : String {
+    ""
+  }
+}
+
+module A {
+  fun b : String {
+    ""
+  }
+}
+
+--------------------------------------------------------------------------------
+module A {
+  fun a : String {
+    ""
+  }
+}
+
+module A {
+  fun b : String {
+    ""
+  }
+}

@@ -22,7 +22,7 @@ module Mint
         .try { |item| resolve item }
 
       node
-        .modules
+        .unified_modules
         .find(&.name.==("Html.Event"))
         .try do |item|
           resolve item
@@ -47,7 +47,7 @@ module Mint
       self.checking = false
 
       check_all node.components
-      check_all node.modules
+      check_all node.unified_modules
 
       resolve node.providers
       resolve node.stores

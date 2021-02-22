@@ -94,7 +94,7 @@ module Mint
         compile ast.components
 
       modules =
-        compile ast.modules
+        compile ast.unified_modules
 
       stores =
         compile ast.stores
@@ -179,7 +179,7 @@ module Mint
     # Wraps the application with the runtime
     def wrap_runtime(body, main = "")
       html_event_module =
-        ast.modules.find(&.name.==("Html.Event")).not_nil!
+        ast.unified_modules.find(&.name.==("Html.Event")).not_nil!
 
       from_event =
         html_event_module.functions.find(&.name.value.==("fromEvent")).not_nil!
