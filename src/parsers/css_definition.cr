@@ -24,7 +24,13 @@ module Mint
                               !keyword_ahead("\#{") &&
                               char != '"'
               end
-          end.compact
+          end.compact.map do |item|
+            if item.is_a?(Ast::StringLiteral) && item.static?
+              "\"#{item.static_value}\""
+            else
+              item
+            end
+          end
 
         char ';', CssDefinitionExpectedSemicolon
 
