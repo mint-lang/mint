@@ -103,6 +103,7 @@ module Mint
         .values
         .reduce(Ast.new) { |memo, item| memo.merge item }
         .merge(Core.ast)
+        .normalize
     end
 
     def []?(file)
