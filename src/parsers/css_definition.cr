@@ -26,7 +26,7 @@ module Mint
               end
           end.compact_map do |item|
             if item.is_a?(Ast::StringLiteral) && item.static?
-              "\"#{item.static_value}\""
+              %("#{item.static_value}")
             else
               item
             end
