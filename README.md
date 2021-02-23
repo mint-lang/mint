@@ -42,7 +42,7 @@ Also, visit [Awesome Mint](https://github.com/egajda/awesome-mint), to see more 
 
 ## Contributing
 
-Read the general [Contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md), and then:
+Read the general [Contributing guide](https://github.com/mint-lang/mint/blob/master/CONTRIBUTING.md), and then:
 
 1. Fork it (<https://github.com/mint-lang/mint/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
