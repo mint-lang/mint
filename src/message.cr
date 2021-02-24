@@ -30,12 +30,12 @@ module Mint
         builder.elements
       end
 
-      def snippet(value, message : String = "Here is the relevant code snippet:")
+      def snippet(value, message : String | Nil = "Here is the relevant code snippet:")
         case value
         when Tuple(Ast::Node, Int32)
           snippet value[0], message
         when TypeChecker::Checkable
-          type_with_text value, message
+          type_with_text value, message.to_s
         when Ast::Node
           block { text message } if message
           @elements << Snippet.new(value: value)
@@ -180,7 +180,7 @@ module Mint
     end
 
     macro method_missing(call)
-      @data[{{call.name.id.stringify}}]
+      @data[{{call.name.id.stringify}}]?
     end
 
     def to_html
