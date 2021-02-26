@@ -96,7 +96,7 @@ module Mint
         end
 
       names =
-        node.statements.map do |statement|
+        node.statements.compact_map do |statement|
           case target = statement.target
           when Ast::Variable
             js.let(js.variable_of(target), "null")
@@ -105,7 +105,7 @@ module Mint
               js.let(js.variable_of(variable), "null")
             end
           end
-        end.flatten.compact
+        end.flatten
 
       js.asynciif do
         js.statements([
