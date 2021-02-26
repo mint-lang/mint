@@ -10,21 +10,30 @@ module Mint
 
       # Resolve the types of the statements
       types = scope node.statements do
-        node.statements.map do |statement|
+        node.statements.map_with_index(0) do |statement, index|
           new_type = resolve statement
 
-          # If the statement has a name and it's a result
-          type =
-            if new_type.name == "Result" &&
-               new_type.parameters.size == 2
-              # If the error is not Never then that type needs to be catched
-              unless new_type.parameters[0].name == "Never"
-                to_catch << new_type.parameters[0]
+          if index + 1 == node.statements.size
+            # The last statement is not unwrapped so a Result can be returned directly
+            new_type
+          else
+            # If the statement has a name and it's a result
+            type =
+              if new_type.name == "Result" && new_type.parameters[0].name =~ /^[a-z]/
+                # If the error type is a variable it can't be caught
+                # but it is still unwrapped
+                new_type.parameters[1]
+              elsif new_type.name == "Result" &&
+                    new_type.parameters.size == 2
+                # If the error is not Never then that type needs to be catched
+                unless new_type.parameters[0].name == "Never"
+                  to_catch << new_type.parameters[0]
+                end
+                new_type.parameters[1]
               end
-              new_type.parameters[1]
-            end
 
-          type || new_type
+            type || new_type
+          end
         end
       end
 
