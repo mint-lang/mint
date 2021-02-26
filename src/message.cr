@@ -30,7 +30,7 @@ module Mint
         builder.elements
       end
 
-      def snippet(value, message : String | Nil = "Here is the relevant code snippet:")
+      def snippet(value, message : String? = "Here is the relevant code snippet:")
         case value
         when Tuple(Ast::Node, Int32)
           snippet value[0], message
