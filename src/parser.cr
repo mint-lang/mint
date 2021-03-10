@@ -1,14 +1,15 @@
 module Mint
   class Parser
-    getter input : String
+    getter input : Array(Char)
     getter file : String
     getter ast = Ast.new
     getter data : Ast::Data
     getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
     getter position = 0
 
-    def initialize(@input, @file)
-      @data = Ast::Data.new(@input, @file)
+    def initialize(input, @file)
+      @input = input.chars
+      @data = Ast::Data.new(input, @file)
     end
 
     def <<(node)
@@ -50,6 +51,7 @@ module Mint
     def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
       to =
         input[position, input.size]
+          .join
           .split(/\s|\n|\r/)
           .first
           .size
@@ -61,7 +63,7 @@ module Mint
           input: data)
 
       part =
-        input[position, to]
+        input[position, to].join
 
       raise error, {
         "node" => node,
@@ -126,7 +128,7 @@ module Mint
       start_position = position
       yield
       if position > start_position
-        input[start_position, position - start_position]
+        input[start_position, position - start_position].join
       end
     end
 
@@ -138,13 +140,13 @@ module Mint
     end
 
     def keyword_ahead(word) : Bool
-      result = input[position, word.size]
+      result = input[position, word.size].join
 
       result == word
     end
 
     def keyword(word) : Bool
-      result = input[position, word.size]
+      result = input[position, word.size].join
 
       if result == word
         @position += word.size
