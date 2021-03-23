@@ -27,6 +27,8 @@ jobs:
 
       - name: Install shards
         run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
 
       - name: Run specs
         run: crystal spec --error-on-warnings --error-trace
@@ -43,6 +45,8 @@ jobs:
 
       - name: Install shards
         run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
 
       - name: Run Core Tests
         run: make test-core
@@ -72,6 +76,8 @@ jobs:
 
       - name: Install shards
         run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
 
       - name: Run ameba
         run: bin/ameba
@@ -89,6 +95,8 @@ jobs:
 
       - name: Install shards
         run: shards install
+        env:
+          SHARDS_OPTS: --ignore-crystal-version
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x

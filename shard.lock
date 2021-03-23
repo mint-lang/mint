@@ -13,7 +13,7 @@ shards:
     version: 0.9.8+git.commit.7183bfde8d86a976a6912f582b51cbd1783456af
 
   diff:
-    git: https://github.com/MakeNowJust/crystal-diff.git
+    git: https://github.com/makenowjust/crystal-diff.git
     version: 1.1.0
 
   dotenv:
@@ -34,7 +34,7 @@ shards:
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
+    version: 0.4.0
 
   radix:
     git: https://github.com/luislavena/radix.git
