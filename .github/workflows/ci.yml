@@ -1,11 +1,11 @@
-name: Linux CI
+name: CI
 
 on:
   push:
     branches:
       - master
     tags:
-      - '*'
+      - "*"
 
   pull_request:
     branches:
@@ -15,17 +15,25 @@ on:
     - cron: "0 6 * * 1"
 
 jobs:
-  specs:
-    name: Specs
-    runs-on: ubuntu-latest
+  test:
+    name: Test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        crystal: [latest, nightly]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
+        with:
+          crystal: ${{ matrix.crystal }}
 
-      - name: Checkout source code
+      - name: Download source
         uses: actions/checkout@v2
 
-      - name: Install shards
+      - name: Install dependencies
         run: shards install
         env:
           SHARDS_OPTS: --ignore-crystal-version
@@ -33,59 +41,24 @@ jobs:
       - name: Run specs
         run: crystal spec --error-on-warnings --error-trace
 
-  core-tests:
-    name: Core tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Crystal
-        uses: oprypin/install-crystal@v1
-
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Install shards
-        run: shards install
-        env:
-          SHARDS_OPTS: --ignore-crystal-version
-
-      - name: Run Core Tests
+      - name: Run core specs
         run: make test-core
 
-  check-format:
-    name: Check format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Crystal
-        uses: oprypin/install-crystal@v1
-
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Check sources format
+      - name: Check formatting
         run: crystal tool format --check
-
-  ameba:
-    name: Ameba linter
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Crystal
-        uses: oprypin/install-crystal@v1
-
-      - name: Checkout source code
-        uses: actions/checkout@v2
-
-      - name: Install shards
-        run: shards install
-        env:
-          SHARDS_OPTS: --ignore-crystal-version
 
       - name: Run ameba
         run: bin/ameba
 
   build:
     name: Build
-    runs-on: ubuntu-latest
-    needs: [specs, core-tests, check-format, ameba]
+    needs: [test]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Install Crystal
         uses: oprypin/install-crystal@v1
@@ -93,7 +66,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
 
-      - name: Install shards
+      - name: Install dependencies
         run: shards install
         env:
           SHARDS_OPTS: --ignore-crystal-version
@@ -101,14 +74,27 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Build binary
+      - if: matrix.os == 'ubuntu-latest'
+        name: Build binary (Linux)
         run: |
           mkdir build
           docker-compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --release --static
 
-      - name: Upload to S3
-        uses: shallwefootball/upload-s3-action@v1.1.2
-        if: github.ref == 'refs/heads/master'
+      - if: matrix.os == 'macos-latest'
+        name: Build binary (macOS)
+        run: |
+          mkdir build
+          crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-osx --release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
+      - if: github.ref == 'refs/heads/master'
+        name: Upload to S3
+        uses: shallwefootball/upload-s3-action@v1.1.3
         with:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
@@ -116,8 +102,8 @@ jobs:
           source_dir: build
           destination_dir: ""
 
-      - name: Upload to GitHub Releases
-        if: startsWith(github.ref, 'refs/tags/')
+      - if: startsWith(github.ref, 'refs/tags/')
+        name: Upload to GitHub Releases
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
