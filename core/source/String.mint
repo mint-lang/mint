@@ -274,4 +274,37 @@ module String {
       .toLowerCase()
     `
   }
+
+  /*
+  Wraps the string with the given start and end characters.
+
+    String.wrap("{","}", "Hello there!") == "{Hello there!}"
+  */
+  fun wrap (start : String, end : String, string : String) : String {
+    "#{start}#{string}#{end}"
+  }
+
+  /*
+  Indents the string with the given number of spaces.
+
+    String.indent(2, "Hello There!") == "  Hello There!"
+  */
+  fun indent (by : Number, string : String) : String {
+    indentWithOptions(by, " ", true, string)
+  }
+
+  /*
+  Indents the string with the given number of characters
+  using the given options.
+
+    String.indentWithOptions(2, "-", false, "Hello There!") == "--Hello There!"
+  */
+  fun indentWithOptions (
+    by : Number,
+    character : String,
+    includeEmptyLines : Bool,
+    string : String
+  ) : String {
+    `#{string}.replace(#{includeEmptyLines} ? /^/gm : /^(?!\s*$)/gm, #{repeat(by, character)})`
+  }
 }

@@ -192,3 +192,29 @@ suite "String.paramterize" {
     String.parameterize("HELLO THERE!!!") == "hello-there"
   }
 }
+
+suite "String.wrap" {
+  test "it wraps the string with the given characters" {
+    String.wrap("{", "}", "Hello there!") == "{Hello there!}"
+  }
+}
+
+suite "String.indentBy" {
+  test "it indents the given string by the given number of spaces" {
+    String.indent(2, "Hello There!") == "  Hello There!"
+  }
+}
+
+suite "String.indentWithOptions" {
+  test "it indents the given string by the given options" {
+    String.indentWithOptions(2, "-", false, "Hello There!") == "--Hello There!"
+  }
+
+  test "it skips empty lines" {
+    String.indentWithOptions(2, "-", false, "Hello There!\n\nGeneral Kenobi!") == "--Hello There!\n\n--General Kenobi!"
+  }
+
+  test "it does not skip empty lines" {
+    String.indentWithOptions(2, "-", true, "Hello There!\n\nGeneral Kenobi!") == "--Hello There!\n--\n--General Kenobi!"
+  }
+}
