@@ -1,0 +1,14 @@
+component Test {
+  fun render : Html {
+    <div>"HelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"</div>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <div>
+      "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
+      "elloHelloHelloHelloHelloHelloHelloHelloHello"
+    </div>
+  }
+}

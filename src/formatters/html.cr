@@ -28,7 +28,8 @@ module Mint
 
       if node.attributes.empty? &&
          node.children.size == 1 &&
-         node.children.first.is_a?(Ast::StringLiteral)
+         node.children.first.is_a?(Ast::StringLiteral) &&
+         !children.includes?('\n')
         "<#{prefix}#{attributes}>#{children.strip}</#{tag}>"
       elsif child_nodes.empty?
         "<#{prefix}#{attributes}/>"
