@@ -331,4 +331,18 @@ module Map {
   fun entries (map : Map(a, b)) : Array(Tuple(a, b)) {
     `#{map}`
   }
+
+  /* Converts an array of tuples into a Map.
+
+    (Map.empty()
+    |> Map.set("a", 1)
+    |> Map.set("b", 2)
+    ) == Map.fromArray([{"a", 1}, {"b", 2}])
+  */
+  fun fromArray (array : Array(Tuple(a, b))) : Map(a, b) {
+    Array.reduce(
+      Map.empty(),
+      (memo : Map(a, b), item : Tuple(a, b)) { Map.set(item[0], item[1], memo) },
+      array)
+  }
 }
