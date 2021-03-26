@@ -58,3 +58,19 @@ suite "Time.nextMonth" {
     |> Time.toIso()) == "2018-05-05T00:00:00.000Z"
   }
 }
+
+suite "Time.previousWeek" {
+  test "returns the previous week of the time" {
+    (Time.from(2018, 4, 5)
+    |> Time.previousWeek()
+    |> Time.toIso()) == "2018-03-29T00:00:00.000Z"
+  }
+}
+
+suite "Time.nextWeek" {
+  test "returns the next week of the time" {
+    (Time.from(2018, 4, 5)
+    |> Time.nextWeek()
+    |> Time.toIso()) == "2018-04-12T00:00:00.000Z"
+  }
+}
