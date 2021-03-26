@@ -191,6 +191,10 @@ suite "String.paramterize" {
   test "it parameterizes the given string" {
     String.parameterize("HELLO THERE!!!") == "hello-there"
   }
+
+  test "it converts title case to dash case" {
+    String.parameterize("Ui.ActionSheet") == "ui-action-sheet"
+  }
 }
 
 suite "String.wrap" {
