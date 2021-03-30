@@ -8,6 +8,7 @@ module LSP
 
     # Change notifications are sent to the server. See TextDocumentSyncKind.None, TextDocumentSyncKind.Full
     # and TextDocumentSyncKind.Incremental. If omitted it defaults to TextDocumentSyncKind.None.
+    @[JSON::Field(converter: Enum::ValueConverter(LSP::TextDocumentSyncKind))]
     property change : TextDocumentSyncKind
 
     # Will save notifications are sent to the server.

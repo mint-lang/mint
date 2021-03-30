@@ -9,6 +9,7 @@ module LSP
 
     # The kind of this completion item. Based of the kind
     # an icon is chosen by the editor.
+    @[JSON::Field(converter: Enum::ValueConverter(LSP::CompletionItemKind))]
     property kind : CompletionItemKind
 
     # A human-readable string with additional information
