@@ -29,7 +29,7 @@ module Mint
 
             t.title json.application.title.to_s
 
-            t.link(rel: "manifest", href: path_for("manifest.json"))
+            t.link(rel: "manifest", href: path_for("manifest.webmanifest"))
 
             json.application.meta.each do |name, content|
               next if name == "charset"
