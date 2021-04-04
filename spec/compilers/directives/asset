@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    @asset(../../fixtures/icon.svg)
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return `/assets/icon_c97b81630bc53286dadc8996727d348e.svg`;
+  }
+};
+
+A.displayName = "Main";

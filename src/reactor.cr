@@ -9,13 +9,15 @@ module Mint
   # * When --auto-format flag is passed all source files are watched and if
   #   any changes it formats the file
   class Reactor
-    @sockets = [] of HTTP::WebSocket
+    @artifacts : TypeChecker::Artifacts?
+    @auto_format : Bool
     @error : String?
-    @ast : Ast = Ast.new
-    @script = ""
     @host : String
     @port : Int32
-    @auto_format : Bool
+
+    @sockets : Array(HTTP::WebSocket) = [] of HTTP::WebSocket
+    @script : String = ""
+    @ast : Ast = Ast.new
 
     getter ast : Ast = Ast.new
     getter script = ""
@@ -101,9 +103,11 @@ module Mint
         optimize:   false,
         css_prefix: json.application.css_prefix,
       }
+      @artifacts = type_checker.artifacts
       @error = nil
     rescue exception : Error
       @error = exception.to_html
+      @artifacts = nil
       @script = ""
     end
 
@@ -143,6 +147,22 @@ module Mint
         env.response.content_type = "text/css"
 
         SourceFiles.external_stylesheets.to_s
+      end
+
+      get "/assets/:name" do |env|
+        asset =
+          @artifacts.try(&.assets.find(&.filename.==(env.params.url["name"])))
+
+        next unless asset
+
+        # Set cache to expire in 30 days.
+        env.response.headers["Cache-Control"] = "max-age=2592000"
+
+        # Try to figure out mime type from name.
+        env.response.content_type =
+          MIME.from_filename?(env.params.url["name"]).to_s
+
+        File.read(asset.real_path)
       end
 
       get "/:name" do |env|
