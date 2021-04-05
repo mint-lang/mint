@@ -15,9 +15,7 @@ module Mint
     @host : String
     @port : Int32
 
-    @sockets : Array(HTTP::WebSocket) = [] of HTTP::WebSocket
-    @script : String = ""
-    @ast : Ast = Ast.new
+    @sockets = [] of HTTP::WebSocket
 
     getter ast : Ast = Ast.new
     getter script = ""

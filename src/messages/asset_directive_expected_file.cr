@@ -6,7 +6,8 @@ message AssetDirectiveExpectedFile do
   end
 
   block do
-    text "The file should be here: #{path}"
+    text "The file should be here: "
+    bold path
   end
 
   snippet node
