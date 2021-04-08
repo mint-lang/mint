@@ -19,10 +19,11 @@ module Mint
         FileUtils.mkdir DIST_DIR
       end
 
+      terminal.puts "#{COG} Compiling your application:"
+
       index_js, artifacts =
         index(json.application.css_prefix)
 
-      terminal.puts "#{COG} Compiling your application:"
       File.write Path[DIST_DIR, "index.js"], index_js
 
       if SourceFiles.external_javascripts?
@@ -40,12 +41,11 @@ module Mint
       unless artifacts.assets.empty?
         FileUtils.mkdir Path[DIST_DIR, ASSET_DIR].to_s
 
-        terminal.measure "#{COG} Writing assets..." do
-          artifacts.assets.each do |asset|
-            File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], asset.real_path
-          end
+        terminal.puts "#{COG} Writing assets..."
 
-          File.write Path[DIST_DIR, "external-stylesheets.css"], SourceFiles.external_stylesheets
+        artifacts.assets.each do |asset|
+          puts "  #{ARROW} #{asset.filename.to_s}"
+          File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], asset.real_path
         end
       end
 
