@@ -15,21 +15,21 @@ module Mint
         end
 
         def filename
-          if exists?
-            hash =
-              Digest::MD5.new
-                .update(File.read(real_path))
-                .final
-                .hexstring
+          return unless exists?
 
-            extname =
-              File.extname(real_path)
+          hash =
+            Digest::MD5.new
+              .update(File.read(real_path))
+              .final
+              .hexstring
 
-            basename =
-              real_path.basename(extname)
+          extname =
+            File.extname(real_path)
 
-            "#{basename}_#{hash}#{extname}"
-          end
+          basename =
+            real_path.basename(extname)
+
+          "#{basename}_#{hash}#{extname}"
         end
 
         def exists?
