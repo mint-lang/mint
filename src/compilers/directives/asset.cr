@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Directives::Asset) : String
-      "`/assets/#{node.filename}`"
+      "`/#{ASSET_DIR}/#{node.filename}`"
     end
   end
 end
