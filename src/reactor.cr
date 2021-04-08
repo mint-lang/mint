@@ -147,7 +147,7 @@ module Mint
         SourceFiles.external_stylesheets.to_s
       end
 
-      get "/assets/:name" do |env|
+      get "/#{ASSET_DIR}/:name" do |env|
         asset =
           @artifacts.try(&.assets.find(&.filename.==(env.params.url["name"])))
 
