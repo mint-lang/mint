@@ -8,7 +8,7 @@ module Mint
         "node" => node,
       } unless node.exists?
 
-      assets << node
+      assets << node if checking?
       STRING
     end
   end
