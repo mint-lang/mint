@@ -45,7 +45,9 @@ module Mint
 
         artifacts.assets.each do |asset|
           puts "  #{ARROW} #{asset.filename}"
-          File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], asset.real_path
+          File.open(asset.real_path) do |io|
+            File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], io
+          end
         end
       end
 
