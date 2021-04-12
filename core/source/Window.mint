@@ -165,7 +165,7 @@ module Window {
     Window.open("https://www.google.com")
   */
   fun open (url : String) : Promise(Never, Void) {
-    `window.open(url)`
+    `window.open(#{url})`
   }
 
   /*
