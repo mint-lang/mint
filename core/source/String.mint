@@ -270,7 +270,7 @@ module String {
   fun parameterize (string : String) : String {
     `
     #{string}
-      .replace(/[^\p{Ll}0-9\-_]+/igu, '-')
+      .replace(/[^\p{Lu}\p{Ll}0-9\-_]+/gu, '-') // Replace non alphanumerical with dashes
       .replace(/\p{Lu}([\p{Ll}0-9]+|[\p{Lu}0-9]+)?/gu, '-$&')
       .replace(/-{2,}/g, '-')
       .replace(/^-+/i, '')

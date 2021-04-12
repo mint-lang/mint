@@ -55,8 +55,8 @@ module Mint
         File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
       end
 
-      terminal.measure "#{COG} Writing manifest.json..." do
-        File.write "dist/manifest.json", manifest(json, skip_icons)
+      terminal.measure "#{COG} Writing manifest.webmanifest..." do
+        File.write "dist/manifest.webmanifest", manifest(json, skip_icons)
       end
 
       unless skip_icons
