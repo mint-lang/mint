@@ -15,7 +15,12 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}state #{name}#{type} = #{default}"
+      if type.try(&.includes?('\n')) ||
+         default.includes?('\n')
+        "#{comment}state #{name}#{type} =\n#{indent(default)}"
+      else
+        "#{comment}state #{name}#{type} = #{default}"
+      end
     end
   end
 end
