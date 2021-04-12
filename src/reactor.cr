@@ -148,8 +148,11 @@ module Mint
       end
 
       get "/#{ASSET_DIR}/:name" do |env|
+        filename =
+          env.params.url["name"]
+
         asset =
-          @artifacts.try(&.assets.find(&.filename.==(env.params.url["name"])))
+          @artifacts.try(&.assets.find(&.filename.==(filename)))
 
         next unless asset
 
@@ -158,7 +161,7 @@ module Mint
 
         # Try to figure out mime type from name.
         env.response.content_type =
-          MIME.from_filename?(env.params.url["name"]).to_s
+          MIME.from_filename?(filename).to_s
 
         File.read(asset.real_path)
       end

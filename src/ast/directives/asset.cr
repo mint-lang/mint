@@ -2,16 +2,14 @@ module Mint
   class Ast
     module Directives
       class Asset < Node
+        getter real_path : Path
         getter path
 
         def initialize(@path : String,
                        @input : Data,
                        @from : Int32,
                        @to : Int32)
-        end
-
-        def real_path
-          Path[Path[input.file].dirname, path].expand
+          @real_path = Path[Path[input.file].dirname, path].expand
         end
 
         def filename
@@ -24,7 +22,7 @@ module Mint
               .hexstring
 
           extname =
-            File.extname(real_path)
+            real_path.extension
 
           basename =
             real_path.basename(extname)
