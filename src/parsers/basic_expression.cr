@@ -5,6 +5,7 @@ module Mint
       format_directive ||
         documentation_directive ||
         svg_directive ||
+        asset_directive ||
         env ||
         string_literal ||
         regexp_literal ||
