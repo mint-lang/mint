@@ -14,7 +14,7 @@ module Mint
         whitespace
         char ')', DocumentationDirectiveExpectedClosingParentheses
 
-        Ast::Directives::Documentation.new(
+        self << Ast::Directives::Documentation.new(
           from: start_position,
           entity: entity,
           to: position,

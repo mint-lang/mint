@@ -17,7 +17,7 @@ module Mint
         whitespace
         char ')', AssetDirectiveExpectedClosingParentheses
 
-        Ast::Directives::Asset.new(
+        self << Ast::Directives::Asset.new(
           from: start_position,
           to: position,
           input: data,
