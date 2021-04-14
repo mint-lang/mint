@@ -1,3 +1,5 @@
+require "dotenv"
+
 module Mint
   module Env
     extend self
