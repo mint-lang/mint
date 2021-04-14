@@ -2,8 +2,8 @@
 FROM crystallang/crystal:latest-alpine AS build
 
 # Create a build directory and set it as default
-RUN mkdir -p /opt/build
-WORKDIR /opt/build
+RUN mkdir -p /opt/mint
+WORKDIR /opt/mint
 
 # Copy source
 COPY . .
@@ -12,7 +12,7 @@ COPY . .
 RUN shards install --ignore-crystal-version
 
 # Build binary
-RUN crystal build src/mint.cr -o mint --static --no-debug
+RUN shards build --static --no-debug
 
 # This will be the actual base image
 FROM alpine
@@ -21,7 +21,7 @@ FROM alpine
 RUN apk add --update --no-cache imagemagick bash pngcrush optipng git less openssh
 
 # Copy the binary
-COPY --from=build /opt/build/mint /bin/mint
+COPY --from=build /opt/mint/bin/mint /bin/mint
 
 # Set the binary as entrypoint
 ENTRYPOINT [ "/bin/mint" ]
