@@ -36,7 +36,7 @@ It would be great if you could take part in this short [survey](https://cybergus
 
 ## Community
 
-Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby) or on [Spectrum](https://spectrum.chat/mint-lang).
+Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby), [Discord](https://discord.gg/KvKr5UZKhY), or [Spectrum](https://spectrum.chat/mint-lang).
 
 Also, visit [Awesome Mint](https://github.com/egajda/awesome-mint), to see more guides, tutorials and examples.
 
