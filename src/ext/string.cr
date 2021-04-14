@@ -1,12 +1,13 @@
 class String
   def uncolorize : String
-    gsub(/[ \t]+$/m, "")
+    self
+      .gsub(/[ \t]+$/m, "")
       .gsub(/\e\[(\d+;?)*m/, "")
       .rstrip
   end
 
   def last? : Char?
-    self[size - 1] unless empty?
+    self[-1]?
   end
 
   def indent(spaces : Int32 = 2) : String
@@ -42,11 +43,5 @@ class String
 
   def remove_trailing_whitespace : String
     lines.join('\n', &.rstrip)
-  end
-end
-
-class Array
-  def intersperse(item)
-    zip([item] * size).flatten[0...-1]
   end
 end
