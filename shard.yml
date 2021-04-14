@@ -10,10 +10,10 @@ dependencies:
     version: ~> 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
-    commit: 7183bfde8d86a976a6912f582b51cbd1783456af
+    version: ~> 0.10.0
   kemal:
     github: kemalcr/kemal
-    version: ~> 0.27.0
+    version: ~> 1.0.0
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.11.2
