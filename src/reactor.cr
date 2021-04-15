@@ -98,8 +98,9 @@ module Mint
 
       # Compile.
       @script = Compiler.compile type_checker.artifacts, {
-        optimize:   false,
         css_prefix: json.application.css_prefix,
+        relative:   false,
+        optimize:   false,
       }
       @artifacts = type_checker.artifacts
       @error = nil

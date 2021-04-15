@@ -22,7 +22,7 @@ module Mint
       terminal.puts "#{COG} Compiling your application:"
 
       index_js, artifacts =
-        index(json.application.css_prefix)
+        index(json.application.css_prefix, relative)
 
       File.write Path[DIST_DIR, "index.js"], index_js
 
@@ -108,7 +108,7 @@ module Mint
       end
     end
 
-    def index(css_prefix)
+    def index(css_prefix, relative)
       runtime =
         Assets.read("runtime.js")
 
@@ -137,8 +137,9 @@ module Mint
 
       terminal.measure "  #{ARROW} Compiling: " do
         compiled = Compiler.compile type_checker.artifacts, {
-          optimize:   true,
           css_prefix: css_prefix,
+          relative:   relative,
+          optimize:   true,
         }
       end
 
