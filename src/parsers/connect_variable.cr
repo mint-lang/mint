@@ -15,7 +15,7 @@ module Mint
           name = variable! ConnectVariableExpectedAs
         end
 
-        Ast::ConnectVariable.new(
+        self << Ast::ConnectVariable.new(
           from: start_position,
           variable: value,
           to: position,

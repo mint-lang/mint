@@ -38,7 +38,7 @@ module Mint
           expression! RouteExpectedExpression
         end
 
-        Ast::Route.new(
+        self << Ast::Route.new(
           head_comments: head_comments,
           tail_comments: tail_comments,
           arguments: arguments,

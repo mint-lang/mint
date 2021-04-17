@@ -158,6 +158,28 @@ module Time {
     `
   }
 
+  /* Returns the previous week from the given time. */
+  fun previousWeek (time : Time) : Time {
+    `
+    (() => {
+      const x = new Date(+#{time})
+      x.setDate(#{time}.getDate() - 7)
+      return x
+    })()
+    `
+  }
+
+  /* Returns the next week from the given time. */
+  fun nextWeek (time : Time) : Time {
+    `
+    (() => {
+      const x = new Date(+#{time})
+      x.setDate(#{time}.getDate() + 7)
+      return x
+    })()
+    `
+  }
+
   /* Returns the relative time from the given times (in english). */
   fun relative (other : Time, now : Time) : String {
     `

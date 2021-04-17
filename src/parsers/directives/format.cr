@@ -16,7 +16,7 @@ module Mint
             expression! FormatDirectiveExpectedExpression
           end
 
-        Ast::Directives::Format.new(
+        self << Ast::Directives::Format.new(
           from: start_position,
           content: content,
           to: position,

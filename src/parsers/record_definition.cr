@@ -26,7 +26,7 @@ module Mint
           }
         end
 
-        Ast::RecordDefinition.new(
+        self << Ast::RecordDefinition.new(
           block_comment: block_comment,
           from: start_position,
           comment: comment,

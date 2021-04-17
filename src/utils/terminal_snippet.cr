@@ -118,13 +118,13 @@ module Mint
         "#{filename}:#{line}:#{column}"
 
       divider =
-        ("─" * (min_width - title.size - gutter_width - 5)).colorize.mode(:dim)
+        ("─" * (min_width - title.size - gutter_width - 5).clamp(0, nil)).colorize.mode(:dim)
 
       gutter_divider =
         "─" * gutter_width
 
       footer_divider =
-        "─" * (min_width - gutter_width - 3)
+        "─" * (min_width - gutter_width - 3).clamp(0, nil)
 
       footer =
         ("└#{gutter_divider}┴#{footer_divider}┘").colorize.mode(:dim)

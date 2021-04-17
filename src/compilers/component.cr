@@ -88,8 +88,8 @@ module Mint
 
       constructor =
         unless constructor_body.empty?
-          js.function("constructor", ["props"]) do
-            constructor_body.unshift js.call("super", ["props"])
+          js.function("constructor", %w[props]) do
+            constructor_body.unshift js.call("super", %w[props])
 
             js.statements(constructor_body)
           end
@@ -145,7 +145,7 @@ module Mint
 
       node.connects.each do |item|
         store =
-          ast.stores.find { |entity| entity.name == item.store }
+          ast.stores.find(&.name.==(item.store))
 
         if store
           name =

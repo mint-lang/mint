@@ -3,7 +3,7 @@ module Mint
     def statement(parent) : Ast::Statement?
       start do |start_position|
         target = start do
-          value = variable || tuple_destructuring
+          value = variable(track: false) || tuple_destructuring
           whitespace
           skip unless keyword "="
           whitespace
@@ -14,7 +14,7 @@ module Mint
 
         skip unless body
 
-        Ast::Statement.new(
+        self << Ast::Statement.new(
           expression: body,
           from: start_position,
           target: target,

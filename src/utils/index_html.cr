@@ -3,11 +3,11 @@ module Mint
   class IndexHtml
     getter json, env
 
-    def self.render(env, relative = false, no_service_worker = false, no_icons = false)
-      new(env, relative, no_service_worker, no_icons).to_s
+    def self.render(env, relative = false, no_service_worker = false, no_icons = false, live_reload : Bool = true)
+      new(env, relative, no_service_worker, no_icons, live_reload).to_s
     end
 
-    def initialize(@env : Environment, @relative : Bool, @no_service_worker : Bool, @no_icons : Bool)
+    def initialize(@env : Environment, @relative : Bool, @no_service_worker : Bool, @no_icons : Bool, @live_reload : Bool)
       @json = MintJson.parse_current
     end
 
@@ -29,7 +29,7 @@ module Mint
 
             t.title json.application.title.to_s
 
-            t.link(rel: "manifest", href: path_for("manifest.json"))
+            t.link(rel: "manifest", href: path_for("manifest.webmanifest"))
 
             json.application.meta.each do |name, content|
               next if name == "charset"
@@ -69,7 +69,10 @@ module Mint
             # the live reload script necessary.
             if env.development?
               t.script(src: path_for("runtime.js")) { }
-              t.script(src: path_for("live-reload.js")) { }
+
+              if @live_reload
+                t.script(src: path_for("live-reload.js")) { }
+              end
             else
               if !@no_service_worker
                 t.script(type: "text/javascript") do

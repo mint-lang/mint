@@ -12,6 +12,7 @@ module Mint
   CHECKMARK = "✔".colorize(:light_green).to_s
   DIAMOND   = "◈"
 
+  ASSET_DIR         = "assets"
   DIST_DIR          = "dist"
   PUBLIC_DIR        = "public"
   CSS_DIR           = File.join(DIST_DIR, "css")

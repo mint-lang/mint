@@ -80,7 +80,13 @@ module Mint
               js.variable_of(entity.as(Ast::Node))
             end
 
-          "this.#{name}"
+          case parent
+          when Ast::Suite
+            # The variable is a constant in a test suite
+            "constants.#{name}()"
+          else
+            "this.#{name}"
+          end
         when Ast::Argument
           compile entity
         when Ast::Statement, Ast::WhereStatement

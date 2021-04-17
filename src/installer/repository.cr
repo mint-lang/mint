@@ -137,7 +137,7 @@ module Mint
         target =
           self.target || tag
 
-        status, _, error = run "git checkout #{target}"
+        status, _, error = run "git checkout #{target} -f"
 
         raise RepositoryCouldNotCheckout, {
           "target" => target.to_s,

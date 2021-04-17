@@ -24,7 +24,7 @@ module Mint
           expression! CatchExpectedExpression
         end
 
-        Ast::Catch.new(
+        self << Ast::Catch.new(
           expression: expression.as(Ast::Expression),
           head_comments: head_comments,
           tail_comments: tail_comments,

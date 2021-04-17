@@ -20,7 +20,7 @@ module Mint
           type_or_type_variable! JsExpectedTypeOrVariable
         end
 
-        Ast::Js.new(
+        self << Ast::Js.new(
           from: start_position,
           value: value,
           type: type,

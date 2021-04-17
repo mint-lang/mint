@@ -1,12 +1,13 @@
 class String
   def uncolorize : String
-    gsub(/[ \t]+$/m, "")
+    self
+      .gsub(/[ \t]+$/m, "")
       .gsub(/\e\[(\d+;?)*m/, "")
       .rstrip
   end
 
   def last? : Char?
-    self[size - 1] unless empty?
+    self[-1]?
   end
 
   def indent(spaces : Int32 = 2) : String

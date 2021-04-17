@@ -2,43 +2,43 @@ version: 2.0
 shards:
   admiral:
     git: https://github.com/jwaldrip/admiral.cr.git
-    version: 1.11.2
+    version: 1.11.4
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.3
+    version: 0.14.2
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
-    version: 0.9.8+git.commit.7183bfde8d86a976a6912f582b51cbd1783456af
+    version: 0.10.0
 
   diff:
-    git: https://github.com/MakeNowJust/crystal-diff.git
+    git: https://github.com/makenowjust/crystal-diff.git
     version: 1.1.0
 
   dotenv:
     git: https://github.com/gdotdesign/cr-dotenv.git
-    version: 0.3.1
+    version: 1.0.0
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.1.4
+    version: 0.1.5
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 0.27.0
+    version: 1.0.0
 
   kilt:
     git: https://github.com/jeromegn/kilt.git
-    version: 0.4.0
+    version: 0.4.1
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.2.1+git.commit.620845abb6776d1765d20d86cc0220aa40f89a91
+    version: 0.4.0
 
   radix:
     git: https://github.com/luislavena/radix.git
-    version: 0.3.9
+    version: 0.4.1
 
   string_inflection:
     git: https://github.com/mosop/string_inflection.git

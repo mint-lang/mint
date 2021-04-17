@@ -13,7 +13,7 @@ module Mint
 
         char ')', ParenthesizedExpressionExpectedClosingParentheses
 
-        Ast::ParenthesizedExpression.new(
+        self << Ast::ParenthesizedExpression.new(
           expression: expression,
           from: start_position,
           to: position,

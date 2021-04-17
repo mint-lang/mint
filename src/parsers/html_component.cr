@@ -33,7 +33,7 @@ module Mint
           with_dashes: false,
           tag: component)
 
-        node = Ast::HtmlComponent.new(
+        node = self << Ast::HtmlComponent.new(
           attributes: attributes,
           from: start_position,
           component: component,

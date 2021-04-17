@@ -5,7 +5,7 @@ message SvgDirectiveExpectedDimensions do
     text "The svg specified for an svg directive does not have the following attributes:"
   end
 
-  list ["width", "height", "viewBox"]
+  list %w[width height viewBox]
 
   snippet node
 end

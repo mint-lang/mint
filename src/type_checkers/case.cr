@@ -12,16 +12,26 @@ module Mint
       first =
         resolve node.branches.first, condition
 
-      node.branches[1..node.branches.size].each_with_index do |branch, index|
-        type = resolve branch, condition
+      unified =
+        node
+          .branches[1..node.branches.size]
+          .each_with_index
+          .reduce(first) do |resolved, (branch, index)|
+            type =
+              resolve branch, condition
 
-        raise CaseBranchNotMatches, {
-          "index"    => (index + 1).to_s,
-          "expected" => first,
-          "got"      => type,
-          "node"     => branch,
-        } unless Comparer.compare(type, first)
-      end
+            unified_branch =
+              Comparer.compare(type, resolved)
+
+            raise CaseBranchNotMatches, {
+              "index"    => (index + 1).to_s,
+              "expected" => resolved,
+              "got"      => type,
+              "node"     => branch,
+            } unless unified_branch
+
+            unified_branch
+          end
 
       catch_all =
         node.branches.find(&.match.nil?)
@@ -112,7 +122,7 @@ module Mint
         end
       end
 
-      first
+      unified
     end
   end
 end

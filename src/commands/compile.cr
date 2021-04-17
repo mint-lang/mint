@@ -49,8 +49,9 @@ module Mint
 
         terminal.measure "  #{ARROW} Compiling: " do
           compiled = Compiler.compile_embed type_checker.artifacts, {
-            optimize:   true,
             css_prefix: json.application.css_prefix,
+            relative:   false,
+            optimize:   true,
           }
         end
 

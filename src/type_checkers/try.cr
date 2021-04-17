@@ -8,23 +8,37 @@ module Mint
     def check(node : Ast::Try) : Checkable
       to_catch = [] of Checkable
 
+      statements = node.statements
+      statements_size = statements.size
+
       # Resolve the types of the statements
-      types = scope node.statements do
-        node.statements.map do |statement|
+      types = scope statements do
+        statements.map_with_index do |statement, index|
           new_type = resolve statement
 
-          # If the statement has a name and it's a result
-          type =
-            if new_type.name == "Result" &&
-               new_type.parameters.size == 2
-              # If the error is not Never then that type needs to be catched
-              unless new_type.parameters[0].name == "Never"
-                to_catch << new_type.parameters[0]
-              end
-              new_type.parameters[1]
+          if index == (statements_size - 1)
+            # The last statement is not unwrapped so a Result can be returned directly
+            new_type
+          else
+            # If the statement has a name and it's a result
+            if new_type.name == "Result"
+              type =
+                case
+                when new_type.parameters[0].name[0].ascii_lowercase?
+                  # If the error type is a variable it can't be caught
+                  # but it is still unwrapped
+                  new_type.parameters[1]
+                when new_type.parameters.size == 2
+                  # If the error is not Never then that type needs to be catched
+                  unless new_type.parameters[0].name == "Never"
+                    to_catch << new_type.parameters[0]
+                  end
+                  new_type.parameters[1]
+                end
             end
 
-          type || new_type
+            type || new_type
+          end
         end
       end
 

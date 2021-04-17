@@ -10,5 +10,5 @@ message InvalidReporter do
     text "The available reporters are:"
   end
 
-  list ["documentation", "dot"]
+  list %w[documentation dot]
 end

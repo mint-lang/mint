@@ -1,9 +1,10 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Suite)
-      resolve node.name
-      resolve node.tests
-
+      scope node do
+        resolve node.name
+        resolve node.tests
+      end
       NEVER
     end
   end

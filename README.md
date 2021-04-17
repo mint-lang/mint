@@ -36,13 +36,13 @@ It would be great if you could take part in this short [survey](https://cybergus
 
 ## Community
 
-Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby) or on [Spectrum](https://spectrum.chat/mint-lang).
+Questions or suggestions? Ask on [Gitter channel](https://gitter.im/mint-lang/Lobby), [Discord](https://discord.gg/KvKr5UZKhY), or [Spectrum](https://spectrum.chat/mint-lang).
 
 Also, visit [Awesome Mint](https://github.com/egajda/awesome-mint), to see more guides, tutorials and examples.
 
 ## Contributing
 
-Read the general [Contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md), and then:
+Read the general [Contributing guide](https://github.com/mint-lang/mint/blob/master/CONTRIBUTING.md), and then:
 
 1. Fork it (<https://github.com/mint-lang/mint/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -115,7 +115,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ---
 
-![Linux CI](https://github.com/mint-lang/mint/workflows/Linux%20CI/badge.svg)
+[![CI](https://github.com/mint-lang/mint/actions/workflows/ci.yml/badge.svg)](https://github.com/mint-lang/mint/actions/workflows/ci.yml)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/mint-lang/Lobby)
 [![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
 [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/mint-lang)

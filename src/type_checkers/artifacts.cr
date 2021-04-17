@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     class Artifacts
-      getter ast, lookups, cache, checked, record_field_lookup
+      getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order
 
       def initialize(@ast : Ast,
@@ -9,6 +9,7 @@ module Mint
                      @record_field_lookup = {} of Ast::Node => String,
                      @variables = {} of Ast::Node => Scope::Lookup,
                      @lookups = {} of Ast::Node => Ast::Node,
+                     @assets = [] of Ast::Directives::Asset,
                      @types = {} of Ast::Node => Checkable,
                      @cache = {} of Ast::Node => Checkable,
                      @resolve_order = [] of Ast::Node,

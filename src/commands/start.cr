@@ -22,9 +22,15 @@ module Mint
         required: false,
         short: "p"
 
+      define_flag live_reload : Bool,
+        description: "Whether or not to reload the browser when something changes. (Default true)",
+        required: false,
+        default: true,
+        short: "r"
+
       def run
         execute "Running the development server" do
-          Reactor.start flags.host, flags.port, flags.auto_format
+          Reactor.start flags.host, flags.port, flags.auto_format, flags.live_reload
         end
       end
     end

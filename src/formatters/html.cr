@@ -20,14 +20,18 @@ module Mint
           " " + attributes.join(' ')
         end
 
+      child_nodes =
+        node.children + node.comments
+
       children =
-        indent(list(node.children + node.comments))
+        indent(list(child_nodes))
 
       if node.attributes.empty? &&
          node.children.size == 1 &&
-         node.children.first.is_a?(Ast::StringLiteral)
+         node.children.first.is_a?(Ast::StringLiteral) &&
+         !children.includes?('\n')
         "<#{prefix}#{attributes}>#{children.strip}</#{tag}>"
-      elsif node.children.empty?
+      elsif child_nodes.empty?
         "<#{prefix}#{attributes}/>"
       elsif replace_skipped(attributes).includes?('\n')
         "<#{prefix}#{attributes}>\n\n#{children}\n\n</#{tag}>"

@@ -24,6 +24,7 @@ module Mint
     register_sub_command test, type: Test
     register_sub_command docs, type: Docs
     register_sub_command loc, type: Loc
+    register_sub_command ls, type: Ls
 
     def run
       execute "Help" do

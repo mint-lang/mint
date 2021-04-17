@@ -30,7 +30,7 @@ module Mint
 
         default = expression! StateExpectedDefaultValue
 
-        Ast::State.new(
+        self << Ast::State.new(
           default: default,
           from: start_position,
           comment: comment,

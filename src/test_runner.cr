@@ -12,15 +12,15 @@ module Mint
       @page_source ||= <<-HTML
       <html>
         <head>
+          <meta charset="UTF-8">
           <link rel="stylesheet" href="external-stylesheets.css">
         </head>
         <body>
           <script src="/external-javascripts.js"></script>
           <script src="/runtime.js"></script>
-          <script src="/tests"></script>
           <script>
             class TestRunner {
-              constructor (suites) {
+              constructor () {
                 this.socket = new WebSocket("ws://#{@flags.browser_host}:#{@flags.browser_port}/")
 
                 window.DEBUG = {
@@ -35,29 +35,52 @@ module Mint
                       result = value.toString()
                     }
 
-                    this.socket.send(JSON.stringify({
-                      result: result,
-                      name: "",
-                      type: "LOG",
-                    }))
+                    this.log(result);
                   }
                 }
 
-                this.suites = suites
+                let error = null;
+
+                window.onerror = (message) => {
+                  if (this.socket.readyState === 1) {
+                    this.crash(message);
+                  } else {
+                    error = error || message;
+                  }
+                }
 
                 this.socket.onopen = () => {
-                  this.run()
-                    .then(() => this.socket.send("DONE"))
+                  if (error != null) {
+                    this.crash(error);
+                  }
                 }
               }
 
-              async run () {
-                return new Promise((resolve, reject) => {
-                  this.next(resolve, reject)
-                })
+              start (suites) {
+                this.suites = suites;
+                if (this.socket.readState === 1) {
+                  this.run();
+                } else {
+                  this.socket.addEventListener("open", () => this.run());
+                }
               }
 
-              async next (resolve, reject) {
+              run () {
+                return new Promise((resolve, reject) => {
+                  this.next(resolve, reject);
+                }).catch(e => this.log(e.reason))
+                  .finally(() => this.socket.send("DONE"));
+              }
+
+              crash (message) {
+                this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: message }));
+              }
+
+              log (message) {
+                this.socket.send(JSON.stringify({ type: "LOG", name: "", result: message }));
+              }
+
+              next (resolve, reject) {
                 requestAnimationFrame(async () => {
                   if (!this.suite || this.suite.tests.length === 0) {
                     this.suite = this.suites.shift()
@@ -73,40 +96,48 @@ module Mint
 
                   let currentHistory = window.history.length
 
-                  let result = await test.proc()
+                  try {
+                    let result = await test.proc(this.suite.constants)
 
-                  // Go back to the beginning
-                  if (window.history.length - currentHistory) {
-                    window.history.go(-(window.history.length - currentHistory))
-                  }
-
-                  // Clear storages
-                  sessionStorage.clear()
-                  localStorage.clear()
-
-                  // TODO: Reset Stores
-
-                  if (result instanceof TestContext) {
-                    try {
-                      await result.run()
-                      this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
-                    } catch (error) {
-                      this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
+                    // Go back to the beginning
+                    if (window.history.length - currentHistory) {
+                      window.history.go(-(window.history.length - currentHistory))
                     }
-                  } else {
-                    if (result) {
-                      this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
+
+                    // Clear storages
+                    sessionStorage.clear()
+                    localStorage.clear()
+
+                    // TODO: Reset Stores
+
+                    if (result instanceof TestContext) {
+                      try {
+                        await result.run()
+                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
+                      } catch (error) {
+                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
+                      }
                     } else {
-                      this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
+                      if (result) {
+                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
+                      } else {
+                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
+                      }
                     }
+                  } catch (error) {
+                    // An error occurred while trying to run a test; this is different from the test itself failing.
+                    this.socket.send(JSON.stringify({ type: "ERRORED", name: test.name, result: error.toString() }));
                   }
-
-                  this.next(resolve, reject)
+                  this.next(resolve, reject);
                 })
               }
             }
 
-            new TestRunner(SUITES)
+            window.testRunner = new TestRunner();
+          </script>
+          <script src="/tests"></script>
+          <script>
+            window.testRunner.start(SUITES);
           </script>
           <div id="root">
           </div>
@@ -202,7 +233,7 @@ module Mint
         artifact = Parser.parse(file)
 
         formatted =
-          Formatter.new(artifact, MintJson.parse_current.formatter_config).format
+          Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
         unless formatted == File.read(file)
           File.write(file, formatted)
@@ -329,8 +360,7 @@ module Mint
               terminal.puts "    |> #{failure.result}".colorize(:red)
             end
 
-            Kemal.config.server.try(&.close) unless @flags.manual
-            @channel.send(nil)
+            stop_server
           else
             data = Message.from_json(message)
             case data.type
@@ -344,10 +374,22 @@ module Mint
             when "FAILED"
               @reporter.failed data.name, data.result
               @failed << data
+            when "ERRORED"
+              terminal.puts "An error occurred when running the test #{data.name}: #{data.result}".colorize(:red)
+              @failed << data
+            when "CRASHED"
+              @reporter.crashed data.result
+
+              stop_server
             end
           end
         end
       end
+    end
+
+    def stop_server
+      Kemal.config.server.try(&.close) unless @flags.manual
+      @channel.send(nil)
     end
 
     def terminal

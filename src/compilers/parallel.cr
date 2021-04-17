@@ -1,23 +1,23 @@
 module Mint
   class Compiler
+    protected def prefix(statement : Ast::Statement, value : String)
+      case target = statement.target
+      when Ast::Variable
+        js.assign(js.variable_of(target), value)
+      when Ast::TupleDestructuring
+        variables =
+          target
+            .parameters
+            .join(',') { |param| js.variable_of(param) }
+
+        "[#{variables}] = #{value}"
+      else
+        value
+      end
+    end
+
     def _compile(node : Ast::Parallel) : String
       body = node.statements.map do |statement|
-        prefix = ->(value : String) {
-          case target = statement.target
-          when Ast::Variable
-            js.assign(js.variable_of(target), value)
-          when Ast::TupleDestructuring
-            variables =
-              target
-                .parameters
-                .join(',') { |param| js.variable_of(param) }
-
-            "[#{variables}] = #{value}"
-          else
-            value
-          end
-        }
-
         expression =
           compile statement.expression
 
@@ -46,7 +46,7 @@ module Mint
                   js.if("_ instanceof Err") do
                     "throw _._0"
                   end,
-                  prefix.call("_._0"),
+                  prefix(statement, "_._0"),
                 ])
               end
             else
@@ -58,21 +58,21 @@ module Mint
                       js.let("_error", "_._0"),
                     ] + catches)
                   end,
-                  prefix.call("_._0"),
+                  prefix(statement, "_._0"),
                 ])
               end
             end
           when "Promise"
             if catches && !catches.empty?
               js.asynciif do
-                js.try(prefix.call("await #{expression}"),
+                js.try(prefix(statement, "await #{expression}"),
                   [js.catch("_error", js.statements(catches))],
                   "")
               end
             end
           end
         end || js.asynciif do
-          prefix.call("await #{expression}")
+          prefix(statement, "await #{expression}")
         end
       end
 
@@ -96,7 +96,7 @@ module Mint
         end
 
       names =
-        node.statements.map do |statement|
+        node.statements.compact_map do |statement|
           case target = statement.target
           when Ast::Variable
             js.let(js.variable_of(target), "null")
@@ -105,7 +105,7 @@ module Mint
               js.let(js.variable_of(variable), "null")
             end
           end
-        end.flatten.compact
+        end.flatten
 
       js.asynciif do
         js.statements([

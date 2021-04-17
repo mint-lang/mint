@@ -6,7 +6,7 @@ module Mint
     end
 
     def array_access_or_call(lhs)
-      case input[position, 2]
+      case input[position, 2].join
       when "&."
         access(lhs, safe: true)
       when "&("

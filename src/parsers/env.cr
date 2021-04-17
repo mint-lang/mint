@@ -17,7 +17,7 @@ module Mint
 
         raise EnvExpectedName if name.empty?
 
-        Ast::Env.new(
+        self << Ast::Env.new(
           from: start_position,
           to: position,
           input: data,

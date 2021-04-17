@@ -17,7 +17,7 @@ module Mint
         whitespace
         char ')', SvgDirectiveExpectedClosingParentheses
 
-        Ast::Directives::Svg.new(
+        self << Ast::Directives::Svg.new(
           from: start_position,
           to: position,
           input: data,

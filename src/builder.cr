@@ -20,7 +20,11 @@ module Mint
       end
 
       terminal.puts "#{COG} Compiling your application:"
-      File.write Path[DIST_DIR, "index.js"], index(json.application.css_prefix)
+
+      index_js, artifacts =
+        index(json.application.css_prefix, relative)
+
+      File.write Path[DIST_DIR, "index.js"], index_js
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
@@ -34,12 +38,25 @@ module Mint
         end
       end
 
+      unless artifacts.assets.empty?
+        FileUtils.mkdir Path[DIST_DIR, ASSET_DIR].to_s
+
+        terminal.puts "#{COG} Writing assets..."
+
+        artifacts.assets.uniq(&.real_path).each do |asset|
+          puts "  #{ARROW} #{asset.filename}"
+          File.open(asset.real_path) do |io|
+            File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], io
+          end
+        end
+      end
+
       terminal.measure "#{COG} Writing index.html... " do
         File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
       end
 
-      terminal.measure "#{COG} Writing manifest.json..." do
-        File.write "dist/manifest.json", manifest(json, skip_icons)
+      terminal.measure "#{COG} Writing manifest.webmanifest..." do
+        File.write "dist/manifest.webmanifest", manifest(json, skip_icons)
       end
 
       unless skip_icons
@@ -91,7 +108,7 @@ module Mint
       end
     end
 
-    def index(css_prefix)
+    def index(css_prefix, relative)
       runtime =
         Assets.read("runtime.js")
 
@@ -120,12 +137,13 @@ module Mint
 
       terminal.measure "  #{ARROW} Compiling: " do
         compiled = Compiler.compile type_checker.artifacts, {
-          optimize:   true,
           css_prefix: css_prefix,
+          relative:   relative,
+          optimize:   true,
         }
       end
 
-      runtime + compiled
+      {runtime + compiled, type_checker.artifacts}
     end
 
     def terminal

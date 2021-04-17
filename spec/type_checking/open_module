@@ -28,7 +28,7 @@ module Test {
 
 module Test {
   fun hello : String {
-    "Overriden...."
+    "Overridden...."
   }
 }
 

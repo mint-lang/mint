@@ -9,6 +9,7 @@ message CallArgumentTypeMismatch do
 
   type_with_text expected, "The function is expecting the #{index} argument to be:"
   type_with_text got, "Instead it is:"
+  type_with_text function, "The type of the function is:"
 
   snippet node, "You tried to call it here:"
 end

@@ -1,5 +1,5 @@
 name: mint
-version: 0.12.0-devel
+version: 0.13.0-devel
 
 authors:
   - Szikszai Gusztáv
@@ -10,10 +10,10 @@ dependencies:
     version: ~> 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
-    commit: 7183bfde8d86a976a6912f582b51cbd1783456af
+    version: ~> 0.10.0
   kemal:
     github: kemalcr/kemal
-    version: ~> 0.27.0
+    version: ~> 1.0.0
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.11.2
@@ -25,15 +25,15 @@ dependencies:
     version: ~> 0.1.1
   dotenv:
     github: gdotdesign/cr-dotenv
-    version: ~> 0.3.1
+    version: ~> 1.0.0
   markd:
     github: icyleaf/markd
-    commit: 620845abb6776d1765d20d86cc0220aa40f89a91
+    version: ~> 0.4.0
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.0
+    version: ~> 0.14.0
   diff:
     github: MakeNowJust/crystal-diff
     version: ~> 1.1.0
@@ -42,6 +42,6 @@ targets:
   mint:
     main: src/mint.cr
 
-crystal: ">= 0.35.0"
+crystal: ">= 1.0.0"
 
 license: BSD-3-Clause

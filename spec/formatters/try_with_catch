@@ -6,7 +6,7 @@ module Result {
 
 module A {
   fun test : String {
-    try{x=Result.error("hello")}catch String => a {"blah"}
+    try{x=Result.error("hello")x}catch String => a {"blah"}
   }
 }
 --------------------------------------------------------------------------------
@@ -21,6 +21,8 @@ module A {
     try {
       x =
         Result.error("hello")
+
+      x
     } catch String => a {
       "blah"
     }

@@ -258,20 +258,57 @@ module String {
   /*
   Parameterizes the string:
   - replaces non alphanumeric, dash and underscore characters with dash
+  - converts title case to dash case (TitleCase -> title-case)
   - collapses multiple dashes into a single one
-  - removes the leading and trailing dash
+  - removes the leading and trailing dash(es)
   - converts to lowercase
 
+    String.parameterize("Ui.ActionSheet") == "ui-action-sheet"
     String.parameterize("HELLO THERE!!!") == "hello-there"
     String.parameterize("-_!ASD!_-") == "asd"
   */
   fun parameterize (string : String) : String {
     `
     #{string}
-      .replace(/[^a-z0-9\-_]+/ig, '-')
+      .replace(/[^\p{Lu}\p{Ll}0-9\-_]+/gu, '-') // Replace non alphanumerical with dashes
+      .replace(/\p{Lu}([\p{Ll}0-9]+|[\p{Lu}0-9]+)?/gu, '-$&')
       .replace(/-{2,}/g, '-')
-      .replace(/^-|-$/i, '')
+      .replace(/^-+/i, '')
+      .replace(/-+$/i, '')
       .toLowerCase()
     `
+  }
+
+  /*
+  Wraps the string with the given start and end characters.
+
+    String.wrap("{","}", "Hello there!") == "{Hello there!}"
+  */
+  fun wrap (start : String, end : String, string : String) : String {
+    "#{start}#{string}#{end}"
+  }
+
+  /*
+  Indents the string with the given number of spaces.
+
+    String.indent(2, "Hello There!") == "  Hello There!"
+  */
+  fun indent (by : Number, string : String) : String {
+    indentWithOptions(by, " ", true, string)
+  }
+
+  /*
+  Indents the string with the given number of characters
+  using the given options.
+
+    String.indentWithOptions(2, "-", false, "Hello There!") == "--Hello There!"
+  */
+  fun indentWithOptions (
+    by : Number,
+    character : String,
+    includeEmptyLines : Bool,
+    string : String
+  ) : String {
+    `#{string}.replace(#{includeEmptyLines} ? /^/gm : /^(?!\s*$)/gm, #{repeat(by, character)})`
   }
 }

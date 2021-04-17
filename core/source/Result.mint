@@ -133,8 +133,8 @@ module Result {
 
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     case (input) {
+      Result::Err error => Result::Err(error)
       Result::Ok value => value
-      Result::Err => input
     }
   }
 

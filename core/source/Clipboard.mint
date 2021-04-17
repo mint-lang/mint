@@ -7,14 +7,11 @@ module Clipboard {
       // Create a textarea element
       const textarea = document.createElement("textarea");
 
-      // Save scroll position
-      const scrollY = window.scrollY;
-      const scrollX = window.scrollX;
-
-      // Position it off screen but keep scroll position to prevent scolling
-      textarea.style.position = "absolute";
-      textarea.style.left = "-1000px";
-      textarea.style.top = "-1000px";
+      // Position it on the screen
+      textarea.style.position = "fixed";
+      textarea.style.left = "10px";
+      textarea.style.top = "10px";
+      textarea.style.opacity = 0;
 
       // Add it to the DOM
       document.body.appendChild(textarea)
@@ -40,9 +37,6 @@ module Clipboard {
 
       // Remove textarea from the DOM
       textarea.remove()
-
-      // Return the previous scroll position
-      window.scrollTo(scrollY, scrollX);
     })()
     `
   }

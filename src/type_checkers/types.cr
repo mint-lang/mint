@@ -53,10 +53,10 @@ module Mint
           params =
             parameters.map(&.to_pretty.as(String))
 
-          if params.any?(&.includes?('\n')) || params.size > 4
+          if params.size > 1 && params[0].includes?("\n")
             "#{name}(\n#{params.join(",\n").indent})"
           else
-            "#{name}(#{params.join(", ")})"
+            "#{name}(#{params[0]})"
           end
         end
       end
@@ -222,7 +222,7 @@ module Mint
         case
         when node1.is_a?(Variable)
           unless node1 == node2
-            if occurns_in_type(node1, node2)
+            if occurs_in_type(node1, node2)
               raise "Recursive unification!"
             end
             node1.instance = node2
@@ -252,21 +252,21 @@ module Mint
         end
       end
 
-      def occurns_in_type(node1, node2)
+      def occurs_in_type(node1, node2)
         node2 = prune(node2)
 
         case
         when node1 == node2
           true
         when node2.is_a?(Type)
-          occurns_in_type_array(node1, node2.parameters)
+          occurs_in_type_array(node1, node2.parameters)
         else
           false
         end
       end
 
-      def occurns_in_type_array(node, parameters)
-        parameters.any? { |type| occurns_in_type node, type }
+      def occurs_in_type_array(node, parameters)
+        parameters.any? { |type| occurs_in_type node, type }
       end
 
       def normalize(type : Type, mapping = {} of String => Variable)

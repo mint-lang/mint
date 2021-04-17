@@ -25,7 +25,7 @@ module Mint
               with_interpolation: false
           end
 
-        Ast::RecordDefinitionField.new(
+        self << Ast::RecordDefinitionField.new(
           from: start_position,
           comment: comment,
           mapping: mapping,

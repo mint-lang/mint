@@ -30,12 +30,14 @@ module Mint
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate types, variables, ast, lookups, cache, resolve_order, to: artifacts
+    delegate types, variables, ast, lookups, cache, to: artifacts
+    delegate assets, resolve_order, to: artifacts
+
     delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @formatter = Formatter.new(Ast.new)
+    @formatter = Formatter.new
     @names = {} of String => Ast::Node
     @types = {} of String => Ast::Node
     @records = [] of Record
@@ -46,7 +48,7 @@ module Mint
 
     @stack = [] of Ast::Node
 
-    def initialize(ast : Ast)
+    def initialize(ast : Ast, @check_env = true)
       ast.normalize
 
       @artifacts = Artifacts.new(ast)
@@ -229,7 +231,8 @@ module Mint
           raise InvalidSelfReference, {
             "referee" => @referee,
             "node"    => node,
-          } if @top_level_entity.try(&.owns?(node))
+          } if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
+               @top_level_entity.try(&.owns?(node))
 
           cached
         else

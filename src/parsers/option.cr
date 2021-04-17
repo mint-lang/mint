@@ -4,7 +4,7 @@ module Mint
       start do |start_position|
         skip unless name = type_id
 
-        Ast::Option.new(
+        self << Ast::Option.new(
           from: start_position,
           to: position,
           input: data,

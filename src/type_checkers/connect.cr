@@ -26,6 +26,7 @@ module Mint
           "node"  => node,
         } unless found
 
+        cache[key] = resolve found
         lookups[key] = found
       end
 

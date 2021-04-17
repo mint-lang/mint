@@ -11,7 +11,7 @@ module Mint
 
         skip if value.nil?
 
-        Ast::BoolLiteral.new(
+        self << Ast::BoolLiteral.new(
           from: start_position,
           value: value,
           to: position,
