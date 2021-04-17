@@ -11,7 +11,7 @@ message MintJsonMintVersionMismatch do
 
   block do
     text "I was looking for"
-    bold expected_version
+    code expected_version
 
     text "but found"
     code current_version

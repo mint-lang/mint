@@ -17,7 +17,7 @@ module Mint
 
     @parser = JSON::PullParser.new("{}")
 
-    getter dependencies = [] of Mint::Installer::Dependency
+    getter dependencies = [] of Installer::Dependency
     getter formatter_config = Formatter::Config.new
     getter source_directories = %w[]
     getter test_directories = %w[]
@@ -25,10 +25,10 @@ module Mint
       "javascripts" => %w[],
       "stylesheets" => %w[],
     }
+    getter mint_version_parsed : Bool? = nil
     getter application = Application.new
-    getter name = ""
     getter root : String
-    getter mint_version = ""
+    getter name = ""
 
     json_error MintJsonRootNotAnObject
     json_error MintJsonRootInvalidKey
@@ -41,7 +41,13 @@ module Mint
           "node" => node(exception),
         }
       end
+
       parse_root
+
+      # TODO: Enable when releasing 0.13.0!
+      # raise MintJsonMintVersionMissing, {
+      #   "contents" => @json,
+      # } unless mint_version_parsed
     end
 
     def self.from_file(path)
@@ -162,23 +168,53 @@ module Mint
 
     json_error MintJsonMintVersionNotString
     json_error MintJsonMintVersionMismatch
+    json_error MintJsonMintVersionMissing
+    json_error MintJsonMintVersionInvalid
     json_error MintJsonMintVersionIsEmpty
 
     def parse_mint_version
       location =
         @parser.location
 
-      @mint_version =
+      raw =
         @parser.read_string
 
       raise MintJsonMintVersionIsEmpty, {
         "node" => node(location),
-      } if @mint_version.empty?
+      } if raw.empty?
+
+      match =
+        raw.match(/(\d+\.\d+\.\d+)\s*<=\s*v\s*<\s*(\d+\.\d+\.\d+)/)
+
+      constraint =
+        if match
+          lower =
+            Installer::Semver.parse(match[1])
+
+          upper =
+            Installer::Semver.parse(match[2])
+
+          raise MintJsonMintVersionInvalid, {
+            "node" => node(location),
+          } if !upper || !lower
+
+          Installer::SimpleConstraint.new(lower, upper)
+        else
+          raise MintJsonMintVersionInvalid, {
+            "node" => node(location),
+          }
+        end
+
+      resolved =
+        Installer::Semver.parse(VERSION.rchop("-devel")).not_nil!
+
       raise MintJsonMintVersionMismatch, {
+        "expected_version" => constraint.to_s,
         "node"             => node(location),
-        "expected_version" => @mint_version,
-        "current_version"  => Mint::VERSION,
-      } if @mint_version != Mint::VERSION
+        "current_version"  => VERSION,
+      } unless resolved < upper && resolved >= lower
+
+      @mint_version_parsed = true
     rescue exception : JSON::ParseException
       raise MintJsonMintVersionNotString, {
         "node" => node(exception),
@@ -690,7 +726,7 @@ module Mint
       raise "Should not happen" unless repository
       raise "Should not happen" unless constraint
 
-      Mint::Installer::Dependency.new key, repository, constraint
+      Installer::Dependency.new key, repository, constraint
     rescue exception : JSON::ParseException
       raise MintJsonDependencyInvalid, {
         "node" => node(exception),
@@ -709,23 +745,23 @@ module Mint
 
       if match
         lower =
-          Mint::Installer::Semver.parse(match[1])
+          Installer::Semver.parse(match[1])
 
         upper =
-          Mint::Installer::Semver.parse(match[2])
+          Installer::Semver.parse(match[2])
 
         raise MintJsonDependencyInvalidConstraint, {
           "node" => node(location),
         } if !upper || !lower
 
-        Mint::Installer::SimpleConstraint.new(lower, upper)
+        Installer::SimpleConstraint.new(lower, upper)
       else
         match =
           raw.match(/(.*?):(\d+\.\d+\.\d+)/)
 
         if match
           version =
-            Mint::Installer::Semver.parse(match[2])
+            Installer::Semver.parse(match[2])
 
           target =
             match[1]
@@ -734,7 +770,7 @@ module Mint
             "node" => node(location),
           } unless version
 
-          Mint::Installer::FixedConstraint.new(version, target)
+          Installer::FixedConstraint.new(version, target)
         else
           raise MintJsonDependencyInvalidConstraint, {
             "node" => node(location),
