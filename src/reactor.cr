@@ -10,6 +10,7 @@ module Mint
   #   any changes it formats the file
   class Reactor
     @artifacts : TypeChecker::Artifacts?
+    @live_reload : Bool
     @auto_format : Bool
     @error : String?
     @host : String
@@ -20,11 +21,11 @@ module Mint
     getter ast : Ast = Ast.new
     getter script = ""
 
-    def self.start(host : String, port : Int32, auto_format : Bool)
-      new host, port, auto_format
+    def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
+      new host, port, auto_format, live_reload
     end
 
-    def initialize(@host, @port, @auto_format)
+    def initialize(@host, @port, @auto_format, @live_reload)
       terminal.measure "#{COG} Ensuring dependencies... " do
         MintJson.parse_current.check_dependencies!
       end
@@ -110,13 +111,19 @@ module Mint
       @script = ""
     end
 
+    def live_reload
+      if @live_reload
+        "<script src=\"/live-reload.js\"></script>"
+      end
+    end
+
     def index
       if @error
         <<-HTML
         <html>
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <script src="/live-reload.js"></script>
+            #{live_reload}
           </head>
           <body>
             #{@error}
@@ -124,7 +131,7 @@ module Mint
         </html>
         HTML
       else
-        IndexHtml.render(Environment::DEVELOPMENT)
+        IndexHtml.render(Environment::DEVELOPMENT, live_reload: @live_reload)
       end
     end
 
