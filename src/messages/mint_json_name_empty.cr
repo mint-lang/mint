@@ -1,4 +1,4 @@
-message MintJsonNameIsEmpty do
+message MintJsonNameEmpty do
   title "mint.json Error"
 
   block do

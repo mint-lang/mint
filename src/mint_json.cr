@@ -25,7 +25,6 @@ module Mint
       "javascripts" => %w[],
       "stylesheets" => %w[],
     }
-    getter mint_version_parsed : Bool? = nil
     getter application = Application.new
     getter root : String
     getter name = ""
@@ -43,11 +42,6 @@ module Mint
       end
 
       parse_root
-
-      # TODO: Enable when releasing 0.13.0!
-      # raise MintJsonMintVersionMissing, {
-      #   "contents" => @json,
-      # } unless mint_version_parsed
     end
 
     def self.from_file(path)
@@ -145,7 +139,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     json_error MintJsonNameNotString
-    json_error MintJsonNameIsEmpty
+    json_error MintJsonNameEmpty
 
     def parse_name
       location =
@@ -154,7 +148,7 @@ module Mint
       @name =
         @parser.read_string
 
-      raise MintJsonNameIsEmpty, {
+      raise MintJsonNameEmpty, {
         "node" => node(location),
       } if @name.empty?
     rescue exception : JSON::ParseException
@@ -170,7 +164,7 @@ module Mint
     json_error MintJsonMintVersionMismatch
     json_error MintJsonMintVersionMissing
     json_error MintJsonMintVersionInvalid
-    json_error MintJsonMintVersionIsEmpty
+    json_error MintJsonMintVersionEmpty
 
     def parse_mint_version
       location =
@@ -179,7 +173,7 @@ module Mint
       raw =
         @parser.read_string
 
-      raise MintJsonMintVersionIsEmpty, {
+      raise MintJsonMintVersionEmpty, {
         "node" => node(location),
       } if raw.empty?
 
@@ -213,8 +207,6 @@ module Mint
         "node"             => node(location),
         "current_version"  => VERSION,
       } unless resolved < upper && resolved >= lower
-
-      @mint_version_parsed = true
     rescue exception : JSON::ParseException
       raise MintJsonMintVersionNotString, {
         "node" => node(exception),
@@ -605,7 +597,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     json_error MintJsonTitleInvalid
-    json_error MintJsonTitleIsEmpty
+    json_error MintJsonTitleEmpty
 
     def parse_title
       location =
@@ -614,7 +606,7 @@ module Mint
       title =
         @parser.read_string
 
-      raise MintJsonTitleIsEmpty, {
+      raise MintJsonTitleEmpty, {
         "node" => node(location),
       } if title.empty?
 
