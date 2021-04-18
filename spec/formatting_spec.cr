@@ -33,6 +33,11 @@ Dir
       ast.class.should eq(Mint::Ast)
 
       result = formatter.format(ast)
-      result.should eq(expected.lstrip)
+
+      begin
+        result.should eq(expected.lstrip)
+      rescue error
+        fail diff(expected, result)
+      end
     end
   end

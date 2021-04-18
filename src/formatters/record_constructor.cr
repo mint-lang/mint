@@ -3,7 +3,11 @@ module Mint
     def format(node : Ast::RecordConstructor)
       arguments =
         unless node.arguments.empty?
-          "(#{format(node.arguments, ", ")})"
+          if node.new_line?
+            "(\n#{indent(format(node.arguments, ",\n"))})"
+          else
+            "(#{format(node.arguments, ", ")})"
+          end
         end
 
       "#{node.name}#{arguments}"

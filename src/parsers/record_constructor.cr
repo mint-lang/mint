@@ -13,6 +13,7 @@ module Mint
 
         skip unless name
 
+        whitespace
         arguments =
           list(
             terminator: ')',
