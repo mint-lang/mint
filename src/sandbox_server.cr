@@ -16,7 +16,7 @@ module Mint
       getter files : Array(File)
     end
 
-    def initialize
+    def initialize(@host = "0.0.0.0", @port = 8080)
       @server = HTTP::Server.new { |context| handle_request(context) }
       @formatter = Formatter.new
       @core = Core.ast
@@ -97,7 +97,7 @@ module Mint
 
     def start
       address =
-        @server.bind_tcp 8080
+        @server.bind_tcp @host, @port
 
       puts "Listening on http://#{address}"
       @server.listen
