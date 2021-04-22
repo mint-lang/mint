@@ -15,7 +15,7 @@ module Mint
         def filename(build)
           return unless exists?
 
-          hashBase =
+          hash_base =
             if build
               File.read(real_path)
             else
@@ -24,7 +24,7 @@ module Mint
 
           hash =
             Digest::MD5.new
-              .update(hashBase)
+              .update(hash_base)
               .final
               .hexstring
 

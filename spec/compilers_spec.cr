@@ -14,7 +14,12 @@ Dir
       ast.class.should eq(Mint::Ast)
 
       # Compare results
-      result = Mint::Compiler.compile_bare(Mint::TypeChecker.check(ast))
+      result = Mint::Compiler.compile_bare(Mint::TypeChecker.check(ast), {
+        optimize:   false,
+        relative:   false,
+        build:      true,
+        css_prefix: nil,
+      })
 
       begin
         result.should eq(expected.strip)
