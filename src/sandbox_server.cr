@@ -87,6 +87,7 @@ module Mint
         Compiler.compile(artifacts, {
           relative:   false,
           optimize:   false,
+          build:      false,
           css_prefix: nil,
         })
 

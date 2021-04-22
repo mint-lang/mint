@@ -12,12 +12,19 @@ module Mint
           @real_path = Path[Path[input.file].dirname, path].expand
         end
 
-        def filename
+        def filename(build)
           return unless exists?
+
+          hashBase =
+            if build
+              File.read(real_path)
+            else
+              real_path.to_s
+            end
 
           hash =
             Digest::MD5.new
-              .update(File.read(real_path))
+              .update(hashBase)
               .final
               .hexstring
 

@@ -8,7 +8,7 @@ module Mint
           "/"
         end
 
-      "`#{prefix}#{ASSET_DIR}/#{node.filename}`"
+      "`#{prefix}#{ASSET_DIR}/#{node.filename(build: @build)}`"
     end
   end
 end

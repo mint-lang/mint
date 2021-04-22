@@ -102,6 +102,7 @@ module Mint
         css_prefix: json.application.css_prefix,
         relative:   false,
         optimize:   false,
+        build:      false,
       }
       @artifacts = type_checker.artifacts
       @error = nil
@@ -160,7 +161,7 @@ module Mint
           env.params.url["name"]
 
         asset =
-          @artifacts.try(&.assets.find(&.filename.==(filename)))
+          @artifacts.try(&.assets.find(&.filename(build: false).==(filename)))
 
         next unless asset
 
