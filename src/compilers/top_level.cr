@@ -2,19 +2,25 @@
 # in the compiler.
 module Mint
   class Compiler
-    alias Options = NamedTuple(optimize: Bool, css_prefix: String?, relative: Bool)
+    alias Options = NamedTuple(
+      css_prefix: String?,
+      optimize: Bool,
+      relative: Bool,
+      build: Bool,
+    )
 
-    DEFAULT_OPTIONS = {optimize: false, css_prefix: nil, relative: false, build: false}
+    DEFAULT_OPTIONS = Options.new(
+      css_prefix: nil,
+      optimize: false,
+      relative: false,
+      build: false,
+    )
 
     # Compiles the application with the runtime and the rendering of the $Main
     # component.
     def self.compile(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts,
-          options[:optimize],
-          options[:css_prefix],
-          options[:relative],
-          options[:build])
+        new(artifacts, **options)
 
       main =
         compiler.ast.components.find(&.name.==("Main")).try do |component|
@@ -44,11 +50,7 @@ module Mint
 
     def self.compile_embed(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts,
-          options[:optimize],
-          options[:css_prefix],
-          options[:relative],
-          options[:build])
+        new(artifacts, **options)
 
       main =
         compiler.ast.components.find(&.name.==("Main")).try do |component|
@@ -79,11 +81,7 @@ module Mint
     # Compiles the application without the runtime.
     def self.compile_bare(artifacts : TypeChecker::Artifacts, options = DEFAULT_OPTIONS) : String
       compiler =
-        new(artifacts,
-          options[:optimize],
-          options[:css_prefix],
-          options[:relative],
-          options[:build])
+        new(artifacts, **options)
 
       compiler.compile
     end
