@@ -28,13 +28,7 @@ module Mint
               .final
               .hexstring
 
-          extname =
-            real_path.extension
-
-          basename =
-            real_path.basename(extname)
-
-          "#{basename}_#{hash}#{extname}"
+          "#{real_path.stem}_#{hash}#{real_path.extension}"
         end
 
         def exists?
