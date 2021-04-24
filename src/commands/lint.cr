@@ -33,9 +33,6 @@ module Mint
           Ast.new
             .merge(Core.ast)
 
-        runtime =
-          Assets.read("runtime.js")
-
         errors = [] of String
 
         terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
