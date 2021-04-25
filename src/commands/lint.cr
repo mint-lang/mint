@@ -26,16 +26,16 @@ module Mint
         errors = [] of String
         sources = [] of String
 
+        ast =
+          Ast.new
+            .merge(Core.ast)
+
         begin
           sources =
             Dir.glob(SourceFiles.all)
         rescue ex
           ex_handler errors, ex
         end
-
-        ast =
-          Ast.new
-            .merge(Core.ast)
 
         sources.reduce(ast) do |memo, file|
           parsed = Parser.parse(file)
