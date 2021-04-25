@@ -3,7 +3,7 @@ module Mint
     class Lint < Admiral::Command
       include Command
 
-      define_help description: "Lints the project"
+      define_help description: "Lints the project for syntax and type errors."
 
       define_flag json : Bool,
         description: "Output errors to a JSON file",
@@ -23,37 +23,45 @@ module Mint
       end
 
       def lint
-        json =
-          MintJson.parse_current
+        errors = [] of String
+        sources = [] of String
 
-        sources =
-          Dir.glob(SourceFiles.all)
+        begin
+          sources =
+            Dir.glob(SourceFiles.all)
+        rescue ex
+          ex_handler errors, ex
+        end
 
         ast =
           Ast.new
             .merge(Core.ast)
 
-        errors = [] of String
+        sources.reduce(ast) do |memo, file|
+          parsed = Parser.parse(file)
 
-        terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
-          sources.reduce(ast) do |memo, file|
-            parsed = Parser.parse(file)
-
-            if memo
-              memo.merge parsed
-            end
-          rescue ex
-            ex_handler errors, ex
+          if memo
+            memo.merge parsed
           end
-        end
-
-        type_checker =
-          TypeChecker.new(ast)
-
-        terminal.measure "  #{ARROW} Type checking: " do
-          type_checker.check
         rescue ex
           ex_handler errors, ex
+        end
+
+        if errors.size == 0
+          type_checker =
+            TypeChecker.new(ast)
+
+          done = false
+
+          while !done
+            begin
+              type_checker.check
+            rescue ex
+              ex_handler errors, ex
+            else
+              done = true
+            end
+          end
         end
 
         if flags.json
