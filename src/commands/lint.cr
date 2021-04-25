@@ -10,12 +10,6 @@ module Mint
         default: false,
         required: false
 
-      define_flag output : String,
-        description: "The output filename",
-        default: "lint.json",
-        required: false,
-        short: "o"
-
       def run
         execute "Linting" do
           lint
@@ -23,8 +17,8 @@ module Mint
       end
 
       def lint
-        errors = [] of String
         sources = [] of String
+        errors = [] of Exception
 
         ast =
           Ast.new
@@ -47,7 +41,7 @@ module Mint
           ex_handler errors, ex
         end
 
-        if errors.size == 0
+        if errors.empty?
           type_checker =
             TypeChecker.new(ast)
 
@@ -65,7 +59,7 @@ module Mint
         end
 
         if flags.json
-          File.write(flags.output, errors)
+          puts errors.compact_map(&.message.presence).to_json
         end
 
         if errors.size > 0
@@ -74,9 +68,7 @@ module Mint
       end
 
       def ex_handler(errors, ex)
-        if ex.message.is_a?(String)
-          errors << ex.message.as(String).to_json
-        end
+        errors << ex
 
         puts ex
       end
