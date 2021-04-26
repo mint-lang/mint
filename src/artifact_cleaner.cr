@@ -4,17 +4,17 @@ module Mint
       artifacts = %w[.mint dist]
 
       if clean_global
-        self.safe_delete(MINT_PACKAGES_DIR)
+        safe_delete(MINT_PACKAGES_DIR)
       else
         artifacts.each do |artifact_path|
-          self.safe_delete(artifact_path)
+          safe_delete(artifact_path)
         end
       end
     end
 
     private def self.safe_delete(dir_path)
       if Dir.exists?(dir_path)
-        self.terminal.puts "Deleting: #{dir_path}"
+        terminal.puts "Deleting: #{dir_path}"
         FileUtils.rm_rf(dir_path)
       end
     end
