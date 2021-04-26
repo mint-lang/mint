@@ -33,7 +33,9 @@ module Mint
 
         sources.reduce(ast) do |memo, file|
           begin
-            parsed = Parser.parse(file)
+            parsed =
+              Parser.parse(file)
+
             memo.merge(parsed)
           rescue ex
             errors << ex
