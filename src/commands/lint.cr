@@ -61,7 +61,7 @@ module Mint
         if flags.json
           puts errors.compact_map(&.message.presence).to_json
         else
-          puts errors
+          errors.each { |error| puts error }
         end
 
         exit(errors.empty? ? 0 : 1)
