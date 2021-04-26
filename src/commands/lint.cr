@@ -11,8 +11,14 @@ module Mint
         required: false
 
       def run
-        execute "Linting" do
+        if flags.json
+          Colorize.enabled = false
           lint
+          Colorize.enabled = true
+        else
+          execute "Linting" do
+            lint
+          end
         end
       end
 
@@ -44,25 +50,35 @@ module Mint
         end
 
         if errors.empty?
-          type_checker =
-            TypeChecker.new(ast)
+          begin
+            type_checker =
+              TypeChecker.new(ast)
 
-          loop do
-            type_checker.check
+            loop do
+              type_checker.check
+            rescue ex
+              errors << ex
+            else
+              break
+            end
           rescue ex
             errors << ex
-          else
-            break
           end
         end
 
         if flags.json
           puts errors.compact_map(&.message.presence).to_json
+          exit(errors.empty? ? 0 : 1)
         else
           errors.each { |error| puts error }
-        end
 
-        exit(errors.empty? ? 0 : 1)
+          if errors.empty?
+            terminal.puts "No errors were detected!"
+          else
+            terminal.divider
+            error nil, terminal.position
+          end
+        end
       end
     end
   end
