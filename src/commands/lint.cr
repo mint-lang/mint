@@ -62,9 +62,7 @@ module Mint
           puts errors.compact_map(&.message.presence).to_json
         end
 
-        if errors.size > 0
-          exit 1
-        end
+        exit(errors.empty? ? 0 : 1)
       end
 
       def ex_handler(errors, ex)
