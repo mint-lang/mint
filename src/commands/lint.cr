@@ -28,7 +28,7 @@ module Mint
           sources =
             Dir.glob(SourceFiles.all)
         rescue ex
-          ex_handler errors, ex
+          errors << ex
         end
 
         sources.reduce(ast) do |memo, file|
@@ -38,7 +38,7 @@ module Mint
             memo.merge parsed
           end
         rescue ex
-          ex_handler errors, ex
+          errors << ex
         end
 
         if errors.empty?
@@ -51,7 +51,7 @@ module Mint
             begin
               type_checker.check
             rescue ex
-              ex_handler errors, ex
+              errors << ex
             else
               done = true
             end
@@ -60,15 +60,11 @@ module Mint
 
         if flags.json
           puts errors.compact_map(&.message.presence).to_json
+        else
+          puts errors
         end
 
         exit(errors.empty? ? 0 : 1)
-      end
-
-      def ex_handler(errors, ex)
-        errors << ex
-
-        puts ex
       end
     end
   end
