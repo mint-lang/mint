@@ -32,13 +32,13 @@ module Mint
         end
 
         sources.reduce(ast) do |memo, file|
-          parsed = Parser.parse(file)
-
-          if memo
-            memo.merge parsed
+          begin
+            parsed = Parser.parse(file)
+            memo.merge(parsed)
+          rescue ex
+            errors << ex
           end
-        rescue ex
-          errors << ex
+          memo
         end
 
         if errors.empty?
