@@ -45,16 +45,12 @@ module Mint
           type_checker =
             TypeChecker.new(ast)
 
-          done = false
-
-          while !done
-            begin
-              type_checker.check
-            rescue ex
-              errors << ex
-            else
-              done = true
-            end
+          loop do
+            type_checker.check
+          rescue ex
+            errors << ex
+          else
+            break
           end
         end
 
