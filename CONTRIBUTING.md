@@ -26,7 +26,7 @@ $ sudo apt install pkg-config ubuntu-dev-tools
 
 Then, follow [this instruction][2].
 
-[2]: https://crystal-lang.org/docs/installation/on_debian_and_ubuntu.html
+[2]: https://crystal-lang.org/install/on_ubuntu/
 
 ### Installing Mint dependencies
 
