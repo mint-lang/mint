@@ -12,9 +12,13 @@ module Mint
 
       def run
         if flags.json
-          Colorize.enabled = false
-          lint
-          Colorize.enabled = true
+          colorize_enabled = Colorize.enabled?
+          begin
+            Colorize.enabled = false
+            lint
+          ensure
+            Colorize.enabled = colorize_enabled
+          end
         else
           execute "Linting" do
             lint
@@ -67,18 +71,20 @@ module Mint
         end
 
         if flags.json
-          puts errors.compact_map(&.message.presence).to_json
-          exit(errors.empty? ? 0 : 1)
+          terminal.puts errors.compact_map(&.message.presence).to_json
         else
-          errors.each { |error| puts error }
-
           if errors.empty?
             terminal.puts "No errors were detected!"
           else
+            errors.each do |error|
+              terminal.puts error
+            end
             terminal.divider
             error nil, terminal.position
           end
         end
+
+        exit(errors.empty? ? 0 : 1)
       end
     end
   end
