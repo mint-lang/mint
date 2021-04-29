@@ -59,6 +59,8 @@ module LSP
     # Reads a message from the input IO, and converts to a Message object,
     # calls execute on it and send the result if it's a request message.
     def read
+      return exit(1) if @in.closed?
+
       MessageParser.parse(@in) do |contents|
         # Parse the contents as JSON
         json =
