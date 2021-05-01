@@ -1,14 +1,12 @@
 module Mint
   class TypeChecker
-    type_error AssetDirectiveExpectedFile
+    type_error InlineDirectiveExpectedFile
 
     def check(node : Ast::Directives::Inline) : Checkable
-      raise AssetDirectiveExpectedFile, {
+      raise InlineDirectiveExpectedFile, {
         "path" => node.real_path.to_s,
         "node" => node,
       } unless node.exists?
-
-      # puts File.new(node.real_path).encoding
 
       STRING
     end

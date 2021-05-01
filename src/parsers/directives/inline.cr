@@ -1,21 +1,21 @@
 module Mint
   class Parser
-    syntax_error AssetDirectiveExpectedOpeningParentheses
-    syntax_error AssetDirectiveExpectedClosingParentheses
-    syntax_error AssetDirectiveExpectedPath
+    syntax_error InlineDirectiveExpectedOpeningParentheses
+    syntax_error InlineDirectiveExpectedClosingParentheses
+    syntax_error InlineDirectiveExpectedPath
 
     def inline_directive : Ast::Directives::Inline?
       start do |start_position|
         skip unless keyword "@inline"
 
-        char '(', AssetDirectiveExpectedOpeningParentheses
+        char '(', InlineDirectiveExpectedOpeningParentheses
         whitespace
 
         path = gather { chars "^)" }
-        raise AssetDirectiveExpectedPath unless path
+        raise InlineDirectiveExpectedPath unless path
 
         whitespace
-        char ')', AssetDirectiveExpectedClosingParentheses
+        char ')', InlineDirectiveExpectedClosingParentheses
 
         self << Ast::Directives::Inline.new(
           from: start_position,

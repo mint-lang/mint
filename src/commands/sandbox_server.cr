@@ -4,14 +4,14 @@ module Mint
       define_help description: "Server for compiling sandbox applications"
 
       define_flag host : String,
-        description: "Change the host to serve the application on. (Default: 127.0.0.1)",
-        default: ENV["HOST"]? || "127.0.0.1",
+        description: "Change the host the server binds to. (Default: 0.0.0.1)",
+        default: ENV["HOST"]? || "0.0.0.1",
         required: false,
         short: "h"
 
       define_flag port : Int32,
-        description: "Change the port to serve the application on. (Default: 3002)",
-        default: (ENV["PORT"]? || "3002").to_i,
+        description: "Change the port the server binds to. (Default: 3003)",
+        default: (ENV["PORT"]? || "3003").to_i,
         required: false,
         short: "p"
 
