@@ -6,15 +6,13 @@ module Mint
     delegate ast, types, variables, resolve_order, to: @artifacts
     delegate record_field_lookup, to: @artifacts
 
-    getter js, style_builder, static_components, static_components_pool, relative
+    getter js, style_builder, static_components, static_components_pool
+    getter build, relative
 
     @static_components = {} of String => String
     @static_components_pool = NamePool(String, Nil).new
 
-    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, relative = false)
-      @relative =
-        relative
-
+    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, @relative = false, @build = false)
       @style_builder =
         StyleBuilder.new(css_prefix: css_prefix)
 

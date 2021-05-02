@@ -9,25 +9,26 @@ module Mint
                        @input : Data,
                        @from : Int32,
                        @to : Int32)
-          @real_path = Path[Path[input.file].dirname, path].expand
+          @real_path = Path[input.file].sibling(path).expand
         end
 
-        def filename
+        def filename(build)
           return unless exists?
+
+          hash_base =
+            if build
+              File.read(real_path)
+            else
+              real_path.to_s
+            end
 
           hash =
             Digest::MD5.new
-              .update(File.read(real_path))
+              .update(hash_base)
               .final
               .hexstring
 
-          extname =
-            real_path.extension
-
-          basename =
-            real_path.basename(extname)
-
-          "#{basename}_#{hash}#{extname}"
+          "#{real_path.stem}_#{hash}#{real_path.extension}"
         end
 
         def exists?

@@ -52,6 +52,7 @@ module Mint
             css_prefix: json.application.css_prefix,
             relative:   false,
             optimize:   true,
+            build:      true,
           }
         end
 

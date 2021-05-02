@@ -86,6 +86,10 @@ module Mint
       self
     end
 
+    def dup
+      self.class.new.merge(self)
+    end
+
     # Normalizes the ast:
     # - merges multiple modules with the same name
     def normalize

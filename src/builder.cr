@@ -44,9 +44,10 @@ module Mint
         terminal.puts "#{COG} Writing assets..."
 
         artifacts.assets.uniq(&.real_path).each do |asset|
-          terminal.puts "  #{ARROW} #{asset.filename}"
+          terminal.puts "  #{ARROW} #{asset.filename(build: true)}"
+
           File.open(asset.real_path) do |io|
-            File.write Path[DIST_DIR, ASSET_DIR, asset.filename.to_s], io
+            File.write Path[DIST_DIR, ASSET_DIR, asset.filename(build: true).to_s], io
           end
         end
       end
@@ -140,6 +141,7 @@ module Mint
           css_prefix: css_prefix,
           relative:   relative,
           optimize:   true,
+          build:      true,
         }
       end
 
