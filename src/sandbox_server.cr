@@ -98,8 +98,6 @@ module Mint
           t.html do
             t.head do
               t.meta(charset: "utf-8")
-
-              # t.title json.application.title.to_s
             end
 
             t.body do
