@@ -9,7 +9,7 @@ module Mint
                        @input : Data,
                        @from : Int32,
                        @to : Int32)
-          @real_path = Path[Path[input.file].dirname, path].expand
+          @real_path = Path[input.file].sibling(path).expand
         end
 
         def filename(build)
@@ -28,13 +28,7 @@ module Mint
               .final
               .hexstring
 
-          extname =
-            real_path.extension
-
-          basename =
-            real_path.basename(extname)
-
-          "#{basename}_#{hash}#{extname}"
+          "#{real_path.stem}_#{hash}#{real_path.extension}"
         end
 
         def exists?
