@@ -4,8 +4,8 @@ module Mint
       define_help description: "Server for compiling sandbox applications"
 
       define_flag host : String,
-        description: "Change the host the server binds to. (Default: 0.0.0.1)",
-        default: ENV["HOST"]? || "0.0.0.1",
+        description: "Change the host the server binds to. (Default: 0.0.0.0)",
+        default: ENV["HOST"]? || "0.0.0.0",
         required: false,
         short: "h"
 
