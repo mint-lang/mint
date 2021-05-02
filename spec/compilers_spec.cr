@@ -15,10 +15,10 @@ Dir
 
       # Compare results
       result = Mint::Compiler.compile_bare(Mint::TypeChecker.check(ast), {
+        css_prefix: nil,
         optimize:   false,
         relative:   false,
         build:      true,
-        css_prefix: nil,
       })
 
       begin
