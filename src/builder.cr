@@ -3,6 +3,14 @@ module Mint
     def initialize(relative, skip_service_worker, skip_icons)
       json = MintJson.parse_current
 
+      skip_icons =
+        if !skip_icons && !Process.find_executable("convert")
+          terminal.puts("#{WARNING} Imagemagick is not installed, skipping icon generation...")
+          true
+        else
+          skip_icons
+        end
+
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
       end
@@ -88,6 +96,7 @@ module Mint
 
     private def manifest_icons(skip_icons)
       return %w[] if skip_icons
+
       ICON_SIZES.map do |size|
         {
           "src"   => "icon-#{size}x#{size}.png",

@@ -10,6 +10,7 @@ module Mint
   COG       = "⚙".colorize(:light_green).mode(:dim).to_s
   ARROW     = "➔".colorize(:dark_gray).to_s
   CHECKMARK = "✔".colorize(:light_green).to_s
+  WARNING   = "⚠".colorize(:yellow).to_s
   DIAMOND   = "◈"
 
   ASSET_DIR         = "assets"
