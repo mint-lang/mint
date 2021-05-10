@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative, skip_service_worker, skip_icons)
+    def initialize(relative, skip_service_worker, skip_icons, optimize)
       json = MintJson.parse_current
 
       skip_icons =
@@ -30,7 +30,7 @@ module Mint
       terminal.puts "#{COG} Compiling your application:"
 
       index_js, artifacts =
-        index(json.application.css_prefix, relative)
+        index(json.application.css_prefix, relative, optimize)
 
       File.write Path[DIST_DIR, "index.js"], index_js
 
@@ -118,7 +118,7 @@ module Mint
       end
     end
 
-    def index(css_prefix, relative)
+    def index(css_prefix, relative, optimize)
       runtime =
         Assets.read("runtime.js")
 
@@ -149,7 +149,7 @@ module Mint
         compiled = Compiler.compile type_checker.artifacts, {
           css_prefix: css_prefix,
           relative:   relative,
-          optimize:   true,
+          optimize:   optimize,
           build:      true,
         }
       end

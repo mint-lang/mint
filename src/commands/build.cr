@@ -18,9 +18,16 @@ module Mint
         description: "If specified the application icons will not be generated",
         default: false
 
+      define_flag minimize : Bool,
+        description: "If specified the output JavaScript code will be minimized",
+        default: true
+
       def run
         execute "Building for production" do
-          Builder.new(flags.relative, flags.skip_service_worker, flags.skip_icons)
+          Builder.new(flags.relative,
+            flags.skip_service_worker,
+            flags.skip_icons,
+            flags.minimize)
         end
       end
     end
