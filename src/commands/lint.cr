@@ -26,20 +26,9 @@ module Mint
         end
       end
 
-      def lint
-        sources = [] of String
-        errors = [] of Exception
-
-        ast =
-          Ast.new
-            .merge(Core.ast)
-
-        begin
-          sources =
-            Dir.glob(SourceFiles.all)
-        rescue ex
-          errors << ex
-        end
+      protected def parse(ast, errors) : Nil
+        sources =
+          Dir.glob(SourceFiles.all)
 
         sources.reduce(ast) do |memo, file|
           begin
@@ -52,23 +41,34 @@ module Mint
           end
           memo
         end
+      rescue ex
+        errors << ex
+      end
 
-        if errors.empty?
-          begin
-            type_checker =
-              TypeChecker.new(ast)
+      protected def type_check(ast, errors) : Nil
+        type_checker =
+          TypeChecker.new(ast)
 
-            loop do
-              type_checker.check
-            rescue ex
-              errors << ex
-            else
-              break
-            end
-          rescue ex
-            errors << ex
-          end
+        loop do
+          type_checker.check
+        rescue ex
+          errors << ex
+        else
+          break
         end
+      rescue ex
+        errors << ex
+      end
+
+      def lint
+        errors = [] of Exception
+
+        ast =
+          Ast.new
+            .merge(Core.ast)
+
+        parse(ast, errors)
+        type_check(ast, errors) if errors.empty?
 
         if flags.json
           terminal.puts errors.compact_map(&.message.presence).to_json
