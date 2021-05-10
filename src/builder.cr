@@ -3,13 +3,10 @@ module Mint
     def initialize(relative, skip_service_worker, skip_icons, optimize)
       json = MintJson.parse_current
 
-      skip_icons =
-        if !skip_icons && !Process.find_executable("convert")
-          terminal.puts("#{WARNING} Imagemagick is not installed, skipping icon generation...")
-          true
-        else
-          skip_icons
-        end
+      if !skip_icons && !Process.find_executable("convert")
+        terminal.puts("#{WARNING} ImageMagick is not installed, skipping icon generation...")
+        skip_icons = true
+      end
 
       terminal.measure "#{COG} Ensuring dependencies... " do
         json.check_dependencies!
@@ -129,8 +126,6 @@ module Mint
         Ast.new
           .merge(Core.ast)
 
-      compiled = ""
-
       terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
         sources.reduce(ast) do |memo, file|
           memo.merge Parser.parse(file)
@@ -145,6 +140,8 @@ module Mint
         type_checker.check
       end
 
+      compiled = nil
+
       terminal.measure "  #{ARROW} Compiling: " do
         compiled = Compiler.compile type_checker.artifacts, {
           css_prefix: css_prefix,
@@ -154,7 +151,7 @@ module Mint
         }
       end
 
-      {runtime + compiled, type_checker.artifacts}
+      {runtime + compiled.to_s, type_checker.artifacts}
     end
 
     def terminal
