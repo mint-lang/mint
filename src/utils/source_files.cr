@@ -59,7 +59,10 @@ module Mint
     end
 
     def each_package
-      Dir.glob(Path[".", ".mint", "packages", "**", "mint.json"].to_posix).each do |file|
+      pattern =
+        Path[".", ".mint", "packages", "**", "mint.json"]
+
+      Dir.glob(pattern).each do |file|
         yield MintJson.new(File.read(file), File.dirname(file), file)
       end
     end

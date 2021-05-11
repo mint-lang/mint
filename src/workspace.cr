@@ -91,7 +91,7 @@ module Mint
 
     def packages : Array(Workspace)
       pattern =
-        Path[root, ".mint", "packages", "**", "mint.json"].to_posix.to_s
+        Path[root, ".mint", "packages", "**", "mint.json"]
 
       Dir.glob(pattern).map do |file|
         Workspace.from_file(file)
