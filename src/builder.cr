@@ -62,7 +62,7 @@ module Mint
       end
 
       terminal.measure "#{COG} Writing manifest.webmanifest..." do
-        File.write "dist/manifest.webmanifest", manifest(json, skip_icons)
+        File.write Path[DIST_DIR, "manifest.webmanifest"], manifest(json, skip_icons)
       end
 
       unless skip_icons
@@ -73,7 +73,7 @@ module Mint
 
       if !skip_service_worker
         terminal.measure "#{COG} Creating service worker..." do
-          File.write "dist/service-worker.js", ServiceWorker.generate
+          File.write Path[DIST_DIR, "service-worker.js"], ServiceWorker.generate
         end
       end
     end
