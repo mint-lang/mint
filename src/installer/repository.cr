@@ -83,7 +83,7 @@ module Mint
           self.target || tag
 
         path =
-          File.join(directory, "mint.json")
+          Path[directory, "mint.json"].to_s
 
         checkout target
 
@@ -148,7 +148,7 @@ module Mint
 
       # The directory of the repository
       def directory
-        File.join(MINT_PACKAGES_DIR, url)
+        Path[MINT_PACKAGES_DIR, url].to_s
       end
 
       # Runs a shell command and returns its status, output and error in a tuple.

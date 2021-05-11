@@ -25,7 +25,7 @@ module Mint
       loop do
         raise "Invalid workspace!" if root == "." || root == "/"
 
-        if File.exists?(File.join(root, "mint.json"))
+        if File.exists?(Path[root, "mint.json"])
           break
         else
           root = File.dirname(root)
@@ -61,7 +61,7 @@ module Mint
 
     def initialize(@root : String)
       json_path =
-        File.join(@root, "mint.json")
+        Path[@root, "mint.json"].to_s
 
       @json =
         FileUtils.cd(@root) do
@@ -91,7 +91,7 @@ module Mint
 
     def packages : Array(Workspace)
       pattern =
-        File.join(root, ".mint", "packages", "**", "mint.json")
+        Path[root, ".mint", "packages", "**", "mint.json"].to_s
 
       Dir.glob(pattern).map do |file|
         Workspace.from_file(file)
@@ -169,7 +169,7 @@ module Mint
     def files_pattern : Array(String)
       json
         .source_directories
-        .map { |dir| File.join(root, dir, "**", "*.mint") }
+        .map { |dir| Path[root, dir, "**", "*.mint"].to_s }
     end
 
     def static_pattern : Array(String)

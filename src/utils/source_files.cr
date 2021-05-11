@@ -3,7 +3,7 @@ module Mint
     extend self
 
     def glob_pattern(*dirs : Path | String)
-      File.join(*dirs, "**", "*.mint")
+      Path[*dirs, "**", "*.mint"].to_s
     end
 
     def tests

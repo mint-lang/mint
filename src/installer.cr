@@ -64,7 +64,7 @@ module Mint
       @resolved.each do |name, version|
         # Determine resolved packages path
         destination =
-          File.join(Dir.current, ".mint", "packages", name)
+          Path[Dir.current, ".mint", "packages", name].to_s
 
         # Checkout the version we want
         @repositories[name].checkout(version)

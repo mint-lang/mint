@@ -49,7 +49,7 @@ module Mint
     end
 
     def self.parse_current : MintJson
-      from_file(File.join(Dir.current, "mint.json"))
+      from_file(Path[Dir.current, "mint.json"].to_s)
     end
 
     # Calculating nodes for the snippet in errors.
@@ -227,7 +227,7 @@ module Mint
         @parser.read_string
 
       path =
-        File.join(@root, head)
+        Path[@root, head].to_s
 
       raise MintJsonHeadNotExists, {
         "node" => node(location),
@@ -306,7 +306,7 @@ module Mint
         @parser.read_string
 
       path =
-        File.join(@root, file)
+        Path[@root, file].to_s
 
       raise MintJsonExternalJavascriptNotExists, {
         "node" => node(location),
@@ -341,7 +341,7 @@ module Mint
         @parser.read_string
 
       path =
-        File.join(@root, file)
+        Path[@root, file].to_s
 
       raise MintJsonExternalStylesheetNotExists, {
         "node" => node(location),
@@ -386,10 +386,13 @@ module Mint
       directory =
         @parser.read_string
 
+      path =
+        Path[@root, directory]
+
       raise MintJsonSourceDirectoryNotExists, {
         "node"      => node(location),
         "directory" => directory,
-      } unless Dir.exists?(File.join(@root, directory))
+      } unless Dir.exists?(path)
 
       @source_directories << directory
     rescue exception : JSON::ParseException
@@ -420,10 +423,13 @@ module Mint
       directory =
         @parser.read_string
 
+      path =
+        Path[@root, directory]
+
       raise MintJsonTestDirectoryNotExists, {
         "node"      => node(location),
         "directory" => directory,
-      } unless Dir.exists?(File.join(@root, directory))
+      } unless Dir.exists?(path)
 
       @test_directories << directory
     rescue exception : JSON::ParseException

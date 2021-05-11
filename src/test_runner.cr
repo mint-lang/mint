@@ -302,7 +302,7 @@ module Mint
 
     def open_browser
       return if @flags.manual
-      profile_directory = File.join(Dir.tempdir, Random.new.hex(5))
+      profile_directory = Path[Dir.tempdir, Random.new.hex(5)].to_s
       Dir.mkdir(profile_directory)
       process = open_process(profile_directory)
       @channel.receive

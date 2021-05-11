@@ -58,7 +58,7 @@ module Mint
       files = %w[]
 
       Dir.each_child(path) do |child|
-        child_path = File.join(path, child)
+        child_path = Path[path, child]
         case
         when File.directory?(child_path)
           dirs << child
