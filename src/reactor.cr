@@ -179,12 +179,15 @@ module Mint
         # Set cache to expire in 30 days.
         env.response.headers["Cache-Control"] = "max-age=2592000"
 
+        filename =
+          env.params.url["name"]
+
         # Try to figure out mime type from name in case it's baked or served
         # from public. Later on favicon and fallback content_type is overridden.
         env.response.content_type =
-          MIME.from_filename?(env.params.url["name"]).to_s
+          MIME.from_filename?(filename).to_s
 
-        path = "./public/#{env.params.url["name"]}"
+        path = "./public/#{filename}"
 
         # If there is any static file available serve that.
         if File.exists?(path)
@@ -193,12 +196,10 @@ module Mint
 
         # If there is a baked file serve that.
         begin
-          Assets.read(env.params.url["name"])
+          Assets.read(filename)
         rescue BakedFileSystem::NoSuchFileError
-          match = env.params.url["name"].match(/icon-(\d+)x\d+\.png$/)
-
           # If it's a favicon generate it and return that.
-          if match
+          if match = filename.match(/icon-(\d+)x\d+\.png$/)
             env.response.content_type =
               "image/png"
 

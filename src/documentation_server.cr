@@ -68,12 +68,15 @@ module Mint
         # Set cache to expire in 30 days.
         env.response.headers["Cache-Control"] = "max-age=2592000"
 
+        filename =
+          env.params.url["name"]
+
         # If there is a baked file serve that.
         begin
           env.response.content_type =
-            MIME.from_filename?(env.params.url["name"]).to_s
+            MIME.from_filename?(filename).to_s
 
-          Assets.read("docs-viewer/#{env.params.url["name"]}")
+          Assets.read("docs-viewer/#{filename}")
         rescue BakedFileSystem::NoSuchFileError
           index
         end

@@ -17,7 +17,7 @@ RUN shards build --static --no-debug
 # This will be the actual base image
 FROM alpine
 
-# Install imagemagic (to generate favicons) and git (to install dependencies)
+# Install imagemagick (to generate favicons) and git (to install dependencies)
 RUN apk add --update --no-cache imagemagick bash pngcrush optipng git less openssh
 
 # Copy the binary

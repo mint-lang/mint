@@ -2,11 +2,7 @@ module Mint
   class Compiler
     def _compile(node : Ast::Directives::Asset) : String
       prefix =
-        if relative
-          ""
-        else
-          "/"
-        end
+        relative ? "" : "/"
 
       "`#{prefix}#{ASSET_DIR}/#{node.filename(build: @build)}`"
     end

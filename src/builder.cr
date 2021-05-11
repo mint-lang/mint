@@ -33,13 +33,15 @@ module Mint
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
-          File.write Path[DIST_DIR, "external-javascripts.js"], SourceFiles.external_javascripts
+          File.write Path[DIST_DIR, "external-javascripts.js"],
+            SourceFiles.external_javascripts
         end
       end
 
       if SourceFiles.external_stylesheets?
         terminal.measure "#{COG} Writing external stylesheets..." do
-          File.write Path[DIST_DIR, "external-stylesheets.css"], SourceFiles.external_stylesheets
+          File.write Path[DIST_DIR, "external-stylesheets.css"],
+            SourceFiles.external_stylesheets
         end
       end
 
@@ -48,21 +50,30 @@ module Mint
 
         terminal.puts "#{COG} Writing assets..."
 
-        artifacts.assets.uniq(&.real_path).each do |asset|
-          terminal.puts "  #{ARROW} #{asset.filename(build: true)}"
+        assets =
+          artifacts.assets.uniq(&.real_path).select!(&.exists?)
 
-          File.open(asset.real_path) do |io|
-            File.write Path[DIST_DIR, ASSET_DIR, asset.filename(build: true).to_s], io
-          end
+        assets.each do |asset|
+          filename =
+            asset.filename(build: true).not_nil!
+
+          dest_path =
+            Path[DIST_DIR, ASSET_DIR, filename]
+
+          terminal.puts "  #{ARROW} #{filename}"
+
+          File.write dest_path, asset.file_contents
         end
       end
 
       terminal.measure "#{COG} Writing index.html... " do
-        File.write Path[DIST_DIR, "index.html"], IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
+        File.write Path[DIST_DIR, "index.html"],
+          IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
       end
 
       terminal.measure "#{COG} Writing manifest.webmanifest..." do
-        File.write Path[DIST_DIR, "manifest.webmanifest"], manifest(json, skip_icons)
+        File.write Path[DIST_DIR, "manifest.webmanifest"],
+          manifest(json, skip_icons)
       end
 
       unless skip_icons
@@ -71,9 +82,10 @@ module Mint
         end
       end
 
-      if !skip_service_worker
+      unless skip_service_worker
         terminal.measure "#{COG} Creating service worker..." do
-          File.write Path[DIST_DIR, "service-worker.js"], ServiceWorker.generate
+          File.write Path[DIST_DIR, "service-worker.js"],
+            ServiceWorker.generate
         end
       end
     end
@@ -106,7 +118,7 @@ module Mint
     def icons(json)
       ICON_SIZES.each do |size|
         destination =
-          File.join(DIST_DIR, "icon-#{size}x#{size}.png")
+          Path[DIST_DIR, "icon-#{size}x#{size}.png"]
 
         icon =
           IconGenerator.convert(json.application.icon, size)

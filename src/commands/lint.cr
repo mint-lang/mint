@@ -6,7 +6,7 @@ module Mint
       define_help description: "Lints the project for syntax and type errors."
 
       define_flag json : Bool,
-        description: "Output errors to a JSON file",
+        description: "Output errors in a JSON format",
         default: false,
         required: false
 

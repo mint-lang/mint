@@ -16,6 +16,6 @@ module Mint
   ASSET_DIR         = "assets"
   DIST_DIR          = "dist"
   PUBLIC_DIR        = "public"
-  CSS_DIR           = File.join(DIST_DIR, "css")
-  MINT_PACKAGES_DIR = File.join(Dir.tempdir, "mint-packages")
+  CSS_DIR           = Path[DIST_DIR, "css"].to_s
+  MINT_PACKAGES_DIR = Path[Dir.tempdir, "mint-packages"].to_s
 end

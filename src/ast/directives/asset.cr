@@ -12,7 +12,7 @@ module Mint
           @real_path = Path[input.file].sibling(path).expand
         end
 
-        def filename(build)
+        def filename(build) : String?
           return unless exists?
 
           hash_base =
