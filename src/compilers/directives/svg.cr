@@ -1,16 +1,7 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Directives::Svg) : String
-      directory =
-        Path[node.input.file].dirname
-
-      svg_path =
-        Path[directory, node.path].expand
-
-      contents =
-        File.read(svg_path)
-
-      if parsed = parse_svg(contents)
+      if parsed = parse_svg(node.file_contents)
         width, height, view_box, data =
           parsed
 
