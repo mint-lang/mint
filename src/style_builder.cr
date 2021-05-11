@@ -99,10 +99,13 @@ module Mint
           end
         end
 
+      name =
+        style_pool.of(node, nil)
+
       arguments =
         compile node.arguments
 
-      js.function("$" + style_pool.of(node, nil), arguments,
+      js.function("$#{name}", arguments,
         js.statements([[
           js.const("_", static),
           compiled_conditions,
@@ -196,7 +199,7 @@ module Mint
     # The main entry point for processing a "style" tag.
     def process(node : Ast::Style)
       selectors =
-        ["." + prefixed_class_name(node)]
+        [".#{prefixed_class_name(node)}"]
 
       process(node.body, nil, nil, selectors, %w[], node)
     end

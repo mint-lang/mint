@@ -6,7 +6,7 @@ module Mint
 
       prefixed_name =
         if node.global?
-          "$" + name
+          "$#{name}"
         else
           name
         end

@@ -284,7 +284,7 @@ module Mint
     end
 
     private def class_body(body : Array(String))
-      "{\n" + body.join("\n\n").indent + "\n}"
+      "{\n#{body.join("\n\n").indent}\n}"
     end
   end
 

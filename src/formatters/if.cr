@@ -21,7 +21,7 @@ module Mint
         if falsy_item.is_a?(Ast::If) &&
            node.falsy_head_comments.empty? &&
            node.falsy_tail_comments.empty?
-          " else " + format(falsy_item)
+          " else #{format(falsy_item)}"
         else
           body =
             case falsy_item

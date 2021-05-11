@@ -9,7 +9,7 @@ module Mint
 
       arguments =
         if node.new_line?
-          indent("\n" + arguments.join(", \n"))
+          indent("\n#{arguments.join(", \n")}")
         else
           arguments.join(", ")
         end

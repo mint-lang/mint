@@ -146,7 +146,7 @@ module Mint
 
       def list(data)
         data.each do |item|
-          print ("• " + item.indent.lstrip)
+          print "• #{item.indent.lstrip}"
             .indent
             .colorize(:light_yellow)
             .mode(:bold)

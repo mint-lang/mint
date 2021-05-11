@@ -73,7 +73,7 @@ module Mint
           env.response.content_type =
             MIME.from_filename?(env.params.url["name"]).to_s
 
-          Assets.read("docs-viewer/" + env.params.url["name"])
+          Assets.read("docs-viewer/#{env.params.url["name"]}")
         rescue BakedFileSystem::NoSuchFileError
           index
         end

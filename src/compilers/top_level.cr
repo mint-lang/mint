@@ -197,7 +197,7 @@ module Mint
         html_event_module.functions.find(&.name.value.==("fromEvent")).not_nil!
 
       from_event_call =
-        js.class_of(html_event_module) + "." + js.variable_of(from_event)
+        "#{js.class_of(html_event_module)}.#{js.variable_of(from_event)}"
 
       <<-RESULT
       (() => {

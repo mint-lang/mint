@@ -7,7 +7,7 @@ module Mint
 
         static_components[name] ||= compile_html_component(node)
 
-        "$" + name + "()"
+        "$#{name}()"
       else
         compile_html_component(node)
       end

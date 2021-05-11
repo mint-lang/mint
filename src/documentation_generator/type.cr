@@ -3,7 +3,7 @@ module Mint
     def stringify(node : Ast::Type)
       parameters =
         unless node.parameters.empty?
-          "(" + stringify(node.parameters) + ")"
+          "(#{stringify(node.parameters)})"
         end
 
       "#{node.name}#{parameters}"

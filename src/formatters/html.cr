@@ -15,9 +15,9 @@ module Mint
         if attributes.empty?
           ""
         elsif multiline
-          indent("\n" + attributes.join('\n'))
+          indent("\n#{attributes.join('\n')}")
         else
-          " " + attributes.join(' ')
+          " #{attributes.join(' ')}"
         end
 
       child_nodes =
