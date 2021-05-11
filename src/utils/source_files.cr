@@ -3,7 +3,7 @@ module Mint
     extend self
 
     def glob_pattern(*dirs : Path | String)
-      Path[*dirs, "**", "*.mint"].to_s
+      Path[*dirs, "**", "*.mint"].to_posix.to_s
     end
 
     def tests
@@ -59,7 +59,7 @@ module Mint
     end
 
     def each_package
-      Dir.glob("./.mint/packages/**/mint.json").each do |file|
+      Dir.glob(Path[".", ".mint", "packages", "**", "mint.json"].to_posix).each do |file|
         yield MintJson.new(File.read(file), File.dirname(file), file)
       end
     end
