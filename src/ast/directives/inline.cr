@@ -15,6 +15,10 @@ module Mint
         def exists?
           File.exists?(real_path)
         end
+
+        def file_contents : String
+          File.read(real_path)
+        end
       end
     end
   end

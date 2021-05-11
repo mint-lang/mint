@@ -16,11 +16,7 @@ module Mint
           return unless exists?
 
           hash_base =
-            if build
-              File.read(real_path)
-            else
-              real_path.to_s
-            end
+            build ? file_contents : real_path.to_s
 
           hash =
             Digest::MD5.new
@@ -33,6 +29,10 @@ module Mint
 
         def exists?
           File.exists?(real_path)
+        end
+
+        def file_contents : String
+          File.read(real_path)
         end
       end
     end

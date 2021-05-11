@@ -172,7 +172,7 @@ module Mint
         env.response.content_type =
           MIME.from_filename?(filename).to_s
 
-        File.read(asset.real_path)
+        asset.file_contents
       end
 
       get "/:name" do |env|
