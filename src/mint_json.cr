@@ -162,7 +162,6 @@ module Mint
 
     json_error MintJsonMintVersionNotString
     json_error MintJsonMintVersionMismatch
-    json_error MintJsonMintVersionMissing
     json_error MintJsonMintVersionInvalid
     json_error MintJsonMintVersionEmpty
 
