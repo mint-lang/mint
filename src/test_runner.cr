@@ -172,6 +172,10 @@ module Mint
 
       begin
         process = open_process(profile_directory)
+        at_exit do
+          process.signal(:kill) rescue nil
+          FileUtils.rm_rf(profile_directory)
+        end
         @channel.receive
       ensure
         process.try &.signal(:kill)
