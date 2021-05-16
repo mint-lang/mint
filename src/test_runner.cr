@@ -1,3 +1,5 @@
+require "ecr"
+
 module Mint
   class TestRunner
     class Message
@@ -6,144 +8,6 @@ module Mint
       property type : String
       property name : String
       property result : String
-    end
-
-    def page_source : String
-      @page_source ||= <<-HTML
-      <html>
-        <head>
-          <meta charset="UTF-8">
-          <link rel="stylesheet" href="external-stylesheets.css">
-        </head>
-        <body>
-          <script src="/external-javascripts.js"></script>
-          <script src="/runtime.js"></script>
-          <script>
-            class TestRunner {
-              constructor () {
-                this.socket = new WebSocket("ws://#{@flags.browser_host}:#{@flags.browser_port}/")
-
-                window.DEBUG = {
-                  log: (value) => {
-                    let result = ""
-
-                    if (value === undefined) {
-                      result = "undefined"
-                    } else if (value === null) {
-                      result = "null"
-                    } else {
-                      result = value.toString()
-                    }
-
-                    this.log(result);
-                  }
-                }
-
-                let error = null;
-
-                window.onerror = (message) => {
-                  if (this.socket.readyState === 1) {
-                    this.crash(message);
-                  } else {
-                    error = error || message;
-                  }
-                }
-
-                this.socket.onopen = () => {
-                  if (error != null) {
-                    this.crash(error);
-                  }
-                }
-              }
-
-              start (suites) {
-                this.suites = suites;
-                if (this.socket.readState === 1) {
-                  this.run();
-                } else {
-                  this.socket.addEventListener("open", () => this.run());
-                }
-              }
-
-              run () {
-                return new Promise((resolve, reject) => {
-                  this.next(resolve, reject);
-                }).catch(e => this.log(e.reason))
-                  .finally(() => this.socket.send("DONE"));
-              }
-
-              crash (message) {
-                this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: message }));
-              }
-
-              log (message) {
-                this.socket.send(JSON.stringify({ type: "LOG", name: "", result: message }));
-              }
-
-              next (resolve, reject) {
-                requestAnimationFrame(async () => {
-                  if (!this.suite || this.suite.tests.length === 0) {
-                    this.suite = this.suites.shift()
-
-                    if (this.suite) {
-                      this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
-                    } else {
-                      return resolve()
-                    }
-                  }
-
-                  let test = this.suite.tests.shift()
-
-                  let currentHistory = window.history.length
-
-                  try {
-                    let result = await test.proc(this.suite.constants)
-
-                    // Go back to the beginning
-                    if (window.history.length - currentHistory) {
-                      window.history.go(-(window.history.length - currentHistory))
-                    }
-
-                    // Clear storages
-                    sessionStorage.clear()
-                    localStorage.clear()
-
-                    // TODO: Reset Stores
-
-                    if (result instanceof TestContext) {
-                      try {
-                        await result.run()
-                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
-                      } catch (error) {
-                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
-                      }
-                    } else {
-                      if (result) {
-                        this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
-                      } else {
-                        this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
-                      }
-                    }
-                  } catch (error) {
-                    // An error occurred while trying to run a test; this is different from the test itself failing.
-                    this.socket.send(JSON.stringify({ type: "ERRORED", name: test.name, result: error.toString() }));
-                  }
-                  this.next(resolve, reject);
-                })
-              }
-            }
-
-            window.testRunner = new TestRunner();
-          </script>
-          <script src="/tests"></script>
-          <script>
-            window.testRunner.start(SUITES);
-          </script>
-          <div id="root">
-          </div>
-        </body>
-      </html>
-      HTML
     end
 
     BROWSER_PATHS = {
@@ -320,6 +184,13 @@ module Mint
     end
 
     def setup_kemal
+      # ameba:disable Lint/UselessAssign
+      ws_url =
+        "ws://#{@flags.browser_host}:#{@flags.browser_port}/"
+
+      page_source =
+        ECR.render("#{__DIR__}/test_runner.ecr")
+
       get "/" do
         @failed = [] of Message
         @succeeded = 0
