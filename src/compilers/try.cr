@@ -1,36 +1,42 @@
 module Mint
   class Compiler
+    protected def prefix(_node : Ast::Try, statement : Ast::Statement, value : String)
+      case target = statement.target
+      when Ast::Variable
+        js.let(js.variable_of(target), value)
+      when Ast::TupleDestructuring
+        variables =
+          target
+            .parameters
+            .join(',') { |param| js.variable_of(param) }
+
+        "const [#{variables}] = #{value}"
+      else
+        value
+      end
+    end
+
     def _compile(node : Ast::Try) : String
       catch_all =
         node.catch_all.try do |catch|
           js.let("_catch_all", js.arrow_function(%w[], "return #{compile(catch.expression)}")) + "\n\n"
         end
 
+      statements = node.statements
+      statements_size = statements.size
+
       body =
-        node
-          .statements
+        statements
           .sort_by { |item| resolve_order.index(item) || -1 }
           .map_with_index do |statement, index|
             is_last =
-              (index + 1) == node.statements.size
+              (index + 1) == statements_size
 
-            prefix = ->(value : String) {
+            inner_prefix = ->(value : String) {
               if is_last
                 "return #{value}"
               else
-                case target = statement.target
-                when Ast::Variable
-                  js.let(js.variable_of(target), value)
-                when Ast::TupleDestructuring
-                  variables =
-                    target
-                      .parameters
-                      .join(',') { |param| js.variable_of(param) }
-
-                  "const [#{variables}] = #{value}"
-                else
-                  value
-                end
+                prefix(node, statement, value)
               end
             }
 
@@ -76,10 +82,10 @@ module Mint
                     catches,
                   ])
                 end,
-                prefix.call("_#{index}._0"),
+                inner_prefix.call("_#{index}._0"),
               ])
             else
-              prefix.call(expression)
+              inner_prefix.call(expression)
             end
           end
 
