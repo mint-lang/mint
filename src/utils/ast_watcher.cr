@@ -21,8 +21,8 @@ module Mint
       watch_for_changes
 
       yield compile(progress)
-    rescue exception : Error
-      yield exception
+    rescue error : Error
+      yield error
     end
 
     def watch
@@ -79,8 +79,8 @@ module Mint
 
       ast.merge(Core.ast) if include_core
       ast
-    rescue exception : Error
-      exception
+    rescue error : Error
+      error
     end
 
     # Sets up watchers to detect changes
