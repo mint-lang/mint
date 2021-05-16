@@ -173,8 +173,8 @@ module Mint
       begin
         process = open_process(profile_directory)
         @channel.receive
-        process.signal(Signal::KILL)
       ensure
+        process.try &.signal(:kill)
         FileUtils.rm_rf(profile_directory)
       end
     end
