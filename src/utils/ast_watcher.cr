@@ -10,8 +10,6 @@ module Mint
     @external_javascripts : String? = nil
     @external_stylesheets : String? = nil
 
-    getter include_core
-
     def initialize
     end
 
@@ -77,7 +75,7 @@ module Mint
           .values
           .reduce(Ast.new) { |memo, item| memo.merge item }
 
-      ast.merge(Core.ast) if include_core
+      ast.merge(Core.ast) if @include_core
       ast
     rescue error : Error
       error
