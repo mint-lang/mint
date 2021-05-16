@@ -60,12 +60,20 @@
             .finally(() => this.socket.send("DONE"))
         }
 
+        report (type, name, message) {
+          this.socket.send(JSON.stringify({
+            type: type,
+            name: name || "",
+            result: message || ""
+          }))
+        }
+
         crash (message) {
-          this.socket.send(JSON.stringify({ type: "CRASHED", name: "", result: message }))
+          this.report("CRASHED", null, message)
         }
 
         log (message) {
-          this.socket.send(JSON.stringify({ type: "LOG", name: "", result: message }))
+          this.report("LOG", null, message)
         }
 
         next (resolve, reject) {
@@ -74,18 +82,18 @@
               this.suite = this.suites.shift()
 
               if (this.suite) {
-                this.socket.send(JSON.stringify({ type: "SUITE", name: this.suite.name, result: "" }))
+                this.report("SUITE", this.suite.name)
               } else {
                 return resolve()
               }
             }
 
-            let currentHistory = window.history.length
+            const currentHistory = window.history.length
 
-            let test = this.suite.tests.shift()
+            const test = this.suite.tests.shift()
 
             try {
-              let result = await test.proc(this.suite.constants)
+              const result = await test.proc(this.suite.constants)
 
               // Go back to the beginning
               if (window.history.length - currentHistory) {
@@ -101,20 +109,20 @@
               if (result instanceof TestContext) {
                 try {
                   await result.run()
-                  this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: result.subject.toString() }))
+                  this.report("SUCCEEDED", test.name, result.subject.toString())
                 } catch (error) {
-                  this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: error.toString() }))
+                  this.report("FAILED", test.name, error.toString())
                 }
               } else {
                 if (result) {
-                  this.socket.send(JSON.stringify({ type: "SUCCEEDED", name: test.name, result: "true" }))
+                  this.report("SUCCEEDED", test.name, "true")
                 } else {
-                  this.socket.send(JSON.stringify({ type: "FAILED", name: test.name, result: "false" }))
+                  this.report("FAILED", test.name, "false")
                 }
               }
             } catch (error) {
               // An error occurred while trying to run a test; this is different from the test itself failing.
-              this.socket.send(JSON.stringify({ type: "ERRORED", name: test.name, result: error.toString() }))
+              this.report("ERRORED", test.name, error.toString())
             }
             this.next(resolve, reject)
           })
