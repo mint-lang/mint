@@ -91,13 +91,14 @@ module Mint
     end
 
     def manifest(json, skip_icons)
+      application = json.application
       {
-        "name"             => json.application.name,
-        "short_name"       => json.application.name,
-        "background_color" => json.application.theme,
-        "theme_color"      => json.application.theme,
-        "display"          => json.application.display,
-        "orientation"      => json.application.orientation,
+        "name"             => application.name,
+        "short_name"       => application.name,
+        "background_color" => application.theme,
+        "theme_color"      => application.theme,
+        "display"          => application.display,
+        "orientation"      => application.orientation,
         "start_url"        => "/",
         "icons"            => manifest_icons(skip_icons),
       }.to_pretty_json

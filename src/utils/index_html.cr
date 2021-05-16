@@ -20,28 +20,30 @@ module Mint
     end
 
     def to_s(io : IO)
+      application = json.application
+
       template = TreeTemplate.new(formatter: TreeTemplate::PrettyFormatter) do |t|
         t.doctype :html5
 
         t.html do
           t.head do
-            t.meta(charset: json.application.meta["charset"]? || "utf-8")
+            t.meta(charset: application.meta["charset"]? || "utf-8")
 
-            t.title json.application.title.to_s
+            t.title application.title.to_s
 
             t.link(rel: "manifest", href: path_for("manifest.webmanifest"))
 
-            json.application.meta.each do |name, content|
+            application.meta.each do |name, content|
               next if name == "charset"
               t.meta(name: name, content: content)
             end
 
-            t.meta(name: "theme-color", content: json.application.theme)
+            t.meta(name: "theme-color", content: application.theme)
 
             # Insert the extra head content
-            t.unsafe json.application.head
+            t.unsafe application.head
 
-            if !json.application.icon.empty? || !@no_icons
+            if !application.icon.empty? || !@no_icons
               ICON_SIZES.each do |size|
                 t.link(
                   rel: "icon",
