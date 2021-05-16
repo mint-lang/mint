@@ -60,7 +60,7 @@ module Mint
           line =
             "#{prefix}: #{counter}".ljust(line.size)
 
-          terminal.io.print(line + "\r")
+          terminal.io.print("#{line}\r")
           terminal.io.flush
         end
       end
@@ -114,7 +114,7 @@ module Mint
 
     def live_reload
       if @live_reload
-        "<script src=\"/live-reload.js\"></script>"
+        %(<script src="/live-reload.js"></script>)
       end
     end
 

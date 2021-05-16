@@ -81,11 +81,11 @@ module Mint
       end
 
       def bold(content)
-        print "<b>#{escape(content + " ")}</b>"
+        print "<b>#{escape("#{content} ")}</b>"
       end
 
       def text(content)
-        print escape(content + " ")
+        print escape("#{content} ")
       end
 
       def render

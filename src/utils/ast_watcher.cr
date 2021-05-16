@@ -56,7 +56,7 @@ module Mint
           if print
             file_counter = "#{index} / #{files.size}".colorize.mode(:bold)
             line = "#{prefix}: #{file_counter}".ljust(line.size)
-            terminal.io.print(line + "\r")
+            terminal.io.print("#{line}\r")
             terminal.io.flush
           end
 
