@@ -67,7 +67,7 @@ module Mint
           loop do
             char = contents[index]?
 
-            if ((char && char.ascii_whitespace?) || !char) && part.size > 0
+            if ((char && char.ascii_whitespace?) || !char) && !part.empty?
               if @cursor > @width
                 @cursor = part.size
                 puts

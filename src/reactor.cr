@@ -187,7 +187,7 @@ module Mint
         env.response.content_type =
           MIME.from_filename?(filename).to_s
 
-        path = "./public/#{filename}"
+        path = Path[".", "public", filename]
 
         # If there is any static file available serve that.
         if File.exists?(path)
@@ -226,7 +226,7 @@ module Mint
       ws "/" do |socket|
         @sockets.push socket
 
-        socket.on_close do |_|
+        socket.on_close do
           @sockets.delete(socket)
         end
       end

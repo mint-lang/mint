@@ -1,19 +1,19 @@
 module Mint
   class AstWatcher
-    @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
+    @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) {}
     @pattern_proc : Proc(Array(String)) = ->{ %w[] }
     @cache = {} of String => Ast
     @channel = Channel(Nil).new
     @pattern = %w[]
     @progress = false
     @include_core = true
-    @external_javascripts : String? = nil
-    @external_stylesheets : String? = nil
+    @external_javascripts : String?
+    @external_stylesheets : String?
 
     def initialize
     end
 
-    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil }, @progress = false, @include_core = true)
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) {}, @progress = false, @include_core = true)
       @pattern = @pattern_proc.call
 
       watch_for_changes
