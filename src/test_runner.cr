@@ -134,31 +134,22 @@ module Mint
 
       case @flags.browser.downcase
       when "firefox"
-        Process.new(
-          path,
-          args: [
-            "--headless",
-            "--width",
-            "1920",
-            "--height",
-            "1080",
-            "--profile",
-            profile_directory,
-            url,
-          ]
-        )
+        Process.new(path, args: [
+          "--headless",
+          "--remote-debugging-port", "9222",
+          "--window-size", "1920,1080",
+          "--profile", profile_directory,
+          url,
+        ])
       when "chrome"
-        Process.new(
-          path,
-          args: [
-            "--headless",
-            "--disable-gpu",
-            "--remote-debugging-port=9222",
-            "--profile-directory=#{profile_directory}",
-            "--window-size=1920,1080",
-            url,
-          ]
-        )
+        Process.new(path, args: [
+          "--headless",
+          "--disable-gpu",
+          "--remote-debugging-port=9222",
+          "--window-size=1920,1080",
+          "--profile-directory=#{profile_directory}",
+          url,
+        ])
       else
         raise InvalidBrowser, {"browser" => @flags.browser}
       end
