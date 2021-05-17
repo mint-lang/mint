@@ -645,7 +645,7 @@ module Array {
   /*
   Returns the index of the given item in the given array.
 
-    Arrray.indexOf("a", ["a","b","c"]) == 1
+    Array.indexOf("a", ["a","b","c"]) == 1
   */
   fun indexOf (item : a, array : Array(a)) : Number {
     `
