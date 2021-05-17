@@ -25,11 +25,11 @@ module Mint
 
       raise ForMapArgumentsMismatch, {
         "node" => node,
-      } if is_map && ![2, 3].includes?(node.arguments.size)
+      } if is_map && !node.arguments.size.in?(2, 3)
 
       raise ForArrayOrSetArgumentsMismatch, {
         "node" => node,
-      } if is_array_or_set && ![1, 2].includes?(node.arguments.size)
+      } if is_array_or_set && !node.arguments.size.in?(1, 2)
 
       arguments =
         node

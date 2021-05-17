@@ -40,7 +40,7 @@ module Mint
 
       index =
         if index_arg
-          "const #{js.variable_of(index_arg.not_nil!)} = _i"
+          "const #{js.variable_of(index_arg)} = _i"
         end
 
       contents =
