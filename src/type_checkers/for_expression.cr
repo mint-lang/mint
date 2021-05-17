@@ -25,18 +25,22 @@ module Mint
 
       raise ForMapArgumentsMismatch, {
         "node" => node,
-      } if is_map && node.arguments.size != 2
+      } if is_map && ![2, 3].includes?(node.arguments.size)
 
       raise ForArrayOrSetArgumentsMismatch, {
         "node" => node,
-      } if is_array_or_set && node.arguments.size != 1
+      } if is_array_or_set && ![1, 2].includes?(node.arguments.size)
 
       arguments =
         node
           .arguments
           .each_with_index
           .reduce([] of Tuple(String, Checkable, Ast::Node)) do |memo, (argument, index)|
-            memo << {argument.value, subject.parameters[index], argument}
+            memo << if (is_map && index == 2) || (is_array_or_set && index == 1)
+              {argument.value, NUMBER, argument}
+            else
+              {argument.value, subject.parameters[index], argument}
+            end
           end
 
       type = scope(arguments) do
