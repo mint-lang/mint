@@ -106,7 +106,7 @@ module Array {
   the element.
 
     Array.mapWithIndex(
-      (index : Number, number : Number) : Number { number + index }, [1, 2, 3]) == [2, 4, 6]
+      (number : Number, index : Number) : Number { number + index }, [1, 2, 3]) == [2, 4, 6]
   */
   fun mapWithIndex (func : Function(a, Number, b), array : Array(a)) : Array(b) {
     `#{array}.map(#{func})`
