@@ -185,7 +185,7 @@ module File {
     }
   */
   fun download (file : File) : Promise(Never, Void) {
-    try {
+    sequence {
       url =
         Url.createObjectUrlFromFile(file)
 
