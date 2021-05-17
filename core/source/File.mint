@@ -197,6 +197,8 @@ module File {
         anchor.click();
       })()
       `
+
+      Url.revokeObjectUrl(url)
     }
   }
 }
