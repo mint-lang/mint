@@ -173,4 +173,30 @@ module File {
     })()
     `
   }
+
+  /*
+  Prompts a save dialog for the given file.
+
+    sequence {
+      file =
+        File.select(*)
+
+      File.download(file)
+    }
+  */
+  fun download (file : File) : Promise(Never, Void) {
+    try {
+      url =
+        Url.createObjectUrlFromFile(file)
+
+      `
+      (() => {
+        const anchor = document.createElement('a');
+        anchor.download = #{file}.name;
+        anchor.href = #{url};
+        anchor.click();
+      })()
+      `
+    }
+  }
 }
