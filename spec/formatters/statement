@@ -1,6 +1,6 @@
 module A {
   fun test : Bool {
-    try{x="hello"y=truez=false}
+    try {x="hello"y=truez=false}
   }
 }
 --------------------------------------------------------------------------------

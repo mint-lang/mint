@@ -8,6 +8,8 @@ module Mint
       start do |start_position|
         skip unless keyword "try"
 
+        whitespace! SkipError
+
         body = block(
           opening_bracket: TryExpectedOpeningBracket,
           closing_bracket: TryExpectedClosingBracket
