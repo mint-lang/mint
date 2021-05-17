@@ -1,17 +1,33 @@
 module Mint
   class Compiler
     def _compile(node : Ast::For) : String
+      subject_type =
+        cache[node.subject]
+
       body =
         compile node.body
 
       subject =
         compile node.subject
 
-      arguments =
-        if node.arguments.size == 1
-          js.variable_of(node.arguments[0])
+      arguments, index_arg =
+        if (subject_type.name == "Array" && node.arguments.size == 1) ||
+           (subject_type.name == "Set" && node.arguments.size == 1) ||
+           (subject_type.name == "Map" && node.arguments.size == 2)
+          if node.arguments.size == 1
+            {js.variable_of(node.arguments[0]), nil}
+          else
+            {js.array(node.arguments.map { |arg| js.variable_of(arg) }), nil}
+          end
         else
-          js.array(node.arguments.map { |arg| js.variable_of(arg) })
+          if node.arguments.size == 2
+            {js.variable_of(node.arguments[0]), node.arguments[1]}
+          else
+            {
+              js.array(node.arguments[0..1].map { |arg| js.variable_of(arg) }),
+              node.arguments[2],
+            }
+          end
         end
 
       condition =
@@ -22,18 +38,24 @@ module Mint
           JS
         end
 
+      index =
+        if index_arg
+          "const #{js.variable_of(index_arg)} = _i"
+        end
+
       contents =
         if condition
-          js.statements([condition, "_0.push(#{body})"])
+          [condition, index, "_0.push(#{body})", "_i++"]
         else
-          "_0.push(#{body})"
+          [index, "_0.push(#{body})", "_i++"]
         end
 
       js.iif do
         js.statements([
           "const _0 = []",
           "const _1 = #{subject}",
-          js.for("let #{arguments} of _1", contents),
+          "let _i = 0",
+          js.for("let #{arguments} of _1", js.statements(contents.compact)),
           js.return("_0"),
         ])
       end

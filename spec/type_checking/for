@@ -7,6 +7,36 @@ component Main {
     }
   }
 }
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (item, index of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (key, value of `` as Map(String, String)) {
+      <div>
+        <{ key }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (key, value, index of `` as Map(String, String)) {
+      <div>
+        <{ key }>
+      </div>
+    }
+  }
+}
 -----------------------------------------------------------------ForTypeMismatch
 component Main {
   fun render : Array(Html) {
@@ -17,11 +47,10 @@ component Main {
     }
   }
 }
-
 --------------------------------------------------ForArrayOrSetArgumentsMismatch
 component Main {
   fun render : Array(Html) {
-    for (item, item2 of ["A", "B"]) {
+    for (item, item2, item3 of ["A", "B"]) {
       <div>
         <{ item }>
       </div>

@@ -1,6 +1,6 @@
 component Main {
   fun render : Array(Html) {
-    for (item of ["A", "B"]) {
+    for (item, index of ["A", "B"]) {
       <div>
         <{ item }>
       </div>
@@ -16,6 +16,8 @@ class A extends _C {
       let _i = 0;
 
       for (let a of _1) {
+        const b = _i;
+
         _0.push(_h("div", {}, [
           a
         ]));
