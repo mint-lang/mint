@@ -6,29 +6,29 @@ module Mint
     type_error CaseBranchMultipleSpreads
     type_error CaseBranchNotArray
 
+    protected def resolve_expression(node : Ast::CaseBranch)
+      case expression = node.expression
+      when Array(Ast::CssDefinition)
+        resolve expression
+        NEVER
+      when Ast::Node
+        resolve expression
+      else
+        NEVER
+      end
+    end
+
+    protected def check_match(node : Ast::Node, condition : Checkable)
+      match = resolve node
+
+      raise CaseBranchNotMatchCondition, {
+        "expected" => condition,
+        "got"      => match,
+        "node"     => node,
+      } unless Comparer.compare(match, condition)
+    end
+
     def check(node : Ast::CaseBranch, condition : Checkable) : Checkable
-      resolve_expression = ->{
-        case expression = node.expression
-        when Array(Ast::CssDefinition)
-          resolve expression
-          NEVER
-        when Ast::Node
-          resolve expression
-        else
-          NEVER
-        end
-      }
-
-      check_match = ->(item : Ast::Node) {
-        match = resolve item
-
-        raise CaseBranchNotMatchCondition, {
-          "expected" => condition,
-          "got"      => match,
-          "node"     => item,
-        } unless Comparer.compare(match, condition)
-      }
-
       node.match.try do |item|
         case item
         when Ast::ArrayDestructuring
@@ -56,7 +56,7 @@ module Mint
             end
 
           scope(variables) do
-            resolve_expression.call
+            resolve_expression(node)
           end
         when Ast::TupleDestructuring
           raise CaseBranchNotTuple, {
@@ -76,10 +76,10 @@ module Mint
             end
 
           scope(variables) do
-            resolve_expression.call
+            resolve_expression(node)
           end
         when Ast::EnumDestructuring
-          check_match.call(item)
+          check_match(item, condition)
 
           entity =
             ast.enums.find(&.name.==(item.name)).not_nil!
@@ -115,12 +115,12 @@ module Mint
             end
 
           scope(variables) do
-            resolve_expression.call
+            resolve_expression(node)
           end
         else
-          check_match.call(item)
+          check_match(item, condition)
         end
-      end || resolve_expression.call
+      end || resolve_expression(node)
     end
   end
 end

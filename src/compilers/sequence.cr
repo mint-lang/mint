@@ -1,28 +1,37 @@
 module Mint
   class Compiler
+    protected def prefix(_node : Ast::Sequence, statement : Ast::Statement, value : String)
+      case target = statement.target
+      when Ast::Variable
+        js.let(js.variable_of(target), value)
+      when Ast::TupleDestructuring
+        variables =
+          target
+            .parameters
+            .join(',') { |param| js.variable_of(param) }
+
+        "const [#{variables}] = #{value}"
+      else
+        value
+      end
+    end
+
     def _compile(node : Ast::Sequence) : String
+      statements = node.statements
+      statements_size = statements.size
+
       body =
-        node
-          .statements
+        statements
           .sort_by { |item| resolve_order.index(item) || -1 }
           .map_with_index do |statement, index|
-            prefix = ->(value : String) {
-              if (index + 1) == node.statements.size
+            is_last =
+              (index + 1) == statements_size
+
+            inner_prefix = ->(value : String) {
+              if is_last
                 "_ = #{value}"
               else
-                case target = statement.target
-                when Ast::Variable
-                  js.let(js.variable_of(target), value)
-                when Ast::TupleDestructuring
-                  variables =
-                    target
-                      .parameters
-                      .join(',') { |param| js.variable_of(param) }
-
-                  "const [#{variables}] = #{value}"
-                else
-                  value
-                end
+                prefix(node, statement, value)
               end
             }
 
@@ -57,7 +66,7 @@ module Mint
                     js.if("_#{index} instanceof Err") do
                       "throw _#{index}._0"
                     end,
-                    prefix.call("_#{index}._0"),
+                    inner_prefix.call("_#{index}._0"),
                   ])
                 else
                   js.statements([
@@ -67,7 +76,7 @@ module Mint
                         js.let("_error", "_#{index}._0"),
                       ] + catches)
                     end,
-                    prefix.call("_#{index}._0"),
+                    inner_prefix.call("_#{index}._0"),
                   ])
                 end
               when "Promise"
@@ -80,10 +89,10 @@ module Mint
                       ],
                       finally: "")
                   end
-                  prefix.call("await #{try}")
+                  inner_prefix.call("await #{try}")
                 end
               end
-            end || prefix.call("await #{expression}")
+            end || inner_prefix.call("await #{expression}")
           end
 
       catch_all =

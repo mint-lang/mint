@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    protected def prefix(statement : Ast::Statement, value : String)
+    protected def prefix(_node : Ast::Parallel, statement : Ast::Statement, value : String)
       case target = statement.target
       when Ast::Variable
         js.assign(js.variable_of(target), value)
@@ -46,7 +46,7 @@ module Mint
                   js.if("_ instanceof Err") do
                     "throw _._0"
                   end,
-                  prefix(statement, "_._0"),
+                  prefix(node, statement, "_._0"),
                 ])
               end
             else
@@ -58,21 +58,21 @@ module Mint
                       js.let("_error", "_._0"),
                     ] + catches)
                   end,
-                  prefix(statement, "_._0"),
+                  prefix(node, statement, "_._0"),
                 ])
               end
             end
           when "Promise"
             if catches && !catches.empty?
               js.asynciif do
-                js.try(prefix(statement, "await #{expression}"),
+                js.try(prefix(node, statement, "await #{expression}"),
                   [js.catch("_error", js.statements(catches))],
                   "")
               end
             end
           end
         end || js.asynciif do
-          prefix(statement, "await #{expression}")
+          prefix(node, statement, "await #{expression}")
         end
       end
 

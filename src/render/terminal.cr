@@ -29,7 +29,7 @@ module Mint
         end
 
         def text(contents)
-          process(contents + " ")
+          process("#{contents} ")
         end
 
         def code(contents)
@@ -45,13 +45,13 @@ module Mint
               contents
             end
 
-          process "\"#{actual_content}\" " do |part|
+          process %("#{actual_content}" ) do |part|
             part.colorize(:light_yellow).mode(:bold)
           end
         end
 
         def bold(contents)
-          process(contents + " ") do |part|
+          process("#{contents} ") do |part|
             part.colorize(:light_yellow).mode(:bold)
           end
         end
@@ -67,7 +67,7 @@ module Mint
           loop do
             char = contents[index]?
 
-            if ((char && char.ascii_whitespace?) || !char) && part.size > 0
+            if ((char && char.ascii_whitespace?) || !char) && !part.empty?
               if @cursor > @width
                 @cursor = part.size
                 puts

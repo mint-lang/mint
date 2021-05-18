@@ -6,10 +6,10 @@ message HtmlComponentExpectedClosingBracket do
   end
 
   list [
-    "an attribute for the component",
-    "a reference to the component \"as component\"",
-    "\"/>\" for self closing components",
-    "\">\" for non self closing components",
+    %(an attribute for the component),
+    %(a reference to the component "as component"),
+    %("/>" for self closing components),
+    %(">" for non self closing components),
   ]
 
   block do

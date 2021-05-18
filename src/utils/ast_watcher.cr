@@ -1,28 +1,26 @@
 module Mint
   class AstWatcher
-    @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) { nil }
+    @file_proc : Proc(String, Ast, Nil) = ->(_file : String, _ast : Ast) {}
     @pattern_proc : Proc(Array(String)) = ->{ %w[] }
     @cache = {} of String => Ast
     @channel = Channel(Nil).new
     @pattern = %w[]
     @progress = false
     @include_core = true
-    @external_javascripts : String? = nil
-    @external_stylesheets : String? = nil
-
-    getter include_core
+    @external_javascripts : String?
+    @external_stylesheets : String?
 
     def initialize
     end
 
-    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) { nil }, @progress = false, @include_core = true)
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) {}, @progress = false, @include_core = true)
       @pattern = @pattern_proc.call
 
       watch_for_changes
 
       yield compile(progress)
-    rescue exception : Error
-      yield exception
+    rescue error : Error
+      yield error
     end
 
     def watch
@@ -56,7 +54,7 @@ module Mint
           if print
             file_counter = "#{index} / #{files.size}".colorize.mode(:bold)
             line = "#{prefix}: #{file_counter}".ljust(line.size)
-            terminal.io.print(line + "\r")
+            terminal.io.print("#{line}\r")
             terminal.io.flush
           end
 
@@ -77,10 +75,10 @@ module Mint
           .values
           .reduce(Ast.new) { |memo, item| memo.merge item }
 
-      ast.merge(Core.ast) if include_core
+      ast.merge(Core.ast) if @include_core
       ast
-    rescue exception : Error
-      exception
+    rescue error : Error
+      error
     end
 
     # Sets up watchers to detect changes

@@ -60,7 +60,7 @@ module Mint
           line =
             "#{prefix}: #{counter}".ljust(line.size)
 
-          terminal.io.print(line + "\r")
+          terminal.io.print("#{line}\r")
           terminal.io.flush
         end
       end
@@ -70,8 +70,8 @@ module Mint
 
       @ast = workspace.ast
       compile_script
-    rescue exception : Error
-      @error = exception.to_html
+    rescue error : Error
+      @error = error.to_html
     end
 
     def update(result)
@@ -106,15 +106,15 @@ module Mint
       }
       @artifacts = type_checker.artifacts
       @error = nil
-    rescue exception : Error
-      @error = exception.to_html
+    rescue error : Error
+      @error = error.to_html
       @artifacts = nil
       @script = ""
     end
 
     def live_reload
       if @live_reload
-        "<script src=\"/live-reload.js\"></script>"
+        %(<script src="/live-reload.js"></script>)
       end
     end
 
@@ -187,7 +187,7 @@ module Mint
         env.response.content_type =
           MIME.from_filename?(filename).to_s
 
-        path = "./public/#{filename}"
+        path = Path[".", "public", filename]
 
         # If there is any static file available serve that.
         if File.exists?(path)
@@ -226,7 +226,7 @@ module Mint
       ws "/" do |socket|
         @sockets.push socket
 
-        socket.on_close do |_|
+        socket.on_close do
           @sockets.delete(socket)
         end
       end

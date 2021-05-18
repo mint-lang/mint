@@ -1,9 +1,9 @@
 module Mint
   class DocumentationServer
-    @asts : Hash(MintJson, Ast) = {} of MintJson => Ast
-    @error : String? = nil
-    @ast : Ast = Ast.new
-    @generator : DocumentationGenerator = DocumentationGenerator.new
+    @asts = {} of MintJson => Ast
+    @error : String?
+    @ast = Ast.new
+    @generator = DocumentationGenerator.new
 
     def self.start
       new
