@@ -20,9 +20,6 @@ dependencies:
   tree_template:
     github: gdotdesign/tree_template
     commit: 7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3
-  time_format:
-    github: vladfaust/time_format.cr
-    version: ~> 0.1.1
   dotenv:
     github: gdotdesign/cr-dotenv
     version: ~> 1.0.0
