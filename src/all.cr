@@ -1,7 +1,6 @@
 require "string_inflection"
 require "baked_file_system"
 require "tree_template"
-require "time_format"
 require "file_utils"
 require "colorize"
 require "markd"
