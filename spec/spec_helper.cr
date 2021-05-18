@@ -1,5 +1,4 @@
 require "spec"
-require "diff"
 
 MINT_ENV["TEST"] = "TRUE"
 ERROR_MESSAGES = %w[]

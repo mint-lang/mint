@@ -12,10 +12,6 @@ shards:
     git: https://github.com/schovi/baked_file_system.git
     version: 0.10.0
 
-  diff:
-    git: https://github.com/makenowjust/crystal-diff.git
-    version: 1.1.0
-
   dotenv:
     git: https://github.com/gdotdesign/cr-dotenv.git
     version: 1.0.0
