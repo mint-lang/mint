@@ -1,4 +1,3 @@
-require "string_inflection"
 require "baked_file_system"
 require "tree_template"
 require "file_utils"
