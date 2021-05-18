@@ -1,5 +1,5 @@
 require "baked_file_system"
-require "tree_template"
+require "ecr"
 require "file_utils"
 require "colorize"
 require "markd"

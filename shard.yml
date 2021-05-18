@@ -14,9 +14,6 @@ dependencies:
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.11.2
-  tree_template:
-    github: gdotdesign/tree_template
-    commit: 7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3
   dotenv:
     github: gdotdesign/cr-dotenv
     version: ~> 1.0.0

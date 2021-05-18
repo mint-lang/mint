@@ -93,24 +93,20 @@ module Mint
           build:      false,
         })
 
-      template =
-        TreeTemplate.new(formatter: TreeTemplate::PrettyFormatter) do |t|
-          t.doctype :html5
+      <<-HTML
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+        </head>
+        <body>
+          <script>
+            #{runtime + script}
+          </script>
+        </body>
+      </html>
+      HTML
 
-          t.html do
-            t.head do
-              t.meta(charset: "utf-8")
-            end
-
-            t.body do
-              t.script do
-                t.unsafe runtime + script
-              end
-            end
-          end
-        end
-
-      template.render
     rescue error : Error
       error.to_html
     rescue error
