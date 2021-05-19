@@ -68,7 +68,7 @@ module Mint
 
       terminal.measure "#{COG} Writing index.html... " do
         File.write Path[DIST_DIR, "index.html"],
-          IndexHtml.render(Environment::BUILD, relative, skip_service_worker, skip_icons)
+          IndexHtml.render(:build, relative, skip_service_worker, skip_icons)
       end
 
       terminal.measure "#{COG} Writing manifest.webmanifest..." do

@@ -132,7 +132,7 @@ module Mint
         </html>
         HTML
       else
-        IndexHtml.render(Environment::DEVELOPMENT, live_reload: @live_reload)
+        IndexHtml.render(:development, live_reload: @live_reload)
       end
     end
 
