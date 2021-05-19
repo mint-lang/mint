@@ -1,5 +1,3 @@
-require "ecr"
-
 module Mint
   class TestRunner
     class Message

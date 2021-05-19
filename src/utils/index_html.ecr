@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="<%= application.meta["charset"]? || "utf-8" %>" />
+    <title>TEST: <%= application.title %></title>
+    <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>" />
+    <% application.meta.each do |name, content| %>
+      <% next if name == "charset" %>
+      <meta name="<%= name %>" content="<%= content %>" /> 
+    <% end %>
+    <meta name="theme-color" content="<%= application.theme %>" /> 
+    <%= application.head %>
+
+    <% unless @no_icons || application.icon.empty? %>
+      <% ICON_SIZES.each do |size| %>
+        <link rel="icon" type="image/png" href="<%= path_for("icon-#{size}x#{size}.png") %>" size="<%= "#{size}x#{size}" %>" />
+      <% end %>
+      <% {152, 167, 180}.each do |size| %>
+        <link rel="apple-touch-icon-precomposed" href="<%= path_for("icon-#{size}x#{size}.png") %>" />
+      <% end %>
+    <% end %>
+
+    <% if SourceFiles.external_stylesheets? %>
+      <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>" />
+    <% end %>
+  </head>
+  <body>
+    <%# In development runtime comes separately and %>
+    <%# the live reload script necessary. %>
+    <% if env.development? %>
+      <script src="<%= path_for("runtime.js") %>"></script>
+      <% if @live_reload %>
+        <script src="<%= path_for("live-reload.js") %>"></script>
+      <% end %>
+    <% else %>
+      <% unless @no_service_worker %>
+        <script type="text/javascript">
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+              navigator.serviceWorker.register('/service-worker.js');
+            });
+          }
+        </script>
+      <% end %>
+    <% end %>
+
+    <% if SourceFiles.external_javascripts? %>
+      <script src="<%= path_for("external-javascripts.js") %>"></script>
+    <% end %>
+
+    <script src="<%= path_for("index.js") %>"></script>
+    <noscript>This application requires JavaScript.</noscript>
+  </body>
+</html>
