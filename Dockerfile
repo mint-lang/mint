@@ -9,7 +9,7 @@ WORKDIR /opt/mint
 COPY . .
 
 # Install dependencies (shards)
-RUN shards install --ignore-crystal-version
+RUN shards install
 
 # Build binary
 RUN shards build --static --no-debug
