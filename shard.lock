@@ -36,10 +36,6 @@ shards:
     git: https://github.com/luislavena/radix.git
     version: 0.4.1
 
-  string_inflection:
-    git: https://github.com/mosop/string_inflection.git
-    version: 0.2.1
-
   tree_template:
     git: https://github.com/gdotdesign/tree_template.git
     version: 0.1.0+git.commit.7e24c92208cc99938f3fbd8f5fecda22bcbe3cc3

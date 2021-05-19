@@ -5,9 +5,6 @@ authors:
   - Szikszai Gusztáv
 
 dependencies:
-  string_inflection:
-    github: mosop/string_inflection
-    version: ~> 0.2.1
   baked_file_system:
     github: schovi/baked_file_system
     version: ~> 0.10.0
