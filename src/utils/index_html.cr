@@ -23,6 +23,6 @@ module Mint
       json.application
     end
 
-    ECR.def_to_s "#{__DIR__}/index.html.ecr"
+    ECR.def_to_s "#{__DIR__}/index_html.ecr"
   end
 end
