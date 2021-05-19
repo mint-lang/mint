@@ -31,9 +31,6 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 0.14.0
-  diff:
-    github: MakeNowJust/crystal-diff
-    version: ~> 1.1.0
 
 targets:
   mint:
