@@ -491,7 +491,7 @@ module Array {
       [],
       (memo : Array(a), item : Maybe(a)) : Array(a) {
         case (item) {
-          Maybe::Just value => Array.push(value, memo)
+          Maybe::Just(value) => Array.push(value, memo)
           Maybe::Nothing => memo
         }
       },

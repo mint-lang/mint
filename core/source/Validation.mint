@@ -182,7 +182,7 @@ module Validation {
         item : Maybe(Tuple(String, String))
       ) : Map(String, Array(String)) {
         case (item) {
-          Maybe::Just error =>
+          Maybe::Just(error) =>
             try {
               {key, message} =
                 error

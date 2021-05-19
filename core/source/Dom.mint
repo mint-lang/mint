@@ -154,7 +154,7 @@ module Dom {
   */
   fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never, Void) {
     case (maybeElement) {
-      Maybe::Just element =>
+      Maybe::Just(element) =>
         sequence {
           focusWhenVisible(element)
 
@@ -212,7 +212,7 @@ module Dom {
   Returns if the given base element contains the given element (as a maybe).
 
     case (Dom.getElementBySelector("body")) {
-      Maybe::Just body =>
+      Maybe::Just(body) =>
         try {
           div =
             Dom.getElementBySelector("div")
@@ -260,7 +260,7 @@ module Dom {
       	Dom.getElementById("my-div")
 
       case (outcome) {
-        Maybe::Just element => Dom.getAttribute("id", element) == "my-div"
+        Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
         Maybe::Nothing => false
       }
     }

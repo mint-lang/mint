@@ -11,9 +11,9 @@ component Main {
   fun test (b : C(a)) : a {
     case (b) {
       C::X => ""
-      C::D a =>
+      C::D(a) =>
         case (a) {
-          A::B c =>
+          A::B(c) =>
             c
         }
     }
