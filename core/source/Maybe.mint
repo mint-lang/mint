@@ -48,7 +48,7 @@ module Maybe {
   */
   fun map (func : Function(a, b), maybe : Maybe(a)) : Maybe(b) {
     case (maybe) {
-      Maybe::Just value => Maybe::Just(func(value))
+      Maybe::Just(value) => Maybe::Just(func(value))
       Maybe::Nothing => Maybe::Nothing
     }
   }
@@ -62,7 +62,7 @@ module Maybe {
   fun withDefault (defaultValue : a, maybe : Maybe(a)) : a {
     case (maybe) {
       Maybe::Nothing => defaultValue
-      Maybe::Just value => value
+      Maybe::Just(value) => value
     }
   }
 
@@ -74,7 +74,7 @@ module Maybe {
   */
   fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
     case (maybe) {
-      Maybe::Just value => Result::Ok(value)
+      Maybe::Just(value) => Result::Ok(value)
       Maybe::Nothing => Result::Err(error)
     }
   }
@@ -89,7 +89,7 @@ module Maybe {
   fun flatten (maybe : Maybe(Maybe(a))) : Maybe(a) {
     case (maybe) {
       Maybe::Nothing => Maybe::Nothing
-      Maybe::Just value => value
+      Maybe::Just(value) => value
     }
   }
 
@@ -120,7 +120,7 @@ module Maybe {
   */
   fun andThen (transform : Function(a, Maybe(b)), maybe : Maybe(a)) : Maybe(b) {
     case (maybe) {
-      Maybe::Just value => transform(value)
+      Maybe::Just(value) => transform(value)
       Maybe::Nothing => Maybe::Nothing
     }
   }

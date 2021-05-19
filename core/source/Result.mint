@@ -36,7 +36,7 @@ module Result {
   */
   fun withDefault (defaultValue : b, input : Result(a, b)) : b {
     case (input) {
-      Result::Ok value => value
+      Result::Ok(value) => value
       Result::Err => defaultValue
     }
   }
@@ -52,7 +52,7 @@ module Result {
   */
   fun withError (defaultError : a, input : Result(a, b)) : a {
     case (input) {
-      Result::Err value => value
+      Result::Err(value) => value
       Result::Ok => defaultError
     }
   }
@@ -68,7 +68,7 @@ module Result {
   */
   fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
     case (input) {
-      Result::Ok value => Result::Ok(func(value))
+      Result::Ok(value) => Result::Ok(func(value))
       Result::Err => input
     }
   }
@@ -84,7 +84,7 @@ module Result {
   */
   fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
     case (input) {
-      Result::Err value => Result::Err(func(value))
+      Result::Err(value) => Result::Err(func(value))
       Result::Ok => input
     }
   }
@@ -126,15 +126,15 @@ module Result {
   */
   fun toMaybe (result : Result(a, b)) : Maybe(b) {
     case (result) {
-      Result::Ok value => Maybe::Just(value)
+      Result::Ok(value) => Maybe::Just(value)
       Result::Err => Maybe::Nothing
     }
   }
 
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     case (input) {
-      Result::Err error => Result::Err(error)
-      Result::Ok value => value
+      Result::Err(error) => Result::Err(error)
+      Result::Ok(value) => value
     }
   }
 

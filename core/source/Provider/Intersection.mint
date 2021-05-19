@@ -29,7 +29,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
             } else {
               try {
                 case (subscription.element) {
-                  Maybe::Just observed =>
+                  Maybe::Just(observed) =>
                     try {
                       IntersectionObserver.unobserve(observed, observer)
                       Maybe::Nothing
@@ -47,7 +47,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
       newObservers =
         for (subscription of subscriptions) {
           case (subscription.element) {
-            Maybe::Just observed =>
+            Maybe::Just(observed) =>
               Maybe::Just(
                 {
                   subscription,
