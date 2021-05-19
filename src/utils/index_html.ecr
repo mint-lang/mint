@@ -37,7 +37,7 @@
         <script type="text/javascript">
           if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-              navigator.serviceWorker.register('/service-worker.js');
+              navigator.serviceWorker.register('<%= path_for("service-worker.js") %>');
             });
           }
         </script>
