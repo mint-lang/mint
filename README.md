@@ -86,7 +86,7 @@ You can find an explanation in this issue: <https://github.com/mint-lang/mint/is
 
 This project exists thanks to all the people who contribute.
 
-<a href="https://github.com/mint-lang/mint/graphs/contributors"><img src="https://opencollective.com/mint/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/mint-lang/mint/graphs/contributors"><img src="https://opencollective.com/mint/contributors.svg?width=890&button=false"></a>
 
 ## Backers
 

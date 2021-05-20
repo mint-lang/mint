@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="<%= application.meta["charset"]? || "utf-8" %>" />
+    <meta charset="<%= application.meta["charset"]? || "utf-8" %>">
     <title>TEST: <%= application.title %></title>
-    <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>" />
+    <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>">
     <% application.meta.each do |name, content| %>
       <% next if name == "charset" %>
-      <meta name="<%= name %>" content="<%= content %>" />
+      <meta name="<%= name %>" content="<%= content %>">
     <% end %>
-    <meta name="theme-color" content="<%= application.theme %>" />
+    <meta name="theme-color" content="<%= application.theme %>">
     <%= application.head %>
 
     <% unless @no_icons || application.icon.empty? %>
       <% ICON_SIZES.each do |size| %>
-        <link rel="icon" type="image/png" href="<%= path_for("icon-#{size}x#{size}.png") %>" size="<%= "#{size}x#{size}" %>" />
+        <link rel="icon" type="image/png" href="<%= path_for("icon-#{size}x#{size}.png") %>" size="<%= "#{size}x#{size}" %>">
       <% end %>
       <% {152, 167, 180}.each do |size| %>
-        <link rel="apple-touch-icon-precomposed" href="<%= path_for("icon-#{size}x#{size}.png") %>" />
+        <link rel="apple-touch-icon-precomposed" href="<%= path_for("icon-#{size}x#{size}.png") %>">
       <% end %>
     <% end %>
 
     <% if SourceFiles.external_stylesheets? %>
-      <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>" />
+      <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>">
     <% end %>
   </head>
   <body>

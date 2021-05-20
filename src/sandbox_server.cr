@@ -95,9 +95,9 @@ module Mint
 
       <<-HTML
       <!DOCTYPE html>
-      <html lang="en">
+      <html>
         <head>
-          <meta charset="utf-8" />
+          <meta charset="utf-8">
         </head>
         <body>
           <script>
