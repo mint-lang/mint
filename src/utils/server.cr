@@ -3,15 +3,6 @@ module Mint
   module Server
     extend self
 
-    class Logger < Kemal::BaseLogHandler
-      def call(context)
-        call_next context
-      end
-
-      def write(message)
-      end
-    end
-
     def port_open?(ip, port)
       client = Socket.tcp(Socket::Family::INET, true)
       client.connect(ip, port, 0.25)
@@ -23,7 +14,7 @@ module Mint
 
     def run(name, host = "127.0.0.1", port = 3000)
       config = Kemal.config
-      config.logger = Logger.new
+      config.logging = false
       config.setup
 
       if port_open?(host, port)
