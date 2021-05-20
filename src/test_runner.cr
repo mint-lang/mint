@@ -125,7 +125,7 @@ module Mint
       } unless paths
 
       path =
-        paths.find { |item| Process.run("which", args: [item]).success? }
+        paths.find { |item| Process.find_executable(item) }
 
       raise BrowserNotFound, {
         "browser" => @flags.browser,
