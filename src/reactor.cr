@@ -45,7 +45,7 @@ module Mint
       watch_for_changes
       setup_kemal
 
-      Server.run "Development", @host, @port, @host, @port
+      Server.run "Development", @host, @port
     end
 
     def init(workspace)

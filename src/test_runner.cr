@@ -57,7 +57,7 @@ module Mint
       terminal.puts "#{COG} Starting browser..."
       open_page
 
-      Server.run "Test", @flags.host, @flags.port, @flags.browser_host, @flags.browser_port
+      Server.run "Test", @flags.host, @flags.port
     end
 
     def browser_path
