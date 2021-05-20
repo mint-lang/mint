@@ -10,6 +10,10 @@ module Mint
         puts error.colorize(:red).to_s.indent(4)
       end
 
+      def errored(name, error)
+        puts "An error occurred when running the test #{name}: #{error}".colorize(:red)
+      end
+
       def suite(name)
         puts name
       end

@@ -5,6 +5,7 @@ module Mint
 
       private SUCCESS_MARKER = ".".colorize(:green)
       private FAIL_MARKER    = "F".colorize(:red)
+      private ERROR_MARKER   = "E".colorize(:red)
 
       def initialize
         @count = 0
@@ -25,6 +26,12 @@ module Mint
       def failed(name, error)
         with_count do
           print FAIL_MARKER
+        end
+      end
+
+      def errored(name, error)
+        with_count do
+          print ERROR_MARKER
         end
       end
 

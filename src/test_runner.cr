@@ -250,7 +250,7 @@ module Mint
               @reporter.failed data.name, data.result
               @failed << data
             when "ERRORED"
-              terminal.puts "An error occurred when running the test #{data.name}: #{data.result}".colorize(:red)
+              @reporter.errored data.name, data.result
               @failed << data
             when "CRASHED"
               @reporter.crashed data.result
