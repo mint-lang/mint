@@ -71,7 +71,7 @@ module Mint
           terminal.divider
         end
 
-        terminal.puts "There was an error exiting...".colorize.mode(:bold)
+        terminal.puts "There was an error, exiting...".colorize.mode(:bold)
 
         # Exit with one to trigger failures in CI environments
         exit 1

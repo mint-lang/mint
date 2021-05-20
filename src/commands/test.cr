@@ -3,6 +3,8 @@ module Mint
     class Test < Admiral::Command
       include Command
 
+      define_help description: "Runs the tests"
+
       define_flag manual : Bool,
         description: "Start the test server for manual testing",
         default: false,
@@ -43,8 +45,6 @@ module Mint
         short: "c"
 
       define_argument test : String
-
-      define_help description: "Runs the tests"
 
       def run
         execute "Running Tests" do

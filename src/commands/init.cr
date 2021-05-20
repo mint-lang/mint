@@ -10,8 +10,8 @@ module Mint
         required: false
 
       def run
-        name = arguments.name || ""
-        if !name.empty?
+        name = arguments.name.presence
+        if name
           execute "Initializing a new project" do
             Scaffold.run(name)
           end
