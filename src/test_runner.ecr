@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="external-stylesheets.css">
+    <link rel="stylesheet" href="/external-stylesheets.css">
   </head>
   <body>
     <script src="/external-javascripts.js"></script>
@@ -46,7 +46,7 @@
 
         start (suites) {
           this.suites = suites
-          if (this.socket.readState === 1) {
+          if (this.socket.readyState === 1) {
             this.run()
           } else {
             this.socket.addEventListener("open", () => this.run())
