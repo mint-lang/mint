@@ -26,15 +26,21 @@ module Mint
     error InvalidReporter
 
     @reporter : DocumentationReporter | DotReporter
+    @browser_path : String?
+    @script : String?
+
+    @failed = [] of Message
+    @succeeded = 0
 
     def initialize(@flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
       @reporter = resolve_reporter
+      @browser_path = resolve_browser_path unless @flags.manual
       @channel = Channel(Nil).new
+    end
+
+    def reset
       @failed = [] of Message
       @succeeded = 0
-      @script = ""
-
-      browser_path unless @flags.manual
     end
 
     def run
@@ -43,7 +49,9 @@ module Mint
       end
 
       ast = terminal.measure "#{COG} Compiling tests... " do
-        compile_ast.tap { |a| compile_script(a) }
+        compile_ast.tap do |a|
+          @script = compile_script(a)
+        end
       end
 
       if ast.try(&.suites.empty?)
@@ -54,27 +62,12 @@ module Mint
       terminal.puts "#{COG} Starting test server..."
       setup_kemal
 
-      terminal.puts "#{COG} Starting browser..."
-      open_page
+      unless @flags.manual
+        terminal.puts "#{COG} Starting browser..."
+        open_page
+      end
 
       Server.run "Test", @flags.host, @flags.port
-    end
-
-    def browser_path
-      paths = BROWSER_PATHS[@flags.browser.downcase]?
-
-      raise InvalidBrowser, {
-        "browser" => @flags.browser,
-      } unless paths
-
-      path =
-        paths.find { |item| Process.run("which", args: [item]).success? }
-
-      raise BrowserNotFound, {
-        "browser" => @flags.browser,
-      } unless path
-
-      path
     end
 
     def compile_ast
@@ -107,12 +100,10 @@ module Mint
     end
 
     def compile_script(ast)
-      type_checker =
-        TypeChecker.new(ast)
-
+      type_checker = TypeChecker.new(ast)
       type_checker.check
 
-      @script = Compiler.compile_with_tests type_checker.artifacts
+      Compiler.compile_with_tests(type_checker.artifacts)
     end
 
     def resolve_reporter
@@ -126,8 +117,24 @@ module Mint
       end
     end
 
-    def open_process(profile_directory)
-      path = browser_path
+    def resolve_browser_path : String
+      paths = BROWSER_PATHS[@flags.browser.downcase]?
+
+      raise InvalidBrowser, {
+        "browser" => @flags.browser,
+      } unless paths
+
+      path =
+        paths.find { |item| Process.run("which", args: [item]).success? }
+
+      raise BrowserNotFound, {
+        "browser" => @flags.browser,
+      } unless path
+
+      path
+    end
+
+    def open_process(path, profile_directory)
       url = "http://#{@flags.browser_host}:#{@flags.browser_port}"
 
       case @flags.browser.downcase
@@ -154,13 +161,13 @@ module Mint
     end
 
     def open_browser
-      return if @flags.manual
+      return unless browser_path = @browser_path
 
       profile_directory = Path[Dir.tempdir, Random.new.hex(5)].to_s
       Dir.mkdir(profile_directory)
 
       begin
-        process = open_process(profile_directory)
+        process = open_process(browser_path, profile_directory)
         at_exit do
           process.signal(:kill) rescue nil
           FileUtils.rm_rf(profile_directory)
@@ -185,8 +192,7 @@ module Mint
         ECR.render("#{__DIR__}/test_runner.ecr")
 
       get "/" do
-        @failed = [] of Message
-        @succeeded = 0
+        reset
         page_source
       end
 
