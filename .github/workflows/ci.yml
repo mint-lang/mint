@@ -34,8 +34,12 @@ jobs:
       - name: Run specs
         run: crystal spec --error-on-warnings --error-trace
 
+      - name: Build the binary
+        run: shards build --error-on-warnings --error-trace
+
       - name: Run core specs
-        run: make test-core
+        working-directory: ./core/tests
+        run: ../../bin/mint test -b firefox
 
       - name: Check formatting
         run: crystal tool format --check
