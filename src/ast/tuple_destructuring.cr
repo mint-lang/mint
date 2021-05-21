@@ -3,7 +3,7 @@ module Mint
     class TupleDestructuring < Node
       getter parameters
 
-      def initialize(@parameters : Array(Variable),
+      def initialize(@parameters : Array(Node),
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
