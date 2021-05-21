@@ -252,7 +252,9 @@ module Mint
         @failed << data
       when "CRASHED"
         @reporter.crashed data.result
+        @failed << data
 
+        @reporter.done
         stop_server
       end
     end
