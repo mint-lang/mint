@@ -33,11 +33,13 @@ module Mint
         terminal.puts "#{COG} Constructing dependency tree..."
         resolve_dependencies
 
-        terminal.puts "\n#{COG} Resolving dependency tree..."
+        terminal.puts
+        terminal.puts "#{COG} Resolving dependency tree..."
         solve
         print_resolved
 
-        terminal.puts "\n#{COG} Copying packages..."
+        terminal.puts
+        terminal.puts "#{COG} Copying packages..."
         populate
       end
     end

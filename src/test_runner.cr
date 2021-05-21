@@ -55,7 +55,8 @@ module Mint
       end
 
       if ast.try(&.suites.empty?)
-        terminal.puts "\nThere are no tests to run!"
+        terminal.puts
+        terminal.puts "There are no tests to run!"
         return
       end
 

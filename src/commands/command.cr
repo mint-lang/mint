@@ -68,7 +68,8 @@ module Mint
 
         # If we have a message we need to print it and a divider
         if message
-          terminal.print "\n#{message}"
+          terminal.puts
+          terminal.print message
           terminal.divider
         end
 
