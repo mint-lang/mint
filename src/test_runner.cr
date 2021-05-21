@@ -124,8 +124,9 @@ module Mint
         "browser" => @flags.browser,
       } unless paths
 
-      path =
-        paths.find { |item| Process.find_executable(item) }
+      path = paths
+        .compact_map { |item| Process.find_executable(item) }
+        .first?
 
       raise BrowserNotFound, {
         "browser" => @flags.browser,
