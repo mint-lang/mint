@@ -4,8 +4,6 @@ module Mint
       macro included
         define_flag env : String,
           description: "Loads the given .env file",
-          default: "",
-          long: "env",
           short: "e"
       end
 
