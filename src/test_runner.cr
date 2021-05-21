@@ -175,7 +175,7 @@ module Mint
         end
         @channel.receive
       ensure
-        process.try &.signal(:kill)
+        process.try &.signal(:kill) rescue nil
         FileUtils.rm_rf(profile_directory)
       end
     end
@@ -200,17 +200,17 @@ module Mint
       get "/external-javascripts.js" do |env|
         env.response.content_type = "application/javascript"
 
-        SourceFiles.external_javascripts.to_s
+        SourceFiles.external_javascripts
       end
 
       get "/external-stylesheets.css" do |env|
         env.response.content_type = "text/css"
 
-        SourceFiles.external_stylesheets.to_s
+        SourceFiles.external_stylesheets
       end
 
       get "/runtime.js" do
-        Assets.read("runtime.js").to_s
+        Assets.read("runtime.js")
       end
 
       get "/tests" do
@@ -223,48 +223,58 @@ module Mint
         socket.on_message do |message|
           case message
           when "DONE"
-            @reporter.done
-            sum = @succeeded + @failed.size
-
-            terminal.divider
-            terminal.puts "#{sum} tests"
-            terminal.puts "  #{ARROW} #{@succeeded} passed"
-            terminal.puts "  #{ARROW} #{@failed.size} failed"
-
-            @failed.each do |failure|
-              terminal.puts "    #{failure.name}".colorize(:red)
-              terminal.puts "    |> #{failure.result}".colorize(:red)
-            end
-
-            stop_server
+            shutdown
           else
             data = Message.from_json(message)
-            case data.type
-            when "LOG"
-              terminal.puts data.result
-            when "SUITE"
-              @reporter.suite data.name
-            when "SUCCEEDED"
-              @reporter.succeeded data.name
-              @succeeded += 1
-            when "FAILED"
-              @reporter.failed data.name, data.result
-              @failed << data
-            when "ERRORED"
-              @reporter.errored data.name, data.result
-              @failed << data
-            when "CRASHED"
-              @reporter.crashed data.result
-
-              stop_server
-            end
+            handle_message(data)
           end
         end
       end
     end
 
+    def handle_message(data : Message) : Nil
+      case data.type
+      when "LOG"
+        terminal.puts data.result
+      when "SUITE"
+        @reporter.suite data.name
+      when "SUCCEEDED"
+        @reporter.succeeded data.name
+        @succeeded += 1
+      when "FAILED"
+        @reporter.failed data.name, data.result
+        @failed << data
+      when "ERRORED"
+        @reporter.errored data.name, data.result
+        @failed << data
+      when "CRASHED"
+        @reporter.crashed data.result
+
+        stop_server
+      end
+    end
+
+    def shutdown
+      @reporter.done
+      sum = @succeeded + @failed.size
+
+      terminal.divider
+      terminal.puts "#{sum} tests"
+      terminal.puts "  #{ARROW} #{@succeeded} passed"
+      terminal.puts "  #{ARROW} #{@failed.size} failed"
+
+      @failed.each do |failure|
+        terminal.puts "    #{failure.name}".colorize(:red)
+        terminal.puts "    |> #{failure.result}".colorize(:red)
+      end
+
+      stop_server
+    end
+
     def stop_server
-      Kemal.config.server.try(&.close) unless @flags.manual
+      return if @flags.manual
+
+      Kemal.config.server.try(&.close)
       @channel.send(nil)
     end
 
