@@ -35,12 +35,15 @@ module Mint
 
           # Measure elapsed time of a command
           elapsed = Time.measure { yield }
-        rescue error : Error
-          # In case of an error print it
-          error error.to_terminal, position
         rescue CliException
           # In case of a CLI exception just exit
           error nil, position
+        rescue error : Error
+          # In case of an error print it
+          error error.to_terminal, position
+        rescue exception : Exception
+          # In case of an exception print it
+          error exception.inspect_with_backtrace, position
         end
 
         # Format the elapsed time into a human readable format
