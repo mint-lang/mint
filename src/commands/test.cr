@@ -51,7 +51,7 @@ module Mint
         execute "Running Tests" do
           succeeded = TestRunner.new(flags, arguments).run
         end
-        exit(succeeded ? 0 : 1)
+        exit(1) unless succeeded
       end
     end
   end

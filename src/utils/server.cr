@@ -36,7 +36,7 @@ module Mint
         end
       else
         terminal.puts "#{COG} Port #{port} is used by a different application!"
-        exit 1
+        exit(1)
       end
 
       config.server = server

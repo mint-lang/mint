@@ -13,7 +13,7 @@ module Mint
           terminal.puts
           terminal.divider
           terminal.puts "Aborted! Exiting..."
-          exit 1
+          exit(1)
         end
 
         # Print header and divider
@@ -76,7 +76,7 @@ module Mint
         terminal.puts "There was an error, exiting...".colorize.mode(:bold)
 
         # Exit with one to trigger failures in CI environments
-        exit 1
+        exit(1)
       end
 
       def terminal

@@ -84,7 +84,7 @@ module Mint
           end
         end
 
-        exit(errors.empty? ? 0 : 1)
+        exit(1) unless errors.empty?
       end
     end
   end
