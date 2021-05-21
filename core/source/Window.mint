@@ -73,34 +73,12 @@ module Window {
 
   /* Returns the horizontal scroll position of the window in pixels. */
   fun scrollLeft : Number {
-    `
-    (() => {
-      const body = document.body
-      const html = document.documentElement
-
-      return Math.max(
-        body.scrollLeft, html.scrollLeft,
-        body.offsetLeft, html.offsetLeft,
-        body.clientLeft, html.clientLeft
-      )
-    })()
-    `
+    `window.pageXOffset`
   }
 
   /* Returns the vertical scroll position of the window in pixels. */
   fun scrollTop : Number {
-    `
-    (() => {
-      const body = document.body
-      const html = document.documentElement
-
-      return Math.max(
-        body.scrollTop, html.scrollTop,
-        body.offsetTop, html.offsetTop,
-        body.clientTop, html.clientTop
-      )
-    })()
-    `
+    `window.pageYOffset`
   }
 
   /* Sets the horizontal scroll position of the window in pixels. */

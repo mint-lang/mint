@@ -126,7 +126,7 @@ suite "Window.scrollHeight" {
 
 suite "Window.scrollLeft" {
   test "returns the left scroll position" {
-    Window.scrollLeft() == `(document.documentElement.scrollLeft || document.body.scrollLeft)`
+    Window.scrollLeft() == `window.pageXOffset`
   }
 
   test "returns the left scroll position when scrolled" {
@@ -143,7 +143,7 @@ suite "Window.scrollLeft" {
 
 suite "Window.scrollTop" {
   test "returns the left scroll position" {
-    Window.scrollTop() == `(document.documentElement.scrollTop || document.body.scrollTop)`
+    Window.scrollTop() == `window.pageYOffset`
   }
 
   test "returns the left scroll position when scrolled" {
