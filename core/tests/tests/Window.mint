@@ -96,7 +96,7 @@ suite "Window.height" {
 
 suite "Window.scrollWidth" {
   test "returns the scrollable width" {
-    Window.scrollWidth() == `document.body.scrollWidth`
+    Window.scrollWidth() == `(document.documentElement.scrollWidth || document.body.scrollWidth)`
   }
 
   test "returns the scrollable width when overflown" {
@@ -112,7 +112,7 @@ suite "Window.scrollWidth" {
 
 suite "Window.scrollHeight" {
   test "returns the scrollable height" {
-    Window.scrollHeight() == `document.body.scrollHeight`
+    Window.scrollHeight() == `(document.documentElement.scrollHeight || document.body.scrollHeight)`
   }
 
   test "returns the scrollable height when overflown" {
@@ -126,7 +126,7 @@ suite "Window.scrollHeight" {
 
 suite "Window.scrollLeft" {
   test "returns the left scroll position" {
-    Window.scrollLeft() == `document.body.scrollLeft`
+    Window.scrollLeft() == `(document.documentElement.scrollLeft || document.body.scrollLeft)`
   }
 
   test "returns the left scroll position when scrolled" {
@@ -143,7 +143,7 @@ suite "Window.scrollLeft" {
 
 suite "Window.scrollTop" {
   test "returns the left scroll position" {
-    Window.scrollTop() == `document.body.scrollTop`
+    Window.scrollTop() == `(document.documentElement.scrollTop || document.body.scrollTop)`
   }
 
   test "returns the left scroll position when scrolled" {
