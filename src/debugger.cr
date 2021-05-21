@@ -10,7 +10,7 @@ module Mint
     end
 
     def debug(node : Ast::Node)
-      "#{node}"
+      node.to_s
     end
 
     def debug(node : Tuple(String, TypeChecker::Checkable, Ast::Node))

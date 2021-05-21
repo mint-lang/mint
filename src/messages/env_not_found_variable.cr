@@ -3,7 +3,7 @@ message EnvNotFoundVariable do
 
   block do
     text "I cannot find the environment variable with the name"
-    bold "#{name}"
+    bold name
   end
 
   snippet node

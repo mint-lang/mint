@@ -38,7 +38,7 @@ module Mint
       end
 
       contents =
-        ["#{name}",
+        [name,
          js.object(attributes),
          children]
           .reject!(&.empty?)
