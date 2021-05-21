@@ -84,28 +84,34 @@ module Mint
 
       case option_param = option.parameters[0]?
       when Ast::EnumRecordDefinition
-        item.parameters.map do |param|
-          record =
-            resolve(option_param).as(Record)
+        item.parameters.compact_map do |param|
+          case param
+          when Ast::TypeVariable
+            record =
+              resolve(option_param).as(Record)
 
-          {param.value, record.fields[param.value], param}
+            {param.value, record.fields[param.value], param}
+          end
         end
       else
         item.parameters.map_with_index do |param, index|
-          option_type =
-            resolve(option.parameters[index]).not_nil!
+          case param
+          when Ast::TypeVariable
+            option_type =
+              resolve(option.parameters[index]).not_nil!
 
-          mapping = {} of String => Checkable
+            mapping = {} of String => Checkable
 
-          entity.parameters.each_with_index do |param2, index2|
-            mapping[param2.value] = condition.parameters[index2]
+            entity.parameters.each_with_index do |param2, index2|
+              mapping[param2.value] = condition.parameters[index2]
+            end
+
+            resolved_type =
+              Comparer.fill(option_type, mapping)
+
+            {param.value, resolved_type.not_nil!, param}
           end
-
-          resolved_type =
-            Comparer.fill(option_type, mapping)
-
-          {param.value, resolved_type.not_nil!, param}
-        end
+        end.compact
       end
     end
 

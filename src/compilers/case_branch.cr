@@ -55,8 +55,11 @@ module Mint
           variables =
             case lookups[match].as(Ast::EnumOption).parameters[0]?
             when Ast::EnumRecordDefinition
-              match.parameters.map do |param|
-                "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
+              match.parameters.compact_map do |param|
+                case param
+                when Ast::TypeVariable
+                  "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
+                end
               end
             else
               match.parameters.map_with_index do |param, index1|

@@ -12,7 +12,7 @@ module Mint
 
         option = type_id! EnumDestructuringExpectedOption
 
-        parameters = [] of Ast::TypeVariable
+        parameters = [] of Ast::Node
 
         if char! '('
           parameters.concat list(
