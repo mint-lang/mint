@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="<%= application.meta["charset"]? || "utf-8" %>">
-    <title>TEST: <%= application.title %></title>
+    <title><%= application.title %></title>
     <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>">
     <% application.meta.each do |name, content| %>
       <% next if name == "charset" %>
