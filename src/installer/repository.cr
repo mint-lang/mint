@@ -10,7 +10,7 @@ module Mint
     # This class is for handling git repositories of packages.
     #
     # Repositories are cloned into a temp directory (/tmp/mint-packages) if
-    # not exists and updated when they exsits.
+    # not exists and updated when they exists.
     class Repository
       getter name : String
       getter url : String
@@ -18,7 +18,7 @@ module Mint
       getter target : String?
 
       def self.open(name = "", url = "", target = nil, version = nil)
-        if url.starts_with?("http://") && !url.ends_with?(".git")
+        if url.starts_with?(%r{https?://}) && !url.ends_with?(".git")
           url += ".git"
         end
 
