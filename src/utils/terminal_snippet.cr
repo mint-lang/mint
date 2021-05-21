@@ -98,14 +98,14 @@ module Mint
               "│#{line_number}│".colorize.mode(:dim)
             end
 
-          divier =
+          divider =
             if highlighted
               "│".colorize(:light_yellow).mode(:bright)
             else
               "│".colorize.mode(:dim)
             end
 
-          "#{gutter} #{line.highlight(from, to)} #{line_padding}#{divier}"
+          "#{gutter} #{line.highlight(from, to)} #{line_padding}#{divider}"
         end
 
       line =
