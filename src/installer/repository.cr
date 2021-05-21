@@ -17,7 +17,7 @@ module Mint
       getter version : Semver?
       getter target : String?
 
-      def self.open(name = "", url = "", target = nil, version = nil)
+      def self.open(name, url, target = nil, version = nil)
         if url.starts_with?(%r{https?://}) && !url.ends_with?(".git")
           url += ".git"
         end
@@ -25,7 +25,7 @@ module Mint
         new(name, url, target, version).tap(&.open)
       end
 
-      def initialize(@name = "", @url = "", @target = nil, @version = nil)
+      def initialize(@name, @url, @target = nil, @version = nil)
       end
 
       def open
