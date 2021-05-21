@@ -47,9 +47,11 @@ module Mint
       define_argument test : String
 
       def run
+        succeeded = nil
         execute "Running Tests" do
-          TestRunner.new(flags, arguments).run
+          succeeded = TestRunner.new(flags, arguments).run
         end
+        exit(succeeded ? 0 : 1)
       end
     end
   end

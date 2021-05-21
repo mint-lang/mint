@@ -43,7 +43,7 @@ module Mint
       @succeeded = 0
     end
 
-    def run
+    def run : Bool
       terminal.measure "#{COG} Ensuring dependencies... " do
         MintJson.parse_current.check_dependencies!
       end
@@ -57,7 +57,7 @@ module Mint
       if ast.try(&.suites.empty?)
         terminal.puts
         terminal.puts "There are no tests to run!"
-        return
+        return false
       end
 
       terminal.puts "#{COG} Starting test server..."
@@ -69,6 +69,8 @@ module Mint
       end
 
       Server.run "Test", @flags.host, @flags.port
+
+      @failed.empty?
     end
 
     def compile_ast
