@@ -21,58 +21,14 @@ module Mint
 
       if match = node.match
         case match
-        when Ast::ArrayDestructuring
-          statements =
+        when Ast::ArrayDestructuring, Ast::TupleDestructuring, Ast::EnumDestructuring
+          compiled =
             _compile(match, variable)
 
-          statements << expression
-
-          if match.spread?
-            {
-              "Array.isArray(#{variable}) && #{variable}.length >= #{match.items.size - 1}",
-              js.statements(statements),
-            }
-          else
-            {
-              "Array.isArray(#{variable}) && #{variable}.length === #{match.items.size}",
-              js.statements(statements),
-            }
-          end
-        when Ast::TupleDestructuring
-          variables =
-            match
-              .parameters
-              .join(',') { |param| js.variable_of(param) }
-
+          compiled[1] << expression
           {
-            "Array.isArray(#{variable})",
-            js.statements([
-              "const [#{variables}] = #{variable}",
-              expression,
-            ]),
-          }
-        when Ast::EnumDestructuring
-          variables =
-            case lookups[match].as(Ast::EnumOption).parameters[0]?
-            when Ast::EnumRecordDefinition
-              match.parameters.compact_map do |param|
-                case param
-                when Ast::TypeVariable
-                  "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
-                end
-              end
-            else
-              match.parameters.map_with_index do |param, index1|
-                "const #{js.variable_of(param)} = #{variable}._#{index1}"
-              end
-            end
-
-          name =
-            js.class_of(lookups[match])
-
-          {
-            "#{variable} instanceof #{name}",
-            js.statements(variables + [expression]),
+            compiled[0],
+            js.statements(compiled[1]),
           }
         else
           compiled =
