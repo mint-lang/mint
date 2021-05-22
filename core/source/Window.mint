@@ -41,22 +41,44 @@ module Window {
 
   /* Returns the scrollable height of the window in pixels. */
   fun scrollHeight : Number {
-    `document.body.scrollHeight`
+    `
+    (() => {
+      const body = document.body
+      const html = document.documentElement
+
+      return Math.max(
+        body.scrollHeight, html.scrollHeight,
+        body.offsetHeight, html.offsetHeight,
+        body.clientHeight, html.clientHeight
+      )
+    })()
+    `
   }
 
   /* Returns the scrollable width of the window in pixels. */
   fun scrollWidth : Number {
-    `document.body.scrollWidth`
+    `
+    (() => {
+      const body = document.body
+      const html = document.documentElement
+
+      return Math.max(
+        body.scrollWidth, html.scrollWidth,
+        body.offsetWidth, html.offsetWidth,
+        body.clientWidth, html.clientWidth
+      )
+    })()
+    `
   }
 
   /* Returns the horizontal scroll position of the window in pixels. */
   fun scrollLeft : Number {
-    `document.body.scrollLeft`
+    `window.pageXOffset`
   }
 
   /* Returns the vertical scroll position of the window in pixels. */
   fun scrollTop : Number {
-    `document.body.scrollTop`
+    `window.pageYOffset`
   }
 
   /* Sets the horizontal scroll position of the window in pixels. */

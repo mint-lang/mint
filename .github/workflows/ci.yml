@@ -37,9 +37,13 @@ jobs:
       - name: Build the binary
         run: shards build --error-on-warnings --error-trace
 
-      - name: Run core specs
+      - name: Run core specs (Firefox)
         working-directory: ./core/tests
         run: ../../bin/mint test -b firefox
+
+      - name: Run core specs (Google Chrome)
+        working-directory: ./core/tests
+        run: ../../bin/mint test -b chrome
 
       - name: Check formatting
         run: crystal tool format --check
