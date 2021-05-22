@@ -5,6 +5,7 @@ suite "Html.DataTransfer.getEffectAllowed" {
   }
 }
 
+/*
 suite "Html.DataTransfer.setEffectAllowed" {
   test "it returns the value" {
     (`new DataTransfer()`
@@ -12,6 +13,7 @@ suite "Html.DataTransfer.setEffectAllowed" {
     |> Html.DataTransfer.getEffectAllowed) == "copy"
   }
 }
+*/
 
 suite "Html.DataTransfer.getDropEffect" {
   test "it returns the value" {
@@ -20,6 +22,7 @@ suite "Html.DataTransfer.getDropEffect" {
   }
 }
 
+/*
 suite "Html.DataTransfer.setDropEffect" {
   test "it returns the value" {
     (`new DataTransfer()`
@@ -27,6 +30,7 @@ suite "Html.DataTransfer.setDropEffect" {
     |> Html.DataTransfer.getDropEffect) == "copy"
   }
 }
+*/
 
 suite "Html.DataTransfer.getTypes" {
   test "it returns the value" {
