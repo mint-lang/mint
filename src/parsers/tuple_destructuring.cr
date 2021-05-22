@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         head = start do
           next unless char! '{'
-          value = variable
+          value = tuple_destructuring_value
           whitespace
           char! ','
           whitespace
@@ -17,7 +17,7 @@ module Mint
 
         parameters =
           [head.as(Ast::Node)] &+ list(terminator: '}', separator: ',') do
-            variable
+            tuple_destructuring_value
           end
 
         whitespace
@@ -30,6 +30,10 @@ module Mint
           to: position,
           input: data)
       end
+    end
+
+    private def tuple_destructuring_value : Ast::Node?
+      tuple_destructuring.as(Ast::Node?) || variable.as(Ast::Node?)
     end
   end
 end
