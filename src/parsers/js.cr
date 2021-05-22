@@ -9,7 +9,7 @@ module Mint
 
         value = many(parse_whitespace: false) do
           (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String?)
-        end.compact
+        end
 
         char '`', JsExpectedClosingTick
 

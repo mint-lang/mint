@@ -12,7 +12,7 @@ module Mint
 
         value = many(parse_whitespace: false) do
           not_interpolation_part('/', stop_on_interpolation: false)
-        end.compact.join
+        end.join
 
         char "/", RegexpLiteralExpectedClosingSlash
 
