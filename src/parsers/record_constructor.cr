@@ -18,7 +18,7 @@ module Mint
           list(
             terminator: ')',
             separator: ','
-          ) { expression }.compact
+          ) { expression }
 
         whitespace
         char ')', RecordConstructorExpectedClosingParentheses

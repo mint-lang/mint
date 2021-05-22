@@ -6,7 +6,7 @@ module Mint
           list(
             terminator: ')',
             separator: ','
-          ) { record_field }.compact
+          ) { record_field }
 
         skip if fields.empty?
 

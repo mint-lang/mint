@@ -17,7 +17,7 @@ module Mint
           opening_bracket: CssSelectorExpectedOpeningBracket,
           closing_bracket: CssSelectorExpectedClosingBracket) do
           if only_definitions
-            many { comment || css_definition }.compact
+            many { comment || css_definition }
           else
             css_body
           end

@@ -18,7 +18,7 @@ module Mint
         items =
           [head.as(Ast::Node)].concat(list(terminator: ']', separator: ',') do
             variable || spread
-          end.compact)
+          end)
 
         whitespace
 

@@ -17,18 +17,14 @@ module Mint
         if char! '('
           whitespace
 
-          list(terminator: ')', separator: ',') do
-            if item = expression
-              arguments << item
-            end
-          end
+          arguments = list(terminator: ')', separator: ',') { expression }
 
           whitespace
           char ')', HtmlStyleExpectedClosingParentheses
         end
 
         Ast::HtmlStyle.new(
-          arguments: arguments.compact,
+          arguments: arguments,
           from: start_position,
           to: position,
           input: data,

@@ -28,7 +28,7 @@ module Mint
             closing_bracket: IfExpectedTruthyClosingBracket
           ) do
             if for_css
-              many { css_definition }.compact
+              many { css_definition }
             else
               expression! IfExpectedTruthyExpression
             end
@@ -51,7 +51,7 @@ module Mint
                 closing_bracket: IfExpectedFalsyClosingBracket
               ) do
                 if for_css
-                  many { css_definition }.compact
+                  many { css_definition }
                 else
                   expression! IfExpectedFalsyExpression
                 end

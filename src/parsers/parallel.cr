@@ -14,7 +14,7 @@ module Mint
           opening_bracket: ParallelExpectedOpeningBracket,
           closing_bracket: ParallelExpectedClosingBracket
         ) do
-          results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
+          results = many { statement(Ast::Statement::Parent::Sequence) || comment }
 
           raise ParallelExpectedStatement if results
                                                .reject(Ast::Comment)
@@ -26,7 +26,7 @@ module Mint
         then_branch = then_block
 
         whitespace
-        catches = many { catch }.compact
+        catches = many { catch }
 
         whitespace
         catch_all = self.catch_all

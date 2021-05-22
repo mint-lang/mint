@@ -23,7 +23,7 @@ module Mint
           parameters.concat list(
             terminator: ')',
             separator: ','
-          ) { type_variable }.compact
+          ) { type_variable }
 
           whitespace
           char ')', EnumExpectedClosingParentheses
@@ -33,7 +33,7 @@ module Mint
           opening_bracket: EnumExpectedOpeningBracket,
           closing_bracket: EnumExpectedClosingBracket
         ) do
-          many { enum_option || self.comment }.compact
+          many { enum_option || self.comment }
         end
 
         options = [] of Ast::EnumOption

@@ -14,7 +14,7 @@ module Mint
           opening_bracket: SequenceExpectedOpeningBracket,
           closing_bracket: SequenceExpectedClosingBracket
         ) do
-          results = many { statement(Ast::Statement::Parent::Sequence) || comment }.compact
+          results = many { statement(Ast::Statement::Parent::Sequence) || comment }
 
           raise SequenceExpectedStatement if results
                                                .select(Ast::Statement)
@@ -23,7 +23,7 @@ module Mint
         end
 
         whitespace
-        catches = many { catch }.compact
+        catches = many { catch }
 
         whitespace
         catch_all = self.catch_all

@@ -20,7 +20,7 @@ module Mint
 
         expression =
           if for_css
-            many { css_definition }.compact
+            many { css_definition }
           else
             expression! CaseBranchExpectedExpression
           end

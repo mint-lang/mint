@@ -10,7 +10,7 @@ module Mint
         items = list(
           terminator: '}',
           separator: ','
-        ) { bool_literal }.compact
+        ) { bool_literal }
         whitespace
 
         skip unless char! '}'
@@ -31,7 +31,7 @@ module Mint
         items = list(
           terminator: '}',
           separator: ','
-        ) { expression }.compact
+        ) { expression }
         whitespace
 
         char "}", TupleLiteralExpectedClosingBracket

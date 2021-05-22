@@ -19,7 +19,7 @@ module Mint
           else
             not_interpolation_part('"')
           end.as(Ast::Interpolation | String?)
-        end.compact
+        end
 
         char '"', StringExpectedEndQuote
         whitespace

@@ -20,7 +20,7 @@ module Mint
           opening_bracket: SuiteExpectedOpeningBracket,
           closing_bracket: SuiteExpectedClosingBracket
         ) do
-          items = many { test || constant || comment }.compact
+          items = many { test || constant || comment }
 
           raise SuiteExpectedTests if items
                                         .reject(Ast::Comment)

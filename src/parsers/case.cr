@@ -25,7 +25,7 @@ module Mint
           opening_bracket: CaseExpectedOpeningBracket,
           closing_bracket: CaseExpectedClosingBracket
         ) do
-          items = many { case_branch(for_css) || comment }.compact
+          items = many { case_branch(for_css) || comment }
           raise CaseExpectedBranches if items.empty?
           items
         end

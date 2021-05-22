@@ -21,7 +21,7 @@ module Mint
 
         many do
           html_content.as(Ast::Node | Ast::Comment?)
-        end.compact.each do |item|
+        end.each do |item|
           case item
           when Ast::Comment
             comments << item

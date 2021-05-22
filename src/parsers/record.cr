@@ -11,11 +11,7 @@ module Mint
         unless char! '}'
           whitespace
 
-          fields.concat(
-            list(
-              terminator: '}',
-              separator: ','
-            ) { record_field }.compact)
+          fields = list(terminator: '}', separator: ',') { record_field }
 
           whitespace
           char '}', RecordExpectedClosingBracket
