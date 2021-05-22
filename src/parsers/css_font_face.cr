@@ -10,7 +10,7 @@ module Mint
         definitions = block(
           opening_bracket: CssFontFaceExpectedOpeningBracket,
           closing_bracket: CssFontFaceExpectedClosingBracket) do
-          many { comment || css_definition }.compact
+          many { comment || css_definition }
         end
 
         Ast::CssFontFace.new(

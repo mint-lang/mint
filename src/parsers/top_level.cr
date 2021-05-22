@@ -29,7 +29,7 @@ module Mint
           store ||
           suite ||
           comment
-      end.compact
+      end
 
       items.each do |item|
         case item

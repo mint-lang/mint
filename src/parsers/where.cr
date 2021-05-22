@@ -12,7 +12,7 @@ module Mint
           opening_bracket: WhereExpectedOpeningBracket,
           closing_bracket: WhereExpectedClosingBracket
         ) do
-          items = many { where_statement || comment }.compact
+          items = many { where_statement || comment }
 
           raise WhereExpectedWhere if items
                                         .reject(Ast::Comment)

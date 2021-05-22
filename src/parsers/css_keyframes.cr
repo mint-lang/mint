@@ -17,7 +17,7 @@ module Mint
         selectors = block(
           opening_bracket: CssKeyframesExpectedOpeningBracket,
           closing_bracket: CssKeyframesExpectedClosingBracket) do
-          many { comment || css_selector(true) }.compact
+          many { comment || css_selector(true) }
         end
 
         Ast::CssKeyframes.new(

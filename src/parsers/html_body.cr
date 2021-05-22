@@ -21,7 +21,7 @@ module Mint
                   tag : Ast::Variable,
                   with_dashes : Bool)
       whitespace
-      attributes = many { html_attribute(with_dashes) }.compact
+      attributes = many { html_attribute(with_dashes) }
       whitespace
 
       self_closing = char! '/'
@@ -33,7 +33,7 @@ module Mint
       unless self_closing
         items = many do
           html_content.as(Ast::Node | Ast::Comment?)
-        end.compact
+        end
 
         whitespace
 
@@ -59,7 +59,7 @@ module Mint
         end
       end
 
-      {attributes || [] of Ast::HtmlAttribute,
+      {attributes,
        children,
        comments}
     end

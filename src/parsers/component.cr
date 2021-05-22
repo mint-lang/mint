@@ -34,7 +34,7 @@ module Mint
               use ||
               get ||
               self.comment
-          end.compact
+          end
 
           raise ComponentExpectedBody if items.empty?
 

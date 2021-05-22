@@ -14,7 +14,7 @@ module Mint
           opening_bracket: TryExpectedOpeningBracket,
           closing_bracket: TryExpectedClosingBracket
         ) do
-          items = many { statement(Ast::Statement::Parent::Try) || comment }.compact
+          items = many { statement(Ast::Statement::Parent::Try) || comment }
 
           raise TryExpectedStatement if items
                                           .reject(Ast::Comment)
@@ -24,7 +24,7 @@ module Mint
         end
 
         whitespace
-        catches = many { catch }.compact
+        catches = many { catch }
 
         whitespace
         catch_all = self.catch_all

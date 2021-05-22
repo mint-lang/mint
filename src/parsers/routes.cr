@@ -12,7 +12,7 @@ module Mint
           opening_bracket: RoutesExpectedOpeningBracket,
           closing_bracket: RoutesExpectedClosingBracket
         ) do
-          items = many { comment || route }.compact
+          items = many { comment || route }
 
           raise RoutesExpectedRoute if items
                                          .reject(Ast::Comment)

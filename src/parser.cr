@@ -192,7 +192,7 @@ module Mint
     # Consuming many things
     # ----------------------------------------------------------------------------
 
-    def many(parse_whitespace : Bool = true, &block : -> T) : Array(T) forall T
+    def many(parse_whitespace : Bool = true, &block : -> T?) : Array(T) forall T
       result = [] of T
 
       loop do

@@ -7,7 +7,7 @@ module Mint
         skip unless keyword "<{"
 
         whitespace
-        expressions = many { expression }.compact
+        expressions = many { expression }
         whitespace
 
         keyword! "}>", HtmlExpressionExpectedClosingTag
