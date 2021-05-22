@@ -49,3 +49,19 @@ component Main {
     }
   }
 }
+---------------------------------------------------------CaseBranchNotMatchCondition
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {"a", {"b"}} => "a"
+    }
+  }
+}
+---------------------------------------------------------CaseBranchNotTuple
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {{a}, b} => "a"
+    }
+  }
+}
