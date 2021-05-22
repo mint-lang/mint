@@ -152,7 +152,9 @@ module Http {
     |> Http.send()
   */
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
-    { request | body = `JSON.stringify(#{body})` }
+    { request |
+      body = `JSON.stringify(#{body})`,
+      headers = Array.push(`new Record({ value: "application/json", key: "Content-Type" })`, request.headers) }
   }
 
   /*

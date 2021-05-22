@@ -84,6 +84,19 @@ suite "Http.formDataBody" {
   }
 }
 
+suite "Http.jsonBody" {
+  test "it sets the body of a request to a Json" {
+    (Http.empty()
+    |> Http.jsonBody(encode { user = "spaceman" })) == {
+      withCredentials = false,
+      body = `"{\"user\":\"spaceman\"}"`,
+      method = "GET",
+      headers = [`new Record({ value: "application/json", key: "Content-Type" })`],
+      url = ""
+    }
+  }
+}
+
 suite "Http.method" {
   test "it sets the method of a request" {
     (Http.empty()
