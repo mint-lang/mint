@@ -119,9 +119,11 @@ module Mint
       item.parameters.map_with_index do |variable, index|
         case variable
         when Ast::Variable
-          {variable.value, condition.parameters[index], variable}
+          [{variable.value, condition.parameters[index], variable}]
+        when Ast::TupleDestructuring
+          destructuring_variables(variable, condition.parameters[index])
         end
-      end.compact
+      end.compact.flatten
     end
 
     private def destructuring_variables(item : Ast::ArrayDestructuring, condition)

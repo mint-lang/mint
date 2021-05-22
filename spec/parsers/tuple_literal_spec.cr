@@ -11,7 +11,9 @@ describe "Tuple" do
   expect_error "{a", Mint::Parser::TupleLiteralExpectedClosingBracket
   expect_error "{a,", Mint::Parser::TupleLiteralExpectedClosingBracket
   expect_error "{a,b", Mint::Parser::TupleLiteralExpectedClosingBracket
+  expect_error "{a,{b}", Mint::Parser::TupleLiteralExpectedClosingBracket
 
   expect_ok "{}"
   expect_ok "{a,b,c}"
+  expect_ok "{a,{b},c}"
 end
