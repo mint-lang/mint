@@ -15,7 +15,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { argument }.compact
+        ) { argument }
 
         whitespace
         char ')', InlineFunctionExpectedClosingParentheses

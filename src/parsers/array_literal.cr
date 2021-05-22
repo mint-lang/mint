@@ -11,7 +11,7 @@ module Mint
         items = list(
           terminator: ']',
           separator: ','
-        ) { expression }.compact
+        ) { expression }
         whitespace
 
         char "]", ArrayExpectedClosingBracket

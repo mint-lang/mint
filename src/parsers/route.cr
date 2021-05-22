@@ -23,10 +23,7 @@ module Mint
         arguments = [] of Ast::Argument
 
         if char! '('
-          arguments.concat list(
-            terminator: ')',
-            separator: ','
-          ) { argument }.compact
+          arguments = list(terminator: ')', separator: ',') { argument }
           whitespace
           char ')', RouteExpectedClosingParentheses
         end

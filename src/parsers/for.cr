@@ -19,7 +19,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { variable }.compact
+        ) { variable }
 
         whitespace
         keyword! "of", ForExpectedOf

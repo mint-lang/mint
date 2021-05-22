@@ -25,7 +25,7 @@ module Mint
             expressions.concat list(
               terminator: ')',
               separator: ','
-            ) { expression }.compact
+            ) { expression }
           end
 
           whitespace

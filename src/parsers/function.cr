@@ -25,7 +25,7 @@ module Mint
           arguments.concat list(
             terminator: ')',
             separator: ','
-          ) { argument }.compact
+          ) { argument }
 
           whitespace
           char ')', FunctionExpectedClosingParentheses

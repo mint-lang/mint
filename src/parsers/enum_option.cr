@@ -17,7 +17,7 @@ module Mint
           parameters.concat list(
             terminator: ')',
             separator: ','
-          ) { enum_record_definition || type_variable || type }.compact
+          ) { enum_record_definition || type_variable || type }
 
           whitespace
           char ')', EnumOptionExpectedClosingParentheses

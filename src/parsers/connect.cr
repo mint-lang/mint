@@ -20,7 +20,7 @@ module Mint
           opening_bracket: ConnectExpectedOpeningBracket,
           closing_bracket: ConnectExpectedClosingBracket
         ) do
-          items = list(terminator: '{', separator: ',') { connect_variable }.compact
+          items = list(terminator: '{', separator: ',') { connect_variable }
           raise ConnectExpectedKeys if items.empty?
           items
         end

@@ -23,7 +23,7 @@ module Mint
           parameters.concat list(
             terminator: ')',
             separator: ','
-          ) { type_variable }.compact
+          ) { type_variable }
 
           whitespace
           char ')', EnumExpectedClosingParentheses

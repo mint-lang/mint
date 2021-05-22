@@ -25,7 +25,7 @@ module Mint
         fields = list(
           terminator: '}',
           separator: ','
-        ) { record_field.as(Ast::RecordField?) }.compact
+        ) { record_field.as(Ast::RecordField?) }
 
         raise RecordUpdateExpectedFields if fields.empty?
 

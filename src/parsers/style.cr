@@ -18,10 +18,7 @@ module Mint
         if char! '('
           whitespace
 
-          arguments.concat list(
-            terminator: ')',
-            separator: ','
-          ) { argument }.compact
+          arguments = list(terminator: ')', separator: ',') { argument }
 
           whitespace
           char ')', StyleExpectedClosingParentheses

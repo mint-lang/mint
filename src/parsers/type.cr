@@ -21,7 +21,7 @@ module Mint
           whitespace
           raise TypeExpectedTypeOrVariable unless type
           type
-        end.compact
+        end
         char ')', TypeExpectedClosingParentheses
       end
 

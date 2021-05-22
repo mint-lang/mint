@@ -16,7 +16,7 @@ module Mint
         skip unless head
 
         parameters = [head].concat(
-          list(terminator: '}', separator: ',') { variable }.compact)
+          list(terminator: '}', separator: ',') { variable })
 
         whitespace
 

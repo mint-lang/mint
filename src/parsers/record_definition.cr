@@ -21,7 +21,7 @@ module Mint
             list(
               terminator: '}',
               separator: ','
-            ) { record_definition_field }.compact,
+            ) { record_definition_field },
             self.comment,
           }
         end
