@@ -45,17 +45,7 @@ module Mint
             "node"  => node,
           } if spreads > 1
 
-          variables =
-            item.items.compact_map do |variable|
-              case variable
-              when Ast::Variable
-                {variable.value, condition.parameters[0], variable}
-              when Ast::Spread
-                {variable.variable.value, condition, variable.variable}
-              end
-            end
-
-          scope(variables) do
+          scope(destructuring_variables(item, condition)) do
             resolve_expression(node)
           end
         when Ast::TupleDestructuring
@@ -70,57 +60,79 @@ module Mint
             "node" => item,
           } if item.parameters.size > condition.parameters.size
 
-          variables =
-            item.parameters.map_with_index do |variable, index|
-              {variable.value, condition.parameters[index], variable}
-            end
-
-          scope(variables) do
+          scope(destructuring_variables(item, condition)) do
             resolve_expression(node)
           end
         when Ast::EnumDestructuring
           check_match(item, condition)
 
-          entity =
-            ast.enums.find(&.name.==(item.name)).not_nil!
-
-          option =
-            entity.options.find(&.value.==(item.option)).not_nil!
-
-          variables =
-            case option_param = option.parameters[0]?
-            when Ast::EnumRecordDefinition
-              item.parameters.map do |param|
-                record =
-                  resolve(option_param).as(Record)
-
-                {param.value, record.fields[param.value], param}
-              end
-            else
-              item.parameters.map_with_index do |param, index|
-                option_type =
-                  resolve(option.parameters[index]).not_nil!
-
-                mapping = {} of String => Checkable
-
-                entity.parameters.each_with_index do |param2, index2|
-                  mapping[param2.value] = condition.parameters[index2]
-                end
-
-                resolved_type =
-                  Comparer.fill(option_type, mapping)
-
-                {param.value, resolved_type.not_nil!, param}
-              end
-            end
-
-          scope(variables) do
+          scope(destructuring_variables(item, condition)) do
             resolve_expression(node)
           end
         else
           check_match(item, condition)
         end
       end || resolve_expression(node)
+    end
+
+    private def destructuring_variables(item : Ast::EnumDestructuring, condition)
+      entity =
+        ast.enums.find(&.name.==(item.name)).not_nil!
+
+      option =
+        entity.options.find(&.value.==(item.option)).not_nil!
+
+      case option_param = option.parameters[0]?
+      when Ast::EnumRecordDefinition
+        item.parameters.compact_map do |param|
+          case param
+          when Ast::TypeVariable
+            record =
+              resolve(option_param).as(Record)
+
+            {param.value, record.fields[param.value], param}
+          end
+        end
+      else
+        item.parameters.map_with_index do |param, index|
+          case param
+          when Ast::TypeVariable
+            option_type =
+              resolve(option.parameters[index]).not_nil!
+
+            mapping = {} of String => Checkable
+
+            entity.parameters.each_with_index do |param2, index2|
+              mapping[param2.value] = condition.parameters[index2]
+            end
+
+            resolved_type =
+              Comparer.fill(option_type, mapping)
+
+            {param.value, resolved_type.not_nil!, param}
+          end
+        end.compact
+      end
+    end
+
+    private def destructuring_variables(item : Ast::TupleDestructuring, condition)
+      item.parameters.map_with_index do |variable, index|
+        case variable
+        when Ast::Variable
+          {variable.value, condition.parameters[index], variable}
+        end
+      end.compact
+    end
+
+    private def destructuring_variables(item : Ast::ArrayDestructuring, condition)
+      item.items.compact_map do |variable|
+        case variable
+        when Ast::Variable
+          {variable.value, condition.parameters[0], variable}
+        when Ast::Spread
+          {variable.variable.value, condition, variable.variable}
+        end
+      end
     end
   end
 end

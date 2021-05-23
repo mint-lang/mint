@@ -15,8 +15,9 @@ module Mint
 
         skip unless head
 
-        parameters = [head].concat(
-          list(terminator: '}', separator: ',') { variable })
+        parameters = [] of Ast::Node
+        parameters << head
+        parameters.concat(list(terminator: '}', separator: ',') { variable })
 
         whitespace
 
