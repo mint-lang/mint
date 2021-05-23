@@ -238,21 +238,20 @@ module Http {
     |> Http.hasHeader("Content-Type")
   */
   fun hasHeader (key : String, request : Http.Request) : Bool {
-    Array.any(
+    request.headers
+    |> Array.any(
       (header : Http.Header) : Bool {
-        Regexp.match(
-          header.key,
-          Regexp.createWithOptions(
-            key,
-            {
-              caseInsensitive = true,
-              multiline = false,
-              unicode = false,
-              global = false,
-              sticky = false
-            }))
-      },
-      request.headers)
+        Regexp.createWithOptions(
+          key,
+          {
+            caseInsensitive = true,
+            multiline = false,
+            unicode = false,
+            global = false,
+            sticky = false
+          })
+        |> Regexp.match(header.key)
+      })
   }
 
   /*
