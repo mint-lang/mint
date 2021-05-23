@@ -13,7 +13,7 @@ module Mint
               array_destructuring ||
               expression
           whitespace
-          skip unless keyword "=>"
+          next unless keyword "=>"
         end
 
         whitespace

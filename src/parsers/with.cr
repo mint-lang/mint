@@ -7,9 +7,9 @@ module Mint
 
     def with_expression : Ast::With?
       start do |start_position|
-        skip unless keyword "with"
-
-        whitespace! SkipError
+        next unless keyword "with"
+        next unless whitespace?
+        whitespace
 
         name = type_id! WithExpectedModule
 

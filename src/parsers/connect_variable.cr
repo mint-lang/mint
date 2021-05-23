@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         value = variable || constant_variable
 
-        skip unless value
+        next unless value
 
         whitespace
 

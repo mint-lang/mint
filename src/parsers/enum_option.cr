@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        value = type_id! SkipError
+        next unless value = type_id
         whitespace
 
         parameters = [] of Ast::TypeVariable | Ast::Type

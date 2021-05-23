@@ -5,7 +5,7 @@ module Mint
 
     def array : Ast::ArrayLiteral?
       start do |start_position|
-        skip unless char! '['
+        next unless char! '['
 
         whitespace
         items = list(
@@ -18,7 +18,7 @@ module Mint
 
         type = start do
           whitespace
-          skip unless keyword "of"
+          next unless keyword "of"
           whitespace
           type_or_type_variable! ArrayLiteralExpectedTypeOrVariable
         end

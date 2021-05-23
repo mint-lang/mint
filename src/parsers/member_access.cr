@@ -4,7 +4,7 @@ module Mint
 
     def member_access : Ast::MemberAccess?
       start do |start_position|
-        skip unless char! '.'
+        next unless char! '.'
 
         name = variable! MemberAccessExpectedVariable
 

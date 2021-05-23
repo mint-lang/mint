@@ -7,7 +7,7 @@ module Mint
 
     def route : Ast::Route?
       start do |start_position|
-        skip unless char.in?('*', '/')
+        next unless char.in?('*', '/')
 
         url =
           case char

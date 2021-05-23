@@ -6,9 +6,9 @@ module Mint
 
     def parallel : Ast::Parallel?
       start do |start_position|
-        skip unless keyword "parallel"
-
-        whitespace! SkipError
+        next unless keyword "parallel"
+        next unless whitespace?
+        whitespace
 
         body = block(
           opening_bracket: ParallelExpectedOpeningBracket,

@@ -8,7 +8,7 @@ module Mint
             separator: ','
           ) { record_definition_field }
 
-        skip if fields.empty?
+        next if fields.empty?
 
         Ast::EnumRecordDefinition.new(
           from: start_position,

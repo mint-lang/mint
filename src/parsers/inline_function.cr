@@ -8,7 +8,7 @@ module Mint
 
     def inline_function : Ast::InlineFunction?
       start do |start_position|
-        skip unless char! '('
+        next unless char! '('
 
         whitespace
 

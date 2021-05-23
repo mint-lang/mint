@@ -4,9 +4,9 @@ module Mint
 
     def encode : Ast::Encode?
       start do |start_position|
-        skip unless keyword "encode"
-
-        whitespace! SkipError
+        next unless keyword "encode"
+        next unless whitespace?
+        whitespace
 
         expression = expression! EncodeExpectedExpression
 

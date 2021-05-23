@@ -6,9 +6,9 @@ module Mint
 
     def sequence : Ast::Sequence?
       start do |start_position|
-        skip unless keyword "sequence"
-
-        whitespace! SkipError
+        next unless keyword "sequence"
+        next unless whitespace?
+        whitespace
 
         body = block(
           opening_bracket: SequenceExpectedOpeningBracket,

@@ -4,9 +4,9 @@ module Mint
 
     def next_call : Ast::NextCall?
       start do |start_position|
-        skip unless keyword "next"
-
-        whitespace! SkipError
+        next unless keyword "next"
+        next unless whitespace?
+        whitespace
 
         raise NextCallExpectedRecord unless item = record
 

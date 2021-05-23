@@ -9,8 +9,8 @@ module Mint
       start do |start_position|
         name = with_dashes ? variable_attribute_name : variable
 
-        skip unless name
-        skip if fixed_name && name.value != fixed_name
+        next unless name
+        next if fixed_name && name.value != fixed_name
 
         char '=', HtmlAttributeExpectedEqualSign
 

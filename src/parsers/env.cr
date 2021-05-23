@@ -4,7 +4,7 @@ module Mint
 
     def env : Ast::Env?
       start do |start_position|
-        char '@', SkipError
+        next unless char! '@'
 
         head =
           gather { chars("A-Z") }.to_s

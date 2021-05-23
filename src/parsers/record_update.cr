@@ -6,19 +6,19 @@ module Mint
     def record_update : Ast::RecordUpdate?
       start do |start_position|
         expression = start do
-          char '{', SkipError
+          next unless char! '{'
 
           whitespace
           value = variable || self.expression
           whitespace
 
-          skip unless value
+          next unless value
+          next unless char! '|'
 
-          char '|', SkipError
           value
         end
 
-        skip unless expression
+        next unless expression
 
         whitespace
 

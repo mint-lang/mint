@@ -22,19 +22,15 @@ module Mint
 
     def start
       start_position = position
+
       begin
-        yield position
-      rescue SkipError
-        @position = start_position
-        nil
+        node = yield position
+        @position = start_position unless node
+        node
       rescue error : Error
         @position = start_position
         raise error
       end
-    end
-
-    def skip
-      raise SkipError.new
     end
 
     def step
@@ -79,10 +75,6 @@ module Mint
       raise error, position, {} of String => String
     end
 
-    def raise(error : SkipError.class)
-      raise error.new
-    end
-
     # Inspect current character, look ahead and look behind
     # ----------------------------------------------------------------------------
 
@@ -107,13 +99,18 @@ module Mint
       true
     end
 
-    def char(next_char : Char, error : SyntaxError.class | SkipError.class) : Int32?
+    def char(next_char : Char, error : SyntaxError.class) : Int32?
       raise error unless char == next_char
       step
     end
 
-    def char(set : String, error : SyntaxError.class | SkipError.class) : Int32?
+    def char(set : String, error : SyntaxError.class) : Int32?
       raise error unless char.in_set?(set)
+      step
+    end
+
+    def char(set : String) : Int32?
+      return unless char.in_set?(set)
       step
     end
 
@@ -159,7 +156,7 @@ module Mint
     # Consuming whitespaces
     # ----------------------------------------------------------------------------
 
-    def whitespace!(error : SyntaxError.class | SkipError.class) : String?
+    def whitespace!(error : SyntaxError.class) : String?
       raise error unless whitespace?
       whitespace
     end
@@ -185,7 +182,7 @@ module Mint
       type || type_variable
     end
 
-    def type_or_type_variable!(error : SyntaxError.class | SkipError.class)
+    def type_or_type_variable!(error : SyntaxError.class)
       type_or_type_variable || raise error
     end
 

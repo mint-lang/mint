@@ -6,7 +6,7 @@ module Mint
 
     def routes : Ast::Routes?
       start do |start_position|
-        skip unless keyword "routes"
+        next unless keyword "routes"
 
         body = block(
           opening_bracket: RoutesExpectedOpeningBracket,

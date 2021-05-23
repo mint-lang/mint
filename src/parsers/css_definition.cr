@@ -4,15 +4,14 @@ module Mint
 
     def css_definition : Ast::CssDefinition?
       start do |start_position|
-        skip unless char.in_set? "a-z-"
+        next unless char.in_set? "a-z-"
 
         name = gather do
           step
           chars "a-zA-Z0-9-"
         end
 
-        skip unless char! ':'
-
+        next unless char! ':'
         whitespace
 
         value =

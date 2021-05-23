@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def type_id!(error : SyntaxError.class | SkipError.class) : String
+    def type_id!(error : SyntaxError.class) : String
       name = gather do
         char "A-Z", error
         chars "a-zA-Z0-9"
@@ -17,11 +17,9 @@ module Mint
 
     def type_id : String?
       name = gather do
-        start do
-          skip unless char.in_set? "A-Z"
-          step
-          chars "a-zA-Z0-9"
-        end
+        return unless char.in_set? "A-Z"
+        step
+        chars "a-zA-Z0-9"
       end
 
       return unless name
@@ -31,11 +29,11 @@ module Mint
           other = start do
             step
             next_part = type_id
-            skip unless next_part
+            next unless next_part
             next_part
           end
 
-          skip unless other
+          next unless other
 
           name += ".#{other}"
         end
