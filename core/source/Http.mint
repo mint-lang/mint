@@ -160,7 +160,11 @@ module Http {
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
     { request |
       body = `JSON.stringify(#{body})`,
-      headers = Array.push(`new Record({ value: "application/json", key: "Content-Type" })`, request.headers) }
+      headers = if (hasHeader("Content-Type", request)) {
+        request.headers
+      } else {
+        Array.push(`new Record({ value: "application/json", key: "Content-Type" })`, request.headers)
+      } }
   }
 
   /*

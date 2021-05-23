@@ -95,6 +95,18 @@ suite "Http.jsonBody" {
       url = ""
     }
   }
+
+  test "it does not override value of Content-Type header if already set" {
+    (Http.empty()
+    |> Http.header("Content-Type", "text/plain")
+    |> Http.jsonBody(encode { user = "spaceman" })) == {
+      withCredentials = false,
+      body = `"{\"user\":\"spaceman\"}"`,
+      method = "GET",
+      headers = [`new Record({ value: "text/plain", key: "Content-Type" })`],
+      url = ""
+    }
+  }
 }
 
 suite "Http.method" {
