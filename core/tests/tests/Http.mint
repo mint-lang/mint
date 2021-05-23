@@ -91,7 +91,13 @@ suite "Http.jsonBody" {
       withCredentials = false,
       body = `"{\"user\":\"spaceman\"}"`,
       method = "GET",
-      headers = [`new Record({ value: "application/json", key: "Content-Type" })`],
+      headers =
+        [
+          {
+            value = "application/json",
+            key = "Content-Type"
+          }
+        ],
       url = ""
     }
   }
@@ -103,7 +109,13 @@ suite "Http.jsonBody" {
       withCredentials = false,
       body = `"{\"user\":\"spaceman\"}"`,
       method = "GET",
-      headers = [`new Record({ value: "text/plain", key: "Content-Type" })`],
+      headers =
+        [
+          {
+            value = "text/plain",
+            key = "Content-Type"
+          }
+        ],
       url = ""
     }
   }
@@ -152,7 +164,13 @@ suite "Http.header" {
   test "adds a header to a request" {
     (Http.empty()
     |> Http.header("A", "B")) == {
-      headers = [`new Record({key: "A", value: "B"})`],
+      headers =
+        [
+          {
+            key = "A",
+            value = "B"
+          }
+        ],
       withCredentials = false,
       method = "GET",
       body = `null`,
@@ -164,7 +182,13 @@ suite "Http.header" {
     (Http.empty()
     |> Http.header("A", "B")
     |> Http.header("A", "C")) == {
-      headers = [`new Record({key: "A", value: "C"})`],
+      headers =
+        [
+          {
+            key = "A",
+            value = "C"
+          }
+        ],
       withCredentials = false,
       method = "GET",
       body = `null`,

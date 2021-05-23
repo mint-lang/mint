@@ -164,7 +164,12 @@ module Http {
         if (hasHeader("Content-Type", request)) {
           request.headers
         } else {
-          Array.push(`new Record({ value: "application/json", key: "Content-Type" })`, request.headers)
+          request.headers
+          |> Array.push(
+            {
+              value = "application/json",
+              key = "Content-Type"
+            })
         }
     }
   }
@@ -238,7 +243,11 @@ module Http {
               })
             |> Regexp.match(header.key)
           })
-        |> Array.push(`new Record({ value: #{value}, key: #{key} })`)
+        |> Array.push(
+          {
+            value = value,
+            key = key
+          })
     }
   }
 
