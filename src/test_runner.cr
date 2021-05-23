@@ -274,7 +274,7 @@ module Mint
         .to_a
         .sort_by!(&.first)
         .each do |suite, failures|
-          terminal.puts suite.indent(4).colorize(:red)
+          terminal.puts (suite.presence || "N/A").indent(4).colorize(:red)
           failures.each do |failure|
             terminal.puts "- #{failure.name}".indent(4).colorize(:red)
             terminal.puts "|> #{failure.result}".indent(6).colorize(:red)
