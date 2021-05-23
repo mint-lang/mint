@@ -173,6 +173,12 @@ suite "Http.hasHeader" {
     |> Http.header("A", "B")
     |> Http.hasHeader("C")) == false
   }
+
+  test "finds header in the request case-insensitively" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("a")) == true
+  }
 }
 
 suite "Http.sendWithId" {
