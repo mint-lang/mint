@@ -149,6 +149,20 @@ suite "Http.header" {
   }
 }
 
+suite "Http.hasHeader" {
+  test "finds header in the request" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("A")) == true
+  }
+
+  test "fails to find header in the request" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("C")) == false
+  }
+}
+
 suite "Http.sendWithId" {
   test "sends the request with the given ID" {
     try {

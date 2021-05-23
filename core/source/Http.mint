@@ -1,3 +1,9 @@
+/* Represents a HTTP header */
+record Http.Header {
+  key : String,
+  value : String
+}
+
 /* Represents an HTTP request. */
 record Http.Request {
   headers : Array(Http.Header),
@@ -216,6 +222,17 @@ module Http {
           `new Record({ value: #{value}, key: #{key} })`,
           request.headers)
     }
+  }
+
+  /*
+  Checks the prescence of a header with the given key.
+
+    Http.empty()
+    |> Http.header("Content-Type", "application/json")
+    |> Http.hasHeader("Content-Type")
+  */
+  fun hasHeader (key : String, request : Http.Request) : Bool {
+    Array.any((header : Http.Header) : Bool { header.key == key }, request.headers)
   }
 
   /*
