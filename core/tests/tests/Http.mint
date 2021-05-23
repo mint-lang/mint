@@ -87,12 +87,17 @@ suite "Http.formDataBody" {
 suite "Http.jsonBody" {
   test "it sets the body of a request to a Json" {
     (Http.empty()
+    |> Http.header("existing header", "value")
     |> Http.jsonBody(encode { user = "spaceman" })) == {
       withCredentials = false,
       body = `"{\"user\":\"spaceman\"}"`,
       method = "GET",
       headers =
         [
+          {
+            key = "existing header",
+            value = "value"
+          },
           {
             value = "application/json",
             key = "Content-Type"
