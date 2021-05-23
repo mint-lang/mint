@@ -276,8 +276,8 @@ module Mint
         .each do |suite, failures|
           terminal.puts (suite.presence || "N/A").indent(4).colorize(:red)
           failures.each do |failure|
-            terminal.puts "- #{failure.name}".indent(4).colorize(:red)
-            terminal.puts "|> #{failure.result}".indent(6).colorize(:red)
+            terminal.puts "- #{failure.name}".indent(6).colorize(:red)
+            terminal.puts "|> #{failure.result}".indent(8).colorize(:red)
           end
         end
 
