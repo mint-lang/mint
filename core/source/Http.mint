@@ -246,10 +246,10 @@ module Http {
             key,
             {
               caseInsensitive = true,
-              multiline = true,
-              unicode = true,
-              global = true,
-              sticky = true
+              multiline = false,
+              unicode = false,
+              global = false,
+              sticky = false
             }))
       },
       request.headers)
