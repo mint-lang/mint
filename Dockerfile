@@ -12,7 +12,7 @@ COPY . .
 RUN shards install
 
 # Build binary
-RUN shards build --static --no-debug
+RUN shards build --static --no-debug --release
 
 # This will be the actual base image
 FROM alpine
