@@ -216,7 +216,7 @@ module Http {
   }
 
   /*
-  Adds a header to the request with the given key and value.
+  Adds a header to the request with the given key and value. Overwrites the value if key already exists.
 
     Http.empty()
     |> Http.header("Content-Type", "application/json")
@@ -224,9 +224,21 @@ module Http {
   fun header (key : String, value : String, request : Http.Request) : Http.Request {
     { request |
       headers =
-        Array.push(
-          `new Record({ value: #{value}, key: #{key} })`,
-          request.headers)
+        request.headers
+        |> Array.reject(
+          (header : Http.Header) : Bool {
+            Regexp.createWithOptions(
+              key,
+              {
+                caseInsensitive = true,
+                multiline = false,
+                unicode = false,
+                global = false,
+                sticky = false
+              })
+            |> Regexp.match(header.key)
+          })
+        |> Array.push(`new Record({ value: #{value}, key: #{key} })`)
     }
   }
 

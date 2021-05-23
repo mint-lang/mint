@@ -159,6 +159,18 @@ suite "Http.header" {
       url = ""
     }
   }
+
+  test "it overwrites header value if key already exists" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.header("A", "C")) == {
+      headers = [`new Record({key: "A", value: "C"})`],
+      withCredentials = false,
+      method = "GET",
+      body = `null`,
+      url = ""
+    }
+  }
 }
 
 suite "Http.hasHeader" {
