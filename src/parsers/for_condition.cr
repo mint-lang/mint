@@ -6,7 +6,7 @@ module Mint
 
     def for_condition : Ast::ForCondition?
       start do |start_position|
-        skip unless keyword "when"
+        next unless keyword "when"
 
         head_comments, condition, tail_comments =
           block_with_comments(

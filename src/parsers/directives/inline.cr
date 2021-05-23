@@ -6,7 +6,7 @@ module Mint
 
     def inline_directive : Ast::Directives::Inline?
       start do |start_position|
-        skip unless keyword "@inline"
+        next unless keyword "@inline"
 
         char '(', InlineDirectiveExpectedOpeningParentheses
         whitespace

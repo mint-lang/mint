@@ -5,12 +5,12 @@ module Mint
     def html_style : Ast::HtmlStyle?
       start do |start_position|
         name = start do
-          skip unless keyword "::"
-          skip unless value = variable_with_dashes track: false
+          next unless keyword "::"
+          next unless value = variable_with_dashes track: false
           value
         end
 
-        skip unless name
+        next unless name
 
         arguments = [] of Ast::Node
 

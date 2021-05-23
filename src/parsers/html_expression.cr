@@ -4,7 +4,7 @@ module Mint
 
     def html_expression : Ast::HtmlExpression?
       start do |start_position|
-        skip unless keyword "<{"
+        next unless keyword "<{"
 
         whitespace
         expressions = many { expression }

@@ -6,7 +6,7 @@ module Mint
 
     def enum_destructuring
       start do |start_position|
-        skip unless name = type_id
+        next unless name = type_id
 
         keyword! "::", EnumDestructuringExpectedDoubleColon
 

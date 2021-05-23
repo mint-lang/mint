@@ -5,9 +5,9 @@ module Mint
     def access(lhs : Ast::Expression, safe : Bool = false) : Ast::Expression
       start do |start_position|
         if safe
-          keyword! "&.", SkipError
+          next unless keyword("&.")
         else
-          char '.', SkipError
+          next unless char! '.'
         end
 
         field = variable! AccessExpectedVariable

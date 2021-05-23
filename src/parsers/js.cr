@@ -5,7 +5,7 @@ module Mint
 
     def js : Ast::Js?
       start do |start_position|
-        skip unless char! '`'
+        next unless char! '`'
 
         value = many(parse_whitespace: false) do
           (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String?)
@@ -15,7 +15,7 @@ module Mint
 
         type = start do
           whitespace
-          skip unless keyword "as"
+          next unless keyword "as"
           whitespace
           type_or_type_variable! JsExpectedTypeOrVariable
         end

@@ -5,7 +5,7 @@ module Mint
 
     def interpolation : Ast::Interpolation?
       start do |start_position|
-        skip unless keyword "\#{"
+        next unless keyword "\#{"
 
         whitespace
         expression = expression! InterpolationExpectedExpression

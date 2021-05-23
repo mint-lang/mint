@@ -10,8 +10,8 @@ module Mint
           separator: ','
         ) { css_selector_name }.reject(&.empty?)
 
-        skip if selectors.empty?
-        skip unless char == '{'
+        next if selectors.empty?
+        next unless char == '{'
 
         body = block(
           opening_bracket: CssSelectorExpectedOpeningBracket,

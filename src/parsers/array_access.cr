@@ -5,7 +5,7 @@ module Mint
 
     def array_access(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
-        char '[', SkipError
+        next unless char! '['
 
         whitespace
 

@@ -13,7 +13,7 @@ module Mint
 
     def if_expression(for_css = false, for_html = false) : Ast::If?
       start do |start_position|
-        skip unless keyword "if"
+        next unless keyword "if"
 
         whitespace
         char '(', IfExpectedOpeningParentheses

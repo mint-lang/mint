@@ -6,7 +6,7 @@ module Mint
 
     def svg_directive : Ast::Directives::Svg?
       start do |start_position|
-        skip unless keyword "@svg"
+        next unless keyword "@svg"
 
         char '(', SvgDirectiveExpectedOpeningParentheses
         whitespace

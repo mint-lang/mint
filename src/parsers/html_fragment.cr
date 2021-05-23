@@ -5,11 +5,11 @@ module Mint
 
     def html_fragment : Ast::HtmlFragment?
       start do |start_position|
-        skip unless char! '<'
+        next unless char! '<'
 
         # Test for closing tag
         whitespace
-        skip if char! '/'
+        next if char! '/'
 
         key = html_attribute false, "key"
         whitespace

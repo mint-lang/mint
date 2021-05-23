@@ -8,8 +8,8 @@ module Mint
     def html_component : Ast::HtmlComponent?
       start do |start_position|
         component = start do |start_pos|
-          skip unless char! '<'
-          skip unless value = type_id HtmlComponentExpectedType
+          next unless char! '<'
+          next unless value = type_id HtmlComponentExpectedType
 
           Ast::Variable.new(
             from: start_pos + 1,
@@ -18,11 +18,11 @@ module Mint
             input: data)
         end
 
-        skip unless component
+        next unless component
 
         ref = start do
           whitespace
-          skip unless keyword "as"
+          next unless keyword "as"
           whitespace
           variable! HtmlComponentExpectedReference
         end

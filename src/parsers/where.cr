@@ -6,7 +6,7 @@ module Mint
 
     def where : Ast::Where?
       start do |start_position|
-        skip unless keyword "where"
+        next unless keyword "where"
 
         body = block(
           opening_bracket: WhereExpectedOpeningBracket,

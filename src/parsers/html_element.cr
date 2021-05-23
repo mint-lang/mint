@@ -8,12 +8,12 @@ module Mint
     def html_element : Ast::HtmlElement?
       start do |start_position|
         tag = start do
-          skip unless char! '<'
-          skip unless value = variable_with_dashes track: false
+          next unless char! '<'
+          next unless value = variable_with_dashes track: false
           value
         end
 
-        skip unless tag
+        next unless tag
 
         styles = [] of Ast::HtmlStyle
 
@@ -25,7 +25,7 @@ module Mint
 
         ref = start do
           whitespace
-          skip unless keyword "as"
+          next unless keyword "as"
           whitespace
           variable! HtmlElementExpectedReference
         end

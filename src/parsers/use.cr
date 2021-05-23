@@ -8,7 +8,7 @@ module Mint
 
     def use : Ast::Use?
       start do |start_position|
-        skip unless keyword "use"
+        next unless keyword "use"
 
         whitespace
         provider = type_id! UseExpectedProvider

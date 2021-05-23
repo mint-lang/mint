@@ -4,16 +4,16 @@ module Mint
       start do |start_position|
         name = start do
           value = type_id
-          skip unless char! ':'
+          next unless char! ':'
           value
         end
 
-        skip unless name
+        next unless name
 
         variable =
           constant_variable
 
-        skip unless variable
+        next unless variable
 
         Ast::ModuleAccess.new(
           from: start_position,

@@ -8,7 +8,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        skip unless key = variable
+        next unless key = variable
         whitespace
 
         char ':', RecordDefinitionFieldExpectedColon
@@ -19,7 +19,7 @@ module Mint
         mapping =
           start do
             whitespace
-            skip unless keyword "using"
+            next unless keyword "using"
             whitespace
             string_literal! RecordDefinitionFieldExpectedMapping,
               with_interpolation: false

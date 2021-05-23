@@ -2,7 +2,7 @@ module Mint
   class Parser
     def comment : Ast::Comment?
       start do |start_position|
-        skip unless keyword "/*"
+        next unless keyword "/*"
 
         value =
           gather { consume_while((!(keyword_ahead "*/") || char == '\0') && !eof?) }.to_s

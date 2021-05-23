@@ -8,7 +8,7 @@ module Mint
             separator: ','
           ) { record_field }
 
-        skip if fields.empty?
+        next if fields.empty?
 
         Ast::EnumRecord.new(
           from: start_position,

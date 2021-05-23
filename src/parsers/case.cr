@@ -9,7 +9,7 @@ module Mint
 
     def case_expression(for_css : Bool = false) : Ast::Case?
       start do |start_position|
-        skip unless keyword "case"
+        next unless keyword "case"
 
         whitespace
 

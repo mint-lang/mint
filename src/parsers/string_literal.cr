@@ -11,7 +11,7 @@ module Mint
 
     def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral?
       start do |start_position|
-        skip unless char! '"'
+        next unless char! '"'
 
         value = many(parse_whitespace: false) do
           if with_interpolation

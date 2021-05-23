@@ -6,7 +6,7 @@ module Mint
 
     def documentation_directive : Ast::Directives::Documentation?
       start do |start_position|
-        skip unless keyword "@documentation"
+        next unless keyword "@documentation"
 
         char '(', DocumentationDirectiveExpectedOpeningParentheses
         whitespace

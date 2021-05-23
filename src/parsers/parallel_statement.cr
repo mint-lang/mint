@@ -5,7 +5,7 @@ module Mint
 
     def parallel_statement : Ast::ParallelStatement?
       start do |start_position|
-        skip unless name = variable
+        next unless name = variable
 
         whitespace
         keyword! "=", ParallelStatementExpectedEqualSign

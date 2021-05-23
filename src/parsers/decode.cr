@@ -6,8 +6,9 @@ module Mint
 
     def decode : Ast::Decode?
       start do |start_position|
-        skip unless keyword "decode"
-        whitespace! SkipError
+        next unless keyword "decode"
+        next unless whitespace?
+        whitespace
 
         expression = expression! DecodeExpectedExpression
 
