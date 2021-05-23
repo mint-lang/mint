@@ -168,12 +168,17 @@ suite "Http.url" {
 suite "Http.header" {
   test "adds a header to a request" {
     (Http.empty()
-    |> Http.header("A", "B")) == {
+    |> Http.header("A", "B")
+    |> Http.header("X", "Y")) == {
       headers =
         [
           {
             key = "A",
             value = "B"
+          },
+          {
+            key = "X",
+            value = "Y"
           }
         ],
       withCredentials = false,
@@ -186,9 +191,14 @@ suite "Http.header" {
   test "it overwrites header value if key already exists" {
     (Http.empty()
     |> Http.header("A", "B")
+    |> Http.header("X", "Y")
     |> Http.header("A", "C")) == {
       headers =
         [
+          {
+            key = "X",
+            value = "Y"
+          },
           {
             key = "A",
             value = "C"
