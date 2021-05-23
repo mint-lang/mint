@@ -269,11 +269,17 @@ module Mint
       terminal.puts "  #{ARROW} #{@succeeded} passed"
       terminal.puts "  #{ARROW} #{@failed.size} failed"
 
-      @failed.each do |failure|
-        terminal.puts "    #{failure.suite}".colorize(:red)
-        terminal.puts "    - #{failure.name}".colorize(:red)
-        terminal.puts "      |> #{failure.result}".colorize(:red)
-      end
+      @failed
+        .group_by(&.suite)
+        .to_a
+        .sort_by!(&.first)
+        .each do |suite, failures|
+          terminal.puts suite.indent(4).colorize(:red)
+          failures.each do |failure|
+            terminal.puts "- #{failure.name}".indent(4).colorize(:red)
+            terminal.puts "|> #{failure.result}".indent(6).colorize(:red)
+          end
+        end
 
       stop_server
     end
