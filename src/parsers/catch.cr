@@ -8,10 +8,10 @@ module Mint
 
     def catch : Ast::Catch?
       start do |start_position|
-        skip unless keyword "catch"
+        next unless keyword "catch"
 
         whitespace
-        skip unless type = type_id
+        next unless type = type_id
         whitespace
 
         keyword! "=>", CatchExpectedArrow

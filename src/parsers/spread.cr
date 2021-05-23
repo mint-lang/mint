@@ -4,7 +4,7 @@ module Mint
 
     def spread
       start do |start_position|
-        skip unless keyword "..."
+        next unless keyword "..."
 
         variable = variable! SpreadExpectedVariable
 

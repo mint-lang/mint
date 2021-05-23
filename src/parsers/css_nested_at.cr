@@ -8,11 +8,11 @@ module Mint
 
     def css_nested_at : Ast::CssNestedAt?
       start do |start_position|
-        skip unless char! '@'
+        next unless char! '@'
 
         name = gather { keyword("media") || keyword("supports") }
 
-        skip unless name
+        next unless name
 
         whitespace! CssNestedAtExpectedSpaceAfterKeyword
 

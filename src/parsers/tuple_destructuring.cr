@@ -5,7 +5,7 @@ module Mint
     def tuple_destructuring
       start do |start_position|
         head = start do
-          skip unless char! '{'
+          next unless char! '{'
           value = variable
           whitespace
           char! ','
@@ -13,10 +13,11 @@ module Mint
           value
         end
 
-        skip unless head
+        next unless head
 
-        parameters = [head].concat(
-          list(terminator: '}', separator: ',') { variable })
+        parameters = [] of Ast::Node
+        parameters << head
+        parameters.concat(list(terminator: '}', separator: ',') { variable })
 
         whitespace
 

@@ -7,7 +7,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        skip unless key = variable
+        next unless key = variable
         whitespace
 
         char '=', RecordFieldExpectedEqualSign

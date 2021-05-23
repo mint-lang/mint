@@ -9,7 +9,7 @@ module Mint
             false
           end
 
-        skip if value.nil?
+        next if value.nil?
 
         self << Ast::BoolLiteral.new(
           from: start_position,

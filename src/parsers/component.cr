@@ -12,7 +12,7 @@ module Mint
         global = keyword "global"
         whitespace
 
-        skip unless keyword "component"
+        next unless keyword "component"
         whitespace
 
         name = type_id! ComponentExpectedName

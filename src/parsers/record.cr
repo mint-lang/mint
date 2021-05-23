@@ -4,7 +4,7 @@ module Mint
 
     def record : Ast::Record?
       start do |start_position|
-        skip unless char! '{'
+        next unless char! '{'
 
         fields = [] of Ast::RecordField
 

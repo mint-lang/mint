@@ -10,8 +10,9 @@ module Mint
 
     def for_expression : Ast::For?
       start do |start_position|
-        skip unless keyword "for"
-        whitespace! SkipError
+        next unless keyword "for"
+        next unless whitespace?
+        whitespace
 
         char '(', ForExpectedOpeningParentheses
         whitespace

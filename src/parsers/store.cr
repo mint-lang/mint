@@ -10,7 +10,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        skip unless keyword "store"
+        next unless keyword "store"
         whitespace
 
         name = type_id! StoreExpectedName

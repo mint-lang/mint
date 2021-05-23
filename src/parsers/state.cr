@@ -10,7 +10,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        skip unless keyword "state"
+        next unless keyword "state"
         whitespace
 
         name = variable! StateExpectedName

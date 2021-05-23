@@ -11,7 +11,7 @@ module Mint
         name =
           "#{head}#{tail}"
 
-        skip if name.empty?
+        next if name.empty?
 
         Ast::Variable.new(
           from: start_position,

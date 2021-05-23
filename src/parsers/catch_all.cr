@@ -2,7 +2,7 @@ module Mint
   class Parser
     def catch_all : Ast::CatchAll?
       start do |start_position|
-        skip unless keyword "catch"
+        next unless keyword "catch"
 
         head_comments, expression, tail_comments = block_with_comments(
           opening_bracket: CatchExpectedOpeningBracket,

@@ -5,7 +5,7 @@ module Mint
 
     def argument : Ast::Argument?
       start do |start_position|
-        skip unless name = variable
+        next unless name = variable
 
         whitespace
         char ':', ArgumentExpectedColon

@@ -8,7 +8,7 @@ module Mint
 
         value = gather { chars("0-9") }.to_s
 
-        skip if value.empty?
+        next if value.empty?
 
         float = false
 

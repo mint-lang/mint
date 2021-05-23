@@ -6,9 +6,9 @@ module Mint
 
     def try_expression : Ast::Try?
       start do |start_position|
-        skip unless keyword "try"
-
-        whitespace! SkipError
+        next unless keyword "try"
+        next unless whitespace?
+        whitespace
 
         body = block(
           opening_bracket: TryExpectedOpeningBracket,

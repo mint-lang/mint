@@ -4,7 +4,7 @@ module Mint
 
     def bool_tuple_literal
       start do |start_position|
-        skip unless char! '{'
+        next unless char! '{'
 
         whitespace
         items = list(
@@ -13,7 +13,7 @@ module Mint
         ) { bool_literal }
         whitespace
 
-        skip unless char! '}'
+        next unless char! '}'
 
         Ast::TupleLiteral.new(
           from: start_position,
@@ -25,7 +25,7 @@ module Mint
 
     def tuple_literal : Ast::TupleLiteral?
       start do |start_position|
-        skip unless char! '{'
+        next unless char! '{'
 
         whitespace
         items = list(

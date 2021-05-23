@@ -5,7 +5,7 @@ module Mint
     def array_destructuring : Ast::ArrayDestructuring?
       start do |start_position|
         head = start do
-          skip unless char! '['
+          next unless char! '['
           value = variable || spread
           whitespace
           keyword ","
@@ -13,7 +13,7 @@ module Mint
           value
         end
 
-        skip unless head
+        next unless head
 
         items =
           [head.as(Ast::Node)].concat(list(terminator: ']', separator: ',') do

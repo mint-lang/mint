@@ -8,7 +8,7 @@ module Mint
       start do |start_position|
         whitespace
 
-        skip unless keyword "then"
+        next unless keyword "then"
 
         head_comments, expression, tail_comments = block_with_comments(
           opening_bracket: ThenExpectedOpeningBracket,

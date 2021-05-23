@@ -8,7 +8,7 @@ module Mint
       start do |start_position|
         whitespace
 
-        skip unless keyword "finally"
+        next unless keyword "finally"
 
         head_comments, expression, tail_comments = block_with_comments(
           opening_bracket: FinallyExpectedOpeningBracket,

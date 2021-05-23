@@ -5,7 +5,7 @@ module Mint
 
     def parenthesized_expression : Ast::ParenthesizedExpression?
       start do |start_position|
-        skip unless char! '('
+        next unless char! '('
 
         whitespace
         expression = expression! ParenthesizedExpressionExpectedExpression

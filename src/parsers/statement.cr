@@ -5,14 +5,14 @@ module Mint
         target = start do
           value = variable(track: false) || tuple_destructuring
           whitespace
-          skip unless keyword "="
+          next unless keyword "="
           whitespace
           value
         end
 
         body = expression
 
-        skip unless body
+        next unless body
 
         self << Ast::Statement.new(
           expression: body,

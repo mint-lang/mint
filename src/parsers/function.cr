@@ -11,7 +11,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        skip unless keyword "fun"
+        next unless keyword "fun"
         whitespace
 
         name = variable! FunctionExpectedName, track: false
