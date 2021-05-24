@@ -5,6 +5,7 @@ module Mint
 
       property type : String
       property name : String
+      property suite : String
       property result : String
     end
 
@@ -240,7 +241,7 @@ module Mint
       when "LOG"
         terminal.puts data.result
       when "SUITE"
-        @reporter.suite data.name
+        @reporter.suite data.suite
       when "SUCCEEDED"
         @reporter.succeeded data.name
         @succeeded += 1
@@ -268,10 +269,17 @@ module Mint
       terminal.puts "  #{ARROW} #{@succeeded} passed"
       terminal.puts "  #{ARROW} #{@failed.size} failed"
 
-      @failed.each do |failure|
-        terminal.puts "    #{failure.name}".colorize(:red)
-        terminal.puts "    |> #{failure.result}".colorize(:red)
-      end
+      @failed
+        .group_by(&.suite)
+        .to_a
+        .sort_by!(&.first)
+        .each do |suite, failures|
+          terminal.puts (suite.presence || "N/A").indent(4).colorize(:red)
+          failures.each do |failure|
+            terminal.puts "- #{failure.name}".indent(6).colorize(:red)
+            terminal.puts "|> #{failure.result}".indent(8).colorize(:red)
+          end
+        end
 
       stop_server
     end
