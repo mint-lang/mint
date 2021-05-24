@@ -17,19 +17,21 @@ module Mint
             left =
               compile raw_expression.left
 
-            "((constants) => {
-            const context = new TestContext(#{left})
-            const right = #{right}
+            <<-JS
+            ((constants) => {
+              const context = new TestContext(#{left})
+              const right = #{right}
 
-            context.step((subject) => {
-              if (_compare(subject, right)) {
-                return true
-              } else {
-                throw `Assertion failed ${right.toString()} != ${subject.toString()}`
-              }
-            })
-            return context
-          })(constants)"
+              context.step((subject) => {
+                if (_compare(subject, right)) {
+                  return true
+                } else {
+                  throw `Assertion failed ${right.toString()} != ${subject.toString()}`
+                }
+              })
+              return context
+            })(constants)
+            JS
           end
         end
 
