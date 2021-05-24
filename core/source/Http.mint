@@ -167,8 +167,8 @@ module Http {
           request.headers
           |> Array.push(
             {
-              value = "application/json",
-              key = "Content-Type"
+              key = "Content-Type",
+              value = "application/json"
             })
         }
     }
@@ -236,8 +236,8 @@ module Http {
           })
         |> Array.push(
           {
-            value = value,
-            key = key
+            key = key,
+            value = value
           })
     }
   }

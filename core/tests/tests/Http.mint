@@ -99,8 +99,8 @@ suite "Http.jsonBody" {
             value = "value"
           },
           {
-            value = "application/json",
-            key = "Content-Type"
+            key = "Content-Type",
+            value = "application/json"
           }
         ],
       url = ""
@@ -117,8 +117,8 @@ suite "Http.jsonBody" {
       headers =
         [
           {
-            value = "text/plain",
-            key = "Content-Type"
+            key = "Content-Type",
+            value = "text/plain"
           }
         ],
       url = ""
