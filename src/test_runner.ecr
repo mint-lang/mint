@@ -61,20 +61,21 @@
             .finally(() => this.socket.send("DONE"))
         }
 
-        report (type, name, message) {
+        report (type, suite, name, message) {
           this.socket.send(JSON.stringify({
             type: type,
+            suite: suite || "",
             name: name || "",
             result: message || ""
           }))
         }
 
         crash (message) {
-          this.report("CRASHED", null, message)
+          this.report("CRASHED", null, null, message)
         }
 
         log (message) {
-          this.report("LOG", null, message)
+          this.report("LOG", null, null, message)
         }
 
         next (resolve, reject) {
@@ -110,20 +111,20 @@
               if (result instanceof TestContext) {
                 try {
                   await result.run()
-                  this.report("SUCCEEDED", test.name, result.subject.toString())
+                  this.report("SUCCEEDED", this.suite.name, test.name, result.subject.toString())
                 } catch (error) {
-                  this.report("FAILED", test.name, error.toString())
+                  this.report("FAILED", this.suite.name, test.name, error.toString())
                 }
               } else {
                 if (result) {
-                  this.report("SUCCEEDED", test.name, "true")
+                  this.report("SUCCEEDED", this.suite.name, test.name, "true")
                 } else {
-                  this.report("FAILED", test.name, "false")
+                  this.report("FAILED", this.suite.name, test.name, "false")
                 }
               }
             } catch (error) {
               // An error occurred while trying to run a test; this is different from the test itself failing.
-              this.report("ERRORED", test.name, error.toString())
+              this.report("ERRORED", this.suite.name, test.name, error.toString())
             }
             this.next(resolve, reject)
           })
