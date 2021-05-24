@@ -204,40 +204,40 @@ module Mint
         const _enums = {}
         const mint = Mint(_enums)
 
-        const _normalizeEvent = function (event) {
+        const _normalizeEvent = (event) => {
           return #{from_event_call}(mint.normalizeEvent(event))
-        };
+        }
 
-        const _R = mint.createRecord;
-        const _h = mint.createElement;
-        const _createPortal = mint.createPortal;
-        const _insertStyles = mint.insertStyles;
-        const _navigate = mint.navigate;
-        const _compare = mint.compare;
-        const _program = mint.program;
-        const _encode = mint.encode;
-        const _style = mint.style;
-        const _array = mint.array;
-        const _u = mint.update;
-        const _at = mint.at;
+        const _R = mint.createRecord
+        const _h = mint.createElement
+        const _createPortal = mint.createPortal
+        const _insertStyles = mint.insertStyles
+        const _navigate = mint.navigate
+        const _compare = mint.compare
+        const _program = mint.program
+        const _encode = mint.encode
+        const _style = mint.style
+        const _array = mint.array
+        const _u = mint.update
+        const _at = mint.at
 
-        window.TestContext = mint.TestContext;
-        const TestContext = mint.TestContext;
-        const ReactDOM = mint.ReactDOM;
-        const Decoder = mint.Decoder;
-        const Encoder = mint.Encoder;
-        const DateFNS = mint.DateFNS;
-        const Record = mint.Record;
-        const React = mint.React;
+        window.TestContext = mint.TestContext
+        const TestContext = mint.TestContext
+        const ReactDOM = mint.ReactDOM
+        const Decoder = mint.Decoder
+        const Encoder = mint.Encoder
+        const DateFNS = mint.DateFNS
+        const Record = mint.Record
+        const React = mint.React
 
-        const _C = mint.Component;
-        const _P = mint.Provider;
-        const _M = mint.Module;
-        const _S = mint.Store;
-        const _E = mint.Enum;
+        const _C = mint.Component
+        const _P = mint.Provider
+        const _M = mint.Module
+        const _S = mint.Store
+        const _E = mint.Enum
 
         const _m = (method) => {
-          let value;
+          let value
           return () => {
             if (value) { return value }
             value = method()
