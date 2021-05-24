@@ -11,19 +11,16 @@ module Mint
         required: false
 
       def run
+        succeeded = nil
         if flags.json
-          colorize_enabled = Colorize.enabled?
-          begin
-            Colorize.enabled = false
-            lint
-          ensure
-            Colorize.enabled = colorize_enabled
-          end
+          Colorize.enabled = false
+          succeeded = lint
         else
           execute "Linting" do
-            lint
+            succeeded = lint
           end
         end
+        exit(1) unless succeeded
       end
 
       protected def parse(ast, errors) : Nil
@@ -84,7 +81,7 @@ module Mint
           end
         end
 
-        exit(1) unless errors.empty?
+        errors.empty?
       end
     end
   end
