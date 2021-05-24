@@ -232,16 +232,7 @@ module Http {
         request.headers
         |> Array.reject(
           (header : Http.Header) : Bool {
-            Regexp.createWithOptions(
-              key,
-              {
-                caseInsensitive = true,
-                multiline = false,
-                unicode = false,
-                global = false,
-                sticky = false
-              })
-            |> Regexp.match(header.key)
+            String.toLowerCase(header.key) == String.toLowerCase(key)
           })
         |> Array.push(
           {
@@ -262,16 +253,7 @@ module Http {
     request.headers
     |> Array.any(
       (header : Http.Header) : Bool {
-        Regexp.createWithOptions(
-          key,
-          {
-            caseInsensitive = true,
-            multiline = false,
-            unicode = false,
-            global = false,
-            sticky = false
-          })
-        |> Regexp.match(header.key)
+        String.toLowerCase(header.key) == String.toLowerCase(key)
       })
   }
 
