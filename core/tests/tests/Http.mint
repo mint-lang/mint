@@ -84,6 +84,48 @@ suite "Http.formDataBody" {
   }
 }
 
+suite "Http.jsonBody" {
+  test "it sets the body of a request to a Json" {
+    (Http.empty()
+    |> Http.header("existing header", "value")
+    |> Http.jsonBody(encode { user = "spaceman" })) == {
+      withCredentials = false,
+      body = `"{\"user\":\"spaceman\"}"`,
+      method = "GET",
+      headers =
+        [
+          {
+            key = "existing header",
+            value = "value"
+          },
+          {
+            key = "Content-Type",
+            value = "application/json"
+          }
+        ],
+      url = ""
+    }
+  }
+
+  test "it does not override value of Content-Type header if already set" {
+    (Http.empty()
+    |> Http.header("Content-Type", "text/plain")
+    |> Http.jsonBody(encode { user = "spaceman" })) == {
+      withCredentials = false,
+      body = `"{\"user\":\"spaceman\"}"`,
+      method = "GET",
+      headers =
+        [
+          {
+            key = "Content-Type",
+            value = "text/plain"
+          }
+        ],
+      url = ""
+    }
+  }
+}
+
 suite "Http.method" {
   test "it sets the method of a request" {
     (Http.empty()
@@ -126,13 +168,67 @@ suite "Http.url" {
 suite "Http.header" {
   test "adds a header to a request" {
     (Http.empty()
-    |> Http.header("A", "B")) == {
-      headers = [`new Record({key: "A", value: "B"})`],
+    |> Http.header("A", "B")
+    |> Http.header("X", "Y")) == {
+      headers =
+        [
+          {
+            key = "A",
+            value = "B"
+          },
+          {
+            key = "X",
+            value = "Y"
+          }
+        ],
       withCredentials = false,
       method = "GET",
       body = `null`,
       url = ""
     }
+  }
+
+  test "it overwrites header value if key already exists" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.header("X", "Y")
+    |> Http.header("A", "C")) == {
+      headers =
+        [
+          {
+            key = "X",
+            value = "Y"
+          },
+          {
+            key = "A",
+            value = "C"
+          }
+        ],
+      withCredentials = false,
+      method = "GET",
+      body = `null`,
+      url = ""
+    }
+  }
+}
+
+suite "Http.hasHeader" {
+  test "finds header in the request" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("A")) == true
+  }
+
+  test "fails to find header in the request" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("C")) == false
+  }
+
+  test "finds header in the request case-insensitively" {
+    (Http.empty()
+    |> Http.header("A", "B")
+    |> Http.hasHeader("a")) == true
   }
 }
 

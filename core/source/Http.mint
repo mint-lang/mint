@@ -1,3 +1,9 @@
+/* Represents a HTTP header */
+record Http.Header {
+  key : String,
+  value : String
+}
+
 /* Represents an HTTP request. */
 record Http.Request {
   headers : Array(Http.Header),
@@ -152,7 +158,20 @@ module Http {
     |> Http.send()
   */
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
-    { request | body = `JSON.stringify(#{body})` }
+    { request |
+      body = `JSON.stringify(#{body})`,
+      headers =
+        if (hasHeader("Content-Type", request)) {
+          request.headers
+        } else {
+          request.headers
+          |> Array.push(
+            {
+              key = "Content-Type",
+              value = "application/json"
+            })
+        }
+    }
   }
 
   /*
@@ -202,7 +221,7 @@ module Http {
   }
 
   /*
-  Adds a header to the request with the given key and value.
+  Adds a header to the request with the given key and value. Overwrites the value if key already exists.
 
     Http.empty()
     |> Http.header("Content-Type", "application/json")
@@ -210,10 +229,32 @@ module Http {
   fun header (key : String, value : String, request : Http.Request) : Http.Request {
     { request |
       headers =
-        Array.push(
-          `new Record({ value: #{value}, key: #{key} })`,
-          request.headers)
+        request.headers
+        |> Array.reject(
+          (header : Http.Header) : Bool {
+            String.toLowerCase(header.key) == String.toLowerCase(key)
+          })
+        |> Array.push(
+          {
+            key = key,
+            value = value
+          })
     }
+  }
+
+  /*
+  Checks the prescence of a header with the given key.
+
+    Http.empty()
+    |> Http.header("Content-Type", "application/json")
+    |> Http.hasHeader("Content-Type")
+  */
+  fun hasHeader (key : String, request : Http.Request) : Bool {
+    request.headers
+    |> Array.any(
+      (header : Http.Header) : Bool {
+        String.toLowerCase(header.key) == String.toLowerCase(key)
+      })
   }
 
   /*
