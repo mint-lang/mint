@@ -76,8 +76,6 @@ module Mint
             errors.each do |error|
               terminal.puts error
             end
-            terminal.divider
-            error nil, terminal.position
           end
         end
 
