@@ -12,6 +12,10 @@ module Mint
         description: "Formats Mint code from STDIN",
         default: false
 
+      define_flag check : Bool,
+        description: "Checks that formatting code produces no changes",
+        default: false
+
       def run
         if flags.stdin
           format_stdin
@@ -65,7 +69,7 @@ module Mint
                 Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
               unless formatted == File.read(file)
-                File.write(file, formatted)
+                File.write(file, formatted) unless flags.check
                 terminal.puts "Formatted: #{file}"
                 all_formatted = false
               end
