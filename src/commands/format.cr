@@ -20,7 +20,11 @@ module Mint
         if flags.stdin
           format_stdin
         else
-          format_files
+          succeeded = nil
+          execute "Formatting files" do
+            succeeded = format_files
+          end
+          exit(1) unless succeeded
         end
       end
 
@@ -38,49 +42,53 @@ module Mint
       end
 
       private def format_files
-        execute "Formatting files" do
-          current =
-            MintJson.parse_current
+        current =
+          MintJson.parse_current
 
-          format_directories =
-            current.source_directories | current.test_directories
+        format_directories =
+          current.source_directories | current.test_directories
 
-          format_directories_patterns =
-            format_directories.map do |dir|
-              SourceFiles.glob_pattern(dir)
-            end
-
-          if arguments.pattern.to_s.empty?
-            files = Dir.glob(format_directories_patterns)
-          else
-            files = Dir.glob(arguments.pattern.to_s)
+        format_directories_patterns =
+          format_directories.map do |dir|
+            SourceFiles.glob_pattern(dir)
           end
 
-          if files.empty?
-            terminal.puts "Nothing to format!"
-          else
-            all_formatted = true
-
-            files.each do |file|
-              artifact =
-                Parser.parse(file)
-
-              formatted =
-                Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
-
-              unless formatted == File.read(file)
-                File.write(file, formatted) unless flags.check
-                terminal.puts "Formatted: #{file}"
-                all_formatted = false
-              end
-            end
-
-            terminal.puts "All files are formatted!" if all_formatted
-          end
-        rescue
-          terminal.puts %(I was looking for a pattern that contains ".mint" files,)
-          terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
+        if arguments.pattern.to_s.empty?
+          files = Dir.glob(format_directories_patterns)
+        else
+          files = Dir.glob(arguments.pattern.to_s)
         end
+
+        if files.empty?
+          terminal.puts "Nothing to format!"
+        else
+          all_formatted = true
+
+          files.each do |file|
+            artifact =
+              Parser.parse(file)
+
+            formatted =
+              Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
+
+            unless formatted == File.read(file)
+              File.write(file, formatted) unless flags.check
+              terminal.puts "Formatted: #{file}"
+              all_formatted = false
+            end
+          end
+
+          if all_formatted
+            terminal.puts "All files are formatted!"
+            true
+          else
+            false
+          end
+        end
+      rescue
+        terminal.puts %(I was looking for a pattern that contains ".mint" files,)
+        terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
+        false
       end
     end
   end
