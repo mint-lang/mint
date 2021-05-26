@@ -3,22 +3,12 @@ module Mint
     extend self
 
     def convert(image, size)
-      output =
-        IO::Memory.new
-
-      error =
-        IO::Memory.new
-
-      status =
-        Process.run(
-          "convert #{image} -resize #{size}x#{size} -",
-          shell: true, error: error, output: output)
-
-      if status.success?
-        output.to_s
-      else
-        ""
-      end
+      canvas = PNGUtil.read(image)
+      size = size.to_i32
+      canvas.resize(size, size)
+      output = IO::Memory.new
+      PNGUtil.write(canvas, output)
+      output.to_s
     end
   end
 end

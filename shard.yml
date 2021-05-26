@@ -20,6 +20,9 @@ dependencies:
   markd:
     github: icyleaf/markd
     version: ~> 0.4.0
+  png_util:
+    github: matthewmcgarvey/png_util
+    version: ~> 0.1.0
 
 development_dependencies:
   ameba:
