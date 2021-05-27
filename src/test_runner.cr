@@ -91,14 +91,8 @@ module Mint
         end
 
       sources.uniq!.reduce(ast) do |memo, file|
-        artifact = Parser.parse(file)
-
-        formatted =
-          Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
-
-        unless formatted == File.read(file)
-          File.write(file, formatted)
-        end
+        artifact =
+          Parser.parse(file)
 
         memo.merge artifact
         memo
