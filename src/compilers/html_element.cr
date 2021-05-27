@@ -1,13 +1,15 @@
 module Mint
   class Compiler
+    def compile(value : String)
+      "`#{value}`"
+    end
+
     def compile(value : Array(Ast::Node | String), quote_string : Bool = false)
       if value.any?(Ast::Node)
         value.compact_map do |part|
           case part
           when Ast::StringLiteral
             compile part, quote: quote_string
-          when String
-            "`#{part}`"
           else
             compile part
           end.presence
@@ -18,7 +20,7 @@ module Mint
             .select(String)
             .join(' ')
 
-        "`#{result}`"
+        compile result
       end
     end
 
