@@ -7,6 +7,9 @@ module Mint
       name =
         compile node.name
 
+      location =
+        node.location.to_json
+
       expression =
         case raw_expression
         when Ast::Operation
@@ -37,7 +40,7 @@ module Mint
 
       expression = compile raw_expression unless expression
 
-      "{ name: #{name}, proc: (constants) => { return #{expression} } }"
+      "{ name: #{name}, location: #{location}, proc: (constants) => { return #{expression} } }"
     end
   end
 end
