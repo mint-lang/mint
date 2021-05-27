@@ -10,6 +10,15 @@ module Mint
 
         def initialize(@filename, @start, @end)
         end
+
+        def contains?(line : Int)
+          start[0] <= line <= end[0]
+        end
+
+        def contains?(line : Int, column : Int)
+          (start[0] <= line <= end[0]) &&
+            (start[1] <= column <= end[1])
+        end
       end
 
       getter input, from, to

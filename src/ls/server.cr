@@ -34,15 +34,9 @@ module Mint
         position =
           params.position
 
-        workspace.ast.nodes.select do |item|
-          next unless item.input.file == params.path
-
-          location =
-            item.location
-
-          (location.start[0] <= position.line <= location.end[0]) &&
-            (location.start[1] <= position.character <= location.end[1])
-        end
+        workspace.ast.nodes
+          .select(&.input.file.==(params.path))
+          .select!(&.location.contains?(position.line, position.character))
       end
     end
   end
