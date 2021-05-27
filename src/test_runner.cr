@@ -7,6 +7,8 @@ module Mint
       property name : String
       property suite : String
       property result : String
+
+      property location : Ast::Node::Location?
     end
 
     BROWSER_PATHS = {
@@ -274,10 +276,24 @@ module Mint
         .to_a
         .sort_by!(&.first)
         .each do |suite, failures|
-          terminal.puts (suite.presence || "N/A").indent(4).colorize(:red)
+          terminal.puts (suite.presence || "N/A")
+            .indent(4)
+            .colorize(:red)
+
           failures.each do |failure|
-            terminal.puts "- #{failure.name}".indent(6).colorize(:red)
-            terminal.puts "|> #{failure.result}".indent(8).colorize(:red)
+            terminal.puts "- #{failure.name}"
+              .indent(6)
+              .colorize(:red)
+
+            terminal.puts "|> #{failure.result}"
+              .indent(8)
+              .colorize(:red)
+
+            if location = failure.location
+              terminal.puts "<| #{location.filename}:#{location.start[0]}"
+                .indent(8)
+                .colorize(:dark_gray)
+            end
           end
         end
 
