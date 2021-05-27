@@ -64,11 +64,12 @@ module Mint
         end
 
       classes =
-        if class_name && class_name_attribute_value
+        case
+        when class_name && class_name_attribute_value
           "#{class_name_attribute_value} + ` #{class_name}`"
-        elsif class_name_attribute_value
+        when class_name_attribute_value
           "#{class_name_attribute_value}"
-        elsif class_name
+        when class_name
           "`#{class_name}`"
         end
 
@@ -82,15 +83,15 @@ module Mint
       styles = %w[]
 
       node.styles.each do |item|
-        if style_builder.any?(lookups[item])
-          arguments =
-            compile item.arguments
+        next unless style_builder.any?(lookups[item])
 
-          style_name =
-            style_builder.style_pool.of(lookups[item], nil)
+        arguments =
+          compile item.arguments
 
-          styles << js.call("this.$#{style_name}", arguments)
-        end
+        style_name =
+          style_builder.style_pool.of(lookups[item], nil)
+
+        styles << js.call("this.$#{style_name}", arguments)
       end
 
       styles << custom_styles if custom_styles
