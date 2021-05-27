@@ -4,8 +4,16 @@ module Mint
       struct Location
         include JSON::Serializable
 
+        # Relative file path of the `Node`,
+        # this `Location` belongs to.
         getter filename : String
+
+        # Starting line and column number of the `Node`,
+        # this `Location` belongs to.
         getter start : {Int32, Int32}
+
+        # Ending line and column number of the `Node`,
+        # this `Location` belongs to.
         getter end : {Int32, Int32}
 
         def initialize(@filename, @start, @end)
@@ -84,6 +92,7 @@ module Mint
       end
 
       getter location : Location do
+        # TODO: avoid creating this array for every (initial) call to `Node#location`
         lines = [0]
         @input.input.each_char_with_index do |ch, i|
           lines << i + 1 if ch == '\n'
