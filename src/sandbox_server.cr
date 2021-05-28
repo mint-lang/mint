@@ -76,7 +76,7 @@ module Mint
     def html(json)
       ast =
         json.files.reduce(@core.dup) do |memo, file|
-          memo.merge(Parser.parse(file.contents, file.path))
+          memo.merge Parser.parse(file.contents, file.path)
         end
 
       artifacts =

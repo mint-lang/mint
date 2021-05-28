@@ -95,7 +95,6 @@ module Mint
           Parser.parse(file)
 
         memo.merge artifact
-        memo
       end
     end
 

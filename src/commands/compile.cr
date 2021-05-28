@@ -39,7 +39,6 @@ module Mint
         terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
           sources.reduce(ast) do |memo, file|
             memo.merge Parser.parse(file)
-            memo
           end
         end
 
