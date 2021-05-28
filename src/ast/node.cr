@@ -1,6 +1,9 @@
 module Mint
   class Ast
     class Node
+      # Line and column number pair.
+      alias Position = {Int32, Int32}
+
       struct Location
         include JSON::Serializable
 
@@ -10,11 +13,11 @@ module Mint
 
         # Starting line and column number of the `Node`,
         # this `Location` belongs to.
-        getter start : {Int32, Int32}
+        getter start : Position
 
         # Ending line and column number of the `Node`,
         # this `Location` belongs to.
-        getter end : {Int32, Int32}
+        getter end : Position
 
         def initialize(@filename, @start, @end)
         end
@@ -60,7 +63,7 @@ module Mint
         source.strip.includes?('\n')
       end
 
-      protected def compute_location(lines, needle)
+      protected def compute_position(lines, needle) : Position
         line_start_pos, line = begin
           left, right = 0, lines.size - 1
           index = pos = 0
@@ -98,13 +101,10 @@ module Mint
           lines << i + 1 if ch == '\n'
         end
 
-        start_line, start_column = compute_location(lines, from)
-        end_line, end_column = compute_location(lines, to)
-
         Location.new(
           filename: @input.file,
-          start: {start_line, start_column},
-          end: {end_line, end_column},
+          start: compute_position(lines, from),
+          end: compute_position(lines, to),
         )
       end
     end
