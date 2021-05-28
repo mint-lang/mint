@@ -15,7 +15,7 @@ module Mint
     end
 
     def _compile(node : Ast::Style, component : Ast::Component) : Nil
-      style_builder.process node
+      style_builder.process(node, component.hash_id)
     end
   end
 end
