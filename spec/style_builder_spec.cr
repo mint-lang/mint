@@ -60,10 +60,10 @@ describe Mint::StyleBuilder do
     style =
       parser.style.should_not be_nil
 
-    builder = Mint::StyleBuilder.new(css_prefix: "foo-")
-    builder.process(style)
+    builder = Mint::StyleBuilder.new(css_prefix: "foo")
+    builder.process(style, "HASH_ID")
 
     compiled = builder.compile
-    compiled.should contain(".foo-a div span pre a {")
+    compiled.should contain(".foo_test_HASH_ID div span pre a {")
   end
 end

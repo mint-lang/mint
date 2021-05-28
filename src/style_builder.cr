@@ -10,9 +10,24 @@ module Mint
     @cache = {} of Tuple(B, T) => String
     @current = {} of B => String
 
-    def of(subject : T, base : B)
+    # def of(subject : T, base : B)
+    #   @cache[{base, subject}] ||= begin
+    #     @current[base] = (@current[base]? || INITIAL).succ
+    #   end
+    # end
+
+    def of(subject : T, base : B, hash_id : String? = nil)
       @cache[{base, subject}] ||= begin
-        @current[base] = (@current[base]? || INITIAL).succ
+        case subject
+        when Ast::Style
+          temp = "_#{subject.name.value}"
+          if hash_id
+            temp = "#{temp}_#{hash_id}"
+          end
+          temp
+        else
+          @current[base] = (@current[base]? || INITIAL).succ
+        end
       end
     end
   end
@@ -192,14 +207,14 @@ module Mint
       false
     end
 
-    def prefixed_class_name(node)
-      @css_prefix.to_s + style_pool.of(node, nil)
+    def prefixed_class_name(node, hash_id : String? = nil)
+      @css_prefix.to_s + style_pool.of(node, nil, hash_id)
     end
 
     # The main entry point for processing a "style" tag.
-    def process(node : Ast::Style)
+    def process(node : Ast::Style, hash_id : String)
       selectors =
-        [".#{prefixed_class_name(node)}"]
+        [".#{prefixed_class_name(node, hash_id)}"]
 
       process(node.body, nil, nil, selectors, %w[], node)
     end

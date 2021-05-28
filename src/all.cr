@@ -8,6 +8,7 @@ require "uuid"
 require "html"
 require "json"
 require "xml"
+require "digest/md5"
 
 MINT_ENV = {} of String => String
 
