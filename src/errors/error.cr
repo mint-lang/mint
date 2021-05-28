@@ -4,7 +4,7 @@ module Mint
   class Error < Exception
     alias Value = String | Ast::Node | TypeChecker::Checkable |
                   Array(TypeChecker::Checkable) | Tuple(Ast::Node, Int32) |
-                  Array(String)
+                  Array(String) | Tuple(Ast::Node, Array(Int32))
 
     alias Locals = Hash(String, Value)
 

@@ -3,7 +3,7 @@ def raise(error : Mint::Error.class)
   raise error, {} of String => Mint::Error::Value
 end
 
-def raise(error : Mint::Error.class, raw : Hash(String, T)) forall T
+def raise(error : Mint::Error.class, raw : Hash(String, Mint::Error::Value?))
   locals = {} of String => Mint::Error::Value
 
   raw.map do |key, value|

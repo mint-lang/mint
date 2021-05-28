@@ -96,12 +96,17 @@ module Mint
           else
             "SHOULD NEVER HAPPEN"
           end
-        when Tuple(Ast::Node, Int32)
+        when Tuple(Ast::Node, Int32), Tuple(Ast::Node, Array(Int32) | Int32)
           case item = entity[0]
           when Ast::WhereStatement, Ast::Statement
             case target = item.target
             when Ast::TupleDestructuring
-              js.variable_of(target.parameters[entity[1]])
+              case val = entity[1]
+              when Int32
+                js.variable_of(target.parameters[val])
+              when Array(Int32)
+                js.variable_of(val.reduce(target) { |curr_type, curr_val| curr_type.as(Ast::TupleDestructuring).parameters[curr_val] })
+              end.not_nil!
             else
               js.variable_of(node)
             end
