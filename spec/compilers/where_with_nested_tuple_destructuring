@@ -1,0 +1,17 @@
+component Main {
+  fun render : String {
+    y
+  } where {
+    {x, {y}} = {"hello", {"a", "b"}}
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    const [a,[b]] = [`hello`, [`a`, `b`]];
+
+    return b;
+  }
+};
+
+A.displayName = "Main";
