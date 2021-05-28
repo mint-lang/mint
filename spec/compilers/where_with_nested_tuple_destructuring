@@ -8,9 +8,8 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    const [a,[b]] = [`hello`, [`a`, `b`]];
-
-    return b;
+    const [b,[a]] = [`hello`, [`a`, `b`]];
+    return a;
   }
 };
 
