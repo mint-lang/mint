@@ -10,6 +10,22 @@ component Main {
     ""
   }
 }
+---------------------------------------------------------------
+component Main {
+  fun render : String {
+    x
+  } where {
+    {x} = {"hello"}
+  }
+}
+---------------------------------------------------------------
+component Main {
+  fun render : String {
+    y
+  } where {
+    {x, {y}} = {"hello", {"a", "b"}}
+  }
+}
 ---------------------------------------------------------------StatementNotTuple
 component Main {
   fun render : String {
@@ -49,6 +65,6 @@ component Main {
   fun render : String {
     y
   } where {
-    {x, {y}} = {"hello", {"a", "b"}}
+    {x, {y, z}} = {"hello", {"a"}}
   }
 }
