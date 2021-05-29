@@ -32,11 +32,11 @@ module Mint
         end
       end
 
-      getter input, from, to
+      getter input : Data
+      getter from : Int32
+      getter to : Int32
 
-      def initialize(@input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@input, @from, @to)
       end
 
       def to_tuple
@@ -68,8 +68,10 @@ module Mint
           left, right = 0, lines.size - 1
           index = pos = 0
           found = false
+
           while left <= right
             middle = left + ((right - left) // 2)
+
             case pos = lines[middle]
             when .< needle
               left = middle + 1
@@ -87,10 +89,13 @@ module Mint
             pos = lines[index]
           end
 
-          {pos, index + 1}
+          {pos, index}
         end
 
+        # NOTE: for the line numbers use 1-based indexing
+        line += 1
         column = needle - line_start_pos
+
         {line, column}
       end
 
