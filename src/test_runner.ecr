@@ -67,10 +67,10 @@
           }
           this.socket.send(JSON.stringify({
             type: type,
-            suite: suite || "",
-            name: name || "",
-            result: message || "",
-            location: location || null
+            suite: suite,
+            name: name,
+            result: message,
+            location: location
           }))
         }
 
@@ -125,9 +125,9 @@
                 }
               } else {
                 if (result) {
-                  this.reportTested(test, "SUCCEEDED", "true")
+                  this.reportTested(test, "SUCCEEDED")
                 } else {
-                  this.reportTested(test, "FAILED", "false")
+                  this.reportTested(test, "FAILED")
                 }
               }
             } catch (error) {

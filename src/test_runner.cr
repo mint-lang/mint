@@ -4,9 +4,9 @@ module Mint
       include JSON::Serializable
 
       property type : String
-      property name : String
-      property suite : String
-      property result : String
+      property name : String?
+      property suite : String?
+      property result : String?
 
       property location : Ast::Node::Location?
     end
@@ -265,7 +265,7 @@ module Mint
       terminal.puts "  #{ARROW} #{@failed.size} failed"
 
       @failed
-        .group_by(&.suite)
+        .group_by(&.suite.to_s)
         .to_a
         .sort_by!(&.first)
         .each do |suite, failures|
