@@ -1,11 +1,14 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Test) : String
-      raw_expression =
-        node.expression
-
       name =
         compile node.name
+
+      location =
+        node.location.to_json
+
+      raw_expression =
+        node.expression
 
       expression =
         case raw_expression
@@ -35,9 +38,9 @@ module Mint
           end
         end
 
-      expression = compile raw_expression unless expression
+      expression ||= compile(raw_expression)
 
-      "{ name: #{name}, proc: (constants) => { return #{expression} } }"
+      "{ name: #{name}, location: #{location}, proc: (constants) => { return #{expression} } }"
     end
   end
 end

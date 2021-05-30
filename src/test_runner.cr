@@ -4,9 +4,11 @@ module Mint
       include JSON::Serializable
 
       property type : String
-      property name : String
-      property suite : String
-      property result : String
+      property name : String?
+      property suite : String?
+      property result : String?
+
+      property location : Ast::Node::Location?
     end
 
     BROWSER_PATHS = {
@@ -89,17 +91,10 @@ module Mint
         end
 
       sources.uniq!.reduce(ast) do |memo, file|
-        artifact = Parser.parse(file)
-
-        formatted =
-          Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
-
-        unless formatted == File.read(file)
-          File.write(file, formatted)
-        end
+        artifact =
+          Parser.parse(file)
 
         memo.merge artifact
-        memo
       end
     end
 
@@ -270,14 +265,28 @@ module Mint
       terminal.puts "  #{ARROW} #{@failed.size} failed"
 
       @failed
-        .group_by(&.suite)
+        .group_by(&.suite.to_s)
         .to_a
         .sort_by!(&.first)
         .each do |suite, failures|
-          terminal.puts (suite.presence || "N/A").indent(4).colorize(:red)
+          terminal.puts (suite.presence || "N/A")
+            .indent(4)
+            .colorize(:red)
+
           failures.each do |failure|
-            terminal.puts "- #{failure.name}".indent(6).colorize(:red)
-            terminal.puts "|> #{failure.result}".indent(8).colorize(:red)
+            terminal.puts "- #{failure.name}"
+              .indent(6)
+              .colorize(:red)
+
+            terminal.puts "|> #{failure.result}"
+              .indent(8)
+              .colorize(:red)
+
+            if location = failure.location
+              terminal.puts "<| #{location.filename}:#{location.start[0]}"
+                .indent(8)
+                .colorize(:dark_gray)
+            end
           end
         end
 

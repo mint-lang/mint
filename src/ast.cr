@@ -71,7 +71,7 @@ module Mint
       node1.input.input[start_position, count].includes?('\n')
     end
 
-    def merge(ast)
+    def merge(ast) : self
       @components.concat ast.components
       @providers.concat ast.providers
       @comments.concat ast.comments

@@ -31,11 +31,12 @@ module Mint
         workspace =
           Mint::Workspace[params.path]
 
+        position =
+          params.position
+
         workspace.ast.nodes
           .select(&.input.file.==(params.path))
-          .select! do |item|
-            item.from <= params.offset(item.input.input) <= item.to
-          end
+          .select!(&.location.contains?(position.line, position.character))
       end
     end
   end

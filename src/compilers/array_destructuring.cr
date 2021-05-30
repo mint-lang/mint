@@ -1,7 +1,8 @@
 module Mint
   class Compiler
     def _compile(node : Ast::ArrayDestructuring, variable : String) : Tuple(String, Array(String))
-      statements = [] of String
+      statements = %w[]
+
       if node.spread?
         statements << "const __ = Array.from(#{variable})"
 
@@ -29,12 +30,13 @@ module Mint
 
         statements << "const [#{variables}] = #{variable}"
       end
-      condition =
-        if node.spread?
-          "Array.isArray(#{variable}) && #{variable}.length >= #{node.items.size - 1}"
-        else
-          "Array.isArray(#{variable}) && #{variable}.length === #{node.items.size}"
-        end
+
+      condition = "Array.isArray(#{variable})"
+      if node.spread?
+        condition += " && #{variable}.length >= #{node.items.size - 1}"
+      else
+        condition += " && #{variable}.length === #{node.items.size}"
+      end
 
       {
         condition,
