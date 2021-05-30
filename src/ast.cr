@@ -96,13 +96,12 @@ module Mint
       @unified_modules =
         @modules
           .group_by(&.name)
-          .values
-          .map do |modules|
+          .map do |name, modules|
             Module.new(
               functions: modules.flat_map(&.functions),
               constants: modules.flat_map(&.constants),
               input: Data.new(input: "", file: ""),
-              name: modules.first.name,
+              name: name,
               comments: [] of Comment,
               comment: nil,
               from: 0,
