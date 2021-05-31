@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class Comment < Node
-      getter value
+      getter value, type
 
       def initialize(@value : String,
+                     @type : String,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
