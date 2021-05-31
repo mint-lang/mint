@@ -1,10 +1,15 @@
 module Mint
   class Ast
+    enum CommentType
+      Inline
+      Block
+    end
+
     class Comment < Node
       getter value, type
 
       def initialize(@value : String,
-                     @type : String,
+                     @type : CommentType,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

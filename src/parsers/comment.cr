@@ -5,7 +5,7 @@ module Mint
         next unless (keyword_ahead "/*") || (keyword_ahead "//")
 
         value = nil
-        type = "block"
+        type = Ast::CommentType::Block
 
         if keyword_ahead "/*"
           keyword "/*"
@@ -19,7 +19,7 @@ module Mint
 
           value =
             gather { consume_while(!((keyword_ahead "\n") || char == '\0') && !eof?) }.to_s
-          type = "inline"
+          type = Ast::CommentType::Inline
         end
 
         whitespace
