@@ -22,7 +22,7 @@ module Mint
     end
 
     def message
-      instance.to_terminal(80).to_s
+      to_terminal.to_s
     end
 
     def instance

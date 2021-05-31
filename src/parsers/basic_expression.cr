@@ -33,7 +33,7 @@ module Mint
         parallel ||
         try_expression ||
         case_expression ||
-        inline_function_or_parenthesized_expression ||
+        parenthesized_expression_or_inline_function ||
         starts_with_uppercase ||
         negated_expression ||
         js ||
@@ -41,9 +41,9 @@ module Mint
         variable
     end
 
-    def tuple_literal_or_record
+    def tuple_literal_or_record : Ast::TupleLiteral | Ast::Record?
       tuple_literal
-    rescue error1
+    rescue
       record
     end
 
@@ -56,15 +56,14 @@ module Mint
       constant_variable
     end
 
-    def inline_function_or_parenthesized_expression : Ast::InlineFunction | Ast::ParenthesizedExpression?
+    def parenthesized_expression_or_inline_function : Ast::ParenthesizedExpression | Ast::InlineFunction?
       parenthesized_expression
-    rescue error1
+    rescue
       inline_function
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression
-      raise error unless exp = basic_expression
-      exp
+      basic_expression || raise error
     end
   end
 end
