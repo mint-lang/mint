@@ -85,6 +85,8 @@ module Mint
             false
           end
         end
+      rescue error : Error
+        raise error
       rescue
         terminal.puts %(I was looking for a pattern that contains ".mint" files,)
         terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
