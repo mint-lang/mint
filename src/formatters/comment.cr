@@ -7,7 +7,7 @@ module Mint
           .remove_leading_whitespace
           .rstrip
 
-      if node.type == Ast::CommentType::Block
+      if node.type.block?
         if replace_skipped(value).includes?('\n')
           "/*\n#{value}\n*/"
         else
