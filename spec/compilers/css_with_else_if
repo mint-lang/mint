@@ -18,7 +18,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $a(a) {
+  $base_HASH_ID(a) {
     const _ = {};
 
     (_compare(a, `red`) ? Object.assign(_, {
@@ -33,8 +33,8 @@ class A extends _C {
   render() {
     return _h("div", {}, [
       _h("div", {
-        className: `a`,
-        style: _style([this.$a(`blue`)])
+        className: `base_HASH_ID`,
+        style: _style([this.$base_HASH_ID(`blue`)])
       })
     ]);
   }
@@ -43,7 +43,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.base_HASH_ID {
   height: 20px;
   background: var(--a-a);
 }

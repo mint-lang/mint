@@ -1,10 +1,10 @@
 module Mint
   class Ast
     class Component < Node
-      getter properties, connects, styles, states, comments, hash_id
+      getter properties, connects, styles, states, comments
       getter functions, gets, uses, name, comment, refs, constants
       getter? global
-      getter hash_id : String
+      property hash_id : String
 
       def initialize(@refs : Array(Tuple(Variable, Node)),
                      @properties : Array(Property),

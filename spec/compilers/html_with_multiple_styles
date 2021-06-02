@@ -16,7 +16,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `a b`
+      className: `one_HASH_ID two_HASH_ID`
     });
   }
 };
@@ -24,11 +24,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.one_HASH_ID {
   color: red;
 }
 
-.b {
+.two_HASH_ID {
   color: blue;
 }
 `);
