@@ -20,7 +20,7 @@ suite "Time.fromIso" {
     (Time.today()
     |> Time.toIso()
     |> Time.fromIso()
-    |> Maybe.withDefault(Time.now())) == Time.today()
+    |> Maybe.withDefaultFun(() { Time.now() })) == Time.today()
   }
 }
 
