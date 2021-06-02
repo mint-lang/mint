@@ -10,20 +10,14 @@ module Mint
     @cache = {} of Tuple(B, T) => String
     @current = {} of B => String
 
-    # def of(subject : T, base : B)
-    #   @cache[{base, subject}] ||= begin
-    #     @current[base] = (@current[base]? || INITIAL).succ
-    #   end
-    # end
+    def initialize(@optimize : Bool = false)
+    end
 
     def of(subject : T, base : B, hash_id : String? = nil)
       @cache[{base, subject}] ||= begin
-        case subject
-        when Ast::Style
-          temp = "_#{subject.name.value}"
-          if hash_id
-            temp = "#{temp}_#{hash_id}"
-          end
+        if subject.is_a?(Ast::Style) && !@optimize
+          temp = "#{subject.name.value}"
+          temp = "#{temp}_#{hash_id}" if hash_id
           temp
         else
           @current[base] = (@current[base]? || INITIAL).succ
@@ -142,11 +136,11 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(@css_prefix : String? = nil)
+    def initialize(@css_prefix : String? = nil, @optimize : Bool = false)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new
+      @style_pool = NamePool(Ast::Node, Nil).new(optimize: @optimize)
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:

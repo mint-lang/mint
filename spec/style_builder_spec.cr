@@ -60,10 +60,33 @@ describe Mint::StyleBuilder do
     style =
       parser.style.should_not be_nil
 
-    builder = Mint::StyleBuilder.new(css_prefix: "foo")
+    builder = Mint::StyleBuilder.new(css_prefix: "foo_")
     builder.process(style, "HASH_ID")
 
     compiled = builder.compile
     compiled.should contain(".foo_test_HASH_ID div span pre a {")
+  end
+
+  it "optimizes class names if optimize is set" do
+    example =
+      <<-MINT
+        style test {
+          div {
+            background: red;
+          }
+        }
+      MINT
+
+    parser =
+      Mint::Parser.new(example.strip, "test.mint")
+
+    style =
+      parser.style.should_not be_nil
+
+    builder = Mint::StyleBuilder.new(optimize: true)
+    builder.process(style, "HASH_ID")
+
+    compiled = builder.compile
+    compiled.should contain(".a div {")
   end
 end
