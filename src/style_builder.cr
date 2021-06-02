@@ -16,9 +16,9 @@ module Mint
     def of(subject : T, base : B, hash_id : String? = nil)
       @cache[{base, subject}] ||= begin
         if subject.is_a?(Ast::Style) && !@optimize
-          temp = "#{subject.name.value}"
-          temp = "#{temp}_#{hash_id}" if hash_id
-          temp
+          class_name = subject.name.value
+          class_name = "#{class_name}_#{hash_id}" if hash_id
+          class_name
         else
           @current[base] = (@current[base]? || INITIAL).succ
         end
