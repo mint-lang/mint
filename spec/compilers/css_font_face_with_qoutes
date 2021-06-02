@@ -16,7 +16,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `a`
+      className: `test_HASH_ID`
     });
   }
 };
@@ -24,7 +24,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.test_HASH_ID {
   font-family: "myFirstFont";
 }
 

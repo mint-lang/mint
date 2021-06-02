@@ -9,7 +9,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $a(a) {
+  $test_HASH_ID(a) {
     const _ = {
       [`--a-a`]: a
     };
@@ -19,8 +19,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a(`red`)])
+      className: `test_HASH_ID`,
+      style: _style([this.$test_HASH_ID(`red`)])
     });
   }
 };
@@ -28,7 +28,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.test_HASH_ID {
   color: var(--a-a);
 }
 `);

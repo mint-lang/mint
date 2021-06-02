@@ -20,7 +20,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $a() {
+  $test_HASH_ID() {
     const _ = {
       [`--a-a`]: this.a
     };
@@ -34,8 +34,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `test_HASH_ID`,
+      style: _style([this.$test_HASH_ID()])
     });
   }
 };
@@ -43,15 +43,15 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a div {
+.test_HASH_ID div {
   color: var(--a-a);
 }
 
-.a:focus {
+.test_HASH_ID:focus {
   color: red;
 }
 
-.a:hover {
+.test_HASH_ID:hover {
   color: red;
 }
 `);
