@@ -66,7 +66,7 @@ suite "Dom.getDimensions" {
     try {
       dimensions =
         Dom.getElementById("root")
-        |> Maybe.withDefaultFun(() { Dom.createElement("div") })
+        |> Maybe.withLazyDefault(() { Dom.createElement("div") })
         |> Dom.getDimensions()
 
       dimensions.width != 0
@@ -125,7 +125,7 @@ component Test.Dom.Focus {
 
   fun focus : Promise(String, Void) {
     input
-    |> Maybe.withDefaultFun(() { Dom.createElement("div") })
+    |> Maybe.withLazyDefault(() { Dom.createElement("div") })
     |> Dom.focusWhenVisible()
   }
 

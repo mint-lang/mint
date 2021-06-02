@@ -66,15 +66,15 @@ suite "Maybe.withDefault" {
   }
 }
 
-suite "Maybe.withDefaultFun" {
+suite "Maybe.withLazyDefault" {
   test "returns the value of a just" {
     (Maybe.just("TEST")
-    |> Maybe.withDefaultFun(() { "" })) == "TEST"
+    |> Maybe.withLazyDefault(() { "" })) == "TEST"
   }
 
   test "returns the result of the given default function" {
     (Maybe.nothing()
-    |> Maybe.withDefaultFun(() { "TEST" })) == "TEST"
+    |> Maybe.withLazyDefault(() { "TEST" })) == "TEST"
   }
 }
 

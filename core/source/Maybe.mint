@@ -69,10 +69,10 @@ module Maybe {
   /*
   Returns the value of a *maybe*, or calls the given *defaultFun* otherwise.
 
-    Maybe.withDefaultFun(() { "A" }, Maybe.nothing()) == "A"
-    Maybe.withDefaultFun(() { "A" }, Maybe.just("B")) == "B"
+    Maybe.withLazyDefault(() { "A" }, Maybe.nothing()) == "A"
+    Maybe.withLazyDefault(() { "A" }, Maybe.just("B")) == "B"
   */
-  fun withDefaultFun (func : Function(a), maybe : Maybe(a)) : a {
+  fun withLazyDefault (func : Function(a), maybe : Maybe(a)) : a {
     case (maybe) {
       Maybe::Nothing => func()
       Maybe::Just(value) => value
