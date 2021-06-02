@@ -66,6 +66,18 @@ suite "Maybe.withDefault" {
   }
 }
 
+suite "Maybe.withLazyDefault" {
+  test "returns the value of a just" {
+    (Maybe.just("TEST")
+    |> Maybe.withLazyDefault(() { "" })) == "TEST"
+  }
+
+  test "returns the result of the given default function" {
+    (Maybe.nothing()
+    |> Maybe.withLazyDefault(() { "TEST" })) == "TEST"
+  }
+}
+
 suite "Maybe.toResult" {
   test "returns the error for nothing" {
     Maybe.nothing()
