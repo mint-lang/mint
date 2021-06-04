@@ -1,15 +1,15 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Directives::Svg) : String
-      parsed =
-        parse_svg(node.file_contents)
-
-      return "" unless parsed
-
       name =
         static_components_pool.of(node.path, nil)
 
       static_components[name] ||= begin
+        parsed =
+          parse_svg(node.file_contents)
+
+        return "" unless parsed
+
         width, height, view_box, data =
           parsed
 
