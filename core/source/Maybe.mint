@@ -67,7 +67,7 @@ module Maybe {
   }
 
   /*
-  Returns the value of a *maybe*, or calls the given *defaultFun* otherwise.
+  Returns the value of a *maybe*, or calls the given *func* otherwise.
 
     Maybe.withLazyDefault(() { "A" }, Maybe.nothing()) == "A"
     Maybe.withLazyDefault(() { "A" }, Maybe.just("B")) == "B"
