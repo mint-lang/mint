@@ -10,17 +10,30 @@ module Mint
     @cache = {} of Tuple(B, T) => String
     @current = {} of B => String
 
+    def of(subject : T, base : B)
+      @cache[{base, subject}] ||= begin
+        @current[base] = (@current[base]? || INITIAL).succ
+      end
+    end
+  end
+
+  class StylePool
+    @pool = NamePool(Ast::Style, Nil).new
+    @cache = {} of Ast::Style => String
+
     def initialize(@optimize : Bool = false)
     end
 
-    def of(subject : T, base : B, hash_id : String? = nil)
-      @cache[{base, subject}] ||= begin
-        if subject.is_a?(Ast::Style) && !@optimize
-          class_name = subject.name.value
-          class_name = "#{class_name}_#{hash_id}" if hash_id
-          class_name
-        else
-          @current[base] = (@current[base]? || INITIAL).succ
+    def of(subject : Ast::Style, id : String? = nil)
+      if @optimize
+        @pool.of(subject, nil)
+      else
+        @cache[subject] ||= begin
+          if id
+            "#{id}_#{subject.name.value}_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE"
+          else
+            subject.name.value
+          end
         end
       end
     end
@@ -139,8 +152,8 @@ module Mint
     def initialize(@css_prefix : String? = nil, @optimize : Bool = false)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
+      @style_pool = StylePool.new(optimize: @optimize)
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new(optimize: @optimize)
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:
@@ -201,14 +214,14 @@ module Mint
       false
     end
 
-    def prefixed_class_name(node, hash_id : String? = nil)
-      @css_prefix.to_s + style_pool.of(node, nil, hash_id)
+    def prefixed_class_name(node : Ast::Style, id : String? = nil)
+      @css_prefix.to_s + style_pool.of(node, id)
     end
 
     # The main entry point for processing a "style" tag.
-    def process(node : Ast::Style, hash_id : String)
+    def process(node : Ast::Style, id : String)
       selectors =
-        [".#{prefixed_class_name(node, hash_id)}"]
+        [".#{prefixed_class_name(node, id)}"]
 
       process(node.body, nil, nil, selectors, %w[], node)
     end

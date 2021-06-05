@@ -12,7 +12,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `something` + ` base_HASH_ID`
+      className: `something` + ` Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`
     });
   }
 };
@@ -20,7 +20,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.base_HASH_ID {
+.Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
   width: 100%;
 }
 `);

@@ -4,7 +4,6 @@ module Mint
       getter properties, connects, styles, states, comments
       getter functions, gets, uses, name, comment, refs, constants
       getter? global
-      property hash_id : String
 
       def initialize(@refs : Array(Tuple(Variable, Node)),
                      @properties : Array(Property),
@@ -22,7 +21,6 @@ module Mint
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
-        @hash_id = Digest::MD5.hexdigest(@name)[0, 5]
       end
 
       def owns?(node)

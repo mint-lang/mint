@@ -15,7 +15,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $test_HASH_ID() {
+  $Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE() {
     const _ = {};
 
     (true ? Object.assign(_, {
@@ -27,8 +27,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `test_HASH_ID`,
-      style: _style([this.$test_HASH_ID()])
+      className: `Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`,
+      style: _style([this.$Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE()])
     });
   }
 };
@@ -36,12 +36,12 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.test_HASH_ID {
+.Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
   color: yellow;
 }
 
 @media (max-width: 300px) {
-  .test_HASH_ID {
+  .Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
     color: var(--a-a);
   }
 }

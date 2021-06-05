@@ -64,7 +64,7 @@ describe Mint::StyleBuilder do
     builder.process(style, "HASH_ID")
 
     compiled = builder.compile
-    compiled.should contain(".foo_test_HASH_ID div span pre a {")
+    compiled.should contain(".foo_HASH_ID_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE div span pre a {")
   end
 
   it "optimizes class names if optimize is set" do

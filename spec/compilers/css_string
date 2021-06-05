@@ -23,7 +23,7 @@ class A extends _C {
     });
   }
 
-  $unicode_HASH_ID() {
+  $Main_unicode_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE() {
     const _ = {
       [`--a-a`]: `"Hi"` + ` blah ` + this.a + ` ` + `"Here is some content; Thanks ${this.a}"`
     };
@@ -37,8 +37,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `unicode_HASH_ID`,
-      style: _style([this.$unicode_HASH_ID()])
+      className: `Main_unicode_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`,
+      style: _style([this.$Main_unicode_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE()])
     }, [
       _h("span", {})
     ]);
@@ -48,7 +48,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.unicode_HASH_ID span::after {
+.Main_unicode_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE span::after {
   content: var(--a-a);
 }
 `);

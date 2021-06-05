@@ -12,7 +12,6 @@ Dir
       # Parse the sample
       ast = Mint::Parser.parse(sample, file)
       ast.class.should eq(Mint::Ast)
-      ast.components.each(&.hash_id=("HASH_ID"))
 
       # Compare results
       result = Mint::Compiler.compile_bare(Mint::TypeChecker.check(ast), {
