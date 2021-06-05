@@ -121,17 +121,13 @@ module Mint
         style_builder.compile
 
       footer =
-        if all_css.empty?
-          ""
-        else
-          "_insertStyles(`\n#{all_css}\n`)"
+        unless all_css.empty?
+          ["_insertStyles(`\n#{all_css}\n`)"]
         end
 
       suites =
         if include_tests
           ["SUITES = [#{compile(ast.suites, ",")}]"]
-        else
-          %w[]
         end
 
       static =
@@ -140,7 +136,7 @@ module Mint
         end
 
       elements =
-        (enums + records + modules + providers + routes + components + static + stores + [footer] + suites)
+        (%w[] &+ enums &+ records &+ modules &+ providers &+ routes &+ components &+ static &+ stores &+ footer &+ suites)
           .reject!(&.empty?)
 
       replace_skipped(js.statements(elements))

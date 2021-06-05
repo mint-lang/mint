@@ -30,7 +30,7 @@ module Mint
       last.unshift(contents) unless contents.empty?
 
       body =
-        js.statements(wheres ? wheres + last : last)
+        js.statements(%w[] &+ wheres &+ last)
 
       js.function(name, arguments, body)
     end

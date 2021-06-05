@@ -14,7 +14,7 @@ module Mint
         compile_constructor node
 
       body =
-        [constructor] + states + gets + functions
+        [constructor] &+ states &+ gets &+ functions
 
       name =
         js.class_of(node)

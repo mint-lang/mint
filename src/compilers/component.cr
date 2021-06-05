@@ -98,7 +98,7 @@ module Mint
       functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + refs + states + store_stuff + functions)
+        ([constructor] &+ styles + gets &+ refs &+ states &+ store_stuff &+ functions)
           .compact
 
       js.statements([
