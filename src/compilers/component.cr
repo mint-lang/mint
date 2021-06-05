@@ -17,9 +17,9 @@ module Mint
       compile node.styles, node
 
       styles =
-        node.styles.map do |style_node|
-          style_builder.compile_style(style_node, self)
-        end.reject!(&.empty?)
+        node.styles.compact_map do |style_node|
+          style_builder.compile_style(style_node, self).presence
+        end
 
       functions =
         compile_component_functions node
@@ -167,11 +167,13 @@ module Mint
           compile use.data
 
         body =
-          "if (#{condition}) {\n" \
-          "  #{name}._subscribe(this, #{data})\n" \
-          "} else {\n" \
-          "  #{name}._unsubscribe(this)\n" \
-          "}"
+          <<-JS
+          if (#{condition}) {
+            #{name}._subscribe(this, #{data})
+          } else {
+            #{name}._unsubscribe(this)
+          }
+          JS
 
         heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
         heads["componentDidUpdate"] << body
@@ -201,7 +203,7 @@ module Mint
           end
         end
 
-      (specials + others).compact.reject!(&.empty?)
+      (specials + others).compact_map(&.presence)
     end
   end
 end

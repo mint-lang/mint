@@ -8,7 +8,7 @@ module Mint
         selectors = list(
           terminator: '{',
           separator: ','
-        ) { css_selector_name }.reject(&.empty?)
+        ) { css_selector_name }.reject!(&.empty?)
 
         next if selectors.empty?
         next unless char == '{'
