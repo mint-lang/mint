@@ -6,6 +6,7 @@ module Mint
           value = variable(track: false) || tuple_destructuring
           whitespace
           next unless keyword "="
+          next if char == '=' # Don't parse == operation as statement.
           whitespace
           value
         end
