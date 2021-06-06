@@ -28,6 +28,13 @@ module Mint
       JS
     end
 
+    def unwrap_parenthesized_expression(node)
+      while node.is_a?(Ast::ParenthesizedExpression)
+        node = node.expression
+      end
+      node
+    end
+
     def _compile(node : Ast::Test) : String
       name =
         compile node.name
@@ -45,7 +52,10 @@ module Mint
         when Ast::Try, Ast::Sequence, Ast::Parallel
           _compile(raw_expression) do |statement, _index, is_last|
             if is_last
-              case exp = statement.expression
+              exp =
+                unwrap_parenthesized_expression(statement.expression)
+
+              case exp
               when Ast::Operation
                 if wrapped = _compile_operation_test(exp)
                   next wrapped
