@@ -1,5 +1,30 @@
 module Mint
   class Compiler
+    def _compile_operation_test(operation : Ast::Operation) : String?
+      return unless operation.operator == "=="
+
+      right =
+        compile operation.right
+
+      left =
+        compile operation.left
+
+      <<-JS
+      ((constants) => {
+        const context = new TestContext(#{left})
+        const right = #{right}
+
+        context.step((subject) => {
+          if (!_compare(subject, right)) {
+            throw `Assertion failed: ${right} != ${subject}`
+          }
+          return true
+        })
+        return context
+      })(constants)
+      JS
+    end
+
     def _compile(node : Ast::Test) : String
       name =
         compile node.name
@@ -13,27 +38,18 @@ module Mint
       expression =
         case raw_expression
         when Ast::Operation
-          if raw_expression.operator == "=="
-            right =
-              compile raw_expression.right
-
-            left =
-              compile raw_expression.left
-
-            <<-JS
-            ((constants) => {
-              const context = new TestContext(#{left})
-              const right = #{right}
-
-              context.step((subject) => {
-                if (!_compare(subject, right)) {
-                  throw `Assertion failed: ${right} != ${subject}`
-                }
-                return true
-              })
-              return context
-            })(constants)
-            JS
+          _compile_operation_test(raw_expression)
+        when Ast::Try, Ast::Sequence, Ast::Parallel
+          _compile(raw_expression) do |statement, _index, is_last|
+            if is_last
+              case exp = statement.expression
+              when Ast::Operation
+                if wrapped = _compile_operation_test(exp)
+                  next wrapped
+                end
+              end
+            end
+            compile(statement)
           end
         end
 

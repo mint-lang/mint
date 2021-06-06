@@ -17,6 +17,10 @@ module Mint
     end
 
     def _compile(node : Ast::Try) : String
+      _compile(node) { |statement| compile(statement) }
+    end
+
+    def _compile(node : Ast::Try, & : Ast::Statement, Int32, Bool -> String) : String
       catch_all =
         node.catch_all.try do |catch|
           js.let("_catch_all", js.arrow_function(%w[], "return #{compile(catch.expression)}")) + "\n\n"
@@ -41,7 +45,7 @@ module Mint
             }
 
             expression =
-              compile statement
+              yield statement, index, is_last
 
             type = types[statement]?
 

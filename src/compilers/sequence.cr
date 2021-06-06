@@ -17,6 +17,10 @@ module Mint
     end
 
     def _compile(node : Ast::Sequence) : String
+      _compile(node) { |statement| compile(statement) }
+    end
+
+    def _compile(node : Ast::Sequence, & : Ast::Statement, Int32, Bool -> String) : String
       statements = node.statements
       statements_size = statements.size
 
@@ -36,7 +40,7 @@ module Mint
             }
 
             expression =
-              compile statement.expression
+              yield statement, index, is_last
 
             # Get the time of the statement
             type = types[statement]?
