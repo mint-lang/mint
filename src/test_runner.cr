@@ -278,7 +278,7 @@ module Mint
               .indent(6)
               .colorize(:red)
 
-            terminal.puts "|> #{failure.result}"
+            terminal.puts "|> #{failure.result.presence || "N/A"}"
               .indent(8)
               .colorize(:red)
 
