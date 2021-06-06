@@ -1,7 +1,10 @@
 module Mint
   class Compiler
     def _compile_operation_test(operation : Ast::Operation) : String?
-      return unless operation.operator == "=="
+      operator =
+        operation.operator
+
+      return unless operator.in?("==", "!=")
 
       right =
         compile operation.right
@@ -15,8 +18,8 @@ module Mint
         const right = #{right}
 
         context.step((subject) => {
-          if (!_compare(subject, right)) {
-            throw `Assertion failed: ${right} != ${subject}`
+          if (#{"!" if operator == "=="}_compare(subject, right)) {
+            throw `Assertion failed: ${right} #{operator} ${subject}`
           }
           return true
         })
