@@ -73,7 +73,7 @@ module Test.Context {
     #{context}.step((subject) => {
       const actual = #{method}(subject)
 
-      if (!(actual == #{value})) {
+      if (!_compare(#{value}, actual)) {
         throw \`Assertion failed: ${actual} === ${#{value}}\`
       }
       return subject
