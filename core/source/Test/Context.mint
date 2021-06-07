@@ -30,7 +30,7 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(c) {
     `
-    #{context}.step((subject)=> {
+    #{context}.step((subject) => {
       return #{proc}(subject)
     })
     `
@@ -55,14 +55,11 @@ module Test.Context {
   */
   fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
     `
-    #{context}.step((subject)=> {
-      let result = _compare(#{a}, subject)
-
-      if (result) {
-        return subject
-      } else {
-        throw \`Assertion failed ${#{a}} === ${subject}\`
+    #{context}.step((subject) => {
+      if (!_compare(#{a}, subject)) {
+        throw \`Assertion failed: ${#{a}} === ${subject}\`
       }
+      return subject
     })
     `
   }
@@ -73,14 +70,13 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(a) {
     `
-    #{context}.step((item) => {
-      let actual = #{method}(item)
+    #{context}.step((subject) => {
+      const actual = #{method}(subject)
 
-      if (actual == #{value}) {
-        return item
-      } else {
-        throw \`Assertion failed ${actual} === ${value}\`
+      if (!(actual == #{value})) {
+        throw \`Assertion failed: ${actual} === ${value}\`
       }
+      return subject
     })
     `
   }
@@ -96,9 +92,9 @@ module Test.Context {
     `
     (() => {
       if (typeof #{entity} == "function") {
-        let _;
+        let _
 
-        _ = function(...args){
+        _ = function (...args) {
           _._called = true
           return #{entity}(...args)
         }
@@ -114,12 +110,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was called. */
   fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
-      if (#{entity}._called) {
-        return item
-      } else {
+    #{context}.step((subject) => {
+      if (!#{entity}._called) {
         throw "The given function was not called!"
       }
+      return subject
     })
     `
   }
@@ -127,12 +122,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was not called. */
   fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
+    #{context}.step((subject) => {
       if (#{entity}._called) {
         throw "The given function was called!"
-      } else {
-        return item
       }
+      return subject
     })
     `
   }
