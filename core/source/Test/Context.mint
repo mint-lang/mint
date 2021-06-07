@@ -74,7 +74,7 @@ module Test.Context {
       const actual = #{method}(subject)
 
       if (!(actual == #{value})) {
-        throw \`Assertion failed: ${actual} === ${value}\`
+        throw \`Assertion failed: ${actual} === ${#{value}}\`
       }
       return subject
     })
