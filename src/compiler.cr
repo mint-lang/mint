@@ -31,7 +31,7 @@ module Mint
     end
 
     def compile(nodes : Array(Ast::Node))
-      nodes.map { |node| compile(node).as(String) }.reject!(&.empty?)
+      nodes.compact_map { |node| compile(node).as(String).presence }
     end
 
     def compile(node : Ast::Node) : String

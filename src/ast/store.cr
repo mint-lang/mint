@@ -16,7 +16,7 @@ module Mint
       end
 
       def owns?(node)
-        (functions + constants + states + gets).includes?(node)
+        {functions, constants, states, gets}.any? &.includes?(node)
       end
     end
   end

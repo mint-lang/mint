@@ -1,10 +1,11 @@
 module Mint
   class Compiler
     def _compile(node : Ast::HtmlExpression) : String
-      if node.expressions.empty?
+      case node.expressions.size
+      when 0
         "null"
-      elsif node.expressions.size == 1
-        compile node.expressions[0]
+      when 1
+        compile node.expressions.first
       else
         children =
           compile node.expressions

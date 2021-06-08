@@ -26,11 +26,10 @@ module Mint
               const right = #{right}
 
               context.step((subject) => {
-                if (_compare(subject, right)) {
-                  return true
-                } else {
-                  throw `Assertion failed ${right.toString()} != ${subject.toString()}`
+                if (!_compare(subject, right)) {
+                  throw `Assertion failed: ${right} != ${subject}`
                 }
+                return true
               })
               return context
             })(constants)
