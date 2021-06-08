@@ -6,7 +6,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
@@ -20,7 +20,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> then(\number : Number => Promise.resolve(number + 2))
+        |> then((number : Number) { Promise.resolve(number + 2) })
         |> assertEqual(7)
       }
     }
@@ -36,7 +36,17 @@ module Test.Context {
     `
   }
 
-  /* Adds a timeout to the text using the given duration (in milliseconds). */
+  /*
+  Adds a timeout to the text using the given duration (in milliseconds).
+
+    test {
+      with Test.Context {
+        of(5)
+        |> timeout(1000)
+        |> assertEqual(5)
+      }
+    }
+  */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
     then(
       (subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) },
@@ -49,24 +59,33 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
-  fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
+  fun assertEqual (value : a, context : Test.Context(a)) : Test.Context(a) {
     `
     #{context}.step((subject)=> {
-      let result = _compare(#{a}, subject)
+      let result = _compare(#{value}, subject)
 
       if (result) {
         return subject
       } else {
-        throw \`Assertion failed ${#{a}} === ${subject}\`
+        throw \`Assertion failed ${#{value}} === ${subject}\`
       }
     })
     `
   }
 
+  /*
+  Asserts if the given value equals of the returned value from the given
+  function.
+
+    with Test.Context {
+      of(5)
+      |> assertOf("5", Number.toString)
+    }
+  */
   fun assertOf (
     value : b,
     method : Function(a, b),
@@ -79,15 +98,45 @@ module Test.Context {
       if (actual == #{value}) {
         return item
       } else {
-        throw \`Assertion failed ${actual} === ${value}\`
+        throw \`Assertion failed ${actual} == ${value}\`
       }
     })
     `
   }
 
+  /*
+  Asserts that the current subject does not equal to the given value.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> assertNotEqual(6)
+      }
+    }
+  */
+  fun assertNotEqual(value : a, context : Test.Context(a)) : Test.Context(a) {
+    then((subject : a) : Promise(String, a) {
+      if (subject == value) {
+        Promise.reject(`\`Assertion failed ${#{subject}} != ${#{value}}\``)
+      } else {
+        Promise.resolve(subject)
+      }
+    }, context)
+  }
+
+  /*
+  Maps the given subject to a new subject.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> map(Number.toString)
+      }
+    }
+  */
   fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
     then(
-      (item : a) : Promise(Never, Test.Context(a)) { Promise.resolve(method(item)) },
+      (item : a) : Promise(Never, b) { Promise.resolve(method(item)) },
       context)
   }
 

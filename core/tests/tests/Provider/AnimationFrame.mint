@@ -1,28 +1,30 @@
 component Test.Provider.AnimationFrame {
-  state frames : Number = 0
+  state timestamp : Number = 0
 
   use Provider.AnimationFrame {
     frames =
       (timestamp : Number) : Promise(Never, Void) {
-        next { frames = frames + 1 }
+        next { timestamp = timestamp }
       }
   }
 
   fun render : Html {
     <div>
-      <{ Number.toString(frames) }>
+      <{ Number.toString(timestamp) }>
     </div>
   }
 }
 
 suite "Provider.AnimationFrame.frames" {
   test "called on an animation frame" {
-    with Test.Html {
-      <Test.Provider.AnimationFrame/>
-      |> start()
-      |> assertTextOf("div", "1")
-      |> assertTextOf("div", "2")
-      |> assertTextOf("div", "3")
+    with Test.Context {
+      with Test.Html {
+        <Test.Provider.AnimationFrame/>
+          |> start()
+          |> find("div")
+          |> map(Dom.getTextContent)
+          |> assertNotEqual("0")
+      }
     }
   }
 }
