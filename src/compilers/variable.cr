@@ -105,7 +105,9 @@ module Mint
               when Int32
                 js.variable_of(target.parameters[val])
               when Array(Int32)
-                js.variable_of(val.reduce(target) { |curr_type, curr_val| curr_type.as(Ast::TupleDestructuring).parameters[curr_val] })
+                js.variable_of(val.reduce(target) do |curr_type, curr_val|
+                  curr_type.as(Ast::TupleDestructuring).parameters[curr_val]
+                end)
               end.not_nil!
             else
               js.variable_of(node)
