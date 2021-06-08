@@ -6,7 +6,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
@@ -20,7 +20,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> then(\number : Number => Promise.resolve(number + 2))
+        |> then((number : Number) { Promise.resolve(number + 2) })
         |> assertEqual(7)
       }
     }
@@ -36,11 +36,20 @@ module Test.Context {
     `
   }
 
-  /* Adds a timeout to the text using the given duration (in milliseconds). */
+  /*
+  Adds a timeout to the test using the given duration (in milliseconds).
+
+    test {
+      with Test.Context {
+        of(5)
+        |> timeout(1000)
+        |> assertEqual(5)
+      }
+    }
+  */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
-    then(
-      (subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) },
-      context)
+    context
+    |> then((subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) })
   }
 
   /*
@@ -49,21 +58,30 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
-  fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
+  fun assertEqual (value : a, context : Test.Context(a)) : Test.Context(a) {
     `
     #{context}.step((subject) => {
-      if (!_compare(#{a}, subject)) {
-        throw \`Assertion failed: ${#{a}} === ${subject}\`
+      if (!_compare(#{value}, subject)) {
+        throw \`Assertion failed: ${#{value}} === ${subject}\`
       }
       return subject
     })
     `
   }
 
+  /*
+  Asserts if the given value equals of the returned value from the given
+  function.
+
+    with Test.Context {
+      of(5)
+      |> assertOf("5", Number.toString)
+    }
+  */
   fun assertOf (
     value : b,
     method : Function(a, b),
@@ -81,10 +99,19 @@ module Test.Context {
     `
   }
 
+  /*
+  Maps the given subject to a new subject.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> map(Number.toString)
+      }
+    }
+  */
   fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
-    then(
-      (item : a) : Promise(Never, Test.Context(a)) { Promise.resolve(method(item)) },
-      context)
+    context
+    |> then((item : a) : Promise(Never, b) { Promise.resolve(method(item)) })
   }
 
   /* Spies on the given entity if it's a function. */
