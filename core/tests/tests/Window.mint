@@ -55,7 +55,7 @@ suite "Window.setTitle" {
     try {
       Window.setTitle("Test")
 
-      (Window.title() == "Test")
+      Window.title() == "Test"
     }
   }
 }
@@ -66,7 +66,7 @@ suite "Window.url" {
       url =
         Window.url()
 
-      (url.hostname == "127.0.0.1")
+      url.hostname == "127.0.0.1"
     }
   }
 }
@@ -77,7 +77,7 @@ suite "Window.href" {
       url =
         Window.url()
 
-      (Window.href() == "http://127.0.0.1:" + url.port + "/")
+      Window.href() == "http://127.0.0.1:#{url.port}/"
     }
   }
 }

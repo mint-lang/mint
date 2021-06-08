@@ -11,7 +11,7 @@ suite "Storage.Local.set" {
       value =
         Storage.Local.get("test")
 
-      (value == "test")
+      value == "test"
     } catch Storage.Error => error {
       false
     }
@@ -23,7 +23,7 @@ suite "Storage.Local.set" {
         Storage.Local.set("test", String.repeat(10000000, "test"))
         |> Result.withError(Storage.Error::Unknown)
 
-      (result == Storage.Error::QuotaExceeded)
+      result == Storage.Error::QuotaExceeded
     }
   }
 }
@@ -36,7 +36,7 @@ suite "Storage.Local.get" {
       value =
         Storage.Local.get("test")
 
-      (value == "test")
+      value == "test"
     } catch Storage.Error => error {
       false
     }
@@ -104,7 +104,7 @@ suite "Storage.Local.size" {
       size =
         Storage.Local.size()
 
-      (size == 3)
+      size == 3
     } catch Storage.Error => error {
       false
     }
@@ -121,7 +121,7 @@ suite "Storage.Local.keys" {
       keys =
         Storage.Local.keys()
 
-      (String.join("", keys) == "abc")
+      String.join("", keys) == "abc"
     } catch Storage.Error => error {
       false
     }

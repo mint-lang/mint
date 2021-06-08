@@ -30,7 +30,7 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(c) {
     `
-    #{context}.step((subject)=> {
+    #{context}.step((subject) => {
       return #{proc}(subject)
     })
     `
@@ -92,11 +92,11 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(a) {
     `
-    #{context}.step((item) => {
-      let actual = #{method}(item)
+    #{context}.step((subject) => {
+      const actual = #{method}(subject)
 
       if (_compare(actual, #{value})) {
-        return item
+        return subject
       } else {
         throw \`Assertion failed ${actual} == ${value}\`
       }
@@ -145,9 +145,9 @@ module Test.Context {
     `
     (() => {
       if (typeof #{entity} == "function") {
-        let _;
+        let _
 
-        _ = function(...args){
+        _ = function (...args) {
           _._called = true
           return #{entity}(...args)
         }
@@ -163,12 +163,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was called. */
   fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
-      if (#{entity}._called) {
-        return item
-      } else {
+    #{context}.step((subject) => {
+      if (!#{entity}._called) {
         throw "The given function was not called!"
       }
+      return subject
     })
     `
   }
@@ -176,12 +175,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was not called. */
   fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
+    #{context}.step((subject) => {
       if (#{entity}._called) {
         throw "The given function was called!"
-      } else {
-        return item
       }
+      return subject
     })
     `
   }

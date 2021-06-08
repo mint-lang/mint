@@ -54,7 +54,7 @@ suite "Html.DataTransfer.setData && Html.DataTransfer.getData" {
         |> Html.DataTransfer.setData("text/plain", "Hello!")
         |> Html.DataTransfer.getData("text/plain")
 
-      (value == "Hello!")
+      value == "Hello!"
     }
   }
 }
@@ -65,7 +65,7 @@ suite "Html.DataTransfer.setDragImage" {
       data =
         `new DataTransfer()` as Html.DataTransfer
 
-      (Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data)
+      Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data
     }
   }
 }

@@ -17,9 +17,19 @@ module Mint
     end
 
     def _compile(node : Ast::Parallel) : String
-      body = node.statements.map do |statement|
+      _compile(node) { |statement| compile(statement) }
+    end
+
+    def _compile(node : Ast::Parallel, & : Ast::Statement, Int32, Bool -> String) : String
+      statements = node.statements
+      statements_size = statements.size
+
+      body = statements.map_with_index do |statement, index|
+        is_last =
+          (index + 1) == statements_size
+
         expression =
-          compile statement.expression
+          yield statement, index, is_last
 
         # Get the time of the statement
         type = types[statement]?

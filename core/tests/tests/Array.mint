@@ -324,7 +324,7 @@ suite "Array.flatMap" {
             ]
           })
 
-      (result == [3, 2, 5])
+      result == [3, 2, 5]
     }
   }
 }
@@ -336,7 +336,7 @@ suite "Array.take" {
         [1, 2, 3, 4, 5, 6, 7, 8]
         |> Array.take(2)
 
-      (result == [1, 2])
+      result == [1, 2]
     }
   }
 }
@@ -348,7 +348,7 @@ suite "Array.drop" {
         [1, 2, 3, 4, 5, 6, 7, 8]
         |> Array.drop(2)
 
-      (result == [3, 4, 5, 6, 7, 8])
+      result == [3, 4, 5, 6, 7, 8]
     }
   }
 }

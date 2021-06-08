@@ -8,7 +8,7 @@ module Test.Html {
   fun start (node : Html) : Test.Context(Dom.Element) {
     `
     (() => {
-      let root = document.createElement('div')
+      const root = document.createElement("div")
       document.body.appendChild(root)
       ReactDOM.render(#{node}, root)
       return new TestContext(root, () => {
@@ -25,13 +25,12 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let subject = element.querySelector(#{selector})
+      const subject = element.querySelector(#{selector})
 
-      if (subject) {
-        return subject
-      } else {
+      if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+      return subject
     })
     `
   }
@@ -42,13 +41,12 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let subject = document.querySelector(#{selector})
+      const subject = document.querySelector(#{selector})
 
-      if (subject) {
-        return subject
-      } else {
+      if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+      return subject
     })
     `
   }
@@ -129,8 +127,8 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let event = document.createEvent ('MouseEvents')
-      event.initEvent ("mousedown", true, true)
+      const event = document.createEvent("MouseEvents")
+      event.initEvent("mousedown", true, true)
       element.querySelector(#{selector}).dispatchEvent(event)
       return element
     })
@@ -144,8 +142,8 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let event = document.createEvent ('MouseEvents')
-      event.initEvent ("mousemove", true, true)
+      const event = document.createEvent("MouseEvents")
+      event.initEvent("mousemove", true, true)
       element.querySelector(#{selector}).dispatchEvent(event)
       return element
     })
@@ -159,8 +157,8 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let event = document.createEvent ('MouseEvents')
-      event.initEvent ("mouseup", true, true)
+      const event = document.createEvent("MouseEvents")
+      event.initEvent("mouseup", true, true)
       element.querySelector(#{selector}).dispatchEvent(event)
       return element
     })
@@ -175,7 +173,7 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let text = "";
+      let text
 
       try {
         text = element.querySelector(#{selector}).textContent
@@ -183,11 +181,10 @@ module Test.Html {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
 
-      if (text == #{value}) {
-        return element
-      } else {
-        throw \`"${text}" != "${#{value}}"\`
+      if (!(text == #{value})) {
+        throw \`Assertion failed: ${text} === ${#{value}}\`
       }
+      return element
     })
     `
   }
@@ -198,17 +195,15 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let subject = element.querySelector(#{selector})
+      const subject = element.querySelector(#{selector})
 
-      if (subject) {
-        if (subject == document.activeElement) {
-          return subject
-        }  else {
-          throw \`Element is not active ${subject}\`
-        }
-      } else {
+      if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+      if (subject != document.activeElement) {
+        throw \`Element is not active\`
+      }
+      return subject
     })
     `
   }
@@ -220,13 +215,12 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let subject = element.querySelector(#{selector})
+      const subject = element.querySelector(#{selector})
 
-      if (subject) {
-        return element
-      } else {
+      if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+      return element
     })
     `
   }
@@ -240,19 +234,18 @@ module Test.Html {
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
-      let subject = element.querySelector(#{selector})
+      const subject = element.querySelector(#{selector})
 
-      if (subject) {
-        let actual = getComputedStyle(subject)[#{property}]
-
-        if (actual == #{value}) {
-          return element
-        } else {
-          throw \`Style did not match expected "${#{value}}" got "${actual}"\`
-        }
-      } else {
+      if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+
+      const actual = getComputedStyle(subject)[#{property}]
+
+      if (!(actual == #{value})) {
+        throw \`Assertion failed: ${actual} === ${#{value}}\`
+      }
+      return element
     })
     `
   }
