@@ -95,7 +95,7 @@ module Test.Context {
     #{context}.step((item) => {
       let actual = #{method}(item)
 
-      if (actual == #{value}) {
+      if (_compare(actual, #{value})) {
         return item
       } else {
         throw \`Assertion failed ${actual} == ${value}\`
