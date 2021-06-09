@@ -14,7 +14,7 @@ module Mint
           opening_bracket: ParallelExpectedOpeningBracket,
           closing_bracket: ParallelExpectedClosingBracket
         ) do
-          results = many { statement(:sequence) || comment }
+          results = many { statement(:parallel) || comment }
 
           raise ParallelExpectedStatement if results.none?(Ast::Statement)
 
