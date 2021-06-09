@@ -1,11 +1,11 @@
 module Mint
   class TypeChecker
     class Scope
-      alias Node = Ast::InlineFunction |
-                   Tuple(String, Checkable, Ast::Node) |
+      alias Node = Tuple(String, Checkable, Ast::Node) |
                    Ast::WhereStatement |
                    Ast::Statement |
                    Ast::Component |
+                   Ast::InlineFunction |
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
@@ -44,24 +44,17 @@ module Mint
 
       def path(node : Node)
         case node
-        when Ast::InlineFunction
-          node.name.value
-        when Tuple(String, Checkable, Ast::Node)
+        in Tuple(String, Checkable, Ast::Node)
           node[0]
-        when Ast::Component
+        in Ast::Component,
+           Ast::Store,
+           Ast::Module,
+           Ast::Provider
           node.name
-        when Ast::Store
-          node.name
-        when Ast::Module
-          node.name
-        when Ast::Provider
-          node.name
-        when Ast::Function
+        in Ast::InlineFunction,
+           Ast::Function,
+           Ast::Style
           node.name.value
-        when Ast::Style
-          node.name.value
-        else
-          "" # Cannot happen
         end
       end
 
@@ -191,32 +184,32 @@ module Mint
       end
 
       def with(node : Node)
-        store =
-          case node
-          when Ast::Function, Ast::Get
-            @functions[node]?
-          end
-
-        if node.is_a?(Ast::Component) ||
-           node.is_a?(Ast::Provider) ||
-           node.is_a?(Ast::Module) ||
-           node.is_a?(Ast::Store)
+        case node
+        when Ast::Component,
+             Ast::Provider,
+             Ast::Module,
+             Ast::Store
           old_levels = @levels
           @levels = [node] of Node
-          result = yield
-          @levels = old_levels
-        elsif store
-          old_levels = @levels
-          @levels = [] of Node
-          @levels.concat([node, store])
-          result = yield
-          @levels = old_levels
-        else
-          result =
-            push(node) { yield }
+          begin
+            return yield
+          ensure
+            @levels = old_levels
+          end
+        when Ast::Function,
+             Ast::Get
+          if store = @functions[node]?
+            old_levels = @levels
+            @levels = [node, store] of Node
+            begin
+              return yield
+            ensure
+              @levels = old_levels
+            end
+          end
         end
 
-        result
+        push(node) { yield }
       end
 
       def push(node : Node)

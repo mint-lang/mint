@@ -226,9 +226,9 @@ module Mint
 
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
       case node
-      when Checkable
+      in Checkable
         node
-      when Ast::Node
+      in Ast::Node
         if cached = cache[node]?
           raise InvalidSelfReference, {
             "referee" => @referee,
@@ -279,8 +279,6 @@ module Mint
             result
           end
         end
-      else
-        NEVER # Cannot happen
       end
     end
 

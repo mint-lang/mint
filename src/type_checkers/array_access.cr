@@ -15,7 +15,7 @@ module Mint
         resolve lhs
 
       case index
-      when Ast::Expression
+      in Ast::Expression
         index_type =
           resolve index
 
@@ -26,7 +26,7 @@ module Mint
         } unless Comparer.compare(index_type, NUMBER)
 
         check_array_access(lhs, type)
-      when Int64
+      in Int64
         if type.name == "Tuple"
           parameter =
             type.parameters[index]?
@@ -42,8 +42,6 @@ module Mint
         else
           check_array_access(lhs, type)
         end
-      else
-        raise TypeError # Cannot happen!
       end
     end
 
