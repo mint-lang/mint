@@ -15,9 +15,10 @@ module Mint
 
         next unless head
 
-        parameters = [] of Ast::Node
-        parameters << head
-        parameters.concat(list(terminator: '}', separator: ',') { variable })
+        parameters =
+          [head.as(Ast::Node)] &+ list(terminator: '}', separator: ',') do
+            variable
+          end
 
         whitespace
 

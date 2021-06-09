@@ -4,13 +4,11 @@ module Mint
 
     def negated_expression : Ast::NegatedExpression?
       start do |start_position|
-        negations = gather { chars("!") }.to_s
-        next if negations.empty?
-        negations = if negations.size % 2 == 0
-                      "!!"
-                    else
-                      "!"
-                    end
+        negations = gather { chars("!") }.presence
+        next unless negations
+
+        negations =
+          negations.size % 2 == 0 ? "!!" : "!"
 
         expression = expression! NegatedExpressionExpectedExpression
 

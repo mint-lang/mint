@@ -19,9 +19,11 @@ module Mint
         children = [] of Ast::Node
         comments = [] of Ast::Comment
 
-        many do
+        items = many do
           html_content.as(Ast::Node | Ast::Comment?)
-        end.each do |item|
+        end
+
+        items.each do |item|
           case item
           when Ast::Comment
             comments << item

@@ -34,7 +34,7 @@ module Mint
         when Ast::Statement
           type = resolve value
 
-          if value.parent == Ast::Statement::Parent::Try
+          if value.parent.try?
             if type.name == "Result" && type.parameters.size == 2
               type.parameters[1]
             else

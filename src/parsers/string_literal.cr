@@ -15,7 +15,7 @@ module Mint
 
         value = many(parse_whitespace: false) do
           if with_interpolation
-            (not_interpolation_part('"') || interpolation)
+            not_interpolation_part('"') || interpolation
           else
             not_interpolation_part('"')
           end.as(Ast::Interpolation | String?)

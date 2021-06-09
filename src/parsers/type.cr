@@ -10,10 +10,7 @@ module Mint
       name = type_id! error
 
       if char! '('
-        parameters = list(
-          separator: ',',
-          terminator: ')'
-        ) do
+        parameters = list(separator: ',', terminator: ')') do
           whitespace
           type =
             self.type.as(Ast::Type?) ||
@@ -23,10 +20,12 @@ module Mint
           type
         end
         char ')', TypeExpectedClosingParentheses
+      else
+        parameters = [] of Ast::Type | Ast::TypeVariable
       end
 
       self << Ast::Type.new(
-        parameters: parameters || [] of Ast::Type | Ast::TypeVariable,
+        parameters: parameters,
         from: start_position,
         to: position,
         input: data,

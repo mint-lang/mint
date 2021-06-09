@@ -14,7 +14,7 @@ module Mint
           opening_bracket: TryExpectedOpeningBracket,
           closing_bracket: TryExpectedClosingBracket
         ) do
-          items = many { statement(Ast::Statement::Parent::Try) || comment }
+          items = many { statement(:try) || comment }
 
           raise TryExpectedStatement if items.none?(Ast::Statement)
 

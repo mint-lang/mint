@@ -8,7 +8,7 @@ module Mint
           next unless char! '['
           value = variable || spread
           whitespace
-          keyword ","
+          char! ','
           whitespace
           value
         end
@@ -16,9 +16,9 @@ module Mint
         next unless head
 
         items =
-          [head.as(Ast::Node)].concat(list(terminator: ']', separator: ',') do
+          [head.as(Ast::Node)] &+ list(terminator: ']', separator: ',') do
             variable || spread
-          end)
+          end
 
         whitespace
 
