@@ -5,7 +5,7 @@ module AnimationFrame {
 
     id = AnimationFrame.request(() { Debug.log("Hello") })
   */
-  fun request (method : Function(a)) : Number {
+  fun request (method : Function(Number, a)) : Number {
     `requestAnimationFrame(#{method})`
   }
 
