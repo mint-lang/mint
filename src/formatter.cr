@@ -52,17 +52,6 @@ module Mint
       nil
     end
 
-    def format_enum_record_definition(node : Ast::EnumRecordDefinition) : String
-      if node.new_line?
-        fields =
-          format node.fields, ",\n"
-
-        "\n#{indent(fields)}"
-      else
-        format node.fields, ", "
-      end
-    end
-
     def format_parameters(parameters)
       return if parameters.empty?
 
@@ -84,12 +73,7 @@ module Mint
 
     def format(node : Ast::Node) : String
       # This is required because the overloaded
-      case node
-      when Ast::EnumRecordDefinition
-        format_enum_record_definition(node)
-      else
-        raise "Formatter not implemented for node '#{node}' (this should not happen!)"
-      end
+      raise "Formatter not implemented for node '#{node}' (this should not happen!)"
     end
 
     def source(node : Ast::Node) : String
