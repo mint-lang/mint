@@ -50,7 +50,9 @@ module Mint
         to_catch.reject! { |item| Comparer.compare(catch_type, item) }
       end
 
-      resolve node.finally.not_nil! if node.finally
+      if node_finally = node.finally
+        resolve node_finally
+      end
 
       catch_all_type =
         node.catch_all.try do |catch|

@@ -157,8 +157,10 @@ module Mint
       end
 
       node.uses.each do |use|
-        condition =
-          use.condition ? compile(use.condition.not_nil!) : "true"
+        if condition = use.condition
+          condition = compile(condition)
+        end
+        condition ||= "true"
 
         name =
           js.class_of(lookups[use])

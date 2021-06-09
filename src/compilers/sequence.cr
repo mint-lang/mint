@@ -108,8 +108,8 @@ module Mint
         ])
 
       finally =
-        if node.finally
-          compile node.finally.not_nil!
+        if node_finally = node.finally
+          compile node_finally
         end
 
       js.asynciif do

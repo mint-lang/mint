@@ -3,7 +3,7 @@ module Mint
     include Skippable
 
     class Config
-      getter indent_size : Int32
+      property indent_size : Int32
 
       def initialize(@indent_size = 2)
       end
@@ -15,7 +15,7 @@ module Mint
     end
 
     def indent(string : String)
-      string.indent(config.indent_size.to_i32)
+      string.indent(config.indent_size)
     end
 
     # Helpers for formatting things

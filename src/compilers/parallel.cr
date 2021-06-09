@@ -37,10 +37,10 @@ module Mint
         catches =
           case type
           when TypeChecker::Type
-            if type.name.in?("Promise", "Result") && type.parameters[0]
+            if type.name.in?("Promise", "Result") && (type_param = type.parameters.first?)
               node
                 .catches
-                .select(&.type.==(type.parameters[0].name))
+                .select(&.type.==(type_param.name))
                 .map { |item| compile(item).as(String) }
             end
           end || %w[]
@@ -96,17 +96,17 @@ module Mint
           ])
 
       finally =
-        if node.finally
-          compile node.finally.not_nil!
+        if node_finally = node.finally
+          compile node_finally
         end
 
       then_block =
-        if node.then_branch
-          js.assign("_", compile(node.then_branch.not_nil!.expression))
+        if then_branch = node.then_branch
+          js.assign("_", compile(then_branch.expression))
         end
 
       names =
-        node.statements.compact_map do |statement|
+        statements.compact_map do |statement|
           case target = statement.target
           when Ast::Variable
             js.let(js.variable_of(target), "null")
