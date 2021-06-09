@@ -8,7 +8,7 @@ module Mint
         selectors = list(
           terminator: '{',
           separator: ','
-        ) { css_selector_name }.reject!(&.empty?)
+        ) { css_selector_name }
 
         next if selectors.empty?
         next unless char == '{'
@@ -33,11 +33,6 @@ module Mint
     end
 
     def css_selector_name : String?
-      colon = nil
-      double_colon = nil
-      dot = nil
-      bracket = nil
-
       if char! '&'
         colon = char!(':')
         double_colon = keyword("::")
@@ -46,7 +41,9 @@ module Mint
       end
 
       name =
-        gather { chars "^,{}" }.to_s.strip
+        gather { chars "^,{}" }.presence.try(&.strip)
+
+      return unless name
 
       case
       when colon        then ":#{name}"

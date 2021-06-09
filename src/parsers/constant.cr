@@ -13,15 +13,15 @@ module Mint
         whitespace
 
         head =
-          gather { chars("A-Z") }.to_s
+          gather { chars("A-Z") }
 
         tail =
-          gather { chars("A-Z0-9_") }.to_s
+          gather { chars("A-Z0-9_") }
+
+        raise ConstantExpectedName unless head || tail
 
         name =
           "#{head}#{tail}"
-
-        raise ConstantExpectedName if name.empty?
 
         whitespace
         char '=', ConstantExpectedEqualSign

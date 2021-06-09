@@ -9,7 +9,7 @@ module Mint
         name = gather do
           step
           chars "a-zA-Z0-9-"
-        end
+        end.to_s
 
         next unless char! ':'
         whitespace
@@ -23,7 +23,7 @@ module Mint
                               !keyword_ahead("\#{") &&
                               char != '"'
               end
-          end.compact_map do |item|
+          end.map do |item|
             if item.is_a?(Ast::StringLiteral) && item.static?
               %("#{item.static_value}")
             else
@@ -35,7 +35,7 @@ module Mint
 
         self << Ast::CssDefinition.new(
           from: start_position,
-          name: name.to_s,
+          name: name,
           value: value,
           to: position,
           input: data)

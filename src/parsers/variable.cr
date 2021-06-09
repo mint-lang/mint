@@ -18,8 +18,7 @@ module Mint
     end
 
     def variable_with_dashes!(error : SyntaxError.class, track = true) : Ast::Variable
-      raise error unless node = variable_with_dashes(track)
-      node
+      variable_with_dashes(track) || raise error
     end
 
     def variable_with_dashes(track = true) : Ast::Variable?
@@ -43,8 +42,7 @@ module Mint
     end
 
     def variable!(error : SyntaxError.class, track = true) : Ast::Variable
-      raise error unless node = variable(track)
-      node
+      variable(track) || raise error
     end
 
     def variable(track = true) : Ast::Variable?

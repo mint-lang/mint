@@ -1,8 +1,7 @@
 module Mint
   class Parser
     def expression!(error : SyntaxError.class) : Ast::Expression
-      raise error unless exp = expression
-      exp
+      expression || raise error
     end
 
     def array_access_or_call(lhs)

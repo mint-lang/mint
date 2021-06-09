@@ -16,9 +16,10 @@ module Mint
 
         whitespace! CssNestedAtExpectedSpaceAfterKeyword
 
-        content = gather { chars "^{" }.to_s.strip
+        content =
+          gather { chars "^{" }.presence.try(&.strip)
 
-        raise CssNestedAtExpectedCondition if content.empty?
+        raise CssNestedAtExpectedCondition unless content
 
         body = block(
           opening_bracket: CssNestedAtExpectedOpeningBracket,
