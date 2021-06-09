@@ -3,7 +3,7 @@ module Mint
     class Variable
       @@id = 0
 
-      property parameters : Array(Checkable) = [] of Checkable
+      property parameters = [] of Checkable
       property instance : Checkable?
       getter name : String
       getter id : Int32
