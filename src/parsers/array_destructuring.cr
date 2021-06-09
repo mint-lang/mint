@@ -22,7 +22,7 @@ module Mint
 
         whitespace
 
-        char "]", ArrayDestructuringExpectedClosingBracket
+        char ']', ArrayDestructuringExpectedClosingBracket
 
         Ast::ArrayDestructuring.new(
           from: start_position,

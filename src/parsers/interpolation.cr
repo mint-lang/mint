@@ -11,7 +11,7 @@ module Mint
         expression = expression! InterpolationExpectedExpression
         whitespace
 
-        char "}", InterpolationExpectedClosingBracket
+        char '}', InterpolationExpectedClosingBracket
 
         Ast::Interpolation.new(
           expression: expression,

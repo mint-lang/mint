@@ -14,7 +14,7 @@ module Mint
         ) { expression }
         whitespace
 
-        char "]", ArrayExpectedClosingBracket
+        char ']', ArrayExpectedClosingBracket
 
         type = start do
           whitespace

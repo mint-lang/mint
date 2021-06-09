@@ -21,7 +21,7 @@ module Mint
 
         whitespace
 
-        char "}", TupleDestructuringExpectedClosingBracket
+        char '}', TupleDestructuringExpectedClosingBracket
 
         Ast::TupleDestructuring.new(
           parameters: parameters,
