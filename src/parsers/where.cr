@@ -14,9 +14,8 @@ module Mint
         ) do
           items = many { where_statement || comment }
 
-          raise WhereExpectedWhere if items
-                                        .reject(Ast::Comment)
-                                        .empty?
+          raise WhereExpectedWhere if items.none?(Ast::WhereStatement)
+
           items
         end
 

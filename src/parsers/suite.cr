@@ -22,9 +22,7 @@ module Mint
         ) do
           items = many { test || constant || comment }
 
-          raise SuiteExpectedTests if items
-                                        .reject(Ast::Comment)
-                                        .empty?
+          raise SuiteExpectedTests if items.none?(Ast::Test | Ast::Constant)
 
           items
         end

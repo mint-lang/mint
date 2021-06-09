@@ -16,9 +16,8 @@ module Mint
         ) do
           results = many { statement(Ast::Statement::Parent::Sequence) || comment }
 
-          raise SequenceExpectedStatement if results
-                                               .select(Ast::Statement)
-                                               .empty?
+          raise SequenceExpectedStatement if results.none?(Ast::Statement)
+
           results
         end
 

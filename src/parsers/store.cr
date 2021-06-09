@@ -21,9 +21,10 @@ module Mint
         ) do
           items = many { state || function || get || constant || self.comment }
 
-          raise StoreExpectedBody if items
-                                       .reject(Ast::Comment)
-                                       .empty?
+          if items.none?(Ast::Function | Ast::Constant | Ast::State | Ast::Get)
+            raise StoreExpectedBody
+          end
+
           items
         end
 
