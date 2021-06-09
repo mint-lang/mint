@@ -38,6 +38,7 @@ require "./ast"
 require "./style_builder"
 
 require "./type_checkers/**"
+require "./type_checker/**"
 require "./type_checker"
 
 require "./formatters/**"
