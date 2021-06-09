@@ -332,12 +332,13 @@ module Map {
     `#{map}`
   }
 
-  /* Converts an array of tuples into a Map.
+  /*
+  Converts an array of tuples into a Map.
 
-    (Map.empty()
-    |> Map.set("a", 1)
-    |> Map.set("b", 2)
-    ) == Map.fromArray([{"a", 1}, {"b", 2}])
+     (Map.empty()
+     |> Map.set("a", 1)
+     |> Map.set("b", 2)
+     ) == Map.fromArray([{"a", 1}, {"b", 2}])
   */
   fun fromArray (array : Array(Tuple(a, b))) : Map(a, b) {
     Array.reduce(

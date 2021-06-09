@@ -151,8 +151,11 @@ module Window {
   /* Returns true if the given url is the same as the current url of the page. */
   fun isActiveURL (url : String) : Bool {
     try {
-      window = Window.url()
-      current = Url.parse(url)
+      window =
+        Window.url()
+
+      current =
+        Url.parse(url)
 
       (window.hostname == current.hostname &&
         window.protocol == current.protocol &&

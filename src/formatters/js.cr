@@ -4,8 +4,8 @@ module Mint
       body =
         node.value.join do |item|
           case item
-          when Ast::Node
-            format(item)
+          when Ast::Interpolation
+            item.source
           else
             format(item).gsub('`', "\\`")
           end
