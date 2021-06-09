@@ -30,8 +30,10 @@ module Mint
       } unless new_target
 
       if item = component_records.find(&.last.==(target))
+        component, _ = item
+
         refs =
-          item[0].refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
+          component.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
             case ref
             when Ast::HtmlComponent
               component_records
@@ -47,13 +49,13 @@ module Mint
           end
 
         lookups[node.field] =
-          (item[0].gets.find(&.name.value.==(node.field.value)) ||
-            item[0].functions.find(&.name.value.==(node.field.value)) ||
-            item[0].properties.find(&.name.value.==(node.field.value)) ||
+          (component.gets.find(&.name.value.==(node.field.value)) ||
+            component.functions.find(&.name.value.==(node.field.value)) ||
+            component.properties.find(&.name.value.==(node.field.value)) ||
             refs[node.field.value]? ||
-            item[0].states.find(&.name.value.==(node.field.value))).not_nil!
+            component.states.find(&.name.value.==(node.field.value))).not_nil!
 
-        scope(item[0]) do
+        scope(component) do
           resolve lookups[node.field]
         end
       else

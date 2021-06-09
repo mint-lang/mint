@@ -4,9 +4,9 @@ module Mint
       scope node do
         resolve node.arguments
         resolve node.body
-
-        NEVER
       end
+
+      NEVER
     end
   end
 end

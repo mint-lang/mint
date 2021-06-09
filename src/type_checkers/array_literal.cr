@@ -19,7 +19,10 @@ module Mint
         first =
           resolve node.items.first
 
-        node.items[1..node.items.size].each_with_index do |item, index|
+        rest =
+          node.items[1..node.items.size]
+
+        rest.each_with_index do |item, index|
           type = resolve item
 
           raise ArrayNotMatches, {

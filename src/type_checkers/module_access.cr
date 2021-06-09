@@ -4,13 +4,19 @@ module Mint
     type_error ModuleAccessNotFoundModule
 
     def check(node : Ast::ModuleAccess) : Checkable
+      name =
+        node.name
+
       entity =
-        ast.unified_modules.find(&.name.==(node.name)) ||
-          ast.stores.find(&.name.==(node.name)) ||
-          ast.providers.find(&.name.==(node.name)) ||
+        ast.unified_modules.find(&.name.==(name)) ||
+          ast.stores.find(&.name.==(name)) ||
+          ast.providers.find(&.name.==(name)) ||
           ast.components
             .select(&.global?)
-            .find(&.name.==(node.name))
+            .find(&.name.==(name))
+
+      variable_value =
+        node.variable.value
 
       item =
         case entity
@@ -31,32 +37,32 @@ module Mint
               raise TypeError
             end
           else
-            entity.functions.find(&.name.value.==(node.variable.value))
+            entity.functions.find(&.name.value.==(variable_value))
           end
         when Ast::Module
-          entity.functions.find(&.name.value.==(node.variable.value)) ||
-            entity.constants.find(&.name.==(node.variable.value))
+          entity.functions.find(&.name.value.==(variable_value)) ||
+            entity.constants.find(&.name.==(variable_value))
         when Ast::Component
-          entity.properties.find(&.name.value.==(node.variable.value)) ||
-            entity.functions.find(&.name.value.==(node.variable.value)) ||
-            entity.states.find(&.name.value.==(node.variable.value)) ||
-            entity.constants.find(&.name.==(node.variable.value)) ||
-            entity.gets.find(&.name.value.==(node.variable.value))
+          entity.properties.find(&.name.value.==(variable_value)) ||
+            entity.functions.find(&.name.value.==(variable_value)) ||
+            entity.states.find(&.name.value.==(variable_value)) ||
+            entity.constants.find(&.name.==(variable_value)) ||
+            entity.gets.find(&.name.value.==(variable_value))
         when Ast::Store
-          entity.functions.find(&.name.value.==(node.variable.value)) ||
-            entity.states.find(&.name.value.==(node.variable.value)) ||
-            entity.gets.find(&.name.value.==(node.variable.value)) ||
-            entity.constants.find(&.name.==(node.variable.value))
+          entity.functions.find(&.name.value.==(variable_value)) ||
+            entity.states.find(&.name.value.==(variable_value)) ||
+            entity.gets.find(&.name.value.==(variable_value)) ||
+            entity.constants.find(&.name.==(variable_value))
         else
           raise ModuleAccessNotFoundModule, {
-            "name" => node.name,
+            "name" => name,
             "node" => node,
           }
         end
 
       raise ModuleAccessNotFoundFunction, {
-        "name"   => node.variable.value,
-        "entity" => node.name,
+        "name"   => variable_value,
+        "entity" => name,
         "node"   => node,
       } unless item
 
