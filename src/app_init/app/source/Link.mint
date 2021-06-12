@@ -5,7 +5,7 @@ component Link {
   style link {
     font-size: calc(10px + 2vmin);
     text-decoration: none;
-    color:  #DDDDDD;
+    color: #DDDDDD;
 
     &:hover {
       text-decoration: underline;
@@ -13,8 +13,12 @@ component Link {
   }
 
   fun render : Html {
-    <a::link href="#{href}" target="_blank">
+    <a::link
+      href="#{href}"
+      target="_blank">
+
       <{ children }>
+
     </a>
   }
 }
