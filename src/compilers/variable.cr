@@ -96,7 +96,7 @@ module Mint
           else
             "SHOULD NEVER HAPPEN"
           end
-        when Tuple(Ast::Node, Int32), Tuple(Ast::Node, Array(Int32) | Int32)
+        when Tuple(Ast::Node, Array(Int32) | Int32)
           case item = entity[0]
           when Ast::WhereStatement, Ast::Statement
             case target = item.target

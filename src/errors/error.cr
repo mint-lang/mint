@@ -3,8 +3,8 @@ module Mint
   # to render to both to the Terminal and to an HTML format.
   class Error < Exception
     alias Value = String | Ast::Node | TypeChecker::Checkable |
-                  Array(TypeChecker::Checkable) | Tuple(Ast::Node, Int32) |
-                  Array(String) | Tuple(Ast::Node, Array(Int32))
+                  Array(TypeChecker::Checkable) | Tuple(Ast::Node, Int32 | Array(Int32)) |
+                  Array(String)
 
     alias Locals = Hash(String, Value)
 

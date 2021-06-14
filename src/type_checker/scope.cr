@@ -12,8 +12,8 @@ module Mint
                    Ast::Store |
                    Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32) | Tuple(Ast::Node, Array(Int32)), Node)
-      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32) | Tuple(Ast::Node, Array(Int32)), Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
