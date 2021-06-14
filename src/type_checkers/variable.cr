@@ -47,7 +47,7 @@ module Mint
               type
             end
           end
-        when Tuple(Ast::Node, Int32), Tuple(Ast::Node, Array(Int32))
+        when Tuple(Ast::Node, Int32 | Array(Int32))
           item = value[0]
 
           type =
