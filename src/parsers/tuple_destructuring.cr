@@ -2,7 +2,7 @@ module Mint
   class Parser
     syntax_error TupleDestructuringExpectedClosingBracket
 
-    def tuple_destructuring
+    def tuple_destructuring : Ast::TupleDestructuring?
       start do |start_position|
         head = start do
           next unless char! '{'
@@ -15,8 +15,8 @@ module Mint
 
         next unless head
 
-        parameters = [head.as(Ast::Node)] &+ list(terminator: '}', separator: ',') do
-          (tuple_destructuring || variable).as(Ast::Node?)
+        parameters = [head] &+ list(terminator: '}', separator: ',') do
+          tuple_destructuring || variable
         end
 
         whitespace
