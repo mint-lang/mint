@@ -102,13 +102,13 @@ module Mint
             case target = item.target
             when Ast::TupleDestructuring
               case val = entity[1]
-              when Int32
+              in Int32
                 js.variable_of(target.parameters[val])
-              when Array(Int32)
+              in Array(Int32)
                 js.variable_of(val.reduce(target) do |curr_type, curr_val|
                   curr_type.as(Ast::TupleDestructuring).parameters[curr_val]
                 end)
-              end.not_nil!
+              end
             else
               js.variable_of(node)
             end
