@@ -20,7 +20,10 @@ module Mint
            end
           "{\n#{indent(body.join(",\n"))}\n}"
         else
-          "{ #{body.join(", ")} }"
+          body =
+            body.join(", ").presence.try { |v| " #{v} " } || " "
+
+          "{#{body}}"
         end
       else
         ""
