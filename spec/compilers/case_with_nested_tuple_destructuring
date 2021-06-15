@@ -1,14 +1,17 @@
 component Main {
   fun render : String {
-    case ({"A", 0, true}) {
-      {"A", 0, false} =>
+    case ({"A", {"B"}}) {
+      {"A", {"C"}} =>
         "B"
 
-      {"A", 0, true} =>
+      {"A", {"B"}} =>
         "A"
 
-      {a, b, c} =>
+      {a, b} =>
         a
+
+      {a, {b}} =>
+        b
     }
   }
 }
@@ -16,17 +19,21 @@ component Main {
 class A extends _C {
   render() {
     return (() => {
-      let a = [`A`, 0, true];
+      let a = [`A`, [`B`]];
 
-      if (_compare(a, [`A`, 0, false])) {
+      if (_compare(a, [`A`, [`C`]])) {
         return `B`
-      } else if (_compare(a, [`A`, 0, true])) {
+      } else if (_compare(a, [`A`, [`B`]])) {
         return `A`
       } else if (Array.isArray(a)) {
         const b = a[0];
         const c = a[1];
-        const d = a[2];
         return b;
+      } else if (Array.isArray(a) && Array.isArray(a[1])) {
+        const e = a[0];
+        const f = a[1];
+        const d = a[1][0];
+        return d;
       };
     })();
   }

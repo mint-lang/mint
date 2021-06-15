@@ -12,8 +12,8 @@ module Mint
                    Ast::Store |
                    Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node)
-      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
@@ -113,9 +113,7 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.select(Ast::Variable).find(&.value.==(variable)).try do |item|
-            {node, target.parameters.index(item).not_nil!}
-          end
+          _find(variable, target).try { |result| {node, result} }
         end
       end
 
@@ -124,8 +122,23 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.select(Ast::Variable).find(&.value.==(variable)).try do |item|
-            {node, target.parameters.index(item).not_nil!}
+          _find(variable, target).try { |result| {node, result} }
+        end
+      end
+
+      def _find(variable : String, node : Ast::TupleDestructuring) : Array(Int32)?
+        node.parameters.each_with_index do |param, idx|
+          case param
+          when Ast::Variable
+            if param.value == variable
+              return [idx]
+            end
+          when Ast::TupleDestructuring
+            result = _find(variable, param)
+            if result
+              result.unshift(idx)
+              return result
+            end
           end
         end
       end

@@ -10,7 +10,9 @@ describe "Tuple Destructuring" do
   expect_ignore "a "
 
   expect_error "{a ", Mint::SyntaxError
+  expect_error "{a, {b}", Mint::SyntaxError
 
   expect_ok "{a, b, c}"
   expect_ok "{a, b, c, d}"
+  expect_ok "{a, {b}, c, d}"
 end

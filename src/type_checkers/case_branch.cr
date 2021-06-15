@@ -49,16 +49,7 @@ module Mint
             resolve_expression(node)
           end
         when Ast::TupleDestructuring
-          raise CaseBranchNotTuple, {
-            "got"  => condition,
-            "node" => item,
-          } unless condition.name == "Tuple"
-
-          raise CaseBranchTupleMismatch, {
-            "size" => item.parameters.size.to_s,
-            "got"  => condition,
-            "node" => item,
-          } if item.parameters.size > condition.parameters.size
+          _check(item, condition)
 
           scope(destructuring_variables(item, condition)) do
             resolve_expression(node)
@@ -73,6 +64,19 @@ module Mint
           check_match(item, condition)
         end
       end || resolve_expression(node)
+    end
+
+    private def _check(node : Ast::TupleDestructuring, condition : Checkable)
+      raise CaseBranchNotTuple, {
+        "got"  => condition,
+        "node" => node,
+      } unless condition.name == "Tuple"
+
+      raise CaseBranchTupleMismatch, {
+        "size" => node.parameters.size.to_s,
+        "got"  => condition,
+        "node" => node,
+      } if node.parameters.size > condition.parameters.size
     end
 
     private def destructuring_variables(item : Ast::EnumDestructuring, condition)
@@ -119,9 +123,13 @@ module Mint
       item.parameters.map_with_index do |variable, index|
         case variable
         when Ast::Variable
-          {variable.value, condition.parameters[index], variable}
+          [{variable.value, condition.parameters[index], variable}]
+        when Ast::TupleDestructuring
+          subcondition = condition.parameters[index]
+          _check(variable, subcondition)
+          destructuring_variables(variable, subcondition)
         end
-      end.compact
+      end.compact.flatten
     end
 
     private def destructuring_variables(item : Ast::ArrayDestructuring, condition)

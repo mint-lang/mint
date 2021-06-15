@@ -176,7 +176,7 @@ module Mint
                                            TypeChecker::Checkable |
                                            Array(TypeChecker::Checkable) |
                                            Array(String) |
-                                           Tuple(Ast::Node, Int32))
+                                           Tuple(Ast::Node, Int32 | Array(Int32)))
     end
 
     macro method_missing(call)
