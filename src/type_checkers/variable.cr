@@ -58,11 +58,11 @@ module Mint
             case item.target
             when Ast::TupleDestructuring
               case val = value[1]
-              when Int32
+              in Int32
                 type.parameters[val]
-              when Array(Int32)
+              in Array(Int32)
                 val.reduce(type) { |curr_type, curr_val| curr_type.parameters[curr_val] }
-              end.not_nil!
+              end
             else
               type
             end
