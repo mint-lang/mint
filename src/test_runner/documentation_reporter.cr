@@ -1,6 +1,8 @@
+require "./reporter"
+
 module Mint
   class TestRunner
-    class DocumentationReporter
+    class DocumentationReporter < Reporter
       def succeeded(name)
         puts "✔ #{name}".colorize(:green).to_s.indent
       end

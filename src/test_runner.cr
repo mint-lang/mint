@@ -28,7 +28,7 @@ module Mint
     error InvalidBrowser
     error InvalidReporter
 
-    @reporter : DocumentationReporter | DotReporter
+    @reporter : Reporter
     @browser_path : String?
     @script : String?
 
@@ -105,14 +105,14 @@ module Mint
       Compiler.compile_with_tests(type_checker.artifacts)
     end
 
-    def resolve_reporter
+    def resolve_reporter : Reporter
       case @flags.reporter.downcase
       when "documentation"
         DocumentationReporter.new
       when "dot"
         DotReporter.new
       else
-        raise InvalidReporter, {"reporter" => @flags.reporter.downcase}
+        raise InvalidReporter, {"reporter" => @flags.reporter}
       end
     end
 

@@ -1,6 +1,8 @@
+require "./reporter"
+
 module Mint
   class TestRunner
-    class DotReporter
+    class DotReporter < Reporter
       private MAX_LINE_LENGTH = 80
 
       private SUCCESS_MARKER = ".".colorize(:green)
