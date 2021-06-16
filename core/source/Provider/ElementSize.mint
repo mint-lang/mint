@@ -19,7 +19,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
         if (subscription.element == Maybe::Just(entry.target)) {
           subscription.changes(entry.dimensions)
         } else {
-          next {  }
+          next { }
         }
       }
     }

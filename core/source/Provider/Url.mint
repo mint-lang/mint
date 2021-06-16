@@ -32,7 +32,7 @@ provider Provider.Url : Provider.Url.Subscription {
         Maybe::Nothing =>
           next { listener = Maybe::Just(Window.addEventListener("popstate", false, handle)) }
 
-        => next {  }
+        => next { }
       }
     }
   }

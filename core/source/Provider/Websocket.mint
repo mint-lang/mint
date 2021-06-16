@@ -10,7 +10,7 @@ provider Provider.WebSocket : WebSocket.Config {
         subscription.url == url
       }
 
-      next {  }
+      next { }
     }
   }
 
@@ -22,7 +22,7 @@ provider Provider.WebSocket : WebSocket.Config {
         subscription.url == url
       }
 
-      next {  }
+      next { }
     }
   }
 
@@ -34,7 +34,7 @@ provider Provider.WebSocket : WebSocket.Config {
         subscription.url == url
       }
 
-      next {  }
+      next { }
     }
   }
 
@@ -46,7 +46,7 @@ provider Provider.WebSocket : WebSocket.Config {
         subscription.url == url
       }
 
-      next {  }
+      next { }
     }
   }
 

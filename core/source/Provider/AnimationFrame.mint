@@ -26,7 +26,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
     } else if (id == -1) {
       next { id = AnimationFrame.request(process) }
     } else {
-      next {  }
+      next { }
     }
   }
 }

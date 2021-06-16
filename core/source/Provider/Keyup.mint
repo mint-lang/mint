@@ -27,7 +27,7 @@ provider Provider.Keyup : Provider.Keyup.Subscription {
         Maybe::Nothing =>
           next { listener = Maybe::Just(Window.addEventListener("keyup", true, handle)) }
 
-        => next {  }
+        => next { }
       }
     }
   }

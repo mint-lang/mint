@@ -24,10 +24,10 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
             if (Dom.contains(entry.target, element)) {
               subscription.changes()
             } else {
-              next {  }
+              next { }
             }
 
-          Maybe::Nothing => next {  }
+          Maybe::Nothing => next { }
         }
       }
     }
@@ -50,7 +50,7 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
               subscription.changes()
             }
 
-          Maybe::Nothing => next {  }
+          Maybe::Nothing => next { }
         }
       }
 
