@@ -171,16 +171,13 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String |
-                                           Ast::Node |
-                                           TypeChecker::Checkable |
-                                           Array(TypeChecker::Checkable) |
-                                           Array(String) |
-                                           Tuple(Ast::Node, Int32 | Array(Int32)))
+    @data : Error::Locals
+
+    def initialize(@data = Error::Locals.new)
     end
 
     macro method_missing(call)
-      @data[{{call.name.id.stringify}}]?
+      @data[{{ call.name.id.stringify }}]?
     end
 
     def to_html
