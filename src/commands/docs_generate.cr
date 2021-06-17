@@ -23,6 +23,8 @@ module Mint
             ast.merge(Parser.parse(File.read(file), file))
           end
 
+          ast.normalize
+
           json =
             DocumentationGenerator.new.generate(current, ast)
 
