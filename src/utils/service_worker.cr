@@ -7,7 +7,7 @@ module Mint
     ECR.def_to_s "#{__DIR__}/service_worker.ecr"
 
     def files
-      Dir.cd("dist") do
+      Dir.cd(DIST_DIR) do
         Dir
           .glob("**/*")
           .reject! { |file| File.directory?(file) }
