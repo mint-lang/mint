@@ -4,8 +4,10 @@ module Mint
       data =
         format node.data, node.condition
 
-      condition =
-        " when {\n#{indent(format(node.condition.not_nil!))}\n}" if node.condition
+      if condition = node.condition
+        condition =
+          " when {\n#{indent(format(condition))}\n}"
+      end
 
       "use #{node.provider} #{data}#{condition}"
     end

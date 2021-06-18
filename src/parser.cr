@@ -115,7 +115,7 @@ module Mint
     end
 
     def chars(set) : String?
-      consume_while char != '\0' && char.in_set? set
+      consume_while char != '\0' && char.in_set?(set)
     end
 
     # Gathering many consumes
@@ -123,22 +123,24 @@ module Mint
 
     def gather : String?
       start_position = position
+
       yield
+
       if position > start_position
-        input[start_position, position - start_position].join
+        result = input[start_position, position - start_position]
+        result.join unless result.empty?
       end
     end
 
     # Consuming keywords
     # ----------------------------------------------------------------------------
 
-    def keyword!(word, error) : Bool?
-      raise error unless keyword(word)
+    def keyword!(word, error) : Bool
+      keyword(word) || raise error
     end
 
     def keyword_ahead(word) : Bool
       result = input[position, word.size].join
-
       result == word
     end
 

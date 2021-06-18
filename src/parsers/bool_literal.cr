@@ -3,13 +3,14 @@ module Mint
     def bool_literal : Ast::BoolLiteral?
       start do |start_position|
         value =
-          if keyword "true"
+          case
+          when keyword "true"
             true
-          elsif keyword "false"
+          when keyword "false"
             false
+          else
+            next
           end
-
-        next if value.nil?
 
         self << Ast::BoolLiteral.new(
           from: start_position,

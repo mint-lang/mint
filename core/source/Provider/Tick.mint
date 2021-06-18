@@ -22,7 +22,7 @@ provider Provider.Tick : Provider.Tick.Subscription {
       } else if (id == -1) {
         next { id = `setInterval(#{process}, 1000)` }
       } else {
-        next {  }
+        next { }
       }
     }
   }

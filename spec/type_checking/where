@@ -10,6 +10,22 @@ component Main {
     ""
   }
 }
+---------------------------------------------------------------
+component Main {
+  fun render : String {
+    x
+  } where {
+    {x} = {"hello"}
+  }
+}
+---------------------------------------------------------------
+component Main {
+  fun render : String {
+    y
+  } where {
+    {x, {y}} = {"hello", {"a", "b"}}
+  }
+}
 ---------------------------------------------------------------StatementNotTuple
 component Main {
   fun render : String {
@@ -34,5 +50,21 @@ module Test {
     test2 = (a : Number) : String {
       0
     }
+  }
+}
+----------------------------------------------------------StatementNotTuple
+component Main {
+  fun render : String {
+    y
+  } where {
+    {x, {y}} = {"hello", "a"}
+  }
+}
+----------------------------------------------------------StatementTupleMismatch
+component Main {
+  fun render : String {
+    y
+  } where {
+    {x, {y, z}} = {"hello", {"a"}}
   }
 }

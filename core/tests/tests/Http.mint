@@ -340,49 +340,63 @@ component Test.Http {
 
 suite "Successful request" {
   test "it loads" {
-    with Test.Html {
-      <Test.Http/>
-      |> start()
-      |> assertTextOf("error", "")
-      |> assertTextOf("status", "200")
+    with Test.Context {
+      with Test.Html {
+        <Test.Http/>
+        |> start()
+        |> timeout(50)
+        |> assertTextOf("error", "")
+        |> assertTextOf("status", "200")
+      }
     }
   }
 }
 
 suite "Http.Error" {
   test "BadUrl" {
-    with Test.Html {
-      <Test.Http url="http://::?/"/>
-      |> start()
-      |> assertTextOf("error", "bad-url")
-      |> assertTextOf("status", "0")
+    with Test.Context {
+      with Test.Html {
+        <Test.Http url="http://::?/"/>
+        |> start()
+        |> timeout(50)
+        |> assertTextOf("error", "bad-url")
+        |> assertTextOf("status", "0")
+      }
     }
   }
 
   test "NetWorkError" {
-    with Test.Html {
-      <Test.Http shouldError={true}/>
-      |> start()
-      |> assertTextOf("error", "network-error")
-      |> assertTextOf("status", "0")
+    with Test.Context {
+      with Test.Html {
+        <Test.Http shouldError={true}/>
+        |> start()
+        |> assertTextOf("error", "network-error")
+        |> assertTextOf("status", "0")
+      }
     }
   }
 
   test "Timeout" {
-    with Test.Html {
-      <Test.Http timeout={true}/>
-      |> start()
-      |> assertTextOf("error", "timeout")
-      |> assertTextOf("status", "0")
+    with Test.Context {
+      with Test.Html {
+        <Test.Http timeout={true}/>
+        |> start()
+        |> timeout(50)
+        |> assertTextOf("error", "timeout")
+        |> assertTextOf("status", "0")
+      }
     }
   }
 
   test "Aborted" {
-    with Test.Html {
-      <Test.Http abort={true}/>
-      |> start()
-      |> assertTextOf("error", "aborted")
-      |> assertTextOf("status", "0")
+    with Test.Context {
+      with Test.Html {
+        <Test.Http abort={true}/>
+        |> start()
+        |> timeout(50)
+        |> assertTextOf("error", "aborted")
+        |> assertTextOf("status", "0")
+      }
     }
   }
 }

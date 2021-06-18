@@ -27,9 +27,9 @@ module Mint
           closing_bracket: ProviderExpectedClosingBracket
         ) do
           items = many { function || state || constant || self.comment }
-          raise ProviderExpectedBody if items
-                                          .select(Ast::Function)
-                                          .empty?
+
+          raise ProviderExpectedBody if items.none?(Ast::Function)
+
           items
         end
 

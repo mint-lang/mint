@@ -14,7 +14,7 @@ module Mint
           not_interpolation_part('/', stop_on_interpolation: false)
         end.join
 
-        char "/", RegexpLiteralExpectedClosingSlash
+        char '/', RegexpLiteralExpectedClosingSlash
 
         flags = gather { chars "igmsuy" }.to_s
 

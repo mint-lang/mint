@@ -10,14 +10,15 @@ module Mint
 
         whitespace
 
-        name = gather { chars "^{" }.to_s.strip
+        name =
+          gather { chars "^{" }.presence.try(&.strip)
 
-        raise CssKeyframesExpectedName if name.empty?
+        raise CssKeyframesExpectedName unless name
 
         selectors = block(
           opening_bracket: CssKeyframesExpectedOpeningBracket,
           closing_bracket: CssKeyframesExpectedClosingBracket) do
-          many { comment || css_selector(true) }
+          many { comment || css_selector(only_definitions: true) }
         end
 
         Ast::CssKeyframes.new(

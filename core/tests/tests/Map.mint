@@ -16,7 +16,7 @@ suite "Map with enums" {
         Map.empty()
         |> Map.set(Maybe::Just("a"), "x")
 
-      (map1 == map2)
+      map1 == map2
     }
   }
 }
@@ -46,7 +46,7 @@ suite "Map equality" {
         Map.empty()
         |> Map.set("a", "b")
 
-      (map1 == map2)
+      map1 == map2
     }
   }
 }

@@ -1,11 +1,12 @@
 module Mint
   class Parser
-    def statement(parent) : Ast::Statement?
+    def statement(parent : Ast::Statement::Parent) : Ast::Statement?
       start do |start_position|
         target = start do
           value = variable(track: false) || tuple_destructuring
           whitespace
           next unless keyword "="
+          next if char == '=' # Don't parse == operation as statement.
           whitespace
           value
         end

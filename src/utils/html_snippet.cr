@@ -42,8 +42,6 @@ module Mint
       right =
         if node.to < input.size
           escape input[node.to, input.size - node.to]
-        else
-          ""
         end
 
       content =

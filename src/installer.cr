@@ -121,6 +121,14 @@ module Mint
           repository.versions.each do |version|
             package = {name: dependency, version: version.to_s}
 
+            begin
+              repository.json(version)
+            rescue error : RepositoryInvalidMintJson | RepositoryNoMintJson
+              # If the mint.json is invalid or missing then this version
+              # is eliminated.
+              @eliminated << {package, base, constraint}
+            end
+
             # Skip if eliminated
             next if @eliminated.map(&.[0]).includes?(package)
 
@@ -209,6 +217,8 @@ module Mint
           resolve_dependencies(
             json.dependencies,
             {name: dependency.name, version: version.to_s})
+        rescue RepositoryInvalidMintJson | RepositoryNoMintJson
+          # Since we don't have a valid json we don't resolve the dependencies
         end
       end
     end

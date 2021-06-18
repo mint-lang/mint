@@ -23,7 +23,9 @@ class A extends _C {
       } else if (_compare(a, [`A`, 0, true])) {
         return `A`
       } else if (Array.isArray(a)) {
-        const [b,c,d] = a;
+        const b = a[0];
+        const c = a[1];
+        const d = a[2];
         return b;
       };
     })();

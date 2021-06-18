@@ -66,7 +66,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                   })
             }
 
-        => next {  }
+        => next { }
       }
     }
   }

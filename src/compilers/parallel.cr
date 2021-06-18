@@ -17,9 +17,19 @@ module Mint
     end
 
     def _compile(node : Ast::Parallel) : String
-      body = node.statements.map do |statement|
+      _compile(node) { |statement| compile(statement) }
+    end
+
+    def _compile(node : Ast::Parallel, & : Ast::Statement, Int32, Bool -> String) : String
+      statements = node.statements
+      statements_size = statements.size
+
+      body = statements.map_with_index do |statement, index|
+        is_last =
+          (index + 1) == statements_size
+
         expression =
-          compile statement.expression
+          yield statement, index, is_last
 
         # Get the time of the statement
         type = types[statement]?
@@ -27,10 +37,10 @@ module Mint
         catches =
           case type
           when TypeChecker::Type
-            if type.name.in?("Promise", "Result") && type.parameters[0]
+            if type.name.in?("Promise", "Result") && (type_param = type.parameters.first?)
               node
                 .catches
-                .select(&.type.==(type.parameters[0].name))
+                .select(&.type.==(type_param.name))
                 .map { |item| compile(item).as(String) }
             end
           end || %w[]
@@ -86,17 +96,17 @@ module Mint
           ])
 
       finally =
-        if node.finally
-          compile node.finally.not_nil!
+        if node_finally = node.finally
+          compile node_finally
         end
 
       then_block =
-        if node.then_branch
-          js.assign("_", compile(node.then_branch.not_nil!.expression))
+        if then_branch = node.then_branch
+          js.assign("_", compile(then_branch.expression))
         end
 
       names =
-        node.statements.compact_map do |statement|
+        statements.compact_map do |statement|
           case target = statement.target
           when Ast::Variable
             js.let(js.variable_of(target), "null")

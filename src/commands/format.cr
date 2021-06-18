@@ -53,10 +53,10 @@ module Mint
             SourceFiles.glob_pattern(dir)
           end
 
-        if arguments.pattern.to_s.empty?
-          files = Dir.glob(format_directories_patterns)
+        if pattern_argument = arguments.pattern.presence
+          files = Dir.glob(pattern_argument)
         else
-          files = Dir.glob(arguments.pattern.to_s)
+          files = Dir.glob(format_directories_patterns)
         end
 
         if files.empty?
@@ -85,6 +85,8 @@ module Mint
             false
           end
         end
+      rescue error : Error
+        raise error
       rescue
         terminal.puts %(I was looking for a pattern that contains ".mint" files,)
         terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)

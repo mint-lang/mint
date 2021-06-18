@@ -171,141 +171,21 @@ module Mint
     alias Block = Array(Code | Bold | Text)
     alias Element = Title | Snippet | Block | Type | Pre | TypeList | StringList
 
-    def initialize(@data = {} of String => String |
-                                           Ast::Node |
-                                           TypeChecker::Checkable |
-                                           Array(TypeChecker::Checkable) |
-                                           Array(String) |
-                                           Tuple(Ast::Node, Int32))
+    @data : Error::Locals
+
+    def initialize(@data = Error::Locals.new)
     end
 
     macro method_missing(call)
-      @data[{{call.name.id.stringify}}]?
+      @data[{{ call.name.id.stringify }}]?
     end
 
     def to_html
+      # ameba:disable Lint/UselessAssign
       contents =
         render Render::Html.new
 
-      <<-HTML
-      <style>
-        body {
-          background: #960c0c;
-          padding: 40px 0;
-          color: #222;
-        }
-
-        article {
-          box-shadow: 0 0 20px rgba(0,0,0,.1);
-          font-family: sans-serif;
-          background: #F6f6f6;
-          border-radius: 4px;
-          max-width: 1040px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-
-        h2 {
-          background: repeating-linear-gradient(
-                      -45deg,
-                      #f92323,
-                      #f92323 10px,
-                      #ff3d3d 10px,
-                      #ff3d3d 30px);
-
-          text-shadow: 0 0 10px rgba(158, 0, 0, 0.4);
-          border-radius: 3px 3px 0 0;
-          text-transform: uppercase;
-          padding: 20px;
-          color: #FFF;
-
-          margin: -20px;
-          margin-bottom: 20px;
-        }
-
-        article > pre {
-          white-space: pre-wrap;
-        }
-
-        .grid {
-          border: 1px solid #DDD;
-          background: #FFF;
-          display: flex;
-        }
-
-        li {
-          line-height: 34px
-        }
-
-        .line-numbers {
-          border-right: 1px solid #DDD;
-          margin-right: 10px;
-          padding: 5px 0;
-        }
-
-        .line-number {
-          text-align: right;
-          line-height: 28px;
-          padding: 0 10px;
-          height: 24px;
-        }
-
-        .snippet pre {
-          line-height: 24px;
-          font-size: 14px;
-          padding: 5px 0;
-          overflow: auto;
-          margin-top: 0;
-          flex: 1;
-        }
-
-        code {
-          background: #FFF;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          padding: 2px 7px;
-          font-weight: bold;
-          font-size: 16px;
-          color: #333;
-        }
-
-        .snippet .file {
-          border: 1px solid #DDD;
-          background: #FCFCFC;
-          font-weight: bold;
-          padding: 7px 10px;
-          border-bottom: 0;
-          font-size: 14px;
-          color: #333;
-        }
-
-        p {
-          line-height: 26px;
-        }
-
-        p:first-child {
-          margin-top: 0;
-        }
-
-        highlighted {
-          display: inline-block;
-          background: #ffebeb;
-          padding: 0px 5px;
-        }
-
-        highlighted:empty {
-          display: none;
-        }
-
-        @media only screen and (max-width: 600px)  {
-          body {
-            padding: 5px;
-          }
-        }
-      </style>
-      <article>
-        #{contents}
-      </article>
-      HTML
+      ECR.render("#{__DIR__}/message.ecr")
     end
 
     def to_terminal(width)

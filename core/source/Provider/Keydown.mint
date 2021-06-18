@@ -27,7 +27,7 @@ provider Provider.Keydown : Provider.Keydown.Subscription {
         Maybe::Nothing =>
           next { listener = Maybe::Just(Window.addEventListener("keydown", true, handle)) }
 
-        => next {  }
+        => next { }
       }
     }
   }

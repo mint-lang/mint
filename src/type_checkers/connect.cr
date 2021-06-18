@@ -14,14 +14,16 @@ module Mint
       resolve store
 
       node.keys.each do |key|
+        key_value = key.variable.value
+
         found =
-          store.functions.find(&.name.value.==(key.variable.value)) ||
-            store.states.find(&.name.value.==(key.variable.value)) ||
-            store.gets.find(&.name.value.==(key.variable.value)) ||
-            store.constants.find(&.name.==(key.variable.value))
+          store.functions.find(&.name.value.==(key_value)) ||
+            store.states.find(&.name.value.==(key_value)) ||
+            store.gets.find(&.name.value.==(key_value)) ||
+            store.constants.find(&.name.==(key_value))
 
         raise ConnectNotFoundMember, {
-          "key"   => key.variable.value,
+          "key"   => key_value,
           "store" => node.store,
           "node"  => node,
         } unless found

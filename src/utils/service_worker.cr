@@ -7,18 +7,20 @@ module Mint
     ECR.def_to_s "#{__DIR__}/service_worker.ecr"
 
     def files
-      Dir
-        .glob("**/*")
-        .reject! { |file| File.directory?(file) }
-        .join(",\n") { |file| "'/#{file}'" }
+      Dir.cd(DIST_DIR) do
+        Dir
+          .glob("**/*")
+          .reject! { |file| File.directory?(file) }
+          .join(",\n") { |file| "'/#{file}'" }
+      end
     end
 
     def calculate_hash
       Dir
-        .glob("**/*")
+        .glob(Path[DIST_DIR, "**", "*"])
         .reject! { |file| File.directory?(file) }
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
-          digest.update File.read(file)
+          digest << File.read(file)
         end.final.hexstring
     end
   end

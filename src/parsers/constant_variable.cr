@@ -3,15 +3,15 @@ module Mint
     def constant_variable : Ast::Variable?
       start do |start_position|
         head =
-          gather { chars("A-Z") }.to_s
+          gather { chars("A-Z") }
 
         tail =
-          gather { chars("A-Z0-9_") }.to_s
+          gather { chars("A-Z0-9_") }
+
+        next unless head || tail
 
         name =
           "#{head}#{tail}"
-
-        next if name.empty?
 
         Ast::Variable.new(
           from: start_position,

@@ -230,7 +230,7 @@ module String {
   /*
   Convert the given string into an array of strings.
 
-    String.toArray(AAA") = ["A", "A", "A"]
+    String.toArray("AAA") = ["A", "A", "A"]
   */
   fun toArray (string : String) : Array(String) {
     split("", string)

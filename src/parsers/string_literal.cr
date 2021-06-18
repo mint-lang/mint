@@ -4,9 +4,7 @@ module Mint
     syntax_error StringExpectedOtherString
 
     def string_literal!(error : SyntaxError.class, with_interpolation : Bool = true) : Ast::StringLiteral
-      node = string_literal(with_interpolation)
-      raise error unless node
-      node
+      string_literal(with_interpolation) || raise error
     end
 
     def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral?
@@ -15,7 +13,7 @@ module Mint
 
         value = many(parse_whitespace: false) do
           if with_interpolation
-            (not_interpolation_part('"') || interpolation)
+            not_interpolation_part('"') || interpolation
           else
             not_interpolation_part('"')
           end.as(Ast::Interpolation | String?)

@@ -7,10 +7,18 @@ module Mint
           .remove_leading_whitespace
           .rstrip
 
-      if replace_skipped(value).includes?('\n')
-        "/*\n#{value}\n*/"
+      if node.type.block?
+        if replace_skipped(value).includes?('\n')
+          "/*\n#{value}\n*/"
+        else
+          "/* #{value} */"
+        end
       else
-        "/* #{value} */"
+        if value.size > 0 && value[0] != ' '
+          "// #{value}"
+        else
+          "//#{value}"
+        end
       end
     end
   end

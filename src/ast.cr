@@ -71,7 +71,7 @@ module Mint
       node1.input.input[start_position, count].includes?('\n')
     end
 
-    def merge(ast)
+    def merge(ast) : self
       @components.concat ast.components
       @providers.concat ast.providers
       @comments.concat ast.comments
@@ -96,13 +96,12 @@ module Mint
       @unified_modules =
         @modules
           .group_by(&.name)
-          .values
-          .map do |modules|
+          .map do |name, modules|
             Module.new(
               functions: modules.flat_map(&.functions),
               constants: modules.flat_map(&.constants),
               input: Data.new(input: "", file: ""),
-              name: modules.first.name,
+              name: name,
               comments: [] of Comment,
               comment: nil,
               from: 0,

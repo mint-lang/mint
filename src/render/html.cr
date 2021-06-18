@@ -9,7 +9,7 @@ module Mint
         HTML.escape(code)
       end
 
-      def initialize(@io = IO::Memory.new, @width = 80)
+      def initialize(@io = IO::Memory.new)
       end
 
       def header(content)

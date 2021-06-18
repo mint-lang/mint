@@ -9,11 +9,12 @@ module Mint
         .definitions
         .select(Ast::CssDefinition)
         .each do |definition|
-          definition.value.each do |item|
-            raise CssFontFaceInterpolation, {
-              "node" => item,
-            } if item.is_a?(Ast::Interpolation)
-          end
+          interpolation =
+            definition.value.find(&.is_a?(Ast::Interpolation))
+
+          raise CssFontFaceInterpolation, {
+            "node" => interpolation,
+          } if interpolation
         end
 
       NEVER

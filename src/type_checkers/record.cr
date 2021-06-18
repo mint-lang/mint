@@ -8,7 +8,8 @@ module Mint
           .fields
           .to_h { |field| {field.key.value, resolve(field, should_create_record)} }
 
-      if node.is_a?(Ast::EnumRecord)
+      case node
+      when Ast::EnumRecord
         params =
           fields.each_with_object({} of String => Checkable) do |(key, type), memo|
             memo[key] = type

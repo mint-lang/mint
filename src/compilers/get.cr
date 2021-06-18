@@ -5,15 +5,19 @@ module Mint
         compile node.body
 
       wheres =
-        compile(
-          (node.where.try(&.statements) || [] of Ast::WhereStatement)
-            .sort_by { |item| resolve_order.index(item) || -1 })
+        node.where
+          .try(&.statements)
+          .try(&.sort_by { |item| resolve_order.index(item) || -1 })
+          .try { |statements| compile statements }
 
       name =
         js.variable_of(node)
 
+      last =
+        [js.return(body)]
+
       body =
-        js.statements(wheres + [js.return(body)])
+        js.statements(%w[] &+ wheres &+ last)
 
       js.get(name, body)
     end

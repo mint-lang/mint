@@ -34,7 +34,7 @@ module Mint
         ) { expression }
         whitespace
 
-        char "}", TupleLiteralExpectedClosingBracket
+        char '}', TupleLiteralExpectedClosingBracket
 
         Ast::TupleLiteral.new(
           from: start_position,

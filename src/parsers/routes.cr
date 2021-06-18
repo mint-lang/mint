@@ -14,9 +14,8 @@ module Mint
         ) do
           items = many { comment || route }
 
-          raise RoutesExpectedRoute if items
-                                         .reject(Ast::Comment)
-                                         .empty?
+          raise RoutesExpectedRoute if items.none?(Ast::Route)
+
           items
         end
 

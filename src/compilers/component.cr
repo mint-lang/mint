@@ -17,9 +17,9 @@ module Mint
       compile node.styles, node
 
       styles =
-        node.styles.map do |style_node|
-          style_builder.compile_style(style_node, self)
-        end.reject!(&.empty?)
+        node.styles.compact_map do |style_node|
+          style_builder.compile_style(style_node, self).presence
+        end
 
       functions =
         compile_component_functions node
@@ -98,7 +98,7 @@ module Mint
       functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
 
       body =
-        ([constructor] + styles + gets + refs + states + store_stuff + functions)
+        ([constructor] &+ styles + gets &+ refs &+ states &+ store_stuff &+ functions)
           .compact
 
       js.statements([
@@ -157,8 +157,10 @@ module Mint
       end
 
       node.uses.each do |use|
-        condition =
-          use.condition ? compile(use.condition.not_nil!) : "true"
+        if condition = use.condition
+          condition = compile(condition)
+        end
+        condition ||= "true"
 
         name =
           js.class_of(lookups[use])
@@ -167,11 +169,13 @@ module Mint
           compile use.data
 
         body =
-          "if (#{condition}) {\n" \
-          "  #{name}._subscribe(this, #{data})\n" \
-          "} else {\n" \
-          "  #{name}._unsubscribe(this)\n" \
-          "}"
+          <<-JS
+          if (#{condition}) {
+            #{name}._subscribe(this, #{data})
+          } else {
+            #{name}._unsubscribe(this)
+          }
+          JS
 
         heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
         heads["componentDidUpdate"] << body
@@ -201,7 +205,7 @@ module Mint
           end
         end
 
-      (specials + others).compact.reject!(&.empty?)
+      (specials + others).compact_map(&.presence)
     end
   end
 end

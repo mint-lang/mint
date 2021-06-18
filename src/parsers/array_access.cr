@@ -21,7 +21,7 @@ module Mint
 
         whitespace
 
-        char "]", ArrayAccessExpectedClosingBracket
+        char ']', ArrayAccessExpectedClosingBracket
 
         node = self << Ast::ArrayAccess.new(
           from: start_position,

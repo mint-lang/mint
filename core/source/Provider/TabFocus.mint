@@ -77,7 +77,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
                   })
             }
 
-        => next {  }
+        => next { }
       }
     }
   }

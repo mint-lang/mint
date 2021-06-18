@@ -28,7 +28,7 @@ module Mint
         AstWatcher.new(->{ SourceFiles.current }, include_core: false) do |result|
           case result
           when Ast
-            @ast = result
+            @ast = result.normalize
             @error = nil
           when Error
             raise result
@@ -39,7 +39,7 @@ module Mint
         @watcher.watch do |result|
           case result
           when Ast
-            @ast = result
+            @ast = result.normalize
             @error = nil
           when Error
             @error = result.to_html

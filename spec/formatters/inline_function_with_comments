@@ -1,4 +1,5 @@
 module A {
+  //
   fun test : String {
     a()
   } where {
@@ -7,6 +8,7 @@ module A {
 }
 --------------------------------------------------------------------------------
 module A {
+  //
   fun test : String {
     a()
   } where {

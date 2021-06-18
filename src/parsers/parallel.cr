@@ -14,11 +14,10 @@ module Mint
           opening_bracket: ParallelExpectedOpeningBracket,
           closing_bracket: ParallelExpectedClosingBracket
         ) do
-          results = many { statement(Ast::Statement::Parent::Sequence) || comment }
+          results = many { statement(:parallel) || comment }
 
-          raise ParallelExpectedStatement if results
-                                               .reject(Ast::Comment)
-                                               .empty?
+          raise ParallelExpectedStatement if results.none?(Ast::Statement)
+
           results
         end
 

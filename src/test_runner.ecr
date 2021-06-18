@@ -61,13 +61,21 @@
             .finally(() => this.socket.send("DONE"))
         }
 
-        report (type, suite, name, message) {
+        report (type, suite, name, message, location) {
+          if (message && message.toString) {
+            message = message.toString()
+          }
           this.socket.send(JSON.stringify({
             type: type,
-            suite: suite || "",
-            name: name || "",
-            result: message || ""
+            suite: suite,
+            name: name,
+            result: message,
+            location: location
           }))
+        }
+
+        reportTested (test, type, message) {
+          this.report(type, this.suite.name, test.name, message, test.location)
         }
 
         crash (message) {
@@ -111,20 +119,20 @@
               if (result instanceof TestContext) {
                 try {
                   await result.run()
-                  this.report("SUCCEEDED", this.suite.name, test.name, result.subject.toString())
+                  this.reportTested(test, "SUCCEEDED", result.subject)
                 } catch (error) {
-                  this.report("FAILED", this.suite.name, test.name, error.toString())
+                  this.reportTested(test, "FAILED", error)
                 }
               } else {
                 if (result) {
-                  this.report("SUCCEEDED", this.suite.name, test.name, "true")
+                  this.reportTested(test, "SUCCEEDED")
                 } else {
-                  this.report("FAILED", this.suite.name, test.name, "false")
+                  this.reportTested(test, "FAILED")
                 }
               }
             } catch (error) {
               // An error occurred while trying to run a test; this is different from the test itself failing.
-              this.report("ERRORED", this.suite.name, test.name, error.toString())
+              this.reportTested(test, "ERRORED", error)
             }
             this.next(resolve, reject)
           })

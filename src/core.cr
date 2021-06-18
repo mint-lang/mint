@@ -4,7 +4,7 @@ module Mint
 
     class_getter ast : Ast do
       files.reduce(Ast.new) do |memo, file|
-        memo.merge(Parser.parse(file.read, file.path))
+        memo.merge Parser.parse(file.read, file.path)
       end
     end
 

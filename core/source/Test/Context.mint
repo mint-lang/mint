@@ -6,7 +6,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
@@ -20,7 +20,7 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> then(\number : Number => Promise.resolve(number + 2))
+        |> then((number : Number) { Promise.resolve(number + 2) })
         |> assertEqual(7)
       }
     }
@@ -30,17 +30,26 @@ module Test.Context {
     context : Test.Context(a)
   ) : Test.Context(c) {
     `
-    #{context}.step((subject)=> {
+    #{context}.step((subject) => {
       return #{proc}(subject)
     })
     `
   }
 
-  /* Adds a timeout to the text using the given duration (in milliseconds). */
+  /*
+  Adds a timeout to the test using the given duration (in milliseconds).
+
+    test {
+      with Test.Context {
+        of(5)
+        |> timeout(1000)
+        |> assertEqual(5)
+      }
+    }
+  */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
-    then(
-      (subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) },
-      context)
+    context
+    |> then((subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) })
   }
 
   /*
@@ -49,46 +58,60 @@ module Test.Context {
     test {
       with Test.Context {
         of(5)
-        |> Test.assertEqual(5)
+        |> assertEqual(5)
       }
     }
   */
-  fun assertEqual (a : a, context : Test.Context(a)) : Test.Context(a) {
+  fun assertEqual (value : a, context : Test.Context(a)) : Test.Context(a) {
     `
-    #{context}.step((subject)=> {
-      let result = _compare(#{a}, subject)
-
-      if (result) {
-        return subject
-      } else {
-        throw \`Assertion failed ${#{a}} === ${subject}\`
+    #{context}.step((subject) => {
+      if (!_compare(#{value}, subject)) {
+        throw \`Assertion failed: ${#{value}} === ${subject}\`
       }
+      return subject
     })
     `
   }
 
+  /*
+  Asserts if the given value equals of the returned value from the given
+  function.
+
+    with Test.Context {
+      of(5)
+      |> assertOf("5", Number.toString)
+    }
+  */
   fun assertOf (
     value : b,
     method : Function(a, b),
     context : Test.Context(a)
   ) : Test.Context(a) {
     `
-    #{context}.step((item) => {
-      let actual = #{method}(item)
+    #{context}.step((subject) => {
+      const actual = #{method}(subject)
 
-      if (actual == #{value}) {
-        return item
-      } else {
-        throw \`Assertion failed ${actual} === ${value}\`
+      if (!_compare(#{value}, actual)) {
+        throw \`Assertion failed: ${actual} === ${#{value}}\`
       }
+      return subject
     })
     `
   }
 
+  /*
+  Maps the given subject to a new subject.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> map(Number.toString)
+      }
+    }
+  */
   fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
-    then(
-      (item : a) : Promise(Never, Test.Context(a)) { Promise.resolve(method(item)) },
-      context)
+    context
+    |> then((item : a) : Promise(Never, b) { Promise.resolve(method(item)) })
   }
 
   /* Spies on the given entity if it's a function. */
@@ -96,9 +119,9 @@ module Test.Context {
     `
     (() => {
       if (typeof #{entity} == "function") {
-        let _;
+        let _
 
-        _ = function(...args){
+        _ = function (...args) {
           _._called = true
           return #{entity}(...args)
         }
@@ -114,12 +137,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was called. */
   fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
-      if (#{entity}._called) {
-        return item
-      } else {
+    #{context}.step((subject) => {
+      if (!#{entity}._called) {
         throw "The given function was not called!"
       }
+      return subject
     })
     `
   }
@@ -127,12 +149,11 @@ module Test.Context {
   /* Asserts that a given spy (function) was not called. */
   fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
     `
-    #{context}.step((item) => {
+    #{context}.step((subject) => {
       if (#{entity}._called) {
         throw "The given function was called!"
-      } else {
-        return item
       }
+      return subject
     })
     `
   }

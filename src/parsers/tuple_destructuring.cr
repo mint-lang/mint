@@ -2,11 +2,11 @@ module Mint
   class Parser
     syntax_error TupleDestructuringExpectedClosingBracket
 
-    def tuple_destructuring
+    def tuple_destructuring : Ast::TupleDestructuring?
       start do |start_position|
         head = start do
           next unless char! '{'
-          value = variable
+          value = tuple_destructuring || variable
           whitespace
           char! ','
           whitespace
@@ -15,13 +15,13 @@ module Mint
 
         next unless head
 
-        parameters = [] of Ast::Node
-        parameters << head
-        parameters.concat(list(terminator: '}', separator: ',') { variable })
+        parameters = [head] &+ list(terminator: '}', separator: ',') do
+          tuple_destructuring || variable
+        end
 
         whitespace
 
-        char "}", TupleDestructuringExpectedClosingBracket
+        char '}', TupleDestructuringExpectedClosingBracket
 
         Ast::TupleDestructuring.new(
           parameters: parameters,

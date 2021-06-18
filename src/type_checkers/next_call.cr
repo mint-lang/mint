@@ -12,6 +12,9 @@ module Mint
       } unless entity
 
       node.data.fields.each do |item|
+        name =
+          item.key.value
+
         state =
           case entity
           when Ast::Provider
@@ -20,18 +23,18 @@ module Mint
 
             entity
               .states
-              .find(&.name.value.==(item.key.value))
+              .find(&.name.value.==(name))
           when Ast::Component, Ast::Store
             lookups[node] =
               entity
 
             entity
               .states
-              .find(&.name.value.==(item.key.value))
+              .find(&.name.value.==(name))
           end
 
         raise NextCallStateNotFound, {
-          "name" => item.key.value,
+          "name" => name,
           "node" => node,
         } unless state
 
@@ -42,7 +45,7 @@ module Mint
           resolve state
 
         raise NextCallStateTypeMismatch, {
-          "name"     => item.key.value,
+          "name"     => name,
           "expected" => state_type,
           "state"    => state,
           "node"     => item,

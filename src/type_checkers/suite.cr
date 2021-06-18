@@ -5,6 +5,7 @@ module Mint
         resolve node.name
         resolve node.tests
       end
+
       NEVER
     end
   end

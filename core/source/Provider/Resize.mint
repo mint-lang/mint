@@ -26,7 +26,7 @@ provider Provider.Resize : Provider.Resize.Subscription {
         Maybe::Nothing =>
           next { listener = Maybe::Just(Window.addEventListener("resize", true, handle)) }
 
-        => next {  }
+        => next { }
       }
     }
   }

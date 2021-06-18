@@ -11,18 +11,16 @@ module Mint
         compile_constants node.constants
 
       constructor =
-        if !constants.empty?
+        unless constants.empty?
           [js.function("constructor", %w[]) do
             js.statements([
               js.call("super", %w[]),
               js.call("this._d", [js.object(constants)]),
             ])
           end]
-        else
-          %w[]
         end
 
-      js.module(name, functions + constructor)
+      js.module(name, %w[] &+ functions &+ constructor)
     end
   end
 end

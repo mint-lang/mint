@@ -14,11 +14,10 @@ module Mint
           opening_bracket: SequenceExpectedOpeningBracket,
           closing_bracket: SequenceExpectedClosingBracket
         ) do
-          results = many { statement(Ast::Statement::Parent::Sequence) || comment }
+          results = many { statement(:sequence) || comment }
 
-          raise SequenceExpectedStatement if results
-                                               .select(Ast::Statement)
-                                               .empty?
+          raise SequenceExpectedStatement if results.none?(Ast::Statement)
+
           results
         end
 

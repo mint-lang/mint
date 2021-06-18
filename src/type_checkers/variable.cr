@@ -34,7 +34,7 @@ module Mint
         when Ast::Statement
           type = resolve value
 
-          if value.parent == Ast::Statement::Parent::Try
+          if value.parent.try?
             if type.name == "Result" && type.parameters.size == 2
               type.parameters[1]
             else
@@ -47,7 +47,7 @@ module Mint
               type
             end
           end
-        when Tuple(Ast::Node, Int32)
+        when Tuple(Ast::Node, Int32 | Array(Int32))
           item = value[0]
 
           type =
@@ -57,7 +57,12 @@ module Mint
           when Ast::Statement, Ast::WhereStatement
             case item.target
             when Ast::TupleDestructuring
-              type.parameters[value[1]]
+              case val = value[1]
+              in Int32
+                type.parameters[val]
+              in Array(Int32)
+                val.reduce(type) { |curr_type, curr_val| curr_type.parameters[curr_val] }
+              end
             else
               type
             end

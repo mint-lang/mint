@@ -67,6 +67,19 @@ module Maybe {
   }
 
   /*
+  Returns the value of a *maybe*, or calls the given *func* otherwise.
+
+    Maybe.withLazyDefault(() { "A" }, Maybe.nothing()) == "A"
+    Maybe.withLazyDefault(() { "A" }, Maybe.just("B")) == "B"
+  */
+  fun withLazyDefault (func : Function(a), maybe : Maybe(a)) : a {
+    case (maybe) {
+      Maybe::Nothing => func()
+      Maybe::Just(value) => value
+    }
+  }
+
+  /*
   Converts the maybe to a result using the given value as the error.
 
     Maybe.toResult("Error", Maybe.nothing()) == Result.error("Error")

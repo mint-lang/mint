@@ -26,7 +26,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
         Maybe::Nothing =>
           next { listener = Maybe::Just(Window.addEventListener("scroll", false, handle)) }
 
-        => next {  }
+        => next { }
       }
     }
   }

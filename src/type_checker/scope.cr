@@ -1,19 +1,19 @@
 module Mint
   class TypeChecker
     class Scope
-      alias Node = Ast::InlineFunction |
-                   Tuple(String, Checkable, Ast::Node) |
+      alias Node = Tuple(String, Checkable, Ast::Node) |
                    Ast::WhereStatement |
                    Ast::Statement |
                    Ast::Component |
+                   Ast::InlineFunction |
                    Ast::Function |
                    Ast::Provider |
                    Ast::Module |
                    Ast::Store |
                    Ast::Style
 
-      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node)
-      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32), Node, Array(Node))
+      alias Level = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node)
+      alias Lookup = Tuple(Ast::Node | Checkable | Tuple(Ast::Node, Int32 | Array(Int32)), Node, Array(Node))
 
       @functions = {} of Ast::Function | Ast::Get => Ast::Store | Ast::Module
       @levels = [] of Node
@@ -44,24 +44,17 @@ module Mint
 
       def path(node : Node)
         case node
-        when Ast::InlineFunction
-          node.name.value
-        when Tuple(String, Checkable, Ast::Node)
+        in Tuple(String, Checkable, Ast::Node)
           node[0]
-        when Ast::Component
+        in Ast::Component,
+           Ast::Store,
+           Ast::Module,
+           Ast::Provider
           node.name
-        when Ast::Store
-          node.name
-        when Ast::Module
-          node.name
-        when Ast::Provider
-          node.name
-        when Ast::Function
+        in Ast::InlineFunction,
+           Ast::Function,
+           Ast::Style
           node.name.value
-        when Ast::Style
-          node.name.value
-        else
-          "" # Cannot happen
         end
       end
 
@@ -120,9 +113,7 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.select(Ast::Variable).find(&.value.==(variable)).try do |item|
-            {node, target.parameters.index(item).not_nil!}
-          end
+          _find(variable, target).try { |result| {node, result} }
         end
       end
 
@@ -131,8 +122,23 @@ module Mint
         when Ast::Variable
           node if target.value == variable
         when Ast::TupleDestructuring
-          target.parameters.select(Ast::Variable).find(&.value.==(variable)).try do |item|
-            {node, target.parameters.index(item).not_nil!}
+          _find(variable, target).try { |result| {node, result} }
+        end
+      end
+
+      def _find(variable : String, node : Ast::TupleDestructuring) : Array(Int32)?
+        node.parameters.each_with_index do |param, idx|
+          case param
+          when Ast::Variable
+            if param.value == variable
+              return [idx]
+            end
+          when Ast::TupleDestructuring
+            result = _find(variable, param)
+            if result
+              result.unshift(idx)
+              return result
+            end
           end
         end
       end
@@ -191,32 +197,32 @@ module Mint
       end
 
       def with(node : Node)
-        store =
-          case node
-          when Ast::Function, Ast::Get
-            @functions[node]?
-          end
-
-        if node.is_a?(Ast::Component) ||
-           node.is_a?(Ast::Provider) ||
-           node.is_a?(Ast::Module) ||
-           node.is_a?(Ast::Store)
+        case node
+        when Ast::Component,
+             Ast::Provider,
+             Ast::Module,
+             Ast::Store
           old_levels = @levels
           @levels = [node] of Node
-          result = yield
-          @levels = old_levels
-        elsif store
-          old_levels = @levels
-          @levels = [] of Node
-          @levels.concat([node, store])
-          result = yield
-          @levels = old_levels
-        else
-          result =
-            push(node) { yield }
+          begin
+            return yield
+          ensure
+            @levels = old_levels
+          end
+        when Ast::Function,
+             Ast::Get
+          if store = @functions[node]?
+            old_levels = @levels
+            @levels = [node, store] of Node
+            begin
+              return yield
+            ensure
+              @levels = old_levels
+            end
+          end
         end
 
-        result
+        push(node) { yield }
       end
 
       def push(node : Node)

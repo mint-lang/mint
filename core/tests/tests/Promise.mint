@@ -19,7 +19,7 @@ component Test.Promise {
 
       next { result = newResult }
     } catch {
-      next {  }
+      next { }
     }
   }
 
