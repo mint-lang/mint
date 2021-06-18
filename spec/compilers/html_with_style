@@ -28,7 +28,7 @@ class A extends _C {
     });
   }
 
-  $Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE() {
+  $Main_test() {
     const _ = {
       [`--a-a`]: this.a,
       [`--a-b`]: this.a,
@@ -49,8 +49,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`,
-      style: _style([this.$Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE()])
+      className: `Main_test`,
+      style: _style([this.$Main_test()])
     });
   }
 };
@@ -58,7 +58,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Main_test {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
   border-color: var(--a-a);

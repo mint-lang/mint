@@ -16,7 +16,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`
+      className: `Main_test`
     });
   }
 };
@@ -24,7 +24,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.Main_test_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Main_test {
   font-family: "myFirstFont";
 }
 

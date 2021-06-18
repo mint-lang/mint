@@ -19,7 +19,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `Ui·Dropdown_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`
+      className: `Ui·Dropdown_base`
     }, [
       `test`
     ]);
@@ -39,7 +39,7 @@ B.displayName = "Main";
 const $a = _m(() => _h(A, {}));
 
 _insertStyles(`
-.Ui·Dropdown_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Ui·Dropdown_base {
   background: red;
 }
 `);

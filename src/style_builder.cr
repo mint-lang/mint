@@ -30,7 +30,7 @@ module Mint
       else
         @cache[subject] ||= begin
           if id
-            "#{id}_#{subject.name.value}_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE"
+            "#{id}_#{subject.name.value.gsub('-', '_')}"
           else
             subject.name.value
           end

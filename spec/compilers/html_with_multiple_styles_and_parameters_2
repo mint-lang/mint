@@ -14,7 +14,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $Main_one_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(a) {
+  $Main_one(a) {
     const _ = {
       [`--a-a`]: a
     };
@@ -22,7 +22,7 @@ class A extends _C {
     return _;
   }
 
-  $Main_two_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(b) {
+  $Main_two(b) {
     const _ = {
       [`--b-a`]: b
     };
@@ -32,8 +32,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `Main_one_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE Main_two_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`,
-      style: _style([this.$Main_one_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(`red`), this.$Main_two_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(`blue`)])
+      className: `Main_one Main_two`,
+      style: _style([this.$Main_one(`red`), this.$Main_two(`blue`)])
     });
   }
 };
@@ -41,11 +41,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.Main_one_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Main_one {
   color: var(--a-a);
 }
 
-.Main_two_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Main_two {
   color: var(--b-a);
 }
 `);

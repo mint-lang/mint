@@ -18,7 +18,7 @@ component Main {
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  $Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(a) {
+  $Main_base(a) {
     const _ = {};
 
     (_compare(a, `red`) ? Object.assign(_, {
@@ -33,8 +33,8 @@ class A extends _C {
   render() {
     return _h("div", {}, [
       _h("div", {
-        className: `Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE`,
-        style: _style([this.$Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE(`blue`)])
+        className: `Main_base`,
+        style: _style([this.$Main_base(`blue`)])
       })
     ]);
   }
@@ -43,7 +43,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.Main_base_DO_NOT_USE_MINIMIZED_IN_BUILD_CODE {
+.Main_base {
   height: 20px;
   background: var(--a-a);
 }

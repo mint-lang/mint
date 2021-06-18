@@ -195,6 +195,13 @@ module Mint
       from_event_call =
         "#{js.class_of(html_event_module)}.#{js.variable_of(from_event)}"
 
+      minimized_class_warning =
+        unless build
+          <<-JS
+          console.warn("%c!!!DO NOT TARGET ELEMENTS WITH SELECTORS BECAUSE THE SELECTORS WILL BE MINIMIZED IN THE PRODUCTION BUILD!!!", "font-size: 2em")
+          JS
+        end
+
       <<-RESULT
       (() => {
         const _enums = {}
@@ -265,6 +272,7 @@ module Mint
         _enums.err = #{err}
         _enums.ok = #{ok}
 
+        #{minimized_class_warning}
         #{main}
       })()
       RESULT
