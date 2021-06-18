@@ -17,10 +17,10 @@ module Mint
 
     def calculate_hash
       Dir
-        .glob("**/*")
+        .glob(Path[DIST_DIR, "**", "*"])
         .reject! { |file| File.directory?(file) }
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
-          digest.update File.read(file)
+          digest << File.read(file)
         end.final.hexstring
     end
   end
