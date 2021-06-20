@@ -3,7 +3,7 @@ record Provider.Intersection.Subscription {
   callback : Function(Number, Promise(Never, Void)),
   element : Maybe(Dom.Element),
   rootMargin : String,
-  treshold : Number
+  threshold : Number
 }
 
 /* A provider to provide events when the given element is visible on the screen. */
@@ -53,7 +53,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
                   subscription,
                   IntersectionObserver.new(
                     subscription.rootMargin,
-                    subscription.treshold,
+                    subscription.threshold,
                     subscription.callback)
                   |> IntersectionObserver.observe(observed)
                 })

@@ -15,7 +15,7 @@ module IntersectionObserver {
   */
   fun new (
     rootMargin : String,
-    treshold : Number,
+    threshold : Number,
     callback : Function(Number, a)
   ) : IntersectionObserver {
     `
@@ -26,7 +26,7 @@ module IntersectionObserver {
         })
       }, {
         rootMargin: #{rootMargin},
-        treshold: #{treshold}
+        threshold: #{threshold}
       });
     })()
     `
