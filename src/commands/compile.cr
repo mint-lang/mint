@@ -36,7 +36,7 @@ module Mint
           Ast.new
             .merge(Core.ast)
 
-        terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
+        terminal.measure "  #{ARROW} Parsing #{sources.size} source files..." do
           sources.reduce(ast) do |memo, file|
             memo.merge Parser.parse(file)
           end
@@ -45,13 +45,13 @@ module Mint
         type_checker =
           TypeChecker.new(ast)
 
-        terminal.measure "  #{ARROW} Type checking: " do
+        terminal.measure "  #{ARROW} Type checking..." do
           type_checker.check
         end
 
         compiled = nil
 
-        terminal.measure "  #{ARROW} Compiling: " do
+        terminal.measure "  #{ARROW} Compiling..." do
           compiled = Compiler.compile_embed type_checker.artifacts, {
             css_prefix: json.application.css_prefix,
             relative:   false,

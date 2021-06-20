@@ -26,7 +26,7 @@ module Mint
     end
 
     def initialize(@host, @port, @auto_format, @live_reload)
-      terminal.measure "#{COG} Ensuring dependencies... " do
+      terminal.measure "#{COG} Ensuring dependencies..." do
         MintJson.parse_current.check_dependencies!
       end
 
@@ -245,7 +245,7 @@ module Mint
         spawn do
           Watcher.watch([file]) do
             Env.load do
-              terminal.measure "#{COG} Environment variables changed recompiling... " do
+              terminal.measure "#{COG} Environment variables changed recompiling..." do
                 compile_script
               end
 

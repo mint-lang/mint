@@ -8,16 +8,16 @@ module Mint
         skip_icons = true
       end
 
-      terminal.measure "#{COG} Ensuring dependencies... " do
+      terminal.measure "#{COG} Ensuring dependencies..." do
         json.check_dependencies!
       end
 
-      terminal.measure "#{COG} Clearing the \"#{DIST_DIR}\" directory... " do
+      terminal.measure "#{COG} Clearing the \"#{DIST_DIR}\" directory..." do
         FileUtils.rm_rf DIST_DIR
       end
 
       if Dir.exists?(PUBLIC_DIR)
-        terminal.measure "#{COG} Copying \"#{PUBLIC_DIR}\" folder contents... " do
+        terminal.measure "#{COG} Copying \"#{PUBLIC_DIR}\" folder contents..." do
           FileUtils.cp_r PUBLIC_DIR, DIST_DIR
         end
       else
@@ -66,7 +66,7 @@ module Mint
         end
       end
 
-      terminal.measure "#{COG} Writing index.html... " do
+      terminal.measure "#{COG} Writing index.html..." do
         File.write Path[DIST_DIR, "index.html"],
           IndexHtml.render(:build, relative, skip_service_worker, skip_icons)
       end
@@ -77,7 +77,7 @@ module Mint
       end
 
       unless skip_icons
-        terminal.measure "#{COG} Generating icons... " do
+        terminal.measure "#{COG} Generating icons..." do
           icons(json)
         end
       end
@@ -139,7 +139,7 @@ module Mint
         Ast.new
           .merge(Core.ast)
 
-      terminal.measure "  #{ARROW} Parsing #{sources.size} source files... " do
+      terminal.measure "  #{ARROW} Parsing #{sources.size} source files..." do
         sources.reduce(ast) do |memo, file|
           memo.merge Parser.parse(file)
         end
@@ -148,13 +148,13 @@ module Mint
       type_checker =
         TypeChecker.new(ast)
 
-      terminal.measure "  #{ARROW} Type checking: " do
+      terminal.measure "  #{ARROW} Type checking..." do
         type_checker.check
       end
 
       compiled = nil
 
-      terminal.measure "  #{ARROW} Compiling: " do
+      terminal.measure "  #{ARROW} Compiling..." do
         compiled = Compiler.compile type_checker.artifacts, {
           css_prefix: css_prefix,
           relative:   relative,

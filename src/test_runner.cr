@@ -47,11 +47,11 @@ module Mint
     end
 
     def run : Bool
-      terminal.measure "#{COG} Ensuring dependencies... " do
+      terminal.measure "#{COG} Ensuring dependencies..." do
         MintJson.parse_current.check_dependencies!
       end
 
-      ast = terminal.measure "#{COG} Compiling tests... " do
+      ast = terminal.measure "#{COG} Compiling tests..." do
         compile_ast.tap do |a|
           @script = compile_script(a)
         end

@@ -134,6 +134,7 @@ module Mint
 
       def measure(message)
         print message
+        print " "
         result = nil
         elapsed = Time.measure { result = yield }
         puts TimeFormat.auto(elapsed).colorize.mode(:bold)
