@@ -6,21 +6,26 @@ module Mint
 
     ECR.def_to_s "#{__DIR__}/service_worker.ecr"
 
-    def files
-      Dir.cd(DIST_DIR) do
-        Dir
-          .glob("**/*")
-          .reject! { |file| File.directory?(file) }
-          .join(",\n") { |file| "'/#{file}'" }
-      end
+    getter files : Array(Path) do
+      Dir
+        .glob(Path[DIST_DIR, "**", "*"])
+        .compact_map do |file|
+          Path[file] unless File.directory?(file)
+        end
+        .sort!
+    end
+
+    def precache_urls
+      files
+        .join(",\n") do |file|
+          %('/#{file.relative_to(DIST_DIR)}')
+        end
     end
 
     def calculate_hash
-      Dir
-        .glob(Path[DIST_DIR, "**", "*"])
-        .reject! { |file| File.directory?(file) }
+      files
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
-          digest << File.read(file)
+          digest.file(file)
         end.final.hexstring
     end
   end
