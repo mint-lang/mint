@@ -10,12 +10,11 @@ self.addEventListener('install', event => {
       .open(CACHE)
       .then(cache => {
         const promises =
-          PRECACHE_URLS.map((url) =>
+          PRECACHE_URLS.map(url =>
             cache
               .add(url)
               .catch(error => console.log(`Could not cache: ${url} - ${error}!`))
           )
-
         return Promise.all(promises)
       })
       .then(self.skipWaiting())
@@ -25,13 +24,15 @@ self.addEventListener('install', event => {
 // On activate remove all unused caches
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return cacheNames.filter(cacheName => cacheName !== CACHE)
-    }).then(cachesToDelete => {
-      return Promise.all(cachesToDelete.map(cacheToDelete => {
-        return caches.delete(cacheToDelete)
-      }))
-    }).then(() => self.clients.claim())
+    caches
+      .keys()
+      .then(cacheNames => cacheNames.filter(cacheName => cacheName !== CACHE))
+      .then(cachesToDelete =>
+        Promise.all(
+          cachesToDelete.map(cacheToDelete => caches.delete(cacheToDelete))
+        )
+      )
+      .then(() => self.clients.claim())
   )
 })
 
@@ -44,9 +45,6 @@ self.addEventListener('fetch', event => {
 
   // If we are on the same origin
   if (isSameOrigin) {
-    // Resolve the path
-    const path = url.slice(origin.length)
-
     // Try to get the response from the cache, and if not available
     // fall back to the "index.html" file.
     response =
@@ -57,5 +55,6 @@ self.addEventListener('fetch', event => {
     response = fetch(event.request)
   }
 
-  response.then((actualResponse) => event.respondWith(actualResponse))
+  response
+    .then(actualResponse => event.respondWith(actualResponse))
 })
