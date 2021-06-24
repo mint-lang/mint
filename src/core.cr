@@ -10,6 +10,10 @@ module Mint
       end
     end
 
+    def self.read?(path)
+      get?(path).try(&.gets_to_end)
+    end
+
     def self.read(path)
       get(path).gets_to_end
     end

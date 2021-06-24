@@ -72,14 +72,14 @@ module Mint
           env.params.url["name"]
 
         # If there is a baked file serve that.
-        begin
+        asset = Assets.read?("docs-viewer/#{filename}").try do |contents|
           env.response.content_type =
             MIME.from_filename?(filename).to_s
 
-          Assets.read("docs-viewer/#{filename}")
-        rescue BakedFileSystem::NoSuchFileError
-          index
+          contents
         end
+
+        asset || index
       end
 
       # If we didn't handle any route return the index as well.

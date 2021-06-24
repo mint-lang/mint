@@ -197,9 +197,7 @@ module Mint
         end
 
         # If there is a baked file serve that.
-        begin
-          Assets.read(filename)
-        rescue BakedFileSystem::NoSuchFileError
+        Assets.read?(filename) || begin
           # If it's a favicon generate it and return that.
           if match = filename.match(/icon-(\d+)x\d+\.png$/)
             env.response.content_type =
