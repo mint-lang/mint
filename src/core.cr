@@ -1,6 +1,8 @@
 module Mint
   class Core
-    BakedFileSystem.load("../core/source")
+    extend BakedFileSystem
+
+    bake_folder "../core/source"
 
     class_getter ast : Ast do
       files.reduce(Ast.new) do |memo, file|
@@ -8,8 +10,8 @@ module Mint
       end
     end
 
-    def self.read(message)
-      get(message).read
+    def self.read(path)
+      get(path).gets_to_end
     end
   end
 end

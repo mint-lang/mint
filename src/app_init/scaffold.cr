@@ -1,6 +1,8 @@
 module Mint
   class Scaffold
-    BakedFileSystem.load("app")
+    extend BakedFileSystem
+
+    bake_folder "./app"
 
     getter path : Path
 

@@ -1,9 +1,11 @@
 module Mint
   class Assets
-    BakedFileSystem.load("./assets")
+    extend BakedFileSystem
 
-    def self.read(message)
-      get(message).read
+    bake_folder "./assets"
+
+    def self.read(path)
+      get(path).gets_to_end
     end
   end
 end
