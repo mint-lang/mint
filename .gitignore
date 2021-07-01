@@ -1,8 +1,4 @@
-lib
-.shards
-mint-stuff
-dist
-mint
-docs
-bin
-*.dwarf
+/docs/
+/lib/
+/bin/
+/.shards/
