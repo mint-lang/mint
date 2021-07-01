@@ -3,7 +3,7 @@ module AnimationFrame {
   /*
   Schedules the function to run on the next frame, and returns its ID.
 
-    id = AnimationFrame.request(() { Debug.log("Hello") })
+    id = AnimationFrame.request((timestamp : Number) { Debug.log("Hello") })
   */
   fun request (method : Function(Number, a)) : Number {
     `requestAnimationFrame(#{method})`
