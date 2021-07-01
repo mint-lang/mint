@@ -65,18 +65,18 @@ module Mint
       end
 
       get "/:name" do |env|
-        # Set cache to expire in 30 days.
-        env.response.headers["Cache-Control"] = "max-age=2592000"
-
         filename =
           env.params.url["name"]
 
-        # If there is a baked file serve that.
-        asset = Assets.read?("docs-viewer/#{filename}").try do |contents|
+        # Lookup given *filename*
+        asset = Assets.read?("docs-viewer/#{filename}")
+
+        if asset
+          # Set cache to expire in 30 days.
+          env.response.headers["Cache-Control"] = "max-age=2592000"
+
           env.response.content_type =
             MIME.from_filename?(filename).to_s
-
-          contents
         end
 
         asset || index
