@@ -55,7 +55,7 @@ module Mint
 
     def setup_kemal
       get "/documentation.json" do |env|
-        env.response.headers.add("Access-Control-Allow-Origin", "*")
+        env.response.headers["Access-Control-Allow-Origin"] = "*"
         env.response.content_type = "application/json"
         @generator.generate @asts.merge({MintJson.parse_current => @ast})
       end
