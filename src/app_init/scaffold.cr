@@ -50,9 +50,7 @@ module Mint
     end
 
     private def touch_config
-      file_path = "mint.json"
-      FileUtils.mkdir_p File.dirname(file_path)
-      File.write(file_path, json.to_pretty_json)
+      File.write("mint.json", json.to_pretty_json)
     end
 
     private def show_created_files(path : Path, indent : Int32 = 0)
