@@ -32,7 +32,7 @@ module Mint
           if id
             "#{id}_#{subject.name.value.gsub('-', '_')}"
           else
-            subject.name.value
+            subject.name.value.gsub('-', '_')
           end
         end
       end
