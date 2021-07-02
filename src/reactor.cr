@@ -19,7 +19,7 @@ module Mint
     @sockets = [] of HTTP::WebSocket
 
     getter ast : Ast = Ast.new
-    getter script = ""
+    getter script : String?
 
     def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
       new host, port, auto_format, live_reload
@@ -109,7 +109,7 @@ module Mint
     rescue error : Error
       @error = error.to_html
       @artifacts = nil
-      @script = ""
+      @script = nil
     end
 
     def live_reload
