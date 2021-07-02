@@ -84,7 +84,7 @@ module Array {
   Returns a new array where the elements are reversed. The first array element
   becomes the last, and the last array element becomes the first.
 
-    Array.reverse([1, 2, 3]) == [4, 3, 2, 1]
+    Array.reverse([1, 2, 3]) == [3, 2, 1]
   */
   fun reverse (array : Array(a)) : Array(a) {
     `#{array}.slice().reverse()`
