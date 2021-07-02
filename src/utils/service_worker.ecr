@@ -8,16 +8,16 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then(cache => {
-        const promises =
+      .then(cache =>
+        Promise.all(
           PRECACHE_URLS.map(url =>
             cache
               .add(url)
               .catch(error => console.log(`Could not cache: ${url} - ${error}!`))
           )
-        return Promise.all(promises)
-      })
-      .then(self.skipWaiting())
+        )
+      )
+      .then(() => self.skipWaiting())
   )
 })
 
