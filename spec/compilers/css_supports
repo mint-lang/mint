@@ -21,7 +21,7 @@ class A extends _C {
     });
   }
 
-  $a() {
+  $Main_test() {
     const _ = {
       [`--a-a`]: this.a
     };
@@ -35,8 +35,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `Main_test`,
+      style: _style([this.$Main_test()])
     });
   }
 };
@@ -45,7 +45,7 @@ A.displayName = "Main";
 
 _insertStyles(`
 @supports (screen) {
-  .a {
+  .Main_test {
     color: var(--a-a);
   }
 }

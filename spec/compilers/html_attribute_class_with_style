@@ -12,7 +12,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `something` + ` a`
+      className: `something` + ` Main_base`
     });
   }
 };
@@ -20,7 +20,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.Main_base {
   width: 100%;
 }
 `);

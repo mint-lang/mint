@@ -46,7 +46,7 @@ module Mint
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
       style_nodes =
-        node.styles.map { |item| lookups[item] }
+        node.styles.map { |item| lookups[item].as(Ast::Style) }
 
       class_name =
         unless style_nodes.empty?
@@ -89,7 +89,7 @@ module Mint
           compile item.arguments
 
         style_name =
-          style_builder.style_pool.of(lookups[item], nil)
+          style_builder.style_pool.of(lookups[item].as(Ast::Style), nil)
 
         styles << js.call("this.$#{style_name}", arguments)
       end

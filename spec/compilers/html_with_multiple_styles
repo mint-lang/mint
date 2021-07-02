@@ -16,7 +16,7 @@ component Main {
 class A extends _C {
   render() {
     return _h("div", {
-      className: `a b`
+      className: `Main_one Main_two`
     });
   }
 };
@@ -24,11 +24,11 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a {
+.Main_one {
   color: red;
 }
 
-.b {
+.Main_two {
   color: blue;
 }
 `);

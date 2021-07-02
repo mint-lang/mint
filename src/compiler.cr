@@ -14,7 +14,7 @@ module Mint
 
     def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, @relative = false, @build = false)
       @style_builder =
-        StyleBuilder.new(css_prefix: css_prefix)
+        StyleBuilder.new(css_prefix: css_prefix, optimize: @optimize)
 
       @js =
         Js.new(optimize: @optimize)

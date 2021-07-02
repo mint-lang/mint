@@ -17,6 +17,28 @@ module Mint
     end
   end
 
+  class StylePool
+    @pool = NamePool(Ast::Style, Nil).new
+    @cache = {} of Ast::Style => String
+
+    def initialize(@optimize : Bool = false)
+    end
+
+    def of(subject : Ast::Style, id : String? = nil)
+      if @optimize
+        @pool.of(subject, nil)
+      else
+        @cache[subject] ||= begin
+          if id
+            "#{id}_#{subject.name.value.gsub('-', '_')}"
+          else
+            subject.name.value.gsub('-', '_')
+          end
+        end
+      end
+    end
+  end
+
   class PropertyValue
     property default : String?
     property variable : String?
@@ -127,11 +149,11 @@ module Mint
     getter selectors, property_pool, name_pool, style_pool, variables, ifs
     getter cases
 
-    def initialize(@css_prefix : String? = nil)
+    def initialize(@css_prefix : String? = nil, @optimize : Bool = false)
       # Three name pools so there would be no clashes,
       # which also good for optimizations.
+      @style_pool = StylePool.new(optimize: @optimize)
       @property_pool = NamePool(String, String).new
-      @style_pool = NamePool(Ast::Node, Nil).new
       @name_pool = NamePool(String, Nil).new
 
       # This is the main data structure:
@@ -192,14 +214,14 @@ module Mint
       false
     end
 
-    def prefixed_class_name(node)
-      @css_prefix.to_s + style_pool.of(node, nil)
+    def prefixed_class_name(node : Ast::Style, id : String? = nil)
+      @css_prefix.to_s + style_pool.of(node, id)
     end
 
     # The main entry point for processing a "style" tag.
-    def process(node : Ast::Style)
+    def process(node : Ast::Style, id : String? = nil)
       selectors =
-        [".#{prefixed_class_name(node)}"]
+        [".#{prefixed_class_name(node, id)}"]
 
       process(node.body, nil, nil, selectors, %w[], node)
     end

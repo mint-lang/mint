@@ -23,7 +23,7 @@ class A extends _C {
     });
   }
 
-  $a() {
+  $Main_unicode() {
     const _ = {
       [`--a-a`]: `"Hi"` + ` blah ` + this.a + ` ` + `"Here is some content; Thanks ${this.a}"`
     };
@@ -37,8 +37,8 @@ class A extends _C {
 
   render() {
     return _h("div", {
-      className: `a`,
-      style: _style([this.$a()])
+      className: `Main_unicode`,
+      style: _style([this.$Main_unicode()])
     }, [
       _h("span", {})
     ]);
@@ -48,7 +48,7 @@ class A extends _C {
 A.displayName = "Main";
 
 _insertStyles(`
-.a span::after {
+.Main_unicode span::after {
   content: var(--a-a);
 }
 `);

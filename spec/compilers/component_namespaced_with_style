@@ -1,0 +1,45 @@
+component Ui.Dropdown {
+  style base {
+    background: red;
+  }
+
+  fun render : Html {
+    <div::base>
+      "test"
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Ui.Dropdown/>
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h("div", {
+      className: `Ui·Dropdown_base`
+    }, [
+      `test`
+    ]);
+  }
+};
+
+A.displayName = "Ui.Dropdown";
+
+class B extends _C {
+  render() {
+    return $a();
+  }
+};
+
+B.displayName = "Main";
+
+const $a = _m(() => _h(A, {}));
+
+_insertStyles(`
+.Ui·Dropdown_base {
+  background: red;
+}
+`);
