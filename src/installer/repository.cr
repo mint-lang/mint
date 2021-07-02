@@ -44,7 +44,7 @@ module Mint
             .colorize(:light_blue)
             .mode(:dim)
 
-        "#{name}#{at}"
+        "#{name} #{at}"
       end
 
       # Gets the versions of a package from it's tags

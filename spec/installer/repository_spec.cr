@@ -14,7 +14,7 @@ describe "Repository" do
         message = <<-MESSAGE
         ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-        I could not parse the mint.json for the package: name(success) for the version
+        I could not parse the mint.json for the package: name (success) for the version
         or tag: master
         MESSAGE
 
@@ -34,8 +34,8 @@ describe "Repository" do
         message = <<-MESSAGE
         ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-        I could not find the mint.json for the package: name(success) for the version or
-        tag: master
+        I could not find the mint.json for the package: name (success) for the version
+        or tag: master
         MESSAGE
 
         begin
@@ -143,14 +143,14 @@ describe "Repository" do
       FileUtils.rm_rf("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
-      repository.output.should eq("  ✔ Cloned name(success)")
+      repository.output.should eq("  ✔ Cloned name (success)")
     end
 
     it "updates successfully" do
       FileUtils.mkdir_p("#{tmp_dir}/success")
 
       repository = Mint::Installer::Repository.open("name", "success")
-      repository.output.should eq("  ✔ Updated name(success)")
+      repository.output.should eq("  ✔ Updated name (success)")
     end
   end
 end
