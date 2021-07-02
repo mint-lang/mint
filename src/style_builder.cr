@@ -219,7 +219,7 @@ module Mint
     end
 
     # The main entry point for processing a "style" tag.
-    def process(node : Ast::Style, id : String)
+    def process(node : Ast::Style, id : String? = nil)
       selectors =
         [".#{prefixed_class_name(node, id)}"]
 
