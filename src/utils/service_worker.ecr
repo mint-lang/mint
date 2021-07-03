@@ -46,11 +46,18 @@ self.addEventListener('fetch', event => {
   // If we are on the same origin
   if (isSameOrigin) {
     // Try to get the response from the cache, and if not available
+    // try to fetch the resource from the network, and if that fails
     // fall back to the "index.html" file.
     response =
       caches
         .match(event.request)
-        .then(cachedResponse => cachedResponse || caches.match('/index.html'))
+        .then(cachedResponse => {
+          if (!cachedResponse) {
+            return fetch(event.request)
+              .catch(() => caches.match('/index.html'))
+          }
+          return cachedResponse
+        })
   } else {
     response = fetch(event.request)
   }
