@@ -169,8 +169,8 @@ module Window {
   /*
   Triggers the hash location jump on the page.
 
-  When a page loads and the current url has a hash `#achor-name` the browser
-  automatically jumps to the matching anchor tag `<a name="achor-name">`, but
+  When a page loads and the current url has a hash `#anchor-name` the browser
+  automatically jumps to the matching anchor tag `<a name="anchor-name">`, but
   this behavior does not happen when the history is manipulated.
 
   This function triggers that behavior.
