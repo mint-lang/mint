@@ -4,7 +4,7 @@ message ForExpectedOf do
   block do
     text "The arguments of a "
     bold "for expression"
-    text "and it's subject must be separated with"
+    text "and its subject must be separated with"
     bold "of keyword."
   end
 

@@ -4,7 +4,7 @@ message EnumIdTypeMismatch do
   block do
     text "The"
     bold "type of an enum"
-    text "does not match it's definition"
+    text "does not match its definition"
   end
 
   was_expecting_type expected, got

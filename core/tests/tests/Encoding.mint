@@ -34,7 +34,7 @@ suite "Encode" {
     `typeof #{encode Time.now()} === "string"`
   }
 
-  test "it encodes Maybe::Just as it's value" {
+  test "it encodes Maybe::Just as its value" {
     `#{encode Maybe::Just("Hello")} === "Hello"`
   }
 

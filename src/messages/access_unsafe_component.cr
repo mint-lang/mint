@@ -16,7 +16,7 @@ message AccessUnsafeComponent do
   block do
     text "Use the safe accesscor"
     code "&."
-    text "to access it's functions and properties."
+    text "to access its functions and properties."
   end
 
   snippet node

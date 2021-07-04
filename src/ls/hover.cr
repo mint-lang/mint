@@ -36,7 +36,7 @@ module Mint
 
         # Get the workspace associated with the text document
         # this could take a while because the workspace parses
-        # and type checks all of it's source files.
+        # and type checks all of its source files.
         workspace =
           Workspace[uri.path.to_s]
 

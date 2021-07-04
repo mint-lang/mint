@@ -47,7 +47,7 @@ module Mint
         "#{name} #{at}"
       end
 
-      # Gets the versions of a package from it's tags
+      # Gets the versions of a package from its tags
       def versions : Array(Semver)
         if version = @version
           return [version]

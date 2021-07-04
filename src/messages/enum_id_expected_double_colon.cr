@@ -6,7 +6,7 @@ message EnumIdExpectedDoubleColon do
     bold "name"
     text "of an"
     bold "enum"
-    text "and it's"
+    text "and its"
     bold "option"
     text "must be separated by a"
     bold "double colon"

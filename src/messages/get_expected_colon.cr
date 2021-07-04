@@ -6,7 +6,7 @@ message GetExpectedColon do
     bold "body"
     text "of a"
     bold "get"
-    text "and it's"
+    text "and its"
     bold "return type"
     text "must be separated by a colon."
   end
