@@ -30,8 +30,8 @@ suite "Encode" {
     `#{encode (`null` as Object)} === null`
   }
 
-  test "it encodes Time as integer" {
-    `typeof #{encode Time.now()} === "number"`
+  test "it encodes Time as string" {
+    `typeof #{encode Time.now()} === "string"`
   }
 
   test "it encodes Maybe::Just as it's value" {
