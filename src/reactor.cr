@@ -243,7 +243,7 @@ module Mint
         spawn do
           Watcher.watch([file]) do
             Env.load do
-              terminal.measure "#{COG} Environment variables changed recompiling..." do
+              terminal.measure "#{COG} Environment variables changed, recompiling..." do
                 compile_script
               end
 

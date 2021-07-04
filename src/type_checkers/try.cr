@@ -20,7 +20,7 @@ module Mint
             # The last statement is not unwrapped so a Result can be returned directly
             new_type
           else
-            # If the statement has a name and it's a result
+            # If the statement has a name and it's a Result
             if new_type.name == "Result"
               type =
                 case
