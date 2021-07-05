@@ -1,19 +1,21 @@
 module Mint
   class Compiler
-    def compile(value : String)
+    def compile(value : String) : Codegen::Node
       "`#{value}`"
     end
 
     def compile(value : Array(Ast::Node | String), quote_string : Bool = false)
       if value.any?(Ast::Node)
-        value.compact_map do |part|
+        Codegen.join(value, " + ") do |part|
           case part
           when Ast::StringLiteral
             compile part, quote: quote_string
+          when String
+            compile part
           else
             compile part
-          end.presence
-        end.join(" + ")
+          end
+        end
       else
         result =
           value
@@ -24,7 +26,7 @@ module Mint
       end
     end
 
-    def _compile(node : Ast::HtmlElement) : String
+    def _compile(node : Ast::HtmlElement) : Codegen::Node
       tag =
         node.tag.value
 
@@ -43,7 +45,7 @@ module Mint
           .attributes
           .reject(&.name.value.in?("class", "style"))
           .map { |attribute| resolve(attribute) }
-          .reduce({} of String => String) { |memo, item| memo.merge(item) }
+          .reduce({} of String => Codegen::Node) { |memo, item| memo.merge(item) }
 
       style_nodes =
         node.styles.map { |item| lookups[item].as(Ast::Style) }
@@ -66,11 +68,11 @@ module Mint
       classes =
         case
         when class_name && class_name_attribute_value
-          "#{class_name_attribute_value} + ` #{class_name}`"
+          Codegen.join([class_name_attribute_value, " + ` ", class_name, "`"])
         when class_name_attribute_value
-          "#{class_name_attribute_value}"
+          class_name_attribute_value.as(Codegen::Node)
         when class_name
-          "`#{class_name}`"
+          Codegen.join(["`" + class_name + "`"])
         end
 
       attributes["className"] = classes if classes
@@ -80,7 +82,7 @@ module Mint
         .find(&.name.value.==("style"))
         .try { |attribute| compile(attribute.value) }
 
-      styles = %w[]
+      styles = [] of Codegen::Node
 
       node.styles.each do |item|
         next unless style_builder.any?(lookups[item])
@@ -97,7 +99,7 @@ module Mint
       styles << custom_styles if custom_styles
 
       unless styles.empty?
-        attributes["style"] = "_style([#{styles.join(", ")}])"
+        attributes["style"] = Codegen.join ["_style([", Codegen.join(styles, ", "), "])"]
       end
 
       node.ref.try do |ref|
@@ -112,13 +114,11 @@ module Mint
         end
 
       contents =
-        [%("#{tag}"),
-         attributes,
-         children]
-          .reject!(&.empty?)
-          .join(", ")
+        Codegen.join(
+          [%("#{tag}"), attributes, children].reject! { |item| Codegen.empty? item },
+          ", ")
 
-      "_h(#{contents})"
+      Codegen.join ["_h(", contents, ")"]
     end
   end
 end

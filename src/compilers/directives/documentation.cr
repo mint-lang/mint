@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Documentation) : String
+    def _compile(node : Ast::Directives::Documentation) : Codegen::Node
       entity =
         lookups[node]
 

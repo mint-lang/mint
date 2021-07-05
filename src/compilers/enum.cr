@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Enum) : String
+    def _compile(node : Ast::Enum) : Codegen::Node
       enum_ids =
         node.options.map do |option|
           name =
@@ -11,14 +11,14 @@ module Mint
               .map { |index| "_#{index - 1}" }
 
           assignments =
-            ids.map { |item| "this.#{item} = #{item}" }
+            ids.map { |item| Codegen.join ["this.", item, " = ", item] }
 
           js.class(
             name,
             extends: "_E",
             body: [js.function("constructor", ids) do
               js.statements([
-                js.call("super", %w[]),
+                js.call("super", [] of Codegen::Node),
                 assignments,
                 "this.length = #{option.parameters.size}",
               ].flatten)

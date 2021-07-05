@@ -1,10 +1,10 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Record) : String
+    def _compile(node : Ast::Record) : Codegen::Node
       fields =
         node.fields
           .map { |item| resolve(item) }
-          .reduce({} of String => String) { |memo, item| memo.merge(item) }
+          .reduce({} of String => Codegen::Node) { |memo, item| memo.merge(item) }
 
       type =
         types[node]?
@@ -13,9 +13,9 @@ module Mint
         name =
           js.class_of(type.name)
 
-        "new #{name}(#{js.object(fields)})"
+        Codegen.join ["new ", name, "(", js.object(fields), ")"]
       else
-        "new Record(#{js.object(fields)})"
+        Codegen.join ["new Record(", js.object(fields), ")"]
       end
     end
   end

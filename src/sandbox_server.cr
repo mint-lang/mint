@@ -93,6 +93,9 @@ module Mint
           build:      false,
         })
 
+      build_result =
+        Codegen.build(Codegen.join([runtime, script]), false)
+
       <<-HTML
       <!DOCTYPE html>
       <html>
@@ -101,7 +104,7 @@ module Mint
         </head>
         <body>
           <script>
-            #{runtime + script}
+            #{build_result[:code]}
           </script>
         </body>
       </html>

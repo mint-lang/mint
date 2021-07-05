@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Case, block : Proc(String, String)? = nil) : String
+    def compile(node : Ast::Case, block : Proc(Codegen::Node, Codegen::Node)? = nil) : Codegen::Node
       if checked.includes?(node)
         _compile node, block
       else
@@ -8,7 +8,7 @@ module Mint
       end
     end
 
-    def _compile(node : Ast::Case, block : Proc(String, String)? = nil) : String
+    def _compile(node : Ast::Case, block : Proc(Codegen::Node, Codegen::Node)? = nil) : Codegen::Node
       condition =
         compile node.condition
 

@@ -2,7 +2,7 @@ module Mint
   # This class handles the generation of a serializer of Mint types into
   # JavaScript Objects.
   class ObjectSerializer
-    @mappings = {} of TypeChecker::Record => String
+    @mappings = {} of TypeChecker::Record => Codegen::Node
 
     getter js : Js
 
@@ -16,7 +16,7 @@ module Mint
     def generate_mappings(node : TypeChecker::Record)
       @mappings[node] ||= begin
         mappings =
-          node.fields.each_with_object({} of String => String) do |(key, value), memo|
+          node.fields.each_with_object({} of String => Codegen::Node) do |(key, value), memo|
             decoder =
               self.decoder value
 
@@ -33,25 +33,34 @@ module Mint
       end
     end
 
-    def encoder(node : TypeChecker::Record)
-      "((_)=>#{js.class_of(node.name)}.encode(_))"
+    def encoder(node : TypeChecker::Record) : Codegen::Node
+      Codegen.join ["((_)=>", js.class_of(node.name), ".encode(_))"]
     end
 
-    def encoder(node : TypeChecker::Variable)
+    def encoder(node : TypeChecker::Variable) : Codegen::Node
       # This should never happen because of the typechecker!
       raise "Cannot generate an encoder for a type variable!"
     end
 
-    def encoder(node : TypeChecker::Type)
+    def encoder(node : TypeChecker::Type) : Codegen::Node?
       case node.name
       when "Time"
         "Encoder.time"
       when "Array"
-        "Encoder.array(#{encoder(node.parameters.first)})"
+        item_encoder =
+          (encoder(node.parameters.first) || "").as(Codegen::Node)
+
+        Codegen.join ["Encoder.array(", item_encoder, ")"]
       when "Maybe"
-        "Encoder.maybe(#{encoder(node.parameters.first)})"
+        item_encoder =
+          (encoder(node.parameters.first) || "").as(Codegen::Node)
+
+        Codegen.join ["Encoder.maybe(", item_encoder, ")"]
       when "Map"
-        "Encoder.map(#{encoder(node.parameters.last)})"
+        item_encoder =
+          (encoder(node.parameters.last) || "").as(Codegen::Node)
+
+        Codegen.join ["Encoder.map(", item_encoder, ")"]
       end
     end
 
@@ -63,7 +72,7 @@ module Mint
     def decoder(node : TypeChecker::Record)
       generate_mappings node
 
-      "((_)=>#{js.class_of(node.name)}.decode(_))"
+      Codegen.join ["((_)=>", js.class_of(node.name), ".decode(_))"]
     end
 
     def decoder(node : TypeChecker::Type)
@@ -79,11 +88,11 @@ module Mint
       when "Time"
         "Decoder.time"
       when "Maybe"
-        "Decoder.maybe(#{decoder(node.parameters.first)})"
+        Codegen.join ["Decoder.maybe(", decoder(node.parameters.first), ")"]
       when "Array"
-        "Decoder.array(#{decoder(node.parameters.first)})"
+        Codegen.join ["Decoder.array(", decoder(node.parameters.first), ")"]
       when "Map"
-        "Decoder.map(#{decoder(node.parameters.last)})"
+        Codegen.join ["Decoder.map(", decoder(node.parameters.last), ")"]
       else
         # This should never happen because of the typechecker!
         raise "Cannot generate a decoder for #{node}!"

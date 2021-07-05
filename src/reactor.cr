@@ -8,10 +8,12 @@ module Mint
   # * Keeps a cache of ASTs of the parsed files for faster recompilation
   # * When --auto-format flag is passed all source files are watched and if
   #   any changes it formats the file
+  # * By default generates source map for debugging (--source_map flag)
   class Reactor
     @artifacts : TypeChecker::Artifacts?
     @live_reload : Bool
     @auto_format : Bool
+    @source_map : Bool
     @error : String?
     @host : String
     @port : Int32
@@ -21,11 +23,13 @@ module Mint
     getter ast : Ast = Ast.new
     getter script : String?
 
-    def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
-      new host, port, auto_format, live_reload
+    def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool, mappings : Bool)
+      new host, port, auto_format, live_reload, mappings
     end
 
-    def initialize(@host, @port, @auto_format, @live_reload)
+    def initialize(@host, @port, @auto_format, @live_reload, @source_map)
+      @script_map = ""
+
       terminal.measure "#{COG} Ensuring dependencies..." do
         MintJson.parse_current.check_dependencies!
       end
@@ -98,18 +102,22 @@ module Mint
       type_checker.check
 
       # Compile.
-      @script = Compiler.compile type_checker.artifacts, {
+      compiled_code = Compiler.compile type_checker.artifacts, {
         css_prefix: json.application.css_prefix,
         relative:   false,
         optimize:   false,
         build:      false,
       }
       @artifacts = type_checker.artifacts
+      build = Codegen.build(compiled_code, @source_map)
+      @script = build[:code]
+      @script_map = build[:source_map].try(&.build_json) || ""
       @error = nil
     rescue error : Error
       @error = error.to_html
       @artifacts = nil
       @script = nil
+      @script_map = ""
     end
 
     def live_reload
@@ -143,7 +151,19 @@ module Mint
       get "/index.js" do |env|
         env.response.content_type = "application/javascript"
 
-        script
+        if @source_map
+          env.response.headers["SourceMap"] = "index.js.map"
+        end
+
+        @script
+      end
+
+      if @source_map
+        get "/index.js.map" do |env|
+          env.response.content_type = "application/json"
+
+          @script_map
+        end
       end
 
       get "/external-javascripts.js" do |env|

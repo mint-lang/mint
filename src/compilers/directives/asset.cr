@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Asset) : String
+    def _compile(node : Ast::Directives::Asset) : Codegen::Node
       prefix =
         relative ? "" : "/"
 

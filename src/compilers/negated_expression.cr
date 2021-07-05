@@ -1,10 +1,10 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::NegatedExpression) : String
+    def _compile(node : Ast::NegatedExpression) : Codegen::Node
       expression =
         compile node.expression
 
-      "#{node.negations}#{expression}"
+      Codegen.join [node.negations, expression]
     end
   end
 end

@@ -1,7 +1,5 @@
 module Mint
   class Compiler
-    include Skippable
-
     delegate lookups, checked, cache, component_records, to: @artifacts
     delegate ast, types, variables, resolve_order, to: @artifacts
     delegate record_field_lookup, to: @artifacts
@@ -9,7 +7,7 @@ module Mint
     getter js, style_builder, static_components, static_components_pool
     getter build, relative
 
-    @static_components = {} of String => String
+    @static_components = {} of String => Codegen::Node
     @static_components_pool = NamePool(String, Nil).new
 
     def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, @relative = false, @build = false)
@@ -26,23 +24,23 @@ module Mint
     # Helpers for compiling things
     # ----------------------------------------------------------------------------
 
-    def compile(nodes : Array(Ast::Node), separator : String)
-      compile(nodes).join(separator)
+    def compile(nodes : Array(Ast::Node), separator : String) : Codegen::Node
+      Codegen.join(nodes.map { |node| compile(node).as(Codegen::Node) }, separator)
     end
 
-    def compile(nodes : Array(Ast::Node))
-      nodes.compact_map { |node| compile(node).as(String).presence }
+    def compile(nodes : Array(Ast::Node)) : Array(Codegen::Node)
+      nodes.compact_map { |node| compile(node).as(Codegen::Node) }
     end
 
-    def compile(node : Ast::Node) : String
+    def compile(node : Ast::Node) : Codegen::Node
       if checked.includes?(node)
-        _compile(node)
+        _compile(node).as(Codegen::Node)
       else
         ""
       end
     end
 
-    def _compile(node : Ast::Node) : String
+    def _compile(node : Ast::Node) : Codegen::Node
       raise "Compiler not implemented for node #{node}!"
     end
   end

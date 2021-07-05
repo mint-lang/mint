@@ -23,13 +23,18 @@ module Mint
         default: true,
         short: "m"
 
+      define_flag source_map : Bool,
+        description: "If specified generate source mappings for debugging",
+        default: false
+
       def run
         execute "Building for production" do
           Builder.new(
             flags.relative,
             flags.skip_service_worker,
             flags.skip_icons,
-            flags.minify
+            flags.minify,
+            flags.source_map
           )
         end
       end

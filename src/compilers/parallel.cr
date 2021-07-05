@@ -1,26 +1,27 @@
 module Mint
   class Compiler
-    protected def prefix(_node : Ast::Parallel, statement : Ast::Statement, value : String)
+    protected def prefix(_node : Ast::Parallel, statement : Ast::Statement, value : Codegen::Node)
       case target = statement.target
       when Ast::Variable
-        js.assign(js.variable_of(target), value)
+        js.assign(Codegen.symbol_mapped(target, js.variable_of(target)), value)
       when Ast::TupleDestructuring
-        variables =
-          target
-            .parameters
-            .join(',') { |param| js.variable_of(param) }
+        params =
+          target.parameters.map { |param| Codegen.symbol_mapped(param, js.variable_of(param)) }
 
-        "[#{variables}] = #{value}"
+        variables =
+          Codegen.join(params, ",")
+
+        Codegen.join ["[", variables, "] = ", value]
       else
         value
       end
     end
 
-    def _compile(node : Ast::Parallel) : String
+    def _compile(node : Ast::Parallel) : Codegen::Node
       _compile(node) { |statement| compile(statement) }
     end
 
-    def _compile(node : Ast::Parallel, & : Ast::Statement, Int32, Bool -> String) : String
+    def _compile(node : Ast::Parallel, & : Ast::Statement, Int32, Bool -> Codegen::Node) : Codegen::Node
       statements = node.statements
       statements_size = statements.size
 
@@ -41,9 +42,11 @@ module Mint
               node
                 .catches
                 .select(&.type.==(type_param.name))
-                .map { |item| compile(item).as(String) }
+                .map { |item| compile(item) }
             end
-          end || %w[]
+          else
+            # ignore
+          end || [] of Codegen::Node
 
         case type
         when TypeChecker::Type
@@ -75,20 +78,20 @@ module Mint
           when "Promise"
             if catches && !catches.empty?
               js.asynciif do
-                js.try(prefix(node, statement, "await #{expression}"),
+                js.try(prefix(node, statement, Codegen.join(["await ", expression])),
                   [js.catch("_error", js.statements(catches))],
                   "")
               end
             end
           end
         end || js.asynciif do
-          prefix(node, statement, "await #{expression}")
+          prefix(node, statement, Codegen.join(["await ", expression]))
         end
       end
 
       catch_all =
         node.catch_all.try do |catch|
-          "return #{compile catch.expression}"
+          Codegen.join ["return ", compile catch.expression]
         end ||
           js.statements([
             "console.warn(`Unhandled error in parallel expression:`)",
@@ -109,10 +112,10 @@ module Mint
         statements.compact_map do |statement|
           case target = statement.target
           when Ast::Variable
-            js.let(js.variable_of(target), "null")
+            js.let(Codegen.symbol_mapped(target, js.variable_of(target)), "null")
           when Ast::TupleDestructuring
             target.parameters.map do |variable|
-              js.let(js.variable_of(variable), "null")
+              js.let(Codegen.symbol_mapped(variable, js.variable_of(variable)), "null")
             end
           end
         end.flatten

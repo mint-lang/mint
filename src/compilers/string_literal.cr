@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::StringLiteral, quote : Bool = false) : String
+    def compile(node : Ast::StringLiteral, quote : Bool = false) : Codegen::Node
       if checked.includes?(node)
         _compile(node, quote)
       else
@@ -8,27 +8,25 @@ module Mint
       end
     end
 
-    def _compile(node : Ast::StringLiteral, quote : Bool = false) : String
+    def _compile(node : Ast::StringLiteral, quote : Bool = false) : Codegen::Node
       value =
-        node
-          .value
-          .join do |item|
-            case item
-            when Ast::Node
-              "${#{compile(item)}}"
-            when String
-              item
-                .gsub('`', "\\`")
-                .gsub("${", "\\${")
-            else
-              ""
-            end
+        Codegen.join(node.value) do |item|
+          case item
+          when Ast::Node
+            Codegen.join ["${", compile(item), "}"]
+          when String
+            item
+              .gsub('`', "\\`")
+              .gsub("${", "\\${")
+          else
+            ""
           end
+        end
 
       if quote
-        %(`"#{value}"`)
+        Codegen.join ["`\"", value, "\"`"]
       else
-        "`#{value}`"
+        Codegen.join ["`", value, "`"]
       end
     end
   end

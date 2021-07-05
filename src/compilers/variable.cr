@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Variable) : String
+    def _compile(node : Ast::Variable) : Codegen::Node
       entity, parent = variables[node]
 
       # Subscriptions for providers are handled here
@@ -37,88 +37,92 @@ module Mint
         end
       end
 
-      case parent
-      when Tuple(String, TypeChecker::Checkable, Ast::Node)
-        js.variable_of(parent[2])
-      else
-        case entity
-        when Ast::Component, Ast::HtmlElement
-          case parent
-          when Ast::Component
-            ref =
-              parent
-                .refs
-                .find { |(ref, _)| ref.value == node.value }
-                .try { |(ref, _)| js.variable_of(ref) }
+      result =
+        case parent
+        when Tuple(String, TypeChecker::Checkable, Ast::Node)
+          js.variable_of(parent[2])
+        else
+          case entity
+          when Ast::Component, Ast::HtmlElement
+            case parent
+            when Ast::Component
+              ref =
+                parent
+                  .refs
+                  .find { |(ref, _)| ref.value == node.value }
+                  .try { |(ref, _)| js.variable_of(ref) }
+                  .as(Codegen::Node)
 
-            "this.#{ref}"
-          else
-            raise "SHOULD NOT HAPPEN"
-          end
-        when Ast::Function
-          function =
-            if connected
-              js.variable_of(connected)
+              Codegen.join ["this.", ref]
             else
-              js.variable_of(entity.as(Ast::Node))
+              raise "SHOULD NOT HAPPEN"
             end
+          when Ast::Function
+            function =
+              if connected
+                js.variable_of(connected)
+              else
+                js.variable_of(entity.as(Ast::Node))
+              end
 
-          case parent
-          when Ast::Module, Ast::Store
+            case parent
+            when Ast::Module, Ast::Store
+              name =
+                js.class_of(parent.as(Ast::Node))
+
+              Codegen.join [name, ".", function]
+            else
+              Codegen.join ["this.", function]
+            end
+          when Ast::Property, Ast::Get, Ast::State, Ast::Constant
             name =
-              js.class_of(parent.as(Ast::Node))
+              if connected
+                js.variable_of(connected)
+              else
+                js.variable_of(entity.as(Ast::Node))
+              end
 
-            "#{name}.#{function}"
-          else
-            "this.#{function}"
-          end
-        when Ast::Property, Ast::Get, Ast::State, Ast::Constant
-          name =
-            if connected
-              js.variable_of(connected)
+            case parent
+            when Ast::Suite
+              # The variable is a constant in a test suite
+              Codegen.join ["constants.", name, "()"]
             else
-              js.variable_of(entity.as(Ast::Node))
+              Codegen.join ["this.", name]
             end
-
-          case parent
-          when Ast::Suite
-            # The variable is a constant in a test suite
-            "constants.#{name}()"
-          else
-            "this.#{name}"
-          end
-        when Ast::Argument
-          compile entity
-        when Ast::Statement, Ast::WhereStatement
-          case target = entity.target
-          when Ast::Variable
-            js.variable_of(target)
-          else
-            "SHOULD NEVER HAPPEN"
-          end
-        when Tuple(Ast::Node, Array(Int32) | Int32)
-          case item = entity[0]
-          when Ast::WhereStatement, Ast::Statement
-            case target = item.target
-            when Ast::TupleDestructuring
-              case val = entity[1]
-              in Int32
-                js.variable_of(target.parameters[val])
-              in Array(Int32)
-                js.variable_of(val.reduce(target) do |curr_type, curr_val|
-                  curr_type.as(Ast::TupleDestructuring).parameters[curr_val]
-                end)
+          when Ast::Argument
+            compile entity
+          when Ast::Statement, Ast::WhereStatement
+            case target = entity.target
+            when Ast::Variable
+              js.variable_of(target)
+            else
+              "SHOULD NEVER HAPPEN"
+            end
+          when Tuple(Ast::Node, Array(Int32) | Int32)
+            case item = entity[0]
+            when Ast::WhereStatement, Ast::Statement
+              case target = item.target
+              when Ast::TupleDestructuring
+                case val = entity[1]
+                in Int32
+                  js.variable_of(target.parameters[val])
+                in Array(Int32)
+                  js.variable_of(val.reduce(target) do |curr_type, curr_val|
+                    curr_type.as(Ast::TupleDestructuring).parameters[curr_val]
+                  end)
+                end
+              else
+                js.variable_of(node)
               end
             else
               js.variable_of(node)
             end
           else
-            js.variable_of(node)
+            Codegen.join ["this.", node.value]
           end
-        else
-          "this.#{node.value}"
         end
-      end
+
+      Codegen.source_mapped(node, result)
     end
   end
 end

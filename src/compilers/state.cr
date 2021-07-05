@@ -1,10 +1,10 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::State) : String
+    def _compile(node : Ast::State) : Codegen::Node
       name =
         js.variable_of(node)
 
-      js.get(name, "return this.state.#{name};")
+      js.get(name, Codegen.join ["return this.state.", name, ";"])
     end
   end
 end

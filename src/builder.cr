@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative, skip_service_worker, skip_icons, optimize)
+    def initialize(relative, skip_service_worker, skip_icons, optimize, source_map)
       json = MintJson.parse_current
 
       if !skip_icons && !Process.find_executable("convert")
@@ -26,10 +26,17 @@ module Mint
 
       terminal.puts "#{COG} Compiling your application:"
 
-      index_js, artifacts =
-        index(json.application.css_prefix, relative, optimize)
+      build, artifacts =
+        index(json.application.css_prefix, relative, optimize, source_map)
 
-      File.write Path[DIST_DIR, "index.js"], index_js
+      File.write Path[DIST_DIR, "index.js"], build[:code]
+
+      if source_map
+        terminal.puts "#{COG} Generating source map:"
+        build[:source_map].try do |map|
+          File.write Path[DIST_DIR, "index.js.map"], map.build_json
+        end
+      end
 
       if SourceFiles.external_javascripts?
         terminal.measure "#{COG} Writing external javascripts..." do
@@ -128,7 +135,7 @@ module Mint
       end
     end
 
-    def index(css_prefix, relative, optimize)
+    def index(css_prefix, relative, optimize, source_map)
       runtime =
         Assets.read("runtime.js")
 
@@ -163,7 +170,10 @@ module Mint
         }
       end
 
-      {runtime + compiled.to_s, type_checker.artifacts}
+      build_result =
+        Codegen.build(Codegen.join([runtime, compiled].compact), source_map)
+
+      {build_result, type_checker.artifacts}
     end
 
     def terminal

@@ -4,7 +4,7 @@ module Mint
   module Skippable
     @skip = [] of {String, String}
 
-    def replace_skipped(result)
+    def replace_skipped(result : String)
       @skip.reverse.reduce(result) do |memo, (digest, item)|
         memo.sub(digest, item)
       end

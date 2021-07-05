@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::HtmlExpression) : String
+    def _compile(node : Ast::HtmlExpression) : Codegen::Node
       case node.expressions.size
       when 0
         "null"
@@ -10,7 +10,7 @@ module Mint
         children =
           compile node.expressions
 
-        "_h(React.Fragment, {}, #{js.array(children)})"
+        Codegen.join ["_h(React.Fragment, {}, ", js.array(children), ")"]
       end
     end
   end

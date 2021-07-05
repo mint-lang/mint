@@ -1,13 +1,13 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Encode) : String
+    def _compile(node : Ast::Encode) : Codegen::Node
       expression =
         compile node.expression
 
       code =
         @serializer.encoder cache[node.expression]
 
-      "#{code}(#{expression})"
+      Codegen.join [code || "", "(", expression, ")"]
     end
   end
 end
