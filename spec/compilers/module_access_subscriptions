@@ -47,8 +47,8 @@ class C extends _C {
   componentDidUpdate() {
     if (true) {
       B._subscribe(this, new A({
-      test: ``
-    }))
+        test: ``
+      }))
     } else {
       B._unsubscribe(this)
     };
@@ -57,8 +57,8 @@ class C extends _C {
   componentDidMount() {
     if (true) {
       B._subscribe(this, new A({
-      test: ``
-    }))
+        test: ``
+      }))
     } else {
       B._unsubscribe(this)
     };

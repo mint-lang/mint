@@ -166,7 +166,9 @@ module Mint
           js.class_of(lookups[use])
 
         data =
-          compile use.data
+          compile(use.data).lines.map_with_index do |line, idx|
+            idx.zero? ? line : line.indent
+          end.join('\n')
 
         body =
           <<-JS
