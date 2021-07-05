@@ -168,6 +168,11 @@ module Mint
         data =
           compile use.data
 
+        # indent compiled record to match the `if` branch
+        data = data.lines.map_with_index do |line, idx|
+          idx.zero? ? line : line.indent
+        end.join('\n')
+
         body =
           <<-JS
           if (#{condition}) {
