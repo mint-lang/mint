@@ -55,7 +55,7 @@ module Mint
           "const _0 = []",
           Codegen.join(["const _1 = ", subject]),
           "let _i = 0",
-          js.for("let #{arguments} of _1", js.statements(contents)),
+          js.for(Codegen.join(["let ", arguments, " of _1"]), js.statements(contents)),
           js.return("_0"),
         ])
       end
