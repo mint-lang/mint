@@ -5,6 +5,7 @@ module Mint
         Try
         Sequence
         Parallel
+        None
       end
 
       getter target, expression, parent

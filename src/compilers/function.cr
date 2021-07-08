@@ -8,6 +8,10 @@ module Mint
       end
     end
 
+    def _compile(node : Ast::Block) : String
+      compile node.expression
+    end
+
     def _compile(node : Ast::Function, contents = "") : String
       name =
         js.variable_of(node)

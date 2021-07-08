@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def statement(parent : Ast::Statement::Parent) : Ast::Statement?
+    def statement(parent : Ast::Statement::Parent, require_name : Bool = false) : Ast::Statement?
       start do |start_position|
         target = start do
           value = variable(track: false) || tuple_destructuring
@@ -11,6 +11,7 @@ module Mint
           value
         end
 
+        next if require_name && !target
         body = expression
 
         next unless body
