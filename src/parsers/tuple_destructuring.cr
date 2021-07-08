@@ -8,6 +8,7 @@ module Mint
           next unless char! '{'
           value = tuple_destructuring || variable
           whitespace
+          next if char.in?('|', '=') # Don't parse record or record update as tuple destructuring
           char! ','
           whitespace
           value

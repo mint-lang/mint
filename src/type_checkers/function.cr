@@ -17,6 +17,10 @@ module Mint
       Comparer.normalize(defined_type)
     end
 
+    def check(node : Ast::Block) : Checkable
+      resolve node.expression
+    end
+
     def check(node : Ast::Function) : Checkable
       scope node do
         scope node.where.try(&.statements) || [] of Ast::WhereStatement do

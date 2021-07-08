@@ -21,8 +21,8 @@ module Mint
       whitespace
 
       result = yield
-
       whitespace
+
       char '}', closing_bracket
       result
     end

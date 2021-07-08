@@ -7,6 +7,35 @@ module Mint
     syntax_error FunctionExpectedExpression
     syntax_error FunctionExpectedName
 
+    def code_block : Ast::Block?
+      start do |start_position|
+        char '{', SyntaxError
+        whitespace
+
+        statements =
+          many { comment || statement(:none, require_name: true) }
+
+        whitespace
+
+        expression =
+          expression! SyntaxError
+
+        whitespace
+        tail_comments = many { comment }
+
+        whitespace
+        char '}', SyntaxError
+
+        self << Ast::Block.new(
+          tail_comments: tail_comments,
+          statements: statements,
+          expression: expression,
+          from: start_position,
+          to: position,
+          input: data)
+      end
+    end
+
     def function : Ast::Function?
       start do |start_position|
         comment = self.comment
@@ -41,21 +70,24 @@ module Mint
             item
           end
 
-        head_comments, body, tail_comments = block_with_comments(
-          opening_bracket: FunctionExpectedOpeningBracket,
-          closing_bracket: FunctionExpectedClosingBracket
-        ) do
-          expression! FunctionExpectedExpression
-        end
+        body =
+          code_block
+
+        # head_comments, body, tail_comments = block_with_comments(
+        #   opening_bracket: FunctionExpectedOpeningBracket,
+        #   closing_bracket: FunctionExpectedClosingBracket
+        # ) do
+        #   expression! FunctionExpectedExpression
+        # end
 
         end_position = position
 
         whitespace
 
         self << Ast::Function.new(
+          head_comments: [] of Ast::Comment,
+          tail_comments: [] of Ast::Comment,
           body: body.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           comment: comment,
