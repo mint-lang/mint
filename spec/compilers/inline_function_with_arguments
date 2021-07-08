@@ -1,34 +1,30 @@
 component Main {
   fun test : String {
-    getName("Joe")
-  } where {
-    getName =
+    getName:
       (name : String) : String { name }
+
+    getName("Joe")
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    let b = (c) => {
-      return c
+    const c = (b) => {
+      return b
     };
 
-    return b(`Joe`);
+    return c(`Joe`);
   }
 
   render() {
-    return (() => {
-      this.a();
-      return ``;
-    })();
+    this.a();
+    return ``;
   }
 };
 

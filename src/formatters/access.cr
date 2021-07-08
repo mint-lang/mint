@@ -4,10 +4,7 @@ module Mint
       lhs =
         format node.lhs
 
-      safe_operator =
-        node.safe? ? "&" : ""
-
-      "#{lhs}#{safe_operator}.#{node.field.value}"
+      "#{lhs}.#{node.field.value}"
     end
   end
 end

@@ -1,7 +1,7 @@
 /* Represents a subscription for `Provider.TabFocus` */
 record Provider.TabFocus.Subscription {
-  onTabOut : Function(Promise(Never, Void)),
-  onTabIn : Function(Promise(Never, Void)),
+  onTabOut : Function(Promise(Void)),
+  onTabIn : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
@@ -11,17 +11,15 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe::Nothing
 
   /* The `keyUp` event handler. */
-  fun handleKeyUp (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handleKeyUp (event : Html.Event) : Array(Promise(Void)) {
     if (event.keyCode == Html.Event:TAB) {
-      try {
-        activeElement =
-          Dom.getActiveElement()
+      activeElement:
+        Dom.getActiveElement()
 
-        for (subscription of subscriptions) {
-          subscription.onTabIn()
-        } when {
-          subscription.element == activeElement
-        }
+      for (subscription of subscriptions) {
+        subscription.onTabIn()
+      } when {
+        subscription.element == activeElement
       }
     } else {
       []
@@ -29,17 +27,15 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   }
 
   /* The `keyDown` event handler. */
-  fun handleKeyDown (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handleKeyDown (event : Html.Event) : Array(Promise(Void)) {
     if (event.keyCode == Html.Event:TAB) {
-      try {
-        target =
-          Maybe::Just(event.target)
+      target:
+        Maybe::Just(event.target)
 
-        for (subscription of subscriptions) {
-          subscription.onTabOut()
-        } when {
-          subscription.element == target
-        }
+      for (subscription of subscriptions) {
+        subscription.onTabOut()
+      } when {
+        subscription.element == target
       }
     } else {
       []
@@ -47,23 +43,19 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map(
-          (methods : Tuple(Function(Void), Function(Void))) {
-            try {
-              {keyDownListener, keyUpListener} =
-                methods
+      Maybe.map(
+        (methods : Tuple(Function(Void), Function(Void))) {
+          {keyDownListener, keyUpListener}:
+            methods
 
-              keyDownListener()
-              keyUpListener()
-            }
-          },
-          listeners)
+          keyDownListener()
+          keyUpListener()
+        },
+        listeners)
 
-        next { listeners = Maybe::Nothing }
-      }
+      next { listeners = Maybe::Nothing }
     } else {
       case (listeners) {
         Maybe::Nothing =>

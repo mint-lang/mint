@@ -16,16 +16,13 @@ module Mint
 
         whitespace
 
-        head_comments, expression, tail_comments = block_with_comments(
-          opening_bracket: TestExpectedOpeningBracket,
-          closing_bracket: TestExpectedClosingBracket
-        ) do
-          expression! TestExpectedExpression
-        end
+        expression =
+          code_block(
+            opening_bracket: TestExpectedOpeningBracket,
+            closing_bracket: TestExpectedClosingBracket,
+            statement_error: TestExpectedExpression)
 
         self << Ast::Test.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           expression: expression,
           from: start_position,
           to: position,

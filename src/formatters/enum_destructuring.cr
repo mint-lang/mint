@@ -4,10 +4,13 @@ module Mint
       parameters =
         format node.parameters, ", "
 
+      name =
+        "#{node.name}::" if node.name
+
       if parameters.empty?
-        "#{node.name}::#{node.option}"
+        "#{name}#{node.option}"
       else
-        "#{node.name}::#{node.option}(#{parameters})"
+        "#{name}#{node.option}(#{parameters})"
       end
     end
   end

@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error TupleLiteralExpectedClosingBracket
-
     def bool_tuple_literal
       start do |start_position|
         next unless char! '{'
@@ -34,7 +32,7 @@ module Mint
         ) { expression }
         whitespace
 
-        char '}', TupleLiteralExpectedClosingBracket
+        next unless char! '}'
 
         Ast::TupleLiteral.new(
           from: start_position,

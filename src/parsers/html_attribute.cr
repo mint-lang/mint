@@ -22,13 +22,10 @@ module Mint
         when char == '[' && (value = array)
           value
         else
-          char '{', HtmlAttributeExpectedOpeningBracket
-
-          whitespace
-          value = expression! HtmlAttributeExpectedExpression
-          whitespace
-
-          char '}', HtmlAttributeExpectedClosingBracket
+          value = code_block(
+            opening_bracket: HtmlAttributeExpectedOpeningBracket,
+            closing_bracket: HtmlAttributeExpectedClosingBracket,
+            statement_error: HtmlAttributeExpectedExpression)
         end
 
         self << Ast::HtmlAttribute.new(

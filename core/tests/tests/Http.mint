@@ -234,13 +234,11 @@ suite "Http.hasHeader" {
 
 suite "Http.sendWithId" {
   test "sends the request with the given ID" {
-    try {
-      response =
-        Http.get("/blah")
-        |> Http.sendWithId("A")
+    response:
+      Http.get("/blah")
+      |> Http.sendWithId("A")
 
-      `#{Http.requests()}["A"] != undefined`
-    }
+    `#{Http.requests()}["A"] != undefined`
   }
 }
 
@@ -256,21 +254,20 @@ component Test.Http {
   state body : String = ""
 
   fun wrap (
-    method : Function(Promise(a, b), Void),
-    input : Promise(a, b)
-  ) : Promise(a, b) {
+    method : Function(Promise(a), Void),
+    input : Promise(a)
+  ) : Promise(a) {
     `#{method}(#{input})`
   }
 
-  fun componentDidMount : Promise(Never, Void) {
-    sequence {
-      response =
-        Http.empty()
-        |> Http.url(url)
-        |> Http.method(method)
-        |> Http.sendWithId("test")
-        |> wrap(
-          `
+  fun componentDidMount : Promise(Void) {
+    request:
+      await Http.empty()
+      |> Http.url(url)
+      |> Http.method(method)
+      |> Http.sendWithId("test")
+      |> wrap(
+        `
           (async (promise) => {
             let _requests = #{Http.requests()}
 
@@ -287,37 +284,39 @@ component Test.Http {
           })
           `)
 
-      next { status = response.status }
-    } catch Http.ErrorResponse => error {
-      case (error.type) {
-        Http.Error::NetworkError =>
-          next
-            {
-              errorMessage = "network-error",
-              status = error.status
-            }
+    await case (request) {
+      Result::Ok(response) => next { status = response.status }
 
-        Http.Error::BadUrl =>
-          next
-            {
-              errorMessage = "bad-url",
-              status = error.status
-            }
+      Result::Err(error) =>
+        case (error.type) {
+          Http.Error::NetworkError =>
+            next
+              {
+                errorMessage = "network-error",
+                status = error.status
+              }
 
-        Http.Error::Timeout =>
-          next
-            {
-              errorMessage = "timeout",
-              status = error.status
-            }
+          Http.Error::BadUrl =>
+            next
+              {
+                errorMessage = "bad-url",
+                status = error.status
+              }
 
-        Http.Error::Aborted =>
-          next
-            {
-              errorMessage = "aborted",
-              status = error.status
-            }
-      }
+          Http.Error::Timeout =>
+            next
+              {
+                errorMessage = "timeout",
+                status = error.status
+              }
+
+          Http.Error::Aborted =>
+            next
+              {
+                errorMessage = "aborted",
+                status = error.status
+              }
+        }
     }
   }
 
@@ -341,64 +340,44 @@ component Test.Http {
 /*
 suite "Successful request" {
   test "it loads" {
-    with Test.Context {
-      with Test.Html {
-        <Test.Http/>
-        |> start()
-        |> timeout(50)
-        |> assertTextOf("error", "")
-        |> assertTextOf("status", "200")
-      }
-    }
+    <Test.Http/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("error", "")
+    |> Test.Html.assertTextOf("status", "200")
   }
 }
 */
 
 suite "Http.Error" {
   test "BadUrl" {
-    with Test.Context {
-      with Test.Html {
-        <Test.Http url="http://::?/"/>
-        |> start()
-        |> timeout(50)
-        |> assertTextOf("error", "bad-url")
-        |> assertTextOf("status", "0")
-      }
-    }
+    <Test.Http url="http://::?/"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("error", "bad-url")
+    |> Test.Html.assertTextOf("status", "0")
   }
 
   test "NetWorkError" {
-    with Test.Context {
-      with Test.Html {
-        <Test.Http shouldError={true}/>
-        |> start()
-        |> assertTextOf("error", "network-error")
-        |> assertTextOf("status", "0")
-      }
-    }
+    <Test.Http shouldError={true}/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("error", "network-error")
+    |> Test.Html.assertTextOf("status", "0")
   }
 
   test "Timeout" {
-    with Test.Context {
-      with Test.Html {
-        <Test.Http timeout={true}/>
-        |> start()
-        |> timeout(50)
-        |> assertTextOf("error", "timeout")
-        |> assertTextOf("status", "0")
-      }
-    }
+    <Test.Http timeout={true}/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("error", "timeout")
+    |> Test.Html.assertTextOf("status", "0")
   }
 
   test "Aborted" {
-    with Test.Context {
-      with Test.Html {
-        <Test.Http abort={true}/>
-        |> start()
-        |> timeout(50)
-        |> assertTextOf("error", "aborted")
-        |> assertTextOf("status", "0")
-      }
-    }
+    <Test.Http abort={true}/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("error", "aborted")
+    |> Test.Html.assertTextOf("status", "0")
   }
 }

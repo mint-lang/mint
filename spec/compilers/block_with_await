@@ -1,0 +1,32 @@
+component Main {
+  fun promise : Promise(String) {
+    `` as Promise(String)
+  }
+
+  fun promiseTest : Promise(String) {
+    await promise()
+  }
+
+  fun render : String {
+    promiseTest()
+
+    "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a() {
+    return;
+  }
+
+  async b() {
+    return await this.a();
+  }
+
+  render() {
+    this.b();
+    return `Hello`;
+  }
+};
+
+A.displayName = "Main";

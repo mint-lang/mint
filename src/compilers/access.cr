@@ -11,16 +11,7 @@ module Mint
           js.variable_of(lookups[node.field])
         end
 
-      if node.safe?
-        js.iif do
-          js.statements([
-            js.const("_", first),
-            js.return(js.call("_s", ["_", "(_) => _.#{field}"])),
-          ])
-        end
-      else
-        "#{first}.#{field}"
-      end
+      "#{first}.#{field}"
     end
   end
 end

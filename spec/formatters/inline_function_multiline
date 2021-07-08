@@ -5,12 +5,12 @@ record X {
 
 module A {
   fun test : String {
-    result.name
-  } where {
-    a = (name:String,age:Number):X{{name = name, age = age}}
+    a: (name:String,age:Number):X{{name = name, age = age}}
 
-    result =
+    result:
       a("Joe", 25)
+
+    result.name
   }
 }
 --------------------------------------------------------------------------------
@@ -21,9 +21,7 @@ record X {
 
 module A {
   fun test : String {
-    result.name
-  } where {
-    a =
+    a:
       (name : String, age : Number) : X {
         {
           name = name,
@@ -31,7 +29,9 @@ module A {
         }
       }
 
-    result =
+    result:
       a("Joe", 25)
+
+    result.name
   }
 }

@@ -1,7 +1,8 @@
 module Mint
   class Parser
     def html_content
-      svg_directive ||
+      here_doc ||
+        svg_directive ||
         html_element ||
         html_component ||
         html_expression ||
@@ -10,8 +11,6 @@ module Mint
         array ||
         if_expression(for_html: true) ||
         for_expression ||
-        with_expression ||
-        try_expression ||
         case_expression ||
         comment
     end

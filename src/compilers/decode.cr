@@ -1,13 +1,17 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Decode) : String
-      expression =
-        compile node.expression
-
       code =
         @serializer.decoder types[node]
 
-      "#{code}(#{expression})"
+      if item = node.expression
+        expression =
+          compile item
+
+        "#{code}(#{expression})"
+      else
+        "((_)=>#{code}(_))"
+      end
     end
   end
 end

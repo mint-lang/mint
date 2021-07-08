@@ -123,13 +123,13 @@ module Math {
     Math.truncate(0.123456) == 0.12
   */
   fun truncate (to : Number, value : Number) : Number {
-    `Math.trunc(#{value} * #{multiplier}) / #{multiplier}`
-  } where {
-    multiplier =
+    multiplier:
       if (to == 0) {
         1
       } else {
         to * 100
       }
+
+    `Math.trunc(#{value} * #{multiplier}) / #{multiplier}`
   }
 }

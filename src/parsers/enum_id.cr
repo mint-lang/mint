@@ -4,36 +4,41 @@ module Mint
     syntax_error EnumIdExpectedDoubleColon
     syntax_error EnumIdExpectedOption
 
+    def enum_id_expressions
+      expressions = [] of Ast::Expression
+
+      if char! '('
+        whitespace
+
+        item = enum_record
+
+        if item
+          expressions << item
+        else
+          expressions.concat list(
+            terminator: ')',
+            separator: ','
+          ) { expression }
+        end
+
+        whitespace
+        return unless char! ')'
+      end
+
+      expressions
+    end
+
     def enum_id
       start do |start_position|
-        next unless name = type_id
+        next unless option = type_id
 
-        keyword! "::", EnumIdExpectedDoubleColon
-
-        option = type_id! EnumIdExpectedOption
-
-        expressions = [] of Ast::Expression
-
-        if char! '('
-          whitespace
-
-          item = enum_record
-
-          if item
-            expressions << item
-          else
-            expressions.concat list(
-              terminator: ')',
-              separator: ','
-            ) { expression }
-          end
-
-          whitespace
-          char ')', EnumIdExpectedClosingParentheses
+        if keyword "::"
+          name = option
+          option = type_id! EnumIdExpectedOption
         end
 
         self << Ast::EnumId.new(
-          expressions: expressions,
+          expressions: enum_id_expressions || [] of Ast::Expression,
           from: start_position,
           option: option,
           to: position,

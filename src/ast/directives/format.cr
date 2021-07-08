@@ -4,7 +4,7 @@ module Mint
       class Format < Node
         getter content
 
-        def initialize(@content : Node,
+        def initialize(@content : Block,
                        @input : Data,
                        @from : Int32,
                        @to : Int32)

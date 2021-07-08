@@ -10,12 +10,14 @@ module Mint
         next unless whitespace?
         whitespace
 
-        expression = expression! DecodeExpectedExpression
+        unless keyword "as"
+          expression = expression! DecodeExpectedExpression
+
+          whitespace
+          keyword! "as", DecodeExpectedAs
+        end
 
         whitespace
-        keyword! "as", DecodeExpectedAs
-        whitespace
-
         type = type! DecodeExpectedType
 
         self << Ast::Decode.new(

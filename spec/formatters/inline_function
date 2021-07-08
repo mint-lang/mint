@@ -1,16 +1,15 @@
 module A {
   fun test : String {
+    a: ():String{"Hello"}
     a()
-  } where {
-    a = ():String{"Hello"}
   }
 }
 --------------------------------------------------------------------------------
 module A {
   fun test : String {
-    a()
-  } where {
-    a =
+    a:
       () : String { "Hello" }
+
+    a()
   }
 }

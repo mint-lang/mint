@@ -88,8 +88,8 @@ module Mint
             "this.#{name}"
           end
         when Ast::Argument
-          compile entity
-        when Ast::Statement, Ast::WhereStatement
+          js.variable_of(entity)
+        when Ast::Statement
           case target = entity.target
           when Ast::Variable
             js.variable_of(target)
@@ -98,7 +98,7 @@ module Mint
           end
         when Tuple(Ast::Node, Array(Int32) | Int32)
           case item = entity[0]
-          when Ast::WhereStatement, Ast::Statement
+          when Ast::Statement
             case target = item.target
             when Ast::TupleDestructuring
               case val = entity[1]

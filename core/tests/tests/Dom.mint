@@ -1,11 +1,9 @@
 suite "Dom.createElement" {
   test "returns a Dom element" {
-    try {
-      element =
-        Dom.createElement("div")
+    element:
+      Dom.createElement("div")
 
-      `#{element}.tagName === "DIV"`
-    }
+    `#{element}.tagName === "DIV"`
   }
 }
 
@@ -53,24 +51,20 @@ suite "Dom.getElementBySelector" {
 
 suite "Dom.getDimensions" {
   test "returns dimensions" {
-    try {
-      dimensions =
-        Dom.createElement("div")
-        |> Dom.getDimensions()
+    dimensions:
+      Dom.createElement("div")
+      |> Dom.getDimensions()
 
-      Dom.Dimensions.empty() == dimensions
-    }
+    Dom.Dimensions.empty() == dimensions
   }
 
   test "returns actual dimensions" {
-    try {
-      dimensions =
-        Dom.getElementById("root")
-        |> Maybe.withLazyDefault(() { Dom.createElement("div") })
-        |> Dom.getDimensions()
+    dimensions:
+      Dom.getElementById("root")
+      |> Maybe.withLazyDefault(() { Dom.createElement("div") })
+      |> Dom.getDimensions()
 
-      dimensions.width != 0
-    }
+    dimensions.width != 0
   }
 }
 
@@ -116,14 +110,12 @@ component Test.Dom.Focus {
     }
   }
 
-  fun show : Promise(Never, Void) {
-    sequence {
-      Timer.timeout(100)
-      next { shown = true }
-    }
+  fun show : Promise(Void) {
+    await Timer.timeout(100)
+    await next { shown = true }
   }
 
-  fun focus : Promise(String, Void) {
+  fun focus : Promise(Result(String, Void)) {
     input
     |> Maybe.withLazyDefault(() { Dom.createElement("div") })
     |> Dom.focusWhenVisible()
@@ -146,16 +138,12 @@ component Test.Dom.Focus {
 
 suite "Dom.focusWhenVisible" {
   test "it waits for the element to be visible" {
-    with Test.Html {
-      with Test.Context {
-        <Test.Dom.Focus/>
-        |> start()
-        |> triggerClick("#focus")
-        |> triggerClick("#show")
-        |> timeout(200)
-        |> assertCssOf("#input", "display", "inline-block")
-        |> assertActiveElement("#input")
-      }
-    }
+    <Test.Dom.Focus/>
+    |> Test.Html.start()
+    |> Test.Html.triggerClick("#focus")
+    |> Test.Html.triggerClick("#show")
+    |> Test.Context.timeout(200)
+    |> Test.Html.assertCssOf("#input", "display", "inline-block")
+    |> Test.Html.assertActiveElement("#input")
   }
 }

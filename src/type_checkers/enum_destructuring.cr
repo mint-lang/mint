@@ -4,9 +4,26 @@ module Mint
     type_error EnumDestructuringTypeMissing
     type_error EnumDestructuringEnumMissing
 
+    def find_enum(name : String?, option : String, node : Ast::Node)
+      if name
+        ast.enums.find(&.name.==(name))
+      else
+        enums =
+          ast.enums.select(&.options.find(&.value.==(option)))
+
+        return nil if enums.empty?
+
+        raise TypeError, {
+          "node" => node,
+        } if enums.size > 1
+
+        enums.first
+      end
+    end
+
     def check(node : Ast::EnumDestructuring) : Checkable
       parent =
-        ast.enums.find(&.name.==(node.name))
+        find_enum(node.name, node.option, node)
 
       raise EnumDestructuringTypeMissing, {
         "name" => node.name,

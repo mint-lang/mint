@@ -178,7 +178,7 @@ module Map {
   ) : Map(key, result) {
     Map.fromArray(
       for (key, value of map) {
-        {key, function(key, value)}
+        ({key, function(key, value)})
       })
   }
 

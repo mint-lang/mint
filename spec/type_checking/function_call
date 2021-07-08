@@ -18,11 +18,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      b()
+    b()
 
-      <div/>
-    }
+    <div/>
   }
 }
 ----------------------------------------------------------------CallNotAFunction
@@ -34,11 +32,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      b()
+    b()
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------CallArgumentTypeMismatch
@@ -52,11 +48,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      b()
+    b()
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------CallArgumentSizeMismatch
@@ -70,57 +64,8 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      b()
+    b()
 
-      <div/>
-    }
-  }
-}
---------------------------------------------------------------------------------
-module Maybe {
-  fun nothing : Maybe(a) {
-    ``
-  }
-
-  fun just (value : a) : Maybe(a) {
-    ``
-  }
-
-  fun withDefault (value : a, maybe : Maybe(a)) : a {
-    ``
-  }
-
-  fun toResult (error : b, maybe : Maybe(a)) : Result(b, a) {
-    ``
-  }
-}
-
-record Nested {
-  x : String
-}
-
-record Test {
-  name : String,
-  nested : Nested
-}
-
-store X {
-  state test : Maybe(Test) = Maybe.nothing()
-}
-
-component Main {
-  connect X exposing { test }
-
-  fun render : String {
-    try {
-      resolved =
-        test
-        |> Maybe.toResult("Blah")
-
-      resolved.nested.x
-    } catch String => error {
-      error
-    }
+    <div/>
   }
 }

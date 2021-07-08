@@ -5,24 +5,22 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      b = 0
-    }
-  } where {
-    x =
+    x:
       {
         a = "Blah",
         b = 1
       }
+
+    { x |
+      a = "Hello",
+      b = 0
+    }
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 ---------------------------------------------------RecordUpdateNotUpdatingRecord
@@ -33,20 +31,18 @@ record Test {
 
 component Main {
   fun test : Test {
+    x: ""
+
     { x |
       a = "Hello",
       b = 0
     }
-  } where {
-    x = ""
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------RecordUpdateTypeMismatch
@@ -57,24 +53,22 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      b = "Hello"
-    }
-  } where {
-    x =
+    x:
       {
         a = "Blah",
         b = 0
       }
+
+    { x |
+      a = "Hello",
+      b = "Hello"
+    }
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 ---------------------------------------------------------RecordUpdateNotFoundKey
@@ -85,24 +79,22 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      c = "Hello"
-    }
-  } where {
-    x =
+    x:
       {
         a = "Blah",
         b = 0
       }
+
+    { x |
+      a = "Hello",
+      c = "Hello"
+    }
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 

@@ -22,25 +22,21 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
----------------------------------------------------------ArrayAccessInvalidTuple
+-----------------------------------------------------------ArrayAccessNotAnArray
 component Main {
   fun test : Maybe(String) {
     {}[0]
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -50,11 +46,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 ---------------------------------------------------------ArrayAccessInvalidTuple
@@ -64,10 +58,8 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }

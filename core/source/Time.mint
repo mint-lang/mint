@@ -99,12 +99,10 @@ module Time {
     Time.local()
   */
   fun local : Time {
-    try {
-      time =
-        now()
+    time:
+      now()
 
-      shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
-    }
+    shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
   }
 
   /*
@@ -454,12 +452,10 @@ module Time {
     Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
   */
   fun atBeginningOfWeek (time : Time) : Time {
-    try {
-      day =
-        dayOfWeekNumber(time)
+    day:
+      dayOfWeekNumber(time)
 
-      shift(Time.Span::Days(-(day - 1)), time)
-    }
+    shift(Time.Span::Days(-(day - 1)), time)
   }
 
   /*
@@ -521,14 +517,9 @@ module Time {
     Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
   */
   fun atEndOfWeek (time : Time) : Time {
-    try {
-      day =
-        dayOfWeekNumber(time)
-
-      time
-      |> shift(Time.Span::Days(7 - day))
-      |> atEndOfDay
-    }
+    time
+    |> shift(Time.Span::Days(7 - dayOfWeekNumber(time)))
+    |> atEndOfDay
   }
 
   /*

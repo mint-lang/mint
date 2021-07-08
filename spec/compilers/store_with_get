@@ -48,6 +48,6 @@ const B = new(class extends _S {
   }
 
   get c() {
-    return `hello`;
+    return `hello`
   }
 });

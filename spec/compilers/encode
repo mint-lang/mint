@@ -9,11 +9,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      encode()
+    encode()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -37,10 +35,8 @@ class B extends _C {
   }
 
   render() {
-    return (() => {
-      this.a();
-      return ``;
-    })();
+    this.a();
+    return ``;
   }
 };
 

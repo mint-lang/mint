@@ -1,13 +1,11 @@
 module Mint
   class Ast
     class InlineFunction < Node
-      getter body, arguments, head_comments, tail_comments, type
+      getter body, arguments, type
 
-      def initialize(@head_comments : Array(Comment),
-                     @tail_comments : Array(Comment),
-                     @arguments : Array(Argument),
+      def initialize(@arguments : Array(Argument),
                      @type : TypeOrVariable?,
-                     @body : Expression,
+                     @body : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

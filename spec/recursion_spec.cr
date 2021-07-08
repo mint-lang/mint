@@ -7,25 +7,21 @@ describe "variable" do
       component Test {
         state greeting : String = ""
 
-        fun test : Void {
-          sequence {
-            next { greeting = greeting }
-          }
-        } where {
-          greeting =
+        fun test : Promise(Void) {
+          greeting:
             if (greeting == "hello") {
               "bye"
             } else {
               "hello"
             }
+
+          next { greeting = greeting }
         }
 
         fun render : Html {
-          try {
-            test()
+          test()
 
-            <div/>
-          }
+          <div/>
         }
       }
 
@@ -58,11 +54,9 @@ describe "function" do
         }
 
         fun render : Html {
-          try {
-            test()
+          test()
 
-            <div/>
-          }
+          <div/>
         }
       }
       MINT

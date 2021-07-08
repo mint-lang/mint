@@ -4,26 +4,18 @@ module Mint
     type_error RecordConstructorArgumentTypeMismatch
     type_error RecordConstructorNotFoundRecord
 
-    def check(node : Ast::RecordConstructor) : Checkable
-      record =
-        records.find(&.name.==(node.name))
-
-      raise RecordConstructorNotFoundRecord, {
-        "name" => node.name,
-        "node" => node,
-      } unless record
-
+    def check(node : Ast::EnumId, record : Record) : Checkable
       fields =
         record.fields.values
 
       raise RecordConstructorArgumentSizeMismatch, {
-        "argument_size" => node.arguments.size.to_s,
+        "argument_size" => node.expressions.size.to_s,
         "size"          => fields.size.to_s,
         "record"        => record,
         "node"          => node,
-      } if node.arguments.size > fields.size
+      } if node.expressions.size > fields.size
 
-      node.arguments.each_with_index do |argument, index|
+      node.expressions.each_with_index do |argument, index|
         type = resolve argument
 
         raise RecordConstructorArgumentTypeMismatch, {
@@ -35,10 +27,10 @@ module Mint
 
       types[node] = record
 
-      if record.fields.size == node.arguments.size
+      if record.fields.size == node.expressions.size
         record
       else
-        Type.new("Function", fields.skip(node.arguments.size) + [record])
+        Type.new("Function", fields.skip(node.expressions.size) + [record])
       end
     end
   end

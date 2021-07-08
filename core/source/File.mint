@@ -3,29 +3,24 @@ module File {
   /*
   Prompts a dialog for the saving the given file.
 
-    sequence {
-      file =
-        File.select(*)
+    file = await File.select(*)
 
-      File.download(file)
-    }
+    File.download(file)
   */
-  fun download (file : File) : Promise(Never, Void) {
-    sequence {
-      url =
-        Url.createObjectUrlFromFile(file)
+  fun download (file : File) : Void {
+    url:
+      Url.createObjectUrlFromFile(file)
 
-      `
-      (() => {
-        const anchor = document.createElement('a')
-        anchor.download = #{file}.name
-        anchor.href = #{url}
-        anchor.click()
-      })()
-      `
+    `
+    (() => {
+      const anchor = document.createElement('a')
+      anchor.download = #{file}.name
+      anchor.href = #{url}
+      anchor.click()
+    })()
+    `
 
-      Url.revokeObjectUrl(url)
-    }
+    Url.revokeObjectUrl(url)
   }
 
   /*
@@ -60,14 +55,12 @@ module File {
   /*
   Reads the contents of the given file as a String.
 
-    sequence {
-      file =
-        File.create("Some content...", "test.txt", "text/plain")
+    file =
+      File.create("Some content...", "test.txt", "text/plain")
 
-      File.readAsArrayBuffer(file)
-    }
+    File.readAsArrayBuffer(file)
   */
-  fun readAsArrayBuffer (file : File) : Promise(Never, ArrayBuffer) {
+  fun readAsArrayBuffer (file : File) : Promise(ArrayBuffer) {
     `
     (() => {
       const reader = new FileReader()
@@ -83,17 +76,15 @@ module File {
   /*
   Reads the contents of the given file as a Data URL.
 
-    sequence {
-      file =
-        File.fromString("Some content...", "test.txt", "text/plain")
+    files =
+      await File.select("text/plain")
 
-      url =
-        File.readAsDataURL(file)
+    url =
+      File.readAsDataURL(file)
 
-      url == "data:text/plain;...."
-    }
+    url == "data:text/plain;...."
   */
-  fun readAsDataURL (file : File) : Promise(Never, String) {
+  fun readAsDataURL (file : File) : Promise(String) {
     `
     (() => {
       const reader = new FileReader()
@@ -109,17 +100,15 @@ module File {
   /*
   Reads the contents of the given file as a String.
 
-    sequence {
-      file =
-        File.create("Some content...", "test.txt", "text/plain")
+    file =
+      File.create("Some content...", "test.txt", "text/plain")
 
-      url =
-        File.readAsString(file)
+    url =
+      await File.readAsString(file)
 
-      url == "Some content..."
-    }
+    url == "Some content..."
   */
-  fun readAsString (file : File) : Promise(Never, String) {
+  fun readAsString (file : File) : Promise(String) {
     `
     (() => {
       const reader = new FileReader()
@@ -138,14 +127,12 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    sequence {
-      file =
-        File.select("application/json")
+    file =
+      await File.select("application/json")
 
-      Debug.log(file)
-    }
+    Debug.log(file)
   */
-  fun select (accept : String) : Promise(Never, File) {
+  fun select (accept : String) : Promise(File) {
     `
     (() => {
       const input = document.createElement('input')
@@ -161,7 +148,7 @@ module File {
 
       document.body.appendChild(input)
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         input.addEventListener('change', () => {
           resolve(input.files[0])
         })
@@ -178,14 +165,12 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    sequence {
-      files =
-        File.selectMultiple("application/json")
+    files =
+      await File.selectMultiple("application/json")
 
-      Debug.log(files)
-    }
+    Debug.log(files)
   */
-  fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
+  fun selectMultiple (accept : String) : Promise(Array(File)) {
     `
     (() => {
       const input = document.createElement('input')
@@ -200,12 +185,11 @@ module File {
       input.multiple = true
       input.type = 'file'
 
-      document.body.appendChild(input)
-
       return new Promise((resolve, reject) => {
         input.addEventListener('change', () => {
           resolve(Array.from(input.files))
         })
+
         input.click()
         document.body.removeChild(input)
       })

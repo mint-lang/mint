@@ -3,7 +3,7 @@ module Mint
     def type_id!(error : SyntaxError.class) : String
       name = gather do
         char(error, &.ascii_uppercase?)
-        letters_or_numbers
+        letters_numbers_or_underscore
       end
 
       raise error unless name
@@ -19,7 +19,7 @@ module Mint
       name = gather do
         return unless char.ascii_uppercase?
         step
-        letters_or_numbers
+        letters_numbers_or_underscore
       end
 
       return unless name

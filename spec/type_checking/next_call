@@ -2,7 +2,7 @@ component Main {
   state name : String = "Joe"
   state age : Number = 24
 
-  fun test : Promise(Never, Void) {
+  fun test : Promise(Void) {
     next {
       name = "Hello",
       age=30
@@ -15,16 +15,17 @@ component Main {
 }
 -------------------------------------------------------NextCallInvalidInvokation
 module Test {
-  fun test : Promise(Never, Void) {
+  fun test : Promise(Void) {
     next { age = 30 }
   }
 }
 
 component Main {
   fun render : Html {
+    test:
+      Test.test()
+
     <div/>
-  } where {
-    test = Test.test()
   }
 }
 -------------------------------------------------------NextCallStateTypeMismatch
@@ -32,11 +33,9 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    try {
-      next { name = 30 }
+    next { name = 30 }
 
-      <div/>
-    }
+    <div/>
   }
 }
 -----------------------------------------------------------NextCallStateNotFound
@@ -44,10 +43,8 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    try {
-      next { age = 30 }
+    next { age = 30 }
 
-      <div/>
-    }
+    <div/>
   }
 }

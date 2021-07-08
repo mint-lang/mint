@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.ElementSize` */
 record Provider.ElementSize.Subscription {
-  changes : Function(Dom.Dimensions, Promise(Never, Void)),
+  changes : Function(Dom.Dimensions, Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
@@ -13,7 +13,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   state observer = ResizeObserver.new(notify)
 
   /* Notifies all subscribers when there are changes. */
-  fun notify (entries : Array(ResizeObserver.Entry)) : Array(Array(Promise(Never, Void))) {
+  fun notify (entries : Array(ResizeObserver.Entry)) : Array(Array(Promise(Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
         if (subscription.element == Maybe::Just(entry.target)) {
@@ -26,25 +26,23 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
-    try {
-      for (element of Array.compact(observedElements)) {
-        ResizeObserver.unobserve(element, observer)
-      }
-
-      for (subscription of subscriptions) {
-        case (subscription.element) {
-          Maybe::Just(element) =>
-            try {
-              ResizeObserver.observe(element, observer)
-              void
-            }
-
-          Maybe::Nothing => void
-        }
-      }
-
-      next { observedElements = Array.map(.element, subscriptions) }
+  fun update : Promise(Void) {
+    for (element of Array.compact(observedElements)) {
+      ResizeObserver.unobserve(element, observer)
     }
+
+    for (subscription of subscriptions) {
+      case (subscription.element) {
+        Maybe::Just(element) =>
+          {
+            ResizeObserver.observe(element, observer)
+            void
+          }
+
+        Maybe::Nothing => void
+      }
+    }
+
+    next { observedElements = Array.map(.element, subscriptions) }
   }
 }

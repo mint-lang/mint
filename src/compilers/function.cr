@@ -12,27 +12,23 @@ module Mint
       name =
         js.variable_of(node)
 
-      expression =
-        compile node.body
-
-      wheres =
-        node.where
-          .try(&.statements)
-          .try(&.sort_by { |item| resolve_order.index(item) || -1 })
-          .try { |statements| compile statements }
+      items =
+        [] of String
 
       arguments =
         compile node.arguments
 
-      last =
-        [js.return(expression)]
-
-      last.unshift(contents) unless contents.empty?
+      items << contents unless contents.empty?
+      items << compile(node.body, for_function: true)
 
       body =
-        js.statements(%w[] &+ wheres &+ last)
+        js.statements(items)
 
-      js.function(name, arguments, body)
+      if node.body.async?
+        js.async_function(name, arguments, body)
+      else
+        js.function(name, arguments, body)
+      end
     end
   end
 end

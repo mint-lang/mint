@@ -1,13 +1,15 @@
 module Mint
   class Formatter
     def format(node : Ast::Decode)
-      expression =
-        format node.expression
-
       type =
         format node.type
 
-      "decode #{expression} as #{type}"
+      expression =
+        if item = node.expression
+          " #{format(item)}"
+        end
+
+      "decode#{expression} as #{type}"
     end
   end
 end

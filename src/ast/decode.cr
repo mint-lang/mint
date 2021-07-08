@@ -3,7 +3,7 @@ module Mint
     class Decode < Node
       getter expression, type
 
-      def initialize(@expression : Expression,
+      def initialize(@expression : Expression?,
                      @input : Data,
                      @from : Int32,
                      @type : Type,

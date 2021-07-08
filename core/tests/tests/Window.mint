@@ -1,5 +1,5 @@
 component ScrollTest {
-  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Never, Void) { `this.forceUpdate()` } }
+  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Void) { `this.forceUpdate()` } }
 
   style base {
     height: 3000px;
@@ -33,14 +33,12 @@ component ScrollTest {
 
 suite "Window.navigate" {
   test "it navigates to the given url with push state" {
-    try {
-      url =
-        Window.url()
+    url:
+      Window.url()
 
-      Window.navigate("/blah")
+    Window.navigate("/blah")
 
-      Window.href() == "http://127.0.0.1:#{url.port}/blah"
-    }
+    Window.href() == "http://127.0.0.1:#{url.port}/blah"
   }
 }
 
@@ -52,35 +50,20 @@ suite "Window.title" {
 
 suite "Window.setTitle" {
   test "sets the windows title" {
-    try {
-      Window.setTitle("Test")
-
-      Window.title() == "Test"
-    }
+    Window.setTitle("Test")
+    Window.title() == "Test"
   }
 }
 
 suite "Window.url" {
   test "returns the current url" {
-    try {
-      url =
-        Window.url()
-
-      url.hostname == "127.0.0.1"
-    }
+    Window.url().hostname == "127.0.0.1"
   }
 }
 
 suite "Window.href" {
   test "returns the current url as string" {
-    try {
-      Window.navigate("/")
-
-      url =
-        Window.url()
-
-      Window.href() == "http://127.0.0.1:#{url.port}/"
-    }
+    Window.href() == "http://127.0.0.1:#{Window.url().port}/"
   }
 }
 
@@ -102,18 +85,14 @@ suite "Window.scrollWidth" {
   }
 
   test "returns the scrollable width when overflown" {
-    with Test.Html {
-      <ScrollTest/>
-      |> start()
-      |> Test.Context.then(
-        (subject : Dom.Element) : Promise(Never, Dom.Element) {
-          sequence {
-            Timer.nextFrame()
-            `#{subject}` as Promise(Never, Dom.Element)
-          }
-        })
-      |> assertTextOf("scroll-width", "3008")
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Context.then(
+      (subject : Dom.Element) : Promise(Dom.Element) {
+        await Timer.nextFrame()
+        subject
+      })
+    |> Test.Html.assertTextOf("scroll-width", "3008")
   }
 }
 
@@ -123,11 +102,9 @@ suite "Window.scrollHeight" {
   }
 
   test "returns the scrollable height when overflown" {
-    with Test.Html {
-      <ScrollTest/>
-      |> start()
-      |> assertTextOf("scroll-height", "3016")
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("scroll-height", "3016")
   }
 }
 
@@ -137,14 +114,10 @@ suite "Window.scrollLeft" {
   }
 
   test "returns the left scroll position when scrolled" {
-    with Test.Html {
-      with Test.Window {
-        <ScrollTest/>
-        |> start()
-        |> setScrollLeft(100)
-        |> assertTextOf("scroll-left", "100")
-      }
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Window.setScrollLeft(100)
+    |> Test.Html.assertTextOf("scroll-left", "100")
   }
 }
 
@@ -154,41 +127,29 @@ suite "Window.scrollTop" {
   }
 
   test "returns the left scroll position when scrolled" {
-    with Test.Html {
-      with Test.Window {
-        <ScrollTest/>
-        |> start()
-        |> setScrollTop(100)
-        |> assertTextOf("scroll-top", "100")
-      }
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Window.setScrollTop(100)
+    |> Test.Html.assertTextOf("scroll-top", "100")
   }
 }
 
 suite "Window.setScrollLeft" {
   test "sets the left scroll position" {
-    with Test.Html {
-      with Test.Window {
-        <ScrollTest/>
-        |> start()
-        |> assertTextOf("scroll-left", "0")
-        |> setScrollLeft(100)
-        |> assertTextOf("scroll-left", "100")
-      }
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("scroll-left", "0")
+    |> Test.Window.setScrollLeft(100)
+    |> Test.Html.assertTextOf("scroll-left", "100")
   }
 }
 
 suite "Window.setScrollTop" {
   test "sets the top scroll position" {
-    with Test.Html {
-      with Test.Window {
-        <ScrollTest/>
-        |> start()
-        |> assertTextOf("scroll-top", "0")
-        |> setScrollTop(100)
-        |> assertTextOf("scroll-top", "100")
-      }
-    }
+    <ScrollTest/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("scroll-top", "0")
+    |> Test.Window.setScrollTop(100)
+    |> Test.Html.assertTextOf("scroll-top", "100")
   }
 }

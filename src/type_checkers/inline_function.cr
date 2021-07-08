@@ -17,6 +17,8 @@ module Mint
 
     def check(node : Ast::InlineFunction) : Checkable
       scope node do
+        check_arguments(node.arguments)
+
         body_type =
           resolve node.body
 
@@ -25,26 +27,31 @@ module Mint
 
         final_type =
           Type.new("Function", arguments + [body_type])
-        if type = node.type
-          return_type =
-            resolve type
 
-          defined_type =
-            Comparer.normalize(Type.new("Function", arguments + [return_type]))
+        resolved_type =
+          if type = node.type
+            return_type =
+              resolve type
 
-          resolved =
-            Comparer.compare(defined_type, final_type)
+            defined_type =
+              Comparer.normalize(Type.new("Function", arguments + [return_type]))
 
-          raise InlineFunctionTypeMismatch, {
-            "expected" => return_type,
-            "got"      => body_type,
-            "node"     => node,
-          } unless resolved
+            resolved =
+              Comparer.compare(defined_type, final_type)
 
-          Comparer.normalize(defined_type)
-        else
-          Comparer.normalize(final_type)
-        end
+            raise InlineFunctionTypeMismatch, {
+              "expected" => return_type,
+              "got"      => body_type,
+              "node"     => node,
+            } unless resolved
+
+            Comparer.normalize(defined_type)
+          else
+            Comparer.normalize(final_type)
+          end
+
+        resolved_type.optional_count = node.arguments.count(&.default)
+        resolved_type
       end
     end
   end

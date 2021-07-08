@@ -1,0 +1,21 @@
+component Main {
+  fun render : String {
+    test:
+      (a : String = "Hello") : String {
+        a
+      }
+
+    test()
+  }
+}
+-------------------------------------------FunctionArgumentMustHaveADefaultValue
+component Main {
+  fun render : String {
+    test:
+      (a : String = "Hello", b : String) : Number {
+        a
+      }
+
+    test()
+  }
+}

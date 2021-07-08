@@ -10,9 +10,7 @@ component Main {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial(n : Number) : Number {
-    helper(n, 1)
-  } where {
-    helper = (n : Number, acc : Number) : Number {
+    helper: (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -20,29 +18,14 @@ module Test {
         helper(n - 1, acc * n)
       }
     }
+
+    helper(n, 1)
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    1
-  } where {
-    helper =
-      (n : Number, acc : Number) : Number {
-        if (n == 0) {
-          acc
-        } else {
-          helper(n - 1, acc * n)
-        }
-      }
-  }
-}
---------------------------------------------------------------------------------
-module Test {
-  fun factorial (n : Number) : Number {
-    1
-  } where {
-    helper =
+    helper:
       (n : Number, acc : Number) : Number {
         if (n == 0) {
           acc
@@ -51,15 +34,31 @@ module Test {
         }
       }
 
-    result = helper(n, 1)
+    1
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    helper:
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+
+    result:
+      helper(n, 1)
+
+    1
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun a(n : Number) : Number {
-    c(n, 1)
-  } where {
-    b = (n : Number, acc : Number) : Number {
+    b: (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -68,7 +67,7 @@ module Test {
       }
     }
 
-    c = (n : Number, acc : Number) : Number {
+    c: (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -76,22 +75,22 @@ module Test {
         b(n - 1, acc * n)
       }
     }
+
+    c(n, 1)
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    try {
-      helper =
-        (n : Number, acc : Number) : Number {
-          if (n == 0) {
-            acc
-          } else {
-            helper(n - 1, acc * n)
-          }
+    helper:
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
         }
+      }
 
-      helper(n, 1)
-    }
+    helper(n, 1)
   }
 }

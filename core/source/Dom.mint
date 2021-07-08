@@ -5,7 +5,7 @@ module Dom {
 
     Dom.blurActiveElement()
   */
-  fun blurActiveElement : Promise(Never, Void) {
+  fun blurActiveElement : Promise(Void) {
     `document.activeElement && document.activeElement.blur()`
   }
 
@@ -43,7 +43,7 @@ module Dom {
 
     case (Dom.getElementBySelector("body")) {
       Maybe::Just(body) =>
-        try {
+        {
           div =
             Dom.getElementBySelector("div")
 
@@ -58,7 +58,7 @@ module Dom {
     base : Dom.Element
   ) : Bool {
     maybeElement
-    |> Maybe.map(Dom.contains(base))
+    |> Maybe.map((item : Dom.Element) { Dom.contains(item, base) })
     |> Maybe.withDefault(false)
   }
 
@@ -79,23 +79,20 @@ module Dom {
     |> Dom.focus
     |> Dom.getElementById()
   */
-  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never, Void) {
+  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Void) {
     case (maybeElement) {
       Maybe::Just(element) =>
-        sequence {
+        {
           focusWhenVisible(element)
-
-          Promise.never()
-        } catch {
-          Promise.never()
+          Promise.resolve(void)
         }
 
-      Maybe::Nothing => Promise.never()
+      Maybe::Nothing => Promise.resolve(void)
     }
   }
 
   /* Focuses the first focusable descendant of the given element. */
-  fun focusFirst (element : Dom.Element) : Promise(Never, Void) {
+  fun focusFirst (element : Dom.Element) : Promise(Void) {
     element
     |> getFocusableElements
     |> Array.first
@@ -109,14 +106,14 @@ module Dom {
     |> Dom.getElementById
     |> Dom.focusWhenVisible()
   */
-  fun focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
+  fun focusWhenVisible (element : Dom.Element) : Promise(Result(String, Void)) {
     `
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       let counter = 0
 
       let focus = () => {
         if (counter > 15) {
-          reject('Could not focus the element in 150ms. Is it visible?')
+          resolve(#{Result::Err("Could not focus the element in 150ms. Is it visible?")})
         }
 
         #{element}.focus()
@@ -125,7 +122,7 @@ module Dom {
           counter++
           setTimeout(focus, 10)
         } else {
-          resolve(#{void})
+          resolve(#{Result::Ok(void)})
         }
       }
 
@@ -154,14 +151,12 @@ module Dom {
   /*
   If the attribute is present, it will return its value on the given element.
 
-    try {
-    	outcome =
-      	Dom.getElementById("my-div")
+    outcome =
+      Dom.getElementById("my-div")
 
-      case (outcome) {
-        Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
-        Maybe::Nothing => false
-      }
+    case (outcome) {
+      Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
+      Maybe::Nothing => false
     }
   */
   fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
@@ -406,20 +401,18 @@ module Dom {
     |> getElementsBySelector(selector)
     |> Array.map(
       (item : Dom.Element) : Tuple(String, String, String) {
-        try {
-          tag =
-            item
-            |> getTagName()
-            |> String.toLowerCase()
+        tag:
+          item
+          |> getTagName()
+          |> String.toLowerCase()
 
-          text =
-            getTextContent(item)
+        text:
+          getTextContent(item)
 
-          hash =
-            String.parameterize(text)
+        hash:
+          String.parameterize(text)
 
-          {tag, text, hash}
-        }
+        {tag, text, hash}
       })
   }
 
@@ -507,7 +500,7 @@ module Dom {
 
     Dom.scrollTo(element, 10, 10)
   */
-  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
     `#{element}.scrollTo({
         left: #{left},
         top: #{top}
@@ -561,7 +554,7 @@ module Dom {
 
     Dom.smoothScrollTo(element, 10, 10)
   */
-  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
     `#{element}.scrollTo({
         behavior: 'smooth',
         left: #{left},

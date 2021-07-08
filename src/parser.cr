@@ -97,6 +97,10 @@ module Mint
       chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' }
     end
 
+    def letters_numbers_or_underscore
+      chars { |char| char.ascii_letter? || char.ascii_number? || char == '_' }
+    end
+
     def char!(next_char : Char)
       return false unless char == next_char
       step

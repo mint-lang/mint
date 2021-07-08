@@ -41,27 +41,19 @@ module Mint
             item
           end
 
-        head_comments, body, tail_comments = block_with_comments(
-          opening_bracket: FunctionExpectedOpeningBracket,
-          closing_bracket: FunctionExpectedClosingBracket
-        ) do
-          expression! FunctionExpectedExpression
-        end
-
-        end_position = position
-
-        whitespace
+        body =
+          code_block(
+            opening_bracket: FunctionExpectedOpeningBracket,
+            closing_bracket: FunctionExpectedClosingBracket,
+            statement_error: FunctionExpectedExpression)
 
         self << Ast::Function.new(
-          body: body.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           comment: comment,
-          to: end_position,
-          where: where,
+          to: position,
           input: data,
+          body: body,
           name: name,
           type: type)
       end

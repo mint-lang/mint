@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error RecordExpectedClosingBracket
-
     def record : Ast::Record?
       start do |start_position|
         next unless char! '{'
@@ -14,7 +12,7 @@ module Mint
           fields = list(terminator: '}', separator: ',') { record_field }
 
           whitespace
-          char '}', RecordExpectedClosingBracket
+          next unless char! '}'
         end
 
         self << Ast::Record.new(

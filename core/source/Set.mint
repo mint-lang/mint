@@ -53,12 +53,7 @@ module Set {
     |> Set.add("value")) == Set.fromArray(["value"])
   */
   fun fromArray (array : Array(item)) : Set(item) {
-    try {
-      unique =
-        Array.uniq(array)
-
-      `Array.from(#{unique})`
-    }
+    `#{Array.uniq(array)}`
   }
 
   /*

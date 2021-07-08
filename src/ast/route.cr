@@ -1,12 +1,10 @@
 module Mint
   class Ast
     class Route < Node
-      getter url, expression, arguments, head_comments, tail_comments
+      getter url, expression, arguments
 
-      def initialize(@head_comments : Array(Comment),
-                     @tail_comments : Array(Comment),
-                     @arguments : Array(Argument),
-                     @expression : Expression,
+      def initialize(@arguments : Array(Argument),
+                     @expression : Block,
                      @input : Data,
                      @from : Int32,
                      @url : String,
