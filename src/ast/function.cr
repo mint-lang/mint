@@ -1,11 +1,9 @@
 module Mint
   class Ast
     class Block < Node
-      getter statements, expression, tail_comments
+      getter statements
 
-      def initialize(@tail_comments : Array(Comment),
-                     @statements : Array(Node),
-                     @expression : Expression,
+      def initialize(@statements : Array(Node),
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

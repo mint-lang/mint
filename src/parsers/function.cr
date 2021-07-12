@@ -13,23 +13,13 @@ module Mint
         whitespace
 
         statements =
-          many { comment || statement(:none, require_name: true) }
-
-        whitespace
-
-        expression =
-          expression! SyntaxError
-
-        whitespace
-        tail_comments = many { comment }
+          many { comment || statement(:none) }
 
         whitespace
         char '}', SyntaxError
 
         self << Ast::Block.new(
-          tail_comments: tail_comments,
           statements: statements,
-          expression: expression,
           from: start_position,
           to: position,
           input: data)
