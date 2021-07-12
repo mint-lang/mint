@@ -1,7 +1,7 @@
 module Mint
   class Formatter
     def format(node : Ast::Block) : String
-      list node.statements + [node.expression] + node.tail_comments
+      list node.statements
     end
 
     def format(node : Ast::Function) : String
