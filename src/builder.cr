@@ -131,7 +131,7 @@ module Mint
     def index(css_prefix, relative, optimize, runtime_path)
       runtime =
         if runtime_path
-          content = File.open(runtime_path) do |file|
+          File.open(runtime_path) do |file|
             file.gets_to_end
           end
         else
