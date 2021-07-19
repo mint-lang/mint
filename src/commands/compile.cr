@@ -32,9 +32,7 @@ module Mint
 
         runtime =
           if runtime_path
-            File.open(runtime_path) do |file|
-              file.gets_to_end
-            end
+            File.read(runtime_path)
           else
             Assets.read("runtime.js")
           end
