@@ -17,7 +17,7 @@ module Mint
         short: "m"
 
       define_flag runtime : String,
-        description: "Will use supplied runtime instead of the default distribution",
+        description: "Will use supplied runtime path instead of the default distribution",
         required: false
 
       def run
