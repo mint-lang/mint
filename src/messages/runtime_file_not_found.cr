@@ -1,5 +1,5 @@
 message RuntimeFileNotFound do
-  title "RuntimeFileNotFound Error"
+  title "Runtime Error"
 
   block do
     text "The specified runtime file"
