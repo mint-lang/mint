@@ -32,6 +32,9 @@ module Mint
 
         runtime =
           if runtime_path
+            raise RuntimeFileNotFound, {
+              "name" => runtime_path,
+            } unless File.exists?(runtime_path)
             File.read(runtime_path)
           else
             Assets.read("runtime.js")

@@ -4,6 +4,7 @@ require "./commands/**"
 
 module Mint
   command_error EnvFileNotFound
+  command_error RuntimeFileNotFound
 
   class CliException < Exception
   end
