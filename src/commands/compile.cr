@@ -16,18 +16,29 @@ module Mint
         default: true,
         short: "m"
 
+      define_flag runtime : String,
+        description: "Will use supplied runtime path instead of the default distribution",
+        required: false
+
       def run
         execute "Compiling" do
-          File.write(flags.output, compile(flags.minify))
+          File.write(flags.output, compile(flags.minify, flags.runtime))
         end
       end
 
-      def compile(optimize)
+      def compile(optimize, runtime_path)
         json =
           MintJson.parse_current
 
         runtime =
-          Assets.read("runtime.js")
+          if runtime_path
+            raise RuntimeFileNotFound, {
+              "path" => runtime_path,
+            } unless File.exists?(runtime_path)
+            File.read(runtime_path)
+          else
+            Assets.read("runtime.js")
+          end
 
         sources =
           Dir.glob(SourceFiles.all)

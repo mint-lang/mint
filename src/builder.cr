@@ -1,6 +1,6 @@
 module Mint
   class Builder
-    def initialize(relative, skip_service_worker, skip_icons, optimize)
+    def initialize(relative, skip_service_worker, skip_icons, optimize, runtime_path)
       json = MintJson.parse_current
 
       if !skip_icons && !Process.find_executable("convert")
@@ -27,7 +27,7 @@ module Mint
       terminal.puts "#{COG} Compiling your application:"
 
       index_js, artifacts =
-        index(json.application.css_prefix, relative, optimize)
+        index(json.application.css_prefix, relative, optimize, runtime_path)
 
       File.write Path[DIST_DIR, "index.js"], index_js
 
@@ -128,9 +128,16 @@ module Mint
       end
     end
 
-    def index(css_prefix, relative, optimize)
+    def index(css_prefix, relative, optimize, runtime_path)
       runtime =
-        Assets.read("runtime.js")
+        if runtime_path
+          raise RuntimeFileNotFound, {
+            "path" => runtime_path,
+          } unless File.exists?(runtime_path)
+          File.read(runtime_path)
+        else
+          Assets.read("runtime.js")
+        end
 
       sources =
         Dir.glob(SourceFiles.all)
