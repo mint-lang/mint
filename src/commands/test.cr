@@ -44,6 +44,10 @@ module Mint
         required: false,
         short: "c"
 
+      define_flag runtime : String,
+        description: "Will use supplied runtime path instead of the default distribution",
+        required: false
+
       define_argument test : String
 
       def run

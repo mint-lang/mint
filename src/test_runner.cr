@@ -191,6 +191,16 @@ module Mint
       page_source =
         ECR.render("#{__DIR__}/test_runner.ecr")
 
+      runtime =
+        if runtime_path = @flags.runtime
+          raise RuntimeFileNotFound, {
+            "path" => runtime_path,
+          } unless ::File.exists?(runtime_path)
+          ::File.read(runtime_path)
+        else
+          Assets.read("runtime.js")
+        end
+
       get "/" do
         reset
         page_source
@@ -209,7 +219,7 @@ module Mint
       end
 
       get "/runtime.js" do
-        Assets.read("runtime.js")
+        runtime
       end
 
       get "/tests" do

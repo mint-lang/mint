@@ -15,8 +15,12 @@ module Mint
         required: false,
         short: "p"
 
+      define_flag runtime : String,
+        description: "Will use supplied runtime path instead of the default distribution",
+        required: false
+
       def run
-        server = Mint::SandboxServer.new(flags.host, flags.port)
+        server = Mint::SandboxServer.new(flags.host, flags.port, flags.runtime)
         server.start
       end
     end

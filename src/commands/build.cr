@@ -23,13 +23,18 @@ module Mint
         default: true,
         short: "m"
 
+      define_flag runtime : String,
+        description: "Will use supplied runtime path instead of the default distribution",
+        required: false
+
       def run
         execute "Building for production" do
           Builder.new(
             flags.relative,
             flags.skip_service_worker,
             flags.skip_icons,
-            flags.minify
+            flags.minify,
+            flags.runtime
           )
         end
       end
