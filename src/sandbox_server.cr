@@ -38,7 +38,7 @@ module Mint
       end
     end
 
-    def initialize(@host = "0.0.0.0", @port = 8080)
+    def initialize(@host = "0.0.0.0", @port = 8080, @runtime_path : String | Nil = nil)
       @server = HTTP::Server.new([CORS.new]) do |context|
         handle_request(context)
       end
@@ -81,6 +81,16 @@ module Mint
 
       artifacts =
         TypeChecker.check(ast)
+
+      runtime =
+        if runtime_path = @runtime_path
+          raise RuntimeFileNotFound, {
+            "path" => runtime_path,
+          } unless ::File.exists?(runtime_path)
+          ::File.read(runtime_path)
+        else
+          Assets.read("runtime.js")
+        end
 
       runtime =
         Assets.read("runtime.js")
