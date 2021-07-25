@@ -209,7 +209,7 @@ module Mint
       end
 
       get "/runtime.js" do
-        if runtime_path = @arguments.runtime
+        if runtime_path = @flags.runtime
           raise RuntimeFileNotFound, {
             "path" => runtime_path,
           } unless ::File.exists?(runtime_path)
