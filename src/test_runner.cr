@@ -209,7 +209,14 @@ module Mint
       end
 
       get "/runtime.js" do
-        Assets.read("runtime.js")
+        if runtime_path = @arguments.runtime
+          raise RuntimeFileNotFound, {
+            "path" => runtime_path,
+          } unless ::File.exists?(runtime_path)
+          ::File.read(runtime_path)
+        else
+          Assets.read("runtime.js")
+        end
       end
 
       get "/tests" do
