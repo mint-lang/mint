@@ -11,6 +11,10 @@ component Main {
       color: cyan;
     }
 
+    &::first-line {
+      text-transform: uppercase;
+    }
+
     div {
       font-family: #{"Hello"};
       color: blue;
@@ -70,6 +74,10 @@ _insertStyles(`
 .Main_test:hover {
   background: var(--b-a);
   color: cyan;
+}
+
+.Main_test::first-line {
+  text-transform: uppercase;
 }
 
 .Main_test div {

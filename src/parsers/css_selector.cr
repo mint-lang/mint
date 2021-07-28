@@ -33,7 +33,7 @@ module Mint
     end
 
     def css_selector_name : String?
-      if char! '&'
+      if ampersand = char! '&'
         colon = char!(':')
         double_colon = keyword("::")
         dot = char!('.')
@@ -43,7 +43,7 @@ module Mint
       name =
         gather { chars "^,{}" }.presence.try(&.strip)
 
-      return unless name
+      return unless name || ampersand
 
       case
       when colon        then ":#{name}"
