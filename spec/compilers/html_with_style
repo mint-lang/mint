@@ -10,6 +10,22 @@ component Main {
     background: #{background};
     border: #{background};
     color: #{color};
+
+    & {
+      font-size: 1em;
+    }
+
+    &.big {
+      font-size: 1.5em;
+    }
+
+    &[data-foo="bar"] {
+      font-size: 3em;
+    }
+
+    > span {
+      font-size: .8em;
+    }
   }
 
   fun render : Html {
@@ -65,5 +81,21 @@ _insertStyles(`
   background: var(--a-b);
   border: var(--a-c);
   color: var(--a-d);
+}
+
+.Main_test {
+  font-size: 1em;
+}
+
+.Main_test.big {
+  font-size: 1.5em;
+}
+
+.Main_test[data-foo="bar"] {
+  font-size: 3em;
+}
+
+.Main_test > span {
+  font-size: .8em;
 }
 `);
