@@ -5,7 +5,7 @@ module LSP
 
       # The client supports versioned document changes in `WorkspaceEdit`s
       @[JSON::Field(key: "documentChanges")]
-      property? document_changes : Bool
+      property? document_changes : Bool = false
     end
 
     struct WorkspaceClientCapabilities
@@ -15,7 +15,7 @@ module LSP
       # to the workspace by supporting the request
       # 'workspace/applyEdit'
       @[JSON::Field(key: "applyEdit")]
-      property? apply_edit : Bool
+      property? apply_edit : Bool = false
 
       # Capabilities specific to `WorkspaceEdit`s
       @[JSON::Field(key: "workspaceEdit")]
