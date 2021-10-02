@@ -55,6 +55,5 @@ self.addEventListener('fetch', event => {
     response = fetch(event.request)
   }
 
-  response
-    .then(actualResponse => event.respondWith(actualResponse))
+  event.respondWith(response)
 })
