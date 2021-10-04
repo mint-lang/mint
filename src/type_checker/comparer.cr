@@ -98,7 +98,7 @@ module Mint
             normalize(parameter, mapping)
           else
             parameter
-          end
+          end.as(Checkable)
         end
 
         type
@@ -161,7 +161,7 @@ module Mint
       end
 
       def prune(node : Type)
-        node.parameters.map! { |param| prune param }
+        node.parameters.map! { |param| prune(param).as(Checkable) }
         node
       end
 
