@@ -38,20 +38,12 @@ module Mint
             item
           end
 
-        body =
-          code_block
-
-        end_position =
-          position
-
-        whitespace
-
         self << Ast::Function.new(
-          body: body.as(Ast::Expression),
           arguments: arguments,
           from: start_position,
           comment: comment,
-          to: end_position,
+          body: code_block,
+          to: position,
           input: data,
           name: name,
           type: type)

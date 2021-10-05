@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::InlineFunction) : String
       body =
-        list [node.body] + node.head_comments + node.tail_comments
+        format node.body
 
       value =
         format node.arguments
