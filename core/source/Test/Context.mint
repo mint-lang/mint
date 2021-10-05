@@ -4,10 +4,8 @@ module Test.Context {
   Starts a test using the given value.
 
     test {
-      with Test.Context {
-        of(5)
-        |> assertEqual(5)
-      }
+      Test.Context.of(5)
+      |> Test.Context.assertEqual(5)
     }
   */
   fun of (a : a) : Test.Context(a) {
@@ -18,11 +16,9 @@ module Test.Context {
   Adds a transformation step to the test.
 
     test {
-      with Test.Context {
-        of(5)
-        |> then((number : Number) { Promise.resolve(number + 2) })
-        |> assertEqual(7)
-      }
+      Test.Context.of(5)
+      |> Test.Context.then((number : Number) { Promise.resolve(number + 2) })
+      |> Test.Context.assertEqual(7)
     }
   */
   fun then (
@@ -40,11 +36,9 @@ module Test.Context {
   Adds a timeout to the test using the given duration (in milliseconds).
 
     test {
-      with Test.Context {
-        of(5)
-        |> timeout(1000)
-        |> assertEqual(5)
-      }
+      Test.Context.of(5)
+      |> Test.Context.timeout(1000)
+      |> Test.Context.assertEqual(5)
     }
   */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
@@ -56,10 +50,8 @@ module Test.Context {
   Asserts the equality of the current value of the test with the given one.
 
     test {
-      with Test.Context {
-        of(5)
-        |> assertEqual(5)
-      }
+      Test.Context.of(5)
+      |> Test.Context.assertEqual(5)
     }
   */
   fun assertEqual (value : a, context : Test.Context(a)) : Test.Context(a) {
@@ -77,9 +69,9 @@ module Test.Context {
   Asserts if the given value equals of the returned value from the given
   function.
 
-    with Test.Context {
-      of(5)
-      |> assertOf("5", Number.toString)
+    test {
+      Test.Context.of(5)
+      |> Test.Context.assertOf("5", Number.toString)
     }
   */
   fun assertOf (
@@ -103,10 +95,8 @@ module Test.Context {
   Maps the given subject to a new subject.
 
     test {
-      with Test.Context {
-        of(5)
-        |> map(Number.toString)
-      }
+      Test.Context.of(5)
+      |> Test.Context.map(Number.toString)
     }
   */
   fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {

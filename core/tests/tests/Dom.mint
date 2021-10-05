@@ -146,16 +146,12 @@ component Test.Dom.Focus {
 
 suite "Dom.focusWhenVisible" {
   test "it waits for the element to be visible" {
-    with Test.Html {
-      with Test.Context {
-        <Test.Dom.Focus/>
-        |> start()
-        |> triggerClick("#focus")
-        |> triggerClick("#show")
-        |> timeout(200)
-        |> assertCssOf("#input", "display", "inline-block")
-        |> assertActiveElement("#input")
-      }
-    }
+    <Test.Dom.Focus/>
+    |> Test.Html.start()
+    |> Test.Html.triggerClick("#focus")
+    |> Test.Html.triggerClick("#show")
+    |> Test.Context.timeout(200)
+    |> Test.Html.assertCssOf("#input", "display", "inline-block")
+    |> Test.Html.assertActiveElement("#input")
   }
 }

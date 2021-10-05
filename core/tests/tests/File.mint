@@ -1,20 +1,16 @@
 suite "File.readAsString" {
   test "it reads it as string" {
-    with Test.Context {
-      of(File.fromString("content", "test.txt", "text/plain"))
-      |> then(File.readAsString)
-      |> assertEqual("content")
-    }
+    Test.Context.of(File.fromString("content", "test.txt", "text/plain"))
+    |> Test.Context.then(File.readAsString)
+    |> Test.Context.assertEqual("content")
   }
 }
 
 suite "File.readAsDataURL" {
   test "it reads it as data url" {
-    with Test.Context {
-      of(File.fromString("content", "test.txt", "text/plain"))
-      |> then(File.readAsDataURL)
-      |> assertEqual("data:text/plain;base64,Y29udGVudA==")
-    }
+    Test.Context.of(File.fromString("content", "test.txt", "text/plain"))
+    |> Test.Context.then(File.readAsDataURL)
+    |> Test.Context.assertEqual("data:text/plain;base64,Y29udGVudA==")
   }
 }
 

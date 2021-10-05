@@ -12,14 +12,10 @@ component Test.Provider.Tick {
 
 suite "Provider.Tick.ticks" {
   test "called every second" {
-    with Test.Html {
-      with Test.Context {
-        <Test.Provider.Tick/>
-        |> start()
-        |> assertTextOf("div", "0")
-        |> timeout(1010)
-        |> assertTextOf("div", "1")
-      }
-    }
+    <Test.Provider.Tick/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("div", "0")
+    |> Test.Context.timeout(1010)
+    |> Test.Html.assertTextOf("div", "1")
   }
 }

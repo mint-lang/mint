@@ -68,7 +68,6 @@ module Mint
         x = case i
             when Ast::Component then i.name
             when Ast::Function  then i.name.value
-            when Ast::With      then "<with>"
             when Ast::Try       then "<try>"
             when Ast::Call      then "<call>"
             else

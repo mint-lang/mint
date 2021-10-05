@@ -35,16 +35,14 @@ suite "Object.Encode.field" {
 
 suite "Object.Encode.object" {
   test "encodes an array of fields to an object" {
-    with Object.Encode {
-      try {
-        encodedField =
-          field("test", `"a"`)
+    try {
+      encodedField =
+        Object.Encode.field("test", `"a"`)
 
-        encodedObject =
-          object([encodedField])
+      encodedObject =
+        Object.Encode.object([encodedField])
 
-        `#{encodedObject}.test == "a"`
-      }
+      `#{encodedObject}.test == "a"`
     }
   }
 }

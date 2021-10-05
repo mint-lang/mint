@@ -26,7 +26,6 @@ module Mint
                        Record |
                        Access |
                        Route |
-                       With |
                        Void |
                        Case |
                        Try |
