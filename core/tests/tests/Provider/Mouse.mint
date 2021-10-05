@@ -28,36 +28,30 @@ component Test.Provider.Mouse {
 
 suite "Provider.Mouse.clicks" {
   test "calls clicks on click" {
-    with Test.Html {
-      <Test.Provider.Mouse/>
-      |> start()
-      |> assertTextOf("clicks", "0")
-      |> triggerClick("clicks")
-      |> assertTextOf("clicks", "1")
-    }
+    <Test.Provider.Mouse/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("clicks", "0")
+    |> Test.Html.triggerClick("clicks")
+    |> Test.Html.assertTextOf("clicks", "1")
   }
 }
 
 suite "Provider.Mouse.moves" {
   test "calls moves on mouse move" {
-    with Test.Html {
-      <Test.Provider.Mouse/>
-      |> start()
-      |> assertTextOf("moves", "0")
-      |> triggerMouseMove("moves")
-      |> assertTextOf("moves", "1")
-    }
+    <Test.Provider.Mouse/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("moves", "0")
+    |> Test.Html.triggerMouseMove("moves")
+    |> Test.Html.assertTextOf("moves", "1")
   }
 }
 
 suite "Provider.Mouse.ups" {
   test "calls ups on mouse up" {
-    with Test.Html {
-      <Test.Provider.Mouse/>
-      |> start()
-      |> assertTextOf("ups", "0")
-      |> triggerMouseUp("ups")
-      |> assertTextOf("ups", "1")
-    }
+    <Test.Provider.Mouse/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("ups", "0")
+    |> Test.Html.triggerMouseUp("ups")
+    |> Test.Html.assertTextOf("ups", "1")
   }
 }

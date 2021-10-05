@@ -10,7 +10,6 @@ module Mint
         array ||
         if_expression(for_html: true) ||
         for_expression ||
-        with_expression ||
         try_expression ||
         case_expression ||
         comment

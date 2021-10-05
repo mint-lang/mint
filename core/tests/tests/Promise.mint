@@ -76,46 +76,38 @@ component Test.Promise2 {
 
 suite "Promise.create" {
   test "resolve resolves a promise" {
-    with Test.Html {
-      <Test.Promise2/>
-      |> start()
-      |> assertTextOf("result", "")
-      |> triggerClick("resolve")
-      |> assertTextOf("result", "resolved")
-    }
+    <Test.Promise2/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("result", "")
+    |> Test.Html.triggerClick("resolve")
+    |> Test.Html.assertTextOf("result", "resolved")
   }
 
   test "reject rejects a promise" {
-    with Test.Html {
-      <Test.Promise2/>
-      |> start()
-      |> assertTextOf("result", "")
-      |> triggerClick("reject")
-      |> assertTextOf("result", "rejected")
-    }
+    <Test.Promise2/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("result", "")
+    |> Test.Html.triggerClick("reject")
+    |> Test.Html.assertTextOf("result", "rejected")
   }
 }
 
 suite "Promise.resolve" {
   test "resolves a promise" {
-    with Test.Html {
-      <Test.Promise/>
-      |> start()
-      |> assertTextOf("result", "")
-      |> triggerClick("resolve")
-      |> assertTextOf("result", "resolved")
-    }
+    <Test.Promise/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("result", "")
+    |> Test.Html.triggerClick("resolve")
+    |> Test.Html.assertTextOf("result", "resolved")
   }
 }
 
 suite "Promise.reject" {
   test "rejects a promise" {
-    with Test.Html {
-      <Test.Promise/>
-      |> start()
-      |> assertTextOf("result", "")
-      |> triggerClick("reject")
-      |> assertTextOf("result", "rejected")
-    }
+    <Test.Promise/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("result", "")
+    |> Test.Html.triggerClick("reject")
+    |> Test.Html.assertTextOf("result", "rejected")
   }
 }

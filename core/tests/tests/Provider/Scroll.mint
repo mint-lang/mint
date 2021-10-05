@@ -17,14 +17,10 @@ component Test.Provider.Scroll {
 
 suite "Provider.Scroll.scrolls" {
   test "it notifies subscribers about scroll events" {
-    with Test.Html {
-      with Test.Window {
-        <Test.Provider.Scroll/>
-        |> start()
-        |> assertTextOf("div", "0")
-        |> setScrollTop(100)
-        |> assertTextOf("div", "100")
-      }
-    }
+    <Test.Provider.Scroll/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("div", "0")
+    |> Test.Window.setScrollTop(100)
+    |> Test.Html.assertTextOf("div", "100")
   }
 }
