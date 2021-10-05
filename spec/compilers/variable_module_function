@@ -10,9 +10,10 @@ module A {
 
 component Main {
   fun render : String {
+    a =
+      A.b()
+
     a()
-  } where {
-    a = A.b()
   }
 }
 --------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ const B = new(class extends _M {
 
 class A extends _C {
   render() {
-    let a = B.b();
+    const a = B.b();
     return a();
   }
 };

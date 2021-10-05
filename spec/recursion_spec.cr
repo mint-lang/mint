@@ -8,16 +8,16 @@ describe "variable" do
         state greeting : String = ""
 
         fun test : Void {
-          sequence {
-            next { greeting = greeting }
-          }
-        } where {
           greeting =
             if (greeting == "hello") {
               "bye"
             } else {
               "hello"
             }
+
+          sequence {
+            next { greeting = greeting }
+          }
         }
 
         fun render : Html {

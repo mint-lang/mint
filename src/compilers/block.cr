@@ -1,8 +1,20 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Block) : String
+    def compile(node : Ast::Block, for_function = true) : String
+      if checked.includes?(node)
+        _compile(node, for_function)
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Block, for_function = true) : String
       if node.statements.size == 1
-        compile node.statements.first
+        if for_function
+          js.return(compile(node.statements.first))
+        else
+          compile(node.statements.first)
+        end
       else
         compiled_statements =
           compile(
@@ -13,8 +25,12 @@ module Mint
         last =
           compiled_statements.pop
 
-        js.iif do
+        if for_function
           js.statements(compiled_statements + [js.return(last)])
+        else
+          js.iif do
+            js.statements(compiled_statements + [js.return(last)])
+          end
         end
       end
     end

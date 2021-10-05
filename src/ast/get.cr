@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Get < Node
-      getter name, body, type, comment, head_comments, tail_comments, where
+      getter name, body, type, comment, head_comments, tail_comments
 
       def initialize(@head_comments : Array(Comment),
                      @tail_comments : Array(Comment),
@@ -9,7 +9,6 @@ module Mint
                      @comment : Comment?,
                      @body : Expression,
                      @name : Variable,
-                     @where : Where?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

@@ -7,29 +7,25 @@ module Mint
     end
 
     def check(node : Ast::Get) : Checkable
-      scope node.where.try(&.statements) || [] of Ast::WhereStatement do
-        body_type =
-          resolve node.body
+      body_type =
+        resolve node.body
 
-        if type = node.type
-          return_type =
-            resolve type
+      if type = node.type
+        return_type =
+          resolve type
 
-          node.where.try { |item| resolve item }
+        resolved =
+          Comparer.compare(body_type, return_type)
 
-          resolved =
-            Comparer.compare(body_type, return_type)
+        raise GetTypeMismatch, {
+          "expected" => return_type,
+          "got"      => body_type,
+          "node"     => node,
+        } unless resolved
 
-          raise GetTypeMismatch, {
-            "expected" => return_type,
-            "got"      => body_type,
-            "node"     => node,
-          } unless resolved
-
-          resolved
-        else
-          body_type
-        end
+        resolved
+      else
+        body_type
       end
     end
   end

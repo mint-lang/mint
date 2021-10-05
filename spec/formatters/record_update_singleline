@@ -4,10 +4,10 @@ record A {
 
 module Test {
   fun test : A {
-    {x|a="Hello"}
-  } where {
     x =
       { a = "Blah" }
+
+    {x|a="Hello"}
   }
 }
 --------------------------------------------------------------------------------
@@ -17,9 +17,9 @@ record A {
 
 module Test {
   fun test : A {
-    { x | a = "Hello" }
-  } where {
     x =
       { a = "Blah" }
+
+    { x | a = "Hello" }
   }
 }

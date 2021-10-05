@@ -1,7 +1,5 @@
 module Test {
   fun a(n : Number) : Number {
-    c(n, 1)
-  } where {
     b = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
@@ -19,6 +17,8 @@ module Test {
         b(n - 1, acc * n)
       }
     }
+
+    c(n, 1)
   }
 }
 
@@ -33,16 +33,16 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  a(c) {
-    let f = (d, e) => {
-      return (_compare(d, 0) ? e : b(d - 1, e * d))
+  a(h) {
+    const b = (c, d) => {
+      return (_compare(c, 0) ? d : e(c - 1, d * c))
     };
 
-    let b = (g, h) => {
-      return (_compare(g, 0) ? h : f(g - 1, h * g))
+    const e = (f, g) => {
+      return (_compare(f, 0) ? g : b(f - 1, g * f))
     };
 
-    return b(c, 1);
+    return b(h, 1);
   }
 });
 

@@ -5,10 +5,10 @@ record A {
 
 module Test {
   fun test : A {
-    {x|a="Hello",b=true}
-  } where {
     x =
       { a = "Blah", b = false }
+
+    {x|a="Hello",b=true}
   }
 }
 --------------------------------------------------------------------------------
@@ -19,15 +19,15 @@ record A {
 
 module Test {
   fun test : A {
-    { x |
-      a = "Hello",
-      b = true
-    }
-  } where {
     x =
       {
         a = "Blah",
         b = false
       }
+
+    { x |
+      a = "Hello",
+      b = true
+    }
   }
 }

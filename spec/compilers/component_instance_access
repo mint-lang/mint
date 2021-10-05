@@ -42,7 +42,7 @@ class D extends _E {
 
 class A extends _C {
   get a() {
-    return `Instance`;
+    return `Instance`
   }
 
   render() {

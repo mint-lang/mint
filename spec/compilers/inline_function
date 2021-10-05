@@ -1,14 +1,15 @@
 component Main {
   fun render : String {
+    a =
+      () : String { "Hello" }
+
     a()
-  } where {
-    a = () : String { "Hello" }
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    let a = () => {
+    const a = () => {
       return `Hello`
     };
 

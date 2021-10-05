@@ -13,24 +13,23 @@ module Mint
         js.variable_of(node)
 
       expression =
-        compile node.body
-
-      wheres =
-        node.where
-          .try(&.statements)
-          .try(&.sort_by { |item| resolve_order.index(item) || -1 })
-          .try { |statements| compile statements }
+        case item = node.body
+        when Ast::Block
+          compile item, for_function: true
+        else
+          compile item
+        end
 
       arguments =
         compile node.arguments
 
-      last =
-        [js.return(expression)]
+      items =
+        [expression]
 
-      last.unshift(contents) unless contents.empty?
+      items.unshift(contents) unless contents.empty?
 
       body =
-        js.statements(%w[] &+ wheres &+ last)
+        js.statements(items)
 
       js.function(name, arguments, body)
     end

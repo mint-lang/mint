@@ -2,24 +2,17 @@ module Mint
   class Compiler
     def _compile(node : Ast::Get) : String
       body =
-        compile node.body
-
-      wheres =
-        node.where
-          .try(&.statements)
-          .try(&.sort_by { |item| resolve_order.index(item) || -1 })
-          .try { |statements| compile statements }
+        case item = node.body
+        when Ast::Block
+          compile item, for_function: true
+        else
+          compile item
+        end
 
       name =
         js.variable_of(node)
 
-      last =
-        [js.return(body)]
-
-      body =
-        js.statements(%w[] &+ wheres &+ last)
-
-      js.get(name, body)
+      js.get(name, js.return(body))
     end
   end
 end
