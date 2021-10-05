@@ -17,21 +17,6 @@ module Mint
       Comparer.normalize(defined_type)
     end
 
-    def check(node : Ast::Block) : Checkable
-      scope node.statements.reject(Ast::Comment) do
-        resolve node.statements
-      end
-
-      last =
-        node
-          .statements
-          .reject(Ast::Comment)
-          .sort_by! { |item| resolve_order.index(item) || -1 }
-          .last
-
-      cache[last]
-    end
-
     def check(node : Ast::Function) : Checkable
       scope node do
         scope node.where.try(&.statements) || [] of Ast::WhereStatement do
