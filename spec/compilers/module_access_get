@@ -29,7 +29,7 @@ const B = new(class extends _S {
   }
 
   get b() {
-    return `Hello`;
+    return `Hello`
   }
 
   a() {

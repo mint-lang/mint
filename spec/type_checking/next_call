@@ -22,9 +22,10 @@ module Test {
 
 component Main {
   fun render : Html {
+    test =
+      Test.test()
+
     <div/>
-  } where {
-    test = Test.test()
   }
 }
 -------------------------------------------------------NextCallStateTypeMismatch

@@ -1,17 +1,14 @@
 module A {
   //
   fun test : String {
-    a()
-  } where {
     a = ():String{/*A*/"Hello"/*B*/}
+    a()
   }
 }
 --------------------------------------------------------------------------------
 module A {
   //
   fun test : String {
-    a()
-  } where {
     a =
       () : String {
         /* A */
@@ -19,5 +16,7 @@ module A {
 
         /* B */
       }
+
+    a()
   }
 }

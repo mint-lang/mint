@@ -54,7 +54,7 @@ module Mint
             resolve item
 
           case item
-          when Ast::Statement, Ast::WhereStatement
+          when Ast::Statement
             case item.target
             when Ast::TupleDestructuring
               case val = value[1]

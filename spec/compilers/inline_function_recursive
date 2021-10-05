@@ -1,7 +1,5 @@
 module Test {
   fun factorial(n : Number) : Number {
-    helper(n, 1)
-  } where {
     helper = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
@@ -9,6 +7,8 @@ module Test {
         helper(n - 1, acc * n)
       }
     }
+
+    helper(n, 1)
   }
 }
 
@@ -23,12 +23,12 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  a(c) {
-    let b = (d, e) => {
-      return (_compare(d, 0) ? e : b(d - 1, e * d))
+  a(e) {
+    const b = (c, d) => {
+      return (_compare(c, 0) ? d : b(c - 1, d * c))
     };
 
-    return b(c, 1);
+    return b(e, 1);
   }
 });
 

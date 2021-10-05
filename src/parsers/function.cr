@@ -1,10 +1,7 @@
 module Mint
   class Parser
     syntax_error FunctionExpectedClosingParentheses
-    syntax_error FunctionExpectedOpeningBracket
-    syntax_error FunctionExpectedClosingBracket
     syntax_error FunctionExpectedTypeOrVariable
-    syntax_error FunctionExpectedExpression
     syntax_error FunctionExpectedName
 
     def function : Ast::Function?
@@ -44,26 +41,17 @@ module Mint
         body =
           code_block
 
-        # head_comments, body, tail_comments = block_with_comments(
-        #   opening_bracket: FunctionExpectedOpeningBracket,
-        #   closing_bracket: FunctionExpectedClosingBracket
-        # ) do
-        #   expression! FunctionExpectedExpression
-        # end
-
-        end_position = position
+        end_position =
+          position
 
         whitespace
 
         self << Ast::Function.new(
-          head_comments: [] of Ast::Comment,
-          tail_comments: [] of Ast::Comment,
           body: body.as(Ast::Expression),
           arguments: arguments,
           from: start_position,
           comment: comment,
           to: end_position,
-          where: where,
           input: data,
           name: name,
           type: type)

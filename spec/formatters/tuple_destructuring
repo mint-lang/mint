@@ -1,17 +1,17 @@
 module Test {
   fun test : String {
-    a
-  } where {
     {a, b} =
       {"A", "B"}
+
+    a
   }
 }
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    a
-  } where {
     {a, b} =
       {"A", "B"}
+
+    a
   }
 }

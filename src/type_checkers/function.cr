@@ -19,52 +19,48 @@ module Mint
 
     def check(node : Ast::Function) : Checkable
       scope node do
-        scope node.where.try(&.statements) || [] of Ast::WhereStatement do
-          node.arguments.each do |argument|
-            name =
-              argument.name.value
+        node.arguments.each do |argument|
+          name =
+            argument.name.value
 
-            other =
-              (node.arguments - [argument]).find(&.name.value.==(name))
+          other =
+            (node.arguments - [argument]).find(&.name.value.==(name))
 
-            raise FunctionArgumentConflict, {
-              "node"  => argument,
-              "other" => other,
-              "name"  => name,
-            } if other
-          end
+          raise FunctionArgumentConflict, {
+            "node"  => argument,
+            "other" => other,
+            "name"  => name,
+          } if other
+        end
 
-          node.where.try { |item| resolve item }
+        arguments =
+          resolve node.arguments
 
-          arguments =
-            resolve node.arguments
+        body_type =
+          resolve node.body
 
-          body_type =
-            resolve node.body
+        final_type =
+          Type.new("Function", arguments + [body_type])
 
-          final_type =
-            Type.new("Function", arguments + [body_type])
+        if type = node.type
+          return_type =
+            resolve type
 
-          if type = node.type
-            return_type =
-              resolve type
+          defined_type =
+            Comparer.normalize(Type.new("Function", arguments + [return_type]))
 
-            defined_type =
-              Comparer.normalize(Type.new("Function", arguments + [return_type]))
+          resolved =
+            Comparer.compare(defined_type, final_type)
 
-            resolved =
-              Comparer.compare(defined_type, final_type)
+          raise FunctionTypeMismatch, {
+            "expected" => return_type,
+            "got"      => body_type,
+            "node"     => node,
+          } unless resolved
 
-            raise FunctionTypeMismatch, {
-              "expected" => return_type,
-              "got"      => body_type,
-              "node"     => node,
-            } unless resolved
-
-            resolved
-          else
-            Comparer.normalize(final_type)
-          end
+          resolved
+        else
+          Comparer.normalize(final_type)
         end
       end
     end

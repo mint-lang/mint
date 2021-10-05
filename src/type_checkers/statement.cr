@@ -3,7 +3,7 @@ module Mint
     type_error StatementTupleMismatch
     type_error StatementNotTuple
 
-    def check(node : Ast::Statement | Ast::WhereStatement) : Checkable
+    def check(node : Ast::Statement) : Checkable
       type = resolve node.expression
 
       _check_statement_target(node.target, node, type)

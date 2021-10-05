@@ -10,10 +10,10 @@ module Test {
 
 component Main {
   fun render : String {
-    x()
-  } where {
     x =
       Test.b()
+
+    x()
   }
 }
 ----------------------------------------------------ModuleAccessNotFoundFunction

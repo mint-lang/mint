@@ -22,7 +22,7 @@ class A extends _C {
   }
 
   get a() {
-    return 10;
+    return 10
   }
 
   render() {

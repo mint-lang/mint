@@ -5,16 +5,16 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      b = 0
-    }
-  } where {
     x =
       {
         a = "Blah",
         b = 1
       }
+
+    { x |
+      a = "Hello",
+      b = 0
+    }
   }
 
   fun render : String {
@@ -33,12 +33,12 @@ record Test {
 
 component Main {
   fun test : Test {
+    x = ""
+
     { x |
       a = "Hello",
       b = 0
     }
-  } where {
-    x = ""
   }
 
   fun render : String {
@@ -57,16 +57,16 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      b = "Hello"
-    }
-  } where {
     x =
       {
         a = "Blah",
         b = 0
       }
+
+    { x |
+      a = "Hello",
+      b = "Hello"
+    }
   }
 
   fun render : String {
@@ -85,16 +85,16 @@ record Test {
 
 component Main {
   fun test : Test {
-    { x |
-      a = "Hello",
-      c = "Hello"
-    }
-  } where {
     x =
       {
         a = "Blah",
         b = 0
       }
+
+    { x |
+      a = "Hello",
+      c = "Hello"
+    }
   }
 
   fun render : String {

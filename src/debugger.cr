@@ -28,27 +28,13 @@ module Mint
     end
 
     def debug(node : Ast::Function)
-      arguments =
-        node.arguments.join('\n') do |argument|
-          "#{argument.name.value} => #{argument}"
-        end
-
-      statements =
-        node.where.try do |where|
-          where.statements.join('\n') do |statement|
-            "#{statement.target.class.name} => #{statement}"
-          end
-        end.to_s
-
-      {arguments, statements}.join('\n')
+      node.arguments.join('\n') do |argument|
+        "#{argument.name.value} => #{argument}"
+      end
     end
 
     def debug(node : Ast::Get)
-      node.where.try do |where|
-        where.statements.join('\n') do |statement|
-          "#{statement.target.class.name} => #{statement}"
-        end
-      end.to_s
+      ""
     end
 
     def debug(node : Ast::Module)

@@ -2,7 +2,6 @@ module Mint
   class TypeChecker
     class Scope
       alias Node = Tuple(String, Checkable, Ast::Node) |
-                   Ast::WhereStatement |
                    Ast::Statement |
                    Ast::Component |
                    Ast::InlineFunction |
@@ -109,15 +108,6 @@ module Mint
       end
 
       def find(variable : String, node : Ast::Statement)
-        case target = node.target
-        when Ast::Variable
-          node if target.value == variable
-        when Ast::TupleDestructuring
-          _find(variable, target).try { |result| {node, result} }
-        end
-      end
-
-      def find(variable : String, node : Ast::WhereStatement)
         case target = node.target
         when Ast::Variable
           node if target.value == variable

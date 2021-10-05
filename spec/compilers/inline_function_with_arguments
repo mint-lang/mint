@@ -1,9 +1,9 @@
 component Main {
   fun test : String {
-    getName("Joe")
-  } where {
     getName =
       (name : String) : String { name }
+
+    getName("Joe")
   }
 
   fun render : String {
@@ -17,7 +17,7 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    let b = (c) => {
+    const b = (c) => {
       return c
     };
 

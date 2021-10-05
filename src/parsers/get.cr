@@ -40,7 +40,6 @@ module Mint
           from: start_position,
           comment: comment,
           to: position,
-          where: where,
           input: data,
           name: name,
           body: body,

@@ -244,7 +244,7 @@ module Mint
               NEVER
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            when Ast::WhereStatement, Ast::Statement
+            when Ast::Statement
               expression =
                 node.expression
 
