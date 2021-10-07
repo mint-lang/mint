@@ -4,7 +4,11 @@ module Mint
     type_error StatementNotTuple
 
     def check(node : Ast::Statement) : Checkable
-      type = resolve node.expression
+      type =
+        resolve node.expression
+
+      type =
+        type.parameters.first if node.await && type.name == "Promise"
 
       _check_statement_target(node.target, node, type)
 

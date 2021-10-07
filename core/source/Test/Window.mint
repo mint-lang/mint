@@ -4,10 +4,8 @@ module Test.Window {
   fun setScrollLeft (to : Number, context : Test.Context(a)) : Test.Context(a) {
     Test.Context.then(
       (subject : Dom.Element) : Promise(Never, a) {
-        try {
-          Window.setScrollLeft(100)
-          Promise.resolve(subject)
-        }
+        Window.setScrollLeft(100)
+        Promise.resolve(subject)
       },
       context)
   }
@@ -16,10 +14,8 @@ module Test.Window {
   fun setScrollTop (to : Number, context : Test.Context(a)) : Test.Context(a) {
     Test.Context.then(
       (subject : Dom.Element) : Promise(Never, a) {
-        try {
-          Window.setScrollTop(100)
-          Promise.resolve(subject)
-        }
+        Window.setScrollTop(100)
+        Promise.resolve(subject)
       },
       context)
   }

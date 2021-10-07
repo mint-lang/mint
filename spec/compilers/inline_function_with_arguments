@@ -17,11 +17,11 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   a() {
-    const b = (c) => {
-      return c
+    const c = (b) => {
+      return b
     };
 
-    return b(`Joe`);
+    return c(`Joe`);
   }
 
   render() {

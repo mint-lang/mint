@@ -13,24 +13,22 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map(
-          (
-            methods : Tuple(Function(Void), Function(Void), Function(Void))
-          ) {
-            try {
-              {clickListener, moveListener, upListener} =
-                methods
+      Maybe.map(
+        (
+          methods : Tuple(Function(Void), Function(Void), Function(Void))
+        ) {
+          try {
+            {clickListener, moveListener, upListener} =
+              methods
 
-              clickListener()
-              moveListener()
-              upListener()
-            }
-          },
-          listeners)
+            clickListener()
+            moveListener()
+            upListener()
+          }
+        },
+        listeners)
 
-        next { listeners = Maybe::Nothing }
-      }
+      next { listeners = Maybe::Nothing }
     } else {
       case (listeners) {
         Maybe::Nothing =>

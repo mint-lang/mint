@@ -1,11 +1,9 @@
 module Mint
   class Ast
     class Catch < Node
-      getter variable, expression, type, head_comments, tail_comments
+      getter variable, expression, type
 
-      def initialize(@head_comments : Array(Comment),
-                     @tail_comments : Array(Comment),
-                     @expression : Expression,
+      def initialize(@expression : Expression,
                      @variable : Variable,
                      @type : String,
                      @input : Data,

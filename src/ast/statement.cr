@@ -8,11 +8,12 @@ module Mint
         None
       end
 
-      getter target, expression, parent
+      getter target, expression, parent, await
 
-      def initialize(@target : Node?,
-                     @expression : Expression,
+      def initialize(@expression : Expression,
                      @parent : Parent,
+                     @target : Node?,
+                     @await : Bool,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

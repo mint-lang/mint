@@ -18,10 +18,8 @@ provider Provider.Keydown : Provider.Keydown.Subscription {
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-        next { listener = Maybe::Nothing }
-      }
+      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      next { listener = Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>

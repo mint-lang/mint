@@ -194,10 +194,8 @@ module Html.Event {
   /*
   Stops the propagation of the given event.
 
-    try {
-      Html.Event.stopPropagation(event)
-      doSomethingElse()
-    }
+    Html.Event.stopPropagation(event)
+    doSomethingElse()
   */
   fun stopPropagation (event : Html.Event) : Void {
     `#{event.event}.stopPropagation()`
@@ -215,10 +213,8 @@ module Html.Event {
   /*
   Prevents the default action of the event from happening.
 
-    try {
-      Html.Event.preventDefault(event)
-      doSomethingElse()
-    }
+    Html.Event.preventDefault(event)
+    doSomethingElse()
   */
   fun preventDefault (event : Html.Event) : Void {
     `#{event.event}.preventDefault()`

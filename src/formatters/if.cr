@@ -10,25 +10,23 @@ module Mint
       truthy =
         case truthy_item
         when Array(Ast::CssDefinition)
-          list truthy_item + node.truthy_head_comments + node.truthy_tail_comments
+          list truthy_item
         when Ast::Node
-          list [truthy_item] + node.truthy_head_comments + node.truthy_tail_comments
+          format truthy_item
         else
           ""
         end
 
       falsy =
-        if falsy_item.is_a?(Ast::If) &&
-           node.falsy_head_comments.empty? &&
-           node.falsy_tail_comments.empty?
+        if falsy_item.is_a?(Ast::If)
           " else #{format(falsy_item)}"
         else
           body =
             case falsy_item
             when Array(Ast::CssDefinition)
-              list falsy_item + node.falsy_head_comments + node.falsy_tail_comments
+              list falsy_item
             when Ast::Node
-              list [falsy_item] + node.falsy_head_comments + node.falsy_tail_comments
+              format falsy_item
             end
 
           " else {\n#{indent(body)}\n}" if body

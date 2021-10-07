@@ -2,10 +2,7 @@ module Mint
   class Parser
     syntax_error ForExpectedOpeningParentheses
     syntax_error ForExpectedClosingParentheses
-    syntax_error ForExpectedOpeningBracket
-    syntax_error ForExpectedClosingBracket
     syntax_error ForExpectedSubject
-    syntax_error ForExpectedBody
     syntax_error ForExpectedOf
 
     def for_expression : Ast::For?
@@ -30,22 +27,16 @@ module Mint
 
         whitespace
         char ')', ForExpectedClosingParentheses
+        whitespace
 
-        head_comments, body, tail_comments =
-          block_with_comments(
-            opening_bracket: ForExpectedOpeningBracket,
-            closing_bracket: ForExpectedClosingBracket
-          ) do
-            expression! ForExpectedBody
-          end
+        body =
+          code_block
 
         whitespace
         condition = for_condition
         whitespace
 
         self << Ast::For.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           condition: condition,
           arguments: arguments,
           from: start_position,

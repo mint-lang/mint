@@ -255,14 +255,12 @@ module Dom {
   /*
   If the attribute is present, it will return its value on the given element.
 
-    try {
-    	outcome =
-      	Dom.getElementById("my-div")
+    outcome =
+      Dom.getElementById("my-div")
 
-      case (outcome) {
-        Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
-        Maybe::Nothing => false
-      }
+    case (outcome) {
+      Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
+      Maybe::Nothing => false
     }
   */
   fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
@@ -552,20 +550,18 @@ module Dom {
     |> getElementsBySelector(selector)
     |> Array.map(
       (item : Dom.Element) : Tuple(String, String, String) {
-        try {
-          tag =
-            item
-            |> getTagName()
-            |> String.toLowerCase()
+        tag =
+          item
+          |> getTagName()
+          |> String.toLowerCase()
 
-          text =
-            getTextContent(item)
+        text =
+          getTextContent(item)
 
-          hash =
-            String.parameterize(text)
+        hash =
+          String.parameterize(text)
 
-          {tag, text, hash}
-        }
+        {tag, text, hash}
       })
   }
 }

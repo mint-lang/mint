@@ -27,24 +27,22 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
-    try {
-      for (element of Array.compact(observedElements)) {
-        ResizeObserver.unobserve(element, observer)
-      }
-
-      for (subscription of subscriptions) {
-        case (subscription.element) {
-          Maybe::Just(element) =>
-            try {
-              ResizeObserver.observe(element, observer)
-              void
-            }
-
-          Maybe::Nothing => void
-        }
-      }
-
-      next { observedElements = Array.map(.element, subscriptions) }
+    for (element of Array.compact(observedElements)) {
+      ResizeObserver.unobserve(element, observer)
     }
+
+    for (subscription of subscriptions) {
+      case (subscription.element) {
+        Maybe::Just(element) =>
+          try {
+            ResizeObserver.observe(element, observer)
+            void
+          }
+
+        Maybe::Nothing => void
+      }
+    }
+
+    next { observedElements = Array.map(.element, subscriptions) }
   }
 }
