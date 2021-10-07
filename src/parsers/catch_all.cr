@@ -5,8 +5,14 @@ module Mint
         next unless keyword "catch"
         whitespace
 
+        expression =
+          code_block(
+            opening_bracket: CatchExpectedOpeningBracket,
+            closing_bracket: CatchExpectedClosingBracket,
+            statement_error: CatchExpectedExpression)
+
         self << Ast::CatchAll.new(
-          expression: code_block,
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

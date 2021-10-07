@@ -2,7 +2,10 @@ module Mint
   class Parser
     syntax_error ForExpectedOpeningParentheses
     syntax_error ForExpectedClosingParentheses
+    syntax_error ForExpectedOpeningBracket
+    syntax_error ForExpectedClosingBracket
     syntax_error ForExpectedSubject
+    syntax_error ForExpectedBody
     syntax_error ForExpectedOf
 
     def for_expression : Ast::For?
@@ -30,7 +33,10 @@ module Mint
         whitespace
 
         body =
-          code_block
+          code_block(
+            opening_bracket: ForExpectedOpeningBracket,
+            closing_bracket: ForExpectedClosingBracket,
+            statement_error: ForExpectedBody)
 
         whitespace
         condition = for_condition

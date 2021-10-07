@@ -25,9 +25,16 @@ module Mint
 
         truthy =
           if for_css
-            block(SyntaxError, SyntaxError) { many { css_definition } }
+            block(
+              opening_bracket: IfExpectedTruthyOpeningBracket,
+              closing_bracket: IfExpectedTruthyClosingBracket) do
+              many { css_definition }
+            end
           else
-            code_block
+            code_block(
+              opening_bracket: IfExpectedTruthyOpeningBracket,
+              closing_bracket: IfExpectedTruthyClosingBracket,
+              statement_error: IfExpectedTruthyExpression)
           end
 
         raise IfExpectedTruthyExpression unless truthy
@@ -42,9 +49,16 @@ module Mint
           unless falsy = if_expression(for_css: for_css, for_html: for_html)
             falsy =
               if for_css
-                block(SyntaxError, SyntaxError) { many { css_definition } }
+                block(
+                  opening_bracket: IfExpectedFalsyOpeningBracket,
+                  closing_bracket: IfExpectedFalsyClosingBracket) do
+                  many { css_definition }
+                end
               else
-                code_block
+                code_block(
+                  opening_bracket: IfExpectedFalsyOpeningBracket,
+                  closing_bracket: IfExpectedFalsyClosingBracket,
+                  statement_error: IfExpectedFalsyExpression)
               end
 
             raise IfExpectedFalsyExpression unless falsy

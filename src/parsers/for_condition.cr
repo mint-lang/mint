@@ -9,8 +9,14 @@ module Mint
         next unless keyword "when"
         whitespace
 
+        condition =
+          code_block(
+            opening_bracket: ForConditionExpectedOpeningBracket,
+            closing_bracket: ForConditionExpectedClosingBracket,
+            statement_error: ForConditionExpectedBody)
+
         self << Ast::ForCondition.new(
-          condition: code_block,
+          condition: condition,
           from: start_position,
           to: position,
           input: data)

@@ -29,12 +29,17 @@ module Mint
             item
           end
 
+        body =
+          code_block(
+            opening_bracket: SyntaxError,
+            closing_bracket: SyntaxError)
+
         self << Ast::InlineFunction.new(
           arguments: arguments,
           from: start_position,
-          body: code_block,
           to: position,
           input: data,
+          body: body,
           type: type)
       end
     end

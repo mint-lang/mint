@@ -1,5 +1,8 @@
 module Mint
   class Parser
+    syntax_error CatchExpectedOpeningBracket
+    syntax_error CatchExpectedClosingBracket
+    syntax_error CatchExpectedExpression
     syntax_error CatchExpectedVariable
     syntax_error CatchExpectedArrow
 
@@ -18,7 +21,10 @@ module Mint
         whitespace
 
         expression =
-          code_block
+          code_block(
+            opening_bracket: CatchExpectedOpeningBracket,
+            closing_bracket: CatchExpectedClosingBracket,
+            statement_error: CatchExpectedExpression)
 
         self << Ast::Catch.new(
           expression: expression,

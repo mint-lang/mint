@@ -38,13 +38,18 @@ module Mint
             item
           end
 
+        body =
+          code_block(
+            opening_bracket: SyntaxError,
+            closing_bracket: SyntaxError)
+
         self << Ast::Function.new(
           arguments: arguments,
           from: start_position,
           comment: comment,
-          body: code_block,
           to: position,
           input: data,
+          body: body,
           name: name,
           type: type)
       end
