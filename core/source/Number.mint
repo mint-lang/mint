@@ -77,32 +77,30 @@ module Number {
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
   fun format (prefix : String, number : Number) : String {
-    try {
-      string =
-        Number.toFixed(2, number)
+    string =
+      Number.toFixed(2, number)
 
-      parts =
-        String.split(".", string)
+    parts =
+      String.split(".", string)
 
-      digits =
-        parts[0]
-        |> Maybe.withDefault("")
-        |> String.lchop("-")
-        |> String.split("")
-        |> Array.groupsOfFromEnd(3)
-        |> Array.map(String.join(""))
-        |> String.join(",")
+    digits =
+      parts[0]
+      |> Maybe.withDefault("")
+      |> String.lchop("-")
+      |> String.split("")
+      |> Array.groupsOfFromEnd(3)
+      |> Array.map(String.join(""))
+      |> String.join(",")
 
-      decimals =
-        parts[1]
-        |> Maybe.withDefault("")
-        |> String.rchop("0")
+    decimals =
+      parts[1]
+      |> Maybe.withDefault("")
+      |> String.rchop("0")
 
-      if (String.isEmpty(decimals)) {
-        prefix + digits
-      } else {
-        prefix + digits + "." + decimals
-      }
+    if (String.isEmpty(decimals)) {
+      prefix + digits
+    } else {
+      prefix + digits + "." + decimals
     }
   }
 }

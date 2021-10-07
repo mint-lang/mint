@@ -14,10 +14,10 @@ describe "Catch" do
   expect_error "catch X ", Mint::Parser::CatchExpectedArrow
   expect_error "catch X =>", Mint::Parser::CatchExpectedVariable
   expect_error "catch X => ", Mint::Parser::CatchExpectedVariable
-  expect_error "catch X => a", Mint::Parser::CatchExpectedOpeningBracket
-  expect_error "catch X => a ", Mint::Parser::CatchExpectedOpeningBracket
-  expect_error "catch X => a {", Mint::Parser::CatchExpectedExpression
-  expect_error "catch X => a {a", Mint::Parser::CatchExpectedClosingBracket
+  expect_error "catch X => a", Mint::SyntaxError
+  expect_error "catch X => a ", Mint::SyntaxError
+  expect_error "catch X => a {", Mint::SyntaxError
+  expect_error "catch X => a {a", Mint::SyntaxError
 
   expect_ok "catch X => a { a }"
 end

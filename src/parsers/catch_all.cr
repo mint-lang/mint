@@ -3,17 +3,10 @@ module Mint
     def catch_all : Ast::CatchAll?
       start do |start_position|
         next unless keyword "catch"
-
-        head_comments, expression, tail_comments = block_with_comments(
-          opening_bracket: CatchExpectedOpeningBracket,
-          closing_bracket: CatchExpectedClosingBracket) do
-          expression! CatchExpectedExpression
-        end
+        whitespace
 
         self << Ast::CatchAll.new(
-          expression: expression.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
+          expression: code_block,
           from: start_position,
           to: position,
           input: data)

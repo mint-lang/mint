@@ -35,27 +35,25 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
-    try {
-      /* Unobserve all elements. */
-      for (element of Array.compact(observedElements)) {
-        MutationObserver.unobserve(element, observer)
-      }
-
-      /* For each subscription observe the given elements. */
-      for (subscription of subscriptions) {
-        case (subscription.element) {
-          Maybe::Just(element) =>
-            try {
-              MutationObserver.observe(element, true, true, observer)
-              subscription.changes()
-            }
-
-          Maybe::Nothing => next { }
-        }
-      }
-
-      /* Update the observed elements array. */
-      next { observedElements = Array.map(.element, subscriptions) }
+    /* Unobserve all elements. */
+    for (element of Array.compact(observedElements)) {
+      MutationObserver.unobserve(element, observer)
     }
+
+    /* For each subscription observe the given elements. */
+    for (subscription of subscriptions) {
+      case (subscription.element) {
+        Maybe::Just(element) =>
+          try {
+            MutationObserver.observe(element, true, true, observer)
+            subscription.changes()
+          }
+
+        Maybe::Nothing => next { }
+      }
+    }
+
+    /* Update the observed elements array. */
+    next { observedElements = Array.map(.element, subscriptions) }
   }
 }

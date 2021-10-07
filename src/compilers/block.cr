@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Block, for_function = true) : String
+    def compile(node : Ast::Block, for_function = false) : String
       if checked.includes?(node)
         _compile(node, for_function)
       else
@@ -8,7 +8,7 @@ module Mint
       end
     end
 
-    def _compile(node : Ast::Block, for_function = true) : String
+    def _compile(node : Ast::Block, for_function = false) : String
       if node.statements.size == 1
         if for_function
           js.return(compile(node.statements.first))

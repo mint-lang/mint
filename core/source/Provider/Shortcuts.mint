@@ -25,45 +25,39 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
 
   /* Handles keypress events. */
   fun handle (event : Html.Event) : Array(Array(Promise(Never, Void))) {
-    try {
-      control =
-        if (event.ctrlKey && event.keyCode != 17) {
-          Maybe::Just(17)
-        } else {
-          Maybe::Nothing
-        }
+    control =
+      if (event.ctrlKey && event.keyCode != 17) {
+        Maybe::Just(17)
+      } else {
+        Maybe::Nothing
+      }
 
-      shift =
-        if (event.shiftKey && event.keyCode != 16) {
-          Maybe::Just(16)
-        } else {
-          Maybe::Nothing
-        }
+    shift =
+      if (event.shiftKey && event.keyCode != 16) {
+        Maybe::Just(16)
+      } else {
+        Maybe::Nothing
+      }
 
-      combo =
-        [Maybe::Just(event.keyCode), control, shift]
-        |> Array.compact()
-        |> Array.sortBy((item : Number) { item })
+    combo =
+      [Maybe::Just(event.keyCode), control, shift]
+      |> Array.compact()
+      |> Array.sortBy((item : Number) { item })
 
-      focused =
-        `document.querySelector("*:focus")`
+    focused =
+      `document.querySelector("*:focus")`
 
-      for (subscription of subscriptions) {
-        for (item of subscription.shortcuts) {
-          try {
-            Html.Event.stopPropagation(event)
-            Html.Event.preventDefault(event)
-            item.action()
-          }
-        } when {
-          try {
-            sorted =
-              item.shortcut
-              |> Array.sortBy((item : Number) : Number { item })
+    for (subscription of subscriptions) {
+      for (item of subscription.shortcuts) {
+        Html.Event.stopPropagation(event)
+        Html.Event.preventDefault(event)
+        item.action()
+      } when {
+        sorted =
+          item.shortcut
+          |> Array.sortBy((item : Number) : Number { item })
 
-            (sorted == combo && item.condition()) && (!focused || item.bypassFocused)
-          }
-        }
+        (sorted == combo && item.condition()) && (!focused || item.bypassFocused)
       }
     }
   }
@@ -71,10 +65,8 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-        next { listener = Maybe::Nothing }
-      }
+      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      next { listener = Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>

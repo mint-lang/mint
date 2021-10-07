@@ -7,19 +7,10 @@ module Mint
     def for_condition : Ast::ForCondition?
       start do |start_position|
         next unless keyword "when"
-
-        head_comments, condition, tail_comments =
-          block_with_comments(
-            opening_bracket: ForConditionExpectedOpeningBracket,
-            closing_bracket: ForConditionExpectedClosingBracket
-          ) do
-            expression! ForConditionExpectedBody
-          end
+        whitespace
 
         self << Ast::ForCondition.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
-          condition: condition,
+          condition: code_block,
           from: start_position,
           to: position,
           input: data)

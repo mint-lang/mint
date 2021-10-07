@@ -13,76 +13,61 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
-    try {
-      /*
-      Gather all of the current observers, and remove ones that are no
-      longer present.
-      */
-      currentObservers =
-        for (item of observers) {
-          try {
-            {subscription, observer} =
-              item
+    /*
+    Gather all of the current observers, and remove ones that are no
+    longer present.
+    */
+    currentObservers =
+      for (item of observers) {
+        {subscription, observer} =
+          item
 
-            if (Array.contains(subscription, subscriptions)) {
-              Maybe::Just({subscription, observer})
-            } else {
-              try {
-                case (subscription.element) {
-                  Maybe::Just(observed) =>
-                    try {
-                      IntersectionObserver.unobserve(observed, observer)
-                      Maybe::Nothing
-                    }
-
-                  => Maybe::Nothing
-                }
-              }
-            }
-          }
-        }
-        |> Array.compact()
-
-      /* Create new observers. */
-      newObservers =
-        for (subscription of subscriptions) {
+        if (Array.contains(subscription, subscriptions)) {
+          Maybe::Just({subscription, observer})
+        } else {
           case (subscription.element) {
             Maybe::Just(observed) =>
-              Maybe::Just(
-                {
-                  subscription,
-                  IntersectionObserver.new(
-                    subscription.rootMargin,
-                    subscription.threshold,
-                    subscription.callback)
-                  |> IntersectionObserver.observe(observed)
-                })
+              try {
+                IntersectionObserver.unobserve(observed, observer)
+                Maybe::Nothing
+              }
 
             => Maybe::Nothing
           }
-        } when {
-          try {
-            size =
-              observers
-              |> Array.select(
-                (
-                  item : Tuple(Provider.Intersection.Subscription, IntersectionObserver)
-                ) {
-                  try {
-                    {key, value} =
-                      item
-
-                    (key == subscription)
-                  }
-                })
-              |> Array.size()
-
-            (size == 0)
-          }
         }
-        |> Array.compact()
+      }
+      |> Array.compact()
 
-      next { observers = Array.concat([currentObservers, newObservers]) }
-    }
+    /* Create new observers. */
+    newObservers =
+      for (subscription of subscriptions) {
+        case (subscription.element) {
+          Maybe::Just(observed) =>
+            Maybe::Just(
+              {
+                subscription,
+                IntersectionObserver.new(
+                  subscription.rootMargin,
+                  subscription.threshold,
+                  subscription.callback)
+                |> IntersectionObserver.observe(observed)
+              })
+
+          => Maybe::Nothing
+        }
+      } when {
+        size =
+          observers
+          |> Array.select(
+            (
+              item : Tuple(Provider.Intersection.Subscription, IntersectionObserver)
+            ) { item[0] == subscription })
+          |> Array.size()
+
+        (size == 0)
+      }
+      |> Array.compact()
+
+    next { observers = Array.concat([currentObservers, newObservers]) }
   }
 }

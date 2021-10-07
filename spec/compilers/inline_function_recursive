@@ -24,11 +24,11 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   a(e) {
-    const b = (c, d) => {
-      return (_compare(c, 0) ? d : b(c - 1, d * c))
+    const d = (b, c) => {
+      return (_compare(b, 0) ? c : d(b - 1, c * b))
     };
 
-    return b(e, 1);
+    return d(e, 1);
   }
 });
 

@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error CatchExpectedOpeningBracket
-    syntax_error CatchExpectedClosingBracket
-    syntax_error CatchExpectedExpression
     syntax_error CatchExpectedVariable
     syntax_error CatchExpectedArrow
 
@@ -15,19 +12,16 @@ module Mint
         whitespace
 
         keyword! "=>", CatchExpectedArrow
+
         whitespace
         variable = variable! CatchExpectedVariable
+        whitespace
 
-        head_comments, expression, tail_comments = block_with_comments(
-          opening_bracket: CatchExpectedOpeningBracket,
-          closing_bracket: CatchExpectedClosingBracket) do
-          expression! CatchExpectedExpression
-        end
+        expression =
+          code_block
 
         self << Ast::Catch.new(
-          expression: expression.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
+          expression: expression,
           from: start_position,
           variable: variable,
           to: position,

@@ -21,23 +21,18 @@ module Mint
         condition = expression! IfExpectedCondition
         whitespace
         char ')', IfExpectedClosingParentheses
+        whitespace
 
-        truthy_head_comments, truthy, truthy_tail_comments =
-          block_with_comments(
-            opening_bracket: IfExpectedTruthyOpeningBracket,
-            closing_bracket: IfExpectedTruthyClosingBracket
-          ) do
-            if for_css
-              many { css_definition }
-            else
-              expression! IfExpectedTruthyExpression
-            end
+        truthy =
+          if for_css
+            block(SyntaxError, SyntaxError) { many { css_definition } }
+          else
+            code_block
           end
 
-        falsy_head_comments = [] of Ast::Comment
-        falsy_tail_comments = [] of Ast::Comment
-        falsy = nil
+        raise IfExpectedTruthyExpression unless truthy
 
+        falsy = nil
         whitespace
 
         if (!for_css && !for_html) || keyword_ahead "else"
@@ -45,27 +40,20 @@ module Mint
           whitespace
 
           unless falsy = if_expression(for_css: for_css, for_html: for_html)
-            falsy_head_comments, falsy, falsy_tail_comments =
-              block_with_comments(
-                opening_bracket: IfExpectedFalsyOpeningBracket,
-                closing_bracket: IfExpectedFalsyClosingBracket
-              ) do
-                if for_css
-                  many { css_definition }
-                else
-                  expression! IfExpectedFalsyExpression
-                end
+            falsy =
+              if for_css
+                block(SyntaxError, SyntaxError) { many { css_definition } }
+              else
+                code_block
               end
+
+            raise IfExpectedFalsyExpression unless falsy
           end
         end
 
         self << Ast::If.new(
-          truthy_head_comments: truthy_head_comments,
-          truthy_tail_comments: truthy_tail_comments,
-          falsy_head_comments: falsy_head_comments,
-          falsy_tail_comments: falsy_tail_comments,
-          condition: condition,
           branches: {truthy, falsy},
+          condition: condition,
           from: start_position,
           to: position,
           input: data)

@@ -12,17 +12,15 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   /* The event handler. */
   fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
     for (subscription of subscriptions) {
-      try {
-        inside =
-          subscription.elements
-          |> Array.compact()
-          |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
+      inside =
+        subscription.elements
+        |> Array.compact()
+        |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
 
-        if (inside) {
-          Promise.never()
-        } else {
-          subscription.clicks()
-        }
+      if (inside) {
+        Promise.never()
+      } else {
+        subscription.clicks()
       }
     }
   }
@@ -30,10 +28,8 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-        next { listener = Maybe::Nothing }
-      }
+      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      next { listener = Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>

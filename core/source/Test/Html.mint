@@ -54,56 +54,28 @@ module Test.Html {
   fun assertTop (top : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       top,
-      (element : Dom.Element) : Number {
-        try {
-          dimensions =
-            Dom.getDimensions(element)
-
-          dimensions.top
-        }
-      },
+      (element : Dom.Element) : Number { Dom.getDimensions(element).top },
       context)
   }
 
   fun assertLeft (left : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       left,
-      (element : Dom.Element) : Number {
-        try {
-          dimensions =
-            Dom.getDimensions(element)
-
-          dimensions.left
-        }
-      },
+      (element : Dom.Element) : Number { Dom.getDimensions(element).left },
       context)
   }
 
   fun assertHeight (height : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       height,
-      (element : Dom.Element) : Number {
-        try {
-          dimensions =
-            Dom.getDimensions(element)
-
-          dimensions.height
-        }
-      },
+      (element : Dom.Element) : Number { Dom.getDimensions(element).height },
       context)
   }
 
   fun assertWidth (width : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       width,
-      (element : Dom.Element) : Number {
-        try {
-          dimensions =
-            Dom.getDimensions(element)
-
-          dimensions.width
-        }
-      },
+      (element : Dom.Element) : Number { Dom.getDimensions(element).width },
       context)
   }
 

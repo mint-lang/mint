@@ -1,18 +1,29 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Block) : Checkable
-      scope node.statements.reject(Ast::Comment) do
+      statements =
+        node.statements.reject(Ast::Comment)
+
+      async =
+        node
+          .statements
+          .select(Ast::Statement)
+          .any?(&.await)
+
+      scope statements do
         resolve node.statements
       end
 
       last =
-        node
-          .statements
-          .reject(Ast::Comment)
+        statements
           .sort_by! { |item| resolve_order.index(item) || -1 }
           .last
 
-      cache[last]
+      if async
+        Type.new("Promise", [cache[last]] of Checkable)
+      else
+        cache[last]
+      end
     end
   end
 end
