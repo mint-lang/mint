@@ -26,18 +26,16 @@ module Mint
           arguments = list(terminator: ')', separator: ',') { argument }
           whitespace
           char ')', RouteExpectedClosingParentheses
+          whitespace
         end
 
-        head_comments, body, tail_comments = block_with_comments(
-          opening_bracket: RouteExpectedOpeningBracket,
-          closing_bracket: RouteExpectedClosingBracket
-        ) do
-          expression! RouteExpectedExpression
-        end
+        body =
+          code_block(
+            opening_bracket: RouteExpectedOpeningBracket,
+            closing_bracket: RouteExpectedClosingBracket,
+            statement_error: RouteExpectedExpression)
 
         self << Ast::Route.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           expression: body,

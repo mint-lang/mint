@@ -25,18 +25,15 @@ module Mint
             item
           end
 
-        head_comments, body, tail_comments = block_with_comments(
-          opening_bracket: GetExpectedOpeningBracket,
-          closing_bracket: GetExpectedClosingBracket
-        ) do
-          expression! GetExpectedExpression
-        end
+        body =
+          code_block(
+            opening_bracket: GetExpectedOpeningBracket,
+            closing_bracket: GetExpectedClosingBracket,
+            statement_error: GetExpectedExpression)
 
         whitespace
 
         self << Ast::Get.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           from: start_position,
           comment: comment,
           to: position,

@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Test) : String
       expression =
-        list [node.expression] + node.head_comments + node.tail_comments
+        format node.expression
 
       name =
         format node.name

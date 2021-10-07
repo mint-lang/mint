@@ -10,17 +10,14 @@ module Mint
 
         next unless keyword "then"
 
-        head_comments, expression, tail_comments = block_with_comments(
-          opening_bracket: ThenExpectedOpeningBracket,
-          closing_bracket: ThenExpectedClosingBracket
-        ) do
-          expression! ThenExpectedExpression
-        end
+        expression =
+          code_block(
+            opening_bracket: ThenExpectedOpeningBracket,
+            closing_bracket: ThenExpectedClosingBracket,
+            statement_error: ThenExpectedExpression)
 
         self << Ast::Then.new(
           expression: expression.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           from: start_position,
           to: position,
           input: data)

@@ -10,17 +10,14 @@ module Mint
 
         next unless keyword "finally"
 
-        head_comments, expression, tail_comments = block_with_comments(
+        expression = code_block(
           opening_bracket: FinallyExpectedOpeningBracket,
-          closing_bracket: FinallyExpectedClosingBracket
-        ) do
-          expression! FinallyExpectedExpression
-        end
+          closing_bracket: FinallyExpectedClosingBracket,
+          statement_error: FinallyExpectedExpression,
+        )
 
         self << Ast::Finally.new(
-          expression: expression.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
+          expression: expression,
           from: start_position,
           to: position,
           input: data)

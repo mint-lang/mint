@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Then) : String
       body =
-        list [node.expression] + node.head_comments + node.tail_comments
+        format node.expression
 
       "then {\n#{indent(body)}\n}"
     end
