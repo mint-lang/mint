@@ -12,7 +12,7 @@ module Mint
       name =
         js.variable_of(node)
 
-      js.get(name, js.return(body))
+      js.get(name, body)
     end
   end
 end

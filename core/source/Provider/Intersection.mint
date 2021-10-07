@@ -61,7 +61,9 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
           |> Array.select(
             (
               item : Tuple(Provider.Intersection.Subscription, IntersectionObserver)
-            ) { item[0] == subscription })
+            ) {
+              item[0] == subscription
+            })
           |> Array.size()
 
         (size == 0)

@@ -1,11 +1,9 @@
 module Mint
   class Ast
     class Get < Node
-      getter name, body, type, comment, head_comments, tail_comments
+      getter name, body, type, comment
 
-      def initialize(@head_comments : Array(Comment),
-                     @tail_comments : Array(Comment),
-                     @type : TypeOrVariable?,
+      def initialize(@type : TypeOrVariable?,
                      @comment : Comment?,
                      @body : Expression,
                      @name : Variable,

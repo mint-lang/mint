@@ -10,7 +10,7 @@ module Mint
         end
 
       body =
-        list [node.body] + node.head_comments + node.tail_comments
+        format node.body
 
       comment =
         node.comment.try { |item| "#{format(item)}\n" }

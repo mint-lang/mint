@@ -2,11 +2,11 @@ version: 2.0
 shards:
   admiral:
     git: https://github.com/jwaldrip/admiral.cr.git
-    version: 1.11.4
+    version: 1.11.5
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.14.2
+    version: 0.14.3
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
@@ -30,7 +30,7 @@ shards:
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.4.0
+    version: 0.4.1
 
   radix:
     git: https://github.com/luislavena/radix.git

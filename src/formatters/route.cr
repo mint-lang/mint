@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::Route) : String
       body =
-        list [node.expression] + node.head_comments + node.tail_comments
+        format node.expression
 
       args =
         format node.arguments, ", "
