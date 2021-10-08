@@ -110,11 +110,10 @@ component Test.Dom.Focus {
     }
   }
 
-  fun show : Promise(Never, Void) {
-    sequence {
-      Timer.timeout(100, "")
-      next { shown = true }
-    }
+  fun show : Promise(Void) {
+    await Timer.timeout(100, "")
+
+    next { shown = true }
   }
 
   fun focus : Promise(String, Void) {

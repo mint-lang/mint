@@ -4,7 +4,7 @@ module Timer {
   Returns a promise which resolves after the given number of time in
   milliseconds.
   */
-  fun timeout (duration : Number, subject : a) : Promise(Never, a) {
+  fun timeout (duration : Number, subject : a) : Promise(a) {
     `
     new Promise((resolve) => {
     	setTimeout(() => {
@@ -15,7 +15,7 @@ module Timer {
   }
 
   /* Returns a promise which resolves after the next `animationFrame`. */
-  fun nextFrame (subject : a) : Promise(Never, a) {
+  fun nextFrame (subject : a) : Promise(a) {
     `
     new Promise((resolve) => {
     	requestAnimationFrame(() => {

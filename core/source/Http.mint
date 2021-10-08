@@ -45,15 +45,17 @@ enum Http.Error {
 Module for sending HTTP requests.
 
 ```
-sequence {
-  response =
-    "https://httpbin.org/get"
-    |> Http.get()
-    |> Http.send()
+await request =
+  "https://httpbin.org/get"
+  |> Http.get()
+  |> Http.send()
 
-  Debug.log(response)
-} catch Http.ErrorResponse => error {
-  Debug.log(error)
+case (request) {
+  Result::Ok(response) =>
+    Debug.log(response)
+
+  Result::Err(error) =>
+    Debug.log(error)
 }
 ```
 */
@@ -275,7 +277,7 @@ module Http {
     |> Http.get()
     |> Http.send()
   */
-  fun send (request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun send (request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     sendWithId(Uid.generate(), request)
   }
 
@@ -286,7 +288,7 @@ module Http {
     |> Http.get()
     |> Http.sendWithId("my-request")
   */
-  fun sendWithId (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun sendWithId (uid : String, request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     `
     new Promise((resolve, reject) => {
       if (!this._requests) { this._requests = {} }
@@ -302,11 +304,11 @@ module Http {
       } catch (error) {
         delete this._requests[#{uid}]
 
-        reject(#{{
+        resolve(#{Result::Err({
           type = Http.Error::BadUrl,
           status = `xhr.status`,
           url = request.url
-        }})
+        })})
       }
 
       #{request.headers}.forEach((item) => {
@@ -316,40 +318,40 @@ module Http {
       xhr.addEventListener('error', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
+        resolve(#{Result::Err({
           type = Http.Error::NetworkError,
           status = `xhr.status`,
           url = request.url
-        }})
+        })})
       })
 
       xhr.addEventListener('timeout', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
+        resolve(#{Result::Err({
           type = Http.Error::Timeout,
           status = `xhr.status`,
           url = request.url
-        }})
+        })})
       })
 
       xhr.addEventListener('load', (event) => {
         delete this._requests[#{uid}]
 
-        resolve(#{{
+        resolve(#{Result::Ok({
           body = `xhr.responseText`,
           status = `xhr.status`
-        }})
+        })})
       })
 
       xhr.addEventListener('abort', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
+        resolve(#{Result::Err({
           type = Http.Error::Aborted,
           status = `xhr.status`,
           url = request.url
-        }})
+        })})
       })
 
       xhr.send(#{request.body})

@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.AnimationFrame` */
 record Provider.AnimationFrame.Subscription {
-  frames : Function(Number, Promise(Never, Void))
+  frames : Function(Number, Promise(Void))
 }
 
 /* A provider for the `requestAnimationFrame` API. */
@@ -9,7 +9,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
   state id : Number = -1
 
   /* Call the subscribers. */
-  fun process (timestamp : Number) : Promise(Never, Void) {
+  fun process (timestamp : Number) : Promise(Void) {
     for (subscription of subscriptions) {
       subscription.frames(timestamp)
     }
@@ -18,7 +18,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       next { id = AnimationFrame.cancel(id) }
     } else if (id == -1) {

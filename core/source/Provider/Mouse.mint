@@ -1,8 +1,8 @@
 /* Represents a subscription for `Provider.Mouse` */
 record Provider.Mouse.Subscription {
-  clicks : Function(Html.Event, Promise(Never, Void)),
-  moves : Function(Html.Event, Promise(Never, Void)),
-  ups : Function(Html.Event, Promise(Never, Void))
+  clicks : Function(Html.Event, Promise(Void)),
+  moves : Function(Html.Event, Promise(Void)),
+  ups : Function(Html.Event, Promise(Void))
 }
 
 /* A provider for global mouse events. */
@@ -11,7 +11,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map(
         (

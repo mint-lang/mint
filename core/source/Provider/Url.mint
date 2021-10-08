@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Url` */
 record Provider.Url.Subscription {
-  changes : Function(Url, Promise(Never, Void))
+  changes : Function(Url, Promise(Void))
 }
 
 /* A provider for global "popstate" events, which emit the current URL. */
@@ -9,7 +9,7 @@ provider Provider.Url : Provider.Url.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handle (event : Html.Event) : Array(Promise(Void)) {
     url =
       Window.url()
 
@@ -19,7 +19,7 @@ provider Provider.Url : Provider.Url.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
       next { listener = Maybe::Nothing }
