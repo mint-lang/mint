@@ -10,7 +10,7 @@ module Mint
       type =
         format node.type
 
-      "catch #{type} => #{variable} {\n#{indent(body)}\n}"
+      "catch #{type} => #{variable} #{body}"
     end
   end
 end

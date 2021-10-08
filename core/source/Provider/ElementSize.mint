@@ -33,10 +33,11 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
 
     for (subscription of subscriptions) {
       case (subscription.element) {
-        Maybe::Just(element) => {
-          ResizeObserver.observe(element, observer)
-          void
-        }
+        Maybe::Just(element) =>
+          {
+            ResizeObserver.observe(element, observer)
+            void
+          }
 
         Maybe::Nothing => void
       }
