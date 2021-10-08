@@ -24,11 +24,9 @@ module Test {
 
 component Main {
   fun render : String {
-    try {
-      Test.a(3)
+    Test.a(3)
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -48,10 +46,8 @@ const B = new(class extends _M {
 
 class A extends _C {
   render() {
-    return (() => {
-      B.a(3);
-      return ``;
-    })();
+    B.a(3);
+    return ``;
   }
 };
 

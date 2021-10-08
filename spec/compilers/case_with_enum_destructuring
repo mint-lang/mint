@@ -20,11 +20,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      test(C::D(A::B("")))
+    test(C::D(A::B("")))
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -74,10 +72,8 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      this.a(new D(new C(``)));
-      return ``;
-    })();
+    this.a(new D(new C(``)));
+    return ``;
   }
 };
 

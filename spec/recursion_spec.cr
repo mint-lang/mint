@@ -21,11 +21,9 @@ describe "variable" do
         }
 
         fun render : Html {
-          try {
-            test()
+          test()
 
-            <div/>
-          }
+          <div/>
         }
       }
 
@@ -58,11 +56,9 @@ describe "function" do
         }
 
         fun render : Html {
-          try {
-            test()
+          test()
 
-            <div/>
-          }
+          <div/>
         }
       }
       MINT

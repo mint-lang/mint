@@ -1,19 +1,15 @@
 component Main {
   fun render : String {
-    try {
-      @documentation(Main)
+    @documentation(Main)
 
-      "Hello There"
-    }
+    "Hello There"
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      {"description":null,"name":"Main","connects":[],"computed-properties":[],"properties":[],"functions":[{"type":"String","description":null,"name":"render","source":"fun render : String {\n  try {\n    @documentation(Main)\n\n    \"Hello There\"\n  }\n}","arguments":[]}],"providers":[],"states":[]};
-      return `Hello There`;
-    })();
+    {"description":null,"name":"Main","connects":[],"computed-properties":[],"properties":[],"functions":[{"type":"String","description":null,"name":"render","source":"fun render : String {\n  @documentation(Main)\n\n  \"Hello There\"\n}","arguments":[]}],"providers":[],"states":[]};
+    return `Hello There`;
   }
 };
 

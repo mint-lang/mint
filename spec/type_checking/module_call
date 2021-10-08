@@ -67,11 +67,9 @@ module Test {
 
 component Main {
   fun render : String {
-    try {
-      z = Test.b()
+    z = Test.b()
 
-      z(true)
-    }
+    z(true)
   }
 }
 --------------------------------------------------------CallArgumentTypeMismatch

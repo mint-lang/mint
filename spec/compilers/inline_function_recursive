@@ -14,11 +14,9 @@ module Test {
 
 component Main {
   fun render : String {
-    try {
-      Test.factorial(3)
+    Test.factorial(3)
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -34,10 +32,8 @@ const B = new(class extends _M {
 
 class A extends _C {
   render() {
-    return (() => {
-      B.a(3);
-      return ``;
-    })();
+    B.a(3);
+    return ``;
   }
 };
 

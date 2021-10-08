@@ -22,11 +22,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 ---------------------------------------------------------ArrayAccessInvalidTuple
@@ -36,11 +34,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -50,11 +46,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 ---------------------------------------------------------ArrayAccessInvalidTuple
@@ -64,10 +58,8 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }

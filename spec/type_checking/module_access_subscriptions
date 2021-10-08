@@ -13,9 +13,7 @@ component Main {
   }
 
   fun render : String {
-    try {
-      Test.subscriptions
-      Test.print("a")
-    }
+    Test.subscriptions
+    Test.print("a")
   }
 }

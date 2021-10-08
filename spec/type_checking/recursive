@@ -82,17 +82,15 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    try {
-      helper =
-        (n : Number, acc : Number) : Number {
-          if (n == 0) {
-            acc
-          } else {
-            helper(n - 1, acc * n)
-          }
+    helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
         }
+      }
 
-      helper(n, 1)
-    }
+    helper(n, 1)
   }
 }

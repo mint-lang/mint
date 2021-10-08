@@ -30,7 +30,6 @@ module Mint
         next_call ||
         sequence ||
         parallel ||
-        try_expression ||
         case_expression ||
         parenthesized_expression_or_inline_function ||
         starts_with_uppercase ||

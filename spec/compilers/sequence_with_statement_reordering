@@ -10,11 +10,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -39,10 +37,8 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      this.a();
-      return _h("div", {});
-    })();
+    this.a();
+    return _h("div", {});
   }
 };
 
