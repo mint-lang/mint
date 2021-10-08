@@ -26,11 +26,10 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
           Maybe::Just({subscription, observer})
         } else {
           case (subscription.element) {
-            Maybe::Just(observed) =>
-              try {
-                IntersectionObserver.unobserve(observed, observer)
-                Maybe::Nothing
-              }
+            Maybe::Just(observed) => {
+              IntersectionObserver.unobserve(observed, observer)
+              Maybe::Nothing
+            }
 
             => Maybe::Nothing
           }

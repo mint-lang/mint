@@ -17,14 +17,12 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          try {
-            {clickListener, moveListener, upListener} =
-              methods
+          {clickListener, moveListener, upListener} =
+            methods
 
-            clickListener()
-            moveListener()
-            upListener()
-          }
+          clickListener()
+          moveListener()
+          upListener()
         },
         listeners)
 

@@ -212,13 +212,12 @@ module Dom {
   Returns if the given base element contains the given element (as a maybe).
 
     case (Dom.getElementBySelector("body")) {
-      Maybe::Just(body) =>
-        try {
-          div =
-            Dom.getElementBySelector("div")
+      Maybe::Just(body) => {
+        div =
+          Dom.getElementBySelector("div")
 
-          Dom.contains(div, body) == true
-        }
+        Dom.contains(div, body) == true
+      }
 
       => false
     }

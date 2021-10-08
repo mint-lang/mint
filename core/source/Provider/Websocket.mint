@@ -93,13 +93,12 @@ provider Provider.WebSocket : WebSocket.Config {
               (config : WebSocket.Config) { config.url == url })
 
           case (subscription) {
-            Maybe::Just => memo
+            Maybe::Nothing => {
+              WebSocket.closeWithoutReconnecting(socket)
+              Map.delete(url, memo)
+            }
 
-            Maybe::Nothing =>
-              try {
-                WebSocket.closeWithoutReconnecting(socket)
-                Map.delete(url, memo)
-              }
+            Maybe::Just => memo
           }
         })
 

@@ -43,11 +43,10 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
     /* For each subscription observe the given elements. */
     for (subscription of subscriptions) {
       case (subscription.element) {
-        Maybe::Just(element) =>
-          try {
-            MutationObserver.observe(element, true, true, observer)
-            subscription.changes()
-          }
+        Maybe::Just(element) => {
+          MutationObserver.observe(element, true, true, observer)
+          subscription.changes()
+        }
 
         Maybe::Nothing => next { }
       }
