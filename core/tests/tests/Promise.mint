@@ -41,24 +41,22 @@ component Test.Promise2 {
   state result : String = ""
 
   fun componentDidMount : Promise(Never, Void) {
-    try {
-      {resolve, reject, promise} =
-        Promise.create()
+    {resolve, reject, promise} =
+      Promise.create()
 
-      sequence {
-        next
-          {
-            resolve = resolve,
-            reject = reject
-          }
+    sequence {
+      next
+        {
+          resolve = resolve,
+          reject = reject
+        }
 
-        newResult =
-          promise
+      newResult =
+        promise
 
-        next { result = newResult }
-      } catch {
-        next { result = "rejected" }
-      }
+      next { result = newResult }
+    } catch {
+      next { result = "rejected" }
     }
   }
 

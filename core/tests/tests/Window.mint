@@ -33,14 +33,12 @@ component ScrollTest {
 
 suite "Window.navigate" {
   test "it navigates to the given url with push state" {
-    try {
-      url =
-        Window.url()
+    url =
+      Window.url()
 
-      Window.navigate("/blah")
+    Window.navigate("/blah")
 
-      Window.href() == "http://127.0.0.1:#{url.port}/blah"
-    }
+    Window.href() == "http://127.0.0.1:#{url.port}/blah"
   }
 }
 
@@ -52,33 +50,20 @@ suite "Window.title" {
 
 suite "Window.setTitle" {
   test "sets the windows title" {
-    try {
-      Window.setTitle("Test")
-
-      Window.title() == "Test"
-    }
+    Window.setTitle("Test")
+    Window.title() == "Test"
   }
 }
 
 suite "Window.url" {
   test "returns the current url" {
-    try {
-      url =
-        Window.url()
-
-      url.hostname == "127.0.0.1"
-    }
+    Window.url().hostname == "127.0.0.1"
   }
 }
 
 suite "Window.href" {
   test "returns the current url as string" {
-    try {
-      url =
-        Window.url()
-
-      Window.href() == "http://127.0.0.1:#{url.port}/"
-    }
+    Window.href() == "http://127.0.0.1:#{Window.url().port}/"
   }
 }
 

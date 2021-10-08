@@ -1,11 +1,9 @@
 suite "Dom.createElement" {
   test "returns a Dom element" {
-    try {
-      element =
-        Dom.createElement("div")
+    element =
+      Dom.createElement("div")
 
-      `#{element}.tagName === "DIV"`
-    }
+    `#{element}.tagName === "DIV"`
   }
 }
 
@@ -53,24 +51,20 @@ suite "Dom.getElementBySelector" {
 
 suite "Dom.getDimensions" {
   test "returns dimensions" {
-    try {
-      dimensions =
-        Dom.createElement("div")
-        |> Dom.getDimensions()
+    dimensions =
+      Dom.createElement("div")
+      |> Dom.getDimensions()
 
-      Dom.Dimensions.empty() == dimensions
-    }
+    Dom.Dimensions.empty() == dimensions
   }
 
   test "returns actual dimensions" {
-    try {
-      dimensions =
-        Dom.getElementById("root")
-        |> Maybe.withLazyDefault(() { Dom.createElement("div") })
-        |> Dom.getDimensions()
+    dimensions =
+      Dom.getElementById("root")
+      |> Maybe.withLazyDefault(() { Dom.createElement("div") })
+      |> Dom.getDimensions()
 
-      dimensions.width != 0
-    }
+    dimensions.width != 0
   }
 }
 

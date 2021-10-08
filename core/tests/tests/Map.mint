@@ -7,47 +7,41 @@ suite "Map with enums" {
   }
 
   test "Equality" {
-    try {
-      map1 =
-        Map.empty()
-        |> Map.set(Maybe::Just("a"), "x")
+    map1 =
+      Map.empty()
+      |> Map.set(Maybe::Just("a"), "x")
 
-      map2 =
-        Map.empty()
-        |> Map.set(Maybe::Just("a"), "x")
+    map2 =
+      Map.empty()
+      |> Map.set(Maybe::Just("a"), "x")
 
-      map1 == map2
-    }
+    map1 == map2
   }
 }
 
 suite "Map equality" {
   test "maps which are not equal returns false" {
-    try {
-      map1 =
-        Map.empty()
-        |> Map.set("a", "x")
+    map1 =
+      Map.empty()
+      |> Map.set("a", "x")
 
-      map2 =
-        Map.empty()
-        |> Map.set("a", "b")
+    map2 =
+      Map.empty()
+      |> Map.set("a", "b")
 
-      (map1 != map2)
-    }
+    map1 != map2
   }
 
   test "maps which are equal returns true" {
-    try {
-      map1 =
-        Map.empty()
-        |> Map.set("a", "b")
+    map1 =
+      Map.empty()
+      |> Map.set("a", "b")
 
-      map2 =
-        Map.empty()
-        |> Map.set("a", "b")
+    map2 =
+      Map.empty()
+      |> Map.set("a", "b")
 
-      map1 == map2
-    }
+    map1 == map2
   }
 }
 
@@ -85,35 +79,31 @@ suite "Map.get" {
 
 suite "Map.merge" {
   test "it merges two maps together" {
-    try {
-      a =
-        Map.empty()
-        |> Map.set("a", "b")
+    a =
+      Map.empty()
+      |> Map.set("a", "b")
 
-      b =
-        Map.empty()
-        |> Map.set("x", "y")
+    b =
+      Map.empty()
+      |> Map.set("x", "y")
 
-      (Map.merge(a, b)
-      |> Map.get("x")
-      |> Maybe.withDefault("")) == "y"
-    }
+    (Map.merge(a, b)
+    |> Map.get("x")
+    |> Maybe.withDefault("")) == "y"
   }
 
   test "send map has precedence" {
-    try {
-      a =
-        Map.empty()
-        |> Map.set("a", "b")
+    a =
+      Map.empty()
+      |> Map.set("a", "b")
 
-      b =
-        Map.empty()
-        |> Map.set("a", "y")
+    b =
+      Map.empty()
+      |> Map.set("a", "y")
 
-      (Map.merge(a, b)
-      |> Map.get("a")
-      |> Maybe.withDefault("")) == "y"
-    }
+    (Map.merge(a, b)
+    |> Map.get("a")
+    |> Maybe.withDefault("")) == "y"
   }
 }
 

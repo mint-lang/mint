@@ -234,13 +234,11 @@ suite "Http.hasHeader" {
 
 suite "Http.sendWithId" {
   test "sends the request with the given ID" {
-    try {
-      response =
-        Http.get("/blah")
-        |> Http.sendWithId("A")
+    response =
+      Http.get("/blah")
+      |> Http.sendWithId("A")
 
-      `#{Http.requests()}["A"] != undefined`
-    }
+    `#{Http.requests()}["A"] != undefined`
   }
 }
 

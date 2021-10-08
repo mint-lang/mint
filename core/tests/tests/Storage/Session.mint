@@ -5,125 +5,103 @@ suite "Storage.Session.set" {
   }
 
   test "sets the given value at the given key" {
-    try {
-      Storage.Session.set("test", "test")
+    Storage.Session.set("test", "test")
 
-      value =
-        Storage.Session.get("test")
+    value =
+      Storage.Session.get("test")
+      |> Result.withDefault("")
 
-      value == "test"
-    } catch Storage.Error => error {
-      false
-    }
+    value == "test"
   }
 
   test "it returns error if over the qouta" {
-    try {
-      result =
-        Storage.Session.set("test", String.repeat(10000000, "test"))
-        |> Result.withError(Storage.Error::Unknown)
+    result =
+      Storage.Session.set("test", String.repeat(10000000, "test"))
+      |> Result.withError(Storage.Error::Unknown)
 
-      result == Storage.Error::QuotaExceeded
-    }
+    result == Storage.Error::QuotaExceeded
   }
 }
 
 suite "Storage.Session.get" {
   test "it returns the value if exists" {
-    try {
-      Storage.Session.set("test", "test")
+    Storage.Session.set("test", "test")
 
-      value =
-        Storage.Session.get("test")
+    value =
+      Storage.Session.get("test")
+      |> Result.withDefault("")
 
-      value == "test"
-    } catch Storage.Error => error {
-      false
-    }
+    value == "test"
   }
 
   test "it returns nothing if the key does not exists" {
-    try {
-      value =
-        Storage.Session.get("test")
-
-      false
-    } catch Storage.Error => error {
-      true
+    case (Storage.Session.get("test")) {
+      Result::Ok(value) => false
+      Result::Err => true
     }
   }
 }
 
 suite "Storage.Session.clear" {
   test "it clears all items" {
-    try {
-      Storage.Session.set("test", "test")
+    Storage.Session.set("test", "test")
 
-      initialSize =
-        Storage.Session.size()
+    initialSize =
+      Storage.Session.size()
+      |> Result.withDefault(-1)
 
-      Storage.Session.clear()
+    Storage.Session.clear()
 
-      afterSize =
-        Storage.Session.size()
+    afterSize =
+      Storage.Session.size()
+      |> Result.withDefault(-1)
 
-      (initialSize == 1 && afterSize == 0)
-    } catch Storage.Error => error {
-      false
-    }
+    (initialSize == 1 && afterSize == 0)
   }
 }
 
 suite "Storage.Session.remove" {
   test "it removes the item with the specified key" {
-    try {
-      Storage.Session.set("test", "test")
+    Storage.Session.set("test", "test")
 
-      initialSize =
-        Storage.Session.size()
+    initialSize =
+      Storage.Session.size()
+      |> Result.withDefault(-1)
 
-      Storage.Session.remove("test")
+    Storage.Session.remove("test")
 
-      afterSize =
-        Storage.Session.size()
+    afterSize =
+      Storage.Session.size()
+      |> Result.withDefault(-1)
 
-      (initialSize == 1 && afterSize == 0)
-    } catch Storage.Error => error {
-      false
-    }
+    (initialSize == 1 && afterSize == 0)
   }
 }
 
 suite "Storage.Session.size" {
-  test "it returns the number of elements in the storage" {
-    try {
-      Storage.Session.set("a", "0")
-      Storage.Session.set("b", "1")
-      Storage.Session.set("c", "2")
+test "it returns the number of elements in the storage" {
+    Storage.Session.set("a", "0")
+    Storage.Session.set("b", "1")
+    Storage.Session.set("c", "2")
 
-      size =
-        Storage.Session.size()
+    size =
+      Storage.Session.size()
+      |> Result.withDefault(-1)
 
-      size == 3
-    } catch Storage.Error => error {
-      false
-    }
+    size == 3
   }
 }
 
 suite "Storage.Session.keys" {
   test "it returns the keys of elements in the storage" {
-    try {
-      Storage.Session.set("c", "2")
-      Storage.Session.set("a", "0")
-      Storage.Session.set("b", "1")
+    Storage.Session.set("c", "2")
+    Storage.Session.set("a", "0")
+    Storage.Session.set("b", "1")
 
-      keys =
-        Storage.Session.keys()
+    keys =
+      Storage.Session.keys()
+      |> Result.withDefault([])
 
-      String.join("", keys) == "abc"
-    } catch Storage.Error => error {
-      false
-    }
+    String.join("", keys) == "abc"
   }
 }
