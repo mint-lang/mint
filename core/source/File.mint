@@ -45,8 +45,8 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    sequence {
-      files =
+    {
+      await files =
         File.selectMultiple("application/json")
 
       Debug.log(files)
@@ -86,8 +86,8 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    sequence {
-      file =
+    {
+      await file =
         File.select("application/json")
 
       Debug.log(file)
@@ -123,8 +123,8 @@ module File {
   /*
   Reads the contents of the given file as a Data URL.
 
-    sequence {
-      file =
+    {
+      await file =
         File.fromString("Some content...", "test.txt", "text/plain")
 
       url =
@@ -150,8 +150,8 @@ module File {
   /*
   Reads the contents of the given file as a String.
 
-    sequence {
-      file =
+    {
+      await file =
         File.create("Some content...", "test.txt", "text/plain")
 
       url =
@@ -177,28 +177,26 @@ module File {
   /*
   Prompts a save dialog for the given file.
 
-    sequence {
-      file =
+    {
+      await file =
         File.select(*)
 
       File.download(file)
     }
   */
-  fun download (file : File) : Promise(Never, Void) {
-    sequence {
-      url =
-        Url.createObjectUrlFromFile(file)
+  fun download (file : File) : Void {
+    url =
+      Url.createObjectUrlFromFile(file)
 
-      `
-      (() => {
-        const anchor = document.createElement('a');
-        anchor.download = #{file}.name;
-        anchor.href = #{url};
-        anchor.click();
-      })()
-      `
+    `
+    (() => {
+      const anchor = document.createElement('a');
+      anchor.download = #{file}.name;
+      anchor.href = #{url};
+      anchor.click();
+    })()
+    `
 
-      Url.revokeObjectUrl(url)
-    }
+    Url.revokeObjectUrl(url)
   }
 }

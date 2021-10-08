@@ -22,7 +22,7 @@ module ResizeObserver {
     new ResizeObserver((entries) => {
       const values = entries.map((item) => {
         return #{
-          try {
+          {
             dimensions =
               decode (`item.contentRect`) as Dom.Dimensions
               |> Result.withDefault(Dom.Dimensions.empty())

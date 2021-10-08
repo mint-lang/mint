@@ -15,7 +15,7 @@ module Mint
         unary_minus ||
         array ||
         record_update ||
-        tuple_literal_or_record ||
+        tuple_literal_or_record_or_block ||
         html_element ||
         html_expression ||
         html_component ||
@@ -40,10 +40,18 @@ module Mint
         variable
     end
 
-    def tuple_literal_or_record : Ast::TupleLiteral | Ast::Record?
+    def tuple_literal_or_record_or_block : Ast::TupleLiteral | Ast::Record?
       tuple_literal
     rescue
-      record
+      begin
+        record
+      rescue error
+        begin
+          code_block(SyntaxError, SyntaxError)
+        rescue
+          raise error
+        end
+      end
     end
 
     def starts_with_uppercase
