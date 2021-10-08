@@ -1,26 +1,11 @@
 component Test.Promise {
   state result : String = ""
 
-  fun reject : Promise(Never, Void) {
-    sequence {
-      rejected =
-        Promise.reject("rejected")
+  fun resolve : Promise(Void) {
+    await newResult =
+      Promise.resolve("resolved")
 
-      Promise.never()
-    } catch String => error {
-      next { result = error }
-    }
-  }
-
-  fun resolve : Promise(Never, Void) {
-    sequence {
-      newResult =
-        Promise.resolve("resolved")
-
-      next { result = newResult }
-    } catch {
-      next { }
-    }
+    next { result = newResult }
   }
 
   fun render : Html {
@@ -29,35 +14,25 @@ component Test.Promise {
         <{ result }>
       </result>
 
-      <resolve onClick={(event : Html.Event) : Promise(Never, Void) { resolve() }}/>
-      <reject onClick={(event : Html.Event) : Promise(Never, Void) { reject() }}/>
+      <resolve onClick={(event : Html.Event) : Promise(Void) { resolve() }}/>
     </div>
   }
 }
 
 component Test.Promise2 {
-  state resolve : Function(String, Void) = (error : String) { void }
-  state reject : Function(String, Void) = (error : String) { void }
+  state resolve : Function(Void) = (error : String) { void }
   state result : String = ""
 
   fun componentDidMount : Promise(Never, Void) {
-    {resolve, reject, promise} =
+    {resolve, promise} =
       Promise.create()
 
-    sequence {
-      next
-        {
-          resolve = resolve,
-          reject = reject
-        }
+    next { reject = reject }
 
-      newResult =
-        promise
+    await newResult =
+      promise
 
-      next { result = newResult }
-    } catch {
-      next { result = "rejected" }
-    }
+    next { result = newResult }
   }
 
   fun render : Html {
@@ -67,7 +42,6 @@ component Test.Promise2 {
       </result>
 
       <resolve onClick={(event : Html.Event) { resolve("resolved") }}/>
-      <reject onClick={(event : Html.Event) { reject("rejected") }}/>
     </div>
   }
 }
@@ -80,14 +54,6 @@ suite "Promise.create" {
     |> Test.Html.triggerClick("resolve")
     |> Test.Html.assertTextOf("result", "resolved")
   }
-
-  test "reject rejects a promise" {
-    <Test.Promise2/>
-    |> Test.Html.start()
-    |> Test.Html.assertTextOf("result", "")
-    |> Test.Html.triggerClick("reject")
-    |> Test.Html.assertTextOf("result", "rejected")
-  }
 }
 
 suite "Promise.resolve" {
@@ -97,15 +63,5 @@ suite "Promise.resolve" {
     |> Test.Html.assertTextOf("result", "")
     |> Test.Html.triggerClick("resolve")
     |> Test.Html.assertTextOf("result", "resolved")
-  }
-}
-
-suite "Promise.reject" {
-  test "rejects a promise" {
-    <Test.Promise/>
-    |> Test.Html.start()
-    |> Test.Html.assertTextOf("result", "")
-    |> Test.Html.triggerClick("reject")
-    |> Test.Html.assertTextOf("result", "rejected")
   }
 }

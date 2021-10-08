@@ -1,7 +1,7 @@
 component Main {
   state greeting : String = "ho"
 
-  fun test : Promise(Never, Void) {
+  fun test : Promise(Never, Promise(Void)) {
     sequence {
       newGreeting = "hello"
       next { greeting = newGreeting }

@@ -52,7 +52,7 @@ module File {
       Debug.log(files)
     }
   */
-  fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
+  fun selectMultiple (accept : String) : Promise(Array(File)) {
     `
     (() => {
       let input = document.createElement('input')
@@ -69,7 +69,7 @@ module File {
 
       document.body.appendChild(input)
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         input.addEventListener('change', () => {
           resolve(Array.from(input.files))
         })
@@ -93,7 +93,7 @@ module File {
       Debug.log(file)
     }
   */
-  fun select (accept : String) : Promise(Never, File) {
+  fun select (accept : String) : Promise(File) {
     `
     (() => {
       let input = document.createElement('input')
@@ -109,7 +109,7 @@ module File {
 
       document.body.appendChild(input)
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         input.addEventListener('change', () => {
           resolve(input.files[0])
         })
@@ -133,11 +133,11 @@ module File {
       url == "data:text/plain;...."
     }
   */
-  fun readAsDataURL (file : File) : Promise(Never, String) {
+  fun readAsDataURL (file : File) : Promise(String) {
     `
     (() => {
       let reader = new FileReader();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         reader.addEventListener('load', (event) => {
           resolve(reader.result)
         })
@@ -160,11 +160,11 @@ module File {
       url == "Some content..."
     }
   */
-  fun readAsString (file : File) : Promise(Never, String) {
+  fun readAsString (file : File) : Promise(String) {
     `
     (() => {
       let reader = new FileReader();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         reader.addEventListener('load', (event) => {
           resolve(reader.result)
         })

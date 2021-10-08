@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Intersection` */
 record Provider.Intersection.Subscription {
-  callback : Function(Number, Promise(Never, Void)),
+  callback : Function(Number, Promise(Void)),
   element : Maybe(Dom.Element),
   rootMargin : String,
   threshold : Number
@@ -12,7 +12,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
   state observers : Array(Tuple(Provider.Intersection.Subscription, IntersectionObserver)) = []
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     /*
     Gather all of the current observers, and remove ones that are no
     longer present.

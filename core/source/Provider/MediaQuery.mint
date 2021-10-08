@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.MediaQuery` */
 record Provider.MediaQuery.Subscription {
-  changes : Function(Bool, Promise(Never, Void)),
+  changes : Function(Bool, Promise(Void)),
   query : String
 }
 
@@ -12,7 +12,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
   /* The map of the listeners. */
   state listeners : Map(String, Function(Void)) = Map.empty()
 
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     updatedListeners =
       subscriptions
       |> Array.reduce(

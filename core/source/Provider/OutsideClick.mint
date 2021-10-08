@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.OutsideClick` */
 record Provider.OutsideClick.Subscription {
-  clicks : Function(Promise(Never, Void)),
+  clicks : Function(Promise(Void)),
   elements : Array(Maybe(Dom.Element))
 }
 
@@ -10,7 +10,7 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handle (event : Html.Event) : Array(Promise(Void)) {
     for (subscription of subscriptions) {
       inside =
         subscription.elements
@@ -26,7 +26,7 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
       next { listener = Maybe::Nothing }

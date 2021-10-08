@@ -1,8 +1,8 @@
 record WebSocket.Config {
-  onOpen : Function(WebSocket, Promise(Never, Void)),
-  onMessage : Function(String, Promise(Never, Void)),
-  onError : Function(Promise(Never, Void)),
-  onClose : Function(Promise(Never, Void)),
+  onOpen : Function(WebSocket, Promise(Void)),
+  onMessage : Function(String, Promise(Void)),
+  onError : Function(Promise(Void)),
+  onClose : Function(Promise(Void)),
   reconnectOnClose : Bool,
   url : String
 }
@@ -73,7 +73,7 @@ module WebSocket {
 
     WebSocket.send("some data", websocket)
   */
-  fun send (data : String, socket : WebSocket) : Promise(Never, Void) {
+  fun send (data : String, socket : WebSocket) : Promise(Void) {
     `#{socket}.send(#{data})`
   }
 
@@ -85,7 +85,7 @@ module WebSocket {
   If the `reconnectOnClose` flag was specified then the connection will
   reconnect using this function.
   */
-  fun close (socket : WebSocket) : Promise(Never, Void) {
+  fun close (socket : WebSocket) : Promise(Void) {
     `#{socket}.close()`
   }
 
@@ -95,7 +95,7 @@ module WebSocket {
 
     WebSocket.closeWithoutReconnecting(websocket)
   */
-  fun closeWithoutReconnecting (socket : WebSocket) : Promise(Never, Void) {
+  fun closeWithoutReconnecting (socket : WebSocket) : Promise(Void) {
     `
     (() => {
       #{socket}.shouldNotReconnect = true;

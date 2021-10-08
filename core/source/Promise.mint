@@ -1,7 +1,7 @@
 /* Utility functions for working with promises. */
 module Promise {
   /* Returns a resolved promise with `Void` which never fails. */
-  fun never : Promise(Never, Void) {
+  fun never : Promise(Void) {
     resolve(void)
   }
 
@@ -9,7 +9,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails with one
   argument which is ignored.
   */
-  fun never1 (param1 : a) : Promise(Never, Void) {
+  fun never1 (param1 : a) : Promise(Void) {
     Promise.resolve(void)
   }
 
@@ -17,7 +17,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails with two
   arguments which are ignored.
   */
-  fun never2 (param1 : a, param2 : b) : Promise(Never, Void) {
+  fun never2 (param1 : a, param2 : b) : Promise(Void) {
     Promise.resolve(void)
   }
 
@@ -25,38 +25,29 @@ module Promise {
   Returns a resolved promise with `Void` which never fails with three
   arguments which are ignored.
   */
-  fun never3 (param1 : a, param2 : b, param3 : c) : Promise(Never, Void) {
+  fun never3 (param1 : a, param2 : b, param3 : c) : Promise(Void) {
     Promise.resolve(void)
   }
 
-  /* Creates an already rejected `Promise` */
-  fun reject (input : a) : Promise(a, b) {
-    `Promise.reject(#{input})`
-  }
-
   /* Creates an already resolved `Promise` */
-  fun resolve (input : a) : Promise(b, a) {
+  fun resolve (input : a) : Promise(a) {
     `Promise.resolve(#{input})`
   }
 
   /*
-  Create a promise with manual resolve / reject.
+  Create a promise with manual resolve.
 
-    {resolve, reject, promise} = Promise.create()
+    {resolve, promise} = Promise.create()
   */
-  fun create : Tuple(Function(value, Void), Function(error, Void), Promise(error, value)) {
+  fun create : Tuple(Function(value, Void), Promise(value)) {
     `
     (() => {
-      let resolve, reject;
+      let resolve;
 
-      const promise = new Promise((a, b) => {
-        resolve = a
-        reject = b
-      })
+      const promise = new Promise((a) => { resolve = a })
 
       return [
         (value) => resolve(value),
-        (error) => reject(error),
         promise
       ]
     })()

@@ -22,9 +22,9 @@ module Test.Context {
     }
   */
   fun then (
-    proc : Function(a, Promise(b, c)),
+    proc : Function(a, Promise(b)),
     context : Test.Context(a)
-  ) : Test.Context(c) {
+  ) : Test.Context(b) {
     `
     #{context}.step((subject) => {
       return #{proc}(subject)
@@ -43,7 +43,7 @@ module Test.Context {
   */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
     context
-    |> then((subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) })
+    |> then((subject : a) : Promise(a) { Timer.timeout(duration, subject) })
   }
 
   /*
@@ -101,7 +101,7 @@ module Test.Context {
   */
   fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
     context
-    |> then((item : a) : Promise(Never, b) { Promise.resolve(method(item)) })
+    |> then((item : a) : Promise(b) { Promise.resolve(method(item)) })
   }
 
   /* Spies on the given entity if it's a function. */

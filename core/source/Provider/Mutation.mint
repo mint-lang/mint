@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Mutation` */
 record Provider.Mutation.Subscription {
-  changes : Function(Promise(Never, Void)),
+  changes : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
@@ -16,7 +16,7 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   state observer = MutationObserver.new(notify)
 
   /* Notifies the subscribers when changes occur. */
-  fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Never, Void))) {
+  fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
         case (subscription.element) {
@@ -34,7 +34,7 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     /* Unobserve all elements. */
     for (element of Array.compact(observedElements)) {
       MutationObserver.unobserve(element, observer)

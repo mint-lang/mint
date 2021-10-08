@@ -1,7 +1,7 @@
 /* Represents a subscription for `Provider.TabFocus` */
 record Provider.TabFocus.Subscription {
-  onTabOut : Function(Promise(Never, Void)),
-  onTabIn : Function(Promise(Never, Void)),
+  onTabOut : Function(Promise(Void)),
+  onTabIn : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
@@ -11,7 +11,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe::Nothing
 
   /* The `keyUp` event handler. */
-  fun handleKeyUp (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handleKeyUp (event : Html.Event) : Array(Promise(Void)) {
     if (event.keyCode == Html.Event:TAB) {
       activeElement =
         Dom.getActiveElement()
@@ -27,7 +27,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   }
 
   /* The `keyDown` event handler. */
-  fun handleKeyDown (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handleKeyDown (event : Html.Event) : Array(Promise(Void)) {
     if (event.keyCode == Html.Event:TAB) {
       target =
         Maybe::Just(event.target)
@@ -43,7 +43,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map(
         (methods : Tuple(Function(Void), Function(Void))) {

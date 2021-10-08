@@ -53,7 +53,7 @@ module Mint
         } unless Comparer.compare(state_type, type)
       end
 
-      Type.new("Promise", [NEVER, VOID] of Checkable)
+      Type.new("Promise", [VOID] of Checkable)
     end
   end
 end

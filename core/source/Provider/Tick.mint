@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Tick` */
 record Provider.Tick.Subscription {
-  ticks : Function(Promise(Never, Void))
+  ticks : Function(Promise(Void))
 }
 
 /* A provider for periodic updates (every 1 seconds). */
@@ -8,14 +8,14 @@ provider Provider.Tick : Provider.Tick.Subscription {
   state id : Number = -1
 
   /* Call the subscribers. */
-  fun process : Array(Promise(Never, Void)) {
+  fun process : Array(Promise(Void)) {
     for (subscription of subscriptions) {
       subscription.ticks()
     }
   }
 
   /* Attaches the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       next { id = `clearInterval(#{id}) || -1` }
     } else if (id == -1) {

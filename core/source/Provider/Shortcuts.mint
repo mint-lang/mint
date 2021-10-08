@@ -7,7 +7,7 @@ Represents a shortcut:
 - **bypassFocused** - whether or not trigger the action if something is in focus
 */
 record Provider.Shortcuts.Shortcut {
-  action : Function(Promise(Never, Void)),
+  action : Function(Promise(Void)),
   condition : Function(Bool),
   shortcut : Array(Number),
   bypassFocused : Bool
@@ -24,7 +24,7 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* Handles keypress events. */
-  fun handle (event : Html.Event) : Array(Array(Promise(Never, Void))) {
+  fun handle (event : Html.Event) : Array(Array(Promise(Void))) {
     control =
       if (event.ctrlKey && event.keyCode != 17) {
         Maybe::Just(17)
@@ -63,7 +63,7 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
       next { listener = Maybe::Nothing }

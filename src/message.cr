@@ -193,7 +193,9 @@ module Mint
     end
 
     def build
-      [] of Element
+      Builder.build do
+        snippet node
+      end
     end
 
     def render(renderer)

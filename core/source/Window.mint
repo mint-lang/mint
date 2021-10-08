@@ -1,11 +1,11 @@
 module Window {
   /* Navigates to the given URL. */
-  fun navigate (url : String) : Promise(Never, Void) {
+  fun navigate (url : String) : Promise(Void) {
     `_navigate(#{url})`
   }
 
   /* Sets the URL of the window without navigating to it. */
-  fun setUrl (url : String) : Promise(Never, Void) {
+  fun setUrl (url : String) : Promise(Void) {
     `_navigate(#{url}, false)`
   }
 
@@ -15,7 +15,7 @@ module Window {
   }
 
   /* Sets the windows title. */
-  fun setTitle (title : String) : Promise(Never, Void) {
+  fun setTitle (title : String) : Promise(Void) {
     `document.title = #{title}`
   }
 
@@ -82,12 +82,12 @@ module Window {
   }
 
   /* Sets the horizontal scroll position of the window in pixels. */
-  fun setScrollTop (position : Number) : Promise(Never, Void) {
+  fun setScrollTop (position : Number) : Promise(Void) {
     `window.scrollTo(#{scrollTop()}, #{position})`
   }
 
   /* Sets the vertical scroll position of the window in pixels. */
-  fun setScrollLeft (position : Number) : Promise(Never, Void) {
+  fun setScrollLeft (position : Number) : Promise(Void) {
     `window.scrollTo(#{position}, #{scrollLeft()})`
   }
 
@@ -98,15 +98,15 @@ module Window {
   This function returns a promise but blocks execution until the popup is
   closed.
   */
-  fun prompt (label : String, current : String) : Promise(String, String) {
+  fun prompt (label : String, current : String) : Promise(Result(String, String)) {
     `
     new Promise((resolve, reject) => {
       let result = window.prompt(#{label}, #{current})
 
       if (result) {
-        resolve(result)
+        resolve(#{Result::Ok(`result`)})
       } else {
-        reject("User cancelled!")
+        reject(#{Result::Err("User cancelled!")})
       }
     })
     `
@@ -118,15 +118,15 @@ module Window {
   This function returns a promise but blocks execution until the popup is
   closed.
   */
-  fun confirm (message : String) : Promise(String, Void) {
+  fun confirm (message : String) : Promise(Result(String, Void)) {
     `
     new Promise((resolve, reject) => {
       let result = window.confirm(#{message})
 
       if (result) {
-        resolve(result);
+        resolve(#{Result::Ok(`result`)})
       } else {
-        reject("User cancelled!")
+        reject(#{Result::Err("User cancelled!")})
       }
     })
     `
@@ -138,7 +138,7 @@ module Window {
   This function returns a promise but blocks execution until the popup is
   closed.
   */
-  fun alert (message : String) : Promise(Never, Void) {
+  fun alert (message : String) : Promise(Void) {
     `
     new Promise((resolve, reject) => {
       window.alert(#{message})
@@ -173,7 +173,7 @@ module Window {
 
   This function triggers that behavior.
   */
-  fun triggerHashJump : Promise(Never, Void) {
+  fun triggerHashJump : Promise(Void) {
     `requestAnimationFrame(() => {
       if (window.location.hash) {
         window.location.href = window.location.hash
@@ -187,7 +187,7 @@ module Window {
 
     Window.open("https://www.google.com")
   */
-  fun open (url : String) : Promise(Never, Void) {
+  fun open (url : String) : Promise(Void) {
     `window.open(#{url})`
   }
 
