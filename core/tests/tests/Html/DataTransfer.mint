@@ -48,24 +48,20 @@ suite "Html.DataTransfer.getFiles" {
 
 suite "Html.DataTransfer.setData && Html.DataTransfer.getData" {
   test "it returns the value" {
-    try {
-      value =
-        `new DataTransfer()`
-        |> Html.DataTransfer.setData("text/plain", "Hello!")
-        |> Html.DataTransfer.getData("text/plain")
+    value =
+      `new DataTransfer()` as Html.DataTransfer
+      |> Html.DataTransfer.setData("text/plain", "Hello!")
+      |> Html.DataTransfer.getData("text/plain")
 
-      value == "Hello!"
-    }
+    value == "Hello!"
   }
 }
 
 suite "Html.DataTransfer.setDragImage" {
   test "it returns the value" {
-    try {
-      data =
-        `new DataTransfer()` as Html.DataTransfer
+    data =
+      `new DataTransfer()` as Html.DataTransfer
 
-      Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data
-    }
+    Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data
   }
 }

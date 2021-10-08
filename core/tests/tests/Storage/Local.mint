@@ -5,125 +5,101 @@ suite "Storage.Local.set" {
   }
 
   test "sets the given value at the given key" {
-    try {
-      Storage.Local.set("test", "test")
+    Storage.Local.set("test", "test")
 
-      value =
-        Storage.Local.get("test")
-
-      value == "test"
-    } catch Storage.Error => error {
-      false
+    case (Storage.Local.get("test")) {
+      Result::Ok(value) => value == "test"
+      Result::Err => false
     }
   }
 
   test "it returns error if over the qouta" {
-    try {
-      result =
-        Storage.Local.set("test", String.repeat(10000000, "test"))
-        |> Result.withError(Storage.Error::Unknown)
+    result =
+      Storage.Local.set("test", String.repeat(10000000, "test"))
+      |> Result.withError(Storage.Error::Unknown)
 
-      result == Storage.Error::QuotaExceeded
-    }
+    result == Storage.Error::QuotaExceeded
   }
 }
 
 suite "Storage.Local.get" {
   test "it returns the value if exists" {
-    try {
-      Storage.Local.set("test", "test")
+    Storage.Local.set("test", "test")
 
-      value =
-        Storage.Local.get("test")
-
-      value == "test"
-    } catch Storage.Error => error {
-      false
+    case (Storage.Local.get("test")) {
+      Result::Ok(value) => value == "test"
+      Result::Err => false
     }
   }
 
   test "it returns nothing if the key does not exists" {
-    try {
-      value =
-        Storage.Local.get("test")
-
-      false
-    } catch Storage.Error => error {
-      true
+    case (Storage.Local.get("test")) {
+      Result::Ok(value) => false
+      Result::Err => true
     }
   }
 }
 
 suite "Storage.Local.clear" {
   test "it clears all items" {
-    try {
-      Storage.Local.set("test", "test")
+    Storage.Local.set("test", "test")
 
-      initialSize =
-        Storage.Local.size()
+    initialSize =
+      Storage.Local.size()
+      |> Result.withDefault(-1)
 
-      Storage.Local.clear()
+    Storage.Local.clear()
 
-      afterSize =
-        Storage.Local.size()
+    afterSize =
+      Storage.Local.size()
+      |> Result.withDefault(-1)
 
-      (initialSize == 1 && afterSize == 0)
-    } catch Storage.Error => error {
-      false
-    }
+    (initialSize == 1 && afterSize == 0)
   }
 }
 
 suite "Storage.Local.remove" {
   test "it removes the item with the specified key" {
-    try {
-      Storage.Local.set("test", "test")
+    Storage.Local.set("test", "test")
 
-      initialSize =
-        Storage.Local.size()
+    initialSize =
+      Storage.Local.size()
+      |> Result.withDefault(-1)
 
-      Storage.Local.remove("test")
+    Storage.Local.remove("test")
 
-      afterSize =
-        Storage.Local.size()
+    afterSize =
+      Storage.Local.size()
+      |> Result.withDefault(-1)
 
-      (initialSize == 1 && afterSize == 0)
-    } catch Storage.Error => error {
-      false
-    }
+    (initialSize == 1 && afterSize == 0)
   }
 }
 
 suite "Storage.Local.size" {
   test "it returns the number of elements in the storage" {
-    try {
-      Storage.Local.set("a", "0")
-      Storage.Local.set("b", "1")
-      Storage.Local.set("c", "2")
+    Storage.Local.set("a", "0")
+    Storage.Local.set("b", "1")
+    Storage.Local.set("c", "2")
 
-      size =
-        Storage.Local.size()
+    size =
+      Storage.Local.size()
+      |> Result.withDefault(0)
 
-      size == 3
-    } catch Storage.Error => error {
-      false
-    }
+    size == 3
   }
 }
 
 suite "Storage.Local.keys" {
   test "it returns the keys of elements in the storage" {
-    try {
-      Storage.Local.set("c", "2")
-      Storage.Local.set("a", "0")
-      Storage.Local.set("b", "1")
+    Storage.Local.set("c", "2")
+    Storage.Local.set("a", "0")
+    Storage.Local.set("b", "1")
 
-      keys =
-        Storage.Local.keys()
+    keys =
+      Storage.Local.keys()
+      |> Result.withDefault([])
 
-      String.join("", keys) == "abc"
-    } catch Storage.Error => error {
-      false
-    }
+    String.join("", keys) == "abc"
   }
 }

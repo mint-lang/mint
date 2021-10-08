@@ -88,11 +88,9 @@ suite "Math.truncate" {
 
 suite "Math.random" {
   test "it returns a pseudo-random number in the range 0 to less than 1" {
-    try {
-      n =
-        Math.random()
+    n =
+      Math.random()
 
-      n >= 0.0 && n < 1.0
-    }
+    n >= 0.0 && n < 1.0
   }
 }
