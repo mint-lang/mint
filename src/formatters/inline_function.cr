@@ -2,7 +2,7 @@ module Mint
   class Formatter
     def format(node : Ast::InlineFunction) : String
       body =
-        format node.body
+        format node.body, true
 
       value =
         format node.arguments
@@ -19,13 +19,7 @@ module Mint
           " : #{format(item)}"
         end
 
-      if replace_skipped(body).includes?('\n') ||
-         replace_skipped(arguments).includes?('\n') ||
-         node.new_line?
-        "(#{arguments})#{type} {\n#{indent(body)}\n}"
-      else
-        "(#{arguments})#{type} { #{body} }"
-      end
+      "(#{arguments})#{type} #{body}"
     end
   end
 end

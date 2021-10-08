@@ -7,7 +7,7 @@ module Mint
       name =
         format node.name
 
-      "test #{name} {\n#{indent(expression)}\n}"
+      "test #{name} #{expression}"
     end
   end
 end

@@ -10,7 +10,7 @@ module Mint
       truthy =
         case truthy_item
         when Array(Ast::CssDefinition)
-          list truthy_item
+          "{\n#{indent(list(truthy_item))}\n}"
         when Ast::Node
           format truthy_item
         else
@@ -24,12 +24,12 @@ module Mint
           body =
             case falsy_item
             when Array(Ast::CssDefinition)
-              list falsy_item
+              "{\n#{indent(list(falsy_item))}\n}"
             when Ast::Node
               format falsy_item
             end
 
-          " else {\n#{indent(body)}\n}" if body
+          " else #{body}" if body
         end
 
       condition =
@@ -42,7 +42,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) {\n#{indent(truthy)}\n}#{falsy}"
+      "if (#{condition}) #{truthy}#{falsy}"
     end
   end
 end

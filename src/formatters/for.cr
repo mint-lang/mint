@@ -4,7 +4,7 @@ module Mint
       body =
         format node.condition
 
-      " when {\n#{indent(body)}\n}"
+      " when #{body}"
     end
 
     def format(node : Ast::For) : String
@@ -20,7 +20,7 @@ module Mint
       condition =
         format node.condition
 
-      "for (#{arguments} of #{subject}) {\n#{indent(body)}\n}#{condition}"
+      "for (#{arguments} of #{subject}) #{body}#{condition}"
     end
   end
 end

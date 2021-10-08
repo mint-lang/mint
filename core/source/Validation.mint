@@ -182,17 +182,18 @@ module Validation {
         item : Maybe(Tuple(String, String))
       ) : Map(String, Array(String)) {
         case (item) {
-          Maybe::Just(error) => {
-            {key, message} =
-              error
+          Maybe::Just(error) =>
+            {
+              {key, message} =
+                error
 
-            messages =
-              memo
-              |> Map.get(key)
-              |> Maybe.withDefault([])
+              messages =
+                memo
+                |> Map.get(key)
+                |> Maybe.withDefault([])
 
-            Map.set(key, Array.push(message, messages), memo)
-          }
+              Map.set(key, Array.push(message, messages), memo)
+            }
 
           => memo
         }

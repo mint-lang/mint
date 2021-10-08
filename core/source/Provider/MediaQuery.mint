@@ -57,10 +57,11 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           case (subscription) {
             Maybe::Just => memo
 
-            Maybe::Nothing => {
-              listener()
-              Map.delete(query, memo)
-            }
+            Maybe::Nothing =>
+              {
+                listener()
+                Map.delete(query, memo)
+              }
           }
         })
 

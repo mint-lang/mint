@@ -21,7 +21,7 @@ module Mint
       head =
         ["fun", name, arguments, type].compact!.join(' ')
 
-      "#{comment}#{head} {\n#{indent(body)}\n}"
+      "#{comment}#{head} #{body}"
     end
   end
 end

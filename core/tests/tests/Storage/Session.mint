@@ -79,7 +79,7 @@ suite "Storage.Session.remove" {
 }
 
 suite "Storage.Session.size" {
-test "it returns the number of elements in the storage" {
+  test "it returns the number of elements in the storage" {
     Storage.Session.set("a", "0")
     Storage.Session.set("b", "1")
     Storage.Session.set("c", "2")

@@ -4,7 +4,7 @@ module Mint
       body =
         format node.expression
 
-      "catch {\n#{indent(body)}\n}"
+      "catch #{body}"
     end
   end
 end
