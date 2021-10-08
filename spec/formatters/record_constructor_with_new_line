@@ -5,13 +5,11 @@ record Test {
 
 component Main {
   fun render : String {
-    try {
-      item =
-        Test("Joe",
-          32)
+    item =
+      Test("Joe",
+        32)
 
-      item.name
-    }
+    item.name
   }
 }
 --------------------------------------------------------------------------------
@@ -22,13 +20,11 @@ record Test {
 
 component Main {
   fun render : String {
-    try {
-      item =
-        Test(
-          "Joe",
-          32)
+    item =
+      Test(
+        "Joe",
+        32)
 
-      item.name
-    }
+    item.name
   }
 }

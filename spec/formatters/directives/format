@@ -1,21 +1,17 @@
 component Main {
   fun render : String {
-    try {
-      {result, formatted} = @format{"Hello"}
-      result + formatted
-    }
+    {result, formatted} = @format{"Hello"}
+    result + formatted
   }
 }
 --------------------------------------------------------------------------------
 component Main {
   fun render : String {
-    try {
-      {result, formatted} =
-        @format {
-          "Hello"
-        }
+    {result, formatted} =
+      @format {
+        "Hello"
+      }
 
-      result + formatted
-    }
+    result + formatted
   }
 }

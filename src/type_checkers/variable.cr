@@ -36,12 +36,6 @@ module Mint
 
           if value.parent.none?
             type
-          elsif value.parent.try?
-            if type.name == "Result" && type.parameters.size == 2
-              type.parameters[1]
-            else
-              type
-            end
           else
             if type.name.in?("Result", "Promise") && type.parameters.size == 2
               type.parameters[1]

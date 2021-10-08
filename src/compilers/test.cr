@@ -49,7 +49,7 @@ module Mint
         case raw_expression
         when Ast::Operation
           _compile_operation_test(raw_expression)
-        when Ast::Try, Ast::Sequence
+        when Ast::Sequence
           _compile(raw_expression) do |statement, _index, is_last|
             if is_last
               exp =

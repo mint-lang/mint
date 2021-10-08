@@ -33,11 +33,9 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    try {
-      next { name = 30 }
+    next { name = 30 }
 
-      <div/>
-    }
+    <div/>
   }
 }
 -----------------------------------------------------------NextCallStateNotFound
@@ -45,10 +43,8 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    try {
-      next { age = 30 }
+    next { age = 30 }
 
-      <div/>
-    }
+    <div/>
   }
 }

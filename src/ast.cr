@@ -28,7 +28,6 @@ module Mint
                        Route |
                        Void |
                        Case |
-                       Try |
                        If |
                        Js
 

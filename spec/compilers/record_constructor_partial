@@ -6,11 +6,9 @@ record Test {
 
 component Main {
   fun render : Html {
-    try {
-      Test("A")
+    Test("A")
 
-      <div/>
-    }
+    <div/>
   }
 }
 --------------------------------------------------------------------------------
@@ -31,17 +29,15 @@ const A = _R({
 
 class B extends _C {
   render() {
-    return (() => {
-      (_0, _1) => {
-        return new A({
-          a: `A`,
-          b: _0,
-          c: _1
-        })
-      };
+    (_0, _1) => {
+      return new A({
+        a: `A`,
+        b: _0,
+        c: _1
+      })
+    };
 
-      return _h("div", {});
-    })();
+    return _h("div", {});
   }
 };
 

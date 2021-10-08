@@ -26,10 +26,8 @@ module Test {
   }
 
   fun test4 : String {
-    try {
-      test1() * test2() * test3()
+    test1() * test2() * test3()
 
-      ""
-    }
+    ""
   }
 }

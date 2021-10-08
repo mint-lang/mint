@@ -6,10 +6,8 @@ store Test {
 
 component Main {
   fun render : Html {
-    try {
-      Test.set()
-      <div></div>
-    }
+    Test.set()
+    <div></div>
   }
 }
 

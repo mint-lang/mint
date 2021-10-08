@@ -1,23 +1,17 @@
 component Main {
   fun render : String {
-    try {
-      x = "hello"
-    }
+    x = "hello"
   }
 }
 ---------------------------------------------------------------StatementNotTuple
 component Main {
   fun render : String {
-    try {
-      {x, y, z} = "hello"
-    }
+    {x, y, z} = "hello"
   }
 }
 ----------------------------------------------------------StatementTupleMismatch
 component Main {
   fun render : String {
-    try {
-      {x, y, z} = {"hello", "a"}
-    }
+    {x, y, z} = {"hello", "a"}
   }
 }

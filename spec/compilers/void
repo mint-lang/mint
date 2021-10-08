@@ -4,11 +4,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      x = test
+    x = test
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -18,10 +16,8 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      let b = this.a;
-      return ``;
-    })();
+    const b = this.a;
+    return ``;
   }
 };
 

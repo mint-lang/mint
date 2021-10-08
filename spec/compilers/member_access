@@ -10,19 +10,17 @@ module Array {
 
 component Main {
   fun render : String {
-    try {
-      [
-        {
-          name = "Joe"
-        },
-        {
-          name = "Doe"
-        }
-      ]
-      |> Array.map(.name)
+    [
+      {
+        name = "Joe"
+      },
+      {
+        name = "Doe"
+      }
+    ]
+    |> Array.map(.name)
 
-      "asd"
-    }
+    "asd"
   }
 }
 --------------------------------------------------------------------------------
@@ -41,15 +39,13 @@ const C = new(class extends _M {
 
 class B extends _C {
   render() {
-    return (() => {
-      ((..._) => C.a(((_) => _.name), ..._))([new A({
-        name: `Joe`
-      }), new A({
-        name: `Doe`
-      })]);
+    ((..._) => C.a(((_) => _.name), ..._))([new A({
+      name: `Joe`
+    }), new A({
+      name: `Doe`
+    })]);
 
-      return `asd`;
-    })();
+    return `asd`;
   }
 };
 

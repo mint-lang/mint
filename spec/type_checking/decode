@@ -4,13 +4,9 @@ record X {
 
 component Main {
   fun render : Html {
-    try {
-      decode (`{}`) as X
+    decode (`{}`) as X
 
-      <div/>
-    } catch {
-      <div/>
-    }
+    <div/>
   }
 }
 ------------------------------------------------------------DecodeExpectedObject
@@ -20,11 +16,9 @@ record X {
 
 component Main {
   fun render : Html {
-    try {
-      decode "" as X
+    decode "" as X
 
-      <div/>
-    }
+    <div/>
   }
 }
 ---------------------------------------------------------------DecodeComplexType
@@ -34,11 +28,9 @@ record X {
 
 component Main {
   fun render : Html {
-    try {
-      decode (`{}`) as X
+    decode (`{}`) as X
 
-      <div/>
-    }
+    <div/>
   }
 }
 ---------------------------------------------------------------DecodeComplexType
@@ -48,10 +40,8 @@ record X {
 
 component Main {
   fun render : Html {
-    try {
-      decode (`{}`) as X
+    decode (`{}`) as X
 
-      <div/>
-    }
+    <div/>
   }
 }

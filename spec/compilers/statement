@@ -1,20 +1,16 @@
 component Main {
   fun render : String {
-    try {
-      x =
-        "hello"
+    x =
+      "hello"
 
-      x
-    }
+    x
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let a = `hello`;
-      return a;
-    })();
+    const a = `hello`;
+    return a;
   }
 };
 
