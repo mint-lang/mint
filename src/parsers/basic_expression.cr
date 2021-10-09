@@ -28,7 +28,6 @@ module Mint
         if_expression ||
         for_expression ||
         next_call ||
-        sequence ||
         case_expression ||
         parenthesized_expression_or_inline_function ||
         starts_with_uppercase ||
