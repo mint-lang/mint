@@ -7,7 +7,7 @@ describe "variable" do
       component Test {
         state greeting : String = ""
 
-        fun test : Void {
+        fun test : Promise(Void) {
           greeting =
             if (greeting == "hello") {
               "bye"
@@ -15,9 +15,7 @@ describe "variable" do
               "hello"
             }
 
-          sequence {
-            next { greeting = greeting }
-          }
+          next { greeting = greeting }
         }
 
         fun render : Html {

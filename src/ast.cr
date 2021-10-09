@@ -18,7 +18,6 @@ module Mint
                        Operation |
                        NextCall |
                        Variable |
-                       Sequence |
                        Routes |
                        Encode |
                        EnumId |

@@ -4,10 +4,9 @@ module Mint
     type_error VariableMissing
 
     RESERVED =
-      %w(break case catch class const continue debugger default delete do else
-        export extends finally for function if import in instanceof new return
-        super switch this throw try typeof var void while with yield state
-        sequence)
+      %w(break case class const continue debugger default delete do else
+        export extends for function if import in instanceof new return
+        super switch this throw try typeof var void while with yield state)
 
     def check(node : Ast::Variable) : Checkable
       raise VariableReserved, {

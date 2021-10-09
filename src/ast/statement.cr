@@ -2,7 +2,6 @@ module Mint
   class Ast
     class Statement < Node
       enum Parent
-        Sequence
         None
       end
 
