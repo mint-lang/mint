@@ -13,12 +13,7 @@ module Mint
         js.variable_of(node)
 
       expression =
-        case item = node.body
-        when Ast::Block
-          compile item, for_function: true
-        else
-          compile item
-        end
+        compile node.body, for_function: true
 
       arguments =
         compile node.arguments
@@ -31,7 +26,11 @@ module Mint
       body =
         js.statements(items)
 
-      js.function(name, arguments, body)
+      if node.body.async?
+        js.async_function(name, arguments, body)
+      else
+        js.function(name, arguments, body)
+      end
     end
   end
 end

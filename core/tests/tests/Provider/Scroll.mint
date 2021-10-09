@@ -1,5 +1,5 @@
 component Test.Provider.Scroll {
-  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Never, Void) { next { position = Window.scrollTop() } } }
+  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Void) { next { position = Window.scrollTop() } } }
 
   state position : Number = 0
 

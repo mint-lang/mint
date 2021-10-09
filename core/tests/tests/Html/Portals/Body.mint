@@ -5,7 +5,7 @@ suite "Html.Portals.Body" {
     </Html.Portals.Body>
     |> Test.Html.start()
     |> Test.Context.then(
-      (subject : Dom.Element) : Promise(a, Bool) {
+      (subject : Dom.Element) : Promise(Bool) {
         Dom.getElementBySelector("body > portal-body")
         |> Maybe.map((element : Dom.Element) : Bool { true })
         |> Maybe.withDefault(false)
@@ -21,7 +21,7 @@ suite "Html.Portals.Body" {
     </Html.Portals.Body>
     |> Test.Html.start()
     |> Test.Context.then(
-      (subject : Dom.Element) : Promise(a, Bool) {
+      (subject : Dom.Element) : Promise(Bool) {
         Dom.getElementBySelector("body > portal-body2")
         |> Maybe.map((element : Dom.Element) : Bool { true })
         |> Maybe.withDefault(false)

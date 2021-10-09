@@ -2,6 +2,7 @@ module Mint
   abstract class Renderer
     abstract def object(hash : Hash(String, String)) : String
     abstract def function(name : String, arguments : Array(String), body : String) : String
+    abstract def async_function(name : String, arguments : Array(String), body : String) : String
     abstract def arrow_function(arguments : Array(String), body : String) : String
     abstract def const(name : String, value : String) : String
     abstract def class(name : String, extends : String, body : Array(String)) : String
@@ -71,6 +72,10 @@ module Mint
 
     def function(name : String, arguments : Array(String), body : String) : String
       "#{name}(#{arguments.join(',')}){#{body}}"
+    end
+
+    def async_function(name : String, arguments : Array(String), body : String) : String
+      "async #{name}(#{arguments.join(',')}){#{body}}"
     end
 
     def arrow_function(arguments : Array(String), body : String) : String
@@ -180,6 +185,10 @@ module Mint
 
     def function(name : String, arguments : Array(String), body : String) : String
       "#{name}(#{arguments.join(", ")}) #{class_body(body)}"
+    end
+
+    def async_function(name : String, arguments : Array(String), body : String) : String
+      "async #{name}(#{arguments.join(", ")}) #{class_body(body)}"
     end
 
     def arrow_function(arguments : Array(String), body : String) : String

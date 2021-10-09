@@ -15,9 +15,7 @@ module Mint
       end
 
       last =
-        statements
-          .sort_by! { |item| resolve_order.index(item) || -1 }
-          .last
+        statements.last
 
       if async
         Type.new("Promise", [cache[last]] of Checkable)
