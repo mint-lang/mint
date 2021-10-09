@@ -29,7 +29,6 @@ module Mint
         for_expression ||
         next_call ||
         sequence ||
-        parallel ||
         case_expression ||
         parenthesized_expression_or_inline_function ||
         starts_with_uppercase ||

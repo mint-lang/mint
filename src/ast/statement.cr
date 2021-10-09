@@ -2,9 +2,7 @@ module Mint
   class Ast
     class Statement < Node
       enum Parent
-        Try
         Sequence
-        Parallel
         None
       end
 
