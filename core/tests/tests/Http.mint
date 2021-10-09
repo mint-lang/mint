@@ -254,21 +254,20 @@ component Test.Http {
   state body : String = ""
 
   fun wrap (
-    method : Function(Promise(a, b), Void),
-    input : Promise(a, b)
-  ) : Promise(a, b) {
+    method : Function(Promise(a), Void),
+    input : Promise(a)
+  ) : Promise(a) {
     `#{method}(#{input})`
   }
 
-  fun componentDidMount : Promise(Never, Void) {
-    sequence {
-      response =
-        Http.empty()
-        |> Http.url(url)
-        |> Http.method(method)
-        |> Http.sendWithId("test")
-        |> wrap(
-          `
+  fun componentDidMount : Promise(Void) {
+    await request =
+      Http.empty()
+      |> Http.url(url)
+      |> Http.method(method)
+      |> Http.sendWithId("test")
+      |> wrap(
+        `
           (async (promise) => {
             let _requests = #{Http.requests()}
 
@@ -285,37 +284,39 @@ component Test.Http {
           })
           `)
 
-      next { status = response.status }
-    } catch Http.ErrorResponse => error {
-      case (error.type) {
-        Http.Error::NetworkError =>
-          next
-            {
-              errorMessage = "network-error",
-              status = error.status
-            }
+    await case (request) {
+      Result::Ok(response) => next { status = response.status }
 
-        Http.Error::BadUrl =>
-          next
-            {
-              errorMessage = "bad-url",
-              status = error.status
-            }
+      Result::Err(error) =>
+        case (error.type) {
+          Http.Error::NetworkError =>
+            next
+              {
+                errorMessage = "network-error",
+                status = error.status
+              }
 
-        Http.Error::Timeout =>
-          next
-            {
-              errorMessage = "timeout",
-              status = error.status
-            }
+          Http.Error::BadUrl =>
+            next
+              {
+                errorMessage = "bad-url",
+                status = error.status
+              }
 
-        Http.Error::Aborted =>
-          next
-            {
-              errorMessage = "aborted",
-              status = error.status
-            }
-      }
+          Http.Error::Timeout =>
+            next
+              {
+                errorMessage = "timeout",
+                status = error.status
+              }
+
+          Http.Error::Aborted =>
+            next
+              {
+                errorMessage = "aborted",
+                status = error.status
+              }
+        }
     }
   }
 

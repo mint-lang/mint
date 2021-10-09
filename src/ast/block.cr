@@ -8,6 +8,10 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def async?
+        statements.select(Ast::Statement).any?(&.await)
+      end
     end
   end
 end

@@ -4,9 +4,9 @@ component Test.Provider.Mouse {
   state ups : Number = 0
 
   use Provider.Mouse {
-    clicks = (event : Html.Event) : Promise(Never, Void) { next { clicks = clicks + 1 } },
-    moves = (event : Html.Event) : Promise(Never, Void) { next { moves = moves + 1 } },
-    ups = (event : Html.Event) : Promise(Never, Void) { next { ups = ups + 1 } }
+    clicks = (event : Html.Event) : Promise(Void) { next { clicks = clicks + 1 } },
+    moves = (event : Html.Event) : Promise(Void) { next { moves = moves + 1 } },
+    ups = (event : Html.Event) : Promise(Void) { next { ups = ups + 1 } }
   }
 
   fun render : Html {

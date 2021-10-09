@@ -112,11 +112,10 @@ component Test.Dom.Focus {
 
   fun show : Promise(Void) {
     await Timer.timeout(100, "")
-
-    next { shown = true }
+    await next { shown = true }
   }
 
-  fun focus : Promise(String, Void) {
+  fun focus : Promise(Result(String, Void)) {
     input
     |> Maybe.withLazyDefault(() { Dom.createElement("div") })
     |> Dom.focusWhenVisible()

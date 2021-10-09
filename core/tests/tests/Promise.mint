@@ -5,7 +5,7 @@ component Test.Promise {
     await newResult =
       Promise.resolve("resolved")
 
-    next { result = newResult }
+    await next { result = newResult }
   }
 
   fun render : Html {
@@ -20,19 +20,19 @@ component Test.Promise {
 }
 
 component Test.Promise2 {
-  state resolve : Function(Void) = (error : String) { void }
+  state resolve : Function(String, Void) = (result : String) { void }
   state result : String = ""
 
-  fun componentDidMount : Promise(Never, Void) {
+  fun componentDidMount : Promise(Void) {
     {resolve, promise} =
       Promise.create()
 
-    next { reject = reject }
+    await next { resolve = resolve }
 
     await newResult =
       promise
 
-    next { result = newResult }
+    await next { result = newResult }
   }
 
   fun render : Html {
@@ -47,7 +47,7 @@ component Test.Promise2 {
 }
 
 suite "Promise.create" {
-  test "resolve resolves a promise" {
+  test "resolves a promise" {
     <Test.Promise2/>
     |> Test.Html.start()
     |> Test.Html.assertTextOf("result", "")

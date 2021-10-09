@@ -1,7 +1,7 @@
 component Test.Provider.Tick {
   state counter : Number = 0
 
-  use Provider.Tick { ticks = () : Promise(Never, Void) { next { counter = counter + 1 } } }
+  use Provider.Tick { ticks = () : Promise(Void) { next { counter = counter + 1 } } }
 
   fun render : Html {
     <div>

@@ -1,5 +1,5 @@
 component ScrollTest {
-  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Never, Void) { `this.forceUpdate()` } }
+  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Void) { `this.forceUpdate()` } }
 
   style base {
     height: 3000px;
@@ -88,7 +88,7 @@ suite "Window.scrollWidth" {
     <ScrollTest/>
     |> Test.Html.start()
     |> Test.Context.then(
-      (subject : Dom.Element) : Promise(Never, Dom.Element) { Timer.nextFrame(subject) })
+      (subject : Dom.Element) : Promise(Dom.Element) { Timer.nextFrame(subject) })
     |> Test.Html.assertTextOf("scroll-width", "3008")
   }
 }
