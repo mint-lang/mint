@@ -1,7 +1,16 @@
 module Mint
   class ServiceWorker
-    def self.generate
-      new.to_s
+    @relative : Bool
+
+    def self.generate(relative = false)
+      new(relative).to_s
+    end
+
+    def initialize(@relative)
+    end
+
+    protected def path_for(url)
+      @relative ? url : "/#{url}"
     end
 
     ECR.def_to_s "#{__DIR__}/service_worker.ecr"
