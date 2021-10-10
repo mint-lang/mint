@@ -18,7 +18,7 @@ module Mint
     def precache_urls
       files
         .join(",\n") do |file|
-          %('/#{file.relative_to(DIST_DIR)}')
+          path_for(file.relative_to(DIST_DIR))
         end
     end
 
