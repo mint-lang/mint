@@ -3,7 +3,7 @@ module Mint
     class ForCondition < Node
       getter condition
 
-      def initialize(@condition : Expression,
+      def initialize(@condition : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

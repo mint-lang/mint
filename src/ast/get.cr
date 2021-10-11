@@ -5,8 +5,8 @@ module Mint
 
       def initialize(@type : TypeOrVariable?,
                      @comment : Comment?,
-                     @body : Expression,
                      @name : Variable,
+                     @body : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

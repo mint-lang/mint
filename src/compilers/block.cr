@@ -9,18 +9,18 @@ module Mint
     end
 
     def _compile(node : Ast::Block, for_function = false) : String
-      if node.statements.size == 1
+      statements =
+        node.statements.select(Ast::Statement)
+
+      if statements.size == 1
         if for_function
-          js.return(compile(node.statements.first))
+          js.return(compile(statements.first))
         else
-          compile(node.statements.first)
+          compile(statements.first)
         end
       else
         compiled_statements =
-          compile(
-            node
-              .statements
-              .sort_by! { |item| resolve_order.index(item) || -1 })
+          compile(statements.sort_by! { |item| resolve_order.index(item) || -1 })
 
         last =
           compiled_statements.pop
@@ -28,8 +28,14 @@ module Mint
         if for_function
           js.statements(compiled_statements + [js.return(last)])
         else
-          js.iif do
-            js.statements(compiled_statements + [js.return(last)])
+          if node.async?
+            js.asynciif do
+              js.statements(compiled_statements + [js.return(last)])
+            end
+          else
+            js.iif do
+              js.statements(compiled_statements + [js.return(last)])
+            end
           end
         end
       end

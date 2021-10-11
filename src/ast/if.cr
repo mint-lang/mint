@@ -6,7 +6,7 @@ module Mint
       alias Branches = Tuple(Array(CssDefinition), Array(CssDefinition)) |
                        Tuple(Array(CssDefinition), Nil) |
                        Tuple(Array(CssDefinition), If) |
-                       Tuple(Node, Node)
+                       Tuple(Block, Block)
 
       def initialize(@branches : Branches,
                      @condition : Node,

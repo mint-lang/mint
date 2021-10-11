@@ -6,9 +6,9 @@ module Mint
 
       def initialize(@field : Variable,
                      @lhs : Expression,
-                     @safe : Bool,
                      @input : Data,
                      @from : Int32,
+                     @safe : Bool,
                      @to : Int32)
       end
     end

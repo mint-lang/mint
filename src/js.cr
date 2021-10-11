@@ -4,6 +4,7 @@ module Mint
     abstract def function(name : String, arguments : Array(String), body : String) : String
     abstract def async_function(name : String, arguments : Array(String), body : String) : String
     abstract def arrow_function(arguments : Array(String), body : String) : String
+    abstract def async_arrow_function(arguments : Array(String), body : String) : String
     abstract def const(name : String, value : String) : String
     abstract def class(name : String, extends : String, body : Array(String)) : String
     abstract def assign(name : String, value : String) : String
@@ -80,6 +81,10 @@ module Mint
 
     def arrow_function(arguments : Array(String), body : String) : String
       "((#{arguments.join(", ")})=>{#{body}})"
+    end
+
+    def async_arrow_function(arguments : Array(String), body : String) : String
+      "(async (#{arguments.join(", ")})=>{#{body}})"
     end
 
     def const(name : String, value : String) : String
@@ -193,6 +198,10 @@ module Mint
 
     def arrow_function(arguments : Array(String), body : String) : String
       "(#{arguments.join(", ")}) => #{class_body(body)}"
+    end
+
+    def async_arrow_function(arguments : Array(String), body : String) : String
+      "async (#{arguments.join(", ")}) => #{class_body(body)}"
     end
 
     def const(name : String, value : String) : String

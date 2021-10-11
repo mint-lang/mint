@@ -6,7 +6,7 @@ module Mint
       def initialize(@condition : ForCondition?,
                      @arguments : Array(Variable),
                      @subject : Expression,
-                     @body : Expression,
+                     @body : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
