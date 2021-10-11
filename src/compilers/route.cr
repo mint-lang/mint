@@ -18,7 +18,7 @@ module Mint
           .map { |argument| @serializer.decoder(cache[argument]) }
 
       js.object({
-        "handler"  => js.arrow_function(arguments, expression),
+        "handler"  => js.async_arrow_function(arguments, expression),
         "decoders" => js.array(decoders),
         "mapping"  => js.array(mapping),
         "path"     => "`#{node.url}`",

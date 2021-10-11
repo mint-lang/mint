@@ -2,12 +2,7 @@ module Mint
   class Compiler
     def _compile(node : Ast::Get) : String
       body =
-        case item = node.body
-        when Ast::Block
-          compile item, for_function: true
-        else
-          compile item
-        end
+        compile item, for_function: true
 
       name =
         js.variable_of(node)

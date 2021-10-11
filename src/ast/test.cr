@@ -3,8 +3,8 @@ module Mint
     class Test < Node
       getter name, expression
 
-      def initialize(@expression : Expression,
-                     @name : StringLiteral,
+      def initialize(@name : StringLiteral,
+                     @expression : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)
