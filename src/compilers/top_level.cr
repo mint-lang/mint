@@ -3,6 +3,7 @@
 module Mint
   class Compiler
     alias Options = NamedTuple(
+      web_components: Hash(String, String),
       css_prefix: String?,
       optimize: Bool,
       relative: Bool,
@@ -10,6 +11,7 @@ module Mint
     )
 
     DEFAULT_OPTIONS = Options.new(
+      web_components: {} of String => String,
       css_prefix: nil,
       optimize: false,
       relative: false,
@@ -136,7 +138,7 @@ module Mint
         end
 
       elements =
-        (%w[] &+ enums &+ records &+ modules &+ providers &+ routes &+ components &+ static &+ stores &+ footer &+ suites)
+        (%w[] &+ enums &+ records &+ modules &+ providers &+ routes &+ components &+ static &+ stores &+ footer &+ suites &+ compiled_web_components)
           .reject!(&.empty?)
 
       replace_skipped(js.statements(elements))
@@ -182,6 +184,30 @@ module Mint
       js.class_of(node)
     end
 
+    def compiled_web_components
+      @web_components.compact_map do |component, tagname|
+        node =
+          ast.components.find(&.name.==(component))
+
+        next unless node
+
+        name =
+          js.class_of(node)
+
+        prefixed_name =
+          if node.global?
+            "$#{name}"
+          else
+            name
+          end
+
+        properties =
+          compile node.properties.reject(&.name.value.==("children"))
+
+        "_wc(#{prefixed_name}, '#{tagname}', #{js.array(properties)})"
+      end
+    end
+
     # --------------------------------------------------------------------------
 
     # Wraps the application with the runtime
@@ -221,6 +247,7 @@ module Mint
         const _encode = mint.encode
         const _style = mint.style
         const _array = mint.array
+        const _wc = mint.register
         const _u = mint.update
         const _at = mint.at
 

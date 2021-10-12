@@ -12,7 +12,7 @@ module Mint
     @static_components = {} of String => String
     @static_components_pool = NamePool(String, Nil).new
 
-    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, @relative = false, @build = false)
+    def initialize(@artifacts : TypeChecker::Artifacts, @optimize = false, css_prefix = nil, @relative = false, @build = false, @web_components = {} of String => String)
       @style_builder =
         StyleBuilder.new(css_prefix: css_prefix, optimize: @optimize)
 

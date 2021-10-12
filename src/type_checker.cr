@@ -27,7 +27,7 @@ module Mint
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
     STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
 
-    getter records, scope, artifacts, formatter
+    getter records, scope, artifacts, formatter, web_components
 
     property? checking = true
 
@@ -50,7 +50,7 @@ module Mint
 
     @stack = [] of Ast::Node
 
-    def initialize(ast : Ast, @check_env = true)
+    def initialize(ast : Ast, @check_env = true, @web_components = [] of String)
       ast.normalize
 
       @artifacts = Artifacts.new(ast)
