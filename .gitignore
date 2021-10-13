@@ -2,3 +2,4 @@
 /lib/
 /bin/
 /.shards/
+node_modules
