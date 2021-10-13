@@ -1,0 +1,22 @@
+=======================
+Type with type variable
+=======================
+
+module Test {
+  fun type : Type(a) {
+    ``
+  }
+}
+
+---
+
+(program
+  (module
+    (entity_name)
+    (function
+      (variable)
+      (type_definition
+        (type
+          (type
+            (variable))))
+      (statement (inline_javascript)))))
