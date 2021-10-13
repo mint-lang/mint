@@ -17,8 +17,15 @@ module Mint
           .arguments
           .map { |argument| @serializer.decoder(cache[argument]) }
 
+      handler =
+        if node.expression.async?
+          js.async_arrow_function(arguments, expression)
+        else
+          js.arrow_function(arguments, expression)
+        end
+
       js.object({
-        "handler"  => js.async_arrow_function(arguments, expression),
+        "handler"  => handler,
         "decoders" => js.array(decoders),
         "mapping"  => js.array(mapping),
         "path"     => "`#{node.url}`",
