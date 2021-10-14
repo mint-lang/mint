@@ -7,37 +7,17 @@ module Mint
       arguments =
         compile node.arguments, ", "
 
-      if node.safe?
-        js.iif do
-          result =
-            if node.partially_applied?
-              if node.arguments.empty?
-                "(_) => _"
-              else
-                "((..._) => _(#{arguments}, ..._))"
-              end
-            else
-              "(_) => _(#{arguments})"
-            end
-
-          js.statements([
-            js.const("_", expression),
-            js.return(js.call("_s", ["_", result])),
-          ])
-        end
-      else
-        case
-        when node.partially_applied?
-          if node.arguments.empty?
-            expression
-          else
-            "((..._) => #{expression}(#{arguments}, ..._))"
-          end
-        when node.expression.is_a?(Ast::InlineFunction)
-          "(#{expression})(#{arguments})"
+      case
+      when node.partially_applied?
+        if node.arguments.empty?
+          expression
         else
-          "#{expression}(#{arguments})"
+          "((..._) => #{expression}(#{arguments}, ..._))"
         end
+      when node.expression.is_a?(Ast::InlineFunction)
+        "(#{expression})(#{arguments})"
+      else
+        "#{expression}(#{arguments})"
       end
     end
   end

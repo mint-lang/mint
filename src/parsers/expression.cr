@@ -7,9 +7,9 @@ module Mint
     def array_access_or_call(lhs)
       case input[position, 2].join
       when "&."
-        access(lhs, safe: true)
+        access(lhs)
       when "&("
-        call(lhs, safe: true)
+        call(lhs)
       else
         case char
         when '.'

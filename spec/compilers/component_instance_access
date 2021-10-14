@@ -14,8 +14,11 @@ component Instance {
 }
 
 component Main {
-  fun handleClick : Maybe(String) {
-    instance&.name
+  fun handleClick : String {
+    case (instance) {
+      Maybe::Just(component) => component.name
+      Maybe::Nothing => ""
+    }
   }
 
   fun render : Html {
@@ -59,8 +62,14 @@ class B extends _C {
 
   b() {
     return (() => {
-      const _ = this.c;
-      return _s(_,(_) => _.a);
+      let d = this.c;
+
+      if (d instanceof C) {
+        const e = d._0;
+        return e.a;
+      } else if (d instanceof D) {
+        return ``;
+      };
     })();
   }
 

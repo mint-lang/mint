@@ -9,11 +9,7 @@ module Mint
       function_type =
         resolve node.expression
 
-      if node.safe? && function_type.name == "Maybe"
-        Type.new("Maybe", [check_call(node, function_type.parameters[0])])
-      else
-        check_call(node, function_type)
-      end
+      check_call(node, function_type)
     end
 
     def check_call(node, function_type) : Checkable

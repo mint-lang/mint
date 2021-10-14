@@ -2,7 +2,6 @@ module Mint
   class Ast
     class Call < Node
       getter arguments, expression
-      getter? safe
 
       property? partially_applied
 
@@ -11,7 +10,6 @@ module Mint
                      @expression : Expression,
                      @input : Data,
                      @from : Int32,
-                     @safe : Bool,
                      @to : Int32)
       end
     end
