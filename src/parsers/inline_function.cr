@@ -31,8 +31,9 @@ module Mint
 
         body =
           code_block(
-            opening_bracket: SyntaxError,
-            closing_bracket: SyntaxError)
+            opening_bracket: InlineFunctionExpectedOpeningBracket,
+            closing_bracket: InlineFunctionExpectedClosingBracket,
+            statement_error: InlineFunctionExpectedExpression)
 
         self << Ast::InlineFunction.new(
           arguments: arguments,
