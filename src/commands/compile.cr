@@ -54,7 +54,7 @@ module Mint
         end
 
         type_checker =
-          TypeChecker.new(ast)
+          TypeChecker.new(ast, web_components: json.web_components.keys)
 
         terminal.measure "  #{ARROW} Type checking..." do
           type_checker.check
@@ -64,10 +64,11 @@ module Mint
 
         terminal.measure "  #{ARROW} Compiling..." do
           compiled = Compiler.compile_embed type_checker.artifacts, {
-            css_prefix: json.application.css_prefix,
-            relative:   false,
-            optimize:   optimize,
-            build:      true,
+            css_prefix:     json.application.css_prefix,
+            web_components: json.web_components,
+            relative:       false,
+            optimize:       optimize,
+            build:          true,
           }
         end
 
