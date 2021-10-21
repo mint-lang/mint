@@ -10,7 +10,7 @@ module Mint
     end
 
     protected def path_for(url)
-      @relative ? url : "/#{url}"
+      %('#{@relative ? "" : "/"}#{url}')
     end
 
     ECR.def_to_s "#{__DIR__}/service_worker.ecr"
