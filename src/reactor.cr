@@ -92,17 +92,18 @@ module Mint
 
       # Create a brand new TypeChecker.
       type_checker =
-        TypeChecker.new(ast)
+        TypeChecker.new(ast, web_components: json.web_components.keys)
 
       # Type check.
       type_checker.check
 
       # Compile.
       @script = Compiler.compile type_checker.artifacts, {
-        css_prefix: json.application.css_prefix,
-        relative:   false,
-        optimize:   false,
-        build:      false,
+        css_prefix:     json.application.css_prefix,
+        web_components: json.web_components,
+        relative:       false,
+        optimize:       false,
+        build:          false,
       }
       @artifacts = type_checker.artifacts
       @error = nil

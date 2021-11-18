@@ -27,7 +27,7 @@ module Mint
       terminal.puts "#{COG} Compiling your application:"
 
       index_js, artifacts =
-        index(json.application.css_prefix, relative, optimize, runtime_path)
+        index(json.application.css_prefix, relative, optimize, runtime_path, json.web_components)
 
       File.write Path[DIST_DIR, "index.js"], index_js
 
@@ -128,7 +128,7 @@ module Mint
       end
     end
 
-    def index(css_prefix, relative, optimize, runtime_path)
+    def index(css_prefix, relative, optimize, runtime_path, web_components)
       runtime =
         if runtime_path
           raise RuntimeFileNotFound, {
@@ -153,7 +153,7 @@ module Mint
       end
 
       type_checker =
-        TypeChecker.new(ast)
+        TypeChecker.new(ast, web_components: web_components.keys)
 
       terminal.measure "  #{ARROW} Type checking..." do
         type_checker.check
@@ -163,10 +163,11 @@ module Mint
 
       terminal.measure "  #{ARROW} Compiling..." do
         compiled = Compiler.compile type_checker.artifacts, {
-          css_prefix: css_prefix,
-          relative:   relative,
-          optimize:   optimize,
-          build:      true,
+          web_components: web_components,
+          css_prefix:     css_prefix,
+          relative:       relative,
+          optimize:       optimize,
+          build:          true,
         }
       end
 

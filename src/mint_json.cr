@@ -19,6 +19,7 @@ module Mint
 
     getter dependencies = [] of Installer::Dependency
     getter formatter_config = Formatter::Config.new
+    getter web_components = {} of String => String
     getter source_directories = %w[]
     getter test_directories = %w[]
     getter external_files = {
@@ -122,6 +123,8 @@ module Mint
           parse_formatter
         when "external"
           parse_external_assets
+        when "web-components"
+          parse_web_components
         else
           raise MintJsonRootInvalidKey, {
             "node" => current_node,
@@ -469,6 +472,20 @@ module Mint
       @parser.read_int.clamp(0, 100).to_i
     rescue exception : JSON::ParseException
       raise MintJsonIndentSizeInvalid, {
+        "node" => node(exception),
+      }
+    end
+
+    # Parsing web components
+    # --------------------------------------------------------------------------
+    json_error MintJsonWebComponentsInvalid
+
+    def parse_web_components
+      @parser.read_object do |key|
+        web_components[key] = @parser.read_string
+      end
+    rescue exception : JSON::ParseException
+      raise MintJsonWebComponentsInvalid, {
         "node" => node(exception),
       }
     end
