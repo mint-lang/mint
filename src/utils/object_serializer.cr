@@ -52,6 +52,11 @@ module Mint
         "Encoder.maybe(#{encoder(node.parameters.first)})"
       when "Map"
         "Encoder.map(#{encoder(node.parameters.last)})"
+      when "Tuple"
+        encoders =
+          node.parameters.map { |item| encoder(item) || "null" }
+
+        "Encoder.tuple([#{encoders.join(',')}])"
       end
     end
 
@@ -84,6 +89,11 @@ module Mint
         "Decoder.array(#{decoder(node.parameters.first)})"
       when "Map"
         "Decoder.map(#{decoder(node.parameters.last)})"
+      when "Tuple"
+        decoders =
+          node.parameters.map { |item| decoder(item) }
+
+        "Decoder.tuple([#{decoders.join(',')}])"
       else
         # This should never happen because of the typechecker!
         raise "Cannot generate a decoder for #{node}!"
