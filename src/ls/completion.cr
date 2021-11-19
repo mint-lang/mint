@@ -2,8 +2,7 @@ module Mint
   module LS
     class Completion < LSP::RequestMessage
       HTML_TAGS =
-        {{ read_file("#{__DIR__}/../assets/html_tags") }}
-          .strip
+        {{ read_file("#{__DIR__}/../assets/html_tags").strip }}
           .lines
           .map do |name|
             LSP::CompletionItem.new(
