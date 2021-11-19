@@ -27,8 +27,16 @@ module Mint
         end
 
         def contains?(line : Int, column : Int)
-          (start[0] <= line <= end[0]) &&
-            (start[1] <= column <= end[1])
+          case
+          when line == start[0] == end[0] # If on the only line
+            start[1] <= column < end[1]
+          when line == start[0] # If on the first line
+            column >= start[1]
+          when line == end[0] # If on the last line
+            column < end[1]
+          else
+            contains?(line)
+          end
         end
       end
 

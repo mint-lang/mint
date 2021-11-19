@@ -36,7 +36,7 @@ module Mint
 
         workspace.ast.nodes
           .select(&.input.file.==(params.path))
-          .select!(&.location.contains?(position.line, position.character))
+          .select!(&.location.contains?(position.line + 1, position.character))
       end
     end
   end
