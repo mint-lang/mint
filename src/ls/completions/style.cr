@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Completion < LSP::RequestMessage
-      CSS_PROPERTY_COMPLETIONS = 
+      CSS_PROPERTY_COMPLETIONS =
         TypeChecker::CSS_PROPERTY_NAMES.map do |name|
           LSP::CompletionItem.new(
             kind: LSP::CompletionItemKind::Snippet,
