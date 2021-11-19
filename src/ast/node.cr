@@ -26,12 +26,9 @@ module Mint
           start[0] <= line <= end[0]
         end
 
-        # start = {2,2}
-        # end = {4,3}
-        # line: 2, column: 4
         def contains?(line : Int, column : Int)
           case
-          when line == start[0] && line == end[0] # If on the only line
+          when line == start[0] == end[0] # If on the only line
             start[1] <= column < end[1]
           when line == start[0] # If on the first line
             column >= start[1]
