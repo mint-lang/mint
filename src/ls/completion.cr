@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Completion < LSP::RequestMessage
-      HTML_TAGS =
+      HTML_TAG_COMPLETIONS =
         {{ read_file("#{__DIR__}/../assets/html_tags").strip }}
           .lines
           .map do |name|
@@ -45,7 +45,7 @@ module Mint
         (global_completions +
           component_completions +
           scope_completions +
-          HTML_TAGS)
+          HTML_TAG_COMPLETIONS)
           .compact
           .sort_by!(&.label)
       end
