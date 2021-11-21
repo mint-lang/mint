@@ -338,6 +338,7 @@ component Test.Http {
   }
 }
 
+/*
 suite "Successful request" {
   test "it loads" {
     with Test.Context {
@@ -351,6 +352,7 @@ suite "Successful request" {
     }
   }
 }
+*/
 
 suite "Http.Error" {
   test "BadUrl" {
