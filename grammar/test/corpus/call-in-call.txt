@@ -1,0 +1,27 @@
+=======================
+Call in Call
+=======================
+
+module Test {
+  fun call : String {
+    Test.call()
+  }
+}
+
+---
+
+(program
+  (module
+    (entity_name)
+    (function
+      (variable)
+      (type_definition
+        (type
+          (entity_name)))
+      (statement
+        (call
+          (member
+            (entity_name)
+            (variable))
+          (arguments))))))
+
