@@ -1,0 +1,19 @@
+#!/bin/bash
+PATH=./node_modules/.bin:$PATH
+
+function test {
+  yarn tree-sitter generate && yarn tree-sitter parse $1
+}
+
+function test-all {
+  tree-sitter generate && yarn tree-sitter parse "../core/source/*.mint" --quiet --stat
+}
+
+function help {
+  echo "$0 <task> <args>"
+  echo "Tasks:"
+  compgen -A function | cat -n
+}
+
+TIMEFORMAT="Task completed in %3lR"
+time ${@:-default}
