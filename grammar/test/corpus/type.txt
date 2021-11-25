@@ -17,6 +17,7 @@ module Test {
       (variable)
       (type_definition
         (type
+          (entity_name)
           (type
             (variable))))
       (statement (inline_javascript)))))
