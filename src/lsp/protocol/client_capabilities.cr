@@ -25,6 +25,10 @@ module LSP
     include JSON::Serializable
 
     # Workspace specific client capabilities.
-    property workspace : WorkspaceClientCapabilities
+    property workspace : WorkspaceClientCapabilities?
+
+    # Text document specific client capabilities.
+    @[JSON::Field(key: "textDocument")]
+    property text_document : TextDocumentClientCapabilities?
   end
 end

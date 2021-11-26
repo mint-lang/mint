@@ -15,6 +15,7 @@ module Mint
           end
 
       property params : LSP::CompletionParams
+      property snippet_support : Bool?
 
       def completions(node : Ast::Node, global : Bool = false)
         [] of LSP::CompletionItem
@@ -25,6 +26,14 @@ module Mint
       end
 
       def execute(server)
+        @snippet_support =
+          server
+            .params
+            .try(&.capabilities.text_document)
+            .try(&.completion)
+            .try(&.completion_item)
+            .try(&.snippet_support)
+
         global_completions =
           (workspace.ast.stores +
             workspace.ast.unified_modules +
@@ -55,6 +64,14 @@ module Mint
           HTML_TAG_COMPLETIONS)
           .compact
           .sort_by!(&.label)
+          .map do |item|
+            item.insert_text =
+              item
+                .insert_text
+                .gsub(/\$\d/, "")
+                .gsub(/\$\{.*\}/, "") unless snippet_support
+            item
+          end
       end
     end
   end
