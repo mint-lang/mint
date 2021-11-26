@@ -6,8 +6,8 @@ module Mint
     type_error OperationPlusTypeMismatch
     type_error OperationPipeAmbiguous
 
+    type_error OperationOrNotMaybeOrResult
     type_error OperationOrTypeMismatch
-    type_error OperationOrNotMaybe
 
     def check(node : Ast::Operation) : Checkable
       case node.operator
@@ -80,11 +80,12 @@ module Mint
         right = resolve node.right
         left = resolve node.left
 
-        raise OperationOrNotMaybe, {
+        raise OperationOrNotMaybeOrResult, {
           "expected" => MAYBE,
           "node"     => node,
           "got"      => left,
-        } unless Comparer.compare(left, MAYBE)
+        } unless Comparer.compare(left, MAYBE) ||
+                 Comparer.compare(left, RESULT)
 
         expected =
           left.parameters[0]

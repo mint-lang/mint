@@ -19,7 +19,7 @@ component Main {
     Maybe::Just(0) or "Hello"
   }
 }
--------------------------------------------------------------OperationOrNotMaybe
+-----------------------------------------------------OperationOrNotMaybeOrResult
 enum Maybe(a) {
   Nothing
   Just(a)

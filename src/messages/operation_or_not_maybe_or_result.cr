@@ -1,4 +1,4 @@
-message OperationOrNotMaybe do
+message OperationOrNotMaybeOrResult do
   title "Type Error"
 
   block do
