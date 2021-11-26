@@ -31,17 +31,7 @@ module Mint
       else
         case value = item[0]
         when Ast::Statement
-          type = resolve value
-
-          if value.parent.none?
-            type
-          else
-            if type.name.in?("Result", "Promise") && type.parameters.size == 2
-              type.parameters[1]
-            else
-              type
-            end
-          end
+          resolve value
         when Tuple(Ast::Node, Int32 | Array(Int32))
           item = value[0]
 

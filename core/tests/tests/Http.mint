@@ -261,8 +261,8 @@ component Test.Http {
   }
 
   fun componentDidMount : Promise(Void) {
-    await request =
-      Http.empty()
+    request =
+      await Http.empty()
       |> Http.url(url)
       |> Http.method(method)
       |> Http.sendWithId("test")

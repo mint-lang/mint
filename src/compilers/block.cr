@@ -10,17 +10,20 @@ module Mint
 
     def _compile(node : Ast::Block, for_function = false) : String
       statements =
-        node.statements.select(Ast::Statement)
+        node
+          .statements
+          .select(Ast::Statement)
+          .sort_by! { |item| resolve_order.index(item) || -1 }
 
       if statements.size == 1
         if for_function
-          js.return(compile(statements.first))
+          js.return(compile(statements.first, true))
         else
-          compile(statements.first)
+          compile(statements.first, true)
         end
       else
         compiled_statements =
-          compile(statements.sort_by! { |item| resolve_order.index(item) || -1 })
+          statements.map { |item| compile item, item == statements.last }
 
         last =
           compiled_statements.pop

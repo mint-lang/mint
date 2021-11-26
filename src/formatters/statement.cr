@@ -4,21 +4,21 @@ module Mint
       expression =
         format node.expression
 
-      right =
-        case node.target
-        when Nil
-          expression
+      left =
+        if node.await
+          "await #{expression}"
         else
-          target =
-            format node.target
-
-          "#{target} =\n#{indent(expression)}"
+          expression
         end
 
-      if node.await
-        "await #{right}"
+      case node.target
+      when Nil
+        left
       else
-        right
+        target =
+          format node.target
+
+        "#{target} =\n#{indent(left)}"
       end
     end
   end

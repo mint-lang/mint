@@ -46,8 +46,8 @@ module File {
   * It might not resolve if the user cancels the dialog.
 
     {
-      await files =
-        File.selectMultiple("application/json")
+      files =
+        await File.selectMultiple("application/json")
 
       Debug.log(files)
     }
@@ -87,8 +87,8 @@ module File {
   * It might not resolve if the user cancels the dialog.
 
     {
-      await file =
-        File.select("application/json")
+      file =
+        await File.select("application/json")
 
       Debug.log(file)
     }
@@ -124,8 +124,8 @@ module File {
   Reads the contents of the given file as a Data URL.
 
     {
-      await file =
-        File.fromString("Some content...", "test.txt", "text/plain")
+      file =
+        await File.fromString("Some content...", "test.txt", "text/plain")
 
       url =
         File.readAsDataURL(file)
@@ -151,8 +151,8 @@ module File {
   Reads the contents of the given file as a String.
 
     {
-      await file =
-        File.create("Some content...", "test.txt", "text/plain")
+      file =
+        await File.create("Some content...", "test.txt", "text/plain")
 
       url =
         File.readAsString(file)
@@ -178,8 +178,8 @@ module File {
   Prompts a save dialog for the given file.
 
     {
-      await file =
-        File.select(*)
+      file =
+        await File.select(*)
 
       File.download(file)
     }

@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 describe "Statement" do
-  subject statement(:none)
+  subject statement
 
   expect_ignore ""
   expect_ignore "??"

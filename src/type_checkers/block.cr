@@ -4,12 +4,6 @@ module Mint
       statements =
         node.statements.reject(Ast::Comment)
 
-      async =
-        node
-          .statements
-          .select(Ast::Statement)
-          .any?(&.await)
-
       scope statements do
         resolve node.statements
       end
@@ -17,7 +11,7 @@ module Mint
       last =
         statements.last
 
-      if async
+      if node.async?
         Type.new("Promise", [cache[last]] of Checkable)
       else
         cache[last]

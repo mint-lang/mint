@@ -1,10 +1,18 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Statement) : String
+    def compile(node : Ast::Statement, last : Bool) : String
+      if checked.includes?(node)
+        _compile(node, last)
+      else
+        ""
+      end
+    end
+
+    def _compile(node : Ast::Statement, last : Bool) : String
       right = compile node.expression
       right = "await #{right}" if node.await
 
-      if node.parent == Ast::Statement::Parent::None && (target = node.target)
+      if (target = node.target) && !last
         case target
         when Ast::Variable
           js.const(js.variable_of(target), right)

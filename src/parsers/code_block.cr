@@ -8,8 +8,8 @@ module Mint
           block(
             opening_bracket: opening_bracket,
             closing_bracket: closing_bracket) do
-            many { comment || statement(:none) }.tap do |items|
-              raise statement_error if items.select(Ast::Statement).none?
+            many { comment || statement }.tap do |items|
+              raise statement_error if items.none?
             end
           end
 

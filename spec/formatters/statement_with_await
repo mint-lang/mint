@@ -1,0 +1,12 @@
+module A {
+  fun test : Promise(String) {
+    x=await"hello"
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : Promise(String) {
+    x =
+      await "hello"
+  }
+}

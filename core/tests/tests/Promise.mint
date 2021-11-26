@@ -2,8 +2,8 @@ component Test.Promise {
   state result : String = ""
 
   fun resolve : Promise(Void) {
-    await newResult =
-      Promise.resolve("resolved")
+    newResult =
+      await Promise.resolve("resolved")
 
     await next { result = newResult }
   }
@@ -29,8 +29,8 @@ component Test.Promise2 {
 
     await next { resolve = resolve }
 
-    await newResult =
-      promise
+    newResult =
+      await promise
 
     await next { result = newResult }
   }

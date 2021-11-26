@@ -1,10 +1,7 @@
 module Mint
   class Parser
-    def statement(parent : Ast::Statement::Parent, require_name : Bool = false) : Ast::Statement?
+    def statement : Ast::Statement?
       start do |start_position|
-        await = keyword "await"
-        whitespace if await
-
         target = start do
           value = variable(track: false) || tuple_destructuring
           whitespace
@@ -16,7 +13,10 @@ module Mint
           value
         end
 
-        next if require_name && !target
+        whitespace
+        await = keyword "await"
+
+        whitespace
         body = expression
 
         next unless body
@@ -25,7 +25,6 @@ module Mint
           from: start_position,
           expression: body,
           target: target,
-          parent: parent,
           await: await,
           to: position,
           input: data)

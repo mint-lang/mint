@@ -45,7 +45,7 @@ enum Http.Error {
 Module for sending HTTP requests.
 
 ```
-await request =
+request = await
   "https://httpbin.org/get"
   |> Http.get()
   |> Http.send()
