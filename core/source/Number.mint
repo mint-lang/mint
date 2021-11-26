@@ -89,7 +89,7 @@ module Number {
       |> String.lchop("-")
       |> String.split("")
       |> Array.groupsOfFromEnd(3)
-      |> Array.map(String.join(""))
+      |> Array.map((items : Array(String)) { String.join("", items) })
       |> String.join(",")
 
     decimals =

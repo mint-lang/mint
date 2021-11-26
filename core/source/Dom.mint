@@ -224,7 +224,7 @@ module Dom {
     base : Dom.Element
   ) : Bool {
     maybeElement
-    |> Maybe.map(Dom.contains(base))
+    |> Maybe.map((item : Dom.Element) { Dom.contains(item, base) })
     |> Maybe.withDefault(false)
   }
 

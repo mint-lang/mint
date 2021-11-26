@@ -44,41 +44,19 @@ module Mint
         parameters << argument_type
       end
 
-      # This is a partial application
-      if node.arguments.size < argument_size
-        range =
-          (node.arguments.size..function_type.parameters.size)
+      call_type =
+        Type.new("Function", parameters + [function_type.parameters.last])
 
-        call_type =
-          Type.new("Function", parameters + function_type.parameters[range])
+      result =
+        Comparer.compare(function_type, call_type)
 
-        unified_type =
-          Comparer.compare(function_type, call_type)
+      raise CallTypeMismatch, {
+        "expected" => function_type,
+        "got"      => call_type,
+        "node"     => node,
+      } unless result
 
-        raise CallTypeMismatch, {
-          "expected" => function_type,
-          "got"      => call_type,
-          "node"     => node,
-        } unless unified_type
-
-        node.partially_applied = true
-
-        Type.new("Function", unified_type.parameters[range])
-      else # This is a full call
-        call_type =
-          Type.new("Function", parameters + [function_type.parameters.last])
-
-        result =
-          Comparer.compare(function_type, call_type)
-
-        raise CallTypeMismatch, {
-          "expected" => function_type,
-          "got"      => call_type,
-          "node"     => node,
-        } unless result
-
-        resolve_type(result.parameters.last)
-      end
+      resolve_type(result.parameters.last)
     end
   end
 end

@@ -16,7 +16,6 @@ module Mint
         char ')', CallExpectedClosingParentheses
 
         node = self << Ast::Call.new(
-          partially_applied: false,
           from: start_position,
           arguments: arguments,
           expression: lhs,

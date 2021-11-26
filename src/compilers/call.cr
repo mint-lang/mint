@@ -8,12 +8,6 @@ module Mint
         compile node.arguments, ", "
 
       case
-      when node.partially_applied?
-        if node.arguments.empty?
-          expression
-        else
-          "((..._) => #{expression}(#{arguments}, ..._))"
-        end
       when node.expression.is_a?(Ast::InlineFunction)
         "(#{expression})(#{arguments})"
       else
