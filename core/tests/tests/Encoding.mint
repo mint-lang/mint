@@ -66,12 +66,10 @@ suite "Encode" {
   }
 
   test "it encodes Tuple as array" {
-    try {
-      encoded =
-        encode {"Hello", 0, true}
+    encoded =
+      encode {"Hello", 0, true}
 
-      `Array.isArray(#{encoded}) && #{encoded}[0] === "Hello"` && `Array.isArray(#{encoded}) && #{encoded}[1] === 0` && `Array.isArray(#{encoded}) && #{encoded}[2] === true`
-    }
+    `Array.isArray(#{encoded}) && #{encoded}[0] === "Hello"` && `Array.isArray(#{encoded}) && #{encoded}[1] === 0` && `Array.isArray(#{encoded}) && #{encoded}[2] === true`
   }
 
   test "it encodes a record (with nested fields)" {
