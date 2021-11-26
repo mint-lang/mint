@@ -1,0 +1,13 @@
+component Main {
+  fun pipe (value : String) : String {
+    value
+  }
+
+  fun render : String {
+    try {
+      x = ""
+
+      { x |> pipe }[0]
+    }
+  }
+}
