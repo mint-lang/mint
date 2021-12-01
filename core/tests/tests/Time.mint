@@ -74,3 +74,17 @@ suite "Time.nextWeek" {
     |> Time.toIso()) == "2018-04-12T00:00:00.000Z"
   }
 }
+
+suite "Time.fromUnixTimestampInMs" {
+  test "returns the UTC time respective to the given UNIX Timestamp (in Milliseconds" {
+    (Time.fromUnixTimestampInMs(1522886400000)
+    |> Time.toIso()) == "2018-04-05T00:00:00.000Z"
+  }
+}
+suite "Time.toUnixTimestampInMs" {
+  test "returns the UNIX Timestamp (in Milliseconds) respective to the given time" {
+    (Time.from(2018, 4, 5)
+    |> Time.toUnixTimestampInMs()) == 1522886400000
+  }
+}
+

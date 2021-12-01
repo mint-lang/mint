@@ -51,7 +51,7 @@ module Time {
   }
 
   /*
-  Retruns a new UTC date from the given parameters.
+  Returns a new UTC date from the given parameters.
 
     Time.from(2018, 4, 5)
   */
@@ -187,5 +187,21 @@ module Time {
       return DateFNS.distanceInWordsStrict(#{now}, #{other}, { addSuffix: true })
     })()
     `
+  }
+
+  /* Returns the time respective to the given UNIX Timestamp (in Milliseconds) */
+  fun fromUnixTimestampInMs (timestamp : Number) : Time {
+  `
+    (() => {
+      const time = new Date()
+      time.setTime(#{timestamp})
+      return time
+    })()
+    `
+  }
+
+  /* Returns the UNIX Timestamp (in Milliseconds) respective to the given time */
+  fun toUnixTimestampInMs (time : Time) : Number {
+    `#{time}.getTime()`
   }
 }
