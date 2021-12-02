@@ -193,9 +193,7 @@ module Time {
   fun fromUnixTimestampInMs (timestamp : Number) : Time {
   `
     (() => {
-      const time = new Date()
-      time.setTime(#{timestamp})
-      return time
+      return new Date(#{timestamp})
     })()
     `
   }
