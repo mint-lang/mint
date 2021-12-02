@@ -191,7 +191,7 @@ module Time {
 
   /* Returns the time respective to the given UNIX Timestamp (in Milliseconds) */
   fun fromUnixTimestampInMs (timestamp : Number) : Time {
-  `
+    `
     (() => {
       return new Date(#{timestamp})
     })()

@@ -81,6 +81,7 @@ suite "Time.fromUnixTimestampInMs" {
     |> Time.toIso()) == "2018-04-05T00:00:00.000Z"
   }
 }
+
 suite "Time.toUnixTimestampInMs" {
   test "returns the UNIX Timestamp (in Milliseconds)" {
     (Time.from(2018, 4, 5)
