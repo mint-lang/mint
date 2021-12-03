@@ -8,19 +8,19 @@ suite "Time equality" {
   }
 }
 
-suite "Time.toIso" {
-  test "returns iso formatted string of the time" {
-    (Time.from(2018, 4, 5)
-    |> Time.toIso()) == "2018-04-05T00:00:00.000Z"
-  }
-}
-
 suite "Time.fromIso" {
   test "returns the time from an ISO string" {
     (Time.today()
     |> Time.toIso()
     |> Time.fromIso()
     |> Maybe.withLazyDefault(() { Time.now() })) == Time.today()
+  }
+}
+
+suite "Time.toIso" {
+  test "returns iso formatted string of the time" {
+    (Time.from(2018, 4, 5)
+    |> Time.toIso()) == "2018-04-05T00:00:00.000Z"
   }
 }
 
@@ -59,11 +59,11 @@ suite "Time.nextMonth" {
   }
 }
 
-suite "Time.previousWeek" {
-  test "returns the previous week of the time" {
+suite "Time.previousMonth" {
+  test "returns the next month of the time" {
     (Time.from(2018, 4, 5)
-    |> Time.previousWeek()
-    |> Time.toIso()) == "2018-03-29T00:00:00.000Z"
+    |> Time.previousMonth()
+    |> Time.toIso()) == "2018-03-05T00:00:00.000Z"
   }
 }
 
@@ -72,6 +72,14 @@ suite "Time.nextWeek" {
     (Time.from(2018, 4, 5)
     |> Time.nextWeek()
     |> Time.toIso()) == "2018-04-12T00:00:00.000Z"
+  }
+}
+
+suite "Time.previousWeek" {
+  test "returns the previous week of the time" {
+    (Time.from(2018, 4, 5)
+    |> Time.previousWeek()
+    |> Time.toIso()) == "2018-03-29T00:00:00.000Z"
   }
 }
 

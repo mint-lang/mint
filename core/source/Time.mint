@@ -1,7 +1,23 @@
+/* Represents a duration (span) of time. */
+enum Time.Span {
+  Milliseconds(Number)
+  Seconds(Number)
+  Minutes(Number)
+  Hours(Number)
+  Days(Number)
+  Weeks(Number)
+  Months(Number)
+  Years(Number)
+}
+
 /*
 Utility functions for working with `Time`.
 
-_THIS MODULE IS STILL WORK IN PROGRESS_
+This module uses the `Date`[1] JavaScript object under the hood. Since the
+`Date` object is always in the clients time-zone, this module modifies it's
+UTC version with the `getUTC*` and `setUTC*` methods.
+
+[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 */
 module Time {
   /*
@@ -51,7 +67,7 @@ module Time {
   }
 
   /*
-  Returns a new UTC date from the given parameters.
+  Returns a new date from the given parameters.
 
     Time.from(2018, 4, 5)
   */
@@ -60,7 +76,7 @@ module Time {
   }
 
   /*
-  Returns the UTC day of the given time.
+  Returns the day of the given time.
 
     (Time.from(2018, 4, 5)
     |> Time.day()) == 5
@@ -70,7 +86,7 @@ module Time {
   }
 
   /*
-  Returns the UTC month of the given time.
+  Returns the month of the given time.
 
     (Time.from(2018, 4, 5)
     |> Time.month()) == 4
@@ -80,7 +96,7 @@ module Time {
   }
 
   /*
-  Returns the UTC year of the given time.
+  Returns the year of the given time.
 
     (Time.from(2018, 4, 5)
     |> Time.year()) == 2018
@@ -89,113 +105,91 @@ module Time {
     `#{date}.getUTCFullYear()`
   }
 
-  /* Formats the time using the given pattern. */
-  fun format (pattern : String, date : Time) : String {
-    `DateFNS.format(#{date}, #{pattern})`
-  }
-
-  /* Returns the start of the day / month / week of the given time. */
-  fun startOf (what : String, date : Time) : Time {
-    `
-    (() => {
-      switch (#{what}) {
-        case 'month':
-          return DateFNS.startOfMonth(#{date})
-        case 'week':
-          return DateFNS.startOfWeek(#{date}, { weekStartsOn: 1 })
-        case 'day':
-          return DateFNS.startOfDay(#{date})
-        default:
-          return #{date}
-      }
-    })()
-    `
-  }
-
-  /* Returns the end of the day / month / week of the given time. */
-  fun endOf (what : String, date : Time) : Time {
-    `
-    (() => {
-      switch (#{what}) {
-        case 'month':
-          return DateFNS.endOfMonth(#{date})
-        case 'week':
-          return DateFNS.endOfWeek(#{date}, { weekStartsOn: 1 })
-        case 'day':
-          return DateFNS.endOfDay(#{date})
-        default:
-          return #{date}
-      }
-    })()
-    `
-  }
-
   /* Returns an array of days from the given start to given end time. */
   fun range (from : Time, to : Time) : Array(Time) {
     `
-    DateFNS.eachDay({
-      start: #{from},
-      end: #{to}
-    })
+    (() => {
+      const endTime = #{to}.getUTCTime();
+      const currentDate = #{from};
+      const dates = [];
+
+      while (currentDate.getUTCTime() <= endTime) {
+        dates.push(new Date(+currentDate))
+        currentDate.setDate(currentDate.getUTCDate() + 1)
+        currentDate.setHours(0, 0, 0, 0)
+      }
+
+      return dates;
+    })()`
+  }
+
+  /*
+  Shifts the given time using the given time span.
+
+    (Time.from(2018, 4, 5)
+    |> Time.shift(Time.Span::Days(2))
+  */
+  fun shift (delta : Time.Span, time : Time) : Time {
+    `
+    (() => {
+      const time = new Date(+#{time});
+
+      #{
+        case (delta) {
+          Time.Span::Milliseconds(amount) =>
+            `time.setUTCMilliseconds(time.getUTCMilliseconds() + #{amount})`
+
+          Time.Span::Seconds(amount)      =>
+            `time.setUTCSeconds(time.getUTCSeconds() + #{amount})`
+
+          Time.Span::Minutes(amount)      =>
+            `time.setUTCMinutes(time.getUTCMinutes() + #{amount})`
+
+          Time.Span::Hours(amount)        =>
+            `time.setUTCHours(time.getUTCHours() + #{amount})`
+
+          Time.Span::Days(amount)         =>
+            `time.setUTCDate(time.getUTCDate() + #{amount})`
+
+          Time.Span::Weeks(amount)        =>
+            `time.setUTCDate(time.getUTCDate() + (7 * #{amount}))`
+
+          Time.Span::Months(amount)       =>
+            `time.setUTCMonth(time.getUTCMonth() + #{amount})`
+
+          Time.Span::Years(amount)        =>
+            `time.setUTCFullYear(time.getUTCFullYear() + #{amount})`
+        }
+      }
+
+      return time;
+    })()
     `
   }
 
   /* Returns the next month from the given time. */
-  fun nextMonth (date : Time) : Time {
-    `
-    (() => {
-      return DateFNS.addMonths(#{date}, 1)
-    })()
-    `
+  fun nextMonth (time : Time) : Time {
+    shift(Time.Span::Months(1), time)
   }
 
   /* Returns the previous month from the given time. */
-  fun previousMonth (date : Time) : Time {
-    `
-    (() => {
-      return DateFNS.addMonths(#{date}, -1)
-    })()
-    `
-  }
-
-  /* Returns the previous week from the given time. */
-  fun previousWeek (time : Time) : Time {
-    `
-    (() => {
-      const x = new Date(+#{time})
-      x.setDate(#{time}.getDate() - 7)
-      return x
-    })()
-    `
+  fun previousMonth (time : Time) : Time {
+    shift(Time.Span::Months(-1), time)
   }
 
   /* Returns the next week from the given time. */
   fun nextWeek (time : Time) : Time {
-    `
-    (() => {
-      const x = new Date(+#{time})
-      x.setDate(#{time}.getDate() + 7)
-      return x
-    })()
-    `
+    shift(Time.Span::Weeks(1), time)
   }
 
-  /* Returns the relative time from the given times (in english). */
-  fun relative (other : Time, now : Time) : String {
-    `
-    (() => {
-      return DateFNS.distanceInWordsStrict(#{now}, #{other}, { addSuffix: true })
-    })()
-    `
+  /* Returns the previous week from the given time. */
+  fun previousWeek (time : Time) : Time {
+    shift(Time.Span::Weeks(-1), time)
   }
 
   /* Returns the time respective to the given UNIX Timestamp (in Milliseconds) */
   fun fromUnixTimestampInMs (timestamp : Number) : Time {
-    `
-    (() => {
-      return new Date(#{timestamp})
-    })()
-    `
+    `new Date(#{timestamp})`
   }
 
   /* Returns the UNIX Timestamp (in Milliseconds) respective to the given time */
