@@ -1,43 +1,57 @@
 /* This module has functions for manipulating the clipboard. */
 module Clipboard {
   /* Sets the clipboards content to the given value. */
-  fun set (value : String) : Promise(Never, Void) {
-    `
-    (() => {
-      // Create a textarea element
-      const textarea = document.createElement("textarea");
+  fun set (value : String) : String {
+    try {
+      `
+      (() => {
+        // Create a textarea element
+        const textarea = document.createElement("textarea")
 
-      // Position it on the screen
-      textarea.style.position = "fixed";
-      textarea.style.left = "10px";
-      textarea.style.top = "10px";
-      textarea.style.opacity = 0;
+        // Position it on the screen
+        textarea.style.position = "fixed"
+        textarea.style.left = "10px"
+        textarea.style.top = "10px"
+        textarea.style.opacity = 0
 
-      // Add it to the DOM
-      document.body.appendChild(textarea)
+        // Add it to the DOM
+        document.body.appendChild(textarea)
 
-      // Focus it and set value
-      textarea.focus()
-      textarea.value = #{value}
+        // Remember the currently focused element
+        const lastActive = document.activeElement
 
-      // Create a selection range and set value
-      const range = document.createRange();
-      range.selectNodeContents(textarea);
+        // Focus it and set value
+        textarea.focus()
+        textarea.value = #{value}
 
-      // Get selection and replace current selection
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
+        // Create a selection range and set value
+        const range = document.createRange()
+        range.selectNodeContents(textarea)
 
-      // Select all the text
-      textarea.setSelectionRange(0, 999999);
+        // Get selection and replace current selection
+        const selection = window.getSelection()
+        const lastRanges = Array.from({length: selection.rangeCount}, (_, i) => selection.getRangeAt(i))
+        selection.removeAllRanges()
+        selection.addRange(range)
 
-      // Copy to clipboard
-      document.execCommand("copy");
+        // Select all the text
+        textarea.setSelectionRange(0, 999999)
 
-      // Remove textarea from the DOM
-      textarea.remove()
-    })()
-    `
+        // Copy to clipboard
+        document.execCommand("copy")
+
+        // Remove textarea from the DOM
+        textarea.remove()
+
+        // Refocus the previous active element
+        lastActive.focus()
+
+        // Restore previous range(s)
+        selection.removeAllRanges()
+        for(range of lastRanges) selection.addRange(range)
+      })()
+      `
+      value
+    }
   }
 }
