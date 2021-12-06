@@ -47,7 +47,10 @@ module Clipboard {
 
       // Restore previous range(s)
       selection.removeAllRanges()
-      for(range of lastRanges) selection.addRange(range)
+
+      for (range of lastRanges) {
+        selection.addRange(range)
+      }
 
       return #{value}
     })()
