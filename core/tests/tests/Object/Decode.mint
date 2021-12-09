@@ -45,7 +45,7 @@ suite "Object.Decode.time" {
 
   test "it returns the value" {
     (Object.Decode.time(`"2018-01-01"`)
-    |> Result.withDefault(Time.now())) == Time.from(2018, 1, 1)
+    |> Result.withDefault(Time.now())) == Time.utcDate(2018, 1, 1)
   }
 }
 
