@@ -17,10 +17,35 @@ suite "Time.parseISO" {
   }
 }
 
-suite "Time.formatISO" {
-  test "returns iso formatted string of the time" {
+suite "Time.toUnix" {
+  test "returns the UNIX Timestamp (in Milliseconds)" {
+    Time.toUnix(Time.utcDate(2006, 1, 2)) == 1136160000000
+  }
+}
+
+suite "Time.unix" {
+  test "returns the UTC time from the given UNIX Timestamp (in Milliseconds)" {
+    Time.unix(1136160000000) == Time.utcDate(2006, 1, 2)
+  }
+}
+
+suite "Time.utc" {
+  test "returns the UTC time with the given parameters" {
+    (Time.utc(2018, 4, 5, 16, 51, 23, 320)
+    |> Time.formatISO()) == "2018-04-05T16:51:23.320Z"
+  }
+}
+
+suite "Time.utcDate" {
+  test "returns the UTC time with the given parameters" {
     (Time.utcDate(2018, 4, 5)
     |> Time.formatISO()) == "2018-04-05T00:00:00.000Z"
+  }
+}
+
+suite "Time.now" {
+  test "returns the time as it is now" {
+    Time.now() == Time.now()
   }
 }
 
@@ -30,84 +55,44 @@ suite "Time.today" {
   }
 }
 
-suite "Time.dayOfMonth" {
-  test "returns the day of the month of the time" {
-    (Time.utcDate(2018, 4, 5)
-    |> Time.dayOfMonth()) == 5
+suite "Time.tomorrow" {
+  test "returns the time as it is tomorrow" {
+    Time.tomorrow() == Time.tomorrow()
   }
 }
 
-suite "Time.dayOfYear" {
-  test "returns the day of the year of the time" {
-    (Time.utcDate(2018, 4, 5)
-    |> Time.dayOfYear()) == 95
-  }
-}
-
-suite "Time.month" {
-  test "returns the month of the time" {
-    (Time.utcDate(2018, 4, 5)
-    |> Time.month()) == Month::April
+suite "Time.yesterday" {
+  test "returns the time as it is yesterday" {
+    Time.yesterday() == Time.yesterday()
   }
 }
 
 suite "Time.year" {
   test "returns the year of the time" {
-    (Time.utcDate(2018, 4, 5)
-    |> Time.year()) == 2018
+    Time.year(Time.utcDate(2018, 4, 5)) == 2018
   }
 }
 
-suite "Time.isLeapYear" {
-  test "returns true if time is in a leap year" {
-    Time.isLeapYear(Time.utcDate(2012, 1, 1)) == true
-  }
-
-  test "returns false if time is not in a leap year" {
-    Time.isLeapYear(Time.utcDate(2011, 1, 1)) == false
+suite "Time.quarter" {
+  test "returns in which quarter of the year the given time is" {
+    Time.quarter(Time.utcDate(2018, 4, 5)) == 1
   }
 }
 
-suite "Time.nextMonth" {
-  test "returns the next month of the time" {
-    Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
+suite "Time.monthNumber" {
+  test "returns the month of the time (as a number)" {
+    Time.monthNumber(Time.utcDate(2018, 4, 5)) == 4
   }
 }
 
-suite "Time.previousMonth" {
-  test "returns the next month of the time" {
-    Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
-  }
-}
-
-suite "Time.nextWeek" {
-  test "returns the next week of the time" {
-    Time.nextWeek(Time.utcDate(2017, 5, 10)) == Time.utcDate(2017, 5, 17)
-  }
-}
-
-suite "Time.previousWeek" {
-  test "returns the previous week of the time" {
-    Time.previousWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 13)
-  }
-}
-
-suite "Time.unix" {
-  test "returns the UTC time from the given UNIX Timestamp (in Milliseconds)" {
-    (Time.unix(1522886400000)
-    |> Time.formatISO()) == "2018-04-05T00:00:00.000Z"
-  }
-}
-
-suite "Time.toUnix" {
-  test "returns the UNIX Timestamp (in Milliseconds)" {
-    (Time.utcDate(2018, 4, 5)
-    |> Time.toUnix()) == 1522886400000
+suite "Time.month" {
+  test "returns the month of the time" {
+    Time.month(Time.utcDate(2018, 4, 5)) == Month::April
   }
 }
 
 suite "Time.calendarWeek" {
-  const CALENDAR_WEEK_TEST_DATA =
+  const TEST_DATA =
     [
       {{1981, 1, 1}, {1981, 1, 4}},
       {{1982, 1, 1}, {1981, 53, 5}},
@@ -213,20 +198,218 @@ suite "Time.calendarWeek" {
   test "returns proper calendar week" {
     try {
       expected =
-        for (item of CALENDAR_WEEK_TEST_DATA) {
+        for (item of TEST_DATA) {
           {item[1][0], item[1][1]}
         }
 
       actual =
-        for (item of CALENDAR_WEEK_TEST_DATA) {
+        for (item of TEST_DATA) {
           Time.utcDate(item[0][0], item[0][1], item[0][2])
           |> Time.calendarWeek
         }
 
-      `console.log(#{expected}.join("\n"))`
-      `console.log(#{actual}.join("\n"))`
+      expected == actual
+    }
+  }
+}
+
+suite "Time.dayOfWeekNumber" {
+  test "returns the day of the week of the given time" {
+    Time.dayOfWeekNumber(Time.utcDate(2018, 4, 5)) == 4
+  }
+}
+
+suite "Time.dayOfWeek" {
+  test "returns the day of the week of the given time (as a number)" {
+    Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday::Thursday
+  }
+}
+
+suite "Time.dayOfMonth" {
+  test "returns the day of the month of the time" {
+    Time.dayOfMonth(Time.utcDate(2018, 4, 5)) == 5
+  }
+}
+
+suite "Time.dayOfYear" {
+  test "returns the day of the year of the time" {
+    Time.dayOfYear(Time.utcDate(2018, 4, 5)) == 95
+  }
+}
+
+suite "Time.hour" {
+  test "returns the hour of the given time" {
+    Time.hour(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 10
+  }
+}
+
+suite "Time.minute" {
+  test "returns the minute of the given time" {
+    Time.minute(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 25
+  }
+}
+
+suite "Time.second" {
+  test "returns the second of the given time" {
+    Time.second(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 30
+  }
+}
+
+suite "Time.millisecond" {
+  test "returns the millisecond of the given time" {
+    Time.millisecond(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 40
+  }
+}
+
+suite "Time.isLeapYear" {
+  test "returns true if time is in a leap year" {
+    Time.isLeapYear(Time.utcDate(2012, 1, 1)) == true
+  }
+
+  test "returns false if time is not in a leap year" {
+    Time.isLeapYear(Time.utcDate(2011, 1, 1)) == false
+  }
+}
+
+suite "Time.shift" {
+  const BASE_TIME = Time.utc(2018, 4, 5, 14, 42, 54, 20)
+
+  const TEST_DATA =
+    [
+      {Time.Span::Milliseconds(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Milliseconds(2), Time.utc(2018, 4, 5, 14, 42, 54, 22)},
+      {Time.Span::Milliseconds(-2), Time.utc(2018, 4, 5, 14, 42, 54, 18)},
+      {Time.Span::Seconds(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Seconds(2), Time.utc(2018, 4, 5, 14, 42, 56, 20)},
+      {Time.Span::Seconds(-2), Time.utc(2018, 4, 5, 14, 42, 52, 20)},
+      {Time.Span::Minutes(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Minutes(2), Time.utc(2018, 4, 5, 14, 44, 54, 20)},
+      {Time.Span::Minutes(-2), Time.utc(2018, 4, 5, 14, 40, 54, 20)},
+      {Time.Span::Hours(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Hours(2), Time.utc(2018, 4, 5, 16, 42, 54, 20)},
+      {Time.Span::Hours(-2), Time.utc(2018, 4, 5, 12, 42, 54, 20)},
+      {Time.Span::Days(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Days(2), Time.utc(2018, 4, 7, 14, 42, 54, 20)},
+      {Time.Span::Days(-2), Time.utc(2018, 4, 3, 14, 42, 54, 20)},
+      {Time.Span::Weeks(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Weeks(2), Time.utc(2018, 4, 19, 14, 42, 54, 20)},
+      {Time.Span::Weeks(-2), Time.utc(2018, 3, 22, 14, 42, 54, 20)},
+      {Time.Span::Months(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Months(2), Time.utc(2018, 6, 5, 14, 42, 54, 20)},
+      {Time.Span::Months(-2), Time.utc(2018, 2, 5, 14, 42, 54, 20)},
+      {Time.Span::Years(0), Time.utc(2018, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Years(2), Time.utc(2020, 4, 5, 14, 42, 54, 20)},
+      {Time.Span::Years(-2), Time.utc(2016, 4, 5, 14, 42, 54, 20)}
+    ]
+
+  test "shifts the given time with the given span" {
+    try {
+      expected =
+        for (item of TEST_DATA) {
+          item[1]
+        }
+
+      actual =
+        for (item of TEST_DATA) {
+          Time.shift(item[0], BASE_TIME)
+        }
 
       expected == actual
     }
+  }
+}
+
+suite "Time.atBeginningOfYear" {
+  test "returns a time which is at the beginning of the same year as the given time" {
+    Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 1, 1)
+  }
+}
+
+suite "Time.atBeginningOfMonth" {
+  test "returns a time which is at the beginning of the same month as the given time" {
+    Time.atBeginningOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
+  }
+}
+
+suite "Time.atBeginningOfWeek" {
+  test "returns a time which is at the beginning of the same week as the given time" {
+    Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
+  }
+}
+
+suite "Time.atBeginningOfDay" {
+  test "returns a time which is at the beginning of the same day as the given time" {
+    Time.atBeginningOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(2017, 5, 20, 0, 0, 0, 0)
+  }
+}
+
+suite "Time.atEndOfYear" {
+  test "returns a time which is at the end of the same year as the given time" {
+    Time.atEndOfYear(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 12, 31, 23, 59, 59, 999)
+  }
+}
+
+suite "Time.atEndOfMonth" {
+  test "returns a time which is at the end of the same month as the given time" {
+    Time.atEndOfMonth(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 31, 23, 59, 59, 999)
+  }
+}
+
+suite "Time.atEndOfWeek" {
+  test "returns a time which is at the end of the same week as the given time" {
+    Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 21, 23, 59, 59, 999)
+  }
+}
+
+suite "Time.atEndOfDay" {
+  test "returns a time which is at the end of the same day as the given time" {
+    Time.atEndOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(2017, 5, 20, 23, 59, 59, 999)
+  }
+}
+
+suite "Time.nextMonth" {
+  test "returns the next month of the time" {
+    Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
+  }
+}
+
+suite "Time.previousMonth" {
+  test "returns the next month of the time" {
+    Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
+  }
+}
+
+suite "Time.nextWeek" {
+  test "returns the next week of the time" {
+    Time.nextWeek(Time.utcDate(2017, 5, 10)) == Time.utcDate(2017, 5, 17)
+  }
+}
+
+suite "Time.previousWeek" {
+  test "returns the previous week of the time" {
+    Time.previousWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 13)
+  }
+}
+
+suite "Time.nextDay" {
+  test "returns the next day of the time" {
+    Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
+  }
+}
+
+suite "Time.previousDay" {
+  test "returns the next day of the time" {
+    Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
+  }
+}
+
+suite "Time.range" {
+  test "it returns the days between the given days (inclusive)" {
+    Time.range(Time.utcDate(2006, 4, 1), Time.utcDate(2006, 4, 4)) == [
+      Time.utcDate(2006, 4, 1),
+      Time.utcDate(2006, 4, 2),
+      Time.utcDate(2006, 4, 3),
+      Time.utcDate(2006, 4, 4)
+    ]
   }
 }

@@ -11,8 +11,9 @@ UTC version with the `getUTC*` and `setUTC*` methods.
 
 [1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-Implementation details:
+Things to keep in mind when working with `Time`:
 
+- All time is in UTC, so use a timezone when displaying a time to a user.
 - Weekdays start from 1 (1 is Monday, 7 is sunday).
 - Months start from 1 (January).
 - Days start from 1.
@@ -40,9 +41,9 @@ module Time {
   /* CONVERTING ------------------------------------------------------------- */
 
   /*
-  Returns the UNIX Timestamp (in milliseconds) respective to the given time
+  Returns the UNIX Timestamp (in milliseconds) of the given time.
 
-    Time.toUnix(Time.utc(2006, 1, 2)) == 1136160000000
+    Time.toUnix(Time.utcDate(2006, 1, 2)) == 1136160000000
   */
   fun toUnix (time : Time) : Number {
     `#{time}.getTime()`
@@ -51,9 +52,9 @@ module Time {
   /* CREATING ---------------------------------------------------------------- */
 
   /*
-  Returns the time respective to the given UNIX Timestamp (in milliseconds)
+  Returns the time respective to the given UNIX Timestamp (in milliseconds).
 
-    Time.unix(1136160000000) == Time.utc(2006, 1, 2)
+    Time.unix(1136160000000) == Time.utcDate(2006, 1, 2)
   */
   fun unix (timestamp : Number) : Time {
     `new Date(#{timestamp})`
@@ -153,7 +154,7 @@ module Time {
   /*
   Returns the month of the given time (as a `Month`).
 
-    Time.month(Time.utcDate(2018, 4, 5) == Month::April
+    Time.month(Time.utcDate(2018, 4, 5)) == Month::April
   */
   fun month (time : Time) : Month {
     case (monthNumber(time)) {
@@ -240,15 +241,14 @@ module Time {
   }
 
   /*
-  Returns the day of the week of the given time (as a number).
+  Returns the day of the week of the given time (as a number from 1 to 7).
 
-    Time.dayOfWeekNumber(Time.utcDate(2018, 4, 5) == 4
+    Time.dayOfWeekNumber(Time.utcDate(2018, 4, 5)) == 4
   */
   fun dayOfWeekNumber (time : Time) : Number {
     `
     (() => {
       const _ = #{time}.getUTCDay()
-
       return _ === 0 ? 7 : _;
     })()
     `
@@ -257,7 +257,7 @@ module Time {
   /*
   Returns the day of week of the given time.
 
-    Time.dayOfWeek(Time.utcDate(2018, 4, 5) == Weekday::Thursday
+    Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday::Thursday
   */
   fun dayOfWeek (time : Time) : Weekday {
     case (dayOfWeekNumber(time)) {
@@ -274,7 +274,7 @@ module Time {
   /*
   Returns the day of month of the given time.
 
-    Time.dayOfMonth(Time.utcDate(2018, 4, 5) == 5
+    Time.dayOfMonth(Time.utcDate(2018, 4, 5)) == 5
   */
   fun dayOfMonth (time : Time) : Number {
     `#{time}.getUTCDate()`
@@ -283,7 +283,7 @@ module Time {
   /*
   Returns the day of the year of the given time.
 
-    Time.dayOfYear(Time.utcDate(2018, 4, 5) == 95
+    Time.dayOfYear(Time.utcDate(2018, 4, 5)) == 95
   */
   fun dayOfYear (time : Time) : Number {
     `
@@ -311,7 +311,7 @@ module Time {
   /*
   Returns the minute of the given time.
 
-    Time.minute(Time.utc(2018, 4, 5, 10, 25, 30, 40) == 25
+    Time.minute(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 25
   */
   fun minute (time : Time) : Number {
     `#{time}.getUTCMinutes()`
@@ -320,7 +320,7 @@ module Time {
   /*
   Returns the second of the given time.
 
-    Time.second(Time.utc(2018, 4, 5, 10, 25, 30, 40) == 30
+    Time.second(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 30
   */
   fun second (time : Time) : Number {
     `#{time}.getUTCSeconds()`
@@ -329,7 +329,7 @@ module Time {
   /*
   Returns the millisecond of the given time.
 
-    Time.millisecond(Time.utc(2018, 4, 5, 10, 25, 30, 40) == 40
+    Time.millisecond(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 40
   */
   fun millisecond (time : Time) : Number {
     `#{time}.getUTCMilliseconds()`
@@ -392,6 +392,55 @@ module Time {
   }
 
   /*
+  Returns a new time which is at the beginning of the same year
+  as the given time.
+
+    Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 1, 1)
+  */
+  fun atBeginningOfYear (time : Time) : Time {
+    `
+    (() => {
+      const time = new Date(+#{time});
+      time.setUTCMonth(0, 1);
+      time.setUTCHours(0, 0, 0, 0);
+      return time;
+    })()
+    `
+  }
+
+  /*
+  Returns a new time which is at the beginning of the same month
+  as the given time.
+
+    Time.atBeginningOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
+  */
+  fun atBeginningOfMonth (time : Time) : Time {
+    `
+    (() => {
+      const time = new Date(+#{time});
+      time.setUTCDate(1);
+      time.setUTCHours(0, 0, 0, 0);
+      return time;
+    })()
+    `
+  }
+
+  /*
+  Returns a new time which is at the beginning of the same week
+  as the given time.
+
+    Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
+  */
+  fun atBeginningOfWeek (time : Time) : Time {
+    try {
+      day =
+        dayOfWeekNumber(time)
+
+      shift(Time.Span::Days(-(day - 1)), time)
+    }
+  }
+
+  /*
   Returns a new time which is at the beginning of the same day
   as the given time.
 
@@ -409,38 +458,92 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same year
+  Returns a new time which is at the end of the same year
   as the given time.
 
-    Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 1, 1)
+    Time.atEndOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 12, 31)
   */
-  fun atBeginningOfYear (time : Time) : Time {
+  fun atEndOfYear (time : Time) : Time {
     `
     (() => {
       const time = new Date(+#{time});
-      time.setUTCMonth(0, 1);
-      time.setUTCHours(0, 0, 0, 0);
+      time.setUTCMonth(12, 1);         // Set it to next Jaunary 1st
+      time.setUTCHours(0, 0, 0, -1);   // Subtract 1 millisecond
       return time;
     })()
     `
   }
 
   /*
-  Returns a new time which is a day later than the the given time.
+  Returns a new time which is at the end of the same month
+  as the given time.
 
-    Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
+    Time.atEndOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 31)
   */
-  fun nextDay (time : Time) : Time {
-    shift(Time.Span::Days(1), time)
+  fun atEndOfMonth (time : Time) : Time {
+    `
+    (() => {
+      const time = new Date(+#{time});
+      const month = time.getUTCMonth();
+      time.setUTCMonth(month + 1, 1);   // Set it to 1st of the next month
+      time.setUTCHours(0, 0, 0, -1);    // Subtract 1 millisecond
+      return time;
+    })()
+    `
   }
 
   /*
-  Returns a new time which is a day sooner than the the given time.
+  Returns a new time which is at the beginning of the same week
+  as the given time.
 
-    Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
+    Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
   */
-  fun previousDay (time : Time) : Time {
-    shift(Time.Span::Days(-1), time)
+  fun atEndOfWeek (time : Time) : Time {
+    try {
+      day =
+        dayOfWeekNumber(time)
+
+      time
+      |> shift(Time.Span::Days(7 - day))
+      |> atEndOfDay
+    }
+  }
+
+  /*
+  Returns a new time which is at the beginning of the same day
+  as the given time.
+
+    Time.atEndOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) ==
+      Time.utc(2017, 5, 20, 0, 0, 0, 0)
+  */
+  fun atEndOfDay (time : Time) : Time {
+    `
+    (() => {
+      const time = new Date(+#{time});
+      const date = time.getUTCDate();
+      time.setUTCDate(date + 1);      // Set it to the begginning of the next day
+      time.setUTCHours(0, 0, 0, -1);  // Subtract 1 millisecond
+      return time;
+    })()
+    `
+  }
+
+  /*
+  Returns a new time which is a month later than the the given time.
+
+    Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
+  */
+  fun nextMonth (time : Time) : Time {
+    shift(Time.Span::Months(1), time)
+  }
+
+  /*
+  Returns a new time which is a month sooner than the the given time.
+
+    Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
+  */
+  fun previousMonth (time : Time) : Time {
+    shift(Time.Span::Months(-1), time)
   }
 
   /*
@@ -462,21 +565,21 @@ module Time {
   }
 
   /*
-  Returns a new time which is a month later than the the given time.
+  Returns a new time which is a day later than the the given time.
 
-    Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
+    Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
   */
-  fun nextMonth (time : Time) : Time {
-    shift(Time.Span::Months(1), time)
+  fun nextDay (time : Time) : Time {
+    shift(Time.Span::Days(1), time)
   }
 
   /*
-  Returns a new time which is a month sooner than the the given time.
+  Returns a new time which is a day sooner than the the given time.
 
-    Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
+    Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
   */
-  fun previousMonth (time : Time) : Time {
-    shift(Time.Span::Months(-1), time)
+  fun previousDay (time : Time) : Time {
+    shift(Time.Span::Days(-1), time)
   }
 
   /* UTILITIES -------------------------------------------------------------- */
@@ -494,14 +597,14 @@ module Time {
   fun range (from : Time, to : Time) : Array(Time) {
     `
     (() => {
-      const endTime = #{to}.getTime();
-      const currentDate = #{from};
+      const currentDate = #{atBeginningOfDay(from)};
+      const endTime = #{atEndOfDay(to)}.getTime();
       const dates = [];
 
       while (currentDate.getTime() <= endTime) {
         dates.push(new Date(+currentDate))
-        currentDate.setDate(currentDate.getUTCDate() + 1)
-        currentDate.setHours(0, 0, 0, 0)
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1)
+        currentDate.setUTCHours(0, 0, 0, 0)
       }
 
       return dates;

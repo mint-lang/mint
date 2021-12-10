@@ -1,3 +1,9 @@
+suite "Time.formatISO" {
+  test "returns iso formatted string of the time" {
+    Time.formatISO(Time.utcDate(2018, 4, 5)) == "2018-04-05T00:00:00.000Z"
+  }
+}
+
 suite "Time.format" {
   const FORMAT_TEST_DATA =
     [
