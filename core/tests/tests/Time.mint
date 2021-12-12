@@ -413,3 +413,10 @@ suite "Time.range" {
     ]
   }
 }
+
+suite "Time.inZone" {
+  test "it returns a new time in the given time zone" {
+    Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==
+      Maybe::Just(Time.utc(2019, 1, 1, 1, 12, 35, 200))
+  }
+}

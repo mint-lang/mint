@@ -1,22 +1,20 @@
 /*
-`Time` represents a date-time instant in incremental time observed in a specific
-time zone.
+`Time` represents a point in time without a time-zone attribute.
 
 The calendaric calculations are based on the rules of the proleptic Gregorian
 calendar as specified in ISO 8601. Leap seconds are ignored.
 
 This module uses the `Date`[1] JavaScript object under the hood. Since the
-`Date` object is always in the clients time-zone, this module modifies it's
-UTC version with the `getUTC*` and `setUTC*` methods.
-
-[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+`Date` object is always in the clients time-zone, this module the UTC based
+functions `getUTC*` and `setUTC*` for querying and modifing.
 
 Things to keep in mind when working with `Time`:
 
-- All time is in UTC, so use a timezone when displaying a time to a user.
 - Weekdays start from 1 (1 is Monday, 7 is sunday).
 - Months start from 1 (January).
 - Days start from 1.
+
+[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 */
 module Time {
   /* PARSING ----------------------------------------------------------------- */
@@ -87,12 +85,26 @@ module Time {
   }
 
   /*
-  Returns the current time.
+  Returns the current time (in UTC).
+
+    Time.utcNow()
+  */
+  fun utcNow : Time {
+    `new Date()`
+  }
+
+  /*
+  Returns the current time (offset by the clients time zone).
 
     Time.now()
   */
   fun now : Time {
-    `new Date()`
+    try {
+      time =
+        utcNow()
+
+      shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
+    }
   }
 
   /*
@@ -609,5 +621,26 @@ module Time {
 
       return dates;
     })()`
+  }
+
+  /*
+  Converts the given time zone, since not all browsers support time zone
+  conversion this function can fail.
+
+    Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==
+      Maybe::Just(Time.utc(2019, 1, 1, 1, 12, 35, 200))
+  */
+  fun inZone(timeZone : String, time : Time) : Maybe(Time) {
+    `
+    (() => {
+      try {
+        const date = new Date(#{time}.toLocaleString("en-US", { timeZone: #{timeZone} }))
+        date.setUTCMilliseconds(#{time}.getUTCMilliseconds())
+        return #{Maybe::Just(`date`)};
+      } catch {
+        return #{Maybe::Nothing}
+      }
+    })()
+    `
   }
 }
