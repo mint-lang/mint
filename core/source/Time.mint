@@ -61,7 +61,7 @@ module Time {
   /*
   Returns a new time from the given parameters.
 
-    Time.utc(2018, 4, 5)
+    Time.utc(2018, 4, 5, 12, 24, 50, 100)
   */
   fun utc (
     year : Number,
