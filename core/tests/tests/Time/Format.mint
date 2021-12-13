@@ -4,8 +4,61 @@ suite "Time.formatISO" {
   }
 }
 
+suite "Time." {
+  const TEST_DATA =
+    [
+      {Time.Span::Seconds(0), "right now"},
+      {Time.Span::Seconds(-24), "just now"},
+      {Time.Span::Seconds(-40), "40 seconds ago"},
+      {Time.Span::Minutes(-1), "a minute ago"},
+      {Time.Span::Minutes(-9), "9 minutes ago"},
+      {Time.Span::Hours(-1), "an hour ago"},
+      {Time.Span::Hours(-3), "3 hours ago"},
+      {Time.Span::Days(-1), "yesterday"},
+      {Time.Span::Days(-4), "4 days ago"},
+      {Time.Span::Months(-1), "last month"},
+      {Time.Span::Months(-5), "5 months ago"},
+      {Time.Span::Years(-1), "last year"},
+      {Time.Span::Years(-20), "20 years ago"},
+      {Time.Span::Seconds(0), "right now"},
+      {Time.Span::Seconds(24), "in a few seconds"},
+      {Time.Span::Seconds(40), "in 40 seconds"},
+      {Time.Span::Minutes(1), "in a minute"},
+      {Time.Span::Minutes(9), "in 9 minutes"},
+      {Time.Span::Hours(1), "in an hour"},
+      {Time.Span::Hours(3), "in 3 hours"},
+      {Time.Span::Days(1), "tomorrow"},
+      {Time.Span::Days(4), "in 4 days"},
+      {Time.Span::Months(1), "in a month"},
+      {Time.Span::Months(5), "in 5 months"},
+      {Time.Span::Years(1), "in a year"},
+      {Time.Span::Years(20), "in 20 years"}
+    ]
+
+  test "returns relative time in words" {
+    try {
+      now =
+        Time.utc(2016, 1, 1, 12, 34, 50, 200)
+
+      expected =
+        for (item of TEST_DATA) {
+          item[1]
+        }
+        |> String.join("\n")
+
+      actual =
+        for (item of TEST_DATA) {
+          Time.distanceOfTimeInWords(Time.Format:ENGLISH, now, Time.shift(item[0], now))
+        }
+        |> String.join("\n")
+
+      actual == expected
+    }
+  }
+}
+
 suite "Time.format" {
-  const FORMAT_TEST_DATA =
+  const TEST_DATA =
     [
       {Time.utcDate(1985, 4, 12), "%G-W%V-%u", "1985-W15-5"},
       {Time.utcDate(2005, 1, 1), "%G-W%V-%u", "2004-W53-6"},
@@ -33,13 +86,13 @@ suite "Time.format" {
   test "formats parts correctly" {
     try {
       expected =
-        for (item of FORMAT_TEST_DATA) {
+        for (item of TEST_DATA) {
           item[2]
         }
         |> String.join("\n")
 
       actual =
-        for (item of FORMAT_TEST_DATA) {
+        for (item of TEST_DATA) {
           Time.format(Time.Format:ENGLISH, item[1], item[0])
         }
         |> String.join("\n")

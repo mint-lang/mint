@@ -630,7 +630,7 @@ module Time {
     Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==
       Maybe::Just(Time.utc(2019, 1, 1, 2, 12, 35, 200))
   */
-  fun inZone(timeZone : String, time : Time) : Maybe(Time) {
+  fun inZone (timeZone : String, time : Time) : Maybe(Time) {
     `
     (() => {
       try {

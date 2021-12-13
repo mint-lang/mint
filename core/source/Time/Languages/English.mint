@@ -83,6 +83,103 @@ module Time.Format {
           } else {
             "am"
           }
-        }
+        },
+      someSecondsAgo =
+        (seconds : Number) {
+          if (seconds < 30) {
+            "just now"
+          } else {
+            "#{seconds} seconds ago"
+          }
+        },
+      someMinutesAgo =
+        (minutes : Number) {
+          if (minutes < 2) {
+            "a minute ago"
+          } else {
+            "#{minutes} minutes ago"
+          }
+        },
+      someHoursAgo =
+        (hours : Number) {
+          if (hours < 2) {
+            "an hour ago"
+          } else {
+            "#{hours} hours ago"
+          }
+        },
+      someDaysAgo =
+        (days : Number) {
+          if (days < 2) {
+            "yesterday"
+          } else {
+            "#{days} days ago"
+          }
+        },
+      someMonthsAgo =
+        (months : Number) {
+          if (months < 2) {
+            "last month"
+          } else {
+            "#{months} months ago"
+          }
+        },
+      someYearsAgo =
+        (years : Number) {
+          if (years < 2) {
+            "last year"
+          } else {
+            "#{years} years ago"
+          }
+        },
+      inSomeSeconds =
+        (seconds : Number) {
+          if (seconds < 30) {
+            "in a few seconds"
+          } else {
+            "in #{seconds} seconds"
+          }
+        },
+      inSomeMinutes =
+        (minutes : Number) {
+          if (minutes < 2) {
+            "in a minute"
+          } else {
+            "in #{minutes} minutes"
+          }
+        },
+      inSomeHours =
+        (hours : Number) {
+          if (hours < 2) {
+            "in an hour"
+          } else {
+            "in #{hours} hours"
+          }
+        },
+      inSomeDays =
+        (days : Number) {
+          if (days < 2) {
+            "tomorrow"
+          } else {
+            "in #{days} days"
+          }
+        },
+      inSomeMonths =
+        (months : Number) {
+          if (months < 2) {
+            "in a month"
+          } else {
+            "in #{months} months"
+          }
+        },
+      inSomeYears =
+        (years : Number) {
+          if (years < 2) {
+            "in a year"
+          } else {
+            "in #{years} years"
+          }
+        },
+      rightNow = "right now"
     }
 }

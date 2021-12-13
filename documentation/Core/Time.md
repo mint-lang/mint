@@ -189,3 +189,17 @@ The following tokens can be used in the pattern:
   - %Y: year, zero padded
 
 There are no tokens for time-zones because `Time` doesn't have an associated time-zone on it.
+
+### Relative Time in Words
+
+You can format the distance between two `Time` objects with the `Time.distanceOfTimeInWords` function:
+
+```
+now =
+  Time.utc(2016, 1, 2, 12, 34, 50, 200)
+
+time =
+  Time.shift(Time.Span::Hours(4), time)
+
+Time.distanceOfTimeInWords(Time.Format::English, now, time)) == "in 4 hours"
+```

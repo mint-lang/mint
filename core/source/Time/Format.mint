@@ -1,5 +1,87 @@
 module Time {
   /*
+  Reports the approximate distance in time between two `Time` objects as seconds
+  in the given language.
+
+    now =
+      Time.utc(2016, 1, 2, 12, 34, 50, 200)
+
+    time =
+      Time.shift(Time.Span::Hours(4), time)
+
+    Time.distanceOfTimeInWords(Time.Format::English, now, time)) == "in 4 hours"
+  */
+  fun distanceOfTimeInWords (
+    language : Time.Format.Language,
+    to : Time,
+    from : Time
+  ) {
+    try {
+      distance =
+        Time.toUnix(to) - Time.toUnix(from)
+
+      if (distance == 0) {
+        language.rightNow
+      } else {
+        try {
+          seconds =
+            Math.trunc(Math.abs(distance) / 1000)
+
+          minutes =
+            Math.trunc(seconds / 60)
+
+          hours =
+            Math.trunc(minutes / 60)
+
+          days =
+            Math.trunc(hours / 24)
+
+          positive =
+            distance > 0
+
+          if (minutes < 1) {
+            if (positive) {
+              language.someSecondsAgo
+            } else {
+              language.inSomeSeconds
+            }(seconds)
+          } else if (hours < 1) {
+            if (positive) {
+              language.someMinutesAgo
+            } else {
+              language.inSomeMinutes
+            }(minutes)
+          } else if (hours < 24) {
+            if (positive) {
+              language.someHoursAgo
+            } else {
+              language.inSomeHours
+            }(hours)
+          } else if (days < 30) {
+            if (positive) {
+              language.someDaysAgo
+            } else {
+              language.inSomeDays
+            }(days)
+          } else if (days < 365) {
+            if (positive) {
+              language.someMonthsAgo
+            } else {
+              language.inSomeMonths
+            }(Math.trunc(days / 30))
+          } else {
+            if (positive) {
+              language.someYearsAgo
+            } else {
+              language.inSomeYears
+            }(Math.trunc(days / 365))
+          }
+        }
+      }
+    }
+  }
+
+  /*
   Formats the given time using the given pattern in the given language.
 
     Time.format(
