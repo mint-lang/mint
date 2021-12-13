@@ -260,8 +260,8 @@ module Time {
   fun dayOfWeekNumber (time : Time) : Number {
     `
     (() => {
-      const _ = #{time}.getUTCDay()
-      return _ === 0 ? 7 : _;
+      const dayNumber = #{time}.getUTCDay()
+      return dayNumber === 0 ? 7 : dayNumber;
     })()
     `
   }
