@@ -13,6 +13,12 @@ class Mint::Error < Exception
   end
 end
 
+module Mint
+  class Core
+    class_getter ast : Ast = Ast.new
+  end
+end
+
 def diff(a, b)
   file1 = File.tempfile do |f|
     f.puts a.strip
@@ -187,7 +193,7 @@ def notify_lsp(method, message)
   server.read
 end
 
-def lsp(id, method, message)
+def lsp(messages)
   in_io =
     IO::Memory.new
 
@@ -197,17 +203,24 @@ def lsp(id, method, message)
   server =
     Mint::LS::Server.new(in_io, out_io)
 
-  body = {
-    jsonrpc: "2.0",
-    id:      id,
-    params:  message,
-    method:  method,
-  }.to_json
+  messages.map do |item|
+    # Clear out IOs so it's a fresh start
+    out_io.clear
+    in_io.clear
 
-  in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
-  in_io.rewind
+    body = {
+      jsonrpc: "2.0",
+      id:      item[:id],
+      params:  item[:message],
+      method:  item[:method],
+    }.to_json
 
-  server.read
+    in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
+    in_io.rewind # Rewind in IO so the server can read it
 
-  LSP::MessageParser.parse(out_io.rewind) { |content| content }
+    # Process the message
+    server.read
+
+    LSP::MessageParser.parse(out_io.rewind) { |content| content }
+  end
 end

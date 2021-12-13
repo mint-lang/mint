@@ -4,6 +4,8 @@ module Mint
       property params : LSP::InitializeParams
 
       def execute(server)
+        server.params = params
+
         completion_provider =
           LSP::CompletionOptions.new(
             resolve_provider: true,

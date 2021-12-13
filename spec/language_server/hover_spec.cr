@@ -12,13 +12,14 @@ describe "Language Server - Hover" do
       MINT
 
       # TODO: Assert
-      lsp(
-        id: 0,
-        method: "textDocument/hover",
+      lsp([{
+        id:      0,
+        method:  "textDocument/hover",
         message: {
           textDocument: {uri: workspace.file_path("test.mint")},
           position:     {line: 2, character: 6},
-        })
+        },
+      }])
     end
   end
 end

@@ -13,6 +13,8 @@ module Mint
       method "textDocument/didChange", DidChange
       method "textDocument/hover", Hover
 
+      property params : LSP::InitializeParams? = nil
+
       # Logs the given stack.
       def debug_stack(stack : Array(Ast::Node))
         stack.each_with_index do |item, index|
