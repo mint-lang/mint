@@ -87,21 +87,21 @@ module Time {
   /*
   Returns the current time (in UTC).
 
-    Time.utcNow()
+    Time.now()
   */
-  fun utcNow : Time {
+  fun now : Time {
     `new Date()`
   }
 
   /*
   Returns the current time (offset by the clients time zone).
 
-    Time.now()
+    Time.local()
   */
-  fun now : Time {
+  fun local : Time {
     try {
       time =
-        utcNow()
+        now()
 
       shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
     }
@@ -146,11 +146,11 @@ module Time {
   }
 
   /*
-  Returns the quarter of the year in which the given time occurs.
+  Returns the quarterOfYear of the year in which the given time occurs.
 
-    Time.year(Time.utcDate(2018, 4, 5)) == 1
+    Time.quarterOfYear(Time.utcDate(2018, 4, 5)) == 1
   */
-  fun quarter (time : Time) : Number {
+  fun quarterOfYear (time : Time) : Number {
     `Math.trunc(#{monthNumber(time)} / 4)`
   }
 
@@ -628,15 +628,21 @@ module Time {
   conversion this function can fail.
 
     Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==
-      Maybe::Just(Time.utc(2019, 1, 1, 1, 12, 35, 200))
+      Maybe::Just(Time.utc(2019, 1, 1, 2, 12, 35, 200))
   */
   fun inZone(timeZone : String, time : Time) : Maybe(Time) {
     `
     (() => {
       try {
-        const date = new Date(#{time}.toLocaleString("en-US", { timeZone: #{timeZone} }))
-        date.setUTCMilliseconds(#{time}.getUTCMilliseconds())
-        return #{Maybe::Just(`date`)};
+        const time = new Date(#{time}.toLocaleString("en-US", { timeZone: #{timeZone} }));
+
+        // Correct the millisecond since the en-US local string doesn't contain that.
+        time.setUTCMilliseconds(#{time}.getUTCMilliseconds())
+
+        // Shift the resulting time by the local time-zone offset.
+        time.setUTCMinutes(time.getUTCMinutes() - time.getTimezoneOffset())
+
+        return #{Maybe::Just(`time`)};
       } catch {
         return #{Maybe::Nothing}
       }
