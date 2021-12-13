@@ -375,7 +375,7 @@ module Time {
           Time.Span::Milliseconds(amount) =>
             `time.setUTCMilliseconds(time.getUTCMilliseconds() + #{amount})`
 
-          Time.Span::Seconds(amount)      =>
+          Time.Span::Seconds(amount) =>
             `time.setUTCSeconds(time.getUTCSeconds() + #{amount})`
 
           Time.Span::Minutes(amount)      =>
