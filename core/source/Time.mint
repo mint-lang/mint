@@ -146,7 +146,7 @@ module Time {
   }
 
   /*
-  Returns the quarterOfYear of the year in which the given time occurs.
+  Returns the quarter of the year in which the given time occurs.
 
     Time.quarterOfYear(Time.utcDate(2018, 4, 5)) == 1
   */
