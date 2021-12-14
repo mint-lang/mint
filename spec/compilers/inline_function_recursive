@@ -21,12 +21,12 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  a(e) {
-    const d = (b, c) => {
-      return (_compare(b, 0) ? c : d(b - 1, c * b))
+  a(b) {
+    const e = (c, d) => {
+      return (_compare(c, 0) ? d : e(c - 1, d * c))
     };
 
-    return d(e, 1);
+    return e(b, 1);
   }
 });
 

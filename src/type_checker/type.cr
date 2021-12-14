@@ -4,6 +4,8 @@ module Mint
       getter parameters : Array(Checkable)
       getter name : String
 
+      property optional_count : Int32 = 0
+
       def initialize(@name, @parameters = [] of Checkable)
       end
 

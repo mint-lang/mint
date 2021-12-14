@@ -15,15 +15,19 @@ module Mint
 
       resolve style
 
-      raise HtmlStyleArgumentSizeMismatch, {
-        "size"      => style.arguments.size.to_s,
-        "call_size" => node.arguments.size.to_s,
-        "node"      => node,
-      } unless style.arguments.size == node.arguments.size
+      required_count =
+        style.arguments.count { |arg| !arg.default }
 
-      style.arguments
-        .zip(node.arguments)
-        .each_with_index do |(style_arg, call_arg), index|
+      raise HtmlStyleArgumentSizeMismatch, {
+        "call_size" => node.arguments.size.to_s,
+        "size"      => required_count.to_s,
+        "node"      => node,
+      } if node.arguments.size > style.arguments.size ||
+           node.arguments.size < required_count
+
+      node.arguments
+        .zip(style.arguments[0, node.arguments.size])
+        .each_with_index do |(call_arg, style_arg), index|
           style_arg_type =
             resolve(style_arg)
 

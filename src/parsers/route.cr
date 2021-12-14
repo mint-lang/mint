@@ -23,7 +23,7 @@ module Mint
         arguments = [] of Ast::Argument
 
         if char! '('
-          arguments = list(terminator: ')', separator: ',') { argument }
+          arguments = list(terminator: ')', separator: ',') { argument(false) }
           whitespace
           char ')', RouteExpectedClosingParentheses
           whitespace

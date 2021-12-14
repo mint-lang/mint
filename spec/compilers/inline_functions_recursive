@@ -31,16 +31,16 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  a(h) {
-    const e = (b, c) => {
-      return (_compare(b, 0) ? c : d(b - 1, c * b))
+  a(b) {
+    const f = (c, d) => {
+      return (_compare(c, 0) ? d : e(c - 1, d * c))
     };
 
-    const d = (f, g) => {
-      return (_compare(f, 0) ? g : e(f - 1, g * f))
+    const e = (g, h) => {
+      return (_compare(g, 0) ? h : f(g - 1, h * g))
     };
 
-    return e(h, 1);
+    return f(b, 1);
   }
 });
 

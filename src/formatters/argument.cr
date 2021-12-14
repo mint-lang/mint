@@ -7,7 +7,17 @@ module Mint
       type =
         format node.type
 
-      "#{name} : #{type}"
+      default =
+        format node.default
+
+      head =
+        "#{name} : #{type}"
+
+      if default
+        "#{head} = #{default}"
+      else
+        head
+      end
     end
   end
 end

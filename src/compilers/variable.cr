@@ -88,7 +88,7 @@ module Mint
             "this.#{name}"
           end
         when Ast::Argument
-          compile entity
+          js.variable_of(entity)
         when Ast::Statement
           case target = entity.target
           when Ast::Variable

@@ -12,16 +12,14 @@ module Mint
       name =
         js.variable_of(node)
 
-      expression =
-        compile node.body, for_function: true
+      items =
+        [] of String
 
       arguments =
         compile node.arguments
 
-      items =
-        [expression]
-
-      items.unshift(contents) unless contents.empty?
+      items << contents unless contents.empty?
+      items << compile(node.body, for_function: true)
 
       body =
         js.statements(items)
