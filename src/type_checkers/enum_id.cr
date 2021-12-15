@@ -6,7 +6,7 @@ module Mint
 
     def check(node : Ast::EnumId) : Checkable
       parent =
-        ast.enums.find(&.name.==(node.name))
+        find_enum(node.name, node.option, node)
 
       raise EnumIdTypeMissing, {
         "name" => node.name,

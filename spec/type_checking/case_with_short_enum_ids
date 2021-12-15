@@ -1,0 +1,11 @@
+enum Test {
+  Option
+}
+
+component Main {
+  fun render : String {
+    case (:Option) {
+      :Option => "a"
+    }
+  }
+}

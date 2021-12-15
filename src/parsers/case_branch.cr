@@ -7,6 +7,7 @@ module Mint
         unless keyword "=>"
           match =
             constant_access ||
+              short_enum_destructuring ||
               enum_destructuring ||
               bool_tuple_literal ||
               tuple_destructuring ||

@@ -10,6 +10,7 @@ module Mint
         env ||
         string_literal ||
         regexp_literal ||
+        short_enum_id ||
         bool_literal ||
         number_literal ||
         unary_minus ||
