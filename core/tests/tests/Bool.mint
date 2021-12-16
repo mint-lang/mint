@@ -1,9 +1,9 @@
 suite "Bool.toString" {
   test "returns 'true' for true" {
-    (Bool.toString(true)) == "true"
+    true.toString() == "true"
   }
 
   test "returns 'false' for false" {
-    (Bool.toString(false)) == "false"
+    false.toString() == "false"
   }
 }

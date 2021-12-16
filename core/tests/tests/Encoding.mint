@@ -45,8 +45,8 @@ suite "Encode" {
   test "it encodes Map(String, a) as object" {
     map =
       Map.empty()
-      |> Map.set("key", "value")
-      |> Map.set("key2", "value2")
+        .set("key", "value")
+        .set("key2", "value2")
 
     encoded =
       encode map

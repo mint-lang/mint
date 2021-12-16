@@ -9,79 +9,62 @@ suite "Dom.createElement" {
 
 suite "Dom.getValue" {
   test "returns the value of the element" {
-    (Dom.createElement("input")
-    |> Dom.setValue("test")
-    |> Dom.getValue()) == "test"
+    Dom.createElement("input").setValue("test").getValue() == "test"
   }
 
   test "returns an empty string if there is no value" {
-    (Dom.createElement("div")
-    |> Dom.getValue()) == ""
+    Dom.createElement("div").getValue() == ""
   }
 }
 
 suite "Dom.getElementById" {
   test "returns just the element if found" {
-    Dom.getElementById("root")
-    |> Maybe.isJust()
+    Dom.getElementById("root").isJust()
   }
 
   test "returns nothing if the element is not found" {
-    Dom.getElementById("???")
-    |> Maybe.isNothing()
+    Dom.getElementById("???").isNothing()
   }
 }
 
 suite "Dom.getElementBySelector" {
   test "returns just the element if found" {
-    Dom.getElementBySelector("div#root")
-    |> Maybe.isJust()
+    Dom.getElementBySelector("div#root").isJust()
   }
 
   test "returns nothing the selector is invalid" {
-    Dom.getElementBySelector("???")
-    |> Maybe.isNothing()
+    Dom.getElementBySelector("???").isNothing()
   }
 
   test "returns nothing if element is not found" {
-    Dom.getElementBySelector("blah")
-    |> Maybe.isNothing()
+    Dom.getElementBySelector("blah").isNothing()
   }
 }
 
 suite "Dom.getDimensions" {
   test "returns dimensions" {
-    dimensions =
-      Dom.createElement("div")
-      |> Dom.getDimensions()
-
-    Dom.Dimensions.empty() == dimensions
+    Dom.Dimensions.empty() == Dom.createElement("div").getDimensions()
   }
 
   test "returns actual dimensions" {
-    dimensions =
-      Dom.getElementById("root")
-      |> Maybe.withLazyDefault(() { Dom.createElement("div") })
-      |> Dom.getDimensions()
-
-    dimensions.width != 0
+    Dom.getElementById("root")
+      .withLazyDefault(() { Dom.createElement("div") })
+      .getDimensions()
+      .width != 0
   }
 }
 
 suite "Dom.matches" {
   test "returns true if the selector matches" {
-    Dom.createElement("div")
-    |> Dom.matches("div")
+    Dom.createElement("div").matches("div")
   }
 
   test "returns false for invalid selector" {
-    (Dom.createElement("div")
-    |> Dom.matches("??")) == false
+    Dom.createElement("div").matches("??") == false
   }
 
   test "returns false if the selector does not match" {
-    (Dom.createElement("div")
-    |> Dom.matches("p")) == false
+    Dom.createElement("div").matches("p") == false
   }
 }
 
@@ -115,10 +98,8 @@ component Test.Dom.Focus {
     await next { shown = true }
   }
 
-  fun focus : Promise(Result(String, Void)) {
-    input
-    |> Maybe.withLazyDefault(() { Dom.createElement("div") })
-    |> Dom.focusWhenVisible()
+  fun focus : Promise(Void) {
+    input.focus()
   }
 
   fun render : Html {
@@ -139,9 +120,9 @@ component Test.Dom.Focus {
 suite "Dom.focusWhenVisible" {
   test "it waits for the element to be visible" {
     <Test.Dom.Focus/>
-    |> Test.Html.start()
-    |> Test.Html.triggerClick("#focus")
-    |> Test.Html.triggerClick("#show")
+      .start()
+      .triggerClick("#focus")
+      .triggerClick("#show")
     |> Test.Context.timeout(200)
     |> Test.Html.assertCssOf("#input", "display", "inline-block")
     |> Test.Html.assertActiveElement("#input")

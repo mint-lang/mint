@@ -139,13 +139,13 @@ suite "Array.any" {
 
 suite "Array.sort" {
   test "sorts the array based on predicate function" {
-    [ 3, 2, 1].sort((a : Number, b : Number) : Number { a - b }) == [1, 2, 3]
+    [3, 2, 1].sort((a : Number, b : Number) : Number { a - b }) == [1, 2, 3]
   }
 }
 
 suite "Array.sortBy" {
   test "sorts the array based on predicate function" {
-    [ 3, 2, 1].sortBy((a : Number) : Number { a }) == [1, 2, 3]
+    [3, 2, 1].sortBy((a : Number) : Number { a }) == [1, 2, 3]
   }
 }
 
@@ -256,7 +256,7 @@ suite "Array.flatMap" {
 
 suite "Array.take" {
   test "take n number of items" {
-    [1, 2, 3, 4, 5, 6, 7, 8].take(2) ==  [1, 2]
+    [1, 2, 3, 4, 5, 6, 7, 8].take(2) == [1, 2]
   }
 }
 
@@ -342,38 +342,38 @@ suite "Array.move" {
 
 suite "Array.insertAt" {
   test "it inserts item at front if the position below zero" {
-    ["b", "c"].insertAt("a", -10, ) == ["a", "b", "c"]
+    ["b", "c"].insertAt("a", -10) == ["a", "b", "c"]
   }
 
   test "it inserts item at front if the position zero" {
-    ["b", "c"].insertAt("a", 0, ) == ["a", "b", "c"]
+    ["b", "c"].insertAt("a", 0) == ["a", "b", "c"]
   }
 
   test "it inserts item at the given position" {
-    ["b", "c"].insertAt("a", 1, ) == ["b", "a", "c"]
+    ["b", "c"].insertAt("a", 1) == ["b", "a", "c"]
   }
 
   test "it inserts item at the given position2" {
-    ["b", "c"].insertAt("a", 2, ) == ["b", "c", "a"]
+    ["b", "c"].insertAt("a", 2) == ["b", "c", "a"]
   }
 
   test "it inserts item at back if the position is greater then " \
   "the length" {
-    ["b", "c"].insertAt("a", 10, ) == ["b", "c", "a"]
+    ["b", "c"].insertAt("a", 10) == ["b", "c", "a"]
   }
 }
 
 suite "Array.deleteAt" {
   test "it deletes the item at the given index" {
-    ["a", "b", "c"].deleteAt(0, ) == ["b", "c"]
+    ["a", "b", "c"].deleteAt(0) == ["b", "c"]
   }
 
   test "it returns array if the index is negative" {
-    ["a", "b", "c"].deleteAt(-1,) == ["a", "b", "c"]
+    ["a", "b", "c"].deleteAt(-1) == ["a", "b", "c"]
   }
 
   test "it returns array if the index is bigger then length" {
-    ["a", "b", "c"].deleteAt(10,) == ["a", "b", "c"]
+    ["a", "b", "c"].deleteAt(10) == ["a", "b", "c"]
   }
 }
 
@@ -423,7 +423,7 @@ suite "Array.indexOf" {
 
 suite "Array.indexBy" {
   test "it returns the index of the item" {
-    ["a", "b", "c"].indexBy("a", (item : String) { item }, ) == 0
+    ["a", "b", "c"].indexBy("a", (item : String) { item }) == 0
   }
 }
 
