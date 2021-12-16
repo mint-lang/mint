@@ -1,0 +1,25 @@
+module String {
+  fun greet (name : String) : String {
+    "Hello #{name}!"
+  }
+}
+
+component Main {
+  fun render : String {
+    "Joe".greet()
+  }
+}
+--------------------------------------------------------------------------------
+const B = new(class extends _M {
+  a(b) {
+    return `Hello ${b}!`;
+  }
+});
+
+class A extends _C {
+  render() {
+    return ((...args) => B.a(...args.concat(`Joe`)))();
+  }
+};
+
+A.displayName = "Main";

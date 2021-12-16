@@ -14,7 +14,19 @@ component Main {
     blah.blah.blah
   }
 }
------------------------------------------------------------------AccessNotRecord
+--------------------------------------------------------------------------------
+module String {
+  fun greet (name : String) : String {
+    "Hello #{name}!"
+  }
+}
+
+component Main {
+  fun render : String {
+    "Joe".greet()
+  }
+}
+-----------------------------------------------------------------------TypeError
 component Main {
   fun render : Bool {
     blah = ""
@@ -22,7 +34,7 @@ component Main {
     blah.blah.blah
   }
 }
------------------------------------------------------------------AccessNotRecord
+-----------------------------------------------------------------------TypeError
 record Blah {
   blah : String
 }

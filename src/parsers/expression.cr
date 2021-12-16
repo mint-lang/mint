@@ -5,15 +5,13 @@ module Mint
     end
 
     def array_access_or_call(lhs)
-      case input[position, 2].join
-      when "&."
+      whitespace
+
+      if char == '.'
         access(lhs)
-      when "&("
-        call(lhs)
       else
+        track_back_whitespace
         case char
-        when '.'
-          access(lhs)
         when '('
           call(lhs)
         when '['
