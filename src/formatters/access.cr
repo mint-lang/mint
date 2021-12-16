@@ -4,7 +4,11 @@ module Mint
       lhs =
         format node.lhs
 
-      "#{lhs}.#{node.field.value}"
+      if Ast.new_line?(node.lhs, node)
+        "#{lhs}\n#{indent(".#{node.field.value}")}"
+      else
+        "#{lhs}.#{node.field.value}"
+      end
     end
   end
 end

@@ -1,0 +1,37 @@
+record Blah1 {
+  blah : Bool
+}
+
+record Blah {
+  blah : Blah1
+}
+
+module Test {
+  fun test : Bool {
+    blah =
+      { blah = { blah = true } }
+
+    blah
+        .blah
+            .blah
+  }
+}
+--------------------------------------------------------------------------------
+record Blah1 {
+  blah : Bool
+}
+
+record Blah {
+  blah : Blah1
+}
+
+module Test {
+  fun test : Bool {
+    blah =
+      { blah = { blah = true } }
+
+    blah
+      .blah
+      .blah
+  }
+}

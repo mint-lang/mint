@@ -47,7 +47,7 @@ component Main {
     blah.blah.blah
   }
 }
--------------------------------------------------------------AccessFieldNotFound
+-----------------------------------------------------------------------TypeError
 record Blah {
   blah : String
 }

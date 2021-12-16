@@ -26,8 +26,7 @@ module Array {
     Array.firstWithDefault("a", ["b", "x"]) == "b"
   */
   fun firstWithDefault (item : a, array : Array(a)) : a {
-    first(array)
-    |> Maybe.withDefault(item)
+    array.first().withDefault(item)
   }
 
   /*
@@ -56,8 +55,7 @@ module Array {
     Array.lastWithDefault("a", ["x", "b"]) == "b"
   */
   fun lastWithDefault (item : a, array : Array(a)) : a {
-    last(array)
-    |> Maybe.withDefault(item)
+    array.last().withDefault(item)
   }
 
   /*

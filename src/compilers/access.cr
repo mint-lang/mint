@@ -15,7 +15,7 @@ module Mint
         function_name =
           js.variable_of(item.as(Ast::Module).functions.find(&.name.value.==(node.field.value)).not_nil!)
 
-        "((...args) => #{module_name}.#{function_name}(...args.concat(#{first})))"
+        "_x(#{first}, #{module_name}.#{function_name})"
       else
         field =
           if record_field_lookup[node.field]?

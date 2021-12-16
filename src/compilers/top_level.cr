@@ -285,6 +285,8 @@ module Mint
           }
         }
 
+        const _x = (param, method) => (...args) => method(...args.concat([param]))
+
         class DoError extends Error {}
 
         #{body}

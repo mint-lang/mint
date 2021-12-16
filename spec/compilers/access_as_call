@@ -18,7 +18,7 @@ const B = new(class extends _M {
 
 class A extends _C {
   render() {
-    return ((...args) => B.a(...args.concat(`Joe`)))();
+    return _x(`Joe`, B.a)();
   }
 };
 
