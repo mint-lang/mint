@@ -4,8 +4,8 @@ module Mint
       first =
         compile node.lhs
 
-      case cache[node.lhs]
-      when TypeChecker::Type
+      if cache[node.lhs].is_a?(TypeChecker::Type) ||
+         lookups[node.field]?.is_a?(Ast::Module)
         item =
           lookups[node.field]
 
