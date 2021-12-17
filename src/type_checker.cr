@@ -27,6 +27,7 @@ module Mint
     VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
     STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
+    PROMISE        = Type.new("Promise", [Variable.new("a")] of Checkable)
 
     getter records, scope, artifacts, formatter, web_components
 

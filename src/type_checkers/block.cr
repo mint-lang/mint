@@ -11,8 +11,14 @@ module Mint
       last =
         statements.last
 
+      last_type = cache[last]
+
       if node.async?
-        Type.new("Promise", [cache[last]] of Checkable)
+        if Comparer.compare(last_type, PROMISE)
+          last_type
+        else
+          Type.new("Promise", [cache[last]] of Checkable)
+        end
       else
         cache[last]
       end
