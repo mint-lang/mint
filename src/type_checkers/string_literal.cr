@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     type_error StringLiteralInterpolationTypeMismatch
 
-    def check(node : Ast::StringLiteral) : Checkable
+    def check(node : Ast::StringLiteral | Ast::HereDoc) : Checkable
       node.value.each do |item|
         case item
         when Ast::Node

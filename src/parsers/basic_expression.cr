@@ -8,6 +8,7 @@ module Mint
         asset_directive ||
         inline_directive ||
         env ||
+        here_doc ||
         string_literal ||
         regexp_literal ||
         short_enum_id ||

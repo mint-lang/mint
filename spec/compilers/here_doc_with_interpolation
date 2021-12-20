@@ -1,0 +1,21 @@
+component Main {
+  fun render : String {
+    <<-TEXT
+    Hello There!
+      #{"interpolation"}
+      This line should be indented by 2 spaces.
+        This line should be indented by 4 spaces.
+    TEXT
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return `    Hello There!
+      ${`interpolation`}
+      This line should be indented by 2 spaces.
+        This line should be indented by 4 spaces.`;
+  }
+};
+
+A.displayName = "Main";
