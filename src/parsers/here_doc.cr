@@ -6,7 +6,9 @@ module Mint
     def here_doc_part(token : String)
       gather do
         while char != '\0' && !keyword_ahead(token)
-          break if char == '#' && prev_char != '\\'
+          break if char == '#' &&
+                   next_char == '{' &&
+                   prev_char != '\\'
           step
         end
       end
@@ -15,7 +17,7 @@ module Mint
     def here_doc(with_interpolation : Bool = true) : Ast::HereDoc?
       start do |start_position|
         next unless keyword "<<"
-        next unless char "~-"
+        next unless char "~#-"
 
         modifier =
           prev_char
