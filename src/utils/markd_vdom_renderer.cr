@@ -73,7 +73,7 @@ module Mint
 
       tag("pre", pre_attributes)
       tag("code", code_attributes)
-      @io << '`' << node.text.strip << '`'
+      @io << '`' << node.text.gsub('`', "\\`").strip << '`'
       tag_end node
       tag_end(node)
     end
@@ -178,7 +178,7 @@ module Mint
     end
 
     def text(node, entering)
-      @io << '`' << node.text << '`'
+      @io << '`' << node.text.gsub('`', "\\`") << '`'
 
       if node.next?
         @io << ','
