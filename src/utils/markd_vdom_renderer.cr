@@ -74,7 +74,7 @@ module Mint
       tag("pre", pre_attributes)
       tag("code", code_attributes)
       @io << '`' << node.text.gsub('`', "\\`").strip << '`'
-      tag_end node
+      tag_end
       tag_end(node)
     end
 
@@ -104,7 +104,7 @@ module Mint
 
         tag(tag_name, attributes)
       else
-        tag_end
+        tag_end(node)
       end
     end
 
