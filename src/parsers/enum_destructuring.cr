@@ -4,40 +4,14 @@ module Mint
     syntax_error EnumDestructuringExpectedOption
     syntax_error EnumDestructuringExpectedClosingParentheses
 
-    def short_enum_destructuring
-      start do |start_position|
-        next unless char! ':'
-        next unless option = type_id
-
-        parameters = [] of Ast::Node
-
-        if char! '('
-          parameters.concat list(
-            terminator: ')',
-            separator: ','
-          ) { type_variable }
-
-          whitespace
-          char ')', EnumDestructuringExpectedClosingParentheses
-        end
-
-        self << Ast::EnumDestructuring.new(
-          parameters: parameters,
-          from: start_position,
-          option: option,
-          to: position,
-          input: data,
-          name: nil)
-      end
-    end
-
     def enum_destructuring
       start do |start_position|
-        next unless name = type_id
+        next unless option = type_id
 
-        keyword! "::", EnumDestructuringExpectedDoubleColon
-
-        option = type_id! EnumDestructuringExpectedOption
+        if keyword "::"
+          name = option
+          option = type_id! EnumDestructuringExpectedOption
+        end
 
         parameters = [] of Ast::Node
 

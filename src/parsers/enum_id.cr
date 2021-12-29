@@ -4,21 +4,6 @@ module Mint
     syntax_error EnumIdExpectedDoubleColon
     syntax_error EnumIdExpectedOption
 
-    def short_enum_id
-      start do |start_position|
-        next unless char! ':'
-        next unless option = type_id
-
-        self << Ast::EnumId.new(
-          expressions: enum_id_expressions,
-          from: start_position,
-          option: option,
-          to: position,
-          input: data,
-          name: nil)
-      end
-    end
-
     def enum_id_expressions
       expressions = [] of Ast::Expression
 
@@ -45,11 +30,12 @@ module Mint
 
     def enum_id
       start do |start_position|
-        next unless name = type_id
+        next unless option = type_id
 
-        keyword! "::", EnumIdExpectedDoubleColon
-
-        option = type_id! EnumIdExpectedOption
+        if keyword "::"
+          name = option
+          option = type_id! EnumIdExpectedOption
+        end
 
         self << Ast::EnumId.new(
           expressions: enum_id_expressions,

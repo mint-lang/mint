@@ -3,7 +3,7 @@ module Mint
     def type_id!(error : SyntaxError.class) : String
       name = gather do
         char "A-Z", error
-        chars "a-zA-Z0-9"
+        chars "a-zA-Z0-9_"
       end
 
       raise error unless name
@@ -19,7 +19,7 @@ module Mint
       name = gather do
         return unless char.in_set? "A-Z"
         step
-        chars "a-zA-Z0-9"
+        chars "a-zA-Z0-9_"
       end
 
       return unless name

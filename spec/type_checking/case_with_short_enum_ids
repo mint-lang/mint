@@ -4,8 +4,8 @@ enum Test {
 
 component Main {
   fun render : String {
-    case (:Option) {
-      :Option => "a"
+    case (Option) {
+      Option => "a"
     }
   }
 }

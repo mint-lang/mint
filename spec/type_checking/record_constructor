@@ -10,7 +10,7 @@ component Main {
     item.name
   }
 }
--------------------------------------------------RecordConstructorNotFoundRecord
+---------------------------------------------------------------EnumIdTypeMissing
 component Main {
   fun render : String {
     item = Test("Joe")

@@ -4,15 +4,38 @@ module Mint
     type_error EnumIdTypeMissing
     type_error EnumIdEnumMissing
 
+    # This checks all entities that starts with an uppercase character
+    # - enums
+    # - record constructors
+    # - constants
     def check(node : Ast::EnumId) : Checkable
       parent =
         find_enum(node.name, node.option, node)
 
-      raise EnumIdTypeMissing, {
-        "name" => node.name,
-        "node" => node,
-      } unless parent
+      if parent
+        check(node, parent)
+      elsif parent = records.find(&.name.==(node.option))
+        check(node, parent)
+      elsif (item = scope.find(node.option)) && item.is_a?(Ast::Constant)
+        variable =
+          Ast::Variable.new(
+            input: node.input,
+            value: item.name,
+            from: node.from,
+            to: node.to)
 
+        lookups[node] = variable
+        resolve(variable)
+        resolve(item)
+      else
+        raise EnumIdTypeMissing, {
+          "name" => node.name,
+          "node" => node,
+        }
+      end
+    end
+
+    def check(node : Ast::EnumId, parent : Ast::Enum)
       parent_type =
         resolve parent
 

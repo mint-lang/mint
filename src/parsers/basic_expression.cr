@@ -11,7 +11,6 @@ module Mint
         here_doc ||
         string_literal ||
         regexp_literal ||
-        short_enum_id ||
         bool_literal ||
         number_literal ||
         unary_minus ||
@@ -32,7 +31,7 @@ module Mint
         next_call ||
         case_expression ||
         parenthesized_expression_or_inline_function ||
-        starts_with_uppercase ||
+        enum_id ||
         negated_expression ||
         js ||
         void ||
@@ -51,15 +50,6 @@ module Mint
           raise error
         end
       end
-    end
-
-    def starts_with_uppercase
-      item = enum_id rescue nil
-      item ||= record_constructor rescue nil
-
-      return item if item
-
-      constant_variable
     end
 
     def parenthesized_expression_or_inline_function : Ast::ParenthesizedExpression | Ast::InlineFunction?
