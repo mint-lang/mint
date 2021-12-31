@@ -37,13 +37,21 @@ module Mint
           option = type_id! EnumIdExpectedOption
         end
 
-        self << Ast::EnumId.new(
-          expressions: enum_id_expressions,
-          from: start_position,
-          option: option,
-          to: position,
-          input: data,
-          name: name)
+        if name.nil? && option =~ /^[A-Z_]+$/
+          Ast::Variable.new(
+            from: start_position,
+            to: position,
+            input: data,
+            value: option)
+        else
+          self << Ast::EnumId.new(
+            expressions: enum_id_expressions,
+            from: start_position,
+            option: option,
+            to: position,
+            input: data,
+            name: name)
+        end
       end
     end
   end

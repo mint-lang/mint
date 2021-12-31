@@ -2,18 +2,13 @@ module Mint
   class Compiler
     def _compile(node : Ast::EnumId) : String
       if parent = lookups[node]?
-        case parent
-        when Ast::Variable
-          compile(parent)
-        else
-          name =
-            js.class_of(parent)
+        name =
+          js.class_of(parent)
 
-          expressions =
-            compile node.expressions, ","
+        expressions =
+          compile node.expressions, ","
 
-          "new #{name}(#{expressions})"
-        end
+        "new #{name}(#{expressions})"
       else
         type =
           types[node]?
