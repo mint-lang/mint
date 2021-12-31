@@ -21,6 +21,26 @@ module Mint
       getter levels
 
       def initialize(@ast : Ast, @records : Array(Record))
+        @ast.components.each do |store|
+          store.functions.each do |function|
+            @functions[function] = store
+          end
+
+          store.gets.each do |get|
+            @functions[get] = store
+          end
+        end
+
+        @ast.providers.each do |store|
+          store.functions.each do |function|
+            @functions[function] = store
+          end
+
+          store.gets.each do |get|
+            @functions[get] = store
+          end
+        end
+
         @ast.stores.each do |store|
           store.functions.each do |function|
             @functions[function] = store
