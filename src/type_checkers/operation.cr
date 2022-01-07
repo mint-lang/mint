@@ -88,7 +88,12 @@ module Mint
                  Comparer.compare(left, RESULT)
 
         expected =
-          left.parameters[0]
+          case left.name
+          when "Result"
+            left.parameters[1]
+          else
+            left.parameters[0]
+          end
 
         raise OperationOrTypeMismatch, {
           "expected" => expected,
