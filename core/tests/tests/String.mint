@@ -222,3 +222,15 @@ suite "String.indentWithOptions" {
     String.indentWithOptions(2, "-", true, "Hello There!\n\nGeneral Kenobi!") == "--Hello There!\n--\n--General Kenobi!"
   }
 }
+
+suite "String.padLeft" {
+  test "it pads the string from the left" {
+    String.padLeft("0", 2, "5") == "05"
+  }
+}
+
+suite "String.takeRight" {
+  test "it pads the string from the left" {
+    String.takeRight(2, "abc") == "bc"
+  }
+}
