@@ -103,6 +103,16 @@ module Math {
   }
 
   /*
+  Returns the integer part of a number by removing any fractional digits.
+
+    Math.trunc(13.37) == 13
+    Math.trunc(42.84) == 42
+  */
+  fun trunc (number : Number) {
+    `Math.trunc(#{number})`
+  }
+
+  /*
   Truncates the given number to the given amount.
 
     Math.truncate(0.123456) == 0.12

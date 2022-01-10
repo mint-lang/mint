@@ -82,6 +82,12 @@ suite "Math.fmod" {
 
 suite "Math.truncate" {
   test "it truncates number to given amount" {
+    Math.trunc(13.37) == 13
+  }
+}
+
+suite "Math.truncate" {
+  test "it truncates number to given amount" {
     Math.truncate(2, 0.123456) == 0.12
   }
 }
