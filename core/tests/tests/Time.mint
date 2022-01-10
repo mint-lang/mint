@@ -45,7 +45,7 @@ suite "Time.utcDate" {
 
 suite "Time.now" {
   test "returns the time as it is now" {
-    Time.now() == Time.now()
+    Time.formatISO(Time.now()) == Time.formatISO(Time.now())
   }
 }
 
