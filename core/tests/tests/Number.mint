@@ -70,3 +70,13 @@ suite "Number.format" {
     Number.format("$ ", 1034150) == "$ 1,034,150"
   }
 }
+
+suite "Number.isLeapYear" {
+  test "returns true for leap year" {
+    Number.isLeapYear(2020) == true
+  }
+
+  test "returns false for not leap year" {
+    Number.isLeapYear(2021) == false
+  }
+}

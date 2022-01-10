@@ -106,6 +106,12 @@ module Number {
     }
   }
 
+  /*
+  Returns if the given number (year) is a leap year or not.
+
+    Number.isLeapYear(2020) == true
+    Number.isLeapYear(2021) == false
+  */
   fun isLeapYear (year : Number) : Bool {
     (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)
   }
