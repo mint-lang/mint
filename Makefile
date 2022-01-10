@@ -9,6 +9,11 @@ spec:
 formatter:
 	crystal tool format --check
 
+.PHONY: format-core
+format-core: build
+	cd core && ../bin/mint format
+	cd core/tests && ../../bin/mint format
+
 .PHONY: ameba
 ameba:
 	bin/ameba
