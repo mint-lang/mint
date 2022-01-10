@@ -102,10 +102,6 @@ module Math {
     `Number((#{a} - (Math.floor(#{a} / #{b}) * #{b})).toPrecision(8))`
   }
 
-  fun trunc (number : Number) {
-    `Math.trunc(#{number})`
-  }
-
   /*
   Returns the integer part of a number by removing any fractional digits.
 
