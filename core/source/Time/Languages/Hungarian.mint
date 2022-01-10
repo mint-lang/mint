@@ -1,6 +1,6 @@
 module Time.Format {
-  /* The English language record for time formatting. */
-  const HUNGARUAN =
+  /* The Hungarian language record for time formatting. */
+  const HUNGARIAN =
     {
       toMonthAbbreviation =
         (month : Month) {
