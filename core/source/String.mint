@@ -311,4 +311,28 @@ module String {
   ) : String {
     `#{string}.replace(#{includeEmptyLines} ? /^/gm : /^(?!\s*$)/gm, #{repeat(by, character)})`
   }
+
+  /*
+  Pads the current string with another string (multiple times, if needed) until
+  the resulting string reaches the given length. The padding is applied from
+  the start (left) of the current string.
+
+    String.padStart('0', 2, '5') == '05'
+  */
+  fun padLeft (
+    padString : String,
+    targetLength : Number,
+    string : String
+  ) : String {
+    `#{string}.padStart(#{targetLength}, #{padString})`
+  }
+
+  /*
+  Returns the given number of characters from the end (right) of the string.
+
+    String.takeRight(2, "abc") == "bc"
+  */
+  fun takeRight (length : Number, string : String) : String {
+    `#{string}.slice(#{string}.length - #{length}, #{string}.length)`
+  }
 }
