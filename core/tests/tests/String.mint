@@ -230,7 +230,7 @@ suite "String.padLeft" {
 }
 
 suite "String.takeRight" {
-  test "it pads the string from the left" {
+  test "it takes the given number of characters from the right" {
     String.takeRight(2, "abc") == "bc"
   }
 }
