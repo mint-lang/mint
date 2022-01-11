@@ -360,8 +360,8 @@ module Time {
   /*
   Returns if the given number (year) is a leap year or not.
 
-    Number.isNumberLeapYear(2020) == true
-    Number.isNumberLeapYear(2021) == false
+    Time.isNumberLeapYear(2020) == true
+    Time.isNumberLeapYear(2021) == false
   */
   fun isNumberLeapYear (year : Number) : Bool {
     (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)
