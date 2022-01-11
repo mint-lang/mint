@@ -275,7 +275,6 @@ suite "Time.isNumberLeapYear" {
   }
 }
 
-
 suite "Time.shift" {
   const BASE_TIME = Time.utc(2018, 4, 5, 14, 42, 54, 20)
 
