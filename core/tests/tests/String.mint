@@ -223,9 +223,9 @@ suite "String.indentWithOptions" {
   }
 }
 
-suite "String.padLeft" {
+suite "String.padStart" {
   test "it pads the string from the left" {
-    String.padLeft("0", 2, "5") == "05"
+    String.padStart("0", 2, "5") == "05"
   }
 }
 

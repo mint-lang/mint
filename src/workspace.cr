@@ -99,11 +99,11 @@ module Mint
     end
 
     def ast
-      @cache
-        .values
-        .reduce(Ast.new) { |memo, item| memo.merge item }
-        .merge(Core.ast)
-        .normalize
+      result =
+        @cache.values.reduce(Ast.new) { |memo, item| memo.merge item }
+
+      result.merge(Core.ast) if @json.name != "core"
+      result.normalize
     end
 
     def []?(file)
