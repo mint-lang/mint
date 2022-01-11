@@ -265,6 +265,17 @@ suite "Time.isLeapYear" {
   }
 }
 
+suite "Time.isNumberLeapYear" {
+  test "returns true for leap year" {
+    Time.isNumberLeapYear(2020) == true
+  }
+
+  test "returns false for not leap year" {
+    Time.isNumberLeapYear(2021) == false
+  }
+}
+
+
 suite "Time.shift" {
   const BASE_TIME = Time.utc(2018, 4, 5, 14, 42, 54, 20)
 

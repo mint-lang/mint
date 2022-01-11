@@ -229,7 +229,7 @@ module Time {
         // The year has 53 weeks if January 1 is on a Friday or the year was a leap
         // year and January 1 is on a Saturday.
         const janFirstDayOfWeek = (dayWeek - dayYear + 1) % 7;
-        const isLeapYear = #{Number.isLeapYear(`year`)};
+        const isLeapYear = #{isNumberLeapYear(`year`)};
 
         if (janFirstDayOfWeek == 5 || (janFirstDayOfWeek == 6 && isLeapYear)) {
           weekNumber = 53;
@@ -354,7 +354,17 @@ module Time {
     Time.isLeapYear(Time.utcDate(2012,1,1)) == true
   */
   fun isLeapYear (time : Time) : Bool {
-    Number.isLeapYear(year(time))
+    isNumberLeapYear(year(time))
+  }
+
+  /*
+  Returns if the given number (year) is a leap year or not.
+
+    Number.isNumberLeapYear(2020) == true
+    Number.isNumberLeapYear(2021) == false
+  */
+  fun isNumberLeapYear (year : Number) : Bool {
+    (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)
   }
 
   /* MANIPULATION ------------------------------------------------------------ */
