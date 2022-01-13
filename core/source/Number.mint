@@ -87,7 +87,7 @@ module Number {
       digits =
         parts[0]
         |> Maybe.withDefault("")
-        |> String.lchop("-")
+        |> String.chopStart("-")
         |> String.split("")
         |> Array.groupsOfFromEnd(3)
         |> Array.map(String.join(""))
@@ -96,7 +96,7 @@ module Number {
       decimals =
         parts[1]
         |> Maybe.withDefault("")
-        |> String.rchop("0")
+        |> String.chopEnd("0")
 
       if (String.isEmpty(decimals)) {
         prefix + digits
