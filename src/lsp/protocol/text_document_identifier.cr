@@ -4,5 +4,10 @@ module LSP
 
     # The text document's URI.
     property uri : String
+
+    # Returns the path of the URI
+    def path
+      URI.parse(uri).try(&.path).to_s
+    end
   end
 end

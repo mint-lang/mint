@@ -10,6 +10,7 @@ module Mint
       method "textDocument/willSaveWaitUntil", WillSaveWaitUntil
       method "textDocument/formatting", Formatting
       method "textDocument/completion", Completion
+      method "textDocument/codeAction", CodeAction
       method "textDocument/didChange", DidChange
       method "textDocument/hover", Hover
 
@@ -29,16 +30,20 @@ module Mint
       end
 
       # Returns the nodes at the given cursor (position)
-      def nodes_at_cursor(params : LSP::TextDocumentPositionParams) : Array(Ast::Node)
-        workspace =
-          Mint::Workspace[params.path]
-
-        position =
-          params.position
-
-        workspace.ast.nodes
-          .select(&.input.file.==(params.path))
+      def nodes_at_cursor(path : String, position : LSP::Position) : Array(Ast::Node)
+        Mint::Workspace[path]
+          .ast
+          .nodes
+          .select(&.input.file.==(path))
           .select!(&.location.contains?(position.line + 1, position.character))
+      end
+
+      def nodes_at_cursor(params : LSP::TextDocumentPositionParams) : Array(Ast::Node)
+        nodes_at_cursor(params.path, params.position)
+      end
+
+      def nodes_at_cursor(params : LSP::CodeActionParams) : Array(Ast::Node)
+        nodes_at_cursor(params.text_document.path, params.range.start)
       end
     end
   end
