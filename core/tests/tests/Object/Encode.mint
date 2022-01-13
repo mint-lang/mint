@@ -18,7 +18,7 @@ suite "Object.Encode.number" {
 
 suite "Object.Encode.time" {
   test "encodes a date to object" {
-    Object.Encode.time(Time.from(2018, 1, 1)) == `"2018-01-01T00:00:00.000Z"`
+    Object.Encode.time(Time.utcDate(2018, 1, 1)) == `"2018-01-01T00:00:00.000Z"`
   }
 }
 
