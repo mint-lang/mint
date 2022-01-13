@@ -267,7 +267,7 @@ module Time {
         time
         |> dayOfMonth()
         |> Number.toString
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* day of month (1, 2, ..., 31) */
       "-d" =>
@@ -284,7 +284,7 @@ module Time {
         time
         |> dayOfMonth()
         |> Number.toString
-        |> String.padLeft(" ", 2)
+        |> String.padStart(" ", 2)
 
       /* ISO 8601 date (2016-04-05) */
       "F" =>
@@ -294,69 +294,69 @@ module Time {
       "g" =>
         (calendarWeek(time)[0] % 100)
         |> Number.toString
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* week-based calendar year (0001..9999) */
       "G" =>
         calendarWeek(time)[0]
         |> Number.toString
-        |> String.padLeft("0", 4)
+        |> String.padStart("0", 4)
 
       /* hour of the day, 24-hour clock, zero padded (00, 01, ..., 24) */
       "H" =>
         time
         |> hour
         |> Number.toString()
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* hour of the day, 12-hour clock, zero padded (00, 01, ..., 12) */
       "I" =>
         (hour(time) - 12)
         |> Math.abs
         |> Number.toString()
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* day of year, zero padded (001, 002, ..., 365) */
       "j" =>
         time
         |> dayOfYear
         |> Number.toString
-        |> String.padLeft("0", 3)
+        |> String.padStart("0", 3)
 
       /* hour of the day, 24-hour clock, blank padded (" 0", " 1", ..., "24") */
       "k" =>
         time
         |> hour
         |> Number.toString()
-        |> String.padLeft(" ", 2)
+        |> String.padStart(" ", 2)
 
       /* hour of the day, 12-hour clock, blank padded (" 0", " 1", ..., "12") */
       "l" =>
         (hour(time) - 12)
         |> Math.abs
         |> Number.toString()
-        |> String.padLeft(" ", 2)
+        |> String.padStart(" ", 2)
 
       /* milliseconds, zero padded (000, 001, ..., 999) */
       "L" =>
         time
         |> millisecond
         |> Number.toString()
-        |> String.padLeft("0", 3)
+        |> String.padStart("0", 3)
 
       /* month number, zero padded (01, 02, ..., 12) */
       "m" =>
         time
         |> monthNumber()
         |> Number.toString
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* month number, blank padded (" 1", " 2", ..., "12") */
       "_m" =>
         time
         |> monthNumber()
         |> Number.toString
-        |> String.padLeft(" ", 2)
+        |> String.padStart(" ", 2)
 
       /* month number (1, 2, ..., 12) */
       "-m" =>
@@ -369,7 +369,7 @@ module Time {
         time
         |> minute
         |> Number.toString()
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* am-pm (lowercase) */
       "p" =>
@@ -404,7 +404,7 @@ module Time {
         time
         |> second
         |> Number.toString
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* 24-hour time (13:04:05) */
       "T" =>
@@ -420,7 +420,7 @@ module Time {
       "V" =>
         calendarWeek(time)[1]
         |> Number.toString
-        |> String.padLeft("0", 2)
+        |> String.padStart("0", 2)
 
       /* day of week (Sunday is 0, 0..6) */
       "w" =>
@@ -454,7 +454,7 @@ module Time {
         time
         |> year
         |> Number.toString
-        |> String.padLeft("0", 4)
+        |> String.padStart("0", 4)
 
       =>
         token
