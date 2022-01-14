@@ -45,16 +45,16 @@ module Mint
 
       contents =
         if condition
-          [condition, index, "_0.push(#{body})", "_i++"]
+          ["_i++", index, condition, "_0.push(#{body})"]
         else
-          [index, "_0.push(#{body})", "_i++"]
+          ["_i++", index, "_0.push(#{body})"]
         end
 
       js.iif do
         js.statements([
           "const _0 = []",
           "const _1 = #{subject}",
-          "let _i = 0",
+          "let _i = -1",
           js.for("let #{arguments} of _1", js.statements(contents.compact)),
           js.return("_0"),
         ])
