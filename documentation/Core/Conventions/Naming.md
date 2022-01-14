@@ -31,6 +31,29 @@ Examples:
 To check if something has something else use `contains`.
 
 - ✅ Use `contains`
-- ❌ Don't use `includes`
+- ❌ Don't use `includes`, `has`
 
 - `Array.contains`, `Map.contains`
+
+### Removal of Items
+
+- ✅ Use `delete`
+- ❌ Don't use `remove`
+
+### Size
+
+- ✅ Use `size`
+- ❌ Don't use `length`
+
+### Function Paramters
+
+- ✅ Use `function` as the parameter name for functions that take a function:
+
+  ```
+  fun any (function : Function(item, Bool), array : Array(item))
+  ```
+
+### Type Variables
+
+- ✅ Use descriptive names like `item`, `string`, `number`, `index`
+- ❌ Don't use single letter type variables `a`, `b`, `c`
