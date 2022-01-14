@@ -11,16 +11,10 @@ module LSP
 
     # Non part of the specification.
     @[JSON::Field(ignore: true)]
-    @uri : URI?
-
-    # Parses the URI
-    def uri
-      @uri ||= URI.parse(text_document.uri)
-    end
 
     # Returns the path of the URI
     def path
-      uri.try(&.path).to_s
+      text_document.path
     end
   end
 end

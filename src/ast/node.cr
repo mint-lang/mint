@@ -40,8 +40,8 @@ module Mint
         end
       end
 
+      property from : Int32
       getter input : Data
-      getter from : Int32
       getter to : Int32
 
       def initialize(@input, @from, @to)

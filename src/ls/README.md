@@ -19,7 +19,7 @@ The feature set is pretty miminal at this point:
 | Find References               | :negative_squared_cross_mark: |                                               |
 | Document Highlights           | :negative_squared_cross_mark: |                                               |
 | Document Symbols              | :negative_squared_cross_mark: |                                               |
-| Code Action                   | :negative_squared_cross_mark: |                                               |
+| Code Action                   | :heavy_check_mark:            | Source Only (see specific section)            |
 | Code Lens                     | :negative_squared_cross_mark: |                                               |
 | Document Link                 | :negative_squared_cross_mark: |                                               |
 | Document Color                | :negative_squared_cross_mark: |                                               |
@@ -30,6 +30,13 @@ The feature set is pretty miminal at this point:
 | Call Hierarchy                | :negative_squared_cross_mark: |                                               |
 | Semantic Tokens               | :negative_squared_cross_mark: |                                               |
 | Monikers                      | :negative_squared_cross_mark: |                                               |
+
+### Code Action
+
+These are the supported code actions:
+
+* Order Entities (Module) - Orders entities in a module alphabetically, constants first then
+  modules, other comments are not reordered, formats the whole file.
 
 ## Implementation
 
