@@ -1,12 +1,241 @@
 /* Functions for working with the DOM. */
 module Dom {
   /*
+  Blurs the active element of the page.
+
+    Dom.blurActiveElement()
+  */
+  fun blurActiveElement : Promise(Never, Void) {
+    `document.activeElement && document.activeElement.blur()`
+  }
+
+  /*
+  Returns if the given element is in an element that matches the given
+  selector.
+
+    Dom.containedInSelector("body", Dom.getElementBySelector("div"))
+  */
+  fun containedInSelector (selector : String, element : Dom.Element) : Bool {
+    `
+    (() => {
+      for (let base of document.querySelectorAll(selector)) {
+        if (base.contains(element)) {
+          return true
+        }
+      }
+
+      return false
+    })()
+    `
+  }
+
+  /*
+  Returns if the given base element contains the given element.
+
+    Dom.contains(div, body) == true
+  */
+  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
+    `#{base}.contains(#{element})`
+  }
+
+  /*
+  Returns if the given base element contains the given element (as a maybe).
+
+    case (Dom.getElementBySelector("body")) {
+      Maybe::Just(body) =>
+        try {
+          div =
+            Dom.getElementBySelector("div")
+
+          Dom.contains(div, body) == true
+        }
+
+      => false
+    }
+  */
+  fun containsMaybe (
+    maybeElement : Maybe(Dom.Element),
+    base : Dom.Element
+  ) : Bool {
+    maybeElement
+    |> Maybe.map(Dom.contains(base))
+    |> Maybe.withDefault(false)
+  }
+
+  /*
   Creates a new `Dom.Element` with the given tag.
 
     Dom.createElement("div")
   */
   fun createElement (tag : String) : Dom.Element {
     `document.createElement(#{tag})`
+  }
+
+  /*
+  Tries to focus the given element (if exists) in the next 150 milliseconds.
+  Fails silently if there is no element or if the element cannot be focused.
+
+    "my-id"
+    |> Dom.focus
+    |> Dom.getElementById()
+  */
+  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never, Void) {
+    case (maybeElement) {
+      Maybe::Just(element) =>
+        sequence {
+          focusWhenVisible(element)
+
+          Promise.never()
+        } catch {
+          Promise.never()
+        }
+
+      Maybe::Nothing => Promise.never()
+    }
+  }
+
+  /* Focuses the first focusable descendant of the given element. */
+  fun focusFirst (element : Dom.Element) : Promise(Never, Void) {
+    element
+    |> getFocusableElements
+    |> Array.first
+    |> focus
+  }
+
+  /*
+  Tries to focus the given element in the next 150 milliseconds.
+
+    "my-div"
+    |> Dom.getElementById
+    |> Dom.focusWhenVisible()
+  */
+  fun focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
+    `
+    new Promise((resolve, reject) => {
+      let counter = 0
+
+      let focus = () => {
+        if (counter > 15) {
+          reject('Could not focus the element in 150ms. Is it visible?')
+        }
+
+        #{element}.focus()
+
+        if (document.activeElement != #{element}) {
+          counter++
+          setTimeout(focus, 10)
+        } else {
+          resolve(#{void})
+        }
+      }
+
+      focus()
+    })
+    `
+  }
+
+  /*
+  Returns the active (focused) element of the page.
+
+    Dom.getActiveElement() == Dom.getElementBySelector("body")
+  */
+  fun getActiveElement : Maybe(Dom.Element) {
+    `
+    (() => {
+      if (document.activeElement) {
+        return #{Maybe::Just(`document.activeElement`)}
+      } else {
+        return #{Maybe::Nothing}
+      }
+    })()
+    `
+  }
+
+  /*
+  If the attribute is present, it will return its value on the given element.
+
+    try {
+    	outcome =
+      	Dom.getElementById("my-div")
+
+      case (outcome) {
+        Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
+        Maybe::Nothing => false
+      }
+    }
+  */
+  fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
+    `
+    (() => {
+      const value = #{element}.getAttribute(#{name})
+
+      if (value === "") {
+        return #{Maybe::Nothing}
+      } else {
+        return #{Maybe::Just(`value`)}
+      }
+    })()
+    `
+  }
+
+  /*
+  Returns all child elements of the given element.
+
+    Dom.getChildren())
+  */
+  fun getChildren (element : Dom.Element) : Array(Dom.Element) {
+    `Array.from(#{element}.children)`
+  }
+
+  /*
+  Returns the `clientHeight` of the given element.
+
+    Dom.getClientHeight(div) == 200
+  */
+  fun getClientHeight (element : Dom.Element) : Number {
+    `#{element}.clientHeight || 0`
+  }
+
+  /*
+  Returns the `clientWidth` of the given element.
+
+    Dom.getClientWidth(div) == 200
+  */
+  fun getClientWidth (element : Dom.Element) : Number {
+    `#{element}.clientWidth || 0`
+  }
+
+  /*
+  Returns the dimensions (BoundingClientRect) of a `Dom.Element`
+
+    Dom.getDimensions(Dom.createElement("div")) = {
+      bottom = 0,
+      height = 0,
+      width = 0,
+      right = 0,
+      left = 0,
+      top = 0,
+      x = 0,
+      y = 0
+    }
+  */
+  fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
+    `
+    (() => {
+      const rect = #{dom}.getBoundingClientRect()
+
+      return #{{
+        bottom = `rect.bottom`,
+        height = `rect.height`,
+        width = `rect.width`,
+        right = `rect.right`,
+        left = `rect.left`,
+        top = `rect.top`,
+        x = `rect.x`,
+        y = `rect.y`
+      }}
+    })()
+    `
   }
 
   /*
@@ -52,267 +281,6 @@ module Dom {
   }
 
   /*
-  Gets all descendant elements of an element which are matching
-  the given selector.
-
-    Dom.getElementsBySelector("a[name]", element)
-  */
-  fun getElementsBySelector (selector : String, element : Dom.Element) : Array(Dom.Element) {
-    `Array.from(#{element}.querySelectorAll(#{selector}))`
-  }
-
-  /*
-  Returns the dimensions (BoundingClientRect) of a `Dom.Element`
-
-    Dom.getDimensions(Dom.createElement("div")) = {
-      bottom = 0,
-      height = 0,
-      width = 0,
-      right = 0,
-      left = 0,
-      top = 0,
-      x = 0,
-      y = 0
-    }
-  */
-  fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
-    `
-    (() => {
-      const rect = #{dom}.getBoundingClientRect()
-
-      return #{{
-        bottom = `rect.bottom`,
-        height = `rect.height`,
-        width = `rect.width`,
-        right = `rect.right`,
-        left = `rect.left`,
-        top = `rect.top`,
-        x = `rect.x`,
-        y = `rect.y`
-      }}
-    })()
-    `
-  }
-
-  /*
-  Gets the value as string form a `Dom.Element`.
-
-  If the element supports value it will return it, otherwise it returns an
-  empty string.
-
-    Dom.getValue("input[value=hello]") == "hello"
-    Dom.getValue("div") == ""
-  */
-  fun getValue (dom : Dom.Element) : String {
-    `
-    (() => {
-      let value = #{dom}.value
-
-      if (typeof value === "string") {
-        return value
-      } else {
-        return ""
-      }
-    })()
-    `
-  }
-
-  /*
-  Sets the value property of a `Dom.Element`.
-
-  It is used to set the value of `input` fields programmatically.
-  */
-  fun setValue (value : String, dom : Dom.Element) : Dom.Element {
-    `(#{dom}.value = #{value}) && #{dom}`
-  }
-
-  /*
-  Returns whether or not the given `Dom.Element` matches the given selector.
-
-    Dom.matches("div", Dom.createElement("div")) == true
-    Dom.matches("p", Dom.createElement("div")) == false
-  */
-  fun matches (selector : String, dom : Dom.Element) : Bool {
-    `
-    (() => {
-      try {
-        return #{dom}.matches(#{selector})
-      } catch (error) {
-        return false
-      }
-    })()
-    `
-  }
-
-  /*
-  Tries to focus the given element (if exists) in the next 150 milliseconds.
-  Fails silently if there is no element or if the element cannot be focused.
-
-    "my-id"
-    |> Dom.focus
-    |> Dom.getElementById()
-  */
-  fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Never, Void) {
-    case (maybeElement) {
-      Maybe::Just(element) =>
-        sequence {
-          focusWhenVisible(element)
-
-          Promise.never()
-        } catch {
-          Promise.never()
-        }
-
-      Maybe::Nothing => Promise.never()
-    }
-  }
-
-  /*
-  Tries to focus the given element in the next 150 milliseconds.
-
-    "my-div"
-    |> Dom.getElementById
-    |> Dom.focusWhenVisible()
-  */
-  fun focusWhenVisible (element : Dom.Element) : Promise(String, Void) {
-    `
-    new Promise((resolve, reject) => {
-      let counter = 0
-
-      let focus = () => {
-        if (counter > 15) {
-          reject('Could not focus the element in 150ms. Is it visible?')
-        }
-
-        #{element}.focus()
-
-        if (document.activeElement != #{element}) {
-          counter++
-          setTimeout(focus, 10)
-        } else {
-          resolve(#{void})
-        }
-      }
-
-      focus()
-    })
-    `
-  }
-
-  /*
-  Returns if the given base element contains the given element.
-
-    Dom.contains(div, body) == true
-  */
-  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
-    `#{base}.contains(#{element})`
-  }
-
-  /*
-  Returns if the given base element contains the given element (as a maybe).
-
-    case (Dom.getElementBySelector("body")) {
-      Maybe::Just(body) =>
-        try {
-          div =
-            Dom.getElementBySelector("div")
-
-          Dom.contains(div, body) == true
-        }
-
-      => false
-    }
-  */
-  fun containsMaybe (
-    maybeElement : Maybe(Dom.Element),
-    base : Dom.Element
-  ) : Bool {
-    maybeElement
-    |> Maybe.map(Dom.contains(base))
-    |> Maybe.withDefault(false)
-  }
-
-  /*
-  Returns if the given element is in an element that matches the given
-  selector.
-
-    Dom.containedInSelector("body", Dom.getElementBySelector("div"))
-  */
-  fun containedInSelector (selector : String, element : Dom.Element) : Bool {
-    `
-    (() => {
-      for (let base of document.querySelectorAll(selector)) {
-        if (base.contains(element)) {
-          return true
-        }
-      }
-
-      return false
-    })()
-    `
-  }
-
-  /*
-  If the attribute is present, it will return its value on the given element.
-
-    try {
-    	outcome =
-      	Dom.getElementById("my-div")
-
-      case (outcome) {
-        Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
-        Maybe::Nothing => false
-      }
-    }
-  */
-  fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
-    `
-    (() => {
-      const value = #{element}.getAttribute(#{name})
-
-      if (value === "") {
-        return #{Maybe::Nothing}
-      } else {
-        return #{Maybe::Just(`value`)}
-      }
-    })()
-    `
-  }
-
-  /*
-  Sets the given attribute to the given value of the given element and
-  returns the element.
-
-    "a"
-    |> Dom.createElement
-    |> Dom.setAttribute("name", "test")
-  */
-  fun setAttribute (
-    attribute : String,
-    value : String,
-    element : Dom.Element
-  ) : Dom.Element {
-    `#{element}.setAttribute(#{attribute}, #{value}) && element`
-  }
-
-  /*
-  Sets the given style to the given value of the given element.
-
-    "my-div"
-    |> Dom.getElementById()
-    |> Dom.setStyle("background", "red")
-    |> Dom.setStyle("color", "white")
-  */
-  fun setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
-    `
-    (() => {
-      #{element}.style[#{name}] = #{value}
-      return #{element}
-    })()
-    `
-  }
-
-  /*
   Gets the element from a point on the screen.
 
     Dom.getElementFromPoint(0, 0)
@@ -332,76 +300,13 @@ module Dom {
   }
 
   /*
-  Returns the text content of the given element.
+  Gets all descendant elements of an element which are matching
+  the given selector.
 
-    Dom.getTextContent(Dom.getElementBySelector("body"))
+    Dom.getElementsBySelector("a[name]", element)
   */
-  fun getTextContent (element : Dom.Element) : String {
-    `#{element}.textContent`
-  }
-
-  /*
-  Returns all child elements of the given element.
-
-    Dom.getChildren())
-  */
-  fun getChildren (element : Dom.Element) : Array(Dom.Element) {
-    `Array.from(#{element}.children)`
-  }
-
-  /*
-  Returns the tagname of the given element.
-
-    ("body"
-    |> Dom.getElementBySelector("body")
-    |> Dom.getTagName) == "BODY"
-  */
-  fun getTagName (element : Dom.Element) : String {
-    `#{element}.tagName`
-  }
-
-  /*
-  Returns the active (focused) element of the page.
-
-    Dom.getActiveElement() == Dom.getElementBySelector("body")
-  */
-  fun getActiveElement : Maybe(Dom.Element) {
-    `
-    (() => {
-      if (document.activeElement) {
-        return #{Maybe::Just(`document.activeElement`)}
-      } else {
-        return #{Maybe::Nothing}
-      }
-    })()
-    `
-  }
-
-  /*
-  Blurs the active element of the page.
-
-    Dom.blurActiveElement()
-  */
-  fun blurActiveElement : Promise(Never, Void) {
-    `document.activeElement && document.activeElement.blur()`
-  }
-
-  /*
-  Measures the given text width with the given font using the canvas.
-
-    Dom.getTextWidth("20px sans-serif", "Hello There") = 300
-  */
-  fun getTextWidth (font : String, text : String) : Number {
-    `
-    (() => {
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext("2d");
-
-      context.font = #{font};
-
-      return context.measureText(#{text}).width
-    })()
-    `
+  fun getElementsBySelector (selector : String, element : Dom.Element) : Array(Dom.Element) {
+    `Array.from(#{element}.querySelectorAll(#{selector}))`
   }
 
   /* Returns all focusable descendant elements. */
@@ -451,55 +356,13 @@ module Dom {
     `
   }
 
-  /* Focuses the first focusable descendant of the given element. */
-  fun focusFirst (element : Dom.Element) : Promise(Never, Void) {
-    element
-    |> getFocusableElements
-    |> Array.first
-    |> focus
-  }
-
   /*
-  Smooth scroll the given element to the given position.
+  Returns the scrollable height of the given element.
 
-    Dom.smoothScrollTo(element, 10, 10)
+    Dom.getScrollHeight(div) == 0
   */
-  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
-    `#{element}.scrollTo({
-        behavior: 'smooth',
-        left: #{left},
-        top: #{top}
-      })`
-  }
-
-  /*
-  Scrolls the given element to the given position.
-
-    Dom.scrollTo(element, 10, 10)
-  */
-  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
-    `#{element}.scrollTo({
-        left: #{left},
-        top: #{top}
-      })`
-  }
-
-  /*
-  Returns the `clientWidth` of the given element.
-
-    Dom.getClientWidth(div) == 200
-  */
-  fun getClientWidth (element : Dom.Element) : Number {
-    `#{element}.clientWidth || 0`
-  }
-
-  /*
-  Returns the `clientHeight` of the given element.
-
-    Dom.getClientHeight(div) == 200
-  */
-  fun getClientHeight (element : Dom.Element) : Number {
-    `#{element}.clientHeight || 0`
+  fun getScrollHeight (element : Dom.Element) : Number {
+    `#{element}.scrollHeight || 0`
   }
 
   /*
@@ -512,15 +375,6 @@ module Dom {
   }
 
   /*
-  Returns the scrollable width of the given element.
-
-    Dom.getScrollWidth(div) == 300
-  */
-  fun getScrollWidth (element : Dom.Element) : Number {
-    `#{element}.scrollWidth || 0`
-  }
-
-  /*
   Returns the vertical scroll position of the given element.
 
     Dom.getScrollTop(div) == 0
@@ -530,12 +384,12 @@ module Dom {
   }
 
   /*
-  Returns the scrollable height of the given element.
+  Returns the scrollable width of the given element.
 
-    Dom.getScrollHeight(div) == 0
+    Dom.getScrollWidth(div) == 300
   */
-  fun getScrollHeight (element : Dom.Element) : Number {
-    `#{element}.scrollHeight || 0`
+  fun getScrollWidth (element : Dom.Element) : Number {
+    `#{element}.scrollWidth || 0`
   }
 
   /*
@@ -567,5 +421,151 @@ module Dom {
           {tag, text, hash}
         }
       })
+  }
+
+  /*
+  Returns the tagname of the given element.
+
+    ("body"
+    |> Dom.getElementBySelector("body")
+    |> Dom.getTagName) == "BODY"
+  */
+  fun getTagName (element : Dom.Element) : String {
+    `#{element}.tagName`
+  }
+
+  /*
+  Returns the text content of the given element.
+
+    Dom.getTextContent(Dom.getElementBySelector("body"))
+  */
+  fun getTextContent (element : Dom.Element) : String {
+    `#{element}.textContent`
+  }
+
+  /*
+  Measures the given text width with the given font using the canvas.
+
+    Dom.getTextWidth("20px sans-serif", "Hello There") = 300
+  */
+  fun getTextWidth (font : String, text : String) : Number {
+    `
+    (() => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext("2d");
+
+      context.font = #{font};
+
+      return context.measureText(#{text}).width
+    })()
+    `
+  }
+
+  /*
+  Gets the value as string form a `Dom.Element`.
+
+  If the element supports value it will return it, otherwise it returns an
+  empty string.
+
+    Dom.getValue("input[value=hello]") == "hello"
+    Dom.getValue("div") == ""
+  */
+  fun getValue (dom : Dom.Element) : String {
+    `
+    (() => {
+      let value = #{dom}.value
+
+      if (typeof value === "string") {
+        return value
+      } else {
+        return ""
+      }
+    })()
+    `
+  }
+
+  /*
+  Returns whether or not the given `Dom.Element` matches the given selector.
+
+    Dom.matches("div", Dom.createElement("div")) == true
+    Dom.matches("p", Dom.createElement("div")) == false
+  */
+  fun matches (selector : String, dom : Dom.Element) : Bool {
+    `
+    (() => {
+      try {
+        return #{dom}.matches(#{selector})
+      } catch (error) {
+        return false
+      }
+    })()
+    `
+  }
+
+  /*
+  Scrolls the given element to the given position.
+
+    Dom.scrollTo(element, 10, 10)
+  */
+  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+        left: #{left},
+        top: #{top}
+      })`
+  }
+
+  /*
+  Sets the given attribute to the given value of the given element and
+  returns the element.
+
+    "a"
+    |> Dom.createElement
+    |> Dom.setAttribute("name", "test")
+  */
+  fun setAttribute (
+    attribute : String,
+    value : String,
+    element : Dom.Element
+  ) : Dom.Element {
+    `#{element}.setAttribute(#{attribute}, #{value}) && element`
+  }
+
+  /*
+  Sets the given style to the given value of the given element.
+
+    "my-div"
+    |> Dom.getElementById()
+    |> Dom.setStyle("background", "red")
+    |> Dom.setStyle("color", "white")
+  */
+  fun setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
+    `
+    (() => {
+      #{element}.style[#{name}] = #{value}
+      return #{element}
+    })()
+    `
+  }
+
+  /*
+  Sets the value property of a `Dom.Element`.
+
+  It is used to set the value of `input` fields programmatically.
+  */
+  fun setValue (value : String, dom : Dom.Element) : Dom.Element {
+    `(#{dom}.value = #{value}) && #{dom}`
+  }
+
+  /*
+  Smooth scroll the given element to the given position.
+
+    Dom.smoothScrollTo(element, 10, 10)
+  */
+  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+        behavior: 'smooth',
+        left: #{left},
+        top: #{top}
+      })`
   }
 }
