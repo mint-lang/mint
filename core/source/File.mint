@@ -1,7 +1,7 @@
 /* Functions for getting, creating and reading files in different formats. */
 module File {
   /*
-  Prompts a save dialog for the given file.
+  Prompts a dialog for the saving the given file.
 
     sequence {
       file =
@@ -17,10 +17,10 @@ module File {
 
       `
       (() => {
-        const anchor = document.createElement('a');
-        anchor.download = #{file}.name;
-        anchor.href = #{url};
-        anchor.click();
+        const anchor = document.createElement('a')
+        anchor.download = #{file}.name
+        anchor.href = #{url}
+        anchor.click()
       })()
       `
 
@@ -73,11 +73,10 @@ module File {
   fun readAsDataURL (file : File) : Promise(Never, String) {
     `
     (() => {
-      let reader = new FileReader();
+      const reader = new FileReader()
+
       return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => {
-          resolve(reader.result)
-        })
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
         reader.readAsDataURL(#{file})
       })
     })()
@@ -100,11 +99,10 @@ module File {
   fun readAsString (file : File) : Promise(Never, String) {
     `
     (() => {
-      let reader = new FileReader();
+      const reader = new FileReader()
+
       return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => {
-          resolve(reader.result)
-        })
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
         reader.readAsText(#{file})
       })
     })()
@@ -127,7 +125,7 @@ module File {
   fun select (accept : String) : Promise(Never, File) {
     `
     (() => {
-      let input = document.createElement('input')
+      const input = document.createElement('input')
 
       input.style.position = 'absolute'
       input.style.height = '1px'
@@ -167,7 +165,7 @@ module File {
   fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
     `
     (() => {
-      let input = document.createElement('input')
+      const input = document.createElement('input')
 
       input.style.position = 'absolute'
       input.style.height = '1px'
