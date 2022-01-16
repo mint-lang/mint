@@ -14,6 +14,13 @@ Examples:
 - `String.padStart`, `String.padEnd`
 - `String.chopStart`, `String.chopEnd`
 
+### First
+
+When referencing the first element in an enumerable entity:
+
+- ✅ Do use `first`
+- ❌ Don't use `head`
+
 ### Empty and Blank
 
 We distinguish between empty and blank states:

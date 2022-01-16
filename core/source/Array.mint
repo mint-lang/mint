@@ -8,7 +8,10 @@ module Array {
     Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 3]) == false
   */
   fun any (function : Function(item, Bool), array : Array(item)) : Bool {
-    `!!#{array}.find(#{function})`
+    case (Array.find(function, array)) {
+      Maybe::Nothing => false
+      Maybe::Just => true
+    }
   }
 
   /*
@@ -27,7 +30,7 @@ module Array {
     Array.at(1, [0]) == Maybe::Nothing()
   */
   fun at (index : Number, array : Array(item)) : Maybe(item) {
-    `_at(#{array}, #{index})`
+    array[index]
   }
 
   /*
@@ -128,7 +131,7 @@ module Array {
   /*
   Finds the first element in the array that matches the predicate function.
 
-    Array.find((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == Maybe::Just(2)
+    Array.find((number : Number) { number % 2 == 0 }, [1, 2, 3, 4]) == Maybe::Just(2)
   */
   fun find (function : Function(item, Bool), array : Array(item)) : Maybe(item) {
     `
@@ -172,7 +175,8 @@ module Array {
   }
 
   /*
-  Returns the first element of the array as `Maybe::Just(a)` or `Maybe::Nothing`.
+  Returns the first element of the array as `Maybe::Just(item)` or
+  `Maybe::Nothing`.
 
     Array.first(["a", "x"]) == Maybe::Just("a")
     Array.first([]) == Maybe::Nothing
@@ -295,7 +299,9 @@ module Array {
   }
 
   /*
-  Inserts the item into the sepcified position of the array.
+  Inserts the item into the sepcified position of the array, pushing items
+  toward the end of the array. If the length is negative the item will be
+  inserted at the start of the array.
 
     Array.insertAt("a", 0, ["b","c"]) == ["a","b","c"]
   */
@@ -392,7 +398,8 @@ module Array {
   }
 
   /*
-  Returns the maximum value of an array of numbers.
+  Returns the maximum value of an array of numbers. It's a maybe because the
+  array might not have items in it.
 
     Array.max([0, 1, 2, 3, 4]) == Maybe::Just(4)
     Array.max([]) == Maybe::Nothing
@@ -406,7 +413,8 @@ module Array {
   }
 
   /*
-  Returns the minimum value of an array of numbers.
+  Returns the minimum value of an array of numbers. It's a maybe because the
+  array might not have items in it.
 
     Array.min([0, 1, 2, 3, 4]) == Maybe::Just(0)
     Array.min([]) == Maybe::Nothing
@@ -502,7 +510,8 @@ module Array {
   }
 
   /*
-  Reduce a list from the right.
+  Applies the function against an accumulator and each element in the array
+  (from end to start) to reduce it to a single value.
 
     Array.reduceEnd(
       0,
@@ -518,7 +527,7 @@ module Array {
   }
 
   /*
-  Returns all elements that do not matche the predicate function.
+  Returns all elements that do not match the predicate function.
 
     Array.reject((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [1, 3]
   */
@@ -533,7 +542,7 @@ module Array {
     Array.reverse([1, 2, 3]) == [3, 2, 1]
   */
   fun reverse (array : Array(item)) : Array(item) {
-    `#{array}.slice().reverse()`
+    `[...#{array}].reverse()`
   }
 
   /*
@@ -580,7 +589,8 @@ module Array {
   }
 
   /*
-  Sets the item at index to the item of the array.
+  Sets the item at index to the item of the array, if the specified index is
+  not found in the array it returns the array unchanged.
 
     Array.setAt(2, 5, [1,2,3]) == [1,2,5]
   */
@@ -615,7 +625,12 @@ module Array {
   }
 
   /*
-  Returns a new sorted array using the sorting function.
+  Returns a new sorted array using the sorting function `compareFunction(a, b)`.
+  Items are sorted using a number:
+
+  * `> 0` - sort b before a
+  * `< 0` - sort a before b
+  * `0` - keep original order of a and b
 
     Array.sort((a : Number, b : Number) : Number { a - b }, [4, 1, 3, 2]) == [1, 2, 3, 4]
   */
@@ -623,7 +638,7 @@ module Array {
     function : Function(item, item, Number),
     array : Array(item)
   ) : Array(item) {
-    `#{array}.slice().sort(#{function})`
+    `[...#{array}].sort(#{function})`
   }
 
   /*
@@ -671,7 +686,7 @@ module Array {
   }
 
   /*
-  Sums up the array using the function.
+  Sums up the array using the specified function.
 
     Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
   */
