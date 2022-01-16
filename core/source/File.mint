@@ -1,32 +1,40 @@
 /* Functions for getting, creating and reading files in different formats. */
 module File {
   /*
+  Prompts a save dialog for the given file.
+
+    sequence {
+      file =
+        File.select(*)
+
+      File.download(file)
+    }
+  */
+  fun download (file : File) : Promise(Never, Void) {
+    sequence {
+      url =
+        Url.createObjectUrlFromFile(file)
+
+      `
+      (() => {
+        const anchor = document.createElement('a');
+        anchor.download = #{file}.name;
+        anchor.href = #{url};
+        anchor.click();
+      })()
+      `
+
+      Url.revokeObjectUrl(url)
+    }
+  }
+
+  /*
   Creates a new file from the contents, name and mime-type.
 
     File.fromString("Some contents...", "test.txt", "text/plain")
   */
   fun fromString (contents : String, name : String, type : String) : File {
     `new File([#{contents}], #{name}, { type: #{type} })`
-  }
-
-  /*
-  Returns the name of the file.
-
-    (File.fromString("Some contents...", "test.txt", "text/plain")
-    |> File.name()) == "test.txt"
-  */
-  fun name (file : File) : String {
-    `#{file}.name`
-  }
-
-  /*
-  Returns the size of the file in bytes.
-
-    (File.fromString("Some contents...", "test.txt", "text/plain")
-    |> File.size()) == 16
-  */
-  fun size (file : File) : Number {
-    `#{file}.size`
   }
 
   /*
@@ -40,84 +48,13 @@ module File {
   }
 
   /*
-  Opens the browsers file dialog for selecting multiple files.
+  Returns the name of the file.
 
-  * The mime type can be restricted to the given one.
-  * It might not resolve if the user cancels the dialog.
-
-    sequence {
-      files =
-        File.selectMultiple("application/json")
-
-      Debug.log(files)
-    }
+    (File.fromString("Some contents...", "test.txt", "text/plain")
+    |> File.name()) == "test.txt"
   */
-  fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
-    `
-    (() => {
-      let input = document.createElement('input')
-
-      input.style.position = 'absolute'
-      input.style.height = '1px'
-      input.style.width = '1px'
-      input.style.left = '-1px'
-      input.style.top = '-1px'
-
-      input.accept = #{accept}
-      input.multiple = true
-      input.type = 'file'
-
-      document.body.appendChild(input)
-
-      return new Promise((resolve, reject) => {
-        input.addEventListener('change', () => {
-          resolve(Array.from(input.files))
-        })
-        input.click()
-        document.body.removeChild(input)
-      })
-    })()
-    `
-  }
-
-  /*
-  Opens the browsers file dialog for selecting a single file.
-
-  * The mime type can be restricted to the given one.
-  * It might not resolve if the user cancels the dialog.
-
-    sequence {
-      file =
-        File.select("application/json")
-
-      Debug.log(file)
-    }
-  */
-  fun select (accept : String) : Promise(Never, File) {
-    `
-    (() => {
-      let input = document.createElement('input')
-
-      input.style.position = 'absolute'
-      input.style.height = '1px'
-      input.style.width = '1px'
-      input.style.left = '-1px'
-      input.style.top = '-1px'
-
-      input.accept = #{accept}
-      input.type = 'file'
-
-      document.body.appendChild(input)
-
-      return new Promise((resolve, reject) => {
-        input.addEventListener('change', () => {
-          resolve(input.files[0])
-        })
-        input.click()
-        document.body.removeChild(input)
-      })
-    })()
-    `
+  fun name (file : File) : String {
+    `#{file}.name`
   }
 
   /*
@@ -175,30 +112,93 @@ module File {
   }
 
   /*
-  Prompts a save dialog for the given file.
+  Opens the browsers file dialog for selecting a single file.
+
+  * The mime type can be restricted to the given one.
+  * It might not resolve if the user cancels the dialog.
 
     sequence {
       file =
-        File.select(*)
+        File.select("application/json")
 
-      File.download(file)
+      Debug.log(file)
     }
   */
-  fun download (file : File) : Promise(Never, Void) {
+  fun select (accept : String) : Promise(Never, File) {
+    `
+    (() => {
+      let input = document.createElement('input')
+
+      input.style.position = 'absolute'
+      input.style.height = '1px'
+      input.style.width = '1px'
+      input.style.left = '-1px'
+      input.style.top = '-1px'
+
+      input.accept = #{accept}
+      input.type = 'file'
+
+      document.body.appendChild(input)
+
+      return new Promise((resolve, reject) => {
+        input.addEventListener('change', () => {
+          resolve(input.files[0])
+        })
+        input.click()
+        document.body.removeChild(input)
+      })
+    })()
+    `
+  }
+
+  /*
+  Opens the browsers file dialog for selecting multiple files.
+
+  * The mime type can be restricted to the given one.
+  * It might not resolve if the user cancels the dialog.
+
     sequence {
-      url =
-        Url.createObjectUrlFromFile(file)
+      files =
+        File.selectMultiple("application/json")
 
-      `
-      (() => {
-        const anchor = document.createElement('a');
-        anchor.download = #{file}.name;
-        anchor.href = #{url};
-        anchor.click();
-      })()
-      `
-
-      Url.revokeObjectUrl(url)
+      Debug.log(files)
     }
+  */
+  fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
+    `
+    (() => {
+      let input = document.createElement('input')
+
+      input.style.position = 'absolute'
+      input.style.height = '1px'
+      input.style.width = '1px'
+      input.style.left = '-1px'
+      input.style.top = '-1px'
+
+      input.accept = #{accept}
+      input.multiple = true
+      input.type = 'file'
+
+      document.body.appendChild(input)
+
+      return new Promise((resolve, reject) => {
+        input.addEventListener('change', () => {
+          resolve(Array.from(input.files))
+        })
+        input.click()
+        document.body.removeChild(input)
+      })
+    })()
+    `
+  }
+
+  /*
+  Returns the size of the file in bytes.
+
+    (File.fromString("Some contents...", "test.txt", "text/plain")
+    |> File.size()) == 16
+  */
+  fun size (file : File) : Number {
+    `#{file}.size`
   }
 }
