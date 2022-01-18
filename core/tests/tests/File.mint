@@ -31,6 +31,17 @@ suite "File.name" {
   }
 }
 
+suite "File.readAsArrayBuffer" {
+  test "it reads it as data url" {
+    with Test.Context {
+      of(File.fromString("content", "test.txt", "text/plain"))
+      |> then(File.readAsArrayBuffer)
+      |> map(ArrayBuffer.toString)
+      |> assertEqual("content")
+    }
+  }
+}
+
 suite "File.readAsDataURL" {
   test "it reads it as data url" {
     with Test.Context {

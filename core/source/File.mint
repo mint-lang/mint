@@ -58,6 +58,29 @@ module File {
   }
 
   /*
+  Reads the contents of the given file as a String.
+
+    sequence {
+      file =
+        File.create("Some content...", "test.txt", "text/plain")
+
+      File.readAsArrayBuffer(file)
+    }
+  */
+  fun readAsArrayBuffer (file : File) : Promise(Never, ArrayBuffer) {
+    `
+    (() => {
+      const reader = new FileReader()
+
+      return new Promise((resolve, reject) => {
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.readAsArrayBuffer(#{file})
+      })
+    })()
+    `
+  }
+
+  /*
   Reads the contents of the given file as a Data URL.
 
     sequence {
