@@ -4,6 +4,24 @@ suite "FormData.equality" {
   }
 }
 
+suite "FormData.addFile" {
+  test "adds the given file value to the form data object" {
+    (FormData.empty()
+    |> FormData.addFile("file", File.fromString("a", "a", "a"))
+    |> FormData.keys()
+    |> Array.firstWithDefault("")) == "file"
+  }
+}
+
+suite "FormData.addString" {
+  test "adds the given string value to the form data object" {
+    (FormData.empty()
+    |> FormData.addString("key", "hello")
+    |> FormData.keys()
+    |> Array.firstWithDefault("")) == "key"
+  }
+}
+
 suite "FormData.empty" {
   test "returns an empty form data object" {
     FormData.empty()
@@ -18,23 +36,5 @@ suite "FormData.keys" {
     |> FormData.addString("key", "hello")
     |> FormData.keys()
     |> Array.firstWithDefault("")) == "key"
-  }
-}
-
-suite "FormData.addString" {
-  test "adds the given string value to the form data object" {
-    (FormData.empty()
-    |> FormData.addString("key", "hello")
-    |> FormData.keys()
-    |> Array.firstWithDefault("")) == "key"
-  }
-}
-
-suite "FormData.addFile" {
-  test "adds the given file value to the form data object" {
-    (FormData.empty()
-    |> FormData.addFile("file", File.fromString("a", "a", "a"))
-    |> FormData.keys()
-    |> Array.firstWithDefault("")) == "file"
   }
 }
