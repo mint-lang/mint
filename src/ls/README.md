@@ -25,7 +25,7 @@ The feature set is pretty miminal at this point:
 | Document Color                | :negative_squared_cross_mark: |                                               |
 | Formatting                    | :heavy_check_mark:            | Full files only                               |
 | Rename                        | :negative_squared_cross_mark: |                                               |
-| Folding Range                 | :negative_squared_cross_mark: |                                               |
+| Folding Range                 | :heavy_check_mark:            | Specific entities only                        |
 | Selection Range               | :negative_squared_cross_mark: |                                               |
 | Call Hierarchy                | :negative_squared_cross_mark: |                                               |
 | Semantic Tokens               | :negative_squared_cross_mark: |                                               |
