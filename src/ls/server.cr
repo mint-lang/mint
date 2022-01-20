@@ -8,6 +8,7 @@ module Mint
 
       # Text document related methods
       method "textDocument/willSaveWaitUntil", WillSaveWaitUntil
+      method "textDocument/foldingRange", FoldingRange
       method "textDocument/formatting", Formatting
       method "textDocument/completion", Completion
       method "textDocument/codeAction", CodeAction
@@ -31,10 +32,7 @@ module Mint
 
       # Returns the nodes at the given cursor (position)
       def nodes_at_cursor(path : String, position : LSP::Position) : Array(Ast::Node)
-        Mint::Workspace[path]
-          .ast
-          .nodes
-          .select(&.input.file.==(path))
+        nodes_at_path(path)
           .select!(&.location.contains?(position.line + 1, position.character))
       end
 
@@ -44,6 +42,13 @@ module Mint
 
       def nodes_at_cursor(params : LSP::CodeActionParams) : Array(Ast::Node)
         nodes_at_cursor(params.text_document.path, params.range.start)
+      end
+
+      def nodes_at_path(path : String)
+        Mint::Workspace[path]
+          .ast
+          .nodes
+          .select(&.input.file.==(path))
       end
     end
   end

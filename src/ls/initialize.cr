@@ -59,7 +59,7 @@ module Mint
             document_symbol_provider: false,
             type_definition_provider: false,
             implementation_provider: false,
-            folding_range_provider: false,
+            folding_range_provider: true,
             code_action_provider: true,
             declaration_provider: false,
             definition_provider: false,
