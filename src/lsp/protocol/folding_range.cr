@@ -1,16 +1,4 @@
 module LSP
-  # # Enum of known range kinds
-  # enum FoldingRangeKind
-  #   # Folding range for a comment
-  #   Comment = "comment"
-  #
-  #   # Folding range for a imports or includes
-  #   Imports = "imports"
-  #
-  #   # Folding range for a region (e.g. `#region`)
-  #   Region = "region"
-  # end
-
   # Represents a folding range. To be valid, start and end line must be bigger
   # than zero and smaller than the number of lines in the document. Clients
   # are free to ignore invalid ranges.
@@ -43,7 +31,7 @@ module LSP
     # The kind is used to categorize folding ranges and used by commands like
     # 'Fold all comments'. See [FoldingRangeKind](#FoldingRangeKind) for an
     # enumeration of standardized kinds.
-    property kind : String?
+    property kind : FoldingRangeKind?
 
     def initialize(@start_line, @end_line)
     end
