@@ -14,15 +14,13 @@ module Mint
       end
 
       def execute(server)
-        if workspace.error
-          [] of LSP::CodeAction
-        else
-          server
-            .nodes_at_cursor(params)
-            .reduce([] of LSP::CodeAction) do |memo, node|
-              memo + actions(node)
-            end
-        end
+        return [] of LSP::CodeAction if workspace.error
+
+        server
+          .nodes_at_cursor(params)
+          .reduce([] of LSP::CodeAction) do |memo, node|
+            memo + actions(node)
+          end
       end
 
       private def workspace
