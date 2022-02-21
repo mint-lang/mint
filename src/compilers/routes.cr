@@ -6,5 +6,12 @@ module Mint
 
       "_program.addRoutes(#{js.array(routes)})"
     end
+
+    def _compile_service_worker(node : Ast::Routes) : String
+      routes =
+        compile_service_worker node.routes
+        
+      js.array(routes)
+    end
   end
 end

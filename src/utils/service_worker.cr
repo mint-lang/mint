@@ -1,12 +1,16 @@
 module Mint
   class ServiceWorker
     @relative : Bool
+    @optimize : Bool
+    @artifacts : TypeChecker::Artifacts
 
-    def self.generate(relative = false)
-      new(relative).to_s
+    def self.generate(artifacts, relative, optimize)
+      new(artifacts, relative, optimize).to_s
     end
 
-    def initialize(@relative)
+    def initialize(@artifacts, @relative, @optimize)
+      @js =
+        Js.new(optimize: @optimize)
     end
 
     protected def path_for(url)
@@ -37,5 +41,15 @@ module Mint
           digest.file(file)
         end.final.hexstring
     end
+
+    def get_routes : String
+      routes = Mint::Compiler
+      .new(TypeChecker.check(@artifacts.ast))
+      .compile_service_worker(@artifacts.ast.routes)
+      .map do |node| "...#{node}" end
+
+      @js.const("routes", @js.array(routes))
+    end
+
   end
 end

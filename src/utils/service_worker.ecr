@@ -2,6 +2,7 @@ const CACHE = '<%= calculate_hash %>'
 const PRECACHE_URLS = [
 <%= precache_urls.indent(2) %>
 ]
+<%= get_routes %>
 
 // On install precache all static resources
 self.addEventListener('install', event => {
@@ -45,15 +46,32 @@ self.addEventListener('fetch', event => {
 
   // If we are on the same origin
   if (isSameOrigin) {
-    // Try to get the response from the cache, and if not available
-    // fall back to the "index.html" file.
+    // Try to get the response from the cache,
+    // if not available, check the routing,
+    //   if the route exist, serve "index.html" file
+    //   else fetch request
     response =
       caches
         .match(event.request)
-        .then(cachedResponse => cachedResponse || caches.match('/index.html'))
+        .then(cachedResponse =>
+          cachedResponse
+          ?? (
+            isMatchingRoute(event.request)
+            ? caches.match('/index.html')
+            : fetch(event.request)
+          )
+        )
   } else {
     response = fetch(event.request)
   }
 
   event.respondWith(response)
 })
+
+function isMatchingRoute(request) { 
+  return routes.some( route => {
+    const matcher = new RegExp(`^${ route.replace('*','.*') }$`)
+    const { pathname } = new URL(request.url)
+    return matcher.test(pathname)
+  })
+}
