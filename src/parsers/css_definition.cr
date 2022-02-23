@@ -20,7 +20,7 @@ module Mint
               interpolation ||
               gather do
                 consume_while char.in_set?("^;{\0") &&
-                              !keyword_ahead("\#{") &&
+                              !keyword_ahead?("\#{") &&
                               char != '"'
               end
           end.map do |item|

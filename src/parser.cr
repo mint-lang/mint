@@ -139,7 +139,7 @@ module Mint
       keyword(word) || raise error
     end
 
-    def keyword_ahead(word) : Bool
+    def keyword_ahead?(word) : Bool
       word.each_char_with_index do |char, i|
         return false unless input[position + i]? == char
       end
@@ -147,7 +147,7 @@ module Mint
     end
 
     def keyword(word) : Bool
-      if keyword_ahead(word)
+      if keyword_ahead?(word)
         @position += word.size
         true
       else
