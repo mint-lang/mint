@@ -140,14 +140,14 @@ module Mint
     end
 
     def keyword_ahead(word) : Bool
-      result = input[position, word.size].join
-      result == word
+      word.each_char_with_index do |char, i|
+        return false unless input[position + i]? == char
+      end
+      true
     end
 
     def keyword(word) : Bool
-      result = input[position, word.size].join
-
-      if result == word
+      if keyword_ahead(word)
         @position += word.size
         true
       else
