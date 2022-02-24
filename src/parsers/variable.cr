@@ -3,8 +3,8 @@ module Mint
     def variable_attribute_name : Ast::Variable?
       start do |start_position|
         value = gather do
-          next unless char.in_set? "a-z"
-          chars "a-zA-Z0-9:-"
+          next unless char.ascii_lowercase?
+          consume_letters_or_numbers_or_dash_or_colon
         end
 
         next unless value
@@ -24,8 +24,8 @@ module Mint
     def variable_with_dashes(track = true) : Ast::Variable?
       start do |start_position|
         value = gather do
-          next unless char.in_set? "a-z"
-          chars "a-zA-Z0-9-"
+          next unless char.ascii_lowercase?
+          consume_letters_or_numbers_or_dash
         end
 
         next unless value
@@ -48,8 +48,8 @@ module Mint
     def variable(track = true) : Ast::Variable?
       start do |start_position|
         value = gather do
-          next unless char "a-z"
-          chars "a-zA-Z0-9"
+          next unless char.ascii_lowercase?
+          consume_letters_or_numbers
         end
 
         next unless value

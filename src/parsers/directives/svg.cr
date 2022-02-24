@@ -11,7 +11,7 @@ module Mint
         char '(', SvgDirectiveExpectedOpeningParentheses
         whitespace
 
-        path = gather { chars "^)" }
+        path = gather { chars_except ')' }
         raise SvgDirectiveExpectedPath unless path
 
         whitespace

@@ -33,7 +33,7 @@ module Mint
     end
 
     def type : Ast::Type?
-      return unless char.in_set? "A-Z"
+      return unless char.ascii_uppercase?
       type! TypeExpectedType
     end
   end

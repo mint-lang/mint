@@ -13,10 +13,10 @@ module Mint
         whitespace
 
         head =
-          gather { chars("A-Z") }
+          gather { chars &.ascii_uppercase? }
 
         tail =
-          gather { chars("A-Z0-9_") }
+          gather { chars { |char| char.ascii_uppercase? || char.ascii_number? || char == '_' } }
 
         raise ConstantExpectedName unless head || tail
 

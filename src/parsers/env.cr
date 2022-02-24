@@ -7,10 +7,10 @@ module Mint
         next unless char! '@'
 
         head =
-          gather { chars("A-Z") }.to_s
+          gather { chars(&.ascii_uppercase?) }.to_s
 
         tail =
-          gather { chars("A-Z_") }.to_s
+          gather { chars { |char| char.ascii_uppercase? || char == '_' } }.to_s
 
         name =
           "#{head}#{tail}"

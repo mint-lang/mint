@@ -89,6 +89,18 @@ module Mint
     # Consuming characters
     # ----------------------------------------------------------------------------
 
+    def consume_letters_or_numbers
+      chars { |char| char.ascii_letter? || char.ascii_number? }
+    end
+
+    def consume_letters_or_numbers_or_dash
+      chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' }
+    end
+
+    def consume_letters_or_numbers_or_dash_or_colon
+      chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' || char == ':' }
+    end
+
     def char!(next_char : Char)
       return false unless char == next_char
       step
@@ -100,18 +112,30 @@ module Mint
       step
     end
 
-    def char(set : String, error : SyntaxError.class) : Int32?
-      raise error unless char.in_set?(set)
+    def char(& : Char -> Bool)
+      return unless yield char
       step
     end
 
-    def char(set : String) : Int32?
-      return unless char.in_set?(set)
+    def char(error : SyntaxError.class, & : Char -> Bool)
+      raise error unless yield char
       step
     end
 
-    def chars(set) : String?
-      consume_while char != '\0' && char.in_set?(set)
+    def chars(& : Char -> Bool)
+      while char != '\0' && (yield char)
+        step
+      end
+    end
+
+    def chars_except(& : Char -> Bool)
+      while char != '\0' && !(yield char)
+        step
+      end
+    end
+
+    def chars_except(next_char : Char)
+      chars_except { |char| char == next_char }
     end
 
     # Gathering many consumes

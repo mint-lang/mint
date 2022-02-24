@@ -17,7 +17,7 @@ module Mint
         whitespace! CssNestedAtExpectedSpaceAfterKeyword
 
         content =
-          gather { chars "^{" }.presence.try(&.strip)
+          gather { chars_except '{' }.presence.try(&.strip)
 
         raise CssNestedAtExpectedCondition unless content
 

@@ -11,7 +11,7 @@ module Mint
         char '(', AssetDirectiveExpectedOpeningParentheses
         whitespace
 
-        path = gather { chars "^)" }
+        path = gather { chars_except ')' }
         raise AssetDirectiveExpectedPath unless path
 
         whitespace
