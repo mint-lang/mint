@@ -45,12 +45,8 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
-      to =
-        input[position, input.size]
-          .join
-          .split(/\s|\n|\r/)
-          .first
-          .size
+      whitespace_index = next_whitespace_index
+      to = whitespace_index ? whitespace_index - position : 0
 
       node =
         Ast::Node.new(
@@ -232,6 +228,18 @@ module Mint
       end
 
       result
+    end
+
+    private def next_whitespace_index
+      whitespace_index = nil
+      current_position = position
+      while current_position < input.size
+        if input[current_position].whitespace?
+          return whitespace_index
+        end
+        current_position &+= 1
+      end
+      nil
     end
   end
 end
