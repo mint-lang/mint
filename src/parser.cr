@@ -7,7 +7,8 @@ module Mint
     getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
     getter position = 0
 
-    def initialize(input, @file)
+    def initialize(input : String, @file)
+      @string = input
       @input = input.chars
       @data = Ast::Data.new(input, @file)
     end
@@ -55,7 +56,7 @@ module Mint
           input: data)
 
       part =
-        input[position, to].join
+        @string[position, to]
 
       raise error, {
         "node" => node,
@@ -147,8 +148,8 @@ module Mint
       yield
 
       if position > start_position
-        result = input[start_position, position - start_position]
-        result.join unless result.empty?
+        result = @string[start_position, position - start_position]
+        result unless result.empty?
       end
     end
 
