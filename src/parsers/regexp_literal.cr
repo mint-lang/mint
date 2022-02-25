@@ -16,7 +16,7 @@ module Mint
 
         char '/', RegexpLiteralExpectedClosingSlash
 
-        flags = gather { chars &.in?('i', 'g', 'm', 's', 'u', 'y') }.to_s
+        flags = gather { chars 'i', 'g', 'm', 's', 'u', 'y' }.to_s
 
         Ast::RegexpLiteral.new(
           from: start_position,

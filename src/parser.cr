@@ -125,6 +125,10 @@ module Mint
       end
     end
 
+    def chars(*next_chars : Char)
+      chars &.in?(next_chars)
+    end
+
     def chars_except(& : Char -> Bool)
       while char != '\0' && !(yield char)
         step
@@ -133,6 +137,10 @@ module Mint
 
     def chars_except(next_char : Char)
       chars_except { |char| char == next_char }
+    end
+
+    def chars_except(*next_chars : Char)
+      chars_except &.in?(next_chars)
     end
 
     # Gathering many consumes

@@ -41,7 +41,7 @@ module Mint
       end
 
       name =
-        gather { chars_except &.in?(',', '{', '}') }.presence.try(&.strip)
+        gather { chars_except ',', '{', '}' }.presence.try(&.strip)
 
       return unless name || ampersand
 
