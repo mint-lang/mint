@@ -125,6 +125,10 @@ module Mint
       end
     end
 
+    def chars(next_char : Char)
+      chars { |char| char == next_char }
+    end
+
     def chars(*next_chars : Char)
       chars &.in?(next_chars)
     end

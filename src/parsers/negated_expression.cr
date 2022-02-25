@@ -4,7 +4,7 @@ module Mint
 
     def negated_expression : Ast::NegatedExpression?
       start do |start_position|
-        negations = gather { chars &.==('!') }
+        negations = gather { chars '!' }
         next unless negations
 
         negations =
