@@ -33,10 +33,10 @@ module Mint
       value =
         if stop_on_interpolation
           # Until we find either a terminator or interpolation
-          gather { chars_except terminator, '#' }
+          gather { chars_until terminator, '#' }
         else
           # Until we find the terminator
-          gather { chars_except terminator }
+          gather { chars_until terminator }
         end
 
       if prev_char == '\\'

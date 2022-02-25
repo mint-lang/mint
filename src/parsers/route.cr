@@ -15,7 +15,7 @@ module Mint
             step
             "*"
           else
-            gather { chars_except ' ', '\n', '\r', '\t', '{', '(' }.to_s
+            gather { chars_until ' ', '\n', '\r', '\t', '{', '(' }.to_s
           end
 
         whitespace
