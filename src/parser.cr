@@ -90,16 +90,12 @@ module Mint
     # Consuming characters
     # ----------------------------------------------------------------------------
 
-    def consume_letters_or_numbers
+    def letters_or_numbers
       chars { |char| char.ascii_letter? || char.ascii_number? }
     end
 
-    def consume_letters_or_numbers_or_dash
+    def letters_or_numbers_or_dash
       chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' }
-    end
-
-    def consume_letters_or_numbers_or_dash_or_colon
-      chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' || char == ':' }
     end
 
     def char!(next_char : Char)

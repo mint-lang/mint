@@ -4,7 +4,7 @@ module Mint
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?
-          consume_letters_or_numbers_or_dash_or_colon
+          chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' || char == ':' }
         end
 
         next unless value
@@ -25,7 +25,7 @@ module Mint
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?
-          consume_letters_or_numbers_or_dash
+          letters_or_numbers_or_dash
         end
 
         next unless value
@@ -49,7 +49,7 @@ module Mint
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?
-          consume_letters_or_numbers
+          letters_or_numbers
         end
 
         next unless value
