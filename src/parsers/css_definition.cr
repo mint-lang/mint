@@ -4,11 +4,11 @@ module Mint
 
     def css_definition : Ast::CssDefinition?
       start do |start_position|
-        next unless char.in_set? "a-z-"
+        next unless char.ascii_lowercase? || char == '-'
 
         name = gather do
           step
-          chars "a-zA-Z0-9-"
+          letters_numbers_or_dash
         end.to_s
 
         next unless char! ':'

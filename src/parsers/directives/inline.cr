@@ -11,7 +11,7 @@ module Mint
         char '(', InlineDirectiveExpectedOpeningParentheses
         whitespace
 
-        path = gather { chars "^)" }
+        path = gather { chars_until ')' }
         raise InlineDirectiveExpectedPath unless path
 
         whitespace

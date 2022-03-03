@@ -3,10 +3,10 @@ module Mint
     def constant_variable : Ast::Variable?
       start do |start_position|
         head =
-          gather { chars("A-Z") }
+          gather { chars &.ascii_uppercase? }
 
         tail =
-          gather { chars("A-Z0-9_") }
+          gather { chars { |char| char.ascii_uppercase? || char.ascii_number? || char == '_' } }
 
         next unless head || tail
 
