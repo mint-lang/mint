@@ -93,7 +93,7 @@ module Mint
       chars { |char| char.ascii_letter? || char.ascii_number? }
     end
 
-    def letters_or_numbers_or_dash
+    def letters_numbers_or_dash
       chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' }
     end
 

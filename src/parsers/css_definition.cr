@@ -8,7 +8,7 @@ module Mint
 
         name = gather do
           step
-          letters_or_numbers_or_dash
+          letters_numbers_or_dash
         end.to_s
 
         next unless char! ':'

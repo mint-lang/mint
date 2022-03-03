@@ -25,7 +25,7 @@ module Mint
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?
-          letters_or_numbers_or_dash
+          letters_numbers_or_dash
         end
 
         next unless value
