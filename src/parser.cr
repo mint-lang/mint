@@ -8,7 +8,6 @@ module Mint
     getter position = 0
 
     def initialize(input : String, @file)
-      @string = input
       @input = input.chars
       @data = Ast::Data.new(input, @file)
     end
@@ -56,7 +55,7 @@ module Mint
           input: data)
 
       part =
-        @string[position, to]
+        @data.input[position, to]
 
       raise error, {
         "node" => node,
@@ -156,7 +155,7 @@ module Mint
       yield
 
       if position > start_position
-        result = @string[start_position, position - start_position]
+        result = @data.input[start_position, position - start_position]
         result unless result.empty?
       end
     end
