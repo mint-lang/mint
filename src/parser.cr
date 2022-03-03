@@ -262,9 +262,7 @@ module Mint
       result
     end
 
-    # Getting substrings out of the original string
-    # ----------------------------------------------------------------------------
-
+    # Gets substring out of the original string
     def substring(from, to)
       @data.input[from, to]
     end
