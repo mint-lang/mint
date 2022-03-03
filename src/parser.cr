@@ -270,11 +270,10 @@ module Mint
     end
 
     private def next_whitespace_index
-      whitespace_index = nil
       current_position = position
       while current_position < input.size
         if input[current_position].whitespace?
-          return whitespace_index
+          return current_position
         end
         current_position &+= 1
       end
