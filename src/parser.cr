@@ -55,7 +55,7 @@ module Mint
           input: data)
 
       part =
-        @data.input[position, to]
+        substring(position, to)
 
       raise error, {
         "node" => node,
@@ -155,7 +155,7 @@ module Mint
       yield
 
       if position > start_position
-        result = @data.input[start_position, position - start_position]
+        result = substring(start_position, position - start_position)
         result unless result.empty?
       end
     end
@@ -260,6 +260,13 @@ module Mint
       end
 
       result
+    end
+
+    # Getting substrings out of the original string
+    # ----------------------------------------------------------------------------
+
+    def substring(from, to)
+      @data.input[from, to]
     end
 
     private def next_whitespace_index
