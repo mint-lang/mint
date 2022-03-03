@@ -33,7 +33,7 @@ module Mint
         parallel ||
         try_expression ||
         case_expression ||
-        parenthesized_expression_no_error ||
+        parenthesized_expression ||
         inline_function ||
         starts_with_uppercase ||
         negated_expression ||
