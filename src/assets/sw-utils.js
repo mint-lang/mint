@@ -930,7 +930,7 @@ var Mint = (function (exports) {
 	function isMatchingRoute(request, routes) {
 	  const { pathname } = new URL(request.url);
 	  const matcher = (route) =>
-	    route == "*" || new routeParser.Route(route).match(pathname);
+	    route == "*" || new routeParser(route).match(pathname);
 	  return routes.some(matcher);
 	}
 
