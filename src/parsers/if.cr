@@ -40,7 +40,7 @@ module Mint
 
         whitespace
 
-        if (!for_css && !for_html) || keyword_ahead "else"
+        if (!for_css && !for_html) || keyword_ahead? "else"
           keyword! "else", IfExpectedElse
           whitespace
 

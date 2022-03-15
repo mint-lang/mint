@@ -6,17 +6,17 @@ module Mint
       start do |start_position|
         negation = char! '-'
 
-        value = gather { chars("0-9") }.to_s
+        value = gather { chars &.ascii_number? }.to_s
 
         next if value.empty?
 
         float = false
 
         if char! '.'
-          raise NumberLiteralExpectedDecimal unless char.in_set? "0-9"
+          raise NumberLiteralExpectedDecimal unless char.ascii_number?
           value += '.'
           float = true
-          value += gather { chars("0-9") }.to_s
+          value += gather { chars(&.ascii_number?) }.to_s
         end
 
         value = "-#{value}" if negation

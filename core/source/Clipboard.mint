@@ -48,7 +48,7 @@ module Clipboard {
       // Restore previous range(s)
       selection.removeAllRanges()
 
-      for (range of lastRanges) {
+      for (let range of lastRanges) {
         selection.addRange(range)
       }
 

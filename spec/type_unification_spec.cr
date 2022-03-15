@@ -35,7 +35,7 @@ class Parser
         [] of Checkable
       end
 
-    if name[0].in_set?("A-Z")
+    if name[0].ascii_uppercase?
       Type.new(name, types)
     else
       map[name]? || (map[name] = Variable.new(name))

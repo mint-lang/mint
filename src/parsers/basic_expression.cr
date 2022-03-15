@@ -33,7 +33,8 @@ module Mint
         parallel ||
         try_expression ||
         case_expression ||
-        parenthesized_expression_or_inline_function ||
+        parenthesized_expression ||
+        inline_function ||
         starts_with_uppercase ||
         negated_expression ||
         js ||
@@ -54,12 +55,6 @@ module Mint
       return item if item
 
       constant_variable
-    end
-
-    def parenthesized_expression_or_inline_function : Ast::ParenthesizedExpression | Ast::InlineFunction?
-      parenthesized_expression
-    rescue
-      inline_function
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression

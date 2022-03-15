@@ -5,9 +5,9 @@ build: bin/mint
 spec:
 	crystal spec --error-on-warnings --error-trace --progress
 
-.PHONY: formatter
-formatter:
-	crystal tool format --check
+.PHONY: format
+format:
+	crystal tool format
 
 .PHONY: format-core
 format-core: build
@@ -19,7 +19,7 @@ ameba:
 	bin/ameba
 
 .PHONY: test
-test: spec formatter ameba
+test: spec ameba
 
 .PHONY: test-core
 test-core: build

@@ -11,7 +11,7 @@ module Mint
         whitespace
 
         name =
-          gather { chars "^{" }.presence.try(&.strip)
+          gather { chars_until '{' }.presence.try(&.strip)
 
         raise CssKeyframesExpectedName unless name
 
