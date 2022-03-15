@@ -85,7 +85,7 @@ module Mint
       unless skip_service_worker
         terminal.measure "#{COG} Creating service worker..." do
           File.write Path[DIST_DIR, "service-worker.js"],
-            ServiceWorker.generate(artifacts, relative, optimize)
+            service_worker(artifacts, relative, optimize, runtime_path)
         end
       end
     end
@@ -174,8 +174,24 @@ module Mint
       {runtime + compiled.to_s, type_checker.artifacts}
     end
 
+    def get_service_worker_utils(sw_utils_path)
+      if sw_utils_path
+        raise RuntimeFileNotFound, {
+          "path" => sw_utils_path,
+        } unless File.exists?(sw_utils_path)
+        File.read(sw_utils_path)
+      else
+        Assets.read("sw-utils.js")
+      end
+    end
+
     def terminal
       Render::Terminal::STDOUT
+    end
+
+    def service_worker(artifacts, relative, optimize, sw_utils_path)
+      worker = ServiceWorker.generate(artifacts, relative, optimize)
+      worker.to_s + get_service_worker_utils(sw_utils_path)
     end
   end
 end

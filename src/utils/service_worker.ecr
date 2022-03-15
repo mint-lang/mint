@@ -56,9 +56,9 @@ self.addEventListener('fetch', event => {
         .then(cachedResponse =>
           cachedResponse
           ?? (
-            isMatchingRoute(event.request)
-            ? caches.match('/index.html')
-            : fetch(event.request)
+            Mint.isMatchingRoute(event.request, routes)
+              ? caches.match('/index.html')
+              : fetch(event.request)
           )
         )
   } else {
@@ -67,11 +67,3 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(response)
 })
-
-function isMatchingRoute(request) { 
-  return routes.some( route => {
-    const matcher = new RegExp(`^${ route.replace('*','.*') }$`)
-    const { pathname } = new URL(request.url)
-    return matcher.test(pathname)
-  })
-}

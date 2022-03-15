@@ -5,7 +5,7 @@ module Mint
     @artifacts : TypeChecker::Artifacts
 
     def self.generate(artifacts, relative, optimize)
-      new(artifacts, relative, optimize).to_s
+      new(artifacts, relative, optimize)
     end
 
     def initialize(@artifacts, @relative, @optimize)
@@ -44,12 +44,13 @@ module Mint
 
     def get_routes : String
       routes = Mint::Compiler
-      .new(TypeChecker.check(@artifacts.ast))
-      .compile_service_worker(@artifacts.ast.routes)
-      .map do |node| "...#{node}" end
+        .new(TypeChecker.check(@artifacts.ast))
+        .compile_service_worker(@artifacts.ast.routes)
+        .map do |node|
+          "...#{node}"
+        end
 
-      @js.const("routes", @js.array(routes))
+      @js.const("routes", "[#{routes.join(',')}]")
     end
-
   end
 end

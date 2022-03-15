@@ -9,8 +9,11 @@ module Mint
 
     def _compile_service_worker(node : Ast::Routes) : String
       routes =
-        compile_service_worker node.routes
-        
+        node.routes
+          .map do |route|
+            compile_service_worker route
+          end
+
       js.array(routes)
     end
   end
