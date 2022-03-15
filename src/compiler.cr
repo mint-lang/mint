@@ -45,11 +45,11 @@ module Mint
     def _compile(node : Ast::Node) : String
       raise "Compiler not implemented for node #{node}!"
     end
-    
+
     def compile_service_worker(nodes : Array(Ast::Node))
       nodes.compact_map { |node| compile_service_worker(node).as(String).presence }
     end
-    
+
     def compile_service_worker(node : Ast::Node) : String
       if checked.includes?(node)
         _compile_service_worker(node)
@@ -61,6 +61,5 @@ module Mint
     def _compile_service_worker(node : Ast::Node) : String
       raise "Compiler (service-worker) not implemented for node #{node}!"
     end
-
   end
 end
