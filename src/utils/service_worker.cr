@@ -4,10 +4,6 @@ module Mint
     @optimize : Bool
     @artifacts : TypeChecker::Artifacts
 
-    def self.generate(artifacts, relative, optimize)
-      new(artifacts, relative, optimize)
-    end
-
     def initialize(@artifacts, @relative, @optimize)
       @js =
         Js.new(optimize: @optimize)
