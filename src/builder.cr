@@ -190,7 +190,7 @@ module Mint
     end
 
     def service_worker(artifacts, relative, optimize, sw_utils_path)
-      worker = ServiceWorker.generate(artifacts, relative, optimize)
+      worker = ServiceWorker.new(artifacts, relative, optimize)
       worker.to_s + get_service_worker_utils(sw_utils_path)
     end
   end
