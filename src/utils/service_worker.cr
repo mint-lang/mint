@@ -46,7 +46,7 @@ module Mint
           "...#{node}"
         end
 
-      @js.const("routes", "[#{routes.join(',')}]")
+      @js.const("routes", "[#{routes.join(", ")}]")
     end
   end
 end
