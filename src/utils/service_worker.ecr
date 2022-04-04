@@ -47,9 +47,8 @@ self.addEventListener('fetch', event => {
   // If we are on the same origin
   if (isSameOrigin) {
     // Try to get the response from the cache,
-    // if not available, check the routing,
-    //   if the route exist, serve "index.html" file
-    //   else fetch request
+    // if not available, check the routing, and if the route exist,
+    // serve "index.html" file or fetch request otherwise
     response =
       caches
         .match(event.request)
