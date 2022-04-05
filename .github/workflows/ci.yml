@@ -56,8 +56,8 @@ jobs:
       - name: Check formatting (Crystal)
         run: crystal tool format --check
 
-      - name: Run ameba
-        run: bin/ameba
+      # - name: Run ameba
+      #   run: bin/ameba
 
   build:
     name: Build
