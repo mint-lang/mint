@@ -174,15 +174,8 @@ module Mint
       {runtime + compiled.to_s, type_checker.artifacts}
     end
 
-    def get_service_worker_utils(sw_utils_path)
-      if sw_utils_path
-        raise RuntimeFileNotFound, {
-          "path" => sw_utils_path,
-        } unless File.exists?(sw_utils_path)
-        File.read(sw_utils_path)
-      else
-        Assets.read("sw-utils.js")
-      end
+    def get_service_worker_utils
+      Assets.read("sw-utils.js")
     end
 
     def terminal
