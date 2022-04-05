@@ -85,7 +85,7 @@ module Mint
       unless skip_service_worker
         terminal.measure "#{COG} Creating service worker..." do
           File.write Path[DIST_DIR, "service-worker.js"],
-            ServiceWorker.generate(relative)
+            service_worker(artifacts, relative, optimize)
         end
       end
     end
@@ -174,8 +174,17 @@ module Mint
       {runtime + compiled.to_s, type_checker.artifacts}
     end
 
+    def get_service_worker_utils
+      Assets.read("sw-utils.js")
+    end
+
     def terminal
       Render::Terminal::STDOUT
+    end
+
+    def service_worker(artifacts, relative, optimize)
+      worker = ServiceWorker.new(artifacts, relative, optimize)
+      "#{get_service_worker_utils}#{worker}"
     end
   end
 end
