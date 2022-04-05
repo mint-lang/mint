@@ -85,7 +85,7 @@ module Mint
       unless skip_service_worker
         terminal.measure "#{COG} Creating service worker..." do
           File.write Path[DIST_DIR, "service-worker.js"],
-            service_worker(artifacts, relative, optimize, runtime_path)
+            service_worker(artifacts, relative, optimize)
         end
       end
     end
