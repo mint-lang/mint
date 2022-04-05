@@ -182,9 +182,9 @@ module Mint
       Render::Terminal::STDOUT
     end
 
-    def service_worker(artifacts, relative, optimize, sw_utils_path)
+    def service_worker(artifacts, relative, optimize)
       worker = ServiceWorker.new(artifacts, relative, optimize)
-      "#{get_service_worker_utils(sw_utils_path)}#{worker}"
+      "#{get_service_worker_utils}#{worker}"
     end
   end
 end
