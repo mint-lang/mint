@@ -24,5 +24,9 @@ module Mint
         "path"     => "`#{node.url}`",
       })
     end
+
+    def _compile_service_worker(node : Ast::Route) : String
+      "'#{node.url}'"
+    end
   end
 end
