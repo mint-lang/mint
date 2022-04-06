@@ -59,6 +59,34 @@ sequence {
 */
 module Http {
   /*
+  Aborts all running requests.
+
+    Http.abortAll()
+  */
+  fun abortAll : Void {
+    `
+    this._requests && Object.keys(this._requests).forEach((uid) => {
+      this._requests[uid].abort()
+      delete this._requests[uid]
+    })
+    `
+  }
+
+  /*
+  Creates a request record where the method is DELETE
+
+    request =
+      Http.delete("https://httpbin.org/delete")
+
+    request.method == "DELETE"
+  */
+  fun delete (urlValue : String) : Http.Request {
+    empty()
+    |> method("DELETE")
+    |> url(urlValue)
+  }
+
+  /*
   Creates an empty request record. It is useful if you want to use a non-
   standard HTTP method.
 
@@ -82,17 +110,19 @@ module Http {
   }
 
   /*
-  Creates a request record where the method is DELETE
+  Sets the body of the request to the given string
 
-    request =
-      Http.delete("https://httpbin.org/delete")
+    formData =
+      FormData.empty()
+      |> FormData.addString("key", "value")
 
-    request.method == "DELETE"
+    "https://httpbin.org/anything"
+    |> Http.post()
+    |> Http.formDataBody(formData)
+    |> Http.send()
   */
-  fun delete (urlValue : String) : Http.Request {
-    empty()
-    |> method("DELETE")
-    |> url(urlValue)
+  fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
+    { request | body = `#{body}` }
   }
 
   /*
@@ -110,106 +140,18 @@ module Http {
   }
 
   /*
-  Creates a request record where the method is PUT
-
-    request =
-      Http.put("https://httpbin.org/put")
-
-    request.method == "PUT"
-  */
-  fun put (urlValue : String) : Http.Request {
-    empty()
-    |> method("PUT")
-    |> url(urlValue)
-  }
-
-  /*
-  Creates a request record where the method is POST
-
-    request =
-      Http.post("https://httpbin.org/post")
-
-    request.method == "POST"
-  */
-  fun post (urlValue : String) : Http.Request {
-    empty()
-    |> method("POST")
-    |> url(urlValue)
-  }
-
-  /*
-  Sets the body of the request to the given string
-
-    "https://httpbin.org/anything"
-    |> Http.post()
-    |> Http.stringBody("Some string that will come back.")
-    |> Http.send()
-  */
-  fun stringBody (body : String, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
-  }
-
-  /*
-  Sets the body of the request to the given object encoded to JSON
-
-    "https://httpbin.org/anything"
-    |> Http.post()
-    |> Http.jsonBody(encode { name = "John" })
-    |> Http.send()
-  */
-  fun jsonBody (body : Object, request : Http.Request) : Http.Request {
-    if (hasHeader("Content-Type", request)) {
-      { request | body = `JSON.stringify(#{body})` }
-    } else {
-      { request | body = `JSON.stringify(#{body})` }
-      |> Http.header("Content-Type", "application/json")
-    }
-  }
-
-  /*
-  Sets the body of the request to the given string
-
-    formData =
-      FormData.empty()
-      |> FormData.addString("key", "value")
-
-    "https://httpbin.org/anything"
-    |> Http.post()
-    |> Http.formDataBody(formData)
-    |> Http.send()
-  */
-  fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
-  }
-
-  /*
-  Sets the method of the request to the given one.
+  Checks the prescence of a header with the given key.
 
     Http.empty()
-    |> Http.method("PATCH")
+    |> Http.header("Content-Type", "application/json")
+    |> Http.hasHeader("Content-Type")
   */
-  fun method (method : String, request : Http.Request) : Http.Request {
-    { request | method = method }
-  }
-
-  /*
-  Sets the withCredentials of the request to the given one.
-
-    Http.empty()
-    |> Http.withCredentials(true)
-  */
-  fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
-    { request | withCredentials = value }
-  }
-
-  /*
-  Sets the URL of the request to the given one.
-
-    Http.empty()
-    |> Http.url("https://httpbin.org/anything")
-  */
-  fun url (url : String, request : Http.Request) : Http.Request {
-    { request | url = url }
+  fun hasHeader (key : String, request : Http.Request) : Bool {
+    request.headers
+    |> Array.any(
+      (header : Http.Header) : Bool {
+        String.toLowerCase(header.key) == String.toLowerCase(key)
+      })
   }
 
   /*
@@ -235,32 +177,58 @@ module Http {
   }
 
   /*
-  Checks the prescence of a header with the given key.
+  Sets the body of the request to the given object encoded to JSON
 
-    Http.empty()
-    |> Http.header("Content-Type", "application/json")
-    |> Http.hasHeader("Content-Type")
+    "https://httpbin.org/anything"
+    |> Http.post()
+    |> Http.jsonBody(encode { name = "John" })
+    |> Http.send()
   */
-  fun hasHeader (key : String, request : Http.Request) : Bool {
-    request.headers
-    |> Array.any(
-      (header : Http.Header) : Bool {
-        String.toLowerCase(header.key) == String.toLowerCase(key)
-      })
+  fun jsonBody (body : Object, request : Http.Request) : Http.Request {
+    if (hasHeader("Content-Type", request)) {
+      { request | body = `JSON.stringify(#{body})` }
+    } else {
+      { request | body = `JSON.stringify(#{body})` }
+      |> Http.header("Content-Type", "application/json")
+    }
   }
 
   /*
-  Aborts all running requests.
+  Sets the method of the request to the given one.
 
-    Http.abortAll()
+    Http.empty()
+    |> Http.method("PATCH")
   */
-  fun abortAll : Void {
-    `
-    this._requests && Object.keys(this._requests).forEach((uid) => {
-      this._requests[uid].abort()
-      delete this._requests[uid]
-    })
-    `
+  fun method (method : String, request : Http.Request) : Http.Request {
+    { request | method = method }
+  }
+
+  /*
+  Creates a request record where the method is POST
+
+    request =
+      Http.post("https://httpbin.org/post")
+
+    request.method == "POST"
+  */
+  fun post (urlValue : String) : Http.Request {
+    empty()
+    |> method("POST")
+    |> url(urlValue)
+  }
+
+  /*
+  Creates a request record where the method is PUT
+
+    request =
+      Http.put("https://httpbin.org/put")
+
+    request.method == "PUT"
+  */
+  fun put (urlValue : String) : Http.Request {
+    empty()
+    |> method("PUT")
+    |> url(urlValue)
   }
 
   /* Returns all running requests. */
@@ -355,5 +323,37 @@ module Http {
       xhr.send(#{request.body})
     })
     `
+  }
+
+  /*
+  Sets the body of the request to the given string
+
+    "https://httpbin.org/anything"
+    |> Http.post()
+    |> Http.stringBody("Some string that will come back.")
+    |> Http.send()
+  */
+  fun stringBody (body : String, request : Http.Request) : Http.Request {
+    { request | body = `#{body}` }
+  }
+
+  /*
+  Sets the URL of the request to the given one.
+
+    Http.empty()
+    |> Http.url("https://httpbin.org/anything")
+  */
+  fun url (url : String, request : Http.Request) : Http.Request {
+    { request | url = url }
+  }
+
+  /*
+  Sets the withCredentials of the request to the given one.
+
+    Http.empty()
+    |> Http.withCredentials(true)
+  */
+  fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
+    { request | withCredentials = value }
   }
 }
