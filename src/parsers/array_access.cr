@@ -10,7 +10,7 @@ module Mint
         whitespace
 
         index =
-          gather { chars("0-9") }.to_s
+          gather { chars &.ascii_number? }.to_s
 
         index =
           if index.empty?

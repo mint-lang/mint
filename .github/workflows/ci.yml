@@ -56,8 +56,8 @@ jobs:
       - name: Check formatting (Crystal)
         run: crystal tool format --check
 
-      - name: Run ameba
-        run: bin/ameba
+      # - name: Run ameba
+      #   run: bin/ameba
 
   build:
     name: Build
@@ -79,7 +79,7 @@ jobs:
         run: shards install
 
       - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4
 
       - if: matrix.os == 'ubuntu-latest'
         name: Build binary (Linux)

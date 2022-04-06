@@ -30,16 +30,14 @@ module Mint
     end
 
     def not_interpolation_part(terminator : Char, stop_on_interpolation : Bool = true) : String?
-      # What characters to match
-      chars_to_match =
-        if stop_on_interpolation
-          "^#{terminator}#" # Until we find either a terminator or interpolation
-        else
-          "^#{terminator}" # Until we find the terminator
-        end
-
       value =
-        gather { chars chars_to_match }
+        if stop_on_interpolation
+          # Until we find either a terminator or interpolation
+          gather { chars_until terminator, '#' }
+        else
+          # Until we find the terminator
+          gather { chars_until terminator }
+        end
 
       if prev_char == '\\'
         # if we found backslashthen it means it's an escape so we consume it

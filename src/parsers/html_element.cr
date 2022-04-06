@@ -17,7 +17,7 @@ module Mint
 
         styles = [] of Ast::HtmlStyle
 
-        if keyword_ahead "::"
+        if keyword_ahead? "::"
           styles = many(parse_whitespace: false) { html_style }
 
           raise HtmlElementExpectedStyle if styles.empty?

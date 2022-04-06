@@ -2,8 +2,8 @@ module Mint
   class Parser
     def type_id!(error : SyntaxError.class) : String
       name = gather do
-        char "A-Z", error
-        chars "a-zA-Z0-9"
+        char(error, &.ascii_uppercase?)
+        letters_or_numbers
       end
 
       raise error unless name
@@ -17,9 +17,9 @@ module Mint
 
     def type_id : String?
       name = gather do
-        return unless char.in_set? "A-Z"
+        return unless char.ascii_uppercase?
         step
-        chars "a-zA-Z0-9"
+        letters_or_numbers
       end
 
       return unless name
@@ -43,7 +43,7 @@ module Mint
     end
 
     def type_id(error : SyntaxError.class) : String?
-      return unless char.in_set?("A-Z")
+      return unless char.ascii_uppercase?
       type_id! error
     end
   end

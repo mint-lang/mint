@@ -7,7 +7,7 @@ module Mint
     getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
     getter position = 0
 
-    def initialize(input, @file)
+    def initialize(input : String, @file)
       @input = input.chars
       @data = Ast::Data.new(input, @file)
     end
@@ -45,12 +45,8 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
-      to =
-        input[position, input.size]
-          .join
-          .split(/\s|\n|\r/)
-          .first
-          .size
+      whitespace_index = next_whitespace_index
+      to = whitespace_index ? whitespace_index - position : 0
 
       node =
         Ast::Node.new(
@@ -59,7 +55,7 @@ module Mint
           input: data)
 
       part =
-        input[position, to].join
+        substring(position, to)
 
       raise error, {
         "node" => node,
@@ -93,6 +89,14 @@ module Mint
     # Consuming characters
     # ----------------------------------------------------------------------------
 
+    def letters_or_numbers
+      chars { |char| char.ascii_letter? || char.ascii_number? }
+    end
+
+    def letters_numbers_or_dash
+      chars { |char| char.ascii_letter? || char.ascii_number? || char == '-' }
+    end
+
     def char!(next_char : Char)
       return false unless char == next_char
       step
@@ -104,18 +108,42 @@ module Mint
       step
     end
 
-    def char(set : String, error : SyntaxError.class) : Int32?
-      raise error unless char.in_set?(set)
+    def char(& : Char -> Bool)
+      return unless yield char
       step
     end
 
-    def char(set : String) : Int32?
-      return unless char.in_set?(set)
+    def char(error : SyntaxError.class, & : Char -> Bool)
+      raise error unless yield char
       step
     end
 
-    def chars(set) : String?
-      consume_while char != '\0' && char.in_set?(set)
+    def chars(& : Char -> Bool)
+      while char != '\0' && (yield char)
+        step
+      end
+    end
+
+    def chars(next_char : Char)
+      chars { |char| char == next_char }
+    end
+
+    def chars(*next_chars : Char)
+      chars &.in?(next_chars)
+    end
+
+    def chars_until(& : Char -> Bool)
+      while char != '\0' && !(yield char)
+        step
+      end
+    end
+
+    def chars_until(next_char : Char)
+      chars_until { |char| char == next_char }
+    end
+
+    def chars_until(*next_chars : Char)
+      chars_until &.in?(next_chars)
     end
 
     # Gathering many consumes
@@ -127,8 +155,8 @@ module Mint
       yield
 
       if position > start_position
-        result = input[start_position, position - start_position]
-        result.join unless result.empty?
+        result = substring(start_position, position - start_position)
+        result unless result.empty?
       end
     end
 
@@ -139,15 +167,15 @@ module Mint
       keyword(word) || raise error
     end
 
-    def keyword_ahead(word) : Bool
-      result = input[position, word.size].join
-      result == word
+    def keyword_ahead?(word) : Bool
+      word.each_char_with_index do |char, i|
+        return false unless input[position + i]? == char
+      end
+      true
     end
 
     def keyword(word) : Bool
-      result = input[position, word.size].join
-
-      if result == word
+      if keyword_ahead?(word)
         @position += word.size
         true
       else
@@ -232,6 +260,22 @@ module Mint
       end
 
       result
+    end
+
+    # Gets substring out of the original string
+    def substring(from, to)
+      @data.input[from, to]
+    end
+
+    private def next_whitespace_index
+      current_position = position
+      while current_position < input.size
+        if input[current_position].whitespace?
+          return current_position
+        end
+        current_position &+= 1
+      end
+      nil
     end
   end
 end

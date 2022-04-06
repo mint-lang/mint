@@ -1,17 +1,16 @@
 module Mint
   class Parser
-    syntax_error ParenthesizedExpressionExpectedClosingParentheses
-    syntax_error ParenthesizedExpressionExpectedExpression
-
     def parenthesized_expression : Ast::ParenthesizedExpression?
       start do |start_position|
         next unless char! '('
 
         whitespace
-        expression = expression! ParenthesizedExpressionExpectedExpression
+        expression = self.expression
+        next unless expression
+
         whitespace
 
-        char ')', ParenthesizedExpressionExpectedClosingParentheses
+        next unless char! ')'
 
         self << Ast::ParenthesizedExpression.new(
           expression: expression,

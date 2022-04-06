@@ -5,22 +5,19 @@ module Mint
     end
 
     def array_access_or_call(lhs)
-      case input[position, 2].join
-      when "&."
+      case {char, next_char}
+      when {'&', '.'}
         access(lhs, safe: true)
-      when "&("
+      when {'&', '('}
         call(lhs, safe: true)
+      when {'.', _}
+        access(lhs)
+      when {'(', _}
+        call(lhs)
+      when {'[', _}
+        array_access(lhs)
       else
-        case char
-        when '.'
-          access(lhs)
-        when '('
-          call(lhs)
-        when '['
-          array_access(lhs)
-        else
-          lhs
-        end
+        lhs
       end
     end
 
