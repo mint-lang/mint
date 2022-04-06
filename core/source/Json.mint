@@ -4,19 +4,28 @@ module Json {
   Parses a string into an `Object`, returns `Maybe.nothing()`
   if the parsing failed.
 
-    Json.parse("{}") == Maybe.just(`{}`)
-    Json.parse("{") == Maybe.nothing()
+    Result.isOk(Json.parse("{}"))
+    Result.isError(Json.parse("{"))
   */
-  fun parse (input : String) : Maybe(Object) {
+  fun parse (input : String) : Result(String, Object) {
     `
     (() => {
       try {
-        return #{Maybe::Just(`JSON.parse(#{input})`)}
+        return #{Result::Ok(`JSON.parse(#{input})`)}
       } catch (error) {
-        return #{Maybe::Nothing}
+        return #{Result::Err(`error.message`)}
       }
     })()
     `
+  }
+
+  /*
+  Pretty stringyfies the given object.
+
+     Json.prettyStringify(`{ a: "Hello" }`, 2) == "{\n  \"a\": \"Hello\"\n}"
+  */
+  fun prettyStringify (value : Object, spaces : Number) {
+    `JSON.stringify(#{value}, null, #{spaces})` as String
   }
 
   /*
