@@ -275,6 +275,15 @@ module Mint
           }
         }
 
+        const _o = (item, value) => {
+          if (item !== undefined &&
+              item !== null) {
+            return item;
+          } else {
+            return value;
+          }
+        }
+
         const _s = (item, callback) => {
           if (item instanceof #{nothing}) {
             return item
