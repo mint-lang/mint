@@ -10,6 +10,9 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   /* The listener unsubscribe functions. */
   state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
 
+  /* The state to hold the animation frame id. */
+  state id : Number = 0
+
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
@@ -51,8 +54,19 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                       "mousemove",
                       false,
                       (event : Html.Event) {
-                        for (subscription of subscriptions) {
-                          subscription.moves(event)
+                        sequence {
+                          AnimationFrame.cancel(id)
+
+                          next
+                            {
+                              id =
+                                AnimationFrame.request(
+                                  (timestamp : Number) {
+                                    for (subscription of subscriptions) {
+                                      subscription.moves(event)
+                                    }
+                                  })
+                            }
                         }
                       }),
                     Window.addEventListener(

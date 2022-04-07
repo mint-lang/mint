@@ -8,6 +8,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   /* The listener unsubscribe function. */
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
+  /* Handles the scroll events. */
   fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
     for (subscription of subscriptions) {
       subscription.scrolls(event)

@@ -1,8 +1,10 @@
 /* Provider to handle websocket connections. */
 provider Provider.WebSocket : WebSocket.Config {
+  /* A state to store current connections. */
   state connections : Map(String, WebSocket) = Map.empty()
 
-  fun onOpen (url : String, socket : WebSocket) : Promise(Never, Void) {
+  /* Handles the open event. */
+  fun handleOpen (url : String, socket : WebSocket) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
         subscription.onOpen(socket)
@@ -14,7 +16,8 @@ provider Provider.WebSocket : WebSocket.Config {
     }
   }
 
-  fun onMessage (url : String, data : String) : Promise(Never, Void) {
+  /* Handles the message event. */
+  fun handleMessage (url : String, data : String) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
         subscription.onMessage(data)
@@ -26,7 +29,8 @@ provider Provider.WebSocket : WebSocket.Config {
     }
   }
 
-  fun onError (url : String) : Promise(Never, Void) {
+  /* Handles the error event. */
+  fun handleError (url : String) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
         subscription.onError()
@@ -38,7 +42,8 @@ provider Provider.WebSocket : WebSocket.Config {
     }
   }
 
-  fun onClose (url : String) : Promise(Never, Void) {
+  /* Handles the close event. */
+  fun handleClose (url : String) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
         subscription.onClose()
@@ -50,6 +55,7 @@ provider Provider.WebSocket : WebSocket.Config {
     }
   }
 
+  /* Handles updates to the provider. */
   fun update : Promise(Never, Void) {
     try {
       updatedConnections =
@@ -61,21 +67,21 @@ provider Provider.WebSocket : WebSocket.Config {
             config : WebSocket.Config
           ) {
             case (Map.get(config.url, connections)) {
+              Maybe::Just => memo
+
               Maybe::Nothing =>
                 Map.set(
                   config.url,
                   WebSocket.open(
                     {
-                      onMessage = (message : String) { onMessage(config.url, message) },
-                      onOpen = (socket : WebSocket) { onOpen(config.url, socket) },
-                      onClose = () { onClose(config.url) },
-                      onError = () { onError(config.url) },
+                      onMessage = (message : String) { handleMessage(config.url, message) },
+                      onOpen = (socket : WebSocket) { handleOpen(config.url, socket) },
                       reconnectOnClose = config.reconnectOnClose,
+                      onClose = () { handleClose(config.url) },
+                      onError = () { handleError(config.url) },
                       url = config.url
                     }),
                   memo)
-
-              Maybe::Just => memo
             }
           })
 
