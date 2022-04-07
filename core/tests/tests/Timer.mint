@@ -23,7 +23,12 @@ suite "Timer.nextFrame" {
     with Test.Context {
       of("TEST")
       |> then(
-        (subject : String) : Promise(a, String) { Timer.nextFrame(subject) })
+        (subject : String) : Promise(a, String) {
+          sequence {
+            Timer.nextFrame()
+            `#{subject}` as Promise(Never, String)
+          }
+        })
       |> then(
         (subject : String) : Promise(a, String) {
           subject

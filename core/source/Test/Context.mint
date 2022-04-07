@@ -49,7 +49,13 @@ module Test.Context {
   */
   fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
     context
-    |> then((subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) })
+    |> then(
+      (subject : a) : Promise(Never, a) {
+        sequence {
+          Timer.timeout(duration)
+          `#{subject}` as Promise(Never, a)
+        }
+      })
   }
 
   /*

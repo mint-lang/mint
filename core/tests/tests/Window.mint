@@ -106,7 +106,12 @@ suite "Window.scrollWidth" {
       <ScrollTest/>
       |> start()
       |> Test.Context.then(
-        (subject : Dom.Element) : Promise(Never, Dom.Element) { Timer.nextFrame(subject) })
+        (subject : Dom.Element) : Promise(Never, Dom.Element) {
+          sequence {
+            Timer.nextFrame()
+            `#{subject}` as Promise(Never, Dom.Element)
+          }
+        })
       |> assertTextOf("scroll-width", "3008")
     }
   }
