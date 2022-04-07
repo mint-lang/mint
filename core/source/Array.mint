@@ -134,17 +134,12 @@ module Array {
     Array.find((number : Number) { number % 2 == 0 }, [1, 2, 3, 4]) == Maybe::Just(2)
   */
   fun find (function : Function(item, Bool), array : Array(item)) : Maybe(item) {
-    `
-    (() => {
-      let item = #{array}.find(#{function})
-
-      if (item != undefined) {
-        return #{Maybe::Just(`item`)}
-      } else {
-        return #{Maybe::Nothing}
-      }
-    })()
-    `
+    Array.first(
+      for (item of array) {
+        item
+      } when {
+        function(item)
+      })
   }
 
   /*
