@@ -1,5 +1,5 @@
 name: mint
-version: 0.16.0
+version: 0.16.1
 
 authors:
   - Szikszai Gusztáv
@@ -30,6 +30,6 @@ targets:
   mint:
     main: src/mint.cr
 
-crystal: ~> 1.3.0
+crystal: ~> 1.4.1
 
 license: BSD-3-Clause
