@@ -46,7 +46,10 @@ module Mint
       end
 
       unless artifacts.assets.empty?
-        FileUtils.mkdir Path[DIST_DIR, ASSET_DIR].to_s
+        asset_path =
+          Path[DIST_DIR, ASSET_DIR].to_s
+
+        FileUtils.mkdir(asset_path) unless Dir.exists?(asset_path)
 
         terminal.puts "#{COG} Writing assets..."
 
