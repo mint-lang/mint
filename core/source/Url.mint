@@ -12,6 +12,32 @@ record Url {
 
 /* Utility functions for working with `Url` */
 module Url {
+  /*
+  Creates an url from the given file, which is available until the current
+  window is closed.
+
+    File.fromString("Content", "test.html", "text/html")
+    |> Url.createObjectUrlFromFile()
+  */
+  fun createObjectUrlFromFile (file : File) : String {
+    `URL.createObjectURL(#{file})`
+  }
+
+  /*
+  Creates an url from the given content and type, which is available until the
+  current window is closed.
+
+    Url.createObjectUrlFromString("Content", "text/html")
+  */
+  fun createObjectUrlFromString (string : String, type : String) : String {
+    `
+    (() => {
+      let blob = new Blob([#{string}], {type : #{type}})
+      return URL.createObjectURL(blob)
+    })()
+    `
+  }
+
   /* Parses the given string as an `Url`. */
   fun parse (url : String) : Url {
     `
@@ -34,32 +60,6 @@ module Url {
       }}
     })()
     `
-  }
-
-  /*
-  Creates an url from the given content and type, which is available until the
-  current window is closed.
-
-    Url.createObjectUrlFromString("Content", "text/html")
-  */
-  fun createObjectUrlFromString (string : String, type : String) : String {
-    `
-    (() => {
-      let blob = new Blob([#{string}], {type : #{type}})
-      return URL.createObjectURL(blob)
-    })()
-    `
-  }
-
-  /*
-  Creates an url from the given file, which is available until the current
-  window is closed.
-
-    File.fromString("Content", "test.html", "text/html")
-    |> Url.createObjectUrlFromFile()
-  */
-  fun createObjectUrlFromFile (file : File) : String {
-    `URL.createObjectURL(#{file})`
   }
 
   /*
