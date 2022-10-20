@@ -6,11 +6,11 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.0.0
+    version: 1.0.1
 
   backtracer:
     git: https://github.com/sija/backtracer.cr.git
-    version: 1.2.1
+    version: 1.2.2
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
