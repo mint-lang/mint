@@ -276,8 +276,7 @@ module Mint
         }
 
         const _o = (item, value) => {
-          if (item !== undefined &&
-              item !== null) {
+          if (item !== undefined && item !== null) {
             return item;
           } else {
             return value;
