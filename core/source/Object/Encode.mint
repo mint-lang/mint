@@ -1,36 +1,49 @@
 /* Functions for encoding values to an `Object`. */
 module Object.Encode {
-  /* Encodes a `String` */
-  fun string (input : String) : Object {
-    `#{input}`
-  }
+  /*
+  Encodes an `Array` of objects.
 
-  /* Encodes a `Bool` */
-  fun boolean (input : Bool) : Object {
-    `#{input}`
-  }
-
-  /* Encodes a `Number` */
-  fun number (input : Number) : Object {
-    `#{input}`
-  }
-
-  /* Encodes a `Time` */
-  fun time (input : Time) : Object {
-    `#{input}.toISOString()`
-  }
-
-  /* Encodes an `Array` of objects. */
+    Object.Encode.array(["Hello", "World"])
+  */
   fun array (input : Array(Object)) : Object {
     `#{input}`
   }
 
-  /* Encodes a field of an object. */
+  /*
+  Encodes a `Bool`.
+
+    Object.Encode.bool(true)
+  */
+  fun boolean (input : Bool) : Object {
+    `#{input}`
+  }
+
+  /*
+  Encodes a field of an object.
+
+    Object.Encode.field("key", Object.Encode.string("value"))
+  */
   fun field (name : String, value : Object) : Object.Field {
     `{ name: #{name}, value: #{value} }`
   }
 
-  /* Encodes an array of fields as an object. */
+  /*
+  Encodes a `Number`.
+
+    Object.Encode.number(10)
+  */
+  fun number (input : Number) : Object {
+    `#{input}`
+  }
+
+  /*
+  Encodes an array of fields as an object.
+
+    Object.Encode.object([
+      Object.Encode.field("key", Object.Encode.string("value")),
+      Object.Encode.field("key2", Object.Encode.string("value2"))
+    ])
+  */
   fun object (fields : Array(Object.Field)) : Object {
     `
     (() => {
@@ -43,5 +56,23 @@ module Object.Encode {
       return result
     })()
     `
+  }
+
+  /*
+  Encodes a `String`.
+
+    Object.Encode.string("Hello")
+  */
+  fun string (input : String) : Object {
+    `#{input}`
+  }
+
+  /*
+  Encodes a `Time`.
+
+    Object.Encode.time(Time.now())
+  */
+  fun time (input : Time) : Object {
+    `#{input}.toISOString()`
   }
 }

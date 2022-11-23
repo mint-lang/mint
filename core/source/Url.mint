@@ -38,7 +38,11 @@ module Url {
     `
   }
 
-  /* Parses the given string as an `Url`. */
+  /*
+  Parses the given string as an `Url`.
+
+    Url.parse("https://www.example.com").host == "www.example.com"
+  */
   fun parse (url : String) : Url {
     `
     (() => {

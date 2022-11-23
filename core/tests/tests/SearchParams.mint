@@ -8,7 +8,7 @@ suite "SearchParams.fromString" {
   test "returns a search params from a string" {
     "a=b&c=d"
     |> SearchParams.fromString()
-    |> SearchParams.has("a")
+    |> SearchParams.contains("a")
   }
 }
 
@@ -26,17 +26,17 @@ suite "SearchParams.get" {
   }
 }
 
-suite "SearchParams.has" {
+suite "SearchParams.contains" {
   test "returns true if key exists" {
     "a=b&c=d"
     |> SearchParams.fromString()
-    |> SearchParams.has("a")
+    |> SearchParams.contains("a")
   }
 
   test "returns false if key does not exists" {
     ("a=b&c=d"
     |> SearchParams.fromString()
-    |> SearchParams.has("x")) == false
+    |> SearchParams.contains("x")) == false
   }
 }
 

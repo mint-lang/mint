@@ -15,23 +15,36 @@ enum Storage.Error {
 
 /* Common implementation of the storage API. */
 module Storage.Common {
-  /* Sets the given key to the given value in the given storage. */
-  fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {
+  /* Clears the given storage. */
+  fun clear (storage : Storage) : Result(Storage.Error, Void) {
     `
     (() => {
       try {
-        #{storage}.setItem(#{key}, #{value})
+        #{storage}.clear()
         return #{Result::Ok(void)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
-          case 'QUOTA_EXCEEDED_ERR':
-            return #{Result::Err(Storage.Error::QuotaExceeded)}
-          case 'QuotaExceededError':
-            return #{Result::Err(Storage.Error::QuotaExceeded)}
-          case 'NS_ERROR_DOM_QUOTA_REACHED':
-            return #{Result::Err(Storage.Error::QuotaExceeded)}
+          default:
+            return #{Result::Err(Storage.Error::Unknown)}
+        }
+      }
+    })()
+    `
+  }
+
+  /* Deletes the value with the given key from the given storage. */
+  fun delete (storage : Storage, key : String) : Result(Storage.Error, Void) {
+    `
+    (() => {
+      try {
+        #{storage}.removeItem(#{key})
+        return #{Result::Ok(void)}
+      } catch (error) {
+        switch(error.name) {
+          case 'SecurityError':
+            return #{Result::Err(Storage.Error::SecurityError)}
           default:
             return #{Result::Err(Storage.Error::Unknown)}
         }
@@ -64,13 +77,12 @@ module Storage.Common {
     `
   }
 
-  /* Removes the value with the given key from the given storage. */
-  fun remove (storage : Storage, key : String) : Result(Storage.Error, Void) {
+  /* Returns the keys in the given storage. */
+  fun keys (storage : Storage) : Result(Storage.Error, Array(String)) {
     `
     (() => {
       try {
-        #{storage}.removeItem(#{key})
-        return #{Result::Ok(void)}
+        return #{Result::Ok(`Object.keys(#{storage}).sort()`)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
@@ -83,17 +95,23 @@ module Storage.Common {
     `
   }
 
-  /* Clears the given storage. */
-  fun clear (storage : Storage) : Result(Storage.Error, Void) {
+  /* Sets the given key to the given value in the given storage. */
+  fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {
     `
     (() => {
       try {
-        #{storage}.clear()
+        #{storage}.setItem(#{key}, #{value})
         return #{Result::Ok(void)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':
             return #{Result::Err(Storage.Error::SecurityError)}
+          case 'QUOTA_EXCEEDED_ERR':
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
+          case 'QuotaExceededError':
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
+          case 'NS_ERROR_DOM_QUOTA_REACHED':
+            return #{Result::Err(Storage.Error::QuotaExceeded)}
           default:
             return #{Result::Err(Storage.Error::Unknown)}
         }
@@ -108,24 +126,6 @@ module Storage.Common {
     (() => {
       try {
         return #{Result::Ok(`#{storage}.length`)}
-      } catch (error) {
-        switch(error.name) {
-          case 'SecurityError':
-            return #{Result::Err(Storage.Error::SecurityError)}
-          default:
-            return #{Result::Err(Storage.Error::Unknown)}
-        }
-      }
-    })()
-    `
-  }
-
-  /* Returns the keys in the given storage. */
-  fun keys (storage : Storage) : Result(Storage.Error, Array(String)) {
-    `
-    (() => {
-      try {
-        return #{Result::Ok(`Object.keys(#{storage}).sort()`)}
       } catch (error) {
         switch(error.name) {
           case 'SecurityError':

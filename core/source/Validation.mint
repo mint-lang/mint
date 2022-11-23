@@ -50,49 +50,12 @@ module Validation {
         sticky = false
       })
 
-  /*
-  Returns the given error when the given string is blank
-  (contains only whitespace).
-
-    Validation.isNotBlank("", {"name", "Name is empty!"}) ==
-      Maybe::Just({"name", "Name is empty!"})
-  */
-  fun isNotBlank (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (String.isNotBlank(value)) {
-      Maybe::Nothing
-    } else {
-      Maybe::Just(error)
-    }
-  }
-
-  /*
-  Returns the given error if the given string is not a number.
-
-    Validation.isNumber("asd", {"age", "Age is not a number!"}) ==
-      Maybe::Just({"age", "Age is not a number!"})
-  */
-  fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    case (Number.fromString(value)) {
-      Maybe::Just => Maybe::Nothing
-      => Maybe::Just(error)
-    }
-  }
-
-  /*
-  Returns the given error if the two given values are not the same.
-
-    Validation.isSame(
-      "password",
-      "confirmation",
-      {"confirmation", "Confirmation is not the same!"}) ==
-        Maybe::Just({"confirmation", "Confirmation is not the same!"})
-  */
-  fun isSame (value : a, value2 : a, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (value == value2) {
-      Maybe::Nothing
-    } else {
-      Maybe::Just(error)
-    }
+  /* Returns the first error for the given key in the given errors. */
+  fun getFirstError (key : String, errors : Map(String, Array(String))) : Maybe(String) {
+    errors
+    |> Map.get(key)
+    |> Maybe.map(Array.first)
+    |> Maybe.flatten
   }
 
   /*
@@ -140,6 +103,51 @@ module Validation {
   }
 
   /*
+  Returns the given error when the given string is blank
+  (contains only whitespace).
+
+    Validation.isNotBlank("", {"name", "Name is empty!"}) ==
+      Maybe::Just({"name", "Name is empty!"})
+  */
+  fun isNotBlank (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
+    if (String.isNotBlank(value)) {
+      Maybe::Nothing
+    } else {
+      Maybe::Just(error)
+    }
+  }
+
+  /*
+  Returns the given error if the given string is not a number.
+
+    Validation.isNumber("asd", {"age", "Age is not a number!"}) ==
+      Maybe::Just({"age", "Age is not a number!"})
+  */
+  fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
+    case (Number.fromString(value)) {
+      Maybe::Just => Maybe::Nothing
+      => Maybe::Just(error)
+    }
+  }
+
+  /*
+  Returns the given error if the two given values are not the same.
+
+    Validation.isSame(
+      "password",
+      "confirmation",
+      {"confirmation", "Confirmation is not the same!"}) ==
+        Maybe::Just({"confirmation", "Confirmation is not the same!"})
+  */
+  fun isSame (value : a, value2 : a, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
+    if (value == value2) {
+      Maybe::Nothing
+    } else {
+      Maybe::Just(error)
+    }
+  }
+
+  /*
   Returns the given error if the given string is not an email address.
 
     Validation.isValidEmail(
@@ -153,14 +161,6 @@ module Validation {
     } else {
       Maybe::Just(error)
     }
-  }
-
-  /* Returns the first error for the given key in the given errors. */
-  fun getFirstError (key : String, errors : Map(String, Array(String))) : Maybe(String) {
-    errors
-    |> Map.get(key)
-    |> Maybe.map(Array.first)
-    |> Maybe.flatten
   }
 
   /*

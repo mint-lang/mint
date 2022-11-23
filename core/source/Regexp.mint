@@ -57,32 +57,12 @@ module Regexp {
   }
 
   /*
-  Returns the string representation of the given regular expression.
-
-    (Regexp.create("test")
-    |> Regexp.toString()) == "/test/"
-  */
-  fun toString (regexp : Regexp) : String {
-    `#{regexp}.toString()`
-  }
-
-  /*
   Escapes the given input to use in the regular expression.
 
     Regexp.escape("-{") == "\\-\\{"
   */
   fun escape (input : String) : String {
     `#{input}.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')`
-  }
-
-  /*
-  Splits the given string by the given regular expression.
-
-    (Regexp.create(",")
-    |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
-  */
-  fun split (input : String, regexp : Regexp) : Array(String) {
-    `#{input}.split(#{regexp})`
   }
 
   /*
@@ -193,5 +173,25 @@ module Regexp {
       })
     })()
     `
+  }
+
+  /*
+  Splits the given string by the given regular expression.
+
+    (Regexp.create(",")
+    |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
+  */
+  fun split (input : String, regexp : Regexp) : Array(String) {
+    `#{input}.split(#{regexp})`
+  }
+
+  /*
+  Returns the string representation of the given regular expression.
+
+    (Regexp.create("test")
+    |> Regexp.toString()) == "/test/"
+  */
+  fun toString (regexp : Regexp) : String {
+    `#{regexp}.toString()`
   }
 }

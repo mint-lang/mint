@@ -3,24 +3,11 @@ provider Provider.WebSocket : WebSocket.Config {
   /* A state to store current connections. */
   state connections : Map(String, WebSocket) = Map.empty()
 
-  /* Handles the open event. */
-  fun handleOpen (url : String, socket : WebSocket) : Promise(Never, Void) {
+  /* Handles the close event. */
+  fun handleClose (url : String) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
-        subscription.onOpen(socket)
-      } when {
-        subscription.url == url
-      }
-
-      next { }
-    }
-  }
-
-  /* Handles the message event. */
-  fun handleMessage (url : String, data : String) : Promise(Never, Void) {
-    sequence {
-      for (subscription of subscriptions) {
-        subscription.onMessage(data)
+        subscription.onClose()
       } when {
         subscription.url == url
       }
@@ -42,11 +29,24 @@ provider Provider.WebSocket : WebSocket.Config {
     }
   }
 
-  /* Handles the close event. */
-  fun handleClose (url : String) : Promise(Never, Void) {
+  /* Handles the message event. */
+  fun handleMessage (url : String, data : String) : Promise(Never, Void) {
     sequence {
       for (subscription of subscriptions) {
-        subscription.onClose()
+        subscription.onMessage(data)
+      } when {
+        subscription.url == url
+      }
+
+      next { }
+    }
+  }
+
+  /* Handles the open event. */
+  fun handleOpen (url : String, socket : WebSocket) : Promise(Never, Void) {
+    sequence {
+      for (subscription of subscriptions) {
+        subscription.onOpen(socket)
       } when {
         subscription.url == url
       }

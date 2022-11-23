@@ -74,15 +74,15 @@ suite "Storage.Session.clear" {
   }
 }
 
-suite "Storage.Session.remove" {
-  test "it removes the item with the specified key" {
+suite "Storage.Session.delete" {
+  test "it deletes the item with the specified key" {
     try {
       Storage.Session.set("test", "test")
 
       initialSize =
         Storage.Session.size()
 
-      Storage.Session.remove("test")
+      Storage.Session.delete("test")
 
       afterSize =
         Storage.Session.size()

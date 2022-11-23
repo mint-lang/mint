@@ -3,7 +3,7 @@ record MutationObserver.Entry {
   type : String
 }
 
-/* This module provides a wrapper for the Resize Observer Web API. */
+/* This module provides a wrapper for the Mutation Observer Web API. */
 module MutationObserver {
   /*
   Creates a new resize observer.

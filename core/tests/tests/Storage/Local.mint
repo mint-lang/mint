@@ -74,15 +74,15 @@ suite "Storage.Local.clear" {
   }
 }
 
-suite "Storage.Local.remove" {
-  test "it removes the item with the specified key" {
+suite "Storage.Local.delete" {
+  test "it deletes the item with the specified key" {
     try {
       Storage.Local.set("test", "test")
 
       initialSize =
         Storage.Local.size()
 
-      Storage.Local.remove("test")
+      Storage.Local.delete("test")
 
       afterSize =
         Storage.Local.size()

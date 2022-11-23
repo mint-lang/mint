@@ -9,6 +9,8 @@ The order of entities used in a modle should follow the order below:
 1. `const`
 2. `fun`
 
+_Entities in a module can be ordered using the "Order Entitiees" LSP Code Action._
+
 ### Comments
 
 The module should have a comment before it describing what it is for and giving
