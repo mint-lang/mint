@@ -9,6 +9,12 @@ module Mint
         ]
       end
 
+      def actions(node : Ast::Provider)
+        [
+          ProviderActions.order_entities(node, workspace, params.text_document.uri),
+        ]
+      end
+
       def actions(node : Ast::Node)
         [] of LSP::CodeAction
       end
