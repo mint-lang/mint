@@ -24,12 +24,12 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.0
+    version: ~> 1.0.0
 
 targets:
   mint:
     main: src/mint.cr
 
-crystal: ~> 1.3.0
+crystal: ~> 1.3
 
 license: BSD-3-Clause
