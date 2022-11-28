@@ -1,12 +1,12 @@
-/* Represents a subscription for `Provider.Mouse` */
-record Provider.Mouse.Subscription {
-  clicks : Function(Html.Event, Promise(Never, Void)),
+/* Represents a subscription for `Provider.Pointer` */
+record Provider.Pointer.Subscription {
+  downs : Function(Html.Event, Promise(Never, Void)),
   moves : Function(Html.Event, Promise(Never, Void)),
   ups : Function(Html.Event, Promise(Never, Void))
 }
 
-/* A provider for global mouse events. */
-provider Provider.Mouse : Provider.Mouse.Subscription {
+/* A provider for global Pointer events. */
+provider Provider.Pointer : Provider.Pointer.Subscription {
   /* The listener unsubscribe functions. */
   state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
 
@@ -22,10 +22,10 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
             methods : Tuple(Function(Void), Function(Void), Function(Void))
           ) {
             try {
-              {clickListener, moveListener, upListener} =
+              {downListener, moveListener, upListener} =
                 methods
 
-              clickListener()
+              downListener()
               moveListener()
               upListener()
             }
@@ -43,15 +43,15 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                 Maybe::Just(
                   {
                     Window.addEventListener(
-                      "click",
+                      "pointerdown",
                       true,
                       (event : Html.Event) {
                         for (subscription of subscriptions) {
-                          subscription.clicks(event)
+                          subscription.downs(event)
                         }
                       }),
                     Window.addEventListener(
-                      "mousemove",
+                      "pointermove",
                       false,
                       (event : Html.Event) {
                         sequence {
@@ -70,7 +70,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                         }
                       }),
                     Window.addEventListener(
-                      "mouseup",
+                      "pointerup",
                       false,
                       (event : Html.Event) {
                         for (subscription of subscriptions) {

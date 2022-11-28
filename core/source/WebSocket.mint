@@ -10,6 +10,33 @@ record WebSocket.Config {
 /* This module provides a wrapper over the WebSocket Web API. */
 module WebSocket {
   /*
+  Closes the given websocket connection.
+
+    WebSocket.close(websocket)
+
+  If the `reconnectOnClose` flag was specified then the connection will
+  reconnect using this function.
+  */
+  fun close (socket : WebSocket) : Promise(Never, Void) {
+    `#{socket}.close()`
+  }
+
+  /*
+  Closes the given websocket connection without reconnecting, even if the
+  `reconnectOnClose` flag was set.
+
+    WebSocket.closeWithoutReconnecting(websocket)
+  */
+  fun closeWithoutReconnecting (socket : WebSocket) : Promise(Never, Void) {
+    `
+    (() => {
+      #{socket}.shouldNotReconnect = true;
+      #{socket}.close();
+    })()
+    `
+  }
+
+  /*
   Creates a websocket connection from the given configuration:
 
     websocket =
@@ -75,32 +102,5 @@ module WebSocket {
   */
   fun send (data : String, socket : WebSocket) : Promise(Never, Void) {
     `#{socket}.send(#{data})`
-  }
-
-  /*
-  Closes the given websocket connection.
-
-    WebSocket.close(websocket)
-
-  If the `reconnectOnClose` flag was specified then the connection will
-  reconnect using this function.
-  */
-  fun close (socket : WebSocket) : Promise(Never, Void) {
-    `#{socket}.close()`
-  }
-
-  /*
-  Closes the given websocket connection without reconnecting, even if the
-  `reconnectOnClose` flag was set.
-
-    WebSocket.closeWithoutReconnecting(websocket)
-  */
-  fun closeWithoutReconnecting (socket : WebSocket) : Promise(Never, Void) {
-    `
-    (() => {
-      #{socket}.shouldNotReconnect = true;
-      #{socket}.close();
-    })()
-    `
   }
 }

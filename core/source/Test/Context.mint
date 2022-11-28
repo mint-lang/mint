@@ -1,58 +1,6 @@
 /* A module for writing complex tests. */
 module Test.Context {
   /*
-  Starts a test using the given value.
-
-    test {
-      with Test.Context {
-        of(5)
-        |> assertEqual(5)
-      }
-    }
-  */
-  fun of (a : a) : Test.Context(a) {
-    `new TestContext(#{a})`
-  }
-
-  /*
-  Adds a transformation step to the test.
-
-    test {
-      with Test.Context {
-        of(5)
-        |> then((number : Number) { Promise.resolve(number + 2) })
-        |> assertEqual(7)
-      }
-    }
-  */
-  fun then (
-    proc : Function(a, Promise(b, c)),
-    context : Test.Context(a)
-  ) : Test.Context(c) {
-    `
-    #{context}.step((subject) => {
-      return #{proc}(subject)
-    })
-    `
-  }
-
-  /*
-  Adds a timeout to the test using the given duration (in milliseconds).
-
-    test {
-      with Test.Context {
-        of(5)
-        |> timeout(1000)
-        |> assertEqual(5)
-      }
-    }
-  */
-  fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
-    context
-    |> then((subject : a) : Promise(Never, a) { Timer.timeout(duration, subject) })
-  }
-
-  /*
   Asserts the equality of the current value of the test with the given one.
 
     test {
@@ -67,6 +15,30 @@ module Test.Context {
     #{context}.step((subject) => {
       if (!_compare(#{value}, subject)) {
         throw \`Assertion failed: ${#{value}} === ${subject}\`
+      }
+      return subject
+    })
+    `
+  }
+
+  /* Asserts that a given spy (function) was called. */
+  fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+    `
+    #{context}.step((subject) => {
+      if (!#{entity}._called) {
+        throw "The given function was not called!"
+      }
+      return subject
+    })
+    `
+  }
+
+  /* Asserts that a given spy (function) was not called. */
+  fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+    `
+    #{context}.step((subject) => {
+      if (#{entity}._called) {
+        throw "The given function was called!"
       }
       return subject
     })
@@ -114,6 +86,20 @@ module Test.Context {
     |> then((item : a) : Promise(Never, b) { Promise.resolve(method(item)) })
   }
 
+  /*
+  Starts a test using the given value.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> assertEqual(5)
+      }
+    }
+  */
+  fun of (a : a) : Test.Context(a) {
+    `new TestContext(#{a})`
+  }
+
   /* Spies on the given entity if it's a function. */
   fun spyOn (entity : a) : a {
     `
@@ -134,27 +120,47 @@ module Test.Context {
     `
   }
 
-  /* Asserts that a given spy (function) was called. */
-  fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+  /*
+  Adds a transformation step to the test.
+
+    test {
+      with Test.Context {
+        of(5)
+        |> then((number : Number) { Promise.resolve(number + 2) })
+        |> assertEqual(7)
+      }
+    }
+  */
+  fun then (
+    proc : Function(a, Promise(b, c)),
+    context : Test.Context(a)
+  ) : Test.Context(c) {
     `
     #{context}.step((subject) => {
-      if (!#{entity}._called) {
-        throw "The given function was not called!"
-      }
-      return subject
+      return #{proc}(subject)
     })
     `
   }
 
-  /* Asserts that a given spy (function) was not called. */
-  fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
-    `
-    #{context}.step((subject) => {
-      if (#{entity}._called) {
-        throw "The given function was called!"
+  /*
+  Adds a timeout to the test using the given duration (in milliseconds).
+
+    test {
+      with Test.Context {
+        of(5)
+        |> timeout(1000)
+        |> assertEqual(5)
       }
-      return subject
-    })
-    `
+    }
+  */
+  fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
+    context
+    |> then(
+      (subject : a) : Promise(Never, a) {
+        sequence {
+          Timer.timeout(duration)
+          `#{subject}` as Promise(Never, a)
+        }
+      })
   }
 }

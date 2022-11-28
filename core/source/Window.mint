@@ -1,222 +1,12 @@
 module Window {
-  /* Navigates to the given URL. */
-  fun navigate (url : String) : Promise(Never, Void) {
-    `_navigate(#{url})`
-  }
-
-  /* Sets the URL of the window without navigating to it. */
-  fun setUrl (url : String) : Promise(Never, Void) {
-    `_navigate(#{url}, false)`
-  }
-
-  /* Returns the windows title. */
-  fun title : String {
-    `document.title`
-  }
-
-  /* Sets the windows title. */
-  fun setTitle (title : String) : Promise(Never, Void) {
-    `document.title = #{title}`
-  }
-
-  /* Returns the current `Url` of the window. */
-  fun url : Url {
-    Url.parse(href())
-  }
-
-  /* Returns the windows URL as a string. */
-  fun href : String {
-    `window.location.href`
-  }
-
-  /* Returns the width of the window in pixels. */
-  fun width : Number {
-    `window.innerWidth`
-  }
-
-  /* Returns the height of the window in pixels. */
-  fun height : Number {
-    `window.innerHeight`
-  }
-
-  /* Returns the scrollable height of the window in pixels. */
-  fun scrollHeight : Number {
-    `
-    (() => {
-      const body = document.body
-      const html = document.documentElement
-
-      return Math.max(
-        body.scrollHeight, html.scrollHeight,
-        body.offsetHeight, html.offsetHeight,
-        body.clientHeight, html.clientHeight
-      )
-    })()
-    `
-  }
-
-  /* Returns the scrollable width of the window in pixels. */
-  fun scrollWidth : Number {
-    `
-    (() => {
-      const body = document.body
-      const html = document.documentElement
-
-      return Math.max(
-        body.scrollWidth, html.scrollWidth,
-        body.offsetWidth, html.offsetWidth,
-        body.clientWidth, html.clientWidth
-      )
-    })()
-    `
-  }
-
-  /* Returns the horizontal scroll position of the window in pixels. */
-  fun scrollLeft : Number {
-    `window.pageXOffset`
-  }
-
-  /* Returns the vertical scroll position of the window in pixels. */
-  fun scrollTop : Number {
-    `window.pageYOffset`
-  }
-
-  /* Sets the horizontal scroll position of the window in pixels. */
-  fun setScrollTop (position : Number) : Promise(Never, Void) {
-    `window.scrollTo(#{scrollTop()}, #{position})`
-  }
-
-  /* Sets the vertical scroll position of the window in pixels. */
-  fun setScrollLeft (position : Number) : Promise(Never, Void) {
-    `window.scrollTo(#{position}, #{scrollLeft()})`
-  }
-
-  /*
-  Shows the default prompt popup of the browser with the given message and
-  value.
-
-  This function returns a promise but blocks execution until the popup is
-  closed.
-  */
-  fun prompt (label : String, current : String) : Promise(String, String) {
-    `
-    new Promise((resolve, reject) => {
-      let result = window.prompt(#{label}, #{current})
-
-      if (result) {
-        resolve(result)
-      } else {
-        reject("User cancelled!")
-      }
-    })
-    `
-  }
-
-  /*
-  Shows the default confirm popup of the browser with the given message.
-
-  This function returns a promise but blocks execution until the popup is
-  closed.
-  */
-  fun confirm (message : String) : Promise(String, Void) {
-    `
-    new Promise((resolve, reject) => {
-      let result = window.confirm(#{message})
-
-      if (result) {
-        resolve(result);
-      } else {
-        reject("User cancelled!")
-      }
-    })
-    `
-  }
-
-  /*
-  Shows the default alert popup of the browser with the given message.
-
-  This function returns a promise but blocks execution until the popup is
-  closed.
-  */
-  fun alert (message : String) : Promise(Never, Void) {
-    `
-    new Promise((resolve, reject) => {
-      window.alert(#{message})
-
-      resolve()
-    })
-    `
-  }
-
-  /* Returns true if the given url is the same as the current url of the page. */
-  fun isActiveURL (url : String) : Bool {
-    try {
-      window =
-        Window.url()
-
-      current =
-        Url.parse(url)
-
-      (window.hostname == current.hostname &&
-        window.protocol == current.protocol &&
-        window.origin == current.origin &&
-        window.path == current.path &&
-        window.host == current.host &&
-        window.port == current.port)
-    }
-  }
-
-  /*
-  Triggers the hash location jump on the page.
-
-  When a page loads and the current url has a hash `#anchor-name` the browser
-  automatically jumps to the matching anchor tag `<a name="anchor-name">`, but
-  this behavior does not happen when the history is manipulated.
-
-  This function triggers that behavior.
-  */
-  fun triggerHashJump : Promise(Never, Void) {
-    `requestAnimationFrame(() => {
-      if (window.location.hash) {
-        window.location.href = window.location.hash
-      }
-    })
-    `
-  }
-
-  /*
-  Opens the given url in a new window.
-
-    Window.open("https://www.google.com")
-  */
-  fun open (url : String) : Promise(Never, Void) {
-    `window.open(#{url})`
-  }
-
-  /*
-  Adds a media query listener to the window and returns the function which
-  removes this listener.
-  */
-  fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
-    `
-    (() => {
-      const query = window.matchMedia(#{query});
-      const listener = (event) => #{listener}(query.matches);
-      query.addListener(listener)
-      #{listener}(query.matches)
-      return () => query.removeListener(listener);
-    })()
-    `
-  }
-
-  /* Returns `true` if the given media query matches. */
-  fun matchesMediaQuery (query : String) : Bool {
-    `window.matchMedia(#{query}).matches`
-  }
-
   /*
   Adds a listener to the window and returns the function which
   removes this listener.
+
+    listener =
+      Window.addEventListener("click", true, (event : Html.Event) {
+        Debug.log(event)
+      })
   */
   fun addEventListener (
     type : String,
@@ -232,6 +22,67 @@ module Window {
       window.addEventListener(#{type}, listener, #{capture});
       return () => window.removeEventListener(#{type}, listener, #{capture});
     })()
+    `
+  }
+
+  /*
+  Adds a media query listener to the window and returns the function which
+  removes this listener.
+
+    listener =
+      Window.addEventListener("(max-width: 320px)", (matches : Bool) {
+        Debug.log(event)
+      })
+  */
+  fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
+    `
+    (() => {
+      const query = window.matchMedia(#{query});
+      const listener = (event) => #{listener}(query.matches);
+      query.addListener(listener)
+      #{listener}(query.matches)
+      return () => query.removeListener(listener);
+    })()
+    `
+  }
+
+  /*
+  Shows the default alert popup of the browser with the given message.
+
+  This function returns a promise but blocks execution until the popup is
+  closed.
+
+    Window.alert("Hello World!")
+  */
+  fun alert (message : String) : Promise(Never, Void) {
+    `
+    new Promise((resolve, reject) => {
+      window.alert(#{message})
+
+      resolve()
+    })
+    `
+  }
+
+  /*
+  Shows the default confirm popup of the browser with the given message.
+
+  This function returns a promise but blocks execution until the popup is
+  closed.
+
+    Window.confirm("Are you ready?")
+  */
+  fun confirm (message : String) : Promise(String, Void) {
+    `
+    new Promise((resolve, reject) => {
+      let result = window.confirm(#{message})
+
+      if (result) {
+        resolve(result);
+      } else {
+        reject("User cancelled!")
+      }
+    })
     `
   }
 
@@ -272,5 +123,234 @@ module Window {
       return widthNoScroll - widthWithScroll;
     })()
     `
+  }
+
+  /*
+  Returns the height of the window in pixels.
+
+    Window.height() == 768
+  */
+  fun height : Number {
+    `window.innerHeight`
+  }
+
+  /*
+  Returns the windows URL as a string.
+
+    Window.href() == "https://www.example.com"
+  */
+  fun href : String {
+    `window.location.href`
+  }
+
+  /*
+  Returns true if the given url is the same as the current url of the page.
+
+    Window.isActiveURL("https://www.example.com")
+  */
+  fun isActiveURL (url : String) : Bool {
+    try {
+      window =
+        Window.url()
+
+      current =
+        Url.parse(url)
+
+      (window.hostname == current.hostname &&
+        window.protocol == current.protocol &&
+        window.origin == current.origin &&
+        window.path == current.path &&
+        window.host == current.host &&
+        window.port == current.port)
+    }
+  }
+
+  /*
+  Returns `true` if the given media query matches.
+
+    Window.matchesMediaQuery("(max-width: 320px)")
+  */
+  fun matchesMediaQuery (query : String) : Bool {
+    `window.matchMedia(#{query}).matches`
+  }
+
+  /*
+  Navigates to the given URL.
+
+    Window.navigate("https://www.example.com")
+  */
+  fun navigate (url : String) : Promise(Never, Void) {
+    `_navigate(#{url})`
+  }
+
+  /*
+  Opens the given url in a new window.
+
+    Window.open("https://www.google.com")
+  */
+  fun open (url : String) : Promise(Never, Void) {
+    `window.open(#{url})`
+  }
+
+  /*
+  Shows the default prompt popup of the browser with the given message and
+  value.
+
+  This function returns a promise but blocks execution until the popup is
+  closed.
+
+    input = Window.prompt("How old are you?")
+  */
+  fun prompt (label : String, current : String) : Promise(String, String) {
+    `
+    new Promise((resolve, reject) => {
+      let result = window.prompt(#{label}, #{current})
+
+      if (result) {
+        resolve(result)
+      } else {
+        reject("User cancelled!")
+      }
+    })
+    `
+  }
+
+  /*
+  Returns the scrollable height of the window in pixels.
+
+    Window.scrollHeight() == 768
+  */
+  fun scrollHeight : Number {
+    `
+    (() => {
+      const body = document.body
+      const html = document.documentElement
+
+      return Math.max(
+        body.scrollHeight, html.scrollHeight,
+        body.offsetHeight, html.offsetHeight,
+        body.clientHeight, html.clientHeight
+      )
+    })()
+    `
+  }
+
+  /*
+  Returns the horizontal scroll position of the window in pixels.
+
+    Window.scrollLeft() == 100
+  */
+  fun scrollLeft : Number {
+    `window.pageXOffset`
+  }
+
+  /*
+  Returns the vertical scroll position of the window in pixels.
+
+    Window.scrollTop() == 100
+  */
+  fun scrollTop : Number {
+    `window.pageYOffset`
+  }
+
+  /*
+  Returns the scrollable width of the window in pixels.
+
+    Window.scrollWidth() == 1024
+  */
+  fun scrollWidth : Number {
+    `
+    (() => {
+      const body = document.body
+      const html = document.documentElement
+
+      return Math.max(
+        body.scrollWidth, html.scrollWidth,
+        body.offsetWidth, html.offsetWidth,
+        body.clientWidth, html.clientWidth
+      )
+    })()
+    `
+  }
+
+  /*
+  Sets the vertical scroll position of the window in pixels.
+
+    Window.setScrollLeft(100)
+  */
+  fun setScrollLeft (position : Number) : Promise(Never, Void) {
+    `window.scrollTo(#{position}, #{scrollLeft()})`
+  }
+
+  /*
+  Sets the horizontal scroll position of the window in pixels.
+
+    Window.setScrollTop(100)
+  */
+  fun setScrollTop (position : Number) : Promise(Never, Void) {
+    `window.scrollTo(#{scrollTop()}, #{position})`
+  }
+
+  /*
+  Sets the windows title.
+
+    Window.setTitle("New Title!")
+  */
+  fun setTitle (title : String) : Promise(Never, Void) {
+    `document.title = #{title}`
+  }
+
+  /*
+  Sets the URL of the window without navigating to it.
+
+    Window.setUrl("https://www.example.com")
+  */
+  fun setUrl (url : String) : Promise(Never, Void) {
+    `_navigate(#{url}, false)`
+  }
+
+  /*
+  Returns the windows title.
+
+    Window.title() == "Title!"
+  */
+  fun title : String {
+    `document.title`
+  }
+
+  /*
+  Triggers the hash location jump on the page.
+
+  When a page loads and the current url has a hash `#anchor-name` the browser
+  automatically jumps to the matching anchor tag `<a name="anchor-name">`, but
+  this behavior does not happen when the history is manipulated.
+
+  This function triggers that behavior.
+  */
+  fun triggerHashJump : Promise(Never, Void) {
+    `requestAnimationFrame(() => {
+      if (window.location.hash) {
+        window.location.href = window.location.hash
+      }
+    })
+    `
+  }
+
+  /*
+  Returns the current `Url` of the window.
+
+    Window.url().host == "www.example.com"
+  */
+  fun url : Url {
+    Url.parse(href())
+  }
+
+  /*
+  Returns the width of the window in pixels.
+
+    Window.width == 1024
+  */
+  fun width : Number {
+    `window.innerWidth`
   }
 }

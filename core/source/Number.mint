@@ -1,53 +1,38 @@
 module Number {
   /*
-  Returns true if given number is odd.
+  Formats the given number using the given prefix and separating the digits
+  by 3 with a comma.
 
-    Number.isOdd(1) == false
-    Number.isOdd(2) == true
+    Number.format("$ ", 1034150) == "$ 1,034,150"
   */
-  fun isOdd (input : Number) : Bool {
-    `#{input} % 2 === 1`
-  }
+  fun format (prefix : String, number : Number) : String {
+    try {
+      string =
+        Number.toFixed(2, number)
 
-  /*
-  Returns true if given number is even.
+      parts =
+        String.split(".", string)
 
-    Number.isEven(1) == true
-    Number.isEven(2) == false
-  */
-  fun isEven (input : Number) : Bool {
-    `Math.abs(#{input} % 2) === 0`
-  }
+      digits =
+        parts[0]
+        |> Maybe.withDefault("")
+        |> String.chopStart("-")
+        |> String.split("")
+        |> Array.groupsOfFromEnd(3)
+        |> Array.map(String.join(""))
+        |> String.join(",")
 
-  /*
-  Returns true if given number is `NaN`.
+      decimals =
+        parts[1]
+        |> Maybe.withDefault("")
+        |> String.chopEnd("0")
 
-    Number.isNaN(`NaN`) == true
-    Number.isNaN(0) == false
-  */
-  fun isNaN (input : Number) : Bool {
-    `isNaN(#{input})`
-  }
-
-  /*
-  Returns the string representation of the given number.
-
-    Number.toString(123) == 123
-  */
-  fun toString (input : Number) : String {
-    `#{input}.toString()`
-  }
-
-  /*
-  Formats a number using fixed-point notation.
-
-  The first arguments specifies the number of digits to appear after the decimal
-  point, it can be between 0 and 20.
-
-    Number.toFixed(2, 0.1234567) == "0.12"
-  */
-  fun toFixed (decimalPlaces : Number, input : Number) : String {
-    `#{input}.toFixed(#{decimalPlaces})`
+      if (String.isEmpty(decimals)) {
+        prefix + digits
+      } else {
+        prefix + digits + "." + decimals
+      }
+    }
   }
 
   /*
@@ -71,38 +56,53 @@ module Number {
   }
 
   /*
-  Formats the given number using the given prefix and separating the digits
-  by 3 with a comma.
+  Returns true if given number is even.
 
-    Number.format("$ ", 1034150) == "$ 1,034,150"
+    Number.isEven(1) == true
+    Number.isEven(2) == false
   */
-  fun format (prefix : String, number : Number) : String {
-    try {
-      string =
-        Number.toFixed(2, number)
+  fun isEven (input : Number) : Bool {
+    `Math.abs(#{input} % 2) === 0`
+  }
 
-      parts =
-        String.split(".", string)
+  /*
+  Returns true if given number is `NaN`.
 
-      digits =
-        parts[0]
-        |> Maybe.withDefault("")
-        |> String.lchop("-")
-        |> String.split("")
-        |> Array.groupsOfFromEnd(3)
-        |> Array.map(String.join(""))
-        |> String.join(",")
+    Number.isNaN(`NaN`) == true
+    Number.isNaN(0) == false
+  */
+  fun isNaN (input : Number) : Bool {
+    `isNaN(#{input})`
+  }
 
-      decimals =
-        parts[1]
-        |> Maybe.withDefault("")
-        |> String.rchop("0")
+  /*
+  Returns true if given number is odd.
 
-      if (String.isEmpty(decimals)) {
-        prefix + digits
-      } else {
-        prefix + digits + "." + decimals
-      }
-    }
+    Number.isOdd(1) == false
+    Number.isOdd(2) == true
+  */
+  fun isOdd (input : Number) : Bool {
+    `#{input} % 2 === 1`
+  }
+
+  /*
+  Formats a number using fixed-point notation.
+
+  The first arguments specifies the number of digits to appear after the decimal
+  point, it can be between 0 and 20.
+
+    Number.toFixed(2, 0.1234567) == "0.12"
+  */
+  fun toFixed (decimalPlaces : Number, input : Number) : String {
+    `#{input}.toFixed(#{decimalPlaces})`
+  }
+
+  /*
+  Returns the string representation of the given number.
+
+    Number.toString(123) == 123
+  */
+  fun toString (input : Number) : String {
+    `#{input}.toString()`
   }
 }

@@ -1,15 +1,6 @@
 /* Mathematical functions. */
 module Math {
   /*
-  Negates the given number.
-
-    Math.negate(1) == -1
-  */
-  fun negate (number : Number) : Number {
-    `-#{number}`
-  }
-
-  /*
   Returns the absolute value of the given number.
 
     Math.abs(1) == 1
@@ -29,6 +20,16 @@ module Math {
   }
 
   /*
+  Clamps the given number between the given upper and lower bounds.
+
+    Math.clamp(0, 10, 100) == 10
+    Math.clamp(0, 10, -100) == 0
+  */
+  fun clamp (lower : Number, upper : Number, value : Number) : Number {
+    Math.min(upper, Math.max(lower, value))
+  }
+
+  /*
   Returns the largest integer less than or equal to the given number.
 
     Math.floor(0.8) == 0
@@ -38,21 +39,13 @@ module Math {
   }
 
   /*
-  Returns the value of a number rounded to the nearest integer.
+  Returns the floating-point remainder of two numbers.
 
-    Math.round(0.5) == 1
+    Math.fmod(5.3, 2) == 1.3
+    Math.fmod(18.5, 4.2) == 1.7
   */
-  fun round (number : Number) : Number {
-    `Math.round(#{number})`
-  }
-
-  /*
-  Returns the lowest-valued number from the arguments.
-
-    Math.min(1, 2) == 1
-  */
-  fun min (number1 : Number, number2 : Number) : Number {
-    `Math.min(#{number1}, #{number2})`
+  fun fmod (a : Number, b : Number) : Number {
+    `Number((#{a} - (Math.floor(#{a} / #{b}) * #{b})).toPrecision(8))`
   }
 
   /*
@@ -65,12 +58,21 @@ module Math {
   }
 
   /*
-  Returns the square root of the given number
+  Returns the lowest-valued number from the arguments.
 
-    Math.sqrt(4) == 2
+    Math.min(1, 2) == 1
   */
-  fun sqrt (value : Number) : Number {
-    `Math.sqrt(#{value})`
+  fun min (number1 : Number, number2 : Number) : Number {
+    `Math.min(#{number1}, #{number2})`
+  }
+
+  /*
+  Negates the given number.
+
+    Math.negate(1) == -1
+  */
+  fun negate (number : Number) : Number {
+    `-#{number}`
   }
 
   /*
@@ -82,24 +84,27 @@ module Math {
     `Math.pow(#{value}, #{exponent})`
   }
 
-  /*
-  Clamps the given number between the given upper and lower bounds.
-
-    Math.clamp(0, 10, 100) == 10
-    Math.clamp(0, 10, -100) == 0
-  */
-  fun clamp (lower : Number, upper : Number, value : Number) : Number {
-    Math.min(upper, Math.max(lower, value))
+  /* Returns a pseudo-random number in the range 0 to less than 1. */
+  fun random : Number {
+    `Math.random()`
   }
 
   /*
-  Returns the floating-point remainder of two numbers.
+  Returns the value of a number rounded to the nearest integer.
 
-    Math.fmod(5.3, 2) == 1.3
-    Math.fmod(18.5, 4.2) == 1.7
+    Math.round(0.5) == 1
   */
-  fun fmod (a : Number, b : Number) : Number {
-    `Number((#{a} - (Math.floor(#{a} / #{b}) * #{b})).toPrecision(8))`
+  fun round (number : Number) : Number {
+    `Math.round(#{number})`
+  }
+
+  /*
+  Returns the square root of the given number
+
+    Math.sqrt(4) == 2
+  */
+  fun sqrt (value : Number) : Number {
+    `Math.sqrt(#{value})`
   }
 
   /*
@@ -126,10 +131,5 @@ module Math {
       } else {
         to * 100
       }
-  }
-
-  /* Returns a pseudo-random number in the range 0 to less than 1. */
-  fun random : Number {
-    `Math.random()`
   }
 }

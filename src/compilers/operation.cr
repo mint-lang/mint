@@ -9,7 +9,7 @@ module Mint
 
       case node.operator
       when "or"
-        "(#{left}._0 || #{right})"
+        "_o(#{left}._0, #{right})"
       when "=="
         "_compare(#{left}, #{right})"
       when "!="

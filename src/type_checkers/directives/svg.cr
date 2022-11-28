@@ -14,10 +14,13 @@ module Mint
       document =
         XML.parse(node.file_contents)
 
+      errors =
+        document.errors.try(&.map(&.to_s)) || %w[]
+
       raise SvgDirectiveExpectedSvg, {
-        "errors" => document.errors.try(&.map(&.to_s)) || %w[],
+        "errors" => errors,
         "node"   => node,
-      } if document.errors
+      } unless errors.empty?
 
       svg =
         document.first_element_child

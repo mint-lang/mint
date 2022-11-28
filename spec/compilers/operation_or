@@ -34,7 +34,7 @@ class C extends _E {
 
 class A extends _C {
   a() {
-    return (new B()._0 || `Hello`);
+    return _o(new B()._0, `Hello`);
   }
 
   render() {

@@ -1,18 +1,20 @@
 module Mint
   module LS
     class CodeAction < LSP::RequestMessage
-      module ModuleActions
+      module ProviderActions
         extend self
 
         def order_entities(node, workspace, uri)
           # Save the original order of constants and functions
           order =
-            (node.functions + node.constants)
+            (node.functions + node.constants + node.states + node.gets)
               .sort_by!(&.from)
               .map(&.from)
 
           # Reorder by name and the appropriate order from the original order
-          (node.constants.sort_by(&.name) +
+          (node.states.sort_by(&.name.value) +
+            node.constants.sort_by(&.name) +
+            node.gets.sort_by(&.name.value) +
             node.functions.sort_by(&.name.value))
             .each_with_index { |entity, index| entity.from = order[index] }
 

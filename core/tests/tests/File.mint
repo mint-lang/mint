@@ -1,8 +1,42 @@
-suite "File.readAsString" {
-  test "it reads it as string" {
+suite "File.fromString" {
+  test "it creates a file from a string" {
+    try {
+      file =
+        File.fromString("content", "test.txt", "text/plain")
+
+      File.name(file) == "test.txt"
+    }
+  }
+}
+
+suite "File.mimeType" {
+  test "it returns the mime type of the file" {
+    try {
+      file =
+        File.fromString("content", "test.txt", "text/plain")
+
+      File.mimeType(file) == "text/plain"
+    }
+  }
+}
+
+suite "File.name" {
+  test "it returns the name of the file" {
+    try {
+      file =
+        File.fromString("content", "test.txt", "text/plain")
+
+      File.name(file) == "test.txt"
+    }
+  }
+}
+
+suite "File.readAsArrayBuffer" {
+  test "it reads it as data url" {
     with Test.Context {
       of(File.fromString("content", "test.txt", "text/plain"))
-      |> then(File.readAsString)
+      |> then(File.readAsArrayBuffer)
+      |> map(ArrayBuffer.toString)
       |> assertEqual("content")
     }
   }
@@ -18,17 +52,13 @@ suite "File.readAsDataURL" {
   }
 }
 
-suite "File.name" {
-  test "it returns the name of the file" {
-    (File.fromString("content", "test.txt", "text/plain")
-    |> File.name()) == "test.txt"
-  }
-}
-
-suite "File.type" {
-  test "it returns the mime type of the file" {
-    (File.fromString("content", "test.txt", "text/plain")
-    |> File.mimeType()) == "text/plain"
+suite "File.readAsString" {
+  test "it reads it as string" {
+    with Test.Context {
+      of(File.fromString("content", "test.txt", "text/plain"))
+      |> then(File.readAsString)
+      |> assertEqual("content")
+    }
   }
 }
 

@@ -4,6 +4,8 @@ component Main {
       <div>
         <{ item }>
       </div>
+    } when {
+      index == 10
     }
   }
 }
@@ -13,16 +15,18 @@ class A extends _C {
     return (() => {
       const _0 = [];
       const _1 = [`A`, `B`];
-      let _i = 0;
+      let _i = -1;
 
       for (let a of _1) {
+        _i++;
         const b = _i;
+
+        const _2 = _compare(b, 10)
+        if (!_2) { continue };
 
         _0.push(_h("div", {}, [
           a
         ]));
-
-        _i++;
       };
 
       return _0;

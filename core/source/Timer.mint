@@ -1,26 +1,26 @@
 /* Time related utility functions. */
 module Timer {
-  /*
-  Returns a promise which resolves after the given number of time in
-  milliseconds.
-  */
-  fun timeout (duration : Number, subject : a) : Promise(Never, a) {
+  /* Returns a promise which resolves after the next `animationFrame`. */
+  fun nextFrame : Promise(Never, Void) {
     `
     new Promise((resolve) => {
-    	setTimeout(() => {
-        resolve(#{subject})
-      }, #{duration})
+      requestAnimationFrame(() => {
+        resolve(#{void})
+      })
     })
     `
   }
 
-  /* Returns a promise which resolves after the next `animationFrame`. */
-  fun nextFrame (subject : a) : Promise(Never, a) {
+  /*
+  Returns a promise which resolves after the given number of time in
+  milliseconds.
+  */
+  fun timeout (duration : Number) : Promise(Never, Void) {
     `
     new Promise((resolve) => {
-    	requestAnimationFrame(() => {
-        resolve(#{subject})
-      })
+      setTimeout(() => {
+        resolve(#{void})
+      }, #{duration})
     })
     `
   }

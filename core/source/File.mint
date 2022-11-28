@@ -1,12 +1,50 @@
 /* Functions for getting, creating and reading files in different formats. */
 module File {
   /*
+  Prompts a dialog for the saving the given file.
+
+    sequence {
+      file =
+        File.select(*)
+
+      File.download(file)
+    }
+  */
+  fun download (file : File) : Promise(Never, Void) {
+    sequence {
+      url =
+        Url.createObjectUrlFromFile(file)
+
+      `
+      (() => {
+        const anchor = document.createElement('a')
+        anchor.download = #{file}.name
+        anchor.href = #{url}
+        anchor.click()
+      })()
+      `
+
+      Url.revokeObjectUrl(url)
+    }
+  }
+
+  /*
   Creates a new file from the contents, name and mime-type.
 
     File.fromString("Some contents...", "test.txt", "text/plain")
   */
   fun fromString (contents : String, name : String, type : String) : File {
     `new File([#{contents}], #{name}, { type: #{type} })`
+  }
+
+  /*
+  Returns the mime type of the file.
+
+    (File.fromString("Some contents...", "test.txt", "text/plain")
+    |> File.mimeType()) == "text/plain"
+  */
+  fun mimeType (file : File) : String {
+    `#{file}.type`
   }
 
   /*
@@ -20,23 +58,118 @@ module File {
   }
 
   /*
-  Returns the size of the file in bytes.
+  Reads the contents of the given file as a String.
 
-    (File.fromString("Some contents...", "test.txt", "text/plain")
-    |> File.size()) == 16
+    sequence {
+      file =
+        File.create("Some content...", "test.txt", "text/plain")
+
+      File.readAsArrayBuffer(file)
+    }
   */
-  fun size (file : File) : Number {
-    `#{file}.size`
+  fun readAsArrayBuffer (file : File) : Promise(Never, ArrayBuffer) {
+    `
+    (() => {
+      const reader = new FileReader()
+
+      return new Promise((resolve, reject) => {
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.readAsArrayBuffer(#{file})
+      })
+    })()
+    `
   }
 
   /*
-  Returns the mime type of the file.
+  Reads the contents of the given file as a Data URL.
 
-    (File.fromString("Some contents...", "test.txt", "text/plain")
-    |> File.mimeType()) == "text/plain"
+    sequence {
+      file =
+        File.fromString("Some content...", "test.txt", "text/plain")
+
+      url =
+        File.readAsDataURL(file)
+
+      url == "data:text/plain;...."
+    }
   */
-  fun mimeType (file : File) : String {
-    `#{file}.type`
+  fun readAsDataURL (file : File) : Promise(Never, String) {
+    `
+    (() => {
+      const reader = new FileReader()
+
+      return new Promise((resolve, reject) => {
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.readAsDataURL(#{file})
+      })
+    })()
+    `
+  }
+
+  /*
+  Reads the contents of the given file as a String.
+
+    sequence {
+      file =
+        File.create("Some content...", "test.txt", "text/plain")
+
+      url =
+        File.readAsString(file)
+
+      url == "Some content..."
+    }
+  */
+  fun readAsString (file : File) : Promise(Never, String) {
+    `
+    (() => {
+      const reader = new FileReader()
+
+      return new Promise((resolve, reject) => {
+        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.readAsText(#{file})
+      })
+    })()
+    `
+  }
+
+  /*
+  Opens the browsers file dialog for selecting a single file.
+
+  * The mime type can be restricted to the given one.
+  * It might not resolve if the user cancels the dialog.
+
+    sequence {
+      file =
+        File.select("application/json")
+
+      Debug.log(file)
+    }
+  */
+  fun select (accept : String) : Promise(Never, File) {
+    `
+    (() => {
+      const input = document.createElement('input')
+
+      input.style.position = 'absolute'
+      input.style.height = '1px'
+      input.style.width = '1px'
+      input.style.left = '-1px'
+      input.style.top = '-1px'
+
+      input.accept = #{accept}
+      input.type = 'file'
+
+      document.body.appendChild(input)
+
+      return new Promise((resolve, reject) => {
+        input.addEventListener('change', () => {
+          resolve(input.files[0])
+        })
+        input.click()
+        document.body.removeChild(input)
+      })
+    })()
+    `
   }
 
   /*
@@ -55,7 +188,7 @@ module File {
   fun selectMultiple (accept : String) : Promise(Never, Array(File)) {
     `
     (() => {
-      let input = document.createElement('input')
+      const input = document.createElement('input')
 
       input.style.position = 'absolute'
       input.style.height = '1px'
@@ -81,124 +214,12 @@ module File {
   }
 
   /*
-  Opens the browsers file dialog for selecting a single file.
+  Returns the size of the file in bytes.
 
-  * The mime type can be restricted to the given one.
-  * It might not resolve if the user cancels the dialog.
-
-    sequence {
-      file =
-        File.select("application/json")
-
-      Debug.log(file)
-    }
+    (File.fromString("Some contents...", "test.txt", "text/plain")
+    |> File.size()) == 16
   */
-  fun select (accept : String) : Promise(Never, File) {
-    `
-    (() => {
-      let input = document.createElement('input')
-
-      input.style.position = 'absolute'
-      input.style.height = '1px'
-      input.style.width = '1px'
-      input.style.left = '-1px'
-      input.style.top = '-1px'
-
-      input.accept = #{accept}
-      input.type = 'file'
-
-      document.body.appendChild(input)
-
-      return new Promise((resolve, reject) => {
-        input.addEventListener('change', () => {
-          resolve(input.files[0])
-        })
-        input.click()
-        document.body.removeChild(input)
-      })
-    })()
-    `
-  }
-
-  /*
-  Reads the contents of the given file as a Data URL.
-
-    sequence {
-      file =
-        File.fromString("Some content...", "test.txt", "text/plain")
-
-      url =
-        File.readAsDataURL(file)
-
-      url == "data:text/plain;...."
-    }
-  */
-  fun readAsDataURL (file : File) : Promise(Never, String) {
-    `
-    (() => {
-      let reader = new FileReader();
-      return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => {
-          resolve(reader.result)
-        })
-        reader.readAsDataURL(#{file})
-      })
-    })()
-    `
-  }
-
-  /*
-  Reads the contents of the given file as a String.
-
-    sequence {
-      file =
-        File.create("Some content...", "test.txt", "text/plain")
-
-      url =
-        File.readAsString(file)
-
-      url == "Some content..."
-    }
-  */
-  fun readAsString (file : File) : Promise(Never, String) {
-    `
-    (() => {
-      let reader = new FileReader();
-      return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => {
-          resolve(reader.result)
-        })
-        reader.readAsText(#{file})
-      })
-    })()
-    `
-  }
-
-  /*
-  Prompts a save dialog for the given file.
-
-    sequence {
-      file =
-        File.select(*)
-
-      File.download(file)
-    }
-  */
-  fun download (file : File) : Promise(Never, Void) {
-    sequence {
-      url =
-        Url.createObjectUrlFromFile(file)
-
-      `
-      (() => {
-        const anchor = document.createElement('a');
-        anchor.download = #{file}.name;
-        anchor.href = #{url};
-        anchor.click();
-      })()
-      `
-
-      Url.revokeObjectUrl(url)
-    }
+  fun size (file : File) : Number {
+    `#{file}.size`
   }
 }

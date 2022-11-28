@@ -6,16 +6,6 @@ enum Result(error, value) {
 /* Utility function for the `Result` type. */
 module Result {
   /*
-  Returns a new ok result.
-
-    (Result.ok("ok")
-    |> Result.isOk()) == true
-  */
-  fun ok (input : a) : Result(b, a) {
-    Result::Ok(input)
-  }
-
-  /*
   Returns a new error result.
 
     (Result.error("error")
@@ -26,66 +16,32 @@ module Result {
   }
 
   /*
-  Returns the value of the given result or the default value if it's an error.
+  Maps over the value of the result to an other result and flattens it.
 
     (Result.error("error")
-    |> Result.withDefault("a")) == "a"
+    |> Result.flatMap(\item : String => Result::Ok(item + "1"))) == Result.error("error")
 
     (Result.ok("ok")
-    |> Result.withDefault("a")) == "ok"
+    |> Result.map(\item : String => Result::Ok(item + "1"))) == Result.ok("ok1")
   */
-  fun withDefault (defaultValue : b, input : Result(a, b)) : b {
-    case (input) {
-      Result::Ok(value) => value
-      Result::Err => defaultValue
-    }
+  fun flatMap (
+    func : Function(a, Result(error, b)),
+    input : Result(error, a)
+  ) : Result(error, b) {
+    Result.map(func, input)
+    |> Result.join()
   }
 
   /*
-  Returns the error of the given result or the default value if it's an ok.
+  Returns true if the result is an error.
 
     (Result.error("error")
-    |> Result.withError("a")) == "error"
-
-    (Result.ok("ok")
-    |> Result.withError("a")) == "a"
+    |> Result.isError()) == true
   */
-  fun withError (defaultError : a, input : Result(a, b)) : a {
+  fun isError (input : Result(a, b)) : Bool {
     case (input) {
-      Result::Err(value) => value
-      Result::Ok => defaultError
-    }
-  }
-
-  /*
-  Maps over the value of the given result.
-
-    (Result.error("error")
-    |> Result.map(\item : String => item + "1")) == Result.error("error")
-
-    (Result.ok("ok")
-    |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
-  */
-  fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
-    case (input) {
-      Result::Ok(value) => Result::Ok(func(value))
-      Result::Err => input
-    }
-  }
-
-  /*
-  Maps over the error of the given result.
-
-    (Result.error("error")
-    |> Result.mapError(\item : String => item + "1")) == Result.error("error1")
-
-    (Result.ok("ok")
-    |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
-  */
-  fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
-    case (input) {
-      Result::Err(value) => Result::Err(func(value))
-      Result::Ok => input
+      Result::Err => true
+      Result::Ok => false
     }
   }
 
@@ -103,20 +59,62 @@ module Result {
   }
 
   /*
-  Returns true if the result is an error.
+  Joins two results together.
 
-    (Result.error("error")
-    |> Result.isError()) == true
+    Result.join(Result::Ok(Result::Ok("Hello"))) == Result::Ok("Hello")
+    Result.join(Result::Err("Error") == Result::Err("Error")
   */
-  fun isError (input : Result(a, b)) : Bool {
+  fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     case (input) {
-      Result::Err => true
-      Result::Ok => false
+      Result::Err(error) => Result::Err(error)
+      Result::Ok(value) => value
     }
   }
 
   /*
-  Converts the given result into a maybe.
+  Maps over the value of the result.
+
+    (Result.error("error")
+    |> Result.map(\item : String => item + "1")) == Result.error("error")
+
+    (Result.ok("ok")
+    |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
+  */
+  fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
+    case (input) {
+      Result::Ok(value) => Result::Ok(func(value))
+      Result::Err => input
+    }
+  }
+
+  /*
+  Maps over the error of the result.
+
+    (Result.error("error")
+    |> Result.mapError(\item : String => item + "1")) == Result.error("error1")
+
+    (Result.ok("ok")
+    |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
+  */
+  fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
+    case (input) {
+      Result::Err(value) => Result::Err(func(value))
+      Result::Ok => input
+    }
+  }
+
+  /*
+  Returns a new ok result.
+
+    (Result.ok("ok")
+    |> Result.isOk()) == true
+  */
+  fun ok (input : a) : Result(b, a) {
+    Result::Ok(input)
+  }
+
+  /*
+  Converts the result into a maybe.
 
     (Result.ok("blah")
     |> Result.toMaybe()) == Maybe.just("blah")
@@ -131,18 +129,35 @@ module Result {
     }
   }
 
-  fun join (input : Result(error, Result(error, value))) : Result(error, value) {
+  /*
+  Returns the value of the result or the default value if it's an error.
+
+    (Result.error("error")
+    |> Result.withDefault("a")) == "a"
+
+    (Result.ok("ok")
+    |> Result.withDefault("a")) == "ok"
+  */
+  fun withDefault (defaultValue : b, input : Result(a, b)) : b {
     case (input) {
-      Result::Err(error) => Result::Err(error)
       Result::Ok(value) => value
+      Result::Err => defaultValue
     }
   }
 
-  fun flatMap (
-    func : Function(a, Result(error, b)),
-    input : Result(error, a)
-  ) : Result(error, b) {
-    Result.map(func, input)
-    |> Result.join()
+  /*
+  Returns the error of the result or the default value if it's an ok.
+
+    (Result.error("error")
+    |> Result.withError("a")) == "error"
+
+    (Result.ok("ok")
+    |> Result.withError("a")) == "a"
+  */
+  fun withError (defaultError : a, input : Result(a, b)) : a {
+    case (input) {
+      Result::Err(value) => value
+      Result::Ok => defaultError
+    }
   }
 }

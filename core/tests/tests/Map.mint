@@ -128,28 +128,28 @@ suite "Map.reduce" {
   }
 }
 
-suite "Map.findKey" {
+suite "Map.findKeyBy" {
   test "finds the key using the given function" {
     (Map.empty()
     |> Map.set("a", 0)
     |> Map.set("b", 1)
-    |> Map.findKey((value : Number) : Bool { value == 1 })) == Maybe.just("b")
+    |> Map.findKeyBy((value : Number) : Bool { value == 1 })) == Maybe.just("b")
   }
 
   test "returns nothing if there is no match" {
     (Map.empty()
     |> Map.set("a", 0)
     |> Map.set("b", 3)
-    |> Map.findKey((value : Number) : Bool { value == 1 })) == Maybe.nothing()
+    |> Map.findKeyBy((value : Number) : Bool { value == 1 })) == Maybe.nothing()
   }
 }
 
-suite "Map.deleteValue" {
+suite "Map.deleteValues" {
   test "it deletes the value from the map" {
     (Map.empty()
     |> Map.set("a", 1)
     |> Map.set("b", 1)
-    |> Map.deleteValue(1)) == Map.empty()
+    |> Map.deleteValues(1)) == Map.empty()
   }
 }
 
