@@ -181,7 +181,12 @@ module Mint
 
     def update_cache
       files.each do |file|
-        path = File.real_path(file)
+        path =
+          {% if compare_versions(Crystal::VERSION.gsub(/-dev/, ""), "1.7.0") == -1 %}
+            File.real_path(file)
+          {% else %}
+            File.realpath(file)
+          {% end %}
 
         self[file] ||= process(File.read(path), path)
       end
@@ -220,7 +225,12 @@ module Mint
     end
 
     private def process(contents, file)
-      ast = Parser.parse(contents, File.real_path(file))
+      ast =
+        {% if compare_versions(Crystal::VERSION.gsub(/-dev/, ""), "1.7.0") == -1 %}
+          Parser.parse(contents, File.real_path(file))
+        {% else %}
+          Parser.parse(contents, File.realpath(file))
+        {% end %}
 
       if format?
         formatted =
