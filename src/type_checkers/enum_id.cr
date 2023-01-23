@@ -10,7 +10,7 @@ module Mint
     # - constants
     def check(node : Ast::EnumId) : Checkable
       parent =
-        find_enum(node.name, node.option, node)
+        ast.enums.find(&.name.==(node.name))
 
       if parent
         check(node, parent)
