@@ -10,7 +10,7 @@ module Test {
 
 component Main {
   fun render : String {
-    x:
+    let x =
       Test.b()
 
     x()

@@ -1,6 +1,6 @@
 component Main {
   fun render : String {
-    test:
+    let test =
       (a : String, b : Number = 0) : Number {
         b
       }

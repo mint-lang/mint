@@ -10,11 +10,11 @@ suite "Regexp.createWithOptions" {
     (Regexp.createWithOptions(
       "a",
       {
-        caseInsensitive = true,
-        multiline = true,
-        unicode = true,
-        global = true,
-        sticky = true
+        caseInsensitive: true,
+        multiline: true,
+        unicode: true,
+        global: true,
+        sticky: true
       })
     |> Regexp.toString()) == "/a/gimuy"
   }
@@ -50,32 +50,32 @@ suite "Regexp.matches" {
     (Regexp.createWithOptions(
       "\\w",
       {
-        caseInsensitive = true,
-        multiline = false,
-        unicode = false,
-        global = true,
-        sticky = false
+        caseInsensitive: true,
+        multiline: false,
+        unicode: false,
+        global: true,
+        sticky: false
       })
     |> Regexp.matches("a,b,c,d")) == [
       {
-        submatches = [],
-        match = "a",
-        index = 1
+        submatches: [],
+        match: "a",
+        index: 1
       },
       {
-        submatches = [],
-        match = "b",
-        index = 2
+        submatches: [],
+        match: "b",
+        index: 2
       },
       {
-        submatches = [],
-        match = "c",
-        index = 3
+        submatches: [],
+        match: "c",
+        index: 3
       },
       {
-        submatches = [],
-        match = "d",
-        index = 4
+        submatches: [],
+        match: "d",
+        index: 4
       }
     ]
   }
@@ -98,11 +98,11 @@ suite "Regexp.replace" {
     (Regexp.createWithOptions(
       "\\w",
       {
-        caseInsensitive = true,
-        multiline = false,
-        unicode = false,
-        global = true,
-        sticky = false
+        caseInsensitive: true,
+        multiline: false,
+        unicode: false,
+        global: true,
+        sticky: false
       })
     |> Regexp.replace(
       "a,b,c,d",

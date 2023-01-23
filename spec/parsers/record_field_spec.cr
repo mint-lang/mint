@@ -9,8 +9,8 @@ describe "Record Field" do
 
   expect_ignore "asd"
   expect_ignore "asd "
-  expect_ignore "asd ="
-  expect_ignore "asd = "
+  expect_ignore "asd:"
+  expect_ignore "asd: "
 
-  expect_ok "asd = asd"
+  expect_ok "asd: asd"
 end

@@ -123,7 +123,7 @@ module Math {
     Math.truncate(0.123456) == 0.12
   */
   fun truncate (to : Number, value : Number) : Number {
-    multiplier:
+    let multiplier =
       if (to == 0) {
         1
       } else {

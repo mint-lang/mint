@@ -6,7 +6,7 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   fun render : String {
-    name: 0
+    let name = 0
 
     "Hello There #{name}!"
   }
@@ -14,7 +14,7 @@ component Main {
 ------------------------------------------StringLiteralInterpolationTypeMismatch
 component Main {
   fun render : String {
-    name: {}
+    let name = {}
 
     "Hello There #{name}!"
   }

@@ -1,6 +1,6 @@
 component Main {
   fun test : String {
-    getName:
+    let getName =
       (name : String) : String { name }
 
     getName("Joe")

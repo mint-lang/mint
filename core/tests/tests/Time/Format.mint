@@ -36,16 +36,16 @@ suite "Time.distanceOfTimeInWords" {
     ]
 
   test "returns relative time in words" {
-    now:
+    let now =
       Time.utc(2016, 1, 1, 12, 34, 50, 200)
 
-    expected:
+    let expected =
       for (item of TEST_DATA) {
         item[1]
       }
       |> String.join("\n")
 
-    actual:
+    let actual =
       for (item of TEST_DATA) {
         Time.distanceOfTimeInWords(Time.Format:ENGLISH, now, Time.shift(item[0], now))
       }
@@ -82,13 +82,13 @@ suite "Time.format" {
     ]
 
   test "formats parts correctly" {
-    expected:
+    let expected =
       for (item of TEST_DATA) {
         item[2]
       }
       |> String.join("\n")
 
-    actual:
+    let actual =
       for (item of TEST_DATA) {
         Time.format(Time.Format:ENGLISH, item[1], item[0])
       }

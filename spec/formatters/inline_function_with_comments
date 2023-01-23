@@ -1,7 +1,7 @@
 module A {
   //
   fun test : String {
-    a: ():String{/*A*/"Hello"/*B*/}
+    let a = ():String{/*A*/"Hello"/*B*/}
     a()
   }
 }
@@ -9,7 +9,7 @@ module A {
 module A {
   //
   fun test : String {
-    a:
+    let a =
       () : String {
         /* A */
         "Hello"

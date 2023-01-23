@@ -1,11 +1,11 @@
 suite "Http.empty" {
   test "it returns an empty request" {
     Http.empty() == {
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = ""
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: ""
     }
   }
 }
@@ -13,11 +13,11 @@ suite "Http.empty" {
 suite "Http.delete" {
   test "it returns an empty DELETE request" {
     Http.delete("url") == {
-      withCredentials = false,
-      method = "DELETE",
-      body = `null`,
-      headers = [],
-      url = "url"
+      withCredentials: false,
+      method: "DELETE",
+      body: `null`,
+      headers: [],
+      url: "url"
     }
   }
 }
@@ -25,11 +25,11 @@ suite "Http.delete" {
 suite "Http.get" {
   test "it returns an empty DELETE request" {
     Http.get("url") == {
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = "url"
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: "url"
     }
   }
 }
@@ -37,11 +37,11 @@ suite "Http.get" {
 suite "Http.put" {
   test "it returns an empty DELETE request" {
     Http.put("url") == {
-      withCredentials = false,
-      method = "PUT",
-      body = `null`,
-      headers = [],
-      url = "url"
+      withCredentials: false,
+      method: "PUT",
+      body: `null`,
+      headers: [],
+      url: "url"
     }
   }
 }
@@ -49,11 +49,11 @@ suite "Http.put" {
 suite "Http.post" {
   test "it returns an empty DELETE request" {
     Http.post("url") == {
-      withCredentials = false,
-      method = "POST",
-      body = `null`,
-      headers = [],
-      url = "url"
+      withCredentials: false,
+      method: "POST",
+      body: `null`,
+      headers: [],
+      url: "url"
     }
   }
 }
@@ -62,11 +62,11 @@ suite "Http.stringBody" {
   test "it sets the body of a request to a string" {
     (Http.empty()
     |> Http.stringBody("Hello")) == {
-      withCredentials = false,
-      body = `"Hello"`,
-      method = "GET",
-      headers = [],
-      url = ""
+      withCredentials: false,
+      body: `"Hello"`,
+      method: "GET",
+      headers: [],
+      url: ""
     }
   }
 }
@@ -75,11 +75,11 @@ suite "Http.formDataBody" {
   test "it sets the body of a request to a FormData" {
     (Http.empty()
     |> Http.formDataBody(FormData.empty())) == {
-      withCredentials = false,
-      body = `new FormData()`,
-      method = "GET",
-      headers = [],
-      url = ""
+      withCredentials: false,
+      body: `new FormData()`,
+      method: "GET",
+      headers: [],
+      url: ""
     }
   }
 }
@@ -88,40 +88,40 @@ suite "Http.jsonBody" {
   test "it sets the body of a request to a Json" {
     (Http.empty()
     |> Http.header("existing header", "value")
-    |> Http.jsonBody(encode { user = "spaceman" })) == {
-      withCredentials = false,
-      body = `"{\"user\":\"spaceman\"}"`,
-      method = "GET",
-      headers =
+    |> Http.jsonBody(encode { user: "spaceman" })) == {
+      withCredentials: false,
+      body: `"{\"user\":\"spaceman\"}"`,
+      method: "GET",
+      headers:
         [
           {
-            key = "existing header",
-            value = "value"
+            key: "existing header",
+            value: "value"
           },
           {
-            key = "Content-Type",
-            value = "application/json"
+            key: "Content-Type",
+            value: "application/json"
           }
         ],
-      url = ""
+      url: ""
     }
   }
 
   test "it does not override value of Content-Type header if already set" {
     (Http.empty()
     |> Http.header("Content-Type", "text/plain")
-    |> Http.jsonBody(encode { user = "spaceman" })) == {
-      withCredentials = false,
-      body = `"{\"user\":\"spaceman\"}"`,
-      method = "GET",
-      headers =
+    |> Http.jsonBody(encode { user: "spaceman" })) == {
+      withCredentials: false,
+      body: `"{\"user\":\"spaceman\"}"`,
+      method: "GET",
+      headers:
         [
           {
-            key = "Content-Type",
-            value = "text/plain"
+            key: "Content-Type",
+            value: "text/plain"
           }
         ],
-      url = ""
+      url: ""
     }
   }
 }
@@ -130,11 +130,11 @@ suite "Http.method" {
   test "it sets the method of a request" {
     (Http.empty()
     |> Http.method("BLAH")) == {
-      withCredentials = false,
-      method = "BLAH",
-      body = `null`,
-      headers = [],
-      url = ""
+      withCredentials: false,
+      method: "BLAH",
+      body: `null`,
+      headers: [],
+      url: ""
     }
   }
 }
@@ -143,11 +143,11 @@ suite "Http.withCredentials" {
   test "it sets the withCredentials of a request" {
     (Http.empty()
     |> Http.withCredentials(true)) == {
-      withCredentials = true,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = ""
+      withCredentials: true,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: ""
     }
   }
 }
@@ -156,11 +156,11 @@ suite "Http.url" {
   test "it sets the url of a request" {
     (Http.empty()
     |> Http.url("WTF")) == {
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = "WTF"
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: "WTF"
     }
   }
 }
@@ -170,21 +170,21 @@ suite "Http.header" {
     (Http.empty()
     |> Http.header("A", "B")
     |> Http.header("X", "Y")) == {
-      headers =
+      headers:
         [
           {
-            key = "A",
-            value = "B"
+            key: "A",
+            value: "B"
           },
           {
-            key = "X",
-            value = "Y"
+            key: "X",
+            value: "Y"
           }
         ],
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      url = ""
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      url: ""
     }
   }
 
@@ -193,21 +193,21 @@ suite "Http.header" {
     |> Http.header("A", "B")
     |> Http.header("X", "Y")
     |> Http.header("A", "C")) == {
-      headers =
+      headers:
         [
           {
-            key = "X",
-            value = "Y"
+            key: "X",
+            value: "Y"
           },
           {
-            key = "A",
-            value = "C"
+            key: "A",
+            value: "C"
           }
         ],
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      url = ""
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      url: ""
     }
   }
 }
@@ -234,7 +234,7 @@ suite "Http.hasHeader" {
 
 suite "Http.sendWithId" {
   test "sends the request with the given ID" {
-    response:
+    let response =
       Http.get("/blah")
       |> Http.sendWithId("A")
 
@@ -261,7 +261,7 @@ component Test.Http {
   }
 
   fun componentDidMount : Promise(Void) {
-    request:
+    let request =
       await Http.empty()
       |> Http.url(url)
       |> Http.method(method)
@@ -285,36 +285,36 @@ component Test.Http {
           `)
 
     await case (request) {
-      Result::Ok(response) => next { status = response.status }
+      Result::Ok(response) => next { status: response.status }
 
       Result::Err(error) =>
         case (error.type) {
           Http.Error::NetworkError =>
             next
               {
-                errorMessage = "network-error",
-                status = error.status
+                errorMessage: "network-error",
+                status: error.status
               }
 
           Http.Error::BadUrl =>
             next
               {
-                errorMessage = "bad-url",
-                status = error.status
+                errorMessage: "bad-url",
+                status: error.status
               }
 
           Http.Error::Timeout =>
             next
               {
-                errorMessage = "timeout",
-                status = error.status
+                errorMessage: "timeout",
+                status: error.status
               }
 
           Http.Error::Aborted =>
             next
               {
-                errorMessage = "aborted",
-                status = error.status
+                errorMessage: "aborted",
+                status: error.status
               }
         }
     }

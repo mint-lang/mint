@@ -1,6 +1,6 @@
 module Test {
   fun factorial(n : Number) : Number {
-    helper: (n : Number, acc : Number) : Number {
+    let helper = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       } else {

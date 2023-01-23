@@ -14,7 +14,7 @@ suite "Storage.Local.set" {
   }
 
   test "it returns error if over the qouta" {
-    result:
+    let result =
       Storage.Local.set("test", String.repeat(10000000, "test"))
       |> Result.withError(Storage.Error::Unknown)
 
@@ -44,13 +44,13 @@ suite "Storage.Local.clear" {
   test "it clears all items" {
     Storage.Local.set("test", "test")
 
-    initialSize:
+    let initialSize =
       Storage.Local.size()
       |> Result.withDefault(-1)
 
     Storage.Local.clear()
 
-    afterSize:
+    let afterSize =
       Storage.Local.size()
       |> Result.withDefault(-1)
 
@@ -62,13 +62,13 @@ suite "Storage.Local.delete" {
   test "it deletes the item with the specified key" {
     Storage.Local.set("test", "test")
 
-    initialSize:
+    let initialSize =
       Storage.Local.size()
       |> Result.withDefault(-1)
 
     Storage.Local.delete("test")
 
-    afterSize:
+    let afterSize =
       Storage.Local.size()
       |> Result.withDefault(-1)
 
@@ -82,7 +82,7 @@ suite "Storage.Local.size" {
     Storage.Local.set("b", "1")
     Storage.Local.set("c", "2")
 
-    size:
+    let size =
       Storage.Local.size()
       |> Result.withDefault(0)
 
@@ -96,7 +96,7 @@ suite "Storage.Local.keys" {
     Storage.Local.set("a", "0")
     Storage.Local.set("b", "1")
 
-    keys:
+    let keys =
       Storage.Local.keys()
       |> Result.withDefault([])
 

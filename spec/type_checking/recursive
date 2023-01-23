@@ -10,7 +10,7 @@ component Main {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial(n : Number) : Number {
-    helper: (n : Number, acc : Number) : Number {
+    let helper = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -25,7 +25,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    helper:
+    let helper =
       (n : Number, acc : Number) : Number {
         if (n == 0) {
           acc
@@ -40,7 +40,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    helper:
+    let helper =
       (n : Number, acc : Number) : Number {
         if (n == 0) {
           acc
@@ -49,7 +49,7 @@ module Test {
         }
       }
 
-    result:
+    let result =
       helper(n, 1)
 
     1
@@ -58,7 +58,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun a(n : Number) : Number {
-    b: (n : Number, acc : Number) : Number {
+    let b = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -67,7 +67,7 @@ module Test {
       }
     }
 
-    c: (n : Number, acc : Number) : Number {
+    let c = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -82,7 +82,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun factorial (n : Number) : Number {
-    helper:
+    let helper =
       (n : Number, acc : Number) : Number {
         if (n == 0) {
           acc

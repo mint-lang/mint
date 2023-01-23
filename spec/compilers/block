@@ -1,6 +1,6 @@
 component Main {
   fun render : String {
-    a: "Some string..."
+    let a = "Some string..."
 
     a + ", other string..."
   }

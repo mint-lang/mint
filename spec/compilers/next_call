@@ -5,8 +5,8 @@ component Main {
   fun test : Promise(Void) {
     next
       {
-        name = "Hello",
-        age = 30
+        name: "Hello",
+        age: 30
       }
   }
 

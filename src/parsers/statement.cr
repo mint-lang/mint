@@ -3,12 +3,15 @@ module Mint
     def statement : Ast::Statement?
       start do |start_position|
         target = start do
+          next unless keyword "let"
+          whitespace
+
           value = variable(track: false) || tuple_destructuring
           whitespace
 
-          next unless char! ':' # Don't parse == operation as statement.
-
+          next unless char! '='
           whitespace
+
           value
         end
 

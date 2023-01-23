@@ -18,7 +18,7 @@ module Mint
         target =
           format node.target
 
-        "#{target}:\n#{indent(left)}"
+        "let #{target} =\n#{indent(left)}"
       end
     end
   end

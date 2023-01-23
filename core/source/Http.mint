@@ -103,11 +103,11 @@ module Http {
   */
   fun empty : Http.Request {
     {
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = ""
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: ""
     }
   }
 
@@ -124,7 +124,7 @@ module Http {
     |> Http.send()
   */
   fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
+    { request | body: `#{body}` }
   }
 
   /*
@@ -164,7 +164,7 @@ module Http {
   */
   fun header (key : String, value : String, request : Http.Request) : Http.Request {
     { request |
-      headers =
+      headers:
         request.headers
         |> Array.reject(
           (header : Http.Header) : Bool {
@@ -172,8 +172,8 @@ module Http {
           })
         |> Array.push(
           {
-            key = key,
-            value = value
+            key: key,
+            value: value
           })
     }
   }
@@ -188,9 +188,9 @@ module Http {
   */
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
     if (hasHeader("Content-Type", request)) {
-      { request | body = `JSON.stringify(#{body})` }
+      { request | body: `JSON.stringify(#{body})` }
     } else {
-      { request | body = `JSON.stringify(#{body})` }
+      { request | body: `JSON.stringify(#{body})` }
       |> Http.header("Content-Type", "application/json")
     }
   }
@@ -202,7 +202,7 @@ module Http {
     |> Http.method("PATCH")
   */
   fun method (method : String, request : Http.Request) : Http.Request {
-    { request | method = method }
+    { request | method: method }
   }
 
   /*
@@ -273,9 +273,9 @@ module Http {
         delete this._requests[#{uid}]
 
         resolve(#{Result::Err({
-          type = Http.Error::BadUrl,
-          status = `xhr.status`,
-          url = request.url
+          type: Http.Error::BadUrl,
+          status: `xhr.status`,
+          url: request.url
         })})
       }
 
@@ -287,9 +287,9 @@ module Http {
         delete this._requests[#{uid}]
 
         resolve(#{Result::Err({
-          type = Http.Error::NetworkError,
-          status = `xhr.status`,
-          url = request.url
+          type: Http.Error::NetworkError,
+          status: `xhr.status`,
+          url: request.url
         })})
       })
 
@@ -297,9 +297,9 @@ module Http {
         delete this._requests[#{uid}]
 
         resolve(#{Result::Err({
-          type = Http.Error::Timeout,
-          status = `xhr.status`,
-          url = request.url
+          type: Http.Error::Timeout,
+          status: `xhr.status`,
+          url: request.url
         })})
       })
 
@@ -307,8 +307,8 @@ module Http {
         delete this._requests[#{uid}]
 
         resolve(#{Result::Ok({
-          body = `xhr.responseText`,
-          status = `xhr.status`
+          body: `xhr.responseText`,
+          status: `xhr.status`
         })})
       })
 
@@ -316,9 +316,9 @@ module Http {
         delete this._requests[#{uid}]
 
         resolve(#{Result::Err({
-          type = Http.Error::Aborted,
-          status = `xhr.status`,
-          url = request.url
+          type: Http.Error::Aborted,
+          status: `xhr.status`,
+          url: request.url
         })})
       })
 
@@ -336,7 +336,7 @@ module Http {
     |> Http.send()
   */
   fun stringBody (body : String, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
+    { request | body: `#{body}` }
   }
 
   /*
@@ -346,7 +346,7 @@ module Http {
     |> Http.url("https://httpbin.org/anything")
   */
   fun url (url : String, request : Http.Request) : Http.Request {
-    { request | url = url }
+    { request | url: url }
   }
 
   /*
@@ -356,6 +356,6 @@ module Http {
     |> Http.withCredentials(true)
   */
   fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
-    { request | withCredentials = value }
+    { request | withCredentials: value }
   }
 }

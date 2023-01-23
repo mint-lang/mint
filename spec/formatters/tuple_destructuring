@@ -1,6 +1,6 @@
 module Test {
   fun test : String {
-    {a, b}:
+    let {a, b} =
       {"A", "B"}
 
     a
@@ -9,7 +9,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    {a, b}:
+    let {a, b} =
       {"A", "B"}
 
     a

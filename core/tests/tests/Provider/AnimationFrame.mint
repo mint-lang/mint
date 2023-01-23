@@ -2,10 +2,10 @@ component Test.Provider.AnimationFrame {
   state frames : Number = 0
 
   use Provider.AnimationFrame {
-    frames =
+    frames:
       (timestamp : Number) : Promise(Void) {
         if (timestamp > 0) {
-          next { frames = frames + 1 }
+          next { frames: frames + 1 }
         } else {
           next { }
         }

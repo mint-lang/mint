@@ -17,9 +17,9 @@ provider Provider.Tick : Provider.Tick.Subscription {
   /* Attaches the provider. */
   fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      next { id = `clearInterval(#{id}) || -1` }
+      next { id: `clearInterval(#{id}) || -1` }
     } else if (id == -1) {
-      next { id = `setInterval(#{process}, 1000)` }
+      next { id: `setInterval(#{process}, 1000)` }
     } else {
       next { }
     }

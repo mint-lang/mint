@@ -51,8 +51,8 @@ suite "Set.add" {
 
   test "it does not add the same item to the set" {
     (Set.empty()
-    |> Set.add({ a = "test" })
-    |> Set.add({ a = "test" })) == Set.fromArray([{ a = "test" }])
+    |> Set.add({ a: "test" })
+    |> Set.add({ a: "test" })) == Set.fromArray([{ a: "test" }])
   }
 }
 
@@ -65,8 +65,8 @@ suite "Set.delete" {
 
   test "it deletes an record from the set" {
     (Set.empty()
-    |> Set.add({ a = "test" })
-    |> Set.delete({ a = "test" })) == Set.empty()
+    |> Set.add({ a: "test" })
+    |> Set.delete({ a: "test" })) == Set.empty()
   }
 }
 

@@ -43,12 +43,12 @@ suite "Encode" {
   }
 
   test "it encodes Map(String, a) as object" {
-    map:
+    let map =
       Map.empty()
       |> Map.set("key", "value")
       |> Map.set("key2", "value2")
 
-    encoded:
+    let encoded =
       encode map
 
     `
@@ -59,24 +59,24 @@ suite "Encode" {
   }
 
   test "it encodes Array(a) as array" {
-    encoded:
+    let encoded =
       encode ["Hello"]
 
     `Array.isArray(#{encoded}) && #{encoded}[0] === "Hello"`
   }
 
   test "it encodes Tuple as array" {
-    encoded:
+    let encoded =
       encode {"Hello", 0, true}
 
     `Array.isArray(#{encoded}) && #{encoded}[0] === "Hello"` && `Array.isArray(#{encoded}) && #{encoded}[1] === 0` && `Array.isArray(#{encoded}) && #{encoded}[2] === true`
   }
 
   test "it encodes a record (with nested fields)" {
-    encoded:
+    let encoded =
       encode {
-        field = "Mapped Field",
-        nested = { field = "Field" }
+        field: "Mapped Field",
+        nested: { field: "Field" }
       }
 
     `

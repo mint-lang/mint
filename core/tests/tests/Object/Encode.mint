@@ -24,7 +24,7 @@ suite "Object.Encode.time" {
 
 suite "Object.Encode.field" {
   test "encodes a key and vlaue to a field" {
-    object:
+    let object =
       Object.Encode.field("test", `"a"`)
 
     `#{object}.name == "test" && #{object}.value == "a"`
@@ -33,10 +33,10 @@ suite "Object.Encode.field" {
 
 suite "Object.Encode.object" {
   test "encodes an array of fields to an object" {
-    encodedField:
+    let encodedField =
       Object.Encode.field("test", `"a"`)
 
-    encodedObject:
+    let encodedObject =
       Object.Encode.object([encodedField])
 
     `#{encodedObject}.test == "a"`

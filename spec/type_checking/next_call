@@ -4,8 +4,8 @@ component Main {
 
   fun test : Promise(Void) {
     next {
-      name = "Hello",
-      age=30
+      name: "Hello",
+      age: 30
     }
   }
 
@@ -16,13 +16,13 @@ component Main {
 -------------------------------------------------------NextCallInvalidInvokation
 module Test {
   fun test : Promise(Void) {
-    next { age = 30 }
+    next { age: 30 }
   }
 }
 
 component Main {
   fun render : Html {
-    test:
+    let test =
       Test.test()
 
     <div/>
@@ -33,7 +33,7 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    next { name = 30 }
+    next { name: 30 }
 
     <div/>
   }
@@ -43,7 +43,7 @@ component Main {
   state name : String = "Joe"
 
   fun render : Html {
-    next { age = 30 }
+    next { age: 30 }
 
     <div/>
   }

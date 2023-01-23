@@ -19,11 +19,11 @@ provider Provider.Keydown : Provider.Keydown.Subscription {
   fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-      next { listener = Maybe::Nothing }
+      next { listener: Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>
-          next { listener = Maybe::Just(Window.addEventListener("keydown", true, handle)) }
+          next { listener: Maybe::Just(Window.addEventListener("keydown", true, handle)) }
 
         => next { }
       }

@@ -59,7 +59,7 @@ record A {
 }
 
 component Test {
-  property name : Test = { a = "Hello" }
+  property name : Test = { a: "Hello" }
 
   fun render : Html {
     <div/>

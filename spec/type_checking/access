@@ -8,8 +8,8 @@ record Blah {
 
 component Main {
   fun render : String {
-    blah:
-      { blah = { blah = "Helllo" } }
+    let blah =
+      { blah: { blah: "Helllo" } }
 
     blah.blah.blah
   }
@@ -17,7 +17,7 @@ component Main {
 -----------------------------------------------------------------AccessNotRecord
 component Main {
   fun render : Bool {
-    blah: ""
+    let blah = ""
 
     blah.blah.blah
   }
@@ -29,8 +29,8 @@ record Blah {
 
 component Main {
   fun render : Bool {
-    blah:
-      { blah = "Blah" }
+    let blah =
+      { blah: "Blah" }
 
     blah.blah.blah
   }
@@ -42,8 +42,8 @@ record Blah {
 
 component Main {
   fun render : Bool {
-    blah:
-      { blah = "Hello" }
+    let blah =
+      { blah: "Hello" }
 
     blah.blaha
   }

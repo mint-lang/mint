@@ -2,7 +2,7 @@ component Test {
   state name : String = "Joe"
 
   fun test : Promise(Void) {
-    next {name = "Hello"}
+    next {name: "Hello"}
   }
 
   fun render : Html {
@@ -14,7 +14,7 @@ component Test {
   state name : String = "Joe"
 
   fun test : Promise(Void) {
-    next { name = "Hello" }
+    next { name: "Hello" }
   }
 
   fun render : Html {

@@ -8,7 +8,7 @@ module File {
     File.download(file)
   */
   fun download (file : File) : Void {
-    url:
+    let url =
       Url.createObjectUrlFromFile(file)
 
     `

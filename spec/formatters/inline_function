@@ -1,13 +1,13 @@
 module A {
   fun test : String {
-    a: ():String{"Hello"}
+    let a = ():String{"Hello"}
     a()
   }
 }
 --------------------------------------------------------------------------------
 module A {
   fun test : String {
-    a:
+    let a =
       () : String { "Hello" }
 
     a()

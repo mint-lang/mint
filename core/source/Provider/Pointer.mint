@@ -20,7 +20,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          {downListener, moveListener, upListener}:
+          let {downListener, moveListener, upListener} =
             methods
 
           downListener()
@@ -29,13 +29,13 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
         },
         listeners)
 
-      next { listeners = Maybe::Nothing }
+      next { listeners: Maybe::Nothing }
     } else {
       case (listeners) {
         Maybe::Nothing =>
           next
             {
-              listeners =
+              listeners:
                 Maybe::Just(
                   {
                     Window.addEventListener(
@@ -54,7 +54,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
 
                         next
                           {
-                            id =
+                            id:
                               AnimationFrame.request(
                                 (timestamp : Number) {
                                   for (subscription of subscriptions) {

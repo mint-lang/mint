@@ -17,9 +17,9 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     Gather all of the current observers, and remove ones that are no
     longer present.
     */
-    currentObservers:
+    let currentObservers =
       for (item of observers) {
-        {subscription, observer}:
+        let {subscription, observer} =
           item
 
         if (Array.contains(subscription, subscriptions)) {
@@ -39,7 +39,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
       |> Array.compact()
 
     /* Create new observers. */
-    newObservers:
+    let newObservers =
       for (subscription of subscriptions) {
         case (subscription.element) {
           Maybe::Just(observed) =>
@@ -56,7 +56,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
           => Maybe::Nothing
         }
       } when {
-        size:
+        let size =
           observers
           |> Array.select(
             (
@@ -70,6 +70,6 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
       }
       |> Array.compact()
 
-    next { observers = Array.concat([currentObservers, newObservers]) }
+    next { observers: Array.concat([currentObservers, newObservers]) }
   }
 }

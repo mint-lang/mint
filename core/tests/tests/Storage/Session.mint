@@ -7,7 +7,7 @@ suite "Storage.Session.set" {
   test "sets the given value at the given key" {
     Storage.Session.set("test", "test")
 
-    value:
+    let value =
       Storage.Session.get("test")
       |> Result.withDefault("")
 
@@ -15,7 +15,7 @@ suite "Storage.Session.set" {
   }
 
   test "it returns error if over the qouta" {
-    result:
+    let result =
       Storage.Session.set("test", String.repeat(10000000, "test"))
       |> Result.withError(Storage.Error::Unknown)
 
@@ -27,7 +27,7 @@ suite "Storage.Session.get" {
   test "it returns the value if exists" {
     Storage.Session.set("test", "test")
 
-    value:
+    let value =
       Storage.Session.get("test")
       |> Result.withDefault("")
 
@@ -46,13 +46,13 @@ suite "Storage.Session.clear" {
   test "it clears all items" {
     Storage.Session.set("test", "test")
 
-    initialSize:
+    let initialSize =
       Storage.Session.size()
       |> Result.withDefault(-1)
 
     Storage.Session.clear()
 
-    afterSize:
+    let afterSize =
       Storage.Session.size()
       |> Result.withDefault(-1)
 
@@ -64,13 +64,13 @@ suite "Storage.Session.delete" {
   test "it deletes the item with the specified key" {
     Storage.Session.set("test", "test")
 
-    initialSize:
+    let initialSize =
       Storage.Session.size()
       |> Result.withDefault(-1)
 
     Storage.Session.delete("test")
 
-    afterSize:
+    let afterSize =
       Storage.Session.size()
       |> Result.withDefault(-1)
 
@@ -84,7 +84,7 @@ suite "Storage.Session.size" {
     Storage.Session.set("b", "1")
     Storage.Session.set("c", "2")
 
-    size:
+    let size =
       Storage.Session.size()
       |> Result.withDefault(-1)
 
@@ -98,7 +98,7 @@ suite "Storage.Session.keys" {
     Storage.Session.set("a", "0")
     Storage.Session.set("b", "1")
 
-    keys:
+    let keys =
       Storage.Session.keys()
       |> Result.withDefault([])
 

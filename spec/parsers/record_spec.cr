@@ -9,10 +9,10 @@ describe "Record" do
 
   expect_ignore "{"
   expect_ignore "{ "
-  expect_ignore "{ a = a"
-  expect_ignore "{ a = a "
+  expect_ignore "{ a: a"
+  expect_ignore "{ a: a "
 
   expect_ok "{}"
   expect_ok "{ }"
-  expect_ok "{ a = a }"
+  expect_ok "{ a: a }"
 end

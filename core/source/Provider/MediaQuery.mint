@@ -13,7 +13,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
   state listeners : Map(String, Function(Void)) = Map.empty()
 
   fun update : Promise(Void) {
-    updatedListeners:
+    let updatedListeners =
       subscriptions
       |> Array.reduce(
         listeners,
@@ -40,7 +40,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           }
         })
 
-    finalListeners:
+    let finalListeners =
       updatedListeners
       |> Map.reduce(
         updatedListeners,
@@ -49,7 +49,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           query : String,
           listener : Function(Void)
         ) {
-          subscription:
+          let subscription =
             subscriptions
             |> Array.find(
               (item : Provider.MediaQuery.Subscription) { item.query == query })
@@ -65,6 +65,6 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           }
         })
 
-    next { listeners = finalListeners }
+    next { listeners: finalListeners }
   }
 }

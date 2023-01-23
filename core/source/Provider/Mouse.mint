@@ -20,7 +20,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          {clickListener, moveListener, upListener}:
+          let {clickListener, moveListener, upListener} =
             methods
 
           clickListener()
@@ -29,13 +29,13 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
         },
         listeners)
 
-      next { listeners = Maybe::Nothing }
+      next { listeners: Maybe::Nothing }
     } else {
       case (listeners) {
         Maybe::Nothing =>
           next
             {
-              listeners =
+              listeners:
                 Maybe::Just(
                   {
                     Window.addEventListener(
@@ -54,7 +54,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
                         next
                           {
-                            id =
+                            id:
                               AnimationFrame.request(
                                 (timestamp : Number) {
                                   for (subscription of subscriptions) {

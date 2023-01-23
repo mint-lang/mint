@@ -1,5 +1,5 @@
 component ScrollTest {
-  use Provider.Scroll { scrolls = (event : Html.Event) : Promise(Void) { `this.forceUpdate()` } }
+  use Provider.Scroll { scrolls: (event : Html.Event) : Promise(Void) { `this.forceUpdate()` } }
 
   style base {
     height: 3000px;
@@ -33,7 +33,7 @@ component ScrollTest {
 
 suite "Window.navigate" {
   test "it navigates to the given url with push state" {
-    url:
+    let url =
       Window.url()
 
     Window.navigate("/blah")

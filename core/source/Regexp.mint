@@ -116,9 +116,9 @@ module Regexp {
         index += 1
 
         results.push(#{{
-          submatches = `submatches`,
-          index = `index`,
-          match = `match`
+          submatches: `submatches`,
+          index: `index`,
+          match: `match`
         }})
       })
 
@@ -166,9 +166,9 @@ module Regexp {
         index += 1
 
         return #{replacer}(#{{
-          submatches = `submatches`,
-          index = `index`,
-          match = `match`
+          submatches: `submatches`,
+          index: `index`,
+          match: `match`
         }})
       })
     })()

@@ -54,6 +54,6 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
     }
 
     /* Update the observed elements array. */
-    next { observedElements = Array.map(.element, subscriptions) }
+    next { observedElements: Array.map(.element, subscriptions) }
   }
 }

@@ -5,7 +5,7 @@ record Test {
 
 component Main {
   fun render : String {
-    item:
+    let item =
       Test("Joe",
         32)
 
@@ -20,7 +20,7 @@ record Test {
 
 component Main {
   fun render : String {
-    item:
+    let item =
       Test(
         "Joe",
         32)

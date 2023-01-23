@@ -10,13 +10,10 @@ provider Test : Test {
 
 component Main {
   use Test {
-    test = ""
+    test: ""
   }
 
   fun render : String {
-    x:
-      Test.print("x")
-
-    x
+    Test.print("x")
   }
 }

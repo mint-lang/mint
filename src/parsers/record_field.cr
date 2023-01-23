@@ -7,7 +7,7 @@ module Mint
         next unless key = variable
         whitespace
 
-        next unless char! '='
+        next unless char! ':'
         whitespace
 
         next unless value = expression

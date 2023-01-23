@@ -3,10 +3,10 @@ record Record {
 }
 
 component Main {
-  state record : Record = { name = "Doe" }
+  state record : Record = { name: "Doe" }
 
   fun test : Record {
-    { record | name = "John" }
+    { record | name: "John" }
   }
 
   fun render : Html {

@@ -43,6 +43,6 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
       }
     }
 
-    next { observedElements = Array.map(.element, subscriptions) }
+    next { observedElements: Array.map(.element, subscriptions) }
   }
 }

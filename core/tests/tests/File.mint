@@ -1,6 +1,6 @@
 suite "File.fromString" {
   test "it creates a file from a string" {
-    file:
+    let file =
       File.fromString("content", "test.txt", "text/plain")
 
     File.name(file) == "test.txt"
@@ -9,7 +9,7 @@ suite "File.fromString" {
 
 suite "File.mimeType" {
   test "it returns the mime type of the file" {
-    file:
+    let file =
       File.fromString("content", "test.txt", "text/plain")
 
     File.mimeType(file) == "text/plain"
@@ -18,7 +18,7 @@ suite "File.mimeType" {
 
 suite "File.name" {
   test "it returns the name of the file" {
-    file:
+    let file =
       File.fromString("content", "test.txt", "text/plain")
 
     File.name(file) == "test.txt"

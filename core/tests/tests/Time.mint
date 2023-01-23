@@ -190,12 +190,12 @@ suite "Time.calendarWeek" {
     ]
 
   test "returns proper calendar week" {
-    expected:
+    let expected =
       for (item of TEST_DATA) {
         ({item[1][0], item[1][1]})
       }
 
-    actual:
+    let actual =
       for (item of TEST_DATA) {
         Time.utcDate(item[0][0], item[0][1], item[0][2])
         |> Time.calendarWeek
@@ -305,12 +305,12 @@ suite "Time.shift" {
     ]
 
   test "shifts the given time with the given span" {
-    expected:
+    let expected =
       for (item of TEST_DATA) {
         item[1]
       }
 
-    actual:
+    let actual =
       for (item of TEST_DATA) {
         Time.shift(item[0], BASE_TIME)
       }

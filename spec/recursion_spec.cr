@@ -8,14 +8,14 @@ describe "variable" do
         state greeting : String = ""
 
         fun test : Promise(Void) {
-          greeting:
+          let greeting =
             if (greeting == "hello") {
               "bye"
             } else {
               "hello"
             }
 
-          next { greeting = greeting }
+          next { greeting: greeting }
         }
 
         fun render : Html {

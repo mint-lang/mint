@@ -6,9 +6,7 @@ describe "Statement" do
   expect_ignore ""
   expect_ignore "??"
   expect_ignore "✔"
-  expect_ignore "a:"
-  expect_ignore "a: "
 
-  expect_ok "a : a"
-  expect_ok "{a, b, c}: a"
+  expect_ok "let a = a"
+  expect_ok "let {a, b, c} = a"
 end

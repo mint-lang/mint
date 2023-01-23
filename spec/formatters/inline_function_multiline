@@ -5,9 +5,9 @@ record X {
 
 module A {
   fun test : String {
-    a: (name:String,age:Number):X{{name = name, age = age}}
+    let a = (name:String,age:Number):X{{name: name, age: age}}
 
-    result:
+    let result =
       a("Joe", 25)
 
     result.name
@@ -21,15 +21,15 @@ record X {
 
 module A {
   fun test : String {
-    a:
+    let a =
       (name : String, age : Number) : X {
         {
-          name = name,
-          age = age
+          name: name,
+          age: age
         }
       }
 
-    result:
+    let result =
       a("Joe", 25)
 
     result.name

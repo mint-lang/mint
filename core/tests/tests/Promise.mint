@@ -2,10 +2,10 @@ component Test.Promise {
   state result : String = ""
 
   fun resolve : Promise(Void) {
-    newResult:
+    let newResult =
       await Promise.resolve("resolved")
 
-    await next { result = newResult }
+    await next { result: newResult }
   }
 
   fun render : Html {
@@ -24,15 +24,15 @@ component Test.Promise2 {
   state result : String = ""
 
   fun componentDidMount : Promise(Void) {
-    {resolve, promise}:
+    let {resolve, promise} =
       Promise.create()
 
-    await next { resolve = resolve }
+    await next { resolve: resolve }
 
-    newResult:
+    let newResult =
       await promise
 
-    await next { result = newResult }
+    await next { result: newResult }
   }
 
   fun render : Html {

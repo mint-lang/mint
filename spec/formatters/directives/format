@@ -1,13 +1,13 @@
 component Main {
   fun render : String {
-    {result, formatted}: @format{"Hello"}
+    let{result, formatted}=@format{"Hello"}
     result + formatted
   }
 }
 --------------------------------------------------------------------------------
 component Main {
   fun render : String {
-    {result, formatted}:
+    let {result, formatted} =
       @format {
         "Hello"
       }

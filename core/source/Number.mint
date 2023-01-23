@@ -6,13 +6,13 @@ module Number {
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
   fun format (prefix : String, number : Number) : String {
-    string:
+    let string =
       Number.toFixed(2, number)
 
-    parts:
+    let parts =
       String.split(".", string)
 
-    digits:
+    let digits =
       parts[0]
       |> Maybe.withDefault("")
       |> String.chopStart("-")
@@ -21,7 +21,7 @@ module Number {
       |> Array.map((items : Array(String)) { String.join("", items) })
       |> String.join(",")
 
-    decimals:
+    let decimals =
       parts[1]
       |> Maybe.withDefault("")
       |> String.chopEnd("0")

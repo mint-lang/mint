@@ -43,11 +43,11 @@ module Validation {
       "Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-" \
       "]{0,61}[a-zA-Z0-9])?)*$",
       {
-        caseInsensitive = true,
-        multiline = false,
-        unicode = false,
-        global = false,
-        sticky = false
+        caseInsensitive: true,
+        multiline: false,
+        unicode: false,
+        global: false,
+        sticky: false
       })
 
   /* Returns the first error for the given key in the given errors. */
@@ -184,10 +184,10 @@ module Validation {
         case (item) {
           Maybe::Just(error) =>
             {
-              {key, message}:
+              let {key, message} =
                 error
 
-              messages:
+              let messages =
                 memo
                 |> Map.get(key)
                 |> Maybe.withDefault([])

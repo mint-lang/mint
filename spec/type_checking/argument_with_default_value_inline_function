@@ -1,6 +1,6 @@
 component Main {
   fun render : String {
-    test:
+    let test =
       (a : String = "Hello") : String {
         a
       }
@@ -11,7 +11,7 @@ component Main {
 -------------------------------------------FunctionArgumentMustHaveADefaultValue
 component Main {
   fun render : String {
-    test:
+    let test =
       (a : String = "Hello", b : String) : Number {
         a
       }

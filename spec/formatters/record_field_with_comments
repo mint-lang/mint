@@ -5,7 +5,7 @@ record Test {
 
 module Test {
   fun get : Test {
-    {/*A*/a="Hello",/*B*/b="Blah"}
+    {/*A*/a:"Hello",/*B*/b:"Blah"}
   }
 }
 --------------------------------------------------------------------------------
@@ -18,9 +18,9 @@ module Test {
   fun get : Test {
     {
       /* A */
-      a = "Hello",
+      a: "Hello",
       /* B */
-      b = "Blah"
+      b: "Blah"
     }
   }
 }

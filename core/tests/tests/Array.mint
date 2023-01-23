@@ -161,7 +161,7 @@ suite "Array.firstWithDefault" {
 
 suite "Array.flatMap" {
   test "maps over a nested array and flattens" {
-    result:
+    let result =
       [[3, 1], [2, 0], [5]]
       |> Array.flatMap(
         (n : Array(Number)) : Array(Number) {
@@ -177,7 +177,7 @@ suite "Array.flatMap" {
 
 suite "Array.groupsOf" {
   test "group into items of specified size" {
-    result:
+    let result =
       [1, 2, 3, 4, 5, 6, 7, 8]
       |> Array.groupsOf(2)
 
@@ -192,7 +192,7 @@ suite "Array.groupsOf" {
 
 suite "Array.groupsOfFromEnd" {
   test "group into items of specified size" {
-    result:
+    let result =
       Array.groupsOfFromEnd(2, [1, 2, 3, 4, 5, 6, 7])
 
     (result == [
@@ -555,7 +555,7 @@ suite "Array.swap" {
 
 suite "Array.takeEnd" {
   test "take n number of items" {
-    result:
+    let result =
       [1, 2, 3, 4, 5, 6, 7, 8]
       |> Array.takeEnd(2)
 
@@ -565,7 +565,7 @@ suite "Array.takeEnd" {
 
 suite "Array.takeStart" {
   test "take n number of items" {
-    result:
+    let result =
       [1, 2, 3, 4, 5, 6, 7, 8]
       |> Array.takeStart(2)
 

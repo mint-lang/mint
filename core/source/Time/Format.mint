@@ -16,25 +16,25 @@ module Time {
     to : Time,
     from : Time
   ) {
-    distance:
+    let distance =
       Time.toUnix(to) - Time.toUnix(from)
 
     if (distance == 0) {
       language.rightNow
     } else {
-      seconds:
+      let seconds =
         Math.trunc(Math.abs(distance) / 1000)
 
-      minutes:
+      let minutes =
         Math.trunc(seconds / 60)
 
-      hours:
+      let hours =
         Math.trunc(minutes / 60)
 
-      days:
+      let days =
         Math.trunc(hours / 24)
 
-      positive:
+      let positive =
         distance > 0
 
       if (minutes < 1) {
@@ -421,7 +421,7 @@ module Time {
       /* day of week (Sunday is 0, 0..6) */
       "w" =>
         {
-          number:
+          let number =
             dayOfWeekNumber(time)
 
           if (number == 7) {

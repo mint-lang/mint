@@ -99,7 +99,7 @@ module Time {
     Time.local()
   */
   fun local : Time {
-    time:
+    let time =
       now()
 
     shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
@@ -452,7 +452,7 @@ module Time {
     Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
   */
   fun atBeginningOfWeek (time : Time) : Time {
-    day:
+    let day =
       dayOfWeekNumber(time)
 
     shift(Time.Span::Days(-(day - 1)), time)

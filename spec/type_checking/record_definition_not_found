@@ -3,7 +3,7 @@ record A {
 }
 
 component Main {
-  state data = { name = "" }
+  state data = { name: "" }
 
   fun render : Html {
     <div>
@@ -13,7 +13,7 @@ component Main {
 }
 ----------------------------------------------------RecordNotFoundMatchingRecordDefinition
 component Main {
-  state data = { name = "" }
+  state data = { name: "" }
 
   fun render : Html {
     <div>
@@ -23,7 +23,7 @@ component Main {
 }
 ----------------------------------------------------RecordNotFoundMatchingRecordDefinition
 component Test {
-  property data = { name = "" }
+  property data = { name: "" }
 
   fun render : Html {
     <div>

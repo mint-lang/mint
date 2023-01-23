@@ -1,17 +1,17 @@
 component Main {
   fun render : String {
-    x: "hello"
+    let x = "hello"
   }
 }
 ---------------------------------------------------------------StatementNotTuple
 component Main {
   fun render : String {
-    {x, y, z}: "hello"
+    let {x, y, z} = "hello"
   }
 }
 ----------------------------------------------------------StatementTupleMismatch
 component Main {
   fun render : String {
-    {x, y, z}: {"hello", "a"}
+    let {x, y, z} = {"hello", "a"}
   }
 }

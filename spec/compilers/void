@@ -4,7 +4,7 @@ component Main {
   }
 
   fun render : String {
-    x: test
+    let x = test
 
     ""
   }

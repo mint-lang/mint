@@ -48,7 +48,7 @@ suite "Html.DataTransfer.getFiles" {
 
 suite "Html.DataTransfer.setData && Html.DataTransfer.getData" {
   test "it returns the value" {
-    value:
+    let value =
       `new DataTransfer()` as Html.DataTransfer
       |> Html.DataTransfer.setData("text/plain", "Hello!")
       |> Html.DataTransfer.getData("text/plain")
@@ -59,7 +59,7 @@ suite "Html.DataTransfer.setData && Html.DataTransfer.getData" {
 
 suite "Html.DataTransfer.setDragImage" {
   test "it returns the value" {
-    data:
+    let data =
       `new DataTransfer()` as Html.DataTransfer
 
     Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data

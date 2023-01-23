@@ -6,8 +6,8 @@ enum A {
 component Main {
   const X =
     A::B(
-      color = "Blue",
-      name = "Joe",
+      color: "Blue",
+      name: "Joe",
     )
 
   fun render : String {
@@ -23,8 +23,8 @@ enum A {
 component Main {
   const X =
     A::B(
-      color = "Blue",
-      name = "Joe")
+      color: "Blue",
+      name: "Joe")
 
   fun render : String {
     ""

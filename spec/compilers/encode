@@ -5,7 +5,7 @@ record Test {
 
 component Main {
   fun encode : Object {
-    encode { name = "Hello", age = 20 }
+    encode { name: "Hello", age: 20 }
   }
 
   fun render : String {

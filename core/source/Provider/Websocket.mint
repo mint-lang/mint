@@ -49,7 +49,7 @@ provider Provider.WebSocket : WebSocket.Config {
 
   /* Handles updates to the provider. */
   fun update : Promise(Void) {
-    updatedConnections:
+    let updatedConnections =
       subscriptions
       |> Array.reduce(
         connections,
@@ -63,12 +63,12 @@ provider Provider.WebSocket : WebSocket.Config {
                 config.url,
                 WebSocket.open(
                   {
-                    onMessage = (message : String) { onMessage(config.url, message) },
-                    onOpen = (socket : WebSocket) { onOpen(config.url, socket) },
-                    onClose = () { onClose(config.url) },
-                    onError = () { onError(config.url) },
-                    reconnectOnClose = config.reconnectOnClose,
-                    url = config.url
+                    onMessage: (message : String) { onMessage(config.url, message) },
+                    onOpen: (socket : WebSocket) { onOpen(config.url, socket) },
+                    onClose: () { onClose(config.url) },
+                    onError: () { onError(config.url) },
+                    reconnectOnClose: config.reconnectOnClose,
+                    url: config.url
                   }),
                 memo)
 
@@ -76,7 +76,7 @@ provider Provider.WebSocket : WebSocket.Config {
           }
         })
 
-    finalConnections:
+    let finalConnections =
       updatedConnections
       |> Map.reduce(
         updatedConnections,
@@ -85,7 +85,7 @@ provider Provider.WebSocket : WebSocket.Config {
           url : String,
           socket : WebSocket
         ) {
-          subscription:
+          let subscription =
             subscriptions
             |> Array.find(
               (config : WebSocket.Config) { config.url == url })
@@ -101,6 +101,6 @@ provider Provider.WebSocket : WebSocket.Config {
           }
         })
 
-    next { connections = finalConnections }
+    next { connections: finalConnections }
   }
 }

@@ -1,6 +1,6 @@
 suite "Dom.createElement" {
   test "returns a Dom element" {
-    element:
+    let element =
       Dom.createElement("div")
 
     `#{element}.tagName === "DIV"`
@@ -51,7 +51,7 @@ suite "Dom.getElementBySelector" {
 
 suite "Dom.getDimensions" {
   test "returns dimensions" {
-    dimensions:
+    let dimensions =
       Dom.createElement("div")
       |> Dom.getDimensions()
 
@@ -59,7 +59,7 @@ suite "Dom.getDimensions" {
   }
 
   test "returns actual dimensions" {
-    dimensions:
+    let dimensions =
       Dom.getElementById("root")
       |> Maybe.withLazyDefault(() { Dom.createElement("div") })
       |> Dom.getDimensions()
@@ -112,7 +112,7 @@ component Test.Dom.Focus {
 
   fun show : Promise(Void) {
     await Timer.timeout(100)
-    await next { shown = true }
+    await next { shown: true }
   }
 
   fun focus : Promise(Result(String, Void)) {

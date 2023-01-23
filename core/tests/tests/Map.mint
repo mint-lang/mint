@@ -7,11 +7,11 @@ suite "Map with enums" {
   }
 
   test "Equality" {
-    map1:
+    let map1 =
       Map.empty()
       |> Map.set(Maybe::Just("a"), "x")
 
-    map2:
+    let map2 =
       Map.empty()
       |> Map.set(Maybe::Just("a"), "x")
 
@@ -21,11 +21,11 @@ suite "Map with enums" {
 
 suite "Map equality" {
   test "maps which are not equal returns false" {
-    map1:
+    let map1 =
       Map.empty()
       |> Map.set("a", "x")
 
-    map2:
+    let map2 =
       Map.empty()
       |> Map.set("a", "b")
 
@@ -33,11 +33,11 @@ suite "Map equality" {
   }
 
   test "maps which are equal returns true" {
-    map1:
+    let map1 =
       Map.empty()
       |> Map.set("a", "b")
 
-    map2:
+    let map2 =
       Map.empty()
       |> Map.set("a", "b")
 
@@ -79,11 +79,11 @@ suite "Map.get" {
 
 suite "Map.merge" {
   test "it merges two maps together" {
-    a:
+    let a =
       Map.empty()
       |> Map.set("a", "b")
 
-    b:
+    let b =
       Map.empty()
       |> Map.set("x", "y")
 
@@ -93,11 +93,11 @@ suite "Map.merge" {
   }
 
   test "send map has precedence" {
-    a:
+    let a =
       Map.empty()
       |> Map.set("a", "b")
 
-    b:
+    let b =
       Map.empty()
       |> Map.set("a", "y")
 

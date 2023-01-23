@@ -8,10 +8,7 @@ record Blah {
 
 module Test {
   fun test : Bool {
-    blah:
-      { blah = { blah = true } }
-
-    blah.blah.blah
+    { blah: { blah: true } }.blah.blah
   }
 }
 --------------------------------------------------------------------------------
@@ -25,9 +22,6 @@ record Blah {
 
 module Test {
   fun test : Bool {
-    blah:
-      { blah = { blah = true } }
-
-    blah.blah.blah
+    { blah: { blah: true } }.blah.blah
   }
 }

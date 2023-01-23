@@ -149,10 +149,10 @@ module Window {
     Window.isActiveURL("https://www.example.com")
   */
   fun isActiveURL (url : String) : Bool {
-    window:
+    let window =
       Window.url()
 
-    current:
+    let current =
       Url.parse(url)
 
     (window.hostname == current.hostname &&

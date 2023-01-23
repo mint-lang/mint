@@ -220,14 +220,14 @@ module Dom {
       const rect = #{dom}.getBoundingClientRect()
 
       return #{{
-        bottom = `rect.bottom`,
-        height = `rect.height`,
-        width = `rect.width`,
-        right = `rect.right`,
-        left = `rect.left`,
-        top = `rect.top`,
-        x = `rect.x`,
-        y = `rect.y`
+        bottom: `rect.bottom`,
+        height: `rect.height`,
+        width: `rect.width`,
+        right: `rect.right`,
+        left: `rect.left`,
+        top: `rect.top`,
+        x: `rect.x`,
+        y: `rect.y`
       }}
     })()
     `
@@ -401,15 +401,15 @@ module Dom {
     |> getElementsBySelector(selector)
     |> Array.map(
       (item : Dom.Element) : Tuple(String, String, String) {
-        tag:
+        let tag =
           item
           |> getTagName()
           |> String.toLowerCase()
 
-        text:
+        let text =
           getTextContent(item)
 
-        hash:
+        let hash =
           String.parameterize(text)
 
         {tag, text, hash}
