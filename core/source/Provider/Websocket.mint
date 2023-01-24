@@ -57,9 +57,10 @@ provider Provider.WebSocket : WebSocket.Config {
           memo : Map(String, WebSocket),
           config : WebSocket.Config
         ) {
-          case (Map.get(config.url, connections)) {
+          case (Map.get(connections, config.url)) {
             Maybe::Nothing =>
               Map.set(
+                memo,
                 config.url,
                 WebSocket.open(
                   {
@@ -69,8 +70,7 @@ provider Provider.WebSocket : WebSocket.Config {
                     onError: () { onError(config.url) },
                     reconnectOnClose: config.reconnectOnClose,
                     url: config.url
-                  }),
-                memo)
+                  }))
 
             Maybe::Just => memo
           }
@@ -94,7 +94,7 @@ provider Provider.WebSocket : WebSocket.Config {
             Maybe::Nothing =>
               {
                 WebSocket.closeWithoutReconnecting(socket)
-                Map.delete(url, memo)
+                Map.delete(memo, url)
               }
 
             Maybe::Just => memo

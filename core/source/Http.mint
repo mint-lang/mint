@@ -123,7 +123,7 @@ module Http {
     |> Http.formDataBody(formData)
     |> Http.send()
   */
-  fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
+  fun formDataBody (request : Http.Request, body : FormData) : Http.Request {
     { request | body: `#{body}` }
   }
 
@@ -148,7 +148,7 @@ module Http {
     |> Http.header("Content-Type", "application/json")
     |> Http.hasHeader("Content-Type")
   */
-  fun hasHeader (key : String, request : Http.Request) : Bool {
+  fun hasHeader (request : Http.Request, key : String) : Bool {
     request.headers
     |> Array.any(
       (header : Http.Header) : Bool {
@@ -162,7 +162,7 @@ module Http {
     Http.empty()
     |> Http.header("Content-Type", "application/json")
   */
-  fun header (key : String, value : String, request : Http.Request) : Http.Request {
+  fun header (request : Http.Request, key : String, value : String) : Http.Request {
     { request |
       headers:
         request.headers
@@ -186,8 +186,8 @@ module Http {
     |> Http.jsonBody(encode { name = "John" })
     |> Http.send()
   */
-  fun jsonBody (body : Object, request : Http.Request) : Http.Request {
-    if (hasHeader("Content-Type", request)) {
+  fun jsonBody (request : Http.Request, body : Object) : Http.Request {
+    if (hasHeader(request, "Content-Type")) {
       { request | body: `JSON.stringify(#{body})` }
     } else {
       { request | body: `JSON.stringify(#{body})` }
@@ -201,7 +201,7 @@ module Http {
     Http.empty()
     |> Http.method("PATCH")
   */
-  fun method (method : String, request : Http.Request) : Http.Request {
+  fun method (request : Http.Request, method : String) : Http.Request {
     { request | method: method }
   }
 
@@ -246,7 +246,7 @@ module Http {
     |> Http.send()
   */
   fun send (request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
-    sendWithId(Uid.generate(), request)
+    sendWithId(request, Uid.generate())
   }
 
   /*
@@ -256,7 +256,7 @@ module Http {
     |> Http.get()
     |> Http.sendWithId("my-request")
   */
-  fun sendWithId (uid : String, request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
+  fun sendWithId (request : Http.Request, uid : String) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     `
     new Promise((resolve, reject) => {
       if (!this._requests) { this._requests = {} }
@@ -335,7 +335,7 @@ module Http {
     |> Http.stringBody("Some string that will come back.")
     |> Http.send()
   */
-  fun stringBody (body : String, request : Http.Request) : Http.Request {
+  fun stringBody (request : Http.Request, body : String) : Http.Request {
     { request | body: `#{body}` }
   }
 
@@ -345,7 +345,7 @@ module Http {
     Http.empty()
     |> Http.url("https://httpbin.org/anything")
   */
-  fun url (url : String, request : Http.Request) : Http.Request {
+  fun url (request : Http.Request, url : String) : Http.Request {
     { request | url: url }
   }
 
@@ -355,7 +355,7 @@ module Http {
     Http.empty()
     |> Http.withCredentials(true)
   */
-  fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
+  fun withCredentials (request : Http.Request, value : Bool) : Http.Request {
     { request | withCredentials: value }
   }
 }

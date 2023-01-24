@@ -3,12 +3,11 @@ module Object.Decode {
   /*
   Decodes the object as an `Array` using the given decoder.
 
-    Object.Decode.array(
-      Object.Decode.string, `["A", "B"]`) == Result::Ok(["a", "b"])
+    Object.Decode.array(`["A", "B"]`, Object.Decode.string, ) == Result::Ok(["a", "b"])
   */
   fun array (
-    decoder : Function(Object, Result(Object.Error, a)),
-    input : Object
+    input : Object,
+    decoder : Function(Object, Result(Object.Error, a))
   ) : Result(Object.Error, Array(a)) {
     `Decoder.array(#{decoder})(#{input})`
   }
@@ -29,9 +28,9 @@ module Object.Decode {
       "field", Object.Decode.string, `{field: "Value"}`) == Result::Ok("Value")
   */
   fun field (
+    input : Object,
     key : String,
-    decoder : Function(Object, Result(Object.Error, a)),
-    input : Object
+    decoder : Function(Object, Result(Object.Error, a))
   ) : Result(Object.Error, a) {
     `Decoder.field(#{key}, #{decoder})(#{input})`
   }
@@ -43,8 +42,8 @@ module Object.Decode {
     Object.Decode.maybe(Object.Decode.String, `null`) == Result::Ok(Maybe::Nothing)
   */
   fun maybe (
-    decoder : Function(Object, Result(Object.Error, a)),
-    input : Object
+    input : Object,
+    decoder : Function(Object, Result(Object.Error, a))
   ) : Result(Object.Error, Maybe(a)) {
     `Decoder.maybe(#{decoder})(#{input})`
   }

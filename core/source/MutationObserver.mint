@@ -23,10 +23,10 @@ module MutationObserver {
 
   /* Observes the given element. */
   fun observe (
+    observer : MutationObserver,
     element : Dom.Element,
     subtree : Bool,
-    childList : Bool,
-    observer : MutationObserver
+    childList : Bool
   ) : MutationObserver {
     `
     #{observer}.observe(#{element}, {
@@ -37,7 +37,7 @@ module MutationObserver {
   }
 
   /* Unobserves the given element. */
-  fun unobserve (element : Dom.Element, observer : MutationObserver) : MutationObserver {
+  fun unobserve (observer : MutationObserver, element : Dom.Element) : MutationObserver {
     `#{observer}.disconnect(#{element}) || #{observer}`
   }
 }

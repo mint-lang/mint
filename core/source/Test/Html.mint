@@ -20,8 +20,8 @@ module Test.Html {
   }
 
   fun find (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -36,8 +36,8 @@ module Test.Html {
   }
 
   fun findGlobally (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -51,38 +51,38 @@ module Test.Html {
     `
   }
 
-  fun assertTop (top : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
+  fun assertTop (context : Test.Context(Dom.Element), top : Number) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
+      context,
       top,
-      (element : Dom.Element) : Number { Dom.getDimensions(element).top },
-      context)
+      (element : Dom.Element) : Number { Dom.getDimensions(element).top })
   }
 
-  fun assertLeft (left : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
+  fun assertLeft (context : Test.Context(Dom.Element), left : Number) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
+      context,
       left,
-      (element : Dom.Element) : Number { Dom.getDimensions(element).left },
-      context)
+      (element : Dom.Element) : Number { Dom.getDimensions(element).left })
   }
 
-  fun assertHeight (height : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
+  fun assertHeight (context : Test.Context(Dom.Element), height : Number) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
+      context,
       height,
-      (element : Dom.Element) : Number { Dom.getDimensions(element).height },
-      context)
+      (element : Dom.Element) : Number { Dom.getDimensions(element).height })
   }
 
-  fun assertWidth (width : Number, context : Test.Context(Dom.Element)) : Test.Context(Dom.Element) {
+  fun assertWidth (context : Test.Context(Dom.Element), width : Number) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
+      context,
       width,
-      (element : Dom.Element) : Number { Dom.getDimensions(element).width },
-      context)
+      (element : Dom.Element) : Number { Dom.getDimensions(element).width })
   }
 
   /* Triggers a click event on the element that matches the given selector. */
   fun triggerClick (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -94,8 +94,8 @@ module Test.Html {
 
   /* Triggers a mouse down event on the element that matches the given selector. */
   fun triggerMouseDown (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -109,8 +109,8 @@ module Test.Html {
 
   /* Triggers a mouse move event on the element that matches the given selector. */
   fun triggerMouseMove (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -124,8 +124,8 @@ module Test.Html {
 
   /* Triggers a mouse up event on the element that matches the given selector. */
   fun triggerMouseUp (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -139,9 +139,9 @@ module Test.Html {
 
   /* Asserts the text of the element that matches the given selector. */
   fun assertTextOf (
+    context : Test.Context(Dom.Element),
     selector : String,
-    value : String,
-    context : Test.Context(Dom.Element)
+    value : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -162,8 +162,8 @@ module Test.Html {
   }
 
   fun assertActiveElement (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -182,8 +182,8 @@ module Test.Html {
 
   /* Asserts that there is an element that matches the given selector. */
   fun assertElementExists (
-    selector : String,
-    context : Test.Context(Dom.Element)
+    context : Test.Context(Dom.Element),
+    selector : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {
@@ -199,10 +199,10 @@ module Test.Html {
 
   /* Asserts the value of a CSS property on the element that matches the given selector. */
   fun assertCssOf (
+    context : Test.Context(Dom.Element),
     selector : String,
     property : String,
-    value : String,
-    context : Test.Context(Dom.Element)
+    value : String
   ) : Test.Context(Dom.Element) {
     `
     #{context}.step((element) => {

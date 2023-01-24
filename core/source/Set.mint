@@ -6,10 +6,10 @@ module Set {
     (Set.empty()
     |> Set.add("value")) == Set.fromArray(["value"])
   */
-  fun add (value : a, set : Set(item)) : Set(item) {
+  fun add (set : Set(item), value : item) : Set(item) {
     `
     (() => {
-      if (#{has(value, set)}) { return #{set} }
+      if (#{has(set, value)}) { return #{set} }
 
       const newSet = Array.from(#{set})
       newSet.push(#{value})
@@ -26,7 +26,7 @@ module Set {
     |> Set.add("value")
     |> Set.delete("value")) == Set.empty()
   */
-  fun delete (value : a, set : Set(item)) : Set(item) {
+  fun delete (set : Set(item), value : item) : Set(item) {
     `
     (() => {
       const newSet = []
@@ -63,7 +63,7 @@ module Set {
     |> Set.add(Maybe.just("value"))
     |> Set.has(Maybe.just("value"))) == true
   */
-  fun has (value : a, set : Set(item)) : Bool {
+  fun has (set : Set(item), value : item) : Bool {
     `
     (() => {
       for (let item of #{set}) {
@@ -83,7 +83,7 @@ module Set {
     (Set.fromArray([0])
     |> Set.map(Number.toString)) == Set.fromArray(["0"])
   */
-  fun map (method : Function(a, b), set : Set(item)) : Set(b) {
+  fun map (set : Set(item), method : Function(item, b)) : Set(b) {
     `
     (() => {
       const newSet = []

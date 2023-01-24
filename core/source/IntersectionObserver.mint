@@ -43,16 +43,16 @@ module IntersectionObserver {
 
   /* Observes the given element. */
   fun observe (
-    element : Dom.Element,
-    observer : IntersectionObserver
+    observer : IntersectionObserver,
+    element : Dom.Element
   ) : IntersectionObserver {
     `#{observer}.observe(#{element}) || #{observer}`
   }
 
   /* Unobserves the given element. */
   fun unobserve (
-    element : Dom.Element,
-    observer : IntersectionObserver
+    observer : IntersectionObserver,
+    element : Dom.Element
   ) : IntersectionObserver {
     `#{observer}.unobserve(#{element}) || #{observer}`
   }

@@ -8,7 +8,7 @@ module Test.Context {
       |> Test.Context.assertEqual(5)
     }
   */
-  fun assertEqual (value : a, context : Test.Context(a)) : Test.Context(a) {
+  fun assertEqual (context : Test.Context(a), value : a) : Test.Context(a) {
     `
     #{context}.step((subject) => {
       if (!_compare(#{value}, subject)) {
@@ -20,7 +20,7 @@ module Test.Context {
   }
 
   /* Asserts that a given spy (function) was called. */
-  fun assertFunctionCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+  fun assertFunctionCalled (context : Test.Context(c), entity : a) : Test.Context(c) {
     `
     #{context}.step((subject) => {
       if (!#{entity}._called) {
@@ -32,7 +32,7 @@ module Test.Context {
   }
 
   /* Asserts that a given spy (function) was not called. */
-  fun assertFunctionNotCalled (entity : a, context : Test.Context(c)) : Test.Context(c) {
+  fun assertFunctionNotCalled (context : Test.Context(c), entity : a) : Test.Context(c) {
     `
     #{context}.step((subject) => {
       if (#{entity}._called) {
@@ -53,9 +53,9 @@ module Test.Context {
     }
   */
   fun assertOf (
+    context : Test.Context(a),
     value : b,
-    method : Function(a, b),
-    context : Test.Context(a)
+    method : Function(a, b)
   ) : Test.Context(a) {
     `
     #{context}.step((subject) => {
@@ -77,9 +77,8 @@ module Test.Context {
       |> Test.Context.map(Number.toString)
     }
   */
-  fun map (method : Function(a, b), context : Test.Context(a)) : Test.Context(b) {
-    context
-    |> then((item : a) : Promise(b) { Promise.resolve(method(item)) })
+  fun map (context : Test.Context(a), method : Function(a, b)) : Test.Context(b) {
+    then(context, (item : a) : Promise(b) { Promise.resolve(method(item)) })
   }
 
   /*
@@ -124,8 +123,8 @@ module Test.Context {
     }
   */
   fun then (
-    proc : Function(a, Promise(b)),
-    context : Test.Context(a)
+    context : Test.Context(a),
+    proc : Function(a, Promise(b))
   ) : Test.Context(b) {
     `
     #{context}.step((subject) => {
@@ -143,9 +142,9 @@ module Test.Context {
       |> Test.Context.assertEqual(5)
     }
   */
-  fun timeout (duration : Number, context : Test.Context(a)) : Test.Context(a) {
-    context
-    |> then(
+  fun timeout (context : Test.Context(a), duration : Number) : Test.Context(a) {
+    then(
+      context,
       (subject : a) : Promise(a) {
         await Timer.timeout(duration)
         subject

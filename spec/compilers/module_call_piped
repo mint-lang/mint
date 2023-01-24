@@ -1,5 +1,5 @@
 module Test {
-  fun a (value : String, x : Bool) : String {
+  fun a (x : Bool, value : String) : String {
     value
   }
 
@@ -17,11 +17,11 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   b(c, d) {
-    return c;
+    return d;
   }
 
   a() {
-    return B.b(`Lorem ipsum dolor sit amet`, true);
+    return B.b(true, `Lorem ipsum dolor sit amet`);
   }
 });
 

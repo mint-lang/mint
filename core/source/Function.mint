@@ -2,9 +2,9 @@ module Function {
   /*
   Debounces a function without arguments.
 
-    Function.debounce(() { Debug.log("Hello World!") })
+    Function.debounce(() { Debug.log("Hello World!") }, 100)
   */
-  fun debounce (delay : Number, method : Function(a)) : Function(a) {
+  fun debounce (method : Function(a), delay : Number) : Function(a) {
     `
     (() => {
       let _id;
@@ -20,9 +20,9 @@ module Function {
   /*
   Debounces a function with only one argument.
 
-    Function.debounce1((argument : String) { Debug.log(argument) })
+    Function.debounce1((argument : String) { Debug.log(argument) }, 100)
   */
-  fun debounce1 (delay : Number, method : Function(a, b)) : Function(a, b) {
+  fun debounce1 (method : Function(a, b), delay : Number) : Function(a, b) {
     `
     (() => {
       let _id;

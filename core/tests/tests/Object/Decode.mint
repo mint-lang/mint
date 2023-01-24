@@ -1,26 +1,26 @@
 suite "Object.Decode.field" {
   test "it returns an error if the input is null" {
-    Object.Decode.field("a", Object.Decode.string, `null`)
+    Object.Decode.field(`null`, "a", Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns an error if the input is undefined" {
-    Object.Decode.field("a", Object.Decode.string, `undefined`)
+    Object.Decode.field(`undefined`, "a", Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns an error if the input is an array" {
-    Object.Decode.field("a", Object.Decode.string, `[]`)
+    Object.Decode.field(`[]`, "a", Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns an error if the input does not have the key" {
-    Object.Decode.field("a", Object.Decode.string, `{}`)
+    Object.Decode.field(`{}`, "a", Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns an error if the it could not decode the value" {
-    Object.Decode.field("a", Object.Decode.string, `{a: 0}`)
+    Object.Decode.field(`{a: 0}`, "a", Object.Decode.string)
     |> Result.isError()
   }
 }
@@ -75,39 +75,39 @@ suite "Object.Decode.boolean" {
 
 suite "Object.Decode.array" {
   test "it returns an error if it's not a valid array" {
-    Object.Decode.array(Object.Decode.string, `"asd"`)
+    Object.Decode.array(`"asd"`, Object.Decode.string)
     |> Result.isError()
   }
 
   test "it propagates the error if there is any" {
-    Object.Decode.array(Object.Decode.string, `[0]`)
+    Object.Decode.array(`[0]`, Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns the value" {
-    (Object.Decode.array(Object.Decode.string, `["asd"]`)
+    (Object.Decode.array(`["asd"]`, Object.Decode.string)
     |> Result.withDefault([])) == ["asd"]
   }
 }
 
 suite "Object.Decode.maybe" {
   test "it returns an error if it's not a valid string" {
-    Object.Decode.maybe(Object.Decode.string, `0`)
+    Object.Decode.maybe(`0`, Object.Decode.string)
     |> Result.isError()
   }
 
   test "it returns nothing for null" {
-    (Object.Decode.maybe(Object.Decode.string, `null`)
+    (Object.Decode.maybe(`null`, Object.Decode.string)
     |> Result.withDefault(Maybe.just("A"))) == Maybe.nothing()
   }
 
   test "it returns nothing for undefined" {
-    (Object.Decode.maybe(Object.Decode.string, `undefined`)
+    (Object.Decode.maybe(`undefined`, Object.Decode.string)
     |> Result.withDefault(Maybe.just("A"))) == Maybe.nothing()
   }
 
   test "it returns value if ok" {
-    (Object.Decode.maybe(Object.Decode.string, `"A"`)
+    (Object.Decode.maybe(`"A"`, Object.Decode.string)
     |> Result.withDefault(Maybe.nothing())) == Maybe.just("A")
   }
 }

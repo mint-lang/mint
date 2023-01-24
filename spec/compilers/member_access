@@ -3,7 +3,7 @@ record X {
 }
 
 module Array {
-  fun map (method : Function(a, b), array : Array(a)) : Array(b) {
+  fun map (array : Array(a), method : Function(a, b)) : Array(b) {
     ``
   }
 }
@@ -39,11 +39,11 @@ const C = new(class extends _M {
 
 class B extends _C {
   render() {
-    C.a(((_) => _.name), [new A({
+    C.a([new A({
       name: `Joe`
     }), new A({
       name: `Doe`
-    })]);
+    })], ((_) => _.name));
 
     return `asd`;
   }

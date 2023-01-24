@@ -12,7 +12,7 @@ module Map {
     |> Map.set("a", 1)
     |> Map.delete("a")) == Map.empty()
   */
-  fun delete (keyToDelete : key, map : Map(key, value)) : Map(key, value) {
+  fun delete (map : Map(key, value), keyToDelete : key) : Map(key, value) {
     Map.fromArray(
       for (key, value of map) {
         {key, value}
@@ -29,7 +29,7 @@ module Map {
     |> Map.set("b", 1)
     |> Map.deleteValues(1)) == Map.empty()
   */
-  fun deleteValues (valueToDelete : value, map : Map(key, value)) : Map(key, value) {
+  fun deleteValues (map : Map(key, value), valueToDelete : value) : Map(key, value) {
     Map.fromArray(
       for (key, value of map) {
         {key, value}
@@ -66,8 +66,8 @@ module Map {
     })) == Maybe.just("b")
   */
   fun findKeyBy (
-    function : Function(value, Bool),
-    map : Map(key, value)
+    map : Map(key, value),
+    function : Function(value, Bool)
   ) : Maybe(key) {
     Array.first(
       for (key, value of map) {
@@ -96,7 +96,7 @@ module Map {
     |> Map.set("key", "value")
     |> Map.get("key") == Maybe.just("value")
   */
-  fun get (search : key, map : Map(key, value)) : Maybe(value) {
+  fun get (map : Map(key, value), search : key) : Maybe(value) {
     Array.first(
       for (key, value of map) {
         value
@@ -115,8 +115,8 @@ module Map {
     (Map.empty()
     |> Map.getWithDefault("key", "fallback")) == "fallback"
   */
-  fun getWithDefault (key : key, value : value, map : Map(key, value)) : value {
-    get(key, map) or value
+  fun getWithDefault (map : Map(key, value), key : key, value : value) : value {
+    get(map, key) or value
   }
 
   /*
@@ -126,7 +126,7 @@ module Map {
     |> Map.set("a", 1)
     |> Map.has("a")) == true
   */
-  fun has (search : key, map : Map(key, value)) : Bool {
+  fun has (map : Map(key, value), search : key) : Bool {
     Array.first(
       for (key, value of map) {
         true
@@ -173,8 +173,8 @@ module Map {
     |> Map.values()) == [2,4]
   */
   fun map (
-    function : Function(key, value, result),
-    map : Map(key, value)
+    map : Map(key, value),
+    function : Function(key, value, result)
   ) : Map(key, result) {
     Map.fromArray(
       for (key, value of map) {
@@ -198,11 +198,11 @@ module Map {
   */
   fun merge (map1 : Map(key, value), map2 : Map(key, value)) : Map(key, value) {
     Map.reduce(
+      map2,
       map1,
       (memo : Map(key, value), key : key, value : value) {
-        Map.set(key, value, memo)
-      },
-      map2)
+        Map.set(memo, key, value)
+      })
   }
 
   /*
@@ -218,9 +218,9 @@ module Map {
       })) == 3
   */
   fun reduce (
+    map : Map(key, value),
     memo : memo,
-    method : Function(memo, key, value, memo),
-    map : Map(key, value)
+    method : Function(memo, key, value, memo)
   ) : memo {
     `
     (() => {
@@ -241,7 +241,7 @@ module Map {
     Map.empty()
     |> Map.set("key", "value")
   */
-  fun set (key : key, value : value, map : Map(key, value)) : Map(key, value) {
+  fun set (map : Map(key, value), key : key, value : value) : Map(key, value) {
     `
     (() => {
       const result = []
@@ -288,8 +288,8 @@ module Map {
     |> Map.values()) == ["b", "a"]
   */
   fun sortBy (
-    method : Function(key, value, result),
-    map : Map(key, value)
+    map : Map(key, value),
+    method : Function(key, value, result)
   ) : Map(key, value) {
     `
     Array.from(#{map}).sort((a, b) => {

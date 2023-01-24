@@ -46,14 +46,14 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
   fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map(
+        listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
           let {keyDownListener, keyUpListener} =
             methods
 
           keyDownListener()
           keyUpListener()
-        },
-        listeners)
+        })
 
       next { listeners: Maybe::Nothing }
     } else {

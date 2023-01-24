@@ -17,6 +17,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
       Maybe.map(
+        listeners,
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
@@ -26,8 +27,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
           clickListener()
           moveListener()
           upListener()
-        },
-        listeners)
+        })
 
       next { listeners: Maybe::Nothing }
     } else {
