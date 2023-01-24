@@ -25,10 +25,10 @@ module Result {
     |> Result.map(\item : String => Result::Ok(item + "1"))) == Result.ok("ok1")
   */
   fun flatMap (
-    func : Function(a, Result(error, b)),
-    input : Result(error, a)
+    input : Result(error, a),
+    func : Function(a, Result(error, b))
   ) : Result(error, b) {
-    Result.map(func, input)
+    Result.map(input, func)
     |> Result.join()
   }
 
@@ -80,7 +80,7 @@ module Result {
     (Result.ok("ok")
     |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
   */
-  fun map (func : Function(b, c), input : Result(a, b)) : Result(a, c) {
+  fun map (input : Result(a, b), func : Function(b, c)) : Result(a, c) {
     case (input) {
       Result::Ok(value) => Result::Ok(func(value))
       Result::Err => input
@@ -96,7 +96,7 @@ module Result {
     (Result.ok("ok")
     |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
   */
-  fun mapError (func : Function(a, c), input : Result(a, b)) : Result(c, b) {
+  fun mapError (input : Result(a, b), func : Function(a, c)) : Result(c, b) {
     case (input) {
       Result::Err(value) => Result::Err(func(value))
       Result::Ok => input
@@ -138,7 +138,7 @@ module Result {
     (Result.ok("ok")
     |> Result.withDefault("a")) == "ok"
   */
-  fun withDefault (defaultValue : b, input : Result(a, b)) : b {
+  fun withDefault (input : Result(a, b), defaultValue : b) : b {
     case (input) {
       Result::Ok(value) => value
       Result::Err => defaultValue
@@ -154,7 +154,7 @@ module Result {
     (Result.ok("ok")
     |> Result.withError("a")) == "a"
   */
-  fun withError (defaultError : a, input : Result(a, b)) : a {
+  fun withError (input : Result(a, b), defaultError : a) : a {
     case (input) {
       Result::Err(value) => value
       Result::Ok => defaultError

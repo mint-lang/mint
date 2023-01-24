@@ -5,12 +5,12 @@ module Number {
 
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
-  fun format (prefix : String, number : Number) : String {
+  fun format (number : Number, prefix : String) : String {
     let string =
-      Number.toFixed(2, number)
+      Number.toFixed(number, 2)
 
     let parts =
-      String.split(".", string)
+      String.split(string, ".")
 
     let digits =
       parts[0]
@@ -18,7 +18,7 @@ module Number {
       |> String.chopStart("-")
       |> String.split("")
       |> Array.groupsOfFromEnd(3)
-      |> Array.map((items : Array(String)) { String.join("", items) })
+      |> Array.map((items : Array(String)) { String.join(items, "") })
       |> String.join(",")
 
     let decimals =
@@ -91,7 +91,7 @@ module Number {
 
     Number.toFixed(2, 0.1234567) == "0.12"
   */
-  fun toFixed (decimalPlaces : Number, input : Number) : String {
+  fun toFixed (input : Number, decimalPlaces : Number) : String {
     `#{input}.toFixed(#{decimalPlaces})`
   }
 

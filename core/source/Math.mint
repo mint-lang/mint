@@ -22,10 +22,10 @@ module Math {
   /*
   Clamps the given number between the given upper and lower bounds.
 
-    Math.clamp(0, 10, 100) == 10
-    Math.clamp(0, 10, -100) == 0
+    Math.clamp(100, 0, 10) == 10
+    Math.clamp(-100, 0, 10) == 0
   */
-  fun clamp (lower : Number, upper : Number, value : Number) : Number {
+  fun clamp (value : Number, lower : Number, upper : Number) : Number {
     Math.min(upper, Math.max(lower, value))
   }
 
@@ -41,17 +41,17 @@ module Math {
   /*
   Returns the floating-point remainder of two numbers.
 
-    Math.fmod(5.3, 2) == 1.3
-    Math.fmod(18.5, 4.2) == 1.7
+    Math.fmod(2, 5.3) == 1.3
+    Math.fmod(4.2, 18.5) == 1.7
   */
   fun fmod (a : Number, b : Number) : Number {
-    `Number((#{a} - (Math.floor(#{a} / #{b}) * #{b})).toPrecision(8))`
+    `Number((#{b} - (Math.floor(#{b} / #{a}) * #{a})).toPrecision(8))`
   }
 
   /*
   Returns the highest-valued number from the arguments.
 
-    Math.min(1, 2) == 2
+    Math.max(1, 2) == 2
   */
   fun max (number1 : Number, number2 : Number) : Number {
     `Math.max(#{number1}, #{number2})`
@@ -80,7 +80,7 @@ module Math {
 
     Math.pow(2, 2) == 4
   */
-  fun pow (exponent : Number, value : Number) : Number {
+  fun pow (value : Number, exponent : Number) : Number {
     `Math.pow(#{value}, #{exponent})`
   }
 
@@ -120,9 +120,9 @@ module Math {
   /*
   Truncates the given number to the given amount.
 
-    Math.truncate(0.123456) == 0.12
+    Math.truncate(0.123456, 2) == 0.12
   */
-  fun truncate (to : Number, value : Number) : Number {
+  fun truncate (value : Number, to : Number) : Number {
     let multiplier =
       if (to == 0) {
         1

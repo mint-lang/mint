@@ -87,11 +87,11 @@ suite "Dom.matches" {
 
 suite "Dom.contains" {
   test "it returns true if it contains the element" {
-    Dom.contains(`document.body`, `document`)
+    Dom.contains(`document`, `document.body`)
   }
 
   test "it returns false if it does not contain the element" {
-    Dom.contains(`document`, `document.body`) == false
+    Dom.contains(`document.body`, `document`) == false
   }
 }
 

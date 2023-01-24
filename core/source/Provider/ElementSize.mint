@@ -28,14 +28,14 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   /* Updates the provider. */
   fun update : Promise(Void) {
     for (element of Array.compact(observedElements)) {
-      ResizeObserver.unobserve(element, observer)
+      ResizeObserver.unobserve(observer, element)
     }
 
     for (subscription of subscriptions) {
       case (subscription.element) {
         Maybe::Just(element) =>
           {
-            ResizeObserver.observe(element, observer)
+            ResizeObserver.observe(observer, element)
             void
           }
 
@@ -43,6 +43,12 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
       }
     }
 
-    next { observedElements: Array.map(.element, subscriptions) }
+    next
+      {
+        observedElements:
+          for (subscription of subscriptions) {
+            subscription.element
+          }
+      }
   }
 }

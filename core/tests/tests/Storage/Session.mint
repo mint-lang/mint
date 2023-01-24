@@ -16,7 +16,7 @@ suite "Storage.Session.set" {
 
   test "it returns error if over the qouta" {
     let result =
-      Storage.Session.set("test", String.repeat(10000000, "test"))
+      Storage.Session.set("test", String.repeat("test", 10000000))
       |> Result.withError(Storage.Error::Unknown)
 
     result == Storage.Error::QuotaExceeded
@@ -102,6 +102,6 @@ suite "Storage.Session.keys" {
       Storage.Session.keys()
       |> Result.withDefault([])
 
-    String.join("", keys) == "abc"
+    String.join(keys, "") == "abc"
   }
 }

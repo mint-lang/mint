@@ -44,7 +44,7 @@ suite "Number.toString" {
 
 suite "Number.toFixed" {
   test "returns string truncated to decimal places" {
-    Number.toFixed(2, 100.12345) == "100.12"
+    Number.toFixed(100.12345, 2) == "100.12"
   }
 }
 
@@ -67,6 +67,6 @@ suite "Number.fromString" {
 
 suite "Number.format" {
   test "formats the number" {
-    Number.format("$ ", 1034150) == "$ 1,034,150"
+    Number.format(1034150, "$ ") == "$ 1,034,150"
   }
 }

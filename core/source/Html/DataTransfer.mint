@@ -11,7 +11,7 @@ module Html.DataTransfer {
   }
 
   /* Returns string data for the given format or an empty string if there is no data. */
-  fun getData (format : String, data : Html.DataTransfer) : String {
+  fun getData (data : Html.DataTransfer, format : String) : String {
     `#{data}.getData(#{format})`
   }
 
@@ -37,30 +37,30 @@ module Html.DataTransfer {
 
   /* Sets the data fro the data transfer. */
   fun setData (
+    data : Html.DataTransfer,
     format : String,
-    value : String,
-    data : Html.DataTransfer
+    value : String
   ) : Html.DataTransfer {
     `#{data}.setData(#{format}, #{value}) || #{data}`
   }
 
   /* Sets the element as the drag image of the data transfer. */
   fun setDragImage (
+    data : Html.DataTransfer,
     element : Dom.Element,
     offsetX : Number,
-    offsetY : Number,
-    data : Html.DataTransfer
+    offsetY : Number
   ) : Html.DataTransfer {
     `#{data}.setDragImage(#{element}, #{offsetX}, #{offsetY}) || #{data}`
   }
 
   /* Sets the operation to a new type. The value must be `none`, `copy`, `link` or `move`. */
-  fun setDropEffect (value : String, data : Html.DataTransfer) : Html.DataTransfer {
+  fun setDropEffect (data : Html.DataTransfer, value : String) : Html.DataTransfer {
     `(#{data}.dropEffect = #{value}) && #{data}`
   }
 
   /* Sets of the type of operation that are possible. */
-  fun setEffectAllowed (value : String, data : Html.DataTransfer) : Html.DataTransfer {
+  fun setEffectAllowed (data : Html.DataTransfer, value : String) : Html.DataTransfer {
     `(#{data}.effectAllowed = #{value}) && #{data}`
   }
 }

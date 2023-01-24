@@ -98,9 +98,9 @@ module WebSocket {
   /*
   Sends the given data to the given websocket connection.
 
-    WebSocket.send("some data", websocket)
+    WebSocket.send(websocket, "some data")
   */
-  fun send (data : String, socket : WebSocket) : Promise(Void) {
+  fun send (socket : WebSocket, data : String) : Promise(Void) {
     `#{socket}.send(#{data})`
   }
 }

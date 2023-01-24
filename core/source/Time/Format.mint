@@ -9,12 +9,12 @@ module Time {
     time =
       Time.shift(Time.Span::Hours(4), time)
 
-    Time.distanceOfTimeInWords(Time.Format::English, now, time)) == "in 4 hours"
+    Time.distanceOfTimeInWords(time, now, Time.Format::English)) == "in 4 hours"
   */
   fun distanceOfTimeInWords (
-    language : Time.Format.Language,
+    from : Time,
     to : Time,
-    from : Time
+    language : Time.Format.Language
   ) {
     let distance =
       Time.toUnix(to) - Time.toUnix(from)
@@ -81,9 +81,9 @@ module Time {
   Formats the given time using the given pattern in the given language.
 
     Time.format(
+      Time.utcDate(2018, 4, 5),
       Time.Format:ENGLISH,
-      "%Y-%m-%dT%H:%M:%S.%LZ",
-      Time.utcDate(2018, 4, 5)) == "2018-04-05T00:00:00.000Z"
+      "%Y-%m-%dT%H:%M:%S.%LZ") == "2018-04-05T00:00:00.000Z"
 
   The following token can be used in the pattern:
 
@@ -131,9 +131,9 @@ module Time {
     - %Y: year, zero padded
   */
   fun format (
+    time : Time,
     language : Time.Format.Language,
-    pattern : String,
-    time : Time
+    pattern : String
   ) : String {
     `
     (() => {
@@ -147,7 +147,7 @@ module Time {
             #{pattern}.slice(index + 1, index + 3);
 
           let converted =
-            #{formatToken(language, `nextTwoChars`, time)};
+            #{formatToken(time, language, `nextTwoChars`)};
 
           if (converted !== nextTwoChars) {
             result += converted
@@ -158,7 +158,7 @@ module Time {
               #{pattern}[index + 1];
 
             const converted =
-              #{formatToken(language, `nextChar`, time)};
+              #{formatToken(time, language, `nextChar`)};
 
             if (converted !== nextChar) {
               result += converted;
@@ -183,18 +183,18 @@ module Time {
     Time.formatISO(Time.utcDate(2018, 4, 5)) == "2018-04-05T00:00:00.000Z"
   */
   fun formatISO (time : Time) : String {
-    format(Time.Format:ENGLISH, "%Y-%m-%dT%H:%M:%S.%LZ", time)
+    format(time, Time.Format:ENGLISH, "%Y-%m-%dT%H:%M:%S.%LZ")
   }
 
   /*
   Formates the given time by the given single token using the given language.
 
-    Time.formatToken(Time.Format:ENGLISH, "%Y", Time.utcDate(2018, 4, 5)) == "2018"
+    Time.formatToken(Time.Format:ENGLISH, "Y", Time.utcDate(2018, 4, 5)) == "2018"
   */
   fun formatToken (
+    time : Time,
     language : Time.Format.Language,
-    token : String,
-    time : Time
+    token : String
   ) : String {
     case (token) {
       /* short day name (Sun, Mon, Tue, ...) */
@@ -251,7 +251,7 @@ module Time {
 
       /* date and time (Tue Apr 5 10:26:19 2016) */
       "c" =>
-        format(language, "%a %b %-d %H:%M:%S %Y", time)
+        format(time, language, "%a %b %-d %H:%M:%S %Y")
 
       /* year divided by 100. */
       "C" =>
@@ -273,7 +273,7 @@ module Time {
 
       /* date (04/05/16) */
       "D" =>
-        format(language, "%m/%d/%Y", time)
+        format(time, language, "%m/%d/%Y")
 
       /* day of month, blank padded (" 1", " 2", ..., "10", "11", ...) */
       "e" =>
@@ -284,7 +284,7 @@ module Time {
 
       /* ISO 8601 date (2016-04-05) */
       "F" =>
-        format(language, "%Y-%m-%d", time)
+        format(time, language, "%Y-%m-%d")
 
       /* week-based calendar year modulo 100 (00..99) */
       "g" =>
@@ -383,11 +383,11 @@ module Time {
 
       /* 12-hour time (03:04:05 AM) */
       "r" =>
-        format(language, "%I:%M:%S %P", time)
+        format(time, language, "%I:%M:%S %P")
 
       /* 24-hour time (13:04) */
       "R" =>
-        format(language, "%H:%M", time)
+        format(time, language, "%H:%M")
 
       /* seconds since unix epoch */
       "s" =>
@@ -404,7 +404,7 @@ module Time {
 
       /* 24-hour time (13:04:05) */
       "T" =>
-        format(language, "%H:%M:%S", time)
+        format(time, language, "%H:%M:%S")
 
       /* day of week (Monday is 1, 1..7) */
       "u" =>
@@ -434,11 +434,11 @@ module Time {
 
       /* (same as %D) date (04/05/16) */
       "x" =>
-        format(language, "%m/%d/%Y", time)
+        format(time, language, "%m/%d/%Y")
 
       /* (same as %T) 24-hour time (13:04:05) */
       "X" =>
-        format(language, "%H:%M:%S", time)
+        format(time, language, "%H:%M:%S")
 
       /* year modulo 100. */
       "y" =>

@@ -47,7 +47,7 @@ suite "Time.distanceOfTimeInWords" {
 
     let actual =
       for (item of TEST_DATA) {
-        Time.distanceOfTimeInWords(Time.Format:ENGLISH, now, Time.shift(item[0], now))
+        Time.distanceOfTimeInWords(Time.shift(now, item[0]), now, Time.Format:ENGLISH)
       }
       |> String.join("\n")
 
@@ -90,7 +90,7 @@ suite "Time.format" {
 
     let actual =
       for (item of TEST_DATA) {
-        Time.format(Time.Format:ENGLISH, item[1], item[0])
+        Time.format(item[0], Time.Format:ENGLISH, item[1])
       }
       |> String.join("\n")
 

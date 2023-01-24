@@ -28,19 +28,19 @@ suite "Array.append" {
 
 suite "Array.at" {
   test "it returns nothing at 0 if the array is empty" {
-    Array.at(0, []) == Maybe::Nothing
+    Array.at([], 0) == Maybe::Nothing
   }
 
   test "it returns nothing index is over the arrays length" {
-    Array.at(1, []) == Maybe::Nothing
+    Array.at([], 1) == Maybe::Nothing
   }
 
   test "it returns item at index #1" {
-    Array.at(0, [0]) == Maybe::Just(0)
+    Array.at([0], 0) == Maybe::Just(0)
   }
 
   test "it returns item at index #2" {
-    Array.at(2, [1, 2, 3]) == Maybe::Just(3)
+    Array.at([1, 2, 3], 2) == Maybe::Just(3)
   }
 }
 
@@ -62,47 +62,47 @@ suite "Array.concat" {
 
 suite "Array.contains" {
   test "returns true if the array contains the exact item" {
-    Array.contains("a", ["a", "b"])
+    Array.contains(["a", "b"], "a")
   }
 
   test "returns false if the it does not contain the exact item" {
-    Array.contains("c", ["a", "b"]) == false
+    Array.contains(["a", "b"], "c") == false
   }
 }
 
 suite "Array.delete" {
   test "it removes the item" {
-    Array.delete("a", ["a", "b", "c"]) == ["b", "c"]
+    Array.delete(["a", "b", "c"], "a") == ["b", "c"]
   }
 }
 
 suite "Array.deleteAt" {
   test "it deletes the item at the given index" {
-    Array.deleteAt(0, ["a", "b", "c"]) == ["b", "c"]
+    Array.deleteAt(["a", "b", "c"], 0) == ["b", "c"]
   }
 
   test "it returns array if the index is negative" {
-    Array.deleteAt(-1, ["a", "b", "c"]) == ["a", "b", "c"]
+    Array.deleteAt(["a", "b", "c"], -1) == ["a", "b", "c"]
   }
 
   test "it returns array if the index is bigger then length" {
-    Array.deleteAt(10, ["a", "b", "c"]) == ["a", "b", "c"]
+    Array.deleteAt(["a", "b", "c"], 10) == ["a", "b", "c"]
   }
 }
 
 suite "Array.dropEnd" {
   test "drop n number of items from the end" {
-    Array.dropEnd(2, [1, 2, 3, 4, 5, 6, 7, 8]) == [1, 2, 3, 4, 5, 6]
+    Array.dropEnd([1, 2, 3, 4, 5, 6, 7, 8], 2) == [1, 2, 3, 4, 5, 6]
   }
 
   test "returns array if number of items is negative" {
-    Array.dropEnd(-2, [1, 2, 3, 4]) == [1, 2, 3, 4]
+    Array.dropEnd([1, 2, 3, 4], -2) == [1, 2, 3, 4]
   }
 }
 
 suite "Array.dropStart" {
   test "drop n number of items from the start" {
-    Array.dropStart(2, [1, 2, 3, 4, 5, 6, 7, 8]) == [3, 4, 5, 6, 7, 8]
+    Array.dropStart([1, 2, 3, 4, 5, 6, 7, 8], 2) == [3, 4, 5, 6, 7, 8]
   }
 }
 
@@ -155,7 +155,7 @@ suite "Array.firstWithDefault" {
   }
 
   test "returns the default value if the item does not exists" {
-    (Array.firstWithDefault("", [])) == ""
+    (Array.firstWithDefault([], "")) == ""
   }
 }
 
@@ -193,7 +193,7 @@ suite "Array.groupsOf" {
 suite "Array.groupsOfFromEnd" {
   test "group into items of specified size" {
     let result =
-      Array.groupsOfFromEnd(2, [1, 2, 3, 4, 5, 6, 7])
+      Array.groupsOfFromEnd([1, 2, 3, 4, 5, 6, 7], 2)
 
     (result == [
       [1],
@@ -206,40 +206,40 @@ suite "Array.groupsOfFromEnd" {
 
 suite "Array.indexBy" {
   test "it returns the index of the item" {
-    Array.indexBy("a", (item : String) : String { item }, ["a", "b", "c"]) == 0
+    Array.indexBy(["a", "b", "c"], "a", (item : String) : String { item }) == 0
   }
 }
 
 suite "Array.indexOf" {
   test "it returns the index of the item" {
-    Array.indexOf("c", ["a", "b", "c"]) == Maybe::Just(2)
+    Array.indexOf(["a", "b", "c"], "c") == Maybe::Just(2)
   }
 
   test "it returns the index of an enum" {
-    Array.indexOf(Http.Error::Aborted, [Http.Error::Aborted]) == Maybe::Just(0)
+    Array.indexOf([Http.Error::Aborted], Http.Error::Aborted) == Maybe::Just(0)
   }
 }
 
 suite "Array.insertAt" {
   test "it inserts item at front if the position below zero" {
-    Array.insertAt("a", -10, ["b", "c"]) == ["a", "b", "c"]
+    Array.insertAt(["b", "c"], "a", -10) == ["a", "b", "c"]
   }
 
   test "it inserts item at front if the position zero" {
-    Array.insertAt("a", 0, ["b", "c"]) == ["a", "b", "c"]
+    Array.insertAt(["b", "c"], "a", 0) == ["a", "b", "c"]
   }
 
   test "it inserts item at the given position" {
-    Array.insertAt("a", 1, ["b", "c"]) == ["b", "a", "c"]
+    Array.insertAt(["b", "c"], "a", 1) == ["b", "a", "c"]
   }
 
   test "it inserts item at the given position2" {
-    Array.insertAt("a", 2, ["b", "c"]) == ["b", "c", "a"]
+    Array.insertAt(["b", "c"], "a", 2) == ["b", "c", "a"]
   }
 
   test "it inserts item at back if the position is greater then " \
   "the length" {
-    Array.insertAt("a", 10, ["b", "c"]) == ["b", "c", "a"]
+    Array.insertAt(["b", "c"], "a", 10) == ["b", "c", "a"]
   }
 }
 
@@ -288,7 +288,7 @@ suite "Array.lastWithDefault" {
   }
 
   test "returns the default value if the item does not exists" {
-    (Array.lastWithDefault("", [])) == ""
+    (Array.lastWithDefault([], "")) == ""
   }
 }
 
@@ -333,35 +333,35 @@ suite "Array.min" {
 
 suite "Array.move" {
   test "it returns the array as is if from equals to to" {
-    Array.move(0, 0, ["A", "B", "C"]) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], 0, 0) == ["A", "B", "C"]
   }
 
   test "it returns the array as is if from is negative" {
-    Array.move(-1, 0, ["A", "B", "C"]) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], -1, 0) == ["A", "B", "C"]
   }
 
   test "it returns the array as is if from is too big" {
-    Array.move(10, 0, ["A", "B", "C"]) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], 10, 0) == ["A", "B", "C"]
   }
 
   test "it moves the item to the front if to is negative" {
-    Array.move(2, -1, ["A", "B", "C"]) == ["C", "A", "B"]
+    Array.move(["A", "B", "C"], 2, -1) == ["C", "A", "B"]
   }
 
   test "it moves the item to the back if to is too big" {
-    Array.move(0, 10, ["A", "B", "C"]) == ["B", "C", "A"]
+    Array.move(["A", "B", "C"], 0, 10) == ["B", "C", "A"]
   }
 
   test "it moves the item #1" {
-    Array.move(1, 0, ["A", "B", "C"]) == ["B", "A", "C"]
+    Array.move(["A", "B", "C"], 1, 0) == ["B", "A", "C"]
   }
 
   test "it moves the item #2" {
-    Array.move(0, 2, ["A", "B", "C", "D", "E"]) == ["B", "C", "A", "D", "E"]
+    Array.move(["A", "B", "C", "D", "E"], 0, 2) == ["B", "C", "A", "D", "E"]
   }
 
   test "it moves the item #2" {
-    Array.move(2, 0, ["A", "B", "C", "D", "E"]) == ["C", "A", "B", "D", "E"]
+    Array.move(["A", "B", "C", "D", "E"], 2, 0) == ["C", "A", "B", "D", "E"]
   }
 }
 
@@ -391,18 +391,18 @@ suite "Array.range" {
 suite "Array.reduce" {
   test "it reduces an array to a single value" {
     Array.reduce(
+      [1, 2, 3],
       0,
-      (memo : Number, item : Number) : Number { memo + item },
-      [1, 2, 3]) == 6
+      (memo : Number, item : Number) : Number { memo + item }) == 6
   }
 }
 
 suite "Array.reduceEnd" {
   test "it reduces an array to a single value from the right" {
     Array.reduceEnd(
+      [1, 2, 3],
       0,
-      (memo : Number, item : Number) : Number { memo + item },
-      [1, 2, 3]) == 6
+      (memo : Number, item : Number) : Number { memo + item }) == 6
   }
 }
 
@@ -457,7 +457,7 @@ suite "Array.select" {
 
 suite "Array.setAt" {
   test "it sets the item at the given index" {
-    Array.setAt(2, 5, [1, 2, 3]) == [1, 2, 5]
+    Array.setAt([1, 2, 3], 2, 5) == [1, 2, 5]
   }
 }
 
@@ -524,32 +524,32 @@ suite "Array.sum" {
 
 suite "Array.sumBy" {
   test "it sums up the array by using the function" {
-    Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
+    Array.sumBy([1, 2, 3], (value : Number) : Number { value }) == 6
   }
 }
 
 suite "Array.swap" {
   test "it swaps items" {
-    Array.swap(0, 1, ["a", "b"]) == ["b", "a"]
+    Array.swap(["a", "b"], 0, 1) == ["b", "a"]
   }
 
   test "it returns array if index is negative #1" {
-    Array.swap(-1, 1, ["a", "b"]) == [
+    Array.swap(["a", "b"], -1, 1) == [
       "a",
       "b"
     ]
   }
 
   test "it returns array if index is negative #2" {
-    Array.swap(0, -1, ["a", "b"]) == ["a", "b"]
+    Array.swap(["a", "b"], 0, -1) == ["a", "b"]
   }
 
   test "it returns array if index is bigger then the length #1" {
-    Array.swap(2, 0, ["a", "b"]) == ["a", "b"]
+    Array.swap(["a", "b"], 2, 0) == ["a", "b"]
   }
 
   test "it returns array if index is bigger then the length #2" {
-    Array.swap(0, 2, ["a", "b"]) == ["a", "b"]
+    Array.swap(["a", "b"], 0, 2) == ["a", "b"]
   }
 }
 
@@ -581,12 +581,12 @@ suite "Array.uniq" {
 
 suite "Array.unshift" {
   test "it pushes a new item at the head of the array." {
-    Array.unshift(2, [3, 4]) == [2, 3, 4]
+    Array.unshift([3, 4], 2) == [2, 3, 4]
   }
 }
 
 suite "Array.updateAt" {
   test "it updates the item at the given index" {
-    Array.updateAt(2, (number : Number) : Number { number + 2 }, [0, 1, 2]) == [0, 1, 4]
+    Array.updateAt([0, 1, 2], 2, (number : Number) : Number { number + 2 }) == [0, 1, 4]
   }
 }

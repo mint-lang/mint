@@ -21,9 +21,10 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           memo : Map(String, Function(Void)),
           subscription : Provider.MediaQuery.Subscription
         ) {
-          case (Map.get(subscription.query, listeners)) {
+          case (Map.get(listeners, subscription.query)) {
             Maybe::Nothing =>
               Map.set(
+                memo,
                 subscription.query,
                 Window.addMediaQueryListener(
                   subscription.query,
@@ -33,8 +34,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
                     } when {
                       item.query == subscription.query
                     }
-                  }),
-                memo)
+                  }))
 
             Maybe::Just => memo
           }
@@ -60,7 +60,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
             Maybe::Nothing =>
               {
                 listener()
-                Map.delete(query, memo)
+                Map.delete(memo, query)
               }
           }
         })

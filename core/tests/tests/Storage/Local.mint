@@ -15,7 +15,7 @@ suite "Storage.Local.set" {
 
   test "it returns error if over the qouta" {
     let result =
-      Storage.Local.set("test", String.repeat(10000000, "test"))
+      Storage.Local.set("test", String.repeat("test", 10000000))
       |> Result.withError(Storage.Error::Unknown)
 
     result == Storage.Error::QuotaExceeded
@@ -100,6 +100,6 @@ suite "Storage.Local.keys" {
       Storage.Local.keys()
       |> Result.withDefault([])
 
-    String.join("", keys) == "abc"
+    String.join(keys, "") == "abc"
   }
 }

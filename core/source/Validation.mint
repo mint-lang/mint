@@ -51,7 +51,7 @@ module Validation {
       })
 
   /* Returns the first error for the given key in the given errors. */
-  fun getFirstError (key : String, errors : Map(String, Array(String))) : Maybe(String) {
+  fun getFirstError (errors : Map(String, Array(String)), key : String) : Maybe(String) {
     errors
     |> Map.get(key)
     |> Maybe.map(Array.first)
@@ -156,7 +156,7 @@ module Validation {
         Maybe::Just({"email", "Email is not a valid email address!"})
   */
   fun isValidEmail (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (Regexp.match(value, EMAIL_REGEXP)) {
+    if (Regexp.match(EMAIL_REGEXP, value)) {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -192,7 +192,7 @@ module Validation {
                 |> Map.get(key)
                 |> Maybe.withDefault([])
 
-              Map.set(key, Array.push(message, messages), memo)
+              Map.set(memo, key, Array.push(messages, message))
             }
 
           => memo

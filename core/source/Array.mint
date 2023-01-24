@@ -4,11 +4,11 @@ module Array {
   Returns `true` if any item in the array matches the predicate function
   `false` otherwise.
 
-    Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == true
-    Array.any((number : Number) : Bool { number % 2 == 0 }, [1, 3]) == false
+    Array.any([1, 2, 3, 4], (number : Number) : Bool { number % 2 == 0 }) == true
+    Array.any([1, 3], (number : Number) : Bool { number % 2 == 0 }) == false
   */
-  fun any (function : Function(item, Bool), array : Array(item)) : Bool {
-    case (Array.find(function, array)) {
+  fun any (array : Array(item), function : Function(item, Bool)) : Bool {
+    case (Array.find(array, function)) {
       Maybe::Nothing => false
       Maybe::Just => true
     }
@@ -26,10 +26,10 @@ module Array {
   /*
   Returns the element at the given index as a `Maybe(item)`.
 
-    Array.at(0, [0]) == Maybe::Just(0)
-    Array.at(1, [0]) == Maybe::Nothing()
+    Array.at([0], 0) == Maybe::Just(0)
+    Array.at([0], 1) == Maybe::Nothing()
   */
-  fun at (index : Number, array : Array(item)) : Maybe(item) {
+  fun at (array : Array(item), index : Number) : Maybe(item) {
     array[index]
   }
 
@@ -41,14 +41,14 @@ module Array {
   */
   fun compact (array : Array(Maybe(item))) : Array(item) {
     Array.reduce(
+      array,
       [],
       (memo : Array(item), item : Maybe(item)) : Array(item) {
         case (item) {
-          Maybe::Just(value) => Array.push(value, memo)
+          Maybe::Just(value) => Array.push(memo, value)
           Maybe::Nothing => memo
         }
-      },
-      array)
+      })
   }
 
   /*
@@ -57,16 +57,16 @@ module Array {
     Array.concat([[1,2],[3],[4,5]]) == [1,2,3,4,5]
   */
   fun concat (arrays : Array(Array(item))) : Array(item) {
-    reduce([], append, arrays)
+    reduce(arrays, [], append)
   }
 
   /*
   Checks whether or not the given element exists in the array.
 
-    Array.contains("a", ["a", "b", "c"]) == true
-    Array.contains("a", ["x", "y", "z"]) == false
+    Array.contains(["a", "b", "c"], "a") == true
+    Array.contains(["x", "y", "z"], "a") == false
   */
-  fun contains (other : item, array : Array(item)) : Bool {
+  fun contains (array : Array(item), other : item) : Bool {
     `
     (() => {
       for (let item of #{array}) {
@@ -83,18 +83,18 @@ module Array {
   /*
   Deletes every occurrence of the element from the array.
 
-    Array.delete("a", ["a", "b", "c"]) == ["b", "c"]
+    Array.delete(["a", "b", "c"], "a") == ["b", "c"]
   */
-  fun delete (what : item, array : Array(item)) : Array(item) {
-    reject((item : item) { item == what }, array)
+  fun delete (array : Array(item), what : item) : Array(item) {
+    reject(array, (item : item) { item == what })
   }
 
   /*
   Deletes the item of an array at the specified index.
 
-    Array.deleteAt(1, ["a", "b", "c"]) == ["a", "c"]
+    Array.deleteAt(["a", "b", "c"], 1) == ["a", "c"]
   */
-  fun deleteAt (index : Number, array : Array(item)) : Array(item) {
+  fun deleteAt (array : Array(item), index : Number) : Array(item) {
     `
     (() => {
       if (#{index} < 0 || #{index} >= #{array}.length) { return #{array} }
@@ -108,9 +108,9 @@ module Array {
   /*
   Drop the specified number of items from the end of the array.
 
-    Array.dropEnd(2, [1, 2, 3, 4]) == [1, 2]
+    Array.dropEnd([1, 2, 3, 4], 2) == [1, 2]
   */
-  fun dropEnd (number : Number, array : Array(item)) : Array(item) {
+  fun dropEnd (array : Array(item), number : Number) : Array(item) {
     `
     (() => {
       if (#{number} < 0) { return #{array} }
@@ -122,18 +122,18 @@ module Array {
   /*
   Drop the spcified number of items from the start of the array.
 
-    Array.dropStart(2, [1, 2, 3, 4]) == [3, 4]
+    Array.dropStart([1, 2, 3, 4], 2) == [3, 4]
   */
-  fun dropStart (number : Number, array : Array(item)) : Array(item) {
+  fun dropStart (array : Array(item), number : Number) : Array(item) {
     `#{array}.slice(#{number})`
   }
 
   /*
   Finds the first element in the array that matches the predicate function.
 
-    Array.find((number : Number) { number % 2 == 0 }, [1, 2, 3, 4]) == Maybe::Just(2)
+    Array.find([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == Maybe::Just(2)
   */
-  fun find (function : Function(item, Bool), array : Array(item)) : Maybe(item) {
+  fun find (array : Array(item), function : Function(item, Bool)) : Maybe(item) {
     Array.first(
       for (item of array) {
         item
@@ -147,12 +147,13 @@ module Array {
   returns the second item in the resulting tuple.
 
     Array.findByAndMap(
-      (number : Number) : (Bool, value) { {number % 2 == 0, "Two"} },
-      [1, 2, 3, 4]) == Maybe::Just("Two")
+      [1, 2, 3, 4],
+      (number : Number) : (Bool, value) { {number % 2 == 0, "Two"} }
+    ) == Maybe::Just("Two")
   */
   fun findByAndMap (
-    function : Function(item, Tuple(Bool, result)),
-    array : Array(item)
+    array : Array(item),
+    function : Function(item, Tuple(Bool, result))
   ) : Maybe(b) {
     `
     (() => {
@@ -183,34 +184,36 @@ module Array {
   /*
   Returns the first element of the array or the default value.
 
-    Array.firstWithDefault("a", ["b", "x"]) == "b"
-    Array.firstWithDefault("a", []) == "a"
+    Array.firstWithDefault(["b", "x"], "a") == "b"
+    Array.firstWithDefault([], "a") == "a"
   */
-  fun firstWithDefault (item : item, array : Array(item)) : item {
+  fun firstWithDefault (array : Array(item), item : item) : item {
     array[0] or item
   }
 
   /*
   Map over a nested array and then flatten.
 
-    Array.flatMap((item : Array(Number) : Array(Maybe(Number)) {
-      [Maybe.withDefault(Array.max(item), 0)]
-    }, [[1,2],[1,5]]) == [2,5]
+    Array.flatMap(
+      [[1,2],[1,5]],
+      (item : Array(Number) : Array(Maybe(Number)) {
+        [Maybe.withDefault(Array.max(item), 0)]
+      }) == [2,5]
   */
   fun flatMap (
-    function : Function(Array(item), Array(result)),
-    array : Array(Array(item))
+    array : Array(Array(item)),
+    function : Function(Array(item), Array(result))
   ) : Array(result) {
-    concat(map(function, array))
+    concat(map(array, function))
   }
 
   /*
   Group an array into sub groups of specified length (all items are included so
   the last group maybe shorter if after grouping there is a remainder)
 
-    Array.groupsOf(2, [1,2,3,4,5,6,7]) == [[1,2],[3,4],[5,6],[7]]
+    Array.groupsOf([1,2,3,4,5,6,7], 2) == [[1,2],[3,4],[5,6],[7]]
   */
-  fun groupsOf (size : Number, array : Array(item)) : Array(Array(item)) {
+  fun groupsOf (array : Array(item), size : Number) : Array(Array(item)) {
     `
     (() => {
       const groups = Math.ceil(#{array}.length/#{size})
@@ -233,9 +236,9 @@ module Array {
   the last group maybe shorter if after grouping there is a remainder) starting
   from the end of the array.
 
-    Array.groupsOfFromEnd(2, [1,2,3,4,5,6,7]) == [[1],[2,3],[4,5],[6,7]]
+    Array.groupsOfFromEnd([1,2,3,4,5,6,7], 2) == [[1],[2,3],[4,5],[6,7]]
   */
-  fun groupsOfFromEnd (size : Number, array : Array(item)) : Array(Array(item)) {
+  fun groupsOfFromEnd (array : Array(item), size : Number) : Array(Array(item)) {
     `
     (() => {
       const groups = Math.ceil(#{array}.length / #{size})
@@ -260,12 +263,12 @@ module Array {
   Returns the index of the item in the array which matches the value
   using the function to generate the compared value.
 
-    Array.indexBy("a", (item : String) : String { item }, ["a","b","c"]) == 0
+    Array.indexBy(["a","b","c"], "a", (item : String) : String { item }) == 0
   */
   fun indexBy (
+    array : Array(item),
     value : result,
-    method : Function(item, result),
-    array : Array(item)
+    method : Function(item, result)
   ) : Number {
     `
     (() => {
@@ -283,9 +286,9 @@ module Array {
   /*
   Returns the index of the specified item in the array.
 
-    Array.indexOf("a", ["a","b","c"]) == 0
+    Array.indexOf(["a","b","c"], "a") == 0
   */
-  fun indexOf (search : item, array : Array(item)) : Maybe(Number) {
+  fun indexOf (array : Array(item), search : item) : Maybe(Number) {
     for (item, index of array) {
       index
     } when {
@@ -298,9 +301,9 @@ module Array {
   toward the end of the array. If the length is negative the item will be
   inserted at the start of the array.
 
-    Array.insertAt("a", 0, ["b","c"]) == ["a","b","c"]
+    Array.insertAt(["b","c"], "a", 0) == ["a","b","c"]
   */
-  fun insertAt (item : item, position : Number, array : Array(item)) : Array(item) {
+  fun insertAt (array : Array(item), item : item, position : Number) : Array(item) {
     `
     (() => {
       const result = Array.from(#{array})
@@ -319,9 +322,9 @@ module Array {
   /*
   Inserts the element between the elements of the array.
 
-    Array.intersperse("a", ["x", "y", "z"]) == ["x", "a", "y", "a", "z"]
+    Array.intersperse(["x", "y", "z"], "a") == ["x", "a", "y", "a", "z"]
   */
-  fun intersperse (item : item, array : Array(item)) : Array(item) {
+  fun intersperse (array : Array(item), item : item) : Array(item) {
     `#{array}.reduce((array, value)=>[...array, value, #{item}], []).slice(0,-1)`
   }
 
@@ -357,20 +360,20 @@ module Array {
   /*
   Returns the last element of the array or the default value.
 
-    Array.lastWithDefault("a", ["x", "b"]) == "b"
-    Array.lastWithDefault("a", []) == "a"
+    Array.lastWithDefault(["x", "b"], "a") == "b"
+    Array.lastWithDefault([], "a") == "a"
   */
-  fun lastWithDefault (item : item, array : Array(item)) : item {
-    Maybe.withDefault(item, last(array))
+  fun lastWithDefault (array : Array(item), item : item) : item {
+    Maybe.withDefault(last(array), item)
   }
 
   /*
   Creates a new array with the results of calling a provided function on every
   element in the array.
 
-    Array.map((number : Number) : Number { number + 1 }, [1, 2, 3]) == [2, 3, 4]
+    Array.map([1, 2, 3], (number : Number) : Number { number + 1 }) == [2, 3, 4]
   */
-  fun map (method : Function(item, result), array : Array(item)) : Array(result) {
+  fun map (array : Array(item), method : Function(item, result)) : Array(result) {
     for (item of array) {
       method(item)
     }
@@ -381,11 +384,13 @@ module Array {
   element in the array while providing the index of the element.
 
     Array.mapWithIndex(
-      (number : Number, index : Number) : Number { number + index }, [1, 2, 3]) == [2, 4, 6]
+      [1, 2, 3],
+      (number : Number, index : Number) : Number { number + index }
+    ) == [2, 4, 6]
   */
   fun mapWithIndex (
-    method : Function(item, Number, result),
-    array : Array(item)
+    array : Array(item),
+    method : Function(item, Number, result)
   ) : Array(result) {
     for (item, index of array) {
       method(item, index)
@@ -430,21 +435,21 @@ module Array {
   * a negative number is supplied to `from`
   * a number is supplied to `from` which is grater the the length of the array
 
-    Array.move(-1, 1, ["A", "B", "C"]) == ["A", "B", "C"]
-    Array.move(10, 1, ["A", "B", "C"]) == ["A", "B", "C"]
-    Array.move(0, 0, ["A", "B", "C"]) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], -1, 1) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], 10, 1) == ["A", "B", "C"]
+    Array.move(["A", "B", "C"], 0, 0) == ["A", "B", "C"]
 
   If a negative number is supplied to `to` then, the item is moved to the
   first position.
 
-    Array.move(2, -1, ["A", "B", "C"]) == ["C", "A", "B"]
+    Array.move(["A", "B", "C"], 2, -1) == ["C", "A", "B"]
 
   If a number is supplied to `to` which is grater the the length of the array,
   then the item is moved to the last position.
 
-    Array.move(0, 10, ["A", "B", "C"]) == ["B", "C", "A"]
+    Array.move(["A", "B", "C"], 0, 10) == ["B", "C", "A"]
   */
-  fun move (from : Number, to : Number, array : Array(item)) : Array(item) {
+  fun move (array : Array(item), from : Number, to : Number) : Array(item) {
     `
     (() => {
       const result = Array.from(#{array})
@@ -470,10 +475,10 @@ module Array {
   /*
   Push an element to the end of an array.
 
-    Array.push(4, [1, 2, 3]) == [1, 2, 3, 4]
-    Array.push("a", []) == ["a"]
+    Array.push([1, 2, 3], 4) == [1, 2, 3, 4]
+    Array.push([], "a") == ["a"]
   */
-  fun push (item : item, array : Array(item)) : Array(item) {
+  fun push (array : Array(item), item : item) : Array(item) {
     `[...#{array}, #{item}]`
   }
 
@@ -492,14 +497,14 @@ module Array {
   (from start to end) to reduce it to a single value.
 
     Array.reduce(
+      [1, 2, 3],
       0,
-      (memo : Number, item : Number) : Number { memo + item },
-      [1, 2, 3]) == 6
+      (memo : Number, item : Number) : Number { memo + item }) == 6
   */
   fun reduce (
+    array : Array(item),
     initial : memo,
-    function : Function(memo, item, memo),
-    array : Array(item)
+    function : Function(memo, item, memo)
   ) : memo {
     `#{array}.reduce(#{function}, #{initial})`
   }
@@ -509,14 +514,14 @@ module Array {
   (from end to start) to reduce it to a single value.
 
     Array.reduceEnd(
+      [1,2,3,4,5],
       0,
-      (acc : Number, n : Number) : Number { acc + n}
-      [1,2,3,4,5]) == 15
+      (acc : Number, n : Number) : Number { acc + n}) == 15
   */
   fun reduceEnd (
+    array : Array(item),
     initial : memo,
-    function : Function(memo, item, memo),
-    array : Array(item)
+    function : Function(memo, item, memo)
   ) : memo {
     `#{array}.reduceRight(#{function}, #{initial})`
   }
@@ -524,9 +529,9 @@ module Array {
   /*
   Returns all elements that do not match the predicate function.
 
-    Array.reject((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [1, 3]
+    Array.reject([1, 2, 3, 4], (number : Number) : Bool { number % 2 == 0 }) == [1, 3]
   */
-  fun reject (function : Function(item, Bool), array : Array(item)) : Array(item) {
+  fun reject (array : Array(item), function : Function(item, Bool)) : Array(item) {
     `#{array}.filter((item) => !#{function}(item))`
   }
 
@@ -543,10 +548,10 @@ module Array {
   /*
   Returns a new array where the elements are reversed if the condition is true.
 
-    Array.reverseIf(false, [1, 2, 3]) == [1, 2, 3]
-    Array.reverseIf(true, [1, 2, 3]) == [3, 2, 1]
+    Array.reverseIf([1, 2, 3], false) == [1, 2, 3]
+    Array.reverseIf([1, 2, 3], true) == [3, 2, 1]
   */
-  fun reverseIf (condition : Bool, array : Array(item)) : Array(item) {
+  fun reverseIf (array : Array(item), condition : Bool) : Array(item) {
     if (condition) {
       Array.reverse(array)
     } else {
@@ -577,9 +582,9 @@ module Array {
   /*
   Returns all elements that match the predicate function.
 
-    Array.select((number : Number) : Bool { number % 2 == 0 }, [1, 2, 3, 4]) == [2, 4]
+    Array.select([1, 2, 3, 4], (number : Number) : Bool { number % 2 == 0 }) == [2, 4]
   */
-  fun select (function : Function(item, Bool), array : Array(item)) : Array(item) {
+  fun select (array : Array(item), function : Function(item, Bool)) : Array(item) {
     `#{array}.filter(#{function})`
   }
 
@@ -587,9 +592,9 @@ module Array {
   Sets the item at index to the item of the array, if the specified index is
   not found in the array it returns the array unchanged.
 
-    Array.setAt(2, 5, [1,2,3]) == [1,2,5]
+    Array.setAt([1,2,3], 2, 5) == [1,2,5]
   */
-  fun setAt (index : Number, item : item, array : Array(item)) : Array(item) {
+  fun setAt (array : Array(item), index : Number, item : item) : Array(item) {
     `
     (() => {
       if (#{index} < 0 || #{index} >= #{array}.length) { return #{array} }
@@ -613,9 +618,9 @@ module Array {
   /*
   Returns a copy of a portion of an array (end not included).
 
-    Array.slice(2, 4, ["ant", "bison", "camel", "duck", "elephant"]) == ["camel", "duck"]
+    Array.slice(["ant", "bison", "camel", "duck", "elephant"], 2, 4) == ["camel", "duck"]
   */
-  fun slice (begin : Number, end : Number, array : Array(item)) : Array(item) {
+  fun slice (array : Array(item), begin : Number, end : Number) : Array(item) {
     `#{array}.slice(#{begin}, #{end})`
   }
 
@@ -627,11 +632,11 @@ module Array {
   * `< 0` - sort a before b
   * `0` - keep original order of a and b
 
-    Array.sort((a : Number, b : Number) : Number { a - b }, [4, 1, 3, 2]) == [1, 2, 3, 4]
+    Array.sort([4, 1, 3, 2], (a : Number, b : Number) : Number { a - b }) == [1, 2, 3, 4]
   */
   fun sort (
-    function : Function(item, item, Number),
-    array : Array(item)
+    array : Array(item),
+    function : Function(item, item, Number)
   ) : Array(item) {
     `[...#{array}].sort(#{function})`
   }
@@ -640,11 +645,11 @@ module Array {
   Returns a new sorted array using the functions return as the base of
   the sorting.
 
-    Array.sortBy((number : Number) : Number { number }, [4, 1, 3, 2]) == [1, 2, 3, 4]
+    Array.sortBy([4, 1, 3, 2], (number : Number) : Number { number }) == [1, 2, 3, 4]
   */
   fun sortBy (
-    function : Function(item, result),
-    array : Array(item)
+    array : Array(item),
+    function : Function(item, result)
   ) : Array(item) {
     `
     (() => {
@@ -673,19 +678,19 @@ module Array {
   */
   fun sum (array : Array(Number)) : Number {
     Array.reduce(
+      array,
       0,
       (memo : Number, item : Number) : Number {
         item + memo
-      },
-      array)
+      })
   }
 
   /*
   Sums up the array using the specified function.
 
-    Array.sumBy((value : Number) : Number { value }, [1, 2, 3]) == 6
+    Array.sumBy([1, 2, 3], (value : Number) : Number { value }) == 6
   */
-  fun sumBy (method : Function(item, Number), array : Array(item)) : Number {
+  fun sumBy (array : Array(item), method : Function(item, Number)) : Number {
     array
     |> Array.map(method)
     |> Array.sum()
@@ -695,9 +700,9 @@ module Array {
   Swaps the items at the specified indexes of the array. It returns the array
   unchanged if there is no item at any of the specified indexes.
 
-    Array.swap(0, 1, ["a","b"]) == ["b", "a"]
+    Array.swap(["a","b"], 0, 1) == ["b", "a"]
   */
-  fun swap (index1 : Number, index2 : Number, array : Array(item)) : Array(item) {
+  fun swap (array : Array(item), index1 : Number, index2 : Number) : Array(item) {
     `
     (() => {
       if (#{index1} < 0 ||
@@ -719,18 +724,18 @@ module Array {
   /*
   Takes the specified number of items from the end of the array.
 
-    Array.takeEnd(2, [1, 2, 3, 4]) == [3, 4]
+    Array.takeEnd([1, 2, 3, 4], 2) == [3, 4]
   */
-  fun takeEnd (number : Number, array : Array(item)) : Array(item) {
+  fun takeEnd (array : Array(item), number : Number) : Array(item) {
     `#{array}.slice(-#{number})`
   }
 
   /*
   Takes the specified number of items from the start of the array.
 
-    Array.takeStart(2, [1, 2, 3, 4]) == [1, 2]
+    Array.takeStart([1, 2, 3, 4], 2) == [1, 2]
   */
-  fun takeStart (number : Number, array : Array(item)) : Array(item) {
+  fun takeStart (array : Array(item), number : Number) : Array(item) {
     `#{array}.slice(0, #{number})`
   }
 
@@ -743,16 +748,16 @@ module Array {
     for (item, index of array) {
       item
     } when {
-      indexOf(item, array) == Maybe::Just(index)
+      indexOf(array, item) == Maybe::Just(index)
     }
   }
 
   /*
   Pushes a new item at the head of the array.
 
-    Array.unshift(2, [3, 4]) == [2, 3, 4]
+    Array.unshift([3, 4], 2) == [2, 3, 4]
   */
-  fun unshift (item : item, array : Array(item)) : Array(item) {
+  fun unshift (array : Array(item), item : item) : Array(item) {
     `
     (() => {
       const result = Array.from(#{array})
@@ -767,17 +772,17 @@ module Array {
   function.
 
     Array.updateAt(
-      2, (number : Number) : Number {
+      [0,1,2], 2, (number : Number) : Number {
         number + 2
-      }, [0,1,2]) == [0,1,4]
+      }) == [0,1,4]
   */
   fun updateAt (
+    array : Array(item),
     index : Number,
-    method : Function(item, item),
-    array : Array(item)
+    method : Function(item, item)
   ) : Array(item) {
     case (array[index]) {
-      Maybe::Just(item) => setAt(index, method(item), array)
+      Maybe::Just(item) => setAt(array, index, method(item))
       Maybe::Nothing => array
     }
   }

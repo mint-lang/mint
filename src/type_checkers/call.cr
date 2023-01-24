@@ -57,7 +57,7 @@ module Mint
       end
 
       if (optional_param_count = argument_size - node.arguments.size) > 0
-        parameters.concat(function_type.parameters[-2, optional_param_count])
+        parameters.concat(function_type.parameters[node.arguments.size, optional_param_count])
       end
 
       call_type =
