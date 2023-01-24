@@ -76,15 +76,15 @@ suite "String.contains" {
 
 suite "String.dropEnd" {
   test "it removes the given number of characters" {
-    String.dropEnd("The quick brown fox jumps.",1) == "The quick brown fox jumps" &&
-      String.dropEnd("The quick brown fox jumps.",2) == "The quick brown fox jump"
+    String.dropEnd("The quick brown fox jumps.", 1) == "The quick brown fox jumps" &&
+      String.dropEnd("The quick brown fox jumps.", 2) == "The quick brown fox jump"
   }
 }
 
 suite "String.dropStart" {
   test "it removes the given number of characters" {
-    String.dropStart("The quick brown fox jumps.",1) == "he quick brown fox jumps." &&
-      String.dropStart("The quick brown fox jumps.",2) == "e quick brown fox jumps."
+    String.dropStart("The quick brown fox jumps.", 1) == "he quick brown fox jumps." &&
+      String.dropStart("The quick brown fox jumps.", 2) == "e quick brown fox jumps."
   }
 }
 
