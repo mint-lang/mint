@@ -1,11 +1,7 @@
 module Mint
   class Compiler
     def compile(node : Ast::Statement, last : Bool) : String
-      if checked.includes?(node)
-        _compile(node, last)
-      else
-        ""
-      end
+      node.in?(checked) ? _compile(node, last) : ""
     end
 
     def _compile(node : Ast::Statement, last : Bool) : String

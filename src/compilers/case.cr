@@ -1,11 +1,7 @@
 module Mint
   class Compiler
     def compile(node : Ast::Case, block : Proc(String, String)? = nil) : String
-      if checked.includes?(node)
-        _compile node, block
-      else
-        ""
-      end
+      node.in?(checked) ? _compile(node, block) : ""
     end
 
     def _compile(node : Ast::Case, block : Proc(String, String)? = nil) : String

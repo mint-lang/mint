@@ -35,11 +35,7 @@ module Mint
     end
 
     def compile(node : Ast::Node) : String
-      if checked.includes?(node)
-        _compile(node)
-      else
-        ""
-      end
+      node.in?(checked) ? _compile(node) : ""
     end
 
     def _compile(node : Ast::Node) : String
@@ -51,11 +47,7 @@ module Mint
     end
 
     def compile_service_worker(node : Ast::Node) : String
-      if checked.includes?(node)
-        _compile_service_worker(node)
-      else
-        ""
-      end
+      node.in?(checked) ? _compile_service_worker(node) : ""
     end
 
     def _compile_service_worker(node : Ast::Node) : String
