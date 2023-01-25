@@ -1,20 +1,20 @@
 suite "Result.withDefault" {
   test "returns default value if the result in an error" {
-    Result.withDefault("Test", Result.error("")) == "Test"
+    Result.withDefault(Result.error(""), "Test") == "Test"
   }
 
   test "returns the value of the result if it's ok" {
-    Result.withDefault("Test", Result.ok("OK")) == "OK"
+    Result.withDefault(Result.ok("OK"), "Test") == "OK"
   }
 }
 
 suite "Result.withError" {
   test "returns given value if the result ok" {
-    Result.withError("Test", Result.ok("")) == "Test"
+    Result.withError(Result.ok(""), "Test") == "Test"
   }
 
   test "returns the value of the result if it's an error" {
-    Result.withError("Test", Result.error("OK")) == "OK"
+    Result.withError(Result.error("OK"), "Test") == "OK"
   }
 }
 

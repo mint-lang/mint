@@ -312,7 +312,7 @@ suite "Time.shift" {
 
     let actual =
       for (item of TEST_DATA) {
-        Time.shift(item[0], BASE_TIME)
+        Time.shift(BASE_TIME, item[0])
       }
 
     expected == actual

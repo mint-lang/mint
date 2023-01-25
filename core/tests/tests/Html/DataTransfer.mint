@@ -62,6 +62,6 @@ suite "Html.DataTransfer.setDragImage" {
     let data =
       `new DataTransfer()` as Html.DataTransfer
 
-    Html.DataTransfer.setDragImage(Dom.createElement("div"), 0, 0, data) == data
+    Html.DataTransfer.setDragImage(data, Dom.createElement("div"), 0, 0) == data
   }
 }

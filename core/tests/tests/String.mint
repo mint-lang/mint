@@ -6,55 +6,55 @@ suite "String.capitalize" {
 
 suite "String.charAt" {
   test "returns the character at the given index" {
-    String.charAt(4, "The quick brown fox jumps over the lazy dog.") == "q"
+    String.charAt("The quick brown fox jumps over the lazy dog.", 4) == "q"
   }
 
   test "returns empty string if negative" {
-    String.charAt(-1, "Hello") == ""
+    String.charAt("Hello", -1) == ""
   }
 
   test "returns empty string if index is bigger then length" {
-    String.charAt(100, "Hello") == ""
+    String.charAt("Hello", 100) == ""
   }
 }
 
 suite "String.charCodeAt" {
   test "returns just the character code at the given index" {
-    String.charCodeAt(2, "Hello") == Maybe::Just(108)
+    String.charCodeAt("Hello", 2) == Maybe::Just(108)
   }
 
   test "returns nothing if negative" {
-    String.charCodeAt(-1, "Hello") == Maybe::Nothing
+    String.charCodeAt("Hello", -1) == Maybe::Nothing
   }
 
   test "returns nothing if index is bigger then length" {
-    String.charCodeAt(100, "Hello") == Maybe::Nothing
+    String.charCodeAt("Hello", 100) == Maybe::Nothing
   }
 }
 
 suite "String.chopEnd" {
   test "it removes strings from the end of the string" {
-    String.chopEnd(".", "The quick brown fox jumps.") == "The quick brown fox jumps"
+    String.chopEnd("The quick brown fox jumps.", ".") == "The quick brown fox jumps"
   }
 }
 
 suite "String.chopStart" {
   test "it removes strings from the start of the string" {
-    String.chopStart("T", "The quick brown fox jumps.") == "he quick brown fox jumps."
+    String.chopStart("The quick brown fox jumps.", "T") == "he quick brown fox jumps."
   }
 }
 
 suite "String.codePointAt" {
   test "returns just the character code at the given index" {
-    String.codePointAt(1, "☃★♲") == Maybe::Just(9733)
+    String.codePointAt("☃★♲", 1) == Maybe::Just(9733)
   }
 
   test "returns nothing if negative" {
-    String.codePointAt(-1, "☃★♲") == Maybe::Nothing
+    String.codePointAt("☃★♲", -1) == Maybe::Nothing
   }
 
   test "returns nothing if index is bigger then length" {
-    String.codePointAt(100, "☃★♲") == Maybe::Nothing
+    String.codePointAt("☃★♲", 100) == Maybe::Nothing
   }
 }
 
@@ -66,31 +66,31 @@ suite "String.concat" {
 
 suite "String.contains" {
   test "returns true if string contains the pattern" {
-    String.contains("fox", "The quick brown fox jumps over the lazy dog.") == true
+    String.contains("The quick brown fox jumps over the lazy dog.", "fox") == true
   }
 
   test "returns false if string doesnot contain the pattern" {
-    String.contains("bear", "The quick brown fox jumps over the lazy dog.") == false
+    String.contains("The quick brown fox jumps over the lazy dog.", "bear") == false
   }
 }
 
 suite "String.dropEnd" {
   test "it removes the given number of characters" {
-    String.dropEnd(1, "The quick brown fox jumps.") == "The quick brown fox jumps" &&
-      String.dropEnd(2, "The quick brown fox jumps.") == "The quick brown fox jump"
+    String.dropEnd("The quick brown fox jumps.", 1) == "The quick brown fox jumps" &&
+      String.dropEnd("The quick brown fox jumps.", 2) == "The quick brown fox jump"
   }
 }
 
 suite "String.dropStart" {
   test "it removes the given number of characters" {
-    String.dropStart(1, "The quick brown fox jumps.") == "he quick brown fox jumps." &&
-      String.dropStart(2, "The quick brown fox jumps.") == "e quick brown fox jumps."
+    String.dropStart("The quick brown fox jumps.", 1) == "he quick brown fox jumps." &&
+      String.dropStart("The quick brown fox jumps.", 2) == "e quick brown fox jumps."
   }
 }
 
 suite "String.endsWith" {
   test "it returns true if the given string ends with the given string" {
-    String.endsWith("jumps.", "The quick brown fox jumps.") == true
+    String.endsWith("The quick brown fox jumps.", "jumps.") == true
   }
 }
 
@@ -108,28 +108,26 @@ suite "String.fromCodePoint" {
 
 suite "String.indent" {
   test "it indents the given string by the given number of spaces" {
-    String.indent(2, "The quick brown fox jumps.") == "  The quick brown fox jumps."
+    String.indent("The quick brown fox jumps.", 2) == "  The quick brown fox jumps."
   }
-}
 
-suite "String.indentWithOptions" {
   test "it indents the given string by the given options" {
-    String.indentWithOptions(2, " ", false, "The quick brown fox jumps.") == "  The quick brown fox jumps."
+    String.indent("The quick brown fox jumps.", 2, " ", false) == "  The quick brown fox jumps."
   }
 
   test "it skips empty lines" {
-    String.indentWithOptions(2, " ", false, "The quick brown fox jumps.\n\nHello") == "  The quick brown fox jumps.\n\n  Hello"
+    String.indent("The quick brown fox jumps.\n\nHello", 2, " ", false) == "  The quick brown fox jumps.\n\n  Hello"
   }
 
   test "it does not skip empty lines" {
-    String.indentWithOptions(2, " ", true, "The quick brown fox jumps.\n\nHello") == "  The quick brown fox jumps.\n  \n  Hello"
+    String.indent("The quick brown fox jumps.\n\nHello", 2, " ", true) == "  The quick brown fox jumps.\n  \n  Hello"
   }
 }
 
 suite "String.indexOf" {
   test "it returns the index of the search param" {
-    String.indexOf("whale", "The quick brown fox jumps over the lazy dog.") == Maybe::Nothing &&
-      String.indexOf("fox", "The quick brown fox jumps over the lazy dog.") == Maybe::Just(16)
+    String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe::Nothing &&
+      String.indexOf("The quick brown fox jumps over the lazy dog.", "fox") == Maybe::Just(16)
   }
 }
 
@@ -201,14 +199,14 @@ suite "String.isNotEmpty" {
 
 suite "String.join" {
   test "joins an array of strings with the given separator" {
-    String.join(" ", ["The", "quick", "brown", "fox", "jumps."]) == "The quick brown fox jumps."
+    String.join(["The", "quick", "brown", "fox", "jumps."], " ") == "The quick brown fox jumps."
   }
 }
 
 suite "String.lastIndexOf" {
   test "it returns the last index of the search param" {
-    String.lastIndexOf("whale", "The quick brown fox jumps over the lazy dog.") == Maybe::Nothing &&
-      String.lastIndexOf("the", "The quick brown fox jumps over the lazy dog.") == Maybe::Just(31)
+    String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe::Nothing &&
+      String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "the") == Maybe::Just(31)
   }
 }
 
@@ -220,13 +218,13 @@ suite "String.normalize" {
 
 suite "String.padEnd" {
   test "it pads the string from the end" {
-    String.padEnd("0", 2, "5") == "50"
+    String.padEnd("5", "0", 2) == "50"
   }
 }
 
 suite "String.padStart" {
   test "it pads the string from the start" {
-    String.padStart("0", 2, "5") == "05"
+    String.padStart("5", "0", 2) == "05"
   }
 }
 
@@ -238,19 +236,19 @@ suite "String.paramterize" {
 
 suite "String.repeat" {
   test "repeats a string the given number of times" {
-    String.repeat(3, "The") == "TheTheThe"
+    String.repeat("The", 3) == "TheTheThe"
   }
 }
 
 suite "String.replace" {
   test "it replaces the given pattern with replacement" {
-    String.replace("fox", "bear", "The quick brown fox jumps.") == "The quick brown bear jumps."
+    String.replace("The quick brown fox jumps.", "fox", "bear") == "The quick brown bear jumps."
   }
 }
 
 suite "String.replaceAll" {
   test "it replaces the given pattern with replacement" {
-    String.replaceAll("fox", "bear", "The quick brown fox jumps over the lazy fox.") == "The quick brown bear jumps over the lazy bear."
+    String.replaceAll("The quick brown fox jumps over the lazy fox.", "fox", "bear") == "The quick brown bear jumps over the lazy bear."
   }
 }
 
@@ -272,25 +270,25 @@ suite "String.size" {
 
 suite "String.split" {
   test "splits the string with a separator" {
-    String.split(" ", "The quick brown fox jumps.") == ["The", "quick", "brown", "fox", "jumps."]
+    String.split("The quick brown fox jumps.", " ") == ["The", "quick", "brown", "fox", "jumps."]
   }
 }
 
 suite "String.startsWith" {
   test "it returns true if the given string ends with the given string" {
-    String.startsWith("The", "The quick brown fox jumps.") == true
+    String.startsWith("The quick brown fox jumps.", "The") == true
   }
 }
 
 suite "String.takeEnd" {
   test "it takes the given number of characters from the end" {
-    String.takeEnd(2, "The quick brown fox jumps.") == "s."
+    String.takeEnd("The quick brown fox jumps.", 2) == "s."
   }
 }
 
 suite "String.takeStart" {
   test "it takes the given number of characters from the end" {
-    String.takeStart(2, "The quick brown fox jumps.") == "Th"
+    String.takeStart("The quick brown fox jumps.", 2) == "Th"
   }
 }
 
@@ -320,16 +318,16 @@ suite "String.trim" {
 
 suite "String.withDefault" {
   test "it returns the default value for empty string" {
-    String.withDefault("The quick brown fox jumps.", "") == "The quick brown fox jumps."
+    String.withDefault("", "The quick brown fox jumps.") == "The quick brown fox jumps."
   }
 
   test "it returns the string for non-empty string" {
-    String.withDefault("The quick brown fox jumps.", "Hello") == "Hello"
+    String.withDefault("Hello", "The quick brown fox jumps.") == "Hello"
   }
 }
 
 suite "String.wrap" {
   test "it wraps the string with the given characters" {
-    String.wrap("{", "}", "The quick brown fox jumps.") == "{The quick brown fox jumps.}"
+    String.wrap("The quick brown fox jumps.", "{", "}") == "{The quick brown fox jumps.}"
   }
 }

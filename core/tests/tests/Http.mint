@@ -254,8 +254,8 @@ component Test.Http {
   state body : String = ""
 
   fun wrap (
-    method : Function(Promise(a), Void),
-    input : Promise(a)
+    input : Promise(a),
+    method : Function(Promise(a), Void)
   ) : Promise(a) {
     `#{method}(#{input})`
   }

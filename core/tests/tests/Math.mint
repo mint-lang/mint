@@ -62,21 +62,21 @@ suite "Math.pow" {
 
 suite "Math.clamp" {
   test "it clamps to lower bound" {
-    Math.clamp(0, 10, -100) == 0
+    Math.clamp(-100, 0, 10) == 0
   }
 
   test "it clamps to upper bound" {
-    Math.clamp(0, 10, 100) == 10
+    Math.clamp(100, 0, 10) == 10
   }
 }
 
 suite "Math.fmod" {
   test "it returns the float remainder of two numbers" {
-    Math.fmod(5.3, 2) == 1.3
+    Math.fmod(2, 5.3) == 1.3
   }
 
   test "it returns the float remainder of two numbers #2" {
-    Math.fmod(18.5, 4.2) == 1.7
+    Math.fmod(4.2, 18.5) == 1.7
   }
 }
 
@@ -88,7 +88,7 @@ suite "Math.truncate" {
 
 suite "Math.truncate" {
   test "it truncates number to given amount" {
-    Math.truncate(2, 0.123456) == 0.12
+    Math.truncate(0.123456, 2) == 0.12
   }
 }
 

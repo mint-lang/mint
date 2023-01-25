@@ -12,7 +12,7 @@ module FormData {
     |> FormData.addFile(
       "key", File.fromString("Contents", "text.txt", "text/plain"))
   */
-  fun addFile (key : String, value : File, formData : FormData) : FormData {
+  fun addFile (formData : FormData, key : String, value : File) : FormData {
     `
      (() => {
       var newFormData = new FormData();
@@ -35,7 +35,7 @@ module FormData {
     FormData.empty()
     |> FormData.addString("key", "value")
   */
-  fun addString (key : String, value : String, formData : FormData) : FormData {
+  fun addString (formData : FormData, key : String, value : String) : FormData {
     `
      (() => {
       var newFormData = new FormData();

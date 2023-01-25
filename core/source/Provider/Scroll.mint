@@ -18,7 +18,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   /* Updates the provider. */
   fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe::Nothing }
     } else {
       case (listener) {

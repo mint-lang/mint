@@ -22,13 +22,13 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
         let {subscription, observer} =
           item
 
-        if (Array.contains(subscription, subscriptions)) {
+        if (Array.contains(subscriptions, subscription)) {
           Maybe::Just({subscription, observer})
         } else {
           case (subscription.element) {
             Maybe::Just(observed) =>
               {
-                IntersectionObserver.unobserve(observed, observer)
+                IntersectionObserver.unobserve(observer, observed)
                 Maybe::Nothing
               }
 

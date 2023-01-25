@@ -71,7 +71,7 @@ module Regexp {
     (Regexp.create(",")
     |> Regexp.match("asd,asd")) == true
   */
-  fun match (input : String, regexp : Regexp) : Bool {
+  fun match (regexp : Regexp, input : String) : Bool {
     `#{regexp}.test(#{input})`
   }
 
@@ -97,7 +97,7 @@ module Regexp {
     ]
       \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
   */
-  fun matches (input : String, regexp : Regexp) : Array(Regexp.Match) {
+  fun matches (regexp : Regexp, input : String) : Array(Regexp.Match) {
     `
     (() => {
       let results = []
@@ -145,9 +145,9 @@ module Regexp {
       \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
   */
   fun replace (
+    regexp : Regexp,
     input : String,
-    replacer : Function(Regexp.Match, String),
-    regexp : Regexp
+    replacer : Function(Regexp.Match, String)
   ) : String {
     `
     (() => {
@@ -181,7 +181,7 @@ module Regexp {
     (Regexp.create(",")
     |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
   */
-  fun split (input : String, regexp : Regexp) : Array(String) {
+  fun split (regexp : Regexp, input : String) : Array(String) {
     `#{input}.split(#{regexp})`
   }
 

@@ -15,7 +15,7 @@ module Mint
           case item = expression
           when Ast::Call
             Ast::Call.new(
-              arguments: item.arguments + [argument],
+              arguments: [argument] + item.arguments,
               expression: item.expression,
               input: item.input,
               from: item.from,

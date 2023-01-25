@@ -13,9 +13,9 @@ module Dom {
   Returns if the given element is in an element that matches the given
   selector.
 
-    Dom.containedInSelector("body", Dom.getElementBySelector("div"))
+    Dom.containedInSelector(Dom.getElementBySelector("div"), "body")
   */
-  fun containedInSelector (selector : String, element : Dom.Element) : Bool {
+  fun containedInSelector (element : Dom.Element, selector : String) : Bool {
     `
     (() => {
       for (let base of document.querySelectorAll(selector)) {
@@ -32,9 +32,9 @@ module Dom {
   /*
   Returns if the given base element contains the given element.
 
-    Dom.contains(div, body) == true
+    Dom.contains(body, div) == true
   */
-  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
+  fun contains (base : Dom.Element, element : Dom.Element) : Bool {
     `#{base}.contains(#{element})`
   }
 
@@ -54,11 +54,11 @@ module Dom {
     }
   */
   fun containsMaybe (
-    maybeElement : Maybe(Dom.Element),
-    base : Dom.Element
+    base : Dom.Element,
+    maybeElement : Maybe(Dom.Element)
   ) : Bool {
     maybeElement
-    |> Maybe.map((item : Dom.Element) { Dom.contains(item, base) })
+    |> Maybe.map((item : Dom.Element) { Dom.contains(base, item) })
     |> Maybe.withDefault(false)
   }
 
@@ -155,11 +155,11 @@ module Dom {
       Dom.getElementById("my-div")
 
     case (outcome) {
-      Maybe::Just(element) => Dom.getAttribute("id", element) == "my-div"
+      Maybe::Just(element) => Dom.getAttribute(element, "id") == "my-div"
       Maybe::Nothing => false
     }
   */
-  fun getAttribute (name : String, element : Dom.Element) : Maybe(String) {
+  fun getAttribute (element : Dom.Element, name : String) : Maybe(String) {
     `
     (() => {
       const value = #{element}.getAttribute(#{name})
@@ -286,9 +286,9 @@ module Dom {
       const element = document.elementFromPoint(#{left}, #{top})
 
       if (element) {
-        return new Just(element)
+        return #{Maybe::Just(`element`)}
       } else {
-        return new Nothing()
+        return #{Maybe::Nothing}
       }
     })()
     `
@@ -298,9 +298,9 @@ module Dom {
   Gets all descendant elements of an element which are matching
   the given selector.
 
-    Dom.getElementsBySelector("a[name]", element)
+    Dom.getElementsBySelector(element, "a[name]")
   */
-  fun getElementsBySelector (selector : String, element : Dom.Element) : Array(Dom.Element) {
+  fun getElementsBySelector (element : Dom.Element, selector : String) : Array(Dom.Element) {
     `Array.from(#{element}.querySelectorAll(#{selector}))`
   }
 
@@ -390,13 +390,13 @@ module Dom {
   /*
   Returns the table of contents of the given element for the given selectors.
 
-    Dom.getTableOfContents("h1, h2, h3, h4", element) == [
+    Dom.getTableOfContents(element, "h1, h2, h3, h4") == [
       {"h1", "The title of the page", "the-title-of-the-page"},
       {"h2", "A subtitle of the page", "a-subtitle-of-the-page"},
       {"h3", "A sub-subtitle of the page", "a-sub-subtitle-of-the-page"}
     ]
   */
-  fun getTableOfContents (selector : String, element : Dom.Element) : Array(Tuple(String, String, String)) {
+  fun getTableOfContents (element : Dom.Element, selector : String) : Array(Tuple(String, String, String)) {
     element
     |> getElementsBySelector(selector)
     |> Array.map(
@@ -439,9 +439,9 @@ module Dom {
   /*
   Measures the given text width with the given font using the canvas.
 
-    Dom.getTextWidth("20px sans-serif", "Hello There") = 300
+    Dom.getTextWidth("Hello There", "20px sans-serif") = 300
   */
-  fun getTextWidth (font : String, text : String) : Number {
+  fun getTextWidth (text : String, font : String) : Number {
     `
     (() => {
       const canvas = document.createElement('canvas');
@@ -480,10 +480,10 @@ module Dom {
   /*
   Returns whether or not the given `Dom.Element` matches the given selector.
 
-    Dom.matches("div", Dom.createElement("div")) == true
-    Dom.matches("p", Dom.createElement("div")) == false
+    Dom.matches(Dom.createElement("div"), "div") == true
+    Dom.matches(Dom.createElement("div"), "p") == false
   */
-  fun matches (selector : String, dom : Dom.Element) : Bool {
+  fun matches (dom : Dom.Element, selector : String) : Bool {
     `
     (() => {
       try {
@@ -516,9 +516,9 @@ module Dom {
     |> Dom.setAttribute("name", "test")
   */
   fun setAttribute (
+    element : Dom.Element,
     attribute : String,
-    value : String,
-    element : Dom.Element
+    value : String
   ) : Dom.Element {
     `#{element}.setAttribute(#{attribute}, #{value}) && element`
   }
@@ -531,7 +531,7 @@ module Dom {
     |> Dom.setStyle("background", "red")
     |> Dom.setStyle("color", "white")
   */
-  fun setStyle (name : String, value : String, element : Dom.Element) : Dom.Element {
+  fun setStyle (element : Dom.Element, name : String, value : String) : Dom.Element {
     `
     (() => {
       #{element}.style[#{name}] = #{value}
@@ -545,7 +545,7 @@ module Dom {
 
   It is used to set the value of `input` fields programmatically.
   */
-  fun setValue (value : String, dom : Dom.Element) : Dom.Element {
+  fun setValue (dom : Dom.Element, value : String) : Dom.Element {
     `(#{dom}.value = #{value}) && #{dom}`
   }
 

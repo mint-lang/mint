@@ -102,7 +102,7 @@ module Time {
     let time =
       now()
 
-    shift(Time.Span::Minutes(`-#{time}.getTimezoneOffset()`), time)
+    shift(time, Time.Span::Minutes(`-#{time}.getTimezoneOffset()`))
   }
 
   /*
@@ -373,7 +373,7 @@ module Time {
     Time.shift(Time.utcDate(2018, 4, 5), Time.Span::Days(2)) ==
       Time.utcDate(2018, 4, 7)
   */
-  fun shift (delta : Time.Span, time : Time) : Time {
+  fun shift (time : Time, delta : Time.Span) : Time {
     `
     (() => {
       const time = new Date(+#{time});
@@ -455,7 +455,7 @@ module Time {
     let day =
       dayOfWeekNumber(time)
 
-    shift(Time.Span::Days(-(day - 1)), time)
+    shift(time, Time.Span::Days(-(day - 1)))
   }
 
   /*
@@ -547,7 +547,7 @@ module Time {
     Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
   */
   fun nextMonth (time : Time) : Time {
-    shift(Time.Span::Months(1), time)
+    shift(time, Time.Span::Months(1))
   }
 
   /*
@@ -556,7 +556,7 @@ module Time {
     Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
   */
   fun previousMonth (time : Time) : Time {
-    shift(Time.Span::Months(-1), time)
+    shift(time, Time.Span::Months(-1))
   }
 
   /*
@@ -565,7 +565,7 @@ module Time {
     Time.nextWeek(Time.utcDate(2017, 5, 10)) == Time.utcDate(2017, 5, 17)
   */
   fun nextWeek (time : Time) : Time {
-    shift(Time.Span::Weeks(1), time)
+    shift(time, Time.Span::Weeks(1))
   }
 
   /*
@@ -574,7 +574,7 @@ module Time {
     Time.previousWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 13)
   */
   fun previousWeek (time : Time) : Time {
-    shift(Time.Span::Weeks(-1), time)
+    shift(time, Time.Span::Weeks(-1))
   }
 
   /*
@@ -583,7 +583,7 @@ module Time {
     Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
   */
   fun nextDay (time : Time) : Time {
-    shift(Time.Span::Days(1), time)
+    shift(time, Time.Span::Days(1))
   }
 
   /*
@@ -592,7 +592,7 @@ module Time {
     Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
   */
   fun previousDay (time : Time) : Time {
-    shift(Time.Span::Days(-1), time)
+    shift(time, Time.Span::Days(-1))
   }
 
   /* UTILITIES -------------------------------------------------------------- */

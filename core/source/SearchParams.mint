@@ -6,7 +6,7 @@ module SearchParams {
     SearchParams.empty()
     |> SearchParams.append("key", "value")
   */
-  fun append (key : String, value : String, params : SearchParams) : SearchParams {
+  fun append (params : SearchParams, key : String, value : String) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
@@ -22,7 +22,7 @@ module SearchParams {
     (SearchParams.fromString("key=value")
      |> SearchParams.contains("key")) == true
   */
-  fun contains (key : String, params : SearchParams) : Bool {
+  fun contains (params : SearchParams, key : String) : Bool {
     `#{params}.has(#{key})`
   }
 
@@ -33,7 +33,7 @@ module SearchParams {
     SearchParams.fromString("key=value")
     |> SearchParams.delete("key")
   */
-  fun delete (key : String, params : SearchParams) : SearchParams {
+  fun delete (params : SearchParams, key : String) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
@@ -67,7 +67,7 @@ module SearchParams {
     (SearchParams.fromString("key=value")
      |> SearchParams.get("key")) == "value"
   */
-  fun get (key : String, params : SearchParams) : Maybe(String) {
+  fun get (params : SearchParams, key : String) : Maybe(String) {
     `
     (() => {
       let value = #{params}.get(#{key})
@@ -88,7 +88,7 @@ module SearchParams {
     SearchParams.empty()
     |> SearchParams.set("key", "value")
   */
-  fun set (key : String, value : String, params : SearchParams) : SearchParams {
+  fun set (params : SearchParams, key : String, value : String) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())
