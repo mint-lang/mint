@@ -1,0 +1,17 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN
+    ## Hello There
+
+    WTF
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h(React.Fragment,{},[_h('h2',{},[`Hello There`]),_h('p',{},[`WTF`])]);
+  }
+};
+
+A.displayName = "Main";

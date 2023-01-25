@@ -14,10 +14,7 @@ module Mint
           arguments.join(", ")
         end
 
-      safe_operator =
-        node.safe? ? "&" : ""
-
-      "#{expression}#{safe_operator}(#{arguments})"
+      "#{expression}(#{arguments})"
     end
   end
 end

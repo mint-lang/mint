@@ -18,7 +18,6 @@ module Mint
                        Operation |
                        NextCall |
                        Variable |
-                       Sequence |
                        Routes |
                        Encode |
                        EnumId |
@@ -26,10 +25,8 @@ module Mint
                        Record |
                        Access |
                        Route |
-                       With |
                        Void |
                        Case |
-                       Try |
                        If |
                        Js
 

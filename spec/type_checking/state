@@ -20,7 +20,7 @@ record A {
 }
 
 component Main {
-  state name : Test = { a = "Hello" }
+  state name : Test = { a: "Hello" }
 
   fun render : Html {
     <div/>

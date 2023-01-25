@@ -4,7 +4,7 @@ suite "Time.formatISO" {
   }
 }
 
-suite "Time." {
+suite "Time.distanceOfTimeInWords" {
   const TEST_DATA =
     [
       {Time.Span::Seconds(0), "right now"},
@@ -36,24 +36,22 @@ suite "Time." {
     ]
 
   test "returns relative time in words" {
-    try {
-      now =
-        Time.utc(2016, 1, 1, 12, 34, 50, 200)
+    let now =
+      Time.utc(2016, 1, 1, 12, 34, 50, 200)
 
-      expected =
-        for (item of TEST_DATA) {
-          item[1]
-        }
-        |> String.join("\n")
+    let expected =
+      for (item of TEST_DATA) {
+        item[1]
+      }
+      |> String.join("\n")
 
-      actual =
-        for (item of TEST_DATA) {
-          Time.distanceOfTimeInWords(Time.Format:ENGLISH, now, Time.shift(item[0], now))
-        }
-        |> String.join("\n")
+    let actual =
+      for (item of TEST_DATA) {
+        Time.distanceOfTimeInWords(Time.Format:ENGLISH, now, Time.shift(item[0], now))
+      }
+      |> String.join("\n")
 
-      actual == expected
-    }
+    actual == expected
   }
 }
 
@@ -84,20 +82,18 @@ suite "Time.format" {
     ]
 
   test "formats parts correctly" {
-    try {
-      expected =
-        for (item of TEST_DATA) {
-          item[2]
-        }
-        |> String.join("\n")
+    let expected =
+      for (item of TEST_DATA) {
+        item[2]
+      }
+      |> String.join("\n")
 
-      actual =
-        for (item of TEST_DATA) {
-          Time.format(Time.Format:ENGLISH, item[1], item[0])
-        }
-        |> String.join("\n")
+    let actual =
+      for (item of TEST_DATA) {
+        Time.format(Time.Format:ENGLISH, item[1], item[0])
+      }
+      |> String.join("\n")
 
-      actual == expected
-    }
+    actual == expected
   }
 }

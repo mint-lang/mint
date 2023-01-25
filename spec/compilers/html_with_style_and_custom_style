@@ -34,7 +34,7 @@ class A extends _C {
   }
 
   get b() {
-    return;
+    return
   }
 
   get a() {

@@ -9,12 +9,10 @@ module Mint
         next unless keyword "@format"
 
         content =
-          block(
+          code_block(
             opening_bracket: FormatDirectiveExpectedOpeningBracket,
-            closing_bracket: FormatDirectiveExpectedClosingBracket
-          ) do
-            expression! FormatDirectiveExpectedExpression
-          end
+            closing_bracket: FormatDirectiveExpectedClosingBracket,
+            statement_error: FormatDirectiveExpectedExpression)
 
         self << Ast::Directives::Format.new(
           from: start_position,

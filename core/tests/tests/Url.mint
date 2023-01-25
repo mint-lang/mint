@@ -1,20 +1,10 @@
 suite "Url.parse" {
   test "parses an url" {
-    try {
-      url =
-        Url.parse("http://www.google.com")
-
-      url.host == "www.google.com"
-    }
+    Url.parse("http://www.google.com").host == "www.google.com"
   }
 
   test "parses an url" {
-    try {
-      url =
-        Url.parse("")
-
-      url.path == "/"
-    }
+    Url.parse("").path == "/"
   }
 }
 
@@ -33,11 +23,9 @@ suite "Url.createObjectUrlFromString" {
 
 suite "Url.revokeObjectUrl" {
   test "it revokes the given url" {
-    try {
-      Url.createObjectUrlFromString("Content", "text/html")
-      |> Url.revokeObjectUrl()
+    Url.createObjectUrlFromString("Content", "text/html")
+    |> Url.revokeObjectUrl()
 
-      true
-    }
+    true
   }
 }

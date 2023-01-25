@@ -14,5 +14,6 @@ describe "Decode Expression" do
   expect_error "decode x as", Mint::Parser::DecodeExpectedType
   expect_error "decode x as x", Mint::Parser::DecodeExpectedType
 
+  expect_ok "decode as T"
   expect_ok "decode x as T"
 end

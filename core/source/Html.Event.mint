@@ -148,47 +148,47 @@ module Html.Event {
   /* Converts a native event into a Mint one. */
   fun fromEvent (event : Html.NativeEvent) : Html.Event {
     {
-      bubbles = `#{event}.bubbles`,
-      cancelable = `#{event}.cancelable`,
-      currentTarget = `#{event}.currentTarget`,
-      defaultPrevented = `#{event}.defaultPrevented`,
-      dataTransfer = `#{event}.dataTransfer`,
-      clipboardData = `#{event}.clipboardData`,
-      eventPhase = `#{event}.eventPhase`,
-      isTrusted = `#{event}.isTrusted`,
-      target = `#{event}.target`,
-      timeStamp = `#{event}.timeStamp`,
-      type = `#{event}.type`,
-      data = `#{event}.data`,
-      altKey = `#{event}.altKey`,
-      charCode = `#{event}.charCode`,
-      ctrlKey = `#{event}.ctrlKey`,
-      key = `#{event}.key`,
-      keyCode = `#{event}.keyCode`,
-      locale = `#{event}.locale`,
-      location = `#{event}.location`,
-      metaKey = `#{event}.metaKey`,
-      repeat = `#{event}.repeat`,
-      shiftKey = `#{event}.shiftKey`,
-      which = `#{event}.which`,
-      button = `#{event}.button`,
-      buttons = `#{event}.buttons`,
-      clientX = `#{event}.clientX`,
-      clientY = `#{event}.clientY`,
-      pageX = `#{event}.pageX`,
-      pageY = `#{event}.pageY`,
-      screenX = `#{event}.screenX`,
-      screenY = `#{event}.screenY`,
-      detail = `#{event}.detail`,
-      deltaMode = `#{event}.deltaMode`,
-      deltaX = `#{event}.deltaX`,
-      deltaY = `#{event}.deltaY`,
-      deltaZ = `#{event}.deltaZ`,
-      animationName = `#{event}.animationName`,
-      pseudoElement = `#{event}.pseudoElement`,
-      propertyName = `#{event}.propertyName`,
-      elapsedTime = `#{event}.elapsedTime`,
-      event = event
+      bubbles: `#{event}.bubbles`,
+      cancelable: `#{event}.cancelable`,
+      currentTarget: `#{event}.currentTarget`,
+      defaultPrevented: `#{event}.defaultPrevented`,
+      dataTransfer: `#{event}.dataTransfer`,
+      clipboardData: `#{event}.clipboardData`,
+      eventPhase: `#{event}.eventPhase`,
+      isTrusted: `#{event}.isTrusted`,
+      target: `#{event}.target`,
+      timeStamp: `#{event}.timeStamp`,
+      type: `#{event}.type`,
+      data: `#{event}.data`,
+      altKey: `#{event}.altKey`,
+      charCode: `#{event}.charCode`,
+      ctrlKey: `#{event}.ctrlKey`,
+      key: `#{event}.key`,
+      keyCode: `#{event}.keyCode`,
+      locale: `#{event}.locale`,
+      location: `#{event}.location`,
+      metaKey: `#{event}.metaKey`,
+      repeat: `#{event}.repeat`,
+      shiftKey: `#{event}.shiftKey`,
+      which: `#{event}.which`,
+      button: `#{event}.button`,
+      buttons: `#{event}.buttons`,
+      clientX: `#{event}.clientX`,
+      clientY: `#{event}.clientY`,
+      pageX: `#{event}.pageX`,
+      pageY: `#{event}.pageY`,
+      screenX: `#{event}.screenX`,
+      screenY: `#{event}.screenY`,
+      detail: `#{event}.detail`,
+      deltaMode: `#{event}.deltaMode`,
+      deltaX: `#{event}.deltaX`,
+      deltaY: `#{event}.deltaY`,
+      deltaZ: `#{event}.deltaZ`,
+      animationName: `#{event}.animationName`,
+      pseudoElement: `#{event}.pseudoElement`,
+      propertyName: `#{event}.propertyName`,
+      elapsedTime: `#{event}.elapsedTime`,
+      event: event
     }
   }
 
@@ -204,10 +204,8 @@ module Html.Event {
   /*
   Prevents the default action of the event from happening.
 
-    try {
-      Html.Event.preventDefault(event)
-      doSomethingElse()
-    }
+    Html.Event.preventDefault(event)
+    doSomethingElse()
   */
   fun preventDefault (event : Html.Event) : Void {
     `#{event.event}.preventDefault()`
@@ -216,10 +214,8 @@ module Html.Event {
   /*
   Stops the propagation of the given event.
 
-    try {
-      Html.Event.stopPropagation(event)
-      doSomethingElse()
-    }
+    Html.Event.stopPropagation(event)
+    doSomethingElse()
   */
   fun stopPropagation (event : Html.Event) : Void {
     `#{event.event}.stopPropagation()`

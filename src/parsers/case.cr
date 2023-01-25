@@ -16,6 +16,9 @@ module Mint
         char '(', CaseExpectedOpeningParentheses
 
         whitespace
+        await = keyword "await"
+
+        whitespace
         condition = expression! CaseExpectedCondition
         whitespace
 
@@ -47,6 +50,7 @@ module Mint
           from: start_position,
           branches: branches,
           comments: comments,
+          await: await,
           to: position,
           input: data)
       end

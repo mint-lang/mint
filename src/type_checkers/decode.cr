@@ -4,19 +4,10 @@ module Mint
     type_error DecodeComplexType
 
     def check(node : Ast::Decode) : Checkable
-      expression =
-        resolve node.expression
-
       type =
         resolve node.type
 
       raise "" unless type
-
-      raise DecodeExpectedObject, {
-        "expected" => OBJECT,
-        "got"      => expression,
-        "node"     => node,
-      } unless Comparer.compare(expression, OBJECT)
 
       raise DecodeComplexType, {
         "got"  => type,
@@ -25,7 +16,23 @@ module Mint
 
       types[node] = type
 
-      Type.new("Result", [OBJECT_ERROR, type] of Checkable)
+      result_type =
+        Type.new("Result", [OBJECT_ERROR, type] of Checkable)
+
+      if item = node.expression
+        expression =
+          resolve item
+
+        raise DecodeExpectedObject, {
+          "expected" => OBJECT,
+          "got"      => expression,
+          "node"     => node,
+        } unless Comparer.compare(expression, OBJECT)
+
+        result_type
+      else
+        Type.new("Function", [OBJECT, result_type] of Checkable)
+      end
     end
 
     def check_decode(type : Checkable)

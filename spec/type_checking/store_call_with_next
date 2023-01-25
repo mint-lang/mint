@@ -1,15 +1,13 @@
 store Test {
-  fun set : Promise(Never, Void) {
+  fun set : Promise(Void) {
     next {}
   }
 }
 
 component Main {
   fun render : Html {
-    try {
-      Test.set()
-      <div></div>
-    }
+    Test.set()
+    <div></div>
   }
 }
 

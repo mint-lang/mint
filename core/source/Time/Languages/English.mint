@@ -2,7 +2,7 @@ module Time.Format {
   /* The English language record for time formatting. */
   const ENGLISH =
     {
-      toMonthAbbreviation =
+      toMonthAbbreviation:
         (month : Month) {
           case (month) {
             Month::January => "Jan"
@@ -19,7 +19,7 @@ module Time.Format {
             Month::December => "Dec"
           }
         },
-      toMonthName =
+      toMonthName:
         (month : Month) {
           case (month) {
             Month::January => "January"
@@ -36,7 +36,7 @@ module Time.Format {
             Month::December => "December"
           }
         },
-      toWeekdayName =
+      toWeekdayName:
         (weekday : Weekday) {
           case (weekday) {
             Weekday::Monday => "Monday"
@@ -48,7 +48,7 @@ module Time.Format {
             Weekday::Sunday => "Sunday"
           }
         },
-      toWeekdayAbbreviation =
+      toWeekdayAbbreviation:
         (weekday : Weekday) {
           case (weekday) {
             Weekday::Monday => "Mon"
@@ -60,7 +60,7 @@ module Time.Format {
             Weekday::Sunday => "Sun"
           }
         },
-      toOrdinalSuffix =
+      toOrdinalSuffix:
         (day : Number) {
           case (day % 100) {
             11 => "th"
@@ -76,7 +76,7 @@ module Time.Format {
               }
           }
         },
-      amPm =
+      amPm:
         (hour : Number) {
           if (hour >= 12) {
             "pm"
@@ -84,7 +84,7 @@ module Time.Format {
             "am"
           }
         },
-      someSecondsAgo =
+      someSecondsAgo:
         (seconds : Number) {
           if (seconds < 30) {
             "just now"
@@ -92,7 +92,7 @@ module Time.Format {
             "#{seconds} seconds ago"
           }
         },
-      someMinutesAgo =
+      someMinutesAgo:
         (minutes : Number) {
           if (minutes < 2) {
             "a minute ago"
@@ -100,7 +100,7 @@ module Time.Format {
             "#{minutes} minutes ago"
           }
         },
-      someHoursAgo =
+      someHoursAgo:
         (hours : Number) {
           if (hours < 2) {
             "an hour ago"
@@ -108,7 +108,7 @@ module Time.Format {
             "#{hours} hours ago"
           }
         },
-      someDaysAgo =
+      someDaysAgo:
         (days : Number) {
           if (days < 2) {
             "yesterday"
@@ -116,7 +116,7 @@ module Time.Format {
             "#{days} days ago"
           }
         },
-      someMonthsAgo =
+      someMonthsAgo:
         (months : Number) {
           if (months < 2) {
             "last month"
@@ -124,7 +124,7 @@ module Time.Format {
             "#{months} months ago"
           }
         },
-      someYearsAgo =
+      someYearsAgo:
         (years : Number) {
           if (years < 2) {
             "last year"
@@ -132,7 +132,7 @@ module Time.Format {
             "#{years} years ago"
           }
         },
-      inSomeSeconds =
+      inSomeSeconds:
         (seconds : Number) {
           if (seconds < 30) {
             "in a few seconds"
@@ -140,7 +140,7 @@ module Time.Format {
             "in #{seconds} seconds"
           }
         },
-      inSomeMinutes =
+      inSomeMinutes:
         (minutes : Number) {
           if (minutes < 2) {
             "in a minute"
@@ -148,7 +148,7 @@ module Time.Format {
             "in #{minutes} minutes"
           }
         },
-      inSomeHours =
+      inSomeHours:
         (hours : Number) {
           if (hours < 2) {
             "in an hour"
@@ -156,7 +156,7 @@ module Time.Format {
             "in #{hours} hours"
           }
         },
-      inSomeDays =
+      inSomeDays:
         (days : Number) {
           if (days < 2) {
             "tomorrow"
@@ -164,7 +164,7 @@ module Time.Format {
             "in #{days} days"
           }
         },
-      inSomeMonths =
+      inSomeMonths:
         (months : Number) {
           if (months < 2) {
             "in a month"
@@ -172,7 +172,7 @@ module Time.Format {
             "in #{months} months"
           }
         },
-      inSomeYears =
+      inSomeYears:
         (years : Number) {
           if (years < 2) {
             "in a year"
@@ -180,6 +180,6 @@ module Time.Format {
             "in #{years} years"
           }
         },
-      rightNow = "right now"
+      rightNow: "right now"
     }
 }

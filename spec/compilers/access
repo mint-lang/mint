@@ -4,9 +4,7 @@ record X {
 
 component Main {
   fun render : String {
-    x.name
-  } where {
-    x = { name = "test" }
+    { name: "test" }.name
   }
 }
 --------------------------------------------------------------------------------
@@ -19,11 +17,9 @@ const A = _R({
 
 class B extends _C {
   render() {
-    let a = new A({
+    return new A({
       name: `test`
-    });
-
-    return a.name;
+    }).name;
   }
 };
 

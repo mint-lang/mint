@@ -8,17 +8,15 @@ component Main {
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  a(c, b) {
-    return b;
+  a(b, c) {
+    return c;
   }
 
   d() {
@@ -26,10 +24,8 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      this.d();
-      return ``;
-    })();
+    this.d();
+    return ``;
   }
 };
 

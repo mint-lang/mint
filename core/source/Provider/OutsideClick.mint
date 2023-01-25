@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.OutsideClick` */
 record Provider.OutsideClick.Subscription {
-  clicks : Function(Promise(Never, Void)),
+  clicks : Function(Promise(Void)),
   elements : Array(Maybe(Dom.Element))
 }
 
@@ -10,34 +10,30 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* The event handler. */
-  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handle (event : Html.Event) : Array(Promise(Void)) {
     for (subscription of subscriptions) {
-      try {
-        inside =
-          subscription.elements
-          |> Array.compact()
-          |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
+      let inside =
+        subscription.elements
+        |> Array.compact()
+        |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
 
-        if (inside) {
-          Promise.never()
-        } else {
-          subscription.clicks()
-        }
+      if (inside) {
+        Promise.never()
+      } else {
+        subscription.clicks()
       }
     }
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-        next { listener = Maybe::Nothing }
-      }
+      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      next { listener: Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>
-          next { listener = Maybe::Just(Window.addEventListener("mouseup", true, handle)) }
+          next { listener: Maybe::Just(Window.addEventListener("mouseup", true, handle)) }
 
         => next { }
       }

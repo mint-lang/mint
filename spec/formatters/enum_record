@@ -5,7 +5,7 @@ enum A {
 
 component Main {
   fun render : String {
-    case (A::B(name = "Joe", color = "Blue")) {
+    case (A::B(name: "Joe", color: "Blue")) {
       A::B(name, color) => ""
       A::C => ""
     }
@@ -19,7 +19,7 @@ enum A {
 
 component Main {
   fun render : String {
-    case (A::B(name = "Joe", color = "Blue")) {
+    case (A::B(name: "Joe", color: "Blue")) {
       A::B(name, color) => ""
       A::C => ""
     }

@@ -7,10 +7,10 @@ describe "Record Field" do
   expect_ignore "-"
   expect_ignore "{"
 
-  expect_error "asd", Mint::Parser::RecordFieldExpectedEqualSign
-  expect_error "asd ", Mint::Parser::RecordFieldExpectedEqualSign
-  expect_error "asd =", Mint::Parser::RecordFieldExpectedExpression
-  expect_error "asd = ", Mint::Parser::RecordFieldExpectedExpression
+  expect_ignore "asd"
+  expect_ignore "asd "
+  expect_ignore "asd:"
+  expect_ignore "asd: "
 
-  expect_ok "asd = asd"
+  expect_ok "asd: asd"
 end

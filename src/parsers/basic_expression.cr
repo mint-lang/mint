@@ -8,6 +8,7 @@ module Mint
         asset_directive ||
         inline_directive ||
         env ||
+        here_doc ||
         string_literal ||
         regexp_literal ||
         bool_literal ||
@@ -15,7 +16,9 @@ module Mint
         unary_minus ||
         array ||
         record_update ||
-        tuple_literal_or_record ||
+        record ||
+        tuple_literal ||
+        code_block ||
         html_element ||
         html_expression ||
         html_component ||
@@ -27,34 +30,15 @@ module Mint
         encode ||
         if_expression ||
         for_expression ||
-        with_expression ||
         next_call ||
-        sequence ||
-        parallel ||
-        try_expression ||
         case_expression ||
         parenthesized_expression ||
         inline_function ||
-        starts_with_uppercase ||
+        enum_id ||
         negated_expression ||
         js ||
         void ||
         variable
-    end
-
-    def tuple_literal_or_record : Ast::TupleLiteral | Ast::Record?
-      tuple_literal
-    rescue
-      record
-    end
-
-    def starts_with_uppercase
-      item = enum_id rescue nil
-      item ||= record_constructor rescue nil
-
-      return item if item
-
-      constant_variable
     end
 
     def basic_expression!(error : SyntaxError.class) : Ast::Expression

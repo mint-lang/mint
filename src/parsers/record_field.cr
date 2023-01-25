@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error RecordFieldExpectedExpression
-    syntax_error RecordFieldExpectedEqualSign
-
     def record_field : Ast::RecordField?
       start do |start_position|
         comment = self.comment
@@ -10,10 +7,10 @@ module Mint
         next unless key = variable
         whitespace
 
-        char '=', RecordFieldExpectedEqualSign
+        next unless char! ':'
         whitespace
 
-        value = expression! RecordFieldExpectedExpression
+        next unless value = expression
 
         self << Ast::RecordField.new(
           value: value,

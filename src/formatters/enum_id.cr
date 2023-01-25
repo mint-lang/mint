@@ -11,7 +11,11 @@ module Mint
           "(#{format(node.expressions, ", ")})"
         end
 
-      "#{node.name}::#{node.option}#{expressions}"
+      if node.name
+        "#{node.name}::#{node.option}#{expressions}"
+      else
+        "#{node.option}#{expressions}"
+      end
     end
   end
 end

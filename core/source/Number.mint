@@ -6,32 +6,30 @@ module Number {
     Number.format("$ ", 1034150) == "$ 1,034,150"
   */
   fun format (prefix : String, number : Number) : String {
-    try {
-      string =
-        Number.toFixed(2, number)
+    let string =
+      Number.toFixed(2, number)
 
-      parts =
-        String.split(".", string)
+    let parts =
+      String.split(".", string)
 
-      digits =
-        parts[0]
-        |> Maybe.withDefault("")
-        |> String.chopStart("-")
-        |> String.split("")
-        |> Array.groupsOfFromEnd(3)
-        |> Array.map(String.join(""))
-        |> String.join(",")
+    let digits =
+      parts[0]
+      |> Maybe.withDefault("")
+      |> String.chopStart("-")
+      |> String.split("")
+      |> Array.groupsOfFromEnd(3)
+      |> Array.map((items : Array(String)) { String.join("", items) })
+      |> String.join(",")
 
-      decimals =
-        parts[1]
-        |> Maybe.withDefault("")
-        |> String.chopEnd("0")
+    let decimals =
+      parts[1]
+      |> Maybe.withDefault("")
+      |> String.chopEnd("0")
 
-      if (String.isEmpty(decimals)) {
-        prefix + digits
-      } else {
-        prefix + digits + "." + decimals
-      }
+    if (String.isEmpty(decimals)) {
+      prefix + digits
+    } else {
+      prefix + digits + "." + decimals
     }
   }
 

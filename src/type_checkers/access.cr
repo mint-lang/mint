@@ -1,6 +1,5 @@
 module Mint
   class TypeChecker
-    type_error AccessUnsafeComponent
     type_error AccessFieldNotFound
     type_error AccessNotRecord
 
@@ -8,11 +7,7 @@ module Mint
       target =
         resolve node.lhs
 
-      if node.safe? && target.name == "Maybe"
-        Type.new("Maybe", [check_access(node, target.parameters[0])])
-      else
-        check_access(node, target)
-      end
+      check_access(node, target)
     end
 
     def check_access(node, target) : Checkable

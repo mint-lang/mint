@@ -20,11 +20,7 @@ module Mint
     end
 
     def compile(node : Ast::If, block : Proc(String, String)? = nil) : String
-      if checked.includes?(node)
-        _compile node, block
-      else
-        ""
-      end
+      node.in?(checked) ? _compile(node, block) : ""
     end
 
     def _compile(node : Ast::If, block : Proc(String, String)? = nil) : String

@@ -1,0 +1,7 @@
+module Mint
+  class Formatter
+    def format(node : Ast::Directives::Format)
+      "@format #{format(node.content)}"
+    end
+  end
+end

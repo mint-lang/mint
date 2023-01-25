@@ -1,0 +1,20 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN
+    ## Hello There
+    #{<div>"Hello"</div>}
+    World!
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h(React.Fragment,{},[_h('h2',{},[`Hello There`]),_h('p',{},[_h("div", {}, [
+  `Hello`
+]),`
+`,`World`,`!`])]);
+  }
+};
+
+A.displayName = "Main";

@@ -1,7 +1,7 @@
 /* This module has functions for manipulating the clipboard. */
 module Clipboard {
   /* Sets the clipboards content to the given value. */
-  fun set (value : String) : Promise(Never, String) {
+  fun set (value : String) : Promise(String) {
     `
     (() => {
       // Create a textarea element

@@ -24,28 +24,22 @@ suite "Object.Encode.time" {
 
 suite "Object.Encode.field" {
   test "encodes a key and vlaue to a field" {
-    try {
-      object =
-        Object.Encode.field("test", `"a"`)
+    let object =
+      Object.Encode.field("test", `"a"`)
 
-      `#{object}.name == "test" && #{object}.value == "a"`
-    }
+    `#{object}.name == "test" && #{object}.value == "a"`
   }
 }
 
 suite "Object.Encode.object" {
   test "encodes an array of fields to an object" {
-    with Object.Encode {
-      try {
-        encodedField =
-          field("test", `"a"`)
+    let encodedField =
+      Object.Encode.field("test", `"a"`)
 
-        encodedObject =
-          object([encodedField])
+    let encodedObject =
+      Object.Encode.object([encodedField])
 
-        `#{encodedObject}.test == "a"`
-      }
-    }
+    `#{encodedObject}.test == "a"`
   }
 }
 

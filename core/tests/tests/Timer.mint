@@ -1,45 +1,39 @@
 suite "Timer.timeout" {
   test "resolves after a time" {
-    with Test.Context {
-      of("TEST")
-      |> timeout(1)
-      |> then(
-        (subject : String) : Promise(a, String) {
-          subject
-          |> String.toLowerCase()
-          |> Promise.resolve()
-        })
-      |> then(
-        (subject : String) : Promise(a, Bool) {
-          subject == "test"
-          |> Promise.resolve()
-        })
-    }
+    Test.Context.of("TEST")
+    |> Test.Context.timeout(1)
+    |> Test.Context.then(
+      (subject : String) : Promise(String) {
+        subject
+        |> String.toLowerCase()
+        |> Promise.resolve()
+      })
+    |> Test.Context.then(
+      (subject : String) : Promise(Bool) {
+        subject == "test"
+        |> Promise.resolve()
+      })
   }
 }
 
 suite "Timer.nextFrame" {
   test "resolves after the next frame" {
-    with Test.Context {
-      of("TEST")
-      |> then(
-        (subject : String) : Promise(a, String) {
-          sequence {
-            Timer.nextFrame()
-            `#{subject}` as Promise(Never, String)
-          }
-        })
-      |> then(
-        (subject : String) : Promise(a, String) {
-          subject
-          |> String.toLowerCase()
-          |> Promise.resolve()
-        })
-      |> then(
-        (subject : String) : Promise(a, Bool) {
-          subject == "test"
-          |> Promise.resolve()
-        })
-    }
+    Test.Context.of("TEST")
+    |> Test.Context.then(
+      (subject : String) : Promise(String) {
+        await Timer.nextFrame()
+        subject
+      })
+    |> Test.Context.then(
+      (subject : String) : Promise(String) {
+        subject
+        |> String.toLowerCase()
+        |> Promise.resolve()
+      })
+    |> Test.Context.then(
+      (subject : String) : Promise(Bool) {
+        subject == "test"
+        |> Promise.resolve()
+      })
   }
 }

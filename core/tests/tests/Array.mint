@@ -161,52 +161,46 @@ suite "Array.firstWithDefault" {
 
 suite "Array.flatMap" {
   test "maps over a nested array and flattens" {
-    try {
-      result =
-        [[3, 1], [2, 0], [5]]
-        |> Array.flatMap(
-          (n : Array(Number)) : Array(Number) {
-            [
-              Array.max(n)
-              |> Maybe.withDefault(0)
-            ]
-          })
+    let result =
+      [[3, 1], [2, 0], [5]]
+      |> Array.flatMap(
+        (n : Array(Number)) : Array(Number) {
+          [
+            Array.max(n)
+            |> Maybe.withDefault(0)
+          ]
+        })
 
-      result == [3, 2, 5]
-    }
+    result == [3, 2, 5]
   }
 }
 
 suite "Array.groupsOf" {
   test "group into items of specified size" {
-    try {
-      result =
-        [1, 2, 3, 4, 5, 6, 7, 8]
-        |> Array.groupsOf(2)
+    let result =
+      [1, 2, 3, 4, 5, 6, 7, 8]
+      |> Array.groupsOf(2)
 
-      (result == [
-        [1, 2],
-        [3, 4],
-        [5, 6],
-        [7, 8]
-      ])
-    }
+    (result == [
+      [1, 2],
+      [3, 4],
+      [5, 6],
+      [7, 8]
+    ])
   }
 }
 
 suite "Array.groupsOfFromEnd" {
   test "group into items of specified size" {
-    try {
-      result =
-        Array.groupsOfFromEnd(2, [1, 2, 3, 4, 5, 6, 7])
+    let result =
+      Array.groupsOfFromEnd(2, [1, 2, 3, 4, 5, 6, 7])
 
-      (result == [
-        [1],
-        [2, 3],
-        [4, 5],
-        [6, 7]
-      ])
-    }
+    (result == [
+      [1],
+      [2, 3],
+      [4, 5],
+      [6, 7]
+    ])
   }
 }
 
@@ -561,25 +555,21 @@ suite "Array.swap" {
 
 suite "Array.takeEnd" {
   test "take n number of items" {
-    try {
-      result =
-        [1, 2, 3, 4, 5, 6, 7, 8]
-        |> Array.takeEnd(2)
+    let result =
+      [1, 2, 3, 4, 5, 6, 7, 8]
+      |> Array.takeEnd(2)
 
-      result == [7, 8]
-    }
+    result == [7, 8]
   }
 }
 
 suite "Array.takeStart" {
   test "take n number of items" {
-    try {
-      result =
-        [1, 2, 3, 4, 5, 6, 7, 8]
-        |> Array.takeStart(2)
+    let result =
+      [1, 2, 3, 4, 5, 6, 7, 8]
+      |> Array.takeStart(2)
 
-      result == [1, 2]
-    }
+    result == [1, 2]
   }
 }
 

@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.MediaQuery` */
 record Provider.MediaQuery.Subscription {
-  changes : Function(Bool, Promise(Never, Void)),
+  changes : Function(Bool, Promise(Void)),
   query : String
 }
 
@@ -12,63 +12,59 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
   /* The map of the listeners. */
   state listeners : Map(String, Function(Void)) = Map.empty()
 
-  fun update : Promise(Never, Void) {
-    try {
-      updatedListeners =
-        subscriptions
-        |> Array.reduce(
-          listeners,
-          (
-            memo : Map(String, Function(Void)),
-            subscription : Provider.MediaQuery.Subscription
-          ) {
-            case (Map.get(subscription.query, listeners)) {
-              Maybe::Nothing =>
-                Map.set(
+  fun update : Promise(Void) {
+    let updatedListeners =
+      subscriptions
+      |> Array.reduce(
+        listeners,
+        (
+          memo : Map(String, Function(Void)),
+          subscription : Provider.MediaQuery.Subscription
+        ) {
+          case (Map.get(subscription.query, listeners)) {
+            Maybe::Nothing =>
+              Map.set(
+                subscription.query,
+                Window.addMediaQueryListener(
                   subscription.query,
-                  Window.addMediaQueryListener(
-                    subscription.query,
-                    (active : Bool) {
-                      for (item of subscriptions) {
-                        subscription.changes(active)
-                      } when {
-                        item.query == subscription.query
-                      }
-                    }),
-                  memo)
+                  (active : Bool) {
+                    for (item of subscriptions) {
+                      subscription.changes(active)
+                    } when {
+                      item.query == subscription.query
+                    }
+                  }),
+                memo)
 
-              Maybe::Just => memo
-            }
-          })
+            Maybe::Just => memo
+          }
+        })
 
-      finalListeners =
-        updatedListeners
-        |> Map.reduce(
-          updatedListeners,
-          (
-            memo : Map(String, Function(Void)),
-            query : String,
-            listener : Function(Void)
-          ) {
-            try {
-              subscription =
-                subscriptions
-                |> Array.find(
-                  (item : Provider.MediaQuery.Subscription) { item.query == query })
+    let finalListeners =
+      updatedListeners
+      |> Map.reduce(
+        updatedListeners,
+        (
+          memo : Map(String, Function(Void)),
+          query : String,
+          listener : Function(Void)
+        ) {
+          let subscription =
+            subscriptions
+            |> Array.find(
+              (item : Provider.MediaQuery.Subscription) { item.query == query })
 
-              case (subscription) {
-                Maybe::Just => memo
+          case (subscription) {
+            Maybe::Just => memo
 
-                Maybe::Nothing =>
-                  try {
-                    listener()
-                    Map.delete(query, memo)
-                  }
+            Maybe::Nothing =>
+              {
+                listener()
+                Map.delete(query, memo)
               }
-            }
-          })
+          }
+        })
 
-      next { listeners = finalListeners }
-    }
+    next { listeners: finalListeners }
   }
 }

@@ -7,11 +7,7 @@ module Mint
     end
 
     def compile(node : Ast::Style, component : Ast::Component) : Nil
-      if checked.includes?(node)
-        _compile node, component
-      else
-        ""
-      end
+      node.in?(checked) ? _compile(node, component) : ""
     end
 
     def _compile(node : Ast::Style, component : Ast::Component) : Nil

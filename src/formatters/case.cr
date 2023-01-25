@@ -10,7 +10,10 @@ module Mint
       body =
         list items
 
-      "case (#{condition}) {\n#{indent(body)}\n}"
+      await =
+        "await " if node.await
+
+      "case (#{await}#{condition}) {\n#{indent(body)}\n}"
     end
   end
 end

@@ -1,6 +1,7 @@
 record Test {
   test : String
 }
+
 provider Test : Test {
   fun print (a : String) : String {
     a
@@ -9,13 +10,10 @@ provider Test : Test {
 
 component Main {
   use Test {
-    test = ""
+    test: ""
   }
 
   fun render : String {
-    x
-  } where {
-    x =
-      Test.print("x")
+    Test.print("x")
   }
 }

@@ -1,33 +1,15 @@
 component Main {
   fun render : String {
-    try {
-      decode (`[]`) as Tuple(String, Number, String)
+    decode (`[]`) as Tuple(String, Number, String)
 
-      ""
-    } catch {
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let _catch_all = () => {
-        return ``
-      }
-
-      let _0 = Decoder.tuple([Decoder.string,Decoder.number,Decoder.string])((([])));
-
-      if (_0 instanceof Err) {
-        let _error = _0._0;
-        return _catch_all();
-      };
-
-      _0._0;
-
-      return ``;
-    })();
+    Decoder.tuple([Decoder.string,Decoder.number,Decoder.string])((([])));
+    return ``;
   }
 };
 

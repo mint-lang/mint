@@ -1,20 +1,18 @@
 module A {
   fun test : Bool {
-    try {x="hello"y=truez=false}
+    letx="hello"lety=trueletz=false
   }
 }
 --------------------------------------------------------------------------------
 module A {
   fun test : Bool {
-    try {
-      x =
-        "hello"
+    let x =
+      "hello"
 
-      y =
-        true
+    let y =
+      true
 
-      z =
-        false
-    }
+    let z =
+      false
   }
 }

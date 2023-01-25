@@ -45,15 +45,17 @@ enum Http.Error {
 Module for sending HTTP requests.
 
 ```
-sequence {
-  response =
-    "https://httpbin.org/get"
-    |> Http.get()
-    |> Http.send()
+request = await
+  "https://httpbin.org/get"
+  |> Http.get()
+  |> Http.send()
 
-  Debug.log(response)
-} catch Http.ErrorResponse => error {
-  Debug.log(error)
+case (request) {
+  Result::Ok(response) =>
+    Debug.log(response)
+
+  Result::Err(error) =>
+    Debug.log(error)
 }
 ```
 */
@@ -101,11 +103,11 @@ module Http {
   */
   fun empty : Http.Request {
     {
-      withCredentials = false,
-      method = "GET",
-      body = `null`,
-      headers = [],
-      url = ""
+      withCredentials: false,
+      method: "GET",
+      body: `null`,
+      headers: [],
+      url: ""
     }
   }
 
@@ -122,7 +124,7 @@ module Http {
     |> Http.send()
   */
   fun formDataBody (body : FormData, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
+    { request | body: `#{body}` }
   }
 
   /*
@@ -162,7 +164,7 @@ module Http {
   */
   fun header (key : String, value : String, request : Http.Request) : Http.Request {
     { request |
-      headers =
+      headers:
         request.headers
         |> Array.reject(
           (header : Http.Header) : Bool {
@@ -170,8 +172,8 @@ module Http {
           })
         |> Array.push(
           {
-            key = key,
-            value = value
+            key: key,
+            value: value
           })
     }
   }
@@ -186,9 +188,9 @@ module Http {
   */
   fun jsonBody (body : Object, request : Http.Request) : Http.Request {
     if (hasHeader("Content-Type", request)) {
-      { request | body = `JSON.stringify(#{body})` }
+      { request | body: `JSON.stringify(#{body})` }
     } else {
-      { request | body = `JSON.stringify(#{body})` }
+      { request | body: `JSON.stringify(#{body})` }
       |> Http.header("Content-Type", "application/json")
     }
   }
@@ -200,7 +202,7 @@ module Http {
     |> Http.method("PATCH")
   */
   fun method (method : String, request : Http.Request) : Http.Request {
-    { request | method = method }
+    { request | method: method }
   }
 
   /*
@@ -243,7 +245,7 @@ module Http {
     |> Http.get()
     |> Http.send()
   */
-  fun send (request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun send (request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     sendWithId(Uid.generate(), request)
   }
 
@@ -254,7 +256,7 @@ module Http {
     |> Http.get()
     |> Http.sendWithId("my-request")
   */
-  fun sendWithId (uid : String, request : Http.Request) : Promise(Http.ErrorResponse, Http.Response) {
+  fun sendWithId (uid : String, request : Http.Request) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     `
     new Promise((resolve, reject) => {
       if (!this._requests) { this._requests = {} }
@@ -270,11 +272,11 @@ module Http {
       } catch (error) {
         delete this._requests[#{uid}]
 
-        reject(#{{
-          type = Http.Error::BadUrl,
-          status = `xhr.status`,
-          url = request.url
-        }})
+        resolve(#{Result::Err({
+          type: Http.Error::BadUrl,
+          status: `xhr.status`,
+          url: request.url
+        })})
       }
 
       #{request.headers}.forEach((item) => {
@@ -284,40 +286,40 @@ module Http {
       xhr.addEventListener('error', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
-          type = Http.Error::NetworkError,
-          status = `xhr.status`,
-          url = request.url
-        }})
+        resolve(#{Result::Err({
+          type: Http.Error::NetworkError,
+          status: `xhr.status`,
+          url: request.url
+        })})
       })
 
       xhr.addEventListener('timeout', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
-          type = Http.Error::Timeout,
-          status = `xhr.status`,
-          url = request.url
-        }})
+        resolve(#{Result::Err({
+          type: Http.Error::Timeout,
+          status: `xhr.status`,
+          url: request.url
+        })})
       })
 
       xhr.addEventListener('load', (event) => {
         delete this._requests[#{uid}]
 
-        resolve(#{{
-          body = `xhr.responseText`,
-          status = `xhr.status`
-        }})
+        resolve(#{Result::Ok({
+          body: `xhr.responseText`,
+          status: `xhr.status`
+        })})
       })
 
       xhr.addEventListener('abort', (event) => {
         delete this._requests[#{uid}]
 
-        reject(#{{
-          type = Http.Error::Aborted,
-          status = `xhr.status`,
-          url = request.url
-        }})
+        resolve(#{Result::Err({
+          type: Http.Error::Aborted,
+          status: `xhr.status`,
+          url: request.url
+        })})
       })
 
       xhr.send(#{request.body})
@@ -334,7 +336,7 @@ module Http {
     |> Http.send()
   */
   fun stringBody (body : String, request : Http.Request) : Http.Request {
-    { request | body = `#{body}` }
+    { request | body: `#{body}` }
   }
 
   /*
@@ -344,7 +346,7 @@ module Http {
     |> Http.url("https://httpbin.org/anything")
   */
   fun url (url : String, request : Http.Request) : Http.Request {
-    { request | url = url }
+    { request | url: url }
   }
 
   /*
@@ -354,6 +356,6 @@ module Http {
     |> Http.withCredentials(true)
   */
   fun withCredentials (value : Bool, request : Http.Request) : Http.Request {
-    { request | withCredentials = value }
+    { request | withCredentials: value }
   }
 }

@@ -24,13 +24,11 @@ component Main {
   }
 
   fun render : String {
-    try {
-      a()
-      b()
-      c()
+    a()
+    b()
+    c()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -95,12 +93,10 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      this.a();
-      this.b();
-      this.c();
-      return ``;
-    })();
+    this.a();
+    this.b();
+    this.c();
+    return ``;
   }
 };
 

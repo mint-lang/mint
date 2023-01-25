@@ -6,8 +6,8 @@ record Test {
 component Main {
   fun test : Test {
     {
-      a = "Hello",
-      b = 0
+      a: "Hello",
+      b: 0
     }
   }
 

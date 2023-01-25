@@ -16,7 +16,7 @@ describe "Component Get" do
   expect_error "get a : T ", Mint::Parser::GetExpectedOpeningBracket
   expect_error "get a : T {", Mint::Parser::GetExpectedExpression
   expect_error "get a : T { ", Mint::Parser::GetExpectedExpression
-  expect_error "get a : T { a .", Mint::Parser::GetExpectedClosingBracket
+  expect_error "get a : T { a ", Mint::Parser::GetExpectedClosingBracket
 
   expect_ok "get a { a}"
   expect_ok "get a : T { a}"

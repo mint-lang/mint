@@ -9,6 +9,16 @@ module Mint
       condition =
         resolve node.condition
 
+      await = false
+
+      case condition
+      when Type
+        if condition.name == "Promise" && node.await
+          condition = condition.parameters.first
+          await = true
+        end
+      end
+
       first =
         resolve node.branches.first, condition
 
@@ -122,7 +132,11 @@ module Mint
         end
       end
 
-      unified
+      if await && unified.name != "Promise"
+        Type.new("Promise", [unified] of Checkable)
+      else
+        unified
+      end
     end
   end
 end

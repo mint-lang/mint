@@ -11,8 +11,8 @@ provider Provider : Provider.Data {
 
 component Main {
   use Provider {
-    a = "Hello",
-    b = "Blah"
+    a: "Hello",
+    b: "Blah"
   } when {
     true
   }
@@ -24,8 +24,8 @@ component Main {
 -------------------------------------------------------------UseNotFoundProvider
 component Main {
   use Provider {
-    a = "Hello",
-    b = "Blah"
+    a: "Hello",
+    b: "Blah"
   } when {
     true
   }
@@ -48,8 +48,8 @@ provider Provider : Provider.Data {
 
 component Main {
   use Provider {
-    a = "Hello",
-    b = "Blah"
+    a: "Hello",
+    b: "Blah"
   } when {
     "asd"
   }
@@ -77,8 +77,8 @@ provider Provider : Provider.Data {
 
 component Main {
   use Provider {
-    a = "Hello",
-    b = "Blah"
+    a: "Hello",
+    b: "Blah"
   } when {
     true
   }

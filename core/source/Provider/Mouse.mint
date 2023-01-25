@@ -1,8 +1,8 @@
 /* Represents a subscription for `Provider.Mouse` */
 record Provider.Mouse.Subscription {
-  clicks : Function(Html.Event, Promise(Never, Void)),
-  moves : Function(Html.Event, Promise(Never, Void)),
-  ups : Function(Html.Event, Promise(Never, Void))
+  clicks : Function(Html.Event, Promise(Void)),
+  moves : Function(Html.Event, Promise(Void)),
+  ups : Function(Html.Event, Promise(Void))
 }
 
 /* A provider for global mouse events. */
@@ -14,32 +14,28 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
   state id : Number = 0
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map(
-          (
-            methods : Tuple(Function(Void), Function(Void), Function(Void))
-          ) {
-            try {
-              {clickListener, moveListener, upListener} =
-                methods
+      Maybe.map(
+        (
+          methods : Tuple(Function(Void), Function(Void), Function(Void))
+        ) {
+          let {clickListener, moveListener, upListener} =
+            methods
 
-              clickListener()
-              moveListener()
-              upListener()
-            }
-          },
-          listeners)
+          clickListener()
+          moveListener()
+          upListener()
+        },
+        listeners)
 
-        next { listeners = Maybe::Nothing }
-      }
+      next { listeners: Maybe::Nothing }
     } else {
       case (listeners) {
         Maybe::Nothing =>
           next
             {
-              listeners =
+              listeners:
                 Maybe::Just(
                   {
                     Window.addEventListener(
@@ -54,20 +50,18 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                       "mousemove",
                       false,
                       (event : Html.Event) {
-                        sequence {
-                          AnimationFrame.cancel(id)
+                        AnimationFrame.cancel(id)
 
-                          next
-                            {
-                              id =
-                                AnimationFrame.request(
-                                  (timestamp : Number) {
-                                    for (subscription of subscriptions) {
-                                      subscription.moves(event)
-                                    }
-                                  })
-                            }
-                        }
+                        next
+                          {
+                            id:
+                              AnimationFrame.request(
+                                (timestamp : Number) {
+                                  for (subscription of subscriptions) {
+                                    subscription.moves(event)
+                                  }
+                                })
+                          }
                       }),
                     Window.addEventListener(
                       "mouseup",

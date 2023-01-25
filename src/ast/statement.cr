@@ -1,17 +1,13 @@
 module Mint
   class Ast
     class Statement < Node
-      enum Parent
-        Try
-        Sequence
-        Parallel
-      end
+      getter target, expression, await
 
-      getter target, expression, parent
+      delegate static?, to: @expression
 
-      def initialize(@target : Node?,
-                     @expression : Expression,
-                     @parent : Parent,
+      def initialize(@expression : Expression,
+                     @target : Node?,
+                     @await : Bool,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

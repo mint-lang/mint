@@ -54,7 +54,7 @@ module Window {
 
     Window.alert("Hello World!")
   */
-  fun alert (message : String) : Promise(Never, Void) {
+  fun alert (message : String) : Promise(Void) {
     `
     new Promise((resolve, reject) => {
       window.alert(#{message})
@@ -72,15 +72,15 @@ module Window {
 
     Window.confirm("Are you ready?")
   */
-  fun confirm (message : String) : Promise(String, Void) {
+  fun confirm (message : String) : Promise(Result(String, Void)) {
     `
     new Promise((resolve, reject) => {
       let result = window.confirm(#{message})
 
       if (result) {
-        resolve(result);
+        resolve(#{Result::Ok(`result`)})
       } else {
-        reject("User cancelled!")
+        reject(#{Result::Err("User cancelled!")})
       }
     })
     `
@@ -149,20 +149,18 @@ module Window {
     Window.isActiveURL("https://www.example.com")
   */
   fun isActiveURL (url : String) : Bool {
-    try {
-      window =
-        Window.url()
+    let window =
+      Window.url()
 
-      current =
-        Url.parse(url)
+    let current =
+      Url.parse(url)
 
-      (window.hostname == current.hostname &&
-        window.protocol == current.protocol &&
-        window.origin == current.origin &&
-        window.path == current.path &&
-        window.host == current.host &&
-        window.port == current.port)
-    }
+    (window.hostname == current.hostname &&
+      window.protocol == current.protocol &&
+      window.origin == current.origin &&
+      window.path == current.path &&
+      window.host == current.host &&
+      window.port == current.port)
   }
 
   /*
@@ -179,7 +177,7 @@ module Window {
 
     Window.navigate("https://www.example.com")
   */
-  fun navigate (url : String) : Promise(Never, Void) {
+  fun navigate (url : String) : Promise(Void) {
     `_navigate(#{url})`
   }
 
@@ -188,7 +186,7 @@ module Window {
 
     Window.open("https://www.google.com")
   */
-  fun open (url : String) : Promise(Never, Void) {
+  fun open (url : String) : Promise(Void) {
     `window.open(#{url})`
   }
 
@@ -278,7 +276,7 @@ module Window {
 
     Window.setScrollLeft(100)
   */
-  fun setScrollLeft (position : Number) : Promise(Never, Void) {
+  fun setScrollLeft (position : Number) : Promise(Void) {
     `window.scrollTo(#{position}, #{scrollLeft()})`
   }
 
@@ -287,7 +285,7 @@ module Window {
 
     Window.setScrollTop(100)
   */
-  fun setScrollTop (position : Number) : Promise(Never, Void) {
+  fun setScrollTop (position : Number) : Promise(Void) {
     `window.scrollTo(#{scrollTop()}, #{position})`
   }
 
@@ -296,7 +294,7 @@ module Window {
 
     Window.setTitle("New Title!")
   */
-  fun setTitle (title : String) : Promise(Never, Void) {
+  fun setTitle (title : String) : Promise(Void) {
     `document.title = #{title}`
   }
 
@@ -305,7 +303,7 @@ module Window {
 
     Window.setUrl("https://www.example.com")
   */
-  fun setUrl (url : String) : Promise(Never, Void) {
+  fun setUrl (url : String) : Promise(Void) {
     `_navigate(#{url}, false)`
   }
 
@@ -327,7 +325,7 @@ module Window {
 
   This function triggers that behavior.
   */
-  fun triggerHashJump : Promise(Never, Void) {
+  fun triggerHashJump : Promise(Void) {
     `requestAnimationFrame(() => {
       if (window.location.hash) {
         window.location.href = window.location.hash

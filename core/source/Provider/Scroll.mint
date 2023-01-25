@@ -1,6 +1,6 @@
 /* Represents a subscription for `Provider.Scroll` */
 record Provider.Scroll.Subscription {
-  scrolls : Function(Html.Event, Promise(Never, Void))
+  scrolls : Function(Html.Event, Promise(Void))
 }
 
 /* A provider for global scroll events. */
@@ -9,23 +9,21 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
   state listener : Maybe(Function(Void)) = Maybe::Nothing
 
   /* Handles the scroll events. */
-  fun handle (event : Html.Event) : Array(Promise(Never, Void)) {
+  fun handle (event : Html.Event) : Array(Promise(Void)) {
     for (subscription of subscriptions) {
       subscription.scrolls(event)
     }
   }
 
   /* Updates the provider. */
-  fun update : Promise(Never, Void) {
+  fun update : Promise(Void) {
     if (Array.isEmpty(subscriptions)) {
-      try {
-        Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
-        next { listener = Maybe::Nothing }
-      }
+      Maybe.map((unsubscribe : Function(Void)) { unsubscribe() }, listener)
+      next { listener: Maybe::Nothing }
     } else {
       case (listener) {
         Maybe::Nothing =>
-          next { listener = Maybe::Just(Window.addEventListener("scroll", false, handle)) }
+          next { listener: Maybe::Just(Window.addEventListener("scroll", false, handle)) }
 
         => next { }
       }

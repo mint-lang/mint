@@ -1,0 +1,16 @@
+component Main {
+  fun render : String {
+    let a = "Some string..."
+
+    a + ", other string..."
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    const a = `Some string...`;
+    return a + `, other string...`;
+  }
+};
+
+A.displayName = "Main";

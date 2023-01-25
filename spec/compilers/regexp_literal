@@ -4,11 +4,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      regexp()
+    regexp()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -18,10 +16,8 @@ class A extends _C {
   }
 
   render() {
-    return (() => {
-      this.a();
-      return ``;
-    })();
+    this.a();
+    return ``;
   }
 };
 

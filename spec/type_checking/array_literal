@@ -8,11 +8,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 -----------------------------------------------------------------ArrayNotMatches
@@ -26,11 +24,9 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }
 ------------------------------------------------------ArrayNotMatchesDefinedType
@@ -43,10 +39,8 @@ component Main {
   }
 
   fun render : Html {
-    try {
-      test()
+    test()
 
-      <div/>
-    }
+    <div/>
   }
 }

@@ -8,18 +8,18 @@ record Blah {
 
 component Main {
   fun render : String {
+    let blah =
+      { blah: { blah: "Helllo" } }
+
     blah.blah.blah
-  } where {
-    blah =
-      { blah = { blah = "Helllo" } }
   }
 }
 -----------------------------------------------------------------AccessNotRecord
 component Main {
   fun render : Bool {
+    let blah = ""
+
     blah.blah.blah
-  } where {
-    blah = ""
   }
 }
 -----------------------------------------------------------------AccessNotRecord
@@ -29,10 +29,10 @@ record Blah {
 
 component Main {
   fun render : Bool {
+    let blah =
+      { blah: "Blah" }
+
     blah.blah.blah
-  } where {
-    blah =
-      { blah = "Blah" }
   }
 }
 -------------------------------------------------------------AccessFieldNotFound
@@ -42,9 +42,9 @@ record Blah {
 
 component Main {
   fun render : Bool {
+    let blah =
+      { blah: "Hello" }
+
     blah.blaha
-  } where {
-    blah =
-      { blah = "Hello" }
   }
 }

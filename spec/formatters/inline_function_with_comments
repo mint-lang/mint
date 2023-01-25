@@ -1,23 +1,22 @@
 module A {
   //
   fun test : String {
+    let a = ():String{/*A*/"Hello"/*B*/}
     a()
-  } where {
-    a = ():String{/*A*/"Hello"/*B*/}
   }
 }
 --------------------------------------------------------------------------------
 module A {
   //
   fun test : String {
-    a()
-  } where {
-    a =
+    let a =
       () : String {
         /* A */
         "Hello"
 
         /* B */
       }
+
+    a()
   }
 }

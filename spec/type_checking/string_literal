@@ -6,20 +6,16 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   fun render : String {
-    try {
-      name = 0
+    let name = 0
 
-      "Hello There #{name}!"
-    }
+    "Hello There #{name}!"
   }
 }
 ------------------------------------------StringLiteralInterpolationTypeMismatch
 component Main {
   fun render : String {
-    try {
-      name = {}
+    let name = {}
 
-      "Hello There #{name}!"
-    }
+    "Hello There #{name}!"
   }
 }

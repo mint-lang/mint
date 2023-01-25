@@ -1,0 +1,44 @@
+record X.Y {
+  blah : String
+}
+
+record X {
+  name : String,
+  y: X.Y
+}
+
+component Main {
+  fun render : String {
+    (decode as X)(``)
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+const A = _R({
+  blah: [
+    "blah",
+    Decoder.string
+  ]
+});
+
+const B = _R({
+  name: [
+    "name",
+    Decoder.string
+  ],
+  y: [
+    "y",
+    ((_)=>A.decode(_)),
+    ((_)=>A.encode(_))
+  ]
+});
+
+class C extends _C {
+  render() {
+    (((_)=>((_)=>B.decode(_))(_)))();
+    return ``;
+  }
+};
+
+C.displayName = "Main";

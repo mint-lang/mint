@@ -4,11 +4,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 ------------------------------------------------------------FunctionTypeMismatch
@@ -18,11 +16,9 @@ component Main {
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------FunctionArgumentConflict
@@ -32,10 +28,8 @@ component Main {
   }
 
   fun render : String {
-    try {
-      test()
+    test()
 
-      ""
-    }
+    ""
   }
 }

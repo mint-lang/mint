@@ -5,7 +5,12 @@ module Mint
         format node.name
 
       value =
-        format node.value
+        case x = node.value
+        when Ast::Block
+          format x, BlockFormat::Attribute
+        else
+          format node.value
+        end
 
       case node.value
       when Ast::StringLiteral
@@ -14,16 +19,8 @@ module Mint
         else
           "#{name}=#{value}"
         end
-      when Ast::HtmlExpression
-        "#{name}=#{value}"
-      when Ast::ArrayLiteral
-        "#{name}=#{value}"
       else
-        if replace_skipped(value).includes?('\n')
-          "#{name}={\n#{indent(value)}\n}"
-        else
-          "#{name}={#{value}}"
-        end
+        "#{name}=#{value}"
       end
     end
   end

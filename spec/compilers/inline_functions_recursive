@@ -1,8 +1,6 @@
 module Test {
   fun a(n : Number) : Number {
-    c(n, 1)
-  } where {
-    b = (n : Number, acc : Number) : Number {
+    let b = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -11,7 +9,7 @@ module Test {
       }
     }
 
-    c = (n : Number, acc : Number) : Number {
+    let c = (n : Number, acc : Number) : Number {
       if (n == 0) {
         acc
       }
@@ -19,39 +17,37 @@ module Test {
         b(n - 1, acc * n)
       }
     }
+
+    c(n, 1)
   }
 }
 
 component Main {
   fun render : String {
-    try {
-      Test.a(3)
+    Test.a(3)
 
-      ""
-    }
+    ""
   }
 }
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
-  a(c) {
-    let f = (d, e) => {
-      return (_compare(d, 0) ? e : b(d - 1, e * d))
+  a(b) {
+    const f = (c, d) => {
+      return (_compare(c, 0) ? d : e(c - 1, d * c))
     };
 
-    let b = (g, h) => {
+    const e = (g, h) => {
       return (_compare(g, 0) ? h : f(g - 1, h * g))
     };
 
-    return b(c, 1);
+    return f(b, 1);
   }
 });
 
 class A extends _C {
   render() {
-    return (() => {
-      B.a(3);
-      return ``;
-    })();
+    B.a(3);
+    return ``;
   }
 };
 

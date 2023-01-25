@@ -11,14 +11,23 @@ module Mint
       end
 
       def call
-        @call ||= Ast::Call.new(
-          partially_applied: false,
-          expression: expression,
-          arguments: [argument],
-          safe: false,
-          input: input,
-          from: from,
-          to: to)
+        @call ||=
+          case item = expression
+          when Ast::Call
+            Ast::Call.new(
+              arguments: item.arguments + [argument],
+              expression: item.expression,
+              input: item.input,
+              from: item.from,
+              to: item.to)
+          else
+            Ast::Call.new(
+              expression: expression,
+              arguments: [argument],
+              input: input,
+              from: from,
+              to: to)
+          end
       end
     end
   end

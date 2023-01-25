@@ -22,14 +22,14 @@ module ResizeObserver {
     new ResizeObserver((entries) => {
       const values = entries.map((item) => {
         return #{
-          try {
-            dimensions =
+          {
+            let dimensions =
               decode (`item.contentRect`) as Dom.Dimensions
               |> Result.withDefault(Dom.Dimensions.empty())
 
             {
-              dimensions = dimensions,
-              target = `item.target`
+              dimensions: dimensions,
+              target: `item.target`
             }
           }
         }

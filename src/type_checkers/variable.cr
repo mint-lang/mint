@@ -4,10 +4,9 @@ module Mint
     type_error VariableMissing
 
     RESERVED =
-      %w(break case catch class const continue debugger default delete do else
-        export extends finally for if import in instanceof new return super
-        switch this throw try typeof var void while with yield state
-        sequence parallel)
+      %w(break case class const continue debugger default delete do else
+        export extends for if import in instanceof new return super
+        switch this throw typeof var void while yield state)
 
     def check(node : Ast::Variable) : Checkable
       raise VariableReserved, {
@@ -32,21 +31,7 @@ module Mint
       else
         case value = item[0]
         when Ast::Statement
-          type = resolve value
-
-          if value.parent.try?
-            if type.name == "Result" && type.parameters.size == 2
-              type.parameters[1]
-            else
-              type
-            end
-          else
-            if type.name.in?("Result", "Promise") && type.parameters.size == 2
-              type.parameters[1]
-            else
-              type
-            end
-          end
+          resolve value
         when Tuple(Ast::Node, Int32 | Array(Int32))
           item = value[0]
 
@@ -54,7 +39,7 @@ module Mint
             resolve item
 
           case item
-          when Ast::Statement, Ast::WhereStatement
+          when Ast::Statement
             case item.target
             when Ast::TupleDestructuring
               case val = value[1]

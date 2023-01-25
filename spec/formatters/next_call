@@ -1,8 +1,8 @@
 component Test {
   state name : String = "Joe"
 
-  fun test : Promise(Never, Void) {
-    next {name = "Hello"}
+  fun test : Promise(Void) {
+    next {name: "Hello"}
   }
 
   fun render : Html {
@@ -13,8 +13,8 @@ component Test {
 component Test {
   state name : String = "Joe"
 
-  fun test : Promise(Never, Void) {
-    next { name = "Hello" }
+  fun test : Promise(Void) {
+    next { name: "Hello" }
   }
 
   fun render : Html {

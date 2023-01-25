@@ -1,14 +1,12 @@
 module Mint
   class Ast
     class For < Node
-      getter head_comments, tail_comments, subject, body, arguments, condition
+      getter subject, body, arguments, condition
 
-      def initialize(@head_comments : Array(Comment),
-                     @tail_comments : Array(Comment),
-                     @condition : ForCondition?,
+      def initialize(@condition : ForCondition?,
                      @arguments : Array(Variable),
                      @subject : Expression,
-                     @body : Expression,
+                     @body : Block,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

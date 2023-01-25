@@ -29,22 +29,18 @@ module Mint
             item
           end
 
-        head_comments, body, tail_comments =
-          block_with_comments(
+        body =
+          code_block(
             opening_bracket: InlineFunctionExpectedOpeningBracket,
-            closing_bracket: InlineFunctionExpectedClosingBracket
-          ) do
-            expression! InlineFunctionExpectedExpression
-          end
+            closing_bracket: InlineFunctionExpectedClosingBracket,
+            statement_error: InlineFunctionExpectedExpression)
 
         self << Ast::InlineFunction.new(
-          body: body.as(Ast::Expression),
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           arguments: arguments,
           from: start_position,
           to: position,
           input: data,
+          body: body,
           type: type)
       end
     end

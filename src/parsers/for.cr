@@ -30,22 +30,19 @@ module Mint
 
         whitespace
         char ')', ForExpectedClosingParentheses
+        whitespace
 
-        head_comments, body, tail_comments =
-          block_with_comments(
+        body =
+          code_block(
             opening_bracket: ForExpectedOpeningBracket,
-            closing_bracket: ForExpectedClosingBracket
-          ) do
-            expression! ForExpectedBody
-          end
+            closing_bracket: ForExpectedClosingBracket,
+            statement_error: ForExpectedBody)
 
         whitespace
         condition = for_condition
         whitespace
 
         self << Ast::For.new(
-          head_comments: head_comments,
-          tail_comments: tail_comments,
           condition: condition,
           arguments: arguments,
           from: start_position,

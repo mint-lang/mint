@@ -10,14 +10,12 @@ provider Test : Test {
 
 component Main {
   use Test {
-    test = ""
+    test: ""
   }
 
   fun render : String {
-    try {
-      Test.subscriptions
-      Test.print("a")
-    }
+    Test.subscriptions
+    Test.print("a")
   }
 }
 --------------------------------------------------------------------------------
@@ -65,10 +63,8 @@ class C extends _C {
   }
 
   render() {
-    return (() => {
-      B._subscriptions;
-      return B.a(`a`);
-    })();
+    B._subscriptions;
+    return B.a(`a`);
   }
 };
 

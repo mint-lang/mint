@@ -6,11 +6,12 @@ module Mint
 
     def enum_destructuring
       start do |start_position|
-        next unless name = type_id
+        next unless option = type_id
 
-        keyword! "::", EnumDestructuringExpectedDoubleColon
-
-        option = type_id! EnumDestructuringExpectedOption
+        if keyword "::"
+          name = option
+          option = type_id! EnumDestructuringExpectedOption
+        end
 
         parameters = [] of Ast::Node
 

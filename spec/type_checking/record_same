@@ -11,8 +11,8 @@ record Test2 {
 component Main {
   fun test : Test {
     {
-      a = "Hello",
-      b = 0
+      a: "Hello",
+      b: 0
     }
   }
 
@@ -34,8 +34,8 @@ record Test2 {
 component Main {
   state test : Test =
     {
-      a = "Hello",
-      b = 0
+      a: "Hello",
+      b: 0
     }
 
   fun render : String {

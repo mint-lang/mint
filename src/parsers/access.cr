@@ -2,23 +2,18 @@ module Mint
   class Parser
     syntax_error AccessExpectedVariable
 
-    def access(lhs : Ast::Expression, safe : Bool = false) : Ast::Expression
+    def access(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
-        if safe
-          next unless keyword("&.")
-        else
-          next unless char! '.'
-        end
+        next unless char! '.'
 
         field = variable! AccessExpectedVariable
 
         node = self << Ast::Access.new(
-          lhs: lhs,
-          safe: safe,
-          field: field,
           from: start_position,
+          field: field,
           to: position,
-          input: data)
+          input: data,
+          lhs: lhs)
 
         array_access_or_call(node)
       end || lhs

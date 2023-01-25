@@ -1,7 +1,7 @@
 component Test.Provider.Tick {
   state counter : Number = 0
 
-  use Provider.Tick { ticks = () : Promise(Never, Void) { next { counter = counter + 1 } } }
+  use Provider.Tick { ticks: () : Promise(Void) { next { counter: counter + 1 } } }
 
   fun render : Html {
     <div>
@@ -12,14 +12,10 @@ component Test.Provider.Tick {
 
 suite "Provider.Tick.ticks" {
   test "called every second" {
-    with Test.Html {
-      with Test.Context {
-        <Test.Provider.Tick/>
-        |> start()
-        |> assertTextOf("div", "0")
-        |> timeout(1010)
-        |> assertTextOf("div", "1")
-      }
-    }
+    <Test.Provider.Tick/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("div", "0")
+    |> Test.Context.timeout(1010)
+    |> Test.Html.assertTextOf("div", "1")
   }
 }
