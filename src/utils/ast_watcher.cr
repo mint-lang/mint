@@ -13,7 +13,7 @@ module Mint
     def initialize
     end
 
-    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) {}, @progress = false, @include_core = true)
+    def initialize(@pattern_proc, @file_proc = ->(_file : String, _ast : Ast) {}, @progress = false, @include_core = true, &)
       @pattern = @pattern_proc.call
 
       watch_for_changes
@@ -23,7 +23,7 @@ module Mint
       yield error
     end
 
-    def watch
+    def watch(&)
       loop do
         @channel.receive
         yield compile

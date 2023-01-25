@@ -7,7 +7,7 @@ module Mint
           short: "e"
       end
 
-      def execute(message)
+      def execute(message, &)
         # On Ctrl+C and abort and exit
         Signal::INT.trap do
           terminal.puts

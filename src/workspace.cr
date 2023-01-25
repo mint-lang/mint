@@ -118,7 +118,7 @@ module Mint
       @cache[normalize_path(file)] = value
     end
 
-    def initialize_cache
+    def initialize_cache(&)
       files = self.files
       files.each_with_index do |file, index|
         self[file] ||= Parser.parse(file)

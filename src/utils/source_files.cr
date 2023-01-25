@@ -58,7 +58,7 @@ module Mint
       end
     end
 
-    def each_package
+    def each_package(&)
       pattern =
         Path[".", ".mint", "packages", "**", "mint.json"]
 

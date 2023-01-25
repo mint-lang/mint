@@ -16,7 +16,7 @@ module Mint
         print "<h1>#{escape(content)}</h1>"
       end
 
-      def block
+      def block(&)
         print "<p>"
         with self yield
         print "</p>"
@@ -88,7 +88,7 @@ module Mint
         print escape("#{content} ")
       end
 
-      def render
+      def render(&)
         with self yield
         puts io
       end

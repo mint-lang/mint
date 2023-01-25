@@ -30,7 +30,7 @@ module LSP
 
     # Parses a message (header + contents) from a given IO
     # and yields the contents.
-    def self.parse(io : IO)
+    def self.parse(io : IO, &)
       headers =
         read_headers(io)
 

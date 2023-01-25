@@ -20,7 +20,7 @@ module Mint
     # Helpers for manipulating position
     # ----------------------------------------------------------------------------
 
-    def start
+    def start(&)
       start_position = position
 
       begin
@@ -153,7 +153,7 @@ module Mint
     # Gathering many consumes
     # ----------------------------------------------------------------------------
 
-    def gather : String?
+    def gather(&) : String?
       start_position = position
 
       yield

@@ -206,7 +206,7 @@ module Mint
       def find(variable : String, node : Ast::Node)
       end
 
-      def with(node : Node)
+      def with(node : Node, &)
         case node
         when Ast::Component,
              Ast::Provider,
@@ -235,14 +235,14 @@ module Mint
         push(node) { yield }
       end
 
-      def push(node : Node)
+      def push(node : Node, &)
         @levels.unshift node
         yield
       ensure
         @levels.delete node
       end
 
-      def with(nodes)
+      def with(nodes, &)
         nodes.each { |node| @levels.unshift node }
         yield
       ensure

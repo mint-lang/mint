@@ -6,7 +6,7 @@ module Mint
 
     class_getter env : String?
 
-    def load
+    def load(&)
       env.try do |value|
         MINT_ENV.clear
         MINT_ENV.merge!(Dotenv.load(value))
@@ -14,7 +14,7 @@ module Mint
       end
     end
 
-    def init(raw)
+    def init(raw, &)
       env =
         if !raw.presence
           ".env" if File.exists?(".env")

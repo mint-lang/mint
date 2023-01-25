@@ -372,7 +372,7 @@ module Mint
       "#{name}(#{props.join(',')})"
     end
 
-    def function(name, arguments = %w[]) : String
+    def function(name, arguments = %w[], &) : String
       function(name, arguments, yield)
     end
 
@@ -384,27 +384,27 @@ module Mint
       end
     end
 
-    def asynciif
+    def asynciif(&)
       asynciif(yield)
     end
 
-    def iif
+    def iif(&)
       iif(yield)
     end
 
-    def catch(condition)
+    def catch(condition, &)
       catch(condition, yield)
     end
 
-    def promise
+    def promise(&)
       promise(yield)
     end
 
-    def arrow_function(arguments : Array(String))
+    def arrow_function(arguments : Array(String), &)
       arrow_function(arguments, yield)
     end
 
-    def if(name)
+    def if(name, &)
       self.if(name, yield)
     end
 

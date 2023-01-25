@@ -60,7 +60,7 @@ module Mint
           process(contents) { |part| part }
         end
 
-        def process(contents)
+        def process(contents, &)
           index = 0
           part = ""
 
@@ -111,13 +111,13 @@ module Mint
         self
       end
 
-      def self.render
+      def self.render(&)
         terminal = new
         with terminal yield
         terminal.io
       end
 
-      def render
+      def render(&)
         with self yield
       end
 
@@ -125,14 +125,14 @@ module Mint
         print io
       end
 
-      def block
+      def block(&)
         block = Block.new(width: @width)
         with block yield
         block.close
         puts block.io
       end
 
-      def measure(message)
+      def measure(message, &)
         print message
         print " "
         result = nil

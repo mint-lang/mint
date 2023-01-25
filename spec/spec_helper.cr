@@ -161,7 +161,7 @@ class Workspace
   end
 end
 
-def with_workspace
+def with_workspace(&)
   workspace = Workspace.new
 
   begin

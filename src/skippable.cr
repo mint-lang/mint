@@ -10,7 +10,7 @@ module Mint
       end
     end
 
-    def skip
+    def skip(&)
       result =
         yield
 

@@ -24,7 +24,7 @@ module Mint
     class Builder
       getter elements = [] of Element
 
-      def self.build
+      def self.build(&)
         builder = new
         with builder yield
         builder.elements
@@ -100,7 +100,7 @@ module Mint
         @elements << Title.new(value: value)
       end
 
-      def block
+      def block(&)
         builder = BlockBuilder.new
         with builder yield
         @elements << builder.block

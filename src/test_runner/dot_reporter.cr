@@ -13,7 +13,7 @@ module Mint
         @count = 0
       end
 
-      def with_count
+      def with_count(&)
         puts if @count > 0 && @count % MAX_LINE_LENGTH == 0
         yield
         @count += 1

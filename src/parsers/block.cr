@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def block
+    def block(&)
       start do
         whitespace
         next unless char! '{'
@@ -15,7 +15,7 @@ module Mint
     end
 
     def block(opening_bracket : SyntaxError.class,
-              closing_bracket : SyntaxError.class)
+              closing_bracket : SyntaxError.class, &)
       whitespace
       char '{', opening_bracket
       whitespace

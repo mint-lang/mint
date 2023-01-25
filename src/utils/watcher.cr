@@ -1,6 +1,6 @@
 module Mint
   class Watcher
-    def self.watch(pattern)
+    def self.watch(pattern, &)
       new(pattern).watch { |files| yield files }
     end
 
@@ -11,7 +11,7 @@ module Mint
       detect { }
     end
 
-    def detect
+    def detect(&)
       current = Set(Tuple(String, Time)).new
 
       Dir.glob(@pattern).each do |file|
@@ -26,7 +26,7 @@ module Mint
       @state = current
     end
 
-    def watch
+    def watch(&)
       loop do
         detect do |diff|
           yield diff.map(&.[0]).uniq! unless diff.empty?

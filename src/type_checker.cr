@@ -191,11 +191,11 @@ module Mint
       end
     end
 
-    def scope(node : Scope::Node)
+    def scope(node : Scope::Node, &)
       scope.with(node) { yield }
     end
 
-    def scope(nodes)
+    def scope(nodes, &)
       scope.with(nodes) { yield }
     end
 
@@ -413,7 +413,7 @@ module Mint
       "#{number}#{affix}"
     end
 
-    def with_restricted_top_level_entity(@referee)
+    def with_restricted_top_level_entity(@referee, &)
       @top_level_entity = current_top_level_entity?
       yield
     ensure
