@@ -15,7 +15,7 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
       let inside =
         subscription.elements
         |> Array.compact()
-        |> Array.any((item : Dom.Element) { Dom.contains(event.target, item) })
+        |> Array.any((item : Dom.Element) { Dom.contains(item, event.target) })
 
       if (inside) {
         Promise.never()
