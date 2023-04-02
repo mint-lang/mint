@@ -4,7 +4,7 @@ module Mint
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
-      def execute(server)
+      def execute(server) : LSP::LocationLink | Nil
         # Get the URI of the text document
         uri =
           URI.parse(params.text_document.uri)
@@ -16,22 +16,14 @@ module Mint
           Workspace[uri.path.to_s]
 
         contents =
-          if error = workspace.error
-            # If the workspace has an error we cannot really
-            # provide and hover information, so we just provide
-            # the error istead.
-            [
-              "Cannot provide hover data because of an error:\n",
-              "```\n#{error.to_terminal}\n```",
-            ]
-          else
+          unless workspace.error
             # We get the stack of nodes under the cursor
             stack =
               server.nodes_at_cursor(params)
 
-            server.debug_stack(stack)
+            # server.debug_stack(stack)
 
-            server.log(workspace.ast.nodes.map { |node| "#{node.to_s} #{node.class.name}" }.join(",\n"))
+            # server.log(workspace.ast.nodes.map { |node| "#{node.to_s} #{node.class.name}" }.join(",\n"))
 
             first = stack[0]?
             second = stack[1]?
@@ -61,10 +53,6 @@ module Mint
               #  ^^^^^^^^^
               return definition(first, workspace)
             end
-
-            [
-              "Not handling this yet\n",
-            ]
           end
 
         contents

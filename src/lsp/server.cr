@@ -23,14 +23,24 @@ module LSP
 
     # Sends the given message (with headers prepended) to the output IO.
     def send(result = nil, error = nil, id = nil, method = nil, params = nil)
-      @out << prepend_header({
-        "jsonrpc" => "2.0",
-        "method"  => method,
-        "params"  => params,
-        "result"  => result,
-        "error"   => error,
-        "id"      => id,
-      }.compact.to_json)
+      # Sometimes we want to send Nil (or null) as the result as part of the LSP specification
+      # TODO: Is there a better way of doing this
+      if result.nil? && error.nil? && params.nil? && method.nil?
+        @out << prepend_header({
+          "jsonrpc" => "2.0",
+          "result"  => result,
+          "id"      => id,
+        }.to_json)
+      else
+        @out << prepend_header({
+          "jsonrpc" => "2.0",
+          "method"  => method,
+          "params"  => params,
+          "result"  => result,
+          "error"   => error,
+          "id"      => id,
+        }.compact.to_json)
+      end
 
       @out.flush
     end
