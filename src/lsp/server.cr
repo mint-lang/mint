@@ -91,6 +91,10 @@ module LSP
           end
         end
       end
+    rescue error : IO::EOFError
+      # Client has exited unexpectedly without
+      # sending an "exit" lifecycle message
+      exit(1)
     rescue error
       log(error.to_s)
       error.backtrace?.try(&.each { |item| log(item) })
