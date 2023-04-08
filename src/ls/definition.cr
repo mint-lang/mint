@@ -1,6 +1,6 @@
 module Mint
   module LS
-    # This is the class that handles the "textDocument/hover" request.
+    # This is the class that handles the "textDocument/definition" request.
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
@@ -21,41 +21,24 @@ module Mint
             stack =
               server.nodes_at_cursor(params)
 
-            # server.debug_stack(stack)
+            server.debug_stack(stack)
 
-            # server.log(workspace.ast.nodes.map { |node| "#{node.to_s} #{node.class.name}" }.join(",\n"))
-
-            first = stack[0]?
-            second = stack[1]?
-            third = stack[2]?
-
-            case first
-            when Ast::Variable
-              case second
-              when Ast::HtmlAttribute
-                case third
-                when Ast::HtmlComponent
-                  # <Component property={value} />
-                  #            ^^^^^^^^
-                  return definition(first, second, third, workspace)
-                end
-              when Ast::ConnectVariable
-                case third
-                when Ast::Connect
-                  return definition(first, second, third, workspace)
-                end
-              end
-            end
-
-            case first
-            when Ast::HtmlComponent
-              # <Component property={value} />
-              #  ^^^^^^^^^
-              return definition(first, workspace)
-            end
+            html_style(server, workspace, stack) ||
+              html_attribute(server, workspace, stack) ||
+              html_component(server, workspace, stack)
           end
 
         contents
+      end
+
+      # Generates a LSP::LocationLink that links from source to the target node
+      def location_link(source : Ast::Node, target : Ast::Node) : LSP::LocationLink
+        return LSP::LocationLink.new(
+          origin_selection_range: selection(source),
+          target_uri: "file://#{target.location.filename}",
+          target_range: selection_all(target),
+          target_selection_range: selection(target)
+        )
       end
 
       def definition(variable : Ast::Variable, connect_variable : Ast::ConnectVariable, connect : Ast::Connect, workspace : Workspace) : LSP::LocationLink | Nil
@@ -105,44 +88,6 @@ module Mint
               )
             end
           end
-        end
-      end
-
-      def definition(variable : Ast::Variable, html_attribute : Ast::HtmlAttribute, html_component : Ast::HtmlComponent, workspace : Workspace) : LSP::LocationLink | Nil
-        component =
-          workspace
-            .type_checker
-            .lookups[html_component]?
-
-        case component
-        when Ast::Component
-          property = component.properties.find { |property| property.name.value == variable.value }
-
-          if property
-            LSP::LocationLink.new(
-              origin_selection_range: selection(html_attribute),
-              target_uri: "file://#{component.location.filename}",
-              target_range: selection_all(property),
-              target_selection_range: selection(property) # This shouldn't include comments etc
-            )
-          end
-        end
-      end
-
-      def definition(node : Ast::HtmlComponent, workspace : Workspace) : LSP::LocationLink | Nil
-        component =
-          workspace
-            .type_checker
-            .lookups[node]?
-
-        case component
-        when Ast::Component
-          LSP::LocationLink.new(
-            origin_selection_range: selection(node),
-            target_uri: "file://#{component.location.filename}",
-            target_range: selection_all(component),
-            target_selection_range: selection(component) # This shouldn't include comments etc
-          )
         end
       end
     end
