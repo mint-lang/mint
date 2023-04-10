@@ -1,0 +1,66 @@
+file test.mint
+request
+response
+--------------------------------------------------------------------------------
+component Test {
+  style test {
+
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root}/test.mint"
+    },
+    "position": {
+      "line": 6,
+      "character": 12
+    }
+  },
+  "method": "textDocument/definition"
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 6,
+        "character": 10
+      },
+      "end": {
+        "line": 6,
+        "character": 14
+      }
+    },
+    "targetUri": "file://#{root}/test.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 8
+      },
+      "end": {
+        "line": 1,
+        "character": 12
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 8
+      },
+      "end": {
+        "line": 1,
+        "character": 12
+      }
+    }
+  },
+  "id": 0
+}

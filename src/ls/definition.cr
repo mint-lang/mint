@@ -21,7 +21,7 @@ module Mint
             stack =
               server.nodes_at_cursor(params)
 
-            server.debug_stack(stack)
+            #server.debug_stack(stack)
 
             html_style(server, workspace, stack) ||
               html_attribute(server, workspace, stack) ||

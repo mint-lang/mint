@@ -1,0 +1,71 @@
+file main.mint
+file test.mint
+request
+response
+--------------------------------------------------------------------------------
+component WithProperties {
+  property size : String = "small"
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <WithProperties size="large"/>
+  }
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 22
+    }
+  },
+  "method": "textDocument/definition"
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 2,
+        "character": 20
+      },
+      "end": {
+        "line": 2,
+        "character": 24
+      }
+    },
+    "targetUri": "file://#{root}/main.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 11
+      },
+      "end": {
+        "line": 1,
+        "character": 15
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 11
+      },
+      "end": {
+        "line": 1,
+        "character": 15
+      }
+    }
+  },
+  "id": 0
+}

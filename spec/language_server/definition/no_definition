@@ -1,0 +1,30 @@
+file main.mint
+request
+response
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div />
+  }
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root}/test.mint"
+    },
+    "position": {
+      "line": 0,
+      "character": 0
+    }
+  },
+  "method": "textDocument/definition"
+}
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 0
+}

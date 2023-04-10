@@ -151,6 +151,10 @@ class Workspace
     file
   end
 
+  def root_path
+    @root
+  end
+
   def file_path(name)
     "file://#{@files[name]?.try(&.path)}"
   end
@@ -223,4 +227,65 @@ def lsp(messages)
 
     LSP::MessageParser.parse(out_io.rewind) { |content| content }
   end
+end
+
+
+def lsp(messages)
+  in_io =
+    IO::Memory.new
+
+  out_io =
+    IO::Memory.new
+
+  server =
+    Mint::LS::Server.new(in_io, out_io)
+
+  messages.map do |item|
+    # Clear out IOs so it's a fresh start
+    out_io.clear
+    in_io.clear
+
+    body = {
+      jsonrpc: "2.0",
+      id:      item[:id],
+      params:  item[:message],
+      method:  item[:method],
+    }.to_json
+
+    in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
+    in_io.rewind # Rewind in IO so the server can read it
+
+    # Process the message
+    server.read
+
+    LSP::MessageParser.parse(out_io.rewind) { |content| content }
+  end
+end
+
+
+
+def lsp2(body)
+  in_io =
+    IO::Memory.new
+
+  out_io =
+    IO::Memory.new
+
+  server =
+    Mint::LS::Server.new(in_io, out_io)
+
+  out_io.clear
+  in_io.clear
+
+  in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
+  in_io.rewind # Rewind in IO so the server can read it
+
+  # Process the message
+  server.read
+
+  content = LSP::MessageParser.parse(out_io.rewind, &.itself)
+
+  # Prettify response
+  json = JSON.parse(content.not_nil!)
+  json.to_pretty_json
 end
