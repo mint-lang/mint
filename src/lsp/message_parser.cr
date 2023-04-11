@@ -20,12 +20,10 @@ module LSP
 
     # Reads a header from the given IO.
     def self.read_header(io : IO) : Header?
-      io.gets.try do |raw|
-        parts =
-          raw.split(':')
+      parts =
+        io.read_line.split(':')
 
-        {parts[0].strip, parts[1].strip} if parts.size == 2
-      end
+      {parts[0].strip, parts[1].strip} if parts.size == 2
     end
 
     # Parses a message (header + contents) from a given IO
