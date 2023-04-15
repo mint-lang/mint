@@ -1,10 +1,6 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      # Attempts to find the linked components property
-      #
-      # <Component property={value} />
-      #            ^^^^^^^^
       def html_attribute(server : Server, workspace : Workspace, stack : Array(Ast::Node))
         return unless variable =
                         next_variable stack

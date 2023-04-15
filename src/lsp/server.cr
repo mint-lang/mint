@@ -20,7 +20,7 @@ module LSP
     def prepend_header(content : String)
       "Content-Length: #{content.bytesize}\r\n\r\n#{content}"
     end
-    
+
     def send(content : String)
       @out << prepend_header(content)
       @out.flush

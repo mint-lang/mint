@@ -1,9 +1,9 @@
-file main.mint
+file button.mint
 file test.mint
 request
 response
 --------------------------------------------------------------------------------
-component WithProperties {
+component Button {
   property size : String = "small"
 
   fun render : Html {
@@ -13,7 +13,7 @@ component WithProperties {
 --------------------------------------------------------------------------------
 component Test {
   fun render : Html {
-    <WithProperties size="large"/>
+    <Button size="large"/>
   }
 }
 --------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ component Test {
     },
     "position": {
       "line": 2,
-      "character": 22
+      "character": 13
     }
   },
   "method": "textDocument/definition"
@@ -38,22 +38,22 @@ component Test {
     "originSelectionRange": {
       "start": {
         "line": 2,
-        "character": 20
+        "character": 12
       },
       "end": {
         "line": 2,
-        "character": 24
+        "character": 16
       }
     },
-    "targetUri": "file://#{root_path}/main.mint",
+    "targetUri": "file://#{root_path}/button.mint",
     "targetRange": {
       "start": {
         "line": 1,
-        "character": 11
+        "character": 2
       },
       "end": {
         "line": 1,
-        "character": 15
+        "character": 34
       }
     },
     "targetSelectionRange": {

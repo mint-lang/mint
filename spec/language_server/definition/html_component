@@ -47,11 +47,11 @@ component Test {
     "targetRange": {
       "start": {
         "line": 0,
-        "character": 10
+        "character": 0
       },
       "end": {
-        "line": 0,
-        "character": 14
+        "line": 4,
+        "character": 1
       }
     },
     "targetSelectionRange": {

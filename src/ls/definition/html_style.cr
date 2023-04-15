@@ -1,15 +1,10 @@
 module Mint
   module LS
-    class Definition < LSP::RequestMessage \
-        # Attempts to find the linked style block
-      #
-      # <div::first::second />
-      #       ^^^^^
+    class Definition < LSP::RequestMessage
       def html_style(server : Server, workspace : Workspace, stack : Array(Ast::Node))
         return unless variable =
                         next_variable stack
-        return unless html_style =
-                        next_html_style stack
+        return unless next_html_style stack
         return unless component =
                         any_component stack
 
