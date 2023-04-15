@@ -3,8 +3,6 @@ module Mint
     class Definition < LSP::RequestMessage
       # Given two Ast::Node::Locations, return a LSP::Range that encompasses both of them
       def selection(location_a : Ast::Node::Location, location_b : Ast::Node::Location) : LSP::Range
-
-
       end
 
       def selection(location : Ast::Node::Location) : LSP::Range

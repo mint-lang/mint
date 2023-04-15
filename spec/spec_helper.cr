@@ -229,7 +229,6 @@ def lsp(messages)
   end
 end
 
-
 def lsp(messages)
   in_io =
     IO::Memory.new
@@ -261,8 +260,6 @@ def lsp(messages)
     LSP::MessageParser.parse(out_io.rewind) { |content| content }
   end
 end
-
-
 
 def lsp2(body)
   in_io =

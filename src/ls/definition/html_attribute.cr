@@ -1,13 +1,22 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      def html_attribute(server : LS::Server, workspace : Workspace, stack : Array(Ast::Node))
-        return unless variable = stack.find { |x| x.is_a?(Ast::Variable) }.as(Ast::Variable | Nil)
-        return unless html_attribute = stack.find { |x| x.is_a?(Ast::HtmlAttribute) }.as(Ast::HtmlAttribute | Nil)
-        return unless html_component = stack.find { |x| x.is_a?(Ast::HtmlComponent) }.as(Ast::HtmlComponent | Nil)
+      # Attempts to find the linked components property
+      #
+      # <Component property={value} />
+      #            ^^^^^^^^
+      def html_attribute(server : Server, workspace : Workspace, stack : Array(Ast::Node))
+        return unless variable =
+                        next_variable stack
+        return unless html_attribute =
+                        next_html_attribute stack
+        return unless html_component =
+                        next_html_component stack
 
-        return unless component = workspace.ast.components.find { |x| x.name == html_component.component.value }
-        return unless component_property = component.properties.find { |x| x.name.value == variable.value }
+        return unless component =
+                        workspace.ast.components.find { |x| x.name == html_component.component.value }
+        return unless component_property =
+                        component.properties.find { |x| x.name.value == variable.value }
 
         location_link variable, component_property
       end
