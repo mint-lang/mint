@@ -4,8 +4,7 @@ module Mint
       def html_attribute(server : Server, workspace : Workspace, stack : Array(Ast::Node))
         return unless variable =
                         next_variable stack
-        return unless html_attribute =
-                        next_html_attribute stack
+        return unless next_html_attribute stack
         return unless html_component =
                         next_html_component stack
 

@@ -31,7 +31,7 @@ module Mint
           while node = stack.shift?
             if node.is_a?({{cls}})
               return node
-            end            
+            end
           end
         end
       {% end %}
@@ -124,7 +124,7 @@ module Mint
 
       # Generates a LSP::LocationLink that links from source to the target node
       def location_link(source : Ast::Node, target : Ast::Node) : LSP::LocationLink
-        return LSP::LocationLink.new(
+        LSP::LocationLink.new(
           origin_selection_range: selection(source),
           target_uri: "file://#{target.location.filename}",
           target_range: selection(target.location),
