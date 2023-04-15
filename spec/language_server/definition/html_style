@@ -17,7 +17,7 @@ component Test {
   "id": 0,
   "params": {
     "textDocument": {
-      "uri": "file://#{root}/test.mint"
+      "uri": "file://#{root_path}/test.mint"
     },
     "position": {
       "line": 6,
@@ -40,7 +40,7 @@ component Test {
         "character": 14
       }
     },
-    "targetUri": "file://#{root}/test.mint",
+    "targetUri": "file://#{root_path}/test.mint",
     "targetRange": {
       "start": {
         "line": 1,

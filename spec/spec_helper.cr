@@ -229,39 +229,7 @@ def lsp(messages)
   end
 end
 
-def lsp(messages)
-  in_io =
-    IO::Memory.new
-
-  out_io =
-    IO::Memory.new
-
-  server =
-    Mint::LS::Server.new(in_io, out_io)
-
-  messages.map do |item|
-    # Clear out IOs so it's a fresh start
-    out_io.clear
-    in_io.clear
-
-    body = {
-      jsonrpc: "2.0",
-      id:      item[:id],
-      params:  item[:message],
-      method:  item[:method],
-    }.to_json
-
-    in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
-    in_io.rewind # Rewind in IO so the server can read it
-
-    # Process the message
-    server.read
-
-    LSP::MessageParser.parse(out_io.rewind) { |content| content }
-  end
-end
-
-def lsp2(body)
+def lsp_json(body)
   in_io =
     IO::Memory.new
 

@@ -1,5 +1,9 @@
 require "../spec_helper"
 
+def clean_json(workspace : Workspace, path : String)
+  path.strip.gsub("\#{root_path}", workspace.root_path)
+end
+
 Dir
   .glob("./spec/language_server/definition/**/*")
   .select! { |file| File.file?(file) }
@@ -18,9 +22,9 @@ Dir
           when "file"
             workspace.file md[2].strip, rest[index].strip
           when "request"
-            request = rest[index].strip.gsub("\#{root}", workspace.root_path)
+            request = clean_json(workspace, rest[index])
           when "response"
-            response = rest[index].strip.gsub("\#{root}", workspace.root_path)
+            response = clean_json(workspace, rest[index])
           else
             raise Exception.new("Unknown manifest type #{line.inspect}, expected file, request or response")
           end
@@ -29,7 +33,7 @@ Dir
         raise Exception.new("Expected request") if request.nil?
         raise Exception.new("Expected response") if response.nil?
 
-        result = lsp2(request)
+        result = lsp_json(request)
 
         begin
           result.should eq(response)

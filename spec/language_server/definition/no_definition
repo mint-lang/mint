@@ -13,7 +13,7 @@ component Main {
   "id": 0,
   "params": {
     "textDocument": {
-      "uri": "file://#{root}/test.mint"
+      "uri": "file://#{root_path}/test.mint"
     },
     "position": {
       "line": 0,

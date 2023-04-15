@@ -20,36 +20,34 @@ module LSP
     def prepend_header(content : String)
       "Content-Length: #{content.bytesize}\r\n\r\n#{content}"
     end
-
-    # Sends the given message (with headers prepended) to the output IO.
-    def send(result = nil, error = nil, id = nil, method = nil, params = nil)
-      # Sometimes we want to send Nil (or null) as the result as part of the LSP specification
-      # TODO: Is there a better way of doing this
-      if result.nil? && error.nil? && params.nil? && method.nil?
-        @out << prepend_header({
-          "jsonrpc" => "2.0",
-          "result"  => result,
-          "id"      => id,
-        }.to_json)
-      else
-        @out << prepend_header({
-          "jsonrpc" => "2.0",
-          "method"  => method,
-          "params"  => params,
-          "result"  => result,
-          "error"   => error,
-          "id"      => id,
-        }.compact.to_json)
-      end
-
+    
+    def send(content : String)
+      @out << prepend_header(content)
       @out.flush
+    end
+
+    def send_request(id, method, params)
+      send({
+        "jsonrpc" => "2.0",
+        "method"  => method,
+        "params"  => params,
+        "id"      => id,
+      }.to_json)
+    end
+
+    def send_response(id, result)
+      send({
+        "jsonrpc" => "2.0",
+        "result"  => result,
+        "id"      => id,
+      }.to_json)
     end
 
     # A method to send a show message request
     def show_message_request(message : String, type = 4)
-      send(
-        method: "window/showMessageRequest",
+      send_request(
         id: UUID.random.to_s,
+        method: "window/showMessageRequest",
         params: {
           message: message.to_s,
           type:    type,
@@ -58,7 +56,8 @@ module LSP
 
     # A method to send a log message notification
     def log(message : String, type = 4)
-      send(
+      send_request(
+        id: UUID.random.to_s,
         method: "window/logMessage",
         params: {
           message: message.to_s,
@@ -96,7 +95,7 @@ module LSP
 
             case message
             when RequestMessage
-              send(id: message.id, result: result)
+              send_response(id: message.id, result: result)
             end
           end
         end
