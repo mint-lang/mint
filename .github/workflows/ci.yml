@@ -101,7 +101,7 @@ jobs:
 
       - if: github.ref == 'refs/heads/master'
         name: Upload to S3
-        uses: shallwefootball/upload-s3-action@v1.1.3
+        uses: shallwefootball/upload-s3-action@v1.3.3
         with:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
