@@ -81,10 +81,10 @@ module Mint
 
     private def destructuring_variables(item : Ast::EnumDestructuring, condition)
       entity =
-        ast.enums.find(&.name.==(item.name)).not_nil!
+        ast.enums.find!(&.name.==(item.name))
 
       option =
-        entity.options.find(&.value.==(item.option)).not_nil!
+        entity.options.find!(&.value.==(item.option))
 
       case option_param = option.parameters[0]?
       when Ast::EnumRecordDefinition

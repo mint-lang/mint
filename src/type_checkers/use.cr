@@ -22,7 +22,7 @@ module Mint
 
       # This is checked by the provider so we assume it's there
       subscription =
-        records.find(&.name.==(provider.subscription)).not_nil!
+        records.find!(&.name.==(provider.subscription))
 
       record =
         resolve node.data

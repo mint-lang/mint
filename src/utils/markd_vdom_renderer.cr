@@ -13,7 +13,7 @@ module Mint
     HEADINGS = %w(h1 h2 h3 h4 h5 h6)
 
     # Skip next is used to skip rendering of the next node.
-    property skip_next = false
+    property? skip_next = false
 
     # Io contains the end result.
     getter io = String::Builder.new

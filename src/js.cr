@@ -135,11 +135,11 @@ module Mint
       "if(#{condition}){#{body}}"
     end
 
-    def elseif(condition, &block : Proc(String)) : String
+    def elseif(condition, & : Proc(String)) : String
       "else if(#{condition}){#{yield}}"
     end
 
-    def else(&block : Proc(String)) : String
+    def else(& : Proc(String)) : String
       "else{#{yield}}"
     end
 
@@ -268,11 +268,11 @@ module Mint
       "if (#{condition}) #{class_body(body)}"
     end
 
-    def elseif(condition, &block : Proc(String)) : String
+    def elseif(condition, & : Proc(String)) : String
       "else if (#{condition}) #{class_body(yield)}"
     end
 
-    def else(&block : Proc(String)) : String
+    def else(& : Proc(String)) : String
       "else #{class_body(yield)}"
     end
 

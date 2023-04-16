@@ -1,2 +1,5 @@
 Metrics/CyclomaticComplexity:
   Enabled: false
+
+Lint/NotNil:
+  Enabled: false

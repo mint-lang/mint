@@ -147,19 +147,19 @@ module Mint
     # --------------------------------------------------------------------------
 
     def maybe
-      ast.enums.find(&.name.==("Maybe")).not_nil!
+      ast.enums.find!(&.name.==("Maybe"))
     end
 
     def just
       node =
-        maybe.options.find(&.value.==("Just")).not_nil!
+        maybe.options.find!(&.value.==("Just"))
 
       js.class_of(node)
     end
 
     def nothing
       node =
-        maybe.options.find(&.value.==("Nothing")).not_nil!
+        maybe.options.find!(&.value.==("Nothing"))
 
       js.class_of(node)
     end
@@ -167,19 +167,19 @@ module Mint
     # --------------------------------------------------------------------------
 
     def result
-      ast.enums.find(&.name.==("Result")).not_nil!
+      ast.enums.find!(&.name.==("Result"))
     end
 
     def ok
       node =
-        result.options.find(&.value.==("Ok")).not_nil!
+        result.options.find!(&.value.==("Ok"))
 
       js.class_of(node)
     end
 
     def err
       node =
-        result.options.find(&.value.==("Err")).not_nil!
+        result.options.find!(&.value.==("Err"))
 
       js.class_of(node)
     end
@@ -213,10 +213,10 @@ module Mint
     # Wraps the application with the runtime
     def wrap_runtime(body, main = "")
       html_event_module =
-        ast.unified_modules.find(&.name.==("Html.Event")).not_nil!
+        ast.unified_modules.find!(&.name.==("Html.Event"))
 
       from_event =
-        html_event_module.functions.find(&.name.value.==("fromEvent")).not_nil!
+        html_event_module.functions.find!(&.name.value.==("fromEvent"))
 
       from_event_call =
         "#{js.class_of(html_event_module)}.#{js.variable_of(from_event)}"
