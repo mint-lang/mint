@@ -3,7 +3,7 @@ message StringExpectedOtherString do
 
   block do
     text "I was looking for the"
-    bold "an ohter string literal"
+    bold "an other string literal"
     text "after a"
     bold "string separator"
     code "\\"

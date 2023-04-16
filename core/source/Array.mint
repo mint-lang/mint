@@ -120,7 +120,7 @@ module Array {
   }
 
   /*
-  Drop the spcified number of items from the start of the array.
+  Drop the specified number of items from the start of the array.
 
     Array.dropStart([1, 2, 3, 4], 2) == [3, 4]
   */
@@ -297,7 +297,7 @@ module Array {
   }
 
   /*
-  Inserts the item into the sepcified position of the array, pushing items
+  Inserts the item into the specified position of the array, pushing items
   toward the end of the array. If the length is negative the item will be
   inserted at the start of the array.
 

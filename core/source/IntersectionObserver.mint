@@ -4,7 +4,7 @@ This module provides a wrapper for the Intersection Observer Web API [1].
 [1] https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
 */
 module IntersectionObserver {
-  /* Unobserves all observerd elements. */
+  /* Unobserves all observed elements. */
   fun disconnect (observer : IntersectionObserver) : IntersectionObserver {
     `#{observer}.disconnect() || #{observer}`
   }

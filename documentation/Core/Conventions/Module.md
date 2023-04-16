@@ -4,12 +4,12 @@ This section contains rules for modules.
 
 ### Entity Order
 
-The order of entities used in a modle should follow the order below:
+The order of entities used in a module should follow the order below:
 
 1. `const`
 2. `fun`
 
-_Entities in a module can be ordered using the "Order Entitiees" LSP Code Action._
+_Entities in a module can be ordered using the "Order Entities" LSP Code Action._
 
 ### Comments
 

@@ -2,7 +2,7 @@ message ProviderEntityNameConflict do
   title "Type Error"
 
   block do
-    text "There is alread a"
+    text "There is already a"
     bold what
     text "with the name"
     bold name

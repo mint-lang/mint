@@ -6,7 +6,7 @@ message CaseEnumNotCovered do
   end
 
   block do
-    text "To cover all remaning possibilities create branches for the following options:"
+    text "To cover all remaining possibilities create branches for the following options:"
   end
 
   list options

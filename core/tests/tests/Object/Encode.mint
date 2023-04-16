@@ -23,7 +23,7 @@ suite "Object.Encode.time" {
 }
 
 suite "Object.Encode.field" {
-  test "encodes a key and vlaue to a field" {
+  test "encodes a key and value to a field" {
     let object =
       Object.Encode.field("test", `"a"`)
 

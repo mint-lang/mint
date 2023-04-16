@@ -27,7 +27,7 @@ describe Mint::VDOMRenderer do
     {"`code`", "_h('p',{},[_h('code',{},[`code`])])"},
     {"```html\ncode\n```", %(_h('pre',{},[_h('code',{class:"language-html"},[`code`])]))},
     {"-----", "_h('hr',{},[])"},
-    {"> qoute", "_h('blockquote',{},[_h('p',{},[`qoute`])])"},
+    {"> quote", "_h('blockquote',{},[_h('p',{},[`quote`])])"},
     {"* item 1\n* item 2", "_h('ul',{},[_h('li',{},[`item 1`]),_h('li',{},[`item 2`])])"},
     {"[link](url)", %(_h('p',{},[_h('a',{href:"url"},[`link`])]))},
     {"![alt](url)", %(_h('p',{},[_h('img',{src:"url",alt:"alt"},[])]))},

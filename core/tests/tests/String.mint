@@ -95,13 +95,13 @@ suite "String.endsWith" {
 }
 
 suite "String.fromCharCode" {
-  test "it retunrs a string form a char chode" {
+  test "it returns a string from a char code" {
     String.fromCharCode(65) == "A"
   }
 }
 
 suite "String.fromCodePoint" {
-  test "it retunrs a string form a char chode" {
+  test "it returns a string from a char code" {
     String.fromCodePoint(9731) == "☃"
   }
 }
@@ -228,7 +228,7 @@ suite "String.padStart" {
   }
 }
 
-suite "String.paramterize" {
+suite "String.parametrize" {
   test "it converts title case to dash case" {
     String.parameterize("The quick brown fox jumps.") == "the-quick-brown-fox-jumps"
   }

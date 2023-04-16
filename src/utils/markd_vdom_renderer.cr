@@ -8,7 +8,7 @@ module Mint
   #
   # We walk the nodes and create virtual dom nodes using the `_h` function.
   # The `tag_end(node)` function closes a call with or without a comma `,`
-  # depening if the node has a next sibling.
+  # depending if the node has a next sibling.
   class VDOMRenderer
     HEADINGS = %w(h1 h2 h3 h4 h5 h6)
 
@@ -237,7 +237,7 @@ module Mint
     end
 
     private def tag(name, attributes = {} of String => String)
-      # Convert attibutes to the JavaScript version.
+      # Convert attributes to the JavaScript version.
       js_attributes =
         if attributes.empty?
           "{}"

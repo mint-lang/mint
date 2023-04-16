@@ -6,7 +6,7 @@ message CaseNotCovered do
   end
 
   block do
-    text "To cover all remaning possibilities add an empty case branch:"
+    text "To cover all remaining possibilities add an empty case branch:"
   end
 
   pre "=> return value"

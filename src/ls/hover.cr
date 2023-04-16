@@ -44,7 +44,7 @@ module Mint
           if error = workspace.error
             # If the workspace has an error we cannot really
             # provide and hover information, so we just provide
-            # the error istead.
+            # the error instead.
             [
               "Cannot provide hover data because of an error:\n",
               "```\n#{error.to_terminal}\n```",

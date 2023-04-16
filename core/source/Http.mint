@@ -28,7 +28,7 @@ record Http.ErrorResponse {
 
 /* Represents the possible failures of an HTTP request. */
 enum Http.Error {
-  /* The request cannot be loaded because of a network faliure */
+  /* The request cannot be loaded because of a network failure */
   NetworkError
 
   /* The client (browser) aborted the request */

@@ -162,7 +162,7 @@ module Mint
       #
       # Basically it allows to identify a specific set of rules in a
       # specific set of nested at queries (media, supports) in case their
-      # properties are defined in serveral places.
+      # properties are defined in several places.
       @selectors = {} of Tuple(String?, String?, Array(String), Array(String)) => Selector
 
       # This hash contains variables for a specific "style" tag, which will

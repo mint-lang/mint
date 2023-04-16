@@ -13,7 +13,7 @@ component Main {
     <div/>
   }
 }
--------------------------------------------------------NextCallInvalidInvokation
+-------------------------------------------------------NextCallInvalidInvocation
 module Test {
   fun test : Promise(Void) {
     next { age: 30 }
