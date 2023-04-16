@@ -96,7 +96,7 @@ module Regexp {
   }
 
   /*
-  Returns all of the matches of the given regular expession against the
+  Returns all of the matches of the given regular expression against the
   given string.
 
     (Regexp.createWithOptions(

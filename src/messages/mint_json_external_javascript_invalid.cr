@@ -2,7 +2,7 @@ message MintJsonExternalJavascriptInvalid do
   title "mint.json Error"
 
   block do
-    text "All entires in the"
+    text "All entries in the"
     bold "javascripts"
     text "array should be string."
   end

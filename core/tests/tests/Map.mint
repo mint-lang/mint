@@ -59,7 +59,7 @@ suite "Map.set" {
     |> Maybe.withDefault("")) == "y"
   }
 
-  test "it ovverrides previous value" {
+  test "it overrides previous value" {
     (Map.empty()
     |> Map.set("x", "y")
     |> Map.set("x", "Z")
@@ -76,7 +76,7 @@ suite "Map.get" {
     |> Maybe.withDefault("")) == "b"
   }
 
-  test "it returns nothing if thre is no the value" {
+  test "it returns nothing if there is no value" {
     Map.empty()
     |> Map.get("a")
     |> Maybe.isNothing()

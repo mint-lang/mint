@@ -187,8 +187,8 @@ suite "String.dropLeft" {
   }
 }
 
-suite "String.paramterize" {
-  test "it parameterizes the given string" {
+suite "String.parametrize" {
+  test "it parametrizes the given string" {
     String.parameterize("HELLO THERE!!!") == "hello-there"
   }
 

@@ -1,5 +1,5 @@
 module LSP
-  # This module is resposible for parsing HTTP like requests from an IO.
+  # This module is responsible for parsing HTTP like requests from an IO.
   module MessageParser
     extend self
 

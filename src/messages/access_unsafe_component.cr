@@ -8,13 +8,13 @@ message AccessUnsafeComponent do
   end
 
   block do
-    text "Component instances are not allways available and because of that"
+    text "Component instances are not always available and because of that"
     text "they are wrapped in a"
     code "Maybe"
   end
 
   block do
-    text "Use the safe accesscor"
+    text "Use the safe accessor"
     code "&."
     text "to access its functions and properties."
   end

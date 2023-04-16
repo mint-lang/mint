@@ -5,7 +5,7 @@ message CatchExpectedVariable do
     text "In a catch you must specify"
     bold "a variable"
     text "to hold the"
-    bold "catched value."
+    bold "caught value."
   end
 
   was_looking_for "variable", got

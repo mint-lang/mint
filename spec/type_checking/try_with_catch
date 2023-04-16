@@ -95,7 +95,7 @@ component Main {
     }
   }
 }
--------------------------------------------------------------------TryCatchedAll
+-------------------------------------------------------------------TryCaughtAll
 module Result {
   fun error (input : a) : Result(a, b) {
     `new Err(input)`

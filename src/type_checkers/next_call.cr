@@ -1,13 +1,13 @@
 module Mint
   class TypeChecker
-    type_error NextCallInvalidInvokation
+    type_error NextCallInvalidInvocation
     type_error NextCallStateTypeMismatch
     type_error NextCallStateNotFound
 
     def check(node : Ast::NextCall) : Checkable
       entity = stateful?
 
-      raise NextCallInvalidInvokation, {
+      raise NextCallInvalidInvocation, {
         "node" => node,
       } unless entity
 

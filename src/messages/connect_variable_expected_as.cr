@@ -4,7 +4,7 @@ message ConnectVariableExpectedAs do
   block do
     text "The"
     bold "exposed name"
-    text "of a state, fuction or computed property"
+    text "of a state, function or computed property"
     bold "must be specified."
   end
 

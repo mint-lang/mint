@@ -3,7 +3,7 @@ module Mint
     type_error ParallelCatchTypeMismatch
     type_error ParallelCatchesNothing
     type_error ParallelDidNotCatch
-    type_error ParallelCatchedAll
+    type_error ParallelCaughtAll
 
     def check(node : Ast::Parallel) : Checkable
       to_catch = [] of Checkable
@@ -56,7 +56,7 @@ module Mint
 
       catch_all_type =
         node.catch_all.try do |catch|
-          raise ParallelCatchedAll, {
+          raise ParallelCaughtAll, {
             "node" => catch,
           } if to_catch.empty?
 

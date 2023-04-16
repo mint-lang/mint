@@ -3,7 +3,7 @@ module Mint
     type_error TryCatchTypeMismatch
     type_error TryCatchesNothing
     type_error TryDidNotCatch
-    type_error TryCatchedAll
+    type_error TryCaughtAll
 
     def check(node : Ast::Try) : Checkable
       to_catch = [] of Checkable
@@ -29,7 +29,7 @@ module Mint
                   # but it is still unwrapped
                   new_type.parameters[1]
                 when new_type.parameters.size == 2
-                  # If the error is not Never then that type needs to be catched
+                  # If the error is not Never then that type needs to be caught
                   unless new_type.parameters[0].name == "Never"
                     to_catch << new_type.parameters[0]
                   end
@@ -46,7 +46,7 @@ module Mint
       final_type = node.catches.reduce(types.last) do |type, catch|
         catch_type = resolve_type(Type.new(catch.type))
 
-        # If the type does not need to be catched
+        # If the type does not need to be caught
         raise TryCatchesNothing, {
           "got"  => catch_type,
           "node" => catch,
@@ -79,7 +79,7 @@ module Mint
 
       catch_all_type =
         node.catch_all.try do |catch|
-          raise TryCatchedAll, {
+          raise TryCaughtAll, {
             "node" => catch,
           } if to_catch.empty?
 

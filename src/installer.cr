@@ -44,7 +44,7 @@ module Mint
       end
     end
 
-    # Prints the resolved packages and their verions
+    # Prints the resolved packages and their versions
     def print_resolved
       @resolved.each do |name, version|
         name =

@@ -3,7 +3,7 @@ module Mint
     type_error SequenceCatchTypeMismatch
     type_error SequenceCatchesNothing
     type_error SequenceDidNotCatch
-    type_error SequenceCatchedAll
+    type_error SequenceCaughtAll
 
     def check(node : Ast::Sequence) : Checkable
       to_catch = [] of Checkable
@@ -49,7 +49,7 @@ module Mint
 
       catch_all_type =
         node.catch_all.try do |catch|
-          raise SequenceCatchedAll, {
+          raise SequenceCaughtAll, {
             "node" => catch,
           } if to_catch.empty?
 

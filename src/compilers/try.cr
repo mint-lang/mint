@@ -53,7 +53,7 @@ module Mint
               case type
               when TypeChecker::Type
                 if type.name == "Result" && type.parameters[0] && !is_last
-                  catched =
+                  caught =
                     node.catches.map do |catch|
                       if catch.type == type.parameters[0].name
                         catch_body =
@@ -69,10 +69,10 @@ module Mint
                       end
                     end
 
-                  if catched.empty?
+                  if caught.empty?
                     "return _catch_all()"
                   else
-                    js.statements(catched.compact)
+                    js.statements(caught.compact)
                   end
                 end
               end

@@ -130,7 +130,7 @@ component Main {
     }
   }
 }
---------------------------------------------------------------SequenceCatchedAll
+--------------------------------------------------------------SequenceCaughtAll
 module Promise {
   fun reject (input : a) : Promise(a, b) {
     ``
