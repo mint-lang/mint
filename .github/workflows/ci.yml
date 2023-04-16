@@ -26,7 +26,7 @@ jobs:
           crystal: ${{ matrix.crystal }}
 
       - name: Download source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: shards install
@@ -73,7 +73,7 @@ jobs:
         uses: crystal-lang/install-crystal@v1
 
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: shards install
