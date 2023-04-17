@@ -2,7 +2,7 @@ message RecordFieldsConflict do
   title "Type Error"
 
   block do
-    text "There is alread a"
+    text "There is already a"
     bold "record"
     text "with the same structure."
   end

@@ -2,7 +2,7 @@ message ComponentMultipleUses do
   title "Type Error"
 
   block do
-    text "You are subcribing to the provider"
+    text "You are subscribing to the provider"
     bold name
     text "multiple times."
   end

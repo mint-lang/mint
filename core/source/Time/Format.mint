@@ -187,7 +187,7 @@ module Time {
   }
 
   /*
-  Formates the given time by the given single token using the given language.
+  Formats the given time by the given single token using the given language.
 
     Time.formatToken(Time.Format:ENGLISH, "Y", Time.utcDate(2018, 4, 5)) == "2018"
   */

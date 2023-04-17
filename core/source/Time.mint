@@ -6,7 +6,7 @@ calendar as specified in ISO 8601. Leap seconds are ignored.
 
 This module uses the `Date`[1] JavaScript object under the hood. Since the
 `Date` object is always in the clients time-zone, this module the UTC based
-functions `getUTC*` and `setUTC*` for querying and modifing.
+functions `getUTC*` and `setUTC*` for querying and modifying.
 
 Things to keep in mind when working with `Time`:
 
@@ -485,7 +485,7 @@ module Time {
     `
     (() => {
       const time = new Date(+#{time});
-      time.setUTCMonth(12, 1);         // Set it to next Jaunary 1st
+      time.setUTCMonth(12, 1);         // Set it to next January 1st
       time.setUTCHours(0, 0, 0, -1);   // Subtract 1 millisecond
       return time;
     })()
@@ -534,7 +534,7 @@ module Time {
     (() => {
       const time = new Date(+#{time});
       const date = time.getUTCDate();
-      time.setUTCDate(date + 1);      // Set it to the begginning of the next day
+      time.setUTCDate(date + 1);      // Set it to the beginning of the next day
       time.setUTCHours(0, 0, 0, -1);  // Subtract 1 millisecond
       return time;
     })()

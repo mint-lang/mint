@@ -55,11 +55,11 @@ module Mint
 
     def css_definition_or_selector
       css_definition || css_selector
-    rescue definition_errror : CssDefinitionExpectedSemicolon
+    rescue ex : CssDefinitionExpectedSemicolon
       begin
         css_selector
       rescue
-        raise definition_errror
+        raise ex
       end
     end
   end

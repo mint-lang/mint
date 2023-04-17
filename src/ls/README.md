@@ -4,10 +4,10 @@ This folder contains the code for the language server.
 
 ## Features
 
-The feature set is pretty miminal at this point:
+The feature set is pretty minimal at this point:
 
 | Name                          | Support                       | Description                                   |
-|:------------------------------|:------------------------------|:----------------------------------------------|
+| :---------------------------- | :---------------------------- | :-------------------------------------------- |
 | Hover                         | :heavy_check_mark:            | Type information for entities                 |
 | Completion                    | :heavy_check_mark:            | Components, functions, etc..., based on scope |
 | Diagnostics                   | :negative_squared_cross_mark: |                                               |

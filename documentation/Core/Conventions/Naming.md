@@ -52,7 +52,7 @@ To check if something has something else use `contains`.
 - ✅ Use `size`
 - ❌ Don't use `length`
 
-### Function Paramters
+### Function Parameters
 
 - ✅ Use `function` as the parameter name for functions that take a function:
 

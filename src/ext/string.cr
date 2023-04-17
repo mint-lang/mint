@@ -50,7 +50,7 @@ class String
     indent_size =
       Int32::MAX
 
-    # Interate over all the lines and:
+    # Iterate over all the lines and:
     # - replace tabs with 2 spaces
     # - update the indent size if it's smaller than the previous
     lines =

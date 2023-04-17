@@ -2,7 +2,7 @@ message MintJsonExternalStylesheetInvalid do
   title "mint.json Error"
 
   block do
-    text "All entires in the"
+    text "All entries in the"
     bold "stylesheets"
     text "array should be string."
   end

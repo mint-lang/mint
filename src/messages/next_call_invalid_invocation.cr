@@ -1,4 +1,4 @@
-message NextCallInvalidInvokation do
+message NextCallInvalidInvocation do
   title "Type Error"
 
   block do
