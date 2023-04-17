@@ -1,7 +1,7 @@
 module Mint
   class Compiler
     def _compile(node : Ast::EnumId) : String
-      case (parent = lookups[node]?)
+      case parent = lookups[node]?
       when Ast::Variable
         compile(parent)
       when nil

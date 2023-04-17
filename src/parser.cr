@@ -223,7 +223,7 @@ module Mint
     # Consuming many things
     # ----------------------------------------------------------------------------
 
-    def many(parse_whitespace : Bool = true, &block : -> T?) : Array(T) forall T
+    def many(parse_whitespace : Bool = true, & : -> T?) : Array(T) forall T
       result = [] of T
 
       loop do
@@ -240,7 +240,7 @@ module Mint
       result
     end
 
-    def list(terminator : Char?, separator : Char, &block : -> T?) : Array(T) forall T
+    def list(terminator : Char?, separator : Char, & : -> T?) : Array(T) forall T
       result = [] of T
 
       loop do
