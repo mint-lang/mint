@@ -39,30 +39,6 @@ module Dom {
   }
 
   /*
-  Returns if the given base element contains the given element (as a maybe).
-
-    case (Dom.getElementBySelector("body")) {
-      Maybe::Just(body) =>
-        {
-          div =
-            Dom.getElementBySelector("div")
-
-          Dom.contains(div, body) == true
-        }
-
-      => false
-    }
-  */
-  fun containsMaybe (
-    base : Dom.Element,
-    maybeElement : Maybe(Dom.Element)
-  ) : Bool {
-    maybeElement
-    |> Maybe.map((item : Dom.Element) { Dom.contains(base, item) })
-    |> Maybe.withDefault(false)
-  }
-
-  /*
   Creates a new `Dom.Element` with the given tag.
 
     Dom.createElement("div")
