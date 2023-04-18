@@ -1,5 +1,5 @@
 # We are using crystal as image we are building the binary on
-FROM crystallang/crystal:1.7.2 AS build
+FROM crystallang/crystal:1.8.0-alpine AS build
 
 # Create a build directory and set it as default
 RUN mkdir -p /opt/mint
