@@ -152,7 +152,7 @@ class Workspace
   end
 
   def root_path
-    @root
+    File.realpath(@root)
   end
 
   def file_path(name)

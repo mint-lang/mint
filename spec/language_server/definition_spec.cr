@@ -11,23 +11,26 @@ Dir
   .each do |file|
     it file do
       with_workspace do |workspace|
-        manifest, *rest = File.read(file).split("-" * 80)
+        contents = File.read(file)
 
+        position = 0
         request, response = nil, nil
 
-        manifest.lines.each_with_index do |line, index|
-          raise Exception.new("Expected manifest line, got #{line.inspect}") unless md = /(\w+)( [\w.]+)?/.match(line)
+        contents.scan(/^\-+(\w+)( [\w.]+)?/m) do |match|
+          text = contents[position, match.begin - position]
 
-          case md[1]
+          case match[1]
           when "file"
-            workspace.file md[2].strip, rest[index].strip
+            workspace.file match[2].strip, text.strip
           when "request"
-            request = clean_json(workspace, rest[index])
+            request = clean_json(workspace, text)
           when "response"
-            response = clean_json(workspace, rest[index])
+            response = clean_json(workspace, text)
           else
-            raise Exception.new("Unknown manifest type #{line.inspect}, expected file, request or response")
+            raise Exception.new("Unknown manifest type #{match[1].inspect}, expected file, request or response")
           end
+
+          position = match.end
         end
 
         raise Exception.new("Expected request") if request.nil?
