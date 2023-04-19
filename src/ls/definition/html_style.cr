@@ -2,15 +2,19 @@ module Mint
   module LS
     class Definition < LSP::RequestMessage
       def html_style(server : Server, workspace : Workspace, stack : Array(Ast::Node))
-        return unless variable =
-                        next_variable stack
-        return unless next_html_style stack
-        return unless component =
-                        any_component stack
+        with_stack(stack) do |reader|
+          return unless variable =
+                          reader.find_next Ast::Variable
 
-        return unless component_style = component.styles.find { |x| x.name.value == variable.value }
+          return unless reader.find_next Ast::HtmlStyle
 
-        location_link variable, component_style
+          return unless component =
+                          reader.find_anywhere Ast::Component
+
+          return unless component_style = component.styles.find { |x| x.name.value == variable.value }
+
+          location_link variable, component_style
+        end
       end
     end
   end

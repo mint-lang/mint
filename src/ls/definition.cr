@@ -1,5 +1,24 @@
 module Mint
   module LS
+    class StackReader
+      def initialize(@stack : Array(Ast::Node))
+        @index = 0
+      end
+
+      def find_next(klass : N.class) : N | Nil forall N
+        node = @stack[@index]?.try &.as?(N)
+        @index += 1
+        node
+      end
+      
+      def find_anywhere(klass : N.class) : N | Nil forall N
+        @stack[@index..].each do
+          node = find_next(klass)
+          return node if node
+        end
+      end
+    end
+
     # This is the class that handles the "textDocument/definition" request.
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
@@ -15,26 +34,15 @@ module Mint
           stack =
             server.nodes_at_cursor(params)
 
-          html_style(server, workspace, stack.dup) ||
-            html_attribute(server, workspace, stack.dup) ||
-            html_component(server, workspace, stack.dup)
+          html_style(server, workspace, stack) ||
+            html_attribute(server, workspace, stack) ||
+            html_component(server, workspace, stack)
         end
       end
 
-      {% for cls in Ast::Node.subclasses %}
-        {% name = cls.name.split("::")[2..].join("").underscore.id %}
-        def next_{{name}}(stack : Array(Ast::Node)) : {{ cls.name }} | Nil
-          stack.shift?.try &.as?({{cls}})
-        end
-
-        def any_{{name}}(stack : Array(Ast::Node)) : {{ cls.name }} | Nil
-          while node = stack.shift?
-            if node.is_a?({{cls}})
-              return node
-            end
-          end
-        end
-      {% end %}
+      def with_stack(stack : Array(Ast::Node), &)
+        yield StackReader.new(stack)
+      end
 
       def selection(location : Ast::Node::Location) : LSP::Range
         LSP::Range.new(

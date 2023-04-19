@@ -2,16 +2,18 @@ module Mint
   module LS
     class Definition < LSP::RequestMessage
       def html_component(server : Server, workspace : Workspace, stack : Array(Ast::Node))
-        return unless variable =
-                        next_variable stack
+        with_stack(stack) do |reader|
+          return unless variable =
+                          reader.find_next Ast::Variable
 
-        return unless html_component =
-                        next_html_component stack
+          return unless html_component =
+                          reader.find_next Ast::HtmlComponent
 
-        return unless component =
-                        workspace.ast.components.find { |x| x.name == html_component.component.value }
+          return unless component =
+                          workspace.ast.components.find { |x| x.name == html_component.component.value }
 
-        location_link variable, component
+          location_link variable, component
+        end
       end
     end
   end
