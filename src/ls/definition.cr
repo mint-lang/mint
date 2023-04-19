@@ -10,7 +10,7 @@ module Mint
         @index += 1
         node
       end
-      
+
       def find_anywhere(klass : N.class) : N | Nil forall N
         @stack[@index..].each do
           node = find_next(klass)
@@ -23,7 +23,7 @@ module Mint
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
-      def execute(server) : LSP::LocationLink | Nil
+      def execute(server) : LSP::LocationLink | LSP::Location | Nil
         uri =
           URI.parse(params.text_document.uri)
 
@@ -57,7 +57,7 @@ module Mint
         )
       end
 
-      # Returns a specific selection for a node. For example, if the node was a component, it would only return the range of the name
+      # Returns the range for the name part for a node
       def selection(node : Ast::Node) : LSP::Range
         selection(node.location)
       end
@@ -130,14 +130,25 @@ module Mint
         selection(node.name)
       end
 
+      def has_link_support(server : Server)
+        server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support
+      end
+
       # Generates a LSP::LocationLink that links from source to the target node
-      def location_link(source : Ast::Node, target : Ast::Node) : LSP::LocationLink
-        LSP::LocationLink.new(
-          origin_selection_range: selection(source),
-          target_uri: "file://#{target.location.filename}",
-          target_range: selection(target.location),
-          target_selection_range: selection(target)
-        )
+      def location_link(server : Server, source : Ast::Node, target : Ast::Node) : LSP::LocationLink | LSP::Location
+        if has_link_support(server)
+          LSP::LocationLink.new(
+            origin_selection_range: selection(source),
+            target_uri: "file://#{target.location.filename}",
+            target_range: selection(target.location),
+            target_selection_range: selection(target)
+          )
+        else
+          LSP::Location.new(
+            range: selection(target),
+            uri: "file://#{target.location.filename}",
+          )
+        end
       end
     end
   end

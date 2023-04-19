@@ -16,7 +16,7 @@ module Mint
           return unless component_property =
                           component.properties.find { |x| x.name.value == variable.value }
 
-          location_link variable, component_property
+          location_link server, variable, component_property
         end
       end
     end

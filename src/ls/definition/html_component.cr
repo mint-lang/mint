@@ -12,7 +12,7 @@ module Mint
           return unless component =
                           workspace.ast.components.find { |x| x.name == html_component.component.value }
 
-          location_link variable, component
+          location_link server, variable, component
         end
       end
     end

@@ -229,7 +229,7 @@ def lsp(messages)
   end
 end
 
-def lsp_json(body)
+def lsp_json(messages)
   in_io =
     IO::Memory.new
 
@@ -239,18 +239,20 @@ def lsp_json(body)
   server =
     Mint::LS::Server.new(in_io, out_io)
 
-  out_io.clear
-  in_io.clear
+  messages.map do |item|
+    out_io.clear
+    in_io.clear
 
-  in_io.print "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
-  in_io.rewind # Rewind in IO so the server can read it
+    in_io.print "Content-Length: #{item.bytesize}\r\n\r\n#{item}"
+    in_io.rewind # Rewind in IO so the server can read it
 
-  # Process the message
-  server.read
+    # Process the message
+    server.read
 
-  content = LSP::MessageParser.parse(out_io.rewind, &.itself)
+    content = LSP::MessageParser.parse(out_io.rewind, &.itself)
 
-  # Prettify response
-  json = JSON.parse(content.not_nil!)
-  json.to_pretty_json
+    # Prettify response
+    json = JSON.parse(content.not_nil!)
+    json.to_pretty_json
+  end
 end

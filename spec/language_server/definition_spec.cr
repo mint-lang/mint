@@ -14,7 +14,9 @@ Dir
         contents = File.read(file)
 
         position = 0
-        request, response = nil, nil
+
+        requests = [] of String
+        responses = [] of String
 
         contents.scan(/^\-+(\w+)( [\w.]+)?/m) do |match|
           text = contents[position, match.begin - position]
@@ -23,9 +25,9 @@ Dir
           when "file"
             workspace.file match[2].strip, text.strip
           when "request"
-            request = clean_json(workspace, text)
+            requests << clean_json(workspace, text)
           when "response"
-            response = clean_json(workspace, text)
+            responses << clean_json(workspace, text)
           else
             raise Exception.new("Unknown manifest type #{match[1].inspect}, expected file, request or response")
           end
@@ -33,15 +35,15 @@ Dir
           position = match.end
         end
 
-        raise Exception.new("Expected request") if request.nil?
-        raise Exception.new("Expected response") if response.nil?
+        raise Exception.new("Expected requests") if requests.empty?
+        raise Exception.new("Expected responses") if responses.empty?
 
-        result = lsp_json(request)
+        results = lsp_json(requests)
 
         begin
-          result.should eq(response)
+          results.last.should eq(responses[0])
         rescue error
-          fail diff(response, result)
+          fail diff(responses[0], results.last)
         end
       end
     end

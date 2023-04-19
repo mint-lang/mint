@@ -13,7 +13,7 @@ module Mint
 
           return unless component_style = component.styles.find { |x| x.name.value == variable.value }
 
-          location_link variable, component_style
+          location_link server, variable, component_style
         end
       end
     end

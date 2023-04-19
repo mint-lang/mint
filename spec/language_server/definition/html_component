@@ -11,8 +11,22 @@ component Test {
 }
 ------------------------------------------------------------------file test.mint
 {
-  "jsonrpc": "2.0",
   "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
   "params": {
     "textDocument": {
       "uri": "file://#{root_path}/test.mint"
@@ -60,6 +74,6 @@ component Test {
       }
     }
   },
-  "id": 0
+  "id": 1
 }
 ------------------------------------------------------------------------response
