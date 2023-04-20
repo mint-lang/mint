@@ -7,9 +7,9 @@ on:
     types: [opened, synchronize, reopened]
   release:
     types: [published]
-
   schedule:
     - cron: "0 6 * * 1"
+  workflow_dispatch:
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
