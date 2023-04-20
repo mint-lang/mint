@@ -5,6 +5,7 @@ on:
     branches: [master]
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
