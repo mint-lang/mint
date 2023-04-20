@@ -38,7 +38,7 @@ module Mint
       end
     end
 
-    def initialize(@host = "0.0.0.0", @port = 8080, runtime_path : String? = nil)
+    def initialize(@host = "0.0.0.0", @port = ENV["PORT"]?.try(&.to_i) || 8080, runtime_path : String? = nil)
       @runtime =
         if runtime_path
           raise RuntimeFileNotFound, {
