@@ -38,12 +38,16 @@ Dir
         raise Exception.new("Expected requests") if requests.empty?
         raise Exception.new("Expected responses") if responses.empty?
 
-        results = lsp_json(requests)
+        actual_responses = lsp_json(requests)
 
-        begin
-          results.last.should eq(responses[0])
-        rescue error
-          fail diff(responses[0], results.last)
+        responses.each do |expected_response|
+          actual_response = actual_responses.find { |x| JSON.parse(x)["id"].as_i == JSON.parse(expected_response)["id"].as_i }.not_nil!
+
+          begin
+            expected_response.should eq(actual_response)
+          rescue error
+            fail diff(actual_response, expected_response)
+          end
         end
       end
     end

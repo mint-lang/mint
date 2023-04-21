@@ -1,14 +1,10 @@
-component Button {
-  property size : String = "small"
+component Test {
+  style test {
+
+  }
 
   fun render : Html {
-    <div/>
-  }
-}
-----------------------------------------------------------------file button.mint
-component Test {
-  fun render : Html {
-    <Button size="large"/>
+    <div::test/>
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -19,7 +15,7 @@ component Test {
     "capabilities": {
       "textDocument": {
         "definition": {
-          "linkSupport": true
+          "linkSupport": false
         }
       }
     }
@@ -34,8 +30,8 @@ component Test {
       "uri": "file://#{root_path}/test.mint"
     },
     "position": {
-      "line": 2,
-      "character": 13
+      "line": 6,
+      "character": 12
     }
   },
   "method": "textDocument/definition"
@@ -44,37 +40,17 @@ component Test {
 {
   "jsonrpc": "2.0",
   "result": {
-    "originSelectionRange": {
+    "range": {
       "start": {
-        "line": 2,
+        "line": 1,
+        "character": 8
+      },
+      "end": {
+        "line": 1,
         "character": 12
-      },
-      "end": {
-        "line": 2,
-        "character": 16
       }
     },
-    "targetUri": "file://#{root_path}/button.mint",
-    "targetRange": {
-      "start": {
-        "line": 1,
-        "character": 2
-      },
-      "end": {
-        "line": 1,
-        "character": 34
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 11
-      },
-      "end": {
-        "line": 1,
-        "character": 15
-      }
-    }
+    "uri": "file://#{root_path}/test.mint"
   },
   "id": 1
 }

@@ -1,12 +1,12 @@
-component Main {
+component Button {
   fun render : Html {
-    <div />
+    <button />
   }
 }
-------------------------------------------------------------------file main.mint
+----------------------------------------------------------------file button.mint
 component Test {
   fun render : Html {
-    <Main />
+    <Button />
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -17,7 +17,7 @@ component Test {
     "capabilities": {
       "textDocument": {
         "definition": {
-          "linkSupport": true
+          "linkSupport": false
         }
       }
     }
@@ -42,37 +42,17 @@ component Test {
 {
   "jsonrpc": "2.0",
   "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 2,
-        "character": 5
-      },
-      "end": {
-        "line": 2,
-        "character": 9
-      }
-    },
-    "targetUri": "file://#{root_path}/main.mint",
-    "targetRange": {
-      "start": {
-        "line": 0,
-        "character": 0
-      },
-      "end": {
-        "line": 4,
-        "character": 1
-      }
-    },
-    "targetSelectionRange": {
+    "range": {
       "start": {
         "line": 0,
         "character": 10
       },
       "end": {
         "line": 0,
-        "character": 14
+        "character": 16
       }
-    }
+    },
+    "uri": "file://#{root_path}/button.mint"
   },
   "id": 1
 }
