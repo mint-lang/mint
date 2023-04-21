@@ -41,7 +41,7 @@ Dir
         actual_responses = lsp_json(requests)
 
         responses.each do |expected_response|
-          actual_response = actual_responses.find { |x| JSON.parse(x)["id"].as_i == JSON.parse(expected_response)["id"].as_i }.not_nil!
+          actual_response = actual_responses.find! { |x| JSON.parse(x)["id"].as_i == JSON.parse(expected_response)["id"].as_i }
 
           begin
             expected_response.should eq(actual_response)
