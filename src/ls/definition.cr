@@ -69,6 +69,10 @@ module Mint
 
         start_line, start_column = node.location.start
 
+        node.comment.try do |comment|
+          start_line, start_column = comment.location.end
+        end
+
         # TODO: Change parser so component name is a node?
         offset = if node.global?
                    "global component ".size

@@ -1,3 +1,4 @@
+/* Comment for Button component. */
 component Button {
   fun render : Html {
     <button />
@@ -59,17 +60,17 @@ component Test {
         "character": 0
       },
       "end": {
-        "line": 4,
+        "line": 5,
         "character": 1
       }
     },
     "targetSelectionRange": {
       "start": {
-        "line": 0,
+        "line": 1,
         "character": 10
       },
       "end": {
-        "line": 0,
+        "line": 1,
         "character": 16
       }
     }
