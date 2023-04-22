@@ -12,7 +12,8 @@ module Mint
                           reader.find_next Ast::HtmlComponent
 
           return unless component =
-                          workspace.ast.components.find { |x| x.name == html_component.component.value }
+                          find_component(workspace, html_component.component.value)
+
           return unless component_property =
                           component.properties.find { |x| x.name.value == variable.value }
 

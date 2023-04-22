@@ -10,7 +10,7 @@ module Mint
                           reader.find_next Ast::HtmlComponent
 
           return unless component =
-                          workspace.ast.components.find { |x| x.name == html_component.component.value }
+                          find_component(workspace, html_component.component.value)
 
           location_link server, variable, component
         end

@@ -13,12 +13,6 @@ class Mint::Error < Exception
   end
 end
 
-module Mint
-  class Core
-    class_getter ast : Ast = Ast.new
-  end
-end
-
 def diff(a, b)
   file1 = File.tempfile do |f|
     f.puts a.strip

@@ -134,6 +134,13 @@ module Mint
         selection(node.name)
       end
 
+      def find_component(workspace : Workspace, name : String) : Ast::Component | Nil
+        # Do not include any core component
+        return if Core.ast.components.any? { |x| x.name == name }
+
+        workspace.ast.components.find { |x| x.name == name }
+      end
+
       def has_link_support(server : Server)
         server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support
       end
