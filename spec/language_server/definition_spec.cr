@@ -29,7 +29,7 @@ Dir
           when "response"
             responses << clean_json(workspace, text)
           else
-            raise Exception.new("Unknown manifest type #{match[1].inspect}, expected file, request or response")
+            raise Exception.new("Unknown type #{match[1].inspect}, expected file, request or response")
           end
 
           position = match.end
