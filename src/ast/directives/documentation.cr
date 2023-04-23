@@ -4,7 +4,7 @@ module Mint
       class Documentation < Node
         getter entity
 
-        def initialize(@entity : String,
+        def initialize(@entity : TypeId,
                        @input : Data,
                        @from : Int32,
                        @to : Int32)

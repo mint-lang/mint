@@ -11,13 +11,13 @@ module Mint
         name =
           case entity
           when Ast::Component
-            entity.name
+            entity.name.value
           when Ast::Provider
-            entity.name
+            entity.name.value
           when Ast::Store
-            entity.name
+            entity.name.value
           when Ast::Module
-            entity.name
+            entity.name.value
           end
 
         arguments =

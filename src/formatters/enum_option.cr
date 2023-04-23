@@ -7,7 +7,7 @@ module Mint
       parameters =
         format_parameters(node.parameters)
 
-      "#{comment}#{node.value}#{parameters}"
+      "#{comment}#{format node.value}#{parameters}"
     end
   end
 end

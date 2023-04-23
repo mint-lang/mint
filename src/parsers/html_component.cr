@@ -7,15 +7,9 @@ module Mint
 
     def html_component : Ast::HtmlComponent?
       start do |start_position|
-        component = start do |start_pos|
+        component = start do
           next unless char! '<'
-          next unless value = type_id HtmlComponentExpectedType
-
-          Ast::Variable.new(
-            from: start_pos + 1,
-            to: position,
-            value: value,
-            input: data)
+          type_id HtmlComponentExpectedType
         end
 
         next unless component

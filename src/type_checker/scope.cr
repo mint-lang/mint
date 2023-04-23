@@ -69,7 +69,7 @@ module Mint
            Ast::Store,
            Ast::Module,
            Ast::Provider
-          node.name
+          node.name.value
         in Ast::InlineFunction,
            Ast::Function,
            Ast::Style
@@ -175,8 +175,8 @@ module Mint
 
       def find(variable : String, node : Ast::Provider)
         if variable == "subscriptions"
-          type = @records.find(&.name.==(node.subscription)) ||
-                 Comparer.normalize(Type.new(node.subscription))
+          type = @records.find(&.name.==(node.subscription.value)) ||
+                 Comparer.normalize(Type.new(node.subscription.value))
           Type.new("Array", [type.as(Checkable)])
         else
           node.functions.find(&.name.value.==(variable)) ||
@@ -255,7 +255,7 @@ module Mint
           when Ast::HtmlComponent
             @ast
               .components
-              .find(&.name.==(item.component.value))
+              .find(&.name.value.==(item.component.value))
               .try do |entity|
                 memo[variable.value] = entity
               end
@@ -271,7 +271,7 @@ module Mint
         component.connects.reduce({} of String => Ast::State) do |memo, item|
           @ast
             .stores
-            .find(&.name.==(item.store))
+            .find(&.name.value.==(item.store.value))
             .try do |store|
               item.keys.each do |key|
                 store
@@ -291,7 +291,7 @@ module Mint
         component.connects.reduce({} of String => Ast::Get) do |memo, item|
           @ast
             .stores
-            .find(&.name.==(item.store))
+            .find(&.name.value.==(item.store.value))
             .try do |store|
               item.keys.each do |key|
                 store
@@ -311,7 +311,7 @@ module Mint
         component.connects.reduce({} of String => Ast::Function) do |memo, item|
           @ast
             .stores
-            .find(&.name.==(item.store))
+            .find(&.name.value.==(item.store.value))
             .try do |store|
               item.keys.each do |key|
                 store
@@ -331,7 +331,7 @@ module Mint
         component.connects.reduce({} of String => Ast::Constant) do |memo, item|
           @ast
             .stores
-            .find(&.name.==(item.store))
+            .find(&.name.value.==(item.store.value))
             .try do |store|
               item.keys.each do |key|
                 store

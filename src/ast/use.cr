@@ -4,7 +4,7 @@ module Mint
       getter data, provider, condition
 
       def initialize(@condition : Expression?,
-                     @provider : String,
+                     @provider : TypeId,
                      @data : Record,
                      @input : Data,
                      @from : Int32,

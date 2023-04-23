@@ -9,7 +9,7 @@ module Mint
                      @states : Array(State),
                      @comment : Comment?,
                      @gets : Array(Get),
-                     @name : String,
+                     @name : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

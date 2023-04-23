@@ -110,7 +110,7 @@ module Mint
 
     def compile_component_store_data(node : Ast::Component) : Array(String)
       node.connects.reduce(%w[]) do |memo, item|
-        store = ast.stores.find(&.name.==(item.store))
+        store = ast.stores.find(&.name.value.==(item.store.value))
 
         if store
           item.keys.map do |key|
@@ -145,7 +145,7 @@ module Mint
 
       node.connects.each do |item|
         store =
-          ast.stores.find(&.name.==(item.store))
+          ast.stores.find(&.name.value.==(item.store.value))
 
         if store
           name =

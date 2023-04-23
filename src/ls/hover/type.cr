@@ -6,7 +6,7 @@ module Mint
           workspace
             .ast
             .enums
-            .find(&.name.==(node.name))
+            .find(&.name.value.==(node.name.value))
 
         if enum_node
           hover(enum_node, workspace)
@@ -15,7 +15,7 @@ module Mint
             workspace
               .type_checker
               .records
-              .find(&.name.==(node.name))
+              .find(&.name.==(node.name.value))
               .try(&.to_pretty)
 
           type =

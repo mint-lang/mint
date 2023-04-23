@@ -5,7 +5,7 @@ module Mint
       getter? constant
 
       def initialize(@variable : Variable,
-                     @name : String,
+                     @name : TypeId,
                      @from : Int32,
                      @input : Data,
                      @to : Int32,

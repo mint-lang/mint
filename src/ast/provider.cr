@@ -8,10 +8,10 @@ module Mint
                      @constants : Array(Constant),
                      @comments : Array(Comment),
                      @states : Array(State),
-                     @subscription : String,
+                     @subscription : TypeId,
                      @comment : Comment?,
                      @gets : Array(Get),
-                     @name : String,
+                     @name : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

@@ -32,7 +32,7 @@ module Mint
             case ref
             when Ast::HtmlComponent
               component_records
-                .find(&.first.name.==(ref.component.value))
+                .find(&.first.name.value.==(ref.component.value))
                 .try do |entity|
                   memo[variable.value] = entity.first
                 end

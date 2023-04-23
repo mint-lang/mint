@@ -45,32 +45,32 @@ module Mint
           case attributes.size
           when .> 3
             <<-MINT
-            <#{node.name}
+            <#{node.name.value}
               #{attributes.join("\n  ")}>
               $0
-            </#{node.name}>
+            </#{node.name.value}>
             MINT
           when .> 0
             <<-MINT
-            <#{node.name} #{attributes.join(" ")}>
+            <#{node.name.value} #{attributes.join(" ")}>
               $0
-            </#{node.name}>
+            </#{node.name.value}>
             MINT
           else
             <<-MINT
-            <#{node.name}>
+            <#{node.name.value}>
               $0
-            </#{node.name}>
+            </#{node.name.value}>
             MINT
           end
 
         LSP::CompletionItem.new(
           kind: LSP::CompletionItemKind::Snippet,
-          filter_text: node.name,
-          sort_text: node.name,
+          filter_text: node.name.value,
+          sort_text: node.name.value,
           insert_text: snippet,
           detail: "Component",
-          label: node.name)
+          label: node.name.value)
       end
     end
   end

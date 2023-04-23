@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@parameters : Array(Node),
                      @comment : Comment?,
-                     @value : String,
+                     @value : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

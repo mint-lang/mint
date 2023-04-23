@@ -7,7 +7,7 @@ module Mint
                      @comments : Array(Comment),
                      @children : Array(Node),
                      @ref : Variable?,
-                     @component : Variable,
+                     @component : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

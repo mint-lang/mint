@@ -11,7 +11,7 @@ module Mint
           "."
         end
 
-      "#{node.name}#{separator}#{variable}"
+      "#{format node.name}#{separator}#{variable}"
     end
   end
 end

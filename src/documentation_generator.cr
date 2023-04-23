@@ -42,27 +42,27 @@ module Mint
         end
 
         json.field "components" do
-          generate ast.components.sort_by(&.name), json
+          generate ast.components.sort_by(&.name.value), json
         end
 
         json.field "stores" do
-          generate ast.stores.sort_by(&.name), json
+          generate ast.stores.sort_by(&.name.value), json
         end
 
         json.field "modules" do
-          generate ast.unified_modules.sort_by(&.name), json
+          generate ast.unified_modules.sort_by(&.name.value), json
         end
 
         json.field "providers" do
-          generate ast.providers.sort_by(&.name), json
+          generate ast.providers.sort_by(&.name.value), json
         end
 
         json.field "records" do
-          generate ast.records.sort_by(&.name), json
+          generate ast.records.sort_by(&.name.value), json
         end
 
         json.field "enums" do
-          generate ast.enums.sort_by(&.name), json
+          generate ast.enums.sort_by(&.name.value), json
         end
       end
     end

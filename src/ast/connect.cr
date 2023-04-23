@@ -4,7 +4,7 @@ module Mint
       getter keys, store
 
       def initialize(@keys : Array(ConnectVariable),
-                     @store : String,
+                     @store : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

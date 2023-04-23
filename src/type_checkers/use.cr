@@ -9,10 +9,10 @@ module Mint
         node.condition
 
       provider =
-        ast.providers.find(&.name.==(node.provider))
+        ast.providers.find(&.name.value.==(node.provider.value))
 
       raise UseNotFoundProvider, {
-        "name" => node.provider,
+        "name" => node.provider.value,
         "node" => node,
       } unless provider
 
@@ -22,7 +22,7 @@ module Mint
 
       # This is checked by the provider so we assume it's there
       subscription =
-        records.find!(&.name.==(provider.subscription))
+        records.find!(&.name.==(provider.subscription.value))
 
       record =
         resolve node.data

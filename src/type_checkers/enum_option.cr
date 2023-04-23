@@ -4,7 +4,7 @@ module Mint
       parameters =
         resolve node.parameters
 
-      Type.new(node.value, parameters)
+      Type.new(node.value.value, parameters)
     end
   end
 end

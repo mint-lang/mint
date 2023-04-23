@@ -1,10 +1,9 @@
 module Mint
   class Ast
-    class Type < Node
-      getter name, parameters
+    class TypeId < Node
+      getter value
 
-      def initialize(@parameters : Array(TypeOrVariable),
-                     @name : TypeId,
+      def initialize(@value : String,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

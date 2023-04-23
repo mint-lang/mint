@@ -143,7 +143,7 @@ module Mint
 
     def resolve_record_definition(name)
       records.find(&.name.==(name)) || begin
-        node = ast.records.find(&.name.==(name))
+        node = ast.records.find(&.name.value.==(name))
 
         if node
           record = check(node)

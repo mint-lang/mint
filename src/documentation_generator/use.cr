@@ -7,7 +7,9 @@ module Mint
         end
 
       json.object do
-        json.field "provider", node.provider
+        json.field "provider" do
+          generate node.provider, json
+        end
         json.field "data", source(node.data)
         json.field "condition", condition
       end

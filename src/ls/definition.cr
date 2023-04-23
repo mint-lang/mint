@@ -47,27 +47,7 @@ module Mint
         # Select only the name part of the component
         #   global component MintComponent {
         #                    ^^^^^^^^^^^^^
-
-        start_line, start_column = node.location.start
-
-        node.comment.try do |comment|
-          start_line, start_column = comment.location.end
-        end
-
-        # TODO: Change parser so component name is a node?
-        offset = if node.global?
-                   "global component ".size
-                 else
-                   "component ".size
-                 end
-
-        location = Ast::Node::Location.new(
-          filename: node.location.filename,
-          start: {start_line, start_column + offset},
-          end: {start_line, start_column + offset + node.name.size}
-        )
-
-        selection(location)
+        selection(node.name)
       end
 
       def selection(node : Ast::HtmlAttribute) : LSP::Range
@@ -117,9 +97,9 @@ module Mint
 
       def find_component(workspace : Workspace, name : String) : Ast::Component?
         # Do not include any core component
-        return if Core.ast.components.any?(&.name.== name)
+        return if Core.ast.components.any?(&.name.value.== name)
 
-        workspace.ast.components.find(&.name.== name)
+        workspace.ast.components.find(&.name.value.== name)
       end
 
       def has_link_support?(server : Server)

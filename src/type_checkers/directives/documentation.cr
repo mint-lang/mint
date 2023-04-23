@@ -4,7 +4,7 @@ module Mint
 
     def check(node : Ast::Directives::Documentation) : Checkable
       component =
-        ast.components.find(&.name.==(node.entity))
+        ast.components.find(&.name.value.==(node.entity.value))
 
       raise DocumentationDirectiveEntityNotFound, {
         "name" => node.entity,

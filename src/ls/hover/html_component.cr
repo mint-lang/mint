@@ -13,7 +13,7 @@ module Mint
           end
 
         ([
-          "**#{node.name}**\n",
+          "**#{node.name.value}**\n",
           node.comment.try(&.value.strip),
           properties_title,
         ] + properties).compact

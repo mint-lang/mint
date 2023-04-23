@@ -43,7 +43,7 @@ module Mint
         end
       end
 
-      Record.new(node.name, fields)
+      Record.new(node.name.value, fields)
     end
 
     # Check all nodes that were not checked before
@@ -60,7 +60,7 @@ module Mint
 
     def check(node : Ast::Component) : Checkable
       # Checking for global naming conflict
-      check_global_names node.name, node
+      check_global_names node.name.value, node
 
       # Checking for naming conflicts
       checked =
@@ -73,7 +73,7 @@ module Mint
 
       # Checking for properties in Main
 
-      if node.name == "Main" && (property = node.properties.first?)
+      if node.name.value == "Main" && (property = node.properties.first?)
         raise ComponentMainProperty, {
           "property_node" => property,
           "node"          => node,
@@ -114,7 +114,7 @@ module Mint
 
       # Checking for multiple connects to the same store
       node.connects.each do |connect|
-        other = (node.connects - [connect]).find(&.store.==(connect.store))
+        other = (node.connects - [connect]).find(&.store.value.==(connect.store.value))
 
         raise ComponentMultipleConnects, {
           "name"  => connect.store,
@@ -156,7 +156,7 @@ module Mint
 
       # Checking for multiple same uses of the same provider
       node.uses.each do |use|
-        other = (node.uses - [use]).find(&.provider.==(use.provider))
+        other = (node.uses - [use]).find(&.provider.value.==(use.provider.value))
 
         raise ComponentMultipleUses, {
           "name"  => use.provider,

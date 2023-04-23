@@ -8,12 +8,12 @@ module Mint
         node.name
 
       entity =
-        ast.unified_modules.find(&.name.==(name)) ||
-          ast.stores.find(&.name.==(name)) ||
-          ast.providers.find(&.name.==(name)) ||
+        ast.unified_modules.find(&.name.value.==(name.value)) ||
+          ast.stores.find(&.name.value.==(name.value)) ||
+          ast.providers.find(&.name.value.==(name.value)) ||
           ast.components
             .select(&.global?)
-            .find(&.name.==(name))
+            .find(&.name.value.==(name.value))
 
       variable_value =
         node.variable.value

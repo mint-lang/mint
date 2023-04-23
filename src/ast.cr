@@ -47,7 +47,7 @@ module Mint
     end
 
     def main : Component?
-      @components.find(&.name.==("Main"))
+      @components.find(&.name.value.==("Main"))
     end
 
     def self.space_separated?(node1, node2)
@@ -92,13 +92,15 @@ module Mint
     def normalize
       @unified_modules =
         @modules
-          .group_by(&.name)
-          .map do |name, modules|
+          .group_by(&.name.value)
+          .map do |_, modules|
             Module.new(
               functions: modules.flat_map(&.functions),
               constants: modules.flat_map(&.constants),
               input: Data.new(input: "", file: ""),
-              name: name,
+              # TODO: We may need to store each modules name node for 
+              # future features, but for now we just store the first
+              name: modules.first.name,
               comments: [] of Comment,
               comment: nil,
               from: 0,
