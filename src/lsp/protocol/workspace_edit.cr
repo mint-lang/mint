@@ -21,7 +21,7 @@ module LSP
 
     # TODO:
     # @[JSON::Field(key: "documentChanges")]
-    # property document_changes : Array(TextDocumentEdit) | TextDocumentEdit | CreateFile | RenameFile | DeleteFile | Nil
+    # property document_changes : Array(TextDocumentEdit) | TextDocumentEdit | CreateFile | RenameFile | DeleteFile?
 
     # A map of change annotations that can be referenced in
     # `AnnotatedTextEdit`s or create, rename and delete file / folder

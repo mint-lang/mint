@@ -4,7 +4,7 @@ module Mint
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
-      def execute(server) : LSP::LocationLink | LSP::Location | Nil
+      def execute(server) : LSP::LocationLink | LSP::Location?
         uri =
           URI.parse(params.text_document.uri)
 
@@ -115,7 +115,7 @@ module Mint
         selection(node.name)
       end
 
-      def find_component(workspace : Workspace, name : String) : Ast::Component | Nil
+      def find_component(workspace : Workspace, name : String) : Ast::Component?
         # Do not include any core component
         return if Core.ast.components.any? { |x| x.name == name }
 

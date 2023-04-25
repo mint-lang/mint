@@ -24,7 +24,7 @@ module Mint
         range(node, node.comment)
       end
 
-      def range(node : Ast::Node, comment : Ast::Comment | Nil)
+      def range(node : Ast::Node, comment : Ast::Comment?)
         if comment
           range(comment.location.end[0], node.location.end[0])
         else
@@ -32,7 +32,7 @@ module Mint
         end
       end
 
-      def range(node : Ast::Node | Nil)
+      def range(node : Ast::Node?)
         nil
       end
 
