@@ -1,17 +1,21 @@
 module Mint
   class Installer
     class Semver
-      def self.parse(string : String)
+      def self.parse?(string : String)
         parts = string.split('.')
 
-        raise ArgumentError.new if parts.size > 3
+        return unless parts.size == 3
+        return unless parts.all?(&.chars.all?(&.number?))
 
-        major = parts[0]?.to_s.to_i32
-        minor = parts[1]?.to_s.to_i32
-        patch = parts[2]?.to_s.to_i32
+        major = parts[0].to_i
+        minor = parts[1].to_i
+        patch = parts[2].to_i
 
         new major, minor, patch
-      rescue ArgumentError
+      end
+
+      def self.parse(string : String)
+        parse?(string) || raise ArgumentError.new
       end
 
       getter major, minor, patch
@@ -27,68 +31,58 @@ module Mint
         self.class.new major, minor, patch + 1
       end
 
-      def ==(other)
-        major == other.major &&
-          minor == other.minor &&
-          patch == other.patch
-      end
+      def_equals @major, @minor, @patch
 
       def <(other) : Bool
-        if major < other.major
+        case
+        when major < other.major
           true
-        elsif major > other.major
+        when major > other.major
           false
         else # Major equals
-          if minor < other.minor
+          case
+          when minor < other.minor
             true
-          elsif minor > other.minor
+          when minor > other.minor
             false
           else # Minor equals
-            if patch < other.patch
-              true
-            else # Patch is grater
-              false
-            end
+            patch < other.patch
           end
         end
       end
 
       def >(other) : Bool
-        if major > other.major
+        case
+        when major > other.major
           true
-        elsif major < other.major
+        when major < other.major
           false
         else # Major equals
-          if minor > other.minor
+          case
+          when minor > other.minor
             true
-          elsif minor < other.minor
+          when minor < other.minor
             false
           else # Minor equals
-            if patch > other.patch
-              true
-            else # Patch is less
-              false
-            end
+            patch > other.patch
           end
         end
       end
 
       def >=(other) : Bool
-        if major > other.major
+        case
+        when major > other.major
           true
-        elsif major < other.major
+        when major < other.major
           false
         else # Major equals
-          if minor > other.minor
+          case
+          when minor > other.minor
             true
-          elsif minor < other.minor
+          when minor < other.minor
             false
           else # Minor equals
-            if patch >= other.patch
-              true
-            else # Patch is less
-              false
-            end
+            patch >= other.patch
           end
         end
       end

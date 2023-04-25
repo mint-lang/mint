@@ -185,10 +185,10 @@ module Mint
       constraint =
         if match
           lower =
-            Installer::Semver.parse(match[1])
+            Installer::Semver.parse?(match[1])
 
           upper =
-            Installer::Semver.parse(match[2])
+            Installer::Semver.parse?(match[2])
 
           raise MintJsonMintVersionInvalid, {
             "node" => node(location),
@@ -202,7 +202,7 @@ module Mint
         end
 
       resolved =
-        Installer::Semver.parse(VERSION.rchop("-devel")).not_nil!
+        Installer::Semver.parse(VERSION.rchop("-devel"))
 
       raise MintJsonMintVersionMismatch, {
         "expected_version" => constraint.to_s,
@@ -759,10 +759,10 @@ module Mint
 
       if match
         lower =
-          Installer::Semver.parse(match[1])
+          Installer::Semver.parse?(match[1])
 
         upper =
-          Installer::Semver.parse(match[2])
+          Installer::Semver.parse?(match[2])
 
         raise MintJsonDependencyInvalidConstraint, {
           "node" => node(location),
@@ -775,7 +775,7 @@ module Mint
 
         if match
           version =
-            Installer::Semver.parse(match[2])
+            Installer::Semver.parse?(match[2])
 
           target =
             match[1]
