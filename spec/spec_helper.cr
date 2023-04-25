@@ -13,12 +13,6 @@ class Mint::Error < Exception
   end
 end
 
-module Mint
-  class Core
-    class_getter ast : Ast = Ast.new
-  end
-end
-
 def diff(a, b)
   file1 = File.tempfile do |f|
     f.puts a.strip
@@ -151,6 +145,10 @@ class Workspace
     file
   end
 
+  def root_path
+    File.realpath(@root)
+  end
+
   def file_path(name)
     "file://#{@files[name]?.try(&.path)}"
   end
@@ -222,5 +220,33 @@ def lsp(messages)
     server.read
 
     LSP::MessageParser.parse(out_io.rewind) { |content| content }
+  end
+end
+
+def lsp_json(messages)
+  in_io =
+    IO::Memory.new
+
+  out_io =
+    IO::Memory.new
+
+  server =
+    Mint::LS::Server.new(in_io, out_io)
+
+  messages.map do |item|
+    out_io.clear
+    in_io.clear
+
+    in_io.print "Content-Length: #{item.bytesize}\r\n\r\n#{item}"
+    in_io.rewind # Rewind in IO so the server can read it
+
+    # Process the message
+    server.read
+
+    content = LSP::MessageParser.parse(out_io.rewind, &.itself)
+
+    # Prettify response
+    json = JSON.parse(content.not_nil!)
+    json.to_pretty_json
   end
 end

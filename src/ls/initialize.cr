@@ -62,7 +62,7 @@ module Mint
             folding_range_provider: true,
             code_action_provider: true,
             declaration_provider: false,
-            definition_provider: false,
+            definition_provider: true,
             references_provider: false,
             rename_provider: false,
             color_provider: false,
