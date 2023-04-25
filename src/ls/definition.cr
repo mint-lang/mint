@@ -117,9 +117,9 @@ module Mint
 
       def find_component(workspace : Workspace, name : String) : Ast::Component?
         # Do not include any core component
-        return if Core.ast.components.any? { |x| x.name == name }
+        return if Core.ast.components.any?(&.name.== name)
 
-        workspace.ast.components.find { |x| x.name == name }
+        workspace.ast.components.find(&.name.== name)
       end
 
       def has_link_support(server : Server)

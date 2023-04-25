@@ -15,7 +15,7 @@ module Mint
                           find_component(workspace, html_component.component.value)
 
           return unless component_property =
-                          component.properties.find { |x| x.name.value == variable.value }
+                          component.properties.find(&.name.value.== variable.value)
 
           location_link server, variable, component_property
         end
