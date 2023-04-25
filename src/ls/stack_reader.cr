@@ -6,9 +6,9 @@ module Mint
       end
 
       def find_next(klass : N.class) : N? forall N
-        node = @stack[@index]?.try &.as?(N)
-        @index += 1
-        node
+        @stack[@index]?.as?(N).tap do
+          @index += 1
+        end
       end
 
       def find_anywhere(klass : N.class) : N? forall N
