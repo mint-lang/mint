@@ -111,9 +111,9 @@ module Mint
             end
 
             resolved_type =
-              Comparer.fill(option_type, mapping)
+              Comparer.fill(option_type, mapping).not_nil!
 
-            {param.value, resolved_type.not_nil!, param}
+            {param.value, resolved_type, param}
           end
         end.compact
       end

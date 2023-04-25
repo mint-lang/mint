@@ -243,10 +243,10 @@ def lsp_json(messages)
     # Process the message
     server.read
 
-    content = LSP::MessageParser.parse(out_io.rewind, &.itself)
+    content = LSP::MessageParser.parse(out_io.rewind, &.itself).not_nil!
 
     # Prettify response
-    json = JSON.parse(content.not_nil!)
+    json = JSON.parse(content)
     json.to_pretty_json
   end
 end
