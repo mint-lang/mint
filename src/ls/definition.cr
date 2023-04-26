@@ -122,13 +122,14 @@ module Mint
         workspace.ast.components.find(&.name.== name)
       end
 
-      def has_link_support(server : Server)
-        server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support
+      def has_link_support?(server : Server)
+        !!(server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support)
       end
 
-      # Generates a LSP::LocationLink that links from source to the target node
+      # Returns a `LSP::LocationLink` that links from *source* to the *target* node
+      # if the *server* has link support, otherwise it returns `LSP::Location`.
       def location_link(server : Server, source : Ast::Node, target : Ast::Node) : LSP::LocationLink | LSP::Location
-        if has_link_support(server)
+        if has_link_support?(server)
           LSP::LocationLink.new(
             origin_selection_range: selection(source),
             target_uri: "file://#{target.location.filename}",

@@ -3,13 +3,11 @@ module Mint
     class Definition < LSP::RequestMessage
       def html_attribute(server : Server, workspace : Workspace, stack : Array(Ast::Node))
         with_stack(stack) do |reader|
-          return unless variable =
-                          reader.find_next Ast::Variable
+          return unless variable = reader.find_next Ast::Variable
 
           return unless reader.find_next Ast::HtmlAttribute
 
-          return unless html_component =
-                          reader.find_next Ast::HtmlComponent
+          return unless html_component = reader.find_next Ast::HtmlComponent
 
           return unless component =
                           find_component(workspace, html_component.component.value)
