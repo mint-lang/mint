@@ -13,8 +13,8 @@ Dir
     error = nil
 
     contents.scan(/^\-+(\w+)?/m) do |match|
-      samples << {contents[position, match.begin.not_nil! - position], error}
-      position = match.end.not_nil!
+      samples << {contents[position, match.begin - position], error}
+      position = match.end
       error = match[1]?
     end
 

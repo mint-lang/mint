@@ -62,7 +62,7 @@ module Mint
 
         output
           .split
-          .compact_map { |v| Semver.parse(v) }
+          .compact_map { |v| Semver.parse?(v) }
           .sort_by!(&.to_s)
           .reverse!
       end

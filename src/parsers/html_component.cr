@@ -19,6 +19,7 @@ module Mint
         end
 
         next unless component
+        self << component
 
         ref = start do
           whitespace

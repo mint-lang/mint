@@ -1,0 +1,50 @@
+component Test {
+  fun render : Html {
+    <Unless condition={true}>
+      <div/>
+    </Unless>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 7
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 13
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 0
+}
+------------------------------------------------------------------------response
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 1
+}
+------------------------------------------------------------------------response

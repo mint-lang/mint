@@ -4,5 +4,8 @@ module LSP
 
     property range : Range
     property uri : String
+
+    def initialize(@range, @uri)
+    end
   end
 end
