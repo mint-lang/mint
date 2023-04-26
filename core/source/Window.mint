@@ -194,20 +194,24 @@ module Window {
   Shows the default prompt popup of the browser with the given message and
   value.
 
-  This function returns a promise but blocks execution until the popup is
-  closed.
+  This function returns the entered text as a `Maybe(String)` and blocks
+  execution until the popup is closed. If the user cancelled the popup it
+  returns `Maybe::Nothing`.
 
-    input = Window.prompt("How old are you?")
+    case (Window.prompt("How old are you?")) {
+      Maybe::Just(value) => Debug.log(value)
+      Maybe::Nothing => Debug.log("User cancelled")
+    }
   */
-  fun prompt (label : String, current : String) : Promise(String, String) {
+  fun prompt (label : String, current : String = "") : Promise(Maybe(String)) {
     `
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       let result = window.prompt(#{label}, #{current})
 
-      if (result) {
-        resolve(result)
+      if (result !== null) {
+        resolve(#{Maybe::Just(`result`)})
       } else {
-        reject("User cancelled!")
+        resolve(#{Maybe::Nothing})
       }
     })
     `
