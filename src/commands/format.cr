@@ -20,11 +20,13 @@ module Mint
         if flags.stdin
           format_stdin
         else
-          succeeded = nil
+          all_formatted = true
+
           execute "Formatting files" do
-            succeeded = format_files
+            all_formatted = format_files
           end
-          exit(1) unless succeeded
+
+          exit(1) if flags.check && !all_formatted
         end
       end
 
@@ -39,6 +41,8 @@ module Mint
           Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
         terminal.puts formatted
+      rescue error : Error
+        error(error.to_terminal, terminal.position)
       end
 
       private def format_files
@@ -61,6 +65,7 @@ module Mint
 
         if files.empty?
           terminal.puts "Nothing to format!"
+          true
         else
           all_formatted = true
 
@@ -72,18 +77,18 @@ module Mint
               Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
             unless formatted == File.read(file)
-              File.write(file, formatted) unless flags.check
-              terminal.puts "Formatted: #{file}"
+              if flags.check
+                terminal.puts "Not formatted: #{file}"
+              else
+                File.write(file, formatted)
+                terminal.puts "Formatted: #{file}"
+              end
               all_formatted = false
             end
           end
 
-          if all_formatted
-            terminal.puts "All files are formatted!"
-            true
-          else
-            false
-          end
+          terminal.puts "All files are formatted!" if all_formatted
+          all_formatted
         end
       rescue error : Error
         raise error
