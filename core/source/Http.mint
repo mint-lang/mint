@@ -21,11 +21,12 @@ record Http.Response {
   status : Number
 }
 
-/* Represents the body of an HTTP response. */
+/* Represents the body of a HTTP response. */
 enum Http.ResponseBody {
-  Json(Object)
-  Html(String)
+  JSON(Object)
+  HTML(Object)
   Text(String)
+  XML(Object)
   File(File)
 }
 
@@ -324,25 +325,47 @@ module Http {
       xhr.addEventListener('load', async (event) => {
         delete this._requests[#{uid}]
 
-        let header = xhr.getResponseHeader("content-type");
+        let contentType = xhr.getResponseHeader("content-type");
         let responseText = await xhr.response.text();
         let body;
 
-        if (header.startsWith("text/html")) {
-          body = #{Http.ResponseBody::Html(`responseText`)};
-        } else if (header.startsWith("application/json")) {
+        if (contentType.startsWith("text/html")) {
+          const object =
+            (new DOMParser()).parseFromString(responseText, "text/html");
+
+          const errorNode =
+            doc.querySelector("parsererror");
+
+          if (errorNode) {
+            body = #{Http.ResponseBody::Text(`responseText`)};
+          } else {
+            body = #{Http.ResponseBody::HTML(`object`)};
+          }
+        } else if (contentType.startsWith("application/xml")) {
+          const object =
+            (new DOMParser()).parseFromString(responseText, "application/xml");
+
+          const errorNode =
+            doc.querySelector("parsererror");
+
+          if (errorNode) {
+            body = #{Http.ResponseBody::Text(`responseText`)};
+          } else {
+            body = #{Http.ResponseBody::XML(`object`)};
+          }
+        } else if (contentType.startsWith("application/json")) {
           try {
-            body = #{Http.ResponseBody::Json(`JSON.parse(responseText)`)};
+            body = #{Http.ResponseBody::JSON(`JSON.parse(responseText)`)};
           } catch (e) {
             body = #{Http.ResponseBody::Text(`responseText`)};
           }
-        } else if (header.startsWith("text/")) {
+        } else if (contentType.startsWith("text/")) {
           body = #{Http.ResponseBody::Text(`responseText`)};
         }
 
         if (!body) {
           const parts = #{Url.parse(request.url).path}.split('/');
-          body = #{Http.ResponseBody::File(`new File([xhr.response], parts[parts.length - 1], { type: header })`)};
+          body = #{Http.ResponseBody::File(`new File([xhr.response], parts[parts.length - 1], { type: contentType })`)};
         }
 
         resolve(#{Result::Ok({
