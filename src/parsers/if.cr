@@ -18,7 +18,7 @@ module Mint
         whitespace
         char '(', IfExpectedOpeningParentheses
         whitespace
-        condition = expression! IfExpectedCondition
+        condition = statement(allow_enum_destructuring: true) || expression!(IfExpectedCondition)
         whitespace
         char ')', IfExpectedClosingParentheses
         whitespace

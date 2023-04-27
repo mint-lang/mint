@@ -7,18 +7,28 @@ module Mint
       condition =
         resolve node.condition
 
+      variables =
+        case item = node.condition
+        when Ast::Statement
+          if item.target.is_a?(Ast::EnumDestructuring)
+            destructuring_variables(item.target.as(Ast::EnumDestructuring), condition)
+          end
+        end || [] of Ast::Node
+
       raise IfConditionTypeMismatch, {
         "node"     => node.condition,
         "got"      => condition,
         "expected" => BOOL,
-      } unless Comparer.compare(condition, BOOL)
+      } if variables.empty? && !Comparer.compare(condition, BOOL)
 
       truthy_item, falsy_item =
         node.branches
 
       if truthy_item.is_a?(Ast::Node)
         truthy =
-          resolve truthy_item.as(Ast::Node)
+          scope(variables) do
+            resolve truthy_item.as(Ast::Node)
+          end
 
         if falsy_item
           falsy =
@@ -33,7 +43,10 @@ module Mint
 
         truthy
       else
-        resolve truthy_item
+        scope(variables) do
+          resolve truthy_item
+        end
+
         falsy_item.try { |data| resolve data }
 
         NEVER
