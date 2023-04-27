@@ -21,7 +21,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           memo : Map(String, Function(Void)),
           subscription : Provider.MediaQuery.Subscription
         ) {
-          case (Map.get(listeners, subscription.query)) {
+          case Map.get(listeners, subscription.query) {
             Maybe::Nothing =>
               Map.set(
                 memo,
@@ -54,7 +54,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
             |> Array.find(
               (item : Provider.MediaQuery.Subscription) { item.query == query })
 
-          case (subscription) {
+          case subscription {
             Maybe::Just => memo
 
             Maybe::Nothing =>

@@ -12,7 +12,7 @@ component A {
     background: red;
     color: blue;
 
-    if (true) {
+    if true {
       color: yellow;
     }
   }

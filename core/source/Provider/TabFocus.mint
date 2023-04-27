@@ -12,7 +12,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
   /* The `keyUp` event handler. */
   fun handleKeyUp (event : Html.Event) : Array(Promise(Void)) {
-    if (event.keyCode == Html.Event:TAB) {
+    if event.keyCode == Html.Event:TAB {
       let activeElement =
         Dom.getActiveElement()
 
@@ -28,7 +28,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
   /* The `keyDown` event handler. */
   fun handleKeyDown (event : Html.Event) : Array(Promise(Void)) {
-    if (event.keyCode == Html.Event:TAB) {
+    if event.keyCode == Html.Event:TAB {
       let target =
         Maybe::Just(event.target)
 
@@ -44,7 +44,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(
         listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
@@ -57,7 +57,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
       next { listeners: Maybe::Nothing }
     } else {
-      case (listeners) {
+      case listeners {
         Maybe::Nothing =>
           next
             {

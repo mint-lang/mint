@@ -4,7 +4,7 @@ module Time.Format {
     {
       toMonthAbbreviation:
         (month : Month) {
-          case (month) {
+          case month {
             Month::January => "jan."
             Month::February => "febr."
             Month::March => "márc."
@@ -21,7 +21,7 @@ module Time.Format {
         },
       toMonthName:
         (month : Month) {
-          case (month) {
+          case month {
             Month::January => "janár"
             Month::February => "február"
             Month::March => "március"
@@ -38,7 +38,7 @@ module Time.Format {
         },
       toWeekdayName:
         (weekday : Weekday) {
-          case (weekday) {
+          case weekday {
             Weekday::Monday => "hétfő"
             Weekday::Tuesday => "kedd"
             Weekday::Wednesday => "szerda"
@@ -50,7 +50,7 @@ module Time.Format {
         },
       toWeekdayAbbreviation:
         (weekday : Weekday) {
-          case (weekday) {
+          case weekday {
             Weekday::Monday => "hé"
             Weekday::Tuesday => "ke"
             Weekday::Wednesday => "sze."
@@ -62,7 +62,7 @@ module Time.Format {
         },
       toOrdinalSuffix:
         (day : Number) {
-          case (day) {
+          case day {
             1 => "-je"
             2 => "-a"
             3 => "-a"
@@ -99,7 +99,7 @@ module Time.Format {
         },
       amPm:
         (hour : Number) {
-          if (hour >= 12) {
+          if hour >= 12 {
             "du."
           } else {
             "de."
@@ -107,7 +107,7 @@ module Time.Format {
         },
       someSecondsAgo:
         (seconds : Number) {
-          if (seconds < 30) {
+          if seconds < 30 {
             "épp most"
           } else {
             "#{seconds} másodperce"
@@ -115,7 +115,7 @@ module Time.Format {
         },
       someMinutesAgo:
         (minutes : Number) {
-          if (minutes < 2) {
+          if minutes < 2 {
             "egy perce"
           } else {
             "#{minutes} perce"
@@ -123,7 +123,7 @@ module Time.Format {
         },
       someHoursAgo:
         (hours : Number) {
-          if (hours < 2) {
+          if hours < 2 {
             "egy órája"
           } else {
             "#{hours} órája"
@@ -131,7 +131,7 @@ module Time.Format {
         },
       someDaysAgo:
         (days : Number) {
-          if (days < 2) {
+          if days < 2 {
             "tegnap"
           } else {
             "#{days} napja"
@@ -139,7 +139,7 @@ module Time.Format {
         },
       someMonthsAgo:
         (months : Number) {
-          if (months < 2) {
+          if months < 2 {
             "egy hónapja"
           } else {
             "#{months} hónapja"
@@ -147,7 +147,7 @@ module Time.Format {
         },
       someYearsAgo:
         (years : Number) {
-          if (years < 2) {
+          if years < 2 {
             "egy éve"
           } else {
             "#{years} éve"
@@ -155,7 +155,7 @@ module Time.Format {
         },
       inSomeSeconds:
         (seconds : Number) {
-          if (seconds < 30) {
+          if seconds < 30 {
             "nemsokára"
           } else {
             "#{seconds} másodperc múlva"
@@ -163,7 +163,7 @@ module Time.Format {
         },
       inSomeMinutes:
         (minutes : Number) {
-          if (minutes < 2) {
+          if minutes < 2 {
             "egy perc múlva"
           } else {
             "#{minutes} perc múlva"
@@ -171,7 +171,7 @@ module Time.Format {
         },
       inSomeHours:
         (hours : Number) {
-          if (hours < 2) {
+          if hours < 2 {
             "egy óra múlva"
           } else {
             "#{hours} óra múlva"
@@ -179,7 +179,7 @@ module Time.Format {
         },
       inSomeDays:
         (days : Number) {
-          if (days < 2) {
+          if days < 2 {
             "holnap"
           } else {
             "#{days} nam múlva"
@@ -187,7 +187,7 @@ module Time.Format {
         },
       inSomeMonths:
         (months : Number) {
-          if (months < 2) {
+          if months < 2 {
             "egy hónap múlva"
           } else {
             "#{months} hónap múlva"
@@ -195,7 +195,7 @@ module Time.Format {
         },
       inSomeYears:
         (years : Number) {
-          if (years < 2) {
+          if years < 2 {
             "egy év múlva"
           } else {
             "#{years} év múlva"

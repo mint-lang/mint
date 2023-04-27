@@ -10,7 +10,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    case ("Hello") {
+    case "Hello" {
       /* Comment1 */
       "singleline" => "single line content"
 

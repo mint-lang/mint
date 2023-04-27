@@ -17,11 +17,11 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe::Nothing }
     } else {
-      case (listener) {
+      case listener {
         Maybe::Nothing =>
           next { listener: Maybe::Just(Window.addEventListener("scroll", false, handle)) }
 

@@ -7,8 +7,8 @@ describe "Case Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "case", Mint::Parser::CaseExpectedOpeningParentheses
-  expect_error "case ", Mint::Parser::CaseExpectedOpeningParentheses
+  expect_error "case", Mint::Parser::CaseExpectedCondition
+  expect_error "case ", Mint::Parser::CaseExpectedCondition
   expect_error "case (", Mint::Parser::CaseExpectedCondition
   expect_error "case (a", Mint::Parser::CaseExpectedClosingParentheses
   expect_error "case (a)", Mint::Parser::CaseExpectedOpeningBracket

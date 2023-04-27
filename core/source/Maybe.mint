@@ -21,7 +21,7 @@ module Maybe {
     maybe : Maybe(value),
     transform : Function(value, Maybe(result))
   ) : Maybe(result) {
-    case (maybe) {
+    case maybe {
       Maybe::Just(value) => transform(value)
       Maybe::Nothing => Maybe::Nothing
     }
@@ -35,7 +35,7 @@ module Maybe {
     |> Maybe.flatten()) == Maybe.just("A")
   */
   fun flatten (maybe : Maybe(Maybe(value))) : Maybe(value) {
-    case (maybe) {
+    case maybe {
       Maybe::Nothing => Maybe::Nothing
       Maybe::Just(value) => value
     }
@@ -73,7 +73,7 @@ module Maybe {
     |> Maybe.map((number : Number) : Number { number + 2 })) == 3
   */
   fun map (maybe : Maybe(value), func : Function(value, result)) : Maybe(result) {
-    case (maybe) {
+    case maybe {
       Maybe::Just(value) => Maybe::Just(func(value))
       Maybe::Nothing => Maybe::Nothing
     }
@@ -102,7 +102,7 @@ module Maybe {
     Maybe.toResult(Maybe.just("A"), "Error") == Result.ok("A")
   */
   fun toResult (maybe : Maybe(value), error : error) : Result(error, value) {
-    case (maybe) {
+    case maybe {
       Maybe::Just(value) => Result::Ok(value)
       Maybe::Nothing => Result::Err(error)
     }
@@ -125,7 +125,7 @@ module Maybe {
     Maybe.withLazyDefault(Maybe.just("B"), () { "A" }) == "B"
   */
   fun withLazyDefault (maybe : Maybe(value), func : Function(value)) : value {
-    case (maybe) {
+    case maybe {
       Maybe::Nothing => func()
       Maybe::Just(value) => value
     }

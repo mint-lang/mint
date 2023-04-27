@@ -19,9 +19,9 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       next { id: AnimationFrame.cancel(id) }
-    } else if (id == -1) {
+    } else if id == -1 {
       next { id: AnimationFrame.request(process) }
     } else {
       next { }

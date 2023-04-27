@@ -7,8 +7,8 @@ describe "If Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "if", Mint::Parser::IfExpectedOpeningParentheses
-  expect_error "if ", Mint::Parser::IfExpectedOpeningParentheses
+  expect_error "if", Mint::Parser::IfExpectedCondition
+  expect_error "if ", Mint::Parser::IfExpectedCondition
   expect_error "if (", Mint::Parser::IfExpectedCondition
   expect_error "if (a", Mint::Parser::IfExpectedClosingParentheses
   expect_error "if (a)", Mint::Parser::IfExpectedTruthyOpeningBracket

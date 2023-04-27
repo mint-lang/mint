@@ -7,7 +7,7 @@ suite "Storage.Local.set" {
   test "sets the given value at the given key" {
     Storage.Local.set("test", "test")
 
-    case (Storage.Local.get("test")) {
+    case Storage.Local.get("test") {
       Result::Ok(value) => value == "test"
       Result::Err => false
     }
@@ -26,14 +26,14 @@ suite "Storage.Local.get" {
   test "it returns the value if exists" {
     Storage.Local.set("test", "test")
 
-    case (Storage.Local.get("test")) {
+    case Storage.Local.get("test") {
       Result::Ok(value) => value == "test"
       Result::Err => false
     }
   }
 
   test "it returns nothing if the key does not exists" {
-    case (Storage.Local.get("test")) {
+    case Storage.Local.get("test") {
       Result::Ok(value) => false
       Result::Err => true
     }

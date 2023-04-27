@@ -13,7 +13,7 @@ module Mint
 
         whitespace
 
-        char '(', CaseExpectedOpeningParentheses
+        parens = char! '('
 
         whitespace
         await = keyword "await"
@@ -22,7 +22,7 @@ module Mint
         condition = expression! CaseExpectedCondition
         whitespace
 
-        char ')', CaseExpectedClosingParentheses
+        char ')', CaseExpectedClosingParentheses if parens
 
         body = block(
           opening_bracket: CaseExpectedOpeningBracket,

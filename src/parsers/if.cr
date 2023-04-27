@@ -16,11 +16,11 @@ module Mint
         next unless keyword "if"
 
         whitespace
-        char '(', IfExpectedOpeningParentheses
+        parens = char! '('
         whitespace
         condition = expression! IfExpectedCondition
         whitespace
-        char ')', IfExpectedClosingParentheses
+        char ')', IfExpectedClosingParentheses if parens
         whitespace
 
         truthy =

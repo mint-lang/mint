@@ -187,7 +187,7 @@ module Http {
     |> Http.send()
   */
   fun jsonBody (request : Http.Request, body : Object) : Http.Request {
-    if (hasHeader(request, "Content-Type")) {
+    if hasHeader(request, "Content-Type") {
       { request | body: `JSON.stringify(#{body})` }
     } else {
       { request | body: `JSON.stringify(#{body})` }

@@ -19,9 +19,9 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
-        case (subscription.element) {
+        case subscription.element {
           Maybe::Just(element) =>
-            if (Dom.contains(element, entry.target)) {
+            if Dom.contains(element, entry.target) {
               subscription.changes()
             } else {
               next { }
@@ -42,7 +42,7 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
 
     /* For each subscription observe the given elements. */
     for (subscription of subscriptions) {
-      case (subscription.element) {
+      case subscription.element {
         Maybe::Just(element) =>
           {
             MutationObserver.observe(observer, element, true, true)

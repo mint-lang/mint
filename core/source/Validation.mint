@@ -73,7 +73,7 @@ module Validation {
     size : Number,
     error : Tuple(String, String)
   ) : Maybe(Tuple(String, String)) {
-    if (String.size(value) == size) {
+    if String.size(value) == size {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -95,7 +95,7 @@ module Validation {
     size : Number,
     error : Tuple(String, String)
   ) : Maybe(Tuple(String, String)) {
-    if (String.size(value) >= size) {
+    if String.size(value) >= size {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -110,7 +110,7 @@ module Validation {
       Maybe::Just({"name", "Name is empty!"})
   */
   fun isNotBlank (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (String.isNotBlank(value)) {
+    if String.isNotBlank(value) {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -124,7 +124,7 @@ module Validation {
       Maybe::Just({"age", "Age is not a number!"})
   */
   fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    case (Number.fromString(value)) {
+    case Number.fromString(value) {
       Maybe::Just => Maybe::Nothing
       => Maybe::Just(error)
     }
@@ -140,7 +140,7 @@ module Validation {
         Maybe::Just({"confirmation", "Confirmation is not the same!"})
   */
   fun isSame (value : a, value2 : a, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (value == value2) {
+    if value == value2 {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -156,7 +156,7 @@ module Validation {
         Maybe::Just({"email", "Email is not a valid email address!"})
   */
   fun isValidEmail (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
-    if (Regexp.match(EMAIL_REGEXP, value)) {
+    if Regexp.match(EMAIL_REGEXP, value) {
       Maybe::Nothing
     } else {
       Maybe::Just(error)
@@ -181,7 +181,7 @@ module Validation {
         memo : Map(String, Array(String)),
         item : Maybe(Tuple(String, String))
       ) : Map(String, Array(String)) {
-        case (item) {
+        case item {
           Maybe::Just(error) =>
             {
               let {key, message} =

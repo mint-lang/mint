@@ -494,7 +494,7 @@ module String {
     String.withDefault("Hello", "The quick brown fox jumps.") == "Hello"
   */
   fun withDefault (string : String, value : String) : String {
-    if (String.isEmpty(string)) {
+    if String.isEmpty(string) {
       value
     } else {
       string

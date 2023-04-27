@@ -15,7 +15,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(
         listeners,
         (
@@ -31,7 +31,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
       next { listeners: Maybe::Nothing }
     } else {
-      case (listeners) {
+      case listeners {
         Maybe::Nothing =>
           next
             {

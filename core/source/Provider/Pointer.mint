@@ -15,7 +15,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(
         listeners,
         (
@@ -31,7 +31,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
 
       next { listeners: Maybe::Nothing }
     } else {
-      case (listeners) {
+      case listeners {
         Maybe::Nothing =>
           next
             {

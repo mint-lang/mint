@@ -39,7 +39,7 @@ module Result {
     |> Result.isError()) == true
   */
   fun isError (input : Result(a, b)) : Bool {
-    case (input) {
+    case input {
       Result::Err => true
       Result::Ok => false
     }
@@ -52,7 +52,7 @@ module Result {
     |> Result.isOk()) == true
   */
   fun isOk (input : Result(a, b)) : Bool {
-    case (input) {
+    case input {
       Result::Err => false
       Result::Ok => true
     }
@@ -65,7 +65,7 @@ module Result {
     Result.join(Result::Err("Error") == Result::Err("Error")
   */
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
-    case (input) {
+    case input {
       Result::Err(error) => Result::Err(error)
       Result::Ok(value) => value
     }
@@ -81,7 +81,7 @@ module Result {
     |> Result.map(\item : String => item + "1")) == Result.ok("ok1")
   */
   fun map (input : Result(a, b), func : Function(b, c)) : Result(a, c) {
-    case (input) {
+    case input {
       Result::Ok(value) => Result::Ok(func(value))
       Result::Err => input
     }
@@ -97,7 +97,7 @@ module Result {
     |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
   */
   fun mapError (input : Result(a, b), func : Function(a, c)) : Result(c, b) {
-    case (input) {
+    case input {
       Result::Err(value) => Result::Err(func(value))
       Result::Ok => input
     }
@@ -123,7 +123,7 @@ module Result {
     |> Result.toMaybe()) == Maybe.nothing()
   */
   fun toMaybe (result : Result(a, b)) : Maybe(b) {
-    case (result) {
+    case result {
       Result::Ok(value) => Maybe::Just(value)
       Result::Err => Maybe::Nothing
     }
@@ -139,7 +139,7 @@ module Result {
     |> Result.withDefault("a")) == "ok"
   */
   fun withDefault (input : Result(a, b), defaultValue : b) : b {
-    case (input) {
+    case input {
       Result::Ok(value) => value
       Result::Err => defaultValue
     }
@@ -155,7 +155,7 @@ module Result {
     |> Result.withError("a")) == "a"
   */
   fun withError (input : Result(a, b), defaultError : a) : a {
-    case (input) {
+    case input {
       Result::Err(value) => value
       Result::Ok => defaultError
     }

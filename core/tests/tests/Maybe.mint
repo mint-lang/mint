@@ -135,7 +135,7 @@ suite "Maybe.andThen" {
     (Maybe::Just(6)
     |> Maybe.andThen(
       (num : Number) : Maybe(String) {
-        if (num > 4) {
+        if num > 4 {
           Maybe::Just(Number.toString(num * num))
         } else {
           Maybe::Nothing
@@ -147,7 +147,7 @@ suite "Maybe.andThen" {
     (Maybe::Just(4)
     |> Maybe.andThen(
       (num : Number) : Maybe(String) {
-        if (num > 4) {
+        if num > 4 {
           Maybe::Just(Number.toString(num))
         } else {
           Maybe::Nothing

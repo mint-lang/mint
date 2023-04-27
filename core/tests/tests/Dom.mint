@@ -103,7 +103,7 @@ component Test.Dom.Focus {
   }
 
   get display : String {
-    if (shown) {
+    if shown {
       "inline-block"
     } else {
       "none"

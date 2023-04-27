@@ -8,7 +8,7 @@ module Array {
     Array.any([1, 3], (number : Number) : Bool { number % 2 == 0 }) == false
   */
   fun any (array : Array(item), function : Function(item, Bool)) : Bool {
-    case (Array.find(array, function)) {
+    case Array.find(array, function) {
       Maybe::Nothing => false
       Maybe::Just => true
     }
@@ -44,7 +44,7 @@ module Array {
       array,
       [],
       (memo : Array(item), item : Maybe(item)) : Array(item) {
-        case (item) {
+        case item {
           Maybe::Just(value) => Array.push(memo, value)
           Maybe::Nothing => memo
         }
@@ -405,7 +405,7 @@ module Array {
     Array.max([]) == Maybe::Nothing
   */
   fun max (array : Array(Number)) : Maybe(Number) {
-    if (Array.size(array) > 0) {
+    if Array.size(array) > 0 {
       Maybe::Just(`Math.max(...#{array})`)
     } else {
       Maybe::Nothing
@@ -420,7 +420,7 @@ module Array {
     Array.min([]) == Maybe::Nothing
   */
   fun min (array : Array(Number)) : Maybe(Number) {
-    if (Array.size(array) > 0) {
+    if Array.size(array) > 0 {
       Maybe::Just(`Math.min(...#{array})`)
     } else {
       Maybe::Nothing
@@ -552,7 +552,7 @@ module Array {
     Array.reverseIf([1, 2, 3], true) == [3, 2, 1]
   */
   fun reverseIf (array : Array(item), condition : Bool) : Array(item) {
-    if (condition) {
+    if condition {
       Array.reverse(array)
     } else {
       array
@@ -781,7 +781,7 @@ module Array {
     index : Number,
     method : Function(item, item)
   ) : Array(item) {
-    case (array[index]) {
+    case array[index] {
       Maybe::Just(item) => setAt(array, index, method(item))
       Maybe::Nothing => array
     }

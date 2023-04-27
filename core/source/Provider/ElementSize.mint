@@ -16,7 +16,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   fun notify (entries : Array(ResizeObserver.Entry)) : Array(Array(Promise(Void))) {
     for (entry of entries) {
       for (subscription of subscriptions) {
-        if (subscription.element == Maybe::Just(entry.target)) {
+        if subscription.element == Maybe::Just(entry.target) {
           subscription.changes(entry.dimensions)
         } else {
           next { }
@@ -32,7 +32,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
     }
 
     for (subscription of subscriptions) {
-      case (subscription.element) {
+      case subscription.element {
         Maybe::Just(element) =>
           {
             ResizeObserver.observe(observer, element)

@@ -8,11 +8,11 @@ module Test {
 module Test {
   fun test : Bool {
     // a single inline comment
-    if (true) {
+    if true {
       true
     } else {
       /* COMMENT */
-      if (false) {
+      if false {
         false
       } else {
         true
