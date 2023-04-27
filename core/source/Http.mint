@@ -325,7 +325,7 @@ module Http {
       xhr.addEventListener('load', async (event) => {
         delete this._requests[#{uid}]
 
-        let contentType = xhr.getResponseHeader("content-type");
+        let contentType = xhr.getResponseHeader("Content-Type");
         let responseText = await xhr.response.text();
         let body;
 
