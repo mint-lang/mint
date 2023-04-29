@@ -1,0 +1,30 @@
+store Test {
+  /* Comment for the state username. */
+  state username : String = ""
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 4
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**username : String = \"\"**\n",
+      "Comment for the state username."
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

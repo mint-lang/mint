@@ -1,0 +1,38 @@
+module Test.Module {
+  /* Comment for the function test. */
+  fun test : String {
+    "Test"
+  }
+}
+
+component Test {
+  fun render : Html {
+    <{ Test.Module.test() }>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 9,
+      "character": 10
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**Test.Module.test: String**\n",
+      "Comment for the function test."
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

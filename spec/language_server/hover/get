@@ -1,0 +1,36 @@
+component Test {
+  /* Comment for the getter test. */
+  get test : String {
+    "Test"
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 4
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**Test.test: String**\n",
+      "Comment for the getter test."
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

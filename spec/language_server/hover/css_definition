@@ -1,0 +1,60 @@
+component Test {
+  style test {
+    background: mintcream;
+  }
+
+  fun render {
+    <div::test />
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 10
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "id": 1,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 21
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "CSS Property - **background**",
+      "[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/background)"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "CSS Property - **background**",
+      "[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/background)"
+    ]
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

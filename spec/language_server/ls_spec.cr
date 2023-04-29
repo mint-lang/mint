@@ -5,7 +5,7 @@ def clean_json(workspace : Workspace, path : String)
 end
 
 Dir
-  .glob("./spec/language_server/definition/**/*")
+  .glob("./spec/language_server/{definition,hover}/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|

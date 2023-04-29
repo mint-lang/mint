@@ -1,0 +1,36 @@
+component Test {
+  state comment : String = ""
+
+  fun setComment (value : String) : Promise(Void) {
+    next { comment: value }
+  }
+
+  fun render {
+    <div/>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 20
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**value : String**"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response
