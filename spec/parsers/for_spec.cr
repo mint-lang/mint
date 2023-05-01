@@ -7,7 +7,7 @@ describe "For Expression" do
   expect_ignore "::"
   expect_ignore "asd"
 
-  expect_error "for ", Mint::Parser::ForExpectedOpeningParentheses
+  expect_error "for ", Mint::Parser::ForExpectedOf
   expect_error "for (", Mint::Parser::ForExpectedOf
   expect_error "for (a", Mint::Parser::ForExpectedOf
   expect_error "for (a, b", Mint::Parser::ForExpectedOf

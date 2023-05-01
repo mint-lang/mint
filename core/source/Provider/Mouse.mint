@@ -15,7 +15,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(
         listeners,
         (
@@ -31,7 +31,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
       next { listeners: Maybe::Nothing }
     } else {
-      case (listeners) {
+      case listeners {
         Maybe::Nothing =>
           next
             {
@@ -42,7 +42,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                       "click",
                       true,
                       (event : Html.Event) {
-                        for (subscription of subscriptions) {
+                        for subscription of subscriptions {
                           subscription.clicks(event)
                         }
                       }),
@@ -57,7 +57,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                             id:
                               AnimationFrame.request(
                                 (timestamp : Number) {
-                                  for (subscription of subscriptions) {
+                                  for subscription of subscriptions {
                                     subscription.moves(event)
                                   }
                                 })
@@ -67,7 +67,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                       "mouseup",
                       false,
                       (event : Html.Event) {
-                        for (subscription of subscriptions) {
+                        for subscription of subscriptions {
                           subscription.ups(event)
                         }
                       })

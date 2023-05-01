@@ -167,7 +167,7 @@ module Time {
     Time.month(Time.utcDate(2018, 4, 5)) == Month::April
   */
   fun month (time : Time) : Month {
-    case (monthNumber(time)) {
+    case monthNumber(time) {
       1 => Month::January
       2 => Month::February
       3 => Month::March
@@ -270,7 +270,7 @@ module Time {
     Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday::Thursday
   */
   fun dayOfWeek (time : Time) : Weekday {
-    case (dayOfWeekNumber(time)) {
+    case dayOfWeekNumber(time) {
       1 => Weekday::Monday
       2 => Weekday::Tuesday
       3 => Weekday::Wednesday

@@ -1,6 +1,6 @@
 module Test {
   fun test : String {
-    case ([]) {
+    case [] {
       [a, b, ...rest] => ""
       => ""
     }
@@ -9,7 +9,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    case ([]) {
+    case [] {
       [a, b, ...rest] => ""
       => ""
     }

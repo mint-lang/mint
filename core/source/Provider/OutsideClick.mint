@@ -11,13 +11,13 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
 
   /* The event handler. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       let inside =
         subscription.elements
         |> Array.compact()
         |> Array.any((item : Dom.Element) { Dom.contains(item, event.target) })
 
-      if (inside) {
+      if inside {
         Promise.never()
       } else {
         subscription.clicks()
@@ -27,11 +27,11 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe::Nothing }
     } else {
-      case (listener) {
+      case listener {
         Maybe::Nothing =>
           next { listener: Maybe::Just(Window.addEventListener("mouseup", true, handle)) }
 

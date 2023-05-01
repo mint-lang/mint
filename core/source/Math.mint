@@ -124,7 +124,7 @@ module Math {
   */
   fun truncate (value : Number, to : Number) : Number {
     let multiplier =
-      if (to == 0) {
+      if to == 0 {
         1
       } else {
         to * 100

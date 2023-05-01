@@ -16,7 +16,7 @@ component A {
 --------------------------------------------------------------------------------
 component A {
   style test {
-    case (true) {
+    case true {
       false =>
         background: red;
         color: blue;

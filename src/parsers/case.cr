@@ -1,6 +1,5 @@
 module Mint
   class Parser
-    syntax_error CaseExpectedOpeningParentheses
     syntax_error CaseExpectedClosingParentheses
     syntax_error CaseExpectedOpeningBracket
     syntax_error CaseExpectedClosingBracket
@@ -13,7 +12,7 @@ module Mint
 
         whitespace
 
-        char '(', CaseExpectedOpeningParentheses
+        parens = char! '('
 
         whitespace
         await = keyword "await"
@@ -22,7 +21,7 @@ module Mint
         condition = expression! CaseExpectedCondition
         whitespace
 
-        char ')', CaseExpectedClosingParentheses
+        char ')', CaseExpectedClosingParentheses if parens
 
         body = block(
           opening_bracket: CaseExpectedOpeningBracket,

@@ -9,16 +9,16 @@ provider Provider.Tick : Provider.Tick.Subscription {
 
   /* Call the subscribers. */
   fun process : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.ticks()
     }
   }
 
   /* Attaches the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       next { id: `clearInterval(#{id}) || -1` }
-    } else if (id == -1) {
+    } else if id == -1 {
       next { id: `setInterval(#{process}, 1000)` }
     } else {
       next { }

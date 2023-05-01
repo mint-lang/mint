@@ -6,9 +6,9 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun test : Bool {
-    if (true) {
+    if true {
       true
-    } else if (false) {
+    } else if false {
       false
     } else {
       true

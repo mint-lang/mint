@@ -56,7 +56,7 @@ module Dom {
     |> Dom.getElementById()
   */
   fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Void) {
-    case (maybeElement) {
+    case maybeElement {
       Maybe::Just(element) =>
         {
           focusWhenVisible(element)

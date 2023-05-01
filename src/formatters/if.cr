@@ -42,7 +42,7 @@ module Mint
           condition
         end
 
-      "if (#{condition}) #{truthy}#{falsy}"
+      "if #{condition} #{truthy}#{falsy}"
     end
   end
 end

@@ -26,7 +26,7 @@ module Number {
       |> Maybe.withDefault("")
       |> String.chopEnd("0")
 
-    if (String.isEmpty(decimals)) {
+    if String.isEmpty(decimals) {
       prefix + digits
     } else {
       prefix + digits + "." + decimals

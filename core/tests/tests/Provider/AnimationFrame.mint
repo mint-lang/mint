@@ -4,7 +4,7 @@ component Test.Provider.AnimationFrame {
   use Provider.AnimationFrame {
     frames:
       (timestamp : Number) : Promise(Void) {
-        if (timestamp > 0) {
+        if timestamp > 0 {
           next { frames: frames + 1 }
         } else {
           next { }

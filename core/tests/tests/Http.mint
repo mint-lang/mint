@@ -284,11 +284,11 @@ component Test.Http {
           })
           `)
 
-    await case (request) {
+    await case request {
       Result::Ok(response) => next { status: response.status }
 
       Result::Err(error) =>
-        case (error.type) {
+        case error.type {
           Http.Error::NetworkError =>
             next
               {

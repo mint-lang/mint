@@ -13,18 +13,18 @@ provider Provider.Url : Provider.Url.Subscription {
     let url =
       Window.url()
 
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.changes(url)
     }
   }
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe::Nothing }
     } else {
-      case (listener) {
+      case listener {
         Maybe::Nothing =>
           next { listener: Maybe::Just(Window.addEventListener("popstate", false, handle)) }
 
