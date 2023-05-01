@@ -60,8 +60,8 @@ module Mint
             case node
             when Ast::Variable, Ast::TypeId
               # If the first node under the cursor is a `Ast::Variable`
-              # or `LSP::TypeId`, then get the associated nodes 
-              # information and hover that otherwise get the hover 
+              # or `Ast::TypeId`, then get the associated nodes
+              # information and hover that otherwise get the hover
               # information of the parent.
               lookup =
                 workspace.type_checker.variables[node]?

@@ -38,9 +38,7 @@ module Mint
 
         closing_tag =
           case tag
-          when Ast::Variable
-            tag.value
-          when Ast::TypeId
+          when Ast::Variable, Ast::TypeId
             tag.value
           else
             tag

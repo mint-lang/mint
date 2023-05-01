@@ -98,7 +98,7 @@ module Mint
               functions: modules.flat_map(&.functions),
               constants: modules.flat_map(&.constants),
               input: Data.new(input: "", file: ""),
-              # TODO: We may need to store each modules name node for 
+              # TODO: We may need to store each modules name node for
               # future features, but for now we just store the first
               name: modules.first.name,
               comments: [] of Comment,

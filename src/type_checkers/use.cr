@@ -12,7 +12,7 @@ module Mint
         ast.providers.find(&.name.value.==(node.provider.value))
 
       raise UseNotFoundProvider, {
-        "name" => node.provider.value,
+        "name" => node.provider,
         "node" => node,
       } unless provider
 
