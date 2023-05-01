@@ -1,0 +1,40 @@
+record Article {
+  id : Number,
+  description : String,
+  title : String
+}
+
+module Test {
+  fun test : Article {
+    {
+      id: 1,
+      description: "Mint Lang",
+      title: "Mint"
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 7,
+      "character": 16
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "```\nArticle(id: Number, description: String, title: String)\n```"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response
