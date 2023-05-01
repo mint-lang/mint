@@ -7,7 +7,7 @@ component Unless {
   property condition : Bool = true
 
   fun render : Array(Html) {
-    if (!condition) {
+    if !condition {
       children
     } else {
       []

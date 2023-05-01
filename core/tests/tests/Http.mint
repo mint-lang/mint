@@ -232,11 +232,11 @@ suite "Http.hasHeader" {
   }
 }
 
-suite "Http.sendWithId" {
+suite "Http.send" {
   test "sends the request with the given ID" {
     let response =
       Http.get("/blah")
-      |> Http.sendWithId("A")
+      |> Http.send("A")
 
     `#{Http.requests()}["A"] != undefined`
   }
@@ -265,7 +265,7 @@ component Test.Http {
       await Http.empty()
       |> Http.url(url)
       |> Http.method(method)
-      |> Http.sendWithId("test")
+      |> Http.send("test")
       |> wrap(
         `
           (async (promise) => {
@@ -284,11 +284,11 @@ component Test.Http {
           })
           `)
 
-    await case (request) {
+    await case request {
       Result::Ok(response) => next { status: response.status }
 
       Result::Err(error) =>
-        case (error.type) {
+        case error.type {
           Http.Error::NetworkError =>
             next
               {

@@ -1,0 +1,40 @@
+component Button {
+  /* Comment for the size property. */
+  property size : String = "small"
+
+  fun render : Html {
+    <button/>
+  }
+}
+----------------------------------------------------------------file button.mint
+component Test {
+  fun render : Html {
+    <Button size="large"/>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 14
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**size**",
+      "```\nString\n```"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

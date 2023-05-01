@@ -8,7 +8,7 @@ module Test {
 module Test {
   fun test : Bool {
     // a single inline comment
-    if (true) {
+    if true {
       /* A */
       true
 

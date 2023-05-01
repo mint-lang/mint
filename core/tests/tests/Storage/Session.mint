@@ -35,7 +35,7 @@ suite "Storage.Session.get" {
   }
 
   test "it returns nothing if the key does not exists" {
-    case (Storage.Session.get("test")) {
+    case Storage.Session.get("test") {
       Result::Ok(value) => false
       Result::Err => true
     }

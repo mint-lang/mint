@@ -13,7 +13,7 @@ module Mint
       await =
         "await " if node.await
 
-      "case (#{await}#{condition}) {\n#{indent(body)}\n}"
+      "case #{await}#{condition} {\n#{indent(body)}\n}"
     end
   end
 end

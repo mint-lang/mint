@@ -1,0 +1,39 @@
+/* Comment for Status enum. */
+enum Status {
+  Error
+  Ok
+}
+
+module Test {
+  fun success : Status {
+    Status::Ok
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 8,
+      "character": 13
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**Status**\n",
+      "Comment for Status enum.\n",
+      "**Error**",
+      "**Ok**"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

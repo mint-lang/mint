@@ -26,14 +26,14 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
   /* Handles keypress events. */
   fun handle (event : Html.Event) : Array(Array(Promise(Void))) {
     let control =
-      if (event.ctrlKey && event.keyCode != 17) {
+      if event.ctrlKey && event.keyCode != 17 {
         Maybe::Just(17)
       } else {
         Maybe::Nothing
       }
 
     let shift =
-      if (event.shiftKey && event.keyCode != 16) {
+      if event.shiftKey && event.keyCode != 16 {
         Maybe::Just(16)
       } else {
         Maybe::Nothing
@@ -47,8 +47,8 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     let focused =
       `document.querySelector("*:focus")`
 
-    for (subscription of subscriptions) {
-      for (item of subscription.shortcuts) {
+    for subscription of subscriptions {
+      for item of subscription.shortcuts {
         Html.Event.stopPropagation(event)
         Html.Event.preventDefault(event)
         item.action()
@@ -64,11 +64,11 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
 
   /* Updates the provider. */
   fun update : Promise(Void) {
-    if (Array.isEmpty(subscriptions)) {
+    if Array.isEmpty(subscriptions) {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe::Nothing }
     } else {
-      case (listener) {
+      case listener {
         Maybe::Nothing =>
           next { listener: Maybe::Just(Window.addEventListener("keydown", true, handle)) }
 

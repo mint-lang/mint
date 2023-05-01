@@ -19,7 +19,7 @@ module Time {
     let distance =
       Time.toUnix(to) - Time.toUnix(from)
 
-    if (distance == 0) {
+    if distance == 0 {
       language.rightNow
     } else {
       let seconds =
@@ -37,38 +37,38 @@ module Time {
       let positive =
         distance > 0
 
-      if (minutes < 1) {
-        if (positive) {
+      if minutes < 1 {
+        if positive {
           language.someSecondsAgo
         } else {
           language.inSomeSeconds
         }(seconds)
-      } else if (hours < 1) {
-        if (positive) {
+      } else if hours < 1 {
+        if positive {
           language.someMinutesAgo
         } else {
           language.inSomeMinutes
         }(minutes)
-      } else if (hours < 24) {
-        if (positive) {
+      } else if hours < 24 {
+        if positive {
           language.someHoursAgo
         } else {
           language.inSomeHours
         }(hours)
-      } else if (days < 30) {
-        if (positive) {
+      } else if days < 30 {
+        if positive {
           language.someDaysAgo
         } else {
           language.inSomeDays
         }(days)
-      } else if (days < 365) {
-        if (positive) {
+      } else if days < 365 {
+        if positive {
           language.someMonthsAgo
         } else {
           language.inSomeMonths
         }(Math.trunc(days / 30))
       } else {
-        if (positive) {
+        if positive {
           language.someYearsAgo
         } else {
           language.inSomeYears
@@ -196,7 +196,7 @@ module Time {
     language : Time.Format.Language,
     token : String
   ) : String {
-    case (token) {
+    case token {
       /* short day name (Sun, Mon, Tue, ...) */
       "a" =>
         time
@@ -424,7 +424,7 @@ module Time {
           let number =
             dayOfWeekNumber(time)
 
-          if (number == 7) {
+          if number == 7 {
             0
           } else {
             number

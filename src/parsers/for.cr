@@ -1,6 +1,5 @@
 module Mint
   class Parser
-    syntax_error ForExpectedOpeningParentheses
     syntax_error ForExpectedClosingParentheses
     syntax_error ForExpectedOpeningBracket
     syntax_error ForExpectedClosingBracket
@@ -14,11 +13,11 @@ module Mint
         next unless whitespace?
         whitespace
 
-        char '(', ForExpectedOpeningParentheses
+        parens = char! '('
         whitespace
 
         arguments = list(
-          terminator: ')',
+          terminator: parens ? ')' : '{',
           separator: ','
         ) { variable }
 
@@ -29,7 +28,7 @@ module Mint
         subject = expression! ForExpectedSubject
 
         whitespace
-        char ')', ForExpectedClosingParentheses
+        char ')', ForExpectedClosingParentheses if parens
         whitespace
 
         body =

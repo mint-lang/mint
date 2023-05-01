@@ -6,7 +6,7 @@ module Test {
 --------------------------------------------------------------------------------
 module Test {
   fun test : String {
-    case ("Hello") {
+    case "Hello" {
       "a" => "a"
       "b" => "b"
       => "others"
