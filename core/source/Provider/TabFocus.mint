@@ -16,7 +16,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       let activeElement =
         Dom.getActiveElement()
 
-      for (subscription of subscriptions) {
+      for subscription of subscriptions {
         subscription.onTabIn()
       } when {
         subscription.element == activeElement
@@ -32,7 +32,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       let target =
         Maybe::Just(event.target)
 
-      for (subscription of subscriptions) {
+      for subscription of subscriptions {
         subscription.onTabOut()
       } when {
         subscription.element == target

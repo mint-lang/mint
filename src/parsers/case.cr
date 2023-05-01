@@ -1,6 +1,5 @@
 module Mint
   class Parser
-    syntax_error CaseExpectedOpeningParentheses
     syntax_error CaseExpectedClosingParentheses
     syntax_error CaseExpectedOpeningBracket
     syntax_error CaseExpectedClosingBracket

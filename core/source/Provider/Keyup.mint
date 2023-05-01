@@ -10,7 +10,7 @@ provider Provider.Keyup : Provider.Keyup.Subscription {
 
   /* The event handler. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.keyups(event)
     }
   }

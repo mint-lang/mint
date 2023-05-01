@@ -47,8 +47,8 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     let focused =
       `document.querySelector("*:focus")`
 
-    for (subscription of subscriptions) {
-      for (item of subscription.shortcuts) {
+    for subscription of subscriptions {
+      for item of subscription.shortcuts {
         Html.Event.stopPropagation(event)
         Html.Event.preventDefault(event)
         item.action()

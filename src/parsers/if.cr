@@ -4,7 +4,6 @@ module Mint
     syntax_error IfExpectedTruthyClosingBracket
     syntax_error IfExpectedFalsyOpeningBracket
     syntax_error IfExpectedFalsyClosingBracket
-    syntax_error IfExpectedOpeningParentheses
     syntax_error IfExpectedClosingParentheses
     syntax_error IfExpectedTruthyExpression
     syntax_error IfExpectedFalsyExpression

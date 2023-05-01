@@ -10,7 +10,7 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
 
   /* Handles the scroll events. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.scrolls(event)
     }
   }

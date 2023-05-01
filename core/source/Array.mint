@@ -135,7 +135,7 @@ module Array {
   */
   fun find (array : Array(item), function : Function(item, Bool)) : Maybe(item) {
     Array.first(
-      for (item of array) {
+      for item of array {
         item
       } when {
         function(item)
@@ -289,7 +289,7 @@ module Array {
     Array.indexOf(["a","b","c"], "a") == 0
   */
   fun indexOf (array : Array(item), search : item) : Maybe(Number) {
-    for (item, index of array) {
+    for item, index of array {
       index
     } when {
       item == search
@@ -374,7 +374,7 @@ module Array {
     Array.map([1, 2, 3], (number : Number) : Number { number + 1 }) == [2, 3, 4]
   */
   fun map (array : Array(item), method : Function(item, result)) : Array(result) {
-    for (item of array) {
+    for item of array {
       method(item)
     }
   }
@@ -392,7 +392,7 @@ module Array {
     array : Array(item),
     method : Function(item, Number, result)
   ) : Array(result) {
-    for (item, index of array) {
+    for item, index of array {
       method(item, index)
     }
   }
@@ -745,7 +745,7 @@ module Array {
     Array.uniq(["a", "a", "b", "b", "c"] == ["a", "b", "c"]
   */
   fun uniq (array : Array(item)) : Array(item) {
-    for (item, index of array) {
+    for item, index of array {
       item
     } when {
       indexOf(array, item) == Maybe::Just(index)

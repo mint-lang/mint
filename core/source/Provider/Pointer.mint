@@ -42,7 +42,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
                       "pointerdown",
                       true,
                       (event : Html.Event) {
-                        for (subscription of subscriptions) {
+                        for subscription of subscriptions {
                           subscription.downs(event)
                         }
                       }),
@@ -57,7 +57,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
                             id:
                               AnimationFrame.request(
                                 (timestamp : Number) {
-                                  for (subscription of subscriptions) {
+                                  for subscription of subscriptions {
                                     subscription.moves(event)
                                   }
                                 })
@@ -67,7 +67,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
                       "pointerup",
                       false,
                       (event : Html.Event) {
-                        for (subscription of subscriptions) {
+                        for subscription of subscriptions {
                           subscription.ups(event)
                         }
                       })

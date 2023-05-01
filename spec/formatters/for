@@ -6,7 +6,7 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   fun render : Array(String) {
-    for (item of ["B"]) {
+    for item of ["B"] {
       item
     } when {
       item == "A"

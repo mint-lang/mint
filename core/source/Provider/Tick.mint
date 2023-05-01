@@ -9,7 +9,7 @@ provider Provider.Tick : Provider.Tick.Subscription {
 
   /* Call the subscribers. */
   fun process : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.ticks()
     }
   }

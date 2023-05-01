@@ -11,7 +11,7 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
 
   /* The event handler. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       let inside =
         subscription.elements
         |> Array.compact()

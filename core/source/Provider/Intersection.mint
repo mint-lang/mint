@@ -18,7 +18,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     longer present.
     */
     let currentObservers =
-      for (item of observers) {
+      for item of observers {
         let {subscription, observer} =
           item
 
@@ -40,7 +40,7 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
 
     /* Create new observers. */
     let newObservers =
-      for (subscription of subscriptions) {
+      for subscription of subscriptions {
         case subscription.element {
           Maybe::Just(observed) =>
             Maybe::Just(

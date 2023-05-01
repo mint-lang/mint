@@ -29,7 +29,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
                 Window.addMediaQueryListener(
                   subscription.query,
                   (active : Bool) {
-                    for (item of subscriptions) {
+                    for item of subscriptions {
                       subscription.changes(active)
                     } when {
                       item.query == subscription.query

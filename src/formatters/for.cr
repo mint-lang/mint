@@ -20,7 +20,7 @@ module Mint
       condition =
         format node.condition
 
-      "for (#{arguments} of #{subject}) #{body}#{condition}"
+      "for #{arguments} of #{subject} #{body}#{condition}"
     end
   end
 end

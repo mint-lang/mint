@@ -13,7 +13,7 @@ provider Provider.Url : Provider.Url.Subscription {
     let url =
       Window.url()
 
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.changes(url)
     }
   }

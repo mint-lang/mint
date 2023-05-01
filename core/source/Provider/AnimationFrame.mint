@@ -10,7 +10,7 @@ provider Provider.AnimationFrame : Provider.AnimationFrame.Subscription {
 
   /* Call the subscribers. */
   fun process (timestamp : Number) : Promise(Void) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.frames(timestamp)
     }
 

@@ -5,7 +5,7 @@ provider Provider.WebSocket : WebSocket.Config {
 
   /* Handles the open event. */
   fun onOpen (url : String, socket : WebSocket) : Promise(Void) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.onOpen(socket)
     } when {
       subscription.url == url
@@ -16,7 +16,7 @@ provider Provider.WebSocket : WebSocket.Config {
 
   /* Handles the message event. */
   fun onMessage (url : String, data : String) : Promise(Void) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.onMessage(data)
     } when {
       subscription.url == url
@@ -27,7 +27,7 @@ provider Provider.WebSocket : WebSocket.Config {
 
   /* Handles the error event. */
   fun onError (url : String) : Promise(Void) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.onError()
     } when {
       subscription.url == url
@@ -38,7 +38,7 @@ provider Provider.WebSocket : WebSocket.Config {
 
   /* Handles the close event. */
   fun onClose (url : String) : Promise(Void) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.onClose()
     } when {
       subscription.url == url

@@ -10,7 +10,7 @@ provider Provider.Resize : Provider.Resize.Subscription {
 
   /* Handles the resize events. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
-    for (subscription of subscriptions) {
+    for subscription of subscriptions {
       subscription.resizes(event)
     }
   }

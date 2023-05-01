@@ -14,7 +14,7 @@ module Map {
   */
   fun delete (map : Map(key, value), keyToDelete : key) : Map(key, value) {
     Map.fromArray(
-      for (key, value of map) {
+      for key, value of map {
         {key, value}
       } when {
         key != keyToDelete
@@ -31,7 +31,7 @@ module Map {
   */
   fun deleteValues (map : Map(key, value), valueToDelete : value) : Map(key, value) {
     Map.fromArray(
-      for (key, value of map) {
+      for key, value of map {
         {key, value}
       } when {
         value != valueToDelete
@@ -70,7 +70,7 @@ module Map {
     function : Function(value, Bool)
   ) : Maybe(key) {
     Array.first(
-      for (key, value of map) {
+      for key, value of map {
         key
       } when {
         function(value)
@@ -98,7 +98,7 @@ module Map {
   */
   fun get (map : Map(key, value), search : key) : Maybe(value) {
     Array.first(
-      for (key, value of map) {
+      for key, value of map {
         value
       } when {
         key == search
@@ -128,7 +128,7 @@ module Map {
   */
   fun has (map : Map(key, value), search : key) : Bool {
     Array.first(
-      for (key, value of map) {
+      for key, value of map {
         true
       } when {
         key == search
@@ -158,7 +158,7 @@ module Map {
     |> Map.values()) == ["a", "b"]
   */
   fun keys (map : Map(key, value)) : Array(key) {
-    for (key, value of map) {
+    for key, value of map {
       key
     }
   }
@@ -177,7 +177,7 @@ module Map {
     function : Function(key, value, result)
   ) : Map(key, result) {
     Map.fromArray(
-      for (key, value of map) {
+      for key, value of map {
         ({key, function(key, value)})
       })
   }
@@ -318,7 +318,7 @@ module Map {
     |> Map.values()) == [1, 2]
   */
   fun values (map : Map(key, value)) : Array(value) {
-    for (key, value of map) {
+    for key, value of map {
       value
     }
   }
