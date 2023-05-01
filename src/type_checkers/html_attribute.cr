@@ -76,7 +76,7 @@ module Mint
         raise HtmlAttributeNotFoundComponentProperty, {
           "properties" => component.properties.map(&.name.value),
           "name"       => node.name.value,
-          "component"  => component.name,
+          "component"  => component.name.value,
           "node"       => node,
         } unless prop
 
@@ -89,7 +89,7 @@ module Mint
 
         raise HtmlAttributeComponentPropertyTypeMismatch, {
           "name"      => prop.name.value,
-          "component" => component.name,
+          "component" => component.name.value,
           "expected"  => prop_type,
           "node"      => node,
           "got"       => type,

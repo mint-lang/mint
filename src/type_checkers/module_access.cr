@@ -55,14 +55,14 @@ module Mint
             entity.constants.find(&.name.==(variable_value))
         else
           raise ModuleAccessNotFoundModule, {
-            "name" => name,
+            "name" => name.value,
             "node" => node,
           }
         end
 
       raise ModuleAccessNotFoundFunction, {
         "name"   => variable_value,
-        "entity" => name,
+        "entity" => name.value,
         "node"   => node,
       } unless item
 

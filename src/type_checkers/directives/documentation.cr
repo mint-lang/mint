@@ -7,7 +7,7 @@ module Mint
         ast.components.find(&.name.value.==(node.entity.value))
 
       raise DocumentationDirectiveEntityNotFound, {
-        "name" => node.entity,
+        "name" => node.entity.value,
         "node" => node,
       } unless component
 

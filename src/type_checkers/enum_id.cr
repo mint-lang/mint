@@ -16,9 +16,9 @@ module Mint
         check(node, parent)
       elsif parent = records.find(&.name.==(node.option.value))
         check(node, parent)
-      elsif node.name
+      elsif name = node.name
         raise EnumIdTypeMissing, {
-          "name" => node.name,
+          "name" => name.value,
           "node" => node,
         }
       else
@@ -41,8 +41,8 @@ module Mint
         parent.options.find(&.value.value.==(node.option.value))
 
       raise EnumIdEnumMissing, {
-        "parent_name" => parent.name,
-        "name"        => node.option,
+        "parent_name" => parent.name.value,
+        "name"        => node.option.value,
         "parent"      => parent,
         "node"        => node,
       } unless option
