@@ -185,6 +185,8 @@ module File {
       input.multiple = true
       input.type = 'file'
 
+      document.body.appendChild(input)
+
       return new Promise((resolve, reject) => {
         input.addEventListener('change', () => {
           resolve(Array.from(input.files))
