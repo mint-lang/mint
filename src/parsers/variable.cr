@@ -45,7 +45,7 @@ module Mint
       variable(track) || raise error
     end
 
-    def variable(track = true) : Ast::Variable?
+    def variable(track = true, invalid = [] of String) : Ast::Variable?
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?
@@ -53,6 +53,7 @@ module Mint
         end
 
         next unless value
+        next if value.in?(invalid)
 
         node = Ast::Variable.new(
           from: start_position,

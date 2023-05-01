@@ -8,7 +8,6 @@ module Mint
           match =
             constant_access ||
               enum_destructuring ||
-              bool_tuple_literal ||
               tuple_destructuring ||
               array_destructuring ||
               expression
