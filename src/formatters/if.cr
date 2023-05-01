@@ -6,7 +6,7 @@ module Mint
         when Ast::Statement
           format item, false
         else
-          format node.condition
+          format item
         end
 
       truthy_item, falsy_item =
