@@ -27,21 +27,21 @@ module Mint
       condition =
         case statement = node.condition
         when Ast::Statement
-          x =
+          expression =
             compile statement.expression
 
           case target = statement.target
           when Ast::EnumDestructuring
             variable, condition_let =
               if statement.await
-                js.let "await #{x}"
+                js.let "await #{expression}"
               else
-                js.let x
+                js.let expression
               end
 
             {condition_let, _compile(target, variable), statement.await}
           else
-            x
+            expression
           end
         end || compile node.condition
 
@@ -70,7 +70,7 @@ module Mint
 
       case condition
       when Tuple(String, Tuple(String, Array(String)), Bool)
-        tru =
+        truthy_branch =
           js.iif do
             js.statements(condition[1][1] + [
               js.return truthy,
@@ -81,14 +81,14 @@ module Mint
           js.asynciif do
             js.statements([
               condition[0],
-              js.return "(#{condition[1][0]} ? #{tru} : #{falsy})",
+              js.return "(#{condition[1][0]} ? #{truthy_branch} : #{falsy})",
             ])
           end
         else
           js.iif do
             js.statements([
               condition[0],
-              js.return "(#{condition[1][0]} ? #{tru} : #{falsy})",
+              js.return "(#{condition[1][0]} ? #{truthy_branch} : #{falsy})",
             ])
           end
         end

@@ -2,9 +2,9 @@ module Mint
   class Formatter
     def format(node : Ast::If) : String
       condition =
-        case x = node.condition
+        case item = node.condition
         when Ast::Statement
-          format x, false
+          format item, false
         else
           format node.condition
         end
