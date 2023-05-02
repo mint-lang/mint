@@ -7,10 +7,6 @@ module Mint
       target =
         resolve node.lhs
 
-      check_access(node, target)
-    end
-
-    def check_access(node, target) : Checkable
       raise AccessNotRecord, {
         "object" => target,
         "node"   => node,
