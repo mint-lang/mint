@@ -64,7 +64,7 @@ module Mint
           HTML_TAG_COMPLETIONS)
           .compact
           .sort_by!(&.label)
-          .map do |item|
+          .map! do |item|
             item.insert_text =
               item.insert_text
                 .gsub(/\$\d/, "")
