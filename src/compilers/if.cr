@@ -25,7 +25,25 @@ module Mint
 
     def _compile(node : Ast::If, block : Proc(String, String)? = nil) : String
       condition =
-        compile node.condition
+        case statement = node.condition
+        when Ast::Statement
+          expression =
+            compile statement.expression
+
+          case target = statement.target
+          when Ast::EnumDestructuring
+            variable, condition_let =
+              if statement.await
+                js.let "await #{expression}"
+              else
+                js.let expression
+              end
+
+            {condition_let, _compile(target, variable), statement.await}
+          else
+            expression
+          end
+        end || compile node.condition
 
       truthy_item, falsy_item =
         node.branches
@@ -50,7 +68,33 @@ module Mint
           "null"
         end
 
-      "(#{condition} ? #{truthy} : #{falsy})"
+      case condition
+      when Tuple(String, Tuple(String, Array(String)), Bool)
+        truthy_branch =
+          js.iif do
+            js.statements(condition[1][1] + [
+              js.return truthy,
+            ])
+          end
+
+        if condition[2]
+          js.asynciif do
+            js.statements([
+              condition[0],
+              js.return "(#{condition[1][0]} ? #{truthy_branch} : #{falsy})",
+            ])
+          end
+        else
+          js.iif do
+            js.statements([
+              condition[0],
+              js.return "(#{condition[1][0]} ? #{truthy_branch} : #{falsy})",
+            ])
+          end
+        end
+      else
+        "(#{condition} ? #{truthy} : #{falsy})"
+      end
     end
   end
 end

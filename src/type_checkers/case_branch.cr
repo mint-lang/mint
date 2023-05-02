@@ -18,10 +18,10 @@ module Mint
       end
     end
 
-    protected def check_match(node : Ast::Node, condition : Checkable)
+    protected def check_match(node : Ast::Node, condition : Checkable, error : Error.class = CaseBranchNotMatchCondition)
       match = resolve node
 
-      raise CaseBranchNotMatchCondition, {
+      raise error, {
         "expected" => condition,
         "got"      => match,
         "node"     => node,

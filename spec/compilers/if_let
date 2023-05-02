@@ -1,0 +1,44 @@
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = T::A("")) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class A extends _C {
+  render() {
+    return (() => {
+      let a = new B(``);
+
+      return (a instanceof B ? (() => {
+        const b = a._0;
+        return b;
+      })() : `b`);
+    })();
+  }
+};
+
+A.displayName = "Main";

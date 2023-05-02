@@ -1,12 +1,14 @@
 module Mint
   class Parser
-    def statement : Ast::Statement?
+    def statement(allow_enum_destructuring = false) : Ast::Statement?
       start do |start_position|
         target = start do
           next unless keyword "let"
           whitespace
 
           value = variable(track: false) || tuple_destructuring
+          value = enum_destructuring if value.nil? && allow_enum_destructuring
+
           whitespace
 
           next unless char! '='

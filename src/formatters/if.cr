@@ -2,7 +2,12 @@ module Mint
   class Formatter
     def format(node : Ast::If) : String
       condition =
-        format node.condition
+        case item = node.condition
+        when Ast::Statement
+          format item, false
+        else
+          format item
+        end
 
       truthy_item, falsy_item =
         node.branches

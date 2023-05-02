@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::Statement) : String
+    def format(node : Ast::Statement, newline = true) : String
       expression =
         format node.expression
 
@@ -18,7 +18,11 @@ module Mint
         target =
           format node.target
 
-        "let #{target} =\n#{indent(left)}"
+        if newline
+          "let #{target} =\n#{indent(left)}"
+        else
+          "let #{target} = #{left}"
+        end
       end
     end
   end

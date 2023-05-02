@@ -2,6 +2,7 @@ module Mint
   class TypeChecker
     type_error StatementTupleMismatch
     type_error StatementNotTuple
+    type_error StatementNotMatchExpression
 
     def check(node : Ast::Statement) : Checkable
       type =
@@ -32,6 +33,10 @@ module Mint
         subcondition = condition.parameters[index]
         _check_statement_target(param, node, subcondition)
       end
+    end
+
+    private def _check_statement_target(target : Ast::EnumDestructuring, node, condition)
+      check_match(target, condition, StatementNotMatchExpression)
     end
 
     private def _check_statement_target(target, node, condition)
