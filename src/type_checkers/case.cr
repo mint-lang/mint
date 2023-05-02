@@ -51,7 +51,7 @@ module Mint
       case condition
       when Type
         item =
-          ast.enums.find(&.name.==(condition.name))
+          ast.enums.find(&.name.value.==(condition.name))
 
         if item
           not_matched =
@@ -62,7 +62,7 @@ module Mint
                 .any? do |match|
                   case match
                   when Ast::EnumDestructuring
-                    match.option == option.value
+                    match.option.value == option.value.value
                   else
                     false
                   end
@@ -75,7 +75,7 @@ module Mint
 
           options =
             not_matched.map do |option|
-              "#{item.name}::#{formatter.replace_skipped(format(option))}"
+              "#{format item.name}::#{formatter.replace_skipped(format(option))}"
             end
 
           raise CaseEnumNotCovered, {

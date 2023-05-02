@@ -3,7 +3,9 @@ module Mint
     def generate(node : Ast::Enum, json : JSON::Builder)
       json.object do
         json.field "description", node.comment.try(&.to_html)
-        json.field "name", node.name
+        json.field "name" do
+          generate node.name, json
+        end
 
         json.field "parameters" do
           generate node.parameters, json

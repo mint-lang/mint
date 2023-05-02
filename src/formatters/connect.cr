@@ -18,9 +18,9 @@ module Mint
         end
 
       if should_break
-        "connect #{store} exposing {\n#{indent(keys)}\n}"
+        "connect #{format store} exposing {\n#{indent(keys)}\n}"
       else
-        "connect #{store} exposing { #{keys} }"
+        "connect #{format store} exposing { #{keys} }"
       end
     end
   end

@@ -12,9 +12,9 @@ module Mint
         end
 
       if node.name
-        "#{node.name}::#{node.option}#{expressions}"
+        "#{format node.name}::#{format node.option}#{expressions}"
       else
-        "#{node.option}#{expressions}"
+        "#{format node.option}#{expressions}"
       end
     end
   end

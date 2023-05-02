@@ -174,7 +174,7 @@ module Mint
     end
 
     def display_name(name, real_name) : String
-      %(#{name}.displayName = "#{real_name}")
+      %(#{name}.displayName = "#{real_name.value}")
     end
 
     def object(hash : Hash(String, String)) : String

@@ -4,8 +4,8 @@ module Mint
       getter name, option, parameters
 
       def initialize(@parameters : Array(Node),
-                     @option : String,
-                     @name : String?,
+                     @option : TypeId,
+                     @name : TypeId?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

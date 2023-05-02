@@ -9,9 +9,9 @@ module Mint
         name =
           case entity
           when Ast::Component
-            entity.name
+            entity.name.value
           when Ast::Store
-            entity.name
+            entity.name.value
           end
 
         type =

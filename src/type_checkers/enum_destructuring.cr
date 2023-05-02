@@ -6,7 +6,7 @@ module Mint
 
     def check(node : Ast::EnumDestructuring) : Checkable
       parent =
-        ast.enums.find(&.name.==(node.name))
+        ast.enums.find(&.name.value.==(node.name.try &.value))
 
       raise EnumDestructuringTypeMissing, {
         "name" => node.name,
@@ -14,7 +14,7 @@ module Mint
       } unless parent
 
       option =
-        parent.options.find(&.value.==(node.option))
+        parent.options.find(&.value.value.==(node.option.value))
 
       raise EnumDestructuringEnumMissing, {
         "parent_name" => parent.name,

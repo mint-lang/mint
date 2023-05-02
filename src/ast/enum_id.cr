@@ -4,8 +4,8 @@ module Mint
       getter option, name, expressions
 
       def initialize(@expressions : Array(Expression),
-                     @option : String,
-                     @name : String?,
+                     @option : TypeId,
+                     @name : TypeId?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

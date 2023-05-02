@@ -4,7 +4,7 @@ module Mint
       def completions(node : Ast::Enum) : Array(LSP::CompletionItem)
         node.options.map do |option|
           name =
-            "#{node.name}::#{option.value}"
+            "#{node.name.value}::#{option.value.value}"
 
           snippet =
             if option.parameters.empty?

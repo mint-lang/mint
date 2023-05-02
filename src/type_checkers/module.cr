@@ -14,7 +14,7 @@ module Mint
 
     def check(node : Ast::Module) : Checkable
       check_names node.functions, ModuleEntityNameConflict
-      check_global_names node.name, node
+      check_global_names node.name.value, node
 
       NEVER
     end

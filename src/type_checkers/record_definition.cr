@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     def check(node : Ast::RecordDefinition) : Checkable
-      check_global_types node.name, node
+      check_global_types node.name.value, node
 
       fields =
         node
@@ -13,7 +13,7 @@ module Mint
           .fields
           .to_h { |field| {field.key.value, field.mapping.try(&.string_value)} }
 
-      type = Record.new(node.name, fields, mappings)
+      type = Record.new(node.name.value, fields, mappings)
       types[node] = type
 
       type

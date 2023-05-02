@@ -17,7 +17,7 @@ module Mint
                      @gets : Array(Get),
                      @uses : Array(Use),
                      @global : Bool,
-                     @name : String,
+                     @name : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

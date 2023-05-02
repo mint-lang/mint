@@ -17,7 +17,7 @@ module Mint
 
     def html_body(expected_closing_bracket : SyntaxError.class,
                   expected_closing_tag : SyntaxError.class,
-                  tag : Ast::Variable,
+                  tag : Ast::Variable | Ast::TypeId,
                   with_dashes : Bool)
       whitespace
       attributes = many { html_attribute(with_dashes) }
@@ -38,7 +38,7 @@ module Mint
 
         closing_tag =
           case tag
-          when Ast::Variable
+          when Ast::Variable, Ast::TypeId
             tag.value
           else
             tag

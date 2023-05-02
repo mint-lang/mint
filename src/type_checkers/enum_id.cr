@@ -10,20 +10,20 @@ module Mint
     # - constants
     def check(node : Ast::EnumId) : Checkable
       parent =
-        ast.enums.find(&.name.==(node.name))
+        ast.enums.find(&.name.value.==(node.name.try &.value))
 
       if parent
         check(node, parent)
-      elsif parent = records.find(&.name.==(node.option))
+      elsif parent = records.find(&.name.==(node.option.value))
         check(node, parent)
-      elsif node.name
+      elsif name = node.name
         raise EnumIdTypeMissing, {
-          "name" => node.name,
+          "name" => name.value,
           "node" => node,
         }
       else
         variable = Ast::Variable.new(
-          value: node.option,
+          value: node.option.value,
           input: node.input,
           from: node.from,
           to: node.to)
@@ -38,11 +38,11 @@ module Mint
         resolve parent
 
       option =
-        parent.options.find(&.value.==(node.option))
+        parent.options.find(&.value.value.==(node.option.value))
 
       raise EnumIdEnumMissing, {
-        "parent_name" => parent.name,
-        "name"        => node.option,
+        "parent_name" => parent.name.value,
+        "name"        => node.option.value,
         "parent"      => parent,
         "node"        => node,
       } unless option
@@ -54,7 +54,7 @@ module Mint
         resolve node.expressions
 
       resolved_type =
-        Type.new(node.option, parameters)
+        Type.new(node.option.value, parameters)
 
       unified =
         Comparer.compare_raw(option_type, resolved_type)

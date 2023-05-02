@@ -4,7 +4,7 @@ module Mint
     type_error EnumUnusedParameter
 
     def check(node : Ast::Enum) : Checkable
-      check_global_types node.name, node
+      check_global_types node.name.value, node
 
       parameters =
         resolve node.parameters
@@ -22,7 +22,7 @@ module Mint
         } unless used_parameters.includes?(parameter)
       end
 
-      Type.new(node.name, parameters)
+      Type.new(node.name.value, parameters)
     end
 
     def check(parameters : Array(Ast::Node),

@@ -7,7 +7,7 @@ module Mint
                      @options : Array(EnumOption),
                      @comments : Array(Comment),
                      @comment : Comment?,
-                     @name : String,
+                     @name : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

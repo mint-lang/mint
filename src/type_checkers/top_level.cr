@@ -8,22 +8,22 @@ module Mint
       # Resolve the Main component
       node
         .components
-        .find(&.name.==("Main"))
+        .find(&.name.value.==("Main"))
         .try { |component| resolve component }
 
       node
         .enums
-        .find(&.name.==("Maybe"))
+        .find(&.name.value.==("Maybe"))
         .try { |item| resolve item }
 
       node
         .enums
-        .find(&.name.==("Result"))
+        .find(&.name.value.==("Result"))
         .try { |item| resolve item }
 
       node
         .unified_modules
-        .find(&.name.==("Html.Event"))
+        .find(&.name.value.==("Html.Event"))
         .try do |item|
           resolve item
 
@@ -38,7 +38,7 @@ module Mint
         end
 
       web_components.each do |component|
-        node.components.find(&.name.==(component)).try do |item|
+        node.components.find(&.name.value.==(component)).try do |item|
           resolve item
         end
       end

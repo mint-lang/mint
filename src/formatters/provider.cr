@@ -13,7 +13,7 @@ module Mint
       comment =
         node.comment.try { |item| "#{format(item)}\n" }
 
-      "#{comment}provider #{name} : #{subscription} {\n#{indent(body)}\n}"
+      "#{comment}provider #{format name} : #{format subscription} {\n#{indent(body)}\n}"
     end
   end
 end

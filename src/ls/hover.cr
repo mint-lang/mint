@@ -58,10 +58,11 @@ module Mint
             parent = stack[1]?
 
             case node
-            when Ast::Variable
-              # If the first node under the cursor is a variable then
-              # get the associated nodes information and hover that
-              # otherwise get the hover information of the parent.
+            when Ast::Variable, Ast::TypeId
+              # If the first node under the cursor is a `Ast::Variable`
+              # or `Ast::TypeId`, then get the associated nodes
+              # information and hover that otherwise get the hover
+              # information of the parent.
               lookup =
                 workspace.type_checker.variables[node]?
 

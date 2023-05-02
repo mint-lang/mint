@@ -13,11 +13,11 @@ module Mint
             params =
               workspace.formatter.format_parameters(option.parameters)
 
-            "**#{option.value}#{params}**#{comment}"
+            "**#{option.value.value}#{params}**#{comment}"
           end
 
         ([
-          "**#{node.name}#{parameters}**\n",
+          "**#{node.name.value}#{parameters}**\n",
           node.comment.try(&.value.strip.+("\n")),
         ] + options).compact
       end

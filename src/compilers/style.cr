@@ -11,7 +11,7 @@ module Mint
     end
 
     def _compile(node : Ast::Style, component : Ast::Component) : Nil
-      style_builder.process(node, component.name.gsub('.', '·'))
+      style_builder.process(node, component.name.value.gsub('.', '·'))
     end
   end
 end

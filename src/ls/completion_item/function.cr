@@ -1,10 +1,10 @@
 module Mint
   module LS
     class Completion < LSP::RequestMessage
-      def completion_item(node : Ast::Function, parent_name : String? = nil) : LSP::CompletionItem
+      def completion_item(node : Ast::Function, parent_name : Ast::TypeId? = nil) : LSP::CompletionItem
         name =
           if parent_name
-            "#{parent_name}.#{node.name.value}"
+            "#{parent_name.value}.#{node.name.value}"
           else
             node.name.value
           end

@@ -5,7 +5,7 @@ module Mint
 
     def check(node : Ast::Provider) : Checkable
       # Checking for global naming conflict
-      check_global_names node.name, node
+      check_global_names node.name.value, node
 
       # Checking for naming conflicts
       checked =
@@ -17,7 +17,7 @@ module Mint
 
       # Checking for subscription
       subscription =
-        records.find(&.name.==(node.subscription))
+        records.find(&.name.==(node.subscription.value))
 
       raise ProviderNotFoundSubscription, {
         "name" => node.subscription,

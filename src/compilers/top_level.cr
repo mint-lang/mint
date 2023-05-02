@@ -25,7 +25,7 @@ module Mint
         new(artifacts, **options)
 
       main =
-        compiler.ast.components.find(&.name.==("Main")).try do |component|
+        compiler.ast.components.find(&.name.value.==("Main")).try do |component|
           globals =
             compiler
               .ast
@@ -55,7 +55,7 @@ module Mint
         new(artifacts, **options)
 
       main =
-        compiler.ast.components.find(&.name.==("Main")).try do |component|
+        compiler.ast.components.find(&.name.value.==("Main")).try do |component|
           globals =
             compiler
               .ast
@@ -147,19 +147,19 @@ module Mint
     # --------------------------------------------------------------------------
 
     def maybe
-      ast.enums.find!(&.name.==("Maybe"))
+      ast.enums.find!(&.name.value.==("Maybe"))
     end
 
     def just
       node =
-        maybe.options.find!(&.value.==("Just"))
+        maybe.options.find!(&.value.value.==("Just"))
 
       js.class_of(node)
     end
 
     def nothing
       node =
-        maybe.options.find!(&.value.==("Nothing"))
+        maybe.options.find!(&.value.value.==("Nothing"))
 
       js.class_of(node)
     end
@@ -167,19 +167,19 @@ module Mint
     # --------------------------------------------------------------------------
 
     def result
-      ast.enums.find!(&.name.==("Result"))
+      ast.enums.find!(&.name.value.==("Result"))
     end
 
     def ok
       node =
-        result.options.find!(&.value.==("Ok"))
+        result.options.find!(&.value.value.==("Ok"))
 
       js.class_of(node)
     end
 
     def err
       node =
-        result.options.find!(&.value.==("Err"))
+        result.options.find!(&.value.value.==("Err"))
 
       js.class_of(node)
     end
@@ -187,7 +187,7 @@ module Mint
     def compiled_web_components
       @web_components.compact_map do |component, tagname|
         node =
-          ast.components.find(&.name.==(component))
+          ast.components.find(&.name.value.==(component))
 
         next unless node
 
@@ -213,7 +213,7 @@ module Mint
     # Wraps the application with the runtime
     def wrap_runtime(body, main = "")
       html_event_module =
-        ast.unified_modules.find!(&.name.==("Html.Event"))
+        ast.unified_modules.find!(&.name.value.==("Html.Event"))
 
       from_event =
         html_event_module.functions.find!(&.name.value.==("fromEvent"))

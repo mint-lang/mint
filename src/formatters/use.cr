@@ -9,7 +9,7 @@ module Mint
           " when {\n#{indent(format(condition))}\n}"
       end
 
-      "use #{node.provider} #{data}#{condition}"
+      "use #{format node.provider} #{data}#{condition}"
     end
   end
 end

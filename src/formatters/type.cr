@@ -5,9 +5,9 @@ module Mint
         format node.parameters, ", "
 
       if parameters.empty?
-        node.name
+        format node.name
       else
-        "#{node.name}(#{parameters})"
+        "#{format node.name}(#{parameters})"
       end
     end
   end

@@ -6,7 +6,7 @@ module Mint
       def initialize(@fields : Array(RecordDefinitionField),
                      @block_comment : Comment?,
                      @comment : Comment?,
-                     @name : String,
+                     @name : TypeId,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

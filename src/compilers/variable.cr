@@ -13,7 +13,7 @@ module Mint
       case parent
       when Ast::Component
         parent.connects.each do |connect|
-          store = ast.stores.find(&.name.==(connect.store))
+          store = ast.stores.find(&.name.value.==(connect.store.value))
 
           name =
             case entity

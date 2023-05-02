@@ -4,7 +4,7 @@ module Mint
 
     def check(node : Ast::Store) : Checkable
       # Checking for global naming conflict
-      check_global_names node.name, node
+      check_global_names node.name.value, node
 
       # Checking for naming conflicts
       checked =

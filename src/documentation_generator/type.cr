@@ -6,7 +6,7 @@ module Mint
           "(#{stringify(node.parameters)})"
         end
 
-      "#{node.name}#{parameters}"
+      "#{stringify node.name}#{parameters}"
     end
 
     def generate(node : Ast::Type, json : JSON::Builder)
