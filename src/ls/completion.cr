@@ -66,8 +66,7 @@ module Mint
           .sort_by!(&.label)
           .map do |item|
             item.insert_text =
-              item
-                .insert_text
+              item.insert_text
                 .gsub(/\$\d/, "")
                 .gsub(/\$\{.*\}/, "") unless snippet_support
             item

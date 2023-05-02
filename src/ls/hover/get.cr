@@ -8,9 +8,7 @@ module Mint
 
         name =
           case entity
-          when Ast::Component
-            entity.name.value
-          when Ast::Store
+          when Ast::Component, Ast::Store
             entity.name.value
           end
 
