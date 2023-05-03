@@ -27,7 +27,7 @@ component Main {
     }
   }
 }
-----------------------------------------------------StatementNotMatchExpression
+----------------------------------------------------CaseBranchNotMatchCondition
 enum T {
   A(String)
   B

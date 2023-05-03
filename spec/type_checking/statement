@@ -3,13 +3,13 @@ component Main {
     let x = "hello"
   }
 }
----------------------------------------------------------------StatementNotTuple
+---------------------------------------------------------------CaseBranchNotTuple
 component Main {
   fun render : String {
     let {x, y, z} = "hello"
   }
 }
-----------------------------------------------------------StatementTupleMismatch
+----------------------------------------------------------CaseBranchTupleMismatch
 component Main {
   fun render : String {
     let {x, y, z} = {"hello", "a"}
