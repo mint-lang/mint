@@ -45,7 +45,7 @@ module Mint
       variable(track) || raise error
     end
 
-    def variable(track = true, invalid = [] of String) : Ast::Variable?
+    def variable(track = true, invalid = ["true", "false"]) : Ast::Variable?
       start do |start_position|
         value = gather do
           next unless char.ascii_lowercase?

@@ -18,7 +18,7 @@ class A extends _C {
       if (_compare(a, [])) {
         return ``
       } else if (_compare(a, [`a`])) {
-        return ``
+        return ``;
       } else if (Array.isArray(a) && a.length === 1) {
         const [b] = a;
         return ``;

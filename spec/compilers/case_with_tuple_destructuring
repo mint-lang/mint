@@ -19,9 +19,9 @@ class A extends _C {
       let a = [`A`, 0, true];
 
       if (_compare(a, [`A`, 0, false])) {
-        return `B`
+        return `B`;
       } else if (_compare(a, [`A`, 0, true])) {
-        return `A`
+        return `A`;
       } else if (Array.isArray(a)) {
         const b = a[0];
         const c = a[1];

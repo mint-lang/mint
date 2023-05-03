@@ -6,7 +6,7 @@ module Mint
         when Ast::EnumRecordDefinition
           node.parameters.compact_map do |param|
             case param
-            when Ast::TypeVariable
+            when Ast::Variable
               "const #{js.variable_of(param)} = #{variable}._0.#{param.value}"
             end
           end

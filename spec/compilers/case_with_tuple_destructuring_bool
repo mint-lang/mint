@@ -18,9 +18,9 @@ class A extends _C {
       let a = [false, true];
 
       if (_compare(a, [true, false])) {
-        return `B`
+        return `B`;
       } else if (_compare(a, [false, true])) {
-        return `A`
+        return `A`;
       } else {
         return `C`
       };

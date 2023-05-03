@@ -26,9 +26,17 @@ module Mint
             _compile(match, variable)
 
           compiled[1] << expression
+
+          statements =
+            if !compiled[1].empty?
+              js.statements(compiled[1])
+            else
+              ""
+            end
+
           {
             compiled[0],
-            js.statements(compiled[1]),
+            statements,
           }
         else
           compiled =

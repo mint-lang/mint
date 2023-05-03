@@ -116,7 +116,14 @@ module Mint
           } if !covered && !catch_all
         elsif condition.name == "Tuple"
           destructured =
-            node.branches.map(&.match).any?(Ast::TupleDestructuring)
+            node.branches.map(&.match).any? do |match|
+              case match
+              when Ast::TupleDestructuring
+                match.parameters.all?(Ast::Variable)
+              else
+                false
+              end
+            end
 
           raise CaseUnnecessaryAll, {
             "node" => catch_all,

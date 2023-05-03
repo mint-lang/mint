@@ -82,6 +82,8 @@ module Mint
         "node" => node,
       } if node.parameters.size > condition.parameters.size
 
+      check!(node)
+
       node.parameters.each_with_index do |item, index|
         case item
         when Ast::Variable
@@ -132,7 +134,7 @@ module Mint
         node.parameters.each do |param|
           found = option_param.fields.find do |field|
             case param
-            when Ast::TypeVariable
+            when Ast::Variable
               param.value == field.key.value
             end
           end
@@ -140,7 +142,7 @@ module Mint
           raise TypeError.new unless found
 
           case param
-          when Ast::TypeVariable
+          when Ast::Variable
             record =
               resolve(option_param).as(Record)
 
@@ -150,7 +152,7 @@ module Mint
       else
         node.parameters.each_with_index do |param, index|
           case param
-          when Ast::TypeVariable
+          when Ast::Variable
             raise DestructuringNoParameter, {
               "size"   => option.parameters.size.to_s,
               "index"  => index.to_s,
