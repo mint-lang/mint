@@ -4,6 +4,21 @@ component Test {
       <div/>
     </Unless>
   }
+
+  fun aborted : Http.Error {
+    Http.Error::Aborted
+  }
+
+  state error : Http.Error = Http.Error::Aborted
+
+  fun toString (error : Http.Error) : String {
+    case error {
+      Http.Error::Aborted => "Aborted"
+      Http.Error::NetworkError => "NetworkError"
+      Http.Error::Timeout => "Timeout"
+      Http.Error::BadUrl => "BadUrl"
+    }
+  }
 }
 ------------------------------------------------------------------file test.mint
 {
@@ -38,6 +53,51 @@ component Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
+  "id": 2,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 7,
+      "character": 16
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 11,
+      "character": 29
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 15,
+      "character": 18
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
   "result": null,
   "id": 0
 }
@@ -46,5 +106,23 @@ component Test {
   "jsonrpc": "2.0",
   "result": null,
   "id": 1
+}
+------------------------------------------------------------------------response
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 2
+}
+------------------------------------------------------------------------response
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 3
+}
+------------------------------------------------------------------------response
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 4
 }
 ------------------------------------------------------------------------response
