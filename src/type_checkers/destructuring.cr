@@ -33,6 +33,14 @@ module Mint
     end
 
     def destructure(
+      node : Ast::Variable,
+      condition : Checkable,
+      variables : Array(VariableScope) = [] of VariableScope
+    )
+      variables
+    end
+
+    def destructure(
       node : Ast::ArrayDestructuring,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
