@@ -6,6 +6,10 @@ module Mint
     type_error CaseBranchMultipleSpreads
     type_error CaseBranchNotArray
 
+    type_error EnumDestructuringNoParameter
+    type_error EnumDestructuringTypeMissing
+    type_error EnumDestructuringEnumMissing
+
     def destructure(
       node : Nil,
       condition : Checkable,
@@ -98,7 +102,27 @@ module Mint
       condition : Checkable,
       variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
     )
-      type = resolve(node)
+      parent =
+        ast.enums.find(&.name.value.==(node.name.try &.value))
+
+      raise EnumDestructuringTypeMissing, {
+        "name" => node.name,
+        "node" => node,
+      } unless parent
+
+      option =
+        parent.options.find(&.value.value.==(node.option.value))
+
+      raise EnumDestructuringEnumMissing, {
+        "parent_name" => parent.name,
+        "name"        => node.option,
+        "parent"      => parent,
+        "node"        => node,
+      } unless option
+
+      lookups[node] = option
+
+      type = resolve(parent)
 
       raise CaseBranchNotMatchCondition, {
         "expected" => condition,
@@ -106,15 +130,18 @@ module Mint
         "node"     => node,
       } unless Comparer.compare(type, condition)
 
-      entity =
-        ast.enums.find!(&.name.value.==(node.name.try &.value))
-
-      option =
-        entity.options.find!(&.value.value.==(node.option.value))
-
       case option_param = option.parameters[0]?
       when Ast::EnumRecordDefinition
         node.parameters.each do |param|
+          found = option_param.fields.find do |field|
+            case param
+            when Ast::TypeVariable
+              param.value == field.key.value
+            end
+          end
+
+          raise TypeError.new unless found
+
           case param
           when Ast::TypeVariable
             record =
@@ -127,12 +154,20 @@ module Mint
         node.parameters.each_with_index do |param, index|
           case param
           when Ast::TypeVariable
+            raise EnumDestructuringNoParameter, {
+              "size"   => option.parameters.size.to_s,
+              "index"  => index.to_s,
+              "name"   => option.value,
+              "option" => option,
+              "node"   => param,
+            } unless option.parameters[index]?
+
             option_type =
               resolve(option.parameters[index]).not_nil!
 
             mapping = {} of String => Checkable
 
-            entity.parameters.each_with_index do |param2, index2|
+            parent.parameters.each_with_index do |param2, index2|
               mapping[param2.value] = condition.parameters[index2]
             end
 
