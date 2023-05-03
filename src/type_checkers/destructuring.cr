@@ -1,19 +1,16 @@
 module Mint
   class TypeChecker
-    type_error CaseBranchNotMatchCondition
-    type_error CaseBranchTupleMismatch
-    type_error CaseBranchNotTuple
-    type_error CaseBranchMultipleSpreads
-    type_error CaseBranchNotArray
+    alias VariableScope = Tuple(String, Checkable, Ast::Node)
 
-    type_error EnumDestructuringNoParameter
-    type_error EnumDestructuringTypeMissing
-    type_error EnumDestructuringEnumMissing
+    type_error DestructuringMultipleSpreads
+    type_error DestructuringTupleMismatch
+    type_error DestructuringTypeMismatch
+    type_error DestructuringNoParameter
 
     def destructure(
       node : Nil,
       condition : Checkable,
-      variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
+      variables : Array(VariableScope) = [] of VariableScope
     )
       variables
     end
@@ -21,12 +18,12 @@ module Mint
     def destructure(
       node : Ast::Node,
       condition : Checkable,
-      variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
+      variables : Array(VariableScope) = [] of VariableScope
     )
       type =
         resolve(node)
 
-      raise CaseBranchNotMatchCondition, {
+      raise DestructuringTypeMismatch, {
         "expected" => condition,
         "got"      => type,
         "node"     => node,
@@ -38,17 +35,18 @@ module Mint
     def destructure(
       node : Ast::ArrayDestructuring,
       condition : Checkable,
-      variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
+      variables : Array(VariableScope) = [] of VariableScope
     )
-      raise CaseBranchNotArray, {
-        "got"  => condition,
-        "node" => node,
+      raise DestructuringTypeMismatch, {
+        "expected" => ARRAY,
+        "got"      => condition,
+        "node"     => node,
       } unless condition.name == "Array"
 
       spreads =
         node.items.select(Ast::Spread).size
 
-      raise CaseBranchMultipleSpreads, {
+      raise DestructuringMultipleSpreads, {
         "count" => spreads.to_s,
         "node"  => node,
       } if spreads > 1
@@ -60,7 +58,7 @@ module Mint
         when Ast::Spread
           variables << {item.variable.value, condition, item}
         else
-          # TODO: Do other destructurings
+          destructure(item, condition.parameters[0], variables)
         end
       end
 
@@ -70,27 +68,26 @@ module Mint
     def destructure(
       node : Ast::TupleDestructuring,
       condition : Checkable,
-      variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
+      variables : Array(VariableScope) = [] of VariableScope
     )
-      raise CaseBranchNotTuple, {
-        "got"  => condition,
-        "node" => node,
+      raise DestructuringTypeMismatch, {
+        "expected" => Type.new("Tuple"),
+        "got"      => condition,
+        "node"     => node,
       } unless condition.name == "Tuple"
 
-      raise CaseBranchTupleMismatch, {
+      raise DestructuringTupleMismatch, {
         "size" => node.parameters.size.to_s,
         "got"  => condition,
         "node" => node,
       } if node.parameters.size > condition.parameters.size
 
-      node.parameters.each_with_index do |variable, index|
-        case variable
+      node.parameters.each_with_index do |item, index|
+        case item
         when Ast::Variable
-          variables << {variable.value, condition.parameters[index], variable}
-        when Ast::TupleDestructuring
-          destructure(variable, condition.parameters[index], variables)
+          variables << {item.value, condition.parameters[index], item}
         else
-          # TODO: Do other destructurings
+          destructure(item, condition.parameters[index], variables)
         end
       end
 
@@ -100,12 +97,12 @@ module Mint
     def destructure(
       node : Ast::EnumDestructuring,
       condition : Checkable,
-      variables : Array(Tuple(String, Checkable, Ast::Node)) = [] of Tuple(String, Checkable, Ast::Node)
+      variables : Array(VariableScope) = [] of VariableScope
     )
       parent =
         ast.enums.find(&.name.value.==(node.name.try &.value))
 
-      raise EnumDestructuringTypeMissing, {
+      raise EnumIdTypeMissing, {
         "name" => node.name,
         "node" => node,
       } unless parent
@@ -113,9 +110,9 @@ module Mint
       option =
         parent.options.find(&.value.value.==(node.option.value))
 
-      raise EnumDestructuringEnumMissing, {
-        "parent_name" => parent.name,
-        "name"        => node.option,
+      raise EnumIdEnumMissing, {
+        "parent_name" => parent.name.value,
+        "name"        => node.option.value,
         "parent"      => parent,
         "node"        => node,
       } unless option
@@ -124,7 +121,7 @@ module Mint
 
       type = resolve(parent)
 
-      raise CaseBranchNotMatchCondition, {
+      raise DestructuringTypeMismatch, {
         "expected" => condition,
         "got"      => type,
         "node"     => node,
@@ -154,7 +151,7 @@ module Mint
         node.parameters.each_with_index do |param, index|
           case param
           when Ast::TypeVariable
-            raise EnumDestructuringNoParameter, {
+            raise DestructuringNoParameter, {
               "size"   => option.parameters.size.to_s,
               "index"  => index.to_s,
               "name"   => option.value,

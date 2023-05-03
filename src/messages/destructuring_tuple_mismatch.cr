@@ -1,8 +1,8 @@
-message CaseBranchTupleMismatch do
+message DestructuringTupleMismatch do
   title "Type Error"
 
   block do
-    text "This branch of a case expression does not match the given tuple."
+    text "This destructuring of a tuple does not match the given tuple."
   end
 
   block do

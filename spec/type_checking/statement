@@ -3,13 +3,13 @@ component Main {
     let x = "hello"
   }
 }
----------------------------------------------------------------CaseBranchNotTuple
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     let {x, y, z} = "hello"
   }
 }
-----------------------------------------------------------CaseBranchTupleMismatch
+-----------------------------------------------------DestructuringTupleMismatch
 component Main {
   fun render : String {
     let {x, y, z} = {"hello", "a"}

@@ -1,8 +1,8 @@
-message CaseBranchNotMatchCondition do
+message DestructuringTypeMismatch do
   title "Type Error"
 
   block do
-    text "A branch of a case expression does not match the type of the condition."
+    text "A value does not match its supposed type."
   end
 
   block do
