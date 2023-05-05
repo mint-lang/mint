@@ -1,22 +1,18 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      def html_attribute(server : Server, workspace : Workspace, stack : Array(Ast::Node))
-        with_stack(stack) do |reader|
-          return unless variable = reader.find_next Ast::Variable
+      def definition(node : Ast::HtmlAttribute, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+        return unless cursor_intersects?(node.name)
 
-          return unless reader.find_next Ast::HtmlAttribute
+        return unless html_component = stack.find(&.is_a?(Ast::HtmlComponent)).as?(Ast::HtmlComponent)
 
-          return unless html_component = reader.find_next Ast::HtmlComponent
+        return unless component =
+                        find_component(workspace, html_component.component.value)
 
-          return unless component =
-                          find_component(workspace, html_component.component.value)
+        return unless component_property =
+                        component.properties.find(&.name.value.== node.name.value)
 
-          return unless component_property =
-                          component.properties.find(&.name.value.== variable.value)
-
-          location_link server, variable, component_property
-        end
+        location_link server, node.name, component_property.name, component_property
       end
     end
   end

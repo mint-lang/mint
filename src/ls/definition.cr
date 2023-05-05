@@ -15,84 +15,26 @@ module Mint
           stack =
             server.nodes_at_cursor(params)
 
-          html_style(server, workspace, stack) ||
-            html_attribute(server, workspace, stack) ||
-            html_component(server, workspace, stack)
+          if node = stack[0]?
+            definition(node, server, workspace, stack)
+          end
         end
       end
 
-      def with_stack(stack : Array(Ast::Node), &)
-        yield StackReader.new(stack)
+      def definition(node : Ast::Node, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+        nil
       end
 
-      def selection(location : Ast::Node::Location) : LSP::Range
-        LSP::Range.new(
-          start: LSP::Position.new(
-            line: location.start[0] - 1,
-            character: location.start[1]
-          ),
-          end: LSP::Position.new(
-            line: location.end[0] - 1,
-            character: location.end[1]
-          )
-        )
+      def cursor_intersects?(node : Ast::Node, position : LSP::Position) : Bool
+        node.location.contains?(position.line + 1, position.character)
       end
 
-      # Returns the range for the name part for a node
-      def selection(node : Ast::Node) : LSP::Range
-        selection(node.location)
+      def cursor_intersects?(node : Ast::Node, params : LSP::TextDocumentPositionParams) : Bool
+        cursor_intersects?(node, params.position)
       end
 
-      def selection(node : Ast::Component) : LSP::Range
-        # Select only the name part of the component
-        #   global component MintComponent {
-        #                    ^^^^^^^^^^^^^
-        selection(node.name)
-      end
-
-      def selection(node : Ast::HtmlAttribute) : LSP::Range
-        # Select only the name part of the attribute
-        # <Component attribute={value}>
-        #            ^^^^^^^^^
-        selection(node.name)
-      end
-
-      def selection(node : Ast::HtmlComponent) : LSP::Range
-        # Select only the name part of the component
-        # <Component attribute={value}>
-        #  ^^^^^^^^^
-        selection(node.component)
-      end
-
-      def selection(node : Ast::HtmlStyle) : LSP::Range
-        # Select only the name part of the component
-        #   <div::style>
-        #         ^^^^^
-
-        start_line, start_column = node.location.start
-
-        # Skip the first two characters "::"
-        location = Ast::Node::Location.new(
-          filename: node.location.filename,
-          start: {start_line, start_column + 2},
-          end: node.location.end
-        )
-
-        selection(location)
-      end
-
-      def selection(node : Ast::Property) : LSP::Range
-        # Select only the name part of the property
-        #     property size : String = "small"
-        #              ^^^^
-        selection(node.name)
-      end
-
-      def selection(node : Ast::Style) : LSP::Range
-        # Select only the name part of the style
-        #     style app {
-        #           ^^^
-        selection(node.name)
+      def cursor_intersects?(node : Ast::Node) : Bool
+        cursor_intersects?(node, params)
       end
 
       def find_component(workspace : Workspace, name : String) : Ast::Component?
@@ -106,19 +48,36 @@ module Mint
         !!(server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support)
       end
 
+      def to_lsp_range(location : Ast::Node::Location) : LSP::Range
+        LSP::Range.new(
+          start: LSP::Position.new(
+            line: location.start[0] - 1,
+            character: location.start[1]
+          ),
+          end: LSP::Position.new(
+            line: location.end[0] - 1,
+            character: location.end[1]
+          )
+        )
+      end
+
       # Returns a `LSP::LocationLink` that links from *source* to the *target* node
-      # if the *server* has link support, otherwise it returns `LSP::Location`.
-      def location_link(server : Server, source : Ast::Node, target : Ast::Node) : LSP::LocationLink | LSP::Location
+      # if the language server client has link support, otherwise it returns `LSP::Location`.
+      #
+      # When returning a `LSP::LocationLink`, *parent* is used to provide the full range
+      # for the *target* node. For example, for a function, *target* would be the function name,
+      # and *parent* would be the whole node, including function body and any comments
+      def location_link(server : Server, source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink | LSP::Location
         if has_link_support?(server)
           LSP::LocationLink.new(
-            origin_selection_range: selection(source),
+            origin_selection_range: to_lsp_range(source.location),
             target_uri: "file://#{target.location.filename}",
-            target_range: selection(target.location),
-            target_selection_range: selection(target)
+            target_range: to_lsp_range(parent.location),
+            target_selection_range: to_lsp_range(target.location)
           )
         else
           LSP::Location.new(
-            range: selection(target),
+            range: to_lsp_range(target.location),
             uri: "file://#{target.location.filename}",
           )
         end

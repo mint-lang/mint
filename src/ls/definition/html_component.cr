@@ -1,17 +1,13 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      def html_component(server : Server, workspace : Workspace, stack : Array(Ast::Node))
-        with_stack(stack) do |reader|
-          return unless type_id = reader.find_next Ast::TypeId
+      def definition(node : Ast::HtmlComponent, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+        return unless cursor_intersects?(node.component)
 
-          return unless html_component = reader.find_next Ast::HtmlComponent
+        return unless component =
+                        find_component(workspace, node.component.value)
 
-          return unless component =
-                          find_component(workspace, html_component.component.value)
-
-          location_link server, type_id, component
-        end
+        location_link server, node.component, component.name, component
       end
     end
   end
