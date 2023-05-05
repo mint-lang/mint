@@ -1,9 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::CaseBranch,
-                 index : Int32,
-                 variable : String,
-                 block : Proc(String, String)? = nil) : Tuple(String?, String)
+    def _compile(node : Ast::CaseBranch, block : Proc(String, String)? = nil) : String
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
@@ -19,11 +16,15 @@ module Mint
         end
 
       if match = node.match
-        variables = [] of String
-        x = destructuring(match, variables)
-        {x, js.arrow_function(variables, js.return(expression))}
+        variables =
+          [] of String
+
+        matcher =
+          destructuring(match, variables)
+
+        js.array([matcher, js.arrow_function(variables, js.return(expression))])
       else
-        {nil, js.arrow_function([] of String, js.return(expression))}
+        js.array(["null", js.arrow_function([] of String, js.return(expression))])
       end
     end
   end

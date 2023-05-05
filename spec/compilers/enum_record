@@ -38,8 +38,8 @@ class A extends _C {
           _PV,
           _PV
         ]),
-        (c, b) => {
-          return b
+        (b, a) => {
+          return a
         }
       ],
       [

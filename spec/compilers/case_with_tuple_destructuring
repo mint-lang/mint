@@ -42,8 +42,8 @@ class A extends _C {
           _PV,
           _PV
         ],
-        (b, c, d) => {
-          return b
+        (a, b, c) => {
+          return a
         }
       ]
     ]);

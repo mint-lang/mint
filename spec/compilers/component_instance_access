@@ -66,8 +66,8 @@ class B extends _C {
         _PE(C,[
           _PV
         ]),
-        (e) => {
-          return e.a
+        (d) => {
+          return d.a
         }
       ],
       [

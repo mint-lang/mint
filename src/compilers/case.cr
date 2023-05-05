@@ -8,21 +8,15 @@ module Mint
       condition = compile node.condition
       condition = "await #{condition}" if node.await
 
-      variable, _ =
-        js.let condition
-
-      body =
+      branches =
         node
           .branches
           .sort_by(&.match.nil?.to_s)
-          .map_with_index do |branch, index|
-            _compile branch, index, variable, block
+          .map do |branch|
+            _compile branch, block
           end
 
-      x =
-        body.map { |(a, b)| js.array([a || "null", b || "null"]) }
-
-      js.call("_match", [condition, js.array(x)])
+      js.call("_match", [condition, js.array(branches)])
     end
   end
 end
