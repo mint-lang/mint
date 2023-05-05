@@ -17,10 +17,8 @@ module Mint
 
           name =
             case entity
-            when Ast::Function then entity.name.value
-            when Ast::State    then entity.name.value
-            when Ast::Get      then entity.name.value
-            when Ast::Constant then entity.name.value
+            when Ast::Function, Ast::State, Ast::Get, Ast::Constant
+              entity.name.value
             end
 
           if store
