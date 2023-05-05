@@ -20,7 +20,7 @@ module Mint
             when Ast::Function then entity.name.value
             when Ast::State    then entity.name.value
             when Ast::Get      then entity.name.value
-            when Ast::Constant then entity.name
+            when Ast::Constant then entity.name.value
             end
 
           if store

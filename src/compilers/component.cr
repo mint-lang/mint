@@ -122,7 +122,7 @@ module Mint
             name = js.variable_of(key)
 
             case
-            when store.constants.any?(&.name.==(original)),
+            when store.constants.any?(&.name.value.==(original)),
                  store.gets.any?(&.name.value.==(original)),
                  store.states.find(&.name.value.==(original))
               memo << js.get(name, "return #{store_name}.#{id};")

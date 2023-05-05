@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@value : Expression,
                      @comment : Comment?,
-                     @name : String,
+                     @name : Variable,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

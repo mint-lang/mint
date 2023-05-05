@@ -41,18 +41,18 @@ module Mint
           end
         when Ast::Module
           entity.functions.find(&.name.value.==(variable_value)) ||
-            entity.constants.find(&.name.==(variable_value))
+            entity.constants.find(&.name.value.==(variable_value))
         when Ast::Component
           entity.properties.find(&.name.value.==(variable_value)) ||
             entity.functions.find(&.name.value.==(variable_value)) ||
             entity.states.find(&.name.value.==(variable_value)) ||
-            entity.constants.find(&.name.==(variable_value)) ||
+            entity.constants.find(&.name.value.==(variable_value)) ||
             entity.gets.find(&.name.value.==(variable_value))
         when Ast::Store
           entity.functions.find(&.name.value.==(variable_value)) ||
             entity.states.find(&.name.value.==(variable_value)) ||
             entity.gets.find(&.name.value.==(variable_value)) ||
-            entity.constants.find(&.name.==(variable_value))
+            entity.constants.find(&.name.value.==(variable_value))
         else
           raise ModuleAccessNotFoundModule, {
             "name" => name.value,

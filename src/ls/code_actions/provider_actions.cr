@@ -13,7 +13,7 @@ module Mint
 
           # Reorder by name and the appropriate order from the original order
           (node.states.sort_by(&.name.value) +
-            node.constants.sort_by(&.name) +
+            node.constants.sort_by(&.name.value) +
             node.gets.sort_by(&.name.value) +
             node.functions.sort_by(&.name.value))
             .each_with_index { |entity, index| entity.from = order[index] }
