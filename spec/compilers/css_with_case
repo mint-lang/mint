@@ -20,19 +20,24 @@ class A extends _C {
   $Main_test() {
     const _ = {};
 
-    (() => {
-      let a = `a`;
-
-      if (_compare(a, `a`)) {
-        Object.assign(_, {
-          [`--a-a`]: `red`
-        })
-      } else {
-        Object.assign(_, {
-          [`--a-a`]: `blue`
-        })
-      };
-    })();
+    _match(`a`,[
+      [
+        `a`,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `red`
+          })
+        }
+      ],
+      [
+        null,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `blue`
+          })
+        }
+      ]
+    ]);
 
     return _;
   }

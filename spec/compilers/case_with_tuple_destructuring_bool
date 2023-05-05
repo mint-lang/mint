@@ -14,17 +14,32 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let a = [false, true];
-
-      if (_compare(a, [true, false])) {
-        return `B`;
-      } else if (_compare(a, [false, true])) {
-        return `A`;
-      } else {
-        return `C`
-      };
-    })();
+    return _match([false, true],[
+      [
+        [
+          true,
+          false
+        ],
+        () => {
+          return `B`
+        }
+      ],
+      [
+        [
+          false,
+          true
+        ],
+        () => {
+          return `A`
+        }
+      ],
+      [
+        null,
+        () => {
+          return `C`
+        }
+      ]
+    ]);
   }
 };
 

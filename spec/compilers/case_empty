@@ -8,10 +8,14 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let a = `Hello`;
-      return `false`;
-    })();
+    return _match(`Hello`,[
+      [
+        null,
+        () => {
+          return `false`
+        }
+      ]
+    ]);
   }
 };
 

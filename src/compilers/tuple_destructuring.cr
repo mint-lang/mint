@@ -8,33 +8,42 @@ module Mint
     end
 
     def _compile(node : Ast::TupleDestructuring, variable : String) : Tuple(String, Array(String))
-      if node.parameters.all? { |item| item.is_a?(Ast::Variable) || item.is_a?(Ast::TupleDestructuring) }
-        conditions = ["Array.isArray(#{variable})"]
-        variables = node.parameters.map_with_index do |param, idx|
-          var_name = js.variable_of(param)
-          vars = ["const #{var_name} = #{variable}[#{idx}]"]
+      {js.array(node.parameters.map do |item|
+        case item
+        when Ast::Variable
+          "_PV"
+        else
+          compile(item)
+        end
+      end), [] of String}
 
-          if res = _compile_destructuring(param, "#{variable}[#{idx}]")
-            conditions << res[0]
-            vars.concat(res[1])
-          end
+      # if node.parameters.all? { |item| item.is_a?(Ast::Variable) || item.is_a?(Ast::TupleDestructuring) }
+      #   conditions = ["Array.isArray(#{variable})"]
+      #   variables = node.parameters.map_with_index do |param, idx|
+      #     var_name = js.variable_of(param)
+      #     vars = ["const #{var_name} = #{variable}[#{idx}]"]
 
-          vars
-        end.flatten
+      #     if res = _compile_destructuring(param, "#{variable}[#{idx}]")
+      #       conditions << res[0]
+      #       vars.concat(res[1])
+      #     end
 
-        {
-          conditions.join(" && "),
-          variables,
-        }
-      else
-        items =
-          compile node.parameters, ", "
+      #     vars
+      #   end.flatten
 
-        {
-          "_compare(#{variable}, [#{items}])",
-          [] of String,
-        }
-      end
+      #   {
+      #     conditions.join(" && "),
+      #     variables,
+      #   }
+      # else
+      #   items =
+      #     compile node.parameters, ", "
+
+      #   {
+      #     "_compare(#{variable}, [#{items}])",
+      #     [] of String,
+      #   }
+      # end
     end
   end
 end

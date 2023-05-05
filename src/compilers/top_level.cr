@@ -266,6 +266,63 @@ module Mint
         const _S = mint.Store
         const _E = mint.Enum
 
+        const _PE = (x, pattern) => new Pattern(x, pattern)
+        const _PV = Symbol();
+        const _PS = Symbol();
+
+        class Pattern {
+          constructor(x,pattern) {
+            this.pattern = pattern;
+            this.x = x;
+          }
+        }
+
+        const __match = (value, pattern, values = []) => {
+          if (value === null) {
+          } else if (Array.isArray(pattern)) { // This covers tuples and arrays (they are the same)
+            // TODO: Spread detection
+            pattern.forEach((item, index) => {
+              if (!__match(value[index], item, values)) {
+                return false
+              }
+            })
+          } else if (pattern instanceof Pattern) {
+            if (value instanceof pattern.x) {
+              pattern.pattern.forEach((item, index) => {
+                if (!__match(value[`_${index}`], item, values)) {
+                  return false
+                }
+              })
+            } else {
+              return false
+            }
+          } else if (pattern === _PV) {
+            values.push(value)
+          } else if (pattern === _PS) {
+            values.push([]) // TODO: Remove and move the the first branch
+          } else {
+            if (!_compare(value, pattern)) {
+              return false
+            }
+          }
+
+          return values;
+        }
+
+        const _match = (value, patterns) => {
+          for (let pattern of patterns) {
+            if (pattern[0] === null) {
+              return pattern[1]()
+            } else {
+              const values = __match(value, pattern[0]);
+
+              if (values) {
+                return pattern[1].apply(null, values)
+              }
+            }
+          }
+        }
+
         const _m = (method) => {
           let value
           return () => {

@@ -137,16 +137,16 @@ module Mint
       end
 
       def _find(variable : String, node : Ast::TupleDestructuring) : Array(Int32)?
-        node.parameters.each_with_index do |param, idx|
+        node.parameters.each_with_index do |param, index|
           case param
           when Ast::Variable
             if param.value == variable
-              return [idx]
+              return [index]
             end
           when Ast::TupleDestructuring
             result = _find(variable, param)
             if result
-              result.unshift(idx)
+              result.unshift(index)
               return result
             end
           end

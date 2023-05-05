@@ -7,48 +7,23 @@ module Mint
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
-          compiled =
-            if block
-              _compile item, block
-            else
-              "{}"
-            end
+          if block
+            _compile item, block
+          else
+            "{}"
+          end
         when Ast::Node
-          js.return(compile(item))
+          compile(item)
         else
           ""
         end
 
       if match = node.match
-        case match
-        when Ast::ArrayDestructuring, Ast::TupleDestructuring, Ast::EnumDestructuring
-          compiled =
-            _compile(match, variable)
-
-          compiled[1] << expression
-
-          statements =
-            if !compiled[1].empty?
-              js.statements(compiled[1])
-            else
-              ""
-            end
-
-          {
-            compiled[0],
-            statements,
-          }
-        else
-          compiled =
-            compile match
-
-          {
-            "_compare(#{variable}, #{compiled})",
-            expression,
-          }
-        end
+        variables = [] of String
+        x = destructuring(match, variables)
+        {x, js.arrow_function(variables, js.return(expression))}
       else
-        {nil, expression}
+        {nil, js.arrow_function([] of String, js.return(expression))}
       end
     end
   end

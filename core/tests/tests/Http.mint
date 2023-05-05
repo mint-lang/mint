@@ -284,7 +284,7 @@ component Test.Http {
           })
           `)
 
-    await case request {
+    case request {
       Result::Ok(response) => next { status: response.status }
 
       Result::Err(error) =>

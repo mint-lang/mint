@@ -1,5 +1,13 @@
 module Mint
   class TypeChecker
+    # This file contains the logic for destructuring (aka pattern matching).
+    # It's a recursive algorithm, traversing the destructuring tree and the
+    # type tree simultaneously.
+    #
+    # - if one of the destructurings is a mismatch it errors out
+    # - non destructuring nodes are resolved and compared with condition
+
+    # An alias for the variable scope (of Mint::Typechecker::Scope)
     alias VariableScope = Tuple(String, Checkable, Ast::Node)
 
     type_error DestructuringMultipleSpreads
@@ -32,12 +40,13 @@ module Mint
       variables
     end
 
+    # This is for the `let` statement when it's a single assignment
     def destructure(
       node : Ast::Variable,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
-      variables
+      variables.tap(&.push({node.value, condition, node}))
     end
 
     def destructure(
@@ -49,7 +58,7 @@ module Mint
         "expected" => ARRAY,
         "got"      => condition,
         "node"     => node,
-      } unless condition.name == "Array"
+      } unless Comparer.compare(ARRAY, condition)
 
       spreads =
         node.items.select(Ast::Spread).size
@@ -61,8 +70,6 @@ module Mint
 
       node.items.each do |item|
         case item
-        when Ast::Variable
-          variables << {item.value, condition.parameters[0], item}
         when Ast::Spread
           variables << {item.variable.value, condition, item}
         else
@@ -90,15 +97,10 @@ module Mint
         "node" => node,
       } if node.parameters.size > condition.parameters.size
 
-      check!(node)
+      check!(node) # TODO: Remove when compiler is done
 
       node.parameters.each_with_index do |item, index|
-        case item
-        when Ast::Variable
-          variables << {item.value, condition.parameters[index], item}
-        else
-          destructure(item, condition.parameters[index], variables)
-        end
+        destructure(item, condition.parameters[index], variables)
       end
 
       variables
@@ -154,7 +156,7 @@ module Mint
             record =
               resolve(option_param).as(Record)
 
-            variables << {param.value, record.fields[param.value], param}
+            destructure(param, record.fields[param.value], variables)
           end
         end
       else
@@ -181,7 +183,7 @@ module Mint
             resolved_type =
               Comparer.fill(option_type, mapping).not_nil!
 
-            variables << {param.value, resolved_type, param}
+            destructure(param, resolved_type, variables)
           end
         end
       end

@@ -6,7 +6,7 @@ enum A {
 component Main {
   fun render : String {
     case (A::B(name: "Joe", color: "Blue")) {
-      A::B(name, color) => ""
+      A::B(color, name) => color
       A::C => ""
     }
   }
@@ -29,20 +29,26 @@ class C extends _E {
 
 class A extends _C {
   render() {
-    return (() => {
-      let a = new B(new Record({
-        name: `Joe`,
-        color: `Blue`
-      }));
-
-      if (a instanceof B) {
-        const b = a._0.name;
-        const c = a._0.color;
-        return ``;
-      } else if (a instanceof C) {
-        return ``;
-      };
-    })();
+    return _match(new B(new Record({
+      name: `Joe`,
+      color: `Blue`
+    })),[
+      [
+        _PE(B,[
+          _PV,
+          _PV
+        ]),
+        (c, b) => {
+          return b
+        }
+      ],
+      [
+        _PE(C,[]),
+        () => {
+          return ``
+        }
+      ]
+    ]);
   }
 };
 

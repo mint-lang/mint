@@ -30,14 +30,22 @@ class C extends _E {
 
 class A extends _C {
   render() {
-    return (() => {
-      let a = new B(``);
-
-      return (a instanceof B ? (() => {
-        const b = a._0;
-        return b;
-      })() : `b`);
-    })();
+    return _match(new B(``),[
+      [
+        _PE(B,[
+          _PV
+        ]),
+        (a) => {
+          return a
+        }
+      ],
+      [
+        null,
+        () => {
+          return `b`
+        }
+      ]
+    ]);
   }
 };
 

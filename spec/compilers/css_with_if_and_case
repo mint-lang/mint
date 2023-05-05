@@ -23,19 +23,24 @@ class A extends _C {
   $Main_test() {
     const _ = {};
 
-    (() => {
-      let a = true;
-
-      if (_compare(a, true)) {
-        Object.assign(_, {
-          [`--a-a`]: `yellow`
-        })
-      } else {
-        Object.assign(_, {
-          [`--a-a`]: `cyan`
-        })
-      };
-    })();
+    _match(true,[
+      [
+        true,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `yellow`
+          })
+        }
+      ],
+      [
+        null,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `cyan`
+          })
+        }
+      ]
+    ]);
 
     (true ? Object.assign(_, {
       [`--a-a`]: `red`

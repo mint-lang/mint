@@ -8,7 +8,7 @@ module Mint
       condition = compile node.condition
       condition = "await #{condition}" if node.await
 
-      variable, condition_let =
+      variable, _ =
         js.let condition
 
       body =
@@ -19,15 +19,10 @@ module Mint
             _compile branch, index, variable, block
           end
 
-      if node.await
-        js.asynciif do
-          js.statements([condition_let, js.ifchain(body)])
-        end
-      else
-        js.iif do
-          js.statements([condition_let, js.ifchain(body)])
-        end
-      end
+      x =
+        body.map { |(a, b)| js.array([a || "null", b || "null"]) }
+
+      js.call("_match", [condition, js.array(x)])
     end
   end
 end
