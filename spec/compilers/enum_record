@@ -35,8 +35,10 @@ class A extends _C {
     })),[
       [
         _PE(B,[
-          _PV,
-          _PV
+          _PR([
+            _PV,
+            _PV
+          ])
         ]),
         (b, a) => {
           return a

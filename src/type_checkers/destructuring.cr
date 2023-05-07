@@ -142,22 +142,27 @@ module Mint
 
       case option_param = option.parameters[0]?
       when Ast::EnumRecordDefinition
-        node.parameters.each do |param|
-          found = option_param.fields.find do |field|
-            case param
-            when Ast::Variable
-              param.value == field.key.value
-            end
-          end
-
-          raise TypeError.new unless found
+        node.parameters.each_with_index do |param, index|
+          record =
+            resolve(option_param).as(Record)
 
           case param
           when Ast::Variable
-            record =
-              resolve(option_param).as(Record)
+            found = option_param.fields.find do |field|
+              case param
+              when Ast::Variable
+                param.value == field.key.value
+              end
+            end
+
+            raise TypeError.new unless found
 
             destructure(param, record.fields[param.value], variables)
+          else
+            name =
+              option_param.fields[index].key.value
+
+            destructure(param, record.fields[name], variables)
           end
         end
       else
