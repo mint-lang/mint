@@ -1,11 +1,11 @@
 component Main {
-  fun render : String {
+  fun render : Array(String) {
     case ([]) {
-      [] => ""
-      ["a"] => ""
-      [a] => ""
-      [a, b] => ""
-      [a, ...middle, b] => ""
+      [] => [""]
+      ["a"] => ["a"]
+      [a] => [a]
+      [a, b] => [a, b]
+      [a, ...middle, b] => middle
     }
   }
 }
@@ -16,7 +16,7 @@ class A extends _C {
       [
         [],
         () => {
-          return ``
+          return [``]
         }
       ],
       [
@@ -24,7 +24,7 @@ class A extends _C {
           `a`
         ],
         () => {
-          return ``
+          return [`a`]
         }
       ],
       [
@@ -32,7 +32,7 @@ class A extends _C {
           _PV
         ],
         (a) => {
-          return ``
+          return [a]
         }
       ],
       [
@@ -41,7 +41,7 @@ class A extends _C {
           _PV
         ],
         (b, c) => {
-          return ``
+          return [b, c]
         }
       ],
       [
@@ -50,8 +50,8 @@ class A extends _C {
           _PS,
           _PV
         ],
-        (d, e) => {
-          return ``
+        (e, d, f) => {
+          return d
         }
       ]
     ]);

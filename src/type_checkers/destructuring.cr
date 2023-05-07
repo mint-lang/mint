@@ -97,8 +97,6 @@ module Mint
         "node" => node,
       } if node.parameters.size > condition.parameters.size
 
-      check!(node) # TODO: Remove when compiler is done
-
       node.parameters.each_with_index do |item, index|
         destructure(item, condition.parameters[index], variables)
       end
@@ -133,11 +131,14 @@ module Mint
 
       type = resolve(parent)
 
+      unified =
+        Comparer.compare(type, condition)
+
       raise DestructuringTypeMismatch, {
         "expected" => condition,
         "got"      => type,
         "node"     => node,
-      } unless Comparer.compare(type, condition)
+      } unless unified
 
       case option_param = option.parameters[0]?
       when Ast::EnumRecordDefinition
@@ -184,6 +185,18 @@ module Mint
               Comparer.fill(option_type, mapping).not_nil!
 
             destructure(param, resolved_type, variables)
+          else
+            sub_type =
+              case item = option.parameters[index]
+              when Ast::Type
+                resolve(item)
+              when Ast::TypeVariable
+                unified.parameters[parent.parameters.index! { |enum_item| enum_item.value == item.value }]
+              else
+                NEVER # Can't happen
+              end
+
+            destructure(param, sub_type, variables)
           end
         end
       end

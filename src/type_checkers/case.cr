@@ -24,7 +24,7 @@ module Mint
 
       unified =
         node
-          .branches[1..node.branches.size]
+          .branches[(1..)]
           .each_with_index
           .reduce(first) do |resolved, (branch, index)|
             type =
@@ -50,19 +50,24 @@ module Mint
       # type should be the same.
       case condition
       when Type
-        item =
+        parent =
           ast.enums.find(&.name.value.==(condition.name))
 
-        if item
+        if parent
           not_matched =
-            item.options.reject do |option|
+            parent.options.reject do |option|
               node
                 .branches
                 .compact_map(&.match)
                 .any? do |match|
                   case match
                   when Ast::EnumDestructuring
-                    match.option.value == option.value.value
+                    match.option.value == option.value.value &&
+                      !match.parameters.any? do |item|
+                        item.is_a?(Ast::TupleDestructuring) ||
+                          item.is_a?(Ast::EnumDestructuring) ||
+                          item.is_a?(Ast::ArrayDestructuring)
+                      end
                   else
                     false
                   end
@@ -75,7 +80,7 @@ module Mint
 
           options =
             not_matched.map do |option|
-              "#{format item.name}::#{formatter.replace_skipped(format(option))}"
+              "#{format parent.name}::#{formatter.replace_skipped(format(option))}"
             end
 
           raise CaseEnumNotCovered, {
@@ -84,7 +89,15 @@ module Mint
           } if !not_matched.empty? && !catch_all
         elsif condition.name == "Array"
           destructurings =
-            node.branches.map(&.match).select(Ast::ArrayDestructuring)
+            node.branches
+              .map(&.match)
+              .select(Ast::ArrayDestructuring)
+              .select do |branch|
+                branch.items.all? do |item|
+                  item.is_a?(Ast::Variable) ||
+                    item.is_a?(Ast::Spread)
+                end
+              end
 
           covers_cases =
             if destructurings.empty?

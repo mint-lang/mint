@@ -35,6 +35,7 @@ module Mint
     end
 
     def destructuring(node : Ast::Spread, variables : Array(String))
+      variables << js.variable_of(node)
       "_PS"
     end
 

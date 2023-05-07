@@ -267,8 +267,8 @@ module Mint
         const _E = mint.Enum
 
         const _PE = (x, pattern) => new Pattern(x, pattern)
-        const _PV = Symbol();
-        const _PS = Symbol();
+        const _PV = Symbol("Variable");
+        const _PS = Symbol("Sperad");
 
         class Pattern {
           constructor(x,pattern) {
@@ -280,26 +280,58 @@ module Mint
         const __match = (value, pattern, values = []) => {
           if (value === null) {
           } else if (Array.isArray(pattern)) { // This covers tuples and arrays (they are the same)
-            // TODO: Spread detection
-            pattern.forEach((item, index) => {
-              if (!__match(value[index], item, values)) {
-                return false
-              }
-            })
-          } else if (pattern instanceof Pattern) {
-            if (value instanceof pattern.x) {
-              pattern.pattern.forEach((item, index) => {
-                if (!__match(value[`_${index}`], item, values)) {
+            const hasSpread = pattern.some((item) => item === _PS)
+
+            if (hasSpread && value.length >= (pattern.length - 1)) {
+              let endValues = []
+              let startIndex = 0
+
+              while (pattern[startIndex] !== _PS && startIndex < pattern.length) {
+                if (!__match(value[startIndex], pattern[startIndex], values)) {
                   return false
                 }
-              })
+                startIndex++
+              }
+
+              let endIndex = 1
+
+              while (pattern[pattern.length - endIndex] !== _PS && endIndex < pattern.length) {
+                if (!__match(value[value.length - endIndex], pattern[pattern.length - endIndex], endValues)) {
+                  return false
+                }
+                endIndex++
+              }
+
+              // Add in the spread
+              values.push(value.slice(startIndex, value.length - (endIndex - 1)))
+
+              // Add in the end values
+              for (let item of endValues) {
+                values.push(item)
+              }
+            } else {
+              if (pattern.length !== value.length) {
+                return false
+              } else {
+                for (let index in pattern) {
+                  if (!__match(value[index], pattern[index], values)) {
+                    return false
+                  }
+                }
+              }
+            }
+          } else if (pattern instanceof Pattern) {
+            if (value instanceof pattern.x) {
+              for (let index in pattern.pattern) {
+                if (!__match(value[`_${index}`], pattern.pattern[index], values)) {
+                  return false
+                }
+              }
             } else {
               return false
             }
           } else if (pattern === _PV) {
             values.push(value)
-          } else if (pattern === _PS) {
-            values.push([]) // TODO: Remove and move the the first branch
           } else {
             if (!_compare(value, pattern)) {
               return false
