@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         name = start do
           next unless keyword "::"
-          next unless value = variable_with_dashes track: true
+          next unless value = variable_with_dashes track: false
           value
         end
 
@@ -23,7 +23,7 @@ module Mint
           char ')', HtmlStyleExpectedClosingParentheses
         end
 
-        self << Ast::HtmlStyle.new(
+        Ast::HtmlStyle.new(
           arguments: arguments,
           from: start_position,
           to: position,
