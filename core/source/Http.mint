@@ -334,7 +334,7 @@ module Http {
             (new DOMParser()).parseFromString(responseText, "text/html");
 
           const errorNode =
-            doc.querySelector("parsererror");
+            object.querySelector("parsererror");
 
           if (errorNode) {
             body = #{Http.ResponseBody::Text(`responseText`)};
@@ -346,7 +346,7 @@ module Http {
             (new DOMParser()).parseFromString(responseText, "application/xml");
 
           const errorNode =
-            doc.querySelector("parsererror");
+            object.querySelector("parsererror");
 
           if (errorNode) {
             body = #{Http.ResponseBody::Text(`responseText`)};
