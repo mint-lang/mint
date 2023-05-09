@@ -1,0 +1,74 @@
+enum Test {
+  Item(
+    matchString : String,
+    content : String,
+    key : String)
+  None
+}
+
+component Main {
+  fun content (item : Test) : String {
+    case item {
+      Test::Item(content) => content
+      Test::None => ""
+    }
+  }
+
+  fun render : String {
+    content(
+      Test::Item(
+        matchString: "MATCHSTRING",
+        content: "CONTENT",
+        key: "KEY"))
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class A extends _C {
+  a(b) {
+    return _match(b,[
+      [
+        _PE(B,[
+          _PR([
+            null,
+            _PV,
+            null
+          ])
+        ]),
+        (c) => {
+          return c
+        }
+      ],
+      [
+        _PE(C,[]),
+        () => {
+          return ``
+        }
+      ]
+    ]);
+  }
+
+  render() {
+    return this.a(new B(new Record({
+      matchString: `MATCHSTRING`,
+      content: `CONTENT`,
+      key: `KEY`
+    })));
+  }
+};
+
+A.displayName = "Main";
