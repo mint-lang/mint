@@ -268,8 +268,8 @@ module Mint
 
         const _PR = (patterns) => new RecordPattern(patterns)
         const _PE = (x, pattern) => new Pattern(x, pattern)
-        const _PV = Symbol("Variable");
-        const _PS = Symbol("Sperad");
+        const _PV = Symbol("Variable")
+        const _PS = Symbol("Spread")
 
         class RecordPattern {
           constructor(patterns) {

@@ -24,7 +24,7 @@ module Mint
 
       unified =
         node
-          .branches[(1..)]
+          .branches[1..]
           .each_with_index
           .reduce(first) do |resolved, (branch, index)|
             type =
@@ -91,7 +91,7 @@ module Mint
             node.branches
               .map(&.match)
               .select(Ast::ArrayDestructuring)
-              .select do |branch|
+              .select! do |branch|
                 branch.items.all? do |item|
                   item.is_a?(Ast::Variable) ||
                     item.is_a?(Ast::Spread)
@@ -128,8 +128,8 @@ module Mint
           } if !covered && !catch_all
         elsif condition.name == "Tuple"
           destructured =
-            node.branches.map(&.match).any? do |match|
-              case match
+            node.branches.any? do |branch|
+              case match = branch.match
               when Ast::TupleDestructuring
                 match.parameters.all?(Ast::Variable)
               else
