@@ -12,16 +12,7 @@ module Mint
         next unless keyword "const"
         whitespace
 
-        head =
-          gather { chars &.ascii_uppercase? }
-
-        tail =
-          gather { chars { |char| char.ascii_uppercase? || char.ascii_number? || char == '_' } }
-
-        raise ConstantExpectedName unless head || tail
-
-        name =
-          "#{head}#{tail}"
+        name = variable_constant!
 
         whitespace
         char '=', ConstantExpectedEqualSign

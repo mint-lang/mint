@@ -41,6 +41,26 @@ module Mint
       end
     end
 
+    def variable_constant! : Ast::Variable
+      start do |start_position|
+        head =
+          gather { chars &.ascii_uppercase? }
+
+        tail =
+          gather { chars { |char| char.ascii_uppercase? || char.ascii_number? || char == '_' } }
+
+        raise ConstantExpectedName unless head
+
+        value = "#{head}#{tail}"
+
+        Ast::Variable.new(
+          from: start_position,
+          value: value,
+          to: position,
+          input: data)
+      end
+    end
+
     def variable!(error : SyntaxError.class, track = true) : Ast::Variable
       variable(track) || raise error
     end

@@ -20,7 +20,7 @@ module Mint
           store.functions.find(&.name.value.==(key_value)) ||
             store.states.find(&.name.value.==(key_value)) ||
             store.gets.find(&.name.value.==(key_value)) ||
-            store.constants.find(&.name.==(key_value))
+            store.constants.find(&.name.value.==(key_value))
 
         raise ConnectNotFoundMember, {
           "key"   => key_value,
