@@ -1,5 +1,7 @@
 module Mint
   class Parser
+    INVALID_VARIABLES = %w[true false]
+
     def variable_attribute_name : Ast::Variable?
       start do |start_position|
         value = gather do
@@ -53,7 +55,7 @@ module Mint
         end
 
         next unless value
-        next if value.in?(%w[true false])
+        next if value.in?(INVALID_VARIABLES)
 
         node = Ast::Variable.new(
           from: start_position,

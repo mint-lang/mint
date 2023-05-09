@@ -58,9 +58,8 @@ module Mint
             parent.options.reject do |option|
               node
                 .branches
-                .compact_map(&.match)
-                .any? do |match|
-                  case match
+                .any? do |branch|
+                  case match = branch.match
                   when Ast::EnumDestructuring
                     match.option.value == option.value.value &&
                       !match.parameters.any? do |item|
