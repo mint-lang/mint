@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         head = start do
           next unless char! '['
-          value = variable || spread
+          value = spread || destructuring
           whitespace
           char! ','
           whitespace
@@ -17,7 +17,7 @@ module Mint
 
         items =
           [head.as(Ast::Node)] &+ list(terminator: ']', separator: ',') do
-            variable || spread
+            spread || destructuring
           end
 
         whitespace

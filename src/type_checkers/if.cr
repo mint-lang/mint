@@ -11,7 +11,7 @@ module Mint
         case item = node.condition
         when Ast::Statement
           if item.target.is_a?(Ast::EnumDestructuring)
-            destructuring_variables(item.target.as(Ast::EnumDestructuring), condition)
+            destructure(item.target.as(Ast::EnumDestructuring), condition)
           end
         end || [] of Ast::Node
 

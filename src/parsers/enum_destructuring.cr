@@ -19,7 +19,7 @@ module Mint
           parameters.concat list(
             terminator: ')',
             separator: ','
-          ) { type_variable }
+          ) { destructuring }
 
           whitespace
           char ')', EnumDestructuringExpectedClosingParentheses

@@ -15,20 +15,38 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let a = [`A`, 0, true];
-
-      if (_compare(a, [`A`, 0, false])) {
-        return `B`
-      } else if (_compare(a, [`A`, 0, true])) {
-        return `A`
-      } else if (Array.isArray(a)) {
-        const b = a[0];
-        const c = a[1];
-        const d = a[2];
-        return b;
-      };
-    })();
+    return _match([`A`, 0, true],[
+      [
+        [
+          `A`,
+          0,
+          false
+        ],
+        () => {
+          return `B`
+        }
+      ],
+      [
+        [
+          `A`,
+          0,
+          true
+        ],
+        () => {
+          return `A`
+        }
+      ],
+      [
+        [
+          _PV,
+          _PV,
+          _PV
+        ],
+        (a, b, c) => {
+          return a
+        }
+      ]
+    ]);
   }
 };
 

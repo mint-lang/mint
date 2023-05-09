@@ -1,4 +1,4 @@
-message CaseBranchMultipleSpreads do
+message DestructuringMultipleSpreads do
   title "Type Error"
 
   block do
@@ -8,7 +8,7 @@ message CaseBranchMultipleSpreads do
   end
 
   block do
-    text "An array destructuring can only contain one spread notations"
+    text "An array destructuring can only contain one spread notation."
   end
 
   snippet node

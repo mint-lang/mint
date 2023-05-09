@@ -5,12 +5,7 @@ module Mint
     def case_branch(for_css : Bool = false) : Ast::CaseBranch?
       start do |start_position|
         unless keyword "=>"
-          match =
-            constant_access ||
-              enum_destructuring ||
-              tuple_destructuring ||
-              array_destructuring ||
-              expression
+          match = destructuring
           whitespace
           next unless keyword "=>"
         end

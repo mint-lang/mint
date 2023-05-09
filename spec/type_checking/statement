@@ -3,13 +3,13 @@ component Main {
     let x = "hello"
   }
 }
----------------------------------------------------------------StatementNotTuple
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     let {x, y, z} = "hello"
   }
 }
-----------------------------------------------------------StatementTupleMismatch
+-----------------------------------------------------DestructuringTupleMismatch
 component Main {
   fun render : String {
     let {x, y, z} = {"hello", "a"}

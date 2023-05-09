@@ -1,36 +1,38 @@
 component Main {
-  fun test : Bool {
+  fun render : String {
     case ("Hello") {
       "test" => true
       "Hello" => false
       => false
     }
-  }
-
-  fun render : String {
-    test()
 
     ""
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
-  a() {
-    return (() => {
-      let b = `Hello`;
-
-      if (_compare(b, `test`)) {
-        return true
-      } else if (_compare(b, `Hello`)) {
-        return false
-      } else {
-        return false
-      };
-    })();
-  }
-
   render() {
-    this.a();
+    _match(`Hello`,[
+      [
+        `test`,
+        () => {
+          return true
+        }
+      ],
+      [
+        `Hello`,
+        () => {
+          return false
+        }
+      ],
+      [
+        null,
+        () => {
+          return false
+        }
+      ]
+    ]);
+
     return ``;
   }
 };

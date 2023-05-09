@@ -32,12 +32,12 @@ component Main {
 --------------------------------------------------------------------------------
 const B = new(class extends _M {
   a(b) {
-    const f = (c, d) => {
-      return (_compare(c, 0) ? d : e(c - 1, d * c))
+    const f = (e, c) => {
+      return (_compare(e, 0) ? c : d(e - 1, c * e))
     };
 
-    const e = (g, h) => {
-      return (_compare(g, 0) ? h : f(g - 1, h * g))
+    const d = (h, g) => {
+      return (_compare(h, 0) ? g : f(h - 1, g * h))
     };
 
     return f(b, 1);

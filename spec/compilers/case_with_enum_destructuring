@@ -51,24 +51,31 @@ class B extends _E {
 
 class A extends _C {
   a(b) {
-    return (() => {
-      let c = b;
-
-      if (c instanceof B) {
-        return ``;
-      } else if (c instanceof D) {
-        const d = c._0;
-
-        return (() => {
-          let e = d;
-
-          if (e instanceof C) {
-            const f = e._0;
-            return f;
-          };
-        })();
-      };
-    })();
+    return _match(b,[
+      [
+        _PE(B,[]),
+        () => {
+          return ``
+        }
+      ],
+      [
+        _PE(D,[
+          _PV
+        ]),
+        (c) => {
+          return _match(c,[
+            [
+              _PE(C,[
+                _PV
+              ]),
+              (d) => {
+                return d
+              }
+            ]
+          ])
+        }
+      ]
+    ]);
   }
 
   render() {

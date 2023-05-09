@@ -7,7 +7,7 @@ component Main {
     }
   }
 }
------------------------------------------------------CaseBranchNotMatchCondition
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     case ("x") {
@@ -17,7 +17,7 @@ component Main {
     }
   }
 }
--------------------------------------------------------CaseBranchMultipleSpreads
+---------------------------------------------------DestructuringMultipleSpreads
 component Main {
   fun render : String {
     case ([]) {
@@ -25,7 +25,7 @@ component Main {
     }
   }
 }
---------------------------------------------------------------CaseBranchNotArray
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     case ("") {
@@ -33,7 +33,7 @@ component Main {
     }
   }
 }
----------------------------------------------------------CaseBranchTupleMismatch
+-----------------------------------------------------DestructuringTupleMismatch
 component Main {
   fun render : String {
     case ({"a", "b"}) {
@@ -41,7 +41,7 @@ component Main {
     }
   }
 }
---------------------------------------------------------------CaseBranchNotTuple
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     case ("") {
@@ -49,7 +49,7 @@ component Main {
     }
   }
 }
----------------------------------------------------------CaseBranchNotMatchCondition
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     case ({"a", "b"}) {
@@ -57,7 +57,7 @@ component Main {
     }
   }
 }
----------------------------------------------------------CaseBranchNotTuple
+------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     case ({"a", "b"}) {

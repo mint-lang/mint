@@ -1,4 +1,4 @@
-message EnumDestructuringNoParameter do
+message DestructuringNoParameter do
   title "Type Error"
 
   block do

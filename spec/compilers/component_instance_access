@@ -61,16 +61,22 @@ class B extends _C {
   }
 
   b() {
-    return (() => {
-      let d = this.c;
-
-      if (d instanceof C) {
-        const e = d._0;
-        return e.a;
-      } else if (d instanceof D) {
-        return ``;
-      };
-    })();
+    return _match(this.c,[
+      [
+        _PE(C,[
+          _PV
+        ]),
+        (d) => {
+          return d.a
+        }
+      ],
+      [
+        _PE(D,[]),
+        () => {
+          return ``
+        }
+      ]
+    ]);
   }
 
   render() {

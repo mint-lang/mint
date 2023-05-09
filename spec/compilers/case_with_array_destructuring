@@ -1,38 +1,60 @@
 component Main {
-  fun render : String {
+  fun render : Array(String) {
     case ([]) {
-      [] => ""
-      ["a"] => ""
-      [a] => ""
-      [a, b] => ""
-      [a, ...middle, b] => ""
+      [] => [""]
+      ["a"] => ["a"]
+      [a] => [a]
+      [a, b] => [a, b]
+      [a, ...middle, b] => middle
     }
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return (() => {
-      let a = [];
-
-      if (_compare(a, [])) {
-        return ``
-      } else if (_compare(a, [`a`])) {
-        return ``
-      } else if (Array.isArray(a) && a.length === 1) {
-        const [b] = a;
-        return ``;
-      } else if (Array.isArray(a) && a.length === 2) {
-        const [c,d] = a;
-        return ``;
-      } else if (Array.isArray(a) && a.length >= 2) {
-        const __ = Array.from(a);
-        const e = __.shift();
-        const f = __.pop();
-        const g = __;
-        return ``;
-      };
-    })();
+    return _match([],[
+      [
+        [],
+        () => {
+          return [``]
+        }
+      ],
+      [
+        [
+          `a`
+        ],
+        () => {
+          return [`a`]
+        }
+      ],
+      [
+        [
+          _PV
+        ],
+        (a) => {
+          return [a]
+        }
+      ],
+      [
+        [
+          _PV,
+          _PV
+        ],
+        (b, c) => {
+          return [b, c]
+        }
+      ],
+      [
+        [
+          _PV,
+          _PS,
+          _PV
+        ],
+        (e, d, f) => {
+          return d
+        }
+      ]
+    ]);
   }
 };
 

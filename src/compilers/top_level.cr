@@ -266,6 +266,113 @@ module Mint
         const _S = mint.Store
         const _E = mint.Enum
 
+        const _PR = (patterns) => new RecordPattern(patterns)
+        const _PE = (x, pattern) => new Pattern(x, pattern)
+        const _PV = Symbol("Variable")
+        const _PS = Symbol("Spread")
+
+        class RecordPattern {
+          constructor(patterns) {
+            this.patterns = patterns
+          }
+        }
+
+        class Pattern {
+          constructor(x,pattern) {
+            this.pattern = pattern;
+            this.x = x;
+          }
+        }
+
+        const __match = (value, pattern, values = []) => {
+          if (value === null || pattern === null) {
+          } else if (Array.isArray(pattern)) { // This covers tuples and arrays (they are the same)
+            const hasSpread = pattern.some((item) => item === _PS)
+
+            if (hasSpread && value.length >= (pattern.length - 1)) {
+              let endValues = []
+              let startIndex = 0
+
+              while (pattern[startIndex] !== _PS && startIndex < pattern.length) {
+                if (!__match(value[startIndex], pattern[startIndex], values)) {
+                  return false
+                }
+                startIndex++
+              }
+
+              let endIndex = 1
+
+              while (pattern[pattern.length - endIndex] !== _PS && endIndex < pattern.length) {
+                if (!__match(value[value.length - endIndex], pattern[pattern.length - endIndex], endValues)) {
+                  return false
+                }
+                endIndex++
+              }
+
+              // Add in the spread
+              values.push(value.slice(startIndex, value.length - (endIndex - 1)))
+
+              // Add in the end values
+              for (let item of endValues) {
+                values.push(item)
+              }
+            } else {
+              if (pattern.length !== value.length) {
+                return false
+              } else {
+                for (let index in pattern) {
+                  if (!__match(value[index], pattern[index], values)) {
+                    return false
+                  }
+                }
+              }
+            }
+          } else if (pattern instanceof Pattern) {
+            if (value instanceof pattern.x) {
+              for (let index in pattern.pattern) {
+                if (!__match(value[`_${index}`], pattern.pattern[index], values)) {
+                  return false
+                }
+              }
+            } else {
+              return false
+            }
+          } else if (pattern instanceof RecordPattern && value instanceof Record) {
+            /* The fields should be in order. */
+            let index = 0;
+
+            for (let key in value) {
+              if (!__match(value[key], pattern.patterns[index], values)) {
+                return false
+              }
+
+              index++
+            }
+          } else if (pattern === _PV) {
+            values.push(value)
+          } else {
+            if (!_compare(value, pattern)) {
+              return false
+            }
+          }
+
+          return values;
+        }
+
+        const _match = (value, patterns) => {
+          for (let pattern of patterns) {
+            if (pattern[0] === null) {
+              return pattern[1]()
+            } else {
+              const values = __match(value, pattern[0]);
+
+              if (values) {
+                return pattern[1].apply(null, values)
+              }
+            }
+          }
+        }
+
         const _m = (method) => {
           let value
           return () => {

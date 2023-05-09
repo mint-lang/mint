@@ -8,26 +8,15 @@ module Mint
       condition = compile node.condition
       condition = "await #{condition}" if node.await
 
-      variable, condition_let =
-        js.let condition
-
-      body =
+      branches =
         node
           .branches
           .sort_by(&.match.nil?.to_s)
-          .map_with_index do |branch, index|
-            _compile branch, index, variable, block
+          .map do |branch|
+            _compile branch, block
           end
 
-      if node.await
-        js.asynciif do
-          js.statements([condition_let, js.ifchain(body)])
-        end
-      else
-        js.iif do
-          js.statements([condition_let, js.ifchain(body)])
-        end
-      end
+      js.call("_match", [condition, js.array(branches)])
     end
   end
 end

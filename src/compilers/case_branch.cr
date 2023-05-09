@@ -1,46 +1,30 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::CaseBranch,
-                 index : Int32,
-                 variable : String,
-                 block : Proc(String, String)? = nil) : Tuple(String?, String)
+    def _compile(node : Ast::CaseBranch, block : Proc(String, String)? = nil) : String
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
-          compiled =
-            if block
-              _compile item, block
-            else
-              "{}"
-            end
+          if block
+            _compile item, block
+          else
+            "{}"
+          end
         when Ast::Node
-          js.return(compile(item))
+          compile(item)
         else
           ""
         end
 
       if match = node.match
-        case match
-        when Ast::ArrayDestructuring, Ast::TupleDestructuring, Ast::EnumDestructuring
-          compiled =
-            _compile(match, variable)
+        variables =
+          [] of String
 
-          compiled[1] << expression
-          {
-            compiled[0],
-            js.statements(compiled[1]),
-          }
-        else
-          compiled =
-            compile match
+        matcher =
+          destructuring(match, variables)
 
-          {
-            "_compare(#{variable}, #{compiled})",
-            expression,
-          }
-        end
+        js.array([matcher, js.arrow_function(variables, js.return(expression))])
       else
-        {nil, expression}
+        js.array(["null", js.arrow_function([] of String, js.return(expression))])
       end
     end
   end
