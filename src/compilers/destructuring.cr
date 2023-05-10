@@ -64,7 +64,7 @@ module Mint
         case option = lookups[node].as(Ast::EnumOption).parameters.first?
         when Ast::EnumRecordDefinition
           fields =
-            option.fields.map do |field|
+            option.fields.map_with_index do |field, index|
               param =
                 node.parameters.find do |item|
                   case item
@@ -75,7 +75,11 @@ module Mint
                   end
                 end
 
-              destructuring(param, variables)
+              if param
+                destructuring(param, variables)
+              else
+                destructuring(node.parameters[index]?, variables)
+              end
             end
 
           [js.call("_PR", [js.array(fields)])]
