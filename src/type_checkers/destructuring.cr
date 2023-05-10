@@ -140,7 +140,7 @@ module Mint
         "node"     => node,
       } unless unified
 
-      case option_param = option.parameters[0]?
+      case option_param = option.parameters.first?
       when Ast::EnumRecordDefinition
         node.parameters.each_with_index do |param, index|
           record =

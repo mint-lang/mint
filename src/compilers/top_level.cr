@@ -285,7 +285,9 @@ module Mint
         }
 
         const __match = (value, pattern, values = []) => {
-          if (value === null || pattern === null) {
+          if (pattern === null) {
+          } else if (pattern === _PV) {
+            values.push(value)
           } else if (Array.isArray(pattern)) { // This covers tuples and arrays (they are the same)
             const hasSpread = pattern.some((item) => item === _PS)
 
@@ -338,18 +340,13 @@ module Mint
               return false
             }
           } else if (pattern instanceof RecordPattern && value instanceof Record) {
-            /* The fields should be in order. */
-            let index = 0;
+            for (let index in pattern.patterns) {
+              const item = pattern.patterns[index];
 
-            for (let key in value) {
-              if (!__match(value[key], pattern.patterns[index], values)) {
+              if (!__match(value[item[0]], item[1], values)) {
                 return false
               }
-
-              index++
             }
-          } else if (pattern === _PV) {
-            values.push(value)
           } else {
             if (!_compare(value, pattern)) {
               return false

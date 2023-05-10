@@ -44,9 +44,10 @@ class A extends _C {
       [
         _PE(B,[
           _PR([
-            null,
-            _PV,
-            null
+            [
+              "content",
+              _PV
+            ]
           ])
         ]),
         (c) => {

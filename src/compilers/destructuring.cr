@@ -61,32 +61,23 @@ module Mint
 
     def destructuring(node : Ast::EnumDestructuring, variables : Array(String))
       items =
-        case option = lookups[node].as(Ast::EnumOption).parameters.first?
+        case lookups[node].as(Ast::EnumOption).parameters.first?
         when Ast::EnumRecordDefinition
-          fields =
-            option.fields.map_with_index do |field, index|
-              param =
-                node.parameters.find do |item|
-                  case item
-                  when Ast::Variable
-                    item.value == field.key.value
-                  else
-                    false
-                  end
-                end
+          params = node.parameters.select(Ast::Variable)
 
-              if param
-                destructuring(param, variables)
-              else
-                destructuring(node.parameters[index]?, variables)
+          if !params.empty?
+            fields =
+              params.map do |param|
+                js.array([
+                  "\"#{param.value}\"",
+                  destructuring(param, variables),
+                ])
               end
-            end
 
-          [js.call("_PR", [js.array(fields)])]
-        else
-          node.parameters.map do |param|
-            destructuring(param, variables)
+            [js.call("_PR", [js.array(fields)])]
           end
+        end || node.parameters.map do |param|
+          destructuring(param, variables)
         end
 
       js.call("_PE", [js.class_of(lookups[node]), js.array(items)])
