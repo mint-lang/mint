@@ -54,7 +54,7 @@ module Mint
           match(statement.expression, [
             {target, truthy},
             {nil, falsy},
-          ])
+          ], statement.await)
         else
           "(#{compile(statement.expression)} ? #{truthy} : #{falsy})"
         end

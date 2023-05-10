@@ -1,0 +1,56 @@
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = await T::A("")) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class A extends _C {
+  render() {
+    return (async () => {
+      let b = await new B(``);
+
+      return _match(b,[
+        [
+          _PE(B,[
+            _PV
+          ]),
+          (a) => {
+            return a
+          }
+        ],
+        [
+          null,
+          () => {
+            return `b`
+          }
+        ]
+      ]);
+    })();
+  }
+};
+
+A.displayName = "Main";

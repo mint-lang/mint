@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def match(condition : Ast::Node, branches : Array(Tuple(Ast::Node?, String)))
+    def match(condition : Ast::Node, branches : Array(Tuple(Ast::Node?, String)), await : Bool)
       items =
         branches.map do |(pattern, expression)|
           variables =
@@ -18,7 +18,19 @@ module Mint
       compiled =
         compile(condition)
 
-      js.call("_match", [compiled, js.array(items)])
+      if await
+        variable, condition_let =
+          js.let "await #{compiled}"
+
+        js.asynciif do
+          js.statements([
+            condition_let,
+            js.return(js.call("_match", [variable, js.array(items)])),
+          ])
+        end
+      else
+        js.call("_match", [compiled, js.array(items)])
+      end
     end
 
     def destructuring(node : Nil, variables : Array(String))
@@ -49,7 +61,7 @@ module Mint
 
     def destructuring(node : Ast::EnumDestructuring, variables : Array(String))
       items =
-        case option = lookups[node].as(Ast::EnumOption).parameters[0]?
+        case option = lookups[node].as(Ast::EnumOption).parameters.first?
         when Ast::EnumRecordDefinition
           fields =
             option.fields.map do |field|

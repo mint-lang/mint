@@ -6,7 +6,6 @@ module Mint
 
     def _compile(node : Ast::Case, block : Proc(String, String)? = nil) : String
       condition = compile node.condition
-      condition = "await #{condition}" if node.await
 
       branches =
         node
@@ -16,7 +15,19 @@ module Mint
             _compile branch, block
           end
 
-      js.call("_match", [condition, js.array(branches)])
+      if node.await
+        variable, condition_let =
+          js.let "await #{condition}"
+
+        js.asynciif do
+          js.statements([
+            condition_let,
+            js.return(js.call("_match", [variable, js.array(branches)])),
+          ])
+        end
+      else
+        js.call("_match", [condition, js.array(branches)])
+      end
     end
   end
 end
