@@ -12,6 +12,8 @@ module Mint
             case expression = node.expression
             when Ast::Operation
               if expression.operator == "or" && expression.right.is_a?(Ast::ReturnCall)
+                # Resolve the retuned expression so it can be used later
+                resolve expression.right.as(Ast::ReturnCall).expression
                 resolve expression.left
               end
             end
@@ -20,8 +22,6 @@ module Mint
 
       type =
         type.parameters.first if node.await && type.name == "Promise"
-
-      destructure(node.target, type)
 
       types[node] = type
     end

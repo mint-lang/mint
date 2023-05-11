@@ -243,15 +243,6 @@ module Mint
               NEVER
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            when Ast::Statement
-              expression =
-                node.expression
-
-              if expression.is_a?(Ast::InlineFunction)
-                static_type_signature(expression)
-              else
-                resolve expression
-              end
             else
               raise Recursion, {
                 "caller_node" => @stack.last,

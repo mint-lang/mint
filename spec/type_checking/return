@@ -6,8 +6,22 @@ enum Test {
 component Main {
   fun render : String {
     let Test::B(x) =
-      Test::A("Hello") or return `YES`
+      Test::A("Hello") or return "YES"
 
-    `NO`
+    "NO"
+  }
+}
+-------------------------------------------------------------ReturnTypeMismatch
+enum Test {
+  A(String)
+  B(String)
+}
+
+component Main {
+  fun render : String {
+    let Test::B(x) =
+      Test::A("Hello") or return 0
+
+    x
   }
 }
