@@ -1,0 +1,82 @@
+/* Comment for Status enum. */
+enum Status {
+  Error
+  Ok
+}
+----------------------------------------------------------------file status.mint
+module Test {
+  fun toString (status : Status) : String {
+    case status {
+      Status::Error => "Error"
+      Status::Ok => "Ok"
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 14
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 3,
+        "character": 14
+      },
+      "end": {
+        "line": 3,
+        "character": 19
+      }
+    },
+    "targetUri": "file://#{root_path}/status.mint",
+    "targetRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 3,
+        "character": 2
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 7
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

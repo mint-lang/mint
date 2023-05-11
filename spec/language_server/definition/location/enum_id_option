@@ -1,0 +1,60 @@
+enum Status {
+  Error
+  Ok
+}
+----------------------------------------------------------------file status.mint
+component Test {
+  state status : Status = Status::Ok
+
+  fun render : Html {
+    <div />
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 1,
+      "character": 35
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 4
+      }
+    },
+    "uri": "file://#{root_path}/status.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

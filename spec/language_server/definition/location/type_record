@@ -1,0 +1,63 @@
+record Article {
+  id : Number,
+  description : String,
+  title : String
+}
+---------------------------------------------------------------file article.mint
+module Test {
+  fun test : Article {
+    {
+      id: 1,
+      description: "Mint Lang",
+      title: "Mint"
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 1,
+      "character": 14
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 0,
+        "character": 7
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "uri": "file://#{root_path}/article.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

@@ -1,0 +1,78 @@
+enum Status {
+  Error
+  Ok
+}
+----------------------------------------------------------------file status.mint
+module Test {
+  fun success : Status {
+    Status::Ok
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 1,
+      "character": 17
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 16
+      },
+      "end": {
+        "line": 1,
+        "character": 22
+      }
+    },
+    "targetUri": "file://#{root_path}/status.mint",
+    "targetRange": {
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 1
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 0,
+        "character": 5
+      },
+      "end": {
+        "line": 0,
+        "character": 11
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response
