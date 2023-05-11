@@ -3,7 +3,7 @@ module Mint
     def check(node : Ast::Routes) : Checkable
       resolve node.routes
 
-      NEVER
+      VOID
     end
   end
 end

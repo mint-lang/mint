@@ -32,7 +32,7 @@ module Mint
         resolve node.gets
       end
 
-      NEVER
+      VOID
     end
   end
 end
