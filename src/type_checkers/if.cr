@@ -5,7 +5,12 @@ module Mint
 
     def check(node : Ast::If) : Checkable
       condition =
-        resolve node.condition
+        case item = node.condition
+        when Ast::Statement
+          resolve item, false
+        else
+          resolve item
+        end
 
       variables =
         case item = node.condition

@@ -13,6 +13,10 @@ module Mint
         statements.select(Ast::Statement).any?(&.await)
       end
 
+      def early_return?
+        statements.select(Ast::Statement).any?(&.return?)
+      end
+
       def static?
         statements.all?(&.static?)
       end

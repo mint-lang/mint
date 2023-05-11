@@ -12,6 +12,13 @@ module Mint
                      @from : Int32,
                      @to : Int32)
       end
+
+      def return?
+        case item = expression
+        when Ast::Operation
+          item.operator == "or" && item.right.is_a?(Ast::ReturnCall)
+        end
+      end
     end
   end
 end

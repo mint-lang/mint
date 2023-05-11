@@ -11,6 +11,9 @@ module Mint
       last =
         cache[statements.last]
 
+      if node.early_return?
+      end
+
       if node.async? && last.name != "Promise"
         Type.new("Promise", [last] of Checkable)
       else
