@@ -1,0 +1,29 @@
+store Test {
+  state text : String = ""
+
+  fun load (text : String) : Promise(Void) {
+    next { text: text }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 12
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": null,
+  "id": 0
+}
+------------------------------------------------------------------------response

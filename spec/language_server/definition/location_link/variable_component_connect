@@ -1,0 +1,80 @@
+component Test {
+  connect Theme exposing { primary }
+
+  fun render : Html {
+    <div>
+      <{ primary }>
+    </div>
+  }
+}
+------------------------------------------------------------------file test.mint
+store Theme {
+  state primary : String = "#00a0e8"
+}
+-----------------------------------------------------------------file store.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 5,
+      "character": 9
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 5,
+        "character": 9
+      },
+      "end": {
+        "line": 5,
+        "character": 16
+      }
+    },
+    "targetUri": "file://#{root_path}/test.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 2
+      },
+      "end": {
+        "line": 1,
+        "character": 36
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 27
+      },
+      "end": {
+        "line": 1,
+        "character": 34
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

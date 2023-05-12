@@ -1,0 +1,94 @@
+record Article {
+  id : Number,
+  description : String,
+  title : String
+}
+
+store Test {
+  state article : Article =
+    {
+      id: 1,
+      description: "Mint Lang",
+      title: "Mint"
+    }
+
+  fun load : Promise(Void) {
+    next
+      {
+        article:
+          {
+            id: 1,
+            description: "Mint Lang",
+            title: "Mint"
+          }
+      }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 20,
+      "character": 12
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 20,
+        "character": 12
+      },
+      "end": {
+        "line": 20,
+        "character": 23
+      }
+    },
+    "targetUri": "file://#{root_path}/test.mint",
+    "targetRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 22
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 2,
+        "character": 13
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

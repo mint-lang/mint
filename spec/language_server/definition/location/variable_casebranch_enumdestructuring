@@ -1,0 +1,61 @@
+enum Status {
+  Error
+  Ok(text : String)
+}
+
+module Test {
+  fun toString (status : Status) : String {
+    case status {
+      Status::Ok(text) => text
+      Status::Error => "error"
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 8,
+      "character": 26
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 17
+      },
+      "end": {
+        "line": 8,
+        "character": 21
+      }
+    },
+    "uri": "file://#{root_path}/test.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response
