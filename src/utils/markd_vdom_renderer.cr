@@ -33,45 +33,41 @@ module Mint
 
         tag(tag_name)
       else
-        tag_end node
+        tag_end(node)
       end
     end
 
     def paragraph(node, entering)
-      if (grand_parant = node.parent?.try &.parent?) && grand_parant.type.list?
-        return if grand_parant.data["tight"]
+      if (grand_parent = node.parent?.try &.parent?) && grand_parent.type.list?
+        return if grand_parent.data["tight"]
       end
 
       if entering
         tag("p")
       else
-        tag_end node
+        tag_end(node)
       end
     end
 
     def code(node, entering)
       tag("code")
       text(node, entering)
-      tag_end node
+      tag_end(node)
     end
 
     def code_block(node, entering)
-      languages =
-        node.fence_language.split if node.fence_language
-
-      code_attributes =
-        {} of String => String
-
-      pre_attributes =
-        {} of String => String
+      languages = node.fence_language.try(&.split)
 
       language =
         languages.try(&.first?).try(&.strip.presence)
 
-      code_attributes["class"] =
-        %("language-#{language}") if language
+      code_attributes =
+        {} of String => String
 
-      tag("pre", pre_attributes)
+      code_attributes["class"] =
+        "language-#{language}" if language
+
+      tag("pre")
       tag("code", code_attributes)
       @io << '`' << node.text.gsub('`', "\\`").strip << '`'
       tag_end
@@ -92,14 +88,14 @@ module Mint
     end
 
     def list(node, entering)
-      tag_name =
-        node.data["type"] == "bullet" ? "ul" : "ol"
-
       if entering
+        tag_name =
+          node.data["type"] == "bullet" ? "ul" : "ol"
+
         attributes = {} of String => String
 
-        if (start = node.data["start"].as(Int32)) && start != 1
-          attributes["start"] = %("#{start}")
+        if start = node.data["start"].as(Int32)
+          attributes["start"] = start.to_s unless start == 1
         end
 
         tag(tag_name, attributes)
@@ -120,11 +116,11 @@ module Mint
       if entering
         attributes =
           {
-            "href" => %("#{node.data["destination"].as(String)}"),
+            "href" => node.data["destination"].as(String),
           }
 
-        if (title = node.data["title"].as(String)) && !title.empty?
-          attributes["title"] = %("#{title}")
+        if title = node.data["title"].as(String).presence
+          attributes["title"] = title
         end
 
         tag("a", attributes)
@@ -137,8 +133,8 @@ module Mint
       if entering
         attributes =
           {
-            "src" => %("#{node.data["destination"].as(String)}"),
-            "alt" => %("#{node.first_child.text}"),
+            "src" => node.data["destination"].as(String),
+            "alt" => node.first_child.text,
           }
 
         tag("img", attributes)
@@ -158,10 +154,7 @@ module Mint
 
     def soft_break(node, entering)
       @io << "`\n`"
-
-      if node.next?
-        @io << ','
-      end
+      @io << ',' if node.next?
     end
 
     def line_break(node, entering)
@@ -179,12 +172,10 @@ module Mint
 
     def text(node, entering)
       @io << '`' << node.text.gsub('`', "\\`") << '`'
-
-      if node.next?
-        @io << ','
-      end
+      @io << ',' if node.next?
     end
 
+    {% begin %}
     def render(document : Markd::Node)
       walker = document.walker
       while event = walker.next
@@ -198,36 +189,14 @@ module Mint
         # HTMLBlock and HTMLInline is not supported and converted to text...
 
         case node.type
-        when Markd::Node::Type::Document
-          document(node, entering)
-        when Markd::Node::Type::Heading
-          heading(node, entering)
-        when Markd::Node::Type::List
-          list(node, entering)
-        when Markd::Node::Type::Item
-          item(node, entering)
-        when Markd::Node::Type::BlockQuote
-          block_quote(node, entering)
-        when Markd::Node::Type::ThematicBreak
-          thematic_break(node, entering)
-        when Markd::Node::Type::CodeBlock
-          code_block(node, entering)
-        when Markd::Node::Type::Code
-          code(node, entering)
-        when Markd::Node::Type::Paragraph
-          paragraph(node, entering)
-        when Markd::Node::Type::Emphasis
-          emphasis(node, entering)
-        when Markd::Node::Type::SoftBreak
-          soft_break(node, entering)
-        when Markd::Node::Type::LineBreak
-          line_break(node, entering)
-        when Markd::Node::Type::Strong
-          strong(node, entering)
-        when Markd::Node::Type::Link
-          link(node, entering)
-        when Markd::Node::Type::Image
-          image(node, entering)
+        {% for v in %i[
+                      document heading list item code_block code
+                      paragraph emphasis strong link block_quote image
+                      soft_break line_break thematic_break
+                    ] %}
+        when .{{ v }}?
+          {{ v.id }}(node, entering)
+        {% end %}
         else
           text(node, entering)
         end
@@ -235,25 +204,26 @@ module Mint
 
       @io.to_s
     end
+    {% end %}
 
-    private def tag(name, attributes = {} of String => String)
+    private def tag(name, attributes = nil)
+      @io << "_h('" << name << "',"
+
       # Convert attributes to the JavaScript version.
-      js_attributes =
-        if attributes.empty?
-          "{}"
-        else
-          "{" + attributes.map { |key, value| "#{key}:#{value}" }.join(",") + "}"
-        end
+      @io << '{'
+      attributes.try &.join(@io, ',') do |(key, value), io|
+        io << key
+        io << ':'
+        value.inspect(io)
+      end
+      @io << '}'
 
-      @io << "_h('" << name << "'," << js_attributes << ",["
+      @io << ",["
     end
 
     private def tag_end(node = nil)
-      if node.try(&.next?)
-        @io << "]),"
-      else
-        @io << "])"
-      end
+      @io << "])"
+      @io << ',' if node.try(&.next?)
     end
   end
 end
