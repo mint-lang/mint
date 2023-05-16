@@ -1,4 +1,4 @@
-message ReturnTypeMismatch do
+message ReturnCallTypeMismatch do
   title "Type Error"
 
   block do

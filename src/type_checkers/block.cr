@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     type_error StatementLastTarget
-    type_error ReturnTypeMismatch
+    type_error ReturnCallTypeMismatch
 
     def check(node : Ast::Block) : Checkable
       statements =
@@ -40,7 +40,7 @@ module Mint
             type =
               cache[item]
 
-            raise ReturnTypeMismatch, {
+            raise ReturnCallTypeMismatch, {
               "node"     => item,
               "expected" => last,
               "got"      => type,

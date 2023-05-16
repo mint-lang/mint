@@ -32,7 +32,23 @@ module Mint
           target: target,
           await: await,
           to: position,
-          input: data)
+          input: data
+        ).tap do |node|
+          case body
+          when Ast::Operation
+            case target
+            when Ast::EnumDestructuring,
+                 Ast::ArrayDestructuring,
+                 Ast::TupleDestructuring
+              case item = body.right
+              when Ast::ReturnCall
+                item.statement = node
+              end
+            end
+          when Ast::ReturnCall
+            body.statement = node
+          end
+        end
       end
     end
   end

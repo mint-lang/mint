@@ -4,7 +4,7 @@ module Mint
       expression =
         compile node.expression
 
-      js.throw expression
+      js.return expression
     end
   end
 end

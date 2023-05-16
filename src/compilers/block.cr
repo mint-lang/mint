@@ -32,42 +32,6 @@ module Mint
           js.statements(statements + [js.return(last)])
         end
       end
-      # wrap = ->(body : String) {
-      #   if node.early_return?
-      #     js.try(body, [js.catch("_", js.return("_"))], "")
-      #   else
-      #     body
-      #   end
-      # }
-
-      # if statements.size == 1
-      #   wrap.call(
-      #     if for_function
-      #       js.return(compile(statements.first, true))
-      #     else
-      #       compile(statements.first, true)
-      #     end)
-      # else
-      #   compiled_statements =
-      #     statements.map { |item| compile item, item == statements.last }
-
-      #   last =
-      #     compiled_statements.pop
-
-      #   if for_function
-      #     wrap.call(js.statements(compiled_statements + [js.return(last)]))
-      #   else
-      #     if node.async?
-      #       js.asynciif do
-      #         wrap.call(js.statements(compiled_statements + [js.return(last)]))
-      #       end
-      #     else
-      #       js.iif do
-      #         wrap.call(js.statements(compiled_statements + [js.return(last)]))
-      #       end
-      #     end
-      #   end
-      # end
     end
   end
 end

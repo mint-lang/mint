@@ -11,7 +11,14 @@ component Main {
     "NO"
   }
 }
--------------------------------------------------------------ReturnTypeMismatch
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    return "YES"
+    "NO"
+  }
+}
+---------------------------------------------------------ReturnCallTypeMismatch
 enum Test {
   A(String)
   B(String)
@@ -23,5 +30,19 @@ component Main {
       Test::A("Hello") or return 0
 
     x
+  }
+}
+--------------------------------------------------------------ReturnCallInvalid
+component Main {
+  state test : String = return ""
+
+  fun render : String {
+    ""
+  }
+}
+--------------------------------------------------------------ReturnCallInvalid
+component Main {
+  fun render : String {
+    "" or return ""
   }
 }

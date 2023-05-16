@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    return "YES"
+    "NO"
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return `YES`;
+    return `NO`;
+  }
+};
+
+A.displayName = "Main";

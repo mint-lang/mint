@@ -1,8 +1,12 @@
 module Mint
   class TypeChecker
-    type_error EncodeComplexType
+    type_error ReturnCallInvalid
 
     def check(node : Ast::ReturnCall) : Checkable
+      raise ReturnCallInvalid, {
+        "node" => node,
+      } unless node.statement
+
       type =
         resolve node.expression
 
