@@ -1,0 +1,55 @@
+enum Test {
+  A(String)
+  B(String)
+}
+
+component Main {
+  fun render : String {
+    {
+      let Test::A(a) =
+        await Test::A("Some string...") or return "RETURN"
+
+      a
+    }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class A extends _C {
+  render() {
+    (async () => {
+      const b = await new B(`Some string...`);
+
+      if (b === false) {
+        return `RETURN`
+      };
+
+      const [a] = __match(b, _PE(B,[
+        _PV
+      ]));
+
+      return a;
+    })();
+
+    return ``;
+  }
+};
+
+A.displayName = "Main";

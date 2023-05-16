@@ -14,7 +14,7 @@ module Mint
       end
 
       def early_return?
-        statements.select(Ast::Statement).any?(&.return?)
+        false
       end
 
       def static?

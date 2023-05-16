@@ -80,28 +80,33 @@ module Mint
         right = resolve node.right
         left = resolve node.left
 
-        raise OperationOrNotMaybeOrResult, {
-          "expected" => MAYBE,
-          "node"     => node,
-          "got"      => left,
-        } unless Comparer.compare(left, MAYBE) ||
-                 Comparer.compare(left, RESULT)
+        case node.right
+        when Ast::ReturnCall
+          left
+        else
+          raise OperationOrNotMaybeOrResult, {
+            "expected" => MAYBE,
+            "node"     => node,
+            "got"      => left,
+          } unless Comparer.compare(left, MAYBE) ||
+                   Comparer.compare(left, RESULT)
 
-        expected =
-          case left.name
-          when "Result"
-            left.parameters[1]
-          else
-            left.parameters[0]
-          end
+          expected =
+            case left.name
+            when "Result"
+              left.parameters[1]
+            else
+              left.parameters[0]
+            end
 
-        raise OperationOrTypeMismatch, {
-          "expected" => expected,
-          "got"      => right,
-          "node"     => node,
-        } unless Comparer.compare(expected, right)
+          raise OperationOrTypeMismatch, {
+            "expected" => expected,
+            "got"      => right,
+            "node"     => node,
+          } unless Comparer.compare(expected, right)
 
-        expected
+          expected
+        end
       else
         raise Mint::TypeError # Can never happen
       end

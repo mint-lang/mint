@@ -1,17 +1,20 @@
 component Main {
   fun render : String {
     let x = "hello"
+    ""
   }
 }
 ------------------------------------------------------DestructuringTypeMismatch
 component Main {
   fun render : String {
     let {x, y, z} = "hello"
+    ""
   }
 }
 -----------------------------------------------------DestructuringTupleMismatch
 component Main {
   fun render : String {
     let {x, y, z} = {"hello", "a"}
+    ""
   }
 }

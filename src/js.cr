@@ -29,6 +29,10 @@ module Mint
     abstract def css_rules(rules : Array(String)) : String
     abstract def for(condition : String, body : String) : String
 
+    def throw(expression : String) : String
+      "throw #{expression}"
+    end
+
     def ifchain(items : Array(Tuple(String?, String))) : String
       items
         .sort_by { |(condition, _)| condition.nil? ? 1 : -1 }
@@ -360,6 +364,12 @@ module Mint
 
     def let(name, value)
       "let #{name} = #{value}"
+    end
+
+    def const(value)
+      variable = next_variable
+
+      {variable, const(variable, value)}
     end
 
     def let(value)
