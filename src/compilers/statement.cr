@@ -32,7 +32,7 @@ module Mint
             end
           end || begin
             var, const =
-              js.const(right)
+              js.const("__match(#{right}, #{pattern})")
 
             return_if =
               if return_call
@@ -42,7 +42,7 @@ module Mint
             [
               const,
               return_if,
-              "const [#{variables.join(",")}] = __match(#{var}, #{pattern});",
+              "const [#{variables.join(",")}] = #{var}",
             ].compact
           end
         end

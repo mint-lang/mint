@@ -35,16 +35,15 @@ class C extends _E {
 class A extends _C {
   render() {
     (async () => {
-      const b = await new B(`Some string...`);
+      const b = __match(await new B(`Some string...`), _PE(B,[
+        _PV
+      ]));
 
       if (b === false) {
         return `RETURN`
       };
 
-      const [a] = __match(b, _PE(B,[
-        _PV
-      ]));
-
+      const [a] = b;
       return a;
     })();
 

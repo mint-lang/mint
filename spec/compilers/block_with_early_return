@@ -29,16 +29,15 @@ class C extends _E {
 
 class A extends _C {
   render() {
-    const b = new B(`Some string...`);
+    const b = __match(new B(`Some string...`), _PE(B,[
+      _PV
+    ]));
 
     if (b === false) {
       return `RETURN`
     };
 
-    const [a] = __match(b, _PE(B,[
-      _PV
-    ]));
-
+    const [a] = b;
     return a;
   }
 };
