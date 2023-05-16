@@ -131,7 +131,7 @@ module Mint
             node.branches.any? do |branch|
               case match = branch.match
               when Ast::TupleDestructuring
-                match.parameters.all?(Ast::Variable)
+                match.exhaustive?
               else
                 false
               end

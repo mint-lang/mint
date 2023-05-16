@@ -46,3 +46,11 @@ component Main {
     "" or return ""
   }
 }
+--------------------------------------------------------StatementReturnRequired
+component Main {
+  fun render : String {
+    let [a, b] = []
+
+    ""
+  }
+}

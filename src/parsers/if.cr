@@ -69,7 +69,12 @@ module Mint
           condition: condition,
           from: start_position,
           to: position,
-          input: data)
+          input: data).tap do |node|
+          case condition
+          when Ast::Statement
+            condition.if_node = node
+          end
+        end
       end
     end
   end

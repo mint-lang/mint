@@ -27,6 +27,13 @@ module Mint
       def spread?
         items.any?(Ast::Spread)
       end
+
+      def exhaustive?
+        items.all? do |item|
+          item.is_a?(Ast::Variable) ||
+            item.is_a?(Ast::Spread)
+        end && items.any?(Ast::Spread)
+      end
     end
   end
 end
