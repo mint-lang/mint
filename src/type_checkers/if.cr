@@ -2,6 +2,7 @@ module Mint
   class TypeChecker
     type_error IfConditionTypeMismatch
     type_error IfElseTypeMismatch
+    type_error IfExpectedElse
 
     def check(node : Ast::If) : Checkable
       condition =
@@ -39,6 +40,12 @@ module Mint
             "expected" => truthy,
             "got"      => falsy,
           } unless Comparer.compare(truthy, falsy)
+        else
+          raise IfExpectedElse, {
+            "expected" => VALID_IF_TYPES,
+            "got"      => truthy,
+            "node"     => node,
+          } unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
         end
 
         truthy
@@ -49,7 +56,7 @@ module Mint
 
         falsy_item.try { |data| resolve data }
 
-        NEVER
+        VOID
       end
     end
   end

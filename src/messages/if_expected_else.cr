@@ -1,14 +1,19 @@
 message IfExpectedElse do
-  title "Syntax Error"
+  title "Type Error"
 
   block do
-    text "An"
+    text "This"
     bold "if expression"
     text "must have an"
     bold "else branch."
   end
 
-  was_looking_for "else branch", got
+  block do
+    text "The elese branch can be omitted if the truthy branch returns one of:"
+    type_list expected
+    text "but it returns"
+    type got
+  end
 
   snippet node
 end

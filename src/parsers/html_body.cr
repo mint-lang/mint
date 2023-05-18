@@ -9,7 +9,7 @@ module Mint
         html_fragment ||
         string_literal ||
         array ||
-        if_expression(for_html: true) ||
+        if_expression ||
         for_expression ||
         case_expression ||
         comment

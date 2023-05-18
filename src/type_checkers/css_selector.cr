@@ -3,7 +3,7 @@ module Mint
     def check(node : Ast::CssSelector) : Checkable
       resolve node.body
 
-      NEVER
+      VOID
     end
   end
 end

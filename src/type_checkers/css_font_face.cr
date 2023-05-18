@@ -17,7 +17,7 @@ module Mint
           } if interpolation
         end
 
-      NEVER
+      VOID
     end
   end
 end

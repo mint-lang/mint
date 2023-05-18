@@ -59,7 +59,7 @@ module Mint
       resolve node.stores
       resolve node.enums
 
-      NEVER
+      VOID
     end
   end
 end

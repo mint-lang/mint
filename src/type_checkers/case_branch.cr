@@ -12,7 +12,7 @@ module Mint
         end || resolve(node.expression)
 
       if node.expression.is_a?(Array(Ast::CssDefinition))
-        NEVER
+        VOID
       else
         type.as(Checkable)
       end

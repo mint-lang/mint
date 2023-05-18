@@ -59,7 +59,7 @@ module Mint
         when Checkable
           value
         else
-          NEVER
+          VOID
         end
       end
     end
