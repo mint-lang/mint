@@ -211,10 +211,10 @@ module Mint
 
       # Convert attributes to the JavaScript version.
       @io << '{'
-      attributes.try &.join(@io, ',') do |(key, value), io|
-        io << key
-        io << ':'
-        value.inspect(io)
+      attributes.try &.join(@io, ',') do |(key, value), io2|
+        io2 << key
+        io2 << ':'
+        value.inspect(io2)
       end
       @io << '}'
 
