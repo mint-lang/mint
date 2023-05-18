@@ -198,7 +198,7 @@ module Mint
               when Ast::TypeVariable
                 unified.parameters[parent.parameters.index! { |enum_item| enum_item.value == item.value }]
               else
-                NEVER # Can't happen
+                VOID # Can't happen
               end
 
             destructure(param, sub_type, variables)

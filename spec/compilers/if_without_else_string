@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    if ("asd" == "asd2") {
+      "TRUE"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return (_compare(`asd`, `asd2`) ? `TRUE` : "");
+  }
+};
+
+A.displayName = "Main";

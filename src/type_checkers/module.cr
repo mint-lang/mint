@@ -9,14 +9,14 @@ module Mint
         resolve node.functions
       end
 
-      NEVER
+      VOID
     end
 
     def check(node : Ast::Module) : Checkable
       check_names node.functions, ModuleEntityNameConflict
       check_global_names node.name.value, node
 
-      NEVER
+      VOID
     end
   end
 end

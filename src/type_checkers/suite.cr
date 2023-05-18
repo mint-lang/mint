@@ -6,7 +6,7 @@ module Mint
         resolve node.tests
       end
 
-      NEVER
+      VOID
     end
   end
 end

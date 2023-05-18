@@ -17,7 +17,7 @@ module Mint
         }
       end
 
-      NEVER
+      VOID
     end
   end
 end

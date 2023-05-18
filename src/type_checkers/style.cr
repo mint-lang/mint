@@ -6,7 +6,7 @@ module Mint
         resolve node.body
       end
 
-      NEVER
+      VOID
     end
   end
 end
