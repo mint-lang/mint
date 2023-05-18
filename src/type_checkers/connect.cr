@@ -32,7 +32,7 @@ module Mint
         lookups[key] = found
       end
 
-      NEVER
+      VOID
     end
   end
 end

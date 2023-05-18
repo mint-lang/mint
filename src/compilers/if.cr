@@ -44,8 +44,19 @@ module Mint
         when Ast::Node
           compile item
         else
-          "null"
-        end
+          if truthy_item.is_a?(Ast::Node)
+            type = cache[truthy_item]
+
+            case type.name
+            when "Array"
+              "[]"
+            when "String"
+              "\"\""
+            when "Maybe"
+              "new #{nothing}"
+            end
+          end
+        end || "null"
 
       case statement = node.condition
       when Ast::Statement

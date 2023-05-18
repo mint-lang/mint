@@ -10,7 +10,6 @@ module Mint
     NUMBER         = Type.new("Number")
     VOID           = Type.new("Void")
     TIME           = Type.new("Time")
-    NEVER          = Type.new("Never")
     HTML           = Type.new("Html")
     EVENT          = Type.new("Html.Event")
     OBJECT         = Type.new("Object")
@@ -27,6 +26,16 @@ module Mint
     VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
     STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
+    VOID_PROMISE   = Type.new("Promise", [VOID] of Checkable)
+
+    VALID_IF_TYPES = [
+      VOID_PROMISE,
+      STRING,
+      ARRAY,
+      MAYBE,
+      VOID,
+      HTML,
+    ] of Checkable
 
     getter records, scope, artifacts, formatter, web_components
 
@@ -257,7 +266,7 @@ module Mint
           if @stack.includes?(node)
             case node
             when Ast::Component
-              NEVER
+              VOID
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
             else

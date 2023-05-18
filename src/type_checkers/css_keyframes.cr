@@ -3,7 +3,7 @@ module Mint
     def check(node : Ast::CssKeyframes) : Checkable
       resolve node.selectors
 
-      NEVER
+      VOID
     end
   end
 end

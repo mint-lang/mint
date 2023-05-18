@@ -55,7 +55,7 @@ module Mint
         resolve node.functions
       end
 
-      NEVER
+      VOID
     end
 
     def check(node : Ast::Component) : Checkable
@@ -207,7 +207,7 @@ module Mint
         end
       end
 
-      NEVER
+      VOID
     end
   end
 end

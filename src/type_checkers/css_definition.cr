@@ -32,7 +32,7 @@ module Mint
         } unless Comparer.matches_any?(type, [STRING, NUMBER])
       end
 
-      NEVER
+      VOID
     end
   end
 end

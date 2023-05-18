@@ -44,7 +44,7 @@ module Mint
 
       lookups[node] = style
 
-      NEVER
+      VOID
     end
   end
 end

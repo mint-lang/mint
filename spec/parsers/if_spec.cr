@@ -17,8 +17,6 @@ describe "If Expression" do
   expect_error "if (a) { ", Mint::Parser::IfExpectedTruthyExpression
   expect_error "if (a) { a", Mint::Parser::IfExpectedTruthyClosingBracket
   expect_error "if (a) { a ", Mint::Parser::IfExpectedTruthyClosingBracket
-  expect_error "if (a) { a }", Mint::Parser::IfExpectedElse
-  expect_error "if (a) { a } ", Mint::Parser::IfExpectedElse
   expect_error "if (a) { a } else", Mint::Parser::IfExpectedFalsyOpeningBracket
   expect_error "if (a) { a } else ", Mint::Parser::IfExpectedFalsyOpeningBracket
   expect_error "if (a) { a } else {", Mint::Parser::IfExpectedFalsyExpression
@@ -26,6 +24,8 @@ describe "If Expression" do
   expect_error "if (a) { a } else { a", Mint::Parser::IfExpectedFalsyClosingBracket
   expect_error "if (a) { a } else { a ", Mint::Parser::IfExpectedFalsyClosingBracket
 
+  expect_ok "if (a) { a }"
+  expect_ok "if (a) { a } "
   expect_ok "if (a) { b } else { c }"
   expect_ok "if ( a ) { b } else { c }"
   expect_ok "if (a) { b } else if (x) { y } else { z }"
