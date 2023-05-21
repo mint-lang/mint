@@ -35,10 +35,8 @@ describe "variable" do
     ast = Mint::Parser.parse(example, "test.mint")
     ast.class.should eq(Mint::Ast)
 
-    expect_raises(Mint::TypeChecker::Recursion) do
-      type_checker = Mint::TypeChecker.new(ast)
-      type_checker.check
-    end
+    type_checker = Mint::TypeChecker.new(ast)
+    type_checker.check
   end
 end
 

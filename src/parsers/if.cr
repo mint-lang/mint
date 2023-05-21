@@ -16,7 +16,7 @@ module Mint
         whitespace
         parens = char! '('
         whitespace
-        condition = statement(allow_enum_destructuring: true) || expression!(IfExpectedCondition)
+        condition = statement || expression!(IfExpectedCondition)
         whitespace
         char ')', IfExpectedClosingParentheses if parens
         whitespace
@@ -67,7 +67,12 @@ module Mint
           condition: condition,
           from: start_position,
           to: position,
-          input: data)
+          input: data).tap do |node|
+          case condition
+          when Ast::Statement
+            condition.if_node = node
+          end
+        end
       end
     end
   end

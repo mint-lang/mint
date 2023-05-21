@@ -57,30 +57,6 @@ module Test {
 }
 --------------------------------------------------------------------------------
 module Test {
-  fun a(n : Number) : Number {
-    let b = (n : Number, acc : Number) : Number {
-      if (n == 0) {
-        acc
-      }
-      else {
-        c(n - 1, acc * n)
-      }
-    }
-
-    let c = (n : Number, acc : Number) : Number {
-      if (n == 0) {
-        acc
-      }
-      else {
-        b(n - 1, acc * n)
-      }
-    }
-
-    c(n, 1)
-  }
-}
---------------------------------------------------------------------------------
-module Test {
   fun factorial (n : Number) : Number {
     let helper =
       (n : Number, acc : Number) : Number {

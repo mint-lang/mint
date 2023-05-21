@@ -362,6 +362,12 @@ module Mint
       "let #{name} = #{value}"
     end
 
+    def const(value)
+      variable = next_variable
+
+      {variable, const(variable, value)}
+    end
+
     def let(value)
       variable = next_variable
 

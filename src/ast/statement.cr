@@ -2,6 +2,7 @@ module Mint
   class Ast
     class Statement < Node
       getter target, expression, await
+      property if_node : Ast::If? = nil
 
       delegate static?, to: @expression
 

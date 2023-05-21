@@ -1,6 +1,7 @@
 module A {
   fun test : Promise(String) {
     letx=await"hello"
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -8,5 +9,7 @@ module A {
   fun test : Promise(String) {
     let x =
       await "hello"
+
+    ""
   }
 }

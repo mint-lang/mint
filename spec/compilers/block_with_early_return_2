@@ -1,13 +1,14 @@
 component Main {
   fun render : String {
-    let x =
-      "hello"
+    return "YES"
+    "NO"
   }
 }
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return `hello`;
+    return `YES`;
+    return `NO`;
   }
 };
 

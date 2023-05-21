@@ -56,6 +56,23 @@ module Mint
     @top_level_entity : Ast::Node?
     @referee : Ast::Node?
 
+    @returns : Hash(Ast::Node, Array(Ast::ReturnCall)) = {} of Ast::Node => Array(Ast::ReturnCall)
+    @returns_stack : Array(Ast::Node) = [] of Ast::Node
+
+    def push_return(node : Ast::ReturnCall)
+      if item = @returns_stack.last
+        @returns[item] ||= [] of Ast::ReturnCall
+        @returns[item].push(node)
+      end
+    end
+
+    def with_returns(node : Ast::Node, &)
+      @returns_stack.push(node)
+      yield
+    ensure
+      @returns_stack.delete(node)
+    end
+
     @record_name_char : String = 'A'.pred.to_s
 
     @stack = [] of Ast::Node
@@ -252,15 +269,6 @@ module Mint
               VOID
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            when Ast::Statement
-              expression =
-                node.expression
-
-              if expression.is_a?(Ast::InlineFunction)
-                static_type_signature(expression)
-              else
-                resolve expression
-              end
             else
               raise Recursion, {
                 "caller_node" => @stack.last,

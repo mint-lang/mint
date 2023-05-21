@@ -1,6 +1,7 @@
 module A {
   fun test : Bool {
     letx="hello"lety=trueletz=false
+    true
   }
 }
 --------------------------------------------------------------------------------
@@ -14,5 +15,7 @@ module A {
 
     let z =
       false
+
+    true
   }
 }

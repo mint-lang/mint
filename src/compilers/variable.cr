@@ -87,32 +87,6 @@ module Mint
           end
         when Ast::Argument
           js.variable_of(entity)
-        when Ast::Statement
-          case target = entity.target
-          when Ast::Variable
-            js.variable_of(target)
-          else
-            "SHOULD NEVER HAPPEN"
-          end
-        when Tuple(Ast::Node, Array(Int32) | Int32)
-          case item = entity[0]
-          when Ast::Statement
-            case target = item.target
-            when Ast::TupleDestructuring
-              case val = entity[1]
-              in Int32
-                js.variable_of(target.parameters[val])
-              in Array(Int32)
-                js.variable_of(val.reduce(target) do |curr_type, curr_val|
-                  curr_type.as(Ast::TupleDestructuring).parameters[curr_val]
-                end)
-              end
-            else
-              js.variable_of(node)
-            end
-          else
-            js.variable_of(node)
-          end
         else
           "this.#{node.value}"
         end

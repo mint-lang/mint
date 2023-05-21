@@ -31,6 +31,7 @@ module Mint
         if_expression ||
         for_expression ||
         next_call ||
+        return_call ||
         case_expression ||
         parenthesized_expression ||
         inline_function ||
