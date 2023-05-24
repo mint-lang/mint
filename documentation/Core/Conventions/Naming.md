@@ -4,7 +4,7 @@ This section contains rules for naming functions in the standard library.
 
 ### Directional Functions
 
-When naming functions which have a direction always use `start` end `end`.
+When naming functions which have a direction always use `start` and `end`.
 
 - ✅ Do use 'start' and 'end'
 - ❌ Don't use `left` and `right`
