@@ -30,8 +30,8 @@ module Window {
   removes this listener.
 
     listener =
-      Window.addEventListener("(max-width: 320px)", (matches : Bool) {
-        Debug.log(event)
+      Window.addMediaQueryListener("(max-width: 320px)", (matches : Bool) {
+        Debug.log(matches)
       })
   */
   fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
