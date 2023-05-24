@@ -281,7 +281,7 @@ module Window {
     Window.setScrollLeft(100)
   */
   fun setScrollLeft (position : Number) : Promise(Void) {
-    `window.scrollTo(#{position}, #{scrollLeft()})`
+    `window.scrollTo(#{position}, #{scrollTop()})`
   }
 
   /*
@@ -290,7 +290,7 @@ module Window {
     Window.setScrollTop(100)
   */
   fun setScrollTop (position : Number) : Promise(Void) {
-    `window.scrollTo(#{scrollTop()}, #{position})`
+    `window.scrollTo(#{scrollLeft()}, #{position})`
   }
 
   /*
