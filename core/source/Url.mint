@@ -67,6 +67,16 @@ module Url {
   }
 
   /*
+  Converts the given `Url` to a `String`.
+
+    (Url.parse("https://www.example.com/path/?search=foo#hash")
+    |> Url.toString()) == "https://www.example.com/path/?search=foo#hash"
+  */
+  fun toString (url : Url) : String {
+    `#{url}.origin + #{url}.path + #{url}.search + #{url}.hash`
+  }
+
+  /*
   Releases an existing object URL which was previously created.
 
     Url.createObjectUrlFromString("Content", "text/html")

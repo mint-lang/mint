@@ -8,6 +8,13 @@ suite "Url.parse" {
   }
 }
 
+suite "Url.toString" {
+  test "converts an url to a string" {
+    (Url.parse("https://www.example.com/path/?search=foo#hash")
+    |> Url.toString()) == "https://www.example.com/path/?search=foo#hash"
+  }
+}
+
 suite "Url.createObjectUrlFromFile" {
   test "it creates an url from a file" {
     (File.fromString("Content", "test.html", "text/html")
