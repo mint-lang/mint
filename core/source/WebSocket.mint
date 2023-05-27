@@ -41,12 +41,12 @@ module WebSocket {
 
     websocket =
       WebSocket.open({
-        url = "wss://echo.websocket.org",
-        reconnectOnClose = true,
-        onMessage = handleMessage,
-        onError = handleError,
-        onClose = handleClose,
-        onOpen = handleOpen
+        url: "wss://echo.websocket.org",
+        reconnectOnClose: true,
+        onMessage: handleMessage,
+        onError: handleError,
+        onClose: handleClose,
+        onOpen: handleOpen
       })
 
   If `reconnectOnClose` is set then when a connection is closed it tries to
