@@ -180,14 +180,14 @@ module Dom {
   Returns the dimensions (BoundingClientRect) of a `Dom.Element`
 
     Dom.getDimensions(Dom.createElement("div")) = {
-      bottom : 0,
-      height : 0,
-      width : 0,
-      right : 0,
-      left : 0,
-      top : 0,
-      x : 0,
-      y : 0
+      bottom: 0,
+      height: 0,
+      width: 0,
+      right: 0,
+      left: 0,
+      top: 0,
+      x: 0,
+      y: 0
     }
   */
   fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
