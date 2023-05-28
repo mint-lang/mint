@@ -333,6 +333,8 @@ module Window {
     `requestAnimationFrame(() => {
       if (window.location.hash) {
         window.location.href = window.location.hash
+      } else {
+        window.scrollTo(0, 0)
       }
     })
     `
