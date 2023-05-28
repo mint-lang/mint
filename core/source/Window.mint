@@ -80,7 +80,7 @@ module Window {
       if (result) {
         resolve(#{Result::Ok(`result`)})
       } else {
-        reject(#{Result::Err("User cancelled!")})
+        resolve(#{Result::Err("User cancelled!")})
       }
     })
     `
