@@ -71,10 +71,9 @@ suite "Number.fromString" {
 
   test "returns correct number if it converted successfully" {
     (Number.fromString("100")
-    |> Maybe.withDefault(0)) == 100
-
-    (Number.fromString("0x10")
-    |> Maybe.withDefault(0)) == 16
+    |> Maybe.withDefault(0)) == 100 &&
+      (Number.fromString("0x10")
+      |> Maybe.withDefault(0)) == 16
   }
 }
 
