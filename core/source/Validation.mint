@@ -131,8 +131,8 @@ module Validation {
   /*
   Returns the given error if the given string is not a number.
 
-    Validation.isNumber("foo", {"multiplicator", "Multiplikator is not a number!"}) ==
-      Maybe::Just({"multiplicator", "Multiplikator is not a number!"})
+    Validation.isNumber("foo", {"multiplicand", "Multiplicand is not a number!"}) ==
+      Maybe::Just({"multiplicand", "Multiplicand is not a number!"})
   */
   fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     case Number.fromString(value) {
