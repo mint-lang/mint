@@ -54,6 +54,16 @@ suite "Number.fromString" {
     |> Maybe.isNothing()
   }
 
+  test "returns nothing if the string ends with characters" {
+    Number.fromString("1a")
+    |> Maybe.isNothing()
+  }
+
+  test "returns nothing if the string is empty" {
+    Number.fromString("")
+    |> Maybe.isNothing()
+  }
+
   test "returns just(Number) if it converted successfully" {
     Number.fromString("100")
     |> Maybe.isJust()
@@ -62,6 +72,9 @@ suite "Number.fromString" {
   test "returns correct number if it converted successfully" {
     (Number.fromString("100")
     |> Maybe.withDefault(0)) == 100
+
+    (Number.fromString("0x10")
+    |> Maybe.withDefault(0)) == 16
   }
 }
 

@@ -42,9 +42,13 @@ module Number {
   fun fromString (input : String) : Maybe(Number) {
     `
     (() => {
-      let value = parseFloat(#{input})
+      let value = Number(#{input})
 
-      if (isNaN(value)) {
+      if (
+        Number.isNaN(value)
+        ||
+        Number.isNaN(value - parseFloat(value))  // excludes "Infinity", "-Infinity", ""
+      ) {
         return #{Maybe::Nothing}
       } else {
         return #{Maybe::Just(`value`)}
