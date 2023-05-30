@@ -47,7 +47,7 @@ module Number {
       if (
         Number.isNaN(value)
         ||
-        Number.isNaN(value - parseFloat(value))  // excludes "Infinity", "-Infinity", ""
+        Number.isNaN(value - parseFloat(#{input}))  // excludes "Infinity", "-Infinity", ""
       ) {
         return #{Maybe::Nothing}
       } else {
