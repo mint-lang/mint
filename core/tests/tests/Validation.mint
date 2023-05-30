@@ -11,10 +11,32 @@ suite "Validation.isNotBlank" {
 suite "Validation.isNumber" {
   test "it returns nothing if the string can be converted to number" {
     Validation.isNumber("0", {"key", "ERROR"}) == Maybe::Nothing
+    Validation.isNumber("0.1", {"key", "ERROR"}) == Maybe::Nothing
+    Validation.isNumber("0x10", {"key", "ERROR"}) == Maybe::Nothing
   }
 
   test "it returns the error if the string cannot be converted to number" {
     Validation.isNumber("", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+  }
+
+  test "it returns the error if the string contains letters at the end" {
+    Validation.isNumber("0a", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+  }
+}
+
+suite "Validation.isDigits" {
+  test "it returns nothing if the string consists of one or more digits" {
+    Validation.isDigits("123", {"key", "ERROR"}) == Maybe::Nothing
+  }
+
+  test "it returns the error if the string is empty" {
+    Validation.isDigits("", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+  }
+
+  test "it returns the error if the string contains non-digits" {
+    Validation.isDigits("a", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+    Validation.isDigits(" 1 ", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
+    Validation.isDigits("1.2", {"key", "ERROR"}) == Maybe::Just({"key", "ERROR"})
   }
 }
 
