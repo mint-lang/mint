@@ -54,17 +54,6 @@ suite "Number.fromString" {
     |> Maybe.isNothing()
   }
 
-  test "returns nothing if it does not get passed a string" {
-    Maybe.oneOf(
-      [
-        Number.fromString(`true`),
-        Number.fromString(`0`),
-        Number.fromString(`{x: 0}`),
-        Number.fromString(`/x/`)
-      ])
-    |> Maybe.isNothing()
-  }
-
   test "returns nothing if the string ends with characters" {
     Number.fromString("1a")
     |> Maybe.isNothing()

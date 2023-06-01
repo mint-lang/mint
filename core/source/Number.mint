@@ -42,7 +42,7 @@ module Number {
   fun fromString (input : String) : Maybe(Number) {
     `
     (() => {
-      if (typeof #{input} !== 'string' || #{input}.trim() === '') {
+      if (#{input}.trim() === '') {
         return #{Maybe::Nothing}
       }
 
