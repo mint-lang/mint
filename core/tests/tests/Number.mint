@@ -54,6 +54,21 @@ suite "Number.fromString" {
     |> Maybe.isNothing()
   }
 
+  test "returns nothing if the string ends with characters" {
+    Number.fromString("1a")
+    |> Maybe.isNothing()
+  }
+
+  test "returns nothing if the string is empty" {
+    Number.fromString("")
+    |> Maybe.isNothing()
+  }
+
+  test "returns nothing if the string is blank" {
+    Number.fromString("   ")
+    |> Maybe.isNothing()
+  }
+
   test "returns just(Number) if it converted successfully" {
     Number.fromString("100")
     |> Maybe.isJust()
@@ -62,6 +77,33 @@ suite "Number.fromString" {
   test "returns correct number if it converted successfully" {
     (Number.fromString("100")
     |> Maybe.withDefault(0)) == 100
+  }
+
+  test "parses binary numbers" {
+    (Number.fromString("0b10")
+    |> Maybe.withDefault(0)) == 2
+  }
+
+  test "parses octal numbers" {
+    (Number.fromString("0o10")
+    |> Maybe.withDefault(0)) == 8
+  }
+
+  test "parses hexadecimal numbers" {
+    (Number.fromString("0x10")
+    |> Maybe.withDefault(0)) == 16
+  }
+
+  test "parses Infinity" {
+    (Number.fromString("Infinity")
+    |> Maybe.withDefault(0)
+    |> Number.toString()) == "Infinity"
+  }
+
+  test "parses -Infinity" {
+    (Number.fromString("-Infinity")
+    |> Maybe.withDefault(0)
+    |> Number.toString()) == "-Infinity"
   }
 }
 

@@ -50,6 +50,17 @@ module Validation {
         sticky: false
       })
 
+  const DIGITS_REGEXP =
+    Regexp.createWithOptions(
+      "^[0-9]+$",
+      {
+        caseInsensitive: true,
+        multiline: false,
+        unicode: false,
+        global: false,
+        sticky: false
+      })
+
   /* Returns the first error for the given key in the given errors. */
   fun getFirstError (errors : Map(String, Array(String)), key : String) : Maybe(String) {
     errors
@@ -120,13 +131,27 @@ module Validation {
   /*
   Returns the given error if the given string is not a number.
 
-    Validation.isNumber("asd", {"age", "Age is not a number!"}) ==
-      Maybe::Just({"age", "Age is not a number!"})
+    Validation.isNumber("foo", {"multiplicand", "Multiplicand is not a number!"}) ==
+      Maybe::Just({"multiplicand", "Multiplicand is not a number!"})
   */
   fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     case Number.fromString(value) {
       Maybe::Just => Maybe::Nothing
       => Maybe::Just(error)
+    }
+  }
+
+  /*
+  Returns the given error if the given string does not consist of just digits.
+
+    Validation.isDigits("1234x", {"zip", "Zip code is not just digits!"}) ==
+      Maybe::Just({"zip", "Zip code is not just digits!"})
+  */
+  fun isDigits (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
+    if Regexp.match(DIGITS_REGEXP, value) {
+      Maybe::Nothing
+    } else {
+      Maybe::Just(error)
     }
   }
 
