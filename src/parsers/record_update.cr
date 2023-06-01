@@ -9,14 +9,14 @@ module Mint
           next unless char! '{'
 
           whitespace
-          value = variable || self.expression
+          value = variable(track: false) || self.expression
           whitespace
 
           next unless value
           next if keyword_ahead?("|>") # Skip if tuple with a pipe `{ x |> Number.toString }`
           next unless char! '|'
 
-          value
+          self << value
         end
 
         next unless expression
