@@ -7,7 +7,7 @@ module Mint
 
     def test : Ast::Test?
       start do |start_position|
-        next unless keyword "test"
+        next unless keyword("test", true)
 
         whitespace
 

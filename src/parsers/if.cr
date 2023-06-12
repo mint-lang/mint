@@ -11,7 +11,7 @@ module Mint
 
     def if_expression(for_css = false) : Ast::If?
       start do |start_position|
-        next unless keyword "if"
+        next unless keyword("if", true)
 
         whitespace
         parens = char! '('
@@ -40,7 +40,7 @@ module Mint
         falsy = nil
         whitespace
 
-        if keyword "else"
+        if keyword("else", true)
           whitespace
 
           unless falsy = if_expression(for_css: for_css)

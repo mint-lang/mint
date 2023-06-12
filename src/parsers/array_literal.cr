@@ -18,7 +18,7 @@ module Mint
 
         type = start do
           whitespace
-          next unless keyword "of"
+          next unless keyword("of", true)
           whitespace
           type_or_type_variable! ArrayLiteralExpectedTypeOrVariable
         end

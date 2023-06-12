@@ -9,7 +9,7 @@ module Mint
 
     def for_expression : Ast::For?
       start do |start_position|
-        next unless keyword "for"
+        next unless keyword("for", true)
         next unless whitespace?
         whitespace
 
@@ -22,7 +22,7 @@ module Mint
         ) { variable }
 
         whitespace
-        keyword! "of", ForExpectedOf
+        keyword!("of", ForExpectedOf, true)
         whitespace
 
         subject = expression! ForExpectedSubject

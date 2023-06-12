@@ -9,10 +9,10 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        global = keyword "global"
+        global = keyword("global", true)
         whitespace
 
-        next unless keyword "component"
+        next unless keyword("component", true)
         whitespace
 
         name = type_id! ComponentExpectedName

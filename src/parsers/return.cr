@@ -4,7 +4,7 @@ module Mint
 
     def return_call : Ast::ReturnCall?
       start do |start_position|
-        next unless keyword "return"
+        next unless keyword("return", true)
         next unless whitespace?
         whitespace
 

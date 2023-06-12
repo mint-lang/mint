@@ -15,7 +15,7 @@ module Mint
 
         type = start do
           whitespace
-          next unless keyword "as"
+          next unless keyword("as", true)
           whitespace
           type_or_type_variable! JsExpectedTypeOrVariable
         end

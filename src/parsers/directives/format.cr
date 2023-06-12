@@ -6,7 +6,7 @@ module Mint
 
     def format_directive : Ast::Directives::Format?
       start do |start_position|
-        next unless keyword "@format"
+        next unless keyword("@format", true)
 
         content =
           code_block(

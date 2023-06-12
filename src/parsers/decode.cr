@@ -6,15 +6,15 @@ module Mint
 
     def decode : Ast::Decode?
       start do |start_position|
-        next unless keyword "decode"
+        next unless keyword("decode", true)
         next unless whitespace?
         whitespace
 
-        unless keyword "as"
+        unless keyword("as", true)
           expression = expression! DecodeExpectedExpression
 
           whitespace
-          keyword! "as", DecodeExpectedAs
+          keyword!("as", DecodeExpectedAs, true)
         end
 
         whitespace

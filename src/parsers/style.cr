@@ -7,7 +7,7 @@ module Mint
 
     def style : Ast::Style?
       start do |start_position|
-        next unless keyword "style"
+        next unless keyword("style", true)
 
         whitespace
         name = variable_with_dashes! StyleExpectedName

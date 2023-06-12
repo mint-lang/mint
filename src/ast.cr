@@ -31,9 +31,10 @@ module Mint
                        Js
 
     getter components, modules, records, stores, routes, providers
-    getter suites, enums, comments, nodes, unified_modules
+    getter suites, enums, comments, nodes, unified_modules, keywords
 
-    def initialize(@records = [] of RecordDefinition,
+    def initialize(@keywords = [] of Tuple(Int32, Int32),
+                   @records = [] of RecordDefinition,
                    @unified_modules = [] of Module,
                    @components = [] of Component,
                    @providers = [] of Provider,

@@ -8,7 +8,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        next unless keyword "record"
+        next unless keyword("record", true)
         whitespace
 
         name = type_id! RecordDefinitionExpectedName

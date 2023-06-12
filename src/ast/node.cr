@@ -71,7 +71,7 @@ module Mint
         source.strip.includes?('\n')
       end
 
-      protected def compute_position(lines, needle) : Position
+      def self.compute_position(lines, needle) : Position
         line_start_pos, line = begin
           left, right = 0, lines.size - 1
           index = pos = 0
@@ -107,18 +107,22 @@ module Mint
         {line, column}
       end
 
-      getter location : Location do
+      def self.compute_location(input : Data, from, to)
         # TODO: avoid creating this array for every (initial) call to `Node#location`
         lines = [0]
-        @input.input.each_char_with_index do |ch, i|
+        input.input.each_char_with_index do |ch, i|
           lines << i + 1 if ch == '\n'
         end
 
         Location.new(
-          filename: @input.file,
+          filename: input.file,
           start: compute_position(lines, from),
           end: compute_position(lines, to),
         )
+      end
+
+      getter location : Location do
+        Node.compute_location(input, from, to)
       end
     end
   end

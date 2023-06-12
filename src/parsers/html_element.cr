@@ -25,18 +25,20 @@ module Mint
 
         ref = start do
           whitespace
-          next unless keyword "as"
+          next unless keyword("as", true)
           whitespace
           variable! HtmlElementExpectedReference
         end
 
-        attributes, children, comments = html_body(
-          expected_closing_bracket: HtmlElementExpectedClosingBracket,
-          expected_closing_tag: HtmlElementExpectedClosingTag,
-          with_dashes: true,
-          tag: tag)
+        attributes, children, comments, closing_tag_position =
+          html_body(
+            expected_closing_bracket: HtmlElementExpectedClosingBracket,
+            expected_closing_tag: HtmlElementExpectedClosingTag,
+            with_dashes: true,
+            tag: tag)
 
         node = self << Ast::HtmlElement.new(
+          closing_tag_position: closing_tag_position,
           attributes: attributes,
           from: start_position,
           children: children,

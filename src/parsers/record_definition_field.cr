@@ -19,7 +19,7 @@ module Mint
         mapping =
           start do
             whitespace
-            next unless keyword "using"
+            next unless keyword("using", true)
             whitespace
             string_literal! RecordDefinitionFieldExpectedMapping,
               with_interpolation: false

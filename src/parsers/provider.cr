@@ -11,7 +11,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        next unless keyword "provider"
+        next unless keyword("provider", true)
         whitespace
 
         name = type_id! ProviderExpectedName

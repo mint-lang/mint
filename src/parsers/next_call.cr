@@ -4,7 +4,7 @@ module Mint
 
     def next_call : Ast::NextCall?
       start do |start_position|
-        next unless keyword "next"
+        next unless keyword("next", true)
         next unless whitespace?
         whitespace
 
