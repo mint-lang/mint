@@ -26,11 +26,17 @@ module Mint
       begin
         node = yield position
         @position = start_position unless node
+        clear_nodes(start_position) unless node
         node
       rescue error : Error
         @position = start_position
+        clear_nodes(start_position)
         raise error
       end
+    end
+
+    def clear_nodes(from_position)
+      ast.nodes.reject! { |node| node.from >= from_position }
     end
 
     def step

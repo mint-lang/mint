@@ -35,63 +35,18 @@ module Mint
         add(from, to, TokenType::Keyword)
       end
 
-      tokenize(
-        ast.records +
-        ast.providers +
-        ast.components +
-        ast.modules +
-        ast.routes +
-        ast.stores +
-        ast.suites +
-        ast.enums +
-        ast.comments)
-    end
-
-    def tokenize(node : Ast::Component)
-      add(node.name, TokenType::Type)
-
-      tokenize(node.comment)
-
-      tokenize(
-        node.properties +
-        node.functions +
-        node.constants +
-        node.connects +
-        node.comments +
-        node.styles +
-        node.states +
-        node.gets +
-        node.uses)
-    end
-
-    def tokenize(node : Ast::Style)
-      add(node.name, TokenType::Variable)
-      tokenize(node.arguments)
-      tokenize(node.body)
+      tokenize(ast.nodes)
     end
 
     def tokenize(node : Ast::CssDefinition)
       add(node.from, node.from + node.name.size, TokenType::Property)
-      tokenize(node.value.select(Ast::Node))
     end
 
-    def tokenize(node : Ast::Function)
-      add(node.name, TokenType::Variable)
-
-      tokenize(node.arguments)
-      tokenize(node.comment)
-      tokenize(node.type)
-      tokenize(node.body)
-    end
-
-    def tokenize(node : Ast::Type)
-      add(node.name, TokenType::Type)
-
-      tokenize(node.parameters)
-    end
-
-    def tokenize(node : Ast::Block)
-      tokenize(node.statements)
+    def tokenize(node : Ast::ArrayAccess)
+      case index = node.index
+      when Int64
+        add(node.from + 1, node.from + 1 + index.to_s.size, TokenType::Number)
+      end
     end
 
     def tokenize(node : Ast::HtmlElement)
@@ -100,50 +55,36 @@ module Mint
       end
 
       add(node.tag, TokenType::Namespace)
-      add(node.ref, TokenType::Variable)
-
-      tokenize(node.attributes)
-      tokenize(node.comments)
-      tokenize(node.children)
-      tokenize(node.styles)
     end
 
     def tokenize(node : Ast::HtmlComponent)
       node.closing_tag_position.try do |position|
         add(position, position + node.component.value.size, TokenType::Type)
       end
-
-      add(node.component, TokenType::Type)
-      add(node.ref, TokenType::Variable)
-
-      tokenize(node.attributes)
-      tokenize(node.comments)
-      tokenize(node.children)
-    end
-
-    def tokenize(node : Ast::HtmlAttribute)
-      add(node.name, TokenType::Variable)
-
-      tokenize(node.value)
-    end
-
-    def tokenize(node : Ast::HtmlStyle)
-      add(node.name, TokenType::Variable)
-
-      tokenize(node.arguments)
     end
 
     def tokenize(node : Ast::StringLiteral)
       add(node, TokenType::String)
     end
 
-    def tokenize(node : Ast::Statement)
-      tokenize(node.expression)
-      tokenize(node.target)
+    def tokenize(node : Ast::BoolLiteral)
+      add(node, TokenType::Keyword)
+    end
+
+    def tokenize(node : Ast::NumberLiteral)
+      add(node, TokenType::Number)
     end
 
     def tokenize(node : Ast::Comment)
       add(node, TokenType::Comment)
+    end
+
+    def tokenize(node : Ast::Variable)
+      add(node, TokenType::Variable)
+    end
+
+    def tokenize(node : Ast::TypeId)
+      add(node, TokenType::Type)
     end
 
     def add(from : Int32, to : Int32, type : TokenType)
@@ -161,19 +102,7 @@ module Mint
       nodes.each { |node| tokenize(node) }
     end
 
-    def tokenize(node : Nil)
-    end
-
-    def tokenize(node : Ast::Node)
-      puts "Tokenizer is not implemented for: #{node.class}"
+    def tokenize(node : Ast::Node?)
     end
   end
 end
-
-{% for subclass in Mint::Ast::Node.subclasses %}
-  {% puts "Missing implementation of tokenize for #{subclass.name}" unless Mint::SemanticTokenizer.methods.any? do |method|
-                                                                             if method.name == "tokenize"
-                                                                               method.args[0].restriction.id == subclass.name.gsub(/Mint::/, "")
-                                                                             end
-                                                                           end %}
-{% end %}

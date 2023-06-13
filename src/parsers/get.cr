@@ -11,7 +11,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        next unless keyword "get"
+        next unless keyword("get", true)
         whitespace
 
         name = variable! GetExpectedName, track: false

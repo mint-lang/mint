@@ -66,7 +66,7 @@ module Mint
               in SemanticTokenizer::TokenType::String
                 item[0].colorize(:green)
               in SemanticTokenizer::TokenType::Number
-                item[0].colorize.fore(:white).back(:red)
+                item[0].colorize(:red)
               in SemanticTokenizer::TokenType::Regexp
                 item[0].colorize.fore(:white).back(:red)
               in SemanticTokenizer::TokenType::Operator
