@@ -42,10 +42,20 @@ module Mint
               change_notifications: false,
               supported: false))
 
+        semantic_tokens_options =
+          LSP::SemanticTokensOptions.new(
+            range: false,
+            full: true,
+            legend: LSP::SemanticTokensLegend.new(
+              token_modifiers: [] of String,
+              token_types: ["class", "keyword", "comment", "type", "property", "number", "namespace", "variable", "string"] of String,
+            ))
+
         capabilities =
           LSP::ServerCapabilities.new(
             document_on_type_formatting_provider: document_on_type_formatting_provider,
             execute_command_provider: execute_command_provider,
+            semantic_tokens_provider: semantic_tokens_options,
             signature_help_provider: signature_help_provider,
             document_link_provider: document_link_provider,
             completion_provider: completion_provider,

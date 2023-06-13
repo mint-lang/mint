@@ -8,13 +8,14 @@ module Mint
 
       # Text document related methods
       method "textDocument/willSaveWaitUntil", WillSaveWaitUntil
+      method "textDocument/semanticTokens/full", SemanticTokens
       method "textDocument/foldingRange", FoldingRange
       method "textDocument/formatting", Formatting
       method "textDocument/completion", Completion
       method "textDocument/codeAction", CodeAction
+      method "textDocument/definition", Definition
       method "textDocument/didChange", DidChange
       method "textDocument/hover", Hover
-      method "textDocument/definition", Definition
 
       property params : LSP::InitializeParams? = nil
 
