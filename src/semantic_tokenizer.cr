@@ -17,6 +17,8 @@ module Mint
       Regexp
     end
 
+    TOKEN_TYPES = TokenType.names.map { |name| name[0].downcase + name[1..] }
+
     # This represents which token types are used for which node.
     TOKEN_MAP = {
       Ast::TypeVariable  => TokenType::TypeParameter,

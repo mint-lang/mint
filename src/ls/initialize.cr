@@ -47,8 +47,8 @@ module Mint
             range: false,
             full: true,
             legend: LSP::SemanticTokensLegend.new(
+              token_types: SemanticTokenizer::TOKEN_TYPES,
               token_modifiers: [] of String,
-              token_types: ["class", "keyword", "comment", "type", "property", "number", "namespace", "variable", "string"] of String,
             ))
 
         capabilities =

@@ -25,7 +25,7 @@ module Mint
             type =
               token.type.to_s.underscore
 
-            if index = ["class", "keyword", "comment", "type", "property", "number", "namespace", "variable", "string"].index(type)
+            if index = SemanticTokenizer::TOKEN_TYPES.index(type)
               [
                 location.start[0] - 1,
                 location.start[1],
