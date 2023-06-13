@@ -16,7 +16,7 @@ module Mint
 
         ref = start do
           whitespace
-          next unless keyword("as", true)
+          next unless keyword "as"
           whitespace
           variable! HtmlComponentExpectedReference
         end

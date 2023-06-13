@@ -6,7 +6,7 @@ module Mint
 
     def for_condition : Ast::ForCondition?
       start do |start_position|
-        next unless keyword("when", true)
+        next unless keyword "when"
         whitespace
 
         condition =

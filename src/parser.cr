@@ -173,8 +173,8 @@ module Mint
     # Consuming keywords
     # ----------------------------------------------------------------------------
 
-    def keyword!(word, error, save : Bool = false) : Bool
-      keyword(word, save) || raise error
+    def keyword!(word, error) : Bool
+      keyword(word) || raise error
     end
 
     def keyword_ahead?(word) : Bool
@@ -184,9 +184,9 @@ module Mint
       true
     end
 
-    def keyword(word, save : Bool = false) : Bool
+    def keyword(word) : Bool
       if keyword_ahead?(word)
-        if save
+        if word =~ /^[a-z]+$/
           @ast.keywords << {position, position + word.size}
         end
 

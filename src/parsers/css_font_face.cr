@@ -5,7 +5,7 @@ module Mint
 
     def css_font_face : Ast::CssFontFace?
       start do |start_position|
-        next unless keyword("@font-face", true)
+        next unless keyword "@font-face"
 
         definitions = block(
           opening_bracket: CssFontFaceExpectedOpeningBracket,

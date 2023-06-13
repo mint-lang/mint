@@ -8,13 +8,13 @@ module Mint
 
     def connect : Ast::Connect?
       start do |start_position|
-        next unless keyword("connect", true)
+        next unless keyword "connect"
         whitespace
 
         store = type_id! ConnectExpectedType
         whitespace
 
-        keyword!("exposing", ConnectExpectedExposing, true)
+        keyword! "exposing", ConnectExpectedExposing
 
         keys = block(
           opening_bracket: ConnectExpectedOpeningBracket,

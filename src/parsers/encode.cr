@@ -4,7 +4,7 @@ module Mint
 
     def encode : Ast::Encode?
       start do |start_position|
-        next unless keyword("encode", true)
+        next unless keyword "encode"
         next unless whitespace?
         whitespace
 

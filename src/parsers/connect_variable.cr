@@ -10,7 +10,7 @@ module Mint
 
         whitespace
 
-        if keyword("as", true)
+        if keyword "as"
           whitespace
           name = variable! ConnectVariableExpectedAs
         end

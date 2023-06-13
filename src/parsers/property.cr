@@ -11,7 +11,7 @@ module Mint
 
         start_position = position
 
-        next unless keyword("property", true)
+        next unless keyword "property"
         whitespace
 
         name = variable! PropertyExpectedName, track: false

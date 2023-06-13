@@ -9,7 +9,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless keyword("module", true)
+        next unless keyword "module"
         whitespace
 
         name = type_id! ModuleExpectedName

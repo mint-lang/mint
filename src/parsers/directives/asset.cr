@@ -6,7 +6,7 @@ module Mint
 
     def asset_directive : Ast::Directives::Asset?
       start do |start_position|
-        next unless keyword("@asset", true)
+        next unless keyword "@asset"
 
         char '(', AssetDirectiveExpectedOpeningParentheses
         whitespace

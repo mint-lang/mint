@@ -8,14 +8,14 @@ module Mint
 
     def case_expression(for_css : Bool = false) : Ast::Case?
       start do |start_position|
-        next unless keyword("case", true)
+        next unless keyword "case"
 
         whitespace
 
         parens = char! '('
 
         whitespace
-        await = keyword("await", true)
+        await = keyword "await"
 
         whitespace
         condition = expression! CaseExpectedCondition

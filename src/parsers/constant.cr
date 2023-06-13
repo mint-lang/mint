@@ -9,7 +9,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless keyword("const", true)
+        next unless keyword "const"
         whitespace
 
         name = variable_constant!

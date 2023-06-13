@@ -9,7 +9,7 @@ module Mint
       start do |start_position|
         comment = self.comment
 
-        next unless keyword("enum", true)
+        next unless keyword "enum"
         whitespace
 
         name = type_id! EnumExpectedName

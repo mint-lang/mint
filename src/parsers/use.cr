@@ -8,7 +8,7 @@ module Mint
 
     def use : Ast::Use?
       start do |start_position|
-        next unless keyword("use", true)
+        next unless keyword "use"
 
         whitespace
         provider = type_id! UseExpectedProvider
@@ -17,7 +17,7 @@ module Mint
         raise UseExpectedRecord unless item = record
         whitespace
 
-        if keyword("when", true)
+        if keyword "when"
           condition = block(
             opening_bracket: UseExpectedOpeningBracket,
             closing_bracket: UseExpectedClosingBracket

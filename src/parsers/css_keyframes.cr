@@ -6,7 +6,7 @@ module Mint
 
     def css_keyframes : Ast::CssKeyframes?
       start do |start_position|
-        next unless keyword("@keyframes", true)
+        next unless keyword "@keyframes"
 
         whitespace
 

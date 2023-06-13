@@ -7,7 +7,7 @@ module Mint
 
     def suite : Ast::Suite?
       start do |start_position|
-        next unless keyword("suite", true)
+        next unless keyword "suite"
 
         whitespace
 
