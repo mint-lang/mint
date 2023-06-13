@@ -32,8 +32,10 @@ module Mint
 
     getter components, modules, records, stores, routes, providers
     getter suites, enums, comments, nodes, unified_modules, keywords
+    getter operators
 
-    def initialize(@keywords = [] of Tuple(Int32, Int32),
+    def initialize(@operators = [] of Tuple(Int32, Int32),
+                   @keywords = [] of Tuple(Int32, Int32),
                    @records = [] of RecordDefinition,
                    @unified_modules = [] of Module,
                    @components = [] of Component,

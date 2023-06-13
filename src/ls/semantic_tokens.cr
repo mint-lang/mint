@@ -11,14 +11,14 @@ module Mint
         ast =
           Parser.parse(uri.path.to_s)
 
+        # This is used later on to convert the line/column of each token
+        input =
+          ast.nodes.first.input
         tokenizer = SemanticTokenizer.new
         tokenizer.tokenize(ast)
 
         data =
           tokenizer.tokens.sort_by(&.from).compact_map do |token|
-            input =
-              ast.nodes.first.input
-
             location =
               Ast::Node.compute_location(input, token.from, token.to)
 

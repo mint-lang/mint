@@ -45,24 +45,14 @@ module Mint
                 item[0].colorize(:light_yellow)
               in SemanticTokenizer::TokenType::Variable
                 item[0].colorize(:dark_gray)
-              in SemanticTokenizer::TokenType::Class
-                item[0].colorize(:blue)
-              in SemanticTokenizer::TokenType::Struct
-                item[0].colorize.fore(:white).back(:red)
               in SemanticTokenizer::TokenType::Namespace
                 item[0].colorize(:light_blue)
-              in SemanticTokenizer::TokenType::Function
-                item[0].colorize.fore(:white).back(:red)
               in SemanticTokenizer::TokenType::Keyword
                 item[0].colorize(:magenta)
               in SemanticTokenizer::TokenType::Property
                 item[0].colorize(:dark_gray).mode(:underline)
               in SemanticTokenizer::TokenType::Comment
                 item[0].colorize(:light_gray)
-              in SemanticTokenizer::TokenType::Enum
-                item[0].colorize.fore(:white).back(:red)
-              in SemanticTokenizer::TokenType::EnumMember
-                item[0].colorize.fore(:white).back(:red)
               in SemanticTokenizer::TokenType::String
                 item[0].colorize(:green)
               in SemanticTokenizer::TokenType::Number

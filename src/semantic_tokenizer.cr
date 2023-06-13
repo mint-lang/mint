@@ -1,41 +1,62 @@
 module Mint
   class SemanticTokenizer
+    # This is a subset of the LSPs SemanticTokenTypes enum.
     enum TokenType
-      Type
       TypeParameter
+      Type
 
-      Variable
-
-      Class     # Component
-      Struct    # Record
-      Namespace # HTML Tags
-      Function
-      Keyword
+      Namespace
       Property
+      Keyword
       Comment
 
-      Enum
-      EnumMember
-
+      Variable
+      Operator
       String
       Number
       Regexp
-      Operator
     end
 
+    # This represents which token types are used for which node.
+    TOKEN_MAP = {
+      Ast::TypeVariable  => TokenType::TypeParameter,
+      Ast::Variable      => TokenType::Variable,
+      Ast::BoolLiteral   => TokenType::Keyword,
+      Ast::Comment       => TokenType::Comment,
+      Ast::StringLiteral => TokenType::String,
+      Ast::NumberLiteral => TokenType::Number,
+      Ast::TypeId        => TokenType::Type,
+    }
+
+    # Represents a semantic token using the positions of the token instead
+    # of line / column (for the LSP it is converted to line /column).
     record Token,
       type : TokenType,
       from : Int32,
       to : Int32
 
+    # We keep a cache of all tokenized nodes to avoid duplications
+    getter cache : Set(Ast::Node) = Set(Ast::Node).new
+
+    # This is where the resulting tokens are stored.
     getter tokens : Array(Token) = [] of Token
 
     def tokenize(ast : Ast)
-      ast.keywords.each do |(from, to)|
-        add(from, to, TokenType::Keyword)
-      end
+      # We add the operators and keywords directly from the AST
+      ast.operators.each { |(from, to)| add(from, to, TokenType::Operator) }
+      ast.keywords.each { |(from, to)| add(from, to, TokenType::Keyword) }
 
       tokenize(ast.nodes)
+    end
+
+    def tokenize(nodes : Array(Ast::Node))
+      nodes.each { |node| tokenize(node) }
+    end
+
+    def tokenize(node : Ast::Node?)
+      if type = TOKEN_MAP[node.class]?
+        add(node, type)
+      end
     end
 
     def tokenize(node : Ast::CssDefinition)
@@ -43,6 +64,8 @@ module Mint
     end
 
     def tokenize(node : Ast::ArrayAccess)
+      # TODO: The index should be parsed as a number literal when
+      #       implemented remove this
       case index = node.index
       when Int64
         add(node.from + 1, node.from + 1 + index.to_s.size, TokenType::Number)
@@ -50,6 +73,7 @@ module Mint
     end
 
     def tokenize(node : Ast::HtmlElement)
+      # The closing tag is not saved only the position to it.
       node.closing_tag_position.try do |position|
         add(position, position + node.tag.value.size, TokenType::Namespace)
       end
@@ -63,30 +87,6 @@ module Mint
       end
     end
 
-    def tokenize(node : Ast::StringLiteral)
-      add(node, TokenType::String)
-    end
-
-    def tokenize(node : Ast::BoolLiteral)
-      add(node, TokenType::Keyword)
-    end
-
-    def tokenize(node : Ast::NumberLiteral)
-      add(node, TokenType::Number)
-    end
-
-    def tokenize(node : Ast::Comment)
-      add(node, TokenType::Comment)
-    end
-
-    def tokenize(node : Ast::Variable)
-      add(node, TokenType::Variable)
-    end
-
-    def tokenize(node : Ast::TypeId)
-      add(node, TokenType::Type)
-    end
-
     def add(from : Int32, to : Int32, type : TokenType)
       tokens << Token.new(
         type: type,
@@ -94,15 +94,10 @@ module Mint
         to: to)
     end
 
-    def add(node : Ast::Node | Nil, type : TokenType)
-      add(node.from, node.to, type) if node
-    end
-
-    def tokenize(nodes : Array(Ast::Node))
-      nodes.each { |node| tokenize(node) }
-    end
-
-    def tokenize(node : Ast::Node?)
+    def add(node : Ast::Node, type : TokenType)
+      return if cache.includes?(node)
+      add(node.from, node.to, type)
+      cache.add(node)
     end
   end
 end
