@@ -1,5 +1,18 @@
 module Mint
   class Parser
+    def code_block_naked : Ast::Block?
+      start do |start_position|
+        statements =
+          many { comment || statement }
+
+        self << Ast::Block.new(
+          statements: statements,
+          from: start_position,
+          to: position,
+          input: data) if statements
+      end
+    end
+
     def code_block : Ast::Block?
       start do |start_position|
         statements =

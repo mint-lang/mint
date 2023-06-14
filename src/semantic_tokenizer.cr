@@ -43,10 +43,7 @@ module Mint
     # This is where the resulting tokens are stored.
     getter tokens : Array(Token) = [] of Token
 
-    def self.highlight(path : String, html : Bool = false)
-      ast =
-        Parser.parse(path)
-
+    def self.tokenize(ast : Ast)
       tokenizer = self.new
       tokenizer.tokenize(ast)
 
@@ -66,6 +63,16 @@ module Mint
       if position < contents.size
         parts << contents[position, contents.size]
       end
+
+      {contents, parts}
+    end
+
+    def self.highlight(path : String, html : Bool = false)
+      ast =
+        Parser.parse(path)
+
+      contents, parts =
+        tokenize(ast)
 
       parts.reduce("") do |memo, item|
         memo + case item

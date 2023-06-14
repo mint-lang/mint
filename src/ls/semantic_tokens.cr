@@ -14,6 +14,7 @@ module Mint
         # This is used later on to convert the line/column of each token
         input =
           ast.nodes.first.input
+
         tokenizer = SemanticTokenizer.new
         tokenizer.tokenize(ast)
 

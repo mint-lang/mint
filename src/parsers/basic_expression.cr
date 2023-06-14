@@ -3,6 +3,7 @@ module Mint
     # NOTE: The order of the parsing is important!
     def basic_expression : Ast::Expression?
       format_directive ||
+        highlight_directive ||
         documentation_directive ||
         svg_directive ||
         asset_directive ||
