@@ -13,7 +13,7 @@ module Mint
 
       def run
         return unless path = arguments.path
-        print SemanticTokenizer.highlight(path, flags.html)
+        puts SemanticTokenizer.highlight(path, flags.html)
       end
     end
   end

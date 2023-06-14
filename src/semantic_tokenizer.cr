@@ -38,16 +38,16 @@ module Mint
       to : Int32
 
     # We keep a cache of all tokenized nodes to avoid duplications
-    getter cache : Set(Ast::Node) = Set(Ast::Node).new
+    getter cache = Set(Ast::Node).new
 
     # This is where the resulting tokens are stored.
-    getter tokens : Array(Token) = [] of Token
+    getter tokens = [] of Token
 
     def self.tokenize(ast : Ast)
       tokenizer = self.new
       tokenizer.tokenize(ast)
 
-      parts = [] of String | Tuple(String, SemanticTokenizer::TokenType)
+      parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
       contents = ast.nodes.first.input.input
       position = 0
 
@@ -56,7 +56,7 @@ module Mint
           parts << contents[position, token.from - position]
         end
 
-        parts << {contents[token.from, token.to - token.from], token.type}
+        parts << {token.type, contents[token.from, token.to - token.from]}
         position = token.to
       end
 
@@ -74,43 +74,39 @@ module Mint
       parts =
         tokenize(ast)
 
-      parts.reduce("") do |memo, item|
-        memo + case item
+      parts.join do |item|
+        case item
         in String
+          html ? HTML.escape(item) : item
+        in Tuple(SemanticTokenizer::TokenType, String)
           if html
-            HTML.escape(item)
-          else
-            item
+            next "<span class=\"#{item[0].to_s.underscore}\">#{HTML.escape(item[1])}</span>"
           end
-        in Tuple(String, SemanticTokenizer::TokenType)
-          if html
-            "<span class=\"#{item[1].to_s.underscore}\">#{HTML.escape(item[0])}</span>"
-          else
-            case item[1]
-            in .type?
-              item[0].colorize(:yellow)
-            in .type_parameter?
-              item[0].colorize(:light_yellow)
-            in .variable?
-              item[0].colorize(:dark_gray)
-            in .namespace?
-              item[0].colorize(:light_blue)
-            in .keyword?
-              item[0].colorize(:magenta)
-            in .property?
-              item[0].colorize(:dark_gray).mode(:underline)
-            in .comment?
-              item[0].colorize(:light_gray)
-            in .string?
-              item[0].colorize(:green)
-            in .number?
-              item[0].colorize(:red)
-            in .regexp?
-              item[0].colorize(:light_red)
-            in .operator?
-              item[0].colorize(:light_magenta)
-            end.to_s
-          end
+
+          case item[0]
+          in .type?
+            item[1].colorize(:yellow)
+          in .type_parameter?
+            item[1].colorize(:light_yellow)
+          in .variable?
+            item[1].colorize(:dark_gray)
+          in .namespace?
+            item[1].colorize(:light_blue)
+          in .keyword?
+            item[1].colorize(:magenta)
+          in .property?
+            item[1].colorize(:dark_gray).mode(:underline)
+          in .comment?
+            item[1].colorize(:light_gray)
+          in .string?
+            item[1].colorize(:green)
+          in .number?
+            item[1].colorize(:red)
+          in .regexp?
+            item[1].colorize(:light_red)
+          in .operator?
+            item[1].colorize(:light_magenta)
+          end.to_s
         end
       end
     end

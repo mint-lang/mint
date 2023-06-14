@@ -18,8 +18,8 @@ module Mint
           case item
           in String
             "`#{skip { escape_for_javascript(item) }}`"
-          in Tuple(String, SemanticTokenizer::TokenType)
-            "_h('span', { className: '#{item[1].to_s.underscore}' }, [`#{skip { escape_for_javascript(item[0]) }}`])"
+          in Tuple(SemanticTokenizer::TokenType, String)
+            "_h('span', { className: '#{item[0].to_s.underscore}' }, [`#{skip { escape_for_javascript(item[1]) }}`])"
           end
         end
 

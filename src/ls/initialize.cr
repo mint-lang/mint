@@ -42,7 +42,7 @@ module Mint
               change_notifications: false,
               supported: false))
 
-        semantic_tokens_options =
+        semantic_tokens_provider =
           LSP::SemanticTokensOptions.new(
             range: false,
             full: true,
@@ -55,7 +55,7 @@ module Mint
           LSP::ServerCapabilities.new(
             document_on_type_formatting_provider: document_on_type_formatting_provider,
             execute_command_provider: execute_command_provider,
-            semantic_tokens_provider: semantic_tokens_options,
+            semantic_tokens_provider: semantic_tokens_provider,
             signature_help_provider: signature_help_provider,
             document_link_provider: document_link_provider,
             completion_provider: completion_provider,
