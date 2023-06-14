@@ -1,6 +1,6 @@
 module Mint
   module LS
-    # This is the class that handles the "textDocument/hover" request.
+    # This is the class that handles the "textDocument/semanticTokens/full" request.
     class SemanticTokens < LSP::RequestMessage
       property params : LSP::SemanticTokensParams
 
