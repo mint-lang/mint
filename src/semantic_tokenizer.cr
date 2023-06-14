@@ -64,14 +64,14 @@ module Mint
         parts << contents[position, contents.size]
       end
 
-      {contents, parts}
+      parts
     end
 
     def self.highlight(path : String, html : Bool = false)
       ast =
         Parser.parse(path)
 
-      contents, parts =
+      parts =
         tokenize(ast)
 
       parts.reduce("") do |memo, item|

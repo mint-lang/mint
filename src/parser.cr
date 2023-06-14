@@ -22,21 +22,18 @@ module Mint
 
     def start(&)
       start_position = position
+      node_size = ast.nodes.size
 
       begin
         node = yield position
         @position = start_position unless node
-        clear_nodes(start_position) unless node
+        ast.nodes.delete_at(node_size...) unless node
         node
       rescue error : Error
         @position = start_position
-        clear_nodes(start_position)
+        ast.nodes.delete_at(node_size...)
         raise error
       end
-    end
-
-    def clear_nodes(from_position)
-      ast.nodes.reject! { |node| node.from >= from_position }
     end
 
     def step

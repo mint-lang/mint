@@ -10,7 +10,7 @@ module Mint
       parser = Parser.new(formatted, "source.mint")
       parser.code_block_naked
 
-      contents, parts =
+      parts =
         SemanticTokenizer.tokenize(parser.ast)
 
       mapped =
