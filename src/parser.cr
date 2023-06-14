@@ -186,7 +186,7 @@ module Mint
 
     def keyword(word) : Bool
       if keyword_ahead?(word)
-        if word =~ /^[a-z]+$/
+        if word.chars.all?(&.ascii_lowercase?) && !word.blank? && word != "or"
           @ast.keywords << {position, position + word.size}
         end
 

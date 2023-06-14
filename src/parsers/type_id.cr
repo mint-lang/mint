@@ -10,7 +10,7 @@ module Mint
         raise error unless value
 
         if char! '.'
-          other = type_id!(error, false)
+          other = type_id!(error, track: false)
           value += ".#{other.value}"
         end
 
@@ -38,7 +38,7 @@ module Mint
           if char == '.'
             other = start do
               step
-              next_part = type_id(false)
+              next_part = type_id(track: false)
               next unless next_part
               next_part
             end

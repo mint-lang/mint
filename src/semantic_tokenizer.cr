@@ -23,7 +23,6 @@ module Mint
     TOKEN_MAP = {
       Ast::TypeVariable  => TokenType::TypeParameter,
       Ast::Variable      => TokenType::Variable,
-      Ast::BoolLiteral   => TokenType::Keyword,
       Ast::Comment       => TokenType::Comment,
       Ast::StringLiteral => TokenType::String,
       Ast::NumberLiteral => TokenType::Number,
