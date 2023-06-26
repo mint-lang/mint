@@ -5,6 +5,7 @@ module Mint
     getter ast = Ast.new
     getter data : Ast::Data
     getter refs = [] of {Ast::Variable, Ast::HtmlComponent | Ast::HtmlElement}
+    getter locales = [] of Ast::LocaleKey
     getter position = 0
 
     def initialize(input : String, @file)

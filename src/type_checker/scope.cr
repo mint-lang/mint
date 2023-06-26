@@ -193,6 +193,14 @@ module Mint
           ensure
             @levels = old_levels
           end
+        when Ast::LocaleKey
+          old_levels = @levels
+          @levels = [] of Node
+          begin
+            return yield
+          ensure
+            @levels = old_levels
+          end
         when Ast::Function,
              Ast::Get
           if store = @functions[node]?

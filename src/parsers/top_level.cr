@@ -25,6 +25,7 @@ module Mint
           record_definition ||
           self.enum ||
           provider ||
+          locale ||
           routes ||
           store ||
           suite ||
@@ -51,6 +52,8 @@ module Mint
           @ast.enums << item
         when Ast::Comment
           @ast.comments << item
+        when Ast::Locale
+          @ast.locales << item
         end
       end
     end

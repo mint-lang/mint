@@ -4,7 +4,7 @@ module Mint
 
     delegate lookups, checked, cache, component_records, to: @artifacts
     delegate ast, types, variables, resolve_order, to: @artifacts
-    delegate record_field_lookup, to: @artifacts
+    delegate record_field_lookup, locales, to: @artifacts
 
     getter js, style_builder, static_components, static_components_pool
     getter build, relative

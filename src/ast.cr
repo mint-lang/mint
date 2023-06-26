@@ -30,18 +30,21 @@ module Mint
                        If |
                        Js
 
-    getter components, modules, records, stores, routes, providers
-    getter suites, enums, comments, nodes, unified_modules, keywords
-    getter operators
+    getter components, modules, records, stores, routes, providers, operators
+    getter suites, enums, comments, nodes, keywords, locales
+
+    getter unified_modules, unified_locales
 
     def initialize(@operators = [] of Tuple(Int32, Int32),
                    @keywords = [] of Tuple(Int32, Int32),
                    @records = [] of RecordDefinition,
                    @unified_modules = [] of Module,
+                   @unified_locales = [] of Locale,
                    @components = [] of Component,
                    @providers = [] of Provider,
                    @comments = [] of Comment,
                    @modules = [] of Module,
+                   @locales = [] of Locale,
                    @routes = [] of Routes,
                    @suites = [] of Suite,
                    @stores = [] of Store,
@@ -77,6 +80,7 @@ module Mint
       @comments.concat ast.comments
       @modules.concat ast.modules
       @records.concat ast.records
+      @locales.concat ast.locales
       @stores.concat ast.stores
       @routes.concat ast.routes
       @suites.concat ast.suites
@@ -111,6 +115,18 @@ module Mint
             )
           end
 
+      @unified_locales =
+        @locales
+          .group_by(&.language)
+          .map do |_, locales|
+            Locale.new(
+              input: Data.new(input: "", file: ""),
+              fields: locales.flat_map(&.fields),
+              language: locales.first.language,
+              comment: nil,
+              from: 0,
+              to: 0)
+          end
       self
     end
   end
