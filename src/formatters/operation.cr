@@ -7,8 +7,7 @@ module Mint
       right =
         format node.right
 
-      if node.new_line? &&
-         node.right.is_a?(Ast::Operation)
+      if node.new_line?
         "#{left} #{node.operator}\n#{indent(right.remove_all_leading_whitespace)}"
       else
         "#{left} #{node.operator} #{right}"
