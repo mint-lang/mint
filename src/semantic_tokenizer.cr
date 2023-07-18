@@ -17,7 +17,7 @@ module Mint
       Regexp
     end
 
-    TOKEN_TYPES = TokenType.names.map { |name| name[0].downcase + name[1..] }
+    TOKEN_TYPES = TokenType.names.map!(&.camelcase(lower: true))
 
     # This represents which token types are used for which node.
     TOKEN_MAP = {
