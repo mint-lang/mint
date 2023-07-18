@@ -24,7 +24,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.4.3
+    branch: master
 
 targets:
   mint:
