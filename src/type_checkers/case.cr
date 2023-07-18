@@ -102,7 +102,7 @@ module Mint
             if destructurings.empty?
               true
             else
-              (1..destructurings.map(&.items.size).max).to_a.all? do |length|
+              (1..destructurings.max_of(&.items.size)).to_a.all? do |length|
                 destructurings.any?(&.covers?(length))
               end
             end
