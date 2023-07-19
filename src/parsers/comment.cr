@@ -24,7 +24,7 @@ module Mint
 
         whitespace
 
-        Ast::Comment.new(
+        self << Ast::Comment.new(
           from: start_position,
           value: value,
           type: type,

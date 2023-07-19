@@ -1,0 +1,87 @@
+/* Some comment. */
+record Article {
+  id : Number,
+  description : String,
+  title : String
+}
+-----------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "semanticTokens": {
+          "dynamicRegistration": false,
+          "tokenTypes": ["property"]
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    }
+  },
+  "method": "textDocument/semanticTokens/full"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "data": [
+      0,
+      0,
+      20,
+      5,
+      0,
+      1,
+      0,
+      6,
+      4,
+      0,
+      0,
+      7,
+      7,
+      1,
+      0,
+      1,
+      2,
+      2,
+      6,
+      0,
+      0,
+      5,
+      6,
+      1,
+      0,
+      1,
+      2,
+      11,
+      6,
+      0,
+      0,
+      14,
+      6,
+      1,
+      0,
+      1,
+      2,
+      5,
+      6,
+      0,
+      0,
+      8,
+      6,
+      1,
+      0
+    ]
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response
