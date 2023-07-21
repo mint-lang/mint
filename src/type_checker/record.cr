@@ -2,12 +2,15 @@ module Mint
   class TypeChecker
     class Record
       property parameters = [] of Checkable
+      property label : String?
+
       getter name, fields, mappings
 
       def initialize(
         @name : String,
         @fields = {} of String => Checkable,
-        @mappings = {} of String => String?
+        @mappings = {} of String => String?,
+        @label = nil
       )
       end
 

@@ -10,7 +10,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { expression.as(Ast::Expression?) }
+        ) { call_expression.as(Ast::CallExpression?) }
         whitespace
 
         char ')', CallExpectedClosingParentheses

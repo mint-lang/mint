@@ -2,8 +2,16 @@ module Mint
   class TypeChecker
     type_error CallArgumentSizeMismatch
     type_error CallArgumentTypeMismatch
+    type_error CallNotFoundArgument
+    type_error CallMixedArguments
     type_error CallTypeMismatch
     type_error CallNotAFunction
+
+    def check(node : Ast::CallExpression)
+      resolve(node.expression).tap do |item|
+        item.label = node.name.try(&.value)
+      end
+    end
 
     def check(node : Ast::Call)
       function_type =
@@ -37,6 +45,28 @@ module Mint
         "node"      => node,
       } if node.arguments.size > argument_size ||       # If it's more than the maximum
            node.arguments.size < required_argument_size # If it's less then the minimum
+
+      if node.arguments.all?(&.name.nil?)
+        node.arguments
+      elsif node.arguments.all?(&.name.!=(nil))
+        node.arguments.sort_by! do |argument|
+          index =
+            function_type
+              .parameters
+              .index { |param| param.label == argument.name.try(&.value) }
+
+          raise CallNotFoundArgument, {
+            "name" => argument.name.try(&.value).to_s,
+            "node" => node,
+          } unless index
+
+          index
+        end
+      else
+        raise CallMixedArguments, {
+          "node" => node,
+        }
+      end
 
       node.arguments.each_with_index do |argument, index|
         argument_type =

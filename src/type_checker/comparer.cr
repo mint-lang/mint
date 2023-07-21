@@ -29,7 +29,7 @@ module Mint
           parameters =
             node.parameters.map { |param| fill(param, mapping).as(Checkable) }
 
-          Type.new(node.name, parameters)
+          Type.new(node.name, parameters, node.label)
         else
           node
         end
@@ -113,7 +113,7 @@ module Mint
       end
 
       def fresh(node : Variable)
-        Variable.new(node.name)
+        Variable.new(node.name, node.label)
       end
 
       def fresh(node : Type, mapping = {} of Int32 => Variable)
@@ -131,7 +131,7 @@ module Mint
               end
             end
 
-        Type.new(node.name, params)
+        Type.new(node.name, params, node.label)
       end
 
       def fresh(node : PartialRecord)
@@ -142,7 +142,7 @@ module Mint
               memo[key] = fresh value
             end
 
-        PartialRecord.new(node.name, fields)
+        PartialRecord.new(node.name, fields, label: node.label)
       end
 
       def fresh(node : Record)
@@ -153,7 +153,7 @@ module Mint
               memo[key] = fresh value
             end
 
-        Record.new(node.name, fields)
+        Record.new(node.name, fields, label: node.label)
       end
 
       def prune(node : Variable)
