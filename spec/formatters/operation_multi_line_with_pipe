@@ -16,6 +16,7 @@ module Test {
 
   fun test : Bool {
     ("Hello"
-    |> identity()) == "True"
+    |> identity()) ==
+      "True"
   }
 }
