@@ -8,7 +8,11 @@ module Mint
         if name.nil?
           stack.each do |parent|
             case parent
-            when Ast::Component, Ast::Store
+            when Ast::Component,
+                 Ast::Store,
+                 Ast::Suite,
+                 Ast::Module,
+                 Ast::Provider
               parent.constants.each do |constant|
                 if node.option.value == constant.name.value
                   return location_link server, node.option, constant.name, constant
