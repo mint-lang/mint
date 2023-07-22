@@ -43,7 +43,7 @@ module Mint
 
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, to: artifacts
-    delegate assets, resolve_order, locales, to: artifacts
+    delegate assets, resolve_order, locales, argument_order, to: artifacts
 
     delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter

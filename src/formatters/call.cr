@@ -1,9 +1,5 @@
 module Mint
   class Formatter
-    def format(node : Ast::CallExpression)
-      format node.expression
-    end
-
     def format(node : Ast::Call) : String
       expression =
         format node.expression

@@ -22,6 +22,7 @@ module Mint
             parameters.map do |param|
               pretty =
                 param.to_pretty.as(String)
+
               if param.label
                 "#{param.label}: #{pretty}"
               else

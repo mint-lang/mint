@@ -8,7 +8,7 @@ module Mint
     type_error CallNotAFunction
 
     def check(node : Ast::CallExpression)
-      resolve(node.expression).tap do |item|
+      resolve(node.expression).dup.tap do |item|
         item.label = node.name.try(&.value)
       end
     end
@@ -46,29 +46,33 @@ module Mint
       } if node.arguments.size > argument_size ||       # If it's more than the maximum
            node.arguments.size < required_argument_size # If it's less then the minimum
 
-      if node.arguments.all?(&.name.nil?)
-        node.arguments
-      elsif node.arguments.all?(&.name.!=(nil))
-        node.arguments.sort_by! do |argument|
-          index =
-            function_type
-              .parameters
-              .index { |param| param.label == argument.name.try(&.value) }
+      args =
+        if node.arguments.all?(&.name.nil?)
+          node.arguments
+        elsif node.arguments.all?(&.name.!=(nil))
+          node.arguments.sort_by do |argument|
+            index =
+              function_type
+                .parameters
+                .index { |param| param.label == argument.name.try(&.value) }
 
-          raise CallNotFoundArgument, {
-            "name" => argument.name.try(&.value).to_s,
+            raise CallNotFoundArgument, {
+              "function_type" => function_type,
+              "name"          => argument.name.try(&.value).to_s,
+              "node"          => node,
+            } unless index
+
+            index
+          end
+        else
+          raise CallMixedArguments, {
             "node" => node,
-          } unless index
-
-          index
+          }
         end
-      else
-        raise CallMixedArguments, {
-          "node" => node,
-        }
-      end
 
-      node.arguments.each_with_index do |argument, index|
+      argument_order.concat args
+
+      args.each_with_index do |argument, index|
         argument_type =
           resolve argument
 
@@ -86,8 +90,8 @@ module Mint
         parameters << argument_type
       end
 
-      if (optional_param_count = argument_size - node.arguments.size) > 0
-        parameters.concat(function_type.parameters[node.arguments.size, optional_param_count])
+      if (optional_param_count = argument_size - args.size) > 0
+        parameters.concat(function_type.parameters[args.size, optional_param_count])
       end
 
       call_type =
