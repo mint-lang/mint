@@ -1,0 +1,102 @@
+record Subscription {
+  a : Bool,
+  b : Bool
+}
+
+provider Provider : Subscription {
+  const NAME = "hello"
+
+  state a : String = ""
+
+  get b : String {
+    a
+  }
+
+  fun name : String {
+    NAME
+  }
+}
+
+component Main {
+  use Provider {
+    a: true,
+    b: false
+  }
+
+  fun render {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+const A = _R({
+  a: [
+    "a",
+    Decoder.boolean
+  ],
+  b: [
+    "b",
+    Decoder.boolean
+  ]
+});
+
+const B = new(class extends _P {
+  constructor() {
+    super();
+
+    this.state = {
+      c: ``
+    };
+
+    this._d({
+      b: () => {
+        return `hello`
+      }
+    });
+  }
+
+  get c() {
+    return this.state.c;
+  }
+
+  get d() {
+    return this.c
+  }
+
+  a() {
+    return this.b;
+  }
+});
+
+class C extends _C {
+  componentWillUnmount() {
+    B._unsubscribe(this);
+  }
+
+  componentDidUpdate() {
+    if (true) {
+      B._subscribe(this, new A({
+        a: true,
+        b: false
+      }))
+    } else {
+      B._unsubscribe(this)
+    };
+  }
+
+  componentDidMount() {
+    if (true) {
+      B._subscribe(this, new A({
+        a: true,
+        b: false
+      }))
+    } else {
+      B._unsubscribe(this)
+    };
+  }
+
+  render() {
+    return _h("div", {});
+  }
+};
+
+C.displayName = "Main";
