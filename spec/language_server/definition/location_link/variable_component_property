@@ -1,0 +1,77 @@
+component Test {
+  property text : String = "Mint"
+
+  fun render : Html {
+    <div>
+      <{ text }>
+    </div>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 5,
+      "character": 9
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 5,
+        "character": 9
+      },
+      "end": {
+        "line": 5,
+        "character": 13
+      }
+    },
+    "targetUri": "file://#{root_path}/test.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 2
+      },
+      "end": {
+        "line": 1,
+        "character": 33
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 11
+      },
+      "end": {
+        "line": 1,
+        "character": 15
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

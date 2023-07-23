@@ -1,0 +1,81 @@
+store Test {
+  get description : String {
+    "description"
+  }
+
+  fun load (text : String) : Promise(Void) {
+    Promise.never()
+  }
+
+  fun dashboard : Promise(Void) {
+    await load(description)
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 10,
+      "character": 15
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "originSelectionRange": {
+      "start": {
+        "line": 10,
+        "character": 15
+      },
+      "end": {
+        "line": 10,
+        "character": 26
+      }
+    },
+    "targetUri": "file://#{root_path}/test.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 2
+      },
+      "end": {
+        "line": 5,
+        "character": 2
+      }
+    },
+    "targetSelectionRange": {
+      "start": {
+        "line": 1,
+        "character": 6
+      },
+      "end": {
+        "line": 1,
+        "character": 17
+      }
+    }
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

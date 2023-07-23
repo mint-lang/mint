@@ -1,0 +1,59 @@
+record Subscription {
+  a : Bool
+}
+
+provider Provider : Subscription {
+  const TITLE = "title"
+
+  fun title : String {
+    TITLE
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 8,
+      "character": 4
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 5,
+        "character": 8
+      },
+      "end": {
+        "line": 5,
+        "character": 13
+      }
+    },
+    "uri": "file://#{root_path}/test.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response
