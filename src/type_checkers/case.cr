@@ -34,7 +34,7 @@ module Mint
               Comparer.compare(type, resolved)
 
             raise CaseBranchNotMatches, {
-              "index"    => (index + 1).to_s,
+              "index"    => (index + 2).to_s,
               "expected" => resolved,
               "got"      => type,
               "node"     => branch,
