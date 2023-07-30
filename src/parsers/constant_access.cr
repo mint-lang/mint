@@ -11,11 +11,11 @@ module Mint
         next unless name
 
         variable =
-          constant_variable
+          variable_constant
 
         next unless variable
 
-        Ast::ModuleAccess.new(
+        self << Ast::ModuleAccess.new(
           from: start_position,
           variable: variable,
           constant: true,

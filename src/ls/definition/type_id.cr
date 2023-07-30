@@ -6,6 +6,7 @@ module Mint
           workspace.ast.enums.find(&.name.value.==(node.value)) ||
             workspace.ast.records.find(&.name.value.==(node.value)) ||
             workspace.ast.stores.find(&.name.value.==(node.value)) ||
+            workspace.ast.modules.find(&.name.value.==(node.value)) ||
             find_component(workspace, node.value)
 
         if found.nil? && (next_node = stack[1])
@@ -15,7 +16,7 @@ module Mint
         return if Core.ast.nodes.includes?(found)
 
         case found
-        when Ast::Store, Ast::Enum, Ast::Component, Ast::RecordDefinition
+        when Ast::Store, Ast::Enum, Ast::Component, Ast::RecordDefinition, Ast::Module
           location_link server, node, found.name, found
         end
       end
