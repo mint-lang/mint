@@ -22,13 +22,16 @@ module Mint
 
     def start(&)
       start_position = position
+      node_size = ast.nodes.size
 
       begin
         node = yield position
         @position = start_position unless node
+        ast.nodes.delete_at(node_size...) unless node
         node
       rescue error : Error
         @position = start_position
+        ast.nodes.delete_at(node_size...)
         raise error
       end
     end
@@ -180,6 +183,10 @@ module Mint
 
     def keyword(word) : Bool
       if keyword_ahead?(word)
+        if word.chars.all?(&.ascii_lowercase?) && !word.blank? && word != "or"
+          @ast.keywords << {position, position + word.size}
+        end
+
         @position += word.size
         true
       else

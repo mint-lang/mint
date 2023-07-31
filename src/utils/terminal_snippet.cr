@@ -76,7 +76,7 @@ module Mint
         lines[start_line, end_line - start_line]
 
       min_width = {
-        relevant_lines.map(&.size).max + gutter_width + 5,
+        relevant_lines.max_of(&.size) + gutter_width + 5,
         width,
       }.max
 

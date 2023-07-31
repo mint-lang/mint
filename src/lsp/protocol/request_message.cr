@@ -5,6 +5,9 @@ module LSP
   abstract class RequestMessage
     include JSON::Serializable
 
+    # WHY IS THIS NEEDED FOR 1.9.1 and not for 1.8??????
+    property snippet_support : Bool?
+
     # The request id.
     property id : Int32 | String
 

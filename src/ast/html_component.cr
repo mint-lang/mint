@@ -1,13 +1,14 @@
 module Mint
   class Ast
     class HtmlComponent < Node
-      getter attributes, children, component, comments, ref
+      getter attributes, children, component, comments, ref, closing_tag_position
 
       def initialize(@attributes : Array(HtmlAttribute),
+                     @closing_tag_position : Int32?,
                      @comments : Array(Comment),
                      @children : Array(Node),
-                     @ref : Variable?,
                      @component : TypeId,
+                     @ref : Variable?,
                      @input : Data,
                      @from : Int32,
                      @to : Int32)

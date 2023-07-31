@@ -21,13 +21,15 @@ module Mint
           variable! HtmlComponentExpectedReference
         end
 
-        attributes, children, comments = html_body(
-          expected_closing_bracket: HtmlComponentExpectedClosingBracket,
-          expected_closing_tag: HtmlComponentExpectedClosingTag,
-          with_dashes: false,
-          tag: component)
+        attributes, children, comments, closing_tag_position =
+          html_body(
+            expected_closing_bracket: HtmlComponentExpectedClosingBracket,
+            expected_closing_tag: HtmlComponentExpectedClosingTag,
+            with_dashes: false,
+            tag: component)
 
         node = self << Ast::HtmlComponent.new(
+          closing_tag_position: closing_tag_position,
           attributes: attributes,
           from: start_position,
           component: component,

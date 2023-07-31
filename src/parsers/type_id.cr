@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def type_id!(error : SyntaxError.class) : Ast::TypeId
+    def type_id!(error : SyntaxError.class, *, track : Bool = true) : Ast::TypeId
       start do |start_position|
         value = gather do
           char(error, &.ascii_uppercase?)
@@ -10,7 +10,7 @@ module Mint
         raise error unless value
 
         if char! '.'
-          other = type_id! error
+          other = type_id!(error, track: false)
           value += ".#{other.value}"
         end
 
@@ -18,11 +18,13 @@ module Mint
           from: start_position,
           value: value,
           to: position,
-          input: data)
+          input: data).tap do |node|
+          self << node if track
+        end
       end
     end
 
-    def type_id : Ast::TypeId?
+    def type_id(*, track : Bool = true) : Ast::TypeId?
       start do |start_position|
         value = gather do
           return unless char.ascii_uppercase?
@@ -36,7 +38,7 @@ module Mint
           if char == '.'
             other = start do
               step
-              next_part = type_id
+              next_part = type_id(track: false)
               next unless next_part
               next_part
             end
@@ -51,13 +53,15 @@ module Mint
           from: start_position,
           value: value,
           to: position,
-          input: data)
+          input: data).tap do |node|
+          self << node if track
+        end
       end
     end
 
-    def type_id(error : SyntaxError.class) : Ast::TypeId?
+    def type_id(error : SyntaxError.class, *, track : Bool = true) : Ast::TypeId?
       return unless char.ascii_uppercase?
-      type_id! error
+      type_id! error, track: track
     end
   end
 end

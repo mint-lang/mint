@@ -96,6 +96,10 @@ module LSP
     @[JSON::Field(key: "executeCommandProvider")]
     property execute_command_provider : ExecuteCommandOptions
 
+    # The server provides semantic tokens support.
+    @[JSON::Field(key: "semanticTokensProvider")]
+    property semantic_tokens_provider : SemanticTokensOptions
+
     # Workspace specific server capabilities
     property workspace : Workspace
 
@@ -105,6 +109,7 @@ module LSP
       @document_formatting_provider,
       @document_highlight_provider,
       @workspace_symbol_provider,
+      @semantic_tokens_provider,
       @document_symbol_provider,
       @type_definition_provider,
       @execute_command_provider,

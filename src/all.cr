@@ -57,6 +57,8 @@ require "./documentation_generator/**"
 require "./documentation_generator"
 require "./documentation_server"
 
+require "./semantic_tokenizer"
+
 require "./test_runner/**"
 require "./test_runner"
 

@@ -44,6 +44,9 @@ module Mint
             tag
           end
 
+        closing_tag_position =
+          position + 2
+
         raise expected_closing_tag, position, {
           "opening_tag" => tag,
         } unless keyword "</#{closing_tag}>"
@@ -60,7 +63,8 @@ module Mint
 
       {attributes,
        children,
-       comments}
+       comments,
+       closing_tag_position}
     end
   end
 end

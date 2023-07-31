@@ -1,0 +1,55 @@
+module Test {
+  fun uppercase (value : String) : Array(String) {
+    for value of String.split(value, ",") {
+      String.toUpperCase(value)
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 30
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 17
+      },
+      "end": {
+        "line": 1,
+        "character": 22
+      }
+    },
+    "uri": "file://#{root_path}/test.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

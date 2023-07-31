@@ -30,9 +30,11 @@ module Mint
     def operator : String?
       start do
         whitespace
+        saved_position = position
         operator = OPERATORS.keys.find { |item| keyword item }
         next unless operator
         next unless whitespace?
+        ast.operators << {saved_position, saved_position + operator.size}
         whitespace
         operator
       end

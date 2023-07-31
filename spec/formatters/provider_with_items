@@ -1,0 +1,34 @@
+record Subscription {
+    a : Bool
+}
+  
+provider Provider:Subscription {
+/* Comment */constNAME="hello"
+
+  state a :String = ""
+  getb:String {
+  a
+  }
+  fun name:String {
+    NAME
+  }
+}
+--------------------------------------------------------------------------------
+record Subscription {
+  a : Bool
+}
+
+provider Provider : Subscription {
+  /* Comment */
+  const NAME = "hello"
+
+  state a : String = ""
+
+  get b : String {
+    a
+  }
+
+  fun name : String {
+    NAME
+  }
+}

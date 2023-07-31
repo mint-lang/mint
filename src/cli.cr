@@ -15,6 +15,7 @@ module Mint
     define_help description: "Mint"
 
     register_sub_command "sandbox-server", type: SandboxServer
+    register_sub_command highlight, type: Highlight
     register_sub_command install, type: Install
     register_sub_command compile, type: Compile
     register_sub_command version, type: Version
