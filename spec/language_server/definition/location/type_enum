@@ -3,7 +3,7 @@ enum Status {
   Ok
 }
 ----------------------------------------------------------------file status.mint
-module Test {
+module Status {
   fun success : Status {
     Status::Ok
   }

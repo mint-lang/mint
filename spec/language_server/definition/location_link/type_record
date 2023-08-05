@@ -4,7 +4,7 @@ record Article {
   title : String
 }
 ---------------------------------------------------------------file article.mint
-module Test {
+module Article {
   fun test : Article {
     {
       id: 1,
