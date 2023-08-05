@@ -61,7 +61,7 @@ component Test {
           "character": 15
         }
       },
-      "targetUri": "file://#{root_path}/module2.mint",
+      "targetUri": "file://#{root_path}/module1.mint",
       "targetRange": {
         "start": {
           "line": 0,
@@ -94,7 +94,7 @@ component Test {
           "character": 15
         }
       },
-      "targetUri": "file://#{root_path}/module1.mint",
+      "targetUri": "file://#{root_path}/module2.mint",
       "targetRange": {
         "start": {
           "line": 0,

@@ -61,7 +61,7 @@ component Test {
           "character": 13
         }
       },
-      "uri": "file://#{root_path}/module2.mint"
+      "uri": "file://#{root_path}/module1.mint"
     },
     {
       "range": {
@@ -74,7 +74,7 @@ component Test {
           "character": 13
         }
       },
-      "uri": "file://#{root_path}/module1.mint"
+      "uri": "file://#{root_path}/module2.mint"
     }
   ],
   "id": 1
