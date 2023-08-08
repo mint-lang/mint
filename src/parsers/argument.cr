@@ -1,26 +1,46 @@
 module Mint
   class Parser
-    syntax_error ArgumentExpectedTypeOrVariable
-    syntax_error ArgumentExpectedDefaultValue
-    syntax_error ArgumentExpectedColon
-
     def argument(parse_default_value : Bool = true) : Ast::Argument?
       start do |start_position|
         next unless name = variable
 
         whitespace
-        char ':', ArgumentExpectedColon
-        whitespace
+        next error :argument_expected_colon do
+          block "A colon must separate the arguments name from its type."
+          expected "the colon of the argument", word
 
-        type = type_or_type_variable! ArgumentExpectedTypeOrVariable
+          snippet self
+        end unless char! ':'
+
+        whitespace
+        next error :argument_expected_type do
+          block "An argument must have its type defined."
+          expected "the type of the argument", word
+
+          snippet self
+        end unless type = type_or_type_variable
 
         if parse_default_value
           whitespace
-          default =
-            if char! '='
-              whitespace
-              expression! ArgumentExpectedDefaultValue
-            end
+
+          if char! '='
+            whitespace
+            default = expression
+
+            next error :argument_expected_default_value do
+              block do
+                text "The"
+                bold "default value"
+                text "of an argument must be defined after the equal sign."
+              end
+
+              snippet %(name : String = "Joe")
+
+              expected "the default value of the argument", word
+
+              snippet self
+            end unless default
+          end
         end
 
         self << Ast::Argument.new(

@@ -1,0 +1,9 @@
+--------------------------------------------------------argument_expected_colon
+component Main {
+  fun render (a
+---------------------------------------------------------argument_expected_type
+component Main {
+  fun render (a :
+------------------------------------------------argument_expected_default_value
+component Main {
+  fun render (a : String =
