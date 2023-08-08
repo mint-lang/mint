@@ -39,6 +39,9 @@ module Mint
         rescue error : Error
           # In case of an error print it
           error error.to_terminal, position
+        rescue error : Error2
+          # In case of an error print it
+          error error.to_terminal, position
         rescue exception : Exception
           # In case of an exception print it
           error exception.inspect_with_backtrace, position

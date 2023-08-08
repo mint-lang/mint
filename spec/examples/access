@@ -1,0 +1,4 @@
+---------------------------------------------------------access_expected_entity
+component Main {
+  fun render : String {
+    "".

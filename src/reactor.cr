@@ -72,6 +72,8 @@ module Mint
       compile_script
     rescue error : Error
       @error = error.to_html
+    rescue error : Error2
+      @error = error.to_html
     end
 
     def update(result)

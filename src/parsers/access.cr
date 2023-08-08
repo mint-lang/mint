@@ -1,12 +1,13 @@
 module Mint
   class Parser
-    syntax_error AccessExpectedVariable
-
     def access(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
         next unless char! '.'
 
-        field = variable! AccessExpectedVariable
+        next error :access_expected_entity do
+          expected "the name of the accessed entity", word
+          snippet self
+        end unless field = variable
 
         node = self << Ast::Access.new(
           from: start_position,

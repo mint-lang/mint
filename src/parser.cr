@@ -1,5 +1,7 @@
 module Mint
   class Parser
+    include Errorable
+
     getter input : Array(Char)
     getter file : String
     getter ast = Ast.new
@@ -43,6 +45,13 @@ module Mint
 
     def eof? : Bool
       @position == input.size
+    end
+
+    # Checks if we reached the end of the file raises an error otherwise.
+    def eof! : Bool
+      whitespace
+      error :expected_eof { expected "the end of the file", word } unless eof?
+      true
     end
 
     # Helpers for raising errors
@@ -277,6 +286,20 @@ module Mint
     # Gets substring out of the original string
     def substring(from, to)
       @data.input[from, to]
+    end
+
+    # Returns the word a the cursor
+    def word : String?
+      start_position = position
+      word = ""
+
+      while !(eof? || whitespace?)
+        word += char
+        step
+      end
+
+      @position = start_position
+      word
     end
 
     private def next_whitespace_index

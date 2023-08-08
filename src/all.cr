@@ -14,6 +14,7 @@ MINT_ENV = {} of String => String
 require "./version"
 
 require "./ext/**"
+require "./errorable"
 
 require "./errors/error"
 require "./errors/**"
