@@ -1,0 +1,4 @@
+-----------------------------------array_destructuring_expected_closing_bracket
+component Main {
+  fun render : String {
+    let [x

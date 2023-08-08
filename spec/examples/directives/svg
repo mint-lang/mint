@@ -1,0 +1,42 @@
+-------------------------------------svg_directive_expected_opening_parenthesis
+component Main {
+  fun render : String {
+    @svg
+----------------------------------------------------svg_directive_expected_path
+component Main {
+  fun render : String {
+    @svg(
+-------------------------------------svg_directive_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    @svg(path
+----------------------------------------------------svg_directive_expected_file
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon-missing)
+  }
+}
+-----------------------------------------------------svg_directive_expected_svg
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon-not-svg)
+  }
+}
+-------------------------------------------------svg_directive_expected_svg_tag
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon-no-svg-tag)
+  }
+}
+----------------------------------------------svg_directive_expected_dimensions
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon-no-dimensions)
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon.svg)
+  }
+}

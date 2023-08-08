@@ -62,8 +62,8 @@ store Test {
           "character": 2
         },
         "end": {
-          "line": 5,
-          "character": 2
+          "line": 3,
+          "character": 3
         }
       },
       "targetSelectionRange": {

@@ -1,32 +1,33 @@
 module Mint
   class Parser
     def tuple_destructuring : Ast::TupleDestructuring?
-      start do |start_position|
-        head = start do
-          next unless char! '{'
-          value = destructuring
+      parse do |start_position|
+        # TODO: Remove this branch in 0.21.0 when deprecation ends.
+        if char! '{'
           whitespace
-          next if char.in?('|', '=') # Don't parse record or record update as tuple destructuring
-          char! ','
+
+          items = list(terminator: '}', separator: ',') { destructuring }
+
           whitespace
-          value
+          next unless char! '}'
+        elsif word!("#(")
+          whitespace
+          items = list(terminator: '}', separator: ',') { destructuring }
+          whitespace
+
+          next error :tuple_destructuring_expected_closing_parenthesis do
+            expected "the closing parenthesis of a tuple destructuring", word
+            snippet self
+          end unless char! ')'
+        else
+          next
         end
-
-        next unless head
-
-        parameters = [head] &+ list(terminator: '}', separator: ',') do
-          destructuring
-        end
-
-        whitespace
-
-        next unless char! '}'
 
         Ast::TupleDestructuring.new(
-          parameters: parameters,
           from: start_position,
           to: position,
-          input: data)
+          items: items,
+          file: file)
       end
     end
   end

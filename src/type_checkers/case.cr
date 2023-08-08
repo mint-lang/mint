@@ -1,10 +1,5 @@
 module Mint
   class TypeChecker
-    type_error CaseBranchNotMatches
-    type_error CaseUnnecessaryAll
-    type_error CaseEnumNotCovered
-    type_error CaseNotCovered
-
     def check(node : Ast::Case) : Checkable
       condition =
         resolve node.condition
@@ -32,64 +27,89 @@ module Mint
 
             unified_branch =
               Comparer.compare(type, resolved)
+            error! :case_branch_not_matches do
+              block do
+                text "The return type of the"
+                bold "#{ordinal(index + 2)} branch"
+                text "of a case expression does not match the type of the 1st branch."
+              end
 
-            raise CaseBranchNotMatches, {
-              "index"    => (index + 2).to_s,
-              "expected" => resolved,
-              "got"      => type,
-              "node"     => branch,
-            } unless unified_branch
+              snippet "I was expecting the type of the 1st branch:", resolved
+              snippet "Instead it is:", type
+              snippet "The branch in question is here:", branch
+            end unless unified_branch
 
             unified_branch
           end
 
       catch_all =
-        node.branches.find(&.match.nil?)
+        node.branches.find(&.pattern.nil?)
+
+      case_unnecessary_all =
+        ->(catch_node : Ast::Node) { error! :case_unnecessary_all do
+          snippet "All possibilities of the case expression are covered so " \
+                  "this branch is not needed and can be safely removed.", catch_node
+        end }
+
+      case_not_covered = ->{ error! :case_not_covered do
+        snippet(
+          "Not all possibilities of a case expression are covered. To " \
+          "cover all remaining possibilities add an empty case branch:",
+          "=> returnValue")
+
+        snippet "The case in question is here:", node
+      end }
 
       # At this point all branches have been checked the
       # type should be the same.
       case condition
       when Type
         parent =
-          ast.enums.find(&.name.value.==(condition.name))
+          ast.type_definitions.find(&.name.value.==(condition.name))
 
         if parent
           not_matched =
-            parent.options.reject do |option|
-              node
-                .branches
-                .any? do |branch|
-                  case match = branch.match
-                  when Ast::EnumDestructuring
-                    match.option.value == option.value.value &&
-                      !match.parameters.any? do |item|
-                        item.is_a?(Ast::TupleDestructuring) ||
-                          item.is_a?(Ast::EnumDestructuring) ||
-                          item.is_a?(Ast::ArrayDestructuring)
-                      end
-                  else
-                    false
+            case fields = parent.fields
+            when Array(Ast::TypeVariant)
+              fields.reject do |field|
+                node
+                  .branches
+                  .any? do |branch|
+                    case pattern = branch.pattern
+                    when Ast::TypeDestructuring
+                      pattern.variant.value == field.value.value &&
+                        !pattern.items.any? do |item|
+                          item.is_a?(Ast::TupleDestructuring) ||
+                            item.is_a?(Ast::TypeDestructuring) ||
+                            item.is_a?(Ast::ArrayDestructuring)
+                        end
+                    else
+                      false
+                    end
                   end
-                end
+              end
+            else
+              [] of Ast::TypeVariant
             end
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if not_matched.empty? && catch_all
+          case_unnecessary_all.call(catch_all) if not_matched.empty? && catch_all
 
-          options =
-            not_matched.map do |option|
-              "#{format parent.name}::#{formatter.replace_skipped(format(option.value))}"
-            end
+          cases =
+            not_matched.map do |variant|
+              "#{format parent.name}::#{formatter.replace_skipped(format(variant.value))}"
+            end.join('\n')
 
-          raise CaseEnumNotCovered, {
-            "options" => options,
-            "node"    => node,
-          } if !not_matched.empty? && !catch_all
+          error! :case_type_not_covered do
+            snippet "Not all possibilities of a case expression are covered. " \
+                    "To cover all remaining possibilities create branches " \
+                    "for the following cases:", cases
+
+            snippet "The case in question is here:", node
+          end if !not_matched.empty? && !catch_all
         elsif condition.name == "Array"
           destructurings =
             node.branches
-              .map(&.match)
+              .map(&.pattern)
               .select(Ast::ArrayDestructuring)
               .select! do |branch|
                 branch.items.all? do |item|
@@ -103,51 +123,39 @@ module Mint
               true
             else
               (1..destructurings.max_of(&.items.size)).to_a.all? do |length|
-                destructurings.any?(&.covers?(length))
+                destructurings.any? { |item| covers?(item, length) }
               end
             end
 
           covers_empty =
             node.branches
-              .map(&.match)
+              .map(&.pattern)
               .select(Ast::ArrayLiteral)
               .any?(&.items.empty?)
 
           covers_infitiy =
-            destructurings.any?(&.spread?)
+            destructurings.any? { |item| spread?(item) }
 
           covered =
             covers_cases && covers_infitiy && covers_empty
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if covered && catch_all
-
-          raise CaseNotCovered, {
-            "node" => node,
-          } if !covered && !catch_all
+          case_unnecessary_all.call(catch_all) if covered && catch_all
+          case_not_covered.call if !covered && !catch_all
         elsif condition.name == "Tuple"
           destructured =
             node.branches.any? do |branch|
-              case match = branch.match
+              case pattern = branch.pattern
               when Ast::TupleDestructuring
-                match.exhaustive?
+                exhaustive?(pattern)
               else
                 false
               end
             end
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if destructured && catch_all
-
-          raise CaseNotCovered, {
-            "node" => node,
-          } if !destructured && !catch_all
+          case_unnecessary_all.call(catch_all) if destructured && catch_all
+          case_not_covered.call if !destructured && !catch_all
         elsif !catch_all
-          raise CaseNotCovered, {
-            "node" => node,
-          }
+          case_not_covered.call
         end
       end
 

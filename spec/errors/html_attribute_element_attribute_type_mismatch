@@ -1,0 +1,29 @@
+component Main {
+  fun render : Html {
+    <div name={0}/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_ELEMENT_ATTRIBUTE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the value for the property "name" of element "div" does not match
+its type.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+The attribute in question is here:
+
+   ┌ ./spec/errors/html_attribute_element_attribute_type_mismatch:3:10
+   ├──────────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div name={0}/>
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

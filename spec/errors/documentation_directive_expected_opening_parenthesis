@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @documentation
+--------------------------------------------------------------------------------
+░ ERROR (DOCUMENTATION_DIRECTIVE_EXPECTED_OPENING_PARENTHESIS) ░░░░░░░░░░░░░░░░░
+
+I was expecting the opening parenthesis of a documentation directive but I found
+"a space" instead:
+
+   ┌ ./spec/errors/documentation_directive_expected_opening_parenthesis:3:18
+   ├────────────────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @documentation
+   │                   ⌃⌃⌃⌃

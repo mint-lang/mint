@@ -1,0 +1,15 @@
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c
+--------------------------------------------------------------------------------
+░ ERROR (FOR_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parenthesis of a for expression but I found "a
+space" instead:
+
+   ┌ ./spec/errors/for_expected_closing_parenthesis:3:18
+   ├────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (a, b of c
+   │                   ⌃⌃⌃⌃

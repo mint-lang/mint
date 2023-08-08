@@ -1,0 +1,24 @@
+routes {
+  /:name (name : Array(String)) {
+    void
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ROUTE_PARAM_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of a route parameter cannot be used in routes:
+
+   ┌ ./spec/errors/route_param_invalid:2:18
+   ├───────────────────────────────────────
+  1│ routes {
+  2│   /:name (name : Array(String)) {
+   │                  ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     void
+  4│   }
+  5│ }
+
+Only these types can be used as route parameters:
+
+  String
+  Number
+

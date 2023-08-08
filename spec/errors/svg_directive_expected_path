@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @svg(
+--------------------------------------------------------------------------------
+░ ERROR (SVG_DIRECTIVE_EXPECTED_PATH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the path (to the svg) of an svg directive but I found "a space"
+instead:
+
+   ┌ ./spec/errors/svg_directive_expected_path:3:9
+   ├──────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @svg(
+   │          ⌃⌃⌃⌃

@@ -1,38 +1,51 @@
 module Mint
   class Parser
-    syntax_error UseExpectedOpeningBracket
-    syntax_error UseExpectedClosingBracket
-    syntax_error UseExpectedExpression
-    syntax_error UseExpectedProvider
-    syntax_error UseExpectedRecord
-
     def use : Ast::Use?
-      start do |start_position|
-        next unless keyword "use"
-
-        whitespace
-        provider = type_id! UseExpectedProvider
-
-        whitespace
-        raise UseExpectedRecord unless item = record
+      parse do |start_position|
+        next unless word! "use"
         whitespace
 
-        if keyword "when"
-          condition = block(
-            opening_bracket: UseExpectedOpeningBracket,
-            closing_bracket: UseExpectedClosingBracket
-          ) do
-            expression! UseExpectedExpression
+        next error :use_expected_provider do
+          expected "the provider of a use", word
+          snippet self
+        end unless provider = id
+        whitespace
+
+        next error :use_expected_record do
+          expected "the record of a use", word
+          snippet self
+        end unless data = record
+
+        condition =
+          parse(track: false) do
+            whitespace
+            next unless word! "when"
+            whitespace
+
+            brackets(
+              ->{ error :use_expected_condition_opening_bracket do
+                expected "the opening bracket of a use condition", word
+                snippet self
+              end },
+              ->{ error :use_expected_condition_closing_bracket do
+                expected "the closing bracket of a use condition", word
+                snippet self
+              end },
+              ->(item : Ast::Node?) {
+                error :use_expected_condition do
+                  expected "the condition of a use", word
+                  snippet self
+                end unless item
+              }) { expression }
           end
-        end
 
-        self << Ast::Use.new(
+        Ast::Use.new(
           from: start_position,
           condition: condition,
           provider: provider,
           to: position,
-          input: data,
-          data: item)
+          file: file,
+          data: data)
       end
     end
   end

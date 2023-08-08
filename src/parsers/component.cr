@@ -1,46 +1,58 @@
 module Mint
   class Parser
-    syntax_error ComponentExpectedOpeningBracket
-    syntax_error ComponentExpectedClosingBracket
-    syntax_error ComponentExpectedBody
-    syntax_error ComponentExpectedName
-
     def component : Ast::Component?
-      start do |start_position|
+      parse do |start_position, start_nodes_position|
         comment = self.comment
 
-        global = keyword "global"
+        global = word! "global"
         whitespace
 
-        next unless keyword "component"
+        next unless word! "component"
         whitespace
 
-        name = type_id! ComponentExpectedName
+        next error :component_expected_name do
+          block do
+            text "The name of a component must start with an uppercase letter"
+            text "and only contain lowercase, uppercase letters and numbers."
+          end
 
-        # Clear refs and locales here because it's on the parser
-        locales.clear
-        refs.clear
+          expected "name of the component", word
+          snippet self
+        end unless name = id
+        whitespace
 
-        body = block(
-          opening_bracket: ComponentExpectedOpeningBracket,
-          closing_bracket: ComponentExpectedClosingBracket
+        body = brackets(
+          ->{ error :component_expected_opening_bracket do
+            expected "the opening bracket of the component", word
+            snippet self
+          end },
+          ->{ error :component_expected_closing_bracket do
+            expected "the closing bracket of the component", word
+            snippet self
+          end },
+          ->(items : Array(Ast::Node)) {
+            error :component_expected_body do
+              expected "the body of a component", word
+              snippet self
+            end if items.reject(Ast::Comment).empty?
+          }
         ) do
-          items = many do
+          many do
             property ||
-              connect ||
               constant ||
               function ||
+              connect ||
               style ||
               state ||
               use ||
               get ||
               self.comment
+            # ^^ This needs to be last because it can eat the documentation
+            # comment of the sub entities.
           end
-
-          raise ComponentExpectedBody if items.empty?
-
-          items
         end
+
+        next unless body
 
         properties = [] of Ast::Property
         functions = [] of Ast::Function
@@ -58,8 +70,6 @@ module Mint
             properties << item
           when Ast::Function
             functions << item
-
-            item.keep_name = true if item.name.value == "render"
           when Ast::Constant
             constants << item
           when Ast::Connect
@@ -77,8 +87,41 @@ module Mint
           end
         end
 
-        self << Ast::Component.new(
-          locales: !locales.empty?,
+        refs = [] of Tuple(Ast::Variable, Ast::Node)
+        locales = false
+
+        ast.nodes[start_nodes_position...].each do |node|
+          case node
+          when Ast::LocaleKey
+            locales = true
+          when Ast::Function
+            if node.name.value.in?([
+                 "componentWillUnmount",
+                 "componentDidUpdate",
+                 "componentDidMount",
+                 "render",
+               ])
+              node.keep_name = true
+            end
+          when Ast::HtmlElement
+            node.styles.each do |style|
+              style.style_node =
+                styles.find(&.name.value.==(style.name.value))
+            end
+          end
+
+          case node
+          when Ast::HtmlComponent,
+               Ast::HtmlElement
+            node.in_component = true
+
+            if ref = node.ref
+              refs << {ref, node}
+            end
+          end
+        end
+
+        Ast::Component.new(
           global: global || false,
           properties: properties,
           functions: functions,
@@ -87,15 +130,20 @@ module Mint
           connects: connects,
           comments: comments,
           comment: comment,
+          locales: locales,
           styles: styles,
           states: states,
-          refs: refs.dup,
           to: position,
-          input: data,
+          file: file,
+          refs: refs,
           name: name,
           uses: uses,
           gets: gets
-        )
+        ).tap do |node|
+          ast.nodes[start_nodes_position...]
+            .select(Ast::NextCall)
+            .each(&.entity=(node))
+        end
       end
     end
   end

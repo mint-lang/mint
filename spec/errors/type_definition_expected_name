@@ -1,0 +1,10 @@
+type
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a type but I found "a space" instead:
+
+   ┌ ./spec/errors/type_definition_expected_name:1:4
+   ├────────────────────────────────────────────────
+  1│ type
+   │     ⌃⌃⌃⌃

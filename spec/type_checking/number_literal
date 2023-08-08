@@ -1,9 +1,0 @@
-component Main {
-  fun test : Number {
-    0
-  }
-
-  fun render : String {
-    ""
-  }
-}

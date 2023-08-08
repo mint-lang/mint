@@ -1,0 +1,12 @@
+module Test {
+  const TEST = ""
+--------------------------------------------------------------------------------
+░ ERROR (MODULE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a module but I found "a space" instead:
+
+   ┌ ./spec/errors/module_expected_closing_bracket:2:17
+   ├───────────────────────────────────────────────────
+  1│ module Test {
+  2│   const TEST = ""
+   │                  ⌃⌃⌃⌃

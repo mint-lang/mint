@@ -1,0 +1,10 @@
+provider Test : Test
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDER_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of a provider but I found "a space" instead:
+
+   ┌ ./spec/errors/provider_expected_opening_bracket:1:20
+   ├─────────────────────────────────────────────────────
+  1│ provider Test : Test
+   │                     ⌃⌃⌃⌃

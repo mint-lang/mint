@@ -1,6 +1,6 @@
 component Test {
   style test {
-
+    color: red;
   }
 
   fun render : Html {

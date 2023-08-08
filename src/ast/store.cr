@@ -7,16 +7,12 @@ module Mint
                      @constants : Array(Constant),
                      @comments : Array(Comment),
                      @states : Array(State),
+                     @file : Parser::File,
                      @comment : Comment?,
                      @gets : Array(Get),
-                     @name : TypeId,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def owns?(node)
-        {functions, constants, states, gets}.any? &.includes?(node)
+                     @from : Int64,
+                     @to : Int64,
+                     @name : Id)
       end
     end
   end

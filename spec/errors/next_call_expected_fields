@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    next a
+--------------------------------------------------------------------------------
+░ ERROR (NEXT_CALL_EXPECTED_FIELDS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the fields for a next call but I found "a" instead:
+
+   ┌ ./spec/errors/next_call_expected_fields:3:10
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     next a
+   │          ⌃

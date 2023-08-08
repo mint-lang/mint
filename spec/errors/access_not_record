@@ -1,0 +1,26 @@
+component Main {
+  fun render : Bool {
+    let blah = ""
+
+    blah.blah.blah
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ACCESS_NOT_RECORD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+You are trying to access a field on an entity which is not a record:
+
+  String
+
+The access in question is here:
+
+   ┌ ./spec/errors/access_not_record:5:5
+   ├────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Bool {
+  3│     let blah = ""
+  4│
+  5│     blah.blah.blah
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  6│   }
+  7│ }

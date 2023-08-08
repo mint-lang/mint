@@ -20,7 +20,7 @@ component Test {
     },
     "position": {
       "line": 9,
-      "character": 10
+      "character": 22
     }
   }
 }

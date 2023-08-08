@@ -33,7 +33,7 @@ module Mint
       condition =
         node.condition.try do |item|
           <<-JS
-          const _2 = #{compile(item.condition)}
+          const _2 = #{compile(item)}
           if (!_2) { continue }
           JS
         end

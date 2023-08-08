@@ -1,15 +1,15 @@
 module Mint
   class Parser
     def statement : Ast::Statement?
-      start do |start_position|
-        target = start do
-          next unless keyword "let"
+      parse do |start_position|
+        target = parse(track: false) do
+          next unless word! "let"
           whitespace
 
           value = variable(track: false) ||
                   array_destructuring ||
                   tuple_destructuring ||
-                  enum_destructuring
+                  type_destructuring
 
           whitespace
           next unless char! '='
@@ -19,27 +19,25 @@ module Mint
         end
 
         whitespace
-        await = keyword "await"
+        await = word! "await"
 
         whitespace
-        body = expression
+        next unless body = expression
 
-        next unless body
-
-        self << Ast::Statement.new(
+        Ast::Statement.new(
           from: start_position,
           expression: body,
           target: target,
           await: await,
           to: position,
-          input: data
+          file: file
         ).tap do |node|
           case body
           when Ast::Operation
             case target
-            when Ast::EnumDestructuring,
-                 Ast::ArrayDestructuring,
-                 Ast::TupleDestructuring
+            when Ast::ArrayDestructuring,
+                 Ast::TupleDestructuring,
+                 Ast::TypeDestructuring
               case item = body.right
               when Ast::ReturnCall
                 item.statement = node

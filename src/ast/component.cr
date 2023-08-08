@@ -1,8 +1,8 @@
 module Mint
   class Ast
     class Component < Node
-      getter properties, connects, styles, states, comments
       getter functions, gets, uses, name, comment, refs, constants
+      getter properties, connects, styles, states, comments
 
       getter? global, locales
 
@@ -14,19 +14,15 @@ module Mint
                      @connects : Array(Connect),
                      @states : Array(State),
                      @styles : Array(Style),
+                     @file : Parser::File,
                      @comment : Comment?,
                      @gets : Array(Get),
                      @uses : Array(Use),
                      @locales : Bool,
                      @global : Bool,
-                     @name : TypeId,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def owns?(node)
-        {functions, constants, states, gets, properties}.any? &.includes?(node)
+                     @from : Int64,
+                     @to : Int64,
+                     @name : Id)
       end
     end
   end

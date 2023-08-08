@@ -1,19 +1,19 @@
 module Mint
   class Parser
-    syntax_error NextCallExpectedRecord
-
     def next_call : Ast::NextCall?
-      start do |start_position|
-        next unless keyword "next"
-        next unless whitespace?
+      parse do |start_position|
+        next unless word! "next"
         whitespace
 
-        raise NextCallExpectedRecord unless item = record
+        next error :next_call_expected_fields do
+          expected "the fields for a next call", word
+          snippet self
+        end unless item = record
 
-        self << Ast::NextCall.new(
+        Ast::NextCall.new(
           from: start_position,
           to: position,
-          input: data,
+          file: file,
           data: item)
       end
     end

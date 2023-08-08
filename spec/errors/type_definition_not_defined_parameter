@@ -1,0 +1,15 @@
+enum A {
+  B(a)
+}
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_NOT_DEFINED_PARAMETER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Parameters used by options must be defined in the the type definition. This
+parameter was not defined in the type definition:
+
+   ┌ ./spec/errors/type_definition_not_defined_parameter:2:5
+   ├────────────────────────────────────────────────────────
+  1│ enum A {
+  2│   B(a)
+   │     ⌃
+  3│ }

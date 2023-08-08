@@ -4,10 +4,10 @@ module Mint
       class Format < Node
         getter content
 
-        def initialize(@content : Block,
-                       @input : Data,
-                       @from : Int32,
-                       @to : Int32)
+        def initialize(@file : Parser::File,
+                       @content : Block,
+                       @from : Int64,
+                       @to : Int64)
         end
       end
     end

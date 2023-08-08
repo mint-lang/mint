@@ -1,23 +1,26 @@
 module Mint
   class Parser
-    syntax_error InterpolationExpectedClosingBracket
-    syntax_error InterpolationExpectedExpression
-
     def interpolation : Ast::Interpolation?
-      start do |start_position|
-        next unless keyword "\#{"
-
-        whitespace
-        expression = expression! InterpolationExpectedExpression
+      parse do |start_position|
+        next unless word! "\#{"
         whitespace
 
-        char '}', InterpolationExpectedClosingBracket
+        next error :interpolation_expected_expression do
+          expected "the expression of an interpolation", word
+          snippet self
+        end unless expression = self.expression
+        whitespace
+
+        next error :interpolation_expected_closing_bracket do
+          expected "the closing bracket of an interpolation", word
+          snippet self
+        end unless char! '}'
 
         Ast::Interpolation.new(
           expression: expression,
           from: start_position,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

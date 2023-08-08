@@ -1,0 +1,30 @@
+enum Maybe {
+  Just(item : String)
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_TYPE_FIELD_MISSING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I could not find a field for a destructuring:
+
+  key
+
+The destructuring in question is here:
+
+    ┌ ./spec/errors/destructuring_type_field_missing:7:21
+    ├────────────────────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : String {
+   7│     let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    │                     ⌃⌃⌃
+   8│     ""
+   9│   }
+  10│ }

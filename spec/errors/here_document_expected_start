@@ -1,0 +1,14 @@
+component Main {
+  fun render {
+    <<-
+--------------------------------------------------------------------------------
+░ ERROR (HERE_DOCUMENT_EXPECTED_START) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the start tag of a here document but I found "a space" instead:
+
+   ┌ ./spec/errors/here_document_expected_start:3:7
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render {
+  3│     <<-
+   │        ⌃⌃⌃⌃

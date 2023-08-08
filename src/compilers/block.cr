@@ -5,31 +5,31 @@ module Mint
     end
 
     def _compile(node : Ast::Block, for_function = false) : String
-      statements =
+      expressions =
         node
-          .statements
+          .expressions
           .select(Ast::Statement)
           .sort_by! { |item| resolve_order.index(item) || -1 }
           .flat_map { |item| _compile2 item }
 
       last =
-        statements.pop
+        expressions.pop
 
-      if statements.empty? && !node.async?
+      if expressions.empty? && !async?(node)
         if for_function
           js.return(last)
         else
           last
         end
       elsif for_function
-        js.statements(statements + [js.return(last)])
-      elsif node.async?
+        js.statements(expressions + [js.return(last)])
+      elsif async?(node)
         js.asynciif do
-          js.statements(statements + [js.return(last)])
+          js.statements(expressions + [js.return(last)])
         end
       else
         js.iif do
-          js.statements(statements + [js.return(last)])
+          js.statements(expressions + [js.return(last)])
         end
       end
     end

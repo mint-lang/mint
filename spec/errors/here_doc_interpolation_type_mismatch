@@ -1,0 +1,32 @@
+component Main {
+  fun render {
+    <<-TEST
+      #{<></>}
+    TEST
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HERE_DOC_INTERPOLATION_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An interpolation in here document is causing a mismatch.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Html
+
+The interpolation in question is here:
+
+   ┌ ./spec/errors/here_doc_interpolation_type_mismatch:4:7
+   ├───────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render {
+  3│     <<-TEST
+  4│       #{<></>}
+   │       ⌃⌃⌃⌃⌃⌃⌃⌃
+  5│     TEST
+  6│   }
+  7│ }

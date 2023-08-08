@@ -1,0 +1,12 @@
+component Main {
+  fun render
+--------------------------------------------------------------------------------
+░ ERROR (FUNCTION_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of a function but I found "a space" instead:
+
+   ┌ ./spec/errors/function_expected_opening_bracket:2:12
+   ├─────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render
+   │             ⌃⌃⌃⌃

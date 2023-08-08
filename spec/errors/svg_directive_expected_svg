@@ -1,0 +1,27 @@
+component Main {
+  fun render : Html {
+    @svg(../fixtures/icon-not-svg)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (SVG_DIRECTIVE_EXPECTED_SVG) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The specified file for an svg directive is not an SVG file because I could not
+parse it. These are the errors I found:
+
+  Opening and ending tag mismatch: people line 1 and foo
+
+These are the first few lines of the file:
+
+  <people></foo>
+
+The svg directive in question is here:
+
+   ┌ ./spec/errors/svg_directive_expected_svg:3:5
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     @svg(../fixtures/icon-not-svg)
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

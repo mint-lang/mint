@@ -96,6 +96,48 @@ module Mint
         end
       end
 
+      # class Block
+      #   getter io
+
+      #   def initialize(@io = IO::Memory.new, @width = 50)
+      #     @content = ""
+      #   end
+
+      #   def bold(value)
+      #     @content += value + " "
+      #   end
+
+      #   def text(value)
+      #     @content += value + " "
+      #   end
+
+      #   def code(value)
+      #     actual_content =
+      #       case value
+      #       when " ", ""
+      #         "a space"
+      #       when "\n"
+      #         "a new line"
+      #       when "\0"
+      #         "end of file"
+      #       else
+      #         value
+      #       end
+
+      #     @content += %("#{actual_content}" )
+      #   end
+
+      #   def close
+      #     @io << @content.split("\n").map do |line|
+      #       if line.size > @width
+      #         line.gsub(/(.{1,#{@width}})(\s+|$)/, "\\1\n").strip
+      #       else
+      #         line
+      #       end
+      #     end.join("\n") + "\n"
+      #   end
+      # end
+
       STDOUT = Terminal.new(::STDOUT)
 
       getter width, io, position
@@ -115,14 +157,6 @@ module Mint
         terminal = new
         with terminal yield
         terminal.io
-      end
-
-      def render(&)
-        with self yield
-      end
-
-      def render(io)
-        print io
       end
 
       def block(&)
@@ -165,8 +199,18 @@ module Mint
         print "\n\n"
       end
 
-      def snippet(node)
-        print TerminalSnippet.render(node.input.input, node.input.file, node.from, node.to, width: @width)
+      def snippet(node : Ast::Node)
+        print TerminalSnippet.render(node.file.contents, node.file.path, node.from, node.to, width: @width).indent
+        print "\n\n"
+      end
+
+      def snippet(node : String)
+        print node.indent
+        print "\n\n"
+      end
+
+      def snippet(type : TypeChecker::Checkable)
+        print type.to_pretty.indent
         print "\n\n"
       end
 
@@ -187,7 +231,7 @@ module Mint
           end
 
         divider =
-          if content.size < @width
+          if content.uncolorize.size < @width
             ("░" * (@width - text.size - 3)).colorize.mode(:dim)
           end
 

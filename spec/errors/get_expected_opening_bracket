@@ -1,0 +1,12 @@
+component Main {
+  get name
+--------------------------------------------------------------------------------
+░ ERROR (GET_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of a get but I found "a space" instead:
+
+   ┌ ./spec/errors/get_expected_opening_bracket:2:10
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   get name
+   │           ⌃⌃⌃⌃

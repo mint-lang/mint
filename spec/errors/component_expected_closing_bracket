@@ -1,0 +1,13 @@
+component Main {
+  state test : String = ""
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of the component but I found "a space"
+instead:
+
+   ┌ ./spec/errors/component_expected_closing_bracket:2:26
+   ├──────────────────────────────────────────────────────
+  1│ component Main {
+  2│   state test : String = ""
+   │                           ⌃⌃⌃⌃

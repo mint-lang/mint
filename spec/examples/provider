@@ -1,0 +1,71 @@
+---------------------------------------------------------provider_expected_name
+provider
+-------------------------------------------------------provider_expeceted_colon
+provider Test
+-------------------------------------------------provider_expected_subscription
+provider Test :
+----------------------------------------------provider_expected_opening_bracket
+provider Test : Test
+---------------------------------------------------------provider_expected_body
+provider Test : Test {
+----------------------------------------------provider_expected_closing_bracket
+provider Test : Test {
+  const TEST = ""
+------------------------------------------------provider_not_found_subscription
+provider Provider : Subscription {
+  fun test : Bool {
+    true
+  }
+}
+-------------------------------------------------------------------------------
+record Subscription {
+    a : Bool
+}
+
+provider Provider : Subscription {
+  const ONE_PLUS_ONE = 1 + 1
+  const TWO = 2
+
+  fun test : Bool {
+    ONE_PLUS_ONE == TWO
+  }
+}
+-------------------------------------------------------------------------------
+record Subscription {
+  a : Bool
+}
+
+provider Provider : Subscription {
+  fun test : Bool {
+    subscriptions
+    true
+  }
+}
+-------------------------------------------------------------------------------
+record Subscription {
+  a : Bool
+}
+
+provider Provider : Subscription {
+  state observers : Array(Tuple(String, String)) = []
+
+  fun update {
+    let currentObservers =
+      for item of observers {
+        ""
+      }
+
+    subscriptions
+    true
+  }
+}
+
+component Main {
+  use Provider {
+    a: true
+  }
+
+  fun render : String {
+    ""
+  }
+}

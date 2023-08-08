@@ -1,25 +1,20 @@
 module Mint
   class TypeChecker
-    type_error HtmlElementReferenceOutsideOfComponent
-    type_error HtmlElementStyleOutsideOfComponent
-
-    def static_type_signature(node : Ast::HtmlElement) : Checkable
-      Type.new("Dom.Element")
-    end
-
     def check(node : Ast::HtmlElement) : Checkable
       unless node.styles.empty?
-        raise HtmlElementStyleOutsideOfComponent, {
-          "node" => node,
-        } unless component?
+        error! :html_element_style_outside_of_component do
+          snippet "Styling of elements outside of components is not " \
+                  "allowed:", node
+        end unless node.in_component?
 
         resolve node.styles
       end
 
       node.ref.try do |ref|
-        raise HtmlElementReferenceOutsideOfComponent, {
-          "node" => ref,
-        } unless component?
+        error! :html_element_reference_outside_of_component do
+          snippet "Referencing elements outside of components is not " \
+                  "allowed:", ref
+        end unless node.in_component?
       end
 
       node.attributes.each { |attribute| resolve attribute, node }

@@ -1,15 +1,16 @@
 module Mint
   class Ast
+    # TODO: Change condition to a statment like with if.
     class Case < Node
       getter branches, condition, comments, await
 
       def initialize(@branches : Array(CaseBranch),
                      @comments : Array(Comment),
-                     @condition : Expression,
+                     @file : Parser::File,
+                     @condition : Node,
                      @await : Bool,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

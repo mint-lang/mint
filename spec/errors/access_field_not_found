@@ -1,0 +1,31 @@
+record Blah {
+  blah : String
+}
+
+component Main {
+  fun render : Bool {
+    let blah =
+      { blah: "Hello" }
+
+    blah.blaha
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ACCESS_FIELD_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The accessed field "blaha" does not exists on the entity:
+
+  Blah(blah: String)
+
+The access in question is here:
+
+    ┌ ./spec/errors/access_field_not_found:10:5
+    ├──────────────────────────────────────────
+   6│   fun render : Bool {
+   7│     let blah =
+   8│       { blah: "Hello" }
+   9│
+  10│     blah.blaha
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  11│   }
+  12│ }

@@ -1,22 +1,22 @@
 module Mint
   class Parser
     def bool_literal : Ast::BoolLiteral?
-      start do |start_position|
+      parse do |start_position|
         value =
           case
-          when keyword "true"
+          when word! "true"
             true
-          when keyword "false"
+          when word! "false"
             false
           else
             next
           end
 
-        self << Ast::BoolLiteral.new(
+        Ast::BoolLiteral.new(
           from: start_position,
           value: value,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

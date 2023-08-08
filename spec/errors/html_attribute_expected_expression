@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    <div name={
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the expression of an HTML attribute but I found "a space"
+instead:
+
+   ┌ ./spec/errors/html_attribute_expected_expression:3:15
+   ├──────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div name={
+   │                ⌃⌃⌃⌃

@@ -1,0 +1,11 @@
+routes
+--------------------------------------------------------------------------------
+░ ERROR (ROUTES_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of a routes block but I found "a space"
+instead:
+
+   ┌ ./spec/errors/routes_expected_opening_bracket:1:6
+   ├──────────────────────────────────────────────────
+  1│ routes
+   │       ⌃⌃⌃⌃

@@ -1,0 +1,12 @@
+component Main {
+  use A { a: "" } when {
+--------------------------------------------------------------------------------
+░ ERROR (USE_EXPECTED_CONDITION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the condition of a use but I found "a space" instead:
+
+   ┌ ./spec/errors/use_expected_condition:2:24
+   ├──────────────────────────────────────────
+  1│ component Main {
+  2│   use A { a: "" } when {
+   │                         ⌃⌃⌃⌃

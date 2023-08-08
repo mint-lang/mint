@@ -4,10 +4,10 @@ module Mint
       class Documentation < Node
         getter entity
 
-        def initialize(@entity : TypeId,
-                       @input : Data,
-                       @from : Int32,
-                       @to : Int32)
+        def initialize(@file : Parser::File,
+                       @from : Int64,
+                       @entity : Id,
+                       @to : Int64)
         end
       end
     end

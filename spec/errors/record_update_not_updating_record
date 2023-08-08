@@ -1,0 +1,61 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x = ""
+
+    { x |
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (RECORD_UPDATE_NOT_UPDATING_RECORD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The target of a record update is not a record, instead it is:
+
+  String
+
+Here is where you want to update it:
+
+    ┌ ./spec/errors/record_update_not_updating_record:10:5
+    ├─────────────────────────────────────────────────────
+   6│ component Main {
+   7│   fun test : Test {
+   8│     let x = ""
+   9│
+    │     ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  10│     { x |
+  11│       a: "Hello",
+  12│       b: 0
+  13│     }
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  14│   }
+  15│
+  16│   fun render : String {
+  17│     test()
+
+Here is where the target is defined:
+
+    ┌ ./spec/errors/record_update_not_updating_record:8:9
+    ├────────────────────────────────────────────────────
+   4│ }
+   5│
+   6│ component Main {
+   7│   fun test : Test {
+   8│     let x = ""
+    │         ⌃
+   9│
+  10│     { x |
+  11│       a: "Hello",
+  12│       b: 0

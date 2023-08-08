@@ -1,0 +1,39 @@
+component Main {
+  fun test (a : String, a : String) : Bool {
+    "hello"
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FUNCTION_ARGUMENT_CONFLICT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The argument "a" is declared multiple times.
+
+It is declared here:
+
+   ┌ ./spec/errors/function_argument_conflict:2:25
+   ├──────────────────────────────────────────────
+  1│ component Main {
+  2│   fun test (a : String, a : String) : Bool {
+   │                         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     "hello"
+  4│   }
+  5│
+  6│   fun render : String {
+
+It is also declared here:
+
+   ┌ ./spec/errors/function_argument_conflict:2:13
+   ├──────────────────────────────────────────────
+  1│ component Main {
+  2│   fun test (a : String, a : String) : Bool {
+   │             ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     "hello"
+  4│   }
+  5│
+  6│   fun render : String {

@@ -1,9 +1,5 @@
 module Mint
   class TypeChecker
-    type_error UseSubscriptionMismatch
-    type_error UseConditionMismatch
-    type_error UseNotFoundProvider
-
     def check(node : Ast::Use) : Checkable
       condition =
         node.condition
@@ -11,14 +7,13 @@ module Mint
       provider =
         ast.providers.find(&.name.value.==(node.provider.value))
 
-      raise UseNotFoundProvider, {
-        "name" => node.provider.value,
-        "node" => node,
-      } unless provider
+      error! :use_not_found_provider do
+        snippet "I could not find a provider:", node.provider
+      end unless provider
 
       resolve provider
 
-      lookups[node] = provider
+      lookups[node] = {provider, nil}
 
       # This is checked by the provider so we assume it's there
       subscription =
@@ -27,19 +22,25 @@ module Mint
       record =
         resolve node.data
 
-      raise UseSubscriptionMismatch, {
-        "expected" => subscription,
-        "got"      => record,
-        "node"     => node,
-      } unless Comparer.compare(record, subscription)
+      error! :use_subscription_mismatch do
+        block "The subsctipion of a provider does not match its definition."
+        expected subscription, record
+        snippet "The provider in question is here:", node
+      end unless Comparer.compare(record, subscription)
 
       if condition
         condition_type = resolve condition
 
-        raise UseConditionMismatch, {
-          "got"  => condition_type,
-          "node" => condition,
-        } unless Comparer.compare(condition_type, BOOL)
+        error! :use_condition_mismatch do
+          block do
+            text "The expression of the"
+            bold "where condition"
+            text "must evaluate to a boolean value. Instead it is:"
+          end
+
+          snippet condition_type
+          snippet "The condition in question is here:", condition
+        end unless Comparer.compare(condition_type, BOOL)
       end
 
       resolve node.data

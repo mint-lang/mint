@@ -1,0 +1,45 @@
+record Provider.Data {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    "asd"
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (USE_CONDITION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The expression of the where condition must evaluate to a boolean value. Instead
+it is:
+
+  String
+
+The condition in question is here:
+
+    ┌ ./spec/errors/use_condition_mismatch:17:5
+    ├──────────────────────────────────────────
+  13│   use Provider {
+  14│     a: "Hello",
+  15│     b: "Blah"
+  16│   } when {
+  17│     "asd"
+    │     ⌃⌃⌃⌃⌃
+  18│   }
+  19│
+  20│   fun render : Html {
+  21│     <div/>

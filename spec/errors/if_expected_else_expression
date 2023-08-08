@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    if ("") { "a" } else {
+--------------------------------------------------------------------------------
+░ ERROR (IF_EXPECTED_ELSE_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting an expression for the else branch but I found "a space" instead:
+
+   ┌ ./spec/errors/if_expected_else_expression:3:26
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     if ("") { "a" } else {
+   │                           ⌃⌃⌃⌃

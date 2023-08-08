@@ -1,0 +1,14 @@
+suite "X" {
+  test "X" {
+    ""
+--------------------------------------------------------------------------------
+░ ERROR (TEST_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a test but I found "a space" instead:
+
+   ┌ ./spec/errors/test_expected_closing_bracket:3:6
+   ├────────────────────────────────────────────────
+  1│ suite "X" {
+  2│   test "X" {
+  3│     ""
+   │       ⌃⌃⌃⌃

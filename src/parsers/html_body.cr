@@ -1,70 +1,48 @@
 module Mint
   class Parser
-    def html_content
-      here_doc ||
-        svg_directive ||
-        html_element ||
-        html_component ||
-        html_expression ||
-        html_fragment ||
-        string_literal ||
-        array ||
-        if_expression ||
-        for_expression ||
-        case_expression ||
-        comment
-    end
-
-    def html_body(expected_closing_bracket : SyntaxError.class,
-                  expected_closing_tag : SyntaxError.class,
-                  tag : Ast::Variable | Ast::TypeId,
+    def html_body(expected_closing_bracket : Proc(Nil),
+                  expected_closing_tag : Proc(Nil),
+                  tag : Ast::Variable | Ast::Id,
                   with_dashes : Bool)
-      whitespace
-      attributes = many { html_attribute(with_dashes) }
-      whitespace
-
-      self_closing = char! '/'
-      char '>', expected_closing_bracket
-
-      children = [] of Ast::Node
-      comments = [] of Ast::Comment
-
-      unless self_closing
-        items = many do
-          html_content.as(Ast::Node | Ast::Comment?)
-        end
-
+      parse(track: false) do
+        attributes = many { html_attribute(with_dashes) }
         whitespace
 
-        closing_tag =
-          case tag
-          when Ast::Variable, Ast::TypeId
-            tag.value
-          else
-            tag
-          end
+        self_closing = char! '/'
+        next expected_closing_bracket.call unless char! '>'
 
-        closing_tag_position =
-          position + 2
+        comments = [] of Ast::Comment
+        children = [] of Ast::Node
 
-        raise expected_closing_tag, position, {
-          "opening_tag" => tag,
-        } unless keyword "</#{closing_tag}>"
+        unless self_closing
+          items = many { expression || comment }
+          whitespace
 
-        items.each do |item|
-          case item
-          when Ast::Comment
-            comments << item
-          when Ast::Node
-            children << item
+          closing_tag =
+            case tag
+            when Ast::Variable, Ast::Id
+              tag.value
+            else
+              tag
+            end
+
+          closing_tag_position =
+            position + 2
+
+          expected_closing_tag.call unless word! "</#{closing_tag}>"
+
+          items.each do |item|
+            case item
+            when Ast::Comment
+              comments << item
+            when Ast::Node
+              children << item
+            end
           end
         end
-      end
 
-      {attributes,
-       children,
-       comments,
-       closing_tag_position}
+        {attributes, children, comments, closing_tag_position}
+      end
     end
   end
 end

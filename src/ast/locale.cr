@@ -3,12 +3,12 @@ module Mint
     class Locale < Node
       getter fields, comment, language
 
-      def initialize(@fields : Array(RecordField),
+      def initialize(@fields : Array(Field),
+                     @file : Parser::File,
                      @comment : Comment?,
                      @language : String,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

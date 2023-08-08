@@ -1,0 +1,35 @@
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument3: 0, argument1: "")
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CALL_NOT_FOUND_ARGUMENT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a named argument but I can't find it:
+
+  argument3
+
+The type of the function is:
+
+  Function(
+    argument1: String,
+    argument2: Number,
+    Html)
+
+The call in question is here:
+
+    ┌ ./spec/errors/call_not_found_argument:7:9
+    ├──────────────────────────────────────────
+   3│     <div/>
+   4│   }
+   5│
+   6│   fun render : Html {
+   7│     test(argument3: 0, argument1: "")
+    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

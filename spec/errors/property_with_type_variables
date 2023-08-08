@@ -1,0 +1,43 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  property name : Maybe(a) = Maybe::Nothing
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_WITH_TYPE_VARIABLES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of a property contains type variables. Type variables in properties are
+not allow at this time since that would make the compoennt generic and it is not
+supported this time.
+
+The type is:
+
+  Maybe(a)
+
+The property in question is here:
+
+    ┌ ./spec/errors/property_with_type_variables:7:3
+    ├───────────────────────────────────────────────
+   3│   Just(a)
+   4│ }
+   5│
+   6│ component Test {
+   7│   property name : Maybe(a) = Maybe::Nothing
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│
+   9│   fun render : Html {
+  10│     <div/>
+  11│   }

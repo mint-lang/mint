@@ -19,7 +19,7 @@ module Mint
 
         [
           "**#{name}.#{node.name.value}#{type}**\n",
-          node.comment.try(&.value.strip),
+          node.comment.try(&.content.strip),
         ].compact
       end
     end

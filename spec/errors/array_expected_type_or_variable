@@ -1,0 +1,19 @@
+component Main {
+  fun render : Array(String) {
+    [] of
+--------------------------------------------------------------------------------
+░ ERROR (ARRAY_EXPECTED_TYPE_OR_VARIABLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of an array literal must be defined after the of keyword, here is an
+example:
+
+  [] of String
+
+I was expecting the type but I found "a space" instead:
+
+   ┌ ./spec/errors/array_expected_type_or_variable:3:9
+   ├──────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(String) {
+  3│     [] of
+   │          ⌃⌃⌃⌃

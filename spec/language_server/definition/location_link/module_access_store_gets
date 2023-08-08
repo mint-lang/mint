@@ -62,8 +62,8 @@ component Test {
           "character": 2
         },
         "end": {
-          "line": 4,
-          "character": 0
+          "line": 3,
+          "character": 3
         }
       },
       "targetSelectionRange": {

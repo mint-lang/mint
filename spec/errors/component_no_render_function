@@ -1,0 +1,17 @@
+component Main {
+  fun a : String {
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_NO_RENDER_FUNCTION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A component must have a render function. This component does not have one:
+
+   ┌ ./spec/errors/component_no_render_function:1:1
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun a : String {
+  3│     ""
+  4│   }
+  5│ }

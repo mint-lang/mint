@@ -1,0 +1,26 @@
+type Test {
+  a : String,
+  b : String
+}
+
+module Test {
+  fun get : Test {
+    {/*A*/a:"Hello",/*B*/b:"Blah"}
+  }
+}
+--------------------------------------------------------------------------------
+type Test {
+  a : String,
+  b : String
+}
+
+module Test {
+  fun get : Test {
+    {
+      /* A */
+      a: "Hello",
+      /* B */
+      b: "Blah"
+    }
+  }
+}

@@ -54,13 +54,22 @@ module Mint
             stack =
               server.nodes_at_cursor(params)
 
+            # stack.each do |item|
+            #   print item.class.name.sub("Mint::Ast::", "")
+            #   case item
+            #   when Ast::Id, Ast::Variable
+            #     print "(#{item.value})"
+            #   end
+            #   puts item.location.start
+            # end
+
             node = stack[0]?
             parent = stack[1]?
 
             case node
-            when Ast::Variable, Ast::TypeId
+            when Ast::Variable, Ast::Id
               # If the first node under the cursor is a `Ast::Variable`
-              # or `Ast::TypeId`, then get the associated nodes
+              # or `Ast::Id`, then get the associated nodes
               # information and hover that otherwise get the hover
               # information of the parent.
               lookup =

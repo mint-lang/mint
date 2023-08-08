@@ -28,7 +28,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class C extends _E {
+class A extends _E {
   constructor(_0) {
     super();
     this._0 = _0;
@@ -36,14 +36,14 @@ class C extends _E {
   }
 };
 
-class D extends _E {
+class B extends _E {
   constructor() {
     super();
     this.length = 0;
   }
 };
 
-class A extends _C {
+class C extends _C {
   get a() {
     return `Instance`
   }
@@ -53,17 +53,17 @@ class A extends _C {
   }
 };
 
-A.displayName = "Instance";
+C.displayName = "Instance";
 
-class B extends _C {
+class D extends _C {
   get c() {
-    return (this._instance ? new C(this._instance) : new D);
+    return (this._instance ? new A(this._instance) : new B);
   }
 
   b() {
     return _match(this.c,[
       [
-        _PE(C,[
+        _PE(A,[
           _PV
         ]),
         (d) => {
@@ -71,7 +71,7 @@ class B extends _C {
         }
       ],
       [
-        _PE(D,[]),
+        _PE(B,[]),
         () => {
           return ``
         }
@@ -83,11 +83,11 @@ class B extends _C {
     return _h("div", {
       "onClick": (event => (this.b)(_normalizeEvent(event)))
     }, [
-      _h(A, {
+      _h(C, {
         ref: (instance) => { this._instance = instance }
       })
     ]);
   }
 };
 
-B.displayName = "Main";
+D.displayName = "Main";

@@ -6,10 +6,7 @@ module Mint
           .map { |item| resolve(item) }
           .reduce({} of String => String) { |memo, item| memo.merge(item) }
 
-      type =
-        types[node]?
-
-      if type
+      if type = cache[node]?
         name =
           js.class_of(type.name)
 

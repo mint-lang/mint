@@ -1,13 +1,15 @@
 module Mint
   class Parser
     def type_variable : Ast::TypeVariable?
-      return unless var = variable
+      parse do |start_position|
+        next unless value = identifier_variable
 
-      self << Ast::TypeVariable.new(
-        value: var.value,
-        from: var.from,
-        input: data,
-        to: var.to)
+        Ast::TypeVariable.new(
+          from: start_position,
+          to: position,
+          value: value,
+          file: file)
+      end
     end
   end
 end

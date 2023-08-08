@@ -1,0 +1,66 @@
+locale en {
+  test: ""
+}
+
+locale hu {
+  test: 0
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (TRANSLATION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the key "test" in the language "hu" does not match the type in
+language "en".
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+The defined value in language "hu" is here:
+
+    ┌ ./spec/errors/translation_mismatch:6:9
+    ├───────────────────────────────────────
+   2│   test: ""
+   3│ }
+   4│
+   5│ locale hu {
+   6│   test: 0
+    │         ⌃
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+
+The defined value in language "en" is here:
+
+   ┌ ./spec/errors/translation_mismatch:2:9
+   ├───────────────────────────────────────
+  1│ locale en {
+  2│   test: ""
+   │         ⌃⌃
+  3│ }
+  4│
+  5│ locale hu {
+  6│   test: 0
+
+The locale key in question is here:
+
+    ┌ ./spec/errors/translation_mismatch:11:5
+    ├────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     :test
+    │     ⌃⌃⌃⌃⌃
+  12│   }
+  13│ }

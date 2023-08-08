@@ -1,0 +1,22 @@
+component Main {
+  fun render : String {
+    let [a, b] = []
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (STATEMENT_RETURN_REQUIRED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+This statement needs a return call because the destructuring is not exhaustive:
+
+   ┌ ./spec/errors/statement_return_required:3:5
+   ├────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     let [a, b] = []
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│     ""
+  6│   }
+  7│ }

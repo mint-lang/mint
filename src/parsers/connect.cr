@@ -1,35 +1,47 @@
 module Mint
   class Parser
-    syntax_error ConnectExpectedOpeningBracket
-    syntax_error ConnectExpectedClosingBracket
-    syntax_error ConnectExpectedExposing
-    syntax_error ConnectExpectedType
-    syntax_error ConnectExpectedKeys
-
     def connect : Ast::Connect?
-      start do |start_position|
-        next unless keyword "connect"
+      parse do |start_position|
+        next unless word! "connect"
         whitespace
 
-        store = type_id! ConnectExpectedType
+        next error :connect_expected_store do
+          expected "the name of the store for a connect", word
+          snippet self
+        end unless store = id
         whitespace
 
-        keyword! "exposing", ConnectExpectedExposing
+        next error :connect_expected_exposing do
+          expected %(the "exposing" keyword for a connect), word
+          snippet self
+        end unless word! "exposing"
+        whitespace
 
-        keys = block(
-          opening_bracket: ConnectExpectedOpeningBracket,
-          closing_bracket: ConnectExpectedClosingBracket
-        ) do
-          items = list(terminator: '{', separator: ',') { connect_variable }
-          raise ConnectExpectedKeys if items.empty?
-          items
-        end
+        keys =
+          brackets(
+            ->{ error :connect_expected_opening_bracket do
+              expected "the opening bracket of a connect", word
+              snippet self
+            end },
+            ->{ error :connect_expected_closing_bracket do
+              expected "the closing bracket of a connect", word
+              snippet self
+            end },
+            ->(items : Array(Ast::ConnectVariable)) {
+              error :connect_expected_keys do
+                expected "the exposed entities of a connect", word
+                snippet self
+              end if items.empty?
+            }
+          ) { list(terminator: '{', separator: ',') { connect_variable } }
 
-        self << Ast::Connect.new(
+        next unless keys
+
+        Ast::Connect.new(
           from: start_position,
           store: store,
           to: position,
-          input: data,
+          file: file,
           keys: keys)
       end
     end

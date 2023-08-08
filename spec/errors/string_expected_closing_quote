@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    "
+--------------------------------------------------------------------------------
+░ ERROR (STRING_EXPECTED_CLOSING_QUOTE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing quoute of a string literal but I found "a space"
+instead:
+
+   ┌ ./spec/errors/string_expected_closing_quote:3:5
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "
+   │      ⌃⌃⌃⌃

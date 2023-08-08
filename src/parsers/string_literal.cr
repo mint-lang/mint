@@ -1,40 +1,48 @@
 module Mint
   class Parser
-    syntax_error StringExpectedEndQuote
-    syntax_error StringExpectedOtherString
-
-    def string_literal!(error : SyntaxError.class, with_interpolation : Bool = true) : Ast::StringLiteral
-      string_literal(with_interpolation) || raise error
-    end
-
-    def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral?
-      start do |start_position|
+    def string_literal(*, with_interpolation : Bool = true) : Ast::StringLiteral?
+      parse do |start_position|
         next unless char! '"'
 
-        value = many(parse_whitespace: false) do
-          if with_interpolation
-            not_interpolation_part('"') || interpolation
-          else
-            not_interpolation_part('"')
-          end.as(Ast::Interpolation | String?)
-        end
+        value =
+          many(parse_whitespace: false) do
+            if with_interpolation
+              raw('"') || interpolation
+            else
+              raw('"')
+            end
+          end
 
-        char '"', StringExpectedEndQuote
-        whitespace
+        next error :string_expected_closing_quote do
+          expected "the closing quoute of a string literal", word
+          snippet self
+        end unless char! '"'
 
-        broken = false
+        # Lookahead to see if there is a backslash (string separator), if
+        # parsing fails it will track the whitespace back.
+        broken =
+          parse do
+            whitespace
+            next unless char! '\\'
+            true
+          end || false
 
-        if char! '\\'
+        # If it's separated try to parse an other part.
+        if broken
           whitespace
-          literal = string_literal(with_interpolation)
-          raise StringExpectedOtherString unless literal
-          broken = true
+
+          literal =
+            string_literal(with_interpolation: with_interpolation)
+
+          next error :string_expected_other_string do
+            expected "another string literal after a string separator", word
+            snippet self
+          end unless literal
+
           value.concat(literal.value)
-        else
-          track_back_whitespace
         end
 
-        # Normalize the value so there are consecutive Strings
+        # Normalize the value so there are consecutive strings.
         value =
           value.reduce([] of Ast::Interpolation | String) do |memo, item|
             if memo.last?.is_a?(String) && item.is_a?(String)
@@ -46,12 +54,12 @@ module Mint
             memo
           end
 
-        self << Ast::StringLiteral.new(
+        Ast::StringLiteral.new(
           from: start_position,
           broken: broken,
           value: value,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

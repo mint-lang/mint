@@ -1,0 +1,104 @@
+--------------------------------------------------------case_expected_condition
+component Main {
+  fun render : String {
+    case
+----------------------------------------------case_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    case ("a"
+--------------------------------------------------case_expected_opening_bracket
+component Main {
+  fun render : String {
+    case ("a")
+---------------------------------------------------------case_expected_branches
+component Main {
+  fun render : String {
+    case ("a") {
+--------------------------------------------------case_expected_closing_bracket
+component Main {
+  fun render : String {
+    case ("a") {
+      => "a"
+------------------------------------------------case_branch_expected_expression
+component Main {
+  fun render : String {
+    case ("a") {
+      =>
+--------------------------------------------------------case_branch_not_matches
+component Main {
+  fun render : String {
+    case ("x") {
+      "a" => "a"
+      "b" => true
+      => "c"
+    }
+  }
+}
+-----------------------------------------------------------case_unnecessary_all
+enum A {
+  B
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B) {
+      A::B => "a"
+      A::C => "c"
+      => "x"
+    }
+  }
+}
+---------------------------------------------------------------case_not_covered
+component Main {
+  fun render : String {
+    case ("a") {
+      "a" => "a"
+    }
+  }
+}
+----------------------------------------------------------case_type_not_covered
+enum A {
+  B
+  C
+  D
+}
+
+component Main {
+  fun render : String {
+    case (A::B) {
+      A::B => "a"
+      A::C => "c"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case ("x") {
+      "a" => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+enum Maybe(value) {
+  Just(value)
+  Nothing
+}
+
+component Main {
+  fun testCase : Maybe(Number) {
+    case (-1) {
+      -1 => Maybe::Nothing
+      => Maybe::Just(2)
+    }
+  }
+
+  fun render : String {
+    testCase()
+
+    ""
+  }
+}

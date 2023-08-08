@@ -1,58 +1,44 @@
 module Mint
   class TypeChecker
-    type_error InlineFunctionTypeMismatch
-
-    def static_type_signature(node : Ast::InlineFunction) : Checkable
-      arguments =
-        node.arguments.map { |argument| resolve argument.type }
-
-      return_type =
-        node.type.try { |type| resolve type } || Variable.new("a")
-
-      defined_type =
-        Type.new("Function", arguments + [return_type])
-
-      Comparer.normalize(defined_type)
-    end
-
     def check(node : Ast::InlineFunction) : Checkable
-      scope node do
-        check_arguments(node.arguments)
+      check_arguments(node.arguments)
 
-        body_type =
-          resolve node.body
+      body_type =
+        resolve node.body
 
-        arguments =
-          resolve node.arguments
+      arguments =
+        resolve node.arguments
 
-        final_type =
-          Type.new("Function", arguments + [body_type])
+      final_type =
+        Type.new("Function", arguments + [body_type])
 
-        resolved_type =
-          if type = node.type
-            return_type =
-              resolve type
+      resolved_type =
+        if type = node.type
+          return_type =
+            resolve type
 
-            defined_type =
-              Comparer.normalize(Type.new("Function", arguments + [return_type]))
+          defined_type =
+            Comparer.normalize(Type.new("Function", arguments + [return_type]))
 
-            resolved =
-              Comparer.compare(defined_type, final_type)
+          resolved =
+            Comparer.compare(defined_type, final_type)
 
-            raise InlineFunctionTypeMismatch, {
-              "expected" => return_type,
-              "got"      => body_type,
-              "node"     => node,
-            } unless resolved
+          error! :inline_function_type_mismatch do
+            block "The return type of an anonymous function does not match its type definition."
 
-            Comparer.normalize(defined_type)
-          else
-            Comparer.normalize(final_type)
-          end
+            snippet "I was expecting:", return_type
+            snippet "Which is defined here:", type
+            snippet "Instead it is:", body_type
+            snippet "Which is returned here:", node.body.expressions.last
+          end unless resolved
 
-        resolved_type.optional_count = node.arguments.count(&.default)
-        resolved_type
-      end
+          Comparer.normalize(defined_type)
+        else
+          Comparer.normalize(final_type)
+        end
+
+      resolved_type.optional_count = node.arguments.count(&.default)
+      resolved_type
     end
   end
 end

@@ -1,20 +1,22 @@
 module Mint
   class TypeChecker
-    type_error ConnectNotFoundMember
-    type_error ConnectNotFoundStore
-
     def check(node : Ast::Connect) : Checkable
       store = ast.stores.find(&.name.value.==(node.store.value))
 
-      raise ConnectNotFoundStore, {
-        "store" => node.store.value,
-        "node"  => node,
-      } unless store
+      error! :connect_not_found_store do
+        block do
+          text "I was looking for the store"
+          bold node.store.value
+          text "but could not find it."
+        end
+
+        snippet node.store
+      end unless store
 
       resolve store
 
       node.keys.each do |key|
-        key_value = key.variable.value
+        key_value = key.name.value
 
         found =
           store.functions.find(&.name.value.==(key_value)) ||
@@ -22,14 +24,18 @@ module Mint
             store.gets.find(&.name.value.==(key_value)) ||
             store.constants.find(&.name.value.==(key_value))
 
-        raise ConnectNotFoundMember, {
-          "key"   => key_value,
-          "store" => node.store.value,
-          "node"  => node,
-        } unless found
+        error! :connect_not_found_member do
+          block do
+            text "The entity"
+            bold %("#{key_value}")
+            text "does not exist in the connected store."
+          end
+
+          snippet "The connect in question is here:", node
+        end unless found
 
         cache[key] = resolve found
-        lookups[key] = found
+        lookups[key] = {found, store}
       end
 
       VOID

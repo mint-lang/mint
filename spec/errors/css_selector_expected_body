@@ -1,0 +1,14 @@
+component Main {
+  style root {
+    div {
+--------------------------------------------------------------------------------
+░ ERROR (CSS_SELECTOR_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a CSS selector but I found "a space" instead:
+
+   ┌ ./spec/errors/css_selector_expected_body:3:9
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   style root {
+  3│     div {
+   │          ⌃⌃⌃⌃

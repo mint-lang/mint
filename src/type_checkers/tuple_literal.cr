@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error ArrayNotMatches
-
     def check(node : Ast::TupleLiteral) : Checkable
       items =
         resolve node.items

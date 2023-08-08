@@ -1,42 +1,50 @@
 module Mint
   class Parser
-    syntax_error PropertyExpectedDefaultValue
-    syntax_error PropertyExpectedName
-    syntax_error PropertyExpectedType
-
     def property : Ast::Property?
-      start do
+      parse do |start_position|
         comment = self.comment
         whitespace
 
-        start_position = position
-
-        next unless keyword "property"
+        next unless word! "property"
         whitespace
 
-        name = variable! PropertyExpectedName, track: false
-        whitespace
+        next error :property_expected_name do
+          expected "the name of a property", word
+          snippet self
+        end unless name = variable track: false
 
         type =
-          if char! ':'
+          parse(track: false) do
             whitespace
-            item = type! PropertyExpectedType
+            next unless char! ':'
             whitespace
+
+            next error :property_expected_type do
+              expected "the type of a property", word
+              snippet self
+            end unless item = self.type
             item
           end
 
         default =
-          if char! '='
+          parse(track: false) do
             whitespace
-            expression! PropertyExpectedDefaultValue
+            next unless char! '='
+            whitespace
+
+            next error :property_expected_default_value do
+              expected "the default value of a property", word
+              snippet self
+            end unless item = expression
+            item
           end
 
-        self << Ast::Property.new(
+        Ast::Property.new(
           from: start_position,
           default: default,
           comment: comment,
           to: position,
-          input: data,
+          file: file,
           type: type,
           name: name)
       end

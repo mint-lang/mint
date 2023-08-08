@@ -1,0 +1,16 @@
+component Main {
+  fun render (a :
+--------------------------------------------------------------------------------
+░ ERROR (ARGUMENT_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An argument must have its type defined, here is an example:
+
+  name : Type
+
+I was expecting the type of the argument but I found "a space" instead:
+
+   ┌ ./spec/errors/argument_expected_type:2:17
+   ├──────────────────────────────────────────
+  1│ component Main {
+  2│   fun render (a :
+   │                  ⌃⌃⌃⌃

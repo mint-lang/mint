@@ -1,17 +1,6 @@
 require "spec"
 
 MINT_ENV["TEST"] = "TRUE"
-ERROR_MESSAGES = %w[]
-
-class Mint::Error < Exception
-  macro inherited
-    name = {{@type.name.stringify.split("::").last.underscore}}
-
-    unless name.in?("type_error", "install_error", "syntax_error", "json_error")
-      ERROR_MESSAGES << name
-    end
-  end
-end
 
 def diff(a, b)
   file1 = File.tempfile do |f|

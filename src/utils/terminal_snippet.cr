@@ -1,8 +1,12 @@
 module Mint
   module TerminalSnippet
-    record Line, contents : String, index : Int32, offset : Int32 do
+    record Line, contents : String, index : Int64, offset : Int64 do
       def contains?(position)
         position >= offset && position <= (offset + size)
+      end
+
+      def fully_contains?(from, to)
+        contains?(from, to) && (to - from) < contents.size
       end
 
       def contains?(from, to)
@@ -30,12 +34,18 @@ module Mint
           self[0, diff_from]
 
         center =
-          self[diff_from, diff_to].colorize(:light_yellow).mode(:bright).to_s
+          self[diff_from, diff_to].colorize.on(:white).fore(:red).to_s
 
         right =
           self[diff_to, contents.size]
 
-        left + center + right
+        highlighted =
+          left + center + right
+
+        arrows =
+          (" " * left.size) + ("⌃" * center.uncolorize.size)
+
+        {highlighted, arrows}
       end
 
       def [](from, to)
@@ -47,8 +57,9 @@ module Mint
 
     extend self
 
-    def render(input : String, filename : String, from : Int32, to : Int32, padding = 4, width = 80)
-      lines, _ =
+    def render(input : String, filename : String, from : Int64, to : Int64, padding = 4, width = 80)
+      # Transform each line into a record for further use.
+      lines =
         input.lines.reduce({[] of Line, 0}) do |memo, raw|
           items, index = memo
 
@@ -59,14 +70,23 @@ module Mint
             Line.new(contents: raw, index: index, offset: offset)
 
           {items + [line], index + 1}
-        end
+        end[0]
 
+      selected =
+        lines.select(&.contains?(from, to))
+
+      fully_highlighted =
+        selected.size == lines.size
+
+      # Get the first line which is the one we want to highlight minus the padding.
       start_line =
         {0, (lines.find(&.contains?(from)).try(&.index) || 0) - padding}.max
 
+      # Get the last line which is the one we want to highlight plus the padding.
       end_line =
         {(lines.find(&.contains?(to)).try(&.index) || 0) + padding + 1, lines.size}.min
 
+      # We need to calucluate the width of the gutter so we can pad later lon.
       gutter_width = {
         (start_line + 1).to_s.size,
         (end_line + 1).to_s.size,
@@ -75,37 +95,72 @@ module Mint
       relevant_lines =
         lines[start_line, end_line - start_line]
 
-      min_width = {
-        relevant_lines.max_of(&.size) + gutter_width + 5,
-        width,
-      }.max
-
       result =
         relevant_lines.map do |line|
           line_number =
             (line.index + 1).to_s.rjust(gutter_width)
 
-          line_padding =
-            " " * (min_width - gutter_width - 3 - line.size - 2)
-
           highlighted =
-            line.contains?(from, to)
+            line.fully_contains?(from, to)
 
           gutter =
             if highlighted
-              "│#{line_number}│".colorize(:light_yellow).mode(:bright)
+              "#{line_number}│".colorize(:light_yellow).mode(:bright)
             else
-              "│#{line_number}│".colorize.mode(:dim)
+              "#{line_number}│".colorize.mode(:dim)
             end
 
-          divider =
-            if highlighted
-              "│".colorize(:light_yellow).mode(:bright)
-            else
-              "│".colorize.mode(:dim)
-            end
+          if fully_highlighted
+          elsif selected.size > 1 && selected.last == line
+            max_size =
+              selected.max_of(&.contents.size)
 
-          "#{gutter} #{line.highlight(from, to)} #{line_padding}#{divider}"
+            whitespace =
+              selected.min_of do |item|
+                count = 0
+                item.contents.each_char do |char|
+                  break unless char.ascii_whitespace?
+                  count += 1
+                end || 0
+                count
+              end
+
+            content_size =
+              max_size - whitespace
+
+            arrows =
+              "#{" " * whitespace}#{"⌃"*content_size}"
+
+            "#{gutter} #{line.contents}\n#{" " * gutter_width}│ #{arrows}"
+          elsif selected.size > 1 && selected.first == line
+            max_size =
+              selected.max_of(&.contents.size)
+
+            whitespace =
+              selected.min_of do |item|
+                count = 0
+                item.contents.each_char do |char|
+                  break unless char.ascii_whitespace?
+                  count += 1
+                end || 0
+                count
+              end
+
+            content_size =
+              max_size - whitespace
+
+            arrows =
+              "#{" " * whitespace}#{"⌄"*content_size}"
+
+            "#{" " * gutter_width}│ #{arrows}\n#{gutter} #{line.contents}"
+          elsif highlighted
+            a, b =
+              line.highlight(from, to)
+
+            "#{gutter} #{a}\n#{" " * gutter_width}│ #{b}"
+          elsif from == input.size && line.offset + line.contents.size == from
+            "#{gutter} #{line.contents}\n#{" " * gutter_width}│ #{" " * line.contents.size}⌃⌃⌃⌃"
+          end || "#{gutter} #{line.contents}"
         end
 
       line =
@@ -117,34 +172,25 @@ module Mint
       title =
         "#{filename}:#{line}:#{column}"
 
-      divider =
-        ("─" * (min_width - title.size - gutter_width - 5).clamp(0, nil)).colorize.mode(:dim)
-
       gutter_divider =
-        "─" * gutter_width
-
-      footer_divider =
-        "─" * (min_width - gutter_width - 3).clamp(0, nil)
-
-      footer =
-        ("└#{gutter_divider}┴#{footer_divider}┘").colorize.mode(:dim)
+        " " * gutter_width
 
       header_start =
-        "┌#{gutter_divider}┬".colorize.mode(:dim)
-
-      header_end =
-        "┐".colorize.mode(:dim).to_s
+        "#{gutter_divider}┌ ".colorize.mode(:dim)
 
       title_colorized =
         title.colorize.mode(:bold)
 
       header =
-        "#{header_start} #{title_colorized} #{divider}#{header_end}"
+        "#{header_start}#{title_colorized}"
+
+      header_divider =
+        "#{gutter_divider}├" + ("─" * (header.uncolorize.size - (gutter_width + 1)))
 
       result =
         result.join('\n')
 
-      "#{header}\n#{result}\n#{footer}"
+      "#{header}\n#{header_divider}\n#{result}"
     end
   end
 end

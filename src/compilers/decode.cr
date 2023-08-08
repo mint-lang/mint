@@ -1,8 +1,21 @@
 module Mint
   class Compiler
     def _compile(node : Ast::Decode) : String
+      type =
+        cache[node]
+
+      object =
+        case type.name
+        when "Result"
+          type.parameters.last
+        when "Function"
+          type.parameters.last.parameters.last
+        else
+          raise "SHOULD NOT HAPPEN"
+        end
+
       code =
-        @serializer.decoder types[node]
+        @serializer.decoder object
 
       if item = node.expression
         expression =

@@ -1,0 +1,12 @@
+component Main {
+  connect Test exposing {
+--------------------------------------------------------------------------------
+░ ERROR (CONNECT_EXPECTED_KEYS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the exposed entities of a connect but I found "a space" instead:
+
+   ┌ ./spec/errors/connect_expected_keys:2:25
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   connect Test exposing {
+   │                          ⌃⌃⌃⌃

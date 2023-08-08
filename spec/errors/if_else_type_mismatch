@@ -1,0 +1,37 @@
+component Main {
+  fun render : String {
+    if ("a" == "b") {
+      "x"
+    } else {
+      10
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (IF_ELSE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The falsy (else) branch of an if expression does not match the type of the
+truthy branch.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+The value for the else branch is here:
+
+    ┌ ./spec/errors/if_else_type_mismatch:6:7
+    ├────────────────────────────────────────
+   2│   fun render : String {
+   3│     if ("a" == "b") {
+   4│       "x"
+   5│     } else {
+   6│       10
+    │       ⌃⌃
+   7│     }
+   8│   }
+   9│ }
+

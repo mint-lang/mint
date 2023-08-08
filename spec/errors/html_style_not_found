@@ -1,0 +1,18 @@
+component Main {
+  fun render : Html {
+    <div::base/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_STYLE_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a style but it's not defined in the component:
+
+   ┌ ./spec/errors/html_style_not_found:3:9
+   ├───────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div::base/>
+   │         ⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

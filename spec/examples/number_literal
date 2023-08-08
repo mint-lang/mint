@@ -1,0 +1,14 @@
+------------------------------------------------number_literal_expected_decimal
+component Main {
+  fun render : String {
+    0.
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Number {
+    0
+  }
+
+  fun render : String {
+    ""
+  }
+}

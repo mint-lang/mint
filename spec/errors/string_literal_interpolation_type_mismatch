@@ -1,0 +1,30 @@
+component Main {
+  fun render : String {
+    let name = {}
+
+    "Hello There #{name}!"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (STRING_LITERAL_INTERPOLATION_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An interpolation in string is causing a mismatch. The expected type is:
+
+  String
+
+Instead it is:
+
+  Unit
+
+The interpolation in question is here:
+
+   ┌ ./spec/errors/string_literal_interpolation_type_mismatch:5:18
+   ├──────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     let name = {}
+  4│
+  5│     "Hello There #{name}!"
+   │                  ⌃⌃⌃⌃⌃⌃⌃
+  6│   }
+  7│ }

@@ -1,0 +1,36 @@
+component Main {
+  fun componentDidUpdate (a : String) : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_LIFECYCLE_FUNCTION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the function "componentDidUpdate" of a component must be:
+
+  Function(a)
+
+Instead it is:
+
+  Function(
+    a: String,
+    String)
+
+The function in question is here:
+
+   ┌ ./spec/errors/component_lifecycle_function_mismatch:2:3
+   ├────────────────────────────────────────────────────────
+  1│ component Main {
+   │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  2│   fun componentDidUpdate (a : String) : String {
+  3│     ""
+  4│   }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│
+  6│   fun render : Html {
+  7│     <div/>
+  8│   }

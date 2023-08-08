@@ -1,20 +1,31 @@
 module Mint
   class TypeChecker
-    type_error DecodeExpectedObject
-    type_error DecodeComplexType
-
     def check(node : Ast::Decode) : Checkable
       type =
         resolve node.type
 
       raise "" unless type
 
-      raise DecodeComplexType, {
-        "got"  => type,
-        "node" => node,
-      } unless check_decode(type)
+      error! :decode_complex_type do
+        snippet "This type cannot be automatically decoded:", type
 
-      types[node] = type
+        snippet(
+          "Only these types and records containing them cantext be " \
+          "automatically decoded:",
+          <<-MINT
+          Map(String, a)
+          Array(a)
+          Maybe(a)
+          String
+          Number
+          Object
+          Time
+          Bool
+          MINT
+        )
+
+        snippet "The decode question is here:", node
+      end unless check_decode(type)
 
       result_type =
         Type.new("Result", [OBJECT_ERROR, type] of Checkable)
@@ -23,11 +34,16 @@ module Mint
         expression =
           resolve item
 
-        raise DecodeExpectedObject, {
-          "expected" => OBJECT,
-          "got"      => expression,
-          "node"     => node,
-        } unless Comparer.compare(expression, OBJECT)
+        error! :decode_expected_object do
+          block do
+            text "Only the"
+            bold %("Object")
+            text "type can be decoded but you tried to decode:"
+          end
+
+          snippet expression
+          snippet "The decode question is here:", node
+        end unless Comparer.compare(expression, OBJECT)
 
         result_type
       else

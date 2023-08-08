@@ -1,73 +1,76 @@
 module Mint
   class Parser
-    syntax_error IfExpectedTruthyOpeningBracket
-    syntax_error IfExpectedTruthyClosingBracket
-    syntax_error IfExpectedFalsyOpeningBracket
-    syntax_error IfExpectedFalsyClosingBracket
-    syntax_error IfExpectedClosingParentheses
-    syntax_error IfExpectedTruthyExpression
-    syntax_error IfExpectedFalsyExpression
-    syntax_error IfExpectedCondition
-
     def if_expression(for_css = false) : Ast::If?
-      start do |start_position|
-        next unless keyword "if"
-
+      parse do |start_position|
+        next unless word! "if"
         whitespace
+
         parens = char! '('
         whitespace
-        condition = statement || expression!(IfExpectedCondition)
+
+        next error :if_expected_condition do
+          expected "the condition", word
+          snippet self
+        end unless condition = statement || expression
         whitespace
-        char ')', IfExpectedClosingParentheses if parens
+
+        next error :if_expected_closing_parenthesis do
+          expected "the closing parenthesis of the condition of an if expression", word
+          snippet self
+        end if parens && !char!(')')
         whitespace
 
         truthy =
-          if for_css
-            block(
-              opening_bracket: IfExpectedTruthyOpeningBracket,
-              closing_bracket: IfExpectedTruthyClosingBracket) do
-              many { css_definition }
-            end
-          else
-            code_block(
-              opening_bracket: IfExpectedTruthyOpeningBracket,
-              closing_bracket: IfExpectedTruthyClosingBracket,
-              statement_error: IfExpectedTruthyExpression)
-          end
+          block(
+            ->{ error :if_expected_truthy_opening_bracket do
+              expected "the opening bracket of the truthy branch", word
+              snippet self
+            end },
+            ->{ error :if_expected_truthy_closing_bracket do
+              expected "the closing bracket of the truthy branch", word
+              snippet self
+            end },
 
-        raise IfExpectedTruthyExpression unless truthy
+            ->{ error :if_expected_truthy_expression do
+              expected "an expression for the truthy branch", word
+              snippet self
+            end }) { for_css ? css_definition : comment || statement }
+
+        next unless truthy
 
         falsy = nil
         whitespace
 
-        if keyword "else"
+        if word! "else"
           whitespace
 
           unless falsy = if_expression(for_css: for_css)
             falsy =
-              if for_css
-                block(
-                  opening_bracket: IfExpectedFalsyOpeningBracket,
-                  closing_bracket: IfExpectedFalsyClosingBracket) do
-                  many { css_definition }
-                end
-              else
-                code_block(
-                  opening_bracket: IfExpectedFalsyOpeningBracket,
-                  closing_bracket: IfExpectedFalsyClosingBracket,
-                  statement_error: IfExpectedFalsyExpression)
-              end
+              block(
+                ->{ error :if_expected_else_opening_bracket do
+                  expected "the opening bracket of the else branch", word
+                  snippet self
+                end },
+                ->{ error :if_expected_else_closing_bracket do
+                  expected "the closing bracket of the else branch", word
+                  snippet self
+                end },
+                ->{ error :if_expected_else_expression do
+                  expected "an expression for the else branch", word
+                  snippet self
+                end }) { for_css ? css_definition : comment || statement }
 
-            raise IfExpectedFalsyExpression unless falsy
+            next unless falsy
           end
         end
 
-        self << Ast::If.new(
+        Ast::If.new(
           branches: {truthy, falsy},
           condition: condition,
           from: start_position,
           to: position,
-          input: data).tap do |node|
+          file: file
+        ).tap do |node|
           case condition
           when Ast::Statement
             condition.if_node = node

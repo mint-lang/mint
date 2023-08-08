@@ -1,0 +1,35 @@
+component Main {
+  fun render : String {
+    case "x" {
+      true => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A value does not match its supposed type in a destructuring.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Bool
+
+The destructuring in question is here:
+
+   ┌ ./spec/errors/destructuring_type_mismatch:4:7
+   ├──────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     case "x" {
+  4│       true => "a"
+   │       ⌃⌃⌃⌃
+  5│       "b" => "b"
+  6│       => "c"
+  7│     }
+  8│   }

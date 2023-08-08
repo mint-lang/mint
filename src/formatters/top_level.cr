@@ -7,14 +7,13 @@ module Mint
 
     def format(ast : Ast) : String
       body = (
-        ast.records +
+        ast.type_definitions +
         ast.providers +
         ast.components +
         ast.modules +
         ast.routes +
         ast.stores +
         ast.suites +
-        ast.enums +
         ast.comments +
         ast.locales
       )

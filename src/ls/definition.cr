@@ -17,6 +17,15 @@ module Mint
 
           return unless node = stack[0]?
 
+          # stack.each do |item|
+          #   print item.class.name.sub("Mint::Ast::", "")
+          #   case item
+          #   when Ast::Id, Ast::Variable
+          #     print "(#{item.value})"
+          #   end
+          #   puts item.location.start
+          # end
+
           has_link_support =
             server
               .params

@@ -4,10 +4,10 @@ module Mint
       getter name, expression
 
       def initialize(@name : StringLiteral,
+                     @file : Parser::File,
                      @expression : Block,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

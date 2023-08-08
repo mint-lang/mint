@@ -1,0 +1,16 @@
+--------------------------------------------------------------env_expected_name
+component Main {
+  fun render : String {
+    @
+---------------------------------------------------------env_not_found_variable
+component Main {
+  fun render : String {
+    @XXX
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    @TEST
+  }
+}

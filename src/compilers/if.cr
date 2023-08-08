@@ -28,23 +28,24 @@ module Mint
         node.branches
 
       truthy =
-        case item = truthy_item
-        when Array(Ast::CssDefinition)
-          _compile item, block: block
+        if truthy_item.expressions.all?(Ast::CssDefinition)
+          _compile truthy_item.expressions.select(Ast::CssDefinition), block: block
         else
-          compile item
+          compile truthy_item
         end
 
       falsy =
         case item = falsy_item
-        when Array(Ast::CssDefinition)
-          _compile item, block: block
         when Ast::If
           compile item, block: block
-        when Ast::Node
-          compile item
+        when Ast::Block
+          if item.expressions.all?(Ast::CssDefinition)
+            _compile item.expressions.select(Ast::CssDefinition), block: block
+          else
+            compile item
+          end
         else
-          if truthy_item.is_a?(Ast::Node)
+          if truthy_item
             type = cache[truthy_item]
 
             case type.name

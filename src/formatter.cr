@@ -1,5 +1,6 @@
 module Mint
   class Formatter
+    include Helpers
     include Skippable
 
     class Config

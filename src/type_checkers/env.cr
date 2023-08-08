@@ -1,14 +1,12 @@
 module Mint
   class TypeChecker
-    type_error EnvNotFoundVariable
-
     def check(node : Ast::Env) : Checkable
       return STRING unless @check_env
 
-      raise EnvNotFoundVariable, {
-        "name" => node.name,
-        "node" => node,
-      } unless MINT_ENV[node.name]?
+      error! :env_not_found_variable do
+        snippet "I cannot find the environment variable with the name:", node.name
+        snippet "Here is where it is referenced:", node
+      end unless MINT_ENV[node.name]?
 
       STRING
     end

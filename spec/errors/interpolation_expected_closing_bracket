@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    "#{a
+--------------------------------------------------------------------------------
+░ ERROR (INTERPOLATION_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of an interpolation but I found "a space"
+instead:
+
+   ┌ ./spec/errors/interpolation_expected_closing_bracket:3:8
+   ├─────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "#{a
+   │         ⌃⌃⌃⌃

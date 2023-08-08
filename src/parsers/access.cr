@@ -1,22 +1,32 @@
 module Mint
   class Parser
-    syntax_error AccessExpectedVariable
+    def access(expression : Ast::Node) : Ast::Access?
+      parse do
+        # TODO: Remove this if chain in 0.21.0 when deprecation ends.
+        type =
+          if word! "::"
+            Ast::Access::Type::DoubleColon
+          elsif char! ':'
+            Ast::Access::Type::Colon
+          elsif char! '.'
+            Ast::Access::Type::Dot
+          end
 
-    def access(lhs : Ast::Expression) : Ast::Expression
-      start do |start_position|
-        next unless char! '.'
+        next unless type
 
-        field = variable! AccessExpectedVariable, track: false
+        next error :access_expected_field do
+          expected "the name of the accessed entity", word
+          snippet self
+        end unless field = value
 
-        node = self << Ast::Access.new(
-          from: start_position,
+        Ast::Access.new(
+          expression: expression,
+          from: expression.from,
           field: field,
           to: position,
-          input: data,
-          lhs: lhs)
-
-        array_access_or_call(node)
-      end || lhs
+          file: file,
+          type: type)
+      end
     end
   end
 end

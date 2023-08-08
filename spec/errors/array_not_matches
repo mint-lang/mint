@@ -1,0 +1,41 @@
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      true,
+      "Joe"
+    ]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------░ ERROR (ARRAY_NOT_MATCHES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The 2nd item of an array does not match the type of the 1st item.
+
+I was expecting the type of the 1st item:
+
+  String
+
+Instead it is:
+
+  Bool
+
+The item in question is here:
+
+    ┌ ./spec/errors/array_not_matches:5:7
+    ├────────────────────────────────────
+   1│ component Main {
+   2│   fun test : Array(String) {
+   3│     [
+   4│       "Hello",
+   5│       true,
+    │       ⌃⌃⌃⌃
+   6│       "Joe"
+   7│     ]
+   8│   }
+   9│

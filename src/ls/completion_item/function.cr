@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Completion < LSP::RequestMessage
-      def completion_item(node : Ast::Function, parent_name : Ast::TypeId? = nil) : LSP::CompletionItem
+      def completion_item(node : Ast::Function, parent_name : Ast::Id? = nil) : LSP::CompletionItem
         name =
           if parent_name
             "#{parent_name.value}.#{node.name.value}"
@@ -22,7 +22,7 @@ module Mint
           MINT
 
         LSP::CompletionItem.new(
-          documentation: node.comment.try(&.value).to_s,
+          documentation: node.comment.try(&.content).to_s,
           kind: LSP::CompletionItemKind::Function,
           insert_text: snippet,
           detail: "Function",

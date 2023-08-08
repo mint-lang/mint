@@ -1,20 +1,29 @@
 module Mint
   class Parser
-    syntax_error EncodeExpectedExpression
-
     def encode : Ast::Encode?
-      start do |start_position|
-        next unless keyword "encode"
-        next unless whitespace?
+      parse do |start_position|
+        next unless word! "encode"
         whitespace
 
-        expression = expression! EncodeExpectedExpression
+        next error :encode_expected_expression do
+          block do
+            text "The"
+            bold "object to be encoded"
+            text "must come from an"
+            bold "expression,"
+            text "here is an example:"
+          end
 
-        self << Ast::Encode.new(
+          snippet %(encode "A string for example!")
+          expected "the expression", word
+          snippet self
+        end unless expression = self.expression
+
+        Ast::Encode.new(
           expression: expression,
           from: start_position,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

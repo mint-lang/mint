@@ -4,7 +4,6 @@ component Test {
       "Hello There"
 
       <></>
-      < key="Hello"></>
       <><{"AA"}></>
     </>
   }
@@ -16,7 +15,6 @@ component Test {
       "Hello There"
 
       <></>
-      < key="Hello"></>
       <><{ "AA" }></>
     </>
   }

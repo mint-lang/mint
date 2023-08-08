@@ -10,7 +10,7 @@ module Mint
       branches =
         node
           .branches
-          .sort_by(&.match.nil?.to_s)
+          .sort_by(&.pattern.nil?.to_s)
           .map do |branch|
             _compile branch, block
           end

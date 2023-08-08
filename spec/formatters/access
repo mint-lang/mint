@@ -1,8 +1,8 @@
-record Blah1 {
+type Blah1 {
   blah : Bool
 }
 
-record Blah {
+type Blah {
   blah : Blah1
 }
 
@@ -12,11 +12,11 @@ module Test {
   }
 }
 --------------------------------------------------------------------------------
-record Blah1 {
+type Blah1 {
   blah : Bool
 }
 
-record Blah {
+type Blah {
   blah : Blah1
 }
 

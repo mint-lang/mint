@@ -1,4 +1,4 @@
-record Subscription {
+type Subscription {
   a : Bool
 }
 
@@ -10,7 +10,7 @@ provider Provider:Subscription {
   }
 }
 --------------------------------------------------------------------------------
-record Subscription {
+type Subscription {
   a : Bool
 }
 

@@ -12,7 +12,7 @@ module Mint
 
         ([
           "**#{node.name.value}**\n",
-          node.comment.try(&.value.strip),
+          node.comment.try(&.content.strip),
           properties_title,
         ] + properties).compact
       end
@@ -23,7 +23,7 @@ module Mint
         component =
           workspace
             .type_checker
-            .lookups[node]?
+            .lookups[node]?.try(&.first?)
 
         hover(component, workspace)
       end

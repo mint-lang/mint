@@ -1,0 +1,30 @@
+component Main {
+  fun render : Bool {
+    true
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_RENDER_FUNCTION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of the render function to match one of these types:
+
+  Function(Array(String))
+  Function(Array(Html))
+  Function(String)
+  Function(Html)
+
+Instead the type of the function is:
+
+  Bool
+
+The function in question is here:
+
+   ┌ ./spec/errors/component_render_function_mismatch:2:3
+   ├─────────────────────────────────────────────────────
+  1│ component Main {
+   │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  2│   fun render : Bool {
+  3│     true
+  4│   }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│ }

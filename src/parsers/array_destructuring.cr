@@ -1,34 +1,25 @@
 module Mint
   class Parser
-    syntax_error ArrayDestructuringExpectedClosingBracket
-
     def array_destructuring : Ast::ArrayDestructuring?
-      start do |start_position|
-        head = start do
-          next unless char! '['
-          value = spread || destructuring
-          whitespace
-          char! ','
-          whitespace
-          value
-        end
-
-        next unless head
+      parse do |start_position|
+        next unless char! '['
 
         items =
-          [head.as(Ast::Node)] &+ list(terminator: ']', separator: ',') do
-            spread || destructuring
-          end
+          list(terminator: ']', separator: ',') { spread || destructuring }
 
+        next if items.empty?
         whitespace
 
-        char ']', ArrayDestructuringExpectedClosingBracket
+        next error :array_destructuring_expected_closing_bracket do
+          expected "the closing bracket of an array destructuring", word
+          snippet self
+        end unless char! ']'
 
         Ast::ArrayDestructuring.new(
           from: start_position,
           items: items,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

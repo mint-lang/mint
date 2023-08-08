@@ -1,0 +1,42 @@
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a(0)
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CALL_ARGUMENT_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The 1st argument to a function is causing a mismatch.
+
+The function is expecting the 1st argument to be:
+
+  String
+
+Instead it is:
+
+  Number
+
+The call in question is here:
+
+    ┌ ./spec/errors/call_argument_type_mismatch:7:6
+    ├──────────────────────────────────────────────
+   3│     input
+   4│   }
+   5│
+   6│   fun b : String {
+   7│     a(0)
+    │      ⌃⌃⌃
+   8│   }
+   9│
+  10│   fun render : Html {
+  11│     b()

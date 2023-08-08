@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    <div name=
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of an HTML attribute but I found "a space"
+instead:
+
+   ┌ ./spec/errors/html_attribute_expected_opening_bracket:3:14
+   ├───────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div name=
+   │               ⌃⌃⌃⌃

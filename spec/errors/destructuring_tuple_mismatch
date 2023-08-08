@@ -1,0 +1,31 @@
+component Main {
+  fun render : String {
+    case {"a", "b"} {
+      {a, b, c} => "a"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_TUPLE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+This destructuring of a tuple does not match the given tuple. I was expecting a
+tuple with 3 items.
+
+Instead it is this:
+
+  Tuple(
+    String,
+    String)
+
+The destructuring in question is here:
+
+   ┌ ./spec/errors/destructuring_tuple_mismatch:4:7
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     case {"a", "b"} {
+  4│       {a, b, c} => "a"
+   │       ⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│     }
+  6│   }
+  7│ }

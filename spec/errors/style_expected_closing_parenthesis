@@ -1,0 +1,13 @@
+component Main {
+  style x (
+--------------------------------------------------------------------------------
+░ ERROR (STYLE_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parenthesis of a style but I found "a space"
+instead:
+
+   ┌ ./spec/errors/style_expected_closing_parenthesis:2:11
+   ├──────────────────────────────────────────────────────
+  1│ component Main {
+  2│   style x (
+   │            ⌃⌃⌃⌃

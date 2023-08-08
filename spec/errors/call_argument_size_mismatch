@@ -1,0 +1,40 @@
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a("Hello", "There")
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CALL_ARGUMENT_SIZE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The function you called takes 1 arguments, while you tried to call it with 2.
+
+The type of the function is:
+
+  Function(
+    input: String,
+    String)
+
+The call in question is here:
+
+    ┌ ./spec/errors/call_argument_size_mismatch:7:6
+    ├──────────────────────────────────────────────
+   3│     input
+   4│   }
+   5│
+   6│   fun b : String {
+   7│     a("Hello", "There")
+    │      ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│
+  10│   fun render : Html {
+  11│     b()

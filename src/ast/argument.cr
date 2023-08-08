@@ -3,12 +3,12 @@ module Mint
     class Argument < Node
       getter type, name, default
 
-      def initialize(@type : TypeOrVariable,
-                     @name : Variable,
+      def initialize(@file : Parser::File,
                      @default : Node?,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @name : Variable,
+                     @from : Int64,
+                     @type : Node,
+                     @to : Int64)
       end
     end
   end

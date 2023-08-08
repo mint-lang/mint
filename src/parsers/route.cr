@@ -1,46 +1,56 @@
 module Mint
   class Parser
-    syntax_error RouteExpectedClosingParentheses
-    syntax_error RouteExpectedOpeningBracket
-    syntax_error RouteExpectedClosingBracket
-    syntax_error RouteExpectedExpression
-
     def route : Ast::Route?
-      start do |start_position|
+      parse do |start_position|
         next unless char.in?('*', '/')
 
         url =
-          case char
-          when '*'
-            step
+          if char! '*'
             "*"
           else
-            gather { chars_until ' ', '\n', '\r', '\t', '{', '(' }.to_s
+            gather { chars { |char| !char.in?(' ', '\n', '\r', '\t', '{', '(') } }.to_s
           end
-
-        whitespace
 
         arguments = [] of Ast::Argument
 
+        whitespace
         if char! '('
-          arguments = list(terminator: ')', separator: ',') { argument(false) }
+          arguments =
+            list(terminator: ')', separator: ',') do
+              argument(parse_default_value: false)
+            end
+
           whitespace
-          char ')', RouteExpectedClosingParentheses
+          next error :route_expected_closing_parenthesis do
+            expected "the closing parenthesis of a route", word
+            snippet self
+          end unless char! ')'
           whitespace
         end
 
         body =
-          code_block(
-            opening_bracket: RouteExpectedOpeningBracket,
-            closing_bracket: RouteExpectedClosingBracket,
-            statement_error: RouteExpectedExpression)
+          block(
+            ->{ error :route_expected_opening_bracket do
+              expected "the opening bracket of a route", word
+              snippet self
+            end },
+            ->{ error :route_expected_closing_bracket do
+              expected "the closing bracket of a route", word
+              snippet self
+            end },
+            ->{ error :route_expected_body do
+              expected "the body of a route", word
+              snippet self
+            end })
 
-        self << Ast::Route.new(
+        next unless body
+
+        Ast::Route.new(
           arguments: arguments,
           from: start_position,
           expression: body,
           to: position,
-          input: data,
+          file: file,
           url: url)
       end
     end

@@ -1,0 +1,12 @@
+suite "X" {
+  test
+--------------------------------------------------------------------------------
+░ ERROR (TEST_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a test but I found "a space" instead:
+
+   ┌ ./spec/errors/test_expected_name:2:6
+   ├─────────────────────────────────────
+  1│ suite "X" {
+  2│   test
+   │       ⌃⌃⌃⌃

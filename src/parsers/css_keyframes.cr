@@ -1,31 +1,43 @@
 module Mint
   class Parser
-    syntax_error CssKeyframesExpectedOpeningBracket
-    syntax_error CssKeyframesExpectedClosingBracket
-    syntax_error CssKeyframesExpectedName
-
     def css_keyframes : Ast::CssKeyframes?
-      start do |start_position|
-        next unless keyword "@keyframes"
-
+      parse do |start_position|
+        next unless word! "@keyframes"
         whitespace
 
         name =
-          gather { chars_until '{' }.presence.try(&.strip)
+          gather { chars { char != '{' } }.presence.try(&.strip)
 
-        raise CssKeyframesExpectedName unless name
+        next error :css_keyframes_expected_name do
+          expected "the name of a CSS keyframes rule", word
+          snippet self
+        end unless name
 
-        selectors = block(
-          opening_bracket: CssKeyframesExpectedOpeningBracket,
-          closing_bracket: CssKeyframesExpectedClosingBracket) do
+        selectors = brackets(
+          ->{ error :css_keyframes_expected_opening_bracket do
+            expected "the opening bracket of a CSS keyframes rule", word
+            snippet self
+          end },
+          ->{ error :css_keyframes_expected_closing_bracket do
+            expected "the closing bracket of a CSS keyframes rule", word
+            snippet self
+          end },
+          ->(items : Array(Ast::Node)) {
+            error :css_keyframes_expected_selectors do
+              expected "the selectors of a CSS keyframes rule", word
+              snippet self
+            end if items.all?(Ast::Comment)
+          }) {
           many { comment || css_selector(only_definitions: true) }
-        end
+        }
+
+        next unless selectors
 
         Ast::CssKeyframes.new(
           from: start_position,
           selectors: selectors,
           to: position,
-          input: data,
+          file: file,
           name: name)
       end
     end

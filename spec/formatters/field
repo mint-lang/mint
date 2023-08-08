@@ -1,0 +1,19 @@
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    {a:"Hello"}
+  }
+}
+--------------------------------------------------------------------------------
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    { a: "Hello" }
+  }
+}

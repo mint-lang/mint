@@ -1,0 +1,11 @@
+provider Test :
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDER_EXPECTED_SUBSCRIPTION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the subscription type of a provider but I found "a space"
+instead:
+
+   ┌ ./spec/errors/provider_expected_subscription:1:15
+   ├──────────────────────────────────────────────────
+  1│ provider Test :
+   │                ⌃⌃⌃⌃

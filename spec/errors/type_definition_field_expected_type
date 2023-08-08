@@ -1,0 +1,12 @@
+type A {
+  x:
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_FIELD_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of a type field but I found "a space" instead:
+
+   ┌ ./spec/errors/type_definition_field_expected_type:2:4
+   ├──────────────────────────────────────────────────────
+  1│ type A {
+  2│   x:
+   │     ⌃⌃⌃⌃

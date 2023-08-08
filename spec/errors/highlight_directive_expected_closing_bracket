@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @highlight { test
+--------------------------------------------------------------------------------
+░ ERROR (HIGHLIGHT_DIRECTIVE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a highlight directive but I found "a
+space" instead:
+
+   ┌ ./spec/errors/highlight_directive_expected_closing_bracket:3:21
+   ├────────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @highlight { test
+   │                      ⌃⌃⌃⌃

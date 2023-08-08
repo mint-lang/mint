@@ -1,0 +1,64 @@
+enum A {
+  B(name : String, color : String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B(name: "Joe", color: "Blue")) {
+      A::B(color, name) => color
+      A::C => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _E {
+  constructor(_0, _1) {
+    super();
+    this._0 = _0;
+    this._1 = _1;
+    this.length = 2;
+
+    this._mapping = {
+      name: "_0",
+      color: "_1"
+    };
+  }
+};
+
+class B extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class C extends _C {
+  render() {
+    return _match(_n(A)(`Joe`, `Blue`),[
+      [
+        _PE(A,_PR([
+          [
+            "color",
+            _PV
+          ],
+          [
+            "name",
+            _PV
+          ]
+        ])),
+        (a, b) => {
+          return a
+        }
+      ],
+      [
+        _PE(B,[]),
+        () => {
+          return ``
+        }
+      ]
+    ]);
+  }
+};
+
+C.displayName = "Main";

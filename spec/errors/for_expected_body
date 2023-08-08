@@ -1,0 +1,14 @@
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c) {
+--------------------------------------------------------------------------------
+░ ERROR (FOR_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a for expression but I found "a space" instead:
+
+   ┌ ./spec/errors/for_expected_body:3:21
+   ├─────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (a, b of c) {
+   │                      ⌃⌃⌃⌃

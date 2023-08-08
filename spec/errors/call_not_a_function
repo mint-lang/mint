@@ -1,0 +1,34 @@
+component Main {
+  state x : String = ""
+
+  fun b : String {
+    x()
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CALL_NOT_A_FUNCTION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The entity you called is not a function, instead it is:
+
+  String
+
+The call in question is here:
+
+    ┌ ./spec/errors/call_not_a_function:5:6
+    ├──────────────────────────────────────
+   1│ component Main {
+   2│   state x : String = ""
+   3│
+   4│   fun b : String {
+   5│     x()
+    │      ⌃⌃
+   6│   }
+   7│
+   8│   fun render : Html {
+   9│     b()

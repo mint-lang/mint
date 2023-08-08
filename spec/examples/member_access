@@ -1,0 +1,14 @@
+------------------------------------------------member_access_expected_variable
+component Main {
+  fun render : Html {
+    .
+-------------------------------------------------------------------------------
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test({test: "Hello"})
+  }
+}

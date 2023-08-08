@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    if ("") {
+--------------------------------------------------------------------------------
+░ ERROR (IF_EXPECTED_TRUTHY_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting an expression for the truthy branch but I found "a space"
+instead:
+
+   ┌ ./spec/errors/if_expected_truthy_expression:3:13
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     if ("") {
+   │              ⌃⌃⌃⌃

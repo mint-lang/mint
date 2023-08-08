@@ -2,7 +2,7 @@ module Mint
   class Ast
     class Node
       # Line and column number pair.
-      alias Position = {Int32, Int32}
+      alias Position = {Int64, Int64}
 
       struct Location
         include JSON::Serializable
@@ -22,11 +22,11 @@ module Mint
         def initialize(@filename, @start, @end)
         end
 
-        def contains?(line : Int)
+        def contains?(line : Int64)
           start[0] <= line <= end[0]
         end
 
-        def contains?(line : Int, column : Int)
+        def contains?(line : Int64, column : Int64)
           case
           when line == start[0] == end[0] # If on the only line
             start[1] <= column < end[1]
@@ -40,31 +40,20 @@ module Mint
         end
       end
 
-      property from : Int32
-      getter input : Data
-      getter to : Int32
+      getter file : Parser::File
 
-      def initialize(@input, @from, @to)
+      property from : Int64
+      getter to : Int64
+
+      def initialize(@file, @from, @to)
       end
 
       def to_tuple
-        {input: input, from: from, to: to}
-      end
-
-      def owns?(node)
-        false
-      end
-
-      def static?
-        false
-      end
-
-      def static_value
-        ""
+        {file: file, from: from, to: to}
       end
 
       def source
-        input.input[from, to - from]
+        file.contents[from, to - from]
       end
 
       def new_line?
@@ -73,8 +62,8 @@ module Mint
 
       def self.compute_position(lines, needle) : Position
         line_start_pos, line = begin
-          left, right = 0, lines.size - 1
-          index = pos = 0
+          left, right = 0_i64, lines.size - 1_i64
+          index = pos = 0_i64
           found = false
 
           while left <= right
@@ -82,9 +71,9 @@ module Mint
 
             case pos = lines[middle]
             when .< needle
-              left = middle + 1
+              left = middle + 1_i64
             when .> needle
-              right = middle - 1
+              right = middle - 1_i64
             else
               index = middle
               found = true
@@ -93,7 +82,7 @@ module Mint
           end
 
           unless found
-            index = left - 1
+            index = left - 1_i64
             pos = lines[index]
           end
 
@@ -101,28 +90,28 @@ module Mint
         end
 
         # NOTE: for the line numbers use 1-based indexing
-        line += 1
+        line += 1_i64
         column = needle - line_start_pos
 
         {line, column}
       end
 
-      def self.compute_location(input : Data, from, to)
+      def self.compute_location(file : Parser::File, from, to)
         # TODO: avoid creating this array for every (initial) call to `Node#location`
         lines = [0]
-        input.input.each_char_with_index do |ch, i|
+        file.contents.each_char_with_index do |ch, i|
           lines << i + 1 if ch == '\n'
         end
 
         Location.new(
-          filename: input.file,
+          filename: file.path,
           start: compute_position(lines, from),
           end: compute_position(lines, to),
         )
       end
 
       getter location : Location do
-        Node.compute_location(input, from, to)
+        Node.compute_location(file, from, to)
       end
     end
   end

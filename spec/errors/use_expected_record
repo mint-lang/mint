@@ -1,0 +1,12 @@
+component Main {
+  use A
+--------------------------------------------------------------------------------
+░ ERROR (USE_EXPECTED_RECORD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the record of a use but I found "a space" instead:
+
+   ┌ ./spec/errors/use_expected_record:2:7
+   ├──────────────────────────────────────
+  1│ component Main {
+  2│   use A
+   │        ⌃⌃⌃⌃

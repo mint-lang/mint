@@ -1,0 +1,15 @@
+component Main {
+  fun render : Array(Html) {
+    for (a, b
+--------------------------------------------------------------------------------
+░ ERROR (FOR_EXPECTED_OF) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the "of" keyword of a for expression but I found "a space"
+instead:
+
+   ┌ ./spec/errors/for_expected_of:3:13
+   ├───────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (a, b
+   │              ⌃⌃⌃⌃

@@ -1,0 +1,14 @@
+component Main {
+  fun render : Html {
+    () :
+--------------------------------------------------------------------------------
+░ ERROR (INLINE_FUNCTION_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of an inline function but I found "a space" instead:
+
+   ┌ ./spec/errors/inline_function_expected_type:3:8
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     () :
+   │         ⌃⌃⌃⌃

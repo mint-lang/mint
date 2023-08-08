@@ -4,15 +4,15 @@ module Mint
       getter fields
 
       UNIT = new(
-        fields: [] of RecordField,
-        input: Data.new("", ""),
+        file: Parser::File.new("", ""),
+        fields: [] of Field,
         from: 0,
         to: 2)
 
-      def initialize(@fields : Array(RecordField),
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@fields : Array(Field),
+                     @file : Parser::File,
+                     @from : Int64,
+                     @to : Int64)
       end
 
       def self.empty

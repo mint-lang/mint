@@ -1,0 +1,30 @@
+component Main {
+  state b : String = 0
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (STATE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the default value of the a state does not match its type annotation:
+
+   ┌ ./spec/errors/state_type_mismatch:2:22
+   ├───────────────────────────────────────
+  1│ component Main {
+  2│   state b : String = 0
+   │                      ⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+

@@ -1,0 +1,28 @@
+component Main {
+  fun test (a : String = "Hello", b : String) : Number {
+    a
+  }
+
+  fun render : String {
+    test()
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FUNCTION_ARGUMENT_MUST_HAVE_A_DEFAULT_VALUE) ░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The argument "b" is declared after one that had a default value.
+
+Arguments that come after ones that have a default value must also have a
+default value.
+
+The argument in question is here:
+
+   ┌ ./spec/errors/function_argument_must_have_a_default_value:2:35
+   ├───────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun test (a : String = "Hello", b : String) : Number {
+   │                                   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     a
+  4│   }
+  5│
+  6│   fun render : String {

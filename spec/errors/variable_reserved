@@ -1,0 +1,24 @@
+component Main {
+  fun b(default : String) : String {
+    default
+  }
+
+  fun render : Html {
+    b("")
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (VARIABLE_RESERVED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+This name for a variable is a reserved word please use something else:
+
+   ┌ ./spec/errors/variable_reserved:3:5
+   ├────────────────────────────────────
+  1│ component Main {
+  2│   fun b(default : String) : String {
+  3│     default
+   │     ⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│
+  6│   fun render : Html {
+  7│     b("")

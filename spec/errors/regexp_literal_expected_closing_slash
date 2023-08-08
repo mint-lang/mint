@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    /asd
+--------------------------------------------------------------------------------
+░ ERROR (REGEXP_LITERAL_EXPECTED_CLOSING_SLASH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing slash of a regexp literal but I found "a space"
+instead:
+
+   ┌ ./spec/errors/regexp_literal_expected_closing_slash:3:8
+   ├────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     /asd
+   │         ⌃⌃⌃⌃

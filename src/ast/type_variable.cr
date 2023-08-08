@@ -3,10 +3,10 @@ module Mint
     class TypeVariable < Node
       getter value
 
-      def initialize(@value : String,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@file : Parser::File,
+                     @value : String,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

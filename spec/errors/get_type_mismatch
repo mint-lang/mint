@@ -1,0 +1,48 @@
+component Main {
+  get test : Number {
+    "asd"
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (GET_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The return type of a get does not match its type definition.
+
+I was expecting:
+
+  Number
+
+Which is defined here:
+
+   ┌ ./spec/errors/get_type_mismatch:2:14
+   ├─────────────────────────────────────
+  1│ component Main {
+  2│   get test : Number {
+   │              ⌃⌃⌃⌃⌃⌃
+  3│     "asd"
+  4│   }
+  5│
+  6│   fun render : Html {
+
+Instead it is:
+
+  String
+
+Which is returned here:
+
+   ┌ ./spec/errors/get_type_mismatch:3:5
+   ├────────────────────────────────────
+  1│ component Main {
+  2│   get test : Number {
+  3│     "asd"
+   │     ⌃⌃⌃⌃⌃
+  4│   }
+  5│
+  6│   fun render : Html {
+  7│     test()

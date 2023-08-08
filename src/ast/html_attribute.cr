@@ -1,19 +1,13 @@
 module Mint
   class Ast
     class HtmlAttribute < Node
-      getter value, name
+      getter name, value
 
-      delegate static?, to: @value
-
-      def initialize(@value : Expression,
+      def initialize(@file : Parser::File,
                      @name : Variable,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def static_value : String
-        "#{name.value}=#{value.static_value}"
+                     @value : Node,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

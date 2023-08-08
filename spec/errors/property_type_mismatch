@@ -1,0 +1,37 @@
+component Test {
+  property name : String = true
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the default value of a property does not match its type annotation.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Bool
+
+The property in question is here:
+
+   ┌ ./spec/errors/property_type_mismatch:2:3
+   ├─────────────────────────────────────────
+  1│ component Test {
+  2│   property name : String = true
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }

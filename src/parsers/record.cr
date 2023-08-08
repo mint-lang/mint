@@ -1,25 +1,24 @@
 module Mint
   class Parser
     def record : Ast::Record?
-      start do |start_position|
+      parse do |start_position|
         next unless char! '{'
 
-        fields = [] of Ast::RecordField
+        fields = [] of Ast::Field
 
         unless char! '}'
           whitespace
-
-          fields = list(terminator: '}', separator: ',') { record_field }
-
+          fields = list(terminator: '}', separator: ',') { field }
           whitespace
+
           next unless char! '}'
         end
 
-        self << Ast::Record.new(
+        Ast::Record.new(
           from: start_position,
           fields: fields,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

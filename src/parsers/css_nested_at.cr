@@ -1,37 +1,42 @@
 module Mint
   class Parser
-    syntax_error CssNestedAtExpectedOpeningBracket
-    syntax_error CssNestedAtExpectedClosingBracket
-    syntax_error CssNestedAtExpectedCondition
-
-    syntax_error CssNestedAtExpectedSpaceAfterKeyword
-
     def css_nested_at : Ast::CssNestedAt?
-      start do |start_position|
+      parse do |start_position|
         next unless char! '@'
-
-        name = gather { keyword("media") || keyword("supports") }
-
-        next unless name
-
-        whitespace! CssNestedAtExpectedSpaceAfterKeyword
+        next unless name = gather { word!("media") || word!("supports") }
 
         content =
-          gather { chars_until '{' }.presence.try(&.strip)
+          gather { chars { char != '{' } }.presence.try(&.strip)
 
-        raise CssNestedAtExpectedCondition unless content
+        next error :css_nested_at_expected_condition do
+          expected "the condition of a CSS at rule", word
+          snippet self
+        end unless content
 
-        body = block(
-          opening_bracket: CssNestedAtExpectedOpeningBracket,
-          closing_bracket: CssNestedAtExpectedClosingBracket) do
-          css_body
-        end
+        body =
+          brackets(
+            ->{ error :css_nested_at_expected_opening_bracket do
+              expected "the opening bracket of a CSS at rule", word
+              snippet self
+            end },
+            ->{ error :css_nested_at_expected_closing_bracket do
+              expected "the closing bracket of a CSS at rule", word
+              snippet self
+            end },
+            ->(items : Array(Ast::Node)) {
+              error :css_nested_at_expected_body do
+                expected "the body of a CSS at rule", word
+                snippet self
+              end if items.empty?
+            }) { many { css_node } }
 
-        self << Ast::CssNestedAt.new(
+        next unless body
+
+        Ast::CssNestedAt.new(
           from: start_position,
           content: content,
           to: position,
-          input: data,
+          file: file,
           name: name,
           body: body)
       end

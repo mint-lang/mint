@@ -1,0 +1,66 @@
+---------------------------------------------------------invalid_self_reference
+component Main {
+  state c : String = b
+  state b : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------invalid_self_reference
+component Main {
+  state b : String = ""
+  state c : String = b
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------invalid_self_reference
+component Main {
+  state c : String = hello
+
+  get hello : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------invalid_self_reference
+component Test {
+  property c : String = hello
+
+  get hello : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+---------------------------------------------------------invalid_self_reference
+component Test {
+  property c : String = hello()
+
+  fun hello : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}

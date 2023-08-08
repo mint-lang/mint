@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::HereDoc) : String
+    def _compile(node : Ast::HereDocument) : String
       if node.modifier == '#'
         interpolations =
           [] of Tuple(String, String)

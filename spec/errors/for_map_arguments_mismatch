@@ -1,0 +1,31 @@
+component Main {
+  get map : Map(String, String) {
+    ``
+  }
+
+  fun render : Array(Html) {
+    for (item of map) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FOR_MAP_ARGUMENTS_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+If the iterable object of a for expression is a map, then it needs to the have 2
+arguments:
+
+    ┌ ./spec/errors/for_map_arguments_mismatch:7:10
+    ├──────────────────────────────────────────────
+   3│     ``
+   4│   }
+   5│
+   6│   fun render : Array(Html) {
+   7│     for (item of map) {
+    │          ⌃⌃⌃⌃
+   8│       <div>
+   9│         <{ item }>
+  10│       </div>
+  11│     }

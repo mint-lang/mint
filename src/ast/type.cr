@@ -3,11 +3,11 @@ module Mint
     class Type < Node
       getter name, parameters
 
-      def initialize(@parameters : Array(TypeOrVariable),
-                     @name : TypeId,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@parameters : Array(Node),
+                     @file : Parser::File,
+                     @from : Int64,
+                     @to : Int64,
+                     @name : Id)
       end
     end
   end

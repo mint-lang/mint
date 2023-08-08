@@ -1,0 +1,46 @@
+--------------------------------------------type_expected_type_or_type_variable
+component Main {
+  fun render : X(
+----------------------------------------------type_expected_closing_parenthesis
+component Main {
+  fun render : X(Y
+-------------------------------------------------------------------------------
+module Test {
+  fun test1 : a {
+    "I'm a String"
+  }
+
+  fun test2 : a {
+    "I'm a string too!"
+  }
+
+  fun test4 : String {
+    test1() + test2()
+  }
+}
+-------------------------------------------------------------------------------
+enum A {
+  B
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B) {
+      => ""
+    }
+  }
+}
+-------------------------------------------------------------------------------
+enum A {
+  B
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A.B) {
+      => ""
+    }
+  }
+}

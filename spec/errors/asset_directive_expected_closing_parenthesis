@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @asset(path
+--------------------------------------------------------------------------------
+░ ERROR (ASSET_DIRECTIVE_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parenthesis of an asset directive but I found "a
+space" instead:
+
+   ┌ ./spec/errors/asset_directive_expected_closing_parenthesis:3:15
+   ├────────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @asset(path
+   │                ⌃⌃⌃⌃

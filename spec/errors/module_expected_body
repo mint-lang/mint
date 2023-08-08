@@ -1,0 +1,10 @@
+module Test {
+--------------------------------------------------------------------------------
+░ ERROR (MODULE_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of the module but I found "a space" instead:
+
+   ┌ ./spec/errors/module_expected_body:1:13
+   ├────────────────────────────────────────
+  1│ module Test {
+   │              ⌃⌃⌃⌃

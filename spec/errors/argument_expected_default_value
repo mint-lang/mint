@@ -1,0 +1,17 @@
+component Main {
+  fun render (a : String =
+--------------------------------------------------------------------------------
+░ ERROR (ARGUMENT_EXPECTED_DEFAULT_VALUE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The default value of an argument must be defined after the equal sign, here is
+an example:
+
+  name : String = "Joe"
+
+I was expecting the default value of the argument but I found "a space" instead:
+
+   ┌ ./spec/errors/argument_expected_default_value:2:26
+   ├───────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render (a : String =
+   │                           ⌃⌃⌃⌃

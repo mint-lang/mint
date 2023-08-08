@@ -1,0 +1,36 @@
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf" test2="asd"/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_NOT_FOUND_COMPONENT_PROPERTY) ░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a property in component "X" but could not find it:
+
+  test2
+
+Maybe you want one of its properties:
+
+  test
+
+The attribute in question is here:
+
+    ┌ ./spec/errors/html_attribute_not_found_component_property:11:18
+    ├────────────────────────────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : Html {
+  11│     <X key="wtf" test2="asd"/>
+    │                  ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│   }
+  13│ }

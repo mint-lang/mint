@@ -1,4 +1,4 @@
-record X {
+type X {
   name : String
 }
 
@@ -14,7 +14,7 @@ component A {
   }
 }
 --------------------------------------------------------------------------------
-record X {
+type X {
   name : String
 }
 

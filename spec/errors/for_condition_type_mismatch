@@ -1,0 +1,35 @@
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    } when {
+      item
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FOR_CONDITION_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The condition of a for expression has an invalid type. I was expecting:
+
+  Bool
+
+Instead it is:
+
+  String
+
+The value in question is here:
+
+    ┌ ./spec/errors/for_condition_type_mismatch:8:7
+    ├──────────────────────────────────────────────
+   4│       <div>
+   5│         <{ item }>
+   6│       </div>
+   7│     } when {
+   8│       item
+    │       ⌃⌃⌃⌃
+   9│     }
+  10│   }
+  11│ }

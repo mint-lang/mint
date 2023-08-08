@@ -3,21 +3,22 @@ module Mint
     class Pipe < Node
       getter expression, argument
 
-      def initialize(@expression : Expression,
-                     @argument : Expression,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@file : Parser::File,
+                     @expression : Node,
+                     @argument : Node,
+                     @from : Int64,
+                     @to : Int64)
       end
 
       def call
         arg =
-          Ast::CallExpression.new(
-            expression: argument,
-            input: argument.input,
+          Ast::Field.new(
+            file: argument.file,
             from: argument.from,
             to: argument.to,
-            name: nil)
+            value: argument,
+            comment: nil,
+            key: nil)
 
         @call ||=
           case item = expression
@@ -25,14 +26,14 @@ module Mint
             Ast::Call.new(
               arguments: [arg] + item.arguments,
               expression: item.expression,
-              input: item.input,
+              file: item.file,
               from: item.from,
               to: item.to)
           else
             Ast::Call.new(
               expression: expression,
               arguments: [arg],
-              input: input,
+              file: file,
               from: from,
               to: to)
           end

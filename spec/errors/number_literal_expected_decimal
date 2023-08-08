@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    0.
+--------------------------------------------------------------------------------
+░ ERROR (NUMBER_LITERAL_EXPECTED_DECIMAL) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the decimals for a number literal but I found "a space" instead:
+
+   ┌ ./spec/errors/number_literal_expected_decimal:3:6
+   ├──────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     0.
+   │       ⌃⌃⌃⌃

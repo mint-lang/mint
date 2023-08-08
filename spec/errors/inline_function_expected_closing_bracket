@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    () { a
+--------------------------------------------------------------------------------
+░ ERROR (INLINE_FUNCTION_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of an inline function but I found "a space"
+instead:
+
+   ┌ ./spec/errors/inline_function_expected_closing_bracket:3:10
+   ├────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     () { a
+   │           ⌃⌃⌃⌃

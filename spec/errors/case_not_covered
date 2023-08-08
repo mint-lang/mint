@@ -1,0 +1,28 @@
+component Main {
+  fun render : String {
+    case ("a") {
+      "a" => "a"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CASE_NOT_COVERED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Not all possibilities of a case expression are covered. To cover all remaining
+possibilities add an empty case branch:
+
+  => returnValue
+
+The case in question is here:
+
+   ┌ ./spec/errors/case_not_covered:3:5
+   ├───────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+   │     ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  3│     case ("a") {
+  4│       "a" => "a"
+  5│     }
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  6│   }
+  7│ }

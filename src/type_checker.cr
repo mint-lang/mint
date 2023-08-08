@@ -1,5 +1,8 @@
 module Mint
   class TypeChecker
+    include Errorable
+    include Helpers
+
     alias Checkable = Type | Record | Variable
 
     # Built in types
@@ -37,42 +40,23 @@ module Mint
       HTML,
     ] of Checkable
 
-    getter records, scope, artifacts, formatter, web_components
+    getter records, artifacts, formatter, web_components
 
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate types, variables, ast, lookups, cache, to: artifacts
+    delegate variables, ast, lookups, cache, scope, to: artifacts
     delegate assets, resolve_order, locales, argument_order, to: artifacts
 
-    delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
     @formatter = Formatter.new
     @names = {} of String => Ast::Node
-    @types = {} of String => Ast::Node
     @records = [] of Record
     @top_level_entity : Ast::Node?
     @languages : Array(String)
     @referee : Ast::Node?
-
-    @returns : Hash(Ast::Node, Array(Ast::ReturnCall)) = {} of Ast::Node => Array(Ast::ReturnCall)
-    @returns_stack : Array(Ast::Node) = [] of Ast::Node
-
-    def push_return(node : Ast::ReturnCall)
-      if item = @returns_stack.last
-        @returns[item] ||= [] of Ast::ReturnCall
-        @returns[item].push(node)
-      end
-    end
-
-    def with_returns(node : Ast::Node, &)
-      @returns_stack.push(node)
-      yield
-    ensure
-      @returns_stack.delete(node)
-    end
 
     @record_name_char : String = 'A'.pred.to_s
 
@@ -83,15 +67,10 @@ module Mint
 
       @languages = ast.unified_locales.map(&.language)
       @artifacts = Artifacts.new(ast)
-      @scope = Scope.new(ast, records)
 
       resolve_records
 
       ast.unified_locales.each { |locale| check_locale(locale) }
-    end
-
-    def debug
-      puts Debugger.new(@scope).run
     end
 
     def print_stack
@@ -118,13 +97,15 @@ module Mint
     def resolve_records
       add_record Record.new("Unit"), Ast::Record.empty
 
-      ast.records.each do |record|
-        check! record
-        add_record check(record), record
+      ast.type_definitions.each do |definition|
+        next if definition.fields.is_a?(Array(Ast::TypeVariant))
+        value = check(definition)
+        check! definition
+        add_record(value, definition)
       end
 
       ast.components.each do |component|
-        component_records[component] = static_type_signature(component)
+        component_records[component] = static_type_signature(component).as(Record)
       end
     end
 
@@ -144,10 +125,10 @@ module Mint
         }
         MINT
 
-      node = Parser.parse(contents, "").records[0]
+      node = Parser.parse(contents, "").type_definitions[0]
 
       record = resolve(node)
-      ast.records.push(node)
+      ast.type_definitions.push(node)
       add_record record, node
       record
     end
@@ -173,9 +154,9 @@ module Mint
 
     def resolve_record_definition(name)
       records.find(&.name.==(name)) || begin
-        node = ast.records.find(&.name.value.==(name))
+        node = ast.type_definitions.find(&.name.value.==(name))
 
-        if node
+        if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
           record = check(node)
           add_record record, node
           record
@@ -183,26 +164,28 @@ module Mint
       end
     end
 
-    type_error RecordFieldsConflict
-    type_error RecordNameConflict
-    type_error RecordWithHoles
-
     def add_record(record, node)
     end
 
     def add_record(record : Record, node)
-      raise RecordWithHoles, {
-        "record" => record,
-        "node"   => node,
-      } if record.have_holes?
+      error! :record_with_holes do
+        snippet "Records with type variables are not allow at this time. " \
+                "I found one here:", node
+      end if record.have_holes?
 
       other = @record_names[record.name]?
 
-      raise RecordNameConflict, {
-        "name"  => record.name,
-        "other" => other,
-        "node"  => node,
-      } if other && node != other
+      error! :record_name_conflict do
+        block do
+          text "There is already a"
+          bold "record"
+          text "with the name:"
+          bold record.name
+        end
+
+        snippet "One of them is here:", node
+        snippet "The other is here:", other
+      end if other && node != other
 
       records << record
       @record_names[record.name] = node
@@ -212,45 +195,39 @@ module Mint
     # ----------------------------------------------------------------------------
 
     def lookup(node : Ast::Variable)
-      scope.find(node.value)
+      scope.resolve(node).try(&.node)
     end
 
     def lookup_with_level(node : Ast::Variable)
-      scope.find_with_level(node.value).try do |item|
-        {item[0], item[1], scope.levels.dup}
-      end
-    end
+      # puts "----------------------"
+      # puts scope.debug_name(node)
 
-    def scope(node : Scope::Node, &)
-      scope.with(node) { yield }
-    end
+      # scope.scopes[node].each_with_index do |item, index|
+      #   puts scope.debug_name(item.node).indent(index * 2)
+      #   item.items.each do |key, value|
+      #     puts "#{" " * (index * 2)}#{key} -> #{value.class.name}"
+      #   end
+      # end
 
-    def scope(nodes, &)
-      scope.with(nodes) { yield }
-    end
-
-    type_error VariableTaken
-
-    def check_variable(variable)
-      variable.try do |name|
-        existing = lookup(name)
-
-        raise VariableTaken, {
-          "name"     => name.value,
-          "existing" => existing,
-          "node"     => name,
-        } if existing
+      scope.resolve(node).try do |item|
+        {item.node, item.parent}
       end
     end
 
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
-    type_error Recursion
-    type_error InvalidSelfReference
-
     def check!(node)
       checked.add(node) if checking?
+    end
+
+    def invalid_self_reference(referee : Ast::Node, node : Ast::Node)
+      error! :invalid_self_reference do
+        block "You are trying to reference an other entity in a top level entity before it is initialized."
+
+        snippet "Then entity you are referencing:", referee
+        snippet "The entity you are referencing it from:", node
+      end
     end
 
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
@@ -259,11 +236,10 @@ module Mint
         node
       in Ast::Node
         if cached = cache[node]?
-          raise InvalidSelfReference, {
-            "referee" => @referee,
-            "node"    => node,
-          } if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
-               @top_level_entity.try(&.owns?(node))
+          invalid_self_reference(
+            referee: @referee.not_nil!,
+            node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
+                           @top_level_entity.try { |item| owns?(node, item) }
 
           cached
         else
@@ -274,16 +250,16 @@ module Mint
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
             else
-              raise Recursion, {
-                "caller_node" => @stack.last,
-                "node"        => node,
-              }
+              error! :recursion do
+                snippet "Recursion is only supported in specific cases " \
+                        "at this time. Unfortunatly here is not supported:", node
+                snippet "The previous step in the recursion was here:", @stack.last
+              end
             end
           else
-            raise InvalidSelfReference, {
-              "referee" => @referee,
-              "node"    => node,
-            } if @top_level_entity.try(&.owns?(node))
+            invalid_self_reference(
+              referee: @referee.not_nil!,
+              node: node) if @top_level_entity.try { |item| owns?(node, item) }
 
             @stack.push node
 
@@ -314,29 +290,23 @@ module Mint
       node
     end
 
-    type_error GlobalNameConflict
+    def global_name_conflict(
+      other : Ast::Node,
+      node : Ast::Node,
+      what : String,
+      name : String
+    )
+      error! :global_name_conflict do
+        block do
+          text "There is already a"
+          bold what
+          text "with the name:"
+          bold name
+        end
 
-    def check_global_types(name : String, node : Ast::Node) : Nil
-      other = @types[name]?
-
-      if other && other != node
-        what =
-          case other
-          when Ast::Enum             then "enum"
-          when Ast::RecordDefinition then "record"
-          else
-            ""
-          end
-
-        raise GlobalNameConflict, {
-          "other" => other,
-          "name"  => name,
-          "what"  => what,
-          "node"  => node,
-        }
+        snippet "You are trying to define something with the same name here:", node
+        snippet "The #{what} is defined here:", other
       end
-
-      @types[name] = node
     end
 
     def check_global_names(name : String, node : Ast::Node) : Nil
@@ -353,19 +323,18 @@ module Mint
             ""
           end
 
-        raise GlobalNameConflict, {
-          "other" => other,
-          "name"  => name,
-          "what"  => what,
-          "node"  => node,
-        }
+        global_name_conflict(
+          other: other,
+          what: what,
+          node: node,
+          name: name)
       end
 
       @names[name] = node
     end
 
     def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),
-                    error : Mint::TypeError.class,
+                    error : String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
         name =
@@ -385,12 +354,19 @@ module Mint
               ""
             end
 
-          raise error, {
-            "other" => other,
-            "name"  => name,
-            "what"  => what,
-            "node"  => node,
-          }
+          error! :entity_name_conflict do
+            block do
+              text "There is already a"
+              bold what
+              text "with the name"
+              bold %("#{name}")
+              text "in this #{error}:"
+            end
+
+            snippet other
+
+            snippet "You are trying to define something with the same name here:", node
+          end
         end
 
         memo[name] = node
@@ -435,7 +411,7 @@ module Mint
     end
 
     def with_restricted_top_level_entity(@referee, &)
-      @top_level_entity = current_top_level_entity?
+      @top_level_entity = scope.scopes[@referee][1]?.try(&.node)
       yield
     ensure
       @top_level_entity = nil

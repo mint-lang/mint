@@ -1,10 +1,10 @@
-record Test {
+type Test {
   number : Result(Number,Array(String)),
   param : Error(Bool),
   string : String
 }
 --------------------------------------------------------------------------------
-record Test {
+type Test {
   number : Result(Number, Array(String)),
   param : Error(Bool),
   string : String

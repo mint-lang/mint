@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    if ("") { a
+--------------------------------------------------------------------------------
+░ ERROR (IF_EXPECTED_TRUTHY_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of the truthy branch but I found "a space"
+instead:
+
+   ┌ ./spec/errors/if_expected_truthy_closing_bracket:3:15
+   ├──────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     if ("") { a
+   │                ⌃⌃⌃⌃

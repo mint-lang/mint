@@ -3,12 +3,12 @@ module Mint
     class Use < Node
       getter data, provider, condition
 
-      def initialize(@condition : Expression?,
-                     @provider : TypeId,
+      def initialize(@file : Parser::File,
+                     @condition : Node?,
+                     @provider : Id,
                      @data : Record,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

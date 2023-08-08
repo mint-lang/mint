@@ -8,7 +8,7 @@ module Mint
         Formatter.new.format(node.content, Formatter::BlockFormat::Naked)
 
       parser = Parser.new(formatted, "source.mint")
-      parser.code_block_naked
+      parser.many { parser.comment || parser.statement }
 
       parts =
         SemanticTokenizer.tokenize(parser.ast)

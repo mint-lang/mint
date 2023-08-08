@@ -1,0 +1,36 @@
+component Main {
+  property name : String = "Joe"
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_MAIN_PROPERTIES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The Main component cannot have properties because there is no way to pass values
+to them.
+
+A property is defined here:
+
+   ┌ ./spec/errors/component_main_properties:2:3
+   ├────────────────────────────────────────────
+  1│ component Main {
+  2│   property name : String = "Joe"
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }
+
+The component in question is here:
+
+   ┌ ./spec/errors/component_main_properties:1:1
+   ├────────────────────────────────────────────
+  1│ component Main {
+  2│   property name : String = "Joe"
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }
+  7│ }

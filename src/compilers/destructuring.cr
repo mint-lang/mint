@@ -56,14 +56,13 @@ module Mint
     end
 
     def destructuring(node : Ast::TupleDestructuring, variables : Array(String))
-      js.array(node.parameters.map { |item| destructuring(item, variables) })
+      js.array(node.items.map { |item| destructuring(item, variables) })
     end
 
-    def destructuring(node : Ast::EnumDestructuring, variables : Array(String))
+    def destructuring(node : Ast::TypeDestructuring, variables : Array(String))
       items =
-        case lookups[node].as(Ast::EnumOption).parameters.first?
-        when Ast::EnumRecordDefinition
-          params = node.parameters.select(Ast::Variable)
+        if lookups[node][0].as(Ast::TypeVariant).fields
+          params = node.items.select(Ast::Variable)
 
           if !params.empty?
             fields =
@@ -74,13 +73,13 @@ module Mint
                 ])
               end
 
-            [js.call("_PR", [js.array(fields)])]
+            js.call("_PR", [js.array(fields)])
           end
-        end || node.parameters.map do |param|
+        end || js.array(node.items.map do |param|
           destructuring(param, variables)
-        end
+        end)
 
-      js.call("_PE", [js.class_of(lookups[node]), js.array(items)])
+      js.call("_PE", [js.class_of(lookups[node][0]), items])
     end
   end
 end

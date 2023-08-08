@@ -1,0 +1,40 @@
+component Test {
+  property name : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_COMPONENT_ATTRIBUTE_REQUIRED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+One of the required properties were not specified for a component:
+
+   ┌ ./spec/errors/html_component_attribute_required:2:3
+   ├────────────────────────────────────────────────────
+  1│ component Test {
+  2│   property name : String
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }
+
+The component was referenced here:
+
+    ┌ ./spec/errors/html_component_attribute_required:11:5
+    ├─────────────────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : Html {
+  11│     <Test/>
+    │     ⌃⌃⌃⌃⌃⌃⌃
+  12│   }
+  13│ }

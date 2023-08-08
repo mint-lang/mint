@@ -1,0 +1,85 @@
+----------------------------------------------------------------------recursion
+component Test {
+  property greeting : String = greeting
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+----------------------------------------------------------------------recursion
+component Main {
+  state greeting : String = greeting
+
+  fun render : Html {
+    <div></div>
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun factorial(n : Number) : Number {
+    let helper = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      }
+      else {
+        helper(n - 1, acc * n)
+      }
+    }
+
+    helper(n, 1)
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    let helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+
+    1
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    let helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+
+    let result =
+      helper(n, 1)
+
+    1
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun factorial (n : Number) : Number {
+    let helper =
+      (n : Number, acc : Number) : Number {
+        if (n == 0) {
+          acc
+        } else {
+          helper(n - 1, acc * n)
+        }
+      }
+
+    helper(n, 1)
+  }
+}

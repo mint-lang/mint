@@ -1,0 +1,29 @@
+suite "X" {
+  test "X" {
+    "true"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (TEST_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of a test does not match any of the allowed types.
+
+I was expecting one of:
+
+  Test.Context(a)
+  Bool
+
+Instead it is:
+
+  String
+
+The test in question is here:
+
+   ┌ ./spec/errors/test_type_mismatch:3:5
+   ├─────────────────────────────────────
+  1│ suite "X" {
+  2│   test "X" {
+  3│     "true"
+   │     ⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

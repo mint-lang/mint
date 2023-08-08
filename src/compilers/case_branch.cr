@@ -15,12 +15,12 @@ module Mint
           ""
         end
 
-      if match = node.match
+      if pattern = node.pattern
         variables =
           [] of String
 
         matcher =
-          destructuring(match, variables)
+          destructuring(pattern, variables)
 
         js.array([matcher, js.arrow_function(variables, js.return(expression))])
       else

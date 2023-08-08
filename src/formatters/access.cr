@@ -1,10 +1,10 @@
 module Mint
   class Formatter
     def format(node : Ast::Access) : String
-      lhs =
-        format node.lhs
+      expression =
+        format node.expression
 
-      "#{lhs}.#{node.field.value}"
+      "#{expression}.#{node.field.value}"
     end
   end
 end

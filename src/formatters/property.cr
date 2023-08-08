@@ -1,9 +1,6 @@
 module Mint
   class Formatter
     def format(node : Ast::Property) : String
-      default =
-        format node.default
-
       name =
         format node.name
 
@@ -18,11 +15,14 @@ module Mint
       head =
         "#{comment}property #{name}#{type}"
 
-      if default
-        if node.new_line?
-          "#{head} =\n#{indent(default)}"
+      if default = node.default
+        formatted =
+          format default
+
+        if default.new_line? || Ast.new_line?(node.name, default)
+          "#{head} =\n#{indent(formatted)}"
         else
-          "#{head} = #{default}"
+          "#{head} = #{formatted}"
         end
       else
         head

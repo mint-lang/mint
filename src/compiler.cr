@@ -1,9 +1,10 @@
 module Mint
   class Compiler
+    include Helpers
     include Skippable
 
     delegate lookups, checked, cache, component_records, to: @artifacts
-    delegate ast, types, variables, resolve_order, to: @artifacts
+    delegate ast, variables, resolve_order, to: @artifacts
     delegate record_field_lookup, locales, argument_order, to: @artifacts
 
     getter js, style_builder, static_components, static_components_pool

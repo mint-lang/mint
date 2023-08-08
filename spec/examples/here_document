@@ -1,0 +1,45 @@
+---------------------------------------------------here_document_expected_start
+component Main {
+  fun render {
+    <<-
+----------------------------------------------------------here_doc_expected_end
+component Main {
+  fun render {
+    <<-TEST
+-------------------------------------------here_doc_interpolation_type_mismatch
+component Main {
+  fun render {
+    <<-TEST
+      #{<></>}
+    TEST
+  }
+}
+-------------------------------------------here_doc_interpolation_type_mismatch
+component Main {
+  fun render {
+    <<#TEST
+      #{void}
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <<#TEST
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    <<-TEST
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    <<~TEST
+    TEST
+  }
+}

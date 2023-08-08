@@ -1,0 +1,29 @@
+component Main {
+  style test {
+    @font-face {
+      src: url(sansation_light.woff);
+      font-family: #{"myFirstFont"};
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CSS_FONT_FACE_INTERPOLATION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Interpolations are not allowed inside a font-face rule.
+
+    ┌ ./spec/errors/css_font_face_interpolation:5:20
+    ├───────────────────────────────────────────────
+   1│ component Main {
+   2│   style test {
+   3│     @font-face {
+   4│       src: url(sansation_light.woff);
+   5│       font-family: #{"myFirstFont"};
+    │                    ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   6│     }
+   7│   }
+   8│
+   9│   fun render : Html {

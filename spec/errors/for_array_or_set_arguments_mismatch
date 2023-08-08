@@ -1,0 +1,25 @@
+component Main {
+  fun render : Array(Html) {
+    for (item, item2, item3 of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FOR_ARRAY_OR_SET_ARGUMENTS_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+If the iterable object of a for expression is a set or an array. Then it needs
+to the have only 1 argument:
+
+   ┌ ./spec/errors/for_array_or_set_arguments_mismatch:3:10
+   ├───────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (item, item2, item3 of ["A", "B"]) {
+   │          ⌃⌃⌃⌃
+  4│       <div>
+  5│         <{ item }>
+  6│       </div>
+  7│     }

@@ -9,7 +9,7 @@ module Mint
 
     def format(node : Ast::Block, format = BlockFormat::Block) : String
       body =
-        list node.statements
+        list node.expressions
 
       if format == BlockFormat::Naked
         body

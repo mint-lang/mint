@@ -9,11 +9,6 @@ module Mint
         range(node, node.comment)
       end
 
-      def range(node : Ast::Enum)
-        range(node.comment)
-        range(node, node.comment)
-      end
-
       def range(node : Ast::Module)
         range(node.comment)
         range(node, node.comment)

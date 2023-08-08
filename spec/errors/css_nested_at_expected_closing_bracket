@@ -1,0 +1,17 @@
+component Main {
+  style root {
+    @media (max-width: 100px) {
+      color: red;
+--------------------------------------------------------------------------------
+░ ERROR (CSS_NESTED_AT_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a CSS at rule but I found "a space"
+instead:
+
+   ┌ ./spec/errors/css_nested_at_expected_closing_bracket:4:17
+   ├──────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   style root {
+  3│     @media (max-width: 100px) {
+  4│       color: red;
+   │                  ⌃⌃⌃⌃

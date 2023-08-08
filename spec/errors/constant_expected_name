@@ -1,0 +1,12 @@
+component Main {
+  const
+--------------------------------------------------------------------------------
+░ ERROR (CONSTANT_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a constant but I found "a space" instead:
+
+   ┌ ./spec/errors/constant_expected_name:2:7
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   const
+   │        ⌃⌃⌃⌃

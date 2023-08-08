@@ -1,0 +1,12 @@
+component Main {
+  fun render { a
+--------------------------------------------------------------------------------
+░ ERROR (FUNCTION_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a function but I found "a space" instead:
+
+   ┌ ./spec/errors/function_expected_closing_bracket:2:16
+   ├─────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render { a
+   │                 ⌃⌃⌃⌃

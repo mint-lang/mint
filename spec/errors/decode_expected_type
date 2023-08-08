@@ -1,0 +1,14 @@
+component Main {
+  fun render : Html {
+    decode "" as
+--------------------------------------------------------------------------------
+░ ERROR (DECODE_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of a decode expression but I found "a space" instead:
+
+   ┌ ./spec/errors/decode_expected_type:3:16
+   ├────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     decode "" as
+   │                 ⌃⌃⌃⌃

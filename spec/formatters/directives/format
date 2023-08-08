@@ -7,7 +7,7 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   fun render : String {
-    let {result, formatted} =
+    let #(result, formatted) =
       @format {
         "Hello"
       }

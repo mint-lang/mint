@@ -1,31 +1,36 @@
 module Mint
   class Parser
-    syntax_error DecodeExpectedExpression
-    syntax_error DecodeExpectedType
-    syntax_error DecodeExpectedAs
-
     def decode : Ast::Decode?
-      start do |start_position|
-        next unless keyword "decode"
-        next unless whitespace?
+      parse do |start_position|
+        next unless word! "decode"
         whitespace
 
-        unless keyword "as"
-          expression = expression! DecodeExpectedExpression
+        unless word! "as"
+          whitespace
+          next error :decode_expected_subject do
+            expected "the subject of a decode expression", word
+            snippet self
+          end unless expression = self.expression
 
           whitespace
-          keyword! "as", DecodeExpectedAs
+          next error :decode_expected_as do
+            expected %(the "as" keyword of a decode expression), word
+            snippet self
+          end unless word! "as"
         end
 
         whitespace
-        type = type! DecodeExpectedType
+        next error :decode_expected_type do
+          expected "the type of a decode expression", word
+          snippet self
+        end unless type = self.type
 
-        self << Ast::Decode.new(
+        Ast::Decode.new(
           expression: expression,
           from: start_position,
-          type: type,
           to: position,
-          input: data)
+          type: type,
+          file: file)
       end
     end
   end

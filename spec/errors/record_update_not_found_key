@@ -1,0 +1,46 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x =
+      {
+        a: "Blah",
+        b: 0
+      }
+
+    { x |
+      a: "Hello",
+      c: "Hello"
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (RECORD_UPDATE_NOT_FOUND_KEY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The field "c" does not exists on the target record:
+
+  Test(a: String, b: Number)
+
+Here is where you tried to assign a value to it:
+
+    ┌ ./spec/errors/record_update_not_found_key:16:7
+    ├───────────────────────────────────────────────
+  12│       }
+  13│
+  14│     { x |
+  15│       a: "Hello",
+  16│       c: "Hello"
+    │       ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  17│     }
+  18│   }
+  19│
+  20│   fun render : String {

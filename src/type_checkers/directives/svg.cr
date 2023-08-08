@@ -1,41 +1,59 @@
 module Mint
   class TypeChecker
-    type_error SvgDirectiveExpectedDimensions
-    type_error SvgDirectiveExpectedSvgTag
-    type_error SvgDirectiveExpectedFile
-    type_error SvgDirectiveExpectedSvg
-
     def check(node : Ast::Directives::Svg) : Checkable
-      raise SvgDirectiveExpectedFile, {
-        "path" => node.real_path.to_s,
-        "node" => node,
-      } unless node.exists?
+      error! :svg_directive_expected_file do
+        snippet(
+          "The specified file for an svg directive does not exist:",
+          node.real_path.to_s)
+
+        snippet "The svg directive in question is here:", node
+      end unless node.exists?
+
+      contents =
+        node.file_contents
 
       document =
-        XML.parse(node.file_contents)
+        XML.parse(contents)
 
       errors =
         document.errors.try(&.map(&.to_s)) || %w[]
 
-      raise SvgDirectiveExpectedSvg, {
-        "errors" => errors,
-        "node"   => node,
-      } unless errors.empty?
+      error! :svg_directive_expected_svg do
+        snippet(
+          "The specified file for an svg directive is not an SVG file " \
+          "because I could not parse it. These are the errors I found:",
+          errors.join("\n"))
+
+        snippet(
+          "These are the first few lines of the file:",
+          contents.lines[0..4].join("\n"))
+
+        snippet "The svg directive in question is here:", node
+      end unless errors.empty?
 
       svg =
         document.first_element_child
 
-      raise SvgDirectiveExpectedSvgTag, {
-        "node" => node,
-      } unless svg
+      error! :svg_directive_expected_svg_tag do
+        snippet(
+          "The specified file for an svg directive does not contain an " \
+          "<svg> tag. These are the first few lines of the file:",
+          contents.lines[0..4].join("\n"))
 
-      raise SvgDirectiveExpectedSvgTag, {
-        "node" => node,
-      } unless svg.name == "svg"
+        snippet "The svg directive in question is here:", node
+      end if !svg || svg.name != "svg"
 
-      raise SvgDirectiveExpectedDimensions, {
-        "node" => node,
-      } unless svg["width"]? && svg["height"]? && svg["viewBox"]?
+      error! :svg_directive_expected_dimensions do
+        snippet "I need certain attributes for an svg for it to render " \
+                "correctly. The specified file for an svg directive does " \
+                "not have these required attributes:", "width, height, viewBox"
+
+        snippet(
+          "These are the first few lines of the file:",
+          contents.lines[0..4].join("\n"))
+
+        snippet "The svg directive in question is here:", node
+      end unless svg["width"]? && svg["height"]? && svg["viewBox"]?
 
       HTML
     end
