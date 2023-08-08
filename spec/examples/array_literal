@@ -1,0 +1,8 @@
+-------------------------------------------------array_expected_closing_bracket
+component Main {
+  fun render : Array(String) {
+    ["A"
+----------------------------------------array_literal_expected_type_or_variable
+component Main {
+  fun render : Array(String) {
+    [] of

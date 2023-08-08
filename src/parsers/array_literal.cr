@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error ArrayLiteralExpectedTypeOrVariable
-    syntax_error ArrayExpectedClosingBracket
-
     def array : Ast::ArrayLiteral?
       start do |start_position|
         next unless char! '['
@@ -14,13 +11,31 @@ module Mint
         ) { expression }
         whitespace
 
-        char ']', ArrayExpectedClosingBracket
+        whitespace
+        next error :array_expected_closing_bracket do
+          expected "the closing bracket of an array", word
+          snippet self
+        end unless char! ']'
 
         type = start do
           whitespace
           next unless keyword "of"
           whitespace
-          type_or_type_variable! ArrayLiteralExpectedTypeOrVariable
+
+          next error :array_literal_expected_type_or_variable do
+            block do
+              text "The type of an"
+              bold "array literal"
+              text "must be defined after the"
+              bold "of"
+              text "keyword."
+            end
+
+            expected "the type", word
+            snippet self
+          end unless item = type_or_type_variable
+
+          item
         end
 
         self << Ast::ArrayLiteral.new(
