@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error ArrayDestructuringExpectedClosingBracket
-
     def array_destructuring : Ast::ArrayDestructuring?
       start do |start_position|
         head = start do
@@ -21,8 +19,10 @@ module Mint
           end
 
         whitespace
-
-        char ']', ArrayDestructuringExpectedClosingBracket
+        next error :array_destructuring_expected_closing_bracket do
+          expected "the closing bracket of the array destructuring", word
+          snippet self
+        end unless char! ']'
 
         Ast::ArrayDestructuring.new(
           from: start_position,
