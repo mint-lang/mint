@@ -1,11 +1,16 @@
-enum Status {
-  Error
-  Ok
+global component Header {
+  const TITLE = "Mint"
+
+  fun render : Html {
+    <div/>
+  }
 }
-----------------------------------------------------------------file status.mint
-module Status {
-  fun success : Status {
-    Status::Ok
+----------------------------------------------------------------file header.mint
+component Test {
+  fun render : Html {
+    <div>
+      <{ Header:TITLE }>
+    </div>
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -31,8 +36,8 @@ module Status {
       "uri": "file://#{root_path}/test.mint"
     },
     "position": {
-      "line": 1,
-      "character": 17
+      "line": 3,
+      "character": 16
     }
   },
   "method": "textDocument/definition"
@@ -43,33 +48,33 @@ module Status {
   "result": {
     "originSelectionRange": {
       "start": {
-        "line": 1,
+        "line": 3,
         "character": 16
+      },
+      "end": {
+        "line": 3,
+        "character": 21
+      }
+    },
+    "targetUri": "file://#{root_path}/header.mint",
+    "targetRange": {
+      "start": {
+        "line": 1,
+        "character": 2
       },
       "end": {
         "line": 1,
         "character": 22
       }
     },
-    "targetUri": "file://#{root_path}/status.mint",
-    "targetRange": {
-      "start": {
-        "line": 0,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 1
-      }
-    },
     "targetSelectionRange": {
       "start": {
-        "line": 0,
-        "character": 5
+        "line": 1,
+        "character": 8
       },
       "end": {
-        "line": 0,
-        "character": 11
+        "line": 1,
+        "character": 13
       }
     }
   },

@@ -1,11 +1,21 @@
-enum Status {
-  Error
-  Ok
+record Header {
+  title : String
 }
-----------------------------------------------------------------file status.mint
-module Status {
-  fun success : Status {
-    Status::Ok
+----------------------------------------------------------------file record.mint
+module Header {
+  fun default : Header {
+    { title: "Mint" }
+  }
+}
+----------------------------------------------------------------file module.mint
+component Test {
+  fun render : Html {
+    let header =
+      Header.default()
+
+    <div>
+      <{ header.title }>
+    </div>
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -16,7 +26,7 @@ module Status {
     "capabilities": {
       "textDocument": {
         "definition": {
-          "linkSupport": true
+          "linkSupport": false
         }
       }
     }
@@ -31,8 +41,8 @@ module Status {
       "uri": "file://#{root_path}/test.mint"
     },
     "position": {
-      "line": 1,
-      "character": 17
+      "line": 3,
+      "character": 6
     }
   },
   "method": "textDocument/definition"
@@ -41,37 +51,17 @@ module Status {
 {
   "jsonrpc": "2.0",
   "result": {
-    "originSelectionRange": {
+    "range": {
       "start": {
-        "line": 1,
-        "character": 16
+        "line": 0,
+        "character": 7
       },
       "end": {
-        "line": 1,
-        "character": 22
+        "line": 0,
+        "character": 13
       }
     },
-    "targetUri": "file://#{root_path}/status.mint",
-    "targetRange": {
-      "start": {
-        "line": 0,
-        "character": 0
-      },
-      "end": {
-        "line": 3,
-        "character": 1
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 0,
-        "character": 5
-      },
-      "end": {
-        "line": 0,
-        "character": 11
-      }
-    }
+    "uri": "file://#{root_path}/module.mint"
   },
   "id": 1
 }
