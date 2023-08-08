@@ -45,3 +45,5 @@ Every translation is typed checked:
 
 * all translations of the same key must have the same type
 * locale keys must have translations in every defined language
+
+Locales are open like Modules are so they can be defined in multiple places.
