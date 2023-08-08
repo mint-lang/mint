@@ -1,0 +1,4 @@
+----------------------------------------------call_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    test("A"

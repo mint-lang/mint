@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error CallExpectedClosingParentheses
-
     def call(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
         next unless char! '('
@@ -11,9 +9,20 @@ module Mint
           terminator: ')',
           separator: ','
         ) { call_expression.as(Ast::CallExpression?) }
-        whitespace
 
-        char ')', CallExpectedClosingParentheses
+        whitespace
+        next error :call_expected_closing_parenthesis do
+          block do
+            text "The"
+            bold "arguments"
+            text "of a"
+            bold "call"
+            text "must be enclosed by parenthesis."
+          end
+
+          expected "the closing parenthesis of a call", word
+          snippet self
+        end unless char! ')'
 
         node = self << Ast::Call.new(
           from: start_position,
