@@ -12,14 +12,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        crystal: nightly
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal }}
+          crystal: nightly
 
       - name: Download source
         uses: actions/checkout@v3
