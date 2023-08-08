@@ -1,0 +1,8 @@
+----------------------------------------------------array_access_expected_index
+component Main {
+  fun render : String {
+    array[
+------------------------------------------array_access_expected_closing_bracket
+component Main {
+  fun render : String {
+    array[0

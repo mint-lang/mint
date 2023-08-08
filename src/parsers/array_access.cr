@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error ArrayAccessExpectedClosingBracket
-    syntax_error ArrayAccessExpectedIndex
-
     def array_access(lhs : Ast::Expression) : Ast::Expression
       start do |start_position|
         next unless char! '['
@@ -14,14 +11,21 @@ module Mint
 
         index =
           if index.empty?
-            expression! ArrayAccessExpectedIndex
+            next error :array_access_expected_index do
+              expected "the index into the array", word
+              snippet self
+            end unless item = expression
+
+            item
           else
             index.to_i64
           end
 
         whitespace
-
-        char ']', ArrayAccessExpectedClosingBracket
+        next error :array_access_expected_closing_bracket do
+          expected "the closing bracket of the array", word
+          snippet self
+        end unless char! ']'
 
         node = self << Ast::ArrayAccess.new(
           from: start_position,
