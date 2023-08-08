@@ -26,7 +26,7 @@ module Mint
           opening_bracket: ProviderExpectedOpeningBracket,
           closing_bracket: ProviderExpectedClosingBracket
         ) do
-          items = many { function || state || constant || self.comment }
+          items = many { function || state || get || constant || self.comment }
 
           raise ProviderExpectedBody if items.none?(Ast::Function)
 

@@ -17,7 +17,7 @@ module Mint
       Regexp
     end
 
-    TOKEN_TYPES = TokenType.names.map { |name| name[0].downcase + name[1..] }
+    TOKEN_TYPES = TokenType.names.map!(&.camelcase(lower: true))
 
     # This represents which token types are used for which node.
     TOKEN_MAP = {
@@ -113,8 +113,8 @@ module Mint
 
     def tokenize(ast : Ast)
       # We add the operators and keywords directly from the AST
-      ast.operators.each { |(from, to)| add(from, to, TokenType::Operator) }
-      ast.keywords.each { |(from, to)| add(from, to, TokenType::Keyword) }
+      ast.operators.each { |(from, to)| add(from, to, :operator) }
+      ast.keywords.each { |(from, to)| add(from, to, :keyword) }
 
       tokenize(ast.nodes)
     end
@@ -130,7 +130,7 @@ module Mint
     end
 
     def tokenize(node : Ast::CssDefinition)
-      add(node.from, node.from + node.name.size, TokenType::Property)
+      add(node.from, node.from + node.name.size, :property)
     end
 
     def tokenize(node : Ast::ArrayAccess)
@@ -138,14 +138,14 @@ module Mint
       #       implemented remove this
       case index = node.index
       when Int64
-        add(node.from + 1, node.from + 1 + index.to_s.size, TokenType::Number)
+        add(node.from + 1, node.from + 1 + index.to_s.size, :number)
       end
     end
 
     def tokenize(node : Ast::HtmlElement)
       # The closing tag is not saved only the position to it.
       node.closing_tag_position.try do |position|
-        add(position, position + node.tag.value.size, TokenType::Namespace)
+        add(position, position + node.tag.value.size, :namespace)
       end
 
       add(node.tag, TokenType::Namespace)
@@ -153,7 +153,7 @@ module Mint
 
     def tokenize(node : Ast::HtmlComponent)
       node.closing_tag_position.try do |position|
-        add(position, position + node.component.value.size, TokenType::Type)
+        add(position, position + node.component.value.size, :type)
       end
     end
 

@@ -4,7 +4,7 @@ module Mint
 
     def connect_variable
       start do |start_position|
-        value = variable(track: false) || constant_variable
+        value = variable(track: false) || variable_constant
 
         next unless value
 

@@ -1,0 +1,55 @@
+module Test {
+  fun upperCaseMint : String {
+    let test =
+      "Mint"
+
+    String.toUpperCase(test)
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 5,
+      "character": 23
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 8
+      },
+      "end": {
+        "line": 2,
+        "character": 12
+      }
+    },
+    "uri": "file://#{root_path}/test.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response
