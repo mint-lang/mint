@@ -1,36 +1,42 @@
 module Mint
   class Parser
-    syntax_error CaseExpectedClosingParentheses
-    syntax_error CaseExpectedOpeningBracket
-    syntax_error CaseExpectedClosingBracket
-    syntax_error CaseExpectedCondition
-    syntax_error CaseExpectedBranches
-
     def case_expression(for_css : Bool = false) : Ast::Case?
       start do |start_position|
         next unless keyword "case"
 
         whitespace
-
         parens = char! '('
 
         whitespace
         await = keyword "await"
 
         whitespace
-        condition = expression! CaseExpectedCondition
+        next error :case_expected_condition do
+          expected "the condition of a case expression", word
+          snippet self
+        end unless condition = expression
+
         whitespace
+        next error :case_expected_closing_parenthesis do
+          expected "the closing parenthesis of a case expression", word
+          snippet self
+        end if parens && !char!(')')
 
-        char ')', CaseExpectedClosingParentheses if parens
+        body = block2(
+          ->{ error :case_expected_opening_bracket do
+            expected "the opening bracket of a case expression", word
+            snippet self
+          end },
+          ->{ error :case_expected_closing_bracket do
+            expected "the closing bracket of a case expression", word
+            snippet self
+          end }
+        ) { many { case_branch(for_css) || comment } }
 
-        body = block(
-          opening_bracket: CaseExpectedOpeningBracket,
-          closing_bracket: CaseExpectedClosingBracket
-        ) do
-          items = many { case_branch(for_css) || comment }
-          raise CaseExpectedBranches if items.empty?
-          items
-        end
+        error :case_expected_branches do
+          expected "a branch of a case expression", word
+          snippet self
+        end if body.empty?
 
         branches = [] of Ast::CaseBranch
         comments = [] of Ast::Comment

@@ -26,5 +26,29 @@ module Mint
       char '}', closing_bracket
       result
     end
+
+    def block2(opening_bracket_error : Proc(Nil)? = nil,
+               closing_bracket_error : Proc(Nil)? = nil, &)
+      whitespace
+      unless char! '{'
+        case item = opening_bracket_error
+        when Proc(Nil)
+          item.call
+        end
+      end
+      whitespace
+
+      result = yield
+      whitespace
+
+      unless char! '}'
+        case item = closing_bracket_error
+        when Proc(Nil)
+          item.call
+        end
+      end
+
+      result
+    end
   end
 end

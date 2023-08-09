@@ -1,0 +1,21 @@
+--------------------------------------------------------case_expected_condition
+component Main {
+  fun render : String {
+    case
+----------------------------------------------case_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    case ("a"
+--------------------------------------------------case_expected_opening_bracket
+component Main {
+  fun render : String {
+    case ("a")
+--------------------------------------------------case_expected_closing_bracket
+component Main {
+  fun render : String {
+    case ("a") {
+---------------------------------------------------------case_expected_branches
+component Main {
+  fun render : String {
+    case ("a") {
+    }
