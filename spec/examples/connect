@@ -13,3 +13,6 @@ component Main {
 -----------------------------------------------connect_expected_closing_bracket
 component Main {
   connect Test exposing { item
+---------------------------------------------------connect_variable_expected_as
+component Main {
+  connect Test exposing { item as
