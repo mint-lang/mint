@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error CssDefinitionExpectedSemicolon
-
     def css_definition : Ast::CssDefinition?
       start do |start_position|
         next unless char.ascii_lowercase? || char == '-'
@@ -31,7 +29,10 @@ module Mint
             end
           end
 
-        char ';', CssDefinitionExpectedSemicolon
+        next error :css_definition_expected_semicolon do
+          expected "the semicolon of a CSS definition", word
+          snippet self
+        end unless char! ';'
 
         self << Ast::CssDefinition.new(
           from: start_position,

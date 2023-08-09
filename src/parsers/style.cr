@@ -55,10 +55,16 @@ module Mint
 
     def css_definition_or_selector
       css_definition || css_selector
-    rescue ex : CssDefinitionExpectedSemicolon
-      begin
-        css_selector
-      rescue
+    rescue ex : Error2
+      if ex.name == :css_definition_expected_semicolon
+        begin
+          css_selector.tap do |item|
+            raise ex unless item
+          end
+        rescue
+          raise ex
+        end
+      else
         raise ex
       end
     end

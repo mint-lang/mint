@@ -1,0 +1,4 @@
+----------------------------------------------css_definition_expected_semicolon
+component Main {
+  style root {
+    background: red
