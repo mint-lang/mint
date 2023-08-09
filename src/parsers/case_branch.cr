@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error CaseBranchExpectedExpression
-
     def case_branch(for_css : Bool = false) : Ast::CaseBranch?
       start do |start_position|
         unless keyword "=>"
@@ -16,7 +14,16 @@ module Mint
           if for_css
             many { css_definition }
           else
-            expression! CaseBranchExpectedExpression
+            next error :case_branch_expected_expression do
+              block do
+                text "A case branch must have an expression."
+              end
+
+              expected "the body of a case expression", word
+              snippet self
+            end unless item = self.expression
+
+            item
           end
 
         self << Ast::CaseBranch.new(
