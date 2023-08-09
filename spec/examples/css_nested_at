@@ -1,0 +1,29 @@
+-----------------------------------------------css_nested_at_expected_condition
+component Main {
+  style root {
+    @media
+-----------------------------------------css_nested_at_expected_opening_bracket
+component Main {
+  style root {
+    @media (max-width: 100px)
+-----------------------------------------css_nested_at_expected_closing_bracket
+component Main {
+  style root {
+    @media (max-width: 100px) {
+----------------------------------------------------css_nested_at_expected_body
+component Main {
+  style root {
+    @media (max-width: 100px) {
+    }
+-------------------------------------------------------------------------------
+component Main {
+  style root {
+    @media (max-width: 100px) {
+      color: red;
+    }
+  }
+
+  fun render : Html {
+    <div::root/>
+  }
+}
