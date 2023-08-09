@@ -1,0 +1,16 @@
+--------------------------------------------------------decode_expected_subject
+component Main {
+  fun render : Html {
+    decode
+-------------------------------------------------------------decode_expected_as
+component Main {
+  fun render : Html {
+    decode ""
+-----------------------------------------------------------decode_expected_type
+component Main {
+  fun render : Html {
+    decode "" as
+-----------------------------------------------------------decode_expected_type
+component Main {
+  fun render : Html {
+    decode as
