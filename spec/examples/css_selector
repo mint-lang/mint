@@ -1,0 +1,23 @@
+------------------------------------------css_selector_expected_closing_bracket
+component Main {
+  style root {
+    div {
+-----------------------------------------------------css_selector_expected_body
+component Main {
+  style root {
+    div {
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style root {
+    div {
+      color: red;
+    }
+  }
+
+  fun render : Html {
+    <div::root/>
+  }
+}

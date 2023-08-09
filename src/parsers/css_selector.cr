@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error CssSelectorExpectedOpeningBracket
-    syntax_error CssSelectorExpectedClosingBracket
-
     def css_selector(only_definitions : Bool = false) : Ast::CssSelector?
       start do |start_position|
         selectors = list(
@@ -13,15 +10,26 @@ module Mint
         next if selectors.empty?
         next unless char == '{'
 
-        body = block(
-          opening_bracket: CssSelectorExpectedOpeningBracket,
-          closing_bracket: CssSelectorExpectedClosingBracket) do
+        body = block2(
+          ->{ error :css_selector_expected_opening_bracket do
+            expected "the opening bracket of a CSS selector", word
+            snippet self
+          end },
+          ->{ error :css_selector_expected_closing_bracket do
+            expected "the opening closing of a CSS selector", word
+            snippet self
+          end }) do
           if only_definitions
             many { comment || css_definition }
           else
             css_body
           end
         end
+
+        next error :css_selector_expected_body do
+          expected "the body of a CSS selector", word
+          snippet self
+        end if body.empty?
 
         self << Ast::CssSelector.new(
           selectors: selectors,
