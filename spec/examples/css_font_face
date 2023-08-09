@@ -1,0 +1,15 @@
+-----------------------------------------css_font_face_expected_opening_bracket
+component Main {
+  style root {
+    @font-face
+-----------------------------------------css_font_face_expected_closing_bracket
+component Main {
+  style root {
+    @font-face {
+---------------------------------------------css_font_face_expected_definitions
+component Main {
+  style root {
+    @font-face {
+    }
+  }
+}
