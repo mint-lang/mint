@@ -1,0 +1,14 @@
+----------------------------------------------interpolation_expected_expression
+component Main {
+  fun render : String {
+    "#{
+-----------------------------------------interpolation_expected_closing_bracket
+component Main {
+  fun render : String {
+    "#{a
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "#{"A"}"
+  }
+}
