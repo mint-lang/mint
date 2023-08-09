@@ -1,0 +1,10 @@
+--------------------------------------------------------component_expected_name
+component
+---------------------------------------------component_expected_opening_bracket
+component Main
+--------------------------------------------------------component_expected_body
+component Main {
+--------------------------------------------------------component_expected_body
+component Main {
+  /* Comment. */
+---------------------------------------------component_expected_closing_bracket

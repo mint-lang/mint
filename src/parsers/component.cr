@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error ComponentExpectedOpeningBracket
-    syntax_error ComponentExpectedClosingBracket
-    syntax_error ComponentExpectedBody
-    syntax_error ComponentExpectedName
-
     def component : Ast::Component?
       start do |start_position|
         comment = self.comment
@@ -15,17 +10,32 @@ module Mint
         next unless keyword "component"
         whitespace
 
-        name = type_id! ComponentExpectedName
+        next error :component_expected_name do
+          expected "name of the component", word
+
+          block do
+            text "The name of a component must start with an uppercase letter"
+            text "and only contain lowercase, uppercase letters and numbers."
+          end
+
+          snippet self
+        end unless name = type_id
 
         # Clear refs and locales here because it's on the parser
         locales.clear
         refs.clear
 
-        body = block(
-          opening_bracket: ComponentExpectedOpeningBracket,
-          closing_bracket: ComponentExpectedClosingBracket
+        body = block2(
+          ->{ error :component_expected_opening_bracket do
+            expected "the opening bracket of the component", word
+            snippet self
+          end },
+          ->{ error :component_expected_closing_bracket do
+            expected "the closing bracket of the component", word
+            snippet self
+          end }
         ) do
-          items = many do
+          many do
             property ||
               connect ||
               constant ||
@@ -35,11 +45,12 @@ module Mint
               use ||
               get ||
               self.comment
+          end.tap do |items|
+            next error :component_expected_body do
+              expected "the body of a component", word
+              snippet self
+            end if items.reject(Ast::Comment).empty?
           end
-
-          raise ComponentExpectedBody if items.empty?
-
-          items
         end
 
         properties = [] of Ast::Property

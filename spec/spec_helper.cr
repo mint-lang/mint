@@ -95,13 +95,8 @@ end
 
 macro expect_error(sample, error)
   it {{"#{sample}"}} do
-    case {{error}}
-    when Symbol
-      puts "WTF"
-    when Mint::Error
-      expect_raises({{error}}) do
-        subject.call({{sample}})
-      end
+    expect_raises({{error}}) do
+      subject.call({{sample}})
     end
   end
 end
