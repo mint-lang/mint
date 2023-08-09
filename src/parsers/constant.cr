@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error ConstantExpectedEqualSign
-    syntax_error ConstantExpectedValue
-    syntax_error ConstantExpectedName
-
     def constant : Ast::Constant?
       start do |start_position|
         comment = self.comment
@@ -12,13 +8,22 @@ module Mint
         next unless keyword "const"
         whitespace
 
-        name = variable_constant!
-
+        next error :constant_expected_name do
+          expected "the name of a constant", word
+          snippet self
+        end unless name = variable_constant
         whitespace
-        char '=', ConstantExpectedEqualSign
+
+        next error :constant_expected_equal_sign do
+          expected "the equal sign of a constant", word
+          snippet self
+        end unless char! '='
         whitespace
 
-        value = expression! ConstantExpectedValue
+        next error :constant_expected_expression do
+          expected "the expression of a constant", word
+          snippet self
+        end unless value = expression
 
         Ast::Constant.new(
           from: start_position,

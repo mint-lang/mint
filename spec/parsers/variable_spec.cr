@@ -56,21 +56,3 @@ describe "Variable With Dashes!" do
   expect_error ".", Mint::SyntaxError
   expect_error "???", Mint::SyntaxError
 end
-
-describe "Variable Constant!" do
-  subject variable_constant!
-
-  expect_ok "A"
-  expect_ok "ASD"
-  expect_ok "ASD_ASD_ASD"
-  expect_ok "ASD_ASD__ASD"
-  expect_ok "ASD_ASD________ASD"
-  expect_ok "ASD_"
-
-  expect_error " ", Mint::Parser::ConstantExpectedName
-  expect_error ".", Mint::Parser::ConstantExpectedName
-  expect_error "_", Mint::Parser::ConstantExpectedName
-  expect_error "???", Mint::Parser::ConstantExpectedName
-  expect_error "_ASD", Mint::Parser::ConstantExpectedName
-  expect_error "1ASD", Mint::Parser::ConstantExpectedName
-end

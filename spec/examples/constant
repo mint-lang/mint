@@ -1,0 +1,17 @@
+---------------------------------------------------------constant_expected_name
+component Main {
+  const
+---------------------------------------------------constant_expected_equal_sign
+component Main {
+  const TEST
+---------------------------------------------------constant_expected_expression
+component Main {
+  const TEST =
+-------------------------------------------------------------------------------
+component Main {
+  const TEST = ""
+
+  fun render : String {
+    ""
+  }
+}

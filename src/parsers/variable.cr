@@ -63,10 +63,6 @@ module Mint
       end
     end
 
-    def variable_constant! : Ast::Variable
-      variable_constant || raise ConstantExpectedName
-    end
-
     def variable!(error : SyntaxError.class, track = true) : Ast::Variable
       variable(track) || raise error
     end
