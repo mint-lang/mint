@@ -1,0 +1,37 @@
+----------------------------------------------------css_keyframes_expected_name
+component Main {
+  style root {
+    @keyframes
+-----------------------------------------css_keyframes_expected_opening_bracket
+component Main {
+  style root {
+    @keyframes name
+-----------------------------------------css_keyframes_expected_closing_bracket
+component Main {
+  style root {
+    @keyframes name {
+-----------------------------------------------css_keyframes_expected_selectors
+component Main {
+  style root {
+    @keyframes name {
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style root {
+    @keyframes slidein {
+      from {
+        transform: translateX(0%);
+      }
+
+      to {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::root/>
+  }
+}
