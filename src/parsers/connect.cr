@@ -1,28 +1,39 @@
 module Mint
   class Parser
-    syntax_error ConnectExpectedOpeningBracket
-    syntax_error ConnectExpectedClosingBracket
-    syntax_error ConnectExpectedExposing
-    syntax_error ConnectExpectedType
-    syntax_error ConnectExpectedKeys
-
     def connect : Ast::Connect?
       start do |start_position|
         next unless keyword "connect"
         whitespace
 
-        store = type_id! ConnectExpectedType
+        next error :connect_expected_store do
+          expected "the name of the store for a connect", word
+          snippet self
+        end unless store = type_id
         whitespace
 
-        keyword! "exposing", ConnectExpectedExposing
+        next error :connect_expected_exposing do
+          expected "the exposing keyword for a connect", word
+          snippet self
+        end unless keyword "exposing"
 
-        keys = block(
-          opening_bracket: ConnectExpectedOpeningBracket,
-          closing_bracket: ConnectExpectedClosingBracket
+        keys = block2(
+          ->{ error :connect_expected_opening_bracket do
+            expected "the opening bracket of a connect", word
+            snippet self
+          end },
+          ->{ error :connect_expected_closing_bracket do
+            expected "the closing bracket of a connect", word
+            snippet self
+          end }
         ) do
-          items = list(terminator: '{', separator: ',') { connect_variable }
-          raise ConnectExpectedKeys if items.empty?
-          items
+          list(terminator: '{', separator: ',') do
+            connect_variable
+          end.tap do |items|
+            next error :connect_expected_keys do
+              expected "the exposed entities of a connect", word
+              snippet self
+            end if items.empty?
+          end
         end
 
         self << Ast::Connect.new(

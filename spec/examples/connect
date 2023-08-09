@@ -1,0 +1,15 @@
+---------------------------------------------------------connect_expected_store
+component Main {
+  connect
+------------------------------------------------------connect_expected_exposing
+component Main {
+  connect Test
+-----------------------------------------------connect_expected_opening_bracket
+component Main {
+  connect Test exposing
+----------------------------------------------------------connect_expected_keys
+component Main {
+  connect Test exposing {
+-----------------------------------------------connect_expected_closing_bracket
+component Main {
+  connect Test exposing { item
