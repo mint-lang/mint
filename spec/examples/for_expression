@@ -1,0 +1,25 @@
+----------------------------------------------------------------for_expected_of
+component Main {
+  fun render : Array(Html) {
+    for (a, b
+-----------------------------------------------------------for_expected_subject
+component Main {
+  fun render : Array(Html) {
+    for (a, b of
+-----------------------------------------------for_expected_closing_parenthesis
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c
+---------------------------------------------------for_expected_opening_bracket
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c)
+--------------------------------------------------------------for_expected_body
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c) {
+---------------------------------------------------for_expected_closing_bracket
+component Main {
+  fun render : Array(Html) {
+    for (a, b of c) {
+      a
