@@ -49,8 +49,28 @@ module Mint
             end })
 
         whitespace
-        condition = for_condition
-        whitespace
+        condition =
+          if keyword "when"
+            whitespace
+
+            item =
+              code_block2(
+                ->{ error :for_condition_expected_opening_bracket do
+                  expected "the opening bracket of a for condition", word
+                  snippet self
+                end },
+                ->{ error :for_condition_expected_closing_bracket do
+                  expected "the closing bracket of a for condition", word
+                  snippet self
+                end })
+
+            next error :for_condition_expected_body do
+              expected "the body of a for condition", word
+              snippet self
+            end unless item
+
+            item
+          end
 
         self << Ast::For.new(
           condition: condition,

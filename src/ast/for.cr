@@ -3,9 +3,9 @@ module Mint
     class For < Node
       getter subject, body, arguments, condition
 
-      def initialize(@condition : ForCondition?,
-                     @arguments : Array(Variable),
+      def initialize(@arguments : Array(Variable),
                      @subject : Expression,
+                     @condition : Block?,
                      @body : Block,
                      @input : Data,
                      @from : Int32,

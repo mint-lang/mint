@@ -45,7 +45,7 @@ module Mint
 
       type = scope(arguments) do
         node.condition.try do |condition|
-          condition_type = resolve condition.condition
+          condition_type = resolve condition
 
           raise ForConditionTypeMismatch, {
             "node"     => condition,

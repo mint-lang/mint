@@ -58,7 +58,7 @@ module Mint
             opening_bracket_error: opening_bracket_error,
             closing_bracket_error: closing_bracket_error) do
             many { comment || statement }.tap do |items|
-              next statement_error.call if items.none?
+              next statement_error.call if statement_error && items.none?
             end
           end
 
