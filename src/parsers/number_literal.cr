@@ -1,21 +1,26 @@
 module Mint
   class Parser
-    syntax_error NumberLiteralExpectedDecimal
-
     def number_literal : Ast::NumberLiteral?
       start do |start_position|
-        negation = char! '-'
+        negation =
+          char! '-'
 
-        value = gather { chars &.ascii_number? }.to_s
+        value =
+          gather { chars &.ascii_number? }.to_s
 
         next if value.empty?
 
         float = false
 
         if char! '.'
-          raise NumberLiteralExpectedDecimal unless char.ascii_number?
-          value += '.'
+          next error :number_literal_expected_decimal do
+            expected "the decimals for a number literal", word
+            snippet self
+          end unless char.ascii_number?
+
           float = true
+
+          value += '.'
           value += gather { chars(&.ascii_number?) }.to_s
         end
 
