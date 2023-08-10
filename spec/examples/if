@@ -1,0 +1,32 @@
+----------------------------------------------------------if_expected_condition
+component Main {
+  fun render : String {
+    if (
+------------------------------------------------if_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    if (""
+---------------------------------------------if_expected_truthy_opening_bracket
+component Main {
+  fun render : String {
+    if ("")
+--------------------------------------------------if_expected_truthy_expression
+component Main {
+  fun render : String {
+    if ("") {
+---------------------------------------------if_expected_truthy_closing_bracket
+component Main {
+  fun render : String {
+    if ("") { a
+-----------------------------------------------if_expected_else_opening_bracket
+component Main {
+  fun render : String {
+    if ("") { "a" } else
+----------------------------------------------------if_expected_else_expression
+component Main {
+  fun render : String {
+    if ("") { "a" } else {
+-----------------------------------------------if_expected_else_closing_bracket
+component Main {
+  fun render : String {
+    if ("") { "a" } else { a
