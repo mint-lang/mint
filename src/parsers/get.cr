@@ -1,12 +1,5 @@
 module Mint
   class Parser
-    syntax_error GetExpectedOpeningBracket
-    syntax_error GetExpectedClosingBracket
-    syntax_error GetExpectedExpression
-    syntax_error GetExpectedColon
-    syntax_error GetExpectedName
-    syntax_error GetExpectedType
-
     def get : Ast::Get?
       start do |start_position|
         comment = self.comment
@@ -14,24 +7,36 @@ module Mint
         next unless keyword "get"
         whitespace
 
-        name = variable! GetExpectedName, track: false
+        next error :get_expected_name do
+          expected "the name of a get", word
+          snippet self
+        end unless name = variable track: false
         whitespace
 
         type =
           if char! ':'
             whitespace
-            item = type_or_type_variable! GetExpectedType
+            next error :get_expected_type do
+              expected "the type of a get", word
+              snippet self
+            end unless item = type_or_type_variable
             whitespace
             item
           end
 
         body =
-          code_block(
-            opening_bracket: GetExpectedOpeningBracket,
-            closing_bracket: GetExpectedClosingBracket,
-            statement_error: GetExpectedExpression)
-
-        whitespace
+          code_block2(->{ error :get_expected_opening_bracket do
+            expected "the opening bracket of a get", word
+            snippet self
+          end },
+            ->{ error :get_expected_closing_bracket do
+              expected "the closing bracket of a get", word
+              snippet self
+            end },
+            ->{ error :get_expected_expression do
+              expected "the body of a get", word
+              snippet self
+            end })
 
         self << Ast::Get.new(
           from: start_position,

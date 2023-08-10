@@ -1,0 +1,15 @@
+--------------------------------------------------------------get_expected_name
+component Main {
+  get
+--------------------------------------------------------------get_expected_type
+component Main {
+  get name :
+---------------------------------------------------get_expected_opening_bracket
+component Main {
+  get name
+--------------------------------------------------------get_expected_expression
+component Main {
+  get name {
+---------------------------------------------------get_expected_closing_bracket
+component Main {
+  get name { a
