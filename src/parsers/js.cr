@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error JsExpectedTypeOrVariable
-    syntax_error JsExpectedClosingTick
-
     def js : Ast::Js?
       start do |start_position|
         next unless char! '`'
@@ -11,13 +8,19 @@ module Mint
           (not_interpolation_part('`') || interpolation).as(Ast::Interpolation | String?)
         end
 
-        char '`', JsExpectedClosingTick
+        next error :js_expected_closing_tick do
+          expected "the closing tick of an inlined JavaScript", word
+          snippet self
+        end unless char! '`'
 
-        type = start do
+        whitespace
+        if keyword "as"
           whitespace
-          next unless keyword "as"
-          whitespace
-          type_or_type_variable! JsExpectedTypeOrVariable
+
+          next error :js_expected_type_or_variable do
+            expected "the type of an inlined JavaScript", word
+            snippet self
+          end unless type = type_or_type_variable
         end
 
         self << Ast::Js.new(
