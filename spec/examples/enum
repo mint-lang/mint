@@ -1,0 +1,8 @@
+-------------------------------------------------------------enum_expected_name
+enum
+----------------------------------------------enum_expected_closing_parenthesis
+enum Test (
+--------------------------------------------------enum_expected_opening_bracket
+enum Test
+--------------------------------------------------enum_expected_closing_bracket
+enum Test {

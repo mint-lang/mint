@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error EnumExpectedClosingParentheses
-    syntax_error EnumExpectedOpeningBracket
-    syntax_error EnumExpectedClosingBracket
-    syntax_error EnumExpectedName
-
     def enum
       start do |start_position|
         comment = self.comment
@@ -12,7 +7,10 @@ module Mint
         next unless keyword "enum"
         whitespace
 
-        name = type_id! EnumExpectedName
+        next error :enum_expected_name do
+          expected "the name of an enum", word
+          snippet self
+        end unless name = type_id
         whitespace
 
         parameters = [] of Ast::TypeVariable
@@ -26,15 +24,28 @@ module Mint
           ) { type_variable }
 
           whitespace
-          char ')', EnumExpectedClosingParentheses
+          next error :enum_expected_closing_parenthesis do
+            expected "the closing parenthesis of an enum", word
+            snippet self
+          end unless char! ')'
         end
 
-        body = block(
-          opening_bracket: EnumExpectedOpeningBracket,
-          closing_bracket: EnumExpectedClosingBracket
-        ) do
-          many { enum_option || self.comment }
-        end
+        body =
+          block2(
+            ->{
+              error :enum_expected_opening_bracket do
+                expected "the opening bracket of an enum", word
+                snippet self
+              end
+            },
+            ->{
+              error :enum_expected_closing_bracket do
+                expected "the closing bracket of an enum", word
+                snippet self
+              end
+            }) do
+            many { enum_option || self.comment }
+          end
 
         options = [] of Ast::EnumOption
         comments = [] of Ast::Comment
