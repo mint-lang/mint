@@ -1,0 +1,12 @@
+----------------------------------------------html_component_expected_reference
+component Main {
+  fun render : Html {
+    <Test as
+----------------------------------------html_component_expected_closing_bracket
+component Main {
+  fun render : Html {
+    <Test
+--------------------------------------------html_component_expected_closing_tag
+component Main {
+  fun render : Html {
+    <Test>

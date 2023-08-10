@@ -1,0 +1,8 @@
+-----------------------------------------html_fragment_expected_closing_bracket
+component Main {
+  fun render : Html {
+    <
+---------------------------------------------html_fragment_expected_closing_tag
+component Main {
+  fun render : Html {
+    <>

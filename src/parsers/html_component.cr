@@ -1,32 +1,39 @@
 module Mint
   class Parser
-    syntax_error HtmlComponentExpectedClosingBracket
-    syntax_error HtmlComponentExpectedClosingTag
-    syntax_error HtmlComponentExpectedReference
-    syntax_error HtmlComponentExpectedType
-
     def html_component : Ast::HtmlComponent?
       start do |start_position|
         component = start do
           next unless char! '<'
-          type_id HtmlComponentExpectedType
+          type_id
         end
 
         next unless component
+        whitespace
+        if keyword "as"
+          whitespace
 
-        ref = start do
-          whitespace
-          next unless keyword "as"
-          whitespace
-          variable! HtmlComponentExpectedReference
+          next error :html_component_expected_reference do
+            expected "the reference of the HTML component", word
+            snippet self
+          end unless ref = variable
         end
 
         attributes, children, comments, closing_tag_position =
           html_body(
-            expected_closing_bracket: HtmlComponentExpectedClosingBracket,
-            expected_closing_tag: HtmlComponentExpectedClosingTag,
             with_dashes: false,
-            tag: component)
+            tag: component,
+            expected_closing_bracket: ->{
+              error :html_component_expected_closing_bracket do
+                expected "the closing bracket of a HTML component", word
+                snippet self
+              end
+            },
+            expected_closing_tag: ->{
+              error :html_component_expected_closing_tag do
+                expected "the closing tag of a HTML component", word
+                snippet self
+              end
+            })
 
         node = self << Ast::HtmlComponent.new(
           closing_tag_position: closing_tag_position,

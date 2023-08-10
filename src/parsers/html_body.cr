@@ -15,8 +15,8 @@ module Mint
         comment
     end
 
-    def html_body(expected_closing_bracket : SyntaxError.class,
-                  expected_closing_tag : SyntaxError.class,
+    def html_body(expected_closing_bracket : Proc(Nil),
+                  expected_closing_tag : Proc(Nil),
                   tag : Ast::Variable | Ast::TypeId,
                   with_dashes : Bool)
       whitespace
@@ -24,7 +24,7 @@ module Mint
       whitespace
 
       self_closing = char! '/'
-      char '>', expected_closing_bracket
+      expected_closing_bracket.call unless char! '>'
 
       children = [] of Ast::Node
       comments = [] of Ast::Comment
@@ -47,9 +47,7 @@ module Mint
         closing_tag_position =
           position + 2
 
-        raise expected_closing_tag, position, {
-          "opening_tag" => tag,
-        } unless keyword "</#{closing_tag}>"
+        expected_closing_tag.call unless keyword "</#{closing_tag}>"
 
         items.each do |item|
           case item

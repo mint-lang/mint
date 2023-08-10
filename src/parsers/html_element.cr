@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error HtmlElementExpectedClosingBracket
-    syntax_error HtmlElementExpectedClosingTag
-    syntax_error HtmlElementExpectedReference
-    syntax_error HtmlElementExpectedStyle
-
     def html_element : Ast::HtmlElement?
       start do |start_position|
         tag = start do
@@ -20,22 +15,37 @@ module Mint
         if keyword_ahead? "::"
           styles = many(parse_whitespace: false) { html_style }
 
-          raise HtmlElementExpectedStyle if styles.empty?
+          next error :html_element_expected_style do
+            expected "the style for an HTML element", word
+            snippet self
+          end if styles.empty?
         end
 
-        ref = start do
+        whitespace
+        if keyword "as"
           whitespace
-          next unless keyword "as"
-          whitespace
-          variable! HtmlElementExpectedReference
+          next error :html_element_expected_reference do
+            expected "the reference of an HTML element", word
+            snippet self
+          end unless ref = variable
         end
 
         attributes, children, comments, closing_tag_position =
           html_body(
-            expected_closing_bracket: HtmlElementExpectedClosingBracket,
-            expected_closing_tag: HtmlElementExpectedClosingTag,
             with_dashes: true,
-            tag: tag)
+            tag: tag,
+            expected_closing_bracket: ->{
+              error :html_component_expected_closing_bracket do
+                expected "the closing bracket of an HTML element", word
+                snippet self
+              end
+            },
+            expected_closing_tag: ->{
+              error :html_component_expected_closing_tag do
+                expected "the closing tag of an HTML element", word
+                snippet self
+              end
+            })
 
         node = self << Ast::HtmlElement.new(
           closing_tag_position: closing_tag_position,

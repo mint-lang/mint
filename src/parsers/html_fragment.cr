@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error HtmlFragmentExpectedClosingBracket
-    syntax_error HtmlFragmentExpectedClosingTag
-
     def html_fragment : Ast::HtmlFragment?
       start do |start_position|
         next unless char! '<'
@@ -14,7 +11,10 @@ module Mint
         key = html_attribute false, "key"
         whitespace
 
-        char '>', HtmlFragmentExpectedClosingBracket
+        next error :html_fragment_expected_closing_bracket do
+          expected "the closing bracket of an HTML fragment", word
+          snippet self
+        end unless char! '>'
 
         children = [] of Ast::Node
         comments = [] of Ast::Comment
@@ -33,7 +33,10 @@ module Mint
         end
 
         whitespace
-        keyword! "</>", HtmlFragmentExpectedClosingTag
+        next error :html_fragment_expected_closing_tag do
+          expected "the closing tag of an HTML fragment", word
+          snippet self
+        end unless keyword "</>"
 
         self << Ast::HtmlFragment.new(
           from: start_position,
