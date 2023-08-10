@@ -1,0 +1,13 @@
+-------------------------------------------------------locale_expected_language
+locale
+------------------------------------------------locale_expected_opening_bracket
+locale en
+------------------------------------------------locale_expected_closing_bracket
+locale en {
+-------------------------------------------------------------------------------
+locale en {
+  item: "Hello",
+  subLevel: {
+    subItem: "World"
+  }
+}

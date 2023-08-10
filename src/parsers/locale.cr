@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error LocaleExpectedClosingBracket
-    syntax_error LocaleExpectedOpeningBracket
-    syntax_error LocaleExpectedLanguage
-
     def locale : Ast::Locale?
       start do |start_position|
         comment = self.comment
@@ -16,15 +12,29 @@ module Mint
           chars { |char| char.ascii_letter? || char.ascii_number? }
         end
 
-        raise LocaleExpectedLanguage unless language
+        next error :locale_expected_language do
+          expected "the language code of the locale", word
+          snippet self
+        end unless language
         whitespace
 
-        fields = block(
-          opening_bracket: LocaleExpectedOpeningBracket,
-          closing_bracket: LocaleExpectedClosingBracket
-        ) do
-          list(terminator: '}', separator: ',') { record_field }
-        end
+        fields =
+          block2(
+            ->{
+              error :locale_expected_opening_bracket do
+                expected "the opening bracket of a locale", word
+                snippet self
+              end
+            },
+            ->{
+              error :locale_expected_closing_bracket do
+                expected "the opening bracket of a locale", word
+                snippet self
+              end
+            }
+          ) do
+            list(terminator: '}', separator: ',') { record_field }
+          end
 
         self << Ast::Locale.new(
           from: start_position,
