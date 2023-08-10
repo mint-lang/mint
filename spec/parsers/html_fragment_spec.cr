@@ -9,7 +9,6 @@ describe "Html Fragment" do
   expect_error "<>", Mint::Parser::HtmlFragmentExpectedClosingTag
   expect_error "< a", Mint::Parser::HtmlFragmentExpectedClosingBracket
   expect_error "< ??", Mint::Parser::HtmlFragmentExpectedClosingBracket
-  expect_error "< key=", Mint::Parser::HtmlAttributeExpectedOpeningBracket
   expect_error "< key=\"\"", Mint::Parser::HtmlFragmentExpectedClosingBracket
 
   expect_ok "<></>"

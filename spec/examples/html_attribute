@@ -1,0 +1,16 @@
+---------------------------------------------html_attribute_expected_equal_sign
+component Main {
+  fun render : Html {
+    <div name
+----------------------------------------html_attribute_expected_opening_bracket
+component Main {
+  fun render : Html {
+    <div name=
+---------------------------------------------html_attribute_expected_expression
+component Main {
+  fun render : Html {
+    <div name={
+----------------------------------------html_attribute_expected_closing_bracket
+component Main {
+  fun render : Html {
+    <div name={a
