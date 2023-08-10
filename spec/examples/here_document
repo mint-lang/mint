@@ -1,0 +1,8 @@
+--------------------------------------------------------here_doc_expected_start
+component Main {
+  fun render {
+    <<-
+----------------------------------------------------------here_doc_expected_end
+component Main {
+  fun render {
+    <<-TEST
