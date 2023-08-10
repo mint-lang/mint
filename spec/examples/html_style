@@ -1,0 +1,4 @@
+----------------------------------------html_style_expected_closing_parenthesis
+component Main {
+  fun render : Html {
+    <div::root(

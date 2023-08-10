@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error HtmlStyleExpectedClosingParentheses
-
     def html_style : Ast::HtmlStyle?
       start do |start_position|
         name = start do
@@ -20,7 +18,10 @@ module Mint
           arguments = list(terminator: ')', separator: ',') { expression }
 
           whitespace
-          char ')', HtmlStyleExpectedClosingParentheses
+          next error :html_style_expected_closing_parenthesis do
+            expected "the closing parenthesis of an HTML style", word
+            snippet self
+          end unless char! ')'
         end
 
         Ast::HtmlStyle.new(
