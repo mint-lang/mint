@@ -1,16 +1,15 @@
 module Mint
   class Parser
-    syntax_error EnumDestructuringExpectedDoubleColon
-    syntax_error EnumDestructuringExpectedOption
-    syntax_error EnumDestructuringExpectedClosingParentheses
-
     def enum_destructuring
       start do |start_position|
         next unless option = type_id
 
         if keyword "::"
           name = option
-          option = type_id! EnumDestructuringExpectedOption
+          next error :enum_destructuring_expected_option do
+            expected "the the type of an enum destructuring", word
+            snippet self
+          end unless option = type_id
         end
 
         parameters = [] of Ast::Node
@@ -22,7 +21,10 @@ module Mint
           ) { destructuring }
 
           whitespace
-          char ')', EnumDestructuringExpectedClosingParentheses
+          next error :enum_destructuring_expected_closing_parenthesis do
+            expected "the the closing parenthesis of an enum destructuring", word
+            snippet self
+          end unless char! ')'
         end
 
         self << Ast::EnumDestructuring.new(

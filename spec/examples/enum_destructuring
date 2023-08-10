@@ -1,0 +1,14 @@
+---------------------------------------------enum_destructuring_expected_option
+module Test {
+  fun toString (status : Status) : String {
+    case (status) {
+      A::
+  }
+}
+--------------------------------enum_destructuring_expected_closing_parenthesis
+module Test {
+  fun toString (status : Status) : String {
+    case (status) {
+      A(
+  }
+}
