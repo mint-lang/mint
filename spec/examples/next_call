@@ -1,0 +1,4 @@
+------------------------------------------------------next_call_expected_fields
+component Main {
+  fun render : String {
+    next a
