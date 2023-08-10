@@ -1,0 +1,11 @@
+-----------------------------------------------------------module_expected_name
+module
+------------------------------------------------module_expected_opening_bracket
+module Test
+-----------------------------------------------------------module_expected_body
+module Test {
+  /* Comment. */
+}
+------------------------------------------------module_expected_closing_bracket
+module Test {
+  const TEST = ""

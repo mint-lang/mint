@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error ModuleExpectedOpeningBracket
-    syntax_error ModuleExpectedClosingBracket
-    syntax_error ModuleExpectedName
-
     def module_definition : Ast::Module?
       start do |start_position|
         comment = self.comment
@@ -12,12 +8,32 @@ module Mint
         next unless keyword "module"
         whitespace
 
-        name = type_id! ModuleExpectedName
+        next error :module_expected_name do
+          expected "name of the module", word
 
-        items = block(
-          opening_bracket: ModuleExpectedOpeningBracket,
-          closing_bracket: ModuleExpectedClosingBracket) do
+          block do
+            text "The name of a module must start with an uppercase letter and only"
+            text "contain lowercase, uppercase letters and numbers."
+          end
+
+          snippet self
+        end unless name = type_id
+
+        items = block2(
+          ->{ error :module_expected_opening_bracket do
+            expected "the opening bracket of a module", word
+            snippet self
+          end },
+          ->{ error :module_expected_closing_bracket do
+            expected "the closing bracket of a module", word
+            snippet self
+          end }) do
           many { function || constant || self.comment }
+        end.tap do |entities|
+          next error :module_expected_body do
+            expected "the body of the module", word
+            snippet self
+          end if entities.reject(Ast::Comment).empty?
         end
 
         functions = [] of Ast::Function
