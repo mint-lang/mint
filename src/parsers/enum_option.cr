@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error EnumOptionExpectedClosingParentheses
-
     def enum_option
       start do |start_position|
         comment = self.comment
@@ -20,7 +18,10 @@ module Mint
           ) { enum_record_definition || type_variable || type }
 
           whitespace
-          char ')', EnumOptionExpectedClosingParentheses
+          next error :enum_option_expected_closing_parenthesis do
+            expected "the closing parenthesis of an enum option", word
+            snippet self
+          end unless char! ')'
         end
 
         self << Ast::EnumOption.new(

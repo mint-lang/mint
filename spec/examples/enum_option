@@ -1,0 +1,3 @@
+---------------------------------------enum_option_expected_closing_parenthesis
+enum Test {
+  A(
