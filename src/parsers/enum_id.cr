@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error EnumIdExpectedClosingParentheses
-    syntax_error EnumIdExpectedDoubleColon
-    syntax_error EnumIdExpectedOption
-
     def enum_id_expressions
       expressions = [] of Ast::Expression
 
@@ -34,7 +30,10 @@ module Mint
 
         if keyword "::"
           name = option
-          option = type_id! EnumIdExpectedOption
+          next error :enum_id_expected_option do
+            expected "the option of an enum id", word
+            snippet self
+          end unless option = type_id
         end
 
         self << Ast::EnumId.new(

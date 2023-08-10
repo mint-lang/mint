@@ -1,0 +1,4 @@
+--------------------------------------------------------enum_id_expected_option
+component Main {
+  fun render {
+    A::
