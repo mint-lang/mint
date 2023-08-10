@@ -1,0 +1,20 @@
+-----------------------------------inline_function_expected_closing_parenthesis
+component Main {
+  fun render : Html {
+    (
+--------------------------------------------------inline_function_expected_type
+component Main {
+  fun render : Html {
+    () :
+---------------------------------------inline_function_expected_opening_bracket
+component Main {
+  fun render : Html {
+    ()
+--------------------------------------------------inline_function_expected_body
+component Main {
+  fun render : Html {
+    () {
+---------------------------------------inline_function_expected_closing_bracket
+component Main {
+  fun render : Html {
+    () { a
