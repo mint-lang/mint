@@ -1,0 +1,18 @@
+---------------------------------------------------------function_expected_name
+component Main {
+  fun
+------------------------------------------function_expected_closing_parenthesis
+component Main {
+  fun render (
+---------------------------------------------function_expected_type_or_variable
+component Main {
+  fun render :
+----------------------------------------------function_expected_opening_bracket
+component Main {
+  fun render
+---------------------------------------------------function_expected_expression
+component Main {
+  fun render {
+----------------------------------------------function_expected_closing_bracket
+component Main {
+  fun render { a
