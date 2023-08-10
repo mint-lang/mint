@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error NegatedExpressionExpectedExpression
-
     def negated_expression : Ast::NegatedExpression?
       start do |start_position|
         negations = gather { chars '!' }
@@ -10,7 +8,10 @@ module Mint
         negations =
           negations.size % 2 == 0 ? "!!" : "!"
 
-        expression = expression! NegatedExpressionExpectedExpression
+        next error :negated_expression_expected_expression do
+          expected "the expression of a negated expression", word
+          snippet self
+        end unless expression = self.expression
 
         self << Ast::NegatedExpression.new(
           expression: expression,

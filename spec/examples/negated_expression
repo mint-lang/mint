@@ -1,0 +1,4 @@
+-----------------------------------------negated_expression_expected_expression
+component Main {
+  fun render : String {
+    !
