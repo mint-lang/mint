@@ -1,0 +1,4 @@
+--------------------------------------------------operation_expected_expression
+component Main {
+  fun render : String {
+    "A" +

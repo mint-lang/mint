@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error OperationExpectedExpression
-
     OPERATORS = {
       "|>" => 0,
       "or" => 0,
@@ -41,7 +39,12 @@ module Mint
     end
 
     def operation(left : Ast::Expression, operator : String) : Ast::Operation
-      right = array_access_or_call(basic_expression!(OperationExpectedExpression))
+      error :operation_expected_expression do
+        expected "the right side expression of an operation", word
+        snippet self
+      end unless expression = basic_expression
+
+      right = array_access_or_call(expression)
 
       if next_operator = self.operator
         if OPERATORS[next_operator] > OPERATORS[operator]
