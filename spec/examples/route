@@ -1,0 +1,13 @@
+---------------------------------------------route_expected_closing_parenthesis
+routes {
+  * (
+-------------------------------------------------route_expected_opening_bracket
+routes {
+  *
+------------------------------------------------------------route_expected_body
+routes {
+  * {
+-------------------------------------------------route_expected_closing_bracket
+routes {
+  * {
+    ""

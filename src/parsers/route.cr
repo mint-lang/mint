@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error RouteExpectedClosingParentheses
-    syntax_error RouteExpectedOpeningBracket
-    syntax_error RouteExpectedClosingBracket
-    syntax_error RouteExpectedExpression
-
     def route : Ast::Route?
       start do |start_position|
         next unless char.in?('*', '/')
@@ -25,15 +20,28 @@ module Mint
         if char! '('
           arguments = list(terminator: ')', separator: ',') { argument(false) }
           whitespace
-          char ')', RouteExpectedClosingParentheses
+
+          next error :route_expected_closing_parenthesis do
+            expected "the closing parenthesis of a route", word
+            snippet self
+          end unless char! ')'
           whitespace
         end
 
         body =
-          code_block(
-            opening_bracket: RouteExpectedOpeningBracket,
-            closing_bracket: RouteExpectedClosingBracket,
-            statement_error: RouteExpectedExpression)
+          code_block2(
+            ->{ error :route_expected_opening_bracket do
+              expected "the opening bracket of a route", word
+              snippet self
+            end },
+            ->{ error :route_expected_closing_bracket do
+              expected "the closing bracket of a route", word
+              snippet self
+            end },
+            ->{ error :route_expected_body do
+              expected "the body of a route", word
+              snippet self
+            end })
 
         self << Ast::Route.new(
           arguments: arguments,
