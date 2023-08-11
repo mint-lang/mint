@@ -1,23 +1,28 @@
 module Mint
   class Parser
-    syntax_error RoutesExpectedOpeningBracket
-    syntax_error RoutesExpectedClosingBracket
-    syntax_error RoutesExpectedRoute
-
     def routes : Ast::Routes?
       start do |start_position|
         next unless keyword "routes"
 
-        body = block(
-          opening_bracket: RoutesExpectedOpeningBracket,
-          closing_bracket: RoutesExpectedClosingBracket
-        ) do
-          items = many { comment || route }
+        body =
+          block2(
+            ->{ error :routes_expected_opening_bracket do
+              expected "the opening bracket of a routes block", word
+              snippet self
+            end },
+            ->{ error :routes_expected_closing_bracket do
+              expected "the closing bracket of a routes block", word
+              snippet self
+            end }) do
+            items = many { comment || route }
 
-          raise RoutesExpectedRoute if items.none?(Ast::Route)
+            next error :routes_expected_body do
+              expected "the body of a routes block", word
+              snippet self
+            end if items.none?(Ast::Route)
 
-          items
-        end
+            items
+          end
 
         comments = [] of Ast::Comment
         routes = [] of Ast::Route
