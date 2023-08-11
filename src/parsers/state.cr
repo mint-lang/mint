@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error StateExpectedDefaultValue
-    syntax_error StateExpectedEqualSign
-    syntax_error StateExpectedName
-    syntax_error StateExpectedType
-
     def state : Ast::State?
       start do |start_position|
         comment = self.comment
@@ -13,22 +8,35 @@ module Mint
         next unless keyword "state"
         whitespace
 
-        name = variable! StateExpectedName
+        next error :state_expected_name do
+          expected "the name of a state", word
+          snippet self
+        end unless name = variable
         whitespace
 
         type =
           if char! ':'
             whitespace
-            item = type! StateExpectedType
+            next error :state_expected_type do
+              expected "the type value of a state", word
+              snippet self
+            end unless item = self.type
             whitespace
+
             item
           end
 
         whitespace
-        char '=', StateExpectedEqualSign
-        whitespace
+        next error :state_expected_equal_sign do
+          expected "the equal sign of a state", word
+          snippet self
+        end unless char! '='
 
-        default = expression! StateExpectedDefaultValue
+        whitespace
+        next error :state_expected_default_value do
+          expected "the default value of a state", word
+          snippet self
+        end unless default = expression
 
         self << Ast::State.new(
           default: default,

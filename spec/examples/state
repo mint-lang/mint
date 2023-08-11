@@ -1,0 +1,12 @@
+------------------------------------------------------------state_expected_name
+component Main {
+  state
+------------------------------------------------------state_expected_equal_sign
+component Main {
+  state test
+------------------------------------------------------------state_expected_type
+component Main {
+  state test :
+---------------------------------------------------state_expected_default_value
+component Main {
+  state test =
