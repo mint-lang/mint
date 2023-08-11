@@ -1,10 +1,5 @@
 module Mint
   class Parser
-    syntax_error StoreExpectedOpeningBracket
-    syntax_error StoreExpectedClosingBracket
-    syntax_error StoreExpectedBody
-    syntax_error StoreExpectedName
-
     def store : Ast::Store?
       start do |start_position|
         comment = self.comment
@@ -13,20 +8,32 @@ module Mint
         next unless keyword "store"
         whitespace
 
-        name = type_id! StoreExpectedName
+        next error :store_expected_name do
+          expected "the name of a store", word
+          snippet self
+        end unless name = type_id
 
-        body = block(
-          opening_bracket: StoreExpectedOpeningBracket,
-          closing_bracket: StoreExpectedClosingBracket
-        ) do
-          items = many { state || function || get || constant || self.comment }
+        body =
+          block2(
+            ->{ error :store_expected_opening_bracket do
+              expected "the opening bracket of a store", word
+              snippet self
+            end },
+            ->{ error :store_expected_closing_bracket do
+              expected "the closing bracket of a store", word
+              snippet self
+            end }) do
+            items = many { state || function || get || constant || self.comment }
 
-          if items.none?(Ast::Function | Ast::Constant | Ast::State | Ast::Get)
-            raise StoreExpectedBody
+            if items.none?(Ast::Function | Ast::Constant | Ast::State | Ast::Get)
+              next error :store_expected_body do
+                expected "the body of a store", word
+                snippet self
+              end
+            end
+
+            items
           end
-
-          items
-        end
 
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
