@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error RegexpLiteralExpectedClosingSlash
-
     def regexp_literal : Ast::RegexpLiteral?
       start do |start_position|
         next unless char! '/'
@@ -14,7 +12,10 @@ module Mint
           not_interpolation_part('/', stop_on_interpolation: false)
         end.join
 
-        char '/', RegexpLiteralExpectedClosingSlash
+        next error :regexp_literal_expected_closing_slash do
+          expected "the closing slash of a regexp literal", word
+          snippet self
+        end unless char! '/'
 
         flags = gather { chars 'i', 'g', 'm', 's', 'u', 'y' }.to_s
 
