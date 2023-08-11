@@ -1,7 +1,5 @@
 module Mint
   class Parser
-    syntax_error ExpectedEndOfFile
-
     def self.parse(file) : Ast
       parse File.read(file), file
     end
@@ -15,7 +13,8 @@ module Mint
 
     def eof! : Nil
       whitespace
-      raise ExpectedEndOfFile unless char == '\0'
+      error :expected_eof { expected "the end of the file", word } unless char == '\0'
+      true
     end
 
     def top_levels : Nil
