@@ -1,24 +1,26 @@
 module Mint
   class TypeChecker
-    type_error AccessFieldNotFound
-    type_error AccessNotRecord
-
     def check(node : Ast::Access) : Checkable
       target =
         resolve node.lhs
 
-      raise AccessNotRecord, {
-        "object" => target,
-        "node"   => node,
-      } unless target.is_a?(Record)
+      error :access_not_record do
+        snippet "You are trying to access a field on an object which is not a record:", target
+        snippet node
+      end unless target.is_a?(Record)
 
       new_target = target.fields[node.field.value]?
 
-      raise AccessFieldNotFound, {
-        "field"  => node.field.value,
-        "node"   => node.field,
-        "target" => target,
-      } unless new_target
+      error :access_field_not_found do
+        block do
+          text "The accessed field"
+          code node.field.value
+          text "does not exists on the entity:"
+        end
+
+        snippet target
+        snippet "The access is here:", node
+      end unless new_target
 
       if item = component_records.find(&.last.==(target))
         component, _ = item

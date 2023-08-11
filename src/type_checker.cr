@@ -1,5 +1,7 @@
 module Mint
   class TypeChecker
+    include Errorable
+
     alias Checkable = Type | Record | Variable
 
     # Built in types

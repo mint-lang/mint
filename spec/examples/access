@@ -2,3 +2,54 @@
 component Main {
   fun render : String {
     "".
+---------------------------------------------------------access_field_not_found
+record Blah {
+  blah : String
+}
+
+component Main {
+  fun render : Bool {
+    let blah =
+      { blah: "Hello" }
+
+    blah.blaha
+  }
+}
+--------------------------------------------------------------access_not_record
+component Main {
+  fun render : Bool {
+    let blah = ""
+
+    blah.blah.blah
+  }
+}
+--------------------------------------------------------------access_not_record
+record Blah {
+  blah : String
+}
+
+component Main {
+  fun render : Bool {
+    let blah =
+      { blah: "Blah" }
+
+    blah.blah.blah
+  }
+}
+-------------------------------------------------------------------------------
+record Blah1 {
+  blah : String
+}
+
+record Blah {
+  blah : Blah1
+}
+
+component Main {
+  fun render : String {
+    let blah =
+      { blah: { blah: "Helllo" } }
+
+    blah.blah.blah
+  }
+}
