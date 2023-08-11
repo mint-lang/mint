@@ -1,0 +1,4 @@
+------------------------------------------------module_access_expected_function
+component Main {
+  fun render : String {
+    A.
