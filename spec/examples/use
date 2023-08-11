@@ -1,0 +1,15 @@
+----------------------------------------------------------use_expected_provider
+component Main {
+  use
+------------------------------------------------------------use_expected_record
+component Main {
+  use A
+-----------------------------------------use_expected_condition_opening_bracket
+component Main {
+  use A { a: "" } when
+---------------------------------------------------------use_expected_condition
+component Main {
+  use A { a: "" } when {
+-----------------------------------------use_expected_condition_closing_bracket
+component Main {
+  use A { a: "" } when { true

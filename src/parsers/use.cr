@@ -1,28 +1,38 @@
 module Mint
   class Parser
-    syntax_error UseExpectedOpeningBracket
-    syntax_error UseExpectedClosingBracket
-    syntax_error UseExpectedExpression
-    syntax_error UseExpectedProvider
-    syntax_error UseExpectedRecord
-
     def use : Ast::Use?
       start do |start_position|
         next unless keyword "use"
 
         whitespace
-        provider = type_id! UseExpectedProvider
+        next error :use_expected_provider do
+          expected "the provider of a use", word
+          snippet self
+        end unless provider = type_id
 
         whitespace
-        raise UseExpectedRecord unless item = record
+        next error :use_expected_record do
+          expected "the record of a use", word
+          snippet self
+        end unless item = record
         whitespace
 
         if keyword "when"
-          condition = block(
-            opening_bracket: UseExpectedOpeningBracket,
-            closing_bracket: UseExpectedClosingBracket
+          condition = block2(
+            ->{ error :use_expected_condition_opening_bracket do
+              expected "the opening bracket of a use condition", word
+              snippet self
+            end },
+            ->{ error :use_expected_condition_closing_bracket do
+              expected "the closing bracket of a use condition", word
+              snippet self
+            end }
           ) do
-            expression! UseExpectedExpression
+            next error :use_expected_condition do
+              expected "the condition of a use", word
+              snippet self
+            end unless exp = expression
+            exp
           end
         end
 
