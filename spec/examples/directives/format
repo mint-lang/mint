@@ -1,0 +1,12 @@
+--------------------------------------format_directive_expected_opening_bracket
+component Main {
+  fun render : String {
+    @format
+-------------------------------------------------format_directive_expected_body
+component Main {
+  fun render : String {
+    @format {
+--------------------------------------format_directive_expected_closing_bracket
+component Main {
+  fun render : String {
+    @format { test
