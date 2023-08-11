@@ -1,0 +1,8 @@
+--------------------------------------------------string_expected_closing_quote
+component Main {
+  fun render : String {
+    "
+---------------------------------------------------string_expected_other_string
+component Main {
+  fun render : String {
+    "" \

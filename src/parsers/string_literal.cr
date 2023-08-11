@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error StringExpectedEndQuote
-    syntax_error StringExpectedOtherString
-
     def string_literal!(error : SyntaxError.class, with_interpolation : Bool = true) : Ast::StringLiteral
       string_literal(with_interpolation) || raise error
     end
@@ -19,15 +16,24 @@ module Mint
           end.as(Ast::Interpolation | String?)
         end
 
-        char '"', StringExpectedEndQuote
+        next error :string_expected_closing_quote do
+          expected "I was looking for the closing quoute of a string literal", word
+          snippet self
+        end unless char! '"'
         whitespace
 
         broken = false
 
         if char! '\\'
           whitespace
-          literal = string_literal(with_interpolation)
-          raise StringExpectedOtherString unless literal
+          literal =
+            string_literal(with_interpolation)
+
+          next error :string_expected_other_string do
+            expected "another string literal after a string separator", word
+            snippet self
+          end unless literal
+
           broken = true
           value.concat(literal.value)
         else
