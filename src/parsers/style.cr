@@ -1,34 +1,47 @@
 module Mint
   class Parser
-    syntax_error StyleExpectedClosingParentheses
-    syntax_error StyleExpectedOpeningBracket
-    syntax_error StyleExpectedClosingBracket
-    syntax_error StyleExpectedName
-
     def style : Ast::Style?
       start do |start_position|
         next unless keyword "style"
 
         whitespace
-        name = variable_with_dashes! StyleExpectedName
+        next error :style_expected_name do
+          expected "the name of a style", word
+          snippet self
+        end unless name = variable_with_dashes
         whitespace
 
         arguments = [] of Ast::Argument
 
         if char! '('
           whitespace
-
           arguments = list(terminator: ')', separator: ',') { argument }
-
           whitespace
-          char ')', StyleExpectedClosingParentheses
+
+          next error :style_expected_closing_parenthesis do
+            expected "the closing parenthesis of a style", word
+            snippet self
+          end unless char! ')'
         end
 
-        body = block(
-          opening_bracket: StyleExpectedOpeningBracket,
-          closing_bracket: StyleExpectedClosingBracket
+        body = block2(
+          ->{ error :style_expected_opening_bracket do
+            expected "the opening bracket of a style", word
+            snippet self
+          end },
+          ->{ error :style_expected_closing_bracket do
+            expected "the closing bracket of a style", word
+            snippet self
+          end }
         ) do
-          many { css_keyframes || css_font_face || css_node }
+          items = many { css_keyframes || css_font_face || css_node }
+
+          error :style_expected_body do
+            expected "the body of a style", word
+            snippet self
+          end if items.empty?
+
+          items
         end
 
         self << Ast::Style.new(

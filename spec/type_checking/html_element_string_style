@@ -6,6 +6,7 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   style base {
+    color: red;
   }
 
   fun render : Html {

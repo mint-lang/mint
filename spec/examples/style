@@ -1,0 +1,26 @@
+------------------------------------------------------------style_expected_name
+component Main {
+  style
+---------------------------------------------style_expected_closing_parenthesis
+component Main {
+  style x (
+-------------------------------------------------style_expected_opening_bracket
+component Main {
+  style x
+------------------------------------------------------------style_expected_body
+component Main {
+  style x {
+-------------------------------------------------style_expected_closing_bracket
+component Main {
+  style x {
+    color: red;
+-------------------------------------------------------------------------------
+component Main {
+  style x {
+    color: red;
+  }
+
+  fun render : String {
+    ""
+  }
+}
