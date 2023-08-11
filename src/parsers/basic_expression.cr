@@ -43,9 +43,5 @@ module Mint
         void ||
         variable
     end
-
-    def basic_expression!(error : SyntaxError.class) : Ast::Expression
-      basic_expression || raise error
-    end
   end
 end

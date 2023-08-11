@@ -54,36 +54,6 @@ module Mint
       true
     end
 
-    # Helpers for raising errors
-    # ----------------------------------------------------------------------------
-
-    def raise(error : SyntaxError.class, position : Int32, raw : Hash(String, T)) forall T
-      whitespace_index = next_whitespace_index
-      to = whitespace_index ? whitespace_index - position : 0
-
-      node =
-        Ast::Node.new(
-          to: position + to,
-          from: position,
-          input: data)
-
-      part =
-        substring(position, to)
-
-      raise error, {
-        "node" => node,
-        "got"  => part,
-      }.merge(raw)
-    end
-
-    def raise(error : SyntaxError.class, position : Int32)
-      raise error, position, {} of String => String
-    end
-
-    def raise(error : SyntaxError.class)
-      raise error, position, {} of String => String
-    end
-
     # Inspect current character, look ahead and look behind
     # ----------------------------------------------------------------------------
 
@@ -120,18 +90,8 @@ module Mint
       true
     end
 
-    def char(next_char : Char, error : SyntaxError.class) : Int32?
-      raise error unless char == next_char
-      step
-    end
-
     def char(& : Char -> Bool)
       return unless yield char
-      step
-    end
-
-    def char(error : SyntaxError.class, & : Char -> Bool)
-      raise error unless yield char
       step
     end
 
@@ -207,11 +167,6 @@ module Mint
     # Consuming whitespaces
     # ----------------------------------------------------------------------------
 
-    def whitespace!(error : SyntaxError.class) : String?
-      raise error unless whitespace?
-      whitespace
-    end
-
     def whitespace?
       char.ascii_whitespace?
     end
@@ -231,10 +186,6 @@ module Mint
 
     def type_or_type_variable
       type || type_variable
-    end
-
-    def type_or_type_variable!(error : SyntaxError.class)
-      type_or_type_variable || raise error
     end
 
     # Consuming many things

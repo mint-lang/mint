@@ -28,27 +28,6 @@ module Mint
       end
     end
 
-    def code_block(opening_bracket : SyntaxError.class,
-                   closing_bracket : SyntaxError.class,
-                   statement_error : SyntaxError.class = SyntaxError) : Ast::Block?
-      start do |start_position|
-        statements =
-          block(
-            opening_bracket: opening_bracket,
-            closing_bracket: closing_bracket) do
-            many { comment || statement }.tap do |items|
-              raise statement_error if items.none?
-            end
-          end
-
-        self << Ast::Block.new(
-          statements: statements,
-          from: start_position,
-          to: position,
-          input: data)
-      end
-    end
-
     def code_block2(opening_bracket_error : Proc(Nil)? = nil,
                     closing_bracket_error : Proc(Nil)? = nil,
                     statement_error : Proc(Nil)? = nil) : Ast::Block?

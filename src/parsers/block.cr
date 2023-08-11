@@ -14,19 +14,6 @@ module Mint
       end
     end
 
-    def block(opening_bracket : SyntaxError.class,
-              closing_bracket : SyntaxError.class, &)
-      whitespace
-      char '{', opening_bracket
-      whitespace
-
-      result = yield
-      whitespace
-
-      char '}', closing_bracket
-      result
-    end
-
     def block2(opening_bracket_error : Proc(Nil)? = nil,
                closing_bracket_error : Proc(Nil)? = nil, &)
       whitespace

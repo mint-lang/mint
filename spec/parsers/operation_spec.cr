@@ -4,7 +4,7 @@ describe "Operation" do
   it "parses simple operation" do
     operation =
       Mint::Parser.new("a == b", "TestFile.mint")
-        .expression!(Mint::SyntaxError)
+        .expression
         .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="
@@ -15,7 +15,7 @@ describe "Operation" do
   it "honors precedence" do
     operation =
       Mint::Parser.new("a == b * c", "TestFile.mint")
-        .expression!(Mint::SyntaxError)
+        .expression
         .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="
@@ -26,7 +26,7 @@ describe "Operation" do
   it "honors precedence 2" do
     operation =
       Mint::Parser.new("a * b == c", "TestFile.mint")
-        .expression!(Mint::SyntaxError)
+        .expression
         .as(Mint::Ast::Operation)
 
     operation.operator.should eq "=="

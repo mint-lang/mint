@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    def string_literal!(error : SyntaxError.class, with_interpolation : Bool = true) : Ast::StringLiteral
-      string_literal(with_interpolation) || raise error
-    end
-
     def string_literal(with_interpolation : Bool = true) : Ast::StringLiteral?
       start do |start_position|
         next unless char! '"'

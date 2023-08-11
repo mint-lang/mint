@@ -19,10 +19,6 @@ module Mint
       end
     end
 
-    def variable_with_dashes!(error : SyntaxError.class, track = true) : Ast::Variable
-      variable_with_dashes(track) || raise error
-    end
-
     def variable_with_dashes(track = true) : Ast::Variable?
       start do |start_position|
         value = gather do
@@ -61,10 +57,6 @@ module Mint
           to: position,
           input: data)
       end
-    end
-
-    def variable!(error : SyntaxError.class, track = true) : Ast::Variable
-      variable(track) || raise error
     end
 
     def variable(track = true) : Ast::Variable?

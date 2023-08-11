@@ -13,14 +13,6 @@ describe "Variable" do
   expect_ok "asd_"
 end
 
-describe "Variable!" do
-  subject variable!(Mint::SyntaxError)
-
-  expect_error " ", Mint::SyntaxError
-  expect_error ".", Mint::SyntaxError
-  expect_error "???", Mint::SyntaxError
-end
-
 describe "Variable With Dashes" do
   subject variable_with_dashes
 
@@ -47,12 +39,4 @@ describe "Variable Attribute Name" do
   expect_ok "asd"
   expect_ok "asdAsd"
   expect_ok "asd-::asd"
-end
-
-describe "Variable With Dashes!" do
-  subject variable_with_dashes!(Mint::SyntaxError)
-
-  expect_error " ", Mint::SyntaxError
-  expect_error ".", Mint::SyntaxError
-  expect_error "???", Mint::SyntaxError
 end

@@ -38,14 +38,6 @@ module Mint
   end
 
   class Parser
-    macro syntax_error(name)
-      class {{name}} < SyntaxError
-        def instance
-          Messages::{{name.names.last}}.new(locals)
-        end
-      end
-    end
-
     macro consume_while(condition)
       while {{condition}}
         step

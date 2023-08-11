@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    def expression!(error : SyntaxError.class) : Ast::Expression
-      expression || raise error
-    end
-
     def array_access_or_call(lhs)
       case char
       when '.'
