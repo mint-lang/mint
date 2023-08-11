@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error RecordDefinitionExpectedOpeningBracket
-    syntax_error RecordDefinitionExpectedClosingBracket
-    syntax_error RecordDefinitionExpectedName
-
     def record_definition : Ast::RecordDefinition?
       start do |start_position|
         comment = self.comment
@@ -11,11 +7,20 @@ module Mint
         next unless keyword "record"
         whitespace
 
-        name = type_id! RecordDefinitionExpectedName
+        next error :record_definition_expected_name do
+          expected "the name of a record definition", word
+          snippet self
+        end unless name = type_id
 
-        fields, block_comment = block(
-          opening_bracket: RecordDefinitionExpectedOpeningBracket,
-          closing_bracket: RecordDefinitionExpectedClosingBracket
+        fields, block_comment = block2(
+          ->{ error :record_definition_expected_opening_bracket do
+            expected "the opening bracket of a record definition", word
+            snippet self
+          end },
+          ->{ error :record_definition_expected_closing_bracket do
+            expected "the closing bracket of a record definition", word
+            snippet self
+          end }
         ) do
           {
             list(

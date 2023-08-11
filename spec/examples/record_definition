@@ -1,0 +1,6 @@
+------------------------------------------------record_definition_expected_name
+record
+-------------------------------------record_definition_expected_opening_bracket
+record A
+-------------------------------------record_definition_expected_closing_bracket
+record A {
