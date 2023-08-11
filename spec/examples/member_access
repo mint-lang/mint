@@ -1,0 +1,4 @@
+------------------------------------------------member_access_expected_variable
+component Main {
+  fun render : Html {
+    .
