@@ -1,0 +1,12 @@
+---------------------------documentation_directive_expected_opening_parenthesis
+component Main {
+  fun render : String {
+    @documentation
+----------------------------------------documentation_directive_expected_entity
+component Main {
+  fun render : String {
+    @documentation(
+---------------------------documentation_directive_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    @documentation(Test
