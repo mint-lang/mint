@@ -1,12 +1,5 @@
 module Mint
   class Parser
-    syntax_error ProviderExpectedOpeningBracket
-    syntax_error ProviderExpectedClosingBracket
-    syntax_error ProviderExpectedSubscription
-    syntax_error ProviderExpectedColon
-    syntax_error ProviderExpectedName
-    syntax_error ProviderExpectedBody
-
     def provider : Ast::Provider?
       start do |start_position|
         comment = self.comment
@@ -14,21 +7,39 @@ module Mint
         next unless keyword "provider"
         whitespace
 
-        name = type_id! ProviderExpectedName
+        next error :provider_expected_name do
+          expected "the name of a provider", word
+          snippet self
+        end unless name = type_id
         whitespace
 
-        char ':', ProviderExpectedColon
+        next error :provider_expeceted_colon do
+          expected "the colon of a provider", word
+          snippet self
+        end unless char! ':'
 
         whitespace
-        subscription = type_id! ProviderExpectedSubscription
+        next error :provider_expected_subscription do
+          expected "the subscription type of a provider", word
+          snippet self
+        end unless subscription = type_id
 
-        body = block(
-          opening_bracket: ProviderExpectedOpeningBracket,
-          closing_bracket: ProviderExpectedClosingBracket
+        body = block2(
+          ->{ error :provider_expected_opening_bracket do
+            expected "the opening bracket of a provider", word
+            snippet self
+          end },
+          ->{ error :provider_expected_closing_bracket do
+            expected "the closing bracket of a provider", word
+            snippet self
+          end }
         ) do
           items = many { function || state || get || constant || self.comment }
 
-          raise ProviderExpectedBody if items.none?(Ast::Function)
+          next error :provider_expected_body do
+            expected "the body of a provider", word
+            snippet self
+          end if items.reject(Ast::Comment).empty?
 
           items
         end

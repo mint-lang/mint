@@ -1,0 +1,13 @@
+---------------------------------------------------------provider_expected_name
+provider
+-------------------------------------------------------provider_expeceted_colon
+provider Test
+-------------------------------------------------provider_expected_subscription
+provider Test :
+----------------------------------------------provider_expected_opening_bracket
+provider Test : Test
+---------------------------------------------------------provider_expected_body
+provider Test : Test {
+----------------------------------------------provider_expected_closing_bracket
+provider Test : Test {
+  const TEST = ""
