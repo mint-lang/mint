@@ -1,0 +1,6 @@
+--------------------------------------------type_expected_type_or_type_variable
+component Main {
+  fun render : X(
+----------------------------------------------type_expected_closing_parenthesis
+component Main {
+  fun render : X(Y
