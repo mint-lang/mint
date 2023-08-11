@@ -2,3 +2,9 @@
 component Main {
   fun render : String {
     "A" +
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "A" + "B"
+  }
+}

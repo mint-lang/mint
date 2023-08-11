@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+record Test {
+  string : String
+}
+
+component Main {
+  fun render : String {
+    { string: "" }.string
+  }
+}
