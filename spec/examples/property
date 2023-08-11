@@ -1,0 +1,9 @@
+---------------------------------------------------------property_expected_name
+component Test {
+  property
+---------------------------------------------------------property_expected_type
+component Test {
+  property test :
+------------------------------------------------property_expected_default_value
+component Test {
+  property test  =

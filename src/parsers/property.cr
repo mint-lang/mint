@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error PropertyExpectedDefaultValue
-    syntax_error PropertyExpectedName
-    syntax_error PropertyExpectedType
-
     def property : Ast::Property?
       start do
         comment = self.comment
@@ -14,13 +10,19 @@ module Mint
         next unless keyword "property"
         whitespace
 
-        name = variable! PropertyExpectedName, track: false
+        next error :property_expected_name do
+          expected "the name of a property", word
+          snippet self
+        end unless name = variable track: false
         whitespace
 
         type =
           if char! ':'
             whitespace
-            item = type! PropertyExpectedType
+            next error :property_expected_type do
+              expected "the type of a property", word
+              snippet self
+            end unless item = self.type
             whitespace
             item
           end
@@ -28,7 +30,11 @@ module Mint
         default =
           if char! '='
             whitespace
-            expression! PropertyExpectedDefaultValue
+            next error :property_expected_default_value do
+              expected "the default value of a property", word
+              snippet self
+            end unless item = expression
+            item
           end
 
         self << Ast::Property.new(
