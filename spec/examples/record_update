@@ -1,0 +1,8 @@
+--------------------------------------------------record_update_expected_fields
+component Main {
+  get record : Record(String, Bool) {
+    { a |
+-----------------------------------------record_update_expected_closing_bracket
+component Main {
+  get record : Record(String, Bool) {
+    { a | a: ""

@@ -1,8 +1,5 @@
 module Mint
   class Parser
-    syntax_error RecordUpdateExpectedClosingBracket
-    syntax_error RecordUpdateExpectedFields
-
     def record_update : Ast::RecordUpdate?
       start do |start_position|
         expression = start do
@@ -28,11 +25,17 @@ module Mint
           separator: ','
         ) { record_field.as(Ast::RecordField?) }
 
-        raise RecordUpdateExpectedFields if fields.empty?
+        next error :record_update_expected_fields do
+          expected "the fields for a record update", word
+          snippet self
+        end if fields.empty?
 
         whitespace
 
-        char '}', RecordUpdateExpectedClosingBracket
+        next error :record_update_expected_closing_bracket do
+          expected "the closing bracket of a record update", word
+          snippet self
+        end unless char! '}'
 
         self << Ast::RecordUpdate.new(
           expression: expression,
