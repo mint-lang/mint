@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    syntax_error RecordDefinitionFieldExpectedMapping
-    syntax_error RecordDefinitionFieldExpectedColon
-    syntax_error RecordDefinitionFieldExpectedType
-
     def record_definition_field : Ast::RecordDefinitionField?
       start do |start_position|
         comment = self.comment
@@ -11,18 +7,29 @@ module Mint
         next unless key = variable
         whitespace
 
-        char ':', RecordDefinitionFieldExpectedColon
+        next error :record_definition_field_expected_colon do
+          expected "the colon separating a record field from the type", word
+          snippet self
+        end unless char! ':'
         whitespace
 
-        type = type! RecordDefinitionFieldExpectedType
+        next error :record_definition_field_expected_type do
+          expected "the type of a record field", word
+          snippet self
+        end unless type = self.type
 
         mapping =
           start do
             whitespace
             next unless keyword "using"
             whitespace
-            string_literal! RecordDefinitionFieldExpectedMapping,
-              with_interpolation: false
+
+            next error :record_definition_field_expected_mapping do
+              expected "the mapping of a record field", word
+              snippet self
+            end unless item = string_literal with_interpolation: false
+
+            item
           end
 
         self << Ast::RecordDefinitionField.new(

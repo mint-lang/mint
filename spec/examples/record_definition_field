@@ -1,0 +1,9 @@
+-----------------------------------------record_definition_field_expected_colon
+record A {
+  x
+------------------------------------------record_definition_field_expected_type
+record A {
+  x:
+---------------------------------------record_definition_field_expected_mapping
+record A {
+  x: String using
