@@ -1,21 +1,25 @@
 module Mint
   class Parser
-    syntax_error AssetDirectiveExpectedOpeningParentheses
-    syntax_error AssetDirectiveExpectedClosingParentheses
-    syntax_error AssetDirectiveExpectedPath
-
     def asset_directive : Ast::Directives::Asset?
       start do |start_position|
         next unless keyword "@asset"
 
-        char '(', AssetDirectiveExpectedOpeningParentheses
+        next error :asset_directive_expected_opening_parenthesis do
+          expected "the opening parenthesis of an asset directive", word
+          snippet self
+        end unless char! '('
         whitespace
 
-        path = gather { chars_until ')' }
-        raise AssetDirectiveExpectedPath unless path
+        next error :asset_directive_expected_path do
+          expected "the path of an asset directive", word
+          snippet self
+        end unless path = gather { chars_until ')' }
 
         whitespace
-        char ')', AssetDirectiveExpectedClosingParentheses
+        next error :asset_directive_expected_closing_parenthesis do
+          expected "the closing parenthesis of an asset directive", word
+          snippet self
+        end unless char! ')'
 
         self << Ast::Directives::Asset.new(
           from: start_position,
