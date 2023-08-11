@@ -1,0 +1,12 @@
+-------------------------------------svg_directive_expected_opening_parenthesis
+component Main {
+  fun render : String {
+    @svg
+----------------------------------------------------svg_directive_expected_path
+component Main {
+  fun render : String {
+    @svg(
+-------------------------------------svg_directive_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    @svg(path
