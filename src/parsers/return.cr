@@ -1,14 +1,15 @@
 module Mint
   class Parser
-    syntax_error ReturnCallExpectedExpression
-
     def return_call : Ast::ReturnCall?
       start do |start_position|
         next unless keyword "return"
         next unless whitespace?
         whitespace
 
-        raise ReturnCallExpectedExpression unless expression = self.expression
+        next error :return_call_expected_expression do
+          expected "the expression of a return call", word
+          snippet self
+        end unless expression = self.expression
 
         self << Ast::ReturnCall.new(
           expression: expression,

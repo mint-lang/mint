@@ -1,0 +1,4 @@
+------------------------------------------------return_call_expected_expression
+component Main {
+  fun render {
+    let x = "" or return
