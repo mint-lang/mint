@@ -1,9 +1,5 @@
 module Mint
   class TypeChecker
-    type_error ArrayAccessIndexNotNumber
-    type_error ArrayAccessInvalidTuple
-    type_error ArrayAccessNotAnArray
-
     def check(node : Ast::ArrayAccess) : Checkable
       index =
         node.index
@@ -19,11 +15,11 @@ module Mint
         index_type =
           resolve index
 
-        raise ArrayAccessIndexNotNumber, {
-          "got"      => index_type,
-          "expected" => NUMBER,
-          "node"     => index,
-        } unless Comparer.compare(index_type, NUMBER)
+        error :array_access_index_not_number do
+          block "The index of an array access is not a number."
+          expected NUMBER, index_type
+          snippet index
+        end unless Comparer.compare(index_type, NUMBER)
 
         check_array_access(lhs, type)
       in Int64
@@ -31,12 +27,17 @@ module Mint
           parameter =
             type.parameters[index]?
 
-          raise ArrayAccessInvalidTuple, {
-            "size"  => type.parameters.size.to_s,
-            "index" => ordinal(index),
-            "got"   => type,
-            "node"  => lhs,
-          } unless parameter
+          error :array_access_invalid_tuple do
+            block do
+              text "The tuple only has"
+              bold type.parameters.size.to_s
+              text "members, but you wanted to access the"
+              bold ordinal(index)
+            end
+
+            snippet "The exact type of the tuple is:", type
+            snippet "The tuple is here:", lhs
+          end unless parameter
 
           parameter
         else
@@ -46,11 +47,11 @@ module Mint
     end
 
     def check_array_access(lhs, type)
-      raise ArrayAccessNotAnArray, {
-        "expected" => ARRAY,
-        "got"      => type,
-        "node"     => lhs,
-      } unless resolved = Comparer.compare(type, ARRAY)
+      error :array_access_not_an_array do
+        block "The object you are trying to access an item of is not an array."
+        expected ARRAY, type
+        snippet "The array is here:", lhs
+      end unless resolved = Comparer.compare(type, ARRAY)
 
       Type.new("Maybe", [resolved.parameters.first] of Checkable)
     end

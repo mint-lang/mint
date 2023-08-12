@@ -6,3 +6,70 @@ component Main {
 component Main {
   fun render : String {
     array[0
+--------------------------------------------------array_access_index_not_number
+component Main {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]["asd"]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+------------------------------------------------------array_access_not_an_array
+component Main {
+  fun test : Maybe(String) {
+    {}[0]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+-----------------------------------------------------array_access_invalid_tuple
+component Main {
+  fun test : Maybe(String) {
+    {"Hello"}[1]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1]
+  }
+
+  fun render : String {
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun test : String {
+    {"Hello"}[0]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
