@@ -6,3 +6,50 @@ component Main {
 component Main {
   fun render : Array(String) {
     [] of
+--------------------------------------------------------------array_not_matches
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      true,
+      "Joe"
+    ]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+-------------------------------------------------array_not_matches_defined_type
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      "Joe"
+    ] of Number
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}

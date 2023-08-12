@@ -1,8 +1,5 @@
 module Mint
   class TypeChecker
-    type_error ArrayNotMatchesDefinedType
-    type_error ArrayNotMatches
-
     def check(node : Ast::ArrayLiteral) : Checkable
       defined_type =
         node.type.try do |type|
@@ -25,12 +22,17 @@ module Mint
         rest.each_with_index do |item, index|
           type = resolve item
 
-          raise ArrayNotMatches, {
-            "index"    => (index + 2).to_s,
-            "expected" => first,
-            "got"      => type,
-            "node"     => item,
-          } unless Comparer.compare(type, first)
+          return error :array_not_matches do
+            block do
+              text "The"
+              bold "#{ordinal(index + 2)} item"
+              text "of an array does not match the type of the first item."
+            end
+
+            snippet "I was expecting the same type as of the first item:", first
+            snippet "Instead it is:", type
+            snippet "The item is here:", item
+          end unless Comparer.compare(type, first)
         end
 
         inferred_type =
@@ -40,11 +42,16 @@ module Mint
           final_type =
             Comparer.compare(inferred_type, defined_type)
 
-          raise ArrayNotMatchesDefinedType, {
-            "expected" => defined_type,
-            "got"      => inferred_type,
-            "node"     => node,
-          } unless final_type
+          error :array_not_matches_defined_type do
+            block do
+              text "The"
+              bold "defined type"
+              text "of an array does not match the type of its items."
+            end
+
+            expected defined_type, inferred_type
+            snippet node
+          end unless final_type
 
           final_type
         else
