@@ -10,3 +10,9 @@ component Main {
 component Main {
   fun render : String {
     @asset(path
+--------------------------------------------------asset_directive_expected_file
+component Main {
+  fun render : String {
+    @asset(path)
+  }
+}
