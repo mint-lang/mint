@@ -1,3 +1,9 @@
+component Error {
+  fun render {
+    <div/>
+  }
+}
+-------------------------------------------------------------file component.mint
 /* Comment for Status enum. */
 enum Status {
   Error
