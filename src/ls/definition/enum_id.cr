@@ -1,7 +1,7 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      def definition(node : Ast::EnumId, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+      def definition(node : Ast::EnumId, workspace : Workspace, stack : Array(Ast::Node))
         name = node.name
 
         # When `.name` is nil the node is used as a CONSTANT
@@ -15,7 +15,7 @@ module Mint
                  Ast::Provider
               parent.constants.each do |constant|
                 if node.option.value == constant.name.value
-                  return location_link server, node.option, constant.name, constant
+                  return location_link node.option, constant.name, constant
                 end
               end
             end
@@ -28,12 +28,12 @@ module Mint
 
           case
           when cursor_intersects?(name)
-            location_link server, name, enum_node.name, enum_node
+            location_link name, enum_node.name, enum_node
           when cursor_intersects?(node.option)
             return unless option =
                             enum_node.try &.options.find(&.value.value.==(node.option.value))
 
-            location_link server, node.option, option.value, option
+            location_link node.option, option.value, option
           end
         end
       end

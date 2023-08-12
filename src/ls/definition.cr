@@ -4,7 +4,7 @@ module Mint
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
-      def execute(server) : Array(LSP::LocationLink | LSP::Location) | LSP::LocationLink | LSP::Location | Nil
+      def execute(server) : Array(LSP::LocationLink) | Array(LSP::Location) | LSP::Location | Nil
         uri =
           URI.parse(params.text_document.uri)
 
@@ -15,13 +15,24 @@ module Mint
           stack =
             server.nodes_at_cursor(params)
 
-          if node = stack[0]?
-            definition(node, server, workspace, stack)
+          return unless node = stack[0]?
+
+          links = definition(node, workspace, stack)
+
+          case links
+          when Array(LSP::LocationLink)
+            return links.map { |x| to_location(x) } if !has_link_support?(server)
+
+            links
+          when LSP::LocationLink
+            return to_location(links) if !has_link_support?(server)
+
+            [links]
           end
         end
       end
 
-      def definition(node : Ast::Node, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+      def definition(node : Ast::Node, workspace : Workspace, stack : Array(Ast::Node))
         nil
       end
 
@@ -61,26 +72,26 @@ module Mint
         )
       end
 
+      def to_location(location_link : LSP::LocationLink) : LSP::Location
+        LSP::Location.new(
+          range: location_link.target_selection_range,
+          uri: location_link.target_uri,
+        )
+      end
+
       # Returns a `LSP::LocationLink` that links from *source* to the *target* node
       # if the language server client has link support, otherwise it returns `LSP::Location`.
       #
       # When returning a `LSP::LocationLink`, *parent* is used to provide the full range
       # for the *target* node. For example, for a function, *target* would be the function name,
       # and *parent* would be the whole node, including function body and any comments
-      def location_link(server : Server, source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink | LSP::Location
-        if has_link_support?(server)
-          LSP::LocationLink.new(
-            origin_selection_range: to_lsp_range(source.location),
-            target_uri: "file://#{target.location.filename}",
-            target_range: to_lsp_range(parent.location),
-            target_selection_range: to_lsp_range(target.location)
-          )
-        else
-          LSP::Location.new(
-            range: to_lsp_range(target.location),
-            uri: "file://#{target.location.filename}",
-          )
-        end
+      def location_link(source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink
+        LSP::LocationLink.new(
+          origin_selection_range: to_lsp_range(source.location),
+          target_uri: "file://#{target.location.filename}",
+          target_range: to_lsp_range(parent.location),
+          target_selection_range: to_lsp_range(target.location)
+        )
       end
     end
   end
