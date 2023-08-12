@@ -54,35 +54,3 @@ component Main {
     Test.b()
   }
 }
---------------------------------------------------------CallArgumentTypeMismatch
-module Test {
-  fun a (value : String, x : Bool) : String {
-    value
-  }
-
-  fun b : String {
-    Test.a("test", "z")
-  }
-}
-
-component Main {
-  fun render : String {
-    Test.b()
-  }
-}
---------------------------------------------------------CallArgumentTypeMismatch
-module Test {
-  fun a (value : a, x : a) : String {
-    value
-  }
-
-  fun b : String {
-    Test.a("test", 0)
-  }
-}
-
-component Main {
-  fun render : String {
-    Test.b()
-  }
-}

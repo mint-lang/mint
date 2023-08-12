@@ -1,66 +1,16 @@
 component Main {
-  fun a : String {
-    "Hello"
-  }
-
-  fun b : String {
-    a()
+  fun b : Html {
+    <div/>
   }
 
   fun render : Html {
-    <div/>
+    b()
   }
 }
 -----------------------------------------------------------------VariableMissing
 component Main {
   fun b : String {
     x()
-  }
-
-  fun render : Html {
-    b()
-
-    <div/>
-  }
-}
-----------------------------------------------------------------CallNotAFunction
-component Main {
-  state x : String = ""
-
-  fun b : String {
-    x()
-  }
-
-  fun render : Html {
-    b()
-
-    <div/>
-  }
-}
---------------------------------------------------------CallArgumentTypeMismatch
-component Main {
-  fun a (input : String) : String {
-    input
-  }
-
-  fun b : String {
-    a(0)
-  }
-
-  fun render : Html {
-    b()
-
-    <div/>
-  }
-}
---------------------------------------------------------CallArgumentSizeMismatch
-component Main {
-  fun a (input : String) : String {
-    input
-  }
-
-  fun b : String {
-    a("Hello", "There")
   }
 
   fun render : Html {

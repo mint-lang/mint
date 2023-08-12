@@ -2,3 +2,146 @@
 component Main {
   fun render : String {
     test("A"
+------------------------------------------------------------call_not_a_function
+component Main {
+  state x : String = ""
+
+  fun b : String {
+    x()
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a(0)
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+----------------------------------------------------call_argument_size_mismatch
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a("Hello", "There")
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+-----------------------------------------------------------call_mixed_arguments
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(0, argument1: "")
+  }
+}
+-----------------------------------------------------------call_mixed_arguments
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument2: 0, "")
+  }
+}
+--------------------------------------------------------call_not_found_argument
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument3: 0, argument1: "")
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test", "z")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+module Test {
+  fun a (value : a, x : a) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test", 0)
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .asd({test: "Hello"})
+  }
+}
+
+-------------------------------------------------------------------------------
+component Main {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a()
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument2: 0, argument1: "")
+  }
+}

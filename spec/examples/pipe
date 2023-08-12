@@ -1,0 +1,42 @@
+------------------------------------------------------------call_not_a_function
+component Main {
+  fun test (value : String) : String {
+    value
+  }
+
+  fun render : String {
+    "Hello"
+    |> "B"
+  }
+}
+----------------------------------------------------call_argument_size_mismatch
+component Main {
+  fun test : String {
+    "X"
+  }
+
+  fun render : String {
+    "Hello"
+    |> test
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun pipe (value : String) : String {
+    value
+  }
+}
+
+component Main {
+  fun test (value : String) : String {
+    value
+  }
+
+  fun render : String {
+    "Hello"
+    |> test
+    |> Test.pipe()
+    |> Test.pipe
+    |> (value : String) : String { value }
+  }
+}
