@@ -1,10 +1,5 @@
 module Mint
   class TypeChecker
-    type_error CaseBranchNotMatches
-    type_error CaseUnnecessaryAll
-    type_error CaseEnumNotCovered
-    type_error CaseNotCovered
-
     def check(node : Ast::Case) : Checkable
       condition =
         resolve node.condition
@@ -33,18 +28,37 @@ module Mint
             unified_branch =
               Comparer.compare(type, resolved)
 
-            raise CaseBranchNotMatches, {
-              "index"    => (index + 2).to_s,
-              "expected" => resolved,
-              "got"      => type,
-              "node"     => branch,
-            } unless unified_branch
+            error :case_branch_not_matches do
+              block do
+                text "The return type of the"
+                bold "#{(index + 2)}. branch"
+                text "of a case expression does not match the type of the first branch."
+              end
+
+              snippet "I was expecting:", resolved
+              snippet "Instead it is:", type
+              snippet branch
+            end unless unified_branch
 
             unified_branch
           end
 
       catch_all =
         node.branches.find(&.match.nil?)
+
+      case_unnecessary_all = ->(catch_node : Ast::Node) { error :case_unnecessary_all do
+        block "All possibilities of the case expression are covered."
+        snippet "This branch is not needed and can be safely removed.", catch_node
+      end }
+
+      case_not_covered = ->{ error :case_not_covered do
+        block "Not all possibilities of a case expression are covered."
+        block "To cover all remaining possibilities add an empty case branch:"
+
+        code "=> return value"
+
+        snippet node
+      end }
 
       # At this point all branches have been checked the
       # type should be the same.
@@ -73,19 +87,20 @@ module Mint
                 end
             end
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if not_matched.empty? && catch_all
+          case_unnecessary_all.call(catch_all) if not_matched.empty? && catch_all
 
           options =
             not_matched.map do |option|
               "#{format parent.name}::#{formatter.replace_skipped(format(option.value))}"
-            end
+            end.join('\n')
 
-          raise CaseEnumNotCovered, {
-            "options" => options,
-            "node"    => node,
-          } if !not_matched.empty? && !catch_all
+          error :case_enum_not_covered do
+            block "Not all possibilities of a case expression are covered."
+            block "To cover all remaining possibilities create branches for the following options:"
+
+            snippet options
+            snippet node
+          end if !not_matched.empty? && !catch_all
         elsif condition.name == "Array"
           destructurings =
             node.branches
@@ -119,13 +134,8 @@ module Mint
           covered =
             covers_cases && covers_infitiy && covers_empty
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if covered && catch_all
-
-          raise CaseNotCovered, {
-            "node" => node,
-          } if !covered && !catch_all
+          case_unnecessary_all.call(catch_all) if covered && catch_all
+          case_not_covered.call if !covered && !catch_all
         elsif condition.name == "Tuple"
           destructured =
             node.branches.any? do |branch|
@@ -137,17 +147,10 @@ module Mint
               end
             end
 
-          raise CaseUnnecessaryAll, {
-            "node" => catch_all,
-          } if destructured && catch_all
-
-          raise CaseNotCovered, {
-            "node" => node,
-          } if !destructured && !catch_all
+          case_unnecessary_all.call(catch_all) if destructured && catch_all
+          case_not_covered.call if !destructured && !catch_all
         elsif !catch_all
-          raise CaseNotCovered, {
-            "node" => node,
-          }
+          case_not_covered.call
         end
       end
 
