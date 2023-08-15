@@ -2,3 +2,55 @@
 component Main {
   style root {
     background: red
+---------------------------------------------------css_definition_type_mismatch
+component Main {
+  style test {
+    color: #{true};
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+-----------------------------------------------------css_definition_no_property
+component Main {
+  style test {
+    colorasd: hello;
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style test {
+    -colorasd: hello;
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style test {
+    color: #{"blue"};
+    color: #{color};
+    color: red;
+    color: #{0};
+    top: #{top};
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  get top : Number {
+    0
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
