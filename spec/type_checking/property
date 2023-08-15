@@ -85,11 +85,3 @@ component Main {
     <Test/>
   }
 }
------------------------------------------------------------ComponentMainProperty
-component Main {
-  property name : String = "Joe"
-
-  fun render : Html {
-    <div/>
-  }
-}

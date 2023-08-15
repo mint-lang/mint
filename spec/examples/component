@@ -8,3 +8,89 @@ component Main {
 component Main {
   /* Comment. */
 ---------------------------------------------component_expected_closing_bracket
+component Main {
+  state test : String = ""
+------------------------------------------------------component_main_properties
+component Main {
+  property name : String = "Joe"
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------component_render_function_mismatch
+component Main {
+  fun render : Bool {
+    true
+  }
+}
+---------------------------------------------------component_no_render_function
+component Main {
+  fun a : String {
+    ""
+  }
+}
+-----------------------------------------------------------entity_name_conflict
+component Main {
+  property render : String = ""
+
+  fun render : Bool {
+    true
+  }
+}
+----------------------------------------------component_reference_name_conflict
+component Main {
+  fun render : Html {
+    <div as x>
+      <div as x/>
+    </div>
+  }
+}
+------------------------------------------component_lifecycle_function_mismatch
+component Main {
+  fun componentDidUpdate (a : String) : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------component_exposed_name_conflict
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x }
+
+  get x : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------component_exposed_name_conflict
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x as y }
+
+  get y : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div/>
+  }
+}

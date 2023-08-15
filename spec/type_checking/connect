@@ -33,38 +33,6 @@ component Main {
     <div/>
   }
 }
-----------------------------------------------------ComponentExposedNameConflict
-store Test {
-  state x : String = ""
-}
-
-component A {
-  connect Test exposing { x }
-
-  get x : String {
-    ""
-  }
-
-  fun render : Html {
-    <div/>
-  }
-}
-----------------------------------------------------ComponentExposedNameConflict
-store Test {
-  state x : String = ""
-}
-
-component A {
-  connect Test exposing { x as y }
-
-  get y : String {
-    ""
-  }
-
-  fun render : Html {
-    <div/>
-  }
-}
 --------------------------------------------------------------------------------
 store Test {
   state x : String = ""

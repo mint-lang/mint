@@ -367,7 +367,7 @@ module Mint
     end
 
     def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),
-                    error : Mint::TypeError.class,
+                    error : Mint::TypeError.class | String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
         name =
@@ -387,12 +387,28 @@ module Mint
               ""
             end
 
-          raise error, {
-            "other" => other,
-            "name"  => name,
-            "what"  => what,
-            "node"  => node,
-          }
+          case error
+          in String
+            error :entity_name_conflict do
+              block do
+                text "There is already a"
+                bold what
+                text "with the name"
+                bold name
+                text "in this #{error}."
+              end
+
+              snippet "You are trying to define something with the same name here:", node
+              snippet "The #{what} is defined here:", other
+            end
+          in Mint::TypeError.class
+            raise error, {
+              "other" => other,
+              "name"  => name,
+              "what"  => what,
+              "node"  => node,
+            }
+          end
         end
 
         memo[name] = node
