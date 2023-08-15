@@ -16,3 +16,55 @@ component Main {
 ---------------------------------------------------connect_variable_expected_as
 component Main {
   connect Test exposing { item as
+-------------------------------------------------------connect_not_found_member
+store Test {
+  state x : String = ""
+}
+
+component Main {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------connect_not_found_store
+component Main {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  state x : String = ""
+}
+
+component A {
+  connect Test exposing { x as y }
+
+  get x : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  state x : String = ""
+
+  fun y : String {
+    `hello`
+  }
+}
+
+component Main {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
