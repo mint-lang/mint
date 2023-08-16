@@ -1,9 +1,5 @@
 module Mint
   class TypeChecker
-    type_error IfConditionTypeMismatch
-    type_error IfElseTypeMismatch
-    type_error IfExpectedElse
-
     def check(node : Ast::If) : Checkable
       condition =
         resolve node.condition
@@ -16,11 +12,17 @@ module Mint
           end
         end || [] of Ast::Node
 
-      raise IfConditionTypeMismatch, {
-        "node"     => node.condition,
-        "got"      => condition,
-        "expected" => BOOL,
-      } if variables.empty? && !Comparer.compare(condition, BOOL)
+      error :if_condition_type_mismatch do
+        block do
+          text "The"
+          bold "condition of an if expression"
+          text "does not evaluate to a boolean."
+        end
+
+        expected BOOL, condition
+
+        snippet node.condition
+      end if variables.empty? && !Comparer.compare(condition, BOOL)
 
       truthy_item, falsy_item =
         node.branches
@@ -35,17 +37,32 @@ module Mint
           falsy =
             resolve falsy_item.as(Ast::Node)
 
-          raise IfElseTypeMismatch, {
-            "node"     => falsy_item.as(Ast::Node),
-            "expected" => truthy,
-            "got"      => falsy,
-          } unless Comparer.compare(truthy, falsy)
+          error :if_else_type_mismatch do
+            block do
+              text "The"
+              bold "falsy (else) branch of an if expression"
+              text "does not match the type of the truthy branch."
+            end
+
+            expected truthy, falsy
+            snippet falsy_item.as(Ast::Node)
+          end unless Comparer.compare(truthy, falsy)
         else
-          raise IfExpectedElse, {
-            "expected" => VALID_IF_TYPES,
-            "got"      => truthy,
-            "node"     => node,
-          } unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
+          error :if_expected_else do
+            block do
+              text "This"
+              bold "if expression"
+              text "must have an"
+              bold "else branch."
+            end
+
+            block "The elese branch can be omitted if the truthy branch returns one of:"
+            snippet VALID_IF_TYPES.map(&.to_pretty).join("\n")
+            block "but it returns"
+            snippet truthy
+
+            snippet node
+          end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
         end
 
         truthy

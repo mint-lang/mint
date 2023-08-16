@@ -30,3 +30,101 @@ component Main {
 component Main {
   fun render : String {
     if ("") { "a" } else { a
+-----------------------------------------------------if_condition_type_mismatch
+component Main {
+  fun render : String {
+    if ("a") {
+      "x"
+    } else {
+      "y"
+    }
+  }
+}
+----------------------------------------------------------if_else_type_mismatch
+component Main {
+  fun render : String {
+    if ("a" == "b") {
+      "x"
+    } else {
+      10
+    }
+  }
+}
+----------------------------------------------------------if_else_type_mismatch
+enum T {
+  A(String)
+  B(Number)
+}
+
+component Main {
+  fun render : String {
+    if (let T::B(a) = T::B(0)) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    if ("a" == "b") {
+      "x"
+    } else {
+      "y"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div>
+      if ("a" == "b") {
+        "x"
+      }
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div>
+      if ("a" == "b") {
+        "x"
+      } else {
+        "x"
+      }
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = T::A("")) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = T::B) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
