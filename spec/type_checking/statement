@@ -4,17 +4,3 @@ component Main {
     ""
   }
 }
-------------------------------------------------------DestructuringTypeMismatch
-component Main {
-  fun render : String {
-    let {x, y, z} = "hello"
-    ""
-  }
-}
------------------------------------------------------DestructuringTupleMismatch
-component Main {
-  fun render : String {
-    let {x, y, z} = {"hello", "a"}
-    ""
-  }
-}

@@ -27,21 +27,6 @@ component Main {
     }
   }
 }
-------------------------------------------------------DestructuringTypeMismatch
-enum T {
-  A(String)
-  B
-}
-
-component Main {
-  fun render : String {
-    if (let T::A(a) = "") {
-      a
-    } else {
-      "b"
-    }
-  }
-}
 -------------------------------------------------------------IfElseTypeMismatch
 enum T {
   A(String)

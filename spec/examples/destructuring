@@ -1,0 +1,126 @@
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ("x") {
+      true => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+-------------------------------------------------destructuring_multiple_spreads
+component Main {
+  fun render : String {
+    case ([]) {
+      [...a,...b] => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ("") {
+      [...a,...b] => "a"
+    }
+  }
+}
+---------------------------------------------------destructuring_tuple_mismatch
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {a, b, c} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ("") {
+      {a, b} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {"a", {"b"}} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ({"a", "b"}) {
+      {{a}, b} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = "") {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    let {x, y, z} = "hello"
+    ""
+  }
+}
+---------------------------------------------------destructuring_tuple_mismatch
+component Main {
+  fun render : String {
+    let {x, y, z} = {"hello", "a"}
+    ""
+  }
+}
+-----------------------------------------------------destructuring_enum_missing
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+----------------------------------------------destructuring_enum_option_missing
+enum Maybe(a) {
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+---------------------------------------------destructuring_record_field_missing
+enum Maybe {
+  Just(item : String)
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case ("x") {
+      "a" => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
