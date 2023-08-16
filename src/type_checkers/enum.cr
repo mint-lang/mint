@@ -1,8 +1,5 @@
 module Mint
   class TypeChecker
-    type_error EnumNotDefinedParameter
-    type_error EnumUnusedParameter
-
     def check(node : Ast::Enum) : Checkable
       check_global_types node.name.value, node
 
@@ -16,10 +13,17 @@ module Mint
       end
 
       node.parameters.each do |parameter|
-        raise EnumUnusedParameter, {
-          "name" => parameter.value,
-          "node" => parameter,
-        } unless used_parameters.includes?(parameter)
+        error :enum_unused_parameter do
+          block do
+            text "The parameter"
+            bold parameter.value
+            text "was not used by any of the options."
+          end
+
+          block "Parameters must be used by at least one option."
+
+          snippet parameter
+        end unless used_parameters.includes?(parameter)
       end
 
       Type.new(node.name.value, parameters)
@@ -36,10 +40,17 @@ module Mint
           param =
             names.find(&.value.==(parameter.value))
 
-          raise EnumNotDefinedParameter, {
-            "name" => parameter.value,
-            "node" => parameter,
-          } unless param
+          error :enum_not_defined_parameter do
+            block do
+              text "The parameter"
+              bold parameter.value
+              text "was not defined in the type of the enum."
+            end
+
+            block "Parameters used by options must be defined in the type of the enum."
+
+            snippet parameter
+          end unless param
 
           used_parameters.add param
         end
