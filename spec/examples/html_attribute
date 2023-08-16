@@ -14,3 +14,177 @@ component Main {
 component Main {
   fun render : Html {
     <div name={a
+---------------------------------html_attribute_element_attribute_type_mismatch
+component Main {
+  fun render : Html {
+    <div name={0}/>
+  }
+}
+---------------------------------html_attribute_element_attribute_type_mismatch
+component Main {
+  fun render : Html {
+    <div things=[0]/>
+  }
+}
+---------------------------------html_attribute_element_attribute_type_mismatch
+component Main {
+  fun render : Html {
+    <div disabled="WTF"/>
+  }
+}
+---------------------------------html_attribute_element_attribute_type_mismatch
+component Main {
+  fun render : Html {
+    <div onClick="Hello"/>
+  }
+}
+---------------------------------html_attribute_element_attribute_type_mismatch
+component Main {
+  fun render : Html {
+    <div readonly="WTF"/>
+  }
+}
+--------------------------------html_attribute_component_property_type_mismatch
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test things=[0]/>
+  }
+}
+-------------------------------------html_attribute_component_key_type_mismatch
+component X {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key={0}/>
+  }
+}
+------------------------------------html_attribute_not_found_component_property
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf" test2="asd"/>
+  }
+}
+--------------------------------html_attribute_component_property_type_mismatch
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf" test={0}/>
+  }
+}
+-----------------------------------------------------html_element_ref_forbidden
+component Main {
+  fun render : Html {
+    <div ref="Hello"/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div name="hello"/>
+  }
+}
+-------------------------------------------------------------------------------
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test things=["x"]/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div readOnly={false}/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div disabled={true}/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div onClick={(event : Html.Event) : a { void }}/>
+  }
+}
+-------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <div onClick={() : a { void }}/>
+  }
+}
+-------------------------------------------------------------------------------
+component X {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf"/>
+  }
+}
+-------------------------------------------------------------------------------
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf" test="asd"/>
+  }
+}
+-------------------------------------------------------------------------------
+component X {
+  property test : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key="wtf" test="asd"/>
+  }
+}
