@@ -20,3 +20,38 @@ component Main {
     <test>
   }
 }
+----------------------------------------html_element_style_outside_of_component
+module X {
+  fun render : Html {
+    <div::base/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+------------------------------------html_element_reference_outside_of_component
+module X {
+  fun render : Html {
+    <div as x/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>
+    </div>
+  }
+}

@@ -1,23 +1,30 @@
 module Mint
   class TypeChecker
-    type_error HtmlComponentReferenceOutsideOfComponent
-    type_error HtmlComponentAttributeRequired
-    type_error HtmlComponentNotFoundComponent
-    type_error HtmlComponentGlobalComponent
-
     def check(node : Ast::HtmlComponent) : Checkable
       component =
         ast.components.find(&.name.value.==(node.component.value))
 
-      raise HtmlComponentNotFoundComponent, {
-        "name" => node.component.value,
-        "node" => node,
-      } unless component
+      error :html_component_not_found_component do
+        block do
+          text "I was looking for a component named"
+          bold node.component.value
+          text "but I could not find it."
+        end
 
-      raise HtmlComponentGlobalComponent, {
-        "name" => node.component.value,
-        "node" => node,
-      } if component.global?
+        snippet node
+      end unless component
+
+      error :html_component_global_component do
+        block do
+          text "The component named"
+          bold node.component.value
+          text "is global and cannot be used."
+        end
+
+        block "Global components are added to the body and always rendered."
+
+        snippet node
+      end if component.global?
 
       resolve component
 
@@ -32,16 +39,19 @@ module Mint
       component.properties.each do |property|
         next if property.default
 
-        raise HtmlComponentAttributeRequired, {
-          "property_node" => property,
-          "node"          => node,
-        } unless attributes.includes?(property.name.value)
+        error :html_component_attribute_required do
+          block "One of the required properties were not specified for a component."
+
+          snippet "The property in question is:", property
+          snippet "The component was referenced here:", node
+        end unless attributes.includes?(property.name.value)
       end
 
       node.ref.try do |ref|
-        raise HtmlComponentReferenceOutsideOfComponent, {
-          "node" => ref,
-        } unless component?
+        error :html_component_reference_outside_of_component do
+          block "Referencing components are not allowed outside of components."
+          snippet ref
+        end unless component?
       end
 
       check_html node.children

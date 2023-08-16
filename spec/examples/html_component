@@ -10,3 +10,66 @@ component Main {
 component Main {
   fun render : Html {
     <Test>
+---------------------------------------------html_component_not_found_component
+component Main {
+  fun render : Html {
+    <X/>
+  }
+}
+------------------------------------------------html_component_global_component
+global component X {
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X/>
+  }
+}
+----------------------------------------------html_component_attribute_required
+component Test {
+  property name : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+----------------------------------html_component_reference_outside_of_component
+module X {
+  fun render : Html {
+    <Test as x/>
+  }
+}
+
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+
+-------------------------------------------------------------------------------
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
