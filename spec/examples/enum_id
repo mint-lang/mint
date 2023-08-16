@@ -2,3 +2,50 @@
 component Main {
   fun render {
     A::
+----------------------------------------------------------enum_id_type_mismatch
+enum A {
+  B(String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B(0)) {
+      => ""
+    }
+  }
+}
+-----------------------------------------------------------enum_id_enum_missing
+enum A {
+  B(String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::D(0)) {
+      => ""
+    }
+  }
+}
+-----------------------------------------------------------enum_id_type_missing
+component Main {
+  fun render : String {
+    case (C::D(0)) {
+      => ""
+    }
+  }
+}
+-------------------------------------------------------------------------------
+enum A {
+  B
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B) {
+      => ""
+    }
+  }
+}

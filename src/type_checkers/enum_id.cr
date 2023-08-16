@@ -1,9 +1,5 @@
 module Mint
   class TypeChecker
-    type_error EnumIdTypeMismatch
-    type_error EnumIdTypeMissing
-    type_error EnumIdEnumMissing
-
     # This checks all entities that starts with an uppercase character
     # - enums
     # - record constructors
@@ -17,10 +13,14 @@ module Mint
       elsif parent = records.find(&.name.==(node.option.value))
         check(node, parent)
       elsif name = node.name
-        raise EnumIdTypeMissing, {
-          "name" => name.value,
-          "node" => node,
-        }
+        error :enum_id_type_missing do
+          block do
+            text "I could not find the enum:"
+            bold name.value
+          end
+
+          snippet node
+        end
       else
         variable = Ast::Variable.new(
           value: node.option.value,
@@ -40,12 +40,17 @@ module Mint
       option =
         parent.options.find(&.value.value.==(node.option.value))
 
-      raise EnumIdEnumMissing, {
-        "parent_name" => parent.name.value,
-        "name"        => node.option.value,
-        "parent"      => parent,
-        "node"        => node,
-      } unless option
+      error :enum_id_enum_missing do
+        block do
+          text "I could not find the option"
+          bold node.option.value
+          text "of enum"
+          bold parent.name.value
+        end
+
+        snippet "You tried to reference it here:", node
+        snippet "The enum is defined here:", parent
+      end unless option
 
       option_type =
         resolve option
@@ -59,12 +64,18 @@ module Mint
       unified =
         Comparer.compare_raw(option_type, resolved_type)
 
-      raise EnumIdTypeMismatch, {
-        "got"      => resolved_type,
-        "expected" => option_type,
-        "option"   => option,
-        "node"     => node,
-      } unless unified
+      error :enum_id_type_mismatch do
+        block do
+          text "The"
+          bold "type of an enum"
+          text "does not match its definition"
+        end
+
+        expected option_type, resolved_type
+
+        snippet "The enum is here:", node
+        snippet "The definition is here:", option
+      end unless unified
 
       extracted =
         extract_variables unified
