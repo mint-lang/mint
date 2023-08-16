@@ -1,12 +1,16 @@
 module Mint
   class TypeChecker
-    type_error InlineDirectiveExpectedFile
-
     def check(node : Ast::Directives::Inline) : Checkable
-      raise InlineDirectiveExpectedFile, {
-        "path" => node.real_path.to_s,
-        "node" => node,
-      } unless node.exists?
+      error :inline_directive_expected_file do
+        block "The path specified for an inline directive does not exists."
+
+        block do
+          text "The file should be here: "
+          bold node.real_path.to_s
+        end
+
+        snippet node
+      end unless node.exists?
 
       STRING
     end
