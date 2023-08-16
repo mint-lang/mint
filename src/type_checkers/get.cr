@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error GetTypeMismatch
-
     def static_type_signature(node : Ast::Get) : Checkable
       node.type.try { |type| resolve type } || Variable.new("a")
     end
@@ -17,11 +15,13 @@ module Mint
         resolved =
           Comparer.compare(body_type, return_type)
 
-        raise GetTypeMismatch, {
-          "expected" => return_type,
-          "got"      => body_type,
-          "node"     => node,
-        } unless resolved
+        error :get_type_mismatch do
+          block "The return type of a get does not match its type definition."
+
+          expected return_type, body_type
+
+          snippet node
+        end unless resolved
 
         resolved
       else

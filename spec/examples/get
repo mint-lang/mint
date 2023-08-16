@@ -13,3 +13,27 @@ component Main {
 ---------------------------------------------------get_expected_closing_bracket
 component Main {
   get name { a
+--------------------------------------------------------------get_type_mismatch
+component Main {
+  get test : Number {
+    "asd"
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  get test : Number {
+    0
+  }
+
+  fun render : Html {
+    test
+
+    <div/>
+  }
+}
