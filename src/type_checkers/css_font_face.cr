@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error CssFontFaceInterpolation
-
     def check(node : Ast::CssFontFace) : Checkable
       resolve node.definitions
 
@@ -12,9 +10,11 @@ module Mint
           interpolation =
             definition.value.find(&.is_a?(Ast::Interpolation))
 
-          raise CssFontFaceInterpolation, {
-            "node" => interpolation,
-          } if interpolation
+          error :css_font_face_interpolation do
+            block "Interpolations are not allowed inside a font-face rule."
+
+            snippet interpolation
+          end if interpolation
         end
 
       VOID
