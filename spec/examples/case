@@ -82,3 +82,23 @@ component Main {
     }
   }
 }
+-------------------------------------------------------------------------------
+enum Maybe(value) {
+  Just(value)
+  Nothing
+}
+
+component Main {
+  fun testCase : Maybe(Number) {
+    case (-1) {
+      -1 => Maybe::Nothing
+      => Maybe::Just(2)
+    }
+  }
+
+  fun render : String {
+    testCase()
+
+    ""
+  }
+}

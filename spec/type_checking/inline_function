@@ -10,19 +10,6 @@ component Main {
     ""
   }
 }
-------------------------------------------------------------FunctionTypeMismatch
-component Main {
-  fun test : String {
-    let a =
-      () : Bool { true }
-
-    a()
-  }
-
-  fun render : String {
-    ""
-  }
-}
 ------------------------------------------------------InlineFunctionTypeMismatch
 component Main {
   fun test : String {

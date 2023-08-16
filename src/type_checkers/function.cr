@@ -1,10 +1,5 @@
 module Mint
   class TypeChecker
-    type_error FunctionArgumentMustHaveADefaultValue
-    type_error FunctionArgumentConflict
-    type_error FunctionTypeMismatch
-    type_error FunctionTypeNeeded
-
     def static_type_signature(node : Ast::Function) : Checkable
       arguments =
         node.arguments.map { |argument| resolve argument.type }
@@ -28,18 +23,30 @@ module Mint
         other =
           (arguments - [argument]).find(&.name.value.==(name))
 
-        raise FunctionArgumentMustHaveADefaultValue, {
-          "node" => argument,
-          "name" => name,
-        } if was_default && !argument.default
+        error :function_argument_must_have_a_default_value do
+          block do
+            text "The argument"
+            bold name
+            text "is declared after one that had a default value."
+          end
+
+          block "Arguments that come after ones that have a default value must also have a default value."
+
+          snippet argument
+        end if was_default && !argument.default
 
         was_default = true if argument.default
 
-        raise FunctionArgumentConflict, {
-          "node"  => argument,
-          "other" => other,
-          "name"  => name,
-        } if other
+        error :function_argument_conflict do
+          block do
+            text "The argument"
+            bold name
+            text "is declared multiple times."
+          end
+
+          snippet "It is declared here:", other
+          snippet "It is also declared here:", argument
+        end if other
       end
     end
 
@@ -67,11 +74,13 @@ module Mint
             resolved =
               Comparer.compare(defined_type, final_type)
 
-            raise FunctionTypeMismatch, {
-              "expected" => return_type,
-              "got"      => body_type,
-              "node"     => node,
-            } unless resolved
+            error :function_type_mismatch do
+              block "The return type of a function does not match its type definition."
+
+              expected return_type, body_type
+
+              snippet node
+            end unless resolved
 
             resolved
           else

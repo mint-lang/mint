@@ -7,13 +7,3 @@ component Main {
     ""
   }
 }
-------------------------------------------------------------FunctionTypeMismatch
-component Main {
-  fun test : String {
-    "Hello" == "There"
-  }
-
-  fun render : String {
-    ""
-  }
-}

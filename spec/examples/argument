@@ -7,3 +7,35 @@ component Main {
 ------------------------------------------------argument_expected_default_value
 component Main {
   fun render (a : String =
+-------------------------------------------------------------------------------
+component Main {
+  fun test (a : String) : String {
+    a
+  }
+
+  fun render : String {
+    test("")
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (a : String = "Hello") : String {
+    a
+  }
+
+  fun render : String {
+    test()
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    let test =
+      (a : String = "Hello") : String {
+        a
+      }
+
+    test()
+  }
+}
+

@@ -16,3 +16,110 @@ component Main {
 ----------------------------------------------function_expected_closing_bracket
 component Main {
   fun render { a
+---------------------------------------------------------function_type_mismatch
+component Main {
+  fun test : Bool {
+    "hello"
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+---------------------------------------------------------function_type_mismatch
+component Main {
+  fun test (a : String) : Bool {
+    a
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-----------------------------------------------------function_argument_conflict
+component Main {
+  fun test (a : String, a : String) : Bool {
+    "hello"
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+------------------------------------function_argument_must_have_a_default_value
+component Main {
+  fun test (a : String = "Hello", b : String) : Number {
+    a
+  }
+
+  fun render : String {
+    test()
+  }
+}
+------------------------------------function_argument_must_have_a_default_value
+component Main {
+  fun render : String {
+    let test =
+      (a : String = "Hello", b : String) : Number {
+        a
+      }
+
+    test()
+  }
+}
+---------------------------------------------------------function_type_mismatch
+enum Maybe(value) {
+  Just(value)
+  Nothing
+}
+
+component Main {
+  fun testCase : Maybe(String) {
+    case (-1) {
+      -1 => Maybe::Nothing
+      => Maybe::Just(2)
+    }
+  }
+
+  fun render : String {
+    testCase()
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Bool {
+    true
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (a : Bool) : Bool {
+    a
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (a : a) : a {
+    a
+  }
+
+  fun render : String {
+    ""
+  }
+}
