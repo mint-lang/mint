@@ -44,6 +44,18 @@ component Main {
     X.render()
   }
 }
+-----------------------------------------------------html_content_type_mismatch
+component Main {
+  fun render : Html {
+    <div><{ 0 }></div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div><{ "Hello" }></div>
+  }
+}
 -------------------------------------------------------------------------------
 component Main {
   style base {
