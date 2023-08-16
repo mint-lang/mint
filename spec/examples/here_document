@@ -6,3 +6,40 @@ component Main {
 component Main {
   fun render {
     <<-TEST
+-------------------------------------------here_doc_interpolation_type_mismatch
+component Main {
+  fun render {
+    <<-TEST
+      #{<></>}
+    TEST
+  }
+}
+-------------------------------------------here_doc_interpolation_type_mismatch
+component Main {
+  fun render {
+    <<#TEST
+      #{void}
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <<#TEST
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    <<-TEST
+    TEST
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    <<~TEST
+    TEST
+  }
+}
