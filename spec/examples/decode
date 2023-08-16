@@ -14,3 +14,51 @@ component Main {
 component Main {
   fun render : Html {
     decode as
+---------------------------------------------------------decode_expected_object
+record X {
+  name : String
+}
+
+component Main {
+  fun render : Html {
+    decode "" as X
+
+    <div/>
+  }
+}
+------------------------------------------------------------decode_complex_type
+record X {
+  name : Blah
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
+------------------------------------------------------------decode_complex_type
+record X {
+  name : Maybe(Blah)
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+record X {
+  name : String
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
