@@ -2,3 +2,13 @@
 component Main {
   fun render : Html {
     encode
+------------------------------------------------------------encode_complex_type
+enum Maybe {
+  Just(String)
+}
+
+component Main {
+  fun render : Html {
+    encode Maybe::Just("")
+  }
+}

@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error EncodeComplexType
-
     def check(node : Ast::Encode) : Checkable
       expression =
         node.expression.try do |item|
@@ -13,10 +11,27 @@ module Mint
           end
         end
 
-      raise EncodeComplexType, {
-        "got"  => expression,
-        "node" => node,
-      } unless check_decode(expression)
+      error :encode_complex_type do
+        snippet "This type cannot be automatically encoded:", expression
+
+        block do
+          text "Only these types and records containing them can"
+          text "be automatically decoded:"
+        end
+
+        snippet <<-MINT
+          Map(String, a)
+          Array(a)
+          Maybe(a)
+          String
+          Number
+          Object
+          Time
+          Bool
+        MINT
+
+        snippet node
+      end unless check_decode(expression)
 
       OBJECT
     end
