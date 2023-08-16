@@ -1,29 +1,35 @@
 module Mint
   class TypeChecker
-    type_error HtmlStyleArgumentSizeMismatch
-    type_error HtmlStyleArgumentTypeMismatch
-    type_error HtmlStyleNotFound
-
     def check(node : Ast::HtmlStyle) : Checkable
       style =
         component.styles.find(&.name.value.==(node.name.value))
 
-      raise HtmlStyleNotFound, {
-        "style" => node.name.value,
-        "node"  => node,
-      } unless style
+      error :html_style_not_found do
+        block do
+          text "I was looking for the style"
+          bold node.name.value
+          text "but it's not defined in the component."
+        end
+
+        snippet node
+      end unless style
 
       resolve style
 
       required_count =
         style.arguments.count { |arg| !arg.default }
 
-      raise HtmlStyleArgumentSizeMismatch, {
-        "call_size" => node.arguments.size.to_s,
-        "size"      => required_count.to_s,
-        "node"      => node,
-      } if node.arguments.size > style.arguments.size ||
-           node.arguments.size < required_count
+      error :html_style_argument_size_mismatch do
+        block do
+          text "The style takes"
+          bold required_count.to_s
+          text "arguments, while you tried to call it with"
+          bold node.arguments.size.to_s
+        end
+
+        snippet "You tried to call it here:", node
+      end if node.arguments.size > style.arguments.size ||
+             node.arguments.size < required_count
 
       node.arguments
         .zip(style.arguments[0, node.arguments.size])
@@ -34,12 +40,17 @@ module Mint
           call_arg_type =
             resolve(call_arg)
 
-          raise HtmlStyleArgumentTypeMismatch, {
-            "index"    => ordinal(index + 1),
-            "expected" => style_arg_type,
-            "got"      => call_arg_type,
-            "node"     => node,
-          } unless Comparer.compare(style_arg_type, call_arg_type)
+          error :html_style_argument_type_mismatch do
+            block do
+              text "The"
+              bold "#{ordinal(index + 1)} argument"
+              text "to a style is causing a mismatch."
+            end
+
+            snippet "The style is expecting the #{index} argument to be:", style_arg_type
+            snippet "Instead it is:", call_arg_type
+            snippet "You tried to call it here:", node
+          end unless Comparer.compare(style_arg_type, call_arg_type)
         end
 
       lookups[node] = style

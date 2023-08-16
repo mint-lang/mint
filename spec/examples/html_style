@@ -2,3 +2,60 @@
 component Main {
   fun render : Html {
     <div::root(
+-----------------------------------------------------------html_style_not_found
+component Main {
+  fun render : Html {
+    <div::base/>
+  }
+}
+----------------------------------------------html_style_argument_size_mismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello")/>
+  }
+}
+----------------------------------------------html_style_argument_size_mismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base(0,1,2)/>
+  }
+}
+----------------------------------------------html_style_argument_type_mismatch
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base(true, true)/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello", true)/>
+  }
+}

@@ -67,3 +67,19 @@ component Main {
     </div>
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div style="opacity:0;"/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base style="opacity:0;"/>
+  }
+}
