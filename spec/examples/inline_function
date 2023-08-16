@@ -18,3 +18,29 @@ component Main {
 component Main {
   fun render : Html {
     () { a
+--------------------------------------------------inline_function_type_mismatch
+component Main {
+  fun test : String {
+    let a =
+      () : String { true }
+
+    a()
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test : String {
+    let a =
+      () : String { "Hello" }
+
+    a()
+  }
+
+  fun render : String {
+    ""
+  }
+}

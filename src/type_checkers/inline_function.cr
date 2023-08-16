@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error InlineFunctionTypeMismatch
-
     def static_type_signature(node : Ast::InlineFunction) : Checkable
       arguments =
         node.arguments.map { |argument| resolve argument.type }
@@ -39,11 +37,12 @@ module Mint
             resolved =
               Comparer.compare(defined_type, final_type)
 
-            raise InlineFunctionTypeMismatch, {
-              "expected" => return_type,
-              "got"      => body_type,
-              "node"     => node,
-            } unless resolved
+            error :inline_function_type_mismatch do
+              block "The return type of an anonymous function does not match its type definition."
+
+              expected return_type, body_type
+              snippet node
+            end unless resolved
 
             Comparer.normalize(defined_type)
           else
