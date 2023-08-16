@@ -10,3 +10,19 @@ component Main {
 component Main {
   fun render : String {
     @documentation(Test
+---------------------------------------documentation_directive_entity_not_found
+component Main {
+  fun render : String {
+    @documentation(X)
+
+    "Hello There"
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    @documentation(Main)
+
+    "Hello There"
+  }
+}
