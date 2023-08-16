@@ -1,10 +1,5 @@
 module Mint
   class TypeChecker
-    type_error ForArrayOrSetArgumentsMismatch
-    type_error ForConditionTypeMismatch
-    type_error ForMapArgumentsMismatch
-    type_error ForTypeMismatch
-
     def check(node : Ast::For) : Checkable
       subject =
         resolve node.subject
@@ -18,18 +13,32 @@ module Mint
       is_valid =
         is_array_or_set || is_map
 
-      raise ForTypeMismatch, {
-        "node" => node,
-        "got"  => subject,
-      } unless is_valid
+      error :for_type_mismatch do
+        block "The iterable object of a for expression has an invalid type."
+        block "I was expecting one of the following types:"
 
-      raise ForMapArgumentsMismatch, {
-        "node" => node,
-      } if is_map && !node.arguments.size.in?(2, 3)
+        snippet "Array(a), Set(a), Map(a, b)"
+        snippet "Instead it is:", subject
+        snippet node
+      end unless is_valid
 
-      raise ForArrayOrSetArgumentsMismatch, {
-        "node" => node,
-      } if is_array_or_set && !node.arguments.size.in?(1, 2)
+      error :for_map_arguments_mismatch do
+        block do
+          text "If the iterable object of a for expression is a map."
+          text "Then it needs to the have two arguments."
+        end
+
+        snippet node
+      end if is_map && !node.arguments.size.in?(2, 3)
+
+      error :for_array_or_set_arguments_mismatch do
+        block do
+          text "If the iterable object of a for expression is a set or an array."
+          text "Then it needs to the have only one argument."
+        end
+
+        snippet node
+      end if is_array_or_set && !node.arguments.size.in?(1, 2)
 
       arguments =
         node
@@ -47,11 +56,12 @@ module Mint
         node.condition.try do |condition|
           condition_type = resolve condition
 
-          raise ForConditionTypeMismatch, {
-            "node"     => condition,
-            "got"      => condition_type,
-            "expected" => BOOL,
-          } unless Comparer.compare(BOOL, condition_type)
+          error :for_condition_type_mismatch do
+            block "The condition of a for expression has an invalid type."
+            expected BOOL, condition_type
+
+            snippet condition
+          end unless Comparer.compare(BOOL, condition_type)
         end
 
         resolve node.body

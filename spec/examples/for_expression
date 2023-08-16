@@ -23,3 +23,89 @@ component Main {
   fun render : Array(Html) {
     for (a, b of c) {
       a
+--------------------------------------------------------------for_type_mismatch
+component Main {
+  fun render : Array(Html) {
+    for (item of "A") {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------for_array_or_set_arguments_mismatch
+component Main {
+  fun render : Array(Html) {
+    for (item, item2, item3 of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+-----------------------------------------------------for_map_arguments_mismatch
+component Main {
+  get map : Map(String, String) {
+    ``
+  }
+
+  fun render : Array(Html) {
+    for (item of map) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+----------------------------------------------------for_condition_type_mismatch
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    } when {
+      item
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (item, index of ["A", "B"]) {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (key, value of `` as Map(String, String)) {
+      <div>
+        <{ key }>
+      </div>
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for (key, value, index of `` as Map(String, String)) {
+      <div>
+        <{ key }>
+      </div>
+    }
+  }
+}
