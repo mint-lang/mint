@@ -1,8 +1,5 @@
 module Mint
   class TypeChecker
-    type_error StatementLastTarget
-    type_error ReturnCallTypeMismatch
-
     def check(node : Ast::Block) : Checkable
       statements =
         node.statements.select(Ast::Statement)
@@ -31,20 +28,29 @@ module Mint
         last =
           cache[statements.last]
 
-        raise StatementLastTarget, {
-          "node" => node,
-        } if statements.last.target
+        error :statement_last_target do
+          block do
+            text "The"
+            bold "last statement"
+            text "of a block cannot be an"
+            bold "assignment"
+            text "."
+          end
+
+          snippet node
+        end if statements.last.target
 
         if returns = @returns[node]?
           returns.each do |item|
             type =
               cache[item]
 
-            raise ReturnCallTypeMismatch, {
-              "node"     => item,
-              "expected" => last,
-              "got"      => type,
-            } unless Comparer.compare(last, type)
+            error :statement_return_type_mismatch do
+              block "The type of a return call does not match the return type of the block."
+
+              expected last, type
+              snippet "It is here:", item
+            end unless Comparer.compare(last, type)
           end
         end
 

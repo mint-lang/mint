@@ -1,6 +1,0 @@
-component Main {
-  fun render : String {
-    let x = "hello"
-    ""
-  }
-}

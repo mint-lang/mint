@@ -1,25 +1,30 @@
 module Mint
   class TypeChecker
-    type_error StatementReturnRequired
-
     def check(node : Ast::Statement) : Checkable
-      case target = node.target
-      when Ast::TupleDestructuring,
-           Ast::ArrayDestructuring,
-           Ast::EnumDestructuring
-        case item = node.expression
-        when Ast::Operation
-          raise StatementReturnRequired, {
-            "node" => node,
-          } unless item.right.is_a?(Ast::ReturnCall)
-        else
-          unless target.exhaustive?
-            raise StatementReturnRequired, {
-              "node" => node,
-            } unless node.if_node
+      required =
+        case target = node.target
+        when Ast::TupleDestructuring,
+             Ast::ArrayDestructuring,
+             Ast::EnumDestructuring
+          case item = node.expression
+          when Ast::Operation
+            !item.right.is_a?(Ast::ReturnCall)
+          else
+            !target.exhaustive? && !node.if_node
           end
         end
-      end
+
+      error :statement_return_required do
+        block do
+          text "This"
+          bold "statement"
+          text "needs a "
+          bold "return call"
+          text "because the destructuring is not exhaustive."
+        end
+
+        snippet node
+      end if required
 
       type =
         resolve node.expression
