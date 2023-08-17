@@ -13,3 +13,93 @@ component Main {
 -----------------------------------------use_expected_condition_closing_bracket
 component Main {
   use A { a: "" } when { true
+---------------------------------------------------------use_not_found_provider
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+---------------------------------------------------------use_condition_mismatch
+record Provider.Data {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    "asd"
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------use_subscription_mismatch
+record Provider.Data {
+  a : String,
+  b : Bool
+}
+
+record Test {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+record Provider.Data {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
