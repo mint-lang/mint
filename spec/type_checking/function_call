@@ -7,15 +7,3 @@ component Main {
     b()
   }
 }
------------------------------------------------------------------VariableMissing
-component Main {
-  fun b : String {
-    x()
-  }
-
-  fun render : Html {
-    b()
-
-    <div/>
-  }
-}

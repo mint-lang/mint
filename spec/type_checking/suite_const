@@ -10,21 +10,3 @@ suite "Suite" {
     ONE_PLUS_ONE == TWO
   }
 }
------------------------------------------------------------------VariableMissing
-suite "Suite" {
-  const TWO = 2
-
-  test "Test" {
-    1 + 1 == THREE
-  }
-}
------------------------------------------------------------------VariableMissing
-suite "Suite" {
-  const TWO = 2
-}
-
-suite "Suite 2" {
-  test "Test" {
-    1 + 1 == TWO
-  }
-}

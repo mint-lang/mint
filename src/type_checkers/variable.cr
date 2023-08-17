@@ -1,25 +1,31 @@
 module Mint
   class TypeChecker
-    type_error VariableReserved
-    type_error VariableMissing
-
     RESERVED =
       %w(break case class const continue debugger default delete do else
         export extends for if import in instanceof new return super
         switch this throw typeof var void while yield state)
 
     def check(node : Ast::Variable) : Checkable
-      raise VariableReserved, {
-        "name" => node.value,
-        "node" => node,
-      } if RESERVED.includes?(node.value)
+      error :variable_reserved do
+        block do
+          text "The"
+          bold node.value
+          text "as a variable name is a reserved word please use something else."
+        end
+
+        snippet node
+      end if RESERVED.includes?(node.value)
 
       item = lookup_with_level(node)
 
-      raise VariableMissing, {
-        "name" => node.value,
-        "node" => node,
-      } unless item
+      error :variable_missing do
+        block do
+          text "I could not find a variable, function or property with the name:"
+          bold node.value
+        end
+
+        snippet node
+      end unless item
 
       variables[node] = item
 

@@ -233,20 +233,6 @@ module Mint
       scope.with(nodes) { yield }
     end
 
-    type_error VariableTaken
-
-    def check_variable(variable)
-      variable.try do |name|
-        existing = lookup(name)
-
-        raise VariableTaken, {
-          "name"     => name.value,
-          "existing" => existing,
-          "node"     => name,
-        } if existing
-      end
-    end
-
     # Helpers for checking things
     # --------------------------------------------------------------------------
 

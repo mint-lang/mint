@@ -1,0 +1,62 @@
+---------------------------------------------------------------variable_missing
+component Main {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    c
+  }
+
+  fun render : Html {
+    b()
+  }
+}
+---------------------------------------------------------------variable_missing
+component Main {
+  style test(name : String) {
+    color: #{name2};
+  }
+
+  fun render : Html {
+    <div::test("Name")/>
+  }
+}
+---------------------------------------------------------------variable_missing
+suite "Suite" {
+  const TWO = 2
+
+  test "Test" {
+    1 + 1 == THREE
+  }
+}
+---------------------------------------------------------------variable_missing
+suite "Suite 2" {
+  test "Test" {
+    1 + 1 == TWO
+  }
+}
+--------------------------------------------------------------variable_reserved
+component Main {
+  fun b(default : String) : String {
+    default
+  }
+
+  fun render : Html {
+    b("")
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a
+  }
+
+  fun render : String {
+    b()
+  }
+}
