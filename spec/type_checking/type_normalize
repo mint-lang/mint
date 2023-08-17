@@ -11,23 +11,3 @@ module Test {
     test1() + test2()
   }
 }
-----------------------------------------------------OperationNumericTypeMismatch
-module Test {
-  fun test1 : a {
-    "I'm a String"
-  }
-
-  fun test2 : a {
-    123
-  }
-
-  fun test3 : a {
-    [4, 5, 6, 7]
-  }
-
-  fun test4 : String {
-    test1() * test2() * test3()
-
-    ""
-  }
-}

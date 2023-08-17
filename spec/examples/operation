@@ -2,6 +2,132 @@
 component Main {
   fun render : String {
     "A" +
+------------------------------------------------operation_numeric_type_mismatch
+component Main {
+  fun test : Number {
+    "Hello" * 0
+  }
+
+  fun render : String {
+    ""
+  }
+}
+------------------------------------------------operation_numeric_type_mismatch
+component Main {
+  fun test : Number {
+    0 * "Hello"
+  }
+
+  fun render : String {
+    ""
+  }
+}
+------------------------------------------------operation_numeric_type_mismatch
+component Main {
+  fun test : Number {
+    "Blah" * "Hello"
+  }
+
+  fun render : String {
+    ""
+  }
+}
+---------------------------------------------------operation_plus_type_mismatch
+component Main {
+  fun render : String {
+    "Hello" + void
+  }
+}
+---------------------------------------------------operation_plus_type_mismatch
+component Main {
+  fun render : String {
+    "Hello" + true
+  }
+}
+---------------------------------------------------operation_plus_type_mismatch
+component Main {
+  fun render : String {
+    true + "Hello"
+  }
+}
+
+-----------------------------------------------------operation_or_type_mismatch
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Maybe::Just(0) or "Hello"
+  }
+}
+-----------------------------------------------operation_or_not_maybe_or_result
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    0 or "Hello"
+  }
+}
+-------------------------------------------------------operation_pipe_ambiguous
+component Main {
+  fun toString(value : Number) : String {
+    ""
+  }
+
+  fun render : String {
+    "" + 0 |> toString + "" + 0 |> toString
+  }
+}
+------------------------------------------------operation_numeric_type_mismatch
+module Test {
+  fun test1 : a {
+    "I'm a String"
+  }
+
+  fun test2 : a {
+    123
+  }
+
+  fun test3 : a {
+    [4, 5, 6, 7]
+  }
+
+  fun test4 : String {
+    test1() * test2() * test3()
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    0 * 10
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "Hello" == "There"
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Maybe::Nothing or "Hello"
+  }
+}
 -------------------------------------------------------------------------------
 component Main {
   fun render : String {
@@ -10,11 +136,7 @@ component Main {
 }
 -------------------------------------------------------------------------------
 component Main {
-  fun test : Bool {
-    "Hello" == "There"
-  }
-
   fun render : String {
-    ""
+    "Hello" + "There"
   }
 }

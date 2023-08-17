@@ -1,13 +1,60 @@
 module Mint
   class TypeChecker
-    type_error OperationNumericTypeMismatch
-    type_error OperationTypeMismatch
+    def operation_type_mismatch(
+      right : TypeChecker::Checkable,
+      left : TypeChecker::Checkable,
+      node : Ast::Node
+    )
+      error :operation_type_mismatch do
+        block do
+          text "The type of the right operand does not match the type of the"
+          text "left operand."
+        end
 
-    type_error OperationPlusTypeMismatch
-    type_error OperationPipeAmbiguous
+        expected left, right
+        snippet node
+      end
+    end
 
-    type_error OperationOrNotMaybeOrResult
-    type_error OperationOrTypeMismatch
+    def operation_plus_type_mismatch(
+      value : TypeChecker::Checkable,
+      node : Ast::Node,
+      side : String
+    )
+      error :operation_plus_type_mismatch do
+        block do
+          text "The type of the"
+          bold side
+          text "operand does not match the type of the operation:"
+          bold "+"
+        end
+
+        block "I was expecting one of these types:"
+
+        snippet "Number, String"
+        snippet "Instead it is:", value
+        snippet node
+      end
+    end
+
+    def operation_numeric_type_mismatch(
+      value : TypeChecker::Checkable,
+      operator : String,
+      node : Ast::Node,
+      side : String
+    )
+      error :operation_numeric_type_mismatch do
+        block do
+          text "The type of the"
+          bold side
+          text "operand does not match the type of the operation:"
+          bold operator
+        end
+
+        expected TypeChecker::NUMBER, value
+        snippet node
+      end
+    end
 
     def check(node : Ast::Operation) : Checkable
       case node.operator
@@ -15,67 +62,70 @@ module Mint
         right = resolve node.right
         left = resolve node.left
 
-        raise OperationTypeMismatch, {
-          "right" => right,
-          "left"  => left,
-          "node"  => node,
-        } unless Comparer.compare(left, right)
+        operation_type_mismatch(
+          right: right,
+          left: left,
+          node: node,
+        ) unless Comparer.compare(left, right)
 
         BOOL
       when "+"
         right = resolve node.right
         left = resolve node.left
 
-        raise OperationPlusTypeMismatch, {
-          "side"  => "left",
-          "value" => left,
-          "node"  => node,
-        } unless Comparer.compare(left, NUMBER) ||
+        operation_plus_type_mismatch(
+          side: "left",
+          value: left,
+          node: node,
+        ) unless Comparer.compare(left, NUMBER) ||
                  Comparer.compare(left, STRING)
 
-        raise OperationPlusTypeMismatch, {
-          "side"  => "right",
-          "value" => right,
-          "node"  => node,
-        } unless Comparer.compare(right, NUMBER) ||
+        operation_plus_type_mismatch(
+          side: "right",
+          value: right,
+          node: node,
+        ) unless Comparer.compare(right, NUMBER) ||
                  Comparer.compare(right, STRING)
 
-        raise OperationTypeMismatch, {
-          "right" => right,
-          "left"  => left,
-          "node"  => node,
-        } unless Comparer.compare(left, right)
+        operation_type_mismatch(
+          right: right,
+          left: left,
+          node: node,
+        ) unless Comparer.compare(left, right)
 
         left
       when "-", "*", "/", "%", "**"
         right = resolve node.right
         left = resolve node.left
 
-        raise OperationNumericTypeMismatch, {
-          "operator" => node.operator,
-          "side"     => "left",
-          "value"    => left,
-          "node"     => node,
-        } unless Comparer.compare(left, NUMBER)
+        operation_numeric_type_mismatch(
+          operator: node.operator,
+          side: "left",
+          value: left,
+          node: node,
+        ) unless Comparer.compare(left, NUMBER)
 
-        raise OperationNumericTypeMismatch, {
-          "operator" => node.operator,
-          "side"     => "right",
-          "value"    => right,
-          "node"     => node,
-        } unless Comparer.compare(right, NUMBER)
+        operation_numeric_type_mismatch(
+          operator: node.operator,
+          side: "right",
+          value: right,
+          node: node,
+        ) unless Comparer.compare(right, NUMBER)
 
-        raise OperationTypeMismatch, {
-          "right" => right,
-          "left"  => left,
-          "node"  => node,
-        } unless Comparer.compare(left, right)
+        operation_type_mismatch(
+          right: right,
+          left: left,
+          node: node,
+        ) unless Comparer.compare(left, right)
 
         NUMBER
       when "|>"
-        raise OperationPipeAmbiguous, {
-          "node" => node,
-        }
+        error :operation_pipe_ambiguous do
+          block "We cannot determine the order of the operands because the pipe makes it ambiguous."
+          block "Wrap operands in parentheses to avoid ambiguity."
+
+          snippet node
+        end
       when "or"
         right = resolve node.right
         left = resolve node.left
@@ -84,14 +134,21 @@ module Mint
         when Ast::ReturnCall
           left
         else
-          raise OperationOrNotMaybeOrResult, {
-            "expected" => MAYBE,
-            "node"     => node,
-            "got"      => left,
-          } unless Comparer.compare(left, MAYBE) ||
-                   Comparer.compare(left, RESULT)
+          error :operation_or_not_maybe_or_result do
+            block do
+              text "For the"
+              bold "or"
+              text "operation the"
+              bold "left operand"
+              text "is invalid."
+            end
 
-          expected =
+            expected MAYBE, left
+            snippet node
+          end unless Comparer.compare(left, MAYBE) ||
+                     Comparer.compare(left, RESULT)
+
+          type =
             case left.name
             when "Result"
               left.parameters[1]
@@ -99,13 +156,17 @@ module Mint
               left.parameters[0]
             end
 
-          raise OperationOrTypeMismatch, {
-            "expected" => expected,
-            "got"      => right,
-            "node"     => node,
-          } unless Comparer.compare(expected, right)
+          error :operation_or_type_mismatch do
+            block do
+              text "The type of the default value does not match the type of the"
+              text "parameter of the maybe."
+            end
 
-          expected
+            expected type, right
+            snippet node
+          end unless Comparer.compare(type, right)
+
+          type
         end
       else
         raise Mint::TypeError # Can never happen
