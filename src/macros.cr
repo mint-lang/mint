@@ -1,14 +1,4 @@
 module Mint
-  class MintJson
-    macro json_error(name)
-      class {{name}} < JsonError
-        def instance
-          Messages::{{name.names.last}}.new(locals)
-        end
-      end
-    end
-  end
-
   class Parser
     macro consume_while(condition)
       while {{condition}}

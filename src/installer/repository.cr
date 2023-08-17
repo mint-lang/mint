@@ -91,18 +91,20 @@ module Mint
         checkout target
 
         MintJson.new(File.read(path), directory, path)
-      rescue error : JsonError
-        error :repository_invalid_mint_json do
-          block do
-            text "I could not parse the mint.json for the package:"
-            bold id.uncolorize
-            text "for the version or tag:"
-            bold target.to_s
-          end
-        end
       rescue error : Error2
-        # Propagate RepositoryCouldNotCheckout
-        raise error
+        if error.name.to_s.starts_with?("mint_json")
+          error :repository_invalid_mint_json do
+            block do
+              text "I could not parse the mint.json for the package:"
+              bold id.uncolorize
+              text "for the version or tag:"
+              bold target.to_s
+            end
+          end
+        else
+          # Propagate RepositoryCouldNotCheckout
+          raise error
+        end
       rescue error
         error :repository_no_mint_json do
           block do

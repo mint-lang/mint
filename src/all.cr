@@ -30,7 +30,6 @@ require "./render/**"
 require "./utils/**"
 
 require "./message"
-require "./messages/**"
 
 require "./ast/node"
 require "./ast/**"
