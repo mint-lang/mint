@@ -91,7 +91,7 @@ module Mint
         checkout target
 
         MintJson.new(File.read(path), directory, path)
-      rescue error : Error2
+      rescue error : Error
         if error.name.to_s.starts_with?("mint_json")
           error :repository_invalid_mint_json do
             block do

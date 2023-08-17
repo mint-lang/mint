@@ -1074,7 +1074,7 @@ module Mint
         when "constraint"
           constraint = parse_constraint
         else
-          raise Error2.new(:mint_json_unkown_dependency_field)
+          raise Error.new(:mint_json_unkown_dependency_field)
         end
       end
 

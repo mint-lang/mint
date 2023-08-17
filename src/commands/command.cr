@@ -36,7 +36,7 @@ module Mint
         rescue CliException
           # In case of a CLI exception just exit
           error nil, position
-        rescue error : Error2
+        rescue error : Error
           # In case of an error print it
           error error.to_terminal, position
         rescue exception : Exception

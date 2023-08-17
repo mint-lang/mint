@@ -32,7 +32,7 @@ module Mint
         @position = start_position unless node
         ast.nodes.delete_at(node_size...) unless node
         node
-      rescue error : Error2
+      rescue error : Error
         @position = start_position
         ast.nodes.delete_at(node_size...)
         raise error

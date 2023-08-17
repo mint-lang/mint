@@ -31,7 +31,7 @@ module Mint
               return subscription
             else
               # Should not happen
-              raise Mint::Error2.new(:never)
+              raise Mint::Error.new(:never)
             end
           else
             entity.functions.find(&.name.value.==(variable_value))

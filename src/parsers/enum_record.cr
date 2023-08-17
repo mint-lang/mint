@@ -16,7 +16,7 @@ module Mint
           to: position,
           input: data)
       end
-    rescue error : Error2
+    rescue error : Error
       nil
     end
   end

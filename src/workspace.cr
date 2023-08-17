@@ -44,7 +44,7 @@ module Mint
           .tap(&.watch)
     end
 
-    alias ChangeProc = Proc(Ast | Error2, Nil)
+    alias ChangeProc = Proc(Ast | Error, Nil)
 
     @event_handlers = {} of String => Array(ChangeProc)
     @cache = {} of String => Ast
@@ -54,7 +54,7 @@ module Mint
     getter cache : Hash(String, Ast)
     getter formatter : Formatter
     getter json : MintJson
-    getter error : Error2?
+    getter error : Error?
     getter root : String
 
     property? format : Bool = false
@@ -192,7 +192,7 @@ module Mint
       @error = nil
 
       call "change", ast
-    rescue error : Error2
+    rescue error : Error
       @error = error
 
       call "change", error
@@ -210,7 +210,7 @@ module Mint
       @error = nil
 
       call "change", ast
-    rescue error : Error2
+    rescue error : Error
       @error = error
 
       call "change", error

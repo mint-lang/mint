@@ -30,7 +30,7 @@ module Mint
           when Ast
             @ast = result.normalize
             @error = nil
-          when Error2
+          when Error
             raise result
           end
         end
@@ -41,7 +41,7 @@ module Mint
           when Ast
             @ast = result.normalize
             @error = nil
-          when Error2
+          when Error
             @error = result.to_html
             @ast = Ast.new
           end

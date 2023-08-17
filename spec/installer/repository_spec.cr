@@ -21,7 +21,7 @@ describe "Repository" do
         begin
           repository.json("master")
           fail "Should have raised!"
-        rescue error : Mint::Error2
+        rescue error : Mint::Error
           error.to_terminal.to_s.uncolorize.should eq(message)
         end
       end
@@ -41,7 +41,7 @@ describe "Repository" do
         begin
           repository.json("master")
           fail "Should have raised!"
-        rescue error : Mint::Error2
+        rescue error : Mint::Error
           error.to_terminal.to_s.uncolorize.should eq(message)
         end
       end
@@ -64,7 +64,7 @@ describe "Repository" do
       begin
         repository.versions
         fail "Should have raised!"
-      rescue error : Mint::Error2
+      rescue error : Mint::Error
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -85,7 +85,7 @@ describe "Repository" do
       begin
         repository.checkout("master")
         fail "Should have raised!"
-      rescue error : Mint::Error2
+      rescue error : Mint::Error
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -106,7 +106,7 @@ describe "Repository" do
       begin
         Mint::Installer::Repository.open("name", "error")
         fail "Should have raised!"
-      rescue error : Mint::Error2
+      rescue error : Mint::Error
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -127,7 +127,7 @@ describe "Repository" do
       begin
         Mint::Installer::Repository.open("name", "error")
         fail "Should have raised!"
-      rescue error : Mint::Error2
+      rescue error : Mint::Error
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end

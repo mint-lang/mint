@@ -111,7 +111,7 @@ module Mint
       </html>
       HTML
 
-    rescue error : Error2
+    rescue error : Error
       error.to_html
     rescue error
       "Something went wrong: #{error.inspect_with_backtrace}"

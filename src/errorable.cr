@@ -7,21 +7,21 @@ module Mint
   # the including entity must define (unusally in the initialize method).
   module Errorable
     # The errors found during parsing.
-    getter errors : Array(Error2) = [] of Error2
+    getter errors : Array(Error) = [] of Error
 
     def error(name : Symbol, &)
-      raise Error2.new(name).tap { |error| with error yield }
-      # errors << Error2.new(name).tap { |error| with error yield }
+      raise Error.new(name).tap { |error| with error yield }
+      # errors << Error.new(name).tap { |error| with error yield }
       # nil
     end
 
     def self.error(name : Symbol, &)
-      raise Error2.new(name).tap { |error| with error yield }
+      raise Error.new(name).tap { |error| with error yield }
     end
   end
 
   # Represents a raisable rich and descriptive error.
-  class Error2 < Exception
+  class Error < Exception
     alias Element = Text | Bold | Code
 
     record Snippet, value : Ast::Node | String | TypeChecker::Checkable
@@ -110,20 +110,20 @@ module Mint
         #   renderer.type element.value
         # when Title
         #   renderer.title element.value
-        when Error2::Snippet
+        when Error::Snippet
           case node = element.value
           when Ast::Node
             renderer.snippet node
           end
-        when Array(Error2::Element)
+        when Array(Error::Element)
           renderer.block do
             element.each do |item|
               case item
-              when Error2::Text
+              when Error::Text
                 text item.value
-              when Error2::Bold
+              when Error::Bold
                 bold item.value
-              when Error2::Code
+              when Error::Code
                 code item.value
               end
             end
@@ -154,20 +154,20 @@ module Mint
         #   renderer.type element.value
         # when Title
         #   renderer.title element.value
-        when Error2::Snippet
+        when Error::Snippet
           case node = element.value
           when Ast::Node
             renderer.snippet node
           end
-        when Array(Error2::Element)
+        when Array(Error::Element)
           renderer.block do
             element.each do |item|
               case item
-              when Error2::Text
+              when Error::Text
                 text item.value
-              when Error2::Bold
+              when Error::Bold
                 bold item.value
-              when Error2::Code
+              when Error::Code
                 code item.value
               end
             end

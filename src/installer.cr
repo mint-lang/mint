@@ -123,7 +123,7 @@ module Mint
 
             begin
               repository.json(version)
-            rescue error : Error2
+            rescue error : Error
               # If the mint.json is invalid or missing then this version
               # is eliminated.
               @eliminated << {package, base, constraint}
@@ -238,7 +238,7 @@ module Mint
           resolve_dependencies(
             json.dependencies,
             {name: dependency.name, version: version.to_s})
-        rescue Error2
+        rescue Error
           # Since we don't have a valid json we don't resolve the dependencies
         end
       end

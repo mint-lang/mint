@@ -46,11 +46,11 @@ Dir
             type_checker.check
 
             type_checker.cache.size.should_not eq(0)
-          rescue item : Mint::Error2
+          rescue item : Mint::Error
             item.name.to_s.should eq(error)
           end
 
-          item.should be_a(Mint::Error2)
+          item.should be_a(Mint::Error)
 
           # Check if they are rendered correctly.
           # item.try(&.to_terminal)
