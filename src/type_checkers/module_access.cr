@@ -1,8 +1,5 @@
 module Mint
   class TypeChecker
-    type_error ModuleAccessNotFoundFunction
-    type_error ModuleAccessNotFoundModule
-
     def check(node : Ast::ModuleAccess) : Checkable
       name =
         node.name
@@ -54,17 +51,26 @@ module Mint
             entity.gets.find(&.name.value.==(variable_value)) ||
             entity.constants.find(&.name.value.==(variable_value))
         else
-          raise ModuleAccessNotFoundModule, {
-            "name" => name.value,
-            "node" => node,
-          }
+          error :module_access_not_found_module do
+            block do
+              text "I cannot find a module or store with the name"
+              bold name.value
+            end
+
+            snippet node
+          end
         end
 
-      raise ModuleAccessNotFoundFunction, {
-        "name"   => variable_value,
-        "entity" => name.value,
-        "node"   => node,
-      } unless item
+      error :module_access_not_found_function do
+        block do
+          text "The entity"
+          bold variable_value
+          text "you tried to reference does not exists in the module or store"
+          bold name.value
+        end
+
+        snippet node
+      end unless item
 
       lookups[node] = entity
       lookups[node.variable] = item

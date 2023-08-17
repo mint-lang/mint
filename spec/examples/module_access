@@ -2,3 +2,97 @@
 component Main {
   fun render : String {
     A.
+-----------------------------------------------module_access_not_found_function
+module Test {
+  fun b : Function(String) {
+    Test.a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------module_access_not_found_module
+module Test {
+  fun b : Function(String) {
+    XTest.a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : Function(String) {
+    Test.a
+  }
+}
+
+component Main {
+  fun render : String {
+    let x =
+      Test.b()
+
+    x()
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    Test.a
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  test : String
+}
+
+provider Test : Test {
+  fun print (a : String) : String {
+    a
+  }
+}
+
+component Main {
+  use Test {
+    test: ""
+  }
+
+  fun render : String {
+    Test.print("x")
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  test : String
+}
+provider Test : Test {
+  fun print (a : String) : String {
+    a
+  }
+}
+
+component Main {
+  use Test {
+    test: ""
+  }
+
+  fun render : String {
+    Test.subscriptions
+    Test.print("a")
+  }
+}
+

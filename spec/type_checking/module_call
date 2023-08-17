@@ -30,27 +30,3 @@ component Main {
     Test.b()
   }
 }
-------------------------------------------------------ModuleAccessNotFoundModule
-module Test {
-  fun b : String {
-    X.x()
-  }
-}
-
-component Main {
-  fun render : String {
-    Test.b()
-  }
-}
-----------------------------------------------------ModuleAccessNotFoundFunction
-module Test {
-  fun b : String {
-    Test.a("test")
-  }
-}
-
-component Main {
-  fun render : String {
-    Test.b()
-  }
-}
