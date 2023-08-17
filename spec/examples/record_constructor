@@ -1,0 +1,60 @@
+--------------------------------------record_constructor_argument_type_mismatch
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    let item = Test(32, "Joe")
+
+    item.name
+  }
+}
+--------------------------------------record_constructor_argument_size_mismatch
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    let item = Test(32, "Joe", "Third")
+
+    item.name
+  }
+}
+-------------------------------------------------------------------------------
+record User {
+  name : String,
+  age : Number,
+  active : Bool,
+}
+
+component Main {
+  fun render : String {
+    let partial =
+      User("John Doe", 32)
+
+    partial(true) == {
+      name: "John Doe",
+      active: true,
+      age: 32
+    }
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    let item = Test("Joe", 32)
+
+    item.name
+  }
+}
