@@ -2,3 +2,66 @@
 component Main {
   fun render : String {
     next a
+---------------------------------------------------next_call_invalid_invocation
+module Test {
+  fun test : Promise(Void) {
+    next { age: 30 }
+  }
+}
+
+component Main {
+  fun render : Html {
+    let test =
+      Test.test()
+
+    <div/>
+  }
+}
+--------------------------------------------------next_call_state_type_mismatch
+component Main {
+  state name : String = "Joe"
+
+  fun render : Html {
+    next { name: 30 }
+
+    <div/>
+  }
+}
+------------------------------------------------------next_call_state_not_found
+component Main {
+  state name : String = "Joe"
+
+  fun render : Html {
+    next { age: 30 }
+
+    <div/>
+  }
+}
+------------------------------------------------------next_call_state_not_found
+store Test {
+  state a : String = ""
+
+  fun b : Promise(Never, Void) {
+    next { b: "Blah" }
+  }
+}
+
+component Main {
+  connect Test exposing { a, b }
+}
+-------------------------------------------------------------------------------
+component Main {
+  state name : String = "Joe"
+  state age : Number = 24
+
+  fun test : Promise(Void) {
+    next {
+      name: "Hello",
+      age: 30
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
