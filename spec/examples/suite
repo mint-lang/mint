@@ -15,3 +15,16 @@ suite "X" {
     true
   }
 }
+-------------------------------------------------------------------------------
+suite "Suite" {
+  test "Test" {
+    1 + 1 == TWO
+  }
+
+  const ONE_PLUS_ONE = 1 + 1
+  const TWO = 2
+
+  test "Test 2" {
+    ONE_PLUS_ONE == TWO
+  }
+}

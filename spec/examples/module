@@ -49,3 +49,15 @@ component Main {
     Test.greet() + Test:FIRST + Test:SECOND
   }
 }
+-------------------------------------------------------------------------------
+module A {
+  fun test : String {
+    "Hello"
+  }
+}
+
+component Main {
+  fun render : String  {
+    A.test()
+  }
+}

@@ -4,3 +4,17 @@ component Main {
 ----------------------------------------------type_expected_closing_parenthesis
 component Main {
   fun render : X(Y
+-------------------------------------------------------------------------------
+module Test {
+  fun test1 : a {
+    "I'm a String"
+  }
+
+  fun test2 : a {
+    "I'm a string too!"
+  }
+
+  fun test4 : String {
+    test1() + test2()
+  }
+}

@@ -2,3 +2,13 @@
 component Main {
   fun render : Html {
     .
+-------------------------------------------------------------------------------
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test({test: "Hello"})
+  }
+}

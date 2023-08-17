@@ -34,6 +34,22 @@ component Main {
 }
 -------------------------------------------------------------------------------
 component Main {
+  state name : String = "Joe"
+
+  style unicode {
+    span::after {
+      content: "Here is some content; Thanks #{name}";
+    }
+  }
+
+  fun render {
+    <div::unicode>
+      <span/>
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
   style test {
     color: #{"blue"};
     color: #{color};

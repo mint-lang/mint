@@ -1,9 +1,0 @@
-component Main {
-  fun b : Html {
-    <div/>
-  }
-
-  fun render : Html {
-    b()
-  }
-}

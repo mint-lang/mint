@@ -10,3 +10,14 @@ component Main {
 component Main {
   fun render : String {
     @format { test
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    let {result, formatted} =
+      @format {
+        "Hello"
+      }
+
+    result + formatted
+  }
+}

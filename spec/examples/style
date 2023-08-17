@@ -24,3 +24,13 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  style test(name : String) {
+    color: #{name};
+  }
+
+  fun render : Html {
+    <div::test("Name")/>
+  }
+}

@@ -145,3 +145,55 @@ component Main {
     test(argument2: 0, argument1: "")
   }
 }
+-------------------------------------------------------------------------------
+module Test {
+  fun a (x : Bool, value : String) : String {
+    value
+  }
+
+  fun b : String {
+    true
+    |> Test.a("test")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------------------------------------
+global component Test {
+  fun b : String {
+    ""
+  }
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  fun set : Promise(Void) {
+    next {}
+  }
+}
+
+component Main {
+  fun render : Html {
+    Test.set()
+    <div></div>
+  }
+}
+
+routes {
+  / {
+    Test.set()
+  }
+}
