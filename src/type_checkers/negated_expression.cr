@@ -1,16 +1,14 @@
 module Mint
   class TypeChecker
-    type_error NegatedExpressionNotBool
-
     def check(node : Ast::NegatedExpression) : Checkable
       expression =
         resolve node.expression
 
-      raise NegatedExpressionNotBool, {
-        "got"      => expression,
-        "expected" => BOOL,
-        "node"     => node,
-      } unless Comparer.compare(BOOL, expression)
+      error :negated_expression_not_bool do
+        block "A negated expressions expression must evaluate to bool."
+        expected BOOL, expression
+        snippet "The expression is here:", node
+      end unless Comparer.compare(BOOL, expression)
 
       expression
     end

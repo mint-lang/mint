@@ -2,3 +2,41 @@
 component Main {
   fun render : String {
     !
+----------------------------------------------------negated_expression_not_bool
+module Test {
+  fun test : Bool {
+    !"asd"
+  }
+}
+
+component Main {
+  fun render : String {
+    if (Test.test()) {
+      "Hello"
+    } else {
+      "Hello"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun test : Bool {
+    !false
+  }
+}
+
+component Main {
+  fun render : String {
+    if (Test.test()) {
+      "Hello"
+    } else {
+      "Hello"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module A {
+  fun test : Bool {
+    !true && !false
+  }
+}
