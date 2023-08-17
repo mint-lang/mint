@@ -14,6 +14,10 @@ module Mint
       # errors << Error2.new(name).tap { |error| with error yield }
       # nil
     end
+
+    def self.error(name : Symbol, &)
+      raise Error2.new(name).tap { |error| with error yield }
+    end
   end
 
   # Represents a raisable rich and descriptive error.

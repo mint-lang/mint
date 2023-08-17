@@ -134,9 +134,7 @@ module Mint
     def index(css_prefix, relative, optimize, runtime_path, web_components)
       runtime =
         if runtime_path
-          raise RuntimeFileNotFound, {
-            "path" => runtime_path,
-          } unless File.exists?(runtime_path)
+          Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
           File.read(runtime_path)
         else
           Assets.read("runtime.js")

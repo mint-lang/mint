@@ -3,9 +3,6 @@ require "./commands/command"
 require "./commands/**"
 
 module Mint
-  command_error EnvFileNotFound
-  command_error RuntimeFileNotFound
-
   class CliException < Exception
   end
 
@@ -29,6 +26,16 @@ module Mint
     register_sub_command docs, type: Docs
     register_sub_command loc, type: Loc
     register_sub_command ls, type: Ls
+
+    def self.runtime_file_not_found(path : String)
+      Errorable.error :runtime_file_not_found do
+        block do
+          text "The specified runtime file"
+          code path
+          text "could not be found"
+        end
+      end
+    end
 
     def run
       execute "Help" do

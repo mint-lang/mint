@@ -1,12 +1,4 @@
 module Mint
-  macro command_error(name)
-    class {{name}} < Error
-      def instance
-        Messages::{{name.names.last}}.new(locals)
-      end
-    end
-  end
-
   class MintJson
     macro json_error(name)
       class {{name}} < JsonError
