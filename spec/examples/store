@@ -11,3 +11,33 @@ store X {
 store X {
   state test : String = ""
 }
+-----------------------------------------------------------entity_name_conflict
+store Test {
+  fun a : String {
+    ""
+  }
+
+  fun a : String {
+    ""
+  }
+}
+
+component Main {
+  connect Test exposing { a }
+}
+-------------------------------------------------------------------------------
+store Test {
+  state a : String = ""
+
+  fun b : Promise(Void) {
+    next { a: "Blah" }
+  }
+}
+
+component Main {
+  connect Test exposing { a, b }
+
+  fun render : String {
+    ""
+  }
+}

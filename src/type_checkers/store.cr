@@ -1,7 +1,5 @@
 module Mint
   class TypeChecker
-    type_error StoreEntityNameConflict
-
     def check(node : Ast::Store) : Checkable
       # Checking for global naming conflict
       check_global_names node.name.value, node
@@ -10,9 +8,9 @@ module Mint
       checked =
         {} of String => Ast::Node
 
-      check_names(node.functions, StoreEntityNameConflict, checked)
-      check_names(node.states, StoreEntityNameConflict, checked)
-      check_names(node.gets, StoreEntityNameConflict, checked)
+      check_names(node.functions, "store", checked)
+      check_names(node.states, "store", checked)
+      check_names(node.gets, "store", checked)
 
       # Type checking the entities
       scope node do
