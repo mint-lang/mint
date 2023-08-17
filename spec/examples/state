@@ -10,3 +10,32 @@ component Main {
 ---------------------------------------------------state_expected_default_value
 component Main {
   state test =
+------------------------------------------------------------state_type_mismatch
+component Main {
+  state b : String = 0
+
+  fun render : Html {
+    <div/>
+  }
+}
+------------------------------------------------------------state_type_mismatch
+record A {
+  a : String
+}
+
+component Main {
+  state name : Test = { a: "Hello" }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  state b : String = "Hello"
+  state a : Number = 0
+
+  fun render : Html {
+    <div/>
+  }
+}
