@@ -6,3 +6,25 @@ component Main {
 component Main {
   fun render : String {
     "" \
+-------------------------------------string_literal_interpolation_type_mismatch
+component Main {
+  fun render : String {
+    let name = {}
+
+    "Hello There #{name}!"
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "Hello There"
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    let name = 0
+
+    "Hello There #{name}!"
+  }
+}
