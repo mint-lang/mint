@@ -1,9 +1,5 @@
 module Mint
   class TypeChecker
-    type_error RecordUpdateNotUpdatingRecord
-    type_error RecordUpdateTypeMismatch
-    type_error RecordUpdateNotFoundKey
-
     def check(node : Ast::RecordUpdate) : Checkable
       target =
         resolve node.expression
@@ -16,11 +12,18 @@ module Mint
           item
         end
 
-      raise RecordUpdateNotUpdatingRecord, {
-        "target_node" => target_node,
-        "target"      => target,
-        "node"        => node,
-      } unless target.is_a?(Record)
+      error :record_update_not_updating_record do
+        block do
+          text "The"
+          bold "target of a record update"
+          text "is not a record, instead it is:"
+        end
+
+        snippet target
+
+        snippet "Here is where you want to update it:", node
+        snippet "Here is where the target is defined:", target_node
+      end unless target.is_a?(Record)
 
       node.fields.each do |field|
         type =
@@ -31,18 +34,27 @@ module Mint
         value_type =
           target.fields[field.key.value]?
 
-        raise RecordUpdateNotFoundKey, {
-          "key"    => field.key.value,
-          "target" => target,
-          "node"   => field,
-        } unless value_type
+        error :record_update_not_found_key do
+          block do
+            text "The field"
+            bold field.key.value
+            text "does not exists on the target record:"
+          end
 
-        raise RecordUpdateTypeMismatch, {
-          "target_node" => target_node,
-          "expected"    => value_type,
-          "node"        => field,
-          "got"         => type,
-        } unless Comparer.compare(type, value_type)
+          snippet target
+          snippet field
+        end unless value_type
+
+        error :record_update_type_mismatch do
+          block do
+            text "One of the updated fields do not match its type."
+          end
+
+          expected value_type, type
+
+          snippet "The update is here:", field
+          snippet "The target is defined here:", target_node
+        end unless Comparer.compare(type, value_type)
       end
 
       target

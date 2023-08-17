@@ -6,3 +6,103 @@ component Main {
 component Main {
   get record : Record(String, Bool) {
     { a | a: ""
+----------------------------------------------record_update_not_updating_record
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x = ""
+
+    { x |
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+----------------------------------------------------record_update_type_mismatch
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x =
+      {
+        a: "Blah",
+        b: 0
+      }
+
+    { x |
+      a: "Hello",
+      b: "Hello"
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+----------------------------------------------------record_update_not_found_key
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x =
+      {
+        a: "Blah",
+        b: 0
+      }
+
+    { x |
+      a: "Hello",
+      c: "Hello"
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    let x =
+      {
+        a: "Blah",
+        b: 1
+      }
+
+    { x |
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
