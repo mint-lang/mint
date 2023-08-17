@@ -1,17 +1,12 @@
 module Mint
   class Installer
-    install_error RepositoryCouldNotGetVersions
-    install_error RepositoryCouldNotCheckout
-    install_error RepositoryInvalidMintJson
-    install_error RepositoryCouldNotUpdate
-    install_error RepositoryCouldNotClone
-    install_error RepositoryNoMintJson
-
     # This class is for handling git repositories of packages.
     #
     # Repositories are cloned into a temp directory (/tmp/mint-packages) if
     # not exists and updated when they exists.
     class Repository
+      include Errorable
+
       getter name : String
       getter url : String
       getter version : Semver?
@@ -55,10 +50,18 @@ module Mint
 
         status, output, error = run "git tag --list"
 
-        raise RepositoryCouldNotGetVersions, {
-          "result" => error,
-          "url"    => url,
-        } unless status.success?
+        error :repository_could_not_get_versions do
+          block do
+            text "I could not get the tags of the repository:"
+            bold url
+          end
+
+          block "The error I got from the git command is this:"
+
+          block do
+            bold error.to_s.strip
+          end
+        end unless status.success?
 
         output
           .split
@@ -89,18 +92,26 @@ module Mint
 
         MintJson.new(File.read(path), directory, path)
       rescue error : JsonError
-        raise RepositoryInvalidMintJson, {
-          "id"     => id.uncolorize,
-          "target" => target.to_s,
-        }
-      rescue error : Error
+        error :repository_invalid_mint_json do
+          block do
+            text "I could not parse the mint.json for the package:"
+            bold id.uncolorize
+            text "for the version or tag:"
+            bold target.to_s
+          end
+        end
+      rescue error : Error2
         # Propagate RepositoryCouldNotCheckout
         raise error
       rescue error
-        raise RepositoryNoMintJson, {
-          "id"     => id.uncolorize,
-          "target" => target.to_s,
-        }
+        error :repository_no_mint_json do
+          block do
+            text "I could not find the mint.json for the package:"
+            bold id.uncolorize
+            text "for the version or tag:"
+            bold target.to_s
+          end
+        end
       end
 
       # Returns true if the repository is cloned yet.
@@ -112,10 +123,18 @@ module Mint
       def update
         status, _, error = run "git fetch --tags --force"
 
-        raise RepositoryCouldNotUpdate, {
-          "result" => error,
-          "url"    => url,
-        } unless status.success?
+        error :repository_could_not_update do
+          block do
+            text "I could not update the repository:"
+            bold url
+          end
+
+          block "The error I got from the git command is this:"
+
+          block do
+            bold error.to_s.strip
+          end
+        end unless status.success?
 
         terminal.puts "  #{CHECKMARK} Updated #{id}"
       end
@@ -124,10 +143,18 @@ module Mint
       def clone
         status, _, error = run "git clone #{url} #{directory}", Dir.current
 
-        raise RepositoryCouldNotClone, {
-          "result" => error,
-          "url"    => url,
-        } unless status.success?
+        error :repository_could_not_clone do
+          block do
+            text "I could not clone the repository:"
+            bold url
+          end
+
+          block "The error I got from the git command is this:"
+
+          block do
+            bold error.to_s.strip
+          end
+        end unless status.success?
 
         terminal.puts "  #{CHECKMARK} Cloned #{id}"
       end
@@ -139,11 +166,20 @@ module Mint
 
         status, _, error = run "git checkout #{target} -f"
 
-        raise RepositoryCouldNotCheckout, {
-          "target" => target.to_s,
-          "result" => error,
-          "url"    => url,
-        } unless status.success?
+        error :repository_could_not_checkout do
+          block do
+            text "I could not checkout the version or tag:"
+            bold target.to_s
+            text "of the repository:"
+            bold url
+          end
+
+          block "The error I got from the git command is this:"
+
+          block do
+            bold error.to_s.strip
+          end
+        end unless status.success?
       end
 
       # The directory of the repository

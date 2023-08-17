@@ -12,7 +12,7 @@ describe "Repository" do
         repository = Mint::Installer::Repository.new("name", "success")
 
         message = <<-MESSAGE
-        ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_INVALID_MINT_JSON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
         I could not parse the mint.json for the package: name (success) for the version
         or tag: master
@@ -21,7 +21,7 @@ describe "Repository" do
         begin
           repository.json("master")
           fail "Should have raised!"
-        rescue error : Mint::Installer::RepositoryInvalidMintJson
+        rescue error : Mint::Error2
           error.to_terminal.to_s.uncolorize.should eq(message)
         end
       end
@@ -32,7 +32,7 @@ describe "Repository" do
         repository = Mint::Installer::Repository.new("name", "success")
 
         message = <<-MESSAGE
-        ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_NO_MINT_JSON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
         I could not find the mint.json for the package: name (success) for the version
         or tag: master
@@ -41,7 +41,7 @@ describe "Repository" do
         begin
           repository.json("master")
           fail "Should have raised!"
-        rescue error : Mint::Installer::RepositoryNoMintJson
+        rescue error : Mint::Error2
           error.to_terminal.to_s.uncolorize.should eq(message)
         end
       end
@@ -51,7 +51,7 @@ describe "Repository" do
       repository = Mint::Installer::Repository.new("name", "error")
 
       message = <<-MESSAGE
-      ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░ ERROR (REPOSITORY_COULD_NOT_GET_VERSIONS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
       I could not get the tags of the repository: error
 
@@ -64,7 +64,7 @@ describe "Repository" do
       begin
         repository.versions
         fail "Should have raised!"
-      rescue error : Mint::Installer::RepositoryCouldNotGetVersions
+      rescue error : Mint::Error2
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -73,7 +73,7 @@ describe "Repository" do
       repository = Mint::Installer::Repository.new("name", "error")
 
       message = <<-MESSAGE
-      ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░ ERROR (REPOSITORY_COULD_NOT_CHECKOUT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
       I could not checkout the version or tag: master of the repository: error
 
@@ -85,7 +85,7 @@ describe "Repository" do
       begin
         repository.checkout("master")
         fail "Should have raised!"
-      rescue error : Mint::Installer::RepositoryCouldNotCheckout
+      rescue error : Mint::Error2
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -94,7 +94,7 @@ describe "Repository" do
       FileUtils.rm_rf("#{tmp_dir}/error")
 
       message = <<-MESSAGE
-      ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░ ERROR (REPOSITORY_COULD_NOT_CLONE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
       I could not clone the repository: error
 
@@ -106,7 +106,7 @@ describe "Repository" do
       begin
         Mint::Installer::Repository.open("name", "error")
         fail "Should have raised!"
-      rescue error : Mint::Installer::RepositoryCouldNotClone
+      rescue error : Mint::Error2
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end
@@ -115,7 +115,7 @@ describe "Repository" do
       FileUtils.mkdir_p("#{tmp_dir}/error")
 
       message = <<-MESSAGE
-      ░ INSTALL ERROR ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░ ERROR (REPOSITORY_COULD_NOT_UPDATE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
       I could not update the repository: error
 
@@ -127,7 +127,7 @@ describe "Repository" do
       begin
         Mint::Installer::Repository.open("name", "error")
         fail "Should have raised!"
-      rescue error : Mint::Installer::RepositoryCouldNotUpdate
+      rescue error : Mint::Error2
         error.to_terminal.to_s.uncolorize.should eq(message)
       end
     end

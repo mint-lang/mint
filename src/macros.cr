@@ -7,16 +7,6 @@ module Mint
     end
   end
 
-  class Installer
-    macro install_error(name)
-      class {{name}} < InstallError
-        def instance
-          Messages::{{name.names.last}}.new(locals)
-        end
-      end
-    end
-  end
-
   class MintJson
     macro json_error(name)
       class {{name}} < JsonError

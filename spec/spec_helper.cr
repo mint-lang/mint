@@ -7,7 +7,7 @@ class Mint::Error < Exception
   macro inherited
     name = {{@type.name.stringify.split("::").last.underscore}}
 
-    unless name.in?("install_error", "json_error")
+    unless name.in?("json_error")
       ERROR_MESSAGES << name
     end
   end
