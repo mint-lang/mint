@@ -16,8 +16,6 @@ require "./version"
 require "./ext/**"
 require "./errorable"
 
-require "./errors/error"
-require "./errors/**"
 require "./constants"
 require "./macros"
 require "./assets"
@@ -28,8 +26,6 @@ require "./env"
 
 require "./render/**"
 require "./utils/**"
-
-require "./message"
 
 require "./ast/node"
 require "./ast/**"

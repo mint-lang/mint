@@ -70,8 +70,6 @@ module Mint
 
       @ast = workspace.ast
       compile_script
-    rescue error : Error
-      @error = error.to_html
     rescue error : Error2
       @error = error.to_html
     end
@@ -82,7 +80,7 @@ module Mint
         @ast = result
         @error = nil
         compile_script
-      when Error
+      when Error2
         @error = result.to_html
       end
     end
@@ -109,7 +107,7 @@ module Mint
       }
       @artifacts = type_checker.artifacts
       @error = nil
-    rescue error : Error
+    rescue error : Error2
       @error = error.to_html
       @artifacts = nil
       @script = nil

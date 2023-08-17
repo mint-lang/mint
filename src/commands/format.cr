@@ -41,7 +41,7 @@ module Mint
           Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
 
         terminal.puts formatted
-      rescue error : Error
+      rescue error : Error2
         error(error.to_terminal, terminal.position)
       end
 
@@ -90,7 +90,7 @@ module Mint
           terminal.puts "All files are formatted!" if all_formatted
           all_formatted
         end
-      rescue error : Error
+      rescue error : Error2
         raise error
       rescue
         terminal.puts %(I was looking for a pattern that contains ".mint" files,)

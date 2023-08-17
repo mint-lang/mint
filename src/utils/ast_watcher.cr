@@ -19,7 +19,7 @@ module Mint
       watch_for_changes
 
       yield compile(progress)
-    rescue error : Error
+    rescue error : Error2
       yield error
     end
 
@@ -77,7 +77,7 @@ module Mint
 
       ast.merge(Core.ast) if @include_core
       ast
-    rescue error : Error
+    rescue error : Error2
       error
     end
 
