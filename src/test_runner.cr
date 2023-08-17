@@ -122,7 +122,8 @@ module Mint
     end
 
     def resolve_browser_path : String
-      paths = BROWSER_PATHS[@flags.browser.downcase]?
+      paths =
+        BROWSER_PATHS[@flags.browser.downcase] || [] of String
 
       path = paths
         .compact_map { |item| Process.find_executable(item) }

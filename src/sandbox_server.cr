@@ -41,7 +41,7 @@ module Mint
     def initialize(@host = "0.0.0.0", @port = ENV["PORT"]?.try(&.to_i) || 8080, runtime_path : String? = nil)
       @runtime =
         if runtime_path
-          Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
+          Cli.runtime_file_not_found(runtime_path) unless ::File.exists?(runtime_path)
           ::File.read(runtime_path)
         else
           Assets.read("runtime.js")
