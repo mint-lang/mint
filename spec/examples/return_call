@@ -2,3 +2,38 @@
 component Main {
   fun render {
     let x = "" or return
+------------------------------------------------------------return_call_invalid
+component Main {
+  state test : String = return ""
+
+  fun render : String {
+    ""
+  }
+}
+------------------------------------------------------------return_call_invalid
+component Main {
+  fun render : String {
+    "" or return ""
+  }
+}
+-------------------------------------------------------------------------------
+enum Test {
+  A(String)
+  B(String)
+}
+
+component Main {
+  fun render : String {
+    let Test::B(x) =
+      Test::A("Hello") or return "YES"
+
+    "NO"
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    return "YES"
+    "NO"
+  }
+}
