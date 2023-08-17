@@ -9,3 +9,43 @@ module Test {
 ------------------------------------------------module_expected_closing_bracket
 module Test {
   const TEST = ""
+-----------------------------------------------------------entity_name_conflict
+module Test {
+  fun hello : String {
+    "Hello"
+  }
+}
+
+module Test {
+  fun hello : String {
+    "Overridden...."
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.hello()
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  const FIRST = ""
+
+  fun hello : String {
+    "Hello"
+  }
+}
+
+module Test {
+  const SECOND = ""
+
+  fun greet : String {
+    "#{hello()} Bello"
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.greet() + Test:FIRST + Test:SECOND
+  }
+}
