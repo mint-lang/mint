@@ -11,3 +11,48 @@ locale en {
     subItem: "World"
   }
 }
+------------------------------------------------------------translation_missing
+component Main {
+  fun render : String {
+    :test
+  }
+}
+-----------------------------------------------------------translation_mismatch
+locale en {
+  test: ""
+}
+
+locale hu {
+  test: 0
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+-----------------------------------------------------translation_not_translated
+locale en {
+  test: ""
+}
+
+locale hu {
+
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+-------------------------------------------------------------------------------
+locale en {
+  test: ""
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+

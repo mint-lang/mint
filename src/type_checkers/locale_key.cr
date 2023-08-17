@@ -1,24 +1,29 @@
 module Mint
   class TypeChecker
-    type_error TranslationNotTranslated
-    type_error TranslationMismatch
-    type_error TranslationMissing
-
     def check(node : Ast::LocaleKey) : Checkable
-      raise TranslationMissing, {
-        "value" => node.value,
-        "node"  => node,
-      } unless translations = locales[node.value]?
+      error :translation_missing do
+        block do
+          text "Translations are not specified for the key:"
+          bold node.value
+        end
+
+        snippet node
+      end unless translations = locales[node.value]?
 
       scope(node) do
         result = nil
 
         @languages.each do |language|
-          raise TranslationNotTranslated, {
-            "value"    => node.value,
-            "language" => language,
-            "node"     => node,
-          } unless value = translations[language]?
+          error :translation_not_translated do
+            block do
+              text "There is no translation for the key:"
+              bold node.value
+              text "in the language:"
+              bold language
+            end
+
+            snippet node
+          end unless value = translations[language]?
 
           type =
             resolve(value)
@@ -27,13 +32,18 @@ module Mint
             if result
               resolved = Comparer.compare(result, type)
 
-              raise TranslationMismatch, {
-                "value"    => node.value,
-                "language" => language,
-                "expected" => result,
-                "got"      => type,
-                "node"     => node,
-              } unless resolved
+              error :translation_mismatch do
+                block do
+                  text "The type of the key"
+                  bold node.value
+                  text "in the language:"
+                  bold language
+                  text "does not match the type in another language."
+                end
+
+                expected result, type
+                snippet node
+              end unless resolved
 
               resolved
             else
