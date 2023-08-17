@@ -1,5 +1,7 @@
 module Mint
   class TestRunner
+    include Errorable
+
     class Message
       include JSON::Serializable
 
@@ -23,10 +25,6 @@ module Mint
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       },
     }
-
-    error BrowserNotFound
-    error InvalidBrowser
-    error InvalidReporter
 
     @reporter : Reporter
     @browser_path : String?
@@ -112,24 +110,34 @@ module Mint
       when "dot"
         DotReporter.new
       else
-        raise InvalidReporter, {"reporter" => @flags.reporter}
+        error :invalid_reporter do
+          block do
+            text "There is no reporter with the name:"
+            bold @flags.reporter
+          end
+
+          snippet "The available reporters are:", "documentation, dot"
+        end
       end
     end
 
     def resolve_browser_path : String
       paths = BROWSER_PATHS[@flags.browser.downcase]?
 
-      raise InvalidBrowser, {
-        "browser" => @flags.browser,
-      } unless paths
-
       path = paths
         .compact_map { |item| Process.find_executable(item) }
         .first?
 
-      raise BrowserNotFound, {
-        "browser" => @flags.browser,
-      } unless path
+      error :browser_not_found do
+        block do
+          text "I cannot find the executable of browser:"
+          bold @flags.browser
+        end
+
+        block do
+          text "Are you sure it's installed properly?"
+        end
+      end unless path
 
       path
     end
@@ -156,7 +164,14 @@ module Mint
           url,
         ])
       else
-        raise InvalidBrowser, {"browser" => @flags.browser}
+        error :invalid_browser do
+          block do
+            text "I cannot run the tests in the given browser:"
+            bold @flags.browser
+          end
+
+          snippet "The available browsers are:", "chrome, firefox"
+        end
       end
     end
 
