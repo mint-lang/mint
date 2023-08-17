@@ -1,15 +1,12 @@
 module Mint
   class TypeChecker
-    type_error SvgDirectiveExpectedDimensions
-    type_error SvgDirectiveExpectedSvgTag
-    type_error SvgDirectiveExpectedFile
-    type_error SvgDirectiveExpectedSvg
-
     def check(node : Ast::Directives::Svg) : Checkable
-      raise SvgDirectiveExpectedFile, {
-        "path" => node.real_path.to_s,
-        "node" => node,
-      } unless node.exists?
+      error :svg_directive_expected_file do
+        block "The svg specified for an svg directive does not exists."
+        block "The file should be here: #{node.real_path}"
+
+        snippet node
+      end unless node.exists?
 
       document =
         XML.parse(node.file_contents)
@@ -17,25 +14,26 @@ module Mint
       errors =
         document.errors.try(&.map(&.to_s)) || %w[]
 
-      raise SvgDirectiveExpectedSvg, {
-        "errors" => errors,
-        "node"   => node,
-      } unless errors.empty?
+      error :svg_directive_expected_svg do
+        block "The svg specified for an svg directive is not an SVG file (could not parse it)."
+
+        snippet errors.join("\n")
+        snippet node
+      end unless errors.empty?
 
       svg =
         document.first_element_child
 
-      raise SvgDirectiveExpectedSvgTag, {
-        "node" => node,
-      } unless svg
+      error :svg_directive_expected_svg_tag do
+        block "The svg specified for an svg directive does not contain an svg tag."
+        snippet node
+      end if !svg || svg.name != "svg"
 
-      raise SvgDirectiveExpectedSvgTag, {
-        "node" => node,
-      } unless svg.name == "svg"
-
-      raise SvgDirectiveExpectedDimensions, {
-        "node" => node,
-      } unless svg["width"]? && svg["height"]? && svg["viewBox"]?
+      error :svg_directive_expected_dimensions do
+        block "The svg specified for an svg directive does not have the following attributes:"
+        snippet "width height viewBox"
+        snippet node
+      end unless svg["width"]? && svg["height"]? && svg["viewBox"]?
 
       HTML
     end
