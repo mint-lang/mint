@@ -236,11 +236,17 @@ module Mint
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
-    type_error Recursion
-    type_error InvalidSelfReference
-
     def check!(node)
       checked.add(node) if checking?
+    end
+
+    def invalid_self_reference(referee : Ast::Node, node : Ast::Node)
+      error :invalid_self_reference do
+        block "You are trying to reference an other entity in a top level entity before it is initialized."
+
+        snippet "Then entity you are referencing:", referee
+        snippet "The entity you are referencing from:", node
+      end
     end
 
     def resolve(node : Ast::Node | Checkable, *args) : Checkable
@@ -249,11 +255,10 @@ module Mint
         node
       in Ast::Node
         if cached = cache[node]?
-          raise InvalidSelfReference, {
-            "referee" => @referee,
-            "node"    => node,
-          } if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
-               @top_level_entity.try(&.owns?(node))
+          invalid_self_reference(
+            referee: @referee.not_nil!,
+            node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
+                           @top_level_entity.try(&.owns?(node))
 
           cached
         else
@@ -264,16 +269,16 @@ module Mint
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
             else
-              raise Recursion, {
-                "caller_node" => @stack.last,
-                "node"        => node,
-              }
+              error :recursion do
+                snippet "I found a recursion in the following snippet:", node
+                block "Recursion is not supported at this time by the language."
+                snippet "The last step in the recursion was here:", @stack.last
+              end
             end
           else
-            raise InvalidSelfReference, {
-              "referee" => @referee,
-              "node"    => node,
-            } if @top_level_entity.try(&.owns?(node))
+            invalid_self_reference(
+              referee: @referee.not_nil!,
+              node: node) if @top_level_entity.try(&.owns?(node))
 
             @stack.push node
 
@@ -304,7 +309,24 @@ module Mint
       node
     end
 
-    type_error GlobalNameConflict
+    def global_name_conflict(
+      other : Ast::Node,
+      node : Ast::Node,
+      what : String,
+      name : String
+    )
+      error :global_name_conflict do
+        block do
+          text "There is already a"
+          bold what
+          text "with the name:"
+          bold name
+        end
+
+        snippet "You are trying to define something with the same name here:", node
+        snippet "The #{what} is defined here:", other
+      end
+    end
 
     def check_global_types(name : String, node : Ast::Node) : Nil
       other = @types[name]?
@@ -318,12 +340,11 @@ module Mint
             ""
           end
 
-        raise GlobalNameConflict, {
-          "other" => other,
-          "name"  => name,
-          "what"  => what,
-          "node"  => node,
-        }
+        global_name_conflict(
+          other: other,
+          what: what,
+          node: node,
+          name: name)
       end
 
       @types[name] = node
@@ -343,19 +364,18 @@ module Mint
             ""
           end
 
-        raise GlobalNameConflict, {
-          "other" => other,
-          "name"  => name,
-          "what"  => what,
-          "node"  => node,
-        }
+        global_name_conflict(
+          other: other,
+          what: what,
+          node: node,
+          name: name)
       end
 
       @names[name] = node
     end
 
     def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),
-                    error : Mint::TypeError.class | String,
+                    error : String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
         name =
@@ -375,27 +395,17 @@ module Mint
               ""
             end
 
-          case error
-          in String
-            error :entity_name_conflict do
-              block do
-                text "There is already a"
-                bold what
-                text "with the name"
-                bold name
-                text "in this #{error}."
-              end
-
-              snippet "You are trying to define something with the same name here:", node
-              snippet "The #{what} is defined here:", other
+          error :entity_name_conflict do
+            block do
+              text "There is already a"
+              bold what
+              text "with the name"
+              bold name
+              text "in this #{error}."
             end
-          in Mint::TypeError.class
-            raise error, {
-              "other" => other,
-              "name"  => name,
-              "what"  => what,
-              "node"  => node,
-            }
+
+            snippet "You are trying to define something with the same name here:", node
+            snippet "The #{what} is defined here:", other
           end
         end
 

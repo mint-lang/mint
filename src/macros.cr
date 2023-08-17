@@ -45,16 +45,6 @@ module Mint
     end
   end
 
-  class TypeChecker
-    macro type_error(name)
-      class {{name}} < TypeError
-        def instance
-          Messages::{{name.names.last}}.new(locals)
-        end
-      end
-    end
-  end
-
   MESSAGES = {} of String => Mint::Message.class
 end
 

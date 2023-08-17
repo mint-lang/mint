@@ -169,7 +169,7 @@ module Mint
           type
         end
       else
-        raise Mint::TypeError # Can never happen
+        raise Mint::Error2.new(:never) # Can never happen
       end
     end
   end

@@ -1,12 +1,4 @@
-component Main {
-  state b : String = ""
-  state c : String = ""
-
-  fun render : Html {
-    <div/>
-  }
-}
-------------------------------------------------------------InvalidSelfReference
+---------------------------------------------------------invalid_self_reference
 component Main {
   state c : String = b
   state b : String = ""
@@ -15,7 +7,7 @@ component Main {
     <div/>
   }
 }
-------------------------------------------------------------InvalidSelfReference
+---------------------------------------------------------invalid_self_reference
 component Main {
   state b : String = ""
   state c : String = b
@@ -24,7 +16,7 @@ component Main {
     <div/>
   }
 }
-------------------------------------------------------------InvalidSelfReference
+---------------------------------------------------------invalid_self_reference
 component Main {
   state c : String = hello
 
@@ -36,7 +28,7 @@ component Main {
     <div/>
   }
 }
-------------------------------------------------------------InvalidSelfReference
+---------------------------------------------------------invalid_self_reference
 component Test {
   property c : String = hello
 
@@ -54,7 +46,7 @@ component Main {
     <Test/>
   }
 }
-------------------------------------------------------------InvalidSelfReference
+---------------------------------------------------------invalid_self_reference
 component Test {
   property c : String = hello()
 
