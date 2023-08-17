@@ -11,3 +11,22 @@ provider Test : Test {
 ----------------------------------------------provider_expected_closing_bracket
 provider Test : Test {
   const TEST = ""
+------------------------------------------------provider_not_found_subscription
+provider Provider : Subscription {
+  fun test : Bool {
+    true
+  }
+}
+-------------------------------------------------------------------------------
+record Subscription {
+    a : Bool
+}
+
+provider Provider : Subscription {
+  const ONE_PLUS_ONE = 1 + 1
+  const TWO = 2
+
+  fun test : Bool {
+    ONE_PLUS_ONE == TWO
+  }
+}
