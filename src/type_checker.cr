@@ -185,26 +185,28 @@ module Mint
       end
     end
 
-    type_error RecordFieldsConflict
-    type_error RecordNameConflict
-    type_error RecordWithHoles
-
     def add_record(record, node)
     end
 
     def add_record(record : Record, node)
-      raise RecordWithHoles, {
-        "record" => record,
-        "node"   => node,
-      } if record.have_holes?
+      error :record_with_holes do
+        block "Records with type variables are not allow at this time."
+        snippet "The record in question is defined here:", node
+      end if record.have_holes?
 
       other = @record_names[record.name]?
 
-      raise RecordNameConflict, {
-        "name"  => record.name,
-        "other" => other,
-        "node"  => node,
-      } if other && node != other
+      error :record_name_conflict do
+        block do
+          text "There is already a"
+          bold "record"
+          text "with the name:"
+          bold record.name
+        end
+
+        snippet "One of them is here:", node
+        snippet "The other is here:", other
+      end if other && node != other
 
       records << record
       @record_names[record.name] = node
