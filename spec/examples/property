@@ -7,3 +7,91 @@ component Test {
 ------------------------------------------------property_expected_default_value
 component Test {
   property test  =
+---------------------------------------------------------property_type_mismatch
+component Test {
+  property name : String = true
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+---------------------------------------------------------property_type_mismatch
+component Test {
+  property name : Test(a) = true
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+---------------------------------------------------property_with_type_variables
+component Test {
+  property name = []
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+---------------------------------------------------------property_type_mismatch
+record A {
+  a : String
+}
+
+component Test {
+  property name : Test = { a: "Hello" }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+------------------------------------------------property_type_or_default_needed
+component Test {
+  property name
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-------------------------------------------------------------------------------
+component Test {
+  property name : String = "Joe"
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
