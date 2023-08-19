@@ -17,15 +17,26 @@ module Mint
 
           return unless node = stack[0]?
 
+          has_link_support =
+            server
+              .params
+              .try(&.capabilities.text_document)
+              .try(&.definition)
+              .try(&.link_support) || false
+
           links = definition(node, workspace, stack)
 
           case links
           when Array(LSP::LocationLink)
-            return links.map { |x| to_location(x) } if !has_link_support?(server)
+            # Return a singular `LSP::Location` if possible
+            return to_lsp_location(links.first) if !has_link_support && links.size == 1
 
-            links
+            return links.map { |link| to_lsp_location(link) } if !has_link_support
+
+            # Prefer nil rather than an empty array
+            links unless links.empty?
           when LSP::LocationLink
-            return to_location(links) if !has_link_support?(server)
+            return to_lsp_location(links) if !has_link_support
 
             [links]
           end
@@ -55,10 +66,6 @@ module Mint
         workspace.ast.components.find(&.name.value.== name)
       end
 
-      def has_link_support?(server : Server)
-        !!(server.params.try &.capabilities.try &.text_document.try &.definition.try &.link_support)
-      end
-
       def to_lsp_range(location : Ast::Node::Location) : LSP::Range
         LSP::Range.new(
           start: LSP::Position.new(
@@ -72,7 +79,7 @@ module Mint
         )
       end
 
-      def to_location(location_link : LSP::LocationLink) : LSP::Location
+      def to_lsp_location(location_link : LSP::LocationLink) : LSP::Location
         LSP::Location.new(
           range: location_link.target_selection_range,
           uri: location_link.target_uri,
@@ -80,11 +87,10 @@ module Mint
       end
 
       # Returns a `LSP::LocationLink` that links from *source* to the *target* node
-      # if the language server client has link support, otherwise it returns `LSP::Location`.
       #
-      # When returning a `LSP::LocationLink`, *parent* is used to provide the full range
-      # for the *target* node. For example, for a function, *target* would be the function name,
-      # and *parent* would be the whole node, including function body and any comments
+      # The *parent* node is used to provide the full range for the *target* node.
+      # For example, for a function, *target* would be the function name, and *parent*
+      # would be the whole node, including function body and any comments
       def location_link(source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink
         LSP::LocationLink.new(
           origin_selection_range: to_lsp_range(source.location),

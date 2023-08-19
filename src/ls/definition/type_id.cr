@@ -9,10 +9,9 @@ module Mint
             .reject(&.in?(Core.ast.nodes))
             .sort_by!(&.input.file)
             .map do |mod|
-              location_link server, node, mod.name, mod
+              location_link node, mod.name, mod
             end
 
-          return links.first if links.size == 1
           return links unless links.empty?
         end
 
