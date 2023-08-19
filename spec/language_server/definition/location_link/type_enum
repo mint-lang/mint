@@ -40,39 +40,41 @@ module Status {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 16
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 1,
+          "character": 16
+        },
+        "end": {
+          "line": 1,
+          "character": 22
+        }
       },
-      "end": {
-        "line": 1,
-        "character": 22
-      }
-    },
-    "targetUri": "file://#{root_path}/status.mint",
-    "targetRange": {
-      "start": {
-        "line": 0,
-        "character": 0
+      "targetUri": "file://#{root_path}/status.mint",
+      "targetRange": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 3,
+          "character": 1
+        }
       },
-      "end": {
-        "line": 3,
-        "character": 1
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 0,
-        "character": 5
-      },
-      "end": {
-        "line": 0,
-        "character": 11
+      "targetSelectionRange": {
+        "start": {
+          "line": 0,
+          "character": 5
+        },
+        "end": {
+          "line": 0,
+          "character": 11
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

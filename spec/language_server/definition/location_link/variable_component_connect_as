@@ -42,39 +42,41 @@ store Theme {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 5,
-        "character": 9
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 5,
+          "character": 9
+        },
+        "end": {
+          "line": 5,
+          "character": 21
+        }
       },
-      "end": {
-        "line": 5,
-        "character": 21
-      }
-    },
-    "targetUri": "file://#{root_path}/test.mint",
-    "targetRange": {
-      "start": {
-        "line": 1,
-        "character": 2
+      "targetUri": "file://#{root_path}/test.mint",
+      "targetRange": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 52
+        }
       },
-      "end": {
-        "line": 1,
-        "character": 52
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 38
-      },
-      "end": {
-        "line": 1,
-        "character": 50
+      "targetSelectionRange": {
+        "start": {
+          "line": 1,
+          "character": 38
+        },
+        "end": {
+          "line": 1,
+          "character": 50
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

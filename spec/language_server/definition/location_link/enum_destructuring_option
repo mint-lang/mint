@@ -44,39 +44,41 @@ module Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 3,
-        "character": 14
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 3,
+          "character": 14
+        },
+        "end": {
+          "line": 3,
+          "character": 19
+        }
       },
-      "end": {
-        "line": 3,
-        "character": 19
-      }
-    },
-    "targetUri": "file://#{root_path}/status.mint",
-    "targetRange": {
-      "start": {
-        "line": 2,
-        "character": 2
+      "targetUri": "file://#{root_path}/status.mint",
+      "targetRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
       },
-      "end": {
-        "line": 3,
-        "character": 2
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 2,
-        "character": 2
-      },
-      "end": {
-        "line": 2,
-        "character": 7
+      "targetSelectionRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 7
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

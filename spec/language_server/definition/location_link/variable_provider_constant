@@ -41,39 +41,41 @@ provider Provider : Subscription {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 8,
-        "character": 4
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 8,
+          "character": 4
+        },
+        "end": {
+          "line": 8,
+          "character": 9
+        }
       },
-      "end": {
-        "line": 8,
-        "character": 9
-      }
-    },
-    "targetUri": "file://#{root_path}/test.mint",
-    "targetRange": {
-      "start": {
-        "line": 5,
-        "character": 2
+      "targetUri": "file://#{root_path}/test.mint",
+      "targetRange": {
+        "start": {
+          "line": 5,
+          "character": 2
+        },
+        "end": {
+          "line": 5,
+          "character": 23
+        }
       },
-      "end": {
-        "line": 5,
-        "character": 23
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 5,
-        "character": 8
-      },
-      "end": {
-        "line": 5,
-        "character": 13
+      "targetSelectionRange": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 13
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response
