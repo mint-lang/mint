@@ -31,9 +31,11 @@ module Mint
         node = yield position
         @position = start_position unless node
 
-        ast.nodes.delete_at(nodes_size...) unless node
-        ast.keywords.delete_at(keywords_size...) unless node
-        ast.operators.delete_at(operators_size...) unless node
+        unless node
+          ast.nodes.delete_at(nodes_size...)
+          ast.keywords.delete_at(keywords_size...)
+          ast.operators.delete_at(operators_size...)
+        end
 
         node
       rescue error : Error
