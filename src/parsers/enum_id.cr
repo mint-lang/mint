@@ -30,11 +30,11 @@ module Mint
 
     def enum_id
       start do |start_position|
-        next unless option = type_id
+        next unless option = type_id track: false
 
         if keyword "::"
           name = option
-          option = type_id! EnumIdExpectedOption
+          option = type_id! EnumIdExpectedOption, track: false
         end
 
         self << Ast::EnumId.new(
