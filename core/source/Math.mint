@@ -1,12 +1,27 @@
 /* Mathematical functions. */
 module Math {
+  /* Euler's number and the base of natural logarithms; approximately `2.718`. */
   const E = `Math.E`
+
+  /* Natural logarithm of `10`; approximately `2.303`. */
   const LN10 = `Math.LN10`
+
+  /* Natural logarithm of `2`; approximately `0.693`. */
   const LN2 = `Math.LN2`
+
+  /* Base-10 logarithm of `E`; approximately `0.434`. */
   const LOG10E = `Math.LOG10E`
+
+  /* Base-2 logarithm of `E`; approximately `1.443`. */
   const LOG2E = `Math.LOG2E`
+
+  /* Ratio of a circle's circumference to its diameter; approximately `3.14159`. */
   const PI = `Math.PI`
+
+  /* Square root of `0.5`; approximately `0.707`. */
   const SQRT12 = `Math.SQRT1_2`
+
+  /* Square root of `2`; approximately `1.414`. */
   const SQRT2 = `Math.SQRT2`
 
   /*
@@ -256,20 +271,12 @@ module Math {
     `Math.sign(#{number})`
   }
 
-  /*
-  Calculates the sine of the given angle in radians
-
-    Math.sin(Math.PI / 2) == 1
-  */
+  /* Calculates the sine of the given angle in radians */
   fun sin (value : Number) : Number {
     `Math.sin(#{value})`
   }
 
-  /*
-  Calculates the hyperbolic sine of the given angle in radians
-
-    Math.sinh(Math.PI / 2) == 1
-  */
+  /* Calculates the hyperbolic sine of the given angle in radians */
   fun sinh (number : Number) : Number {
     `Math.sinh(#{number})`
   }
@@ -283,20 +290,12 @@ module Math {
     `Math.sqrt(#{value})`
   }
 
-  /*
-  Calculates the tangent of the given angle in radians
-
-    Math.tan(Math.PI) == 13
-  */
+  /* Calculates the tangent of the given angle in radians */
   fun tan (number : Number) {
     `Math.tan(#{number})`
   }
 
-  /*
-  Calculates the hyperbolic tangent of the given angle in radians
-
-    Math.tanh(Math.PI) == 13
-  */
+  /* Calculates the hyperbolic tangent of the given angle in radians */
   fun tanh (number : Number) : Number {
     `Math.tanh(#{number})`
   }
