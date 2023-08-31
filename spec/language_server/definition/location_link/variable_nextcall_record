@@ -56,39 +56,41 @@ store Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 20,
-        "character": 12
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 20,
+          "character": 12
+        },
+        "end": {
+          "line": 20,
+          "character": 23
+        }
       },
-      "end": {
-        "line": 20,
-        "character": 23
-      }
-    },
-    "targetUri": "file://#{root_path}/test.mint",
-    "targetRange": {
-      "start": {
-        "line": 2,
-        "character": 2
+      "targetUri": "file://#{root_path}/test.mint",
+      "targetRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 22
+        }
       },
-      "end": {
-        "line": 2,
-        "character": 22
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 2,
-        "character": 2
-      },
-      "end": {
-        "line": 2,
-        "character": 13
+      "targetSelectionRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 13
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response
