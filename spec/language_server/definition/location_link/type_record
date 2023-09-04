@@ -4,7 +4,7 @@ record Article {
   title : String
 }
 ---------------------------------------------------------------file article.mint
-module Test {
+module Article {
   fun test : Article {
     {
       id: 1,
@@ -45,39 +45,41 @@ module Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 13
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 1,
+          "character": 13
+        },
+        "end": {
+          "line": 1,
+          "character": 20
+        }
       },
-      "end": {
-        "line": 1,
-        "character": 20
-      }
-    },
-    "targetUri": "file://#{root_path}/article.mint",
-    "targetRange": {
-      "start": {
-        "line": 0,
-        "character": 0
+      "targetUri": "file://#{root_path}/article.mint",
+      "targetRange": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 1
+        }
       },
-      "end": {
-        "line": 4,
-        "character": 1
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 0,
-        "character": 7
-      },
-      "end": {
-        "line": 0,
-        "character": 14
+      "targetSelectionRange": {
+        "start": {
+          "line": 0,
+          "character": 7
+        },
+        "end": {
+          "line": 0,
+          "character": 14
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

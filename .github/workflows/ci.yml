@@ -7,8 +7,6 @@ on:
     types: [opened, synchronize, reopened]
   release:
     types: [published]
-  schedule:
-    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -18,14 +16,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        crystal: [latest, nightly]
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal }}
+          crystal: latest
 
       - name: Download source
         uses: actions/checkout@v3

@@ -6,11 +6,11 @@ module Mint
 
     def enum_destructuring
       start do |start_position|
-        next unless option = type_id
+        next unless option = type_id track: false
 
         if keyword "::"
           name = option
-          option = type_id! EnumDestructuringExpectedOption
+          option = type_id! EnumDestructuringExpectedOption, track: false
         end
 
         parameters = [] of Ast::Node

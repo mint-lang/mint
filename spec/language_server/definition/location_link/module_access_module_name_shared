@@ -1,0 +1,90 @@
+record Header {
+  title : String
+}
+----------------------------------------------------------------file record.mint
+module Header {
+  fun default : Header {
+    { title: "Mint" }
+  }
+}
+----------------------------------------------------------------file module.mint
+component Test {
+  fun render : Html {
+    let header =
+      Header.default()
+
+    <div>
+      <{ header.title }>
+    </div>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": true
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 6
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 3,
+          "character": 6
+        },
+        "end": {
+          "line": 3,
+          "character": 12
+        }
+      },
+      "targetUri": "file://#{root_path}/module.mint",
+      "targetRange": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 1
+        }
+      },
+      "targetSelectionRange": {
+        "start": {
+          "line": 0,
+          "character": 7
+        },
+        "end": {
+          "line": 0,
+          "character": 13
+        }
+      }
+    }
+  ],
+  "id": 1
+}
+------------------------------------------------------------------------response

@@ -1,3 +1,9 @@
+component Ok {
+  fun render {
+    <div/>
+  }
+}
+-------------------------------------------------------------file component.mint
 enum Status {
   Error
   Ok
@@ -42,39 +48,41 @@ component Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 34
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 1,
+          "character": 34
+        },
+        "end": {
+          "line": 1,
+          "character": 36
+        }
       },
-      "end": {
-        "line": 1,
-        "character": 36
-      }
-    },
-    "targetUri": "file://#{root_path}/status.mint",
-    "targetRange": {
-      "start": {
-        "line": 2,
-        "character": 2
+      "targetUri": "file://#{root_path}/status.mint",
+      "targetRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
       },
-      "end": {
-        "line": 3,
-        "character": 0
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 2,
-        "character": 2
-      },
-      "end": {
-        "line": 2,
-        "character": 4
+      "targetSelectionRange": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

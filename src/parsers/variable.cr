@@ -43,7 +43,7 @@ module Mint
       end
     end
 
-    def variable_constant! : Ast::Variable
+    def variable_constant : Ast::Variable?
       start do |start_position|
         head =
           gather { chars &.ascii_uppercase? }
@@ -51,7 +51,7 @@ module Mint
         tail =
           gather { chars { |char| char.ascii_uppercase? || char.ascii_number? || char == '_' } }
 
-        raise ConstantExpectedName unless head
+        next unless head
 
         value = "#{head}#{tail}"
 
@@ -61,6 +61,10 @@ module Mint
           to: position,
           input: data)
       end
+    end
+
+    def variable_constant! : Ast::Variable
+      variable_constant || raise ConstantExpectedName
     end
 
     def variable!(error : SyntaxError.class, track = true) : Ast::Variable
