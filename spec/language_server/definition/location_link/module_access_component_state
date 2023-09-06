@@ -45,39 +45,41 @@ component Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": {
-    "originSelectionRange": {
-      "start": {
-        "line": 3,
-        "character": 16
+  "result": [
+    {
+      "originSelectionRange": {
+        "start": {
+          "line": 3,
+          "character": 16
+        },
+        "end": {
+          "line": 3,
+          "character": 21
+        }
       },
-      "end": {
-        "line": 3,
-        "character": 21
-      }
-    },
-    "targetUri": "file://#{root_path}/header.mint",
-    "targetRange": {
-      "start": {
-        "line": 1,
-        "character": 2
+      "targetUri": "file://#{root_path}/header.mint",
+      "targetRange": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 22
+        }
       },
-      "end": {
-        "line": 1,
-        "character": 22
-      }
-    },
-    "targetSelectionRange": {
-      "start": {
-        "line": 1,
-        "character": 8
-      },
-      "end": {
-        "line": 1,
-        "character": 13
+      "targetSelectionRange": {
+        "start": {
+          "line": 1,
+          "character": 8
+        },
+        "end": {
+          "line": 1,
+          "character": 13
+        }
       }
     }
-  },
+  ],
   "id": 1
 }
 ------------------------------------------------------------------------response

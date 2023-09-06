@@ -1,20 +1,20 @@
 module Mint
   module LS
     class Definition < LSP::RequestMessage
-      def definition(node : Ast::Variable, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+      def definition(node : Ast::Variable, workspace : Workspace, stack : Array(Ast::Node))
         lookup = workspace.type_checker.variables[node]?
 
         if lookup
-          variable_lookup_parent(node, lookup[1], server, workspace) ||
-            variable_connect(node, lookup[2], server) ||
-            variable_lookup(node, lookup[0], server)
+          variable_lookup_parent(node, lookup[1], workspace) ||
+            variable_connect(node, lookup[2]) ||
+            variable_lookup(node, lookup[0])
         else
-          variable_record_key(node, server, workspace, stack) ||
-            variable_next_key(node, server, workspace, stack)
+          variable_record_key(node, workspace, stack) ||
+            variable_next_key(node, workspace, stack)
         end
       end
 
-      def variable_connect(node : Ast::Variable, parents : Array(TypeChecker::Scope::Node), server : Server)
+      def variable_connect(node : Ast::Variable, parents : Array(TypeChecker::Scope::Node))
         # Check to see if this variable is defined as an Ast::ConnectVariable
         # as the `.variables` cache links directly to the stores state/function etc
         return unless component = parents.select(Ast::Component).first?
@@ -24,13 +24,13 @@ module Mint
             variable = key.name || key.variable
 
             if variable.value == node.value
-              return location_link server, node, variable, connect
+              return location_link node, variable, connect
             end
           end
         end
       end
 
-      def variable_lookup_parent(node : Ast::Variable, target : TypeChecker::Scope::Node, server : Server, workspace : Workspace)
+      def variable_lookup_parent(node : Ast::Variable, target : TypeChecker::Scope::Node, workspace : Workspace)
         case target
         when Tuple(String, TypeChecker::Checkable, Ast::Node)
           case variable = target[2]
@@ -44,12 +44,12 @@ module Mint
                             .select(&.input.file.==(variable.input.file))
                             .find { |other| other.from < variable.from && other.to > variable.to }
 
-            location_link server, node, variable, parent
+            location_link node, variable, parent
           end
         end
       end
 
-      def variable_lookup(node : Ast::Variable, target : Ast::Node | TypeChecker::Checkable, server : Server)
+      def variable_lookup(node : Ast::Variable, target : Ast::Node | TypeChecker::Checkable)
         case item = target
         when Ast::Node
           name = case item
@@ -64,11 +64,11 @@ module Mint
                    item
                  end
 
-          location_link server, node, name, item
+          location_link node, name, item
         end
       end
 
-      def variable_record_key(node : Ast::Variable, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+      def variable_record_key(node : Ast::Variable, workspace : Workspace, stack : Array(Ast::Node))
         case field = stack[1]?
         when Ast::RecordField
           return unless record_name = workspace.type_checker.record_field_lookup[field]?
@@ -79,11 +79,11 @@ module Mint
                           .find(&.name.value.==(record_name))
                           .try(&.fields.find(&.key.value.==(node.value)))
 
-          location_link server, node, record_definition_field.key, record_definition_field
+          location_link node, record_definition_field.key, record_definition_field
         end
       end
 
-      def variable_next_key(node : Ast::Variable, server : Server, workspace : Workspace, stack : Array(Ast::Node))
+      def variable_next_key(node : Ast::Variable, workspace : Workspace, stack : Array(Ast::Node))
         case next_call = stack[3]?
         when Ast::NextCall
           return unless parent = workspace.type_checker.lookups[next_call]
@@ -93,7 +93,7 @@ module Mint
                                   parent.states.find(&.name.value.==(node.value))
                                 end
 
-          location_link server, node, state.name, state
+          location_link node, state.name, state
         end
       end
     end

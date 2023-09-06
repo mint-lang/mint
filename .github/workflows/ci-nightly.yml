@@ -1,12 +1,8 @@
-name: CI
+name: CI Nightly
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    types: [opened, synchronize, reopened]
-  release:
-    types: [published]
+  schedule:
+    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -22,7 +18,7 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: latest
+          crystal: nightly
 
       - name: Download source
         uses: actions/checkout@v4
