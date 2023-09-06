@@ -23,16 +23,29 @@ module Mint
 
     def start(&)
       start_position = position
-      node_size = ast.nodes.size
+
+      nodes_size = ast.nodes.size
+      keywords_size = ast.keywords.size
+      operators_size = ast.operators.size
 
       begin
         node = yield position
         @position = start_position unless node
-        ast.nodes.delete_at(node_size...) unless node
+
+        unless node
+          ast.nodes.delete_at(nodes_size...)
+          ast.keywords.delete_at(keywords_size...)
+          ast.operators.delete_at(operators_size...)
+        end
+
         node
       rescue error : Error
         @position = start_position
-        ast.nodes.delete_at(node_size...)
+
+        ast.nodes.delete_at(nodes_size...)
+        ast.keywords.delete_at(keywords_size...)
+        ast.operators.delete_at(operators_size...)
+
         raise error
       end
     end
