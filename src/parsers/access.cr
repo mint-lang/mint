@@ -6,7 +6,7 @@ module Mint
       start do |start_position|
         next unless char! '.'
 
-        field = variable! AccessExpectedVariable
+        field = variable! AccessExpectedVariable, track: false
 
         node = self << Ast::Access.new(
           from: start_position,
