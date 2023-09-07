@@ -25,10 +25,14 @@ module Mint
 
           ast.normalize
 
-          json =
-            DocumentationGenerator.new.generate(current, ast)
+          # json =
+          #   DocumentationGeneratorJson.new.generate(current, ast)
 
-          File.write(flags.output, json)
+          # File.write(flags.output, json)
+
+          docgenHtml = DocumentationGeneratorHtml.new("mint-lang", "mint-ui", "7.0.0")
+          docgenHtml.generate(current, ast)
+          docgenHtml.readme(current)
         end
       end
     end

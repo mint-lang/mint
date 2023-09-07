@@ -1,0 +1,19 @@
+<% if node.arguments.try(&.to_a.any?) %>
+  <div class="entity__operator">(</div>
+
+  <% node.arguments.each do |argument| %>
+    <div class="entity__argument">
+      <%= argument.name.value %>
+    
+      <div class="entity__operator">
+        :
+      </div>
+      
+      <div class="entity__type">
+        <%= stringify(argument.type) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="entity__operator">)</div>
+<% end %>

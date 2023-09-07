@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Component, json : JSON::Builder)
       json.object do
         json.field "description", node.comment.try(&.to_html)
@@ -31,6 +31,16 @@ module Mint
           generate node.states, json
         end
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::Component)
+      render("#{__DIR__}/html/component.ecr")
+    end
+
+    def comment(node : Ast::Node)
+      render("#{__DIR__}/html/comment.ecr")
     end
   end
 end

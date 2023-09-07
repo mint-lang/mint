@@ -5,7 +5,7 @@ module Mint
         lookups[node]
 
       JSON.build do |json|
-        DocumentationGenerator.new.generate(entity, json)
+        DocumentationGeneratorJson.new.generate(entity, json)
       end
     end
   end

@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Connect, json : JSON::Builder)
       json.object do
         json.field "keys", node.keys.map(&.variable.value)

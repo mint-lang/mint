@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::EnumOption, json : JSON::Builder)
       json.object do
         json.field "description", node.comment.try(&.to_html)
@@ -11,6 +11,24 @@ module Mint
           generate node.parameters, json
         end
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::EnumOption)
+      render("#{__DIR__}/html/enum_option.ecr")
+    end
+
+    def generate(node : Ast::Type, option : Ast::EnumOption)
+      render("#{__DIR__}/html/enum_parameter.ecr")
+    end
+
+    def generate(node : Ast::EnumOption, param)
+      param
+    end
+
+    def comment(node : Ast::EnumOption)
+      render("#{__DIR__}/html/comment.ecr")
     end
   end
 end

@@ -1,0 +1,10 @@
+<h1>
+  <%= node.name.value %>
+  <div class="type-badge" data-type="module"></div>
+</h1>
+
+<h2>Functions</h2>
+
+<% node.functions.sort_by(&.name.value).each do |f| %>
+  <%= generate(f) %>
+<% end %>

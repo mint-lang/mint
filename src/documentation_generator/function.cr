@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Function, json : JSON::Builder)
       json.object do
         json.field "type", node.type.try { |item| stringify(item) }
@@ -11,6 +11,20 @@ module Mint
           generate node.arguments, json
         end
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::Function)
+      render("#{__DIR__}/html/function.ecr")
+    end
+
+    def arguments(node : Ast::Function)
+      render("#{__DIR__}/html/arguments.ecr")
+    end
+
+    def comment(node : Ast::Function)
+      render("#{__DIR__}/html/comment.ecr")
     end
   end
 end

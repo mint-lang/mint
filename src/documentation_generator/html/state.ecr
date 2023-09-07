@@ -1,0 +1,17 @@
+<a name="<%= node.name.value %>"></a>
+
+<div class="entity">
+  <div class="entity__signature">
+    <a class="entity__name" href="<%= anchor_url(node.name.value) %>">
+      <div><%= node.name.value %></div>
+    </a>
+
+    <%= generate(node.type) %>
+
+    <%= default(node) %>
+
+    <a class="github-source-link" href="<%= github_source_url(node) %>"></a>
+  </div>
+
+  <%= comment(node) %>
+</div>

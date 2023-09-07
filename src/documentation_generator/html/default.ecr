@@ -1,0 +1,14 @@
+<% if default != nil %>
+  <div class="entity__operator">
+    =
+  </div>
+  <% if default.try(&.size) || 0 < 50  %>
+    <div class="entity__default">
+      <%= default %>
+    </div>
+  <% else %>
+    <div class="entity__default entity__default--block">
+      <%= default %>
+    </div>
+  <% end %>
+<% end %>

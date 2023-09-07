@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Use, json : JSON::Builder)
       condition =
         node.condition.try do |expression|

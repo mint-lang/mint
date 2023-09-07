@@ -1,0 +1,7 @@
+<% node.fields.each do |f| %>
+  <div class="entity__argument">
+    <%= f.key.value %>
+
+    <%= generate(f.type) %>
+  </div>
+<% end %>

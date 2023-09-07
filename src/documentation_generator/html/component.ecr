@@ -1,0 +1,37 @@
+<h1>
+  <%= node.name.value %>
+  <div class="type-badge" data-type="component"></div>
+  <a class="github-source-link" href="<%= github_source_url(node) %>"></a>
+</h1>
+
+<%= comment(node) %>
+
+<% if node.properties.size > 0 %>
+  <h2>
+    Properties
+  </h2>
+
+  <% node.properties.sort_by(&.name.value).each do |p| %>
+    <%= generate(p) %>
+  <% end %>
+<% end %>
+
+<% if node.states.size > 0 %>
+  <h2>
+    States
+  </h2>
+
+  <% node.states.sort_by(&.name.value).each do |s| %>
+    <%= generate(s) %>
+  <% end %>
+<% end %>
+
+<% if node.functions.size > 0 %>
+  <h2>
+    Functions
+  </h2>
+
+  <% node.functions.sort_by(&.name.value).each do |f| %>
+    <%= generate(f) %>
+  <% end %>
+<% end %>

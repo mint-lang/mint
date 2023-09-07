@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Property, json : JSON::Builder)
       json.object do
         json.field "default", node.default.try { |item| source(item) }
@@ -7,6 +7,22 @@ module Mint
         json.field "description", node.comment.try(&.to_html)
         json.field "name", node.name.value
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::Property)
+      render("#{__DIR__}/html/property.ecr")
+    end
+
+    def default(node : Ast::Property)
+      default = node.default.try { |item| source(item) }
+
+      render("#{__DIR__}/html/default.ecr")
+    end
+
+    def comment(node : Ast::Property)
+      render("#{__DIR__}/html/comment.ecr")
     end
   end
 end

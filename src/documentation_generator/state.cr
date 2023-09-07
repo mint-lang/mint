@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::State, json : JSON::Builder)
       json.object do
         json.field "type", node.type.try { |item| stringify(item) }
@@ -7,6 +7,22 @@ module Mint
         json.field "default", source(node.default)
         json.field "name", node.name.value
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::State)
+      render("#{__DIR__}/html/state.ecr")
+    end
+
+    def default(node : Ast::State)
+      default = node.default.try { |item| source(item) }
+
+      render("#{__DIR__}/html/default.ecr")
+    end
+
+    def comment(node : Ast::State)
+      render("#{__DIR__}/html/comment.ecr")
     end
   end
 end
