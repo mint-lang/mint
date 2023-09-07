@@ -7,7 +7,7 @@ component Main {
     test(argument2: 0, argument1: "")
   }
 }
--------------------------------------------------------------CallMixedArguments
+---------------------------------------------------------CallWithMixedArguments
 component Main {
   fun test (argument1 : String, argument2: Number) : Html {
     <div/>
@@ -17,7 +17,7 @@ component Main {
     test(0, argument1: "")
   }
 }
--------------------------------------------------------------CallMixedArguments
+---------------------------------------------------------CallWithMixedArguments
 component Main {
   fun test (argument1 : String, argument2: Number) : Html {
     <div/>

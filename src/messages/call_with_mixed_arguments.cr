@@ -1,4 +1,4 @@
-message CallMixedArguments do
+message CallWithMixedArguments do
   title "Type Error"
 
   block do

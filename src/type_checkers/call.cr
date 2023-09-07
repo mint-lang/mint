@@ -2,8 +2,8 @@ module Mint
   class TypeChecker
     type_error CallArgumentSizeMismatch
     type_error CallArgumentTypeMismatch
+    type_error CallWithMixedArguments
     type_error CallNotFoundArgument
-    type_error CallMixedArguments
     type_error CallTypeMismatch
     type_error CallNotAFunction
 
