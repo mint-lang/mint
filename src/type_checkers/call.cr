@@ -8,9 +8,9 @@ module Mint
     type_error CallNotAFunction
 
     def check(node : Ast::CallExpression)
-      resolve(node.expression).dup.tap do |item|
-        item.label = node.name.try(&.value)
-      end
+      resolve(node.expression)
+        .dup
+        .tap(&.label = node.name.try(&.value))
     end
 
     def check(node : Ast::Call)
@@ -47,9 +47,10 @@ module Mint
            node.arguments.size < required_argument_size # If it's less then the minimum
 
       args =
-        if node.arguments.all?(&.name.nil?)
+        case node.arguments
+        when .all?(&.name.nil?)
           node.arguments
-        elsif node.arguments.all?(&.name.!=(nil))
+        when .none?(&.name.nil?)
           node.arguments.sort_by do |argument|
             index =
               function_type
@@ -65,7 +66,7 @@ module Mint
             index
           end
         else
-          raise CallMixedArguments, {
+          raise CallWithMixedArguments, {
             "node" => node,
           }
         end
