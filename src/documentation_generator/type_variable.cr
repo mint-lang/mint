@@ -10,12 +10,12 @@ module Mint
   end
   
   class DocumentationGeneratorHtml
-    def stringify(node : Ast::TypeVariable)
-      node.value
-    end
-
     def generate(node : Ast::TypeVariable)
       render("#{__DIR__}/html/type_variable.ecr")
+    end
+
+    def stringify(node : Ast::TypeVariable)
+      node.value
     end
   end
 end

@@ -23,12 +23,12 @@ module Mint
       render("#{__DIR__}/html/enum_parameter.ecr")
     end
 
-    def generate(node : Ast::EnumOption, param)
-      param
-    end
-
     def comment(node : Ast::EnumOption)
       render("#{__DIR__}/html/comment.ecr")
     end
+    
+    def stringify(node : Ast::EnumOption)
+      node.value.value
+    end 
   end
 end

@@ -11,14 +11,13 @@ module Mint
 
   class DocumentationGeneratorHtml
     def stringify(node : Ast::TypeId)
-      node.value
-    end
+      url = type_url(node.value)
 
-    def generate(node : Ast::TypeId | Nil)
-    end
-
-    def generate(node : Ast::TypeId)
-      render("#{__DIR__}/html/type_id.ecr")
+      if url != ""
+        "<a href=\"#{url}\">#{node.value}</a>"
+      else
+        node.value
+      end
     end
   end
 end

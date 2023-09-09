@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <% if @base != "" %>
+      <base href="<%= @base %>">
+    <% end %>
     <meta charset="utf-8" />
-    <base href="/docs/">
-    <title></title>
+    <title><%= @git_source.user %> / <%= @git_source.repo %> | <%= @page %></title>
     <link
       rel="shortcut icon"
       type="image/x-icon"
@@ -30,6 +32,14 @@
     />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+      body {
+        font-family: Open Sans;
+      }
+
+      .type-badge[data-type="state"] {
+        background: orange;
+      }
+      
       .enum__option__param + .enum__option__param::before {
         content: ',';
         margin-right: 10px;
@@ -37,6 +47,11 @@
 
       .guide .guide-content h2 a {
         color: #333;
+      }
+
+      .guide-content > .entity__body {
+        margin: 0;
+        padding: 0;
       }
       
       .guide .guide-content a:hover,
@@ -87,7 +102,7 @@
       }
     </style>
   </head>
-  <body x-data="{ showNav: false }">
+  <body x-data="{ showNav: false, search: '' }">
     <article>
       <div class="page">
         <div class="guide guide--wide">
@@ -110,35 +125,13 @@
           <div class="toc" :class="showNav ? 'toc--open' : ''" @click="showNav = false">
             <div class="toc__wrapper" @click.stop="showNav = true">
               <div class="page__package">
-                <strong><%= @repo %></strong>
-              </div>
-
-              <div class="toc__section">Search</div>
-
-              <div class="input-search">
-                <svg
-                  class="octicon octicon-search"
-                  viewBox="0 0 16 16"
-                  version="1.1"
-                  width="16"
-                  height="16"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"
-                  ></path>
-                </svg>
-                <input
-                  data-id="version-search"
-                  placeholder="Find entities... "
-                />
+                <strong><%= @git_source.repo %></strong>
               </div>
 
               <div class="toc__section">Basic information</div>
               
               <div class="toc__pages">
-                <a class="toc__page" href="README.html">
+                <a class="toc__page" href="<%= readme_url %>">
                   <div>
                     <svg
                       class="octicon octicon-book"
@@ -157,7 +150,7 @@
                   </div> 
                 </a>
 
-                <a class="toc__page" href="https://github.com/<%= @user %>/<%= @repo %>/tree/<%= @version %>">
+                <a class="toc__page" href="<%= @git_source.url %>">
                   <div>
                     <svg
                       class="octicon octicon-mark-github"
@@ -179,17 +172,50 @@
 
               <div class="toc__section">Entities</div>
 
+              <div class="input-search">
+                <svg
+                  class="octicon octicon-search"
+                  viewBox="0 0 16 16"
+                  version="1.1"
+                  width="16"
+                  height="16"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"
+                  ></path>
+                </svg>
+                <input
+                  x-model="search"
+                  placeholder="Filter entities... "
+                />
+              </div>
+
               <div class="toc__pages" id="sidebar">
                 <div class="sidebar">
-                  <% @entities.each do |category, entities| %>
-                    <% entities.each do |entity| %>
-                      <div data-id="version-item">
-                        <a class="<% if entity == @active %>active<% end %>" href="<%= category %>/<%= entity %>.html">
-                          <div class="type-badge" data-type="<%= category %>"></div>
-                          <%= entity %>
-                        </a>
-                      </div>
-                    <% end %>
+                  <% @ast.components.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "components") %> 
+                  <% end %>
+                  
+                  <% @ast.enums.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "enums") %> 
+                  <% end %>
+                  
+                  <% @ast.modules.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "modules") %> 
+                  <% end %>
+                  
+                  <% @ast.providers.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "providers") %> 
+                  <% end %>
+                  
+                  <% @ast.records.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "records") %> 
+                  <% end %>
+
+                  <% @ast.stores.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "stores") %> 
                   <% end %>
                 </div>
               </div>
@@ -199,8 +225,8 @@
               <div class="toc__pages">
                 <a
                   class="toc__page"
-                  href="/packages/<%= @user %>/<%= @repo %>/<%= @version %>"
-                  ><%= @version %></a
+                  href="/packages/<%= @user %>/<%= @repo %>/<%= @ref %>"
+                  ><%= @ref %></a
                 >
               </div>
 
@@ -230,6 +256,12 @@
     <script>
       hljs.configure({ languages: ["mint"] });
       hljs.highlightAll();
+
+      function includes(item, search, showIfEmptySearch) {
+        return search.trim() === ''
+          ? showIfEmptySearch
+          : item.toLowerCase().includes(search.toLowerCase())
+      }
     </script>
   </body>
 </html>

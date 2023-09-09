@@ -23,6 +23,10 @@ module Mint
       render("#{__DIR__}/html/enum.ecr")
     end
 
+    def stringify(node : Ast::Enum)
+      node.name.value
+    end
+
     def comment(node : Ast::Enum)
       render("#{__DIR__}/html/comment.ecr")
     end

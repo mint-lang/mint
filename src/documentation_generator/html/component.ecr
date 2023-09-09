@@ -1,7 +1,7 @@
 <h1>
-  <%= node.name.value %>
+  <%= stringify(node) %>
   <div class="type-badge" data-type="component"></div>
-  <a class="github-source-link" href="<%= github_source_url(node) %>"></a>
+  <a class="github-source-link" href="<%= git_url(node) %>"></a>
 </h1>
 
 <%= comment(node) %>

@@ -8,4 +8,14 @@ module Mint
       end
     end
   end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::RecordDefinitionField)
+      render("#{__DIR__}/html/record_definition_field.ecr")
+    end
+
+    def stringify(node : Ast::RecordDefinitionField)
+      node.key.value
+    end
+  end
 end

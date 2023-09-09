@@ -19,8 +19,8 @@ module Mint
       render("#{__DIR__}/html/function.ecr")
     end
 
-    def arguments(node : Ast::Function)
-      render("#{__DIR__}/html/arguments.ecr")
+    def stringify(node : Ast::Function)
+      node.name.value
     end
 
     def comment(node : Ast::Function)

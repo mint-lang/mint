@@ -19,5 +19,13 @@ module Mint
     def generate(node : Ast::Provider)
       render("#{__DIR__}/html/provider.ecr")
     end
+    
+    def stringify(node : Ast::Provider)
+      node.name.value
+    end
+
+    def children(node : Ast::Provider)
+      children("providers", "function", node, node.functions)
+    end
   end
 end

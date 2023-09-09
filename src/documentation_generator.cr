@@ -85,117 +85,167 @@ module Mint
   end
 
   class DocumentationGeneratorHtml
-    @formatter = Formatter.new
-    @mint_json = MintJson.new(%({"name": "core"}), "core", "mint.json")
-    @ast = Ast.new
-    @core_entity_categories = Hash(String, String).new
-    @entity_categories = Hash(String, String).new
-    @entities = Hash(String, Array(String)).new
-    @category : String = ""
-    @active : String = "README"
+    class Page
+      getter category, subcategory, parent, name
 
-    def initialize(@user : String, @repo : String, @version : String)
-      @core_entity_categories = build_entity_categories(Core.ast)
+      def initialize(@category : String, @subcategory : String, @parent : String, @name : String)
+      end
     end
 
-    def build_entity_categories(ast : Ast)
-      components = ast.components.map { |n| [n.name.value, "component"] }
-      enums = ast.enums.map { |n| [n.name.value, "enum"] }
-      modules = ast.modules.map { |n| [n.name.value, "module"] }
-      providers = ast.providers.map { |n| [n.name.value, "provider"] }
-      records = ast.records.map { |n| [n.name.value, "record"] }
-      stores = ast.components.map { |n| [n.name.value, "component"] }
-      all = components | enums | modules | providers | records | stores
+    @formatter = Formatter.new
+    @repo : String = ""
+    @user : String = ""
+    @ref : String = ""
+    @git_source : GitSource
+    @core_types : Hash(String, String)
+    @types : Hash(String, String)
+    @pages = Hash(String, Array(String)).new
+    @page_children = Hash(Array(String), Array(String)).new
+    @category : String = ""
+    @page : String = ""
+
+    def initialize(@mint_json : MintJson, @ast : Ast, @git_source : GitSource, @output_dir : String, @base : String)
+      @pages = {
+        "components" => @ast.components.map(&.name.value).sort,
+        "enums"      => @ast.enums.map(&.name.value).sort,
+        "modules"    => @ast.modules.map(&.name.value).sort,
+        "providers"  => @ast.providers.map(&.name.value).sort,
+        "records"    => @ast.records.map(&.name.value).sort,
+        "stores"     => @ast.stores.map(&.name.value).sort,
+      }
+      @core_types = build_types_lookup(Core.ast)
+      @types = build_types_lookup(ast)
+    end
+
+    def build_types_lookup(a : Ast)
+      # order matters here when things get dedeuped
+      all = a.components.map { |i| [i.name.value, "components"] } |
+            a.modules.map { |i| [i.name.value, "modules"] } |
+            a.providers.map { |i| [i.name.value, "providers"] } |
+            a.records.map { |i| [i.name.value, "records"] } |
+            a.stores.map { |i| [i.name.value, "stores"] } |
+            a.enums.map { |i| [i.name.value, "enums"] }
+
       all.to_h
     end
 
-    def generate(node : Ast::Node, json)
+    def generate
+      write_readme()
+      @ast.components.each { |node| write_page("components", node) }
+      @ast.enums.each { |node| write_page("enums", node) }
+      @ast.modules.each { |node| write_page("modules", node) }
+      @ast.providers.each { |node| write_page("providers", node) }
+      @ast.records.each { |node| write_page("records", node) }
+      @ast.stores.each { |node| write_page("stores", node) }
     end
 
-    def generate(node : Ast::Node)
-    end
-
-    def generate(mint_json : MintJson, ast : Ast)
-      @mint_json = mint_json
-      @ast = ast
-      @entities = {
-        "component" => ast.components.map(&.name.value).sort,
-        "enum"      => ast.enums.map(&.name.value).sort,
-        "module"    => ast.modules.map(&.name.value).sort,
-        "provider"  => ast.providers.map(&.name.value).sort,
-        "record"    => ast.records.map(&.name.value).sort,
-        "store"     => ast.stores.map(&.name.value).sort,
-      }
-
-      @entity_categories = build_entity_categories(ast)
-
-      ast.components.each { |node| write_html("component", node) }
-
-      ast.enums.each { |node| write_html("enum", node) }
-
-      ast.modules.each { |node| write_html("module", node) }
-
-      ast.providers.each { |node| write_html("provider", node) }
-
-      ast.records.each { |node| write_html("record", node) }
-
-      ast.stores.each { |node| write_html("store", node) }
-    end
-
-    def write_html(category : String, node : Ast::Node)
+    def write_page(category : String, node : Ast::Node)
       @category = category
-      @active = node.name.value
+      @page = node.name.value
+
       content = generate(node)
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
-      Dir.mkdir_p("docs/#{category}")
-      File.write("docs/#{category}/#{node.name.value}.html", html)
+
+      Dir.mkdir_p("#{@output_dir}/#{@category}")
+      File.write("#{@output_dir}/#{@category}/#{@page}.html", html)
     end
 
-    def readme(mint_json : MintJson)
-      @active = "README"
-      readme = File.read("#{mint_json.root}/README.md")
+    def write_readme
+      @page = "README"
+
+      readme = begin
+        File.read("#{@mint_json.root}/README.md")
+      rescue
+        "# Could not find a README.md file"
+      end
+
       content = Markd.to_html(readme)
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
-      File.write("docs/README.html", html)
+
+      Dir.mkdir_p("#{@output_dir}")
+      File.write("#{@output_dir}/index.html", html)
     end
 
-    def stringify(node : Ast::Node)
-      ""
+    def nav_item(node : Ast::Node, category : String)
+      render("#{__DIR__}/documentation_generator/html/nav_item.ecr")
     end
 
-    def stringify_html(node : Ast::Node)
-      ""
+    def generate(node)
+    end
+
+    def stringify(children : Array(Page))
+      children.map(&.name).join("|")
     end
 
     def stringify(nodes : Array(Ast::Node))
       nodes.join(", ") { |node| stringify node }
     end
 
+    def stringify(node)
+      ""
+    end
+
     def source(node)
       @formatter.source(node)
     end
     
-    def type_url(entity : String)
-      core_category = @core_entity_categories.fetch(entity, "")
-      category = @entity_categories.fetch(entity, "")
+    def search(node)
+      "#{stringify(node)}|#{stringify(children(node))}"
+    end
 
-      if category != ""
-        "https://mint-lang.com/api/#{core_category}/#{@active}##{entity}"
-      elsif core_category != ""
-        "#{category}/#{@active}##{entity}"
+    def children(category : String, subcategory : String, page : Ast::Node, children : Array(Ast::Node)) : Array(Page)
+      children
+        .sort_by(&.name.value)
+        .map { |node| Page.new(category, subcategory, page.name.value, node.name.value) }
+    end
+
+    def children(node)
+      [] of Page
+    end
+
+    def url_base
+      if @base == ""
+        "/"
       else
         ""
       end
     end
 
-    def anchor_url(entity : String)
-      "#{@category}/#{@active}##{entity}"
+    def readme_url
+      "#{url_base}index.html"
     end
 
-    def github_source_url(node : Ast::Node)
-      path = node.location.filename.sub(@mint_json.root, "")
+    def page_url(category : String, page : String)
+      "#{url_base}#{category}/#{page}"
+    end
 
-      "https://github.com/#{@user}/#{@repo}/blob/#{@version}#{path}#L#{node.location.start[0]}"
+    def anchor_url(node)
+      "#{page_url(@category, @page)}##{stringify(node)}"
+    end
+
+    def anchor_url(child : Page)
+      "#{page_url(child.category, child.parent)}##{child.name}"
+    end
+
+    def is_page_active(category : String, node : Ast::Node)
+      category == @category && stringify(node) == @page
+    end
+
+    def type_url(type : String)
+      core = @core_types.fetch(type, "")
+      own = @types.fetch(type, "")
+
+      if own != ""
+        page_url(own, type)
+      elsif core != ""
+        "https://mint-lang.com/api/#{core}/#{type}"
+      else
+        ""
+      end
+    end
+
+    def git_url(node)
+      @git_source.get_node_url(node)
     end
   end
 end

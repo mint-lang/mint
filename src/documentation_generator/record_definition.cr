@@ -18,5 +18,9 @@ module Mint
     def generate(node : Ast::RecordDefinition)
       render("#{__DIR__}/html/record_definition.ecr")
     end
+
+    def stringify(node : Ast::RecordDefinition)
+      node.name.value
+    end
   end
 end

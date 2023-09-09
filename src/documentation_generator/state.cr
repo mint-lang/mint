@@ -15,6 +15,10 @@ module Mint
       render("#{__DIR__}/html/state.ecr")
     end
 
+    def stringify(node : Ast::State)
+      node.name.value
+    end
+
     def default(node : Ast::State)
       default = node.default.try { |item| source(item) }
 

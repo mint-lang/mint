@@ -10,7 +10,7 @@ module Mint
   end
 
   class DocumentationGeneratorHtml
-    def generate(node : Ast::EnumRecordDefinition, option : Ast::EnumOption)
+    def generate(node : Ast::EnumRecordDefinition)
       render("#{__DIR__}/html/enum_record_definition.ecr")
     end
   end

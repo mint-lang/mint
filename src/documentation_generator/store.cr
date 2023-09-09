@@ -27,5 +27,14 @@ module Mint
     def generate(node : Ast::Store)
       render("#{__DIR__}/html/store.ecr")
     end
+
+    def stringify(node : Ast::Store)
+      node.name.value
+    end
+
+    def children(node : Ast::Store)
+      children("stores", "state", node, node.states) |
+      children("stores", "function", node, node.functions)
+    end
   end
 end

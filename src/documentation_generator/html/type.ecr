@@ -1,9 +1,7 @@
-<% if node != nil %>
-  <div class="entity__operator">
-    :
-  </div>
+<div class="entity__operator">
+  :
+</div>
 
-  <div class="entity__type">
-    <%= node.try{|t| stringify(t)} %>
-  </div>
-<% end %>
+<div class="entity__type">
+  <%= stringify(node) %>
+</div>

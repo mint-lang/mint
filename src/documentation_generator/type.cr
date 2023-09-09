@@ -24,8 +24,12 @@ module Mint
       "#{stringify node.name}#{parameters}"
     end
 
-    def generate(node : Ast::Type)
-      render("#{__DIR__}/html/type.ecr")
+    def generate(node : Ast::Type | Nil)
+      if node
+        render("#{__DIR__}/html/type.ecr")
+      else
+        ""
+      end
     end
   end
 end

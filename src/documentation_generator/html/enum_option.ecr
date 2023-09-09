@@ -1,18 +1,18 @@
 <div class="entity">
   <div class="entity__signature">
-    <a class="entity__name" href="<%= anchor_url(node.value.value) %>">
-      <%= node.value.value %>
+    <a class="entity__name" href="<%= anchor_url(node) %>">
+      <%= stringify(node) %>
     </a>
 
     <% if node.parameters.to_a.any? %>
-      (
+      <div class="entity__signature">(
         <% node.parameters.each do |p| %>
-          <%= generate(p, node) %>
-        <% end %>              
+          <%= generate(p) %>
+        <% end %>
       )
     <% end %>
 
-    <a class="github-source-link" href="<%= github_source_url(node) %>"></a>
+    <a class="github-source-link" href="<%= git_url(node) %>"></a>
   </div>
 
   <%= comment(node) %>

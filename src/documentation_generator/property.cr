@@ -21,6 +21,10 @@ module Mint
       render("#{__DIR__}/html/default.ecr")
     end
 
+    def stringify(node : Ast::Property)
+      node.name.value
+    end
+
     def comment(node : Ast::Property)
       render("#{__DIR__}/html/comment.ecr")
     end

@@ -1,1 +1,5 @@
-<span class="entity__type"><%= stringify(node) %></span>
+<span class="entity__type">
+  <a href="<%= type_url(stringify(node)) %>">
+    <%= stringify(node) %>
+  </a>
+</span>

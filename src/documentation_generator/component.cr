@@ -39,6 +39,16 @@ module Mint
       render("#{__DIR__}/html/component.ecr")
     end
 
+    def stringify(node : Ast::Component)
+      node.name.value
+    end
+
+    def children(node : Ast::Component)
+      children("components", "property", node, node.properties) |
+        children("components", "state", node, node.states) |
+        children("components", "function", node, node.functions)
+    end
+
     def comment(node : Ast::Node)
       render("#{__DIR__}/html/comment.ecr")
     end

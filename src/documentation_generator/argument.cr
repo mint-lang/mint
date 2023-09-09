@@ -7,4 +7,14 @@ module Mint
       end
     end
   end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::Argument)
+      render("#{__DIR__}/html/argument.ecr")
+    end
+
+    def stringify(node : Ast::Argument)
+      node.name.value
+    end
+  end
 end

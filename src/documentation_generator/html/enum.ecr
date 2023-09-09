@@ -1,15 +1,15 @@
 <h1>
-  <%= node.name.value %>
+  <%= stringify(node) %>
   <div class="type-badge" data-type="enum"></div>
-  <a class="github-source-link" href="<%= github_source_url(node) %>"></a>
+  <a class="github-source-link" href="<%= git_url(node) %>"></a>
 </h1>
 
 <%= comment(node) %>
 
 <h2>Options</h2>
 
-<% node.options.sort_by(&.value.value).each do |option| %>
-  <a name="<%= option.value.value %>"></a>
+<% node.options.each do |option| %>
+  <a name="<%= stringify(option) %>"></a>
   
   <%= generate(option) %>
 <% end %>

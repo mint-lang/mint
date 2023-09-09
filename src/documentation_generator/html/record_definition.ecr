@@ -1,24 +1,10 @@
 <h1>
-  <%= node.name.value %>
+  <%= stringify(node) %>
   <div class="type-badge" data-type="record"></div>
 </h1>
 
 <h2>Fields</h2>
 
 <% node.fields.sort_by(&.key.value).each do |f| %>
-  <a name="<%= f.key.value %>"></a>
-  
-  <div class="entity">
-    <div class="entity__signature">
-      <a class="entity__name" href="<%= anchor_url(f.key.value) %>">
-        <div><%= f.key.value %></div>
-      </a>
-      <div class="entity__operator">
-        :
-      </div>
-      <div class="entity__type">
-        <%= stringify(f.type) %>
-      </div>
-    </div>
-  </div>
+  <%= generate(f) %>
 <% end %>
