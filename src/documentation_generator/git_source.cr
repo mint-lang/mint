@@ -8,20 +8,20 @@ module Mint
       @user : String = ""
       @repo : String = ""
 
-      getter url, user, repo
+      getter url, ref, user, repo
 
-      def initialize(url : String | Nil, url_pattern : String | Nil, ref : String | Nil)
+      def initialize(url : String, url_pattern : String, ref : String)
         @root = git_root
 
         @url =
-          if url
+          if url != ""
             url
           else
             parse_remote_git_url
           end
 
         @ref =
-          if ref
+          if ref != ""
             ref
           else
             parse_latest_git_ref
@@ -32,7 +32,7 @@ module Mint
         @repo = user_repo[1]
 
         @url_pattern =
-          if url_pattern
+          if url_pattern != ""
             url_pattern
           elsif @url.includes?("github")
             "https://github.com/#{@user}/#{@repo}/blob/{ref}/{path}#L{line}"

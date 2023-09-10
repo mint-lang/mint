@@ -19,10 +19,6 @@ module Mint
       render("#{__DIR__}/html/enum_option.ecr")
     end
 
-    def generate(node : Ast::Type, option : Ast::EnumOption)
-      render("#{__DIR__}/html/enum_parameter.ecr")
-    end
-
     def comment(node : Ast::EnumOption)
       render("#{__DIR__}/html/comment.ecr")
     end

@@ -1,6 +1,8 @@
 <% node.fields.each do |f| %>
   <div class="entity__argument">
-    <%= stringify(f) %>
+    <div class="entity__label">
+      <%= stringify(f) %>
+    </div>
 
     <%= generate(f.type) %>
   </div>

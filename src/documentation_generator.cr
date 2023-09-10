@@ -93,9 +93,6 @@ module Mint
     end
 
     @formatter = Formatter.new
-    @repo : String = ""
-    @user : String = ""
-    @ref : String = ""
     @git_source : GitSource
     @core_types : Hash(String, String)
     @types : Hash(String, String)
@@ -104,7 +101,8 @@ module Mint
     @category : String = ""
     @page : String = ""
 
-    def initialize(@mint_json : MintJson, @ast : Ast, @git_source : GitSource, @output_dir : String, @base : String)
+    def initialize(@mint_json : MintJson, @ast : Ast, @output_dir : String, @base : String, git_url : String, git_url_pattern : String, git_ref : String)
+      @git_source = GitSource.new(git_url, git_url_pattern, git_ref)
       @pages = {
         "components" => @ast.components.map(&.name.value).sort,
         "enums"      => @ast.enums.map(&.name.value).sort,
@@ -190,7 +188,7 @@ module Mint
     end
     
     def search(node)
-      "#{stringify(node)}|#{stringify(children(node))}"
+      "#{stringify(node)}|#{stringify(children(node))}".downcase
     end
 
     def children(category : String, subcategory : String, page : Ast::Node, children : Array(Ast::Node)) : Array(Page)
@@ -210,6 +208,10 @@ module Mint
         ""
       end
     end
+    
+    def is_page_active(category : String, node : Ast::Node)
+      category == @category && stringify(node) == @page
+    end
 
     def readme_url
       "#{url_base}index.html"
@@ -227,9 +229,6 @@ module Mint
       "#{page_url(child.category, child.parent)}##{child.name}"
     end
 
-    def is_page_active(category : String, node : Ast::Node)
-      category == @category && stringify(node) == @page
-    end
 
     def type_url(type : String)
       core = @core_types.fetch(type, "")

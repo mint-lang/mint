@@ -17,7 +17,7 @@ module Mint
       define_flag git_url : String,
         description: "The git repository source url",
         required: false
-        
+
       define_flag git_url_pattern : String,
         description: "The git repository source url pattern",
         required: false
@@ -47,31 +47,26 @@ module Mint
           ast.normalize
 
           html(ast, mint_json)
-          
+
           json(ast, mint_json)
         end
       end
 
       def html(ast : Ast, mint_json : MintJson)
-        git_source = DocumentationGeneratorHtml::GitSource.new(
-          flags.git_url,
-          flags.git_url_pattern,
-          flags.git_ref
-        )
-
-        DocumentationGeneratorHtml
-          .new(
-            mint_json,
-            ast,
-            git_source,
-            flags.output_dir,
-            flags.base,
-          ).generate
+        DocumentationGeneratorHtml.new(
+          mint_json,
+          ast,
+          flags.output_dir,
+          flags.base,
+          flags.git_url || "",
+          flags.git_url_pattern || "",
+          flags.git_ref || ""
+        ).generate
       end
 
       def json(ast : Ast, mint_json : MintJson)
         json =
-            DocumentationGeneratorJson.new.generate(mint_json, ast)
+          DocumentationGeneratorJson.new.generate(mint_json, ast)
 
         json_file = "#{flags.output_dir}/#{flags.json}"
 

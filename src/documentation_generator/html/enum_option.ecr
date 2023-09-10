@@ -5,11 +5,13 @@
     </a>
 
     <% if node.parameters.to_a.any? %>
-      <div class="entity__signature">(
-        <% node.parameters.each do |p| %>
-          <%= generate(p) %>
-        <% end %>
-      )
+      <span>(</span>
+
+      <% node.parameters.each do |p| %>
+        <%= generate(p) %>
+      <% end %>
+
+      <span>)</span>
     <% end %>
 
     <a class="github-source-link" href="<%= git_url(node) %>"></a>

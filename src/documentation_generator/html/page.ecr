@@ -30,7 +30,6 @@
       media="screen"
       href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/styles/atom-one-dark.min.css"
     />
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
       body {
         font-family: Open Sans;
@@ -65,6 +64,14 @@
 
       .entity__type.entity__type a {
         color: #f77900;
+      }
+
+      .entity__name + .entity__type::before,
+      .entity__label + .entity__type::before,
+      .entity__operator + .entity__type::before {
+        content: ":";
+        color: #AAA;
+        margin-left: 5px;
       }
 
       a.github-source-link::before {
@@ -102,11 +109,11 @@
       }
     </style>
   </head>
-  <body x-data="{ showNav: false, search: '' }">
+  <body>
     <article>
       <div class="page">
         <div class="guide guide--wide">
-          <div class="toc-mobile" @click="showNav = true">
+          <div id="toc-mobile" class="toc-mobile">
             Pages
             <svg
               width="14"
@@ -122,8 +129,8 @@
               ></path>
             </svg>
           </div>
-          <div class="toc" :class="showNav ? 'toc--open' : ''" @click="showNav = false">
-            <div class="toc__wrapper" @click.stop="showNav = true">
+          <div id="toc" class="toc">
+            <div id="toc-wrapper" class="toc__wrapper">
               <div class="page__package">
                 <strong><%= @git_source.repo %></strong>
               </div>
@@ -187,7 +194,7 @@
                   ></path>
                 </svg>
                 <input
-                  x-model="search"
+                  id="search"
                   placeholder="Filter entities... "
                 />
               </div>
@@ -225,8 +232,8 @@
               <div class="toc__pages">
                 <a
                   class="toc__page"
-                  href="/packages/<%= @user %>/<%= @repo %>/<%= @ref %>"
-                  ><%= @ref %></a
+                  href="/packages/<%= @git_source.user %>/<%= @git_source.repo %>/<%= @git_source.ref %>"
+                  ><%= @git_source.repo %></a
                 >
               </div>
 
@@ -257,11 +264,28 @@
       hljs.configure({ languages: ["mint"] });
       hljs.highlightAll();
 
-      function includes(item, search, showIfEmptySearch) {
-        return search.trim() === ''
-          ? showIfEmptySearch
-          : item.toLowerCase().includes(search.toLowerCase())
-      }
+      document.getElementById('toc-mobile').addEventListener('click', (e) => {
+        toc.classList.add('toc--open')
+      })
+
+      document.getElementById('toc').addEventListener('click', (e) => {
+        toc.classList.remove('toc--open')
+      })
+      
+      document.getElementById('toc-wrapper').addEventListener('click', (e) => {
+        e.stopPropagation()
+      })
+
+      document.getElementById('search').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase().trim()
+        
+        document.querySelectorAll(`[data-search]`).forEach(el => el.style.display = 'none')
+        if (term === '') {
+          document.querySelectorAll(`[data-search-empty="true"]`).forEach(el => el.style.display = '')
+        } else {
+          document.querySelectorAll(`[data-search*="${term}"]`).forEach(el => el.style.display = '')
+        }
+      })
     </script>
   </body>
 </html>
