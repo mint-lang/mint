@@ -143,7 +143,7 @@ module Mint
 
       # ameba:disable Lint/UselessAssign
       content = generate(node)
-      
+
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
 
       Dir.mkdir_p("#{@output_dir}/#{@category}")
