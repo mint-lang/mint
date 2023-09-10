@@ -50,32 +50,31 @@ module Mint
       end
 
       def git_root : String
-        begin
-          `git rev-parse --show-toplevel`.strip
-        rescue
-          ""
-        end
+        `git rev-parse --show-toplevel`.strip
+      rescue
+        ""
+      end
+
+      def git_remote : String
+        `git remote -v`.strip
+      rescue
+        ""
       end
 
       def parse_remote_git_url : String
-        remote =
-          begin
-            `git remote -v`.strip
-          rescue
-            ""
-          end
+        remote = git_remote
 
-        if match = /^\w*\s*(.*)\/(.*)\/(.*).git/.match(remote) # matches "origin https://github.com/mint-lang/mint.git
-          return "#{$1}/#{$2}/#{$3}"
-        elsif match = /^.*\@(.*):(.*)\/(.*).git/.match(remote) # matches "origin git@github.com:mint-lang/mint.git"
-          return "https://#{$1}/#{$2}/#{$3}"
+        if /^\w*\s*(.*)\/(.*)\/(.*).git/.match(remote) # matches "origin https://github.com/mint-lang/mint.git
+          "#{$1}/#{$2}/#{$3}"
+        elsif /^.*\@(.*):(.*)\/(.*).git/.match(remote) # matches "origin git@github.com:mint-lang/mint.git"
+          "https://#{$1}/#{$2}/#{$3}"
         else
           ""
         end
       end
 
       def parse_user_and_repo : Tuple(String, String)
-        if match = /[https?:\/\/]?(.*)\/(.*)\/(.*)\/?/.match(@url)
+        if /[https?:\/\/]?(.*)\/(.*)\/(.*)\/?/.match(@url)
           {$2, $3}
         else
           {"", ""}
@@ -83,7 +82,8 @@ module Mint
       end
 
       def parse_latest_git_ref : String
-        `git tag -l | sort -V`.split.select { |t| t.strip != "" }.last
+        refs = `git tag -l | sort -V`.split.reverse_each { |t| t.strip != "" }
+        refs.try(&.last) || ""
       end
 
       def get_node_url(node : Ast::Node) : String

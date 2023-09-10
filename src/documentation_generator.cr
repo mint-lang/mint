@@ -104,12 +104,12 @@ module Mint
     def initialize(@mint_json : MintJson, @ast : Ast, @output_dir : String, @base : String, git_url : String, git_url_pattern : String, git_ref : String)
       @git_source = GitSource.new(git_url, git_url_pattern, git_ref)
       @pages = {
-        "components" => @ast.components.map(&.name.value).sort,
-        "enums"      => @ast.enums.map(&.name.value).sort,
-        "modules"    => @ast.modules.map(&.name.value).sort,
-        "providers"  => @ast.providers.map(&.name.value).sort,
-        "records"    => @ast.records.map(&.name.value).sort,
-        "stores"     => @ast.stores.map(&.name.value).sort,
+        "components" => @ast.components.map(&.name.value).sort!,
+        "enums"      => @ast.enums.map(&.name.value).sort!,
+        "modules"    => @ast.modules.map(&.name.value).sort!,
+        "providers"  => @ast.providers.map(&.name.value).sort!,
+        "records"    => @ast.records.map(&.name.value).sort!,
+        "stores"     => @ast.stores.map(&.name.value).sort!,
       }
       @core_types = build_types_lookup(Core.ast)
       @types = build_types_lookup(ast)
@@ -141,7 +141,9 @@ module Mint
       @category = category
       @page = node.name.value
 
+      # ameba:disable Lint/UselessAssign
       content = generate(node)
+      
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
 
       Dir.mkdir_p("#{@output_dir}/#{@category}")
@@ -151,13 +153,9 @@ module Mint
     def write_readme
       @page = "README"
 
-      readme = begin
-        File.read("#{@mint_json.root}/README.md")
-      rescue
-        "# Could not find a README.md file"
-      end
+      # ameba:disable Lint/UselessAssign
+      content = read_markdown("README.md")
 
-      content = Markd.to_html(readme)
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
 
       Dir.mkdir_p("#{@output_dir}")
@@ -180,11 +178,25 @@ module Mint
     end
 
     def stringify(node)
-      ""
     end
 
-    def source(node)
+    def read_markdown(path : String)
+      content =
+        begin
+          File.read("#{@mint_json.root}/#{path}")
+        rescue
+          "# Could not find a #{path} file"
+        end
+
+      Markd.to_html(content)
+    end
+
+    def source(node : Ast::Node) : String
       @formatter.source(node)
+    end
+
+    def source(node : Ast::Node | Nil) : String
+      ""
     end
 
     def search(node)
@@ -201,16 +213,16 @@ module Mint
       [] of Page
     end
 
+    def is_page_active(category : String, node : Ast::Node)
+      category == @category && stringify(node) == @page
+    end
+
     def url_base
       if @base == ""
         "/"
       else
         ""
       end
-    end
-
-    def is_page_active(category : String, node : Ast::Node)
-      category == @category && stringify(node) == @page
     end
 
     def readme_url

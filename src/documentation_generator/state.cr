@@ -20,8 +20,6 @@ module Mint
     end
 
     def default(node : Ast::State)
-      default = node.default.try { |item| source(item) }
-
       render("#{__DIR__}/html/default.ecr")
     end
 
