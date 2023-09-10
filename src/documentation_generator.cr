@@ -186,7 +186,7 @@ module Mint
     def source(node)
       @formatter.source(node)
     end
-    
+
     def search(node)
       "#{stringify(node)}|#{stringify(children(node))}".downcase
     end
@@ -208,7 +208,7 @@ module Mint
         ""
       end
     end
-    
+
     def is_page_active(category : String, node : Ast::Node)
       category == @category && stringify(node) == @page
     end
@@ -228,7 +228,6 @@ module Mint
     def anchor_url(child : Page)
       "#{page_url(child.category, child.parent)}##{child.name}"
     end
-
 
     def type_url(type : String)
       core = @core_types.fetch(type, "")

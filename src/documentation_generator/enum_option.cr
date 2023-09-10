@@ -22,9 +22,9 @@ module Mint
     def comment(node : Ast::EnumOption)
       render("#{__DIR__}/html/comment.ecr")
     end
-    
+
     def stringify(node : Ast::EnumOption)
       node.value.value
-    end 
+    end
   end
 end

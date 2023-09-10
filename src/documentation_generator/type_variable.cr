@@ -8,7 +8,7 @@ module Mint
       json.string node.value
     end
   end
-  
+
   class DocumentationGeneratorHtml
     def generate(node : Ast::TypeVariable)
       render("#{__DIR__}/html/type_variable.ecr")

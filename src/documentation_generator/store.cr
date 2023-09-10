@@ -34,7 +34,7 @@ module Mint
 
     def children(node : Ast::Store)
       children("stores", "state", node, node.states) |
-      children("stores", "function", node, node.functions)
+        children("stores", "function", node, node.functions)
     end
   end
 end
