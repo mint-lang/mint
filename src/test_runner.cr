@@ -14,11 +14,13 @@ module Mint
     BROWSER_PATHS = {
       firefox: {
         "firefox",
+        "firefox-bin",
         "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
       },
       chrome: {
         "chromium-browser",
         "chromium",
+        "chromium-bin",
         "google-chrome",
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       },
