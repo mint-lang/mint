@@ -20,7 +20,6 @@ module Mint
       chrome: {
         "chromium-browser",
         "chromium",
-        "chromium-bin",
         "google-chrome",
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
       },
