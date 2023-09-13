@@ -28,6 +28,7 @@ module Mint
     error InvalidBrowser
     error InvalidReporter
 
+    @artifacts : TypeChecker::Artifacts?
     @reporter : Reporter
     @browser_path : String?
     @script : String?
@@ -101,6 +102,8 @@ module Mint
     def compile_script(ast)
       type_checker = TypeChecker.new(ast)
       type_checker.check
+
+      @artifacts = type_checker.artifacts
 
       Compiler.compile_with_tests(type_checker.artifacts)
     end
@@ -216,6 +219,25 @@ module Mint
         env.response.content_type = "text/css"
 
         SourceFiles.external_stylesheets
+      end
+
+      get "/#{ASSET_DIR}/:name" do |env|
+        filename =
+          env.params.url["name"]
+
+        asset =
+          @artifacts.try(&.assets.find(&.filename(build: false).==(filename)))
+
+        next unless asset
+
+        # Set cache to expire in 30 days.
+        env.response.headers["Cache-Control"] = "max-age=2592000"
+
+        # Try to figure out mime type from name.
+        env.response.content_type =
+          MIME.from_filename?(filename).to_s
+
+        asset.file_contents
       end
 
       get "/runtime.js" do
