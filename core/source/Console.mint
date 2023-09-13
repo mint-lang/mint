@@ -1,12 +1,23 @@
 store Console.Counter {
-  state count : Number = 0
+  state counts : Map(String, Number) = Map.empty()
 
-  fun increment {
-    next { count: count + 1 }
+  fun increment (label : String = "Default") {
+    next
+      {
+        counts:
+          case Map.has(counts, label) {
+            false => Map.set(counts, label, 1)
+            => Map.set(counts, label, Map.getWithDefault(counts, label, 0) + 1)
+          }
+      }
   }
 
-  fun clear {
-    next { count: 0 }
+  fun clear (label : String = "Default") {
+    next { counts: Map.set(counts, label, 0) }
+  }
+
+  fun get (label : String = "Default") : Number {
+    Map.getWithDefault(counts, label, 0)
   }
 }
 
@@ -40,9 +51,9 @@ module Console {
   */
   fun count (label : String = "Default") : Tuple(String, Number) {
     `console.count(#{label})`
-    Console.Counter.increment()
+    Console.Counter.increment(label)
 
-    {label, Console.Counter.count}
+    {label, Console.Counter.get(label)}
   }
 
   /*
@@ -53,9 +64,9 @@ module Console {
   */
   fun countReset (label : String = "Default") : Tuple(String, Number) {
     `console.countReset(#{label})`
-    Console.Counter.clear()
+    Console.Counter.clear(label)
 
-    {label, Console.Counter.count}
+    {label, Console.Counter.get(label)}
   }
 
   /*
@@ -163,7 +174,8 @@ module Console {
   }
 
   /*
-  **NON-STANDARD**:\
+  **NON-STANDARD**:
+
   Starts recording a performance profile.
 
   [profile()](https://developer.mozilla.org/en-US/docs/Web/API/console/profile)
@@ -179,7 +191,8 @@ module Console {
   }
 
   /*
-  **NON-STANDARD**:\
+  **NON-STANDARD**:
+
   Stops recording a performance profile previously started.
 
   [profileEnd()](https://developer.mozilla.org/en-US/docs/Web/API/console/profileEnd)
@@ -199,7 +212,7 @@ module Console {
 
   [table()](https://developer.mozilla.org/en-US/docs/Web/API/console/table)
   */
-  fun table (data : a, columns : Array(b) = []) : Tuple(a, Array(b)) {
+  fun table (data : a, columns : Array(String) = []) : Tuple(a, Array(String)) {
     if columns != [] {
       `console.table(#{data}, #{columns})`
     } else {
@@ -243,7 +256,8 @@ module Console {
   }
 
   /*
-  **NON-STANDARD**:\
+  **NON-STANDARD**:
+
   Adds a single marker to the browser's performance tool.
 
   [timestamp()](https://developer.mozilla.org/en-US/docs/Web/API/console/timestamp)
