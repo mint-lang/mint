@@ -32,7 +32,7 @@ jobs:
         uses: docker/setup-qemu-action@v2
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
