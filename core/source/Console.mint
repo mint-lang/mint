@@ -152,6 +152,8 @@ module Console {
   /*
   Outputs a message to the Web Console. Supports string substitution.
 
+  Console.log("Hello ", ["World", "!"]) => "Hello World!"
+
   [log()](https://developer.mozilla.org/en-US/docs/Web/API/console/log)
   */
   fun log (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
