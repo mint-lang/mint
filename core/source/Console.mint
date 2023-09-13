@@ -248,7 +248,7 @@ module Console {
   */
   fun timestamp (label : String = "Default") : String {
     if `!console.timestamp` {
-      Debug.log("Your browser does not support console.profile")
+      Debug.log("Your browser does not support console.timestamp")
     } else {
       `console.timestamp(#{label})`
     }
