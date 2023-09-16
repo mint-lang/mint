@@ -1,4 +1,4 @@
-/* Represents a subscription for `Provider.Mouse` */
+/* Represents a subscription for `Provider.Keyboard` */
 record Provider.Keyboard.Subscription {
   downs : Function(Html.Event, Promise(Void)),
   ups : Function(Html.Event, Promise(Void))

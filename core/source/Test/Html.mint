@@ -137,7 +137,7 @@ module Test.Html {
     `
   }
 
-  /* Triggers a keydown event on the element that matches the given selector. */
+  /* Triggers a keydown event with the specified key on the element that matches the given selector. */
   fun triggerKeyDown (
     context : Test.Context(Dom.Element),
     selector : String,
@@ -152,7 +152,7 @@ module Test.Html {
     `
   }
 
-  /* Triggers a keyup event on the element that matches the given selector. */
+  /* Triggers a keyup event with the specified key on the element that matches the given selector. */
   fun triggerKeyUp (
     context : Test.Context(Dom.Element),
     selector : String,
