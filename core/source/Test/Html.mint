@@ -137,6 +137,36 @@ module Test.Html {
     `
   }
 
+  /* Triggers a keydown event on the element that matches the given selector. */
+  fun triggerKeyDown (
+    context : Test.Context(Dom.Element),
+    selector : String,
+    key : String
+  ) : Test.Context(Dom.Element) {
+    `
+    #{context}.step((element) => {
+      const event = new KeyboardEvent('keydown', { key: #{key} });
+      element.querySelector(#{selector}).dispatchEvent(event)
+      return element
+    })
+    `
+  }
+
+  /* Triggers a keyup event on the element that matches the given selector. */
+  fun triggerKeyUp (
+    context : Test.Context(Dom.Element),
+    selector : String,
+    key : String
+  ) : Test.Context(Dom.Element) {
+    `
+    #{context}.step((element) => {
+      const event = new KeyboardEvent('keyup', { key: #{key} });
+      element.querySelector(#{selector}).dispatchEvent(event)
+      return element
+    })
+    `
+  }
+
   /* Asserts the text of the element that matches the given selector. */
   fun assertTextOf (
     context : Test.Context(Dom.Element),
