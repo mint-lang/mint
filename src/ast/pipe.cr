@@ -11,11 +11,19 @@ module Mint
       end
 
       def call
+        arg =
+          Ast::CallExpression.new(
+            expression: argument,
+            input: argument.input,
+            from: argument.from,
+            to: argument.to,
+            name: nil)
+
         @call ||=
           case item = expression
           when Ast::Call
             Ast::Call.new(
-              arguments: [argument] + item.arguments,
+              arguments: [arg] + item.arguments,
               expression: item.expression,
               input: item.input,
               from: item.from,
@@ -23,7 +31,7 @@ module Mint
           else
             Ast::Call.new(
               expression: expression,
-              arguments: [argument],
+              arguments: [arg],
               input: input,
               from: from,
               to: to)

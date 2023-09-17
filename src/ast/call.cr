@@ -3,7 +3,7 @@ module Mint
     class Call < Node
       getter arguments, expression
 
-      def initialize(@arguments : Array(Expression),
+      def initialize(@arguments : Array(CallExpression),
                      @expression : Expression,
                      @input : Data,
                      @from : Int32,

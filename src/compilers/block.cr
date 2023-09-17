@@ -15,7 +15,7 @@ module Mint
       last =
         statements.pop
 
-      if statements.empty?
+      if statements.empty? && !node.async?
         if for_function
           js.return(last)
         else

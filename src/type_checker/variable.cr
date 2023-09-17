@@ -5,10 +5,12 @@ module Mint
 
       property parameters = [] of Checkable
       property instance : Checkable?
+      property label : String?
+
       getter name : String
       getter id : Int32
 
-      def initialize(@name)
+      def initialize(@name, @label = nil)
         @id = (@@id += 1)
       end
 

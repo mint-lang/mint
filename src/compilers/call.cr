@@ -5,7 +5,7 @@ module Mint
         compile node.expression
 
       arguments =
-        compile node.arguments, ", "
+        compile node.arguments.sort_by { |item| argument_order.index(item) || -1 }, ", "
 
       case
       when node.expression.is_a?(Ast::InlineFunction)
