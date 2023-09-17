@@ -143,6 +143,11 @@ module Mint
         "componentDidMount"    => %w[],
       }
 
+      if node.locales?
+        heads["componentWillUnmount"] << "_L._unsubscribe(this)"
+        heads["componentDidMount"] << "_L._subscribe(this)"
+      end
+
       node.connects.each do |item|
         store =
           ast.stores.find(&.name.value.==(item.store.value))

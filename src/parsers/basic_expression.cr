@@ -9,6 +9,7 @@ module Mint
         asset_directive ||
         inline_directive ||
         env ||
+        locale_key ||
         here_doc ||
         string_literal ||
         regexp_literal ||

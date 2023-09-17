@@ -208,6 +208,22 @@ module Mint
       end
     end
 
+    def compiled_locales
+      mapped =
+        locales.each_with_object({} of String => Hash(String, String)) do |(key, data), memo|
+          data.each do |language, node|
+            if node.in?(checked)
+              memo[language] ||= {} of String => String
+              memo[language]["'#{key}'"] = compile(node)
+            end
+          end
+        end
+
+      js.object(mapped.each_with_object({} of String => String) do |(language, tokens), memo|
+        memo[language] = js.object(tokens)
+      end)
+    end
+
     # --------------------------------------------------------------------------
 
     # Wraps the application with the runtime
@@ -270,6 +286,42 @@ module Mint
         const _PE = (x, pattern) => new Pattern(x, pattern)
         const _PV = Symbol("Variable")
         const _PS = Symbol("Spread")
+
+        class Locale {
+          constructor(translations) {
+            this.locale = Object.keys(translations)[0];
+            this.translations = translations;
+            this.listeners = new Set();
+          }
+
+          set(locale) {
+            if (this.locale != locale && this.translations[locale]) {
+              this.locale = locale;
+
+              for (let listener of this.listeners) {
+                listener.forceUpdate();
+              }
+
+              return true
+            } else {
+              return false
+            }
+          }
+
+          t(key) {
+            return this.translations[this.locale][key]
+          }
+
+          _subscribe(owner) {
+            this.listeners.add(owner);
+          }
+
+          _unsubscribe(owner) {
+            this.listeners.delete(owner);
+          }
+        }
+
+        const _L = new Locale(#{compiled_locales});
 
         class RecordPattern {
           constructor(patterns) {

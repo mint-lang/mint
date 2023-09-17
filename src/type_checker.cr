@@ -43,7 +43,7 @@ module Mint
 
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate types, variables, ast, lookups, cache, to: artifacts
-    delegate assets, resolve_order, to: artifacts
+    delegate assets, resolve_order, locales, to: artifacts
 
     delegate component?, component, stateful?, current_top_level_entity?, to: scope
     delegate format, to: formatter
@@ -54,6 +54,7 @@ module Mint
     @types = {} of String => Ast::Node
     @records = [] of Record
     @top_level_entity : Ast::Node?
+    @languages : Array(String)
     @referee : Ast::Node?
 
     @returns : Hash(Ast::Node, Array(Ast::ReturnCall)) = {} of Ast::Node => Array(Ast::ReturnCall)
@@ -80,10 +81,13 @@ module Mint
     def initialize(ast : Ast, @check_env = true, @web_components = [] of String)
       ast.normalize
 
+      @languages = ast.unified_locales.map(&.language)
       @artifacts = Artifacts.new(ast)
       @scope = Scope.new(ast, records)
 
       resolve_records
+
+      ast.unified_locales.each { |locale| check_locale(locale) }
     end
 
     def debug

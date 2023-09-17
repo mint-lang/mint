@@ -1,0 +1,25 @@
+locale en {
+  test: "Hello"
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  componentWillUnmount() {
+    _L._unsubscribe(this);
+  }
+
+  componentDidMount() {
+    _L._subscribe(this);
+  }
+
+  render() {
+    return _L.t("test");
+  }
+};
+
+A.displayName = "Main";

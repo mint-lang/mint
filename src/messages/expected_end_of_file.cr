@@ -14,6 +14,7 @@ message ExpectedEndOfFile do
     "Routes",
     "Store",
     "Suite",
+    "Locale",
   ]
 
   block do

@@ -17,7 +17,8 @@ module Mint
 
         name = type_id! ComponentExpectedName
 
-        # Clear refs here because it's on the parser
+        # Clear refs and locales here because it's on the parser
+        locales.clear
         refs.clear
 
         body = block(
@@ -77,6 +78,7 @@ module Mint
         end
 
         self << Ast::Component.new(
+          locales: !locales.empty?,
           global: global || false,
           properties: properties,
           functions: functions,

@@ -15,7 +15,8 @@ module Mint
         ast.stores +
         ast.suites +
         ast.enums +
-        ast.comments
+        ast.comments +
+        ast.locales
       )
         .sort_by!(&.from)
         .map { |node| format node }

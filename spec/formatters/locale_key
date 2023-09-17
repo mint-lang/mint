@@ -1,0 +1,23 @@
+locale en {
+  ui: {
+    button: {
+      ok: "OK"
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    :ui.button.ok
+  }
+}
+--------------------------------------------------------------------------------
+locale en {
+  ui: { button: { ok: "OK" } }
+}
+
+component Main {
+  fun render : String {
+    :ui.button.ok
+  }
+}
