@@ -164,6 +164,21 @@ module Window {
   }
 
   /*
+  Like `Window.navigate()`, but also triggers a jump to the start of the
+  document or the hash, if it exists.
+
+    Window.jump("/new-url")
+  */
+  fun jump (url : String) : Promise(Void) {
+    `_navigate(
+      #{url},
+      /* dispatch */ true,
+      /* triggerJump */ true,
+      /* routeInfo */ null
+    )`
+  }
+
+  /*
   Returns `true` if the given media query matches.
 
     Window.matchesMediaQuery("(max-width: 320px)")
@@ -173,16 +188,22 @@ module Window {
   }
 
   /*
-  Navigates to the given URL.
+  Sets the URL of the window. If there is a route defined for this URL, runs
+  its handler. Updates the navigation history.
 
-    Window.navigate("https://www.example.com")
+    Window.navigate("/new-url")
   */
   fun navigate (url : String) : Promise(Void) {
-    `_navigate(#{url})`
+    `_navigate(
+      #{url},
+      /* dispatch */ true,
+      /* triggerJump */ false,
+      /* routeInfo */ null
+    )`
   }
 
   /*
-  Opens the given url in a new window.
+  Opens the given url in a new window or tab.
 
     Window.open("https://www.google.com")
   */
@@ -303,12 +324,17 @@ module Window {
   }
 
   /*
-  Sets the URL of the window without navigating to it.
+  Sets the URL of the window.
 
-    Window.setUrl("https://www.example.com")
+    Window.setUrl("/new-url")
   */
   fun setUrl (url : String) : Promise(Void) {
-    `_navigate(#{url}, false)`
+    `_navigate(
+      #{url},
+      /* dispatch */ false,
+      /* triggerJump */ false,
+      /* routeInfo */ null
+    )`
   }
 
   /*
@@ -321,15 +347,17 @@ module Window {
   }
 
   /*
-  Triggers the hash location jump on the page.
+  Triggers a jump to the current location on the page.
 
-  When a page loads and the current url has a hash `#anchor-name` the browser
-  automatically jumps to the matching anchor tag `<a name="anchor-name">`, but
-  this behavior does not happen when the history is manipulated.
+  When a page loads and the current url has a hash `#anchor-name`, the browser
+  automatically jumps to the element with the matching id or to the anchor tag
+  with the matching name `<a name="anchor-name">`. This behavior does not happen
+  when the history is manipulated manually.
 
-  This function triggers that behavior.
+  This function triggers that behavior. When there is a hash in the current URL,
+  it jumps to it, otherwise it jumps to the start of the document.
   */
-  fun triggerHashJump : Promise(Void) {
+  fun triggerJump : Promise(Void) {
     `requestAnimationFrame(() => {
       if (window.location.hash) {
         window.location.href = window.location.hash
