@@ -31,6 +31,16 @@ To localize a value you need to use the locale token:
 or if it's a function if can be called:
 
 ```
+locale en {
+  ui: {
+    buttons: {
+      ok: (param1 : String, param2 : String) {
+        "Button #{param1} #{param2}!"
+      }
+    }
+  }
+}
+
 :ui.buttons.ok(param1, param2)
 ```
 
