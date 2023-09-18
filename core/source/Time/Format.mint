@@ -183,7 +183,7 @@ module Time {
     Time.formatISO(Time.utcDate(2018, 4, 5)) == "2018-04-05T00:00:00.000Z"
   */
   fun formatISO (time : Time) : String {
-    format(time, Time.Format:ENGLISH, "%Y-%m-%dT%H:%M:%S.%LZ")
+    format(time, Time.Format.ENGLISH, "%Y-%m-%dT%H:%M:%S.%LZ")
   }
 
   /*

@@ -9,8 +9,8 @@ module Array {
   */
   fun any (array : Array(item), function : Function(item, Bool)) : Bool {
     case Array.find(array, function) {
-      Maybe::Nothing => false
-      Maybe::Just => true
+      Maybe.Nothing => false
+      Maybe.Just => true
     }
   }
 
@@ -45,8 +45,8 @@ module Array {
       [],
       (memo : Array(item), item : Maybe(item)) : Array(item) {
         case item {
-          Maybe::Just(value) => Array.push(memo, value)
-          Maybe::Nothing => memo
+          Maybe.Just(value) => Array.push(memo, value)
+          Maybe.Nothing => memo
         }
       })
   }
@@ -406,9 +406,9 @@ module Array {
   */
   fun max (array : Array(Number)) : Maybe(Number) {
     if Array.size(array) > 0 {
-      Maybe::Just(`Math.max(...#{array})`)
+      Maybe.Just(`Math.max(...#{array})`)
     } else {
-      Maybe::Nothing
+      Maybe.Nothing
     }
   }
 
@@ -421,9 +421,9 @@ module Array {
   */
   fun min (array : Array(Number)) : Maybe(Number) {
     if Array.size(array) > 0 {
-      Maybe::Just(`Math.min(...#{array})`)
+      Maybe.Just(`Math.min(...#{array})`)
     } else {
-      Maybe::Nothing
+      Maybe.Nothing
     }
   }
 
@@ -748,7 +748,7 @@ module Array {
     for item, index of array {
       item
     } when {
-      indexOf(array, item) == Maybe::Just(index)
+      indexOf(array, item) == Maybe.Just(index)
     }
   }
 
@@ -782,8 +782,8 @@ module Array {
     method : Function(item, item)
   ) : Array(item) {
     case array[index] {
-      Maybe::Just(item) => setAt(array, index, method(item))
-      Maybe::Nothing => array
+      Maybe.Just(item) => setAt(array, index, method(item))
+      Maybe.Nothing => array
     }
   }
 }

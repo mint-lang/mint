@@ -31,7 +31,7 @@ module Console {
   fun assert (assertion : Bool, value : a, values : Array(b) = []) : Tuple(Bool, a, Array(b)) {
     `console.assert(#{assertion}, #{value}, ...#{values})`
 
-    {assertion, value, values}
+    #(assertion, value, values)
   }
 
   /*
@@ -53,7 +53,7 @@ module Console {
     `console.count(#{label})`
     Console.Counter.increment(label)
 
-    {label, Console.Counter.get(label)}
+    #(label, Console.Counter.get(label))
   }
 
   /*
@@ -66,7 +66,7 @@ module Console {
     `console.countReset(#{label})`
     Console.Counter.clear(label)
 
-    {label, Console.Counter.get(label)}
+    #(label, Console.Counter.get(label))
   }
 
   /*
@@ -79,7 +79,7 @@ module Console {
   fun debug (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
     `console.debug(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 
   /*
@@ -113,7 +113,7 @@ module Console {
   fun error (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
     `console.error(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 
   /*
@@ -157,7 +157,7 @@ module Console {
   fun info (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
     `console.info(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 
   /*
@@ -170,7 +170,7 @@ module Console {
   fun log (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
     `console.log(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 
   /*
@@ -219,7 +219,7 @@ module Console {
       `console.table(#{data})`
     }
 
-    {data, columns}
+    #(data, columns)
   }
 
   /*
@@ -252,7 +252,7 @@ module Console {
   fun timeLog (label : String = "Default", values : Array(a) = []) : Tuple(String, Array(a)) {
     `console.timeLog(#{label}, ...#{values})`
 
-    {label, values}
+    #(label, values)
   }
 
   /*
@@ -280,7 +280,7 @@ module Console {
   fun trace (value : a, values : Array(b)) : Tuple(a, Array(b)) {
     `console.trace(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 
   /*
@@ -291,6 +291,6 @@ module Console {
   fun warn (value : a, values : Array(b) = []) : Tuple(a, Array(b)) {
     `console.warn(#{value}, ...#{values})`
 
-    {value, values}
+    #(value, values)
   }
 }

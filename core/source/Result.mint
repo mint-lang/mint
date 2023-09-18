@@ -1,4 +1,4 @@
-enum Result(error, value) {
+type Result(error, value) {
   Err(error)
   Ok(value)
 }
@@ -12,7 +12,7 @@ module Result {
     |> Result.isError()) == true
   */
   fun error (input : a) : Result(a, b) {
-    Result::Err(input)
+    Result.Err(input)
   }
 
   /*
@@ -40,8 +40,8 @@ module Result {
   */
   fun isError (input : Result(a, b)) : Bool {
     case input {
-      Result::Err => true
-      Result::Ok => false
+      Result.Err => true
+      Result.Ok => false
     }
   }
 
@@ -53,8 +53,8 @@ module Result {
   */
   fun isOk (input : Result(a, b)) : Bool {
     case input {
-      Result::Err => false
-      Result::Ok => true
+      Result.Err => false
+      Result.Ok => true
     }
   }
 
@@ -66,8 +66,8 @@ module Result {
   */
   fun join (input : Result(error, Result(error, value))) : Result(error, value) {
     case input {
-      Result::Err(error) => Result::Err(error)
-      Result::Ok(value) => value
+      Result.Err(error) => Result.Err(error)
+      Result.Ok(value) => value
     }
   }
 
@@ -82,8 +82,8 @@ module Result {
   */
   fun map (input : Result(a, b), func : Function(b, c)) : Result(a, c) {
     case input {
-      Result::Ok(value) => Result::Ok(func(value))
-      Result::Err => input
+      Result.Ok(value) => Result.Ok(func(value))
+      Result.Err => input
     }
   }
 
@@ -98,8 +98,8 @@ module Result {
   */
   fun mapError (input : Result(a, b), func : Function(a, c)) : Result(c, b) {
     case input {
-      Result::Err(value) => Result::Err(func(value))
-      Result::Ok => input
+      Result.Err(value) => Result.Err(func(value))
+      Result.Ok => input
     }
   }
 
@@ -110,7 +110,7 @@ module Result {
     |> Result.isOk()) == true
   */
   fun ok (input : a) : Result(b, a) {
-    Result::Ok(input)
+    Result.Ok(input)
   }
 
   /*
@@ -124,8 +124,8 @@ module Result {
   */
   fun toMaybe (result : Result(a, b)) : Maybe(b) {
     case result {
-      Result::Ok(value) => Maybe::Just(value)
-      Result::Err => Maybe::Nothing
+      Result.Ok(value) => Maybe.Just(value)
+      Result.Err => Maybe.Nothing
     }
   }
 
@@ -140,8 +140,8 @@ module Result {
   */
   fun withDefault (input : Result(a, b), defaultValue : b) : b {
     case input {
-      Result::Ok(value) => value
-      Result::Err => defaultValue
+      Result.Ok(value) => value
+      Result.Err => defaultValue
     }
   }
 
@@ -156,8 +156,8 @@ module Result {
   */
   fun withError (input : Result(a, b), defaultError : a) : a {
     case input {
-      Result::Err(value) => value
-      Result::Ok => defaultError
+      Result.Err(value) => value
+      Result.Ok => defaultError
     }
   }
 }

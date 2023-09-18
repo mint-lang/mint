@@ -1,4 +1,4 @@
-record WebSocket.Config {
+type WebSocket.Config {
   onOpen : Function(WebSocket, Promise(Void)),
   onMessage : Function(String, Promise(Void)),
   onError : Function(Promise(Void)),

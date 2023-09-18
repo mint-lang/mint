@@ -103,49 +103,49 @@ suite "Math.random" {
 
 suite "Math:E" {
   test "returns Math.E" {
-    Math:E == `Math.E`
+    Math.E == `Math.E`
   }
 }
 
 suite "Math:LN2" {
   test "returns Math.LN2" {
-    Math:LN2 == `Math.LN2`
+    Math.LN2 == `Math.LN2`
   }
 }
 
 suite "Math:LN10" {
   test "returns Math.LN10" {
-    Math:LN10 == `Math.LN10`
+    Math.LN10 == `Math.LN10`
   }
 }
 
 suite "Math:LOG2E" {
   test "returns Math.LOG2E" {
-    Math:LOG2E == `Math.LOG2E`
+    Math.LOG2E == `Math.LOG2E`
   }
 }
 
 suite "Math:LOG10E" {
   test "returns Math.LOG10E" {
-    Math:LOG10E == `Math.LOG10E`
+    Math.LOG10E == `Math.LOG10E`
   }
 }
 
 suite "Math:PI" {
   test "returns Math.PI" {
-    Math:PI == `Math.PI`
+    Math.PI == `Math.PI`
   }
 }
 
 suite "Math:SQRT12" {
   test "returns Math.SQRT12" {
-    Math:SQRT12 == `Math.SQRT1_2`
+    Math.SQRT12 == `Math.SQRT1_2`
   }
 }
 
 suite "Math:SQRT2" {
   test "returns Math.SQRT2" {
-    Math:SQRT2 == `Math.SQRT2`
+    Math.SQRT2 == `Math.SQRT2`
   }
 }
 
@@ -248,13 +248,13 @@ suite "Math.imul" {
 
 suite "Math.log" {
   test "returns the natural log (base e) of a number" {
-    Math.log(Math:E) == 1
+    Math.log(Math.E) == 1
   }
 }
 
 suite "Math.log1p" {
   test "returns the natural log (base e) of x + 1, where x is the provided value" {
-    Math.log1p(Math:E) == `Math.log1p(#{Math:E})`
+    Math.log1p(Math.E) == `Math.log1p(#{Math:E})`
   }
 }
 

@@ -1,5 +1,5 @@
 /* Represents an HTML event. */
-record Html.Event {
+type Html.Event {
   bubbles : Bool,
   cancelable : Bool,
   currentTarget : Dom.Element,

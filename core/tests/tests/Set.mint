@@ -1,4 +1,4 @@
-record Set.Test {
+type Set.Test {
   a : String
 }
 

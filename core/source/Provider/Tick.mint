@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.Tick` */
-record Provider.Tick.Subscription {
+type Provider.Tick.Subscription {
   ticks : Function(Promise(Void))
 }
 

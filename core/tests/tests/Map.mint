@@ -1,19 +1,19 @@
 suite "Map with enums" {
   test "Map.set" {
     (Map.empty()
-    |> Map.set(Maybe::Just("a"), "a")
-    |> Map.set(Maybe::Just("a"), "a")
+    |> Map.set(Maybe.Just("a"), "a")
+    |> Map.set(Maybe.Just("a"), "a")
     |> Map.size()) == 1
   }
 
   test "Equality" {
     let map1 =
       Map.empty()
-      |> Map.set(Maybe::Just("a"), "x")
+      |> Map.set(Maybe.Just("a"), "x")
 
     let map2 =
       Map.empty()
-      |> Map.set(Maybe::Just("a"), "x")
+      |> Map.set(Maybe.Just("a"), "x")
 
     map1 == map2
   }
@@ -248,7 +248,7 @@ suite "Map.entries" {
     (Map.empty()
     |> Map.set("a", 100)
     |> Map.set("b", 200)
-    |> Map.entries()) == [{"a", 100}, {"b", 200}]
+    |> Map.entries()) == [#("a", 100), #("b", 200)]
   }
 }
 
@@ -256,6 +256,6 @@ suite "Map.fromArray" {
   test "convert an array of tuples into a map" {
     (Map.empty()
     |> Map.set("a", 1)
-    |> Map.set("b", 2)) == Map.fromArray([{"a", 1}, {"b", 2}])
+    |> Map.set("b", 2)) == Map.fromArray([#("a", 1), #("b", 2)])
   }
 }

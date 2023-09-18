@@ -1,5 +1,5 @@
 /* Represents the options for a regular expression. */
-record Regexp.Options {
+type Regexp.Options {
   caseInsensitive : Bool,
   multiline : Bool,
   unicode : Bool,
@@ -8,7 +8,7 @@ record Regexp.Options {
 }
 
 /* Represents a regular expression match. */
-record Regexp.Match {
+type Regexp.Match {
   submatches : Array(String),
   match : String,
   index : Number

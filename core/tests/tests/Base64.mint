@@ -1,6 +1,6 @@
 suite "Base64.decode" {
   test "it decodes" {
-    Base64.decode("dGVzdA==") == Result::Ok("test")
+    Base64.decode("dGVzdA==") == Result.Ok("test")
   }
 
   test "it doesn't decode" {

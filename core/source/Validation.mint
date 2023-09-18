@@ -85,9 +85,9 @@ module Validation {
     error : Tuple(String, String)
   ) : Maybe(Tuple(String, String)) {
     if String.size(value) == size {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -107,9 +107,9 @@ module Validation {
     error : Tuple(String, String)
   ) : Maybe(Tuple(String, String)) {
     if String.size(value) >= size {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -122,9 +122,9 @@ module Validation {
   */
   fun isNotBlank (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     if String.isNotBlank(value) {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -136,8 +136,8 @@ module Validation {
   */
   fun isNumber (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     case Number.fromString(value) {
-      Maybe::Just => Maybe::Nothing
-      => Maybe::Just(error)
+      Maybe.Just => Maybe.Nothing
+      => Maybe.Just(error)
     }
   }
 
@@ -149,9 +149,9 @@ module Validation {
   */
   fun isDigits (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     if Regexp.match(DIGITS_REGEXP, value) {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -166,9 +166,9 @@ module Validation {
   */
   fun isSame (value : a, value2 : a, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     if value == value2 {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -182,9 +182,9 @@ module Validation {
   */
   fun isValidEmail (value : String, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
     if Regexp.match(EMAIL_REGEXP, value) {
-      Maybe::Nothing
+      Maybe.Nothing
     } else {
-      Maybe::Just(error)
+      Maybe.Just(error)
     }
   }
 
@@ -207,9 +207,9 @@ module Validation {
         item : Maybe(Tuple(String, String))
       ) : Map(String, Array(String)) {
         case item {
-          Maybe::Just(error) =>
+          Maybe.Just(error) =>
             {
-              let {key, message} =
+              let #(key, message) =
                 error
 
               let messages =

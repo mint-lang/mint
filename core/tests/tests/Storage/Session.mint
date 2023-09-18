@@ -17,9 +17,9 @@ suite "Storage.Session.set" {
   test "it returns error if over the qouta" {
     let result =
       Storage.Session.set("test", String.repeat("test", 10000000))
-      |> Result.withError(Storage.Error::Unknown)
+      |> Result.withError(Storage.Error.Unknown)
 
-    result == Storage.Error::QuotaExceeded
+    result == Storage.Error.QuotaExceeded
   }
 }
 
@@ -36,8 +36,8 @@ suite "Storage.Session.get" {
 
   test "it returns nothing if the key does not exists" {
     case Storage.Session.get("test") {
-      Result::Ok(value) => false
-      Result::Err => true
+      Result.Ok(value) => false
+      Result.Err => true
     }
   }
 }

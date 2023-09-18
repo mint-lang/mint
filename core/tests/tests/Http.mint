@@ -285,32 +285,32 @@ component Test.Http {
           `)
 
     case request {
-      Result::Ok(response) => next { status: response.status }
+      Result.Ok(response) => next { status: response.status }
 
-      Result::Err(error) =>
+      Result.Err(error) =>
         case error.type {
-          Http.Error::NetworkError =>
+          Http.Error.NetworkError =>
             next
               {
                 errorMessage: "network-error",
                 status: error.status
               }
 
-          Http.Error::BadUrl =>
+          Http.Error.BadUrl =>
             next
               {
                 errorMessage: "bad-url",
                 status: error.status
               }
 
-          Http.Error::Timeout =>
+          Http.Error.Timeout =>
             next
               {
                 errorMessage: "timeout",
                 status: error.status
               }
 
-          Http.Error::Aborted =>
+          Http.Error.Aborted =>
             next
               {
                 errorMessage: "aborted",

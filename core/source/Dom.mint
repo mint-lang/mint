@@ -57,13 +57,13 @@ module Dom {
   */
   fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Void) {
     case maybeElement {
-      Maybe::Just(element) =>
+      Maybe.Just(element) =>
         {
           focusWhenVisible(element)
           Promise.resolve(void)
         }
 
-      Maybe::Nothing => Promise.resolve(void)
+      Maybe.Nothing => Promise.resolve(void)
     }
   }
 
@@ -388,7 +388,7 @@ module Dom {
         let hash =
           String.parameterize(text)
 
-        {tag, text, hash}
+        #(tag, text, hash)
       })
   }
 

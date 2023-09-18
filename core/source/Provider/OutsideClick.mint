@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.OutsideClick` */
-record Provider.OutsideClick.Subscription {
+type Provider.OutsideClick.Subscription {
   clicks : Function(Promise(Void)),
   elements : Array(Maybe(Dom.Element))
 }
@@ -7,7 +7,7 @@ record Provider.OutsideClick.Subscription {
 /* A provider to provide events when clicking outside of the given element. */
 provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   /* The listener unsubscribe function. */
-  state listener : Maybe(Function(Void)) = Maybe::Nothing
+  state listener : Maybe(Function(Void)) = Maybe.Nothing
 
   /* The event handler. */
   fun handle (event : Html.Event) : Array(Promise(Void)) {
@@ -29,11 +29,11 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
   fun update : Promise(Void) {
     if Array.isEmpty(subscriptions) {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
-      next { listener: Maybe::Nothing }
+      next { listener: Maybe.Nothing }
     } else {
       case listener {
-        Maybe::Nothing =>
-          next { listener: Maybe::Just(Window.addEventListener("mouseup", true, handle)) }
+        Maybe.Nothing =>
+          next { listener: Maybe.Just(Window.addEventListener("mouseup", true, handle)) }
 
         => next { }
       }

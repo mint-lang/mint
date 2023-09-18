@@ -8,17 +8,17 @@ suite "Storage.Local.set" {
     Storage.Local.set("test", "test")
 
     case Storage.Local.get("test") {
-      Result::Ok(value) => value == "test"
-      Result::Err => false
+      Result.Ok(value) => value == "test"
+      Result.Err => false
     }
   }
 
   test "it returns error if over the qouta" {
     let result =
       Storage.Local.set("test", String.repeat("test", 10000000))
-      |> Result.withError(Storage.Error::Unknown)
+      |> Result.withError(Storage.Error.Unknown)
 
-    result == Storage.Error::QuotaExceeded
+    result == Storage.Error.QuotaExceeded
   }
 }
 
@@ -27,15 +27,15 @@ suite "Storage.Local.get" {
     Storage.Local.set("test", "test")
 
     case Storage.Local.get("test") {
-      Result::Ok(value) => value == "test"
-      Result::Err => false
+      Result.Ok(value) => value == "test"
+      Result.Err => false
     }
   }
 
   test "it returns nothing if the key does not exists" {
     case Storage.Local.get("test") {
-      Result::Ok(value) => false
-      Result::Err => true
+      Result.Ok(value) => false
+      Result.Err => true
     }
   }
 }
