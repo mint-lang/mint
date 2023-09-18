@@ -10,7 +10,9 @@ The type of a test does not match any of the allowed types.
 
 I was expecting one of:
 
+  Promise(Test.Context(a))
   Test.Context(a)
+  Promise(Bool)
   Bool
 
 Instead it is:
