@@ -47,34 +47,41 @@ module Mint
 
       private def format_files
         current =
-          MintJson.parse_current
+          MintJson.parse_current?
 
-        format_directories =
-          current.source_directories | current.test_directories
+        files =
+          if pattern_argument = arguments.pattern.presence
+            Dir.glob(pattern_argument)
+          elsif current
+            format_directories =
+              current.source_directories | current.test_directories
 
-        format_directories_patterns =
-          format_directories.map do |dir|
-            SourceFiles.glob_pattern(dir)
+            format_directories_patterns =
+              format_directories.map do |dir|
+                SourceFiles.glob_pattern(dir)
+              end
+            Dir.glob(format_directories_patterns)
           end
 
-        if pattern_argument = arguments.pattern.presence
-          files = Dir.glob(pattern_argument)
-        else
-          files = Dir.glob(format_directories_patterns)
-        end
-
-        if files.empty?
+        if files.try(&.empty?)
           terminal.puts "Nothing to format!"
           true
         else
           all_formatted = true
 
-          files.each do |file|
+          files.not_nil!.each do |file|
             artifact =
               Parser.parse(file)
 
+            config =
+              if current
+                MintJson.parse_current.formatter_config
+              else
+                Formatter::Config.new
+              end
+
             formatted =
-              Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
+              Formatter.new(config).format(artifact)
 
             unless formatted == File.read(file)
               if flags.check
@@ -92,10 +99,6 @@ module Mint
         end
       rescue error : Error
         raise error
-      rescue
-        terminal.puts %(I was looking for a pattern that contains ".mint" files,)
-        terminal.puts %(such as "source/**/*.mint". Got "#{arguments.pattern}" instead.)
-        false
       end
     end
   end
