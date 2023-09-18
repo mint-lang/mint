@@ -8,7 +8,7 @@ component Main {
 
 The path specified for an inline directive does not exist:
 
-  /home/gus/Projects/mint-lang/mint/spec/errors/path
+  path
 
 The inline directive in question is here:
 

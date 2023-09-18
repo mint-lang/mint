@@ -1,5 +1,6 @@
 require "spec"
 
+ENV["SPEC"] = "TRUE"
 MINT_ENV["TEST"] = "TRUE"
 
 def diff(a, b)

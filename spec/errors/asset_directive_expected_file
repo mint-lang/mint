@@ -8,7 +8,7 @@ component Main {
 
 The path specified for an asset directive does not exist:
 
-  /home/gus/Projects/mint-lang/mint/spec/errors/path
+  path
 
 The asset directive in question is here:
 

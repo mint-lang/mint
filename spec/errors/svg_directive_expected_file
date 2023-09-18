@@ -8,7 +8,7 @@ component Main {
 
 The specified file for an svg directive does not exist:
 
-  /home/gus/Projects/mint-lang/mint/fixtures/icon-missing
+  ../../fixtures/icon-missing
 
 The svg directive in question is here:
 
