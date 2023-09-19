@@ -99,3 +99,25 @@ component Main {
     <div::base style="opacity:0;"/>
   }
 }
+-------------------------------------------------------------------------------
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  fun render : Html {
+    <div as test><{ "Hello" }></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    case test {
+      Maybe::Just(item) => { item.test "" }
+      Maybe::Nothing => ""
+    }
+
+    <Test as test/>
+  }
+}
