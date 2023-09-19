@@ -5,6 +5,7 @@ module Mint
       resolve node
 
       resolve node.gets
+      resolve node.constants
       resolve node.functions
 
       VOID

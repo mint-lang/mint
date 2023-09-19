@@ -2,6 +2,7 @@ module Mint
   class TypeChecker
     def check_all(node : Ast::Module) : Checkable
       resolve node
+      resolve node.constants
       resolve node.functions
 
       VOID
