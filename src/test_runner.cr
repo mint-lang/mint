@@ -31,7 +31,7 @@ module Mint
     @artifacts : TypeChecker::Artifacts?
     @reporter : Reporter
     @browser_path : String?
-    @browser : {Process, String}? = nil
+    @browser : {Process, String}?
 
     @failed = [] of Message
     @test_id = Random::Secure.hex
@@ -224,6 +224,8 @@ module Mint
         process.signal(:kill) rescue nil
         FileUtils.rm_rf(profile_directory)
       end
+
+      @browser = nil
     end
 
     def open_page
@@ -303,28 +305,28 @@ module Mint
     end
 
     def handle_message(data : Message) : Nil
-      if data.id == @test_id
-        case data.type
-        when "LOG"
-          terminal.puts data.result
-        when "SUITE"
-          @reporter.suite data.suite
-        when "SUCCEEDED"
-          @reporter.succeeded data.name
-          @succeeded += 1
-        when "FAILED"
-          @reporter.failed data.name, data.result
-          @failed << data
-        when "ERRORED"
-          @reporter.errored data.name, data.result
-          @failed << data
-        when "CRASHED"
-          @reporter.crashed data.result
-          @failed << data
+      return unless data.id == @test_id
 
-          @reporter.done
-          stop_server unless @flags.watch
-        end
+      case data.type
+      when "LOG"
+        terminal.puts data.result
+      when "SUITE"
+        @reporter.suite data.suite
+      when "SUCCEEDED"
+        @reporter.succeeded data.name
+        @succeeded += 1
+      when "FAILED"
+        @reporter.failed data.name, data.result
+        @failed << data
+      when "ERRORED"
+        @reporter.errored data.name, data.result
+        @failed << data
+      when "CRASHED"
+        @reporter.crashed data.result
+        @failed << data
+
+        @reporter.done
+        stop_server unless @flags.watch
       end
     end
 
