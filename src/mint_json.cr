@@ -1173,28 +1173,26 @@ module Mint
     def check_dependencies!
       dependencies.each do |dependency|
         next if dependency_exists?(dependency.name)
-        error! :mint_json_dependency_not_installed do
-          block do
-            text "Not all"
-            bold "dependencies"
-            text "in your mint.json file are installed."
-          end
 
-          block do
-            text "The dependency"
-            bold dependency.name
-            text "was expected to be in the"
-            bold ".mint/packages/#{name}"
-            text "directory."
-          end
+        terminal.puts "#{COG} Ensuring dependencies..."
+        terminal.puts " ↳ Not all dependencies in your mint.json file are installed."
+        terminal.puts "   Would you like to install them now? (Y/n)"
 
-          block do
-            text "Usually you can fix this by running the"
-            bold "mint install"
-            text "command."
-          end
+        answer = gets.to_s.downcase
+        terminal.puts AnsiEscapes::Erase.lines(2)
+
+        if answer == "y"
+          Installer.new
+          break
+        else
+          terminal.puts "#{WARNING} Missing packages, exiting..."
+          exit(1)
         end
       end
+    end
+
+    def terminal
+      Render::Terminal::STDOUT
     end
 
     def dependency_exists?(name : String)

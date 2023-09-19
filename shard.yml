@@ -20,6 +20,9 @@ dependencies:
   markd:
     github: icyleaf/markd
     version: ~> 0.5.0
+  ansi-escapes:
+    github: gtramontina/ansi-escapes.cr
+    version: ~> 1.0.0
 
 development_dependencies:
   ameba:
