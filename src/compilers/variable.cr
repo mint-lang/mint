@@ -58,7 +58,7 @@ module Mint
             case parent
             when Ast::Suite
               # The variable is a constant in a test suite
-              "constants.#{name}()"
+              "this.#{name}()"
             else
               "this.#{name}"
             end

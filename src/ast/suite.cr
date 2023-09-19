@@ -1,9 +1,10 @@
 module Mint
   class Ast
     class Suite < Node
-      getter tests, name, comments, constants
+      getter tests, name, comments, constants, functions
 
       def initialize(@constants : Array(Constant),
+                     @functions : Array(Function),
                      @comments : Array(Comment),
                      @name : StringLiteral,
                      @tests : Array(Test),

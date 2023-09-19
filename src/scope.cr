@@ -189,6 +189,7 @@ module Mint
         build(node.constants, node)
         build(node.functions, node)
       when Ast::Suite
+        build(node.functions, node)
         build(node.constants, node)
         build(node.tests, node)
       when Ast::Locale

@@ -8,12 +8,25 @@ module Mint
         node.location.to_json
 
       tests =
-        compile node.tests, ","
+        compile node.tests
 
       constants =
-        compile_constants node.constants
+        compile_constants(node.constants).map do |key, value|
+          "#{key}: #{value}"
+        end
 
-      "{ name: #{name}, location: #{location}, tests: [#{tests}], constants: #{js.object(constants)} }"
+      functions =
+        compile node.functions
+
+      context =
+        "{ #{(constants + functions).join(",")} }"
+
+      js.object({
+        "tests"    => js.array(tests),
+        "location" => location,
+        "context"  => context,
+        "name"     => name,
+      })
     end
   end
 end

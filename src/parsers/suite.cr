@@ -27,16 +27,19 @@ module Mint
                 snippet self
               end if items.none?(Ast::Test | Ast::Constant)
             }
-          ) { many { test || constant || comment } }
+          ) { many { function || test || constant || comment } }
 
         next unless body
 
         constants = [] of Ast::Constant
+        functions = [] of Ast::Function
         comments = [] of Ast::Comment
         tests = [] of Ast::Test
 
         body.each do |item|
           case item
+          when Ast::Function
+            functions << item
           when Ast::Constant
             constants << item
           when Ast::Comment
@@ -49,6 +52,7 @@ module Mint
         Ast::Suite.new(
           from: start_position,
           constants: constants,
+          functions: functions,
           comments: comments,
           tests: tests,
           to: position,

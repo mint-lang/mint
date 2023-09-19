@@ -12,8 +12,8 @@ module Mint
       left =
         compile operation.left
 
-      <<-JS
-      ((constants) => {
+      <<-COMPILED
+      (() => {
         const context = new TestContext(#{left})
         const right = #{right}
 
@@ -24,8 +24,8 @@ module Mint
           return true
         })
         return context
-      })(constants)
-      JS
+      })()
+      COMPILED
     end
 
     def _compile(node : Ast::Test) : String
@@ -42,11 +42,13 @@ module Mint
         case raw_expression
         when Ast::Operation
           _compile_operation_test(raw_expression)
-        end
+        end || compile(raw_expression)
 
-      expression ||= compile(raw_expression)
-
-      "{ name: #{name}, location: #{location}, proc: async (constants) => { return #{expression} } }"
+      js.object({
+        "proc"     => "async function () { return #{expression} }",
+        "location" => location,
+        "name"     => name,
+      })
     end
   end
 end
