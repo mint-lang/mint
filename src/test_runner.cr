@@ -31,7 +31,6 @@ module Mint
     @artifacts : TypeChecker::Artifacts?
     @reporter : Reporter
     @browser_path : String?
-    @script : String?
     @browser : {Process, String}? = nil
 
     @failed = [] of Message
@@ -51,21 +50,13 @@ module Mint
 
     def watch
       workspace = Workspace.current
-      workspace.on "change" { |result| run_tests }
+      workspace.on "change" { run_tests }
       workspace.watch
 
       setup_kemal
       run_tests
 
-      Server.run "Test", @flags.host, @flags.port
-    end
-
-    def compile
-      terminal.measure "#{COG} Compiling tests..." do
-        compile_ast.tap do |a|
-          @script = compile_script(a)
-        end
-      end
+      Server.run "Test", @flags.host, @flags.port, false
     end
 
     def run_tests
@@ -74,8 +65,10 @@ module Mint
       terminal.reset
 
       begin
+        type_checker = TypeChecker.new(ast)
+        type_checker.check
+
         @reporter.reset
-        compile
         open_page
       rescue error : Error
         terminal.reset
@@ -87,8 +80,6 @@ module Mint
     end
 
     def run : Bool
-      ast = compile
-
       if ast.try(&.suites.empty?)
         terminal.puts
         terminal.puts "There are no tests to run!"
@@ -108,7 +99,7 @@ module Mint
       @failed.empty?
     end
 
-    def compile_ast
+    def ast
       file_argument =
         @arguments.test
 
@@ -130,7 +121,7 @@ module Mint
       end
     end
 
-    def compile_script(ast)
+    def script
       type_checker = TypeChecker.new(ast)
       type_checker.check
 
@@ -293,7 +284,7 @@ module Mint
       end
 
       get "/tests" do
-        @script
+        script
       end
 
       ws "/" do |socket|
