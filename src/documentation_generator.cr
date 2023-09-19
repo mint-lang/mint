@@ -173,6 +173,7 @@ module Mint
     end
 
     def stringify(node)
+      "unknown"
     end
 
     def read_markdown(path : String)

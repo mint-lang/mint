@@ -11,7 +11,7 @@ module Mint
 
   class DocumentationGeneratorHtml
     def generate(node : Ast::TypeDefinitionField)
-      ""
+      render("#{__DIR__}/html/type_definition_field.ecr")
     end
 
     def stringify(node : Ast::TypeDefinitionField)

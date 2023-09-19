@@ -1,15 +1,11 @@
 <h1>
   <%= stringify(node) %>
-  <div class="type-badge" data-type="record"></div>
+  <div class="type-badge" data-type="type"></div>
   <a class="github-source-link" href="<%= git_url(node) %>"></a>
 </h1>
 
 <h2>Fields</h2>
 
-<% node.fields.each do |f| %>
-  <%= stringify(f) %>
+<% node.fields.sort_by{|f| stringify(f) }.each do |f| %>
+  <%= generate(f) %>
 <% end %>
-
-<%# node.fields.sort_by(&.key.value).each do |f| %>
-  <%#= generate(f) %>
-<%# end %>
