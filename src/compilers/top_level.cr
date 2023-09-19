@@ -98,8 +98,8 @@ module Mint
 
     # Compiles the application
     def compile(include_tests : Bool = false) : String
-      records =
-        compile ast.records
+      type_definitions =
+        compile ast.type_definitions
 
       providers =
         compile ast.providers
@@ -115,9 +115,6 @@ module Mint
 
       routes =
         compile ast.routes
-
-      enums =
-        compile ast.enums
 
       all_css =
         style_builder.compile
@@ -138,7 +135,7 @@ module Mint
         end
 
       elements =
-        (%w[] &+ enums &+ records &+ modules &+ providers &+ routes &+ components &+ static &+ stores &+ footer &+ suites &+ compiled_web_components)
+        (%w[] &+ type_definitions &+ modules &+ providers &+ routes &+ components &+ static &+ stores &+ footer &+ suites &+ compiled_web_components)
           .reject!(&.empty?)
 
       replace_skipped(js.statements(elements))
@@ -147,19 +144,29 @@ module Mint
     # --------------------------------------------------------------------------
 
     def maybe
-      ast.enums.find!(&.name.value.==("Maybe"))
+      ast.type_definitions.find!(&.name.value.==("Maybe"))
     end
 
     def just
       node =
-        maybe.options.find!(&.value.value.==("Just"))
+        case fields = maybe.fields
+        when Array(Ast::TypeVariant)
+          fields.find!(&.value.value.==("Just"))
+        else
+          raise "SHOULD NOT HAPPEN"
+        end
 
       js.class_of(node)
     end
 
     def nothing
       node =
-        maybe.options.find!(&.value.value.==("Nothing"))
+        case fields = maybe.fields
+        when Array(Ast::TypeVariant)
+          fields.find!(&.value.value.==("Nothing"))
+        else
+          raise "SHOULD NOT HAPPEN"
+        end
 
       js.class_of(node)
     end
@@ -167,19 +174,29 @@ module Mint
     # --------------------------------------------------------------------------
 
     def result
-      ast.enums.find!(&.name.value.==("Result"))
+      ast.type_definitions.find!(&.name.value.==("Result"))
     end
 
     def ok
       node =
-        result.options.find!(&.value.value.==("Ok"))
+        case fields = result.fields
+        when Array(Ast::TypeVariant)
+          fields.find!(&.value.value.==("Ok"))
+        else
+          raise "SHOULD NOT HAPPEN"
+        end
 
       js.class_of(node)
     end
 
     def err
       node =
-        result.options.find!(&.value.value.==("Err"))
+        case fields = result.fields
+        when Array(Ast::TypeVariant)
+          fields.find!(&.value.value.==("Err"))
+        else
+          raise "SHOULD NOT HAPPEN"
+        end
 
       js.class_of(node)
     end
@@ -206,6 +223,22 @@ module Mint
 
         "_wc(#{prefixed_name}, '#{tagname}', #{js.array(properties)})"
       end
+    end
+
+    def compiled_locales
+      mapped =
+        locales.each_with_object({} of String => Hash(String, String)) do |(key, data), memo|
+          data.each do |language, node|
+            if node.in?(checked)
+              memo[language] ||= {} of String => String
+              memo[language]["'#{key}'"] = compile(node)
+            end
+          end
+        end
+
+      js.object(mapped.each_with_object({} of String => String) do |(language, tokens), memo|
+        memo[language] = js.object(tokens)
+      end)
     end
 
     # --------------------------------------------------------------------------
@@ -271,6 +304,42 @@ module Mint
         const _PV = Symbol("Variable")
         const _PS = Symbol("Spread")
 
+        class Locale {
+          constructor(translations) {
+            this.locale = Object.keys(translations)[0];
+            this.translations = translations;
+            this.listeners = new Set();
+          }
+
+          set(locale) {
+            if (this.locale != locale && this.translations[locale]) {
+              this.locale = locale;
+
+              for (let listener of this.listeners) {
+                listener.forceUpdate();
+              }
+
+              return true
+            } else {
+              return false
+            }
+          }
+
+          t(key) {
+            return this.translations[this.locale][key]
+          }
+
+          _subscribe(owner) {
+            this.listeners.add(owner);
+          }
+
+          _unsubscribe(owner) {
+            this.listeners.delete(owner);
+          }
+        }
+
+        const _L = new Locale(#{compiled_locales});
+
         class RecordPattern {
           constructor(patterns) {
             this.patterns = patterns
@@ -331,19 +400,25 @@ module Mint
             }
           } else if (pattern instanceof Pattern) {
             if (value instanceof pattern.x) {
-              for (let index in pattern.pattern) {
-                if (!__match(value[`_${index}`], pattern.pattern[index], values)) {
+              if (pattern.pattern instanceof RecordPattern) {
+                if (!__match(value, pattern.pattern, values)) {
                   return false
+                }
+              } else {
+                for (let index in pattern.pattern) {
+                  if (!__match(value[`_${index}`], pattern.pattern[index], values)) {
+                    return false
+                  }
                 }
               }
             } else {
               return false
             }
-          } else if (pattern instanceof RecordPattern && value instanceof Record) {
+          } else if (pattern instanceof RecordPattern) {
             for (let index in pattern.patterns) {
               const item = pattern.patterns[index];
 
-              if (!__match(value[item[0]], item[1], values)) {
+              if (!__match(value[value._mapping[item[0]]], item[1], values)) {
                 return false
               }
             }
@@ -395,6 +470,10 @@ module Mint
           } else {
             return callback(item)
           }
+        }
+
+        const _n = (item) => {
+          return (...args) => new item(...args)
         }
 
         class DoError extends Error {}

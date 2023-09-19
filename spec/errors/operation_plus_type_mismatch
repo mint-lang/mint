@@ -1,0 +1,28 @@
+component Main {
+  fun render : String {
+    "Hello" + void
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_PLUS_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the right operand does not match the type of an operation.
+
+I was expecting one of these types:
+
+  Number, String
+
+Instead it is:
+
+  Void
+
+The operation in question is here:
+
+   ┌ ./spec/errors/operation_plus_type_mismatch:3:5
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "Hello" + void
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

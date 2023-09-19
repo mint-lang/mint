@@ -1,5 +1,5 @@
 module Test {
-	fun a : Array(Result(String,String)) {	[] }
+  fun a : Array(Result(String,String)) {  [] }
 }
 --------------------------------------------------------------------------------
 module Test {

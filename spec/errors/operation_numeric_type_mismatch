@@ -1,0 +1,34 @@
+component Main {
+  fun test : Number {
+    "Hello" * 0
+  }
+
+  fun render : String {
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_NUMERIC_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the left operand does not match the type of an operation.
+
+I was expecting:
+
+  Number
+
+Instead it is:
+
+  String
+
+The operation in question is here:
+
+   ┌ ./spec/errors/operation_numeric_type_mismatch:3:5
+   ├──────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun test : Number {
+  3│     "Hello" * 0
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│
+  6│   fun render : String {
+  7│     ""

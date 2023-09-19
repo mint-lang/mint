@@ -3,16 +3,15 @@ module Mint
     class If < Node
       getter condition, branches
 
-      alias Branches = Tuple(Array(CssDefinition), Array(CssDefinition)) |
-                       Tuple(Array(CssDefinition), Nil) |
-                       Tuple(Array(CssDefinition), If) |
-                       Tuple(Block, Block)
+      alias Branches = Tuple(Block, Block) |
+                       Tuple(Block, Nil) |
+                       Tuple(Block, If)
 
       def initialize(@branches : Branches,
+                     @file : Parser::File,
                      @condition : Node,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

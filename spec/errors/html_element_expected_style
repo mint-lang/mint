@@ -1,0 +1,14 @@
+component Main {
+  fun render : Html {
+    <test::
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ELEMENT_EXPECTED_STYLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the style for an HTML element but I found "a space" instead:
+
+   ┌ ./spec/errors/html_element_expected_style:3:11
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <test::
+   │            ⌃⌃⌃⌃

@@ -4,11 +4,11 @@ module Mint
       getter url, expression, arguments
 
       def initialize(@arguments : Array(Argument),
+                     @file : Parser::File,
                      @expression : Block,
-                     @input : Data,
-                     @from : Int32,
+                     @from : Int64,
                      @url : String,
-                     @to : Int32)
+                     @to : Int64)
       end
     end
   end

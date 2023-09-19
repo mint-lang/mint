@@ -1,0 +1,38 @@
+component A {
+  connect Test exposing { x }
+  connect Test exposing { x }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_MULTIPLE_STORES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The component is connected to the store "Test" multiple times.
+
+It is connected here:
+
+   ┌ ./spec/errors/component_multiple_stores:3:3
+   ├────────────────────────────────────────────
+  1│ component A {
+  2│   connect Test exposing { x }
+  3│   connect Test exposing { x }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+  7│   }
+
+It is also connected here:
+
+   ┌ ./spec/errors/component_multiple_stores:2:3
+   ├────────────────────────────────────────────
+  1│ component A {
+  2│   connect Test exposing { x }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│   connect Test exposing { x }
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+

@@ -13,7 +13,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class B extends _E {
+class A extends _E {
   constructor(_0) {
     super();
     this._0 = _0;
@@ -21,18 +21,18 @@ class B extends _E {
   }
 };
 
-class C extends _E {
+class B extends _E {
   constructor() {
     super();
     this.length = 0;
   }
 };
 
-class A extends _C {
+class C extends _C {
   render() {
-    return _match(new B(``),[
+    return _match(_n(A)(``),[
       [
-        _PE(B,[
+        _PE(A,[
           _PV
         ]),
         (a) => {
@@ -49,4 +49,4 @@ class A extends _C {
   }
 };
 
-A.displayName = "Main";
+C.displayName = "Main";

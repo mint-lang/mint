@@ -1,0 +1,101 @@
+----------------------------------------------------html_element_expected_style
+component Main {
+  fun render : Html {
+    <test::
+------------------------------------------------html_element_expected_reference
+component Main {
+  fun render : Html {
+    <test as
+------------------------------------------html_element_expected_closing_bracket
+component Main {
+  fun render : Html {
+    <test
+------------------------------------------html_element_expected_closing_bracket
+component Main {
+  fun render : Html {
+    <test
+----------------------------------------------html_element_expected_closing_tag
+component Main {
+  fun render : Html {
+    <test>
+  }
+}
+----------------------------------------html_element_style_outside_of_component
+module X {
+  fun render : Html {
+    <div::base/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+------------------------------------html_element_reference_outside_of_component
+module X {
+  fun render : Html {
+    <div as x/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+-----------------------------------------------------html_content_type_mismatch
+component Main {
+  fun render : Html {
+    <div><{ 0 }></div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div><{ "Hello" }></div>
+  }
+}
+-------------------------------------------------------------------------------
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : Html {
+    case test {
+      Maybe::Just(item) => ""
+      Maybe::Nothing => ""
+    }
+
+    <div as test><{ "Hello" }></div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base>
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <div style="opacity:0;"/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  style base {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base style="opacity:0;"/>
+  }
+}

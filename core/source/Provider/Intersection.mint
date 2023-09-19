@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.Intersection` */
-record Provider.Intersection.Subscription {
+type Provider.Intersection.Subscription {
   callback : Function(Number, Promise(Void)),
   element : Maybe(Dom.Element),
   rootMargin : String,
@@ -19,20 +19,20 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     */
     let currentObservers =
       for item of observers {
-        let {subscription, observer} =
+        let #(subscription, observer) =
           item
 
         if Array.contains(subscriptions, subscription) {
-          Maybe::Just({subscription, observer})
+          Maybe.Just(#(subscription, observer))
         } else {
           case subscription.element {
-            Maybe::Just(observed) =>
+            Maybe.Just(observed) =>
               {
                 IntersectionObserver.unobserve(observer, observed)
-                Maybe::Nothing
+                Maybe.Nothing
               }
 
-            => Maybe::Nothing
+            => Maybe.Nothing
           }
         }
       }
@@ -42,18 +42,18 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     let newObservers =
       for subscription of subscriptions {
         case subscription.element {
-          Maybe::Just(observed) =>
-            Maybe::Just(
-              {
+          Maybe.Just(observed) =>
+            Maybe.Just(
+              #(
                 subscription,
                 IntersectionObserver.new(
                   subscription.rootMargin,
                   subscription.threshold,
                   subscription.callback)
                 |> IntersectionObserver.observe(observed)
-              })
+              ))
 
-          => Maybe::Nothing
+          => Maybe.Nothing
         }
       } when {
         let size =

@@ -1,0 +1,6 @@
+typeTest{a:String using "blah",b:Blah using "what"}
+--------------------------------------------------------------------------------
+type Test {
+  a : String using "blah",
+  b : Blah using "what"
+}

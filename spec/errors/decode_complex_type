@@ -1,0 +1,43 @@
+record X {
+  name : Blah
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DECODE_COMPLEX_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+This type cannot be automatically decoded:
+
+  X(name: Blah)
+
+Only these types and records containing them cantext be automatically decoded:
+
+  Map(String, a)
+  Array(a)
+  Maybe(a)
+  String
+  Number
+  Object
+  Time
+  Bool
+
+The decode question is here:
+
+    ┌ ./spec/errors/decode_complex_type:7:5
+    ├──────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : Html {
+   7│     decode (`{}`) as X
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│
+   9│     <div/>
+  10│   }
+  11│ }

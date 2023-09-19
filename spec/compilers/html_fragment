@@ -3,7 +3,6 @@ component Main {
     <div>
       <>
         <{ "A" }>
-        < key="something"></>
       </>
     </div>
   }
@@ -13,10 +12,7 @@ class A extends _C {
   render() {
     return _h("div", {}, [
       _h(React.Fragment, {}, [
-        `A`,
-        _h(React.Fragment, {
-          key: `something`
-        }, [])
+        `A`
       ])
     ]);
   }

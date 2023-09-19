@@ -1,0 +1,30 @@
+locale en {
+  test: ""
+}
+
+locale hu {
+
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (TRANSLATION_NOT_TRANSLATED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+There is no translation for the key "test" in the language "hu".
+
+The locale key in question is here:
+
+    ┌ ./spec/errors/translation_not_translated:11:5
+    ├──────────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     :test
+    │     ⌃⌃⌃⌃⌃
+  12│   }
+  13│ }

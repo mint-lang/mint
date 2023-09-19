@@ -1,5 +1,5 @@
 /* Represents a URL */
-record Url {
+type Url {
   hostname : String,
   protocol : String,
   origin : String,

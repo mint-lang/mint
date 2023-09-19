@@ -5,48 +5,55 @@ module Mint
         lookup = workspace.type_checker.variables[node]?
 
         if lookup
-          variable_lookup_parent(node, lookup[1], workspace) ||
-            variable_connect(node, lookup[2]) ||
-            variable_lookup(node, lookup[0])
+          entity, parent = lookup
+
+          case {entity, parent}
+          when {Ast::Component, _},
+               {Ast::Store, _}
+            location_link node, entity.name, entity
+          when {Ast::Module, _}
+            links = workspace.ast.modules
+              .select(&.name.value.==(node.value))
+              .reject(&.in?(Core.ast.nodes))
+              .sort_by!(&.file.path)
+              .map do |mod|
+                location_link node, mod.name, mod
+              end
+
+            return links.first if links.size == 1
+            return links unless links.empty?
+          when {Ast::Variable, _}
+            variable_lookup_parent(node, entity, workspace)
+          when {Ast::ConnectVariable, Ast::Node}
+            connect =
+              workspace.ast.nodes
+                .select(Ast::Connect)
+                .find!(&.keys.find(&.==(entity)))
+
+            key =
+              lookup[0].as(Ast::ConnectVariable)
+
+            location_link node, key.target || key.name, connect
+          else
+            variable_lookup(node, entity)
+          end
         else
           variable_record_key(node, workspace, stack) ||
             variable_next_key(node, workspace, stack)
         end
       end
 
-      def variable_connect(node : Ast::Variable, parents : Array(TypeChecker::Scope::Node))
-        # Check to see if this variable is defined as an Ast::ConnectVariable
-        # as the `.variables` cache links directly to the stores state/function etc
-        return unless component = parents.select(Ast::Component).first?
+      def variable_lookup_parent(node : Ast::Variable, variable : Ast::Variable, workspace : Workspace)
+        # For some variables in the .variables` cache, we only have access to the
+        # target Ast::Variable and not its containing node, so we must search for it
+        return unless parent = workspace
+                        .ast
+                        .nodes
+                        .select { |other| other.is_a?(Ast::TypeDestructuring) || other.is_a?(Ast::Statement) || other.is_a?(Ast::For) }
+                        .select(&.file.path.==(variable.file.path))
+                        .find { |other| other.from < variable.from && other.to > variable.to }
 
-        component.connects.each do |connect|
-          connect.keys.each do |key|
-            variable = key.name || key.variable
-
-            if variable.value == node.value
-              return location_link node, variable, connect
-            end
-          end
-        end
-      end
-
-      def variable_lookup_parent(node : Ast::Variable, target : TypeChecker::Scope::Node, workspace : Workspace)
-        case target
-        when Tuple(String, TypeChecker::Checkable, Ast::Node)
-          case variable = target[2]
-          when Ast::Variable
-            # For some variables in the .variables` cache, we only have access to the
-            # target Ast::Variable and not its containing node, so we must search for it
-            return unless parent = workspace
-                            .ast
-                            .nodes
-                            .select { |other| other.is_a?(Ast::EnumDestructuring) || other.is_a?(Ast::Statement) || other.is_a?(Ast::For) }
-                            .select(&.input.file.==(variable.input.file))
-                            .find { |other| other.from < variable.from && other.to > variable.to }
-
-            location_link node, variable, parent
-          end
-        end
+        location_link node, variable, parent
       end
 
       def variable_lookup(node : Ast::Variable, target : Ast::Node | TypeChecker::Checkable)
@@ -70,14 +77,19 @@ module Mint
 
       def variable_record_key(node : Ast::Variable, workspace : Workspace, stack : Array(Ast::Node))
         case field = stack[1]?
-        when Ast::RecordField
+        when Ast::Field
           return unless record_name = workspace.type_checker.record_field_lookup[field]?
 
           return unless record_definition_field = workspace
                           .ast
-                          .records
+                          .type_definitions
                           .find(&.name.value.==(record_name))
-                          .try(&.fields.find(&.key.value.==(node.value)))
+                          .try do |item|
+                            case fields = item.fields
+                            when Array(Ast::TypeDefinitionField)
+                              fields.find(&.key.value.==(node.value))
+                            end
+                          end
 
           location_link node, record_definition_field.key, record_definition_field
         end

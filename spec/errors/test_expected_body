@@ -1,0 +1,12 @@
+suite "X" {
+  test "X" {
+--------------------------------------------------------------------------------
+░ ERROR (TEST_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a test but I found "a space" instead:
+
+   ┌ ./spec/errors/test_expected_body:2:12
+   ├──────────────────────────────────────
+  1│ suite "X" {
+  2│   test "X" {
+   │             ⌃⌃⌃⌃

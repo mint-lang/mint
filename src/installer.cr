@@ -1,6 +1,6 @@
 module Mint
   class Installer
-    install_error InstallerFailedToInstall
+    include Errorable
 
     alias Package = NamedTuple(name: String, version: String)
     alias Constraint = FixedConstraint | SimpleConstraint
@@ -123,7 +123,7 @@ module Mint
 
             begin
               repository.json(version)
-            rescue error : RepositoryInvalidMintJson | RepositoryNoMintJson
+            rescue error : Error
               # If the mint.json is invalid or missing then this version
               # is eliminated.
               @eliminated << {package, base, constraint}
@@ -156,12 +156,33 @@ module Mint
                 "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}"
               end
 
-          raise InstallerFailedToInstall, {
-            "package"    => "#{base[:name]}:#{base[:version]}",
-            "constraint" => constraint.to_s,
-            "eliminated" => eliminated,
-            "name"       => dependency,
-          }
+          error! :installer_failed_to_install do
+            block "Failed to satisfy the following constraint:"
+
+            block do
+              bold "#{dependency} #{constraint}"
+              text "from"
+              bold "#{base[:name]}:#{base[:version]}"
+            end
+
+            case eliminated
+            when Array(String)
+              unless eliminated.empty?
+                block do
+                  text "All versions of"
+                  bold name.to_s
+                  text "were eliminated:"
+                end
+
+                snippet eliminated.join("\n")
+
+                block do
+                  text "There are no version available for:"
+                  bold name.to_s
+                end
+              end
+            end
+          end
         end
       end
     rescue error : Retry
@@ -217,7 +238,7 @@ module Mint
           resolve_dependencies(
             json.dependencies,
             {name: dependency.name, version: version.to_s})
-        rescue RepositoryInvalidMintJson | RepositoryNoMintJson
+        rescue Error
           # Since we don't have a valid json we don't resolve the dependencies
         end
       end

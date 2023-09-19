@@ -1,0 +1,39 @@
+component Test {
+  property things : Array(String) = []
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test things=[0]/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_COMPONENT_PROPERTY_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the value for the property "things" of the component "Test" does not
+match its definition.
+
+I was expecting:
+
+  Array(String)
+
+Instead it is:
+
+  Array(Number)
+
+The attribute in question is here:
+
+    ┌ ./spec/errors/html_attribute_component_property_type_mismatch:11:11
+    ├────────────────────────────────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : Html {
+  11│     <Test things=[0]/>
+    │           ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│   }
+  13│ }

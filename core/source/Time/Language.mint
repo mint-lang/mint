@@ -1,5 +1,5 @@
 /* Represents a language for time formatting. */
-record Time.Format.Language {
+type Time.Format.Language {
   toOrdinalSuffix : Function(Number, String),
   toMonthName : Function(Month, String),
   toMonthAbbreviation : Function(Month, String),

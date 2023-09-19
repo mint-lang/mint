@@ -1,0 +1,27 @@
+component Main {
+  fun toString(value : Number) : String {
+    ""
+  }
+
+  fun render : String {
+    "" + 0 |> toString + "" + 0 |> toString
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_PIPE_AMBIGUOUS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I cannot determine the order of the operands because the pipe makes it
+ambiguous. Wrap operands in parentheses to avoid ambiguity.
+
+The piped call in question is here:
+
+    ┌ ./spec/errors/operation_pipe_ambiguous:7:15
+    ├────────────────────────────────────────────
+   3│     ""
+   4│   }
+   5│
+   6│   fun render : String {
+   7│     "" + 0 |> toString + "" + 0 |> toString
+    │               ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

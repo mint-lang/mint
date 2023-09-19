@@ -4,9 +4,9 @@ module Mint
       getter variable
 
       def initialize(@variable : Variable,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @file : Parser::File,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

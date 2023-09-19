@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.Mutation` */
-record Provider.Mutation.Subscription {
+type Provider.Mutation.Subscription {
   changes : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
@@ -20,14 +20,14 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
     for entry of entries {
       for subscription of subscriptions {
         case subscription.element {
-          Maybe::Just(element) =>
+          Maybe.Just(element) =>
             if Dom.contains(element, entry.target) {
               subscription.changes()
             } else {
               next { }
             }
 
-          Maybe::Nothing => next { }
+          Maybe.Nothing => next { }
         }
       }
     }
@@ -43,13 +43,13 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
     /* For each subscription observe the given elements. */
     for subscription of subscriptions {
       case subscription.element {
-        Maybe::Just(element) =>
+        Maybe.Just(element) =>
           {
             MutationObserver.observe(observer, element, true, true)
             subscription.changes()
           }
 
-        Maybe::Nothing => next { }
+        Maybe.Nothing => next { }
       }
     }
 

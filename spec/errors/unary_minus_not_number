@@ -1,0 +1,26 @@
+component Main {
+  fun render : String {
+    -"ASD"
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (UNARY_MINUS_NOT_NUMBER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An unary minuses expression must evaluate to number. Instead it is:
+
+  String
+
+The unary minus in question is here:
+
+   ┌ ./spec/errors/unary_minus_not_number:3:5
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     -"ASD"
+   │     ⌃⌃⌃⌃⌃⌃
+  4│
+  5│     ""
+  6│   }
+  7│ }

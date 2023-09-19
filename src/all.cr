@@ -14,13 +14,12 @@ MINT_ENV = {} of String => String
 require "./version"
 
 require "./ext/**"
+require "./errorable"
 
-require "./errors/error"
-require "./errors/**"
 require "./constants"
-require "./macros"
 require "./assets"
 require "./skippable"
+require "./helpers"
 require "./js"
 require "./core"
 require "./env"
@@ -28,14 +27,12 @@ require "./env"
 require "./render/**"
 require "./utils/**"
 
-require "./message"
-require "./messages/**"
-
 require "./ast/node"
 require "./ast/**"
 require "./ast"
 
 require "./style_builder"
+require "./scope"
 
 require "./type_checkers/**"
 require "./type_checker/**"
@@ -51,6 +48,7 @@ require "./installer/**"
 require "./installer"
 
 require "./parsers/**"
+require "./parser/*"
 require "./parser"
 
 require "./documentation_generator/**"

@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    "A" + {
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the right side expression of an operation but I found "{"
+instead:
+
+   ┌ ./spec/errors/operation_expected_expression:3:11
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "A" + {
+   │           ⌃

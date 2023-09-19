@@ -4,17 +4,9 @@ module Mint
       getter expressions
 
       def initialize(@expressions : Array(Node),
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def static?
-        expressions.all?(&.static?)
-      end
-
-      def static_value
-        expressions.join(&.static_value)
+                     @file : Parser::File,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

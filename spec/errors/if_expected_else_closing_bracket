@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    if ("") { "a" } else { a
+--------------------------------------------------------------------------------
+░ ERROR (IF_EXPECTED_ELSE_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of the else branch but I found "a space"
+instead:
+
+   ┌ ./spec/errors/if_expected_else_closing_bracket:3:28
+   ├────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     if ("") { "a" } else { a
+   │                             ⌃⌃⌃⌃

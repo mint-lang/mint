@@ -1,56 +1,54 @@
 module Mint
   class TypeChecker
-    type_error ArrayAccessIndexNotNumber
-    type_error ArrayAccessInvalidTuple
-    type_error ArrayAccessNotAnArray
-
     def check(node : Ast::ArrayAccess) : Checkable
       index =
         node.index
 
-      lhs =
-        node.lhs
+      expression =
+        node.expression
 
       type =
-        resolve lhs
+        resolve expression
 
       case index
-      in Ast::Expression
-        index_type =
-          resolve index
-
-        raise ArrayAccessIndexNotNumber, {
-          "got"      => index_type,
-          "expected" => NUMBER,
-          "node"     => index,
-        } unless Comparer.compare(index_type, NUMBER)
-
-        check_array_access(lhs, type)
-      in Int64
+      when Ast::NumberLiteral
         if type.name == "Tuple"
           parameter =
-            type.parameters[index]?
+            type.parameters[index.value.to_i]?
 
-          raise ArrayAccessInvalidTuple, {
-            "size"  => type.parameters.size.to_s,
-            "index" => ordinal(index),
-            "got"   => type,
-            "node"  => lhs,
-          } unless parameter
+          error! :array_access_invalid_tuple do
+            snippet(
+              "The tuple have only #{type.parameters.size} members, but " \
+              "you wanted to access the #{ordinal(index.value.to_i + 1)}" \
+              ". The exact type of the tuple is:", type)
+            snippet "The tuple in question is here:", expression
+          end unless parameter
 
           parameter
         else
-          check_array_access(lhs, type)
+          check_array_access(expression, type)
         end
+      end || begin
+        index_type =
+          resolve index
+
+        error! :array_access_index_not_number do
+          block "The type of the index of an array access is not a number."
+          expected NUMBER, index_type
+          snippet "The index in question is here:", index
+        end unless Comparer.compare(index_type, NUMBER)
+
+        check_array_access(expression, type)
       end
     end
 
-    def check_array_access(lhs, type)
-      raise ArrayAccessNotAnArray, {
-        "expected" => ARRAY,
-        "got"      => type,
-        "node"     => lhs,
-      } unless resolved = Comparer.compare(type, ARRAY)
+    def check_array_access(expression, type)
+      error! :array_access_not_an_array do
+        block "The entity you are trying to access an item from is not an " \
+              "array or a tuple."
+        expected "Array(a), Tuple(...)", type
+        snippet "The array in question is here:", expression
+      end unless resolved = Comparer.compare(type, ARRAY)
 
       Type.new("Maybe", [resolved.parameters.first] of Checkable)
     end

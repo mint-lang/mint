@@ -18,8 +18,8 @@ module Mint
 
       if downcase_name == "readonly" && is_element
         {"readOnly" => value}
-      elsif lookups[node]?
-        {js.variable_of(lookups[node]) => value}
+      elsif lookups[node]?.try(&.first?)
+        {js.variable_of(lookups[node][0]) => value}
       else
         { %("#{node.name.value}") => value }
       end

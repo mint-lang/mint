@@ -1,6 +1,0 @@
-recordTest{a:String using "blah",b:Blah using "what"}
---------------------------------------------------------------------------------
-record Test {
-  a : String using "blah",
-  b : Blah using "what"
-}

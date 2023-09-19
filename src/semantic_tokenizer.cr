@@ -22,20 +22,19 @@ module Mint
     # This represents which token types are used for which node.
     TOKEN_MAP = {
       Ast::TypeVariable  => TokenType::TypeParameter,
-      Ast::Variable      => TokenType::Variable,
       Ast::Comment       => TokenType::Comment,
       Ast::StringLiteral => TokenType::String,
       Ast::RegexpLiteral => TokenType::Regexp,
       Ast::NumberLiteral => TokenType::Number,
-      Ast::TypeId        => TokenType::Type,
+      Ast::Id            => TokenType::Type,
     }
 
     # Represents a semantic token using the positions of the token instead
     # of line / column (for the LSP it is converted to line /column).
     record Token,
       type : TokenType,
-      from : Int32,
-      to : Int32
+      from : Int64,
+      to : Int64
 
     # We keep a cache of all tokenized nodes to avoid duplications
     getter cache = Set(Ast::Node).new
@@ -48,7 +47,7 @@ module Mint
       tokenizer.tokenize(ast)
 
       parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
-      contents = ast.nodes.first.input.input
+      contents = ast.nodes.first.file.contents
       position = 0
 
       tokenizer.tokens.sort_by(&.from).each do |token|
@@ -129,17 +128,16 @@ module Mint
       end
     end
 
-    def tokenize(node : Ast::CssDefinition)
-      add(node.from, node.from + node.name.size, :property)
+    def tokenize(node : Ast::Variable)
+      if node.value[0].ascii_lowercase?
+        add(node, TokenType::Variable)
+      else
+        add(node, TokenType::Type)
+      end
     end
 
-    def tokenize(node : Ast::ArrayAccess)
-      # TODO: The index should be parsed as a number literal when
-      #       implemented remove this
-      case index = node.index
-      when Int64
-        add(node.from + 1, node.from + 1 + index.to_s.size, :number)
-      end
+    def tokenize(node : Ast::CssDefinition)
+      add(node.from, node.from + node.name.size, :property)
     end
 
     def tokenize(node : Ast::HtmlElement)
@@ -157,7 +155,7 @@ module Mint
       end
     end
 
-    def add(from : Int32, to : Int32, type : TokenType)
+    def add(from : Int64, to : Int64, type : TokenType)
       tokens << Token.new(
         type: type,
         from: from,

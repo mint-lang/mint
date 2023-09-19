@@ -19,7 +19,7 @@ module Mint
         case target
         when Ast::Variable
           [js.const(js.variable_of(target), right)]
-        when Ast::TupleDestructuring, Ast::EnumDestructuring, Ast::ArrayDestructuring
+        when Ast::TupleDestructuring, Ast::TypeDestructuring, Ast::ArrayDestructuring
           variables = [] of String
 
           pattern =
@@ -27,7 +27,7 @@ module Mint
 
           case target
           when Ast::TupleDestructuring
-            if target.parameters.all?(Ast::Variable)
+            if target.items.all?(Ast::Variable)
               ["const [#{variables.join(",")}] = #{right}"]
             end
           end || begin

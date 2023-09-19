@@ -1,0 +1,37 @@
+component Main {
+  fun render : String {
+    case ("x") {
+      "a" => "a"
+      "b" => true
+      => "c"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CASE_BRANCH_NOT_MATCHES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The return type of the 2nd branch of a case expression does not match the type
+of the 1st branch.
+
+I was expecting the type of the 1st branch:
+
+  String
+
+Instead it is:
+
+  Bool
+
+The branch in question is here:
+
+    ┌ ./spec/errors/case_branch_not_matches:5:7
+    ├──────────────────────────────────────────
+   1│ component Main {
+   2│   fun render : String {
+   3│     case ("x") {
+   4│       "a" => "a"
+   5│       "b" => true
+    │       ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   6│       => "c"
+   7│     }
+   8│   }
+   9│ }

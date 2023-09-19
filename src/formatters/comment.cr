@@ -3,7 +3,7 @@ module Mint
     def format(node : Ast::Comment) : String
       value =
         node
-          .value
+          .content
           .remove_leading_whitespace
           .rstrip
 

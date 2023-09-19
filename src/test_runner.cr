@@ -1,5 +1,7 @@
 module Mint
   class TestRunner
+    include Errorable
+
     class Message
       include JSON::Serializable
 
@@ -14,6 +16,7 @@ module Mint
     BROWSER_PATHS = {
       firefox: {
         "firefox",
+        "firefox-bin",
         "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
       },
       chrome: {
@@ -24,10 +27,7 @@ module Mint
       },
     }
 
-    error BrowserNotFound
-    error InvalidBrowser
-    error InvalidReporter
-
+    @artifacts : TypeChecker::Artifacts?
     @reporter : Reporter
     @browser_path : String?
     @script : String?
@@ -102,6 +102,8 @@ module Mint
       type_checker = TypeChecker.new(ast)
       type_checker.check
 
+      @artifacts = type_checker.artifacts
+
       Compiler.compile_with_tests(type_checker.artifacts)
     end
 
@@ -112,24 +114,35 @@ module Mint
       when "dot"
         DotReporter.new
       else
-        raise InvalidReporter, {"reporter" => @flags.reporter}
+        error! :invalid_reporter do
+          block do
+            text "There is no reporter with the name:"
+            bold @flags.reporter
+          end
+
+          snippet "The available reporters are:", "documentation, dot"
+        end
       end
     end
 
     def resolve_browser_path : String
-      paths = BROWSER_PATHS[@flags.browser.downcase]?
-
-      raise InvalidBrowser, {
-        "browser" => @flags.browser,
-      } unless paths
+      paths =
+        BROWSER_PATHS[@flags.browser.downcase] || [] of String
 
       path = paths
         .compact_map { |item| Process.find_executable(item) }
         .first?
 
-      raise BrowserNotFound, {
-        "browser" => @flags.browser,
-      } unless path
+      error! :browser_not_found do
+        block do
+          text "I cannot find the executable of browser:"
+          bold @flags.browser
+        end
+
+        block do
+          text "Are you sure it's installed properly?"
+        end
+      end unless path
 
       path
     end
@@ -156,7 +169,14 @@ module Mint
           url,
         ])
       else
-        raise InvalidBrowser, {"browser" => @flags.browser}
+        error! :invalid_browser do
+          block do
+            text "I cannot run the tests in the given browser:"
+            bold @flags.browser
+          end
+
+          snippet "The available browsers are:", "chrome, firefox"
+        end
       end
     end
 
@@ -193,9 +213,7 @@ module Mint
 
       runtime =
         if runtime_path = @flags.runtime
-          raise RuntimeFileNotFound, {
-            "path" => runtime_path,
-          } unless ::File.exists?(runtime_path)
+          Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
           ::File.read(runtime_path)
         else
           Assets.read("runtime.js")
@@ -216,6 +234,25 @@ module Mint
         env.response.content_type = "text/css"
 
         SourceFiles.external_stylesheets
+      end
+
+      get "/#{ASSET_DIR}/:name" do |env|
+        filename =
+          env.params.url["name"]
+
+        asset =
+          @artifacts.try(&.assets.find(&.filename(build: false).==(filename)))
+
+        next unless asset
+
+        # Set cache to expire in 30 days.
+        env.response.headers["Cache-Control"] = "max-age=2592000"
+
+        # Try to figure out mime type from name.
+        env.response.content_type =
+          MIME.from_filename?(filename).to_s
+
+        asset.file_contents
       end
 
       get "/runtime.js" do

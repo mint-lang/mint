@@ -1,0 +1,12 @@
+component Test {
+  property
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a property but I found "a space" instead:
+
+   ┌ ./spec/errors/property_expected_name:2:10
+   ├──────────────────────────────────────────
+  1│ component Test {
+  2│   property
+   │           ⌃⌃⌃⌃

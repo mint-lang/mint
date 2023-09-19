@@ -1,0 +1,30 @@
+module Test {
+  fun b : Function(String) {
+    XTest.a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (VARIABLE_MISSING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I can't find the entity with the name:
+
+  XTest
+
+Here is where it is referenced:
+
+   ┌ ./spec/errors/variable_missing:3:5
+   ├───────────────────────────────────
+  1│ module Test {
+  2│   fun b : Function(String) {
+  3│     XTest.a
+   │     ⌃⌃⌃⌃⌃
+  4│   }
+  5│ }
+  6│
+  7│ component Main {

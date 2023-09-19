@@ -1,0 +1,143 @@
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case "x" {
+      true => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+-------------------------------------------------destructuring_multiple_spreads
+component Main {
+  fun render : String {
+    case [] {
+      [...a,...b] => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case "" {
+      [...a,...b] => "a"
+    }
+  }
+}
+---------------------------------------------------destructuring_tuple_mismatch
+component Main {
+  fun render : String {
+    case {"a", "b"} {
+      {a, b, c} => "a"
+    }
+  }
+}
+-------------------------------tuple_destructuring_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    case #("a", "b") {
+      #(a, b, c
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case ("") {
+      {a, b} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case {"a", "b"} {
+      {"a", {"b"}} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    case {"a", "b"} {
+      {{a}, b} => "a"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = "") {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+----------------------------------------------------destructuring_type_mismatch
+component Main {
+  fun render : String {
+    let {x, y, z} = "hello"
+    ""
+  }
+}
+---------------------------------------------------destructuring_tuple_mismatch
+component Main {
+  fun render : String {
+    let {x, y, z} = {"hello", "a"}
+    ""
+  }
+}
+-----------------------------------------------------destructuring_type_missing
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+---------------------------------------------destructuring_type_variant_missing
+enum Maybe {
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+-----------------------------------------------destructuring_type_field_missing
+enum Maybe {
+  Just(item : String)
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case "x" {
+      "a" => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+enum Maybe(a) {
+  Just(a)
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    let Just(a) = Maybe.Just("Hello") or return ""
+    a
+  }
+}

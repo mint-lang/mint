@@ -38,6 +38,14 @@
       .type-badge[data-type="state"] {
         background: orange;
       }
+
+      .type-badge[data-type="type"] {
+        background: #00bbb5;
+      }
+
+      .type-badge[data-type="type"]::before {
+        content: "T";
+      }
       
       .enum__option__param + .enum__option__param::before {
         content: ',';
@@ -209,10 +217,6 @@
                     <%= nav_item(c, "components") %> 
                   <% end %>
                   
-                  <% @ast.enums.sort_by(&.name.value).each do |c| %> 
-                    <%= nav_item(c, "enums") %> 
-                  <% end %>
-                  
                   <% @ast.modules.sort_by(&.name.value).each do |c| %> 
                     <%= nav_item(c, "modules") %> 
                   <% end %>
@@ -221,24 +225,14 @@
                     <%= nav_item(c, "providers") %> 
                   <% end %>
                   
-                  <% @ast.records.sort_by(&.name.value).each do |c| %> 
-                    <%= nav_item(c, "records") %> 
-                  <% end %>
-
                   <% @ast.stores.sort_by(&.name.value).each do |c| %> 
                     <%= nav_item(c, "stores") %> 
                   <% end %>
+
+                  <% @ast.type_definitions.sort_by(&.name.value).each do |c| %> 
+                    <%= nav_item(c, "types") %> 
+                  <% end %>
                 </div>
-              </div>
-
-              <div class="toc__section">Versions</div>
-
-              <div class="toc__pages">
-                <a
-                  class="toc__page"
-                  href="/packages/<%= @git_source.user %>/<%= @git_source.repo %>/<%= @git_source.ref %>"
-                  ><%= @git_source.repo %></a
-                >
               </div>
 
               <div class="toc__section">Dependencies</div>

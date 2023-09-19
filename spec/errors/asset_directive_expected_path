@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @asset(
+--------------------------------------------------------------------------------
+░ ERROR (ASSET_DIRECTIVE_EXPECTED_PATH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the path (to the asset) of an asset directive but I found "a
+space" instead:
+
+   ┌ ./spec/errors/asset_directive_expected_path:3:11
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @asset(
+   │            ⌃⌃⌃⌃

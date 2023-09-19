@@ -11,12 +11,12 @@ module Mint
           ""
         end
 
-      match =
-        format node.match
+      pattern =
+        format node.pattern
 
       head =
-        if match
-          "#{match} =>"
+        if pattern
+          "#{pattern} =>"
         else
           "=>"
         end

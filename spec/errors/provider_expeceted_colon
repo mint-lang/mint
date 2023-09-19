@@ -1,0 +1,10 @@
+provider Test
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDER_EXPECETED_COLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the colon of a provider but I found "a space" instead:
+
+   ┌ ./spec/errors/provider_expeceted_colon:1:13
+   ├────────────────────────────────────────────
+  1│ provider Test
+   │              ⌃⌃⌃⌃

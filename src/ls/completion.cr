@@ -51,16 +51,16 @@ module Mint
             .components
             .map { |node| completion_item(node) }
 
-        enum_completions =
+        type_completions =
           workspace
             .ast
-            .enums
+            .type_definitions
             .flat_map { |node| completions(node) }
 
         (global_completions +
           component_completions +
           scope_completions +
-          enum_completions +
+          type_completions +
           HTML_TAG_COMPLETIONS)
           .compact
           .sort_by!(&.label)

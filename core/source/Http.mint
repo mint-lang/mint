@@ -1,11 +1,11 @@
 /* Represents a HTTP header */
-record Http.Header {
+type Http.Header {
   value : String,
   key : String
 }
 
 /* Represents an HTTP request. */
-record Http.Request {
+type Http.Request {
   headers : Array(Http.Header),
   withCredentials : Bool,
   body : Http.Body,
@@ -14,7 +14,7 @@ record Http.Request {
 }
 
 /* Represents an HTTP response. */
-record Http.Response {
+type Http.Response {
   headers : Map(String, String),
   body : Http.ResponseBody,
   bodyString : String,
@@ -22,7 +22,7 @@ record Http.Response {
 }
 
 /* Represents the body of a HTTP response. */
-enum Http.ResponseBody {
+type Http.ResponseBody {
   JSON(Object)
   HTML(Object)
   Text(String)
@@ -31,7 +31,7 @@ enum Http.ResponseBody {
 }
 
 /* Represents an HTTP request which failed to load. */
-record Http.ErrorResponse {
+type Http.ErrorResponse {
   headers : Map(String, String),
   type : Http.Error,
   status : Number,
@@ -39,7 +39,7 @@ record Http.ErrorResponse {
 }
 
 /* Represents the possible failures of an HTTP request. */
-enum Http.Error {
+type Http.Error {
   /* The request cannot be loaded because of a network failure */
   NetworkError
 

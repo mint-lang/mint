@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    {""}[0]
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun pipe (value : String) : String {
+    value
+  }
+
+  fun render : String {
+    let x = ""
+
+    { x |> pipe }[0]
+  }
+}
+-------------------------------------tuple_literal_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    #("a", "b"
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    #("a", "b")[0]
+  }
+}

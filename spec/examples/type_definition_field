@@ -1,0 +1,9 @@
+-----------------------------------------type_definition_field_expected_colon
+type A {
+  x
+------------------------------------------type_definition_field_expected_type
+type A {
+  x:
+---------------------------------------type_definition_field_expected_mapping
+type A {
+  x: String using

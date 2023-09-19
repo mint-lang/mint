@@ -1,0 +1,20 @@
+component Main {
+  style root {
+    @keyframes name {
+      0% {
+        color: red;
+      }
+--------------------------------------------------------------------------------
+░ ERROR (CSS_KEYFRAMES_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a CSS keyframes rule but I found "a
+space" instead:
+
+   ┌ ./spec/errors/css_keyframes_expected_closing_bracket:6:7
+   ├─────────────────────────────────────────────────────────
+  2│   style root {
+  3│     @keyframes name {
+  4│       0% {
+  5│         color: red;
+  6│       }
+   │        ⌃⌃⌃⌃

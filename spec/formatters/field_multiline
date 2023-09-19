@@ -1,0 +1,23 @@
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    {a:"HelloHelloHelloHelloHelloHello" \ "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello"}
+  }
+}
+--------------------------------------------------------------------------------
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    {
+      a:
+        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
+        "elloHelloHelloHelloHelloHelloHelloHello"
+    }
+  }
+}

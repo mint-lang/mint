@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @inline(path
+--------------------------------------------------------------------------------
+░ ERROR (INLINE_DIRECTIVE_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parenthesis of an inline directive but I found "a
+space" instead:
+
+   ┌ ./spec/errors/inline_directive_expected_closing_parenthesis:3:16
+   ├─────────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @inline(path
+   │                 ⌃⌃⌃⌃

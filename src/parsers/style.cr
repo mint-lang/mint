@@ -1,65 +1,56 @@
 module Mint
   class Parser
-    syntax_error StyleExpectedClosingParentheses
-    syntax_error StyleExpectedOpeningBracket
-    syntax_error StyleExpectedClosingBracket
-    syntax_error StyleExpectedName
-
     def style : Ast::Style?
-      start do |start_position|
-        next unless keyword "style"
-
+      parse do |start_position|
+        next unless word! "style"
         whitespace
-        name = variable_with_dashes! StyleExpectedName
+
+        next error :style_expected_name do
+          expected "the name of a style", word
+          snippet self
+        end unless name = variable extra_chars: ['-']
         whitespace
 
         arguments = [] of Ast::Argument
 
         if char! '('
           whitespace
-
           arguments = list(terminator: ')', separator: ',') { argument }
-
           whitespace
-          char ')', StyleExpectedClosingParentheses
+
+          next error :style_expected_closing_parenthesis do
+            expected "the closing parenthesis of a style", word
+            snippet self
+          end unless char! ')'
+          whitespace
         end
 
-        body = block(
-          opening_bracket: StyleExpectedOpeningBracket,
-          closing_bracket: StyleExpectedClosingBracket
-        ) do
-          many { css_keyframes || css_font_face || css_node }
-        end
+        body =
+          brackets(
+            ->{ error :style_expected_opening_bracket do
+              expected "the opening bracket of a style", word
+              snippet self
+            end },
+            ->{ error :style_expected_closing_bracket do
+              expected "the closing bracket of a style", word
+              snippet self
+            end },
+            ->(items : Array(Ast::Node)) {
+              error :style_expected_body do
+                expected "the body of a style", word
+                snippet self
+              end if items.empty?
+            }) { many { css_keyframes || css_font_face || css_node } }
 
-        self << Ast::Style.new(
+        next unless body
+
+        Ast::Style.new(
           from: start_position,
           arguments: arguments,
           to: position,
-          input: data,
+          file: file,
           body: body,
           name: name)
-      end
-    end
-
-    def css_node
-      comment ||
-        case_expression(for_css: true) ||
-        if_expression(for_css: true) ||
-        css_nested_at ||
-        css_definition_or_selector
-    end
-
-    def css_body
-      many { css_node }
-    end
-
-    def css_definition_or_selector
-      css_definition || css_selector
-    rescue ex : CssDefinitionExpectedSemicolon
-      begin
-        css_selector
-      rescue
-        raise ex
       end
     end
   end

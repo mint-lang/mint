@@ -1,0 +1,87 @@
+enum A(a) {
+  B(a)
+}
+
+enum C(a) {
+  D(A(a))
+  X
+}
+
+component Main {
+  fun test (b : C(a)) : a {
+    case (b) {
+      C::X => ""
+      C::D(a) =>
+        case (a) {
+          A::B(c) =>
+            c
+        }
+    }
+  }
+
+  fun render : String {
+    test(C::D(A::B("")))
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class B extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
+class C extends _E {
+  constructor() {
+    super();
+    this.length = 0;
+  }
+};
+
+class D extends _C {
+  a(b) {
+    return _match(b,[
+      [
+        _PE(C,[]),
+        () => {
+          return ``
+        }
+      ],
+      [
+        _PE(B,[
+          _PV
+        ]),
+        (c) => {
+          return _match(c,[
+            [
+              _PE(A,[
+                _PV
+              ]),
+              (d) => {
+                return d
+              }
+            ]
+          ])
+        }
+      ]
+    ]);
+  }
+
+  render() {
+    this.a(_n(B)(_n(A)(``)));
+    return ``;
+  }
+};
+
+D.displayName = "Main";

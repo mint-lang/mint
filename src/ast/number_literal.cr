@@ -1,22 +1,14 @@
 module Mint
   class Ast
     class NumberLiteral < Node
-      getter value
       getter? float
+      getter value
 
-      def initialize(@value : String,
-                     @input : Data,
+      def initialize(@file : Parser::File,
+                     @value : String,
                      @float : Bool,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def static?
-        true
-      end
-
-      def static_value
-        value
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

@@ -1,0 +1,40 @@
+enum Maybe {
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_TYPE_VARIANT_MISSING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I could not find the variant "Just" of type "Maybe" for a destructuring:
+
+    ┌ ./spec/errors/destructuring_type_variant_missing:7:9
+    ├─────────────────────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : String {
+   7│     let Maybe::Just(a) = "" or return ""
+    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│     ""
+   9│   }
+  10│ }
+
+The type is defined here:
+
+   ┌ ./spec/errors/destructuring_type_variant_missing:1:1
+   ├─────────────────────────────────────────────────────
+   │ ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  1│ enum Maybe {
+  2│   Nothing
+  3│ }
+   │ ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│ component Main {
+  6│   fun render : String {
+  7│     let Maybe::Just(a) = "" or return ""

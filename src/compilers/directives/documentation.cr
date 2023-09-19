@@ -2,7 +2,7 @@ module Mint
   class Compiler
     def _compile(node : Ast::Directives::Documentation) : String
       entity =
-        lookups[node]
+        lookups[node][0]
 
       JSON.build do |json|
         DocumentationGeneratorJson.new.generate(entity, json)

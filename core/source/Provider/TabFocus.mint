@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.TabFocus` */
-record Provider.TabFocus.Subscription {
+type Provider.TabFocus.Subscription {
   onTabOut : Function(Promise(Void)),
   onTabIn : Function(Promise(Void)),
   element : Maybe(Dom.Element)
@@ -8,11 +8,11 @@ record Provider.TabFocus.Subscription {
 /* A provider to provide the tab in and tab out events for an element. */
 provider Providers.TabFocus : Provider.TabFocus.Subscription {
   /* The listener unsubscribe functions. */
-  state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe::Nothing
+  state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe.Nothing
 
   /* The `keyUp` event handler. */
   fun handleKeyUp (event : Html.Event) : Array(Promise(Void)) {
-    if event.keyCode == Html.Event:TAB {
+    if event.keyCode == Html.Event.TAB {
       let activeElement =
         Dom.getActiveElement()
 
@@ -28,9 +28,9 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
   /* The `keyDown` event handler. */
   fun handleKeyDown (event : Html.Event) : Array(Promise(Void)) {
-    if event.keyCode == Html.Event:TAB {
+    if event.keyCode == Html.Event.TAB {
       let target =
-        Maybe::Just(event.target)
+        Maybe.Just(event.target)
 
       for subscription of subscriptions {
         subscription.onTabOut()
@@ -48,25 +48,25 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       Maybe.map(
         listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
-          let {keyDownListener, keyUpListener} =
+          let #(keyDownListener, keyUpListener) =
             methods
 
           keyDownListener()
           keyUpListener()
         })
 
-      next { listeners: Maybe::Nothing }
+      next { listeners: Maybe.Nothing }
     } else {
       case listeners {
-        Maybe::Nothing =>
+        Maybe.Nothing =>
           next
             {
               listeners:
-                Maybe::Just(
-                  {
+                Maybe.Just(
+                  #(
                     Window.addEventListener("keydown", true, handleKeyDown),
                     Window.addEventListener("keyup", true, handleKeyUp)
-                  })
+                  ))
             }
 
         => next { }

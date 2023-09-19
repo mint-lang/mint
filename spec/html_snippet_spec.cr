@@ -8,9 +8,9 @@ describe Mint::HtmlSnippet do
 
       node =
         Mint::Ast::Node.new(
-          input: Mint::Ast::Data.new(
-            input: "line1\r\nline2\r\nline2",
-            file: "FILE"),
+          file: Mint::Parser::File.new(
+            contents: "line1\r\nline2\r\nline2",
+            path: "FILE"),
           from: 0,
           to: 23)
 
@@ -25,9 +25,9 @@ describe Mint::HtmlSnippet do
 
       node =
         Mint::Ast::Node.new(
-          input: Mint::Ast::Data.new(
-            input: "line1\nline2\nline2",
-            file: "FILE"),
+          file: Mint::Parser::File.new(
+            contents: "line1\nline2\nline2",
+            path: "FILE"),
           from: 0,
           to: 23)
 

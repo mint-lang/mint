@@ -1,25 +1,33 @@
 module Mint
   class Parser
-    syntax_error ConnectVariableExpectedAs
-
     def connect_variable
-      start do |start_position|
-        value = variable(track: false) || variable_constant
-
-        next unless value
+      parse do |start_position|
+        next unless name = variable_constant(track: false) ||
+                           variable(track: false)
 
         whitespace
-
-        if keyword "as"
+        if word! "as"
           whitespace
-          name = variable! ConnectVariableExpectedAs
+
+          next error :connect_variable_expected_as do
+            block do
+              text "The"
+              bold "exposed name"
+              text "of a connection"
+              bold "must be specified, here is an example:"
+            end
+
+            snippet "connect Store exposing { item as name }"
+            expected "the exposed name", word
+            snippet self
+          end unless target = variable
         end
 
-        self << Ast::ConnectVariable.new(
+        Ast::ConnectVariable.new(
           from: start_position,
-          variable: value,
+          target: target,
           to: position,
-          input: data,
+          file: file,
           name: name)
       end
     end

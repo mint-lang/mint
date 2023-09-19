@@ -1,0 +1,21 @@
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument2: 0, argument1: "")
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  a(b, c) {
+    return _h("div", {});
+  }
+
+  render() {
+    return this.a(``, 0);
+  }
+};
+
+A.displayName = "Main";

@@ -1,0 +1,39 @@
+--------------------------------------------------------------get_expected_name
+component Main {
+  get
+--------------------------------------------------------------get_expected_type
+component Main {
+  get name :
+---------------------------------------------------get_expected_opening_bracket
+component Main {
+  get name
+--------------------------------------------------------get_expected_expression
+component Main {
+  get name {
+---------------------------------------------------get_expected_closing_bracket
+component Main {
+  get name { a
+--------------------------------------------------------------get_type_mismatch
+component Main {
+  get test : Number {
+    "asd"
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  get test : Number {
+    0
+  }
+
+  fun render : Html {
+    test
+
+    <div/>
+  }
+}

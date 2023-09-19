@@ -1,0 +1,22 @@
+component Main {
+  fun render : String {
+    @inline(path)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (INLINE_DIRECTIVE_EXPECTED_FILE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The path specified for an inline directive does not exist:
+
+  path
+
+The inline directive in question is here:
+
+   ┌ ./spec/errors/inline_directive_expected_file:3:5
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @inline(path)
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

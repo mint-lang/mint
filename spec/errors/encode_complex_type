@@ -1,0 +1,39 @@
+enum Maybe {
+  Just(String)
+}
+
+component Main {
+  fun render : Html {
+    encode Maybe::Just("")
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ENCODE_COMPLEX_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+This type cannot be automatically encoded:
+
+  Maybe
+
+Only these types and records containing them can be automatically decoded:
+
+    Map(String, a)
+    Array(a)
+    Maybe(a)
+    String
+    Number
+    Object
+    Time
+    Bool
+
+The encode in question is here:
+
+    ┌ ./spec/errors/encode_complex_type:7:5
+    ├──────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : Html {
+   7│     encode Maybe::Just("")
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

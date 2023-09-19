@@ -1,38 +1,28 @@
 module Mint
   class Parser
-    syntax_error ArrayAccessExpectedClosingBracket
-    syntax_error ArrayAccessExpectedIndex
-
-    def array_access(lhs : Ast::Expression) : Ast::Expression
-      start do |start_position|
+    def array_access(expression : Ast::Node) : Ast::ArrayAccess?
+      parse do |start_position|
         next unless char! '['
-
         whitespace
 
-        index =
-          gather { chars &.ascii_number? }.to_s
-
-        index =
-          if index.empty?
-            expression! ArrayAccessExpectedIndex
-          else
-            index.to_i64
-          end
-
+        next error :array_access_expected_index do
+          expected "the index of an array access", word
+          snippet self
+        end unless index = self.expression
         whitespace
 
-        char ']', ArrayAccessExpectedClosingBracket
+        next error :array_access_expected_closing_bracket do
+          expected "the closing bracket of an array access", word
+          snippet self
+        end unless char! ']'
 
-        node = self << Ast::ArrayAccess.new(
+        Ast::ArrayAccess.new(
+          expression: expression,
           from: start_position,
           to: position,
           index: index,
-          input: data,
-          lhs: lhs,
-        )
-
-        array_access_or_call(node)
-      end || lhs
+          file: file)
+      end
     end
   end
 end

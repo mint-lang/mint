@@ -1,5 +1,5 @@
 /* Represents the possible failures when dealing with the `Storage` API. */
-enum Storage.Error {
+type Storage.Error {
   /* The storage API is disabled. */
   SecurityError
 

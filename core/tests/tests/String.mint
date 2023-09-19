@@ -20,15 +20,15 @@ suite "String.charAt" {
 
 suite "String.charCodeAt" {
   test "returns just the character code at the given index" {
-    String.charCodeAt("Hello", 2) == Maybe::Just(108)
+    String.charCodeAt("Hello", 2) == Maybe.Just(108)
   }
 
   test "returns nothing if negative" {
-    String.charCodeAt("Hello", -1) == Maybe::Nothing
+    String.charCodeAt("Hello", -1) == Maybe.Nothing
   }
 
   test "returns nothing if index is bigger then length" {
-    String.charCodeAt("Hello", 100) == Maybe::Nothing
+    String.charCodeAt("Hello", 100) == Maybe.Nothing
   }
 }
 
@@ -46,15 +46,15 @@ suite "String.chopStart" {
 
 suite "String.codePointAt" {
   test "returns just the character code at the given index" {
-    String.codePointAt("☃★♲", 1) == Maybe::Just(9733)
+    String.codePointAt("☃★♲", 1) == Maybe.Just(9733)
   }
 
   test "returns nothing if negative" {
-    String.codePointAt("☃★♲", -1) == Maybe::Nothing
+    String.codePointAt("☃★♲", -1) == Maybe.Nothing
   }
 
   test "returns nothing if index is bigger then length" {
-    String.codePointAt("☃★♲", 100) == Maybe::Nothing
+    String.codePointAt("☃★♲", 100) == Maybe.Nothing
   }
 }
 
@@ -126,8 +126,8 @@ suite "String.indent" {
 
 suite "String.indexOf" {
   test "it returns the index of the search param" {
-    String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe::Nothing &&
-      String.indexOf("The quick brown fox jumps over the lazy dog.", "fox") == Maybe::Just(16)
+    String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing &&
+      String.indexOf("The quick brown fox jumps over the lazy dog.", "fox") == Maybe.Just(16)
   }
 }
 
@@ -205,8 +205,8 @@ suite "String.join" {
 
 suite "String.lastIndexOf" {
   test "it returns the last index of the search param" {
-    String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe::Nothing &&
-      String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "the") == Maybe::Just(31)
+    String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing &&
+      String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "the") == Maybe.Just(31)
   }
 }
 

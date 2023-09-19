@@ -1,4 +1,4 @@
-record X {
+type X {
   name : String,
   age : Number
 }
@@ -14,7 +14,7 @@ module A {
   }
 }
 --------------------------------------------------------------------------------
-record X {
+type X {
   name : String,
   age : Number
 }

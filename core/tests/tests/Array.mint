@@ -28,19 +28,19 @@ suite "Array.append" {
 
 suite "Array.at" {
   test "it returns nothing at 0 if the array is empty" {
-    Array.at([], 0) == Maybe::Nothing
+    Array.at([], 0) == Maybe.Nothing
   }
 
   test "it returns nothing index is over the arrays length" {
-    Array.at([], 1) == Maybe::Nothing
+    Array.at([], 1) == Maybe.Nothing
   }
 
   test "it returns item at index #1" {
-    Array.at([0], 0) == Maybe::Just(0)
+    Array.at([0], 0) == Maybe.Just(0)
   }
 
   test "it returns item at index #2" {
-    Array.at([1, 2, 3], 2) == Maybe::Just(3)
+    Array.at([1, 2, 3], 2) == Maybe.Just(3)
   }
 }
 
@@ -48,8 +48,8 @@ suite "Array.compact" {
   test "it flattens an array of maybes" {
     Array.compact(
       [
-        Maybe::Just("A"),
-        Maybe::Nothing
+        Maybe.Just("A"),
+        Maybe.Nothing
       ]) == ["A"]
   }
 }
@@ -123,7 +123,7 @@ suite "Array.find" {
 suite "Array.findByAndMap" {
   test "finds the first item that matches the predicate and returns the second value of the tuple" {
     ([1, 2, 3, 4, 5, 6]
-    |> Array.findByAndMap((number : Number) { {number == 3, "Three"} })
+    |> Array.findByAndMap((number : Number) { #(number == 3, "Three") })
     |> Maybe.withDefault("")) == "Three"
   }
 }
@@ -212,11 +212,11 @@ suite "Array.indexBy" {
 
 suite "Array.indexOf" {
   test "it returns the index of the item" {
-    Array.indexOf(["a", "b", "c"], "c") == Maybe::Just(2)
+    Array.indexOf(["a", "b", "c"], "c") == Maybe.Just(2)
   }
 
   test "it returns the index of an enum" {
-    Array.indexOf([Http.Error::Aborted], Http.Error::Aborted) == Maybe::Just(0)
+    Array.indexOf([Http.Error.Aborted], Http.Error.Aborted) == Maybe.Just(0)
   }
 }
 

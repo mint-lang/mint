@@ -1,9 +1,0 @@
-routes {
-  /test {
-    void
-  }
-
-  * {
-    void
-  }
-}

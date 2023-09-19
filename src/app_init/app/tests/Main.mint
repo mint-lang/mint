@@ -1,9 +1,7 @@
 suite "Main" {
   test "Greets Mint" {
-    with Test.Html {
-      <Main/>
-      |> start()
-      |> assertTextOf("a", "Learn Mint")
-    }
+    <Main/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("a", "Learn Mint")
   }
 }

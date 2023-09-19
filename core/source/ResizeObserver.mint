@@ -1,4 +1,4 @@
-record ResizeObserver.Entry {
+type ResizeObserver.Entry {
   dimensions : Dom.Dimensions,
   target : Dom.Element
 }

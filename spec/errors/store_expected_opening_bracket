@@ -1,0 +1,10 @@
+store X
+--------------------------------------------------------------------------------
+░ ERROR (STORE_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of a store but I found "a space" instead:
+
+   ┌ ./spec/errors/store_expected_opening_bracket:1:7
+   ├─────────────────────────────────────────────────
+  1│ store X
+   │        ⌃⌃⌃⌃

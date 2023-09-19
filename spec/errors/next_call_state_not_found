@@ -1,0 +1,30 @@
+component Main {
+  state name : String = "Joe"
+
+  fun render : Html {
+    next { age: 30 }
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (NEXT_CALL_STATE_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a state but could not find it:
+
+  age
+
+The next call in question is here:
+
+    ┌ ./spec/errors/next_call_state_not_found:5:5
+    ├────────────────────────────────────────────
+   1│ component Main {
+   2│   state name : String = "Joe"
+   3│
+   4│   fun render : Html {
+   5│     next { age: 30 }
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   6│
+   7│     <div/>
+   8│   }
+   9│ }

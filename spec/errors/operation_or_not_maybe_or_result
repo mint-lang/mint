@@ -1,0 +1,35 @@
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    0 or "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_OR_NOT_MAYBE_OR_RESULT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+For the or operation the left operand is invalid.
+
+I was expecting:
+
+  Maybe(a)
+
+Instead it is:
+
+  Number
+
+The operation in question is here:
+
+    ┌ ./spec/errors/operation_or_not_maybe_or_result:8:5
+    ├───────────────────────────────────────────────────
+   4│ }
+   5│
+   6│ component Main {
+   7│   fun render : String {
+   8│     0 or "Hello"
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   9│   }
+  10│ }

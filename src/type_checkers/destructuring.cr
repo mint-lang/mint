@@ -10,10 +10,15 @@ module Mint
     # An alias for the variable scope (of Mint::Typechecker::Scope)
     alias VariableScope = Tuple(String, Checkable, Ast::Node)
 
-    type_error DestructuringMultipleSpreads
-    type_error DestructuringTupleMismatch
-    type_error DestructuringTypeMismatch
-    type_error DestructuringNoParameter
+    def destructuring_type_mismatch(expected : Checkable, got : Checkable, node : Ast::Node)
+      error! :destructuring_type_mismatch do
+        block "A value does not match its supposed type in a destructuring."
+
+        expected expected, got
+
+        snippet "The destructuring in question is here:", node
+      end
+    end
 
     def destructure(
       node : Nil,
@@ -31,11 +36,10 @@ module Mint
       type =
         resolve(node)
 
-      raise DestructuringTypeMismatch, {
-        "expected" => condition,
-        "got"      => type,
-        "node"     => node,
-      } unless Comparer.compare(type, condition)
+      destructuring_type_mismatch(
+        expected: condition,
+        node: node,
+        got: type) unless Comparer.compare(type, condition)
 
       variables
     end
@@ -46,6 +50,7 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
+      cache[node] = condition
       variables.tap(&.push({node.value, condition, node}))
     end
 
@@ -54,23 +59,33 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
-      raise DestructuringTypeMismatch, {
-        "expected" => ARRAY,
-        "got"      => condition,
-        "node"     => node,
-      } unless Comparer.compare(ARRAY, condition)
+      destructuring_type_mismatch(
+        expected: ARRAY,
+        got: condition,
+        node: node,
+      ) unless Comparer.compare(ARRAY, condition)
 
       spreads =
         node.items.select(Ast::Spread).size
 
-      raise DestructuringMultipleSpreads, {
-        "count" => spreads.to_s,
-        "node"  => node,
-      } if spreads > 1
+      error! :destructuring_multiple_spreads do
+        block "An array destructuring can only contain one spread notation " \
+              "because otherwise I don't know how to distribute the " \
+              "leftover items."
+
+        block do
+          text "This array destructuring contains"
+          bold spreads.to_s
+          text "spread notations:"
+        end
+
+        snippet node
+      end if spreads > 1
 
       node.items.each do |item|
         case item
         when Ast::Spread
+          cache[item] = condition
           variables << {item.variable.value, condition, item}
         else
           destructure(item, condition.parameters[0], variables)
@@ -85,19 +100,25 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
-      raise DestructuringTypeMismatch, {
-        "expected" => Type.new("Tuple"),
-        "got"      => condition,
-        "node"     => node,
-      } unless condition.name == "Tuple"
+      destructuring_type_mismatch(
+        expected: Type.new("Tuple"),
+        got: condition,
+        node: node,
+      ) unless condition.name == "Tuple"
 
-      raise DestructuringTupleMismatch, {
-        "size" => node.parameters.size.to_s,
-        "got"  => condition,
-        "node" => node,
-      } if node.parameters.size > condition.parameters.size
+      error! :destructuring_tuple_mismatch do
+        block do
+          text "This destructuring of a tuple does not match the given " \
+               "tuple. I was expecting a tuple with"
+          bold node.items.size.to_s
+          text "items."
+        end
 
-      node.parameters.each_with_index do |item, index|
+        snippet "Instead it is this:", condition
+        snippet "The destructuring in question is here:", node
+      end if node.items.size > condition.parameters.size
+
+      node.items.each_with_index do |item, index|
         destructure(item, condition.parameters[index], variables)
       end
 
@@ -105,80 +126,108 @@ module Mint
     end
 
     def destructure(
-      node : Ast::EnumDestructuring,
+      node : Ast::TypeDestructuring,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
+      name =
+        node.name.try(&.value) || condition.name
+
       parent =
-        ast.enums.find(&.name.value.==(node.name.try &.value))
+        ast.type_definitions.find(&.name.value.==(name))
 
-      raise EnumIdTypeMissing, {
-        "name" => node.name,
-        "node" => node,
-      } unless parent
+      error! :destructuring_type_missing do
+        snippet "I could not find the type for a destructuring with the name:", name.to_s
+        snippet "The destructuring in question is here:", node
+      end unless parent
 
-      option =
-        parent.options.find(&.value.value.==(node.option.value))
+      variant =
+        case fields = parent.fields
+        when Array(Ast::TypeVariant)
+          fields.find(&.value.value.==(node.variant.value))
+        end
 
-      raise EnumIdEnumMissing, {
-        "parent_name" => parent.name.value,
-        "name"        => node.option.value,
-        "parent"      => parent,
-        "node"        => node,
-      } unless option
+      error! :destructuring_type_variant_missing do
+        block do
+          text "I could not find the variant"
+          bold %("#{node.variant.value}")
+          text "of type"
+          bold %("#{parent.name.value}")
+          text "for a destructuring:"
+        end
 
-      lookups[node] = option
+        snippet node
+        snippet "The type is defined here:", parent
+      end unless variant
+
+      lookups[node] = {variant, parent}
 
       type = resolve(parent)
 
       unified =
         Comparer.compare(type, condition)
 
-      raise DestructuringTypeMismatch, {
-        "expected" => condition,
-        "got"      => type,
-        "node"     => node,
-      } unless unified
+      destructuring_type_mismatch(
+        expected: condition,
+        node: node,
+        got: type,
+      ) unless unified
 
-      case option_param = option.parameters.first?
-      when Ast::EnumRecordDefinition
-        node.parameters.each_with_index do |param, index|
-          record =
-            resolve(option_param).as(Record)
-
+      case fields = variant.fields
+      when Array(Ast::TypeDefinitionField)
+        node.items.each_with_index do |param, index|
           case param
           when Ast::Variable
-            found = option_param.fields.find do |field|
+            found = fields.find do |field|
               case param
               when Ast::Variable
                 param.value == field.key.value
               end
             end
 
-            raise TypeError.new unless found
+            error! :destructuring_type_field_missing do
+              snippet "I could not find a field for a destructuring:", param.value
+              snippet "The destructuring in question is here:", param
+            end unless found
 
-            destructure(param, record.fields[param.value], variables)
+            type =
+              resolve(found.type)
+
+            destructure(param, type, variables)
           else
-            name =
-              option_param.fields[index].key.value
+            field =
+              fields[index]
 
-            destructure(param, record.fields[name], variables)
+            type =
+              resolve(field.type)
+
+            destructure(param, type, variables)
           end
         end
       else
-        node.parameters.each_with_index do |param, index|
+        node.items.each_with_index do |param, index|
           case param
           when Ast::Variable
-            raise DestructuringNoParameter, {
-              "size"   => option.parameters.size.to_s,
-              "index"  => index.to_s,
-              "name"   => option.value,
-              "option" => option,
-              "node"   => param,
-            } unless option.parameters[index]?
+            error! :destructuring_no_parameter do
+              block do
+                text "You are trying to destructure the"
+                bold index.to_s
+                text "parameter from the type variant:"
+                bold variant.value.value
+              end
 
-            option_type =
-              resolve(option.parameters[index]).not_nil!
+              block do
+                text "The variant only has"
+                bold variant.parameters.size.to_s
+                text "parameters."
+              end
+
+              snippet "You are trying to destructure it here:", param
+              snippet "The option is defined here:", variant
+            end unless variant.parameters[index]?
+
+            variant_type =
+              resolve(variant.parameters[index]).not_nil!
 
             mapping = {} of String => Checkable
 
@@ -187,16 +236,16 @@ module Mint
             end
 
             resolved_type =
-              Comparer.fill(option_type, mapping).not_nil!
+              Comparer.fill(variant_type, mapping).not_nil!
 
             destructure(param, resolved_type, variables)
           else
             sub_type =
-              case item = option.parameters[index]
+              case item = variant.parameters[index]
               when Ast::Type
                 resolve(item)
               when Ast::TypeVariable
-                unified.parameters[parent.parameters.index! { |enum_item| enum_item.value == item.value }]
+                unified.parameters[parent.parameters.index! { |variable| variable.value == item.value }]
               else
                 VOID # Can't happen
               end

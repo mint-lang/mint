@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    decode
+--------------------------------------------------------------------------------
+░ ERROR (DECODE_EXPECTED_SUBJECT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the subject of a decode expression but I found "a space"
+instead:
+
+   ┌ ./spec/errors/decode_expected_subject:3:10
+   ├───────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     decode
+   │           ⌃⌃⌃⌃

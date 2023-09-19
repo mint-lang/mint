@@ -1,0 +1,10 @@
+provider Test : Test {
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDER_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a provider but I found "a space" instead:
+
+   ┌ ./spec/errors/provider_expected_body:1:22
+   ├──────────────────────────────────────────
+  1│ provider Test : Test {
+   │                       ⌃⌃⌃⌃

@@ -1,0 +1,29 @@
+component Main {
+  fun render : Html {
+    <div><{ 0 }></div>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_CONTENT_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A child node of an element or component has an invalid type.
+
+I was expecting one of the following types:
+
+  Array(String)
+  Array(Html)
+  String
+  Html
+
+Instead it is:
+
+  Number
+
+   ┌ ./spec/errors/html_content_type_mismatch:3:13
+   ├──────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div><{ 0 }></div>
+   │             ⌃
+  4│   }
+  5│ }

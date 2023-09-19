@@ -1,43 +1,55 @@
 module Mint
   class Parser
-    syntax_error HtmlElementExpectedClosingBracket
-    syntax_error HtmlElementExpectedClosingTag
-    syntax_error HtmlElementExpectedReference
-    syntax_error HtmlElementExpectedStyle
-
     def html_element : Ast::HtmlElement?
-      start do |start_position|
-        tag = start do
-          next unless char! '<'
-          next unless value = variable_with_dashes track: false
-          value
-        end
-
-        next unless tag
+      parse do |start_position|
+        next unless char! '<'
+        next unless tag = variable track: false, extra_chars: ['-']
 
         styles = [] of Ast::HtmlStyle
 
-        if keyword_ahead? "::"
+        if word? "::"
           styles = many(parse_whitespace: false) { html_style }
 
-          raise HtmlElementExpectedStyle if styles.empty?
+          # We need to consume the double colon for the error.
+          @position += 2 if word? "::"
+
+          next error :html_element_expected_style do
+            expected "the style for an HTML element", word
+            snippet self
+          end if styles.empty?
         end
 
-        ref = start do
+        whitespace
+        if word! "as"
           whitespace
-          next unless keyword "as"
-          whitespace
-          variable! HtmlElementExpectedReference
+          next error :html_element_expected_reference do
+            expected "the reference of an HTML element", word
+            snippet self
+          end unless ref = variable
         end
 
-        attributes, children, comments, closing_tag_position =
+        body =
           html_body(
-            expected_closing_bracket: HtmlElementExpectedClosingBracket,
-            expected_closing_tag: HtmlElementExpectedClosingTag,
             with_dashes: true,
-            tag: tag)
+            tag: tag,
+            expected_closing_bracket: ->{
+              error :html_element_expected_closing_bracket do
+                expected "the closing bracket of an HTML element", word
+                snippet self
+              end
+            },
+            expected_closing_tag: ->{
+              error :html_element_expected_closing_tag do
+                expected "the closing tag of an HTML element", word
+                snippet self
+              end
+            })
 
-        node = self << Ast::HtmlElement.new(
+        next unless body
+
+        attributes, children, comments, closing_tag_position = body
+
+        Ast::HtmlElement.new(
           closing_tag_position: closing_tag_position,
           attributes: attributes,
           from: start_position,
@@ -45,13 +57,9 @@ module Mint
           comments: comments,
           styles: styles,
           to: position,
-          input: data,
+          file: file,
           tag: tag,
           ref: ref)
-
-        refs << {ref, node} if ref
-
-        node
       end
     end
   end

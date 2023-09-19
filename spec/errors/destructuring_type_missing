@@ -1,0 +1,24 @@
+component Main {
+  fun render : String {
+    let Maybe::Just(a) = "" or return ""
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_TYPE_MISSING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I could not find the type for a destructuring with the name:
+
+  Maybe
+
+The destructuring in question is here:
+
+   ┌ ./spec/errors/destructuring_type_missing:3:9
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     let Maybe::Just(a) = "" or return ""
+   │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│     ""
+  5│   }
+  6│ }

@@ -1,0 +1,10 @@
+-------------------------------------------html_expression_expected_closing_tag
+component Main {
+  fun render : Html {
+    <{
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    <{}>
+  }
+}

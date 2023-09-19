@@ -1,0 +1,14 @@
+routes {
+  * {
+    ""
+--------------------------------------------------------------------------------
+░ ERROR (ROUTE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a route but I found "a space" instead:
+
+   ┌ ./spec/errors/route_expected_closing_bracket:3:6
+   ├─────────────────────────────────────────────────
+  1│ routes {
+  2│   * {
+  3│     ""
+   │       ⌃⌃⌃⌃

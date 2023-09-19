@@ -1,0 +1,12 @@
+provider Test : Test {
+  const TEST = ""
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDER_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a provider but I found "a space" instead:
+
+   ┌ ./spec/errors/provider_expected_closing_bracket:2:17
+   ├─────────────────────────────────────────────────────
+  1│ provider Test : Test {
+  2│   const TEST = ""
+   │                  ⌃⌃⌃⌃

@@ -1,0 +1,12 @@
+component Test {
+  property test =
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_EXPECTED_DEFAULT_VALUE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the default value of a property but I found "a space" instead:
+
+   ┌ ./spec/errors/property_expected_default_value:2:17
+   ├───────────────────────────────────────────────────
+  1│ component Test {
+  2│   property test =
+   │                  ⌃⌃⌃⌃

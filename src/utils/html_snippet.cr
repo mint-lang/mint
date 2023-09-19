@@ -6,7 +6,7 @@ module Mint
 
     def render(node : Ast::Node)
       input =
-        node.input.input
+        node.file.contents
 
       start_line =
         input[0, node.from].lines.size
@@ -55,7 +55,7 @@ module Mint
       <<-HTML
       <div class="snippet">
         <div class='file'>
-          #{node.input.file}
+          #{node.file.path}
         </div>
         <div class="grid">
           <div class="line-numbers">

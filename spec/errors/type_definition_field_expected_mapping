@@ -1,0 +1,12 @@
+type A {
+  x: String using
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_FIELD_EXPECTED_MAPPING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the mapping of a record field but I found "a space" instead:
+
+   ┌ ./spec/errors/type_definition_field_expected_mapping:2:17
+   ├──────────────────────────────────────────────────────────
+  1│ type A {
+  2│   x: String using
+   │                  ⌃⌃⌃⌃

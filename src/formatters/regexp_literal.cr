@@ -1,7 +1,7 @@
 module Mint
   class Formatter
     def format(node : Ast::RegexpLiteral) : String
-      node.static_value
+      static_value(node).to_s
     end
   end
 end

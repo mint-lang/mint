@@ -1,13 +1,13 @@
 module Mint
   class Ast
     class ArrayAccess < Node
-      getter index, lhs
+      getter index, expression
 
-      def initialize(@index : Int64 | Expression,
-                     @lhs : Expression,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+      def initialize(@file : Parser::File,
+                     @expression : Node,
+                     @index : Node,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

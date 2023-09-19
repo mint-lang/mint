@@ -1,58 +1,67 @@
 module Mint
   class Parser
-    syntax_error FunctionExpectedClosingParentheses
-    syntax_error FunctionExpectedOpeningBracket
-    syntax_error FunctionExpectedClosingBracket
-    syntax_error FunctionExpectedTypeOrVariable
-    syntax_error FunctionExpectedExpression
-    syntax_error FunctionExpectedName
-
     def function : Ast::Function?
-      start do |start_position|
+      parse do |start_position|
         comment = self.comment
 
-        next unless keyword "fun"
+        next unless word! "fun"
         whitespace
 
-        name = variable! FunctionExpectedName, track: false
+        next error :function_expected_name do
+          expected "the name of the function", word
+          snippet self
+        end unless name = variable track: false
         whitespace
 
-        arguments = [] of Ast::Argument
+        arguments =
+          if char! '('
+            whitespace
+            items = list(terminator: ')', separator: ',') { argument }
+            whitespace
 
-        if char! '('
-          whitespace
+            next error :function_expected_closing_parenthesis do
+              expected "the closing parenthesis of a function", word
+              snippet self
+            end unless char! ')'
+            whitespace
 
-          arguments.concat list(
-            terminator: ')',
-            separator: ','
-          ) { argument }
-
-          whitespace
-          char ')', FunctionExpectedClosingParentheses
-        end
-
-        whitespace
+            items
+          end || [] of Ast::Argument
 
         type =
           if char! ':'
             whitespace
-            item = type_or_type_variable! FunctionExpectedTypeOrVariable
+            next error :function_expected_type_or_variable do
+              expected "the type of a function", word
+              snippet self
+            end unless item = self.type || type_variable
             whitespace
             item
           end
 
         body =
-          code_block(
-            opening_bracket: FunctionExpectedOpeningBracket,
-            closing_bracket: FunctionExpectedClosingBracket,
-            statement_error: FunctionExpectedExpression)
+          block(
+            ->{ error :function_expected_opening_bracket do
+              expected "the opening bracket of a function", word
+              snippet self
+            end },
+            ->{ error :function_expected_closing_bracket do
+              expected "the closing bracket of a function", word
+              snippet self
+            end },
+            ->{ error :function_expected_expression do
+              expected "the body of a function", word
+              snippet self
+            end })
 
-        self << Ast::Function.new(
+        next unless body
+
+        Ast::Function.new(
           arguments: arguments,
           from: start_position,
           comment: comment,
           to: position,
-          input: data,
+          file: file,
           body: body,
           name: name,
           type: type)

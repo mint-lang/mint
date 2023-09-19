@@ -1,0 +1,33 @@
+module Test {
+  fun test : Bool {
+    !"asd"
+  }
+}
+
+component Main {
+  fun render : String {
+    if (Test.test()) {
+      "Hello"
+    } else {
+      "Hello"
+    }
+  }
+}
+--------------------------------------------------------------------------------░ ERROR (NEGATED_EXPRESSION_NOT_BOOL) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A negated expressions expression must evaluate to a boolean, but it is:
+
+  String
+
+The negated expression in question is here:
+
+   ┌ ./spec/errors/negated_expression_not_bool:3:5
+   ├──────────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : Bool {
+  3│     !"asd"
+   │     ⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }
+  6│
+  7│ component Main {

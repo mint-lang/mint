@@ -1,0 +1,13 @@
+module
+--------------------------------------------------------------------------------
+░ ERROR (MODULE_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The name of a module must start with an uppercase letter and only contain
+lowercase, uppercase letters and numbers.
+
+I was expecting name of the module but I found "a space" instead:
+
+   ┌ ./spec/errors/module_expected_name:1:6
+   ├───────────────────────────────────────
+  1│ module
+   │       ⌃⌃⌃⌃

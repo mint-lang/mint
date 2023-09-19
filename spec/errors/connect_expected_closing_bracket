@@ -1,0 +1,12 @@
+component Main {
+  connect Test exposing { item
+--------------------------------------------------------------------------------
+░ ERROR (CONNECT_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a connect but I found "a space" instead:
+
+   ┌ ./spec/errors/connect_expected_closing_bracket:2:30
+   ├────────────────────────────────────────────────────
+  1│ component Main {
+  2│   connect Test exposing { item
+   │                               ⌃⌃⌃⌃

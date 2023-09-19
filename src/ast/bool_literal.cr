@@ -3,18 +3,10 @@ module Mint
     class BoolLiteral < Node
       getter value
 
-      def initialize(@value : Bool,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
-      end
-
-      def static?
-        true
-      end
-
-      def static_value
-        value.to_s
+      def initialize(@file : Parser::File,
+                     @value : Bool,
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

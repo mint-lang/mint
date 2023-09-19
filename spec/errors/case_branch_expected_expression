@@ -1,0 +1,20 @@
+component Main {
+  fun render : String {
+    case ("a") {
+      =>
+--------------------------------------------------------------------------------
+░ ERROR (CASE_BRANCH_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A case branch must have an value, here is an example:
+
+  => value
+
+I was expecting the value of a case branch but I found "a space" instead:
+
+   ┌ ./spec/errors/case_branch_expected_expression:4:8
+   ├──────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     case ("a") {
+  4│       =>
+   │         ⌃⌃⌃⌃

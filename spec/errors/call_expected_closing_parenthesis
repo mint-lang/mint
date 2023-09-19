@@ -1,0 +1,18 @@
+component Main {
+  fun render : String {
+    test("A"
+--------------------------------------------------------------------------------
+░ ERROR (CALL_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The arguments of a call must be enclosed by parenthesis, here is an example:
+
+  greet("Joe")
+
+I was expecting the closing parenthesis of a call but I found "a space" instead:
+
+   ┌ ./spec/errors/call_expected_closing_parenthesis:3:12
+   ├─────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     test("A"
+   │             ⌃⌃⌃⌃

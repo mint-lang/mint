@@ -1,17 +1,16 @@
 module Mint
   class Ast
     class Statement < Node
-      getter target, expression, await
       property if_node : Ast::If? = nil
 
-      delegate static?, to: @expression
+      getter target, expression, await
 
-      def initialize(@expression : Expression,
+      def initialize(@file : Parser::File,
+                     @expression : Node,
                      @target : Node?,
                      @await : Bool,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

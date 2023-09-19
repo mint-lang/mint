@@ -1,0 +1,65 @@
+record Nested3 {
+  field3 : String
+}
+---------------------------------------------------------------file nested3.mint
+record Nested2 {
+  field2 : Nested3
+}
+---------------------------------------------------------------file nested2.mint
+record Nested {
+  field1 : Nested2
+}
+---------------------------------------------------------------file nested1.mint
+module Test {
+  fun getNestedField (nested : Nested) : String {
+    nested.field1.field2.field3
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "definition": {
+          "linkSupport": false
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 18
+    }
+  },
+  "method": "textDocument/definition"
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 2
+      },
+      "end": {
+        "line": 1,
+        "character": 8
+      }
+    },
+    "uri": "file://#{root_path}/nested2.mint"
+  },
+  "id": 1
+}
+------------------------------------------------------------------------response

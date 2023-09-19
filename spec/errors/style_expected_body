@@ -1,0 +1,12 @@
+component Main {
+  style x {
+--------------------------------------------------------------------------------
+░ ERROR (STYLE_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a style but I found "a space" instead:
+
+   ┌ ./spec/errors/style_expected_body:2:11
+   ├───────────────────────────────────────
+  1│ component Main {
+  2│   style x {
+   │            ⌃⌃⌃⌃

@@ -1,0 +1,10 @@
+suite "X" {
+--------------------------------------------------------------------------------
+░ ERROR (SUITE_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a suite but I found "a space" instead:
+
+   ┌ ./spec/errors/suite_expected_body:1:11
+   ├───────────────────────────────────────
+  1│ suite "X" {
+   │            ⌃⌃⌃⌃

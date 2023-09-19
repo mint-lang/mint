@@ -1,0 +1,12 @@
+routes {
+  * {
+--------------------------------------------------------------------------------
+░ ERROR (ROUTE_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a route but I found "a space" instead:
+
+   ┌ ./spec/errors/route_expected_body:2:5
+   ├──────────────────────────────────────
+  1│ routes {
+  2│   * {
+   │      ⌃⌃⌃⌃

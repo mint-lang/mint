@@ -1,0 +1,11 @@
+type A {
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a type definition but I found "a space"
+instead:
+
+   ┌ ./spec/errors/type_definition_expected_closing_parenthesis:1:8
+   ├───────────────────────────────────────────────────────────────
+  1│ type A {
+   │         ⌃⌃⌃⌃

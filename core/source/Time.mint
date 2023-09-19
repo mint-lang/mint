@@ -102,7 +102,7 @@ module Time {
     let time =
       now()
 
-    shift(time, Time.Span::Minutes(`-#{time}.getTimezoneOffset()`))
+    shift(time, Time.Span.Minutes(`-#{time}.getTimezoneOffset()`))
   }
 
   /*
@@ -168,18 +168,18 @@ module Time {
   */
   fun month (time : Time) : Month {
     case monthNumber(time) {
-      1 => Month::January
-      2 => Month::February
-      3 => Month::March
-      4 => Month::April
-      5 => Month::May
-      6 => Month::June
-      7 => Month::July
-      8 => Month::August
-      9 => Month::September
-      10 => Month::October
-      11 => Month::November
-      => Month::December
+      1 => Month.January
+      2 => Month.February
+      3 => Month.March
+      4 => Month.April
+      5 => Month.May
+      6 => Month.June
+      7 => Month.July
+      8 => Month.August
+      9 => Month.September
+      10 => Month.October
+      11 => Month.November
+      => Month.December
     }
   }
 
@@ -271,13 +271,13 @@ module Time {
   */
   fun dayOfWeek (time : Time) : Weekday {
     case dayOfWeekNumber(time) {
-      1 => Weekday::Monday
-      2 => Weekday::Tuesday
-      3 => Weekday::Wednesday
-      4 => Weekday::Thursday
-      5 => Weekday::Friday
-      6 => Weekday::Saturday
-      => Weekday::Sunday
+      1 => Weekday.Monday
+      2 => Weekday.Tuesday
+      3 => Weekday.Wednesday
+      4 => Weekday.Thursday
+      5 => Weekday.Friday
+      6 => Weekday.Saturday
+      => Weekday.Sunday
     }
   }
 
@@ -455,7 +455,7 @@ module Time {
     let day =
       dayOfWeekNumber(time)
 
-    shift(time, Time.Span::Days(-(day - 1)))
+    shift(time, Time.Span.Days(-(day - 1)))
   }
 
   /*
@@ -518,7 +518,7 @@ module Time {
   */
   fun atEndOfWeek (time : Time) : Time {
     time
-    |> shift(Time.Span::Days(7 - dayOfWeekNumber(time)))
+    |> shift(Time.Span.Days(7 - dayOfWeekNumber(time)))
     |> atEndOfDay
   }
 
@@ -547,7 +547,7 @@ module Time {
     Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
   */
   fun nextMonth (time : Time) : Time {
-    shift(time, Time.Span::Months(1))
+    shift(time, Time.Span.Months(1))
   }
 
   /*
@@ -556,7 +556,7 @@ module Time {
     Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
   */
   fun previousMonth (time : Time) : Time {
-    shift(time, Time.Span::Months(-1))
+    shift(time, Time.Span.Months(-1))
   }
 
   /*
@@ -565,7 +565,7 @@ module Time {
     Time.nextWeek(Time.utcDate(2017, 5, 10)) == Time.utcDate(2017, 5, 17)
   */
   fun nextWeek (time : Time) : Time {
-    shift(time, Time.Span::Weeks(1))
+    shift(time, Time.Span.Weeks(1))
   }
 
   /*
@@ -574,7 +574,7 @@ module Time {
     Time.previousWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 13)
   */
   fun previousWeek (time : Time) : Time {
-    shift(time, Time.Span::Weeks(-1))
+    shift(time, Time.Span.Weeks(-1))
   }
 
   /*
@@ -583,7 +583,7 @@ module Time {
     Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
   */
   fun nextDay (time : Time) : Time {
-    shift(time, Time.Span::Days(1))
+    shift(time, Time.Span.Days(1))
   }
 
   /*
@@ -592,7 +592,7 @@ module Time {
     Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
   */
   fun previousDay (time : Time) : Time {
-    shift(time, Time.Span::Days(-1))
+    shift(time, Time.Span.Days(-1))
   }
 
   /* UTILITIES -------------------------------------------------------------- */

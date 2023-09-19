@@ -1,0 +1,38 @@
+component Main {
+  state c : String = b
+  state b : String = ""
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (INVALID_SELF_REFERENCE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+You are trying to reference an other entity in a top level entity before it is
+initialized.
+
+Then entity you are referencing:
+
+   ┌ ./spec/errors/invalid_self_reference:2:3
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   state c : String = b
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│   state b : String = ""
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+
+The entity you are referencing it from:
+
+   ┌ ./spec/errors/invalid_self_reference:3:3
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   state c : String = b
+  3│   state b : String = ""
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+  7│   }

@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::HereDoc) : String
+    def format(node : Ast::HereDocument) : String
       value =
         node.value.reduce("") do |memo, item|
           case item

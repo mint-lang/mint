@@ -16,6 +16,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class A extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
 class B extends _E {
   constructor(_0) {
     super();
@@ -24,18 +32,10 @@ class B extends _E {
   }
 };
 
-class C extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class A extends _C {
+class C extends _C {
   render() {
     (async () => {
-      const b = __match(await new B(`Some string...`), _PE(B,[
+      const b = __match(await _n(A)(`Some string...`), _PE(A,[
         _PV
       ]));
 
@@ -51,4 +51,4 @@ class A extends _C {
   }
 };
 
-A.displayName = "Main";
+C.displayName = "Main";

@@ -1,0 +1,30 @@
+store Test {
+  state x : String = ""
+}
+
+component Main {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CONNECT_NOT_FOUND_MEMBER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The entity "y" does not exist in the connected store.
+
+The connect in question is here:
+
+    ┌ ./spec/errors/connect_not_found_member:6:3
+    ├───────────────────────────────────────────
+   2│   state x : String = ""
+   3│ }
+   4│
+   5│ component Main {
+   6│   connect Test exposing { x, y }
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│
+   8│   fun render : Html {
+   9│     <div/>
+  10│   }

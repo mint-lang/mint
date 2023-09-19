@@ -1,0 +1,50 @@
+component Main {
+  state name : String = "Joe"
+
+  fun render : Html {
+    next { name: 30 }
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (NEXT_CALL_STATE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+You were trying to assign an incompatible value to the state:
+
+  name
+
+The type of the state is:
+
+  String
+
+But the type you are trying to assign to it is:
+
+  Number
+
+Here is where you did the assignment:
+
+    ┌ ./spec/errors/next_call_state_type_mismatch:5:12
+    ├─────────────────────────────────────────────────
+   1│ component Main {
+   2│   state name : String = "Joe"
+   3│
+   4│   fun render : Html {
+   5│     next { name: 30 }
+    │            ⌃⌃⌃⌃⌃⌃⌃⌃
+   6│
+   7│     <div/>
+   8│   }
+   9│ }
+
+And here is where the state is defined:
+
+   ┌ ./spec/errors/next_call_state_type_mismatch:2:3
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   state name : String = "Joe"
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     next { name: 30 }
+  6│

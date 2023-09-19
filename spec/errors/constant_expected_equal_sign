@@ -1,0 +1,12 @@
+component Main {
+  const TEST
+--------------------------------------------------------------------------------
+░ ERROR (CONSTANT_EXPECTED_EQUAL_SIGN) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the equal sign of a constant but I found "a space" instead:
+
+   ┌ ./spec/errors/constant_expected_equal_sign:2:12
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   const TEST
+   │             ⌃⌃⌃⌃

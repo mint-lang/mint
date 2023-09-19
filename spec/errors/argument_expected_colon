@@ -1,0 +1,16 @@
+component Main {
+  fun render (a
+--------------------------------------------------------------------------------
+░ ERROR (ARGUMENT_EXPECTED_COLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A colon must separate the arguments name from its type, here is an example:
+
+  name : String
+
+I was expecting the colon of the argument but I found "a space" instead:
+
+   ┌ ./spec/errors/argument_expected_colon:2:15
+   ├───────────────────────────────────────────
+  1│ component Main {
+  2│   fun render (a
+   │                ⌃⌃⌃⌃

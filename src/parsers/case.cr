@@ -1,36 +1,45 @@
 module Mint
   class Parser
-    syntax_error CaseExpectedClosingParentheses
-    syntax_error CaseExpectedOpeningBracket
-    syntax_error CaseExpectedClosingBracket
-    syntax_error CaseExpectedCondition
-    syntax_error CaseExpectedBranches
-
-    def case_expression(for_css : Bool = false) : Ast::Case?
-      start do |start_position|
-        next unless keyword "case"
-
+    def case_expression(*, for_css : Bool = false) : Ast::Case?
+      parse do |start_position|
+        next unless word! "case"
         whitespace
 
-        parens = char! '('
-
-        whitespace
-        await = keyword "await"
-
-        whitespace
-        condition = expression! CaseExpectedCondition
+        parenthesis = char! '('
         whitespace
 
-        char ')', CaseExpectedClosingParentheses if parens
+        await = word! "await"
+        whitespace
 
-        body = block(
-          opening_bracket: CaseExpectedOpeningBracket,
-          closing_bracket: CaseExpectedClosingBracket
-        ) do
-          items = many { case_branch(for_css) || comment }
-          raise CaseExpectedBranches if items.empty?
-          items
-        end
+        next error :case_expected_condition do
+          expected "the condition of a case", word
+          snippet self
+        end unless condition = expression
+        whitespace
+
+        next error :case_expected_closing_parenthesis do
+          expected "the closing parenthesis of a case", word
+          snippet self
+        end if parenthesis && !char!(')')
+        whitespace
+
+        body = brackets(
+          ->{ error :case_expected_opening_bracket do
+            expected "the opening bracket of a case", word
+            snippet self
+          end },
+          ->{ error :case_expected_closing_bracket do
+            expected "the closing bracket of a case", word
+            snippet self
+          end },
+          ->(items : Array(Ast::CaseBranch | Ast::Comment)) {
+            error :case_expected_branches do
+              expected "the branches of a case", word
+              snippet self
+            end if items.none?(Ast::CaseBranch)
+          }) { many { case_branch(for_css: for_css) || comment } }
+
+        next unless body
 
         branches = [] of Ast::CaseBranch
         comments = [] of Ast::Comment
@@ -44,14 +53,14 @@ module Mint
           end
         end
 
-        self << Ast::Case.new(
+        Ast::Case.new(
           condition: condition,
           from: start_position,
           branches: branches,
           comments: comments,
           await: await,
           to: position,
-          input: data)
+          file: file)
       end
     end
   end

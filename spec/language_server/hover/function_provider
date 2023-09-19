@@ -1,5 +1,5 @@
 record Test.Subscription {
-
+  test : Test
 }
 
 provider Test : Test.Subscription {

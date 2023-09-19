@@ -1,0 +1,64 @@
+--------------------------------------------------------decode_expected_subject
+component Main {
+  fun render : Html {
+    decode
+-------------------------------------------------------------decode_expected_as
+component Main {
+  fun render : Html {
+    decode ""
+-----------------------------------------------------------decode_expected_type
+component Main {
+  fun render : Html {
+    decode "" as
+-----------------------------------------------------------decode_expected_type
+component Main {
+  fun render : Html {
+    decode as
+---------------------------------------------------------decode_expected_object
+record X {
+  name : String
+}
+
+component Main {
+  fun render : Html {
+    decode "" as X
+
+    <div/>
+  }
+}
+------------------------------------------------------------decode_complex_type
+record X {
+  name : Blah
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
+------------------------------------------------------------decode_complex_type
+record X {
+  name : Maybe(Blah)
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+record X {
+  name : String
+}
+
+component Main {
+  fun render : Html {
+    decode (`{}`) as X
+
+    <div/>
+  }
+}

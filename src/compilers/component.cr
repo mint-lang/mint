@@ -116,9 +116,9 @@ module Mint
           item.keys.map do |key|
             store_name = js.class_of(store)
 
-            original = key.variable.value
+            original = key.name.value
 
-            id = js.variable_of(lookups[key])
+            id = js.variable_of(lookups[key][0])
             name = js.variable_of(key)
 
             case
@@ -143,6 +143,11 @@ module Mint
         "componentDidMount"    => %w[],
       }
 
+      if node.locales?
+        heads["componentWillUnmount"] << "_L._unsubscribe(this)"
+        heads["componentDidMount"] << "_L._subscribe(this)"
+      end
+
       node.connects.each do |item|
         store =
           ast.stores.find(&.name.value.==(item.store.value))
@@ -163,7 +168,7 @@ module Mint
         condition ||= "true"
 
         name =
-          js.class_of(lookups[use])
+          js.class_of(lookups[use][0])
 
         data =
           compile use.data
@@ -197,8 +202,6 @@ module Mint
         heads.map do |key, value|
           function =
             node.functions.find(&.name.value.==(key))
-
-          function.keep_name = true if function
 
           # If the user defined the same function the code goes after it.
           if function && !value.empty?

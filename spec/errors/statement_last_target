@@ -1,0 +1,19 @@
+component Main {
+  fun render : String {
+    let a = ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (STATEMENT_LAST_TARGET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The last statement of a block cannot be an assignment:
+
+   ┌ ./spec/errors/statement_last_target:2:23
+   ├─────────────────────────────────────────
+  1│ component Main {
+   │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  2│   fun render : String {
+  3│     let a = ""
+  4│   }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│ }

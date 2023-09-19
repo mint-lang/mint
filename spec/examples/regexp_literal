@@ -1,0 +1,4 @@
+------------------------------------------regexp_literal_expected_closing_slash
+component Main {
+  fun render : String {
+    /asd

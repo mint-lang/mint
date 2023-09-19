@@ -1,0 +1,24 @@
+component Main {
+  style base (name : String, active : Bool) {
+    color: red;
+  }
+
+  fun render : Html {
+    <div::base("Hello")/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_STYLE_ARGUMENT_SIZE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The style call takes 2 arguments, while you tried to call it with 1:
+
+    ┌ ./spec/errors/html_style_argument_size_mismatch:7:9
+    ├────────────────────────────────────────────────────
+   3│     color: red;
+   4│   }
+   5│
+   6│   fun render : Html {
+   7│     <div::base("Hello")/>
+    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

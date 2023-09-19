@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    "" \
+--------------------------------------------------------------------------------
+░ ERROR (STRING_EXPECTED_OTHER_STRING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting another string literal after a string separator but I found "a
+space" instead:
+
+   ┌ ./spec/errors/string_expected_other_string:3:8
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "" \
+   │         ⌃⌃⌃⌃

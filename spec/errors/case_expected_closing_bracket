@@ -1,0 +1,16 @@
+component Main {
+  fun render : String {
+    case ("a") {
+      => "a"
+--------------------------------------------------------------------------------
+░ ERROR (CASE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a case but I found "a space" instead:
+
+   ┌ ./spec/errors/case_expected_closing_bracket:4:12
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     case ("a") {
+  4│       => "a"
+   │             ⌃⌃⌃⌃

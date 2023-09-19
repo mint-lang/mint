@@ -1,9 +1,9 @@
 module Mint
   class Compiler
     def _compile(node : Ast::HtmlComponent) : String
-      if node.static?
+      if hash = static_value(node)
         name =
-          static_components_pool.of(node.static_hash, nil)
+          static_components_pool.of(hash, nil)
 
         static_components[name] ||= compile_html_component(node)
 
@@ -15,7 +15,7 @@ module Mint
 
     def compile_html_component(node : Ast::HtmlComponent) : String
       name =
-        js.class_of(lookups[node])
+        js.class_of(lookups[node][0])
 
       children =
         if node.children.empty?

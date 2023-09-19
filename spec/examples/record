@@ -1,0 +1,165 @@
+--------------------------------------------------------------record_with_holes
+record Test {
+  a : Array(a),
+  b : Number
+}
+------------------------------------record_not_found_matching_record_definition
+component Main {
+  state data = { name: "" }
+
+  fun render : Html {
+    <div>
+      <{ data.name }>
+    </div>
+  }
+}
+------------------------------------record_not_found_matching_record_definition
+component Test {
+  property data = { name: "" }
+
+  fun render : Html {
+    <div>
+      <{ data.name }>
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test />
+  }
+}
+
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Object {
+    encode {
+      a: "Hello",
+      b: "Blah"
+    }
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Object {
+    encode {
+      a: "Hello",
+      b: {
+        c: "Blah"
+      }
+    }
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  string : String
+}
+
+component Main {
+  fun render : String {
+    { string: "" }.string
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    {
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+record A {
+  name : String
+}
+
+component Main {
+  state data = { name: "" }
+
+  fun render : Html {
+    <div>
+      <{ data.name }>
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    {
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+record Test2 {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun test : Test {
+    {
+      a: "Hello",
+      b: 0
+    }
+  }
+
+  fun render : String {
+    test().a
+  }
+}
+--------------------------------------------------------------------------------
+record Test {
+  a : String,
+  b : Number
+}
+
+record Test2 {
+  a : String,
+  b : Number
+}
+
+component Main {
+  state test : Test =
+    {
+      a: "Hello",
+      b: 0
+    }
+
+  fun render : String {
+    test.a
+  }
+}

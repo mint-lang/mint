@@ -1,53 +1,81 @@
 module Mint
   class Parser
-    syntax_error ForExpectedClosingParentheses
-    syntax_error ForExpectedOpeningBracket
-    syntax_error ForExpectedClosingBracket
-    syntax_error ForExpectedSubject
-    syntax_error ForExpectedBody
-    syntax_error ForExpectedOf
-
     def for_expression : Ast::For?
-      start do |start_position|
-        next unless keyword "for"
-        next unless whitespace?
+      parse do |start_position|
+        next unless word! "for"
         whitespace
 
         parens = char! '('
         whitespace
 
-        arguments = list(
-          terminator: parens ? ')' : '{',
-          separator: ','
-        ) { variable }
+        arguments =
+          list(terminator: parens ? ')' : '{', separator: ',') { variable }
 
         whitespace
-        keyword! "of", ForExpectedOf
+        next error :for_expected_of do
+          expected %(the "of" keyword of a for expression), word
+          snippet self
+        end unless word! "of"
         whitespace
 
-        subject = expression! ForExpectedSubject
-
+        next error :for_expected_subject do
+          expected "the subject of a for expression", word
+          snippet self
+        end unless subject = expression
         whitespace
-        char ')', ForExpectedClosingParentheses if parens
+
+        next error :for_expected_closing_parenthesis do
+          expected "the closing parenthesis of a for expression", word
+          snippet self
+        end if parens && !char!(')')
         whitespace
 
         body =
-          code_block(
-            opening_bracket: ForExpectedOpeningBracket,
-            closing_bracket: ForExpectedClosingBracket,
-            statement_error: ForExpectedBody)
+          block(
+            ->{ error :for_expected_opening_bracket do
+              expected "the opening bracket of a for expression", word
+              snippet self
+            end },
+            ->{ error :for_expected_closing_bracket do
+              expected "the closing bracket of a for expression", word
+              snippet self
+            end },
+            ->{ error :for_expected_body do
+              expected "the body of a for expression", word
+              snippet self
+            end })
+
+        next unless body
 
         whitespace
-        condition = for_condition
-        whitespace
+        condition =
+          if word! "when"
+            whitespace
 
-        self << Ast::For.new(
+            block(
+              ->{ error :for_condition_expected_opening_bracket do
+                expected "the opening bracket of a for condition", word
+                snippet self
+              end },
+              ->{ error :for_condition_expected_closing_bracket do
+                expected "the closing bracket of a for condition", word
+                snippet self
+              end },
+              ->{
+                error :for_condition_expected_body do
+                  expected "the body of a for condition", word
+                  snippet self
+                end
+              })
+          end
+
+        Ast::For.new(
           condition: condition,
           arguments: arguments,
           from: start_position,
           subject: subject,
           to: position,
-          input: data,
+          file: file,
           body: body)
       end
     end

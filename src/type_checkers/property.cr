@@ -1,13 +1,5 @@
 module Mint
   class TypeChecker
-    type_error PropertyTypeOrDefaultNeeded
-    type_error PropertyWithTypeVariables
-    type_error PropertyTypeMismatch
-
-    def static_type_signature(node : Ast::Property) : Checkable
-      node.type.try { |type| resolve type } || Variable.new("a")
-    end
-
     def check(node : Ast::Property) : Checkable
       default =
         with_restricted_top_level_entity(node) do
@@ -27,12 +19,13 @@ module Mint
           resolved =
             Comparer.compare type, default
 
-          raise PropertyTypeMismatch, {
-            "name"     => node.name.value,
-            "got"      => default,
-            "expected" => type,
-            "node"     => node,
-          } unless resolved
+          error! :property_type_mismatch do
+            block "The type of the default value of a property does not " \
+                  "match its type annotation."
+
+            expected type, default
+            snippet "The property in question is here:", node
+          end unless resolved
 
           resolved
         when {Checkable, Nil}
@@ -40,15 +33,28 @@ module Mint
         when {Nil, Checkable}
           type
         else
-          raise PropertyTypeOrDefaultNeeded, {
-            "node" => node,
-          }
+          error! :property_type_or_default_needed do
+            block do
+              text "The"
+              bold "type"
+              text "or"
+              bold "default value"
+              text "of a property needs to be defined, but neither was."
+            end
+
+            snippet node
+          end
         end
 
-      raise PropertyWithTypeVariables, {
-        "type" => final,
-        "node" => node,
-      } if final.have_holes?
+      error! :property_with_type_variables do
+        block "The type of a property contains type variables. Type " \
+              "variables in properties are not allow at this time since " \
+              "that would make the compoennt generic and it is not " \
+              "supported this time."
+
+        snippet "The type is:", final
+        snippet "The property in question is here:", node
+      end if final.have_holes?
 
       final
     end

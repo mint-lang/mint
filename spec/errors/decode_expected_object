@@ -1,0 +1,32 @@
+record X {
+  name : String
+}
+
+component Main {
+  fun render : Html {
+    decode "" as X
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DECODE_EXPECTED_OBJECT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Only the "Object" type can be decoded but you tried to decode:
+
+  String
+
+The decode question is here:
+
+    ┌ ./spec/errors/decode_expected_object:7:5
+    ├─────────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : Html {
+   7│     decode "" as X
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│
+   9│     <div/>
+  10│   }
+  11│ }

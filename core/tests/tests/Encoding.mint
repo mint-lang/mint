@@ -1,14 +1,14 @@
 module EncodeTest {
   fun nothing : Maybe(String) {
-    Maybe::Nothing
+    Maybe.Nothing
   }
 }
 
-record EncodeNestedTest {
+type EncodeNestedTest {
   field : String
 }
 
-record EncodeTest {
+type EncodeTest {
   field : String using "mapped_field",
   nested : EncodeNestedTest
 }
@@ -67,7 +67,7 @@ suite "Encode" {
 
   test "it encodes Tuple as array" {
     let encoded =
-      encode {"Hello", 0, true}
+      encode #("Hello", 0, true)
 
     `Array.isArray(#{encoded}) && #{encoded}[0] === "Hello"` && `Array.isArray(#{encoded}) && #{encoded}[1] === 0` && `Array.isArray(#{encoded}) && #{encoded}[2] === true`
   }

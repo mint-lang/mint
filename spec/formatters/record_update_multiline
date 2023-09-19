@@ -1,4 +1,4 @@
-record A {
+type A {
   a : String,
   b : Bool
 }
@@ -12,7 +12,7 @@ module Test {
   }
 }
 --------------------------------------------------------------------------------
-record A {
+type A {
   a : String,
   b : Bool
 }

@@ -1,0 +1,61 @@
+record Provider.Data {
+  a : String,
+  b : Bool
+}
+
+record Test {
+  a : String,
+  b : String
+}
+
+provider Provider : Provider.Data {
+  fun attach : Void {
+    void
+  }
+}
+
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (USE_SUBSCRIPTION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The subsctipion of a provider does not match its definition.
+
+I was expecting:
+
+  Provider.Data(a: String, b: Bool)
+
+Instead it is:
+
+  Test(a: String, b: String)
+
+The provider in question is here:
+
+    ┌ ./spec/errors/use_subscription_mismatch:18:3
+    ├─────────────────────────────────────────────
+  14│   }
+  15│ }
+  16│
+  17│ component Main {
+    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  18│   use Provider {
+  19│     a: "Hello",
+  20│     b: "Blah"
+  21│   } when {
+  22│     true
+  23│   }
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  24│
+  25│   fun render : Html {
+  26│     <div/>
+  27│   }

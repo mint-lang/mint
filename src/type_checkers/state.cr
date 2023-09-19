@@ -1,11 +1,5 @@
 module Mint
   class TypeChecker
-    type_error StateTypeMismatch
-
-    def static_type_signature(node : Ast::State) : Checkable
-      node.type.try { |type| resolve type } || Variable.new("a")
-    end
-
     def check(node : Ast::State) : Checkable
       default =
         with_restricted_top_level_entity(node) do
@@ -19,12 +13,12 @@ module Mint
         resolved =
           Comparer.compare(type, default)
 
-        raise StateTypeMismatch, {
-          "expected" => type,
-          "name"     => node.name.value,
-          "node"     => node.default,
-          "got"      => default,
-        } unless resolved
+        error! :state_type_mismatch do
+          snippet "The type of the default value of the a state does " \
+                  "not match its type annotation:", node.default
+
+          expected type, default
+        end unless resolved
 
         resolved
       else

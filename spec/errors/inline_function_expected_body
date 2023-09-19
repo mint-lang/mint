@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    () {
+--------------------------------------------------------------------------------
+░ ERROR (INLINE_FUNCTION_EXPECTED_BODY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of an inline function but I found "a space" instead:
+
+   ┌ ./spec/errors/inline_function_expected_body:3:8
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     () {
+   │         ⌃⌃⌃⌃
+

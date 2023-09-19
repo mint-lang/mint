@@ -1,10 +1,9 @@
 module Mint
   class Parser
-    syntax_error CssSelectorExpectedOpeningBracket
-    syntax_error CssSelectorExpectedClosingBracket
-
     def css_selector(only_definitions : Bool = false) : Ast::CssSelector?
-      start do |start_position|
+      parse do |start_position|
+        next if char == '/'
+
         selectors = list(
           terminator: '{',
           separator: ','
@@ -13,44 +12,37 @@ module Mint
         next if selectors.empty?
         next unless char == '{'
 
-        body = block(
-          opening_bracket: CssSelectorExpectedOpeningBracket,
-          closing_bracket: CssSelectorExpectedClosingBracket) do
-          if only_definitions
-            many { comment || css_definition }
-          else
-            css_body
+        body =
+          brackets(
+            ->{ error :css_selector_expected_opening_bracket do
+              expected "the opening bracket of a CSS selector", word
+              snippet self
+            end },
+            ->{ error :css_selector_expected_closing_bracket do
+              expected "the opening closing of a CSS selector", word
+              snippet self
+            end },
+            ->(items : Array(Ast::Node)) {
+              error :css_selector_expected_body do
+                expected "the body of a CSS selector", word
+                snippet self
+              end if items.empty?
+            }) do
+            if only_definitions
+              many { comment || css_definition }
+            else
+              many { css_node }
+            end
           end
-        end
 
-        self << Ast::CssSelector.new(
+        next unless body
+
+        Ast::CssSelector.new(
           selectors: selectors,
           from: start_position,
           to: position,
-          input: data,
+          file: file,
           body: body)
-      end
-    end
-
-    def css_selector_name : String?
-      if ampersand = char! '&'
-        colon = char!(':')
-        double_colon = keyword("::")
-        dot = char!('.')
-        bracket = char!('[')
-      end
-
-      name =
-        gather { chars_until ',', '{', '}' }.presence.try(&.strip)
-
-      return unless name || ampersand
-
-      case
-      when colon        then ":#{name}"
-      when double_colon then "::#{name}"
-      when dot          then ".#{name}"
-      when bracket      then "[#{name}"
-      else                   " #{name}"
       end
     end
   end

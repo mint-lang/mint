@@ -1,0 +1,12 @@
+component Main {
+  style
+--------------------------------------------------------------------------------
+░ ERROR (STYLE_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a style but I found "a space" instead:
+
+   ┌ ./spec/errors/style_expected_name:2:7
+   ├──────────────────────────────────────
+  1│ component Main {
+  2│   style
+   │        ⌃⌃⌃⌃

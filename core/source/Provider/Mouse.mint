@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.Mouse` */
-record Provider.Mouse.Subscription {
+type Provider.Mouse.Subscription {
   clicks : Function(Html.Event, Promise(Void)),
   moves : Function(Html.Event, Promise(Void)),
   ups : Function(Html.Event, Promise(Void))
@@ -8,7 +8,7 @@ record Provider.Mouse.Subscription {
 /* A provider for global mouse events. */
 provider Provider.Mouse : Provider.Mouse.Subscription {
   /* The listener unsubscribe functions. */
-  state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
+  state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe.Nothing
 
   /* The state to hold the animation frame id. */
   state id : Number = 0
@@ -21,7 +21,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          let {clickListener, moveListener, upListener} =
+          let #(clickListener, moveListener, upListener) =
             methods
 
           clickListener()
@@ -29,15 +29,15 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
           upListener()
         })
 
-      next { listeners: Maybe::Nothing }
+      next { listeners: Maybe.Nothing }
     } else {
       case listeners {
-        Maybe::Nothing =>
+        Maybe.Nothing =>
           next
             {
               listeners:
-                Maybe::Just(
-                  {
+                Maybe.Just(
+                  #(
                     Window.addEventListener(
                       "click",
                       true,
@@ -71,7 +71,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
                           subscription.ups(event)
                         }
                       })
-                  })
+                  ))
             }
 
         => next { }

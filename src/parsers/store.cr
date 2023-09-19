@@ -1,32 +1,37 @@
 module Mint
   class Parser
-    syntax_error StoreExpectedOpeningBracket
-    syntax_error StoreExpectedClosingBracket
-    syntax_error StoreExpectedBody
-    syntax_error StoreExpectedName
-
     def store : Ast::Store?
-      start do |start_position|
+      parse do |start_position, start_nodes_position|
         comment = self.comment
         whitespace
 
-        next unless keyword "store"
+        next unless word! "store"
         whitespace
 
-        name = type_id! StoreExpectedName
+        next error :store_expected_name do
+          expected "the name of a store", word
+          snippet self
+        end unless name = id
+        whitespace
 
-        body = block(
-          opening_bracket: StoreExpectedOpeningBracket,
-          closing_bracket: StoreExpectedClosingBracket
-        ) do
-          items = many { state || function || get || constant || self.comment }
+        body =
+          brackets(
+            ->{ error :store_expected_opening_bracket do
+              expected "the opening bracket of a store", word
+              snippet self
+            end },
+            ->{ error :store_expected_closing_bracket do
+              expected "the closing bracket of a store", word
+              snippet self
+            end },
+            ->(items : Array(Ast::Node)) {
+              error :store_expected_body do
+                expected "the body of a store", word
+                snippet self
+              end if items.all?(Ast::Comment)
+            }) { many { state || function || get || constant || self.comment } }
 
-          if items.none?(Ast::Function | Ast::Constant | Ast::State | Ast::Get)
-            raise StoreExpectedBody
-          end
-
-          items
-        end
+        next unless body
 
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
@@ -49,7 +54,7 @@ module Mint
           end
         end
 
-        self << Ast::Store.new(
+        Ast::Store.new(
           functions: functions,
           from: start_position,
           constants: constants,
@@ -57,9 +62,14 @@ module Mint
           comment: comment,
           states: states,
           to: position,
-          input: data,
+          file: file,
           gets: gets,
-          name: name)
+          name: name
+        ).tap do |node|
+          ast.nodes[start_nodes_position...]
+            .select(Ast::NextCall)
+            .each(&.entity=(node))
+        end
       end
     end
   end

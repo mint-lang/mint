@@ -1,45 +1,55 @@
 module Mint
   class Parser
-    syntax_error InlineFunctionExpectedClosingParentheses
-    syntax_error InlineFunctionExpectedOpeningBracket
-    syntax_error InlineFunctionExpectedClosingBracket
-    syntax_error InlineFunctionExpectedExpression
-    syntax_error InlineFunctionExpectedType
-
     def inline_function : Ast::InlineFunction?
-      start do |start_position|
+      parse do |start_position|
         next unless char! '('
-
         whitespace
 
         arguments = list(
           terminator: ')',
           separator: ','
         ) { argument }
-
         whitespace
-        char ')', InlineFunctionExpectedClosingParentheses
+
+        next error :inline_function_expected_closing_parenthesis do
+          expected "the closing parenthesis of an inline function", word
+          snippet self
+        end unless char! ')'
         whitespace
 
         type =
           if char! ':'
             whitespace
-            item = type_or_type_variable! InlineFunctionExpectedType
+            next error :inline_function_expected_type do
+              expected "the type of an inline function", word
+              snippet self
+            end unless item = self.type || type_variable
             whitespace
             item
           end
 
         body =
-          code_block(
-            opening_bracket: InlineFunctionExpectedOpeningBracket,
-            closing_bracket: InlineFunctionExpectedClosingBracket,
-            statement_error: InlineFunctionExpectedExpression)
+          block(
+            ->{ error :inline_function_expected_opening_bracket do
+              expected "the opening bracket of an inline function", word
+              snippet self
+            end },
+            ->{ error :inline_function_expected_closing_bracket do
+              expected "the closing bracket of an inline function", word
+              snippet self
+            end },
+            ->{ error :inline_function_expected_body do
+              expected "the body of an inline function", word
+              snippet self
+            end })
 
-        self << Ast::InlineFunction.new(
+        next unless body
+
+        Ast::InlineFunction.new(
           arguments: arguments,
           from: start_position,
           to: position,
-          input: data,
+          file: file,
           body: body,
           type: type)
       end

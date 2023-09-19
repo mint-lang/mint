@@ -1,0 +1,12 @@
+component Main {
+  use
+--------------------------------------------------------------------------------
+░ ERROR (USE_EXPECTED_PROVIDER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the provider of a use but I found "a space" instead:
+
+   ┌ ./spec/errors/use_expected_provider:2:5
+   ├────────────────────────────────────────
+  1│ component Main {
+  2│   use
+   │      ⌃⌃⌃⌃

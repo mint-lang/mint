@@ -1,44 +1,34 @@
 module Mint
   class Parser
-    syntax_error CssDefinitionExpectedSemicolon
-
     def css_definition : Ast::CssDefinition?
-      start do |start_position|
+      parse do |start_position|
         next unless char.ascii_lowercase? || char == '-'
-
-        name = gather do
-          step
-          letters_numbers_or_dash
-        end.to_s
-
+        next unless name = gather { ascii_letters_or_numbers(extra_char: '-') }
         next unless char! ':'
         whitespace
 
         value =
-          many(parse_whitespace: false) do
-            string_literal ||
-              interpolation ||
-              gather do
-                consume_while char.in_set?("^;{\0") &&
-                              !keyword_ahead?("\#{") &&
-                              char != '"'
-              end
-          end.map do |item|
-            if item.is_a?(Ast::StringLiteral) && item.static?
-              %("#{item.static_value}")
+          many(parse_whitespace: false) {
+            string_literal || interpolation || raw { char.in_set?("^;{\0\"") }
+          }.map do |item|
+            if item.is_a?(Ast::StringLiteral) && (raw = static_value(item))
+              %("#{raw}")
             else
               item
             end
           end
 
-        char ';', CssDefinitionExpectedSemicolon
+        next error :css_definition_expected_semicolon do
+          expected "the semicolon of a CSS definition", word
+          snippet self
+        end unless char! ';'
 
-        self << Ast::CssDefinition.new(
+        Ast::CssDefinition.new(
           from: start_position,
-          name: name,
-          value: value,
           to: position,
-          input: data)
+          value: value,
+          name: name,
+          file: file)
       end
     end
   end

@@ -50,7 +50,7 @@ module Mint
         Mint::Workspace[path]
           .ast
           .nodes
-          .select(&.input.file.==(path))
+          .select(&.file.path.==(path))
       end
     end
   end

@@ -1,0 +1,21 @@
+component Main {
+  connect Test exposing { x, y }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CONNECT_NOT_FOUND_STORE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for the store Test but could not find it.
+
+   ┌ ./spec/errors/connect_not_found_store:2:11
+   ├───────────────────────────────────────────
+  1│ component Main {
+  2│   connect Test exposing { x, y }
+   │           ⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }

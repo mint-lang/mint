@@ -2,23 +2,25 @@ module Mint
   class Compiler
     def _compile(node : Ast::NextCall) : String
       entity =
-        lookups[node]?
+        lookups[node]?.try(&.first?)
 
       if node.data.fields.empty?
         "null"
       else
         state =
           node.data.fields.each_with_object({} of String => String) do |item, memo|
+            next memo unless key = item.key
+
             field =
               case entity
               when Ast::Provider
                 entity
                   .states
-                  .find(&.name.value.==(item.key.value))
+                  .find(&.name.value.==(key.value))
               when Ast::Component, Ast::Store
                 entity
                   .states
-                  .find(&.name.value.==(item.key.value))
+                  .find(&.name.value.==(key.value))
               end
 
             if field

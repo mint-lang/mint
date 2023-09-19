@@ -1,0 +1,41 @@
+component Main {
+  fun test : Array(String) {
+    [
+      "Hello",
+      "Joe"
+    ] of Number
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ARRAY_NOT_MATCHES_DEFINED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The defined type of an array does not match the type of its items.
+
+I was expecting:
+
+  Array(Number)
+
+Instead it is:
+
+  Array(String)
+
+The array in question is here:
+
+    ┌ ./spec/errors/array_not_matches_defined_type:6:10
+    ├──────────────────────────────────────────────────
+   2│   fun test : Array(String) {
+   3│     [
+   4│       "Hello",
+   5│       "Joe"
+   6│     ] of Number
+    │          ⌃⌃⌃⌃⌃⌃
+   7│   }
+   8│
+   9│   fun render : Html {
+  10│     test()

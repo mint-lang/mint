@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.Pointer` */
-record Provider.Pointer.Subscription {
+type Provider.Pointer.Subscription {
   downs : Function(Html.Event, Promise(Void)),
   moves : Function(Html.Event, Promise(Void)),
   ups : Function(Html.Event, Promise(Void))
@@ -8,7 +8,7 @@ record Provider.Pointer.Subscription {
 /* A provider for global Pointer events. */
 provider Provider.Pointer : Provider.Pointer.Subscription {
   /* The listener unsubscribe functions. */
-  state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe::Nothing
+  state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe.Nothing
 
   /* The state to hold the animation frame id. */
   state id : Number = 0
@@ -21,7 +21,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          let {downListener, moveListener, upListener} =
+          let #(downListener, moveListener, upListener) =
             methods
 
           downListener()
@@ -29,15 +29,15 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
           upListener()
         })
 
-      next { listeners: Maybe::Nothing }
+      next { listeners: Maybe.Nothing }
     } else {
       case listeners {
-        Maybe::Nothing =>
+        Maybe.Nothing =>
           next
             {
               listeners:
-                Maybe::Just(
-                  {
+                Maybe.Just(
+                  #(
                     Window.addEventListener(
                       "pointerdown",
                       true,
@@ -71,7 +71,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
                           subscription.ups(event)
                         }
                       })
-                  })
+                  ))
             }
 
         => next { }

@@ -1,0 +1,14 @@
+component Main {
+  fun render {
+    <<-TEST
+--------------------------------------------------------------------------------
+░ ERROR (HERE_DOC_EXPECTED_END) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the end tag of a here document but I found "a space" instead:
+
+   ┌ ./spec/errors/here_doc_expected_end:3:11
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   fun render {
+  3│     <<-TEST
+   │            ⌃⌃⌃⌃

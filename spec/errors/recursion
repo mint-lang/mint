@@ -1,0 +1,40 @@
+component Test {
+  property greeting : String = greeting
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (RECURSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Recursion is only supported in specific cases at this time. Unfortunatly here is
+not supported:
+
+   ┌ ./spec/errors/recursion:2:3
+   ├────────────────────────────
+  1│ component Test {
+  2│   property greeting : String = greeting
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div></div>
+  6│   }
+
+The previous step in the recursion was here:
+
+   ┌ ./spec/errors/recursion:2:32
+   ├─────────────────────────────
+  1│ component Test {
+  2│   property greeting : String = greeting
+   │                                ⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div></div>
+  6│   }

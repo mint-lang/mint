@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.AnimationFrame` */
-record Provider.AnimationFrame.Subscription {
+type Provider.AnimationFrame.Subscription {
   frames : Function(Number, Promise(Void))
 }
 

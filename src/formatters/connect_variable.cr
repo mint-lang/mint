@@ -1,16 +1,16 @@
 module Mint
   class Formatter
     def format(node : Ast::ConnectVariable) : String
-      variable =
-        format node.variable
-
       name =
-        node.name.try { |item| format item }
+        format node.name
 
-      if name
-        "#{variable} as #{name}"
+      target =
+        node.target.try { |item| format item }
+
+      if target
+        "#{name} as #{target}"
       else
-        variable
+        name
       end
     end
   end

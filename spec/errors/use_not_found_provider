@@ -1,0 +1,26 @@
+component Main {
+  use Provider {
+    a: "Hello",
+    b: "Blah"
+  } when {
+    true
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (USE_NOT_FOUND_PROVIDER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I could not find a provider:
+
+   ┌ ./spec/errors/use_not_found_provider:2:7
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   use Provider {
+   │       ⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     a: "Hello",
+  4│     b: "Blah"
+  5│   } when {
+  6│     true

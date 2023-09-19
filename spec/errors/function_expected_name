@@ -1,0 +1,12 @@
+component Main {
+  fun
+--------------------------------------------------------------------------------
+░ ERROR (FUNCTION_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of the function but I found "a space" instead:
+
+   ┌ ./spec/errors/function_expected_name:2:5
+   ├─────────────────────────────────────────
+  1│ component Main {
+  2│   fun
+   │      ⌃⌃⌃⌃

@@ -1,0 +1,16 @@
+component Main {
+  connect Test exposing { item as
+--------------------------------------------------------------------------------
+░ ERROR (CONNECT_VARIABLE_EXPECTED_AS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The exposed name of a connection must be specified, here is an example:
+
+  connect Store exposing { item as name }
+
+I was expecting the exposed name but I found "a space" instead:
+
+   ┌ ./spec/errors/connect_variable_expected_as:2:33
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   connect Test exposing { item as
+   │                                  ⌃⌃⌃⌃

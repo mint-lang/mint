@@ -1,0 +1,25 @@
+component Main {
+  fun render : String {
+    case [] {
+      [...a,...b] => "a"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DESTRUCTURING_MULTIPLE_SPREADS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An array destructuring can only contain one spread notation because otherwise I
+don't know how to distribute the leftover items.
+
+This array destructuring contains 2 spread notations:
+
+   ┌ ./spec/errors/destructuring_multiple_spreads:4:7
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     case [] {
+  4│       [...a,...b] => "a"
+   │       ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│     }
+  6│   }
+  7│ }

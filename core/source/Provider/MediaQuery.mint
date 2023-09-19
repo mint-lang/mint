@@ -1,5 +1,5 @@
 /* Represents a subscription for `Provider.MediaQuery` */
-record Provider.MediaQuery.Subscription {
+type Provider.MediaQuery.Subscription {
   changes : Function(Bool, Promise(Void)),
   query : String
 }
@@ -22,7 +22,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           subscription : Provider.MediaQuery.Subscription
         ) {
           case Map.get(listeners, subscription.query) {
-            Maybe::Nothing =>
+            Maybe.Nothing =>
               Map.set(
                 memo,
                 subscription.query,
@@ -36,7 +36,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
                     }
                   }))
 
-            Maybe::Just => memo
+            Maybe.Just => memo
           }
         })
 
@@ -55,9 +55,9 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
               (item : Provider.MediaQuery.Subscription) { item.query == query })
 
           case subscription {
-            Maybe::Just => memo
+            Maybe.Just => memo
 
-            Maybe::Nothing =>
+            Maybe.Nothing =>
               {
                 listener()
                 Map.delete(memo, query)

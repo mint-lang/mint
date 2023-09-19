@@ -1,8 +1,8 @@
 module Mint
   class Formatter
     def format(node : Ast::Constant) : String
-      value =
-        format node.value
+      expression =
+        format node.expression
 
       name =
         format node.name
@@ -10,10 +10,10 @@ module Mint
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      if node.value.new_line?
-        "#{comment}const #{name} =\n#{indent(value)}"
+      if node.expression.new_line?
+        "#{comment}const #{name} =\n#{indent(expression)}"
       else
-        "#{comment}const #{name} = #{value}"
+        "#{comment}const #{name} = #{expression}"
       end
     end
   end

@@ -1,0 +1,29 @@
+component Main {
+  fun render : String {
+    if ("a") {
+      "x"
+    } else {
+      "y"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (IF_CONDITION_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the condition of an if expression is not a boolean but instead it
+is:
+
+  String
+
+The condition in question is here:
+
+   ┌ ./spec/errors/if_condition_type_mismatch:3:9
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     if ("a") {
+   │         ⌃⌃⌃
+  4│       "x"
+  5│     } else {
+  6│       "y"
+  7│     }

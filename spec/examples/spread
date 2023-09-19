@@ -1,0 +1,4 @@
+-------------------------------------------------------spread_expected_variable
+component Main {
+  fun render : String {
+    let [x, ...

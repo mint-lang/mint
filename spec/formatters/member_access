@@ -1,4 +1,4 @@
-record Test {
+type Test {
   test : String
 }
 
@@ -8,7 +8,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-record Test {
+type Test {
   test : String
 }
 

@@ -1,0 +1,29 @@
+component Main {
+  fun render : Html {
+    @svg(../fixtures/icon-no-dimensions)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (SVG_DIRECTIVE_EXPECTED_DIMENSIONS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I need certain attributes for an svg for it to render correctly. The specified
+file for an svg directive does not have these required attributes:
+
+  width, height, viewBox
+
+These are the first few lines of the file:
+
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>
+  </svg>
+
+The svg directive in question is here:
+
+   ┌ ./spec/errors/svg_directive_expected_dimensions:3:5
+   ├────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     @svg(../fixtures/icon-no-dimensions)
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

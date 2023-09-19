@@ -1,0 +1,12 @@
+store X {
+  state test : String = ""
+--------------------------------------------------------------------------------
+░ ERROR (STORE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a store but I found "a space" instead:
+
+   ┌ ./spec/errors/store_expected_closing_bracket:2:26
+   ├──────────────────────────────────────────────────
+  1│ store X {
+  2│   state test : String = ""
+   │                           ⌃⌃⌃⌃

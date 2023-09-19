@@ -1,5 +1,7 @@
 module Mint
   class DocumentationGeneratorJson
+    include Helpers
+
     @formatter = Formatter.new
 
     def generate(asts : Hash(MintJson, Ast))
@@ -58,11 +60,7 @@ module Mint
         end
 
         json.field "records" do
-          generate ast.records.sort_by(&.name.value), json
-        end
-
-        json.field "enums" do
-          generate ast.enums.sort_by(&.name.value), json
+          generate ast.type_definitions.sort_by(&.name.value), json
         end
       end
     end
@@ -105,11 +103,10 @@ module Mint
       @git_source = GitSource.new(git_url, git_url_pattern, git_ref)
       @pages = {
         "components" => @ast.components.map(&.name.value).sort!,
-        "enums"      => @ast.enums.map(&.name.value).sort!,
         "modules"    => @ast.modules.map(&.name.value).sort!,
         "providers"  => @ast.providers.map(&.name.value).sort!,
-        "records"    => @ast.records.map(&.name.value).sort!,
         "stores"     => @ast.stores.map(&.name.value).sort!,
+        "types"      => @ast.type_definitions.map(&.name.value).sort!,
       }
       @core_types = build_types_lookup(Core.ast)
       @types = build_types_lookup(ast)
@@ -120,9 +117,8 @@ module Mint
       all = a.components.map { |i| [i.name.value, "components"] } |
             a.modules.map { |i| [i.name.value, "modules"] } |
             a.providers.map { |i| [i.name.value, "providers"] } |
-            a.records.map { |i| [i.name.value, "records"] } |
             a.stores.map { |i| [i.name.value, "stores"] } |
-            a.enums.map { |i| [i.name.value, "enums"] }
+            a.type_definitions.map { |i| [i.name.value, "types"] }
 
       all.to_h
     end
@@ -130,10 +126,9 @@ module Mint
     def generate
       write_readme()
       @ast.components.each { |node| write_page("components", node) }
-      @ast.enums.each { |node| write_page("enums", node) }
+      @ast.type_definitions.each { |node| write_page("types", node) }
       @ast.modules.each { |node| write_page("modules", node) }
       @ast.providers.each { |node| write_page("providers", node) }
-      @ast.records.each { |node| write_page("records", node) }
       @ast.stores.each { |node| write_page("stores", node) }
     end
 

@@ -1,4 +1,4 @@
-record MutationObserver.Entry {
+type MutationObserver.Entry {
   target : Dom.Element,
   type : String
 }

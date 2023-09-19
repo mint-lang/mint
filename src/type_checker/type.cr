@@ -5,8 +5,9 @@ module Mint
       getter name : String
 
       property optional_count : Int32 = 0
+      property label : String?
 
-      def initialize(@name, @parameters = [] of Checkable)
+      def initialize(@name, @parameters = [] of Checkable, @label = nil)
       end
 
       def to_mint
@@ -18,7 +19,16 @@ module Mint
           name
         else
           params =
-            parameters.map(&.to_pretty.as(String))
+            parameters.map do |param|
+              pretty =
+                param.to_pretty.as(String)
+
+              if param.label
+                "#{param.label}: #{pretty}"
+              else
+                pretty
+              end
+            end
 
           if params.size > 1 || params[0].includes?("\n")
             "#{name}(\n#{params.join(",\n").indent})"

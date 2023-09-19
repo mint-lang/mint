@@ -1,0 +1,36 @@
+component X {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X key={0}/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_COMPONENT_KEY_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The "key" attribute of a component has an invalid type.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+The attribute in question is here:
+
+    ┌ ./spec/errors/html_attribute_component_key_type_mismatch:9:8
+    ├─────────────────────────────────────────────────────────────
+   5│ }
+   6│
+   7│ component Main {
+   8│   fun render : Html {
+   9│     <X key={0}/>
+    │        ⌃⌃⌃⌃⌃⌃⌃
+  10│   }
+  11│ }

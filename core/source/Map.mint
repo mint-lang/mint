@@ -15,7 +15,7 @@ module Map {
   fun delete (map : Map(key, value), keyToDelete : key) : Map(key, value) {
     Map.fromArray(
       for key, value of map {
-        {key, value}
+        #(key, value)
       } when {
         key != keyToDelete
       })
@@ -32,7 +32,7 @@ module Map {
   fun deleteValues (map : Map(key, value), valueToDelete : value) : Map(key, value) {
     Map.fromArray(
       for key, value of map {
-        {key, value}
+        #(key, value)
       } when {
         value != valueToDelete
       })
@@ -178,7 +178,7 @@ module Map {
   ) : Map(key, result) {
     Map.fromArray(
       for key, value of map {
-        ({key, function(key, value)})
+        (#(key, function(key, value)))
       })
   }
 

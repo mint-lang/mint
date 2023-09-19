@@ -7,13 +7,13 @@ module Mint
       property? keep_name = false
 
       def initialize(@arguments : Array(Argument),
-                     @type : TypeOrVariable?,
+                     @file : Parser::File,
                      @comment : Comment?,
                      @name : Variable,
+                     @type : Node?,
                      @body : Block,
-                     @input : Data,
-                     @from : Int32,
-                     @to : Int32)
+                     @from : Int64,
+                     @to : Int64)
       end
     end
   end

@@ -2,6 +2,7 @@ enum Test {
   A(String)
   B(String)
 }
+
 component Main {
   fun render : String {
     let Test::A(a) =
@@ -11,6 +12,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+class A extends _E {
+  constructor(_0) {
+    super();
+    this._0 = _0;
+    this.length = 1;
+  }
+};
+
 class B extends _E {
   constructor(_0) {
     super();
@@ -19,17 +28,9 @@ class B extends _E {
   }
 };
 
-class C extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class A extends _C {
+class C extends _C {
   render() {
-    const b = __match(new B(`Some string...`), _PE(B,[
+    const b = __match(_n(A)(`Some string...`), _PE(A,[
       _PV
     ]));
 
@@ -42,4 +43,4 @@ class A extends _C {
   }
 };
 
-A.displayName = "Main";
+C.displayName = "Main";

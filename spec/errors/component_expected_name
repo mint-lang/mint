@@ -1,0 +1,13 @@
+component
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The name of a component must start with an uppercase letter and only contain
+lowercase, uppercase letters and numbers.
+
+I was expecting name of the component but I found "a space" instead:
+
+   ┌ ./spec/errors/component_expected_name:1:9
+   ├──────────────────────────────────────────
+  1│ component
+   │          ⌃⌃⌃⌃

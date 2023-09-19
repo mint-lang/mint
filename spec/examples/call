@@ -1,0 +1,224 @@
+----------------------------------------------call_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    test("A"
+------------------------------------------------------------call_not_a_function
+component Main {
+  state x : String = ""
+
+  fun b : String {
+    x()
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a(0)
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+enum A {
+  B(String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A::B(0)) {
+      => ""
+    }
+  }
+}
+----------------------------------------------------call_argument_size_mismatch
+component Main {
+  fun a (input : String) : String {
+    input
+  }
+
+  fun b : String {
+    a("Hello", "There")
+  }
+
+  fun render : Html {
+    b()
+
+    <div/>
+  }
+}
+------------------------------------------------------call_with_mixed_arguments
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(0, argument1: "")
+  }
+}
+------------------------------------------------------call_with_mixed_arguments
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument2: 0, "")
+  }
+}
+--------------------------------------------------------call_not_found_argument
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument3: 0, argument1: "")
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+module Test {
+  fun a (value : String, x : Bool) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test", "z")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+module Test {
+  fun a (value : a, x : a) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("test", 0)
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+----------------------------------------------------call_argument_type_mismatch
+record Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .asd({test: "Hello"})
+  }
+}
+------------------------------------------------------------call_not_a_function
+component Main {
+  const A = "a"
+
+  fun render : Html {
+    let a =
+      A("A is a String constant, but calling it like a function compiles")
+
+    <div>
+      <{ a }>
+    </div>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a()
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(argument2: 0, argument1: "")
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a (x : Bool, value : String) : String {
+    value
+  }
+
+  fun b : String {
+    true
+    |> Test.a("test")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------------------------------------
+global component Test {
+  fun b : String {
+    ""
+  }
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  fun set : Promise(Void) {
+    next {}
+  }
+}
+
+component Main {
+  fun render : Html {
+    Test.set()
+    <div></div>
+  }
+}
+
+routes {
+  / {
+    Test.set()
+  }
+}

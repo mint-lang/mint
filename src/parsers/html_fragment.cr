@@ -1,29 +1,13 @@
 module Mint
   class Parser
-    syntax_error HtmlFragmentExpectedClosingBracket
-    syntax_error HtmlFragmentExpectedClosingTag
-
     def html_fragment : Ast::HtmlFragment?
-      start do |start_position|
-        next unless char! '<'
+      parse do |start_position|
+        next unless word! "<>"
 
-        # Test for closing tag
-        whitespace
-        next if char! '/'
-
-        key = html_attribute false, "key"
-        whitespace
-
-        char '>', HtmlFragmentExpectedClosingBracket
-
-        children = [] of Ast::Node
         comments = [] of Ast::Comment
+        children = [] of Ast::Node
 
-        items = many do
-          html_content.as(Ast::Node | Ast::Comment?)
-        end
-
-        items.each do |item|
+        many { expression || comment }.each do |item|
           case item
           when Ast::Comment
             comments << item
@@ -33,15 +17,17 @@ module Mint
         end
 
         whitespace
-        keyword! "</>", HtmlFragmentExpectedClosingTag
+        next error :html_fragment_expected_closing_tag do
+          expected "the closing tag of an HTML fragment", word
+          snippet self
+        end unless word! "</>"
 
-        self << Ast::HtmlFragment.new(
+        Ast::HtmlFragment.new(
           from: start_position,
           children: children,
           comments: comments,
           to: position,
-          input: data,
-          key: key)
+          file: file)
       end
     end
   end

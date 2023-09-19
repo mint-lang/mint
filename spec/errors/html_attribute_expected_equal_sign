@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    <div name
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ATTRIBUTE_EXPECTED_EQUAL_SIGN) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the equal sign of an HTML attribute but I found "a space"
+instead:
+
+   ┌ ./spec/errors/html_attribute_expected_equal_sign:3:13
+   ├──────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     <div name
+   │              ⌃⌃⌃⌃

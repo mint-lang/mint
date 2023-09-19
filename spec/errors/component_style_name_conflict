@@ -1,0 +1,52 @@
+component Main {
+  style title {
+    color: red;
+  }
+
+  style title {
+    color: blue;
+  }
+
+  fun render : Html {
+    <div></div>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_STYLE_NAME_CONFLICT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+There are multiple styles with the name:
+
+  title
+
+One style is here:
+
+    ┌ ./spec/errors/component_style_name_conflict:6:3
+    ├────────────────────────────────────────────────
+   2│   style title {
+   3│     color: red;
+   4│   }
+   5│
+    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+   6│   style title {
+   7│     color: blue;
+   8│   }
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   9│
+  10│   fun render : Html {
+  11│     <div></div>
+  12│   }
+
+An other style is here:
+
+   ┌ ./spec/errors/component_style_name_conflict:2:3
+   ├────────────────────────────────────────────────
+  1│ component Main {
+   │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  2│   style title {
+  3│     color: red;
+  4│   }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│
+  6│   style title {
+  7│     color: blue;
+  8│   }

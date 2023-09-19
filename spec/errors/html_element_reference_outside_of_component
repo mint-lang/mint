@@ -1,0 +1,26 @@
+module X {
+  fun render : Html {
+    <div as x/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    X.render()
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_ELEMENT_REFERENCE_OUTSIDE_OF_COMPONENT) ░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Referencing elements outside of components is not allowed:
+
+   ┌ ./spec/errors/html_element_reference_outside_of_component:3:13
+   ├───────────────────────────────────────────────────────────────
+  1│ module X {
+  2│   fun render : Html {
+  3│     <div as x/>
+   │             ⌃
+  4│   }
+  5│ }
+  6│
+  7│ component Main {

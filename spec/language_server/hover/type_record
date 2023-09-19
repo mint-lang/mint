@@ -32,7 +32,7 @@ module Test {
   "jsonrpc": "2.0",
   "result": {
     "contents": [
-      "```\nArticle(id: Number, description: String, title: String)\n```"
+      "```\ntype Article {\n  id : Number,\n  description : String,\n  title : String\n}\n```"
     ]
   },
   "id": 0

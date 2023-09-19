@@ -1,0 +1,36 @@
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Maybe::Just(0) or "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (OPERATION_OR_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the default value does not match the type of the parameter of the
+maybe.
+
+I was expecting:
+
+  Number
+
+Instead it is:
+
+  String
+
+The operation in question is here:
+
+    ┌ ./spec/errors/operation_or_type_mismatch:8:16
+    ├──────────────────────────────────────────────
+   4│ }
+   5│
+   6│ component Main {
+   7│   fun render : String {
+   8│     Maybe::Just(0) or "Hello"
+    │                ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   9│   }
+  10│ }

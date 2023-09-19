@@ -24,7 +24,7 @@ component Test.Promise2 {
   state result : String = ""
 
   fun componentDidMount : Promise(Void) {
-    let {resolve, promise} =
+    let #(resolve, promise) =
       Promise.create()
 
     await next { resolve: resolve }

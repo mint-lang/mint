@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    @highlight {
+      "Test"
+    }[1]
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return [`Test`, _h(React.Fragment, {}, [_h('span', { className: 'string' }, [`"Test"`])])][1];
+  }
+};
+
+A.displayName = "Main";

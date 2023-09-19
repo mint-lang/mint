@@ -1,12 +1,5 @@
 module Mint
   class Formatter
-    def format(node : Ast::ForCondition) : String
-      body =
-        format node.condition
-
-      " when #{body}"
-    end
-
     def format(node : Ast::For) : String
       body =
         format node.body
@@ -18,7 +11,9 @@ module Mint
         format node.arguments, ", "
 
       condition =
-        format node.condition
+        if item = node.condition
+          " when #{format(item)}"
+        end
 
       "for #{arguments} of #{subject} #{body}#{condition}"
     end

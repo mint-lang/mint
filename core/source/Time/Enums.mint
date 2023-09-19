@@ -1,5 +1,5 @@
 /* Represents a duration (span) of time. */
-enum Time.Span {
+type Time.Span {
   Milliseconds(Number)
   Seconds(Number)
   Minutes(Number)
@@ -11,7 +11,7 @@ enum Time.Span {
 }
 
 /* Represents a month of the week in the Gregorian calendar. */
-enum Month {
+type Month {
   January
   February
   March
@@ -27,7 +27,7 @@ enum Month {
 }
 
 /* Represents a day of the week in the Gregorian calendar. */
-enum Weekday {
+type Weekday {
   Monday
   Tuesday
   Wednesday

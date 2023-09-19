@@ -1,0 +1,34 @@
+component Main {
+  fun render : Array(Html) {
+    for (item of "A") {
+      <div>
+        <{ item }>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FOR_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The iterable object of a for expression has an invalid type.
+
+I was expecting one of the following types:
+
+  Array(a), Set(a), Map(a, b)
+
+Instead it is:
+
+  String
+
+The iterable object in question is here:
+
+   ┌ ./spec/errors/for_type_mismatch:3:18
+   ├─────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (item of "A") {
+   │                  ⌃⌃⌃
+  4│       <div>
+  5│         <{ item }>
+  6│       </div>
+  7│     }

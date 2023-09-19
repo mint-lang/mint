@@ -1,0 +1,38 @@
+component Main {
+  use Provider { a: "" }
+  use Provider { a: "" }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (COMPONENT_MULTIPLE_PROVIDERS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+You are subcribing to the provider "Provider" in a component multiple times.
+
+A subscription is here:
+
+   ┌ ./spec/errors/component_multiple_providers:3:3
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   use Provider { a: "" }
+  3│   use Provider { a: "" }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+  7│   }
+
+An other subscription is here:
+
+   ┌ ./spec/errors/component_multiple_providers:2:3
+   ├───────────────────────────────────────────────
+  1│ component Main {
+  2│   use Provider { a: "" }
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│   use Provider { a: "" }
+  4│
+  5│   fun render : Html {
+  6│     <div/>
+
