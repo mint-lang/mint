@@ -1,11 +1,9 @@
 suite "Test (Async)" {
-  test "true" {
+  test "await Bool" {
     await true
   }
-}
 
-suite "Test (Async)" {
-  test "true" {
+  test "await Test.Context(Bool)" {
     await Test.Context.of(true)
   }
 }
