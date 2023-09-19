@@ -4,6 +4,9 @@ module Mint
       parse do |start_position|
         next unless name = id track: false
 
+        # TODO: Remove this in 0.21.0 when deprecation ends.
+        next if char == ':' && !word?("::")
+
         # TODO: Remove this branch in 0.21.0 when deprecation ends.
         if word! "::"
           next error :type_destructuring_expected_variant do

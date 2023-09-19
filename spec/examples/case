@@ -102,3 +102,18 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+module Test {
+  const X = "X"
+}
+
+component Main {
+  fun render : String {
+    case ("x") {
+      Test:X => "x"
+      "a" => "a"
+      "b" => "b"
+      => "c"
+    }
+  }
+}
