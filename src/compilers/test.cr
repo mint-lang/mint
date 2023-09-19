@@ -46,7 +46,7 @@ module Mint
 
       expression ||= compile(raw_expression)
 
-      "{ name: #{name}, location: #{location}, proc: (constants) => { return #{expression} } }"
+      "{ name: #{name}, location: #{location}, proc: async (constants) => { return #{expression} } }"
     end
   end
 end
