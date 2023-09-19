@@ -5,6 +5,7 @@ module Mint
     class Message
       include JSON::Serializable
 
+      property id : String
       property type : String
       property name : String?
       property suite : String?
@@ -31,8 +32,10 @@ module Mint
     @reporter : Reporter
     @browser_path : String?
     @script : String?
+    @browser : {Process, String}? = nil
 
     @failed = [] of Message
+    @test_id = Random::Secure.hex
     @succeeded = 0
 
     def initialize(@flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
@@ -46,14 +49,45 @@ module Mint
       @succeeded = 0
     end
 
-    def run : Bool
-      MintJson.parse_current.check_dependencies!
+    def watch
+      workspace = Workspace.current
+      workspace.on "change" { |result| run_tests }
+      workspace.watch
 
-      ast = terminal.measure "#{COG} Compiling tests..." do
+      setup_kemal
+      run_tests
+
+      Server.run "Test", @flags.host, @flags.port
+    end
+
+    def compile
+      terminal.measure "#{COG} Compiling tests..." do
         compile_ast.tap do |a|
           @script = compile_script(a)
         end
       end
+    end
+
+    def run_tests
+      @test_id = Random::Secure.hex
+      cleanup_browser
+      terminal.reset
+
+      begin
+        @reporter.reset
+        compile
+        open_page
+      rescue error : Error
+        terminal.reset
+        terminal.puts error.to_terminal
+      rescue error
+        terminal.reset
+        terminal.puts error.to_s
+      end
+    end
+
+    def run : Bool
+      ast = compile
 
       if ast.try(&.suites.empty?)
         terminal.puts
@@ -186,13 +220,17 @@ module Mint
 
       begin
         process = open_process(browser_path, profile_directory)
-        at_exit do
-          process.signal(:kill) rescue nil
-          FileUtils.rm_rf(profile_directory)
-        end
+        @browser = {process, profile_directory}
+        at_exit { cleanup_browser }
         @channel.receive
       ensure
-        process.try &.signal(:kill) rescue nil
+        cleanup_browser
+      end
+    end
+
+    def cleanup_browser
+      @browser.try do |(process, profile_directory)|
+        process.signal(:kill) rescue nil
         FileUtils.rm_rf(profile_directory)
       end
     end
@@ -206,9 +244,6 @@ module Mint
       ws_url =
         "ws://#{@flags.browser_host}:#{@flags.browser_port}/"
 
-      page_source =
-        ECR.render("#{__DIR__}/test_runner.ecr")
-
       runtime =
         if runtime_path = @flags.runtime
           Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
@@ -219,7 +254,7 @@ module Mint
 
       get "/" do
         reset
-        page_source
+        ECR.render("#{__DIR__}/test_runner.ecr")
       end
 
       get "/external-javascripts.js" do |env|
@@ -277,26 +312,28 @@ module Mint
     end
 
     def handle_message(data : Message) : Nil
-      case data.type
-      when "LOG"
-        terminal.puts data.result
-      when "SUITE"
-        @reporter.suite data.suite
-      when "SUCCEEDED"
-        @reporter.succeeded data.name
-        @succeeded += 1
-      when "FAILED"
-        @reporter.failed data.name, data.result
-        @failed << data
-      when "ERRORED"
-        @reporter.errored data.name, data.result
-        @failed << data
-      when "CRASHED"
-        @reporter.crashed data.result
-        @failed << data
+      if data.id == @test_id
+        case data.type
+        when "LOG"
+          terminal.puts data.result
+        when "SUITE"
+          @reporter.suite data.suite
+        when "SUCCEEDED"
+          @reporter.succeeded data.name
+          @succeeded += 1
+        when "FAILED"
+          @reporter.failed data.name, data.result
+          @failed << data
+        when "ERRORED"
+          @reporter.errored data.name, data.result
+          @failed << data
+        when "CRASHED"
+          @reporter.crashed data.result
+          @failed << data
 
-        @reporter.done
-        stop_server
+          @reporter.done
+          stop_server unless @flags.watch
+        end
       end
     end
 
@@ -335,7 +372,7 @@ module Mint
           end
         end
 
-      stop_server
+      stop_server unless @flags.watch
     end
 
     def stop_server

@@ -44,6 +44,10 @@ module Mint
         puts
       end
 
+      def reset
+        @count = 0
+      end
+
       def crashed(message)
         puts
         puts "❗ An internal error occurred while executing a test: #{message}".colorize(:red)

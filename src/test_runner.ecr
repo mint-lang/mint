@@ -8,6 +8,8 @@
     <script src="/external-javascripts.js"></script>
     <script src="/runtime.js"></script>
     <script>
+      window.TEST_ID = "<%= @test_id %>";
+
       class TestRunner {
         constructor () {
           this.socket = new WebSocket("<%= ws_url %>")
@@ -66,6 +68,7 @@
             message = message.toString()
           }
           this.socket.send(JSON.stringify({
+            id: window.TEST_ID,
             type: type,
             suite: suite,
             name: name,

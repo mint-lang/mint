@@ -6,6 +6,7 @@ module Mint
       abstract def errored(name, error)
       abstract def suite(name)
       abstract def done
+      abstract def reset
       abstract def crashed(message)
     end
   end
