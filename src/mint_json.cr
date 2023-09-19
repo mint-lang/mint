@@ -1185,8 +1185,8 @@ module Mint
           Installer.new
           break
         else
-          terminal.puts "#{WARNING} Missing packages, exiting..."
-          exit(1)
+          terminal.print "#{WARNING} Missing dependencies..."
+          raise CliException.new
         end
       end
     end
