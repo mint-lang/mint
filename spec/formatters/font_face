@@ -1,0 +1,23 @@
+component Main {
+  style main {
+    @font-face {
+      color: red;
+    }
+  }
+
+  fun render {
+    <div::main/>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  style main {
+    @font-face {
+      color: red;
+    }
+  }
+
+  fun render {
+    <div::main/>
+  }
+}

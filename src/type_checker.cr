@@ -30,6 +30,8 @@ module Mint
     TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
     STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
     VOID_PROMISE   = Type.new("Promise", [VOID] of Checkable)
+    BOOL_PROMISE   = Type.new("Promise", [BOOL] of Checkable)
+    TEST_PROMISE   = Type.new("Promise", [TEST_CONTEXT] of Checkable)
 
     VALID_IF_TYPES = [
       VOID_PROMISE,
@@ -38,6 +40,13 @@ module Mint
       MAYBE,
       VOID,
       HTML,
+    ] of Checkable
+
+    VALID_TEST_TYPES = [
+      TEST_PROMISE,
+      TEST_CONTEXT,
+      BOOL_PROMISE,
+      BOOL,
     ] of Checkable
 
     getter records, artifacts, formatter, web_components

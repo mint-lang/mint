@@ -103,7 +103,7 @@
             const test = this.suite.tests.shift()
 
             try {
-              const result = await test.proc(this.suite.constants)
+              const result = await test.proc.call(this.suite.context)
 
               // Go back to the beginning
               if (window.history.length - currentHistory) {

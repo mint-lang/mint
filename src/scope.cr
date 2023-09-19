@@ -189,6 +189,7 @@ module Mint
         build(node.constants, node)
         build(node.functions, node)
       when Ast::Suite
+        build(node.functions, node)
         build(node.constants, node)
         build(node.tests, node)
       when Ast::Locale
@@ -237,11 +238,13 @@ module Mint
            Ast::NegatedExpression,
            Ast::Interpolation,
            Ast::UnaryMinus,
-           Ast::CaseBranch,
            Ast::Encode,
            Ast::Decode,
            Ast::Test
         build(node.expression, node)
+      when Ast::CaseBranch
+        build(node.expression, node)
+        build(node.pattern, node)
       when Ast::Function
         build(node.arguments, node)
         build(node.body, node)

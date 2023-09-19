@@ -127,7 +127,8 @@ module Mint
                   memo[variable.value] = record.first
                 end
             when Ast::HtmlElement
-              memo[variable.value] = variable
+              lookups[node.field] = {variable, component}
+              return Type.new("Maybe", [Type.new("Dom.Element")] of Checkable) if node.field.value == variable.value
             end
 
             memo
