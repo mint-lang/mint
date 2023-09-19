@@ -8,9 +8,7 @@ module Mint
         skip_icons = true
       end
 
-      terminal.measure "#{COG} Ensuring dependencies..." do
-        json.check_dependencies!
-      end
+      json.check_dependencies!
 
       terminal.measure "#{COG} Clearing the \"#{DIST_DIR}\" directory..." do
         FileUtils.rm_rf DIST_DIR

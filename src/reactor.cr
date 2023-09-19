@@ -26,9 +26,7 @@ module Mint
     end
 
     def initialize(@host, @port, @auto_format, @live_reload)
-      terminal.measure "#{COG} Ensuring dependencies..." do
-        MintJson.parse_current.check_dependencies!
-      end
+      MintJson.parse_current.check_dependencies!
 
       workspace = Workspace.current
       workspace.format = auto_format
