@@ -18,7 +18,7 @@ Recursion is only supported in specific cases at this time. Unfortunatly here is
 not supported:
 
    ┌ ./spec/errors/recursion:2:3
-   ├────────────────────────────
+   ├────────────────────────────────────────
   1│ component Test {
   2│   property greeting : String = greeting
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -30,7 +30,7 @@ not supported:
 The previous step in the recursion was here:
 
    ┌ ./spec/errors/recursion:2:32
-   ├─────────────────────────────
+   ├────────────────────────────────────────
   1│ component Test {
   2│   property greeting : String = greeting
    │                                ⌃⌃⌃⌃⌃⌃⌃⌃
