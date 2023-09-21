@@ -75,6 +75,12 @@ module Mint
       from_file(Path[Dir.current, "mint.json"].to_s)
     end
 
+    def self.parse_current? : MintJson?
+      parse_current
+    rescue
+      nil
+    end
+
     # Calculating nodes for the snippet in errors.
     # --------------------------------------------------------------------------
 
