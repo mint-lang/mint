@@ -23,6 +23,9 @@ module Mint
       def done
       end
 
+      def reset
+      end
+
       def crashed(message)
         puts "❗ An internal error occurred while executing a test: #{message}".colorize(:red)
       end
