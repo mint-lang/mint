@@ -1,0 +1,11 @@
+component Main {
+  fun render : Html {
+    @highlight-file(../../fixtures/Test.mint)
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    @highlight-file(../../fixtures/Test.mint)
+  }
+}

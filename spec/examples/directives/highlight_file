@@ -1,0 +1,30 @@
+--------------------------highlight_file_directive_expected_opening_parenthesis
+component Main {
+  fun render : String {
+    @highlight-file
+-----------------------------------------highlight_file_directive_expected_path
+component Main {
+  fun render : String {
+    @highlight-file(
+--------------------------highlight_file_directive_expected_closing_parenthesis
+component Main {
+  fun render : String {
+    @highlight-file(path
+-----------------------------------------highlight_file_directive_expected_file
+component Main {
+  fun render : Html {
+    @highlight-file(File.mint)
+  }
+}
+-----------------------------------------highlight_file_directive_expected_mint
+component Main {
+  fun render : Html {
+    @highlight-file(../../fixtures/icon-not-svg)
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    @highlight-file(../../../core/source/Array.mint)
+  }
+}
