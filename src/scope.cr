@@ -216,6 +216,7 @@ module Mint
 
       case node
       when Ast::Directives::Documentation,
+           Ast::Directives::HighlightFile,
            Ast::Directives::Highlight,
            Ast::Directives::Inline,
            Ast::Directives::Asset,

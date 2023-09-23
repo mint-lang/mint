@@ -1,0 +1,29 @@
+component Main {
+  fun render : Html {
+    @highlight-file(../../fixtures/Test.mint)
+  }
+}
+--------------------------------------------------------------------------------
+class A extends _C {
+  render() {
+    return _h(React.Fragment, {}, [_h('span', { className: 'keyword' }, [`component`]),
+    ` `,
+    _h('span', { className: 'type' }, [`Main`]),
+    ` {
+  `,
+    _h('span', { className: 'keyword' }, [`fun`]),
+    ` render : `,
+    _h('span', { className: 'type' }, [`Html`]),
+    ` {
+    <`,
+    _h('span', { className: 'namespace' }, [`div`]),
+    `></`,
+    _h('span', { className: 'namespace' }, [`div`]),
+    `>
+  }
+}
+`]);
+  }
+};
+
+A.displayName = "Main";
