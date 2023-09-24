@@ -50,12 +50,14 @@ module Mint
       # this will not be compiled.
       self.checking = false
 
-      check_all node.components
-      check_all node.unified_modules
+      if check_everything?
+        check_all node.components
+        check_all node.unified_modules
 
-      resolve node.providers
-      resolve node.stores
-      resolve node.type_definitions
+        resolve node.providers
+        resolve node.stores
+        resolve node.type_definitions
+      end
 
       VOID
     end
