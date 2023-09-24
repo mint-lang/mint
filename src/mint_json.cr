@@ -31,6 +31,7 @@ module Mint
     getter application = Application.new
     getter root : String
     getter name = ""
+    getter source_url = ""
 
     def initialize(@json : String, @root : String, @file : String)
       begin
@@ -144,10 +145,12 @@ module Mint
           parse_external_assets
         when "web-components"
           parse_web_components
+        when "source-url"
+          parse_source_url
         else
           error! :mint_json_root_invalid_key do
             block do
-              text "The root object of a"
+              text "The root object in the"
               bold "mint.json"
               text "file has an invalid key:"
               bold key
@@ -183,7 +186,7 @@ module Mint
         block do
           text "The"
           bold "name"
-          text "field of a"
+          text "field in the"
           bold "mint.json"
           text "file is empty:"
         end
@@ -195,7 +198,7 @@ module Mint
         block do
           text "The"
           bold "name"
-          text "field of a"
+          text "field in the"
           bold "mint.json"
           text "file is not a string."
         end
@@ -218,7 +221,7 @@ module Mint
         block do
           text "The"
           bold "mint-version"
-          text "field in your"
+          text "field in the"
           bold "mint.json"
           text "file is empty."
         end
@@ -262,7 +265,7 @@ module Mint
         block do
           text "The"
           bold "mint-version"
-          text "field in your"
+          text "field in the"
           bold "mint.json"
           text "file does not match your current version of Mint."
         end
@@ -283,7 +286,7 @@ module Mint
         block do
           text "The"
           bold "mint-version"
-          text "field in your"
+          text "field in the"
           bold "mint.json"
           text "file is not a string."
         end
@@ -684,7 +687,7 @@ module Mint
             block do
               text "The"
               bold "formatter-config"
-              text "object of a"
+              text "object in the"
               bold "mint.json"
               text "file has an invalid key:"
               bold key
@@ -787,7 +790,7 @@ module Mint
             block do
               text "The"
               bold "application object"
-              text "of a"
+              text "in the"
               bold "mint.json"
               text "file has an invalid key:"
               bold key
@@ -1164,6 +1167,55 @@ module Mint
           text "There was a problem when parsing the"
           bold "constraint"
           text "of a dependency:"
+        end
+
+        snippet node(exception)
+      end
+    end
+
+    def parse_source_url
+      location =
+        @parser.location
+
+      @source_url =
+        @parser.read_string
+
+      user, repo = SourceUrl.parse_user_and_repo(@source_url)
+
+      puts "user: #{user}, repo: #{repo}"
+
+      error! :mint_json_source_url_invalid do
+        block do
+          text "The"
+          bold "source-url"
+          text "field in the"
+          bold "mint.json"
+          text "has an invalid format, must be"
+          bold "https://domain/user/repo:"
+        end
+
+        snippet node(location)
+      end if user.empty? || repo.empty?
+
+      error! :mint_json_source_url_invalid do
+        block do
+          text "The"
+          bold "source-url"
+          text "field in the"
+          bold "mint.json"
+          text "file is empty:"
+        end
+
+        snippet node(location)
+      end if @name.empty?
+    rescue exception : JSON::ParseException
+      error! :mint_json_source_url_not_string do
+        block do
+          text "The"
+          bold "source-url"
+          text "field in the"
+          bold "mint.json"
+          text "file is not a string."
         end
 
         snippet node(exception)

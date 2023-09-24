@@ -91,16 +91,17 @@ module Mint
     end
 
     @formatter = Formatter.new
-    @git_source : GitSource
     @core_types : Hash(String, String)
     @types : Hash(String, String)
     @pages = Hash(String, Array(String)).new
     @page_children = Hash(Array(String), Array(String)).new
     @category : String = ""
     @page : String = ""
+    @git_root : String = ""
 
-    def initialize(@mint_json : MintJson, @ast : Ast, @output_dir : String, @base : String, git_url : String, git_url_pattern : String, git_ref : String)
-      @git_source = GitSource.new(git_url, git_url_pattern, git_ref)
+    def initialize(@mint_json : MintJson, @ast : Ast, @output_dir : String, @base : String, @git_ref : String)
+      @git_ref ||= parse_git_ref
+      @git_root = parse_git_root
       @pages = {
         "components" => @ast.components.map(&.name.value).sort!,
         "modules"    => @ast.modules.map(&.name.value).sort!,
@@ -124,7 +125,20 @@ module Mint
     end
 
     def generate
+      Dir.mkdir_p("#{@output_dir}")
+      write_assets()
       write_readme()
+      write_pages()
+    end
+
+    def write_assets
+      ["app.css", "app.js", "favicon.png"].each { |asset|
+        content = Assets.get("docs-html/#{asset}").gets_to_end
+        File.write("#{@output_dir}/#{asset}", content)
+      }
+    end
+
+    def write_pages
       @ast.components.each { |node| write_page("components", node) }
       @ast.type_definitions.each { |node| write_page("types", node) }
       @ast.modules.each { |node| write_page("modules", node) }
@@ -153,7 +167,6 @@ module Mint
 
       html = render("#{__DIR__}/documentation_generator/html/page.ecr")
 
-      Dir.mkdir_p("#{@output_dir}")
       File.write("#{@output_dir}/index.html", html)
     end
 
@@ -173,7 +186,7 @@ module Mint
     end
 
     def stringify(node)
-      "unknown"
+      ""
     end
 
     def read_markdown(path : String)
@@ -213,6 +226,41 @@ module Mint
       category == @category && stringify(node) == @page
     end
 
+    def is_git_repo
+      `git rev-parse --is-inside-work-tree`.strip == "true"
+    end
+
+    def parse_git_root : String
+      if is_git_repo
+        `git rev-parse --show-toplevel`.strip
+      else
+        ""
+      end
+    end
+
+    def parse_git_current_branch
+      if is_git_repo
+        `git rev-parse --abbrev-ref HEAD`.strip
+      else
+        ""
+      end
+    end
+
+    def parse_git_ref : String
+      if is_git_repo
+        refs = `git tag -l | sort -V`.split.reverse_each { |t| t.strip != "" }
+        ref = refs.try(&.last) || ""
+
+        if ref.empty?
+          parse_git_current_branch
+        else
+          ref
+        end
+      else
+        ""
+      end
+    end
+
     def url_base
       if @base == ""
         "/"
@@ -250,8 +298,27 @@ module Mint
       end
     end
 
-    def git_url(node)
-      @git_source.get_node_url(node)
+    def source_url(node)
+      url = @mint_json.source_url
+      user, repo = SourceUrl.parse_user_and_repo(url)
+      path = node.location.filename.sub("#{@git_root}/", "")
+      line = node.location.start[0]
+      s_url =
+        if url.includes?("github")
+          "https://github.com/#{user}/#{repo}/blob/#{@git_ref}/#{path}#L#{line}"
+        elsif url.includes?("gitlab")
+          "https://gitlab.com/#{user}/#{repo}/blob/#{@git_ref}/#{path}#L#{line}"
+        elsif url.includes?("bitbucket")
+          "https://bitbucket.org/#{user}/#{repo}/src/#{@git_ref}/#{path}#cl-#{line}"
+        else
+          ""
+        end
+
+      if s_url.empty?
+        ""
+      else
+        "<a class=\"github-source-link\" href=\"#{s_url}\" />"
+      end
     end
   end
 end

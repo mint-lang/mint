@@ -12,15 +12,8 @@ module Mint
 
       define_flag git_ref : String,
         description: "The git reference",
-        required: false
-
-      define_flag git_url : String,
-        description: "The git repository source url",
-        required: false
-
-      define_flag git_url_pattern : String,
-        description: "The git repository source url pattern",
-        required: false
+        required: false,
+        default: ""
 
       define_flag output_dir : String,
         description: "The output directory",
@@ -58,9 +51,7 @@ module Mint
           ast,
           flags.output_dir,
           flags.base,
-          flags.git_url || "",
-          flags.git_url_pattern || "",
-          flags.git_ref || ""
+          flags.git_ref
         ).generate
       end
 

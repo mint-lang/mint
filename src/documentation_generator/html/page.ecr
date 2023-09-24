@@ -5,11 +5,11 @@
       <base href="<%= @base %>">
     <% end %>
     <meta charset="utf-8" />
-    <title><%= @git_source.user %> / <%= @git_source.repo %> | <%= @page %></title>
+    <title><%= @mint_json.name %> | <%= @page %></title>
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="https://mint-lang.com/assets/favicon-d00d4127f79a5727096c1ff5886a8fae1f1f0e8720dc2ed14a980f13d366405d.png"
+      href="<%= @base %>favicon"
     />
     <meta
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
@@ -20,106 +20,7 @@
       media="screen"
       href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700|Source+Code+Pro:400,600|M+PLUS+Rounded+1c:500,700&amp;display=swap"
     />
-    <link
-      rel="stylesheet"
-      media="all"
-      href="https://mint-lang.com/assets/application-57c7bf1ec1acb15da0e1b8eb2a3e494cf9dd4c24a98856b1503fcbedc60a0327.css"
-    />
-    <link
-      rel="stylesheet"
-      media="screen"
-      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/styles/atom-one-dark.min.css"
-    />
-    <style>
-      body {
-        font-family: Open Sans;
-      }
-
-      .type-badge[data-type="state"] {
-        background: orange;
-      }
-
-      .type-badge[data-type="type"] {
-        background: #00bbb5;
-      }
-
-      .type-badge[data-type="type"]::before {
-        content: "T";
-      }
-      
-      .enum__option__param + .enum__option__param::before {
-        content: ',';
-        margin-right: 10px;
-      }
-
-      .guide .guide-content h2 a {
-        color: #333;
-      }
-
-      .guide-content > .entity__body {
-        margin: 0;
-        padding: 0;
-      }
-      
-      .guide .guide-content a:hover,
-      .entity__type a:hover {
-        text-decoration: underline;
-      }
-
-      .entity__signature {
-        position: relative;
-      }
-
-      .entity__type.entity__type a {
-        color: #f77900;
-      }
-
-      .entity__name + .entity__type::before,
-      .entity__label + .entity__type::before,
-      .entity__operator + .entity__type::before {
-        content: ":";
-        color: #AAA;
-        margin-left: 5px;
-      }
-
-      a.github-source-link::before {
-        content: '\003C\002F\003E';
-      }
-
-      a.github-source-link.github-source-link {
-        background: white;
-        color: #999;
-        font-family: Source Code Pro;
-        font-size: 18px;
-        font-weight: normal;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-
-      a.github-source-link:hover {
-        color: black;
-      }
-
-      h1 {
-        position: relative;
-      }
-
-      h1 .type-badge {
-        position: relative;
-        top: -8px;
-        left: 16px;
-        scale: 1.5;
-      }
-
-      h1 .github-source-link {
-        margin-top: 12px;
-      }
-
-      .version__dependency a {
-        color: #02b046;
-      }
-    </style>
+    <link rel="stylesheet" href="<%= @base %>app.css"></style>
   </head>
   <body>
     <article>
@@ -135,16 +36,13 @@
               height="22"
               aria-hidden="true"
             >
-              <path
-                fill-rule="evenodd"
-                d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6l-5 5z"
-              ></path>
+              <path fill-rule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6l-5 5z" />
             </svg>
           </div>
           <div id="toc" class="toc">
             <div id="toc-wrapper" class="toc__wrapper">
               <div class="page__package">
-                <strong><%= @git_source.repo %></strong>
+                <strong><%= @mint_json.name %></strong>
               </div>
 
               <div class="toc__section">Basic information</div>
@@ -160,33 +58,32 @@
                       height="16"
                       aria-hidden="true"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"
-                      ></path>
+                      <path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z" />
                     </svg>
                     README
                   </div> 
                 </a>
 
-                <a class="toc__page" href="<%= @git_source.url %>">
-                  <div>
-                    <svg
-                      class="octicon octicon-mark-github"
-                      viewBox="0 0 16 16"
-                      version="1.1"
-                      width="16"
-                      height="16"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                      ></path>
-                    </svg>
-                    Source on GitHub
-                  </div>
-                </a>
+                <% if !@mint_json.source_url.empty? %>
+                  <a class="toc__page" href="<%= @mint_json.source_url %>">
+                    <div>
+                      <svg
+                        class="octicon octicon-mark-github"
+                        viewBox="0 0 16 16"
+                        version="1.1"
+                        width="16"
+                        height="16"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                        ></path>
+                      </svg>
+                      Source on GitHub
+                    </div>
+                  </a>
+                <% end %>
               </div>
 
               <div class="toc__section">Entities</div>
@@ -238,13 +135,19 @@
               <div class="toc__section">Dependencies</div>
 
               <div class="version__dependencies">
-                <% @mint_json.dependencies.each do |d|%>
+                <% if @mint_json.dependencies.each == 0 %>
                   <div class="version__dependency">
-                    <a href="<%= d.repository %>"> 
-                      <strong><%= d.name %></strong>
-                    </a>
-                    <span><%= d.constraint.to_s %></span>
+                    No Dependencies
                   </div>
+                <% else %>
+                  <% @mint_json.dependencies.each do |d|%>
+                    <div class="version__dependency">
+                      <a href="<%= d.repository %>"> 
+                        <strong><%= d.name %></strong>
+                      </a>
+                      <span><%= d.constraint.to_s %></span>
+                    </div>
+                  <% end %>
                 <% end %>
               </div>
             </div>
@@ -258,32 +161,6 @@
     </article>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mint-lang/highlightjs-mint/dist/mint.min.js"></script>
-    <script>
-      hljs.configure({ languages: ["mint"] });
-      hljs.highlightAll();
-
-      document.getElementById('toc-mobile').addEventListener('click', (e) => {
-        toc.classList.add('toc--open')
-      })
-
-      document.getElementById('toc').addEventListener('click', (e) => {
-        toc.classList.remove('toc--open')
-      })
-      
-      document.getElementById('toc-wrapper').addEventListener('click', (e) => {
-        e.stopPropagation()
-      })
-
-      document.getElementById('search').addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim()
-        
-        document.querySelectorAll(`[data-search]`).forEach(el => el.style.display = 'none')
-        if (term === '') {
-          document.querySelectorAll(`[data-search-empty="true"]`).forEach(el => el.style.display = '')
-        } else {
-          document.querySelectorAll(`[data-search*="${term}"]`).forEach(el => el.style.display = '')
-        }
-      })
-    </script>
+    <script src="<%= @base %>app.js"></script>
   </body>
 </html>

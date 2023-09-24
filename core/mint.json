@@ -1,5 +1,6 @@
 {
   "name": "core",
+  "source-url": "https://github.com/mint-lang/mint",
   "source-directories": [
     "source"
   ]
