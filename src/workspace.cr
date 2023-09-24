@@ -48,6 +48,7 @@ module Mint
 
     @event_handlers = {} of String => Array(ChangeProc)
     @cache = {} of String => Ast
+    @env_watcher : Watcher?
     @pattern = %w[]
 
     getter type_checker : TypeChecker
@@ -57,6 +58,7 @@ module Mint
     getter error : Error?
     getter root : String
 
+    property? check_everything : Bool = true
     property? format : Bool = false
 
     def initialize(@root : String)
@@ -79,6 +81,11 @@ module Mint
 
       @static_watcher =
         Watcher.new(all_static_pattern)
+
+      @env_watcher =
+        Env.env.try do |file|
+          Watcher.new([file])
+        end
 
       @type_checker =
         TypeChecker.new(Ast.new)
@@ -160,6 +167,14 @@ module Mint
           reset_cache
         end
       end
+
+      spawn do
+        @env_watcher.try(&.watch do
+          Env.load do
+            update_cache
+          end
+        end)
+      end
     end
 
     def files
@@ -239,7 +254,7 @@ module Mint
     end
 
     private def check!
-      @type_checker = Mint::TypeChecker.new(ast, check_env: false)
+      @type_checker = Mint::TypeChecker.new(ast, check_env: false, check_everything: check_everything?)
       @type_checker.check
     end
 
