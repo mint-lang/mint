@@ -59,6 +59,7 @@ module Mint
     getter root : String
 
     property? check_everything : Bool = true
+    property? check_env : Bool = false
     property? format : Bool = false
 
     def initialize(@root : String)
@@ -254,8 +255,12 @@ module Mint
     end
 
     private def check!
-      @type_checker = Mint::TypeChecker.new(ast, check_env: false, check_everything: check_everything?)
-      @type_checker.check
+      @type_checker =
+        Mint::TypeChecker.new(
+          check_everything: check_everything?,
+          check_env: check_env?,
+          ast: ast
+        ).tap(&.check)
     end
 
     private def call(event, arg)
