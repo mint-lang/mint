@@ -170,11 +170,11 @@ module Mint
       end
 
       spawn do
-        @env_watcher.try(&.watch do
+        @env_watcher.try &.watch do
           Env.load do
             update_cache
           end
-        end)
+        end
       end
     end
 
