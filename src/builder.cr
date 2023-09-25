@@ -4,19 +4,7 @@ module Mint
       build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
 
       if watch
-        workspace = Workspace.current
-        workspace.on "change" do |result|
-          case result
-          when Ast
-            terminal.reset
-            terminal.divider
-            build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
-            terminal.divider
-          when Error
-          end
-        end
-        workspace.update_cache
-        workspace.watch
+        watch_workspace(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
       end
     end
 
@@ -47,21 +35,21 @@ module Mint
       index_js, artifacts =
         index(json.application.css_prefix, relative, optimize, runtime_path, json.web_components)
 
-      if !inline
+      unless inline
         File.write Path[DIST_DIR, "index.js"], index_js
-      end
 
-      if !inline && SourceFiles.external_javascripts?
-        terminal.measure "#{COG} Writing external javascripts..." do
-          File.write Path[DIST_DIR, "external-javascripts.js"],
-            SourceFiles.external_javascripts
+        if SourceFiles.external_javascripts?
+          terminal.measure "#{COG} Writing external javascripts..." do
+            File.write Path[DIST_DIR, "external-javascripts.js"],
+              SourceFiles.external_javascripts
+          end
         end
-      end
 
-      if !inline && SourceFiles.external_stylesheets?
-        terminal.measure "#{COG} Writing external stylesheets..." do
-          File.write Path[DIST_DIR, "external-stylesheets.css"],
-            SourceFiles.external_stylesheets
+        if SourceFiles.external_stylesheets?
+          terminal.measure "#{COG} Writing external stylesheets..." do
+            File.write Path[DIST_DIR, "external-stylesheets.css"],
+              SourceFiles.external_stylesheets
+          end
         end
       end
 
@@ -195,6 +183,25 @@ module Mint
       end
 
       {runtime + compiled.to_s, type_checker.artifacts}
+    end
+
+    def watch_workspace(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+      workspace = Workspace.current
+
+      workspace.on "change" do |result|
+        case result
+        when Ast
+          terminal.reset
+          terminal.puts "Rebuilding for production"
+          terminal.divider
+          build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+          terminal.divider
+        when Error
+        end
+      end
+
+      workspace.update_cache
+      workspace.watch
     end
 
     def get_service_worker_utils
