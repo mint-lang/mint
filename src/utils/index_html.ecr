@@ -3,7 +3,9 @@
   <head>
     <meta charset="<%= application.meta["charset"]? || "utf-8" %>">
     <title><%= application.title %></title>
-    <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>">
+    <% unless @no_manifest %>
+      <link rel="manifest" href="<%= path_for("manifest.webmanifest") %>">
+    <% end %>
     <% application.meta.each do |name, content| %>
       <% next if name == "charset" %>
       <meta name="<%= name %>" content="<%= content %>">
@@ -21,7 +23,13 @@
     <% end %>
 
     <% if SourceFiles.external_stylesheets? %>
-      <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>">
+      <% if @inline %>
+        <style>
+          <%= SourceFiles.external_stylesheets %>
+        </style>
+      <% else %>
+        <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>">
+      <% end %>
     <% end %>
   </head>
   <body>
@@ -45,10 +53,23 @@
     <% end %>
 
     <% if SourceFiles.external_javascripts? %>
-      <script src="<%= path_for("external-javascripts.js") %>"></script>
+      <% if @inline %>
+        <script>
+          <%= SourceFiles.external_javascripts %>
+        </style>
+      <% else %>
+        <script src="<%= path_for("external-javascripts.js") %>"></script>
+      <% end %>
+    <% end %>
+    
+    <% if @inline %>
+      <script>
+        <%= @index_js %>
+      </script>
+    <% else %>
+      <script src="<%= path_for("index.js") %>"></script>
     <% end %>
 
-    <script src="<%= path_for("index.js") %>"></script>
     <noscript>
       This application requires JavaScript.
     </noscript>
