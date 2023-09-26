@@ -18,7 +18,6 @@ module Mint
 
     @sockets = [] of HTTP::WebSocket
 
-    getter ast : Ast = Ast.new
     getter script : String?
 
     def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
@@ -30,85 +29,40 @@ module Mint
 
       workspace = Workspace.current
       workspace.format = auto_format
-
-      init(workspace)
+      workspace.check_env = true
+      workspace.check_everything = false
 
       workspace.on "change" do |result|
-        update result
-        notify
+        case result
+        when Ast
+          # Compile.
+          @script = Compiler.compile workspace.type_checker.artifacts, {
+            css_prefix:     workspace.json.application.css_prefix,
+            web_components: workspace.json.web_components,
+            relative:       false,
+            optimize:       false,
+            build:          false,
+          }
+
+          @artifacts = workspace.type_checker.artifacts
+          @error = nil
+        when Error
+          @error = result.to_html
+          @artifacts = nil
+          @script = nil
+        end
+
+        # Notifies all connected sockets to reload the page.
+        @sockets.each(&.send("reload"))
       end
 
+      # Do the initial parsing and type checking.
+      workspace.update_cache
       workspace.watch
 
-      watch_for_changes
       setup_kemal
 
       Server.run "Development", @host, @port
-    end
-
-    def init(workspace)
-      prefix = "#{COG} Parsing files"
-      line = ""
-
-      elapsed = Time.measure do
-        workspace.initialize_cache do |_, index, size|
-          counter =
-            "#{index} / #{size}".colorize.mode(:bold)
-
-          line =
-            "#{prefix}: #{counter}".ljust(line.size)
-
-          terminal.io.print("#{line}\r")
-          terminal.io.flush
-        end
-      end
-
-      elapsed = TimeFormat.auto(elapsed).colorize.mode(:bold)
-      terminal.io.puts "#{prefix}... #{elapsed}".ljust(line.size)
-
-      @ast = workspace.ast
-      compile_script
-    rescue error : Error
-      @error = error.to_html
-    end
-
-    def update(result)
-      case result
-      when Ast
-        @ast = result
-        @error = nil
-        compile_script
-      when Error
-        @error = result.to_html
-      end
-    end
-
-    def compile_script
-      # Fetch options from the applications
-      json =
-        MintJson.parse_current
-
-      # Create a brand new TypeChecker.
-      type_checker =
-        TypeChecker.new(ast, web_components: json.web_components.keys)
-
-      # Type check.
-      type_checker.check
-
-      # Compile.
-      @script = Compiler.compile type_checker.artifacts, {
-        css_prefix:     json.application.css_prefix,
-        web_components: json.web_components,
-        relative:       false,
-        optimize:       false,
-        build:          false,
-      }
-      @artifacts = type_checker.artifacts
-      @error = nil
-    rescue error : Error
-      @error = error.to_html
-      @artifacts = nil
-      @script = nil
     end
 
     def live_reload
@@ -227,28 +181,6 @@ module Mint
 
         socket.on_close do
           @sockets.delete(socket)
-        end
-      end
-    end
-
-    # Notifies all connected sockets to reload the page.
-    def notify
-      @sockets.each(&.send("reload"))
-    end
-
-    # Sets up watchers to detect changes
-    def watch_for_changes
-      Env.env.try do |file|
-        spawn do
-          Watcher.watch([file]) do
-            Env.load do
-              terminal.measure "#{COG} Environment variables changed, recompiling..." do
-                compile_script
-              end
-
-              notify
-            end
-          end
         end
       end
     end

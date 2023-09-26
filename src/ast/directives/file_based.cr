@@ -49,6 +49,9 @@ module Mint
 
       class Svg < FileBased
       end
+
+      class HighlightFile < FileBased
+      end
     end
   end
 end

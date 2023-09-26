@@ -48,14 +48,30 @@ module Mint
         description: "Will use supplied runtime path instead of the default distribution",
         required: false
 
-      define_argument test : String
+      define_flag watch : Bool,
+        description: "Watch files for changes and rerun tests",
+        required: false
+
+      define_argument test : String,
+        description: "The path to the test file to run"
 
       def run
-        succeeded = nil
-        execute "Running Tests" do
-          succeeded = TestRunner.new(flags, arguments).run
+        MintJson.parse_current.check_dependencies!
+
+        runner =
+          TestRunner.new(flags, arguments)
+
+        if flags.watch
+          runner.watch
+        else
+          succeeded = nil
+
+          execute "Running Tests" do
+            succeeded = runner.run
+          end
+
+          exit(1) unless succeeded
         end
-        exit(1) unless succeeded
       end
     end
   end

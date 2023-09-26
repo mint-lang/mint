@@ -30,7 +30,8 @@ module Mint
         when '`'
           js
         when '@'
-          documentation_directive ||
+          highlight_file_directive ||
+            documentation_directive ||
             highlight_directive ||
             format_directive ||
             inline_directive ||

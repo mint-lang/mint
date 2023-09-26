@@ -184,8 +184,14 @@ module Mint
       header =
         "#{header_start}#{title_colorized}"
 
+      header_divider_width =
+        [
+          header.uncolorize.size - (gutter_width + 1),
+          relevant_lines.max_of(&.size) + 1,
+        ].max
+
       header_divider =
-        "#{gutter_divider}├" + ("─" * (header.uncolorize.size - (gutter_width + 1)))
+        "#{gutter_divider}├" + ("─" * header_divider_width)
 
       result =
         result.join('\n')

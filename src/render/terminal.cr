@@ -247,6 +247,10 @@ module Mint
         print contents.to_s
       end
 
+      def reset
+        print "\ec"
+      end
+
       def puts(contents = nil)
         print contents if contents
         print "\n"

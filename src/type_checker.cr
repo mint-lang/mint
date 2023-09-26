@@ -50,6 +50,7 @@ module Mint
     ] of Checkable
 
     getter records, artifacts, formatter, web_components
+    getter? check_everything
 
     property? checking = true
 
@@ -71,7 +72,7 @@ module Mint
 
     @stack = [] of Ast::Node
 
-    def initialize(ast : Ast, @check_env = true, @web_components = [] of String)
+    def initialize(ast : Ast, @check_env = true, @web_components = [] of String, @check_everything = true)
       ast.normalize
 
       @languages = ast.unified_locales.map(&.language)
