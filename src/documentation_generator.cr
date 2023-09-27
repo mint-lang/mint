@@ -136,9 +136,6 @@ module Mint
         .select(&.path.includes?("/docs-html/"))
         .each { |file|
           content = file.gets_to_end
-          if file.path.includes?("fonts.css")
-            content = content.gsub(/\{base_url\}/, @base)
-          end
           basename = Path[file.path].basename
           path = Path[@output_dir, "assets", basename].to_s
           File.write(path, content)
@@ -270,7 +267,7 @@ module Mint
     end
 
     def page_url(category : String, page : String)
-      "#{base_url}#{category}/#{page}"
+      "#{base_url}#{category}/#{page}.html"
     end
 
     def anchor_url(node)
