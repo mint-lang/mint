@@ -1,6 +1,3 @@
-hljs.configure({ languages: ["mint"] });
-hljs.highlightAll();
-
 document.getElementById("toc-mobile").addEventListener("click", (e) => {
   toc.classList.add("toc--open");
 });

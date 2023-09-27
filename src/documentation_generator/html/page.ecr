@@ -9,18 +9,14 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="<%= @base %>favicon"
+      href="<%= base_url %>assets/favicon.png"
     />
     <meta
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
       name="viewport"
     />
-    <link
-      rel="stylesheet"
-      media="screen"
-      href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700|Source+Code+Pro:400,600|M+PLUS+Rounded+1c:500,700&amp;display=swap"
-    />
-    <link rel="stylesheet" href="<%= @base %>app.css"></style>
+    <link rel="stylesheet" href="<%= base_url %>assets/fonts.css"></style>
+    <link rel="stylesheet" href="<%= base_url %>assets/app.css"></style>
   </head>
   <body>
     <article>
@@ -159,8 +155,6 @@
         </div>
       </div>
     </article>
-    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.1.0/build/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mint-lang/highlightjs-mint/dist/mint.min.js"></script>
-    <script src="<%= @base %>app.js"></script>
+    <script src="<%= base_url %>assets/app.js"></script>
   </body>
 </html>

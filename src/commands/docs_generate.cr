@@ -13,7 +13,8 @@ module Mint
       define_flag git_ref : String,
         description: "The git reference",
         required: false,
-        default: ""
+        default: "master",
+        short: "r"
 
       define_flag output_dir : String,
         description: "The output directory",

@@ -9,10 +9,10 @@ html {
 }
 
 body {
-  font-family: Open Sans;
+  font-family: Noto Sans;
   flex-direction: column;
   overflow-y: scroll;
-  background: #fff;
+  background: whitesmoke;
   min-height: 100vh;
   display: flex;
   color: #444;
@@ -72,7 +72,7 @@ article {
 .guide .guide-content h3,
 .guide .guide-content h4,
 .guide .guide-content h5 {
-  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-family: "Courgette", sans-serif;
   font-weight: 700;
   line-height: 1.5;
   color: #333;
@@ -82,7 +82,7 @@ article {
 
 .guide .guide-content h1 {
   position: relative;
-  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 3px dashed rgba(0, 0, 0, 0.1);
   padding-bottom: 0.3em;
   font-size: 2em;
 }
@@ -112,7 +112,7 @@ article {
 }
 
 .guide .guide-content h2 {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.1);
   padding-bottom: 0.3em;
   margin-top: 2em;
   font-size: 1.5em;
@@ -148,7 +148,7 @@ article {
   padding-left: 30px;
 }
 
-.guide .guide-content code:not(.hljs) {
+.guide .guide-content code:not(.language-mint) {
   white-space: pre;
   background: #eee;
   padding: 3px 6px;
@@ -156,7 +156,6 @@ article {
 }
 
 .guide .guide-content code {
-  font-family: Source Code Pro;
 }
 
 .guide .guide-content pre {
@@ -167,7 +166,7 @@ article {
   padding: 10px;
 }
 
-.guide .guide-content pre code:not(.hljs) {
+.guide .guide-content pre code:not(.language-mint) {
   background: transparent;
   color: transparent;
 }
@@ -206,7 +205,7 @@ article {
   width: 24px;
 }
 
-.guide .guide-content p.hint code:not(.hljs) {
+.guide .guide-content p.hint code:not(.language-mint) {
   background: #ddd;
 }
 
@@ -333,7 +332,7 @@ article {
 }
 
 .toc__wrapper {
-  border-right: 1px solid #eee;
+  border-right: 2px dashed #eee;
   transition: transform 320ms;
   box-sizing: border-box;
   padding-right: 50px;
@@ -585,7 +584,7 @@ article {
   margin-bottom: 0;
 }
 
-.entity__body .hljs {
+.entity__body .language-mint {
   max-width: 880px;
   font-size: 16px;
   line-height: 1.5;
@@ -593,7 +592,7 @@ article {
 }
 
 @media (max-width: 1000px) {
-  .entity__body .hljs {
+  .entity__body .language-mint {
     max-width: calc(100vw - 90px);
   }
 }
@@ -638,7 +637,7 @@ article {
 }
 
 .entity__default--block {
-  font-family: Source Code Pro;
+  font-family: monospace;
   display: inline-block;
   white-space: pre-wrap;
   padding-right: 50px;
@@ -647,7 +646,7 @@ article {
 }
 
 .entity__signature {
-  font-family: Source Code Pro;
+  font-family: monospace;
   align-items: center;
   font-size: 18px;
   display: flex;
@@ -662,7 +661,6 @@ article {
 a.github-source-link.github-source-link {
   background: white;
   color: #999;
-  font-family: Source Code Pro;
   font-size: 18px;
   font-weight: normal;
   position: absolute;
@@ -705,93 +703,93 @@ svg {
   max-width: 100%;
 }
 
-.hljs {
+.language-mint {
   filter: saturate(2);
   scrollbar-color: #878d99 #282c34;
   scrollbar-width: thin;
 }
 
-pre code.hljs {
+pre code.language-mint {
   display: block;
   overflow-x: auto;
   padding: 1em;
 }
 
-code.hljs {
+code.language-mint {
   padding: 3px 5px;
 }
 
-.hljs {
+.language-mint {
   color: #abb2bf;
   background: #282c34;
 }
 
-.hljs-comment,
-.hljs-quote {
+.language-mint .comment,
+.language-mint .quote {
   color: #5c6370;
   font-style: italic;
 }
 
-.hljs-doctag,
-.hljs-formula,
-.hljs-keyword {
+.language-mint .doctag,
+.language-mint .formula,
+.language-mint .keyword {
   color: #c678dd;
 }
 
-.hljs-deletion,
-.hljs-name,
-.hljs-section,
-.hljs-selector-tag,
-.hljs-subst {
+.language-mint .deletion,
+.language-mint .name,
+.language-mint .section,
+.language-mint .selector-tag,
+.language-mint .subst {
   color: #e06c75;
 }
 
-.hljs-literal {
+.language-mint .literal {
   color: #56b6c2;
 }
 
-.hljs-addition,
-.hljs-attribute,
-.hljs-meta .hljs-string,
-.hljs-regexp,
-.hljs-string {
+.language-mint .addition,
+.language-mint .attribute,
+.language-mint .meta .language-mint .string,
+.language-mint .regexp,
+.language-mint .string {
   color: #98c379;
 }
 
-.hljs-attr,
-.hljs-number,
-.hljs-selector-attr,
-.hljs-selector-class,
-.hljs-selector-pseudo,
-.hljs-template-variable,
-.hljs-type,
-.hljs-variable {
+.language-mint .attr,
+.language-mint .number,
+.language-mint .selector-attr,
+.language-mint .selector-class,
+.language-mint .selector-pseudo,
+.language-mint .template-variable,
+.language-mint .type,
+.language-mint .variable {
   color: #d19a66;
 }
 
-.hljs-bullet,
-.hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-symbol,
-.hljs-title {
+.language-mint .bullet,
+.language-mint .link,
+.language-mint .meta,
+.language-mint .selector-id,
+.language-mint .symbol,
+.language-mint .title {
   color: #61aeee;
 }
 
-.hljs-built_in,
-.hljs-class .hljs-title,
-.hljs-title.class_ {
+.language-mint .built_in,
+.language-mint .class .language-mint .title,
+.language-mint .title.class_ {
   color: #e6c07b;
 }
 
-.hljs-emphasis {
+.language-mint .emphasis {
   font-style: italic;
 }
 
-.hljs-strong {
+.language-mint .strong {
   font-weight: 700;
 }
 
-.hljs-link {
+.language-mint .link {
   text-decoration: underline;
 }

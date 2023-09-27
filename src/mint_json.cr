@@ -1188,8 +1188,6 @@ module Mint
 
       user, repo = SourceUrl.parse_user_and_repo(@source_url)
 
-      puts "user: #{user}, repo: #{repo}"
-
       error! :mint_json_source_url_invalid do
         block do
           text "The"
@@ -1202,30 +1200,6 @@ module Mint
 
         snippet node(location)
       end if user.empty? || repo.empty?
-
-      error! :mint_json_source_url_invalid do
-        block do
-          text "The"
-          bold "source-url"
-          text "field in the"
-          bold "mint.json"
-          text "file is empty:"
-        end
-
-        snippet node(location)
-      end if @name.empty?
-    rescue exception : JSON::ParseException
-      error! :mint_json_source_url_not_string do
-        block do
-          text "The"
-          bold "source-url"
-          text "field in the"
-          bold "mint.json"
-          text "file is not a string."
-        end
-
-        snippet node(exception)
-      end
     end
 
     def check_dependencies!

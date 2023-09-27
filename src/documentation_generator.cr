@@ -100,7 +100,6 @@ module Mint
     @git_root : String = ""
 
     def initialize(@mint_json : MintJson, @ast : Ast, @output_dir : String, @base : String, @git_ref : String)
-      @git_ref ||= parse_git_ref
       @git_root = parse_git_root
       @pages = {
         "components" => @ast.components.map(&.name.value).sort!,
@@ -126,16 +125,24 @@ module Mint
 
     def generate
       Dir.mkdir_p("#{@output_dir}")
+      Dir.mkdir_p("#{@output_dir}/assets")
       write_assets()
       write_readme()
       write_pages()
     end
 
     def write_assets
-      ["app.css", "app.js", "favicon.png"].each { |asset|
-        content = Assets.get("docs-html/#{asset}").gets_to_end
-        File.write("#{@output_dir}/#{asset}", content)
-      }
+      Assets.files
+        .select(&.path.includes?("/docs-html/"))
+        .each{|file|
+          content = file.gets_to_end
+          if file.path.includes?("fonts.css")
+            content = content.gsub(/\{base_url\}/, @base)
+          end
+          basename = Path[file.path].basename
+          path = Path[@output_dir, "assets", basename].to_s
+          File.write(path, content)
+        }
     end
 
     def write_pages
@@ -196,8 +203,20 @@ module Mint
         rescue
           "# Could not find a #{path} file"
         end
+      
+      markdown = Markd.to_html(content)
 
-      Markd.to_html(content)
+      highlight_markdown(markdown)
+    end
+
+    def highlight_markdown(markdown : String)
+      markdown.gsub(/<code class="language-mint">((.|\n)*)<\/code>/) {
+        html = HTML.unescape($1)
+
+        tokenized = SemanticTokenizer.highlight(html, "example.mint", true)
+
+        "<code class=\"hljs language-mint\">#{tokenized}</code>"
+      }
     end
 
     def source(node : Ast::Node) : String
@@ -238,30 +257,7 @@ module Mint
       end
     end
 
-    def parse_git_current_branch
-      if is_git_repo
-        `git rev-parse --abbrev-ref HEAD`.strip
-      else
-        ""
-      end
-    end
-
-    def parse_git_ref : String
-      if is_git_repo
-        refs = `git tag -l | sort -V`.split.reverse_each { |t| t.strip != "" }
-        ref = refs.try(&.last) || ""
-
-        if ref.empty?
-          parse_git_current_branch
-        else
-          ref
-        end
-      else
-        ""
-      end
-    end
-
-    def url_base
+    def base_url
       if @base == ""
         "/"
       else
@@ -270,11 +266,11 @@ module Mint
     end
 
     def readme_url
-      "#{url_base}index.html"
+      "#{base_url}index.html"
     end
 
     def page_url(category : String, page : String)
-      "#{url_base}#{category}/#{page}"
+      "#{base_url}#{category}/#{page}"
     end
 
     def anchor_url(node)
@@ -317,7 +313,7 @@ module Mint
       if s_url.empty?
         ""
       else
-        "<a class=\"github-source-link\" href=\"#{s_url}\" />"
+        "<a class=\"github-source-link\" href=\"#{s_url}\"></a>"
       end
     end
   end
