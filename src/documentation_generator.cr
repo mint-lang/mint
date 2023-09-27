@@ -215,7 +215,7 @@ module Mint
 
         tokenized = SemanticTokenizer.highlight(html, "example.mint", true)
 
-        "<code class=\"hljs language-mint\">#{tokenized}</code>"
+        "<code class=\"language-mint\">#{tokenized}</code>"
       }
     end
 

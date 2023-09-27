@@ -15,7 +15,7 @@ body {
   background: whitesmoke;
   min-height: 100vh;
   display: flex;
-  color: #444;
+  color: #333;
   margin: 0;
 }
 
@@ -82,7 +82,7 @@ article {
 
 .guide .guide-content h1 {
   position: relative;
-  border-bottom: 3px dashed rgba(0, 0, 0, 0.1);
+  border-bottom: 2px dashed #CCC;
   padding-bottom: 0.3em;
   font-size: 2em;
 }
@@ -112,7 +112,7 @@ article {
 }
 
 .guide .guide-content h2 {
-  border-bottom: 2px dashed rgba(0, 0, 0, 0.1);
+  border-bottom: 2px dashed #CCC;
   padding-bottom: 0.3em;
   margin-top: 2em;
   font-size: 1.5em;
@@ -153,22 +153,6 @@ article {
   background: #eee;
   padding: 3px 6px;
   border-radius: 2px;
-}
-
-.guide .guide-content code {
-}
-
-.guide .guide-content pre {
-  background: #252d3c;
-  border-radius: 5px;
-  line-height: 1.5;
-  font-size: 16px;
-  padding: 10px;
-}
-
-.guide .guide-content pre code:not(.language-mint) {
-  background: transparent;
-  color: transparent;
 }
 
 .guide .guide-content b,
@@ -246,7 +230,7 @@ article {
 }
 
 .guide .guide-content table tr + tr td {
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ccc;
 }
 
 .guide .guide-content table thead th {
@@ -256,7 +240,7 @@ article {
 }
 
 .guide .guide-content blockqoute {
-  border-left: 4px solid #eee;
+  border-left: 4px solid #ccc;
   display: block;
   padding: 20px;
   color: #666;
@@ -265,7 +249,7 @@ article {
 .guide .guide-content hr {
   margin: 30px 0;
   border: 0;
-  border-top: 3px double #eee;
+  border-top: 3px double #ccc;
 }
 
 .guide {
@@ -298,19 +282,15 @@ article {
 }
 
 .page__package {
-  border-bottom: 2px dashed rgba(0, 0, 0, 0.1);
+  border-bottom: 2px dashed #CCC;
+  font-family: Courgette;
+  font-size: 2em;
+  line-height: 1.5;
+  padding-bottom: 0.3em;
 }
 
 .page__package strong {
   font-weight: 600;
-  font-size: 24px;
-}
-
-.page__package p {
-  margin: 0;
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: #999;
 }
 
 @media (max-width: 1200px) {
@@ -332,7 +312,7 @@ article {
 }
 
 .toc__wrapper {
-  border-right: 2px dashed #eee;
+  border-right: 2px dashed #ccc;
   transition: transform 320ms;
   box-sizing: border-box;
   padding-right: 50px;
@@ -377,7 +357,7 @@ article {
   padding-left: 15px;
   margin-left: 5px;
   margin-top: 7px;
-  border-left: 1px dashed #ccc;
+  border-left: 2px dashed #ccc;
 }
 
 .toc__section {
@@ -688,7 +668,7 @@ a.github-source-link:hover {
 }
 
 .input-search input {
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid #CCC;
   padding: 0 10px;
   height: 36px;
   width: 100%;
@@ -703,83 +683,44 @@ svg {
   max-width: 100%;
 }
 
-.language-mint {
-  filter: saturate(2);
-  scrollbar-color: #878d99 #282c34;
-  scrollbar-width: thin;
+pre {
+  border: 1px dashed currentColor;
+  background: #FCFCFC;
+  position: relative;
+  min-width: 600px;
+  font-size: 16px;
+  margin: 0;
+  outline: 1px solid #CCC;
+  outline-offset: 3px;
 }
 
-pre code.language-mint {
+pre code {
+  background: white;
+  color: #333;
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  padding: 15px;
 }
 
-code.language-mint {
-  padding: 3px 5px;
-}
-
-.language-mint {
-  color: #abb2bf;
-  background: #282c34;
-}
-
-.language-mint .comment,
-.language-mint .quote {
+.language-mint .comment {
   color: #5c6370;
   font-style: italic;
 }
 
-.language-mint .doctag,
-.language-mint .formula,
 .language-mint .keyword {
-  color: #c678dd;
+  color: darkmagenta;
 }
 
-.language-mint .deletion,
-.language-mint .name,
-.language-mint .section,
-.language-mint .selector-tag,
-.language-mint .subst {
-  color: #e06c75;
+.language-mint .namespace {
+  color: orangered;
 }
 
-.language-mint .literal {
-  color: #56b6c2;
-}
-
-.language-mint .addition,
-.language-mint .attribute,
-.language-mint .meta .language-mint .string,
-.language-mint .regexp,
 .language-mint .string {
-  color: #98c379;
+  color: seagreen;
 }
 
-.language-mint .attr,
-.language-mint .number,
-.language-mint .selector-attr,
-.language-mint .selector-class,
-.language-mint .selector-pseudo,
-.language-mint .template-variable,
-.language-mint .type,
-.language-mint .variable {
-  color: #d19a66;
-}
-
-.language-mint .bullet,
-.language-mint .link,
-.language-mint .meta,
-.language-mint .selector-id,
-.language-mint .symbol,
-.language-mint .title {
-  color: #61aeee;
-}
-
-.language-mint .built_in,
-.language-mint .class .language-mint .title,
-.language-mint .title.class_ {
-  color: #e6c07b;
+.language-mint .type {
+  color: royalblue;
 }
 
 .language-mint .emphasis {
