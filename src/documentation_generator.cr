@@ -134,7 +134,7 @@ module Mint
     def write_assets
       Assets.files
         .select(&.path.includes?("/docs-html/"))
-        .each{|file|
+        .each { |file|
           content = file.gets_to_end
           if file.path.includes?("fonts.css")
             content = content.gsub(/\{base_url\}/, @base)
@@ -203,7 +203,7 @@ module Mint
         rescue
           "# Could not find a #{path} file"
         end
-      
+
       markdown = Markd.to_html(content)
 
       highlight_markdown(markdown)
