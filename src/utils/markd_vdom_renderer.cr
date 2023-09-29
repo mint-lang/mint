@@ -69,7 +69,30 @@ module Mint
 
       tag("pre")
       tag("code", code_attributes)
-      @io << '`' << node.text.gsub('`', "\\`").strip << '`'
+
+      if language == "mint"
+        parser = Parser.new(node.text, "source.mint")
+        parser.parse_any
+
+        parts =
+          SemanticTokenizer.tokenize(parser.ast)
+
+        parts.map_with_index do |item, index|
+          case item
+          in String
+            @io << '`' << item.gsub('`', "\\`") << '`'
+          in Tuple(SemanticTokenizer::TokenType, String)
+            tag("span", {"className" => item[0].to_s.underscore})
+            @io << '`' << item[1].gsub('`', "\\`") << '`'
+            tag_end
+          end
+
+          @io << ','
+        end
+      else
+        @io << '`' << node.text.gsub('`', "\\`").strip << '`'
+      end
+
       tag_end
       tag_end(node)
     end
