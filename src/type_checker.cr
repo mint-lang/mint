@@ -110,6 +110,7 @@ module Mint
       ast.type_definitions.each do |definition|
         next if definition.fields.is_a?(Array(Ast::TypeVariant))
         value = check(definition)
+        cache[definition] = value
         check! definition
         add_record(value, definition)
       end
