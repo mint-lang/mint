@@ -1,6 +1,6 @@
 # Locale
 
-This feature of the language allows specifing localization tokens and values for languages indentified by [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) codes.
+This feature of the language allows specifying localization tokens and values for languages identified by [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) codes.
 
 ```mint
 locale en {
