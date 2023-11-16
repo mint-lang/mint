@@ -77,7 +77,7 @@ module Mint
         parts =
           SemanticTokenizer.tokenize(parser.ast)
 
-        parts.map_with_index do |item, index|
+        parts.each_with_index do |item, index|
           case item
           in String
             @io << '`' << item.gsub('`', "\\`") << '`'
