@@ -147,3 +147,14 @@ suite "Dom.focusWhenVisible" {
     |> Test.Html.assertActiveElement("#input")
   }
 }
+
+suite "Dom.getChildren" {
+  test "it returns children" {
+    <Test.Dom.Focus/>
+    |> Test.Html.start()
+    |> Test.Context.assert(
+      (element : Dom.Element) {
+        Array.size(Dom.getChildren(element)) == 3
+      })
+  }
+}

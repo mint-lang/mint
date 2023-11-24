@@ -1,0 +1,37 @@
+component Main {
+  fun render : Array(Html) {
+    for (item, index of ["A", "B"]) {
+      <div>
+        item
+      </div>
+    } when {
+      index == 10
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  compare as B
+} from "./runtime.js";
+
+export const A = () => {
+  return (() => {
+    const _0 = [];
+    const _1 = [
+      `A`,
+      `B`
+    ];
+    let _i = -1;
+    for (let a of _1) {
+      _i++;
+      const b = _i;
+      const _2 = B(b, 10);
+      if (!_2) {
+        continue
+      };
+      _0.push(C(`div`, {}, [a]))
+    };
+    return _0
+  })()
+};

@@ -5,7 +5,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless word! "module"
+        next unless keyword! "module"
         whitespace
 
         next error :module_expected_name do

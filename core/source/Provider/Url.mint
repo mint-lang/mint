@@ -24,11 +24,8 @@ provider Provider.Url : Provider.Url.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("popstate", false, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next { listener: Maybe.Just(Window.addEventListener("popstate", false, handle)) }
       }
     }
   }

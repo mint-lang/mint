@@ -16,7 +16,7 @@ module Window {
     `
     (() => {
       const listener = (event) => {
-        #{listener}(_normalizeEvent(event))
+        #{listener}(#{%normalizeEvent%}(event))
       }
 
       window.addEventListener(#{type}, listener, #{capture});
@@ -40,7 +40,6 @@ module Window {
       const query = window.matchMedia(#{query});
       const listener = (event) => #{listener}(query.matches);
       query.addListener(listener)
-      #{listener}(query.matches)
       return () => query.removeListener(listener);
     })()
     `
@@ -78,9 +77,9 @@ module Window {
       let result = window.confirm(#{message})
 
       if (result) {
-        resolve(#{Result::Ok(`result`)})
+        resolve(#{Result.Ok(`result`)})
       } else {
-        resolve(#{Result::Err("User cancelled!")})
+        resolve(#{Result.Err("User cancelled!")})
       }
     })
     `
@@ -170,7 +169,7 @@ module Window {
     Window.jump("/new-url")
   */
   fun jump (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ true,
       /* triggerJump */ true,
@@ -194,7 +193,7 @@ module Window {
     Window.navigate("/new-url")
   */
   fun navigate (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ true,
       /* triggerJump */ false,
@@ -217,11 +216,11 @@ module Window {
 
   This function returns the entered text as a `Maybe(String)` and blocks
   execution until the popup is closed. If the user cancelled the popup it
-  returns `Maybe::Nothing`.
+  returns `Maybe.Nothing`.
 
     case (Window.prompt("How old are you?")) {
-      Maybe::Just(value) => Debug.log(value)
-      Maybe::Nothing => Debug.log("User cancelled")
+      Maybe.Just(value) => Debug.log(value)
+      Maybe.Nothing => Debug.log("User cancelled")
     }
   */
   fun prompt (label : String, current : String = "") : Promise(Maybe(String)) {
@@ -230,9 +229,9 @@ module Window {
       let result = window.prompt(#{label}, #{current})
 
       if (result !== null) {
-        resolve(#{Maybe::Just(`result`)})
+        resolve(#{Maybe.Just(`result`)})
       } else {
-        resolve(#{Maybe::Nothing})
+        resolve(#{Maybe.Nothing})
       }
     })
     `
@@ -329,7 +328,7 @@ module Window {
     Window.setUrl("/new-url")
   */
   fun setUrl (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ false,
       /* triggerJump */ false,

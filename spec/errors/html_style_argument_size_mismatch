@@ -8,9 +8,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-░ ERROR (HTML_STYLE_ARGUMENT_SIZE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░ ERROR (CALL_ARGUMENT_SIZE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-The style call takes 2 arguments, while you tried to call it with 1:
+The function you called takes 2 arguments, while you tried to call it with 1.
+
+The type of the function is:
+
+  Function(
+    name: String,
+    active: Bool,
+    Void)
+
+The call in question is here:
 
     ┌ ./spec/errors/html_style_argument_size_mismatch:7:9
     ├────────────────────────────────────────────────────

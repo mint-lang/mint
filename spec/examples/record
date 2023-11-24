@@ -1,5 +1,5 @@
 --------------------------------------------------------------record_with_holes
-record Test {
+type Test {
   a : Array(a),
   b : Number
 }
@@ -9,7 +9,7 @@ component Main {
 
   fun render : Html {
     <div>
-      <{ data.name }>
+      data.name
     </div>
   }
 }
@@ -19,7 +19,7 @@ component Test {
 
   fun render : Html {
     <div>
-      <{ data.name }>
+      data.name
     </div>
   }
 }
@@ -59,7 +59,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   string : String
 }
 
@@ -69,7 +69,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   a : String,
   b : Number
 }
@@ -87,7 +87,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record A {
+type A {
   name : String
 }
 
@@ -96,12 +96,12 @@ component Main {
 
   fun render : Html {
     <div>
-      <{ data.name }>
+      data.name
     </div>
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   a : String,
   b : Number
 }
@@ -119,12 +119,12 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   a : String,
   b : Number
 }
 
-record Test2 {
+type Test2 {
   a : String,
   b : Number
 }
@@ -142,12 +142,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-record Test {
+type Test {
   a : String,
   b : Number
 }
 
-record Test2 {
+type Test2 {
   a : String,
   b : Number
 }

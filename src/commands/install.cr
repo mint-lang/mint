@@ -3,10 +3,10 @@ module Mint
     class Install < Admiral::Command
       include Command
 
-      define_help description: "Installs dependencies"
+      define_help description: "Installs dependencies."
 
       def run
-        execute "Installing dependencies" do
+        execute "Installing dependencies." do
           Installer.new
         end
       end

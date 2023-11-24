@@ -1,5 +1,5 @@
 /* Some comment. */
-record Article {
+type Article {
   id : Number,
   description : String,
   title : String
@@ -37,16 +37,16 @@ record Article {
     "data": [
       0,
       0,
-      20,
+      19,
       5,
       0,
       1,
       0,
-      6,
+      4,
       4,
       0,
       0,
-      7,
+      5,
       7,
       1,
       0,

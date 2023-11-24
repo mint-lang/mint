@@ -1,11 +1,11 @@
-enum A {
+type A {
   B(name : String, color : String)
   C
 }
 
 component Main {
   const X =
-    A::B(
+    A.B(
       color: "Blue",
       name: "Joe",
     )

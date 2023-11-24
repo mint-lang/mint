@@ -21,8 +21,6 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       } when {
         subscription.element == activeElement
       }
-    } else {
-      []
     }
   }
 
@@ -37,8 +35,6 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       } when {
         subscription.element == target
       }
-    } else {
-      []
     }
   }
 
@@ -48,7 +44,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
       Maybe.map(
         listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
-          let #(keyDownListener, keyUpListener) =
+          let {keyDownListener, keyUpListener} =
             methods
 
           keyDownListener()
@@ -57,19 +53,16 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
 
       next { listeners: Maybe.Nothing }
     } else {
-      case listeners {
-        Maybe.Nothing =>
-          next
-            {
-              listeners:
-                Maybe.Just(
-                  #(
-                    Window.addEventListener("keydown", true, handleKeyDown),
-                    Window.addEventListener("keyup", true, handleKeyUp)
-                  ))
-            }
-
-        => next { }
+      if listeners == Maybe.Nothing {
+        next
+          {
+            listeners:
+              Maybe.Just(
+                {
+                  Window.addEventListener("keydown", true, handleKeyDown),
+                  Window.addEventListener("keyup", true, handleKeyUp)
+                })
+          }
       }
     }
   }

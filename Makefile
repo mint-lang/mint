@@ -23,7 +23,7 @@ test: spec ameba
 
 .PHONY: test-core
 test-core: build
-	cd core/tests && ../../bin/mint test -b firefox
+	cd core/tests && ../../bin/mint test -b chrome
 
 .PHONY: development
 development: build
@@ -37,6 +37,17 @@ local: build
 documentation:
 	rm -rf docs && crystal docs
 
-# This builds the binary and depends on files in "src" and "core" directories.
-bin/mint: $(shell find src -type f) $(shell find core/source -type f)
+src/assets/runtime.js: $(shell find runtime/src -type f)
+	cd runtime && make index
+
+src/assets/runtime_test.js: $(shell find runtime/src -type f)
+	cd runtime && make index_testing
+
+# This builds the binary and depends on files in some directories.
+bin/mint: \
+	$(shell find core/source -type f) \
+	$(shell find runtime/src -type f) \
+	$(shell find src -type f) \
+	src/assets/runtime_test.js \
+	src/assets/runtime.js
 	shards build --error-on-warnings --error-trace --progress

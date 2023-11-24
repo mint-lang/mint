@@ -1,0 +1,73 @@
+component Main {
+  state hoverBackground : String = "yellow"
+  state background : String = "blue"
+
+  style test {
+    background: #{background};
+    color: red;
+
+    &:hover {
+      background: #{hoverBackground};
+      color: cyan;
+    }
+
+    &::first-line {
+      text-transform: uppercase;
+    }
+
+    div {
+      font-family: #{"Hello"};
+      color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test {
+  background: var(--a-a);
+  color: red;
+}
+
+.Main_test:hover {
+  background: var(--b-a);
+  color: cyan;
+}
+
+.Main_test::first-line {
+  text-transform: uppercase;
+}
+
+.Main_test div {
+  font-family: var(--c-a);
+  color: blue;
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`yellow`),
+    b = B(`blue`),
+    c = () => {
+      const _ = {
+        [`--a-a`]: b.value,
+        [`--b-a`]: a.value,
+        [`--c-a`]: `Hello`
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([c()])
+  })
+};

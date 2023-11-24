@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    `#{%decodeBoolean%}`
+
+    <div></div>
+  }
+}
+------------------------------------------------------------------unkown_builtin
+component Main {
+  fun render : Html {
+    `#{%wtf%}`
+
+    <div></div>
+  }
+}

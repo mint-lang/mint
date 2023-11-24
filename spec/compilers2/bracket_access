@@ -1,0 +1,43 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1]
+
+    [][1]
+
+    { "key" => "value" }["key"]
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  bracketAccess as E,
+  mapAccess as F,
+  variant as B
+} from "./runtime.js";
+
+export const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    E([
+      `Hello`,
+      `Blah`,
+      `Joe`
+    ], 1, C, A);
+    E([], 1, C, A);
+    F([[
+      `key`,
+      `value`
+    ]], `key`, C, A);
+    return ``
+  };

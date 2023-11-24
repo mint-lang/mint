@@ -1,11 +1,11 @@
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
 
 component Main {
   fun test : String {
-    Maybe::Nothing or "Hello"
+    Maybe.Nothing or "Hello"
   }
 
   fun render : String {

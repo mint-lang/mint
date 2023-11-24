@@ -1,0 +1,28 @@
+component Test {
+  property children : Array(Html) = []
+
+  fun render : Array(Html) {
+    children
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test>""</Test>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  toArray as D
+} from "./runtime.js";
+
+export const
+  A = ({
+    children: a = []
+  }) => {
+    return a
+  },
+  B = () => {
+    return C(A, {}, D(``))
+  };

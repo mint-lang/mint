@@ -1,0 +1,47 @@
+component Main {
+  style base(color : String) {
+    height: 20px;
+
+    if (color == "red") {
+      background: red;
+    } else if (color == "blue") {
+      background: blue;
+    }
+  }
+
+
+  fun render : Html {
+    <div>
+      <div::base("blue")/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_base {
+  height: 20px;
+  background: var(--a-a);
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  compare as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const a = (b) => {
+    const _ = {};
+    (B(b, `red`) ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : (B(b, `blue`) ? Object.assign(_, {
+      [`--a-a`]: `blue`
+    }) : null));
+    return _
+  };
+  return C(`div`, {}, [C(`div`, {
+    className: `Main_base`,
+    style: D([a(`blue`)])
+  })])
+};

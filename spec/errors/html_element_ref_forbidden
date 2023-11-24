@@ -17,6 +17,6 @@ The use of "ref" attribute is forbidden:
   4│   }
   5│ }
 
-If you want to assign a variable to an element, use the as keyword:
+Please use the "as" keyword instead:
 
   <div as myDiv></div>

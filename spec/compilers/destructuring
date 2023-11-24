@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   Item(
     matchString : String,
     content : String,
@@ -9,14 +9,14 @@ enum Test {
 component Main {
   fun content (item : Test) : String {
     case item {
-      Test::Item(content) => content
-      Test::None => ""
+      Test.Item(content) => content
+      Test.None => ""
     }
   }
 
   fun render : String {
     content(
-      Test::Item(
+      Test.Item(
         matchString: "MATCHSTRING",
         content: "CONTENT",
         key: "KEY"))

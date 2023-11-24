@@ -1,0 +1,59 @@
+type Test {
+  Item(
+    matchString : String,
+    content : String,
+    key : String)
+  None
+}
+
+component Main {
+  fun render : String {
+    let item =
+      Test.Item(
+        matchString: "MATCHSTRING",
+        content: "CONTENT",
+        key: "KEY")
+
+    case item {
+      Test.Item(content) => content
+      Test.None => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as I,
+  patternRecord as H,
+  newVariant as E,
+  pattern as G,
+  variant as B,
+  match as F
+} from "./runtime.js";
+
+export const
+  A = B([
+    "matchString",
+    "content",
+    "key"
+  ]),
+  C = B(0),
+  D = () => {
+    const a = E(A)(`MATCHSTRING`, `CONTENT`, `KEY`);
+    return F(a, [
+      [
+        G(A, H([[
+          `content`,
+          I
+        ]])),
+        (b) => {
+          return b
+        }
+      ],
+      [
+        G(C, []),
+        () => {
+          return ``
+        }
+      ]
+    ])
+  };

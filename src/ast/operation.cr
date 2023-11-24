@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Operation < Node
-      getter left, right, operator
+      getter operator, right, left
 
       def initialize(@file : Parser::File,
                      @operator : String,

@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class TypeVariant < Node
-      getter value, comment, parameters
+      getter parameters, comment, value
 
       def initialize(@parameters : Array(Node) | Array(TypeDefinitionField),
                      @file : Parser::File,

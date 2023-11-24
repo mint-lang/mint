@@ -7,6 +7,16 @@ component Main {
 ------------------------------------------------argument_expected_default_value
 component Main {
   fun render (a : String =
+---------------------------------------------------------argument_type_mismatch
+component Main {
+  fun test (a : String = 10) : String {
+    a
+  }
+
+  fun render : String {
+    test("")
+  }
+}
 -------------------------------------------------------------------------------
 component Main {
   fun test (a : String) : String {

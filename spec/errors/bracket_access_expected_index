@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    array[
+--------------------------------------------------------------------------------
+░ ERROR (BRACKET_ACCESS_EXPECTED_INDEX) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the index of a bracket access but I found "a space" instead:
+
+   ┌ ./spec/errors/bracket_access_expected_index:3:10
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     array[
+   │           ⌃⌃⌃⌃

@@ -1,19 +1,23 @@
 module Mint
   class Ast
-    # TODO: Allow multiple comments in this node instead of a single one.
     class Comment < Node
       enum Type
         Inline
         Block
       end
 
-      getter content, type
+      getter content, type, next_comment
 
-      def initialize(@file : Parser::File,
+      def initialize(@next_comment : Comment?,
+                     @file : Parser::File,
                      @content : String,
                      @from : Int64,
                      @type : Type,
                      @to : Int64)
+      end
+
+      def block?
+        type == Type::Block
       end
 
       def to_html

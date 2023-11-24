@@ -1,0 +1,30 @@
+module A {
+  fun a : String {
+    "Hello"
+  }
+
+  fun b : Function(String) {
+    a
+  }
+}
+
+component Main {
+  fun render : String {
+    let a =
+      A.b()
+
+    a()
+  }
+}
+--------------------------------------------------------------------------------
+export const
+  a = () => {
+    return `Hello`
+  },
+  b = () => {
+    return a
+  },
+  A = () => {
+    const c = b();
+    return c()
+  };

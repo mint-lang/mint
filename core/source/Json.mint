@@ -11,9 +11,9 @@ module Json {
     `
     (() => {
       try {
-        return #{Result::Ok(`JSON.parse(#{input})`)}
+        return #{Result.Ok(`JSON.parse(#{input})`)}
       } catch (error) {
-        return #{Result::Err(`error.message`)}
+        return #{Result.Err(`error.message`)}
       }
     })()
     `

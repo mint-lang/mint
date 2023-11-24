@@ -1,0 +1,90 @@
+component First {
+  property prop : String = ""
+
+  fun render : Html {
+    <div>
+      prop
+    </div>
+  }
+}
+
+component Content {
+  property fontSize : Number = 18
+
+  fun render : Html {
+    <div>
+      "#{fontSize}px"
+    </div>
+  }
+}
+
+async component Test {
+  property test : String = ""
+  property test2 : String = ""
+  property test3 : String = ""
+
+  fun render : Html {
+    <Content fontSize={16}/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <First prop="blah"/>
+      <Content/>
+      <Test/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as G,
+  createElement as B,
+  lazy as E
+} from "./runtime.js";
+
+export const
+  A = ({
+    a = ``
+  }) => {
+    return B(`div`, {}, [a])
+  },
+  C = ({
+    b = 18
+  }) => {
+    return B(`div`, {}, [`${b}px`])
+  },
+  D = E(`./1.js`),
+  F = () => {
+    return B(`div`, {}, [
+      B(A, {
+        a: `blah`
+      }),
+      B(C, {}),
+      B(G, {
+        c: [],
+        key: `Test`,
+        p: {},
+        x: D
+      })
+    ])
+  };
+
+---=== /__mint__/1.js ===---
+import { createElement as B } from "./runtime.js";
+
+import { C } from "./index.js";
+
+export const A = ({
+  a = ``,
+  b = ``,
+  c = ``
+}) => {
+  return B(C, {
+    b: 16
+  })
+};
+
+export default A;

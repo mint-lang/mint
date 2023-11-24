@@ -1,8 +1,8 @@
 module Mint
   class Ast
     class Provider < Node
-      getter subscription, functions, name, comment, comments
-      getter gets, states, constants
+      getter subscription, functions, constants, comments
+      getter comment, states, gets, name
 
       def initialize(@functions : Array(Function),
                      @constants : Array(Constant),

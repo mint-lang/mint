@@ -5,7 +5,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless word! "property"
+        next unless keyword! "property"
         whitespace
 
         next error :property_expected_name do

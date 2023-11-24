@@ -10,7 +10,7 @@ component Test.Provider.Scroll {
 
   fun render : Html {
     <div::base>
-      <{ Number.toString(position) }>
+      Number.toString(position)
     </div>
   }
 }

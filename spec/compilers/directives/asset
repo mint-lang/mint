@@ -6,7 +6,7 @@ component Main {
 --------------------------------------------------------------------------------
 class A extends _C {
   render() {
-    return `/assets/icon_c97b81630bc53286dadc8996727d348e.svg`;
+    return `/__mint__/icon_c97b81630bc53286dadc8996727d348e.svg`;
   }
 };
 

@@ -11,7 +11,7 @@ module Test.Context {
   fun assertEqual (context : Test.Context(a), value : a) : Test.Context(a) {
     `
     #{context}.step((subject) => {
-      if (!_compare(#{value}, subject)) {
+      if (!#{%compare%}(#{value}, subject)) {
         throw \`Assertion failed: ${#{value}} === ${subject}\`
       }
       return subject
@@ -61,8 +61,31 @@ module Test.Context {
     #{context}.step((subject) => {
       const actual = #{method}(subject)
 
-      if (!_compare(#{value}, actual)) {
+      if (!#{%compare%}(#{value}, actual)) {
         throw \`Assertion failed: ${actual} === ${#{value}}\`
+      }
+      return subject
+    })
+    `
+  }
+
+  /*
+  Asserts if the given value equals of the returned value from the given
+  function.
+
+    test {
+      Test.Context.of(5)
+      |> Test.Context.assert((value : Number) { value == 5 })
+    }
+  */
+  fun assert (
+    context : Test.Context(a),
+    method : Function(a, bool)
+  ) : Test.Context(a) {
+    `
+    #{context}.step((subject) => {
+      if (!#{method}(subject)) {
+        throw \`Assertion failed!\`
       }
       return subject
     })
@@ -90,7 +113,7 @@ module Test.Context {
     }
   */
   fun of (a : a) : Test.Context(a) {
-    `new TestContext(#{a})`
+    `new #{%testContext%}(#{a})`
   }
 
   /* Spies on the given entity if it's a function. */

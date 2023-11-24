@@ -2,11 +2,19 @@ module Mint
   class TypeChecker
     def check_locale(node : Ast::Locale)
       node.fields.each do |field|
-        check_locale_record(field, nil, node.language)
+        check_locale_record(
+          language: node.language,
+          prefix: nil,
+          node: field)
       end
     end
 
-    def check_locale_record(node : Ast::Field, prefix : String?, language : String)
+    def check_locale_record(
+      *,
+      language : String,
+      node : Ast::Field,
+      prefix : String?
+    )
       return unless key = node.key
 
       field_prefix =
@@ -19,7 +27,10 @@ module Mint
       case item = node.value
       when Ast::Record
         item.fields.each do |field|
-          check_locale_record(field, field_prefix, language)
+          check_locale_record(
+            prefix: field_prefix,
+            language: language,
+            node: field)
         end
       else
         locales[field_prefix] ||= {} of String => Ast::Node

@@ -8,7 +8,7 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (HERE_DOC_INTERPOLATION_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-An interpolation in here document is causing a mismatch.
+An interpolation in a here document is causing a mismatch.
 
 I was expecting:
 

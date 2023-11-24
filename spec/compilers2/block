@@ -1,0 +1,12 @@
+component Main {
+  fun render : String {
+    let a = "Some string..."
+
+    a + ", other string..."
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = `Some string...`;
+  return a + `, other string...`
+};

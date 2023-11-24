@@ -12,9 +12,9 @@ module Mint
         format node.items, mutliline ? ",\n" : ", "
 
       if mutliline || replace_skipped(items).includes?('\n')
-        "#(\n#{indent(items)}\n)"
+        "{\n#{indent(items)}\n}"
       else
-        "#(#{items})"
+        "{#{items}}"
       end
     end
   end

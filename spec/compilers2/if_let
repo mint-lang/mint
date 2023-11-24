@@ -1,0 +1,42 @@
+type T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T.A(a) = T.A("")) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  newVariant as F,
+  pattern as G,
+  variant as B,
+  match as E
+} from "./runtime.js";
+
+export const
+  A = B(1),
+  C = B(0),
+  D = () => {
+    return E(F(A)(``), [
+      [
+        G(A, [H]),
+        (a) => {
+          return a
+        }
+      ],
+      [
+        null,
+        () => {
+          return `b`
+        }
+      ]
+    ])
+  };

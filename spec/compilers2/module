@@ -1,0 +1,23 @@
+module Html.Testing {
+  fun renderAll : Html {
+    <p>
+      "It should work"
+    </p>
+  }
+}
+
+component Main {
+  fun render : Html {
+    Html.Testing.renderAll()
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as A } from "./runtime.js";
+
+export const
+  a = () => {
+    return A(`p`, {}, [`It should work`])
+  },
+  B = () => {
+    return a()
+  };

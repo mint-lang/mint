@@ -35,6 +35,7 @@ module Mint
       (yield position, nodes_size, @errors.size).tap do |node|
         case node
         when Ast::Node
+          ast.nodes[nodes_size..-1].each { |child| child.parent ||= node unless child == node }
           ast.nodes << node if track
         when Nil
           ast.operators.delete_at(operators_size...)
@@ -170,16 +171,16 @@ module Mint
     def word!(expected : String) : Bool
       if word?(expected)
         @position += expected.size
-
-        if expected.chars.all?(&.ascii_lowercase?) &&
-           !expected.blank? &&
-           expected != "or"
-          @ast.keywords << {position - expected.size, position}
-        end
-
         true
       else
         false
+      end
+    end
+
+    # Consumes a word and saves it as a keyword for syntax highlighting.
+    def keyword!(expected : String) : Bool
+      word!(expected).tap do |result|
+        @ast.keywords << {position - expected.size, position} if result
       end
     end
 
@@ -223,7 +224,7 @@ module Mint
           ascii_letters_or_numbers
         end
 
-        next if char == '_'
+        next if char == '_' # If there is an underscore it's a constant...
         next unless name
 
         parse do

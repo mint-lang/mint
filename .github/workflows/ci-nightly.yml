@@ -7,49 +7,6 @@ on:
 
 jobs:
   test:
-    name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: nightly
-
-      - name: Download source
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: shards install
-
-      - name: Run specs
-        run: crystal spec --error-on-warnings --error-trace
-
-      - name: Build the binary
-        run: shards build --error-on-warnings --error-trace
-
-      - name: Run core specs (Firefox)
-        working-directory: ./core/tests
-        run: ../../bin/mint test -b firefox
-
-      - name: Run core specs (Google Chrome)
-        working-directory: ./core/tests
-        run: ../../bin/mint test -b chrome
-
-      - name: Check formatting (Mint)
-        working-directory: ./core
-        run: ../bin/mint format --check
-
-      - name: Check formatting (Mint tests)
-        working-directory: ./core/tests
-        run: ../../bin/mint format --check
-
-      - name: Check formatting (Crystal)
-        run: crystal tool format --check
-
-      - name: Run ameba
-        run: bin/ameba
+    uses: ./.github/workflows/ci-base.yml
+    with:
+      crystal-version: nightly

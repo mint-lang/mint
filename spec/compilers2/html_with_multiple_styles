@@ -1,0 +1,32 @@
+component Main {
+  style one {
+    color: red;
+  }
+
+  style two {
+    color: blue;
+  }
+
+  fun render : Html {
+    <div::one::two>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_one {
+  color: red;
+}
+
+.Main_two {
+  color: blue;
+}
+
+---=== /__mint__/index.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {
+    className: `Main_one Main_two`
+  })
+};

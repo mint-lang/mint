@@ -1,0 +1,51 @@
+component Main {
+  style test {
+    div {
+      color: #{color};
+    }
+
+    &:focus {
+      color: red;
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test div {
+  color: var(--a-a);
+}
+
+.Main_test:focus {
+  color: red;
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as B,
+  style as C
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = () => {
+      return `blue`
+    },
+    b = () => {
+      const _ = {
+        [`--a-a`]: a()
+      };
+      return _
+    };
+  return B(`div`, {
+    className: `Main_test`,
+    style: C([b()])
+  })
+};

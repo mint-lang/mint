@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class HtmlAttribute < Node
-      getter name, value
+      getter value, name
 
       def initialize(@file : Parser::File,
                      @name : Variable,

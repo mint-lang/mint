@@ -13,7 +13,7 @@ global component Notifications {
 component Main {
   fun render : Html {
     <div>
-      <{ Notifications.notify("Hello") }>
+      Notifications.notify("Hello")
     </div>
   }
 }

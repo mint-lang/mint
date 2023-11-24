@@ -9,29 +9,21 @@ type Maybe(a
 ---------------------------------------type_definition_expected_closing_bracket
 type Maybe(a) {
   Nothing
---------------------------------------------------type_definition_expected_name
-enum
------------------------------------type_definition_expected_closing_parenthesis
-enum Test (
--------------------------------------------------------------------------------
-enum Test
----------------------------------------type_definition_expected_closing_bracket
-enum Test {
 -----------------------------------------------type_definition_unused_parameter
-enum A(a, b, c) {
+type A(a, b, c) {
   B
   C
 }
 ------------------------------------------type_definition_not_defined_parameter
-enum A {
+type A {
   B(a)
 }
 ------------------------------------------type_definition_not_defined_parameter
-enum A {
+type A {
   B(Maybe(a))
 }
 -------------------------------------------------------------------------------
-enum Result(error, value) {
+type Result(error, value) {
   Error(error)
   Ok(value)
 }

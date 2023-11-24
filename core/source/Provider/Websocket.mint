@@ -57,22 +57,21 @@ provider Provider.WebSocket : WebSocket.Config {
           memo : Map(String, WebSocket),
           config : WebSocket.Config
         ) {
-          case Map.get(connections, config.url) {
-            Maybe.Nothing =>
-              Map.set(
-                memo,
-                config.url,
-                WebSocket.open(
-                  {
-                    onMessage: (message : String) { onMessage(config.url, message) },
-                    onOpen: (socket : WebSocket) { onOpen(config.url, socket) },
-                    onClose: () { onClose(config.url) },
-                    onError: () { onError(config.url) },
-                    reconnectOnClose: config.reconnectOnClose,
-                    url: config.url
-                  }))
-
-            Maybe.Just => memo
+          if Map.get(connections, config.url) == Maybe.Nothing {
+            Map.set(
+              memo,
+              config.url,
+              WebSocket.open(
+                {
+                  onMessage: (message : String) { onMessage(config.url, message) },
+                  onOpen: (socket : WebSocket) { onOpen(config.url, socket) },
+                  onClose: () { onClose(config.url) },
+                  onError: () { onError(config.url) },
+                  reconnectOnClose: config.reconnectOnClose,
+                  url: config.url
+                }))
+          } else {
+            memo
           }
         })
 
@@ -86,18 +85,13 @@ provider Provider.WebSocket : WebSocket.Config {
           socket : WebSocket
         ) {
           let subscription =
-            subscriptions
-            |> Array.find(
-              (config : WebSocket.Config) { config.url == url })
+            Array.find(subscriptions, (config : WebSocket.Config) { config.url == url })
 
-          case subscription {
-            Maybe.Nothing =>
-              {
-                WebSocket.closeWithoutReconnecting(socket)
-                Map.delete(memo, url)
-              }
-
-            Maybe.Just => memo
+          if subscription == Maybe.Nothing {
+            WebSocket.closeWithoutReconnecting(socket)
+            Map.delete(memo, url)
+          } else {
+            memo
           }
         })
 

@@ -43,16 +43,16 @@ module Number {
     `
     (() => {
       if (#{input}.trim() === '') {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
 
       let value = Number(#{input})
 
       if (Number.isNaN(value)) {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
 
-      return #{Maybe::Just(`value`)}
+      return #{Maybe.Just(`value`)}
     })()
     `
   }

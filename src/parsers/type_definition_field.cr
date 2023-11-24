@@ -3,6 +3,7 @@ module Mint
     def type_definition_field(*, raise_on_colon : Bool = true) : Ast::TypeDefinitionField?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
         next unless key = variable
         whitespace
@@ -25,7 +26,7 @@ module Mint
         mapping =
           parse(track: false) do
             whitespace
-            next unless word! "using"
+            next unless keyword! "using"
             whitespace
 
             next error :type_definition_field_expected_mapping do

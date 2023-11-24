@@ -31,11 +31,8 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("mouseup", true, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next { listener: Maybe.Just(Window.addEventListener("mouseup", true, handle)) }
       }
     }
   }

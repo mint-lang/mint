@@ -1,0 +1,42 @@
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+type X.Y {
+  blah : String
+}
+
+type X {
+  name : String,
+  y: X.Y
+}
+
+component Main {
+  fun render : String {
+    decode `null` as Object as X
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  decodeString as E,
+  decoder as D,
+  variant as B
+} from "./runtime.js";
+
+export const
+  A = B(1),
+  C = B(1),
+  a = D({
+    blah: E(C, A)
+  }, C, A),
+  b = D({
+    name: E(C, A),
+    y: a
+  }, C, A),
+  F = () => {
+    b((null));
+    return ``
+  };

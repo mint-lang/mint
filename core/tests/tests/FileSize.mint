@@ -7,6 +7,10 @@ suite "FileSize.format" {
     FileSize.format(1024) == "1 kB"
   }
 
+  test "for 1030 returns 1kB" {
+    FileSize.format(1030) == "1.01 kB"
+  }
+
   test "for 1048576 returns 1MB" {
     FileSize.format(1048576) == "1 MB"
   }

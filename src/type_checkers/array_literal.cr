@@ -7,11 +7,7 @@ module Mint
         end
 
       if node.items.empty?
-        if defined_type
-          defined_type
-        else
-          Type.new("Array", [Variable.new("a").as(Checkable)])
-        end
+        defined_type || Type.new("Array", [Variable.new("a").as(Checkable)])
       else
         first =
           resolve node.items.first

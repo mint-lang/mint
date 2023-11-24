@@ -1,4 +1,4 @@
-record Test {
+type Test {
   test : String
 }
 

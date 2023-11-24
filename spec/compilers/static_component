@@ -2,7 +2,7 @@ component Test {
   property text : String = ""
 
   fun render : Html {
-    <div><{ text }></div>
+    <div>text</div>
   }
 }
 
@@ -10,7 +10,7 @@ component Test2 {
   property text : String = ""
 
   fun render : Html {
-    <div><{ text }></div>
+    <div>text</div>
   }
 }
 
@@ -19,7 +19,7 @@ component TestWithChildren {
   property text : String = ""
 
   fun render : Html {
-    <div><{ text }></div>
+    <div>text</div>
   }
 }
 

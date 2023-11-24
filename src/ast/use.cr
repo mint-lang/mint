@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Use < Node
-      getter data, provider, condition
+      getter provider, condition, data
 
       def initialize(@file : Parser::File,
                      @condition : Node?,

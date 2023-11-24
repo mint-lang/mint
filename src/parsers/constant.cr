@@ -5,7 +5,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless word! "const"
+        next unless keyword! "const"
         whitespace
 
         next error :constant_expected_name do

@@ -1,4 +1,4 @@
-record Subscription {
+type Subscription {
   a : Bool,
   b : Bool
 }

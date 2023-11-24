@@ -24,13 +24,15 @@ module Mint
     getter web_components = {} of String => String
     getter source_directories = %w[]
     getter test_directories = %w[]
-    getter external_files = {
-      "javascripts" => %w[],
-      "stylesheets" => %w[],
-    }
     getter application = Application.new
     getter root : String
     getter name = ""
+
+    def initialize
+      @json = ""
+      @root = ""
+      @file = ""
+    end
 
     def initialize(@json : String, @root : String, @file : String)
       begin
@@ -146,8 +148,6 @@ module Mint
           parse_dependencies
         when "formatter"
           parse_formatter
-        when "external"
-          parse_external_assets
         when "web-components"
           parse_web_components
         else
@@ -392,152 +392,6 @@ module Mint
         end
 
         snippet node(exception)
-      end
-    end
-
-    # Parsing external assets (JavaScripts, CSS)
-    # --------------------------------------------------------------------------
-
-    def parse_external_assets
-      @parser.read_object do |key|
-        case key
-        when "javascripts"
-          parse_external_javascripts
-        when "stylesheets"
-          parse_external_style_sheets
-        else
-          error! :mint_json_external_invalid do
-            block do
-              text "The"
-              bold "external"
-              text "field contain at least one item."
-            end
-
-            block do
-              text "The"
-              bold "javascripts"
-              text "field lists all JavaScript files (relative to the mint.json file)"
-              text "which should be compiled alongside the application."
-            end
-
-            block do
-              text "The"
-              bold "stylesheets"
-              text "field lists all CSS files (relative to the mint.json file)"
-              text "which should be included alongside the application."
-            end
-
-            snippet current_node
-          end
-        end
-      end
-    end
-
-    def parse_external_javascripts
-      @parser.read_array { parse_external_javascript }
-    rescue exception : JSON::ParseException
-      error! :mint_json_external_javascripts_invalid do
-        block do
-          text "The"
-          bold "javascripts"
-          text "field should be an array."
-        end
-
-        block do
-          text "The"
-          bold "javascripts"
-          text "field lists all JavaScript files (relative to the mint.json file)"
-          text "which should be compiled alongside the application."
-        end
-
-        snippet node(exception)
-      end
-    end
-
-    def parse_external_javascript
-      location =
-        @parser.location
-
-      file =
-        @parser.read_string
-
-      path =
-        Path[@root, file].to_s
-
-      error! :mint_json_external_javascript_not_exists do
-        block do
-          text "The external JavaScript file"
-          bold path
-          text "does not exist."
-        end
-
-        snippet node(location)
-      end if !File.exists?(path) || Dir.exists?(path)
-
-      @external_files["javascripts"] << path
-    rescue exception : JSON::ParseException
-      error! :mint_json_external_javascript_invalid do
-        block do
-          text "All entries in the"
-          bold "javascripts"
-          text "array should be string."
-        end
-
-        snippet "I found one that it is not:", node(exception)
-      end
-    end
-
-    def parse_external_style_sheets
-      @parser.read_array { parse_external_style_sheet }
-    rescue exception : JSON::ParseException
-      error! :mint_json_external_stylesheets_invalid do
-        block do
-          text "The"
-          bold "stylesheets"
-          text "field should be an array."
-        end
-
-        block do
-          text "The"
-          bold "stylesheets"
-          text "field lists all CSS files (relative to the mint.json file)"
-          text "which should be included alongside the application."
-        end
-
-        snippet node(exception)
-      end
-    end
-
-    def parse_external_style_sheet
-      location =
-        @parser.location
-
-      file =
-        @parser.read_string
-
-      path =
-        Path[@root, file].to_s
-
-      error! :mint_json_external_stylesheet_not_exists do
-        block do
-          text "The external stylesheet file"
-          bold path
-          text "does not exist."
-        end
-
-        snippet node(location)
-      end unless File.file?(path)
-
-      @external_files["stylesheets"] << file
-    rescue exception : JSON::ParseException
-      error! :mint_json_external_stylesheet_invalid do
-        block do
-          text "All entries in the"
-          bold "stylesheets"
-          text "array should be string."
-        end
-
-        snippet "I found one that it is not:", node(exception)
       end
     end
 

@@ -1,11 +1,11 @@
 module Mint
   class Ast
     class HtmlStyle < Node
-      getter name, arguments
+      getter arguments, name
 
       property style_node : Ast::Style? = nil
 
-      def initialize(@arguments : Array(Node),
+      def initialize(@arguments : Array(Field),
                      @file : Parser::File,
                      @name : Variable,
                      @from : Int64,

@@ -3,7 +3,7 @@ module Mint
     class Statement < Node
       property if_node : Ast::If? = nil
 
-      getter target, expression, await
+      getter expression, target, await
 
       def initialize(@file : Parser::File,
                      @expression : Node,

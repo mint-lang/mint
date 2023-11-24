@@ -17,21 +17,21 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-enum Test {
+type Test {
   A(String)
   B(String)
 }
 
 component Main {
   fun render : String {
-    let Test::B(x) =
-      Test::A("Hello") or return "YES"
+    let Test.B(x) =
+      Test.A("Hello") or return "YES"
 
     "NO"
   }
 }
 -------------------------------------------------------------------------------
-enum Test {
+type Test {
   A(String)
   B(String)
 }
@@ -39,8 +39,8 @@ enum Test {
 component Main {
   fun render : String {
     let value = {
-      let Test::B(x) =
-        Test::A("Hello") or return "YES"
+      let Test.B(x) =
+        Test.A("Hello") or return "YES"
 
       "NO"
       }

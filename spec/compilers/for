@@ -2,7 +2,7 @@ component Main {
   fun render : Array(Html) {
     for (item of ["A", "B"]) {
       <div>
-        <{ item }>
+        item
       </div>
     }
   }

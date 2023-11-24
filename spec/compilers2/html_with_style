@@ -1,0 +1,87 @@
+component Main {
+  state background : String = "blue"
+  state color : String = "yellow"
+
+  style test {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+
+    border-color: #{background};
+    background: #{background};
+    border: #{background};
+    color: #{color};
+
+    & {
+      font-size: 1em;
+    }
+
+    &.big {
+      font-size: 1.5em;
+    }
+
+    &[data-foo="bar"] {
+      font-size: 3em;
+    }
+
+    > span {
+      font-size: .8em;
+    }
+  }
+
+  fun render : Html {
+    <div::test>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-touch-callout: none;
+  border-color: var(--a-a);
+  background: var(--a-b);
+  border: var(--a-c);
+  color: var(--a-d);
+}
+
+.Main_test {
+  font-size: 1em;
+}
+
+.Main_test.big {
+  font-size: 1.5em;
+}
+
+.Main_test[data-foo="bar"] {
+  font-size: 3em;
+}
+
+.Main_test > span {
+  font-size: .8em;
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`blue`),
+    b = B(`yellow`),
+    c = () => {
+      const _ = {
+        [`--a-a`]: a.value,
+        [`--a-b`]: a.value,
+        [`--a-c`]: a.value,
+        [`--a-d`]: b.value
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([c()])
+  })
+};

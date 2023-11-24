@@ -18,7 +18,7 @@ module Mint
           snippet self
         end unless char! '"'
 
-        # Lookahead to see if there is a backslash (string separator), if
+        # Look ahead to see if there is a backslash (string separator), if
         # parsing fails it will track the whitespace back.
         broken =
           parse do
@@ -26,6 +26,9 @@ module Mint
             next unless char! '\\'
             true
           end || false
+
+        to =
+          position
 
         # If it's separated try to parse an other part.
         if broken
@@ -58,8 +61,8 @@ module Mint
           from: start_position,
           broken: broken,
           value: value,
-          to: position,
-          file: file)
+          file: file,
+          to: to)
       end
     end
   end

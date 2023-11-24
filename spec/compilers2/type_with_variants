@@ -1,0 +1,54 @@
+type A {
+  B(name : String, color : String)
+  C
+}
+
+component Main {
+  fun render : String {
+    case (A.B(name: "Joe", color: "Blue")) {
+      A.B(color, name) => color
+      A.C => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as I,
+  patternRecord as H,
+  newVariant as F,
+  pattern as G,
+  variant as B,
+  match as E
+} from "./runtime.js";
+
+export const
+  A = B([
+    "name",
+    "color"
+  ]),
+  C = B(0),
+  D = () => {
+    return E(F(A)(`Joe`, `Blue`), [
+      [
+        G(A, H([
+          [
+            `color`,
+            I
+          ],
+          [
+            `name`,
+            I
+          ]
+        ])),
+        (a, b) => {
+          return a
+        }
+      ],
+      [
+        G(C, []),
+        () => {
+          return ``
+        }
+      ]
+    ])
+  };

@@ -1,0 +1,27 @@
+component Main {
+  fun render : Array(Html) {
+    for (item of ["A", "B"]) {
+      <div>
+        item
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return (() => {
+    const _0 = [];
+    const _1 = [
+      `A`,
+      `B`
+    ];
+    let _i = -1;
+    for (let a of _1) {
+      _i++;
+      _0.push(B(`div`, {}, [a]))
+    };
+    return _0
+  })()
+};

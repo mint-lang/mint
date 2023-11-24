@@ -91,12 +91,16 @@ suite "Array.deleteAt" {
 }
 
 suite "Array.dropEnd" {
-  test "drop n number of items from the end" {
+  test "drop number of items from the end" {
     Array.dropEnd([1, 2, 3, 4, 5, 6, 7, 8], 2) == [1, 2, 3, 4, 5, 6]
   }
 
   test "returns array if number of items is negative" {
     Array.dropEnd([1, 2, 3, 4], -2) == [1, 2, 3, 4]
+  }
+
+  test "removes all elements if the number is more than the length" {
+    Array.dropEnd([1, 2], 4) == []
   }
 }
 
@@ -123,7 +127,7 @@ suite "Array.find" {
 suite "Array.findByAndMap" {
   test "finds the first item that matches the predicate and returns the second value of the tuple" {
     ([1, 2, 3, 4, 5, 6]
-    |> Array.findByAndMap((number : Number) { #(number == 3, "Three") })
+    |> Array.findByAndMap((number : Number) { {number == 3, "Three"} })
     |> Maybe.withDefault("")) == "Three"
   }
 }

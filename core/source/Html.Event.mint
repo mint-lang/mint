@@ -1,46 +1,54 @@
 /* Represents an HTML event. */
 type Html.Event {
-  bubbles : Bool,
-  cancelable : Bool,
-  currentTarget : Dom.Element,
-  defaultPrevented : Bool,
-  dataTransfer : Html.DataTransfer,
+  event : Html.NativeEvent,
+
   clipboardData : Html.DataTransfer,
-  eventPhase : Number,
-  isTrusted : Bool,
+  dataTransfer : Html.DataTransfer,
+
+  currentTarget : Dom.Element,
   target : Dom.Element,
-  timeStamp : Number,
-  type : String,
-  data : String,
-  altKey : Bool,
-  charCode : Number,
-  ctrlKey : Bool,
-  key : String,
-  keyCode : Number,
-  locale : String,
-  location : Number,
-  metaKey : Bool,
+
+  defaultPrevented : Bool,
+  cancelable : Bool,
+  isTrusted : Bool,
+  bubbles : Bool,
   repeat : Bool,
+
   shiftKey : Bool,
-  which : Number,
-  button : Number,
-  buttons : Number,
-  clientX : Number,
-  clientY : Number,
-  pageX : Number,
-  pageY : Number,
-  screenX : Number,
-  screenY : Number,
-  detail : Number,
-  deltaMode : Number,
-  deltaX : Number,
-  deltaY : Number,
-  deltaZ : Number,
+  metaKey : Bool,
+  ctrlKey : Bool,
+  altKey : Bool,
+
   animationName : String,
   pseudoElement : String,
   propertyName : String,
+  locale : String,
+  type : String,
+  data : String,
+  key : String,
+
   elapsedTime : Number,
-  event : Html.NativeEvent
+  eventPhase : Number,
+  timeStamp : Number,
+  charCode : Number,
+  location : Number,
+  keyCode : Number,
+  buttons : Number,
+  button : Number,
+  detail : Number,
+  which : Number,
+
+  clientX : Number,
+  clientY : Number,
+  screenX : Number,
+  screenY : Number,
+  pageX : Number,
+  pageY : Number,
+
+  deltaMode : Number,
+  deltaX : Number,
+  deltaY : Number,
+  deltaZ : Number
 }
 
 /* Utility functions for `Html.Event` */
@@ -144,53 +152,6 @@ module Html.Event {
   const X = 88
   const Y = 89
   const Z = 90
-
-  /* Converts a native event into a Mint one. */
-  fun fromEvent (event : Html.NativeEvent) : Html.Event {
-    {
-      bubbles: `#{event}.bubbles`,
-      cancelable: `#{event}.cancelable`,
-      currentTarget: `#{event}.currentTarget`,
-      defaultPrevented: `#{event}.defaultPrevented`,
-      dataTransfer: `#{event}.dataTransfer`,
-      clipboardData: `#{event}.clipboardData`,
-      eventPhase: `#{event}.eventPhase`,
-      isTrusted: `#{event}.isTrusted`,
-      target: `#{event}.target`,
-      timeStamp: `#{event}.timeStamp`,
-      type: `#{event}.type`,
-      data: `#{event}.data`,
-      altKey: `#{event}.altKey`,
-      charCode: `#{event}.charCode`,
-      ctrlKey: `#{event}.ctrlKey`,
-      key: `#{event}.key`,
-      keyCode: `#{event}.keyCode`,
-      locale: `#{event}.locale`,
-      location: `#{event}.location`,
-      metaKey: `#{event}.metaKey`,
-      repeat: `#{event}.repeat`,
-      shiftKey: `#{event}.shiftKey`,
-      which: `#{event}.which`,
-      button: `#{event}.button`,
-      buttons: `#{event}.buttons`,
-      clientX: `#{event}.clientX`,
-      clientY: `#{event}.clientY`,
-      pageX: `#{event}.pageX`,
-      pageY: `#{event}.pageY`,
-      screenX: `#{event}.screenX`,
-      screenY: `#{event}.screenY`,
-      detail: `#{event}.detail`,
-      deltaMode: `#{event}.deltaMode`,
-      deltaX: `#{event}.deltaX`,
-      deltaY: `#{event}.deltaY`,
-      deltaZ: `#{event}.deltaZ`,
-      animationName: `#{event}.animationName`,
-      pseudoElement: `#{event}.pseudoElement`,
-      propertyName: `#{event}.propertyName`,
-      elapsedTime: `#{event}.elapsedTime`,
-      event: event
-    }
-  }
 
   /*
   Returns whether or not the events propagation is stopped or not.

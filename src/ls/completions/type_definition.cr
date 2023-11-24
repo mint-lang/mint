@@ -6,7 +6,7 @@ module Mint
         when Array(Ast::TypeVariant)
           fields.map do |option|
             name =
-              "#{node.name.value}::#{option.value.value}"
+              "#{node.name.value}.#{option.value.value}"
 
             snippet =
               if option.parameters.empty?

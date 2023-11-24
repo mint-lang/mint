@@ -1,0 +1,18 @@
+component Main {
+  state value : String = ""
+
+  fun render : String {
+    ->value("Hello")
+    value
+  }
+}
+--------------------------------------------------------------------------------
+import { useSignal as B } from "./runtime.js";
+
+export const A = () => {
+  const a = B(``);
+  (b) => {
+    a.value = b
+  }(`Hello`);
+  return a.value
+};

@@ -15,7 +15,7 @@ component Main {
   fun render : Html {
     decode as
 ---------------------------------------------------------decode_expected_object
-record X {
+type X {
   name : String
 }
 
@@ -27,7 +27,7 @@ component Main {
   }
 }
 ------------------------------------------------------------decode_complex_type
-record X {
+type X {
   name : Blah
 }
 
@@ -39,7 +39,7 @@ component Main {
   }
 }
 ------------------------------------------------------------decode_complex_type
-record X {
+type X {
   name : Maybe(Blah)
 }
 
@@ -51,7 +51,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record X {
+type X {
   name : String
 }
 

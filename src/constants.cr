@@ -13,7 +13,7 @@ module Mint
   WARNING   = "⚠".colorize(:yellow).to_s
   DIAMOND   = "◈"
 
-  ASSET_DIR         = "assets"
+  ASSET_DIR         = "__mint__"
   DIST_DIR          = "dist"
   PUBLIC_DIR        = "public"
   CSS_DIR           = Path[DIST_DIR, "css"].to_s

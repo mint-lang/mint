@@ -1,0 +1,77 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN(highlight)
+    \#{name}
+    ```mint
+    `Something`
+    "\#{name}"
+    "First line" \
+    "Second line" \
+    "Third line"
+    ```
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
+
+export const A = () => {
+  return B(C, {}, [
+    B('p', {}, [`#{name}`]),
+    B('pre', {}, [B('code', {
+      class: "language-mint"
+    }, [
+      B('span', {
+        className: "line"
+      }, [`\`Something\`
+`]),
+      B('span', {
+        className: "line"
+      }, [
+        ``,
+        B('span', {
+          className: "string"
+        }, [`"#{`]),
+        B('span', {
+          className: "variable"
+        }, [`name`]),
+        B('span', {
+          className: "string"
+        }, [`}"`]),
+        `
+`
+      ]),
+      B('span', {
+        className: "line"
+      }, [
+        ``,
+        B('span', {
+          className: "string"
+        }, [`"First line" \\`]),
+        `
+`
+      ]),
+      B('span', {
+        className: "line"
+      }, [
+        ``,
+        B('span', {
+          className: "string"
+        }, [`"Second line" \\`]),
+        `
+`
+      ]),
+      B('span', {
+        className: "line"
+      }, [
+        ``,
+        B('span', {
+          className: "string"
+        }, [`"Third line"`])
+      ])
+    ])])
+  ])
+};

@@ -1,22 +1,26 @@
 module Mint
   class ArtifactCleaner
-    def self.clean(clean_global : Bool = false)
-      artifacts = %w[.mint dist]
-
-      if clean_global
-        safe_delete(MINT_PACKAGES_DIR)
-      else
-        artifacts.each do |artifact_path|
-          safe_delete(artifact_path)
+    def self.clean(clean_packages : Bool = false)
+      artifacts =
+        if clean_packages
+          [MINT_PACKAGES_DIR]
+        else
+          %w[.mint dist]
         end
+
+      # ameba:disable Performance/AnyInsteadOfEmpty
+      if artifacts.any?(&->Dir.exists?(String))
+        artifacts.each(&->safe_delete(String))
+      else
+        terminal.puts "Nothing to delete."
       end
     end
 
-    private def self.safe_delete(dir_path)
-      if Dir.exists?(dir_path)
-        terminal.puts "Deleting: #{dir_path}"
-        FileUtils.rm_rf(dir_path)
-      end
+    private def self.safe_delete(directory)
+      return unless Dir.exists?(directory)
+
+      terminal.puts "Deleting: #{directory}"
+      FileUtils.rm_rf(directory)
     end
 
     def self.terminal

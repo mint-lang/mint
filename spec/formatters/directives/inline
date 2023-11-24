@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    @inline(../../fixtures/data.txt)
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    @inline(../../fixtures/data.txt)
+  }
+}

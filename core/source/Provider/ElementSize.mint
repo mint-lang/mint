@@ -32,14 +32,9 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
     }
 
     for subscription of subscriptions {
-      case subscription.element {
-        Maybe.Just(element) =>
-          {
-            ResizeObserver.observe(observer, element)
-            void
-          }
-
-        Maybe.Nothing => void
+      if let Maybe.Just(element) = subscription.element {
+        ResizeObserver.observe(observer, element)
+        void
       }
     }
 

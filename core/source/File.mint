@@ -3,7 +3,8 @@ module File {
   /*
   Prompts a dialog for the saving the given file.
 
-    file = await File.select(*)
+    let file =
+      await File.select("*")
 
     File.download(file)
   */
@@ -55,7 +56,7 @@ module File {
   /*
   Reads the contents of the given file as a String.
 
-    file =
+    let file =
       File.create("Some content...", "test.txt", "text/plain")
 
     File.readAsArrayBuffer(file)
@@ -76,11 +77,11 @@ module File {
   /*
   Reads the contents of the given file as a Data URL.
 
-    files =
+    let files =
       await File.select("text/plain")
 
-    url =
-      File.readAsDataURL(file)
+    let url =
+      await File.readAsDataURL(file)
 
     url == "data:text/plain;...."
   */
@@ -100,10 +101,10 @@ module File {
   /*
   Reads the contents of the given file as a String.
 
-    file =
+    let file =
       File.create("Some content...", "test.txt", "text/plain")
 
-    url =
+    let url =
       await File.readAsString(file)
 
     url == "Some content..."
@@ -127,7 +128,7 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    file =
+    let file =
       await File.select("application/json")
 
     Debug.log(file)
@@ -165,7 +166,7 @@ module File {
   * The mime type can be restricted to the given one.
   * It might not resolve if the user cancels the dialog.
 
-    files =
+    let files =
       await File.selectMultiple("application/json")
 
     Debug.log(files)

@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    "a" == "b" && true != false
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import { compare as B } from "./runtime.js";
+
+export const A = () => {
+  B(`a`, `b`) && !B(true, false);
+  return ``
+};

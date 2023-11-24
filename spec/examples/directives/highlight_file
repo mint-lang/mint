@@ -16,12 +16,6 @@ component Main {
     @highlight-file(File.mint)
   }
 }
------------------------------------------highlight_file_directive_expected_mint
-component Main {
-  fun render : Html {
-    @highlight-file(../../fixtures/icon-not-svg)
-  }
-}
 -------------------------------------------------------------------------------
 component Main {
   fun render : Html {

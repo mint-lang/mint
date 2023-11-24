@@ -3,8 +3,9 @@ module Mint
     def get : Ast::Get?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
-        next unless word! "get"
+        next unless keyword! "get"
         whitespace
 
         next error :get_expected_name do
@@ -21,6 +22,7 @@ module Mint
               snippet self
             end unless item = self.type || type_variable
             whitespace
+
             item
           end
 

@@ -20,7 +20,7 @@ module Mint
     OBJECT_ERROR   = Type.new("Object.Error")
     ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
     SET            = Type.new("Set", [Variable.new("a")] of Checkable)
-    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("a")] of Checkable)
+    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)
     MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
     RESULT         = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
     EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
@@ -49,14 +49,21 @@ module Mint
       BOOL,
     ] of Checkable
 
+    VALID_HTML = [
+      TEXT_CHILDREN,
+      HTML_CHILDREN,
+      STRING,
+      HTML,
+    ] of Checkable
+
     getter records, artifacts, formatter, web_components
     getter? check_everything
 
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate variables, ast, lookups, cache, scope, to: artifacts
-    delegate assets, resolve_order, locales, argument_order, to: artifacts
+    delegate variables, ast, lookups, cache, scope, references, to: artifacts
+    delegate assets, resolve_order, locales, components_touched, to: artifacts
 
     delegate format, to: formatter
 
@@ -69,7 +76,6 @@ module Mint
     @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
-
     @stack = [] of Ast::Node
 
     def initialize(ast : Ast, @check_env = true, @web_components = [] of String, @check_everything = true)
@@ -85,13 +91,7 @@ module Mint
 
     def print_stack
       @stack.each_with_index do |i, index|
-        x = case i
-            when Ast::Component then i.name
-            when Ast::Function  then i.name.value
-            when Ast::Call      then "<call>"
-            else
-              i
-            end
+        x = Debugger.dbg(i)
 
         if index == 0
           puts x
@@ -105,8 +105,6 @@ module Mint
     # --------------------------------------------------------------------------
 
     def resolve_records
-      add_record Record.new("Unit"), Ast::Record.empty
-
       ast.type_definitions.each do |definition|
         next if definition.fields.is_a?(Array(Ast::TypeVariant))
         value = check(definition)
@@ -131,7 +129,7 @@ module Mint
 
       contents =
         <<-MINT
-        record #{name} {
+        type #{name} {
         #{compiled_fields}
         }
         MINT
@@ -169,6 +167,8 @@ module Mint
 
         if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
           record = check(node)
+          cache[node] = record
+          check!(node)
           add_record record, node
           record
         end
@@ -216,7 +216,7 @@ module Mint
       # scope.scopes[node].each_with_index do |item, index|
       #   puts scope.debug_name(item.node).indent(index * 2)
       #   item.items.each do |key, value|
-      #     puts "#{" " * (index * 2)}#{key} -> #{value.class.name}"
+      #     puts "#{" " * (index * 2)}#{key} -> #{value.node.class.name}"
       #   end
       # end
 
@@ -228,7 +228,16 @@ module Mint
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
+    def track_references(node)
+      if last = @stack.last?
+        return if node.is_a?(Ast::Connect)
+        # puts "Linking #{Debugger.dbg(node)} -> #{Debugger.dbg(last)}"
+        references.add(last, node)
+      end
+    end
+
     def check!(node)
+      resolve_order << node
       checked.add(node) if checking?
     end
 
@@ -252,6 +261,8 @@ module Mint
             node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
                            @top_level_entity.try { |item| owns?(node, item) }
 
+          # save_ref(node)
+          track_references(node)
           cached
         else
           if @stack.includes?(node)
@@ -260,25 +271,29 @@ module Mint
               VOID
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            else
+            when Ast::State
+              if type = node.type
+                resolve type
+              end
+            end ||
               error! :recursion do
                 snippet "Recursion is only supported in specific cases " \
                         "at this time. Unfortunatly here is not supported:", node
                 snippet "The previous step in the recursion was here:", @stack.last
               end
-            end
           else
             invalid_self_reference(
               referee: @referee.not_nil!,
               node: node) if @top_level_entity.try { |item| owns?(node, item) }
 
+            track_references(node)
             @stack.push node
+
+            # save_ref(node)
 
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
-            resolve_order << node
-
             check! node
 
             @stack.delete node

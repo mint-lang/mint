@@ -1,0 +1,84 @@
+async component First {
+  fun render : Html {
+    <div>
+      "First"
+    </div>
+  }
+}
+
+async component Second {
+  fun render : Html {
+    <div>
+      <First/>
+      "Second"
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <First/>
+      <Second/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as F,
+  createElement as E,
+  lazy as B
+} from "./runtime.js";
+
+export const
+  A = B(`./1.js`),
+  C = B(`./2.js`),
+  D = () => {
+    return E(`div`, {}, [
+      E(F, {
+        c: [],
+        key: `First`,
+        p: {},
+        x: A
+      }),
+      E(F, {
+        c: [],
+        key: `Second`,
+        p: {},
+        x: C
+      })
+    ])
+  };
+
+---=== /__mint__/1.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {}, [`First`])
+};
+
+export default A;
+
+---=== /__mint__/2.js ===---
+import {
+  lazyComponent as E,
+  createElement as D,
+  lazy as B
+} from "./runtime.js";
+
+export const
+  A = B(`./1.js`),
+  C = () => {
+    return D(`div`, {}, [
+      D(E, {
+        c: [],
+        key: `First`,
+        p: {},
+        x: A
+      }),
+      `Second`
+    ])
+  };
+
+export default C;

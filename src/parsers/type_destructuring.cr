@@ -4,10 +4,13 @@ module Mint
       parse do |start_position|
         next unless name = id track: false
 
-        # TODO: Remove this in 0.21.0 when deprecation ends.
+        # This means that it's an access of a constant.
+        next if char == '.'
+
+        # TODO: Remove this in 0.21.0
         next if char == ':' && !word?("::")
 
-        # TODO: Remove this branch in 0.21.0 when deprecation ends.
+        # TODO: Remove this branch in 0.21.0
         if word! "::"
           next error :type_destructuring_expected_variant do
             expected "the type of an type destructuring", word

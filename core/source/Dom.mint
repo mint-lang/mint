@@ -56,14 +56,9 @@ module Dom {
     |> Dom.getElementById()
   */
   fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Void) {
-    case maybeElement {
-      Maybe.Just(element) =>
-        {
-          focusWhenVisible(element)
-          Promise.resolve(void)
-        }
-
-      Maybe.Nothing => Promise.resolve(void)
+    if let Maybe.Just(element) = maybeElement {
+      focusWhenVisible(element)
+      Promise.resolve(void)
     }
   }
 
@@ -89,7 +84,7 @@ module Dom {
 
       let focus = () => {
         if (counter > 15) {
-          resolve(#{Result::Err("Could not focus the element in 150ms. Is it visible?")})
+          resolve(#{Result.Err("Could not focus the element in 150ms. Is it visible?")})
         }
 
         #{element}.focus()
@@ -98,7 +93,7 @@ module Dom {
           counter++
           setTimeout(focus, 10)
         } else {
-          resolve(#{Result::Ok(void)})
+          resolve(#{Result.Ok(void)})
         }
       }
 
@@ -116,9 +111,9 @@ module Dom {
     `
     (() => {
       if (document.activeElement) {
-        return #{Maybe::Just(`document.activeElement`)}
+        return #{Maybe.Just(`document.activeElement`)}
       } else {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `
@@ -131,8 +126,8 @@ module Dom {
       Dom.getElementById("my-div")
 
     case (outcome) {
-      Maybe::Just(element) => Dom.getAttribute(element, "id") == "my-div"
-      Maybe::Nothing => false
+      Maybe.Just(element) => Dom.getAttribute(element, "id") == "my-div"
+      Maybe.Nothing => false
     }
   */
   fun getAttribute (element : Dom.Element, name : String) : Maybe(String) {
@@ -141,9 +136,9 @@ module Dom {
       const value = #{element}.getAttribute(#{name})
 
       if (value === "") {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       } else {
-        return #{Maybe::Just(`value`)}
+        return #{Maybe.Just(`value`)}
       }
     })()
     `
@@ -155,7 +150,7 @@ module Dom {
     Dom.getChildren())
   */
   fun getChildren (element : Dom.Element) : Array(Dom.Element) {
-    `Array.from(#{element}.children)`
+    `[...#{element}.children]`
   }
 
   /*
@@ -220,9 +215,9 @@ module Dom {
       let element = document.getElementById(#{id})
 
       if (element) {
-        return #{Maybe::Just(`element`)}
+        return #{Maybe.Just(`element`)}
       } else {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `
@@ -240,12 +235,12 @@ module Dom {
         let element = document.querySelector(#{selector})
 
         if (element) {
-          return #{Maybe::Just(`element`)}
+          return #{Maybe.Just(`element`)}
         } else {
-          return #{Maybe::Nothing}
+          return #{Maybe.Nothing}
         }
       } catch (error) {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `
@@ -262,9 +257,9 @@ module Dom {
       const element = document.elementFromPoint(#{left}, #{top})
 
       if (element) {
-        return #{Maybe::Just(`element`)}
+        return #{Maybe.Just(`element`)}
       } else {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `
@@ -284,16 +279,16 @@ module Dom {
   fun getFocusableElements (element : Dom.Element) : Array(Dom.Element) {
     `
     (() => {
-      /* Save focused element. */
+      // Save focused element.
       const focused = document.activeElement
 
-      /* Save scroll position. */
+      // Save scroll position.
       const scrollX = window.scrollX
       const scrollY = window.scrollY
 
-      /* Save the scroll position of each element. */
+      // Save the scroll position of each element.
       const scrollPositions =
-        Array.from(document.querySelectorAll("*")).reduce((memo, element) => {
+        [...document.querySelectorAll("*")].reduce((memo, element) => {
           if (element.scrollHeight > 0 || element.scrollWidth > 0) {
             memo.set(element, [element.scrollLeft, element.scrollTop])
           }
@@ -301,11 +296,12 @@ module Dom {
           return memo
         }, new Map)
 
-      /* Gather the focusable elements by focusing them and comparing it
-         with the focused element. */
+      // Gather the focusable elements by focusing them and comparing it
+      // with the focused element.
       const foundElements =
-        Array.from(#{element}.querySelectorAll("*")).reduce((memo ,element) => {
+        [...#{element}.querySelectorAll("*")].reduce((memo ,element) => {
           element.focus()
+
           if (document.activeElement == element && element.tabIndex !== -1) {
             memo.push(element)
           }
@@ -313,7 +309,7 @@ module Dom {
           return memo
         }, [])
 
-      /* Restore scroll positions and focus. */
+      // Restore scroll positions and focus.
       for (let element in scrollPositions) {
         const [x, y] = scrollPositions[element]
         element.scrollTo(x, y)
@@ -388,7 +384,7 @@ module Dom {
         let hash =
           String.parameterize(text)
 
-        #(tag, text, hash)
+        {tag, text, hash}
       })
   }
 
@@ -477,10 +473,7 @@ module Dom {
     Dom.scrollTo(element, 10, 10)
   */
   fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
-    `#{element}.scrollTo({
-        left: #{left},
-        top: #{top}
-      })`
+    `#{element}.scrollTo({ left: #{left}, top: #{top} })`
   }
 
   /*
@@ -521,8 +514,13 @@ module Dom {
 
   It is used to set the value of `input` fields programmatically.
   */
-  fun setValue (dom : Dom.Element, value : String) : Dom.Element {
-    `(#{dom}.value = #{value}) && #{dom}`
+  fun setValue (element : Dom.Element, value : String) : Dom.Element {
+    `
+    (() => {
+      #{element}.value = #{value}
+      return #{element}
+    })()
+    `
   }
 
   /*
@@ -531,10 +529,6 @@ module Dom {
     Dom.smoothScrollTo(element, 10, 10)
   */
   fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
-    `#{element}.scrollTo({
-        behavior: 'smooth',
-        left: #{left},
-        top: #{top}
-      })`
+    `#{element}.scrollTo({ behavior: 'smooth', left: #{left}, top: #{top} })`
   }
 }

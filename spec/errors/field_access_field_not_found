@@ -1,0 +1,28 @@
+type A {
+  b: String
+}
+
+component Main {
+  fun render : Html {
+    .a(A)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FIELD_ACCESS_FIELD_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The field a does not exists on the type:
+
+  A(b: String)
+
+The field access in question is here:
+
+    ┌ ./spec/errors/field_access_field_not_found:7:5
+    ├───────────────────────────────────────────────
+   3│ }
+   4│
+   5│ component Main {
+   6│   fun render : Html {
+   7│     .a(A)
+    │     ⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

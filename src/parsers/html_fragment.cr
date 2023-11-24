@@ -2,7 +2,8 @@ module Mint
   class Parser
     def html_fragment : Ast::HtmlFragment?
       parse do |start_position|
-        next unless word! "<>"
+        # TODO: Remove <{}> in 0.21.0
+        next unless word!("<>") || word!("<{")
 
         comments = [] of Ast::Comment
         children = [] of Ast::Node
@@ -20,7 +21,7 @@ module Mint
         next error :html_fragment_expected_closing_tag do
           expected "the closing tag of an HTML fragment", word
           snippet self
-        end unless word! "</>"
+        end unless word!("</>") || word!("}>") # TODO: Remove <{}> in 0.21.0
 
         Ast::HtmlFragment.new(
           from: start_position,

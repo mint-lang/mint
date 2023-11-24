@@ -1,0 +1,42 @@
+component Main {
+  state color : String = "blue"
+
+  style test {
+    @supports (screen) {
+      color: #{color};
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+@supports (screen) {
+  .Main_test {
+    color: var(--a-a);
+  }
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`blue`),
+    b = () => {
+      const _ = {
+        [`--a-a`]: a.value
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([b()])
+  })
+};

@@ -21,7 +21,7 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          let #(downListener, moveListener, upListener) =
+          let {downListener, moveListener, upListener} =
             methods
 
           downListener()
@@ -31,50 +31,47 @@ provider Provider.Pointer : Provider.Pointer.Subscription {
 
       next { listeners: Maybe.Nothing }
     } else {
-      case listeners {
-        Maybe.Nothing =>
-          next
-            {
-              listeners:
-                Maybe.Just(
-                  #(
-                    Window.addEventListener(
-                      "pointerdown",
-                      true,
-                      (event : Html.Event) {
-                        for subscription of subscriptions {
-                          subscription.downs(event)
-                        }
-                      }),
-                    Window.addEventListener(
-                      "pointermove",
-                      false,
-                      (event : Html.Event) {
-                        AnimationFrame.cancel(id)
+      if listeners == Maybe.Nothing {
+        next
+          {
+            listeners:
+              Maybe.Just(
+                {
+                  Window.addEventListener(
+                    "pointerdown",
+                    true,
+                    (event : Html.Event) {
+                      for subscription of subscriptions {
+                        subscription.downs(event)
+                      }
+                    }),
+                  Window.addEventListener(
+                    "pointermove",
+                    false,
+                    (event : Html.Event) {
+                      AnimationFrame.cancel(id)
 
-                        next
-                          {
-                            id:
-                              AnimationFrame.request(
-                                (timestamp : Number) {
-                                  for subscription of subscriptions {
-                                    subscription.moves(event)
-                                  }
-                                })
-                          }
-                      }),
-                    Window.addEventListener(
-                      "pointerup",
-                      false,
-                      (event : Html.Event) {
-                        for subscription of subscriptions {
-                          subscription.ups(event)
+                      next
+                        {
+                          id:
+                            AnimationFrame.request(
+                              (timestamp : Number) {
+                                for subscription of subscriptions {
+                                  subscription.moves(event)
+                                }
+                              })
                         }
-                      })
-                  ))
-            }
-
-        => next { }
+                    }),
+                  Window.addEventListener(
+                    "pointerup",
+                    false,
+                    (event : Html.Event) {
+                      for subscription of subscriptions {
+                        subscription.ups(event)
+                      }
+                    })
+                })
+          }
       }
     }
   }

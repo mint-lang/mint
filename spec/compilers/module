@@ -1,7 +1,7 @@
 module Html.Testing {
   fun renderAll : Html {
     <p>
-      <{ "It should work" }>
+      "It should work"
     </p>
   }
 }

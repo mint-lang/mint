@@ -5,11 +5,14 @@ module Mint
         next unless word! "::"
         next unless name = variable track: false, extra_chars: ['-']
 
-        arguments = [] of Ast::Node
+        arguments = [] of Ast::Field
 
         if char! '('
           whitespace
-          arguments = list(terminator: ')', separator: ',') { expression }
+          arguments = list(
+            terminator: ')',
+            separator: ','
+          ) { field(key_required: false) }
 
           whitespace
           next error :html_style_expected_closing_parenthesis do

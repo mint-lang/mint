@@ -47,17 +47,17 @@ component Main {
 -----------------------------------------------------html_content_type_mismatch
 component Main {
   fun render : Html {
-    <div><{ 0 }></div>
+    <div>0</div>
   }
 }
 -------------------------------------------------------------------------------
 component Main {
   fun render : Html {
-    <div><{ "Hello" }></div>
+    <div>"Hello"</div>
   }
 }
 -------------------------------------------------------------------------------
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
@@ -65,11 +65,11 @@ enum Maybe(a) {
 component Main {
   fun render : Html {
     case test {
-      Maybe::Just(item) => ""
-      Maybe::Nothing => ""
+      Just(item) => ""
+      Nothing => ""
     }
 
-    <div as test><{ "Hello" }></div>
+    <div as test>"Hello"</div>
   }
 }
 -------------------------------------------------------------------------------
@@ -100,22 +100,22 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
 
 component Test {
   fun render : Html {
-    <div as test><{ "Hello" }></div>
+    <div as test>"Hello"</div>
   }
 }
 
 component Main {
   fun render : Html {
     case test {
-      Maybe::Just(item) => { item.test "" }
-      Maybe::Nothing => ""
+      Just(item) => { item.test "" }
+      Nothing => ""
     }
 
     <Test as test/>

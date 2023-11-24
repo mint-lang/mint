@@ -1,0 +1,13 @@
+component Main {
+  fun render : Html {
+    <div readonly={true}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {
+    readOnly: true
+  })
+};

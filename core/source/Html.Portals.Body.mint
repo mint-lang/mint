@@ -5,6 +5,6 @@ component Html.Portals.Body {
 
   /* Renders the children into the document's body. */
   fun render : Html {
-    `_createPortal(#{children}, document.body)`
+    `#{%createPortal%}(#{children}, document.body)`
   }
 }

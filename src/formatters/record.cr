@@ -7,7 +7,7 @@ module Mint
       if node.fields.size >= 2 || multiline || body.any? do |string|
            replace_skipped(string).includes?('\n')
          end
-        "{\n#{indent(body.join(",\n"))}\n}"
+        "{\n#{indent(list(node.fields.zip(body), ","))}\n}"
       else
         body =
           body.join(", ").presence.try { |v| " #{v} " } || " "

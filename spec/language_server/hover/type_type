@@ -1,12 +1,12 @@
 /* Comment for Status type. */
-enum Status {
+type Status {
   Error
   Ok
 }
 
 module Test {
   fun success : Status {
-    Status::Ok
+    Status.Ok
   }
 }
 ------------------------------------------------------------------file test.mint

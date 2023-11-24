@@ -4,7 +4,7 @@ module Mint
       def completion_item(node : Ast::Constant, parent_name : Ast::Id? = nil) : LSP::CompletionItem
         name =
           if parent_name
-            "#{parent_name.value}:#{node.name.value}"
+            "#{parent_name.value}.#{node.name.value}"
           else
             node.name.value
           end

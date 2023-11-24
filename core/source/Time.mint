@@ -28,9 +28,9 @@ module Time {
     `
     (() => {
       try {
-        return #{Maybe::Just(`new Date(#{raw})`)}
+        return #{Maybe.Just(`new Date(#{raw})`)}
       } catch (error) {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `
@@ -164,7 +164,7 @@ module Time {
   /*
   Returns the month of the given time (as a `Month`).
 
-    Time.month(Time.utcDate(2018, 4, 5)) == Month::April
+    Time.month(Time.utcDate(2018, 4, 5)) == Month.April
   */
   fun month (time : Time) : Month {
     case monthNumber(time) {
@@ -267,7 +267,7 @@ module Time {
   /*
   Returns the day of week of the given time.
 
-    Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday::Thursday
+    Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday.Thursday
   */
   fun dayOfWeek (time : Time) : Weekday {
     case dayOfWeekNumber(time) {
@@ -370,7 +370,7 @@ module Time {
   /*
   Shifts the given time using the given time span.
 
-    Time.shift(Time.utcDate(2018, 4, 5), Time.Span::Days(2)) ==
+    Time.shift(Time.utcDate(2018, 4, 5), Time.Span.Days(2)) ==
       Time.utcDate(2018, 4, 7)
   */
   fun shift (time : Time, delta : Time.Span) : Time {
@@ -380,28 +380,28 @@ module Time {
 
       #{
         case (delta) {
-          Time.Span::Milliseconds(amount) =>
+          Time.Span.Milliseconds(amount) =>
             `time.setUTCMilliseconds(time.getUTCMilliseconds() + #{amount})`
 
-          Time.Span::Seconds(amount) =>
+          Time.Span.Seconds(amount) =>
             `time.setUTCSeconds(time.getUTCSeconds() + #{amount})`
 
-          Time.Span::Minutes(amount)      =>
+          Time.Span.Minutes(amount)      =>
             `time.setUTCMinutes(time.getUTCMinutes() + #{amount})`
 
-          Time.Span::Hours(amount)        =>
+          Time.Span.Hours(amount)        =>
             `time.setUTCHours(time.getUTCHours() + #{amount})`
 
-          Time.Span::Days(amount)         =>
+          Time.Span.Days(amount)         =>
             `time.setUTCDate(time.getUTCDate() + #{amount})`
 
-          Time.Span::Weeks(amount)        =>
+          Time.Span.Weeks(amount)        =>
             `time.setUTCDate(time.getUTCDate() + (7 * #{amount}))`
 
-          Time.Span::Months(amount)       =>
+          Time.Span.Months(amount)       =>
             `time.setUTCMonth(time.getUTCMonth() + #{amount})`
 
-          Time.Span::Years(amount)        =>
+          Time.Span.Years(amount)        =>
             `time.setUTCFullYear(time.getUTCFullYear() + #{amount})`
         }
       }
@@ -629,7 +629,7 @@ module Time {
   conversion this function can fail.
 
     Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==
-      Maybe::Just(Time.utc(2019, 1, 1, 2, 12, 35, 200))
+      Maybe.Just(Time.utc(2019, 1, 1, 2, 12, 35, 200))
   */
   fun inZone (timeZone : String, time : Time) : Maybe(Time) {
     `
@@ -643,9 +643,9 @@ module Time {
         // Shift the resulting time by the local time-zone offset.
         time.setUTCMinutes(time.getUTCMinutes() - time.getTimezoneOffset())
 
-        return #{Maybe::Just(`time`)};
+        return #{Maybe.Just(`time`)};
       } catch {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       }
     })()
     `

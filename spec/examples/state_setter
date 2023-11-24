@@ -1,0 +1,27 @@
+-------------------------------------------------state_setter_expected_variable
+component Main {
+  fun render : String {
+    ->
+------------------------------------------------------state_setter_expected_dot
+component Main {
+  fun render : String {
+    -> Store
+-------------------------------------------------state_setter_expected_variable
+component Main {
+  fun render : String {
+    -> Store.
+---------------------------------------------------state_setter_state_not_found
+component Main {
+  fun render : String {
+    -> asd
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  state value : String = ""
+
+  fun render : String {
+    ->value("Hello")
+    value
+  }
+}

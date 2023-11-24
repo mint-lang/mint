@@ -1,10 +1,10 @@
-enum Test(a) {
+type Test(a) {
   X
   Y
   Z(Res(a, Number))
 }
 
-enum Res(error, value) {
+type Res(error, value) {
   Error(error)
   Ok(value)
   Other(error, value)
@@ -12,15 +12,15 @@ enum Res(error, value) {
 
 component Main {
   fun a : Test(a) {
-    Test::X
+    Test.X
   }
 
   fun b : Res(String, String) {
-    Res::Other("", "")
+    Res.Other("", "")
   }
 
   fun c : Test(String) {
-    Test::Z(Res::Error(""))
+    Test.Z(Res.Error(""))
   }
 
   fun render : String {

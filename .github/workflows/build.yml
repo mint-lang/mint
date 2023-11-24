@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-13, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -31,11 +31,11 @@ jobs:
           mkdir build
           docker-compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --static --no-debug --release
 
-      - if: matrix.os == 'macos-latest'
+      - if: startsWith(matrix.os, 'macos')
         name: Build binary (macOS)
         run: |
           mkdir build
-          crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-osx --release
+          crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-${{ matrix.os }} --release
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -50,8 +50,8 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
           aws_key_id: ${{ secrets.AWS_KEY }}
-          source_dir: build
           destination_dir: ""
+          source_dir: build
 
       - if: startsWith(github.ref, 'refs/tags/')
         name: Upload to GitHub Releases
@@ -59,6 +59,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: build/*
           overwrite: true
           file_glob: true
+          file: build/*

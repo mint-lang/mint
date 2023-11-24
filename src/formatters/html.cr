@@ -1,8 +1,11 @@
 module Mint
   class Formatter
-    def format(node : Ast::HtmlElement | Ast::HtmlComponent,
-               prefix : String,
-               tag : String) : String
+    def format(
+      *,
+      node : Ast::HtmlElement | Ast::HtmlComponent,
+      prefix : String,
+      tag : String
+    ) : String
       attributes =
         format node.attributes
 

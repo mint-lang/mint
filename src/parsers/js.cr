@@ -6,7 +6,7 @@ module Mint
 
         value =
           many(parse_whitespace: false) do
-            raw('`').try(&.gsub("\\`", '`')) || interpolation
+            raw('`') || interpolation { builtin || expression }
           end
 
         next error :js_expected_closing_tick do
@@ -15,7 +15,7 @@ module Mint
         end unless char! '`'
         whitespace
 
-        if word! "as"
+        if keyword! "as"
           whitespace
           next error :js_expected_type_or_variable do
             expected "the type of an inlined JavaScript", word
@@ -26,8 +26,8 @@ module Mint
         Ast::Js.new(
           from: start_position,
           value: value,
-          type: type,
           to: position,
+          type: type,
           file: file)
       end
     end

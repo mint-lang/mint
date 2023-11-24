@@ -15,7 +15,7 @@ module Map {
   fun delete (map : Map(key, value), keyToDelete : key) : Map(key, value) {
     Map.fromArray(
       for key, value of map {
-        #(key, value)
+        {key, value}
       } when {
         key != keyToDelete
       })
@@ -32,7 +32,7 @@ module Map {
   fun deleteValues (map : Map(key, value), valueToDelete : value) : Map(key, value) {
     Map.fromArray(
       for key, value of map {
-        #(key, value)
+        {key, value}
       } when {
         value != valueToDelete
       })
@@ -178,7 +178,7 @@ module Map {
   ) : Map(key, result) {
     Map.fromArray(
       for key, value of map {
-        (#(key, function(key, value)))
+        {key, function(key, value)}
       })
   }
 
@@ -194,7 +194,7 @@ module Map {
       |> Map.set("a", "y")
 
     (Map.merge(a, b)
-    |> Map.get("a")) == Maybe::Just("y")
+    |> Map.get("a")) == Maybe.Just("y")
   */
   fun merge (map1 : Map(key, value), map2 : Map(key, value)) : Map(key, value) {
     Map.reduce(
@@ -248,7 +248,7 @@ module Map {
       let set = false
 
       for (let item of #{map}) {
-        if (_compare(item[0], #{key})) {
+        if (#{%compare%}(item[0], #{key})) {
           set = true
           result.push([#{key}, #{value}])
         } else {
@@ -292,7 +292,7 @@ module Map {
     method : Function(key, value, result)
   ) : Map(key, value) {
     `
-    Array.from(#{map}).sort((a, b) => {
+    [...#{map}].sort((a, b) => {
       let aVal = #{method}(a[0], a[1])
       let bVal = #{method}(b[0], b[1])
 

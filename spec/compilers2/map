@@ -1,0 +1,26 @@
+component Main {
+  fun render : Html {
+    {
+      "a" => "Hello",
+      "b" => "World"
+    }
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  [
+    [
+      `a`,
+      `Hello`
+    ],
+    [
+      `b`,
+      `World`
+    ]
+  ];
+  return B(`div`, {})
+};

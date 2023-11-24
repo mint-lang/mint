@@ -1,9 +1,7 @@
 module Mint
   class TypeChecker
     CSS_PROPERTY_NAMES =
-      {{ read_file("#{__DIR__}/../assets/css_properties") }}
-        .strip
-        .lines
+      {{ read_file("#{__DIR__}/../assets/css_properties").strip.lines }}
 
     def check(node : Ast::CssDefinition) : Checkable
       node.value.each do |item|

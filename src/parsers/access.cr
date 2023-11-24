@@ -2,7 +2,7 @@ module Mint
   class Parser
     def access(expression : Ast::Node) : Ast::Access?
       parse do
-        # TODO: Remove this if chain in 0.21.0 when deprecation ends.
+        # TODO: Remove this in 0.21.0
         type =
           if word! "::"
             Ast::Access::Type::DoubleColon

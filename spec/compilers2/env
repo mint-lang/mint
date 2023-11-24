@@ -1,0 +1,9 @@
+component Main {
+  fun render : String {
+    @TEST
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return `TRUE`
+};

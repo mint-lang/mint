@@ -21,11 +21,8 @@ provider Provider.Scroll : Provider.Scroll.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("scroll", false, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next { listener: Maybe.Just(Window.addEventListener("scroll", false, handle)) }
       }
     }
   }

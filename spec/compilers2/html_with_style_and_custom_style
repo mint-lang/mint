@@ -1,0 +1,51 @@
+component Main {
+  state background : String = "blue"
+
+  get styles : Map(String, String) {
+    ``
+  }
+
+  style test {
+    background: #{background};
+    color: red;
+  }
+
+  fun render : Html {
+    <div::test style={styles}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test {
+  background: var(--a-a);
+  color: red;
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`blue`),
+    b = () => {
+      return undefined
+    },
+    c = () => {
+      const _ = {
+        [`--a-a`]: a.value
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([
+      c(),
+      b()
+    ])
+  })
+};

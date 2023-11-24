@@ -248,6 +248,7 @@ module Mint
       end
 
       def reset
+        @position = 0
         print "\ec"
       end
 

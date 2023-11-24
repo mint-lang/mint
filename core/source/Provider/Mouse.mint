@@ -21,7 +21,7 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
         (
           methods : Tuple(Function(Void), Function(Void), Function(Void))
         ) {
-          let #(clickListener, moveListener, upListener) =
+          let {clickListener, moveListener, upListener} =
             methods
 
           clickListener()
@@ -31,50 +31,47 @@ provider Provider.Mouse : Provider.Mouse.Subscription {
 
       next { listeners: Maybe.Nothing }
     } else {
-      case listeners {
-        Maybe.Nothing =>
-          next
-            {
-              listeners:
-                Maybe.Just(
-                  #(
-                    Window.addEventListener(
-                      "click",
-                      true,
-                      (event : Html.Event) {
-                        for subscription of subscriptions {
-                          subscription.clicks(event)
-                        }
-                      }),
-                    Window.addEventListener(
-                      "mousemove",
-                      false,
-                      (event : Html.Event) {
-                        AnimationFrame.cancel(id)
+      if listeners == Maybe.Nothing {
+        next
+          {
+            listeners:
+              Maybe.Just(
+                {
+                  Window.addEventListener(
+                    "click",
+                    true,
+                    (event : Html.Event) {
+                      for subscription of subscriptions {
+                        subscription.clicks(event)
+                      }
+                    }),
+                  Window.addEventListener(
+                    "mousemove",
+                    false,
+                    (event : Html.Event) {
+                      AnimationFrame.cancel(id)
 
-                        next
-                          {
-                            id:
-                              AnimationFrame.request(
-                                (timestamp : Number) {
-                                  for subscription of subscriptions {
-                                    subscription.moves(event)
-                                  }
-                                })
-                          }
-                      }),
-                    Window.addEventListener(
-                      "mouseup",
-                      false,
-                      (event : Html.Event) {
-                        for subscription of subscriptions {
-                          subscription.ups(event)
+                      next
+                        {
+                          id:
+                            AnimationFrame.request(
+                              (timestamp : Number) {
+                                for subscription of subscriptions {
+                                  subscription.moves(event)
+                                }
+                              })
                         }
-                      })
-                  ))
-            }
-
-        => next { }
+                    }),
+                  Window.addEventListener(
+                    "mouseup",
+                    false,
+                    (event : Html.Event) {
+                      for subscription of subscriptions {
+                        subscription.ups(event)
+                      }
+                    })
+                })
+          }
       }
     }
   }

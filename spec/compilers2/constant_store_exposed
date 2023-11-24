@@ -1,0 +1,21 @@
+store Test {
+  const NAME = "ASD"
+}
+
+component Main {
+  connect Test exposing { NAME }
+
+  fun render : Html {
+    <div>
+      NAME
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "./runtime.js";
+
+export const
+  a = `ASD`,
+  A = () => {
+    return B(`div`, {}, [a])
+  };

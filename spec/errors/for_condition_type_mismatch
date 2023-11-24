@@ -2,7 +2,7 @@ component Main {
   fun render : Array(Html) {
     for (item of ["A", "B"]) {
       <div>
-        <{ item }>
+        item
       </div>
     } when {
       item
@@ -25,7 +25,7 @@ The value in question is here:
     ┌ ./spec/errors/for_condition_type_mismatch:8:7
     ├──────────────────────────────────────────────
    4│       <div>
-   5│         <{ item }>
+   5│         item
    6│       </div>
    7│     } when {
    8│       item

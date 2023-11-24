@@ -3,10 +3,10 @@ module Mint
     class Loc < Admiral::Command
       include Command
 
-      define_help description: "Counts Lines of Code"
+      define_help description: "Counts Lines of Code."
 
       def run
-        execute "Counting Lines of Code" do
+        execute "Counting Lines of Code." do
           file_count =
             files.size.to_s.colorize.mode(:bold)
 
@@ -18,17 +18,14 @@ module Mint
         end
       end
 
-      def files
+      private def files
         Dir.glob(SourceFiles.all).to_a
       end
 
-      def count
+      private def count
         files.reduce(0) do |memo, file|
           count =
-            File
-              .read(file)
-              .lines
-              .count(&.presence)
+            File.read(file).lines.count(&.presence)
 
           count + memo
         end

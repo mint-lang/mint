@@ -4,9 +4,9 @@ module Base64 {
     `
     (() => {
       try {
-        return #{Result::Ok(`atob(#{value})`)};
+        return #{Result.Ok(`atob(#{value})`)};
       } catch (error) {
-        return #{Result::Err(`error.toString()`)};
+        return #{Result.Err(`error.toString()`)};
       }
     })()
     `

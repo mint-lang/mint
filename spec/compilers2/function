@@ -1,0 +1,19 @@
+component Main {
+  fun test : Bool {
+    true
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = () => {
+    return true
+  };
+  a();
+  return ``
+};

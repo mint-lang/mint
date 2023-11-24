@@ -4,23 +4,23 @@ module Mint
       name =
         format node.name
 
-      value =
-        case x = node.value
+      formatted =
+        case value = node.value
         when Ast::Block
-          format x, BlockFormat::Attribute
+          format value, BlockFormat::Attribute
         else
-          format node.value
+          format value
         end
 
       case node.value
       when Ast::StringLiteral
-        if replace_skipped(value).includes?('\n')
-          "#{name}={\n#{indent(value)}\n}"
+        if replace_skipped(formatted).includes?('\n')
+          "#{name}={\n#{indent(formatted)}\n}"
         else
-          "#{name}=#{value}"
+          "#{name}=#{formatted}"
         end
       else
-        "#{name}=#{value}"
+        "#{name}=#{formatted}"
       end
     end
   end

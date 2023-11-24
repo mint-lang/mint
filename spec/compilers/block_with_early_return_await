@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   A(String)
   B(String)
 }
@@ -6,8 +6,8 @@ enum Test {
 component Main {
   fun render : String {
     {
-      let Test::A(a) =
-        await Test::A("Some string...") or return "RETURN"
+      let Test.A(a) =
+        await Test.A("Some string...") or return "RETURN"
 
       a
     }

@@ -1,13 +1,13 @@
 -------------------------------------------------statement_return_type_mismatch
-enum Test {
+type Test {
   A(String)
   B(String)
 }
 
 component Main {
   fun render : String {
-    let Test::B(x) =
-      Test::A("Hello") or return 0
+    let Test.B(x) =
+      Test.A("Hello") or return 0
 
     x
   }

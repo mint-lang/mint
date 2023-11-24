@@ -80,7 +80,7 @@ module Mint
           when Ast::Store
             connect.keys.each do |key|
               @scopes[store][1].items[key.name.value]?.try do |value|
-                stack[1].items[key.target.try(&.value) || key.name.value] = Target.new(key, value.node)
+                stack[1].items[key.target.try(&.value) || key.name.value] = value
               end
             end
           end
@@ -217,7 +217,6 @@ module Mint
       case node
       when Ast::Directives::Documentation,
            Ast::Directives::HighlightFile,
-           Ast::Directives::Highlight,
            Ast::Directives::Inline,
            Ast::Directives::Asset,
            Ast::Directives::Svg,
@@ -226,9 +225,12 @@ module Mint
            Ast::TypeDestructuring,
            Ast::NumberLiteral,
            Ast::RegexpLiteral,
-           Ast::MemberAccess,
+           Ast::FieldAccess,
            Ast::BoolLiteral,
+           Ast::StateSetter,
            Ast::LocaleKey,
+           Ast::Variable,
+           Ast::Builtin,
            Ast::Comment,
            Ast::Env
       when Ast::StringLiteral,
@@ -243,6 +245,8 @@ module Mint
            Ast::Decode,
            Ast::Test
         build(node.expression, node)
+      when Ast::Directives::Highlight
+        build(node.content, node)
       when Ast::CaseBranch
         build(node.expression, node)
         build(node.pattern, node)
@@ -256,7 +260,8 @@ module Mint
            Ast::Property
         build(node.default, node)
       when Ast::CssSelector,
-           Ast::CssNestedAt
+           Ast::CssNestedAt,
+           Ast::Defer
         build(node.body, node)
       when Ast::Statement
         build(node.expression, node)
@@ -300,8 +305,6 @@ module Mint
       when Ast::Pipe
         build(node.expression, node)
         build(node.argument, node)
-      when Ast::HtmlExpression
-        build(node.expressions, node)
       when Ast::HtmlFragment
         build(node.children, node)
       when Ast::HtmlAttribute
@@ -314,8 +317,7 @@ module Mint
         build(node.expression, node)
       when Ast::Directives::Format
         build(node.content, node)
-      when Ast::Variable
-      when Ast::ArrayAccess
+      when Ast::BracketAccess
         build(node.expression, node)
 
         case node.index
@@ -325,7 +327,8 @@ module Mint
       when Ast::Use
         build(node.condition, node)
         build(node.data, node)
-      when Ast::Record
+      when Ast::Record,
+           Ast::Map
         build(node.fields, node)
       when Ast::NextCall
         build(node.data, node)
@@ -335,6 +338,9 @@ module Mint
       when Ast::Route
         build(node.expression, node)
         build(node.arguments, node)
+      when Ast::MapField
+        build(node.value, node)
+        build(node.key, node)
       when Ast::Field
         build(node.value, node)
 

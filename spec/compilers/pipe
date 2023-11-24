@@ -1,8 +1,8 @@
 component Main {
   fun render : Html {
     <div>
-      <{ (n : String) : String { n }("3") }>
-      <{ "3" |> (n : String) : String { n } }>
+      (n : String) : String { n }("3")
+      "3" |> (n : String) : String { n }
     </div>
   }
 }

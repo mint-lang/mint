@@ -23,7 +23,6 @@ module Mint
     TOKEN_MAP = {
       Ast::TypeVariable  => TokenType::TypeParameter,
       Ast::Comment       => TokenType::Comment,
-      Ast::StringLiteral => TokenType::String,
       Ast::RegexpLiteral => TokenType::Regexp,
       Ast::NumberLiteral => TokenType::Number,
       Ast::Id            => TokenType::Type,
@@ -43,11 +42,16 @@ module Mint
     getter tokens = [] of Token
 
     def self.tokenize(ast : Ast)
-      tokenizer = self.new
-      tokenizer.tokenize(ast)
-
       parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
-      contents = ast.nodes.first.file.contents
+
+      return parts if ast.nodes.empty?
+
+      tokenizer =
+        self.new.tap(&.tokenize(ast))
+
+      contents =
+        ast.nodes.first.file.contents
+
       position = 0
 
       tokenizer.tokens.sort_by(&.from).each do |token|
@@ -147,6 +151,60 @@ module Mint
       end
 
       add(node.tag, TokenType::Namespace)
+    end
+
+    def tokenize(node : Ast::StringLiteral | Ast::HereDocument)
+      if node.value.size == 0
+        add(node, TokenType::String)
+      else
+        position =
+          case node
+          when Ast::HereDocument
+            if node.highlight
+              node.from + node.token.size + 14
+            else
+              node.from + node.token.size + 3
+            end
+          else
+            node.from
+          end
+
+        node.value.each_with_index do |item, index|
+          last =
+            index == (node.value.size - 1)
+
+          case item
+          in Ast::Interpolation
+            # We skip interpolations because they will be process separately
+            # but we need to proceed the position to it's end, also we need
+            # to add `#{` as a string which is everything up to the boxed
+            # expressions start.
+            add(position, item.expression.from, TokenType::String)
+            position = item.expression.to
+
+            if last
+              add(position, node.to, TokenType::String)
+            end
+          in String
+            from =
+              position
+
+            position =
+              if last
+                case node
+                when Ast::HereDocument
+                  node.to - node.token.size
+                else
+                  node.to
+                end
+              else
+                position + item.size
+              end
+
+            add(from, position, TokenType::String)
+          end
+        end
+      end
     end
 
     def tokenize(node : Ast::HtmlComponent)

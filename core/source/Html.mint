@@ -7,7 +7,7 @@ module Html {
       Html.empty()
     } else {
       <div>
-        <{ items }>
+        items
       </div>
     }
   */

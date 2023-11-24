@@ -3,7 +3,7 @@ module Mint
     class Access < Node
       getter field, expression, type
 
-      # TODO: Remove in 0.21.0 when deprecation ends.
+      # TODO: Remove in 0.21.0.
       enum Type
         DoubleColon
         Colon

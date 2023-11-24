@@ -1,0 +1,26 @@
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+component Main {
+  fun render : String {
+    decode (`[]`) as Map(String, Number)
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  decodeNumber as F,
+  decodeMap as E,
+  variant as B
+} from "./runtime.js";
+
+export const
+  A = B(1),
+  C = B(1),
+  D = () => {
+    E(F(C, A), C, A)((([])));
+    return ``
+  };

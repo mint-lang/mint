@@ -1,31 +1,55 @@
 component ScrollTest {
-  use Provider.Scroll { scrolls: (event : Html.Event) : Promise(Void) { `this.forceUpdate()` } }
+  state scrollWidth = 0
+  state scrollLeft = 0
+  state scrollTop = 0
+
+  use Provider.Scroll {
+    scrolls:
+      (event : Html.Event) : Promise(Void) {
+        update()
+      }
+  }
 
   style base {
     height: 3000px;
     width: 3000px;
   }
 
-  fun componentDidMount : Void {
-    `this.forceUpdate()`
+  fun componentDidMount : Promise(Void) {
+    update()
+  }
+
+  fun update {
+    next
+      {
+        scrollWidth: Window.scrollWidth(),
+        scrollLeft: Window.scrollLeft(),
+        scrollTop: Window.scrollTop()
+      }
   }
 
   fun render : Html {
     <div::base>
       <scroll-width>
-        <{ Number.toString(Window.scrollWidth()) }>
+        Number.toString(scrollWidth)
       </scroll-width>
 
+      "|"
+
       <scroll-height>
-        <{ Number.toString(Window.scrollHeight()) }>
+        Number.toString(Window.scrollHeight())
       </scroll-height>
 
+      "|"
+
       <scroll-left>
-        <{ Number.toString(Window.scrollLeft()) }>
+        Number.toString(scrollLeft)
       </scroll-left>
 
+      "|"
+
       <scroll-top>
-        <{ Number.toString(Window.scrollTop()) }>
+        Number.toString(scrollTop)
       </scroll-top>
     </div>
   }
@@ -33,12 +57,8 @@ component ScrollTest {
 
 suite "Window.navigate" {
   test "it navigates to the given url with push state" {
-    let url =
-      Window.url()
-
     Window.navigate("/blah")
-
-    Window.href() == "http://127.0.0.1:#{url.port}/blah"
+    String.endsWith(Window.href(), "/blah")
   }
 }
 
@@ -57,13 +77,13 @@ suite "Window.setTitle" {
 
 suite "Window.url" {
   test "returns the current url" {
-    Window.url().hostname == "127.0.0.1"
+    Window.url().hostname == `window.location.hostname`
   }
 }
 
 suite "Window.href" {
   test "returns the current url as string" {
-    Window.href() == "http://127.0.0.1:#{Window.url().port}/"
+    Window.href() == `window.location.href`
   }
 }
 
@@ -87,11 +107,6 @@ suite "Window.scrollWidth" {
   test "returns the scrollable width when overflown" {
     <ScrollTest/>
     |> Test.Html.start()
-    |> Test.Context.then(
-      (subject : Dom.Element) : Promise(Dom.Element) {
-        await Timer.nextFrame()
-        subject
-      })
     |> Test.Html.assertTextOf("scroll-width", "3008")
   }
 }

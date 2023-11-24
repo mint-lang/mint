@@ -4,13 +4,13 @@ ENV["SPEC"] = "TRUE"
 MINT_ENV["TEST"] = "TRUE"
 
 def diff(a, b)
-  file1 = File.tempfile do |f|
-    f.puts a.strip
-    f.flush
+  file1 = File.tempfile do |file|
+    file.puts a.strip
+    file.flush
   end
-  file2 = File.tempfile do |f|
-    f.puts b
-    f.flush
+  file2 = File.tempfile do |file|
+    file.puts b
+    file.flush
   end
 
   io = IO::Memory.new

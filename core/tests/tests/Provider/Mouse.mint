@@ -12,15 +12,15 @@ component Test.Provider.Mouse {
   fun render : Html {
     <div>
       <clicks>
-        <{ Number.toString(clicks) }>
+        Number.toString(clicks)
       </clicks>
 
       <moves>
-        <{ Number.toString(moves) }>
+        Number.toString(moves)
       </moves>
 
       <ups>
-        <{ Number.toString(ups) }>
+        Number.toString(ups)
       </ups>
     </div>
   }

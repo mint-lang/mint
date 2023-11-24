@@ -134,17 +134,6 @@ module Mint
         Type.new(node.name, params, node.label)
       end
 
-      def fresh(node : PartialRecord)
-        fields =
-          node
-            .fields
-            .each_with_object({} of String => Checkable) do |(key, value), memo|
-              memo[key] = fresh value
-            end
-
-        PartialRecord.new(node.name, fields, label: node.label)
-      end
-
       def fresh(node : Record)
         fields =
           node

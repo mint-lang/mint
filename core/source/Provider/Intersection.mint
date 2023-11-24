@@ -19,20 +19,15 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     */
     let currentObservers =
       for item of observers {
-        let #(subscription, observer) =
+        let {subscription, observer} =
           item
 
         if Array.contains(subscriptions, subscription) {
-          Maybe.Just(#(subscription, observer))
+          Maybe.Just({subscription, observer})
         } else {
-          case subscription.element {
-            Maybe.Just(observed) =>
-              {
-                IntersectionObserver.unobserve(observer, observed)
-                Maybe.Nothing
-              }
-
-            => Maybe.Nothing
+          if let Maybe.Just(observed) = subscription.element {
+            IntersectionObserver.unobserve(observer, observed)
+            Maybe.Nothing
           }
         }
       }
@@ -41,32 +36,24 @@ provider Provider.Intersection : Provider.Intersection.Subscription {
     /* Create new observers. */
     let newObservers =
       for subscription of subscriptions {
-        case subscription.element {
-          Maybe.Just(observed) =>
-            Maybe.Just(
-              #(
-                subscription,
-                IntersectionObserver.new(
-                  subscription.rootMargin,
-                  subscription.threshold,
-                  subscription.callback)
-                |> IntersectionObserver.observe(observed)
-              ))
-
-          => Maybe.Nothing
+        if let Maybe.Just(observed) = subscription.element {
+          Maybe.Just(
+            {
+              subscription,
+              IntersectionObserver.new(
+                subscription.rootMargin,
+                subscription.threshold,
+                subscription.callback)
+              |> IntersectionObserver.observe(observed)
+            })
         }
       } when {
-        let size =
-          observers
-          |> Array.select(
-            (
-              item : Tuple(Provider.Intersection.Subscription, IntersectionObserver)
-            ) {
-              item[0] == subscription
-            })
-          |> Array.size()
-
-        (size == 0)
+        Array.size(
+          for item of observers {
+            item
+          } when {
+            item[0] == subscription
+          }) == 0
       }
       |> Array.compact()
 

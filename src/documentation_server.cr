@@ -50,7 +50,7 @@ module Mint
 
       setup_kemal
 
-      Server.run(name: "Documentation", port: 3002)
+      # Server.run(name: "Documentation", port: 3002)
     end
 
     def setup_kemal

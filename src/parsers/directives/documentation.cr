@@ -2,7 +2,7 @@ module Mint
   class Parser
     def documentation_directive : Ast::Directives::Documentation?
       parse do |start_position|
-        next unless word! "@documentation"
+        next unless keyword! "@documentation"
 
         next error :documentation_directive_expected_opening_parenthesis do
           expected "the opening parenthesis of a documentation directive", word

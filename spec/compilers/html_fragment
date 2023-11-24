@@ -2,7 +2,7 @@ component Main {
   fun render : Html {
     <div>
       <>
-        <{ "A" }>
+        "A"
       </>
     </div>
   }

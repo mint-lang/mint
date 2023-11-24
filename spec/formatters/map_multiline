@@ -1,0 +1,14 @@
+module Test {
+  fun test : Map(String, String) {
+    {"a" => "Hello", "b" => "World"}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Map(String, String) {
+    {
+      "a" => "Hello",
+      "b" => "World"
+    }
+  }
+}

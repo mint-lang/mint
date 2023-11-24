@@ -50,7 +50,7 @@ component Main {
   }
 }
 ---------------------------------------------------------property_type_mismatch
-record A {
+type A {
   a : String
 }
 

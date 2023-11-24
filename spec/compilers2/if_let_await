@@ -1,0 +1,50 @@
+type T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    {
+      if (let T.A(a) = await T.A("")) {
+        a
+      } else {
+        "b"
+      }
+    }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  newVariant as E,
+  pattern as G,
+  variant as B,
+  match as F
+} from "./runtime.js";
+
+export const
+  A = B(1),
+  C = B(0),
+  D = () => {
+    (async () => {
+      let a = await E(A)(``);
+      return F(a, [
+        [
+          G(A, [H]),
+          (b) => {
+            return b
+          }
+        ],
+        [
+          null,
+          () => {
+            return `b`
+          }
+        ]
+      ])
+    })();
+    return ``
+  };

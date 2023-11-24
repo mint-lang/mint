@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class TypeDefinition < Node
-      getter name, fields, parameters, comment
+      getter parameters, comment, fields, name
 
       def initialize(@fields : Array(TypeDefinitionField) | Array(Ast::TypeVariant),
                      @parameters : Array(TypeVariable),

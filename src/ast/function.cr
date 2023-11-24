@@ -1,9 +1,9 @@
 module Mint
   class Ast
     class Function < Node
-      getter name, arguments, body, type
-      getter comment
+      getter arguments, comment, name, type, body
 
+      # TOOD: Remove when the old compiler is removed.
       property? keep_name = false
 
       def initialize(@arguments : Array(Argument),

@@ -26,7 +26,7 @@ module Mint
     end
 
     def self.space_separated?(node1, node2)
-      node1.file.contents[node1.from, node2.from - node1.from].includes?("\n\n")
+      node1.file.contents[node1.to, node2.from - node1.to].count('\n') > 1
     end
 
     def self.new_line?(node1, node2)

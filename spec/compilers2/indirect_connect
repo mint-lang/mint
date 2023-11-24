@@ -1,0 +1,32 @@
+store Test {
+  state a : String = ""
+
+  fun b : String {
+    "hello"
+  }
+}
+
+store A {
+  state test : Array(String) = [""]
+  state other : String = ""
+}
+
+component Main {
+  connect Test exposing { a }
+
+  fun render : String {
+    A.other
+  }
+}
+--------------------------------------------------------------------------------
+import { signal as A } from "./runtime.js";
+
+export const
+  a = () => {
+    return `hello`
+  },
+  b = A(``),
+  c = A(``),
+  B = () => {
+    return c.value
+  };

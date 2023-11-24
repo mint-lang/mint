@@ -1,0 +1,36 @@
+store Html.Event {
+  state downArrow = "Hello"
+}
+
+component Main {
+  fun render : String {
+    case "" {
+      Html.Event.downArrow => "a"
+      => "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  signal as A,
+  match as C
+} from "./runtime.js";
+
+export const
+  a = A(`Hello`),
+  B = () => {
+    return C(``, [
+      [
+        a.value,
+        () => {
+          return `a`
+        }
+      ],
+      [
+        null,
+        () => {
+          return `b`
+        }
+      ]
+    ])
+  };

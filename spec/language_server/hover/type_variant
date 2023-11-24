@@ -1,12 +1,12 @@
 /* Comment for Status enum. */
-enum Status {
+type Status {
   Error
   Ok
 }
 
 module Test {
   fun success : Status {
-    Status::Ok
+    Status.Ok
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -19,7 +19,7 @@ module Test {
     },
     "position": {
       "line": 8,
-      "character": 13
+      "character": 12
     }
   }
 }

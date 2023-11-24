@@ -16,15 +16,10 @@ module Mint
               %(${#{index + 1}:#{argument.name.value}})
             end
 
-        snippet =
-          <<-MINT
-          #{name}(#{arguments.join(", ")})
-          MINT
-
         LSP::CompletionItem.new(
           documentation: node.comment.try(&.content).to_s,
+          insert_text: "#{name}(#{arguments.join(", ")})",
           kind: LSP::CompletionItemKind::Function,
-          insert_text: snippet,
           detail: "Function",
           filter_text: name,
           sort_text: name,

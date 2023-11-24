@@ -1,6 +1,6 @@
 module Mint
   class TypeChecker
-    def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment)
+    def check(node : Ast::HtmlAttribute, element : Ast::HtmlFragment) : Checkable
       got =
         resolve node.value
 
@@ -29,8 +29,7 @@ module Mint
         when "ref"
           error! :html_element_ref_forbidden do
             snippet %(The use of "ref" attribute is forbidden:), node
-            snippet "If you want to assign a variable to an element, use the " \
-                    "as keyword:", "<div as myDiv></div>"
+            snippet %(Please use the "as" keyword instead:), "<div as myDiv></div>"
           end
         when .starts_with?("on")
           [EVENT_FUNCTION, VOID_FUNCTION]
@@ -38,15 +37,8 @@ module Mint
           [BOOL]
         when "className"
           error! :html_element_class_name_forbidden do
-            block "The className attribute on elements are forbidden."
-
-            block do
-              text "Please use"
-              bold "class"
-              text "instead."
-            end
-
-            snippet node
+            snippet %(The "className" attribute on elements are forbidden:), node
+            snippet %(Please use "class" instead:), %(<div class="container"></div>)
           end
         when "style"
           [STYLE_MAP, STRING]

@@ -3,7 +3,7 @@ module Mint
     class Version < Admiral::Command
       include Command
 
-      define_help description: "Shows version"
+      define_help description: "Shows version."
 
       def run
         terminal.puts "Mint #{Mint::VERSION}"

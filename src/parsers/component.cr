@@ -3,11 +3,15 @@ module Mint
     def component : Ast::Component?
       parse do |start_position, start_nodes_position|
         comment = self.comment
-
-        global = word! "global"
         whitespace
 
-        next unless word! "component"
+        global = keyword! "global"
+        whitespace
+
+        async = keyword! "async"
+        whitespace
+
+        next unless keyword! "component"
         whitespace
 
         next error :component_expected_name do
@@ -133,6 +137,7 @@ module Mint
           locales: locales,
           styles: styles,
           states: states,
+          async: async,
           to: position,
           file: file,
           refs: refs,

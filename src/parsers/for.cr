@@ -2,7 +2,7 @@ module Mint
   class Parser
     def for_expression : Ast::For?
       parse do |start_position|
-        next unless word! "for"
+        next unless keyword! "for"
         whitespace
 
         parens = char! '('
@@ -15,7 +15,7 @@ module Mint
         next error :for_expected_of do
           expected %(the "of" keyword of a for expression), word
           snippet self
-        end unless word! "of"
+        end unless keyword! "of"
         whitespace
 
         next error :for_expected_subject do
@@ -49,7 +49,7 @@ module Mint
 
         whitespace
         condition =
-          if word! "when"
+          if keyword! "when"
             whitespace
 
             block(

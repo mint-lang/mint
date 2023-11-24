@@ -1,22 +1,4 @@
 module Mint
-  # This is a name pool. It returns a unique identifier for a given item of a
-  # given base item.
-  #
-  # In Mint it's used to get variable names for blocks of selectors
-  # and CSS properties.
-  class NamePool(T, B)
-    INITIAL = 'a'.pred.to_s
-
-    @cache = {} of Tuple(B, T) => String
-    @current = {} of B => String
-
-    def of(subject : T, base : B)
-      @cache[{base, subject}] ||= begin
-        @current[base] = (@current[base]? || INITIAL).succ
-      end
-    end
-  end
-
   class StylePool
     @pool = NamePool(Ast::Style, Nil).new
     @cache = {} of Ast::Style => String
@@ -136,6 +118,82 @@ module Mint
     end
   end
 
+  class VariableCompiler2
+    delegate ifs, variables, variable_name, any?, style_pool, cases, to: @builder
+    delegate js, compile, to: @compiler
+
+    getter compiler : Compiler2
+    getter builder : StyleBuilder
+
+    def initialize(@builder, @compiler)
+    end
+
+    def compile(node : Ast::Style)
+      return unless any?(node)
+
+      static =
+        variables[node]?
+          .try do |hash|
+            items =
+              hash
+                .each_with_object({} of String => Compiler2::Compiled) do |(key, value), memo|
+                  memo["[`#{key}`]"] = compile value, quote_string: true
+                end
+
+            js.object(items) unless items.empty?
+          end || ["{}"] of Compiler2::Item
+
+      compiled_conditions =
+        begin
+          all_ifs =
+            ifs.select(&.first.==(node))
+
+          all_cases =
+            cases.select(&.first.==(node))
+
+          (all_ifs.keys | all_cases.keys).flat_map do |_, selector|
+            conditions =
+              all_ifs.select(&.last.==(selector)).values +
+                all_cases.select(&.last.==(selector)).values
+
+            conditions
+              .flatten
+              .sort_by!(&.from)
+              .map do |item|
+                proc =
+                  (Proc(String, String).new { |name|
+                    variable =
+                      variable_name name, selector
+
+                    selector[name] ||= PropertyValue.new
+                    selector[name].variable = variable
+
+                    variable
+                  }).as(Proc(String, String)?)
+
+                case item
+                when Ast::If, Ast::Case
+                  compile item, proc
+                else
+                  [] of Compiler2::Item
+                end
+              end
+          end
+        end
+
+      arguments =
+        compile node.arguments
+
+      {node, node, js.arrow_function(arguments) do
+        js.statements([
+          js.const("_", static),
+          js.statements(compiled_conditions),
+          js.return(["_"] of Compiler2::Item),
+        ])
+      end}
+    end
+  end
+
   # This class is responsible to build the CSS of "style" tags by resolving
   # nested nested at queries and selectors, handling cases of the same rules in
   # different places.
@@ -200,6 +258,12 @@ module Mint
 
     def compile_style(node : Ast::Style, compiler : Compiler)
       VariableCompiler
+        .new(self, compiler)
+        .compile(node)
+    end
+
+    def compile_style(node : Ast::Style, compiler : Compiler2)
+      VariableCompiler2
         .new(self, compiler)
         .compile(node)
     end

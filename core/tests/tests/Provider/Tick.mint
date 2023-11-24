@@ -5,7 +5,7 @@ component Test.Provider.Tick {
 
   fun render : Html {
     <div>
-      <{ Number.toString(counter) }>
+      Number.toString(counter)
     </div>
   }
 }

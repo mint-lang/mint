@@ -9,7 +9,7 @@ module Mint
         when Array(Ast::TypeVariant)
           list node.fields
         else
-          format node.fields, ",\n"
+          list node.fields, ","
         end
 
       comment =

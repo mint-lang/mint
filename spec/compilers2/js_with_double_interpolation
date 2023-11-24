@@ -1,0 +1,9 @@
+component Main {
+  fun render : String {
+    `      "Hello" + #{`"World!"`}   `
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return ("Hello" + ("World!"))
+};

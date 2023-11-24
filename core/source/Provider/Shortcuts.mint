@@ -28,15 +28,11 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     let control =
       if event.ctrlKey && event.keyCode != 17 {
         Maybe.Just(17)
-      } else {
-        Maybe.Nothing
       }
 
     let shift =
       if event.shiftKey && event.keyCode != 16 {
         Maybe.Just(16)
-      } else {
-        Maybe.Nothing
       }
 
     let combo =
@@ -68,11 +64,8 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("keydown", true, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next { listener: Maybe.Just(Window.addEventListener("keydown", true, handle)) }
       }
     }
   }

@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    .a(A
+--------------------------------------------------------------------------------
+░ ERROR (FIELD_ACCESS_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parentheses of a field access but I found "a space"
+instead:
+
+   ┌ ./spec/errors/field_access_expected_closing_parenthesis:3:8
+   ├────────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     .a(A
+   │         ⌃⌃⌃⌃

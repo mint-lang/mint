@@ -97,50 +97,22 @@ module Mint
       end
     end
 
-    def to_html
-      renderer = Render::Html.new
-      renderer.title "ERROR (#{name})"
+    def to_html(reload : Bool = false)
+      HtmlBuilder.build(optimize: true) do
+        html do
+          head do
+            meta charset: "utf-8"
+            meta content: "width=device-width, initial-scale=1, shrink-to-fit=no",
+              name: "viewport"
 
-      blocks.each do |element|
-        case element
-        # when TypeList
-        #   renderer.type_list element.value
-        # when StringList
-        #   renderer.list element.value
-        # when Pre
-        #   renderer.pre element.value
-        # when Type
-        #   renderer.type element.value
-        # when Title
-        #   renderer.title element.value
-        when Error::Snippet
-          case node = element.value
-          when TypeChecker::Checkable
-            renderer.pre node.to_pretty
-          when Ast::Node
-            renderer.snippet node
-          end
-        when Array(Error::Element)
-          renderer.block do
-            element.each do |item|
-              case item
-              when Error::Text
-                text item.value
-              when Error::Bold
-                bold item.value
-              when Error::Code
-                code item.value
-              end
+            if reload
+              script src: "/live-reload.js"
             end
           end
+
+          body { pre { code { text to_terminal.to_s.uncolorize } } }
         end
       end
-
-      # ameba:disable Lint/UselessAssign
-      contents =
-        renderer.io.to_s
-
-      ECR.render("#{__DIR__}/message.ecr")
     end
 
     def to_terminal
@@ -149,34 +121,24 @@ module Mint
 
       blocks.each do |element|
         case element
-        # when TypeList
-        #   renderer.type_list element.value
-        # when StringList
-        #   renderer.list element.value
-        # when Pre
-        #   renderer.pre element.value
-        # when Type
-        #   renderer.type element.value
-        # when Title
-        #   renderer.title element.value
-        when Error::Snippet
+        in Error::Snippet
           case node = element.value
-          when TypeChecker::Checkable
+          in TypeChecker::Checkable
             renderer.snippet node
-          when Ast::Node
+          in Ast::Node
             renderer.snippet node
-          when String
+          in String
             renderer.snippet node
           end
-        when Array(Error::Element)
+        in Array(Error::Element)
           renderer.block do
             element.each do |item|
               case item
-              when Error::Text
+              in Error::Text
                 text item.value
-              when Error::Bold
+              in Error::Bold
                 bold item.value
-              when Error::Code
+              in Error::Code
                 code item.value
               end
             end

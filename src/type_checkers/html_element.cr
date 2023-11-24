@@ -18,7 +18,6 @@ module Mint
       end
 
       node.attributes.each { |attribute| resolve attribute, node }
-
       check_html node.children
 
       HTML

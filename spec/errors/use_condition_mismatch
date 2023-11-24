@@ -1,4 +1,4 @@
-record Provider.Data {
+type Provider.Data {
   a : String,
   b : String
 }

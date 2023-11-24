@@ -20,7 +20,7 @@ module Mint
         end
 
         whitespace
-        if word! "as"
+        if keyword! "as"
           whitespace
           next error :html_element_expected_reference do
             expected "the reference of an HTML element", word

@@ -1,0 +1,26 @@
+global component Test {
+  const NAME = "ASD"
+
+  fun render : String {
+    NAME
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      Test.NAME
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as C } from "./runtime.js";
+
+export const
+  A = () => {
+    return a
+  },
+  a = `ASD`,
+  B = () => {
+    return C(`div`, {}, [a])
+  };

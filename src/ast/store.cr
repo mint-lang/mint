@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Store < Node
-      getter states, functions, name, gets, comment, comments, constants
+      getter functions, constants, comments, comment, states, gets, name
 
       def initialize(@functions : Array(Function),
                      @constants : Array(Constant),

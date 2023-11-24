@@ -5,7 +5,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        next unless word! "store"
+        next unless keyword! "store"
         whitespace
 
         next error :store_expected_name do

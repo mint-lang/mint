@@ -9,7 +9,7 @@ component Main {
 -------------------------------------string_literal_interpolation_type_mismatch
 component Main {
   fun render : String {
-    let name = {}
+    let name = void
 
     "Hello There #{name}!"
   }

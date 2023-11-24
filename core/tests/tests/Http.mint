@@ -238,7 +238,7 @@ suite "Http.send" {
       Http.get("/blah")
       |> Http.send("A")
 
-    `#{Http.requests()}["A"] != undefined`
+    `#{Http.REQUESTS}["A"] != undefined`
   }
 }
 
@@ -269,7 +269,7 @@ component Test.Http {
       |> wrap(
         `
           (async (promise) => {
-            let _requests = #{Http.requests()}
+            let _requests = #{Http.REQUESTS}
 
             if (#{shouldError}) {
               _requests["test"].dispatchEvent(new CustomEvent("error"))
@@ -323,15 +323,15 @@ component Test.Http {
   fun render : Html {
     <div>
       <error>
-        <{ errorMessage }>
+        errorMessage
       </error>
 
       <content>
-        <{ body }>
+        body
       </content>
 
       <status>
-        <{ Number.toString(status) }>
+        Number.toString(status)
       </status>
     </div>
   }

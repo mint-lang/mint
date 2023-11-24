@@ -3,16 +3,15 @@ module Mint
     class Clean < Admiral::Command
       include Command
 
-      define_help description: "Removes artifacts (directories) created by Mint"
+      define_help description: "Removes artifacts (directories) created by Mint."
 
-      define_flag global : Bool,
-        description: "If specified, cleans global artifacts used to cache Mint packages",
-        default: false,
-        short: "g"
+      define_flag package_cache : Bool,
+        description: "If specified, cleans the package cache directory.",
+        default: false
 
       def run
         execute "Removing directories" do
-          ArtifactCleaner.clean flags.global
+          ArtifactCleaner.clean flags.package_cache
         end
       end
     end

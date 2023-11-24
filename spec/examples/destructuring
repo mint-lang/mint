@@ -32,11 +32,6 @@ component Main {
     }
   }
 }
--------------------------------tuple_destructuring_expected_closing_parenthesis
-component Main {
-  fun render : String {
-    case #("a", "b") {
-      #(a, b, c
 ----------------------------------------------------destructuring_type_mismatch
 component Main {
   fun render : String {
@@ -62,14 +57,14 @@ component Main {
   }
 }
 ----------------------------------------------------destructuring_type_mismatch
-enum T {
+type T {
   A(String)
   B
 }
 
 component Main {
   fun render : String {
-    if (let T::A(a) = "") {
+    if (let T.A(a) = "") {
       a
     } else {
       "b"
@@ -93,29 +88,29 @@ component Main {
 -----------------------------------------------------destructuring_type_missing
 component Main {
   fun render : String {
-    let Maybe::Just(a) = "" or return ""
+    let Maybe.Just(a) = "" or return ""
     ""
   }
 }
 ---------------------------------------------destructuring_type_variant_missing
-enum Maybe {
+type Maybe {
   Nothing
 }
 
 component Main {
   fun render : String {
-    let Maybe::Just(a) = "" or return ""
+    let Maybe.Just(a) = "" or return ""
     ""
   }
 }
 -----------------------------------------------destructuring_type_field_missing
-enum Maybe {
+type Maybe {
   Just(item : String)
 }
 
 component Main {
   fun render : String {
-    let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    let Maybe.Just(key) = Maybe.Just(item: "") or return ""
     ""
   }
 }
@@ -130,7 +125,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-enum Maybe(a) {
+type Maybe(a) {
   Just(a)
   Nothing
 }

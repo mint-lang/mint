@@ -2,7 +2,7 @@ module Mint
   class Parser
     def highlight_file_directive : Ast::Directives::HighlightFile?
       parse do |start_position|
-        next unless word! "@highlight-file"
+        next unless keyword! "@highlight-file"
         whitespace
 
         next error :highlight_file_directive_expected_opening_parenthesis do

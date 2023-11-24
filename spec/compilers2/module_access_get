@@ -1,0 +1,26 @@
+store Test {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+--------------------------------------------------------------------------------
+export const
+  a = () => {
+    return `Hello`
+  },
+  b = () => {
+    return a()
+  },
+  A = () => {
+    return b()
+  };

@@ -1,7 +1,7 @@
 suite "Console.Counter" {
   test "it works once on 'Default' label using tuple" {
     // "Default" label
-    let #(a, b) =
+    let {a, b} =
       Console.count()
 
     // reset "Default" label
@@ -29,7 +29,7 @@ suite "Console.Counter" {
       Console.count()
     }
 
-    let #(a, b) =
+    let {a, b} =
       Console.count()
 
     // reset "Default" label
@@ -62,10 +62,10 @@ suite "Console.Counter" {
       Console.count("Test")
     }
 
-    let #(a, b) =
+    let {a, b} =
       Console.count()
 
-    let #(c, d) =
+    let {c, d} =
       Console.count("Test")
 
     // reset "Default" label

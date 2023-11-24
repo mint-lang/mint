@@ -1,4 +1,4 @@
-enum A {
+type A {
   B
   C
   D
@@ -6,9 +6,9 @@ enum A {
 
 component Main {
   fun render : String {
-    case (A::B) {
-      A::B => "a"
-      A::C => "c"
+    case (A.B) {
+      A.B => "a"
+      A.C => "c"
     }
   }
 }
@@ -18,7 +18,7 @@ component Main {
 Not all possibilities of a case expression are covered. To cover all remaining
 possibilities create branches for the following cases:
 
-  A::D
+  A.D
 
 The case in question is here:
 
@@ -28,11 +28,11 @@ The case in question is here:
    6│
    7│ component Main {
    8│   fun render : String {
-    │     ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
-   9│     case (A::B) {
-  10│       A::B => "a"
-  11│       A::C => "c"
+    │     ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+   9│     case (A.B) {
+  10│       A.B => "a"
+  11│       A.C => "c"
   12│     }
-    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
   13│   }
   14│ }

@@ -118,13 +118,13 @@ module Math {
     `Math.cosh(#{number})`
   }
 
-  /* Returns the value of `Math:E` raised to the power x, where x is the given number */
+  /* Returns the value of `Math.E` raised to the power x, where x is the given number */
   fun exp (x : Number) : Number {
     `Math.exp(#{x})`
   }
 
   /*
-  Returns the value of `Math:E` to the power x, minus 1
+  Returns the value of `Math.E` to the power x, minus 1
 
     Math.exp(2) == 7.38905609893065
     Math.expm1(2) == 6.38905609893065

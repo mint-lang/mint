@@ -1,0 +1,37 @@
+component Main {
+  fun render : String {
+    case ("Hello") {
+      "test" => true
+      "Hello" => false
+      => false
+    }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import { match as B } from "./runtime.js";
+
+export const A = () => {
+  B(`Hello`, [
+    [
+      `test`,
+      () => {
+        return true
+      }
+    ],
+    [
+      `Hello`,
+      () => {
+        return false
+      }
+    ],
+    [
+      null,
+      () => {
+        return false
+      }
+    ]
+  ]);
+  return ``
+};

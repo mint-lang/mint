@@ -2,7 +2,7 @@ component Main {
   fun render : Array(Html) {
     for (item, item2, item3 of ["A", "B"]) {
       <div>
-        <{ item }>
+        item
       </div>
     }
   }
@@ -20,6 +20,6 @@ to the have only 1 argument:
   3│     for (item, item2, item3 of ["A", "B"]) {
    │          ⌃⌃⌃⌃
   4│       <div>
-  5│         <{ item }>
+  5│         item
   6│       </div>
   7│     }

@@ -6,7 +6,7 @@ module Mint
                            variable(track: false)
 
         whitespace
-        if word! "as"
+        if keyword! "as"
           whitespace
 
           next error :connect_variable_expected_as do

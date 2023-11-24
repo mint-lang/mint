@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class RecordUpdate < Node
-      getter fields, expression
+      getter expression, fields
 
       def initialize(@expression : Ast::Node,
                      @fields : Array(Field),

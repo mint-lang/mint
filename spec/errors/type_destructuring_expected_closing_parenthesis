@@ -1,18 +1,18 @@
 module Test {
   fun toString (status : Status) : String {
     case (status) {
-      A::B(
+      A.B(
 --------------------------------------------------------------------------------
 ░ ERROR (TYPE_DESTRUCTURING_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░
 
 I was expecting the closing parenthesis of an type destructuring but I found "a
 space" instead:
 
-   ┌ ./spec/errors/type_destructuring_expected_closing_parenthesis:4:11
+   ┌ ./spec/errors/type_destructuring_expected_closing_parenthesis:4:10
    ├───────────────────────────────────────────────────────────────────
   1│ module Test {
   2│   fun toString (status : Status) : String {
   3│     case (status) {
-  4│       A::B(
-   │            ⌃⌃⌃⌃
+  4│       A.B(
+   │           ⌃⌃⌃⌃
 

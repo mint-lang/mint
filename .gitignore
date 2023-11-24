@@ -3,3 +3,5 @@
 /bin/
 /.shards/
 .vscode
+node_modules
+coverage

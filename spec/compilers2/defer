@@ -1,0 +1,60 @@
+module Test {
+  const TEST = defer { test() + B.c() }
+
+  fun test {
+    "Hello!"
+  }
+}
+
+module B {
+  fun c {
+    "Blah"
+  }
+}
+
+component Main {
+  fun componentDidMount : Promise(String) {
+    let a = await Test.TEST
+
+    a
+  }
+
+  fun render : Html {
+    <div>
+      B.c()
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  createElement as D,
+  useEffect as B,
+  load as C
+} from "./runtime.js";
+
+export const
+  a = () => {
+    return `Blah`
+  },
+  b = `./1.js`,
+  A = () => {
+    B(() => {
+      (async () => {
+        const c = await C(b);
+        return c
+      })()
+    }, []);
+    return D(`div`, {}, [a()])
+  };
+
+---=== /__mint__/1.js ===---
+import { a as c } from "./index.js";
+
+export const
+  a = () => {
+    return `Hello!`
+  },
+  b = a() + c();
+
+export default b;

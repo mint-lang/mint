@@ -50,5 +50,41 @@ module Mint
         end
       end
     end
+
+    def parse_any : Nil
+      many do
+        oneof do
+          module_definition ||
+            type_definition ||
+            html_attribute ||
+            interpolation ||
+            css_font_face ||
+            css_keyframes ||
+            component ||
+            constant ||
+            property ||
+            operator ||
+            provider ||
+            function ||
+            comment ||
+            connect ||
+            locale ||
+            routes ||
+            route ||
+            state ||
+            style ||
+            store ||
+            suite ||
+            test ||
+            get ||
+            use ||
+            statement ||
+            case_branch ||
+            destructuring ||
+            css_node ||
+            expression
+        end
+      end
+    end
   end
 end

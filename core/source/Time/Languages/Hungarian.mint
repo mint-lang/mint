@@ -5,59 +5,59 @@ module Time.Format {
       toMonthAbbreviation:
         (month : Month) {
           case month {
-            Month.January => "jan."
-            Month.February => "febr."
-            Month.March => "márc."
-            Month.April => "ápr."
-            Month.May => "máj."
-            Month.June => "jún."
-            Month.July => "júl."
-            Month.August => "aug."
-            Month.September => "szept."
-            Month.October => "okt."
-            Month.November => "nov."
-            Month.December => "dec."
+            January => "jan."
+            February => "febr."
+            March => "márc."
+            April => "ápr."
+            May => "máj."
+            June => "jún."
+            July => "júl."
+            August => "aug."
+            September => "szept."
+            October => "okt."
+            November => "nov."
+            December => "dec."
           }
         },
       toMonthName:
         (month : Month) {
           case month {
-            Month.January => "janár"
-            Month.February => "február"
-            Month.March => "március"
-            Month.April => "április"
-            Month.May => "május"
-            Month.June => "június"
-            Month.July => "július"
-            Month.August => "augusztus"
-            Month.September => "szeptember"
-            Month.October => "október"
-            Month.November => "november"
-            Month.December => "december"
+            January => "janár"
+            February => "február"
+            March => "március"
+            April => "április"
+            May => "május"
+            June => "június"
+            July => "július"
+            August => "augusztus"
+            September => "szeptember"
+            October => "október"
+            November => "november"
+            December => "december"
           }
         },
       toWeekdayName:
         (weekday : Weekday) {
           case weekday {
-            Weekday.Monday => "hétfő"
-            Weekday.Tuesday => "kedd"
-            Weekday.Wednesday => "szerda"
-            Weekday.Thursday => "csütörtök"
-            Weekday.Friday => "péntek"
-            Weekday.Saturday => "szombat"
-            Weekday.Sunday => "vasárnap"
+            Monday => "hétfő"
+            Tuesday => "kedd"
+            Wednesday => "szerda"
+            Thursday => "csütörtök"
+            Friday => "péntek"
+            Saturday => "szombat"
+            Sunday => "vasárnap"
           }
         },
       toWeekdayAbbreviation:
         (weekday : Weekday) {
           case weekday {
-            Weekday.Monday => "hé"
-            Weekday.Tuesday => "ke"
-            Weekday.Wednesday => "sze."
-            Weekday.Thursday => "csü."
-            Weekday.Friday => "pé."
-            Weekday.Saturday => "szo."
-            Weekday.Sunday => "va."
+            Monday => "hé"
+            Tuesday => "ke"
+            Wednesday => "sze."
+            Thursday => "csü."
+            Friday => "pé."
+            Saturday => "szo."
+            Sunday => "va."
           }
         },
       toOrdinalSuffix:

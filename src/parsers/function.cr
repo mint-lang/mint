@@ -3,8 +3,9 @@ module Mint
     def function : Ast::Function?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
-        next unless word! "fun"
+        next unless keyword! "fun"
         whitespace
 
         next error :function_expected_name do
@@ -36,6 +37,7 @@ module Mint
               snippet self
             end unless item = self.type || type_variable
             whitespace
+
             item
           end
 

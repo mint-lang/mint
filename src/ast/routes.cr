@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Routes < Node
-      getter routes, comments
+      getter comments, routes
 
       def initialize(@comments : Array(Comment),
                      @routes : Array(Route),

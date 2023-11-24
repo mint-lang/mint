@@ -11,16 +11,16 @@ module Mint
       end
 
       def call
-        arg =
-          Ast::Field.new(
-            file: argument.file,
-            from: argument.from,
-            to: argument.to,
-            value: argument,
-            comment: nil,
-            key: nil)
+        @call ||= begin
+          arg =
+            Ast::Field.new(
+              file: argument.file,
+              from: argument.from,
+              to: argument.to,
+              value: argument,
+              comment: nil,
+              key: nil)
 
-        @call ||=
           case item = expression
           when Ast::Call
             Ast::Call.new(
@@ -37,6 +37,7 @@ module Mint
               from: from,
               to: to)
           end
+        end
       end
     end
   end

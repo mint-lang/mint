@@ -4,9 +4,9 @@ module Mint
       parse do |start_position|
         value =
           case
-          when word! "true"
+          when keyword! "true"
             true
-          when word! "false"
+          when keyword! "false"
             false
           else
             next

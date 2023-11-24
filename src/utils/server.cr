@@ -1,50 +1,52 @@
 module Mint
-  # This is a basic Kemal server without option parsing and logging.
+  # This module contains the logic to present the user with an option to
+  # run a server on a different port if the original is in use.
   module Server
     extend self
 
-    def port_open?(ip, port)
-      client = Socket.tcp(Socket::Family::INET, true)
-      client.connect(ip, port, 0.25)
-      client.close
-      false
-    rescue
-      true
-    end
+    def run(
+      *,
+      host : String = "127.0.0.1",
+      server : HTTP::Server,
+      port : Int32 = 3000,
+      &callback : Proc(String, Int32, Nil)
+    )
+      if port_closed?(host, port)
+        if STDIN.tty?
+          terminal.puts "#{COG} Port #{port} is used by a different application!"
 
-    def run(name, host = "127.0.0.1", port = 3000, verbose = true)
-      config = Kemal.config
-      config.logging = false
-      config.setup
+          while port_closed?(host, port)
+            port += 1
+          end
 
-      if port_open?(host, port)
-        server = HTTP::Server.new(config.handlers)
-        terminal.puts "#{COG} #{name} server started on http://#{host}:#{port}/" if verbose
-      elsif STDIN.tty?
-        new_port = config.port + 1
-        until port_open?(host, new_port)
-          new_port = new_port + 1
-        end
-        terminal.puts "#{COG} Port #{port} is used by a different application!"
-        terminal.puts "#{COG} Would you like to to use port #{new_port} instead? (Y/n)"
+          terminal.puts "#{COG} Would you like to to use port #{port} instead? (Y/n)"
 
-        use_new_port = gets
-        if !use_new_port.nil? && (use_new_port.empty? || use_new_port.downcase == "y")
-          run(name, host, new_port)
+          unless gets.to_s.downcase.downcase == "y"
+            terminal.puts "#{COG} Exiting..."
+            exit(1)
+          end
         else
-          terminal.puts "#{COG} Exiting..."
+          terminal.puts "#{COG} Port #{port} is used by a different application!"
+          exit(1)
         end
-      else
-        terminal.puts "#{COG} Port #{port} is used by a different application!"
-        exit(1)
       end
 
-      config.server = server
-      config.running = true
-      config.server.try(&.listen(host, port))
+      callback.call(host, port)
+
+      server.bind_tcp(host, port)
+      server.listen
     end
 
-    def terminal
+    private def port_closed?(host, port)
+      client = Socket.tcp(Socket::Family::INET, true)
+      client.connect(host, port, 0.25)
+      client.close
+      true
+    rescue
+      false
+    end
+
+    private def terminal
       Render::Terminal::STDOUT
     end
   end

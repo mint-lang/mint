@@ -3,6 +3,7 @@ module Mint
     def type_variant : Ast::TypeVariant?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
         next unless value = id
         whitespace

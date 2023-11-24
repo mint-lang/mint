@@ -1,13 +1,13 @@
-enum A {
+type A {
   B(name : String, color : String)
   C
 }
 
 component Main {
   fun render : String {
-    case (A::B(name: "Joe", color: "Blue")) {
-      A::B(color, name) => color
-      A::C => ""
+    case (A.B(name: "Joe", color: "Blue")) {
+      A.B(color, name) => color
+      A.C => ""
     }
   }
 }

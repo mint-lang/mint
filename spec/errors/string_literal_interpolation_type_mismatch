@@ -1,6 +1,6 @@
 component Main {
   fun render : String {
-    let name = {}
+    let name = void
 
     "Hello There #{name}!"
   }
@@ -14,7 +14,7 @@ An interpolation in string is causing a mismatch. The expected type is:
 
 Instead it is:
 
-  Unit
+  Void
 
 The interpolation in question is here:
 
@@ -22,7 +22,7 @@ The interpolation in question is here:
    ├──────────────────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
-  3│     let name = {}
+  3│     let name = void
   4│
   5│     "Hello There #{name}!"
    │                  ⌃⌃⌃⌃⌃⌃⌃

@@ -26,6 +26,11 @@ suite "Object.Decode.field" {
 }
 
 suite "Object.Decode.string" {
+  test "using decode keyword" {
+    decode (`""`) as String
+    |> Result.isOk()
+  }
+
   test "it returns an error if it's not a string" {
     Object.Decode.string(`0`)
     |> Result.isError()
@@ -38,6 +43,11 @@ suite "Object.Decode.string" {
 }
 
 suite "Object.Decode.time" {
+  test "using decode keyword" {
+    decode (`""`) as Time
+    |> Result.isError()
+  }
+
   test "it returns an error if it's not a valid date" {
     Object.Decode.time(`"asd"`)
     |> Result.isError()
@@ -50,6 +60,11 @@ suite "Object.Decode.time" {
 }
 
 suite "Object.Decode.number" {
+  test "using decode keyword" {
+    decode (`""`) as Number
+    |> Result.isError()
+  }
+
   test "it returns an error if it's not a valid number" {
     Object.Decode.number(`"asd"`)
     |> Result.isError()
@@ -62,6 +77,11 @@ suite "Object.Decode.number" {
 }
 
 suite "Object.Decode.boolean" {
+  test "using decode keyword" {
+    decode (`""`) as Bool
+    |> Result.isError()
+  }
+
   test "it returns an error if it's not a valid boolean" {
     Object.Decode.boolean(`"asd"`)
     |> Result.isError()
@@ -74,6 +94,11 @@ suite "Object.Decode.boolean" {
 }
 
 suite "Object.Decode.array" {
+  test "using decode keyword" {
+    decode (`""`) as Array(String)
+    |> Result.isError()
+  }
+
   test "it returns an error if it's not a valid array" {
     Object.Decode.array(`"asd"`, Object.Decode.string)
     |> Result.isError()
@@ -91,6 +116,11 @@ suite "Object.Decode.array" {
 }
 
 suite "Object.Decode.maybe" {
+  test "using decode keyword" {
+    decode (`""`) as Maybe(String)
+    |> Result.isOk()
+  }
+
   test "it returns an error if it's not a valid string" {
     Object.Decode.maybe(`0`, Object.Decode.string)
     |> Result.isError()

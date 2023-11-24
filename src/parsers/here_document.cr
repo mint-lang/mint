@@ -11,6 +11,17 @@ module Mint
         token =
           identifier_constant
 
+        if char!('(')
+          whitespace
+          highlight = keyword!("highlight")
+
+          whitespace
+          next error :here_doc_expected_closing_parenthesis do
+            expected "the closing parenthesis of here document flags", word
+            snippet self
+          end unless char!(')')
+        end
+
         next error :here_document_expected_start do
           expected "the start tag of a here document", word
           snippet self
@@ -25,6 +36,7 @@ module Mint
 
         Ast::HereDocument.new(
           from: start_position,
+          highlight: highlight,
           modifier: modifier,
           token: token,
           value: value,

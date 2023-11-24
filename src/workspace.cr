@@ -61,6 +61,12 @@ module Mint
     property? check_everything : Bool = true
     property? check_env : Bool = false
     property? format : Bool = false
+    getter test_path : String?
+
+    def test_path=(value)
+      @test_path = value
+      update_patterns
+    end
 
     def initialize(@root : String)
       json_path =
@@ -79,9 +85,6 @@ module Mint
 
       @source_watcher =
         Watcher.new(all_files_pattern)
-
-      @static_watcher =
-        Watcher.new(all_static_pattern)
 
       @env_watcher =
         Env.env.try do |file|
@@ -137,13 +140,6 @@ module Mint
 
     def watch
       spawn do
-        # Watches static files
-        @static_watcher.watch do
-          call "change", ast
-        end
-      end
-
-      spawn do
         # Watches all the `*.mint` files
         @source_watcher.watch do |files|
           # Remove the changed files from the cache
@@ -183,27 +179,35 @@ module Mint
     end
 
     def files_pattern : Array(String)
-      json
-        .source_directories
-        .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
-    end
+      files =
+        json
+          .source_directories
+          .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
 
-    def static_pattern : Array(String)
-      json
-        .external_files
-        .values
-        .flatten
+      if path = test_path
+        files + if path == "*"
+          json
+            .test_directories
+            .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
+        else
+          [path]
+        end
+      else
+        files
+      end
     end
 
     def update_cache
-      files.each do |file|
-        path =
-          File.realpath(file)
+      Logger.log "Parsing files" do
+        files.each do |file|
+          path =
+            File.realpath(file)
 
-        self[file] ||= process(File.read(path), path)
+          self[file] ||= process(File.read(path), path)
+        end
       end
 
-      check!
+      Logger.log "Type Checking" { check! }
 
       @error = nil
 
@@ -222,7 +226,6 @@ module Mint
 
     def update(contents, file)
       self[file] = process(contents, file)
-      check!
       @error = nil
 
       call "change", ast
@@ -267,20 +270,13 @@ module Mint
       @event_handlers[event]?.try(&.each(&.call(arg)))
     end
 
-    private def reset_cache
+    def reset_cache
       @cache = {} of String => Ast
       update_cache
     end
 
     private def update_patterns
-      @static_watcher.pattern = all_static_pattern
       @source_watcher.pattern = all_files_pattern
-    end
-
-    private def all_static_pattern : Array(String)
-      packages
-        .flat_map(&.static_pattern)
-        .concat(static_pattern)
     end
 
     private def all_files_pattern : Array(String)

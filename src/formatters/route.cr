@@ -14,7 +14,12 @@ module Mint
           " (#{args})"
         end
 
-      "#{node.url}#{arguments} #{body}"
+      await =
+        if node.await
+          " await"
+        end
+
+      "#{node.url}#{arguments}#{await} #{body}"
     end
   end
 end

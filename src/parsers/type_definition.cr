@@ -3,9 +3,10 @@ module Mint
     def type_definition : Ast::TypeDefinition?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
-        # TODO: Remove `record` and `enum` in 0.21.0 when deprecation ends.
-        next unless word!("type") || word!("record") || word!("enum")
+        # TODO: Remove `record` and `enum` in 0.21.0
+        next unless keyword!("type") || keyword!("record") || keyword!("enum")
         whitespace
 
         next error :type_definition_expected_name do

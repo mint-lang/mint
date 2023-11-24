@@ -1,9 +1,12 @@
 module Mint
   class Parser
-    def html_body(expected_closing_bracket : Proc(Nil),
-                  expected_closing_tag : Proc(Nil),
-                  tag : Ast::Variable | Ast::Id,
-                  with_dashes : Bool)
+    def html_body(
+      *,
+      expected_closing_bracket : Proc(Nil),
+      expected_closing_tag : Proc(Nil),
+      tag : Ast::Variable | Ast::Id,
+      with_dashes : Bool
+    )
       parse(track: false) do
         attributes = many { html_attribute(with_dashes) }
         whitespace
@@ -15,7 +18,7 @@ module Mint
         children = [] of Ast::Node
 
         unless self_closing
-          items = many { expression || comment }
+          items = many { comment || expression }
           whitespace
 
           closing_tag =

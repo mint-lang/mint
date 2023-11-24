@@ -1,4 +1,4 @@
-enum Maybe(value) {
+type Maybe(value) {
   Just(value)
   Nothing
 }

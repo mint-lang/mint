@@ -27,6 +27,7 @@ module Mint
 
             unified_branch =
               Comparer.compare(type, resolved)
+
             error! :case_branch_not_matches do
               block do
                 text "The return type of the"
@@ -96,7 +97,7 @@ module Mint
 
           cases =
             not_matched.map do |variant|
-              "#{format parent.name}::#{formatter.replace_skipped(format(variant.value))}"
+              "#{format parent.name}.#{formatter.replace_skipped(format(variant.value))}"
             end.join('\n')
 
           error! :case_type_not_covered do

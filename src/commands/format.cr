@@ -3,30 +3,56 @@ module Mint
     class Format < Admiral::Command
       include Command
 
-      define_help description: "Formats source files"
+      # The status of a file.
+      enum Status
+        NotFormatted
+        Formatted
+        Same
+      end
 
-      define_argument pattern,
-        description: "The pattern which determines which files to format"
+      define_help description: "Formats .mint files."
 
-      define_flag stdin : Bool,
-        description: "Formats Mint code from STDIN",
-        default: false
+      define_argument pattern : String,
+        description: "The pattern which determines which files to format."
 
       define_flag check : Bool,
-        description: "Checks that formatting code produces no changes",
+        description: "Checks that formatting code produces no changes.",
+        default: false
+
+      define_flag stdin : Bool,
+        description: "Formats code from STDIN and writes it to STDOUT.",
         default: false
 
       def run
         if flags.stdin
           format_stdin
         else
-          all_formatted = true
+          failed =
+            execute "Formatting files" do
+              result =
+                format_files
 
-          execute "Formatting files" do
-            all_formatted = format_files
-          end
+              if result.empty?
+                terminal.puts "Nothing to format!"
+              else
+                if result.all?(&.first.==(Status::Same))
+                  terminal.puts "All files are formatted!"
+                else
+                  result.each do |(status, file)|
+                    case status
+                    when Status::NotFormatted
+                      terminal.puts "Not formatted: #{file}"
+                    when Status::Formatted
+                      terminal.puts "Formatted: #{file}"
+                    end
+                  end
+                end
+              end
 
-          exit(1) if flags.check && !all_formatted
+              result.any?(&.first.==(Status::NotFormatted))
+            end
+
+          exit(1) if flags.check && failed
         end
       end
 
@@ -38,67 +64,46 @@ module Mint
           Parser.parse(input, "stdin.mint")
 
         formatted =
-          Formatter.new(MintJson.parse_current.formatter_config).format(artifact)
+          Formatter.new(config).format(artifact)
 
         terminal.puts formatted
       rescue error : Error
-        error(error.to_terminal, terminal.position)
+        error error.to_terminal, terminal.position
       end
 
       private def format_files
-        current =
-          MintJson.parse_current?
-
-        files =
-          if pattern_argument = arguments.pattern.presence
-            Dir.glob(pattern_argument)
-          elsif current
-            format_directories =
-              current.source_directories | current.test_directories
-
-            format_directories_patterns =
-              format_directories.map do |dir|
-                SourceFiles.glob_pattern(dir)
-              end
-            Dir.glob(format_directories_patterns)
+        pattern =
+          arguments.pattern.presence || json.try do |item|
+            (item.source_directories | item.test_directories)
+              .map(&->SourceFiles.glob_pattern(String))
           end
 
-        if files.try(&.empty?)
-          terminal.puts "Nothing to format!"
-          true
-        else
-          all_formatted = true
+        Dir.glob(pattern || "").map do |file|
+          artifact =
+            Parser.parse(file)
 
-          files.not_nil!.each do |file|
-            artifact =
-              Parser.parse(file)
+          formatted =
+            Formatter.new(config).format(artifact)
 
-            config =
-              if current
-                MintJson.parse_current.formatter_config
-              else
-                Formatter::Config.new
-              end
+          next {Status::Same, file} if formatted == File.read(file)
 
-            formatted =
-              Formatter.new(config).format(artifact)
-
-            unless formatted == File.read(file)
-              if flags.check
-                terminal.puts "Not formatted: #{file}"
-              else
-                File.write(file, formatted)
-                terminal.puts "Formatted: #{file}"
-              end
-              all_formatted = false
-            end
+          if flags.check
+            {Status::NotFormatted, file}
+          else
+            File.write(file, formatted)
+            {Status::Formatted, file}
           end
-
-          terminal.puts "All files are formatted!" if all_formatted
-          all_formatted
         end
-      rescue error : Error
-        raise error
+      end
+
+      # We try to honor the config of the current project but
+      # allow for formatting without one using defaults.
+      private def config
+        json.try(&.formatter_config) || Formatter::Config.new
+      end
+
+      private def json
+        MintJson.parse_current?
       end
     end
   end

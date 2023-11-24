@@ -44,23 +44,22 @@ module Url {
     Url.parse("https://www.example.com").host == "www.example.com"
   */
   fun parse (url : String) : Url {
+    let anchor =
+      Dom.createElement("a")
+
     `
     (() => {
-      if (!this._a) {
-        this._a = document.createElement('a')
-      }
-
-      this._a.href = #{url}
+      #{anchor}.href = #{url}
 
       return #{{
-        hostname: `this._a.hostname || ""`,
-        protocol: `this._a.protocol || ""`,
-        origin: `this._a.origin || ""`,
-        path: `this._a.pathname || ""`,
-        search: `this._a.search || ""`,
-        hash: `this._a.hash || ""`,
-        host: `this._a.host || ""`,
-        port: `this._a.port || ""`
+        hostname: `#{anchor}.hostname || ""`,
+        protocol: `#{anchor}.protocol || ""`,
+        origin: `#{anchor}.origin || ""`,
+        path: `#{anchor}.pathname || ""`,
+        search: `#{anchor}.search || ""`,
+        hash: `#{anchor}.hash || ""`,
+        host: `#{anchor}.host || ""`,
+        port: `#{anchor}.port || ""`
       }}
     })()
     `

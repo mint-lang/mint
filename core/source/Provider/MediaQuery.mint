@@ -21,22 +21,21 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           memo : Map(String, Function(Void)),
           subscription : Provider.MediaQuery.Subscription
         ) {
-          case Map.get(listeners, subscription.query) {
-            Maybe.Nothing =>
-              Map.set(
-                memo,
+          if Map.get(listeners, subscription.query) == Maybe.Nothing {
+            Map.set(
+              memo,
+              subscription.query,
+              Window.addMediaQueryListener(
                 subscription.query,
-                Window.addMediaQueryListener(
-                  subscription.query,
-                  (active : Bool) {
-                    for item of subscriptions {
-                      subscription.changes(active)
-                    } when {
-                      item.query == subscription.query
-                    }
-                  }))
-
-            Maybe.Just => memo
+                (active : Bool) {
+                  for item of subscriptions {
+                    subscription.changes(active)
+                  } when {
+                    item.query == subscription.query
+                  }
+                }))
+          } else {
+            memo
           }
         })
 
@@ -54,14 +53,12 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
             |> Array.find(
               (item : Provider.MediaQuery.Subscription) { item.query == query })
 
-          case subscription {
-            Maybe.Just => memo
-
-            Maybe.Nothing =>
-              {
-                listener()
-                Map.delete(memo, query)
-              }
+          if subscription == Maybe.Nothing {
+            // Unsubscribe
+            listener()
+            Map.delete(memo, query)
+          } else {
+            memo
           }
         })
 

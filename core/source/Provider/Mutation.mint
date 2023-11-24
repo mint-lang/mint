@@ -19,15 +19,10 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Void))) {
     for entry of entries {
       for subscription of subscriptions {
-        case subscription.element {
-          Maybe.Just(element) =>
-            if Dom.contains(element, entry.target) {
-              subscription.changes()
-            } else {
-              next { }
-            }
-
-          Maybe.Nothing => next { }
+        if let Maybe.Just(element) = subscription.element {
+          if Dom.contains(element, entry.target) {
+            subscription.changes()
+          }
         }
       }
     }
@@ -42,14 +37,9 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
 
     /* For each subscription observe the given elements. */
     for subscription of subscriptions {
-      case subscription.element {
-        Maybe.Just(element) =>
-          {
-            MutationObserver.observe(observer, element, true, true)
-            subscription.changes()
-          }
-
-        Maybe.Nothing => next { }
+      if let Maybe.Just(element) = subscription.element {
+        MutationObserver.observe(observer, element, true, true)
+        subscription.changes()
       }
     }
 

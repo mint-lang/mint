@@ -42,13 +42,13 @@ Dir
 
             type_checker = Mint::TypeChecker.new(ast)
             type_checker.check
-          rescue item : Mint::Error
-            if item.name.to_s != error
-              fail item.to_terminal.to_s
+          rescue exception : Mint::Error
+            if exception.name.to_s != error
+              fail exception.to_terminal.to_s
             end
           end
 
-          item.should be_a(Mint::Error)
+          exception.should be_a(Mint::Error)
         else
           begin
             ast = Mint::Parser.parse(source, file)
@@ -56,10 +56,10 @@ Dir
 
             type_checker = Mint::TypeChecker.new(ast)
             type_checker.check
-          rescue item : Mint::Error
-            fail item.to_terminal.to_s
-          rescue item
-            fail item.to_s + '\n' + item.backtrace.join('\n')
+          rescue exception : Mint::Error
+            fail exception.to_terminal.to_s
+          rescue exception
+            fail exception.to_s + '\n' + exception.backtrace.join('\n')
           end
         end
       end

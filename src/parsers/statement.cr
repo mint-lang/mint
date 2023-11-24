@@ -3,7 +3,7 @@ module Mint
     def statement : Ast::Statement?
       parse do |start_position|
         target = parse(track: false) do
-          next unless word! "let"
+          next unless keyword! "let"
           whitespace
 
           value = variable(track: false) ||
@@ -19,7 +19,7 @@ module Mint
         end
 
         whitespace
-        await = word! "await"
+        await = keyword! "await"
 
         whitespace
         next unless body = expression

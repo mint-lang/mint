@@ -1,0 +1,52 @@
+store Application {
+  state isDarkMode : Bool = false
+}
+
+component Main {
+  connect Application exposing { isDarkMode }
+
+  style test {
+    if isDarkMode {
+      --color: red;
+    } else {
+      --color: blue;
+    }
+
+    font-size: 18px;
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test {
+  font-size: 18px;
+  --color: var(--a-a);
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  signal as A,
+  style as D
+} from "./runtime.js";
+
+export const
+  a = A(false),
+  B = () => {
+    const b = () => {
+      const _ = {};
+      (a.value ? Object.assign(_, {
+        [`--a-a`]: `red`
+      }) : Object.assign(_, {
+        [`--a-a`]: `blue`
+      }));
+      return _
+    };
+    return C(`div`, {
+      className: `Main_test`,
+      style: D([b()])
+    })
+  };

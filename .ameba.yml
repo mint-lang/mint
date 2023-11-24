@@ -3,3 +3,9 @@ Metrics/CyclomaticComplexity:
 
 Lint/NotNil:
   Enabled: false
+
+Documentation/DocumentationAdmonition:
+  Enabled: false
+
+Lint/UselessAssign:
+  ExcludeTypeDeclarations: true

@@ -1,4 +1,4 @@
-record MouseProvider.Data {
+type MouseProvider.Data {
   moves : Function(Position, Void),
   ups : Function(Position, Void)
 }

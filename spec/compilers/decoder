@@ -1,8 +1,8 @@
-record Y  {
+type Y  {
   size : Number using "SIIIZEEE"
 }
 
-record X {
+type X {
   string : String,
   number : Number,
   bool : Bool,

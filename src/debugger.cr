@@ -1,5 +1,35 @@
 module Mint
   class Debugger
+    def self.dbg(node)
+      name =
+        node.class.name.sub("Mint::Ast::", "")
+
+      case x = node
+      when Ast::Route
+        "Route (#{x.url})"
+      when Ast::Component
+        "<#{x.name.value}>"
+      when Ast::Module, Ast::Store, Ast::Provider, Ast::Type
+        x.name.value
+      when Ast::TypeDefinition
+        "TD: #{x.name.value}"
+      when Ast::TypeVariant
+        dbg(x.parent) + "." + x.value.value
+      when Ast::Function, Ast::Constant, Ast::Get, Ast::State, Ast::Property
+        pn =
+          case y = x.parent
+          when Ast::Component, Ast::Module, Ast::Store, Ast::Provider
+            y.name.value
+          else
+            ""
+          end
+
+        "#{pn}.#{x.name.value}"
+      else
+        name
+      end
+    end
+
     def initialize(@scope : TypeChecker::Scope)
     end
 
