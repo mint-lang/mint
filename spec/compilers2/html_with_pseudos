@@ -1,0 +1,73 @@
+component Main {
+  state hoverBackground : String = "yellow"
+  state background : String = "blue"
+
+  style test {
+    background: #{background};
+    color: red;
+
+    &:hover {
+      background: #{hoverBackground};
+      color: cyan;
+    }
+
+    &::first-line {
+      text-transform: uppercase;
+    }
+
+    div {
+      font-family: #{"Hello"};
+      color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  insertStyles as E,
+  useSignal as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(`yellow`);
+  const b = B(`blue`);
+  const c = () => {
+    const _ = {
+      [`--a-a`]: b.value,
+      [`--b-a`]: a.value,
+      [`--c-a`]: `Hello`
+    };
+    return _
+  };
+  return C("div", {
+    className: `Main_test`,
+    style: D([c()])
+  })
+};
+
+E(`
+.Main_test {
+  background: var(--a-a);
+  color: red;
+}
+
+.Main_test:hover {
+  background: var(--b-a);
+  color: cyan;
+}
+
+.Main_test::first-line {
+  text-transform: uppercase;
+}
+
+.Main_test div {
+  font-family: var(--c-a);
+  color: blue;
+}
+`);

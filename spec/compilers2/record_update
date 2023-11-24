@@ -1,0 +1,28 @@
+record Record {
+  name: String
+}
+
+component Main {
+  state record : Record = { name: "Doe" }
+
+  fun render : Html {
+    { record | name: "John" }
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  useSignal as B
+} from "runtime";
+
+const A = () => {
+  const a = B({
+    name: `Doe`
+  });
+  {
+    ...a.value,
+    name: `John`
+  };
+  return C("div", {})
+};

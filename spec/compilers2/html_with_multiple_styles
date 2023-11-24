@@ -1,0 +1,35 @@
+component Main {
+  style one {
+    color: red;
+  }
+
+  style two {
+    color: blue;
+  }
+
+  fun render : Html {
+    <div::one::two>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as C
+} from "runtime";
+
+const A = () => {
+  return B("div", {
+    className: `Main_one Main_two`
+  })
+};
+
+C(`
+.Main_one {
+  color: red;
+}
+
+.Main_two {
+  color: blue;
+}
+`);

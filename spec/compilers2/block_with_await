@@ -1,0 +1,26 @@
+component Main {
+  fun promise : Promise(String) {
+    `` as Promise(String)
+  }
+
+  fun promiseTest : Promise(String) {
+    await promise()
+  }
+
+  fun render : String {
+    promiseTest()
+
+    "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  const a = () => {
+    return undefined
+  };
+  const b = async () => {
+    return await a()
+  };
+  b();
+  return `Hello`
+};

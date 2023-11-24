@@ -1,0 +1,43 @@
+component Main {
+  style test {
+    color: yellow;
+
+    if (true) {
+      color: #{"red"};
+    } else {
+      color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as D,
+  style as C
+} from "runtime";
+
+const A = () => {
+  const a = () => {
+    const _ = {};
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : Object.assign(_, {
+      [`--a-a`]: `blue`
+    }));
+    return _
+  };
+  return B("div", {
+    className: `Main_test`,
+    style: C([a()])
+  })
+};
+
+D(`
+.Main_test {
+  color: var(--a-a, yellow);
+}
+`);

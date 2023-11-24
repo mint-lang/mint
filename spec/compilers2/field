@@ -1,0 +1,25 @@
+record Test {
+  a : String,
+  b : Number
+}
+
+component Main {
+  fun render : Html {
+    {
+      a: "Hello",
+      b: 0
+    }
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "runtime";
+
+const A = () => {
+  {
+    a: `Hello`,
+    b: 0
+  };
+  return B("div", {})
+};

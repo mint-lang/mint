@@ -1,0 +1,66 @@
+enum A(a) {
+  B(a)
+}
+
+enum C(a) {
+  D(A(a))
+  X
+}
+
+component Main {
+  fun test (b : C(a)) : a {
+    case (b) {
+      C::X => ""
+      C::D(a) =>
+        case (a) {
+          A::B(c) =>
+            c
+        }
+    }
+  }
+
+  fun render : String {
+    test(C::D(A::B("")))
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  newVariant as I,
+  pattern as G,
+  variant as B,
+  match as F
+} from "runtime";
+
+const A = B(1);
+const C = B(0);
+
+const D = B(1);
+
+const E = () => {
+  const a = (b) => {
+    return F(b, [
+      [
+        G(C, []),
+        () => {
+          return ``
+        }
+      ],
+      [
+        G(A, [H]),
+        (c) => {
+          return F(c, [[
+            G(D, [H]),
+            (d) => {
+              return d
+            }
+          ]])
+        }
+      ]
+    ])
+  };
+  a(I(A)(I(D)(``)));
+  return ``
+};

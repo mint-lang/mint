@@ -29,6 +29,8 @@ module Mint
           locale_key
         when '`'
           js
+        when '%'
+          builtin
         when '@'
           highlight_file_directive ||
             documentation_directive ||

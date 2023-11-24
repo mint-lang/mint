@@ -1,0 +1,18 @@
+component Main {
+  get test : String {
+    ""
+  }
+
+  fun render : String {
+    test
+  }
+}
+--------------------------------------------------------------------------------
+import { computed as B } from "runtime";
+
+const A = () => {
+  const a = B(() => {
+    return ``
+  });
+  return a.value
+};

@@ -1,0 +1,19 @@
+component Main {
+  fun test : Number {
+    42
+  }
+
+  fun render : String {
+    -test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  const a = () => {
+    return 42
+  };
+  -(a());
+  return ``
+};

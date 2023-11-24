@@ -1,0 +1,35 @@
+component Main {
+  style test (color : String) {
+    color: #{color};
+  }
+
+  fun render : Html {
+    <div::test("red")>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as D,
+  style as C
+} from "runtime";
+
+const A = () => {
+  const a = (b) => {
+    const _ = {
+      [`--a-a`]: b
+    };
+    return _
+  };
+  return B("div", {
+    className: `Main_test`,
+    style: C([a(`red`)])
+  })
+};
+
+D(`
+.Main_test {
+  color: var(--a-a);
+}
+`);

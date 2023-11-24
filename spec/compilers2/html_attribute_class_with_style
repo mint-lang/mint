@@ -1,0 +1,27 @@
+component Main {
+  style base {
+    width: 100%;
+  }
+
+  fun render : Html {
+    <div::base class="something">
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as C
+} from "runtime";
+
+const A = () => {
+  return B("div", {
+    className: `something` + ` Main_base`
+  })
+};
+
+C(`
+.Main_base {
+  width: 100%;
+}
+`);

@@ -1,0 +1,44 @@
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+record X.Y {
+  blah : String
+}
+
+record X {
+  name : String,
+  y: X.Y
+}
+
+component Main {
+  fun render : String {
+    decode `null` as Object as X
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  decodeString as E,
+  decoder as D,
+  variant as B
+} from "runtime";
+
+const A = B(1);
+const C = B(1);
+
+const a = D({
+  blah: E(C, A)
+});
+
+const b = D({
+  name: E(C, A),
+  y: a
+});
+
+const F = () => {
+  b((null));
+  return ``
+};

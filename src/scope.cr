@@ -80,7 +80,7 @@ module Mint
           when Ast::Store
             connect.keys.each do |key|
               @scopes[store][1].items[key.name.value]?.try do |value|
-                stack[1].items[key.target.try(&.value) || key.name.value] = Target.new(key, value.node)
+                stack[1].items[key.target.try(&.value) || key.name.value] = value
               end
             end
           end
@@ -229,6 +229,7 @@ module Mint
            Ast::MemberAccess,
            Ast::BoolLiteral,
            Ast::LocaleKey,
+           Ast::Builtin,
            Ast::Comment,
            Ast::Env
       when Ast::StringLiteral,

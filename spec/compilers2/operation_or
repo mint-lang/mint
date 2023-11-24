@@ -1,0 +1,24 @@
+enum Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Maybe::Nothing or "Hello"
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  variant as B,
+  or as E
+} from "runtime";
+
+const A = B(0);
+const C = B(1);
+
+const D = () => {
+  E(new A()._0, `Hello`);
+  return ``
+};

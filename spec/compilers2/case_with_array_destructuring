@@ -1,0 +1,62 @@
+component Main {
+  fun render : Array(String) {
+    case ([]) {
+      [] => [""]
+      ["a"] => ["a"]
+      [a] => [a]
+      [a, b] => [a, b]
+      [a, ...middle, b] => middle
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as C,
+  patternSpread as D,
+  match as B
+} from "runtime";
+
+const A = () => {
+  return B([], [
+    [
+      [],
+      () => {
+        return [``]
+      }
+    ],
+    [
+      [`a`],
+      () => {
+        return [`a`]
+      }
+    ],
+    [
+      [C],
+      (a) => {
+        return [a]
+      }
+    ],
+    [
+      [
+        C,
+        C
+      ],
+      (b, c) => {
+        return [
+          b,
+          c
+        ]
+      }
+    ],
+    [
+      [
+        C,
+        D,
+        C
+      ],
+      (d, e, f) => {
+        return e
+      }
+    ]
+  ])
+};

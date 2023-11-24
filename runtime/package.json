@@ -1,0 +1,12 @@
+{
+  "license": "MIT",
+  "dependencies": {
+    "@preact/signals": "^1.2.2",
+    "esbuild": "^0.19.8",
+    "event-propagation-path": "^1.0.5",
+    "indent-string": "^5.0.0",
+    "preact": "^10.19.2",
+    "prettier": "^3.1.0",
+    "route-parser": "mint-lang/mint-route-parser"
+  }
+}

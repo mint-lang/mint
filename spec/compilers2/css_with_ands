@@ -1,0 +1,44 @@
+component Main {
+  style test {
+    &:focus {
+      color: red;
+    }
+
+    &[someattribute] {
+      color: red;
+    }
+
+    &.someclass {
+      color: red;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as C
+} from "runtime";
+
+const A = () => {
+  return B("div", {
+    className: `Main_test`
+  })
+};
+
+C(`
+.Main_test:focus {
+  color: red;
+}
+
+.Main_test[someattribute] {
+  color: red;
+}
+
+.Main_test.someclass {
+  color: red;
+}
+`);

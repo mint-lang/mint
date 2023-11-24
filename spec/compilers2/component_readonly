@@ -1,0 +1,27 @@
+component Test {
+  property readonly : Bool = false
+
+  fun render : Html {
+    <div></div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test readonly={true}/>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "runtime";
+
+const A = ({
+  a = false
+}) => {
+  return B("div", {})
+};
+
+const C = () => {
+  return B(A, {
+    a: true
+  })
+};

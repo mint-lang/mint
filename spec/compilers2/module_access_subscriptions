@@ -1,0 +1,48 @@
+record Test {
+  test : String
+}
+
+provider Test : Test {
+  fun update : Promise(Void) {
+    await void
+  }
+
+  fun print (a : String) : String {
+    a
+  }
+}
+
+component Main {
+  use Test {
+    test: ""
+  }
+
+  fun render : String {
+    Test.subscriptions
+    Test.print("a")
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createProvider as C,
+  useProviders as E,
+  signal as A
+} from "runtime";
+
+const a = (b) => {
+  return b
+};
+const c = A([]);
+const B = C(c, async () => {
+  return await null
+});
+
+const D = () => {
+  E([[() => {
+    B({
+      test: ``
+    })
+  }]]);
+  c.value;
+  return a(`a`)
+};

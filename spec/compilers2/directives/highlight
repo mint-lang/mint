@@ -1,0 +1,21 @@
+component Main {
+  fun render : Html {
+    @highlight {
+      "Test"
+    }[1]
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "runtime";
+
+const A = () => {
+  return [
+    `Test`,
+    B(C, {}, [B("span", {
+      className: "string"
+    }, [`"Test"`])])
+  ][1]
+};

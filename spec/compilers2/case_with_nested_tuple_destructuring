@@ -1,0 +1,78 @@
+component Main {
+  fun render : String {
+    case ({"A", {"B", "C"}}) {
+      {"A", {"C", "D"}} =>
+        "B"
+
+      {"A", {"B", "C"}} =>
+        "A"
+
+      {a, b} =>
+        a
+
+      {a, {b, c}} =>
+        b
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as C,
+  match as B
+} from "runtime";
+
+const A = () => {
+  return B([
+    `A`,
+    [
+      `B`,
+      `C`
+    ]
+  ], [
+    [
+      [
+        `A`,
+        [
+          `C`,
+          `D`
+        ]
+      ],
+      () => {
+        return `B`
+      }
+    ],
+    [
+      [
+        `A`,
+        [
+          `B`,
+          `C`
+        ]
+      ],
+      () => {
+        return `A`
+      }
+    ],
+    [
+      [
+        C,
+        C
+      ],
+      (a, b) => {
+        return a
+      }
+    ],
+    [
+      [
+        C,
+        [
+          C,
+          C
+        ]
+      ],
+      (c, d, e) => {
+        return d
+      }
+    ]
+  ])
+};

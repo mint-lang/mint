@@ -1,0 +1,72 @@
+component Main {
+  state opacity : Number = 1
+
+  style test {
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: #{opacity};
+      }
+    }
+
+    @keyframes animation {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  insertStyles as E,
+  useSignal as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(1);
+  const b = () => {
+    const _ = {
+      [`--a-a`]: a.value
+    };
+    return _
+  };
+  return C("div", {
+    className: `Main_test`,
+    style: D([b()])
+  })
+};
+
+E(`
+@keyframes animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: var(--a-a);
+  }
+}
+
+@keyframes animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+`);

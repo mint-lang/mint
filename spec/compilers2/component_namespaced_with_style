@@ -1,0 +1,38 @@
+component Ui.Dropdown {
+  style base {
+    background: red;
+  }
+
+  fun render : Html {
+    <div::base>
+      "test"
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Ui.Dropdown/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as D
+} from "runtime";
+
+const A = () => {
+  return B("div", {
+    className: `Ui·Dropdown_base`
+  }, [`test`])
+};
+
+const C = () => {
+  return B(A, {})
+};
+
+D(`
+.Ui·Dropdown_base {
+  background: red;
+}
+`);

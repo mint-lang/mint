@@ -1,0 +1,12 @@
+component Main {
+  const NAME = "ASD"
+
+  fun render : String {
+    NAME
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  const a = `ASD`;
+  return a
+};

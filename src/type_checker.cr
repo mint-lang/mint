@@ -216,7 +216,7 @@ module Mint
       # scope.scopes[node].each_with_index do |item, index|
       #   puts scope.debug_name(item.node).indent(index * 2)
       #   item.items.each do |key, value|
-      #     puts "#{" " * (index * 2)}#{key} -> #{value.class.name}"
+      #     puts "#{" " * (index * 2)}#{key} -> #{value.node.class.name}"
       #   end
       # end
 
@@ -229,6 +229,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     def check!(node)
+      resolve_order << node
       checked.add(node) if checking?
     end
 
@@ -277,8 +278,6 @@ module Mint
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
-            resolve_order << node
-
             check! node
 
             @stack.delete node

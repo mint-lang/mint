@@ -16,7 +16,7 @@ module Window {
     `
     (() => {
       const listener = (event) => {
-        #{listener}(_normalizeEvent(event))
+        #{listener}(#{%normalizeEvent%}(event))
       }
 
       window.addEventListener(#{type}, listener, #{capture});
@@ -170,7 +170,7 @@ module Window {
     Window.jump("/new-url")
   */
   fun jump (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ true,
       /* triggerJump */ true,
@@ -194,7 +194,7 @@ module Window {
     Window.navigate("/new-url")
   */
   fun navigate (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ true,
       /* triggerJump */ false,
@@ -329,7 +329,7 @@ module Window {
     Window.setUrl("/new-url")
   */
   fun setUrl (url : String) : Promise(Void) {
-    `_navigate(
+    `#{%navigate%}(
       #{url},
       /* dispatch */ false,
       /* triggerJump */ false,

@@ -37,6 +37,9 @@ local: build
 documentation:
 	rm -rf docs && crystal docs
 
-# This builds the binary and depends on files in "src" and "core" directories.
-bin/mint: $(shell find src -type f) $(shell find core/source -type f)
+src/assets/runtime.js: $(shell find runtime/src -type f)
+	cd runtime && make
+
+# This builds the binary and depends on files in some directories.
+bin/mint: $(shell find src -type f) $(shell find core/source -type f) $(shell find runtime/src -type f)
 	shards build --error-on-warnings --error-trace --progress

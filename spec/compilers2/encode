@@ -1,0 +1,27 @@
+record Test {
+  name : String,
+  age : Number
+}
+
+component Main {
+  fun render : String {
+    encode { name: "Hello", age: 20 }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import { encoder as A } from "runtime";
+
+const a = A({
+  name: null,
+  age: null
+});
+
+const B = () => {
+  a({
+    name: `Hello`,
+    age: 20
+  });
+  return ``
+};

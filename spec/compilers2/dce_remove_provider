@@ -1,0 +1,10 @@
+provider MouseProvider : Unit {
+  fun update : Void {
+    void
+  }
+
+  fun attach : Void {
+    void
+  }
+}
+--------------------------------------------------------------------------------

@@ -1,0 +1,18 @@
+component Main {
+  fun render : Html {
+    <div>
+      <>
+        <{ "A" }>
+      </>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "runtime";
+
+const A = () => {
+  return B("div", {}, [B(C, {}, [`A`])])
+};

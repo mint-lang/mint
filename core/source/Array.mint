@@ -70,7 +70,7 @@ module Array {
     `
     (() => {
       for (let item of #{array}) {
-        if (_compare(#{other}, item)) {
+        if (#{%compare%}(#{other}, item)) {
           return true
         }
       }
@@ -273,7 +273,7 @@ module Array {
     `
     (() => {
       for (let index = 0; index < #{array}.length; index++) {
-        if (_compare(#{value}, #{method}(#{array}[index]))) {
+        if (#{%compare%}(#{value}, #{method}(#{array}[index]))) {
           return index
         }
       }

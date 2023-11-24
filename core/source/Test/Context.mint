@@ -11,7 +11,7 @@ module Test.Context {
   fun assertEqual (context : Test.Context(a), value : a) : Test.Context(a) {
     `
     #{context}.step((subject) => {
-      if (!_compare(#{value}, subject)) {
+      if (!#{%compare%}(#{value}, subject)) {
         throw \`Assertion failed: ${#{value}} === ${subject}\`
       }
       return subject
@@ -61,7 +61,7 @@ module Test.Context {
     #{context}.step((subject) => {
       const actual = #{method}(subject)
 
-      if (!_compare(#{value}, actual)) {
+      if (!#{%compare%}(#{value}, actual)) {
         throw \`Assertion failed: ${actual} === ${#{value}}\`
       }
       return subject

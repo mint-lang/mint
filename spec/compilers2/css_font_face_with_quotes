@@ -1,0 +1,36 @@
+component Main {
+  style test {
+    @font-face {
+      src: url(sansation_light.woff);
+      font-family: myFirstFont;
+    }
+
+    font-family: "myFirstFont";
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as C
+} from "runtime";
+
+const A = () => {
+  return B("div", {
+    className: `Main_test`
+  })
+};
+
+C(`
+.Main_test {
+  font-family: "myFirstFont";
+}
+
+@font-face {
+  src: url(sansation_light.woff);
+  font-family: myFirstFont;
+}
+`);

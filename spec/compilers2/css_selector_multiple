@@ -1,0 +1,57 @@
+component Main {
+  style test {
+    div {
+      color: #{color};
+    }
+
+    &:focus,
+    &:hover {
+      color: red;
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  insertStyles as E,
+  computed as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(() => {
+    return `blue`
+  });
+  const b = () => {
+    const _ = {
+      [`--a-a`]: a.value
+    };
+    return _
+  };
+  return C("div", {
+    className: `Main_test`,
+    style: D([b()])
+  })
+};
+
+E(`
+.Main_test div {
+  color: var(--a-a);
+}
+
+.Main_test:focus {
+  color: red;
+}
+
+.Main_test:hover {
+  color: red;
+}
+`);

@@ -1,0 +1,15 @@
+type X {
+  name : String
+}
+
+component Main {
+  fun render : String {
+    { name: "test" }.name
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  return {
+    name: `test`
+  }.name
+};

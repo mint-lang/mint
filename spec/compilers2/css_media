@@ -1,0 +1,55 @@
+component Main {
+  style test {
+    div {
+      color: #{color};
+    }
+
+    @media (screen) {
+      color: #{color};
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  insertStyles as E,
+  computed as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(() => {
+    return `blue`
+  });
+  const b = () => {
+    const _ = {
+      [`--a-a`]: a.value,
+      [`--b-a`]: a.value
+    };
+    return _
+  };
+  return C("div", {
+    className: `Main_test`,
+    style: D([b()])
+  })
+};
+
+E(`
+.Main_test div {
+  color: var(--a-a);
+}
+
+@media (screen) {
+  .Main_test {
+    color: var(--b-a);
+  }
+}
+`);

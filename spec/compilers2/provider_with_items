@@ -1,0 +1,64 @@
+record Subscription {
+  a : Bool,
+  b : Bool
+}
+
+provider Provider : Subscription {
+  const NAME = "hello"
+
+  state a : String = ""
+
+  get b : String {
+    a
+  }
+
+  fun update : Promise(Void) {
+    await void
+  }
+
+  fun name : String {
+    NAME
+  }
+}
+
+component Main {
+  use Provider {
+    a: true,
+    b: false
+  }
+
+  fun render {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createProvider as D,
+  createElement as G,
+  useProviders as F,
+  computed as B,
+  signal as A
+} from "runtime";
+
+const a = () => {
+  return b
+};
+const c = A(``);
+const d = B(() => {
+  return c.value
+});
+const b = `hello`;
+const e = A([]);
+const C = D(e, async () => {
+  return await null
+});
+
+const E = () => {
+  F([[() => {
+    C({
+      a: true,
+      b: false
+    })
+  }]]);
+  return G("div", {})
+};

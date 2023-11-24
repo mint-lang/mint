@@ -30,19 +30,24 @@ module Mint
       workspace = Workspace.current
       workspace.format = auto_format
       workspace.check_env = true
-      workspace.check_everything = false
+      workspace.check_everything = true
 
       workspace.on "change" do |result|
         case result
         when Ast
           # Compile.
-          @script = Compiler.compile workspace.type_checker.artifacts, {
-            css_prefix:     workspace.json.application.css_prefix,
-            web_components: workspace.json.web_components,
-            relative:       false,
-            optimize:       false,
-            build:          false,
-          }
+          @script =
+            Compiler2.compile(
+              workspace.type_checker.artifacts,
+              runtime_path: "./runtime.js",
+              include_program: true)
+          # Compiler.compile workspace.type_checker.artifacts, {
+          #   css_prefix:     workspace.json.application.css_prefix,
+          #   web_components: workspace.json.web_components,
+          #   relative:       false,
+          #   optimize:       false,
+          #   build:          false,
+          # }
 
           @artifacts = workspace.type_checker.artifacts
           @error = nil

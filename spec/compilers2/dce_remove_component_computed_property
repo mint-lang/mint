@@ -1,0 +1,15 @@
+component Main {
+  get test : String {
+    ""
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "runtime";
+
+const A = () => {
+  return B("div", {})
+};

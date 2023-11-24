@@ -1,0 +1,15 @@
+locale en {
+  test: "Hello"
+}
+
+component Main {
+  fun render : String {
+    :test
+  }
+}
+--------------------------------------------------------------------------------
+import { translate as B } from "runtime";
+
+const A = () => {
+  return B("test")
+};

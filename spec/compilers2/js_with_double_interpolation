@@ -1,0 +1,16 @@
+component Main {
+  fun test (input : String) : String {
+    input
+  }
+
+  fun render : String {
+    `      "Hello" + #{test(`"World!"`)}   `
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  const a = (b) => {
+    return b
+  };
+  return ("Hello" + a(("World!")))
+};

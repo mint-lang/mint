@@ -1,0 +1,36 @@
+module Test {
+  fun factorial(n : Number) : Number {
+    let helper = (n : Number, acc : Number) : Number {
+      if (n == 0) {
+        acc
+      } else {
+        helper(n - 1, acc * n)
+      }
+    }
+
+    helper(n, 1)
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.factorial(3)
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import { compare as B } from "runtime";
+
+const A = () => {
+  a(3);
+  return ``
+};
+
+const a = (b) => {
+  const c = (d, e) => {
+    return (B(d, 0) ? e : c(d - 1, e * d))
+  };
+  return c(b, 1)
+};
+

@@ -1,0 +1,43 @@
+record X {
+  name : String
+}
+
+module Array {
+  fun map (array : Array(a), method : Function(a, b)) : Array(b) {
+    ``
+  }
+}
+
+component Main {
+  fun render : String {
+    [
+      {
+        name: "Joe"
+      },
+      {
+        name: "Doe"
+      }
+    ]
+    |> Array.map(.name)
+
+    "asd"
+  }
+}
+--------------------------------------------------------------------------------
+import { access as B } from "runtime";
+
+const A = () => {
+  a([
+    {
+      name: `Joe`
+    },
+    {
+      name: `Doe`
+    }
+  ], B("name"));
+  return `asd`
+};
+
+const a = (b, c) => {
+  return undefined
+};

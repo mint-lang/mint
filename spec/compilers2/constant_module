@@ -1,0 +1,19 @@
+module Test {
+  const NAME = "ASD"
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <{ Test:NAME }>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as B } from "runtime";
+
+const A = () => {
+  return B("div", {}, [a])
+};
+
+const a = `ASD`;

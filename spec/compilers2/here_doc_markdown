@@ -1,0 +1,21 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN
+    ## Hello There
+
+    WTF
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "runtime";
+
+const A = () => {
+  return B(C, {}, [
+    B('h2', {}, [`Hello There`]),
+    B('p', {}, [`WTF`])
+  ])
+};

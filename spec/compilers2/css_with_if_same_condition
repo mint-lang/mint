@@ -1,0 +1,60 @@
+component Main {
+  style test {
+    .tag {
+      if (true) {
+        color: red;
+      } else {
+        color: blue;
+      }
+    }
+
+    .string {
+      if (true) {
+        color: yellow;
+      } else {
+        color: cyan;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  insertStyles as D,
+  style as C
+} from "runtime";
+
+const A = () => {
+  const a = () => {
+    const _ = {};
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : Object.assign(_, {
+      [`--a-a`]: `blue`
+    }));
+    (true ? Object.assign(_, {
+      [`--b-a`]: `yellow`
+    }) : Object.assign(_, {
+      [`--b-a`]: `cyan`
+    }));
+    return _
+  };
+  return B("div", {
+    className: `Main_test`,
+    style: C([a()])
+  })
+};
+
+D(`
+.Main_test .tag {
+  color: var(--a-a);
+}
+
+.Main_test .string {
+  color: var(--b-a);
+}
+`);

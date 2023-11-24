@@ -1,0 +1,28 @@
+store Test {
+  get a : String {
+    "Hello"
+  }
+
+  fun b : String {
+    Test.a
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+--------------------------------------------------------------------------------
+import { computed as B } from "runtime";
+
+const A = () => {
+  return a()
+};
+
+const b = B(() => {
+  return `Hello`
+});
+const a = () => {
+  return b.value
+};

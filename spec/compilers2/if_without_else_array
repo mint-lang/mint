@@ -1,0 +1,13 @@
+component Main {
+  fun render : Array(String) {
+    if ("asd" == "asd2") {
+      ["ARRAY"]
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import { compare as B } from "runtime";
+
+const A = () => {
+  return (B(`asd`, `asd2`) ? [`ARRAY`] : [])
+};

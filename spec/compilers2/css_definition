@@ -1,0 +1,42 @@
+component Main {
+  style test {
+    margin: #{margin}px 0px;
+  }
+
+  get margin : Number {
+    10
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  insertStyles as E,
+  computed as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(() => {
+    return 10
+  });
+  const b = () => {
+    const _ = {
+      [`--a-a`]: a.value + `px 0px`
+    };
+    return _
+  };
+  return C("div", {
+    className: `Main_test`,
+    style: D([b()])
+  })
+};
+
+E(`
+.Main_test {
+  margin: var(--a-a);
+}
+`);

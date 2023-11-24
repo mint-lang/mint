@@ -1,0 +1,30 @@
+store Test {
+  state test : String = ""
+
+  get hello : String {
+    "hello"
+  }
+}
+
+component Main {
+  connect Test exposing { test as xxx }
+
+  fun render : String {
+    xxx
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  computed as B,
+  signal as A
+} from "runtime";
+
+const a = A(``);
+const b = B(() => {
+  return `hello`
+});
+
+const C = () => {
+  return a.value
+};
+

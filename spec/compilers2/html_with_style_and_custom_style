@@ -1,0 +1,52 @@
+component Main {
+  state background : String = "blue"
+
+  get styles : Map(String, String) {
+    ``
+  }
+
+  style test {
+    background: #{background};
+    color: red;
+  }
+
+  fun render : Html {
+    <div::test style={styles}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as D,
+  insertStyles as F,
+  useSignal as B,
+  computed as C,
+  style as E
+} from "runtime";
+
+const A = () => {
+  const a = B(`blue`);
+  const b = C(() => {
+    return undefined
+  });
+  const c = () => {
+    const _ = {
+      [`--a-a`]: a.value
+    };
+    return _
+  };
+  return D("div", {
+    className: `Main_test`,
+    style: E([
+      c(),
+      b.value
+    ])
+  })
+};
+
+F(`
+.Main_test {
+  background: var(--a-a);
+  color: red;
+}
+`);

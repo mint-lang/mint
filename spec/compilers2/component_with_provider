@@ -1,0 +1,53 @@
+record MouseProvider.Data {
+  moves : Function(Position, Void),
+  ups : Function(Position, Void)
+}
+
+provider MouseProvider : MouseProvider.Data {
+  fun update : Void {
+    void
+  }
+}
+
+component Main {
+  use MouseProvider {
+    moves: (data : Position) : Void { void },
+    ups: (data : Position) : Void { void }
+  } when {
+    false
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createProvider as C,
+  createElement as F,
+  useProviders as E,
+  signal as A
+} from "runtime";
+
+const a = A([]);
+const B = C(a, () => {
+  return null
+});
+
+const D = () => {
+  E([[
+    () => {
+      B({
+        moves: (b) => {
+          return null
+        },
+        ups: (c) => {
+          return null
+        }
+      })
+    },
+    false
+  ]]);
+  return F("div", {})
+};
+

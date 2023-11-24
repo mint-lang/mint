@@ -35,6 +35,7 @@ module Mint
       (yield position, nodes_size, @errors.size).tap do |node|
         case node
         when Ast::Node
+          ast.nodes[nodes_size..-1].each { |child| child.parent ||= node unless child == node }
           ast.nodes << node if track
         when Nil
           ast.operators.delete_at(operators_size...)

@@ -36,7 +36,6 @@
     <%# In development runtime comes separately and %>
     <%# the live reload script necessary. %>
     <% if env.development? %>
-      <script src="<%= path_for("runtime.js") %>"></script>
       <% if @live_reload %>
         <script src="<%= path_for("live-reload.js") %>"></script>
       <% end %>
@@ -67,7 +66,7 @@
         <%= @index_js %>
       </script>
     <% else %>
-      <script src="<%= path_for("index.js") %>"></script>
+      <script src="<%= path_for("index.js") %>" type="module"></script>
     <% end %>
 
     <noscript>

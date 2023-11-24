@@ -1,0 +1,25 @@
+component Main {
+  get styles : Map(String, String) {
+    ``
+  }
+
+  fun render : Html {
+    <div style={styles}>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  computed as B,
+  style as D
+} from "runtime";
+
+const A = () => {
+  const a = B(() => {
+    return undefined
+  });
+  return C("div", {
+    style: D([a.value])
+  })
+};

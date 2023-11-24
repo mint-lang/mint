@@ -1,0 +1,9 @@
+component Main {
+  fun render : String {
+    "Hello There #{"Hello"}"
+  }
+}
+--------------------------------------------------------------------------------
+const A = () => {
+  return `Hello There ${`Hello`}`
+};
