@@ -1,0 +1,17 @@
+<a name="<%= stringify(node) %>"></a>
+
+<div class="entity">
+  <div class="entity__signature">
+    <a class="entity__name" href="<%= anchor_url(node) %>">
+      <div><%= stringify(node) %></div>
+    </a>
+
+    <%= generate(node.type) %>
+
+    <%= default(node) %>
+
+    <%= source_url(node) %>
+  </div>
+
+  <%= comment(node) %>
+</div>

@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Store, json : JSON::Builder)
       json.object do
         json.field "name" do
@@ -20,6 +20,21 @@ module Mint
           generate node.functions, json
         end
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::Store)
+      render("#{__DIR__}/html/store.ecr")
+    end
+
+    def stringify(node : Ast::Store)
+      node.name.value
+    end
+
+    def children(node : Ast::Store)
+      children("stores", "state", node, node.states) |
+        children("stores", "function", node, node.functions)
     end
   end
 end

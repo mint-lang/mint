@@ -1,11 +1,21 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::TypeDefinitionField, json : JSON::Builder)
       json.object do
         json.field "key", node.key.value
         json.field "type", stringify(node.type)
         json.field "mapping", static_value(node.mapping)
       end
+    end
+  end
+
+  class DocumentationGeneratorHtml
+    def generate(node : Ast::TypeDefinitionField)
+      render("#{__DIR__}/html/type_definition_field.ecr")
+    end
+
+    def stringify(node : Ast::TypeDefinitionField)
+      node.key.value
     end
   end
 end

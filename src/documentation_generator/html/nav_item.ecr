@@ -1,0 +1,30 @@
+<a 
+  class="<% if is_page_active(category, node) %>active<% end %>" 
+  href="<%= page_url(category, stringify(node)) %>"
+  data-search="<%= search(node) %>" 
+  data-search-empty="true" 
+>
+  <div class="type-badge" data-type="<%= category.chomp('s') %>"></div>
+  <span class="nav-item-label">
+    <%= stringify(node) %>
+  </span>
+</a>
+
+<% children(node).each do |child| %>
+  <a 
+    href="<%= anchor_url(child) %>"
+    data-search="<%= child.@name %>"
+    data-search-empty="<%= is_page_active(category, node) %>"
+    
+    <%= child.@name %>
+    <% if !is_page_active(category, node) %>
+      style="display: none"
+    <% end %>
+>
+    &nbsp;&nbsp;
+    <div class="type-badge" data-type="<%= child.@subcategory.chomp('s') %>"></div>
+    <span class="nav-item-label">
+      <%= child.@name %>
+    </span>
+  </a> 
+<% end %>

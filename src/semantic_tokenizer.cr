@@ -67,9 +67,18 @@ module Mint
     end
 
     def self.highlight(path : String, html : Bool = false)
-      ast =
-        Parser.parse(path)
+      ast = Parser.parse(path)
 
+      highlight(ast, html)
+    end
+
+    def self.highlight(text : String, file : String, html : Bool = false)
+      ast = Parser.parse(text, file)
+
+      highlight(ast, html)
+    end
+
+    def self.highlight(ast : Ast, html : Bool = false)
       parts =
         tokenize(ast)
 
