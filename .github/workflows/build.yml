@@ -38,7 +38,7 @@ jobs:
           crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-osx --release
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: build
