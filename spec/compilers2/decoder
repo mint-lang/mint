@@ -41,19 +41,21 @@ import {
 } from "runtime";
 
 const A = B(1);
+
 const C = B(1);
 
 const D = B(1);
+
 const E = B(0);
 
-const a = F({
+const a = F(C, A, {
   size: [
     G(C, A),
     "SIIIZEEE"
   ]
 });
 
-const b = F({
+const b = F(C, A, {
   maybe: H(I(C, A), C, A, D, E),
   array: J(I(C, A), C, A),
   string: I(C, A),

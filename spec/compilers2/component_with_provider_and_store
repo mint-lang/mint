@@ -40,11 +40,13 @@ import {
 } from "runtime";
 
 const a = A(``);
+
 const b = () => {
   return `hello`
 };
 
 const c = A([]);
+
 const B = C(c, () => {
   return null
 });

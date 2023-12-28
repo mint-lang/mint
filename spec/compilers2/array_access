@@ -1,3 +1,8 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
 component Main {
   fun render : String {
     [
@@ -12,14 +17,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { arrayAccess as B } from "runtime";
+import {
+  arrayAccess as E,
+  variant as B
+} from "runtime";
 
-const A = () => {
-  B([
+const A = B(0);
+
+const C = B(1);
+
+const D = () => {
+  E([
     `Hello`,
     `Blah`,
     `Joe`
-  ], 1);
-  B([], 1);
+  ], 1, C, A);
+  E([], 1, C, A);
   return ``
 };

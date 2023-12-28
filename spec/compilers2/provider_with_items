@@ -43,12 +43,17 @@ import {
 const a = () => {
   return b
 };
+
 const c = A(``);
+
 const d = B(() => {
   return c.value
 });
+
 const b = `hello`;
+
 const e = A([]);
+
 const C = D(e, async () => {
   return await null
 });

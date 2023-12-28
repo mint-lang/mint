@@ -27,13 +27,14 @@ import {
 } from "runtime";
 
 const A = B(1);
+
 const C = B(1);
 
-const a = D({
+const a = D(C, A, {
   blah: E(C, A)
 });
 
-const b = D({
+const b = D(C, A, {
   name: E(C, A),
   y: a
 });

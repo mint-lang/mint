@@ -35,6 +35,7 @@ const A = B([
   "content",
   "key"
 ]);
+
 const C = B(0);
 
 const D = () => {

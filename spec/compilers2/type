@@ -25,11 +25,15 @@ import {
 } from "runtime";
 
 const A = B(0);
+
 const C = B(0);
+
 const D = B(1);
 
 const E = B(1);
+
 const F = B(1);
+
 const G = B(2);
 
 const H = () => {

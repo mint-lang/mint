@@ -1,7 +1,7 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::Component) : Compiled
-      compile node do
+    def resolve(node : Ast::Component)
+      resolve node do
         node.styles.each do |style|
           next unless style.in?(@artifacts.checked)
           style_builder.process(style, node.name.value.gsub('.', '·'))
@@ -34,22 +34,22 @@ module Mint
               render = function
               nil
             else
-              compile function
+              resolve function
             end
           end
 
         states =
-          compile node.states
+          resolve node.states
 
         gets =
-          compile node.gets
+          resolve node.gets
 
         constants =
-          compile node.constants
+          resolve node.constants
 
         refs =
           node.refs.to_h.keys.map do |ref|
-            js.const(ref, js.call(Builtin::Signal, [js.new(nothing, [] of Compiled)]))
+            {ref, js.call(Builtin::Signal, [js.new(nothing, [] of Compiled)])}
           end
 
         properties =
@@ -119,25 +119,34 @@ module Mint
             [] of Compiled
           end
 
-        @compiled << if node.global?
-          js.statements(
+        items =
+          if node.global?
             refs + states + gets + functions + styles + constants + [
-              js.const(node,
-                compile(render.not_nil!,
-                  contents: js.statements(
-                    effect + update_effect + provider_effect))),
-            ])
-        else
-          js.const(node,
-            compile(render.not_nil!,
-              contents: js.statements(
-                refs + states + gets + functions + styles +
-                effect + update_effect + provider_effect +
-                constants),
-              args: arguments))
-        end
+              {node,
+               compile(
+                 render.not_nil!,
+                 contents: js.statements(
+                   effect + update_effect + provider_effect))},
+            ]
+          else
+            consts =
+              (refs + states + gets + functions + styles + constants).compact.map do |(a, b)|
+                js.const(a, b)
+              end
 
-        [] of Item
+            [{
+              node,
+              compile(
+                render.not_nil!,
+                args: arguments,
+                contents: js.statements(
+                  consts +
+                  effect + update_effect + provider_effect
+                )),
+            }]
+          end
+
+        add(items)
       end
     end
 

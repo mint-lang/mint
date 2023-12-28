@@ -128,8 +128,8 @@ module Mint
     def initialize(@builder, @compiler)
     end
 
-    def compile(node : Ast::Style) : Compiler2::Compiled
-      return [] of Compiler2::Item unless any?(node)
+    def compile(node : Ast::Style)
+      return unless any?(node)
 
       static =
         variables[node]?
@@ -184,13 +184,13 @@ module Mint
       arguments =
         compile node.arguments
 
-      js.const(node, js.arrow_function(arguments) do
+      {node, js.arrow_function(arguments) do
         js.statements([
           js.const("_", static),
           js.statements(compiled_conditions),
           js.return(["_"] of Compiler2::Item),
         ])
-      end)
+      end}
     end
   end
 

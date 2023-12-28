@@ -20,6 +20,7 @@ import {
 } from "runtime";
 
 const a = A(``);
+
 const b = B(() => {
   return `hello`
 });

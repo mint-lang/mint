@@ -14,13 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "runtime";
-
-const A = () => {
-  return B("div", {}, [a])
-};
+import { createElement as C } from "runtime";
 
 const a = `ASD`;
-const C = () => {
+
+const A = () => {
   return a
+};
+
+const B = () => {
+  return C("div", {}, [a])
 };

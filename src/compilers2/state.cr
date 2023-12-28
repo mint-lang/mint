@@ -1,7 +1,7 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::State) : Compiled
-      compile node do
+    def resolve(node : Ast::State)
+      resolve node do
         default =
           compile node.default
 
@@ -13,7 +13,7 @@ module Mint
             Builtin::Signal
           end
 
-        js.const(node, js.call(method, [default]))
+        {node, js.call(method, [default])}
       end
     end
   end

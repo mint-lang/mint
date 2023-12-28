@@ -17,16 +17,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = () => {
-  const a = b();
-  return a()
-};
-
-const c = () => {
+const a = () => {
   return `Hello`
 };
+
 const b = () => {
-  return c
+  return a
 };
 
-
+const A = () => {
+  const c = b();
+  return c()
+};

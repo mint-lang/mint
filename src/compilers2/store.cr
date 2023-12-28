@@ -1,22 +1,20 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::Store) : Compiled
-      compile node do
+    def resolve(node : Ast::Store)
+      resolve node do
         functions =
-          compile node.functions
+          resolve node.functions
 
         states =
-          compile node.states
+          resolve node.states
 
         gets =
-          compile node.gets
+          resolve node.gets
 
         constants =
-          compile node.constants
+          resolve node.constants
 
-        @compiled << js.statements([["// #{node.name.value}"] of Item] + states + gets + functions + constants)
-
-        [] of Item
+        add states + gets + functions + constants
       end
     end
   end

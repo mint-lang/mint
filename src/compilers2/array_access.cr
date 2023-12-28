@@ -14,7 +14,7 @@ module Mint
         if type.name == "Tuple" && node.index.is_a?(Ast::NumberLiteral)
           expression + js.array([index])
         else
-          js.call(Builtin::ArrayAccess, [expression, index, [just] of Item, [nothing] of Item])
+          js.call(Builtin::ArrayAccess, [expression, index, just, nothing])
         end
       end
     end

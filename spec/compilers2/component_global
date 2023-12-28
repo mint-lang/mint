@@ -20,14 +20,14 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as B } from "runtime";
 
-const A = () => {
-  return B("div", {}, [a(`Hello`)])
-};
-
 const a = (b) => {
   return b
 };
-const C = () => {
+
+const A = () => {
   return B("div", {}, [`Test`])
 };
 
+const C = () => {
+  return B("div", {}, [a(`Hello`)])
+};

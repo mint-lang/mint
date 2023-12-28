@@ -12,12 +12,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "runtime";
-
-const A = () => {
-  return a()
-};
+import { createElement as A } from "runtime";
 
 const a = () => {
-  return B("p", {}, [`It should work`])
+  return A("p", {}, [`It should work`])
+};
+
+const B = () => {
+  return a()
 };

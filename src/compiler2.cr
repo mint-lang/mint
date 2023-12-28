@@ -1,9 +1,3 @@
-class Array(T)
-  def intersperse(separator : T)
-    flat_map { |item| [item, separator] }.tap(&.pop?)
-  end
-end
-
 module Mint
   # This class handles the generation of a serializer of Mint types into
   # JavaScript Objects.
@@ -14,27 +8,28 @@ module Mint
     @mappings = {} of String => Tuple(Variable, Variable, Compiled)
 
     def encoder(type : TypeChecker::Record) : Compiled
-      node =
-        ast.type_definitions.find!(&.name.value.==(type.name))
+      @encoders[type] ||= begin
+        node =
+          ast.type_definitions.find!(&.name.value.==(type.name))
 
-      item =
-        type.fields.each_with_object({} of String => Compiled) do |(key, value), memo|
-          encoder =
-            self.encoder value
+        item =
+          type.fields.each_with_object({} of String => Compiled) do |(key, value), memo|
+            encoder =
+              self.encoder value
 
-          if mapping = type.mappings[key]?
-            encoder = js.array([encoder, [%("#{mapping}")] of Item])
+            if mapping = type.mappings[key]?
+              encoder = js.array([encoder, [%("#{mapping}")] of Item])
+            end
+
+            memo[key] = encoder
           end
 
-          memo[key] = encoder
-        end
-
-      variable =
-        Variable.new
-
-      @compiled << js.const(variable, js.call(Builtin::Encoder, [js.object(item)]))
-
-      [variable] of Item
+        [
+          Variable.new.tap do |variable|
+            add variable, js.call(Builtin::Encoder, [js.object(item)])
+          end,
+        ] of Item
+      end
     end
 
     def encoder(type : TypeChecker::Type) : Compiled
@@ -60,85 +55,13 @@ module Mint
     def encoder(node : TypeChecker::Variable)
       raise "Cannot generate an encoder for a type variable!"
     end
-
-    def decoder(type : TypeChecker::Record)
-      node =
-        ast.type_definitions.find!(&.name.value.==(type.name))
-
-      item =
-        type.fields.each_with_object({} of String => Compiled) do |(key, value), memo|
-          decoder =
-            self.decoder value
-
-          if mapping = type.mappings[key]?
-            decoder = js.array([decoder, [%("#{mapping}")] of Item])
-          end
-
-          memo[key] = decoder
-        end
-
-      variable = Variable.new
-
-      @compiled << js.const(variable, js.call(Builtin::Decoder, [[ok] of Item, [err] of Item, js.object(item)]))
-
-      [variable] of Item
-    end
-
-    def decoder(type : TypeChecker::Type) : Compiled
-      case type.name
-      when "Object"
-        js.call(Builtin::DecodeObject, [[ok] of Item])
-      when "String"
-        js.call(Builtin::DecodeString, [[ok] of Item, [err] of Item])
-      when "Bool"
-        js.call(Builtin::DecodeBoolean, [[ok] of Item, [err] of Item])
-      when "Number"
-        js.call(Builtin::DecodeNumber, [[ok] of Item, [err] of Item])
-      when "Time"
-        js.call(Builtin::DecodeTime, [[ok] of Item, [err] of Item])
-      when "Maybe"
-        js.call(Builtin::DecodeMaybe, [
-          decoder(type.parameters.first),
-          [ok] of Item,
-          [err] of Item,
-          [just] of Item,
-          [nothing] of Item,
-        ])
-      when "Array"
-        js.call(Builtin::DecodeArray, [
-          decoder(type.parameters.first),
-          [ok] of Item,
-          [err] of Item,
-        ])
-      when "Map"
-        js.call(Builtin::DecodeMap, [
-          decoder(type.parameters.last),
-          [ok] of Item,
-          [err] of Item,
-        ])
-      when "Tuple"
-        decoders =
-          type.parameters.map { |item| decoder(item) }
-
-        js.call(Builtin::DecodeTuple, [
-          js.array(decoders),
-          [ok] of Item,
-          [err] of Item,
-        ])
-      else
-        raise "Cannot generate a decoder for #{type}!"
-      end
-    end
-
-    def decoder(node : TypeChecker::Variable)
-      raise "Cannot generate a decoder for a type variable!"
-    end
   end
 
   class Compiler2
     include Helpers
 
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Variable
+    alias Id = Ast::Node | Variable
     alias Compiled = Array(Item)
 
     record Signal, value : Ast::Node
@@ -233,13 +156,13 @@ module Mint
         end
       end
 
-      def program(main : Ast::Component, ok : Ast::TypeVariant, routes : Array(Compiled))
+      def program(main : Ast::Component, ok : Compiled, routes : Array(Compiled))
         used_builtins.add(Builtin::Program)
 
         rendered =
           render(routes.flatten)
 
-        "#{@class_pool.of(Builtin::Program, nil)}(#{@class_pool.of(main, nil)}, #{@class_pool.of(ok, nil)}, #{rendered})"
+        "#{@class_pool.of(Builtin::Program, nil)}(#{@class_pool.of(main, nil)}, #{render(ok)}, #{rendered})"
       end
 
       def render(items : Compiled) : String
@@ -453,17 +376,43 @@ module Mint
     delegate resolve_order, argument_order, variables, cache, lookups,
       record_field_lookup, ast, to: @artifacts
 
-    @compiled = [] of Compiled
+    @compiled = [] of Tuple(Id, Compiled)
     @touched : Set(Ast::Node) = Set(Ast::Node).new
 
+    @encoders = Hash(TypeChecker::Checkable, Compiled).new
+    @decoders = Hash(TypeChecker::Checkable, Compiled).new
+
+    def add(id : Id, compiled : Compiled)
+      @compiled << {id, compiled}
+    end
+
+    def add(items : Array(Tuple(Id, Compiled) | Nil))
+      items.compact.each { |(id, compiled)| add(id, compiled) }
+    end
+
     def compile(node : Ast::Node)
-      if @touched.includes?(node) ||
-         !node.in?(@artifacts.checked)
+      if @touched.includes?(node) || !node.in?(@artifacts.checked)
         [] of Item
       else
         @touched.add(node)
         yield
       end
+    end
+
+    def resolve(nodes : Array(Ast::Node))
+      nodes.map { |node| resolve(node) }
+    end
+
+    def resolve(node : Ast::Node)
+      puts "Missing resolver for: #{node.class.to_s.upcase}"
+      nil
+    end
+
+    def resolve(node : Ast::Node)
+      return unless node.in?(@artifacts.checked)
+      return if @touched.includes?(node)
+      @touched.add(node)
+      yield
     end
 
     getter js, compiled, style_builder
@@ -472,7 +421,7 @@ module Mint
     getter build : Bool = true
 
     def initialize(@artifacts : TypeChecker::Artifacts)
-      @js = Js.new
+      @js = Js.new(optimize: false)
 
       @style_builder =
         StyleBuilder.new(css_prefix: nil, optimize: false)
@@ -492,13 +441,13 @@ module Mint
     end
 
     def maybe
-      ast.type_definitions.find!(&.name.value.==("Maybe")).tap { |a| compile a }
+      ast.type_definitions.find!(&.name.value.==("Maybe")).tap { |a| resolve a }
     end
 
     def just
       case fields = maybe.fields
       when Array(Ast::TypeVariant)
-        fields.find!(&.value.value.==("Just"))
+        [fields.find!(&.value.value.==("Just"))] of Item
       else
         raise "SHOULD NOT HAPPEN"
       end
@@ -507,20 +456,20 @@ module Mint
     def nothing
       case fields = maybe.fields
       when Array(Ast::TypeVariant)
-        fields.find!(&.value.value.==("Nothing"))
+        [fields.find!(&.value.value.==("Nothing"))] of Item
       else
         raise "SHOULD NOT HAPPEN"
       end
     end
 
     def result
-      ast.type_definitions.find!(&.name.value.==("Result")).tap { |a| compile a }
+      ast.type_definitions.find!(&.name.value.==("Result")).tap { |a| resolve a }
     end
 
     def ok
       case fields = result.fields
       when Array(Ast::TypeVariant)
-        fields.find!(&.value.value.==("Ok"))
+        [fields.find!(&.value.value.==("Ok"))] of Item
       else
         raise "SHOULD NOT HAPPEN"
       end
@@ -529,7 +478,7 @@ module Mint
     def err
       case fields = result.fields
       when Array(Ast::TypeVariant)
-        fields.find!(&.value.value.==("Err"))
+        [fields.find!(&.value.value.==("Err"))] of Item
       else
         raise "SHOULD NOT HAPPEN"
       end
@@ -551,7 +500,7 @@ module Mint
             artifacts.ast.stores).sort_by { |item| artifacts.resolve_order.index(item) || -1 }
 
       compiler =
-        new(artifacts).tap(&.compile(top_level))
+        new(artifacts).tap(&.resolve(top_level))
 
       routes =
         compiler.compile(artifacts.ast.routes)
@@ -560,7 +509,9 @@ module Mint
         compiler.style_builder.compile
 
       items =
-        compiler.compiled
+        compiler.compiled.map do |(id, compiled)|
+          compiler.js.const(id, compiled)
+        end
 
       unless all_css.empty?
         items << compiler.js.call(Builtin::InsertStyles, [["`\n#{all_css}\n`"] of Item])

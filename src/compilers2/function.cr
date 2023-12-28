@@ -6,6 +6,12 @@ module Mint
       end
     end
 
+    def resolve(node : Ast::Function)
+      resolve node do
+        {node, compile(node, contents: nil, args: nil, skip_const: true)}
+      end
+    end
+
     def compile(
       node : Ast::Function, *,
       contents : Compiled | Nil = nil,

@@ -1,16 +1,14 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::Module) : Compiled
-      compile node do
+    def resolve(node : Ast::Module)
+      resolve node do
         functions =
-          compile node.functions
+          resolve node.functions
 
         constants =
-          compile node.constants
+          resolve node.constants
 
-        @compiled << js.statements(functions + constants)
-
-        [] of Item
+        add functions + constants
       end
     end
   end

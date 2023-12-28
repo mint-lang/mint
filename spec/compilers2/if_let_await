@@ -26,6 +26,7 @@ import {
 } from "runtime";
 
 const A = B(1);
+
 const C = B(0);
 
 const D = () => {

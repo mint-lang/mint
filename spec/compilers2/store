@@ -17,6 +17,7 @@ component Main {
 import { signal as A } from "runtime";
 
 const a = A(``);
+
 const b = () => {
   return `hello`
 };

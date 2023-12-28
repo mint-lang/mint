@@ -1,11 +1,11 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::Get) : Compiled
-      compile node do
+    def resolve(node : Ast::Get)
+      resolve node do
         body =
           compile node.body, for_function: true
 
-        js.const(node, js.call(Builtin::Computed, [js.arrow_function { body }]))
+        {node.as(Id), js.call(Builtin::Computed, [js.arrow_function { body }])}
       end
     end
   end

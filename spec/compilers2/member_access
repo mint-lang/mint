@@ -26,6 +26,10 @@ component Main {
 --------------------------------------------------------------------------------
 import { access as B } from "runtime";
 
+const a = (b, c) => {
+  return undefined
+};
+
 const A = () => {
   a([
     {
@@ -36,8 +40,4 @@ const A = () => {
     }
   ], B("name"));
   return `asd`
-};
-
-const a = (b, c) => {
-  return undefined
 };

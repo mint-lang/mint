@@ -25,6 +25,7 @@ const A = B([
   "name",
   "color"
 ]);
+
 const C = B(0);
 
 const D = () => {

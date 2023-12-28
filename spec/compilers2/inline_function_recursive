@@ -20,17 +20,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { compare as B } from "runtime";
-
-const A = () => {
-  a(3);
-  return ``
-};
+import { compare as A } from "runtime";
 
 const a = (b) => {
   const c = (d, e) => {
-    return (B(d, 0) ? e : c(d - 1, e * d))
+    return (A(d, 0) ? e : c(d - 1, e * d))
   };
   return c(b, 1)
 };
 
+const B = () => {
+  a(3);
+  return ``
+};

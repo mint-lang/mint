@@ -23,14 +23,14 @@ module Mint
           [Builtin::Navigate] of Item
         when "compare"
           [Builtin::Compare] of Item
-        when "just"
-          [just] of Item
         when "nothing"
-          [nothing] of Item
+          nothing
+        when "just"
+          just
         when "err"
-          [nothing] of Item
+          err
         when "ok"
-          [nothing] of Item
+          ok
         else
           raise "WTF"
         end
