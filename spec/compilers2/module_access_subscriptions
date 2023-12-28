@@ -29,22 +29,20 @@ import {
   signal as A
 } from "runtime";
 
-const a = (b) => {
-  return b
-};
-
-const c = A([]);
-
-const B = C(c, async () => {
-  return await null
-});
-
-const D = () => {
-  E([[() => {
-    B({
-      test: ``
-    })
-  }]]);
-  c.value;
-  return a(`a`)
-};
+const
+  a = (b) => {
+    return b
+  },
+  c = A([]),
+  B = C(c, async () => {
+    return await null
+  }),
+  D = () => {
+    E([[() => {
+      B({
+        test: ``
+      })
+    }]]);
+    c.value;
+    return a(`a`)
+  };

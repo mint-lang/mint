@@ -25,27 +25,26 @@ import {
   match as F
 } from "runtime";
 
-const A = B(1);
-
-const C = B(0);
-
-const D = () => {
-  (async () => {
-    let a = await E(A)(``);
-    return F(a, [
-      [
-        G(A, [H]),
-        (b) => {
-          return b
-        }
-      ],
-      [
-        null,
-        () => {
-          return `b`
-        }
-      ]
-    ])
-  })();
-  return ``
-};
+const
+  A = B(1),
+  C = B(0),
+  D = () => {
+    (async () => {
+      let a = await E(A)(``);
+      return F(a, [
+        [
+          G(A, [H]),
+          (b) => {
+            return b
+          }
+        ],
+        [
+          null,
+          () => {
+            return `b`
+          }
+        ]
+      ])
+    })();
+    return ``
+  };

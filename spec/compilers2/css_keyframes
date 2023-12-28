@@ -36,13 +36,14 @@ import {
 } from "runtime";
 
 const A = () => {
-  const a = B(1);
-  const b = () => {
-    const _ = {
-      [`--a-a`]: a.value
+  const
+    a = B(1),
+    b = () => {
+      const _ = {
+        [`--a-a`]: a.value
+      };
+      return _
     };
-    return _
-  };
   return C("div", {
     className: `Main_test`,
     style: D([b()])

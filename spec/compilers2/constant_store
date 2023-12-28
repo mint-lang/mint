@@ -12,9 +12,9 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as B } from "runtime";
 
-const a = `ASD`;
-
-const A = () => {
-  return B("div", {}, [a])
-};
+const
+  a = `ASD`,
+  A = () => {
+    return B("div", {}, [a])
+  };
 

@@ -17,12 +17,12 @@ import {
   toArray as D
 } from "runtime";
 
-const A = ({
-  children: a = []
-}) => {
-  return a
-};
-
-const B = () => {
-  return C(A, {}, D(``))
-};
+const
+  A = ({
+    children: a = []
+  }) => {
+    return a
+  },
+  B = () => {
+    return C(A, {}, D(``))
+  };

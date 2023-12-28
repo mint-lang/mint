@@ -15,11 +15,10 @@ import {
   or as E
 } from "runtime";
 
-const A = B(0);
-
-const C = B(1);
-
-const D = () => {
-  E(new A()._0, `Hello`);
-  return ``
-};
+const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    E(new A()._0, `Hello`);
+    return ``
+  };

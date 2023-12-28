@@ -14,12 +14,12 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as C } from "runtime";
 
-const A = ({
-  a = `Hello`
-}) => {
-  return a
-};
-
-const B = () => {
-  return C(A, {})
-};
+const
+  A = ({
+    a = `Hello`
+  }) => {
+    return a
+  },
+  B = () => {
+    return C(A, {})
+  };

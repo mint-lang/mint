@@ -16,14 +16,13 @@ component Main {
 --------------------------------------------------------------------------------
 import { computed as A } from "runtime";
 
-const a = A(() => {
-  return `Hello`
-});
-
-const b = () => {
-  return a.value
-};
-
-const B = () => {
-  return b()
-};
+const
+  a = A(() => {
+    return `Hello`
+  }),
+  b = () => {
+    return a.value
+  },
+  B = () => {
+    return b()
+  };

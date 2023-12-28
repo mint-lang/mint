@@ -24,21 +24,16 @@ import {
   variant as B
 } from "runtime";
 
-const A = B(0);
-
-const C = B(0);
-
-const D = B(1);
-
-const E = B(1);
-
-const F = B(1);
-
-const G = B(2);
-
-const H = () => {
-  new A();
-  I(G)(``, ``);
-  I(D)(I(E)(``));
-  return ``
-};
+const
+  A = B(0),
+  C = B(0),
+  D = B(1),
+  E = B(1),
+  F = B(1),
+  G = B(2),
+  H = () => {
+    new A();
+    I(G)(``, ``);
+    I(D)(I(E)(``));
+    return ``
+  };

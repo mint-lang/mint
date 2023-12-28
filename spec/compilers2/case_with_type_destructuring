@@ -34,34 +34,32 @@ import {
   match as F
 } from "runtime";
 
-const A = B(1);
-
-const C = B(1);
-
-const D = B(0);
-
-const E = () => {
-  const a = (b) => {
-    return F(b, [
-      [
-        G(D, []),
-        () => {
-          return ``
-        }
-      ],
-      [
-        G(C, [H]),
-        (c) => {
-          return F(c, [[
-            G(A, [H]),
-            (d) => {
-              return d
-            }
-          ]])
-        }
-      ]
-    ])
+const
+  A = B(1),
+  C = B(1),
+  D = B(0),
+  E = () => {
+    const a = (b) => {
+      return F(b, [
+        [
+          G(D, []),
+          () => {
+            return ``
+          }
+        ],
+        [
+          G(C, [H]),
+          (c) => {
+            return F(c, [[
+              G(A, [H]),
+              (d) => {
+                return d
+              }
+            ]])
+          }
+        ]
+      ])
+    };
+    a(I(C)(I(A)(``)));
+    return ``
   };
-  a(I(C)(I(A)(``)));
-  return ``
-};

@@ -17,11 +17,10 @@ import {
   variant as B
 } from "runtime";
 
-const A = B(1);
-
-const C = B(1);
-
-const D = () => {
-  E(F(C, A), C, A)((([])));
-  return ``
-};
+const
+  A = B(1),
+  C = B(1),
+  D = () => {
+    E(F(C, A), C, A)((([])));
+    return ``
+  };

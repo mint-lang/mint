@@ -16,12 +16,11 @@ component Main {
 --------------------------------------------------------------------------------
 import { signal as A } from "runtime";
 
-const a = A(``);
-
-const b = () => {
-  return `hello`
-};
-
-const B = () => {
-  return a.value
-};
+const
+  a = A(``),
+  b = () => {
+    return `hello`
+  },
+  B = () => {
+    return a.value
+  };

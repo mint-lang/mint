@@ -43,36 +43,35 @@ import {
   signal as A
 } from "runtime";
 
-const a = A([]);
-
-const B = C(a, () => {
-  return null
-});
-
-const D = () => {
-  E(() => {
-    (() => {
-      return null
-    })();
-    return () => {
-      return null
-    }
-  }, []);
-  F(() => {
+const
+  a = A([]),
+  B = C(a, () => {
     return null
-  });
-  G([[
-    () => {
-      B({
-        moves: (b) => {
-          return null
-        },
-        ups: (c) => {
-          return null
-        }
-      })
-    },
-    false
-  ]]);
-  return H("div", {})
-};
+  }),
+  D = () => {
+    E(() => {
+      (() => {
+        return null
+      })();
+      return () => {
+        return null
+      }
+    }, []);
+    F(() => {
+      return null
+    });
+    G([[
+      () => {
+        B({
+          moves: (b) => {
+            return null
+          },
+          ups: (c) => {
+            return null
+          }
+        })
+      },
+      false
+    ]]);
+    return H("div", {})
+  };

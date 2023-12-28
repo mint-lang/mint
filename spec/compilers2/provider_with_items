@@ -40,30 +40,25 @@ import {
   signal as A
 } from "runtime";
 
-const a = () => {
-  return b
-};
-
-const c = A(``);
-
-const d = B(() => {
-  return c.value
-});
-
-const b = `hello`;
-
-const e = A([]);
-
-const C = D(e, async () => {
-  return await null
-});
-
-const E = () => {
-  F([[() => {
-    C({
-      a: true,
-      b: false
-    })
-  }]]);
-  return G("div", {})
-};
+const
+  a = () => {
+    return b
+  },
+  c = A(``),
+  d = B(() => {
+    return c.value
+  }),
+  b = `hello`,
+  e = A([]),
+  C = D(e, async () => {
+    return await null
+  }),
+  E = () => {
+    F([[() => {
+      C({
+        a: true,
+        b: false
+      })
+    }]]);
+    return G("div", {})
+  };

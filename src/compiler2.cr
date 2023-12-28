@@ -261,6 +261,22 @@ module Mint
         ["const "] + assign(name, value)
       end
 
+      def consts(items : Array(Tuple(Id, Compiled))) : Compiled
+        if items.size == 1
+          id, value = items[0]
+          const id, value
+        else
+          assigns =
+            items.map { |(id, compiled)| assign(id, compiled) }
+
+          if optimize
+            ["const "] + list(assigns, multiline: false)
+          else
+            ["const"] + [Indent.new(["\n"] + list(assigns, multiline: true))] of Item
+          end
+        end
+      end
+
       def new(name : Item | Compiled, items : Array(Compiled)) : Compiled
         ["new "] + call(name, items)
       end
@@ -509,8 +525,10 @@ module Mint
         compiler.style_builder.compile
 
       items =
-        compiler.compiled.map do |(id, compiled)|
-          compiler.js.const(id, compiled)
+        if compiler.compiled.empty?
+          [] of Compiled
+        else
+          [compiler.js.consts(compiler.compiled)]
         end
 
       unless all_css.empty?

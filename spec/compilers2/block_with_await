@@ -15,12 +15,13 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = () => {
-  const a = () => {
-    return undefined
-  };
-  const b = async () => {
-    return await a()
-  };
+  const
+    a = () => {
+      return undefined
+    },
+    b = async () => {
+      return await a()
+    };
   b();
   return `Hello`
 };

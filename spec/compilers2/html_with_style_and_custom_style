@@ -25,16 +25,17 @@ import {
 } from "runtime";
 
 const A = () => {
-  const a = B(`blue`);
-  const b = C(() => {
-    return undefined
-  });
-  const c = () => {
-    const _ = {
-      [`--a-a`]: a.value
+  const
+    a = B(`blue`),
+    b = C(() => {
+      return undefined
+    }),
+    c = () => {
+      const _ = {
+        [`--a-a`]: a.value
+      };
+      return _
     };
-    return _
-  };
   return D("div", {
     className: `Main_test`,
     style: E([

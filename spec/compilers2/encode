@@ -13,15 +13,15 @@ component Main {
 --------------------------------------------------------------------------------
 import { encoder as A } from "runtime";
 
-const a = A({
-  name: null,
-  age: null
-});
-
-const B = () => {
-  a({
-    name: `Hello`,
-    age: 20
-  });
-  return ``
-};
+const
+  a = A({
+    name: null,
+    age: null
+  }),
+  B = () => {
+    a({
+      name: `Hello`,
+      age: 20
+    });
+    return ``
+  };

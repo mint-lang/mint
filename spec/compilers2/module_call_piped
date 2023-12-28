@@ -15,14 +15,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const a = (b, c) => {
-  return c
-};
-
-const d = () => {
-  return a(true, `Lorem ipsum dolor sit amet`)
-};
-
-const A = () => {
-  return d()
-};
+const
+  a = (b, c) => {
+    return c
+  },
+  d = () => {
+    return a(true, `Lorem ipsum dolor sit amet`)
+  },
+  A = () => {
+    return d()
+  };

@@ -22,16 +22,15 @@ import {
   variant as B
 } from "runtime";
 
-const A = B(0);
-
-const C = B(1);
-
-const D = () => {
-  E([
-    `Hello`,
-    `Blah`,
-    `Joe`
-  ], 1, C, A);
-  E([], 1, C, A);
-  return ``
-};
+const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    E([
+      `Hello`,
+      `Blah`,
+      `Joe`
+    ], 1, C, A);
+    E([], 1, C, A);
+    return ``
+  };

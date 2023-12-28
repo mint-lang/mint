@@ -19,13 +19,12 @@ import {
   signal as A
 } from "runtime";
 
-const a = A(``);
-
-const b = B(() => {
-  return `hello`
-});
-
-const C = () => {
-  return a.value
-};
+const
+  a = A(``),
+  b = B(() => {
+    return `hello`
+  }),
+  C = () => {
+    return a.value
+  };
 

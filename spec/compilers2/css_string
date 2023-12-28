@@ -22,13 +22,14 @@ import {
 } from "runtime";
 
 const A = () => {
-  const a = B(`Joe`);
-  const b = () => {
-    const _ = {
-      [`--a-a`]: `"Hi"` + ` blah ` + a.value + ` ` + `"Here is some content; Thanks ${a.value}"`
+  const
+    a = B(`Joe`),
+    b = () => {
+      const _ = {
+        [`--a-a`]: `"Hi"` + ` blah ` + a.value + ` ` + `"Here is some content; Thanks ${a.value}"`
+      };
+      return _
     };
-    return _
-  };
   return C("div", {
     className: `Main_unicode`,
     style: D([b()])

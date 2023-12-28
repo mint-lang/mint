@@ -12,10 +12,10 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as B } from "runtime";
 
-const A = () => {
-  return B("div", {})
-};
-
-const C = () => {
-  return B(A, {})
-};
+const
+  A = () => {
+    return B("div", {})
+  },
+  C = () => {
+    return B(A, {})
+  };

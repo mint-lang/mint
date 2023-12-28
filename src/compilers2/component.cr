@@ -129,9 +129,14 @@ module Mint
                    effect + update_effect + provider_effect))},
             ]
           else
+            entities =
+              (refs + states + gets + functions + styles + constants).compact
+
             consts =
-              (refs + states + gets + functions + styles + constants).compact.map do |(a, b)|
-                js.const(a, b)
+              if entities.any?
+                [js.consts(entities)]
+              else
+                [] of Compiled
               end
 
             [{
@@ -140,8 +145,7 @@ module Mint
                 render.not_nil!,
                 args: arguments,
                 contents: js.statements(
-                  consts +
-                  effect + update_effect + provider_effect
+                  consts + effect + update_effect + provider_effect
                 )),
             }]
           end

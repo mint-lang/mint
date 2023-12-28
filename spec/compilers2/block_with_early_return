@@ -20,15 +20,14 @@ import {
   variant as B
 } from "runtime";
 
-const A = B(1);
-
-const C = B(1);
-
-const D = () => {
-  const a = E(F(A)(`Some string...`), G(A, [H]));
-  if (a === false) {
-    return `RETURN`
+const
+  A = B(1),
+  C = B(1),
+  D = () => {
+    const a = E(F(A)(`Some string...`), G(A, [H]));
+    if (a === false) {
+      return `RETURN`
+    };
+    const [b] = a;
+    return b
   };
-  const [b] = a;
-  return b
-};

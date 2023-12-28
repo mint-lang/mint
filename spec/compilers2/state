@@ -14,11 +14,12 @@ component Main {
 import { useSignal as B } from "runtime";
 
 const A = () => {
-  const a = B(`Hello`);
-  const b = B(`0`);
-  const c = () => {
-    return a.value + b.value
-  };
+  const
+    a = B(`Hello`),
+    b = B(`0`),
+    c = () => {
+      return a.value + b.value
+    };
   return c()
 };
 

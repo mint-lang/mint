@@ -23,14 +23,15 @@ import {
 } from "runtime";
 
 const A = () => {
-  const a = B(`Joe`);
-  const b = B(24);
-  const c = () => {
-    return C(() => {
-      a.value = `Hello`;
-      b.value = 30
-    })
-  };
+  const
+    a = B(`Joe`),
+    b = B(24),
+    c = () => {
+      return C(() => {
+        a.value = `Hello`;
+        b.value = 30
+      })
+    };
   c();
   return ``
 };

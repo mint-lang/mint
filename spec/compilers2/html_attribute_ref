@@ -16,16 +16,15 @@ import {
   signal as E
 } from "runtime";
 
-const A = B(1);
-
-const C = B(0);
-
-const D = () => {
-  const a = E(new C());
-  return F("div", {
-    ref: (b) => {
-      a.value = b
-    }
-  })
-};
+const
+  A = B(1),
+  C = B(0),
+  D = () => {
+    const a = E(new C());
+    return F("div", {
+      ref: (b) => {
+        a.value = b
+      }
+    })
+  };
 

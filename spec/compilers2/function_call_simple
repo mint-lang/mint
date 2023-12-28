@@ -15,12 +15,13 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = () => {
-  const a = () => {
-    return `test`
-  };
-  const b = () => {
-    return a()
-  };
+  const
+    a = () => {
+      return `test`
+    },
+    b = () => {
+      return a()
+    };
   b();
   return ``
 };

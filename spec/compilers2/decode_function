@@ -26,20 +26,17 @@ import {
   variant as B
 } from "runtime";
 
-const A = B(1);
-
-const C = B(1);
-
-const a = D(C, A, {
-  blah: E(C, A)
-});
-
-const b = D(C, A, {
-  name: E(C, A),
-  y: a
-});
-
-const F = () => {
-  (b)((null));
-  return ``
-};
+const
+  A = B(1),
+  C = B(1),
+  a = D(C, A, {
+    blah: E(C, A)
+  }),
+  b = D(C, A, {
+    name: E(C, A),
+    y: a
+  }),
+  F = () => {
+    (b)((null));
+    return ``
+  };

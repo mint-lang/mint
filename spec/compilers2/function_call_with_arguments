@@ -15,12 +15,13 @@ component Main {
 }
 --------------------------------------------------------------------------------
 const A = () => {
-  const a = (b, c) => {
-    return c
-  };
-  const d = () => {
-    return a(`Hello`, true)
-  };
+  const
+    a = (b, c) => {
+      return c
+    },
+    d = () => {
+      return a(`Hello`, true)
+    };
   d();
   return ``
 };
