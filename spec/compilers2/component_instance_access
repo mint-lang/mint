@@ -31,7 +31,7 @@ component Main {
 import {
   patternVariable as K,
   createElement as F,
-  computed as E,
+  useComputed as E,
   pattern as J,
   variant as B,
   signal as H,
@@ -49,7 +49,7 @@ const
   },
   G = () => {
     const
-      b = H(new C()),
+      b = H(new C),
       c = () => {
         return I(b.value, [
           [

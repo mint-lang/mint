@@ -8,7 +8,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { computed as B } from "runtime";
+import { useComputed as B } from "runtime";
 
 const A = () => {
   const a = B(() => {

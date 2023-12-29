@@ -5,7 +5,14 @@ module Mint
         body =
           compile node.body, for_function: true
 
-        {node.as(Id), js.call(Builtin::Computed, [js.arrow_function { body }])}
+        method =
+          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
+            Builtin::UseComputed
+          else
+            Builtin::Computed
+          end
+
+        {node.as(Id), js.call(method, [js.arrow_function { body }])}
       end
     end
   end

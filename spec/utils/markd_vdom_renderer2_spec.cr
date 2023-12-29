@@ -97,8 +97,16 @@ describe Mint::Compiler2::VDOMRenderer2 do
         options = Markd::Options.new
         document = Markd::Parser.parse(markdown, options)
 
-        js = Mint::Compiler2::Js.new
-        js_renderer = Mint::Compiler2::JsRenderer.new
+        config =
+          Mint::Compiler2::Config.new(
+            runtime_path: "runtime",
+            css_prefix: nil,
+            relative: false,
+            optimize: false,
+            build: true)
+
+        js = Mint::Compiler2::Js.new(false)
+        js_renderer = Mint::Compiler2::Renderer.new(config)
         renderer = Mint::Compiler2::VDOMRenderer2.new
         node =
           Mint::Compiler2::VDOMRenderer2

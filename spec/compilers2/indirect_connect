@@ -22,10 +22,10 @@ component Main {
 import { signal as A } from "runtime";
 
 const
-  a = A(``),
-  b = () => {
+  a = () => {
     return `hello`
   },
+  b = A(``),
   c = A(``),
   B = () => {
     return c.value

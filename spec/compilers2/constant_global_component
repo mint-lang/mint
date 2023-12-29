@@ -17,10 +17,10 @@ component Main {
 import { createElement as C } from "runtime";
 
 const
-  a = `ASD`,
   A = () => {
     return a
   },
+  a = `ASD`,
   B = () => {
     return C("div", {}, [a])
   };

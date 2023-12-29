@@ -127,7 +127,20 @@ module Mint
 
       @artifacts = type_checker.artifacts
 
-      Compiler.compile_with_tests(type_checker.artifacts)
+      config =
+        Compiler2::Config.new(
+          runtime_path: "/runtime.js",
+          css_prefix: nil,
+          optimize: false,
+          relative: false,
+          build: false)
+
+      ws_url =
+        "ws://#{@flags.browser_host}:#{@flags.browser_port}/"
+
+      Compiler2.test(type_checker.artifacts, config, ws_url)
+    rescue error : Error
+      error.to_html
     end
 
     def resolve_reporter : Reporter
@@ -233,16 +246,12 @@ module Mint
     end
 
     def setup_kemal
-      # ameba:disable Lint/UselessAssign
-      ws_url =
-        "ws://#{@flags.browser_host}:#{@flags.browser_port}/"
-
       runtime =
         if runtime_path = @flags.runtime
           Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
           ::File.read(runtime_path)
         else
-          Assets.read("runtime.js")
+          Assets.read("runtime_test.js")
         end
 
       get "/" do
@@ -281,11 +290,13 @@ module Mint
         asset.file_contents
       end
 
-      get "/runtime.js" do
+      get "/runtime.js" do |env|
+        env.response.content_type = "application/javascript"
         runtime
       end
 
-      get "/tests" do
+      get "/tests" do |env|
+        env.response.content_type = "application/javascript"
         script
       end
 

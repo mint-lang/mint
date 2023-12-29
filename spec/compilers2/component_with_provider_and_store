@@ -40,18 +40,18 @@ import {
 } from "runtime";
 
 const
-  a = A(``),
+  a = A([]),
   b = () => {
     return `hello`
   },
-  c = A([]),
-  B = C(c, () => {
+  c = A(``),
+  B = C(a, () => {
     return null
   }),
   D = () => {
     E([[
       () => {
-        B({
+        return B({
           moves: (d) => {
             return null
           },

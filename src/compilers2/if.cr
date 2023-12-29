@@ -64,10 +64,10 @@ module Mint
             {nil, falsy},
           ], statement.await)
         else
-          js.if_shorthand(compile(statement.expression), truthy, falsy)
+          js.tenary(compile(statement.expression), truthy, falsy)
         end
       else
-        js.if_shorthand(compile(node.condition), truthy, falsy)
+        js.tenary(compile(node.condition), truthy, falsy)
       end
     end
   end

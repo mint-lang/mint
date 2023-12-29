@@ -21,7 +21,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
   style as D,
   match as B
 } from "runtime";
@@ -60,8 +59,6 @@ const A = () => {
   })
 };
 
-E(`
 .Main_test {
   color: var(--a-a, yellow);
 }
-`);

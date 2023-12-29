@@ -29,7 +29,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
   useSignal as B,
   style as D
 } from "runtime";
@@ -52,7 +51,6 @@ const A = () => {
   })
 };
 
-E(`
 .Main_test {
   background: var(--a-a);
   color: red;
@@ -71,4 +69,3 @@ E(`
   font-family: var(--c-a);
   color: blue;
 }
-`);

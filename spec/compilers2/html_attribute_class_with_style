@@ -9,10 +9,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import {
-  createElement as B,
-  insertStyles as C
-} from "runtime";
+import { createElement as B } from "runtime";
 
 const A = () => {
   return B("div", {
@@ -20,8 +17,6 @@ const A = () => {
   })
 };
 
-C(`
 .Main_base {
   width: 100%;
 }
-`);

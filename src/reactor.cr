@@ -19,6 +19,7 @@ module Mint
     @sockets = [] of HTTP::WebSocket
 
     getter script : String?
+    getter css : String?
 
     def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
       new host, port, auto_format, live_reload
@@ -35,12 +36,17 @@ module Mint
       workspace.on "change" do |result|
         case result
         when Ast
-          # Compile.
-          @script =
-            Compiler2.compile(
-              workspace.type_checker.artifacts,
+          config =
+            Compiler2::Config.new(
+              css_prefix: workspace.json.application.css_prefix,
               runtime_path: "./runtime.js",
-              include_program: true)
+              relative: false,
+              optimize: false,
+              build: false)
+
+          # Compile.
+          @script, @css =
+            Compiler2.program(workspace.type_checker.artifacts, config)
           # Compiler.compile workspace.type_checker.artifacts, {
           #   css_prefix:     workspace.json.application.css_prefix,
           #   web_components: workspace.json.web_components,
@@ -55,6 +61,7 @@ module Mint
           @error = result.to_html
           @artifacts = nil
           @script = nil
+          @css = nil
         end
 
         # Notifies all connected sockets to reload the page.
@@ -102,6 +109,12 @@ module Mint
         env.response.content_type = "application/javascript"
 
         script
+      end
+
+      get "/index.css" do |env|
+        env.response.content_type = "text/css"
+
+        css
       end
 
       get "/external-javascripts.js" do |env|

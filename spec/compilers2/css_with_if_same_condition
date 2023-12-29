@@ -24,7 +24,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as B,
-  insertStyles as D,
   style as C
 } from "runtime";
 
@@ -49,7 +48,6 @@ const A = () => {
   })
 };
 
-D(`
 .Main_test .tag {
   color: var(--a-a);
 }
@@ -57,4 +55,3 @@ D(`
 .Main_test .string {
   color: var(--b-a);
 }
-`);

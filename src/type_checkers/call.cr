@@ -71,8 +71,6 @@ module Mint
           end
         end
 
-      argument_order.concat args
-
       args.each_with_index do |argument, index|
         argument_type =
           resolve argument

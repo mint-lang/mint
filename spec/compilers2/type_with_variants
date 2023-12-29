@@ -22,15 +22,15 @@ import {
 } from "runtime";
 
 const
-  A = B([
+  A = B(0),
+  C = B([
     "name",
     "color"
   ]),
-  C = B(0),
   D = () => {
-    return E(F(A)(`Joe`, `Blue`), [
+    return E(F(C)(`Joe`, `Blue`), [
       [
-        G(A, H([
+        G(C, H([
           [
             "color",
             I
@@ -45,7 +45,7 @@ const
         }
       ],
       [
-        G(C, []),
+        G(A, []),
         () => {
           return ``
         }

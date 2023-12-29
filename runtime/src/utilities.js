@@ -31,3 +31,14 @@ export const or = (item, value) => {
     return value;
   }
 };
+
+export const toArray = (...args) => {
+  let items = Array.from(args);
+  if (Array.isArray(items[0]) && items.length === 1) {
+    return items[0];
+  } else {
+    return items;
+  }
+};
+
+export const identity = (a) => a;

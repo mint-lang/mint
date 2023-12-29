@@ -37,7 +37,7 @@ const
   D = () => {
     E([[
       () => {
-        B({
+        return B({
           moves: (b) => {
             return null
           },

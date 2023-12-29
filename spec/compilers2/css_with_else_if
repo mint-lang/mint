@@ -19,7 +19,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
   compare as B,
   style as D
 } from "runtime";
@@ -40,9 +39,7 @@ const A = () => {
   })])
 };
 
-E(`
 .Main_base {
   height: 20px;
   background: var(--a-a);
 }
-`);

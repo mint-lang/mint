@@ -1,4 +1,5 @@
-const identity = (value) => value;
+import { identity } from "./utilities";
+
 export const encodeTime = (value) => value.toISOString();
 
 export const encodeArray = (encoder) => (value) => {
@@ -17,7 +18,7 @@ export const encodeMap = (encoder) => (value) => {
   return result;
 };
 
-export const encodeMaybe = (just) => (encoder) => (value) => {
+export const encodeMaybe = (encoder, just) => (value) => {
   if (value instanceof just) {
     return encoder ? encoder(value._0) : value._0;
   } else {
@@ -37,14 +38,15 @@ export const encoder = (encoders) => (value) => {
 
   for (let key in encoders) {
     let encoder = encoders[key];
+    let field = key;
 
     if (Array.isArray(encoder)) {
-      encoder = encoders[key][0]
-      key = encoders[key][1]
+      encoder = encoders[key][0];
+      field = encoders[key][1];
     }
 
-    result[key] = (encoder || identity)(value[key])
+    result[field] = (encoder || identity)(value[key]);
   }
 
-  return result
-}
+  return result;
+};

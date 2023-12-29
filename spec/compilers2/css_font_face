@@ -17,10 +17,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import {
-  createElement as B,
-  insertStyles as C
-} from "runtime";
+import { createElement as B } from "runtime";
 
 const A = () => {
   return B("div", {
@@ -28,7 +25,6 @@ const A = () => {
   })
 };
 
-C(`
 @font-face {
   src: url(sansation_light.woff);
   font-family: myFirstFont;
@@ -39,4 +35,3 @@ C(`
   font-family: myFirstFont;
   font-weight: bold;
 }
-`);

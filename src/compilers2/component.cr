@@ -69,15 +69,15 @@ module Mint
           end
 
         arguments =
-          if properties.any?
+          unless properties.empty?
             [js.object_destructuring(properties)]
           end
 
         providers =
-          if node.uses.any?
+          unless node.uses.empty?
             node.uses.map do |use|
               call =
-                js.arrow_function { js.call(lookups[use][0], [compile(use.data)]) }
+                js.arrow_function { js.return(js.call(lookups[use][0], [compile(use.data)])) }
 
               if condition = use.condition
                 js.array([call, compile(condition)])
@@ -133,10 +133,10 @@ module Mint
               (refs + states + gets + functions + styles + constants).compact
 
             consts =
-              if entities.any?
-                [js.consts(entities)]
-              else
+              if entities.empty?
                 [] of Compiled
+              else
+                [js.consts(entities)]
               end
 
             [{

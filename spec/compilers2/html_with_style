@@ -36,7 +36,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
   useSignal as B,
   style as D
 } from "runtime";
@@ -60,7 +59,6 @@ const A = () => {
   })
 };
 
-E(`
 .Main_test {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
@@ -85,4 +83,3 @@ E(`
 .Main_test > span {
   font-size: .8em;
 }
-`);

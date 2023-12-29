@@ -30,19 +30,19 @@ import {
 } from "runtime";
 
 const
-  a = (b) => {
-    return b
+  a = A([]),
+  b = (c) => {
+    return c
   },
-  c = A([]),
-  B = C(c, async () => {
+  B = C(a, async () => {
     return await null
   }),
   D = () => {
     E([[() => {
-      B({
+      return B({
         test: ``
       })
     }]]);
-    c.value;
-    return a(`a`)
+    a.value;
+    return b(`a`)
   };

@@ -16,10 +16,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import {
-  createElement as B,
-  insertStyles as D
-} from "runtime";
+import { createElement as B } from "runtime";
 
 const
   A = () => {
@@ -31,8 +28,6 @@ const
     return B(A, {})
   };
 
-D(`
 .Ui·Dropdown_base {
   background: red;
 }
-`);

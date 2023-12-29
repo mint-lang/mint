@@ -9,7 +9,7 @@ module Object.Decode {
     input : Object,
     decoder : Function(Object, Result(Object.Error, a))
   ) : Result(Object.Error, Array(a)) {
-    `#{%decodeArray%}(#{decoder})(#{input}, #{%ok%}, #{%err%})`
+    `#{%decodeArray%}(#{decoder}, #{%ok%}, #{%err%})(#{input})`
   }
 
   /*
@@ -18,7 +18,7 @@ module Object.Decode {
     Object.Decode.boolean(`true`) == Result::Ok(true)
   */
   fun boolean (input : Object) : Result(Object.Error, Bool) {
-    `#{%decodeBoolean%}(#{input})`
+    `#{%decodeBoolean%}(#{%ok%}, #{%err%})(#{input})`
   }
 
   /*
@@ -45,7 +45,7 @@ module Object.Decode {
     input : Object,
     decoder : Function(Object, Result(Object.Error, a))
   ) : Result(Object.Error, Maybe(a)) {
-    `#{%decodeMaybe%}(#{decoder})(#{input})`
+    `#{%decodeMaybe%}(#{decoder}, #{%ok%}, #{%err%}, #{%just%}, #{%nothing%})(#{input})`
   }
 
   /*
@@ -54,7 +54,7 @@ module Object.Decode {
     Object.Decode.number(`0`) == Result::Ok(0)
   */
   fun number (input : Object) : Result(Object.Error, Number) {
-    `#{%decodeNumber%}(#{input})`
+    `#{%decodeNumber%}(#{%ok%}, #{%err%})(#{input})`
   }
 
   /*
@@ -63,7 +63,7 @@ module Object.Decode {
     Object.Decode.string(`"A"`) == Result::Ok("A")
   */
   fun string (input : Object) : Result(Object.Error, String) {
-    `#{%decodeString%}(#{input})`
+    `#{%decodeString%}(#{%ok%}, #{%err%})(#{input})`
   }
 
   /*
@@ -72,6 +72,6 @@ module Object.Decode {
     Object.Decode.time(`"new Date()"`)
   */
   fun time (input : Object) : Result(Object.Error, Time) {
-    `#{%decodeTime%}(#{input})`
+    `#{%decodeTime%}(#{%ok%}, #{%err%})(#{input})`
   }
 }

@@ -62,7 +62,7 @@ const
     });
     G([[
       () => {
-        B({
+        return B({
           moves: (b) => {
             return null
           },

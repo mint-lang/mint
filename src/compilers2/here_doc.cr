@@ -31,14 +31,7 @@ module Mint
         renderer =
           VDOMRenderer2.new
 
-        result =
-          VDOMRenderer2.render(renderer.render(document), js, separator, interpolations)
-        # .tap { |x| puts x }
-        # .split(%(`#{separator}`))
-        # .flat_map { |item| [Raw.new(item)] of Item }
-        # .zip?(interpolations)
-        # .map { |a, b| [a, b].compact }
-        # .flatten
+        VDOMRenderer2.render(renderer.render(document), js, separator, interpolations)
       else
         if node.modifier == '~'
           value =
@@ -51,9 +44,7 @@ module Mint
           value
             .split(separator)
             .map { |item| [Raw.new(item.gsub('`', "\\`").gsub("${", "\\${"))] of Item }
-            .zip?(interpolations.map { |item| ["${"] + item + ["}"] })
-            .map { |a, b| [a, b].compact }
-            .flatten
+            .zip2(interpolations.map { |item| ["${"] + item + ["}"] })
 
         ["`"] + value + ["`"]
       end

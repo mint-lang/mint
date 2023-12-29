@@ -3,7 +3,7 @@ module Mint
     class Artifacts
       getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order, locales
-      getter argument_order, scope
+      getter scope
 
       def initialize(@ast : Ast,
                      @component_records = {} of Ast::Component => Record,
@@ -13,7 +13,6 @@ module Mint
                      @assets = [] of Ast::Directives::Asset,
                      @cache = {} of Ast::Node => Checkable,
                      @locales = {} of String => Hash(String, Ast::Node),
-                     @argument_order = [] of Ast::Node,
                      @resolve_order = [] of Ast::Node,
                      @checked = Set(Ast::Node).new)
         @scope = Scope.new(@ast)

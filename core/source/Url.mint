@@ -38,6 +38,8 @@ module Url {
     `
   }
 
+  const ANCHOR = `document.createElement("a")`
+
   /*
   Parses the given string as an `Url`.
 
@@ -46,21 +48,17 @@ module Url {
   fun parse (url : String) : Url {
     `
     (() => {
-      if (!this._a) {
-        this._a = document.createElement('a')
-      }
-
-      this._a.href = #{url}
+      #{ANCHOR}.href = #{url}
 
       return #{{
-        hostname: `this._a.hostname || ""`,
-        protocol: `this._a.protocol || ""`,
-        origin: `this._a.origin || ""`,
-        path: `this._a.pathname || ""`,
-        search: `this._a.search || ""`,
-        hash: `this._a.hash || ""`,
-        host: `this._a.host || ""`,
-        port: `this._a.port || ""`
+        hostname: `#{ANCHOR}.hostname || ""`,
+        protocol: `#{ANCHOR}.protocol || ""`,
+        origin: `#{ANCHOR}.origin || ""`,
+        path: `#{ANCHOR}.pathname || ""`,
+        search: `#{ANCHOR}.search || ""`,
+        hash: `#{ANCHOR}.hash || ""`,
+        host: `#{ANCHOR}.host || ""`,
+        port: `#{ANCHOR}.port || ""`
       }}
     })()
     `

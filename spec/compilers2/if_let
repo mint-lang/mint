@@ -22,12 +22,12 @@ import {
 } from "runtime";
 
 const
-  A = B(1),
-  C = B(0),
+  A = B(0),
+  C = B(1),
   D = () => {
-    return E(F(A)(``), [
+    return E(F(C)(``), [
       [
-        G(A, [H]),
+        G(C, [H]),
         (a) => {
           return a
         }

@@ -70,6 +70,29 @@ module Test.Context {
   }
 
   /*
+  Asserts if the given value equals of the returned value from the given
+  function.
+
+    test {
+      Test.Context.of(5)
+      |> Test.Context.assertOf("5", Number.toString)
+    }
+  */
+  fun assert (
+    context : Test.Context(a),
+    method : Function(a, bool)
+  ) : Test.Context(a) {
+    `
+    #{context}.step((subject) => {
+      if (!#{method}(subject)) {
+        throw \`Assertion failed!\`
+      }
+      return subject
+    })
+    `
+  }
+
+  /*
   Maps the given subject to a new subject.
 
     test {
@@ -90,7 +113,7 @@ module Test.Context {
     }
   */
   fun of (a : a) : Test.Context(a) {
-    `new TestContext(#{a})`
+    `new #{%testContext%}(#{a})`
   }
 
   /* Spies on the given entity if it's a function. */

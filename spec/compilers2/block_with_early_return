@@ -24,7 +24,7 @@ const
   A = B(1),
   C = B(1),
   D = () => {
-    const a = E(F(A)(`Some string...`), G(A, [H]));
+    const a = E(F(C)(`Some string...`), G(C, [H]));
     if (a === false) {
       return `RETURN`
     };

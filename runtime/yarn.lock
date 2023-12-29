@@ -157,6 +157,11 @@ event-propagation-path@^1.0.5:
   resolved "https://registry.yarnpkg.com/event-propagation-path/-/event-propagation-path-1.0.5.tgz#1eeffa9878c9043e314849cbfa275c7e6e8f15fc"
   integrity sha512-1/UU/xRPq3h/7UrWejsYj3ZzJtEA3FdUxKZtWjQ26KLy6yDXxtD+z1wP5mdE+BrlZAIHk7W7cGyG1uaV/Cpstg==
 
+fast-equals@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-5.0.1.tgz#a4eefe3c5d1c0d021aeed0bc10ba5e0c12ee405d"
+  integrity sha512-WF1Wi8PwwSY7/6Kx0vKXtw8RwuSGoM1bvDaJbu7MxDlR1vovZjIAKrnzyrThgAjm6JDTu0fVgWXDlMGspodfoQ==
+
 indent-string@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-5.0.0.tgz#4fd2980fccaf8622d14c64d694f4cf33c81951a5"

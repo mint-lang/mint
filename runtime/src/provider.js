@@ -1,18 +1,23 @@
-import { useEffect } from 'preact/hooks';
+import { untracked } from "@preact/signals";
+import { useEffect } from "preact/hooks";
 
 // This creates a function which is used for subscribing to a provider.
 export const createProvider = (subscriptions, update) => {
   // This is the subscription function.
   return (subscription) => {
-    subscriptions.value = [...subscriptions.value, subscription];
-    update();
+    untracked(() => {
+      subscriptions.value = [...subscriptions.value, subscription];
+      update();
+    });
 
     // Cleanup function.
     return () => {
-      subscriptions.value = subscriptions.value.filter(
-        (item) => item != subscription,
-      );
-      update();
+      untracked(() => {
+        subscriptions.value = subscriptions.value.filter(
+          (item) => item != subscription,
+        );
+        update();
+      });
     };
   };
 };

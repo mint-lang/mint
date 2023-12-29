@@ -41,21 +41,21 @@ import {
 } from "runtime";
 
 const
-  a = () => {
+  a = A([]),
+  b = `hello`,
+  c = () => {
     return b
   },
-  c = A(``),
-  d = B(() => {
-    return c.value
+  d = A(``),
+  e = B(() => {
+    return d.value
   }),
-  b = `hello`,
-  e = A([]),
-  C = D(e, async () => {
+  C = D(a, async () => {
     return await null
   }),
   E = () => {
     F([[() => {
-      C({
+      return C({
         a: true,
         b: false
       })

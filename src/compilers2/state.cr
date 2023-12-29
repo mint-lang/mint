@@ -6,8 +6,7 @@ module Mint
           compile node.default
 
         method =
-          case node.parent
-          when Ast::Component
+          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
             Builtin::UseSignal
           else
             Builtin::Signal

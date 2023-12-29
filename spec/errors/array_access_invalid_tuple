@@ -1,6 +1,6 @@
 component Main {
   fun test : Maybe(String) {
-    {"Hello"}[1]
+    {"Hello", ""}[2]
   }
 
   fun render : Html {
@@ -12,10 +12,12 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (ARRAY_ACCESS_INVALID_TUPLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-The tuple have only 1 members, but you wanted to access the 2nd. The exact type
+The tuple have only 2 members, but you wanted to access the 3rd. The exact type
 of the tuple is:
 
-  Tuple(String)
+  Tuple(
+    String,
+    String)
 
 The tuple in question is here:
 
@@ -23,8 +25,8 @@ The tuple in question is here:
    ├─────────────────────────────────────────────
   1│ component Main {
   2│   fun test : Maybe(String) {
-  3│     {"Hello"}[1]
-   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     {"Hello", ""}[2]
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
   4│   }
   5│
   6│   fun render : Html {

@@ -11,7 +11,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as B,
-  insertStyles as D,
   style as C
 } from "runtime";
 
@@ -28,8 +27,6 @@ const A = () => {
   })
 };
 
-D(`
 .Main_test {
   color: var(--a-a);
 }
-`);

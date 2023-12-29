@@ -36,7 +36,7 @@ module Mint
 
         attributes["ref"] =
           js.arrow_function([[variable] of Item]) do
-            js.assign([ref, ".value"] of Item, js.new(just, [[variable] of Item]))
+            js.assign(Signal.new(ref), js.new(just, [[variable] of Item]))
           end
       end
 

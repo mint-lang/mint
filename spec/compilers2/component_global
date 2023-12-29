@@ -1,11 +1,17 @@
 global component Notifications {
+  state test : String = ""
+
+  get value : String {
+    test
+  }
+
   fun notify (value : String) : String {
     value
   }
 
   fun render : Html {
     <div>
-      "Test"
+      value
     </div>
   }
 }
@@ -18,15 +24,23 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "runtime";
+import {
+  createElement as B,
+  computed as E,
+  signal as D
+} from "runtime";
 
 const
-  a = (b) => {
-    return b
-  },
   A = () => {
-    return B("div", {}, [`Test`])
+    return B("div", {}, [a.value])
+  },
+  b = (c) => {
+    return c
   },
   C = () => {
-    return B("div", {}, [a(`Hello`)])
-  };
+    return B("div", {}, [b(`Hello`)])
+  },
+  d = D(``),
+  a = E(() => {
+    return d.value
+  });

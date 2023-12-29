@@ -12,12 +12,12 @@ module Mint
       end
 
       value =
-        node.value.flat_map do |item|
-          case item
+        node.value.flat_map do |entity|
+          case entity
           when Ast::Node
-            compile item
+            compile entity
           else
-            item
+            entity
           end
         end
 

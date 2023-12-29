@@ -30,7 +30,6 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
   useSignal as B,
   style as D
 } from "runtime";
@@ -50,7 +49,6 @@ const A = () => {
   })
 };
 
-E(`
 @keyframes animation {
   from {
     opacity: 0;
@@ -70,4 +68,3 @@ E(`
     opacity: 1;
   }
 }
-`);

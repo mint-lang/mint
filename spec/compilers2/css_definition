@@ -14,8 +14,7 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  insertStyles as E,
-  computed as B,
+  useComputed as B,
   style as D
 } from "runtime";
 
@@ -36,8 +35,6 @@ const A = () => {
   })
 };
 
-E(`
 .Main_test {
   margin: var(--a-a);
 }
-`);

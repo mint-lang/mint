@@ -35,14 +35,14 @@ import {
 } from "runtime";
 
 const
-  A = B(1),
+  A = B(0),
   C = B(1),
-  D = B(0),
+  D = B(1),
   E = () => {
     const a = (b) => {
       return F(b, [
         [
-          G(D, []),
+          G(A, []),
           () => {
             return ``
           }
@@ -51,7 +51,7 @@ const
           G(C, [H]),
           (c) => {
             return F(c, [[
-              G(A, [H]),
+              G(D, [H]),
               (d) => {
                 return d
               }
@@ -60,6 +60,6 @@ const
         ]
       ])
     };
-    a(I(C)(I(A)(``)));
+    a(I(C)(I(D)(``)));
     return ``
   };

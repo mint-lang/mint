@@ -187,7 +187,7 @@ export const decodeField = (key, decoder, err) => (input) => {
   ) {
     const message = NOT_AN_OBJECT.replace("{field}", key).replace(
       "{value}",
-      format(input)
+      format(input),
     );
 
     return new err(new Error(message));
@@ -230,7 +230,7 @@ export const decodeArray = (decoder, ok, err) => (input) => {
   return new ok(results);
 };
 
-export const decodeMaybe = (decoder, ok, err, just, nothing ) => (input) => {
+export const decodeMaybe = (decoder, ok, err, just, nothing) => (input) => {
   if (input == null || input == undefined) {
     return new ok(new nothing());
   } else {
@@ -255,7 +255,7 @@ export const decodeTuple = (decoders, ok, err) => (input) => {
   for (let decoder of decoders) {
     if (input[index] === undefined || input[index] === null) {
       return new err(
-        new Error(TUPLE_ITEM_MISSING.replace("{value}", format(input[index])))
+        new Error(TUPLE_ITEM_MISSING.replace("{value}", format(input[index]))),
       );
     } else {
       let result = decoder(input[index]);
@@ -315,8 +315,7 @@ export const decoder = (ok, err, mappings) => (input) => {
       key = mappings[key][1];
     }
 
-    const result =
-      decodeField(key, decoder, err)(input);
+    const result = decodeField(key, decoder, err)(input);
 
     if (result instanceof err) {
       return result;
@@ -326,4 +325,4 @@ export const decoder = (ok, err, mappings) => (input) => {
   }
 
   return new ok(object);
-}
+};

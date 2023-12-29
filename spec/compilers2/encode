@@ -11,14 +11,17 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { encoder as A } from "runtime";
+import {
+  identity as B,
+  encoder as A
+} from "runtime";
 
 const
   a = A({
-    name: null,
-    age: null
+    name: B,
+    age: B
   }),
-  B = () => {
+  C = () => {
     a({
       name: `Hello`,
       age: 20

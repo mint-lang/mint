@@ -17,10 +17,10 @@ component Main {
 import { signal as A } from "runtime";
 
 const
-  a = A(``),
-  b = () => {
+  a = () => {
     return `hello`
   },
+  b = A(``),
   B = () => {
-    return a.value
+    return b.value
   };

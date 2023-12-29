@@ -1,6 +1,15 @@
+import { deepEqual } from "fast-equals";
 import RouteParser from "route-parser";
 import { h, render } from "preact";
 import "event-propagation-path";
+
+const equals = (a, b) => {
+  if (a instanceof Object) {
+    return b instanceof Object && deepEqual(a, b);
+  } else {
+    return !(b instanceof Object) && a === b;
+  }
+};
 
 const queueTask = (callback) => {
   if (typeof window.queueMicrotask !== "function") {
@@ -9,7 +18,7 @@ const queueTask = (callback) => {
       .catch((e) =>
         setTimeout(() => {
           throw e;
-        })
+        }),
       );
   } else {
     window.queueMicrotask(callback);
@@ -53,8 +62,7 @@ const Root = (props) => {
 
         if (element.origin === window.location.origin) {
           const fullPath = element.pathname + element.search + element.hash;
-          const routeInfo = getRouteInfo(fullPath, routes);
-          const routes = this.props.routes;
+          const routeInfo = getRouteInfo(fullPath, props.routes);
 
           if (routeInfo) {
             event.preventDefault();
@@ -82,7 +90,7 @@ const Root = (props) => {
 
 class Program {
   constructor(ok, routes) {
-    this.ok = ok
+    this.ok = ok;
     this.root = document.createElement("div");
     document.body.appendChild(this.root);
 
@@ -196,7 +204,7 @@ export const navigate = (
   url,
   dispatch = true,
   triggerJump = true,
-  routeInfo = null
+  routeInfo = null,
 ) => {
   let pathname = window.location.pathname;
   let search = window.location.search;

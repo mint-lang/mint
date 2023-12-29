@@ -18,9 +18,8 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as D,
-  insertStyles as F,
+  useComputed as C,
   useSignal as B,
-  computed as C,
   style as E
 } from "runtime";
 
@@ -45,9 +44,7 @@ const A = () => {
   })
 };
 
-F(`
 .Main_test {
   background: var(--a-a);
   color: red;
 }
-`);

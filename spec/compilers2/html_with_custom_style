@@ -11,7 +11,7 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
-  computed as B,
+  useComputed as B,
   style as D
 } from "runtime";
 
