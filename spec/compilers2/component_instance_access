@@ -49,7 +49,7 @@ const
   },
   G = () => {
     const
-      b = H(new C),
+      b = H(new C()),
       c = () => {
         return I(b.value, [
           [

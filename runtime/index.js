@@ -1,8 +1,6 @@
-import { Fragment } from "preact";
-
+export { createElement, Fragment as fragment } from "preact";
 export { createPortal } from "preact/compat";
 export { useEffect } from "preact/hooks";
-export { createElement } from "preact";
 
 export {
   useComputed,
@@ -23,5 +21,3 @@ export * from "./src/encoders";
 export * from "./src/program";
 export * from "./src/variant";
 export * from "./src/styles";
-
-export const fragment = Fragment;

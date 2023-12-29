@@ -5,9 +5,10 @@ module Mint
         prefix =
           config.relative ? "" : "/"
 
-        [
-          "`#{prefix}#{ASSET_DIR}/#{node.filename(build: config.build)}`",
-        ] of Item
+        filename =
+          node.filename(build: config.build)
+
+        ["`#{prefix}#{ASSET_DIR}/#{filename}`"] of Item
       end
     end
   end

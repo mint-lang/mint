@@ -1,6 +1,9 @@
 module Mint
   class Compiler2
-    def compile(items : Array(Ast::CssDefinition), block : Proc(String, String)?)
+    def compile(
+      items : Array(Ast::CssDefinition),
+      block : Proc(String, String)?
+    ) : Compiled
       compiled =
         items.each_with_object({} of String => Compiled) do |definition, memo|
           variable =

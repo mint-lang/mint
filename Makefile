@@ -45,9 +45,9 @@ src/assets/runtime_test.js: $(shell find runtime/src -type f)
 
 # This builds the binary and depends on files in some directories.
 bin/mint: \
-	$(shell find src -type f) \
 	$(shell find core/source -type f) \
 	$(shell find runtime/src -type f) \
-	src/assets/runtime.js \
-	src/assets/runtime_test.js
+	$(shell find src -type f) \
+	src/assets/runtime_test.js \
+	src/assets/runtime.js
 	shards build --error-on-warnings --error-trace --progress

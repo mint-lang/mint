@@ -78,19 +78,7 @@ module Mint
 
       # Renders an initializer.
       def new(name : Item | Compiled, items : Array(Compiled)) : Compiled
-        rest =
-          if items.empty?
-            case name
-            in Compiled
-              name
-            in Item
-              [name]
-            end
-          else
-            call(name, items)
-          end
-
-        ["new "] + rest
+        ["new "] + call(name, items)
       end
 
       # Renders a let assignment with multiple variables.

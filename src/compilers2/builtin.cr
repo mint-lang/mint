@@ -38,7 +38,7 @@ module Mint
         when "ok"
           ok
         else
-          raise "WTF"
+          raise "Unkown builtin: #{node.value}!"
         end
       end
     end

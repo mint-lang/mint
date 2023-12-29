@@ -21,20 +21,5 @@ module Mint
         js.call(Builtin::CreateElement, [[%("svg")] of Item, attributes])
       end
     end
-
-    def parse_svg(contents)
-      document =
-        XML.parse(contents)
-
-      svg =
-        document.first_element_child
-
-      if svg
-        data =
-          svg.children.join.strip
-
-        {svg["width"]?, svg["height"]?, svg["viewBox"]?, data}
-      end
-    end
   end
 end

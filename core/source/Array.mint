@@ -8,10 +8,7 @@ module Array {
     Array.any([1, 3], (number : Number) : Bool { number % 2 == 0 }) == false
   */
   fun any (array : Array(item), function : Function(item, Bool)) : Bool {
-    case Array.find(array, function) {
-      Maybe.Nothing => false
-      Maybe.Just => true
-    }
+    Array.find(array, function) != Maybe.Nothing
   }
 
   /*
@@ -20,7 +17,7 @@ module Array {
     Array.append([1, 1, 2] [3, 5, 8]) == [1, 1, 2, 3, 5, 8]
   */
   fun append (array1 : Array(item), array2 : Array(item)) : Array(item) {
-    `[].concat(#{array1}).concat(#{array2})`
+    `[...#{array1}, ...#{array2}]`
   }
 
   /*
@@ -98,7 +95,7 @@ module Array {
     `
     (() => {
       if (#{index} < 0 || #{index} >= #{array}.length) { return #{array} }
-      const result = Array.from(#{array})
+      const result = [...#{array}]
       result.splice(#{index}, 1)
       return result
     })()

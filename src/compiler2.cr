@@ -152,7 +152,7 @@ module Mint
 
     # Compiles a node. If the node is already compiled or not checked it
     # returns an empty compiled node.
-    def compile(node : Ast::Node, &)
+    def compile(node : Ast::Node, &) : Compiled
       if touched.includes?(node) || !node.in?(artifacts.checked)
         [] of Item
       else

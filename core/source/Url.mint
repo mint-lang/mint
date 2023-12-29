@@ -38,7 +38,7 @@ module Url {
     `
   }
 
-  const ANCHOR = `document.createElement("a")`
+  const ANCHOR = Dom.createElement("a")
 
   /*
   Parses the given string as an `Url`.

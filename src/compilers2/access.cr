@@ -5,42 +5,35 @@ module Mint
         if items = variables[node]?
           case items[0]
           when Ast::TypeVariant
-            type =
-              cache[node]?
-
-            case type
+            case type = cache[node]?
             when nil
               [] of Item
             else
               if type.name == "Function"
                 js.call(Builtin::NewVariant, [[items[0]] of Item] of Compiled)
               else
-                ["new", " ", items[0], "()"] of Item
+                js.new(items[0], [] of Compiled)
               end
             end
           else
+            # `subscriptions` is a special case: both the parent and the entity
+            # is the provider.
             case parent = items[1]
             when Ast::Provider
-              if node.field.value == "subscriptions"
+              case items[0]
+              when Ast::Provider
                 return [Signal.new(parent.subscription)] of Item
               end
             end
 
-            item =
-              items[0].as(Ast::Node)
-
-            case items[0]
-            when Ast::Get,
-                 Ast::State
+            case item = items[0]
+            when Ast::State, Ast::Get
               [Signal.new(item)] of Item
             else
               [item] of Item
             end
           end
         else
-          first =
-            compile node.expression
-
           field =
             if record_field_lookup[node.field]?
               node.field.value
@@ -48,7 +41,7 @@ module Mint
               lookups[node.field][0]
             end
 
-          first + [".", field]
+          compile(node.expression) + [".", field]
         end
       end
     end
