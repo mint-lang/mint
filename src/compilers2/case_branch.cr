@@ -8,16 +8,10 @@ module Mint
         expression =
           case item = node.expression
           when Array(Ast::CssDefinition)
-            if block
-              compile item, block
-            else
-              ["{}"] of Item
-            end
+            compile item, block if block
           when Ast::Node
             compile(item)
-          else
-            [] of Item
-          end
+          end || [] of Item
 
         if pattern = node.pattern
           variables =
@@ -26,9 +20,12 @@ module Mint
           matcher =
             destructuring(pattern, variables)
 
-          js.array([matcher, js.arrow_function(variables) { js.return(expression) }])
+          js.array([
+            matcher,
+            js.arrow_function(variables) { js.return(expression) },
+          ])
         else
-          js.array([["null"], js.arrow_function([] of Compiled) { js.return(expression) }])
+          js.array([["null"], js.arrow_function { js.return(expression) }])
         end
       end
     end

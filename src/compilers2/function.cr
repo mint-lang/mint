@@ -34,9 +34,7 @@ module Mint
           js.arrow_function(arguments) { js.statements(items) }
         end
 
-      if (node.name.value == "render" && node.parent.is_a?(Ast::Component)) ||
-         (node.name.value == "update" && node.parent.is_a?(Ast::Provider)) ||
-         skip_const
+      if skip_const
         body
       else
         js.const(node, body)

@@ -20,7 +20,7 @@ module Mint
           resolve node.constants
 
         update =
-          {node, js.call(Builtin::CreateProvider, [[node.subscription] of Item, compile(update)])}
+          {node, js.call(Builtin::CreateProvider, [[node.subscription] of Item, compile(update, skip_const: true)])}
 
         subscriptions =
           {node.subscription, js.call(Builtin::Signal, [js.array([[] of Item])])}

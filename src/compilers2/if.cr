@@ -22,7 +22,10 @@ module Mint
       js.call("Object.assign", [["_"] of Item, js.object(compiled)])
     end
 
-    def compile(node : Ast::If, block : Proc(String, String)? = nil) : Compiled
+    def compile(
+      node : Ast::If,
+      block : Proc(String, String)? = nil
+    ) : Compiled
       truthy_item, falsy_item =
         node.branches
 

@@ -12,7 +12,7 @@ module Mint
           node
             .branches
             .sort_by(&.pattern.nil?.to_s)
-            .map { |branch| compile branch, block: block }
+            .map { |branch| compile branch, block }
 
         if node.await
           variable =

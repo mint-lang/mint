@@ -1,7 +1,9 @@
 module Mint
   class Compiler2
     def compile(node : Ast::Field)
-      compile node.value
+      compile node do
+        compile node.value
+      end
     end
 
     def resolve(node : Ast::Field) : Hash(Item, Compiled)

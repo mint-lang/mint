@@ -38,14 +38,14 @@ module Mint
             end
           end
 
+        constants =
+          resolve node.constants
+
         states =
           resolve node.states
 
         gets =
           resolve node.gets
-
-        constants =
-          resolve node.constants
 
         refs =
           node.refs.to_h.keys.map do |ref|
@@ -59,7 +59,7 @@ module Mint
                 ["children: ", prop] of Item
               else
                 [prop] of Item
-              end.as(Compiled)
+              end
 
             if default = prop.default
               js.assign(name, compile(default))
@@ -77,7 +77,9 @@ module Mint
           unless node.uses.empty?
             node.uses.map do |use|
               call =
-                js.arrow_function { js.return(js.call(lookups[use][0], [compile(use.data)])) }
+                js.arrow_function do
+                  js.return(js.call(lookups[use][0], [compile(use.data)]))
+                end
 
               if condition = use.condition
                 js.array([call, compile(condition)])
@@ -93,10 +95,12 @@ module Mint
             body << ["("] + compile(mount, skip_const: true) + [")()"] if mount
             body << js.return(compile(unmount, skip_const: true)) if unmount
 
-            [js.call(Builtin::UseEffect, [
-              js.arrow_function([] of Compiled) { js.statements(body) },
-              ["[]"] of Item,
-            ])]
+            [
+              js.call(Builtin::UseEffect, [
+                js.arrow_function([] of Compiled) { js.statements(body) },
+                ["[]"] of Item,
+              ]),
+            ]
           else
             [] of Compiled
           end
@@ -125,6 +129,7 @@ module Mint
               {node,
                compile(
                  render.not_nil!,
+                 skip_const: true,
                  contents: js.statements(
                    effect + update_effect + provider_effect))},
             ]
@@ -144,6 +149,7 @@ module Mint
               compile(
                 render.not_nil!,
                 args: arguments,
+                skip_const: true,
                 contents: js.statements(
                   consts + effect + update_effect + provider_effect
                 )),

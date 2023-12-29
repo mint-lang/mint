@@ -2,11 +2,11 @@ module Mint
   class Compiler2
     def compile(node : Ast::ArrayAccess) : Compiled
       compile node do
-        type =
-          cache[node.expression]
-
         expression =
           compile node.expression
+
+        type =
+          cache[node.expression]
 
         index =
           compile node.index

@@ -11,7 +11,18 @@ module Mint
     # builder to render them.
     class VDOMRenderer2
       def self.render(
-        node : Node | String, js : Js,
+        *,
+        replacements : Array(Compiled),
+        document : Markd::Node,
+        separator : String,
+        js : Js
+      ) : Compiled
+        render(self.new.render(document), js, separator, replacements)
+      end
+
+      def self.render(
+        node : Node | String,
+        js : Js,
         separator : String,
         replacements : Array(Compiled)
       ) : Compiled

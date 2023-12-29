@@ -3,11 +3,7 @@ module Mint
     def compile(node : Ast::Block, for_function = false) : Compiled
       compile node do
         expressions =
-          node
-            .expressions
-            .select(Ast::Statement)
-            .sort_by! { |item| resolve_order.index(item) || -1 }
-            .map { |item| compile item }
+          compile node.expressions.select(Ast::Statement)
 
         last =
           expressions.pop

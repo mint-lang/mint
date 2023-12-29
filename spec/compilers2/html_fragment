@@ -3,6 +3,7 @@ component Main {
     <div>
       <>
         <{ "A" }>
+        "B"
       </>
     </div>
   }
@@ -14,5 +15,8 @@ import {
 } from "runtime";
 
 const A = () => {
-  return B("div", {}, [B(C, {}, [`A`])])
+  return B("div", {}, [B(C, {}, [
+    `A`,
+    `B`
+  ])])
 };
