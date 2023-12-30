@@ -19,7 +19,7 @@ const A = () => {
   const a = B(() => {
     return undefined
   });
-  return C("div", {
+  return C(`div`, {
     style: D([a.value])
   })
 };

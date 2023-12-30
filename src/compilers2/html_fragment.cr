@@ -4,7 +4,7 @@ module Mint
       compile node do
         case node.children.size
         when 0
-          ["null"] of Item
+          js.null
         when 1
           compile node.children.first
         else

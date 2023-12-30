@@ -32,13 +32,13 @@ import {
 
 const
   A = () => {
-    return B("div", {}, [a.value])
+    return B(`div`, {}, [a.value])
   },
   b = (c) => {
     return c
   },
   C = () => {
-    return B("div", {}, [b(`Hello`)])
+    return B(`div`, {}, [b(`Hello`)])
   },
   d = D(``),
   a = E(() => {

@@ -21,7 +21,7 @@ const
   C = B(0),
   D = () => {
     const a = E(new C());
-    return F("div", {
+    return F(`div`, {
       ref: (b) => {
         a.value = new A(b)
       }

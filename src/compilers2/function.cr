@@ -1,14 +1,14 @@
 module Mint
   class Compiler2
-    def compile(node : Ast::Function)
-      compile node do
-        compile(node, contents: nil, args: nil)
-      end
-    end
-
     def resolve(node : Ast::Function)
       resolve node do
         {node, compile(node, contents: nil, args: nil, skip_const: true)}
+      end
+    end
+
+    def compile(node : Ast::Function)
+      compile node do
+        compile(node, contents: nil, args: nil)
       end
     end
 

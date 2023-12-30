@@ -5,7 +5,7 @@ module Mint
         value =
           MINT_ENV[node.name].to_s.gsub('`', "\\`")
 
-        ["`#{value}`"] of Item
+        js.string(value)
       end
     end
   end

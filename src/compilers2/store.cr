@@ -2,6 +2,9 @@ module Mint
   class Compiler2
     def resolve(node : Ast::Store)
       resolve node do
+        constants =
+          resolve node.constants
+
         functions =
           resolve node.functions
 
@@ -10,9 +13,6 @@ module Mint
 
         gets =
           resolve node.gets
-
-        constants =
-          resolve node.constants
 
         add states + gets + functions + constants
       end

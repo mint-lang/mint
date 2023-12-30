@@ -60,5 +60,5 @@ const
         b: false
       })
     }]]);
-    return G("div", {})
+    return G(`div`, {})
   };

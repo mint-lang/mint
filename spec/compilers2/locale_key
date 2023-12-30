@@ -11,5 +11,5 @@ component Main {
 import { translate as B } from "runtime";
 
 const A = () => {
-  return B("test")
+  return B(`test`)
 };

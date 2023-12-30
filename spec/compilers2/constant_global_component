@@ -22,5 +22,5 @@ const
   },
   a = `ASD`,
   B = () => {
-    return C("div", {}, [a])
+    return C(`div`, {}, [a])
   };

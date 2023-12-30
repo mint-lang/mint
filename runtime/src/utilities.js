@@ -41,4 +41,5 @@ export const toArray = (...args) => {
   }
 };
 
+export const access = (field) => (value) => value[field]
 export const identity = (a) => a;

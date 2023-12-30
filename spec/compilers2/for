@@ -20,7 +20,7 @@ const A = () => {
     let _i = -1;
     for (let a of _1) {
       _i++;
-      _0.push(B("div", {}, [a]))
+      _0.push(B(`div`, {}, [a]))
     };
     return _0
   })()

@@ -15,8 +15,6 @@ module Mint
             add option, js.call(Builtin::Variant, args)
           end
         end
-
-        [] of Tuple(Id, Compiled)
       end
     end
   end

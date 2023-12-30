@@ -17,7 +17,7 @@ const A = () => {
   return B(C, {}, [
     B('h2', {}, [`Hello There`]),
     B('p', {}, [
-      B("div", {}, [`Hello`]),
+      B(`div`, {}, [`Hello`]),
       `
 `,
       `World`,

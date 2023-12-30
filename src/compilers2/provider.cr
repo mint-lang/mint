@@ -6,9 +6,10 @@ module Mint
           node.functions.find!(&.name.value.==("update"))
 
         functions =
-          (node.functions - [update]).map do |function|
-            resolve function
-          end
+          resolve(node.functions - [update])
+
+        constants =
+          resolve node.constants
 
         states =
           resolve node.states
@@ -16,14 +17,20 @@ module Mint
         gets =
           resolve node.gets
 
-        constants =
-          resolve node.constants
-
         update =
-          {node, js.call(Builtin::CreateProvider, [[node.subscription] of Item, compile(update, skip_const: true)])}
+          {
+            node,
+            js.call(Builtin::CreateProvider, [
+              [node.subscription] of Item,
+              compile(update, skip_const: true),
+            ]),
+          }
 
         subscriptions =
-          {node.subscription, js.call(Builtin::Signal, [js.array([[] of Item])])}
+          {
+            node.subscription,
+            js.call(Builtin::Signal, [js.array([[] of Item])]),
+          }
 
         add functions + states + gets + constants + [subscriptions, update]
       end

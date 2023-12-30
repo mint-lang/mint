@@ -12,7 +12,7 @@ module Mint
             .gsub('`', "\\`")
             .gsub("${", "\\${")
 
-        js.array([content, ["`", Raw.new(formatted), "`"] of Item])
+        js.array([content, js.string(formatted)])
       end
     end
   end

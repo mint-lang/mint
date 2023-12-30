@@ -29,10 +29,10 @@ const A = () => {
       };
       return _
     };
-  return C("div", {
+  return C(`div`, {
     className: `Main_unicode`,
     style: D([b()])
-  }, [C("span", {})])
+  }, [C(`span`, {})])
 };
 
 .Main_unicode span::after {

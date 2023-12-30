@@ -32,11 +32,11 @@ const
       [
         G(C, H([
           [
-            "color",
+            `color`,
             I
           ],
           [
-            "name",
+            `name`,
             I
           ]
         ])),

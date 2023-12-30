@@ -8,7 +8,7 @@ module Mint
         filename =
           node.filename(build: config.build)
 
-        ["`#{prefix}#{ASSET_DIR}/#{filename}`"] of Item
+        js.string("#{prefix}#{ASSET_DIR}/#{filename}")
       end
     end
   end

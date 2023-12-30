@@ -23,7 +23,7 @@ module Mint
     end
 
     def destructuring(node : Nil, variables : Array(Compiled)) : Compiled
-      ["null"] of Item # This means to skip this value when destructuring.
+      js.null # This means to skip this value when destructuring.
     end
 
     def destructuring(
@@ -38,7 +38,7 @@ module Mint
             fields =
               params.map do |param|
                 js.array([
-                  [%("#{param.value}")] of Item,
+                  js.string(param.value),
                   destructuring(param, variables),
                 ])
               end

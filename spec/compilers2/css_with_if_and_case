@@ -53,7 +53,7 @@ const A = () => {
     }));
     return _
   };
-  return C("div", {
+  return C(`div`, {
     className: `Main_test`,
     style: D([a()])
   })

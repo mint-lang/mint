@@ -1,7 +1,9 @@
 module Mint
   class Compiler2
     def compile(node : Ast::MemberAccess) : Compiled
-      js.call(Builtin::Access, [[%("#{node.name.value}")] of Item])
+      compile node do
+        js.call(Builtin::Access, [js.string(node.name.value)])
+      end
     end
   end
 end

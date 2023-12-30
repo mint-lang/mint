@@ -8,7 +8,7 @@ component Main {
 import { createElement as B } from "runtime";
 
 const A = () => {
-  return B("div", {
+  return B(`div`, {
     "title": `Hello`
   })
 };

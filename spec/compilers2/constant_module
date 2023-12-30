@@ -15,6 +15,6 @@ import { createElement as B } from "runtime";
 const
   a = `ASD`,
   A = () => {
-    return B("div", {}, [a])
+    return B(`div`, {}, [a])
   };
 

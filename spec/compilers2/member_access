@@ -38,6 +38,6 @@ const
       {
         name: `Doe`
       }
-    ], B("name"));
+    ], B(`name`));
     return `asd`
   };

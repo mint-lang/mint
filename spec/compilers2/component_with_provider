@@ -48,6 +48,6 @@ const
       },
       false
     ]]);
-    return F("div", {})
+    return F(`div`, {})
   };
 

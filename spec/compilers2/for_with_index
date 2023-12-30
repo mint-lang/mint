@@ -30,7 +30,7 @@ const A = () => {
       if (!_2) {
         continue
       };
-      _0.push(C("div", {}, [a]))
+      _0.push(C(`div`, {}, [a]))
     };
     return _0
   })()

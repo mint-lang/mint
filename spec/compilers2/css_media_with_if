@@ -27,7 +27,7 @@ const A = () => {
     }) : null);
     return _
   };
-  return B("div", {
+  return B(`div`, {
     className: `Main_test`,
     style: C([a()])
   })

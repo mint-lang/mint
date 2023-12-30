@@ -42,7 +42,7 @@ module Mint
           when class_name_attribute
             class_name_attribute
           when class_name
-            ["`#{class_name}`"] of Item
+            js.string(class_name)
           end
 
         custom_styles =
@@ -84,7 +84,7 @@ module Mint
         end
 
         js.call(Builtin::CreateElement, [
-          [%("#{node.tag.value}")] of Item,
+          js.string(node.tag.value),
           js.object(attributes),
           children,
         ])

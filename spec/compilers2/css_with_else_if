@@ -33,7 +33,7 @@ const A = () => {
     }) : null));
     return _
   };
-  return C("div", {}, [C("div", {
+  return C(`div`, {}, [C(`div`, {
     className: `Main_base`,
     style: D([a(`blue`)])
   })])

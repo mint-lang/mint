@@ -10,7 +10,7 @@ import {
 } from "runtime";
 
 const A = () => {
-  return B("div", {
+  return B(`div`, {
     style: C([`opacity:0;`])
   })
 };

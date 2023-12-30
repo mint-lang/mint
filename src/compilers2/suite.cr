@@ -1,28 +1,30 @@
 module Mint
   class Compiler2
     def compile(node : Ast::Suite) : Compiled
-      name =
-        compile node.name
+      compile node do
+        location =
+          [Raw.new(node.location.to_json)]
 
-      location =
-        [Raw.new(node.location.to_json)]
+        constants =
+          resolve node.constants
 
-      tests =
-        compile node.tests
+        functions =
+          resolve node.functions
 
-      constants =
-        resolve node.constants
+        tests =
+          compile node.tests
 
-      functions =
-        resolve node.functions
+        name =
+          compile node.name
 
-      add(functions + constants)
+        add(functions + constants)
 
-      js.object({
-        "tests"    => js.array(tests),
-        "location" => location,
-        "name"     => name,
-      })
+        js.object({
+          "tests"    => js.array(tests),
+          "location" => location,
+          "name"     => name,
+        })
+      end
     end
   end
 end

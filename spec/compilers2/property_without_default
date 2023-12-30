@@ -18,7 +18,7 @@ const
   A = ({
     a
   }) => {
-    return B("div", {})
+    return B(`div`, {})
   },
   C = () => {
     return B(A, {

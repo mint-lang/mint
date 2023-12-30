@@ -35,7 +35,7 @@ const A = () => {
       };
       return _
     };
-  return D("div", {
+  return D(`div`, {
     className: `Main_test`,
     style: E([
       c(),

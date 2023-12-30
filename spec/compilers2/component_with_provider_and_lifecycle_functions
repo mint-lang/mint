@@ -73,5 +73,5 @@ const
       },
       false
     ]]);
-    return H("div", {})
+    return H(`div`, {})
   };

@@ -25,7 +25,7 @@ module Mint
             js.arrow_function(variables) { js.return(expression) },
           ])
         else
-          js.array([["null"], js.arrow_function { js.return(expression) }])
+          js.array([js.null, js.arrow_function { js.return(expression) }])
         end
       end
     end

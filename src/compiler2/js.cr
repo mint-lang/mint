@@ -21,6 +21,14 @@ module Mint
         block(fields)
       end
 
+      def null : Compiled
+        ["null"] of Item
+      end
+
+      def string(value : String) : Compiled
+        ["`", Raw.new(value), "`"] of Item
+      end
+
       # Renders an object destructuring.
       def object_destructuring(items : Array(Compiled)) : Compiled
         return ["{}"] of Item if items.empty?
@@ -77,7 +85,7 @@ module Mint
       end
 
       # Renders an initializer.
-      def new(name : Item | Compiled, items : Array(Compiled)) : Compiled
+      def new(name : Item | Compiled, items : Array(Compiled) = [] of Compiled) : Compiled
         ["new "] + call(name, items)
       end
 

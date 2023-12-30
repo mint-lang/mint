@@ -12,13 +12,13 @@ module Mint
 
         attributes =
           js.object({
-            "dangerouslySetInnerHTML" => [%({ __html: `#{data}` })] of Item,
-            "viewBox"                 => [%("#{view_box}")] of Item,
-            "height"                  => [%("#{height}")] of Item,
-            "width"                   => [%("#{width}")] of Item,
+            "dangerouslySetInnerHTML" => js.object({"__html" => js.string(data)}),
+            "viewBox"                 => js.string(view_box.to_s),
+            "height"                  => js.string(height.to_s),
+            "width"                   => js.string(width.to_s),
           } of Item => Compiled)
 
-        js.call(Builtin::CreateElement, [[%("svg")] of Item, attributes])
+        js.call(Builtin::CreateElement, [js.string("svg"), attributes])
       end
     end
   end

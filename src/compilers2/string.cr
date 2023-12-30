@@ -15,16 +15,14 @@ module Mint
         end.intersperse([" + "]).flatten
       else
         result =
-          value
-            .select(String)
-            .join(' ')
+          value.select(String).join(' ')
 
         compile result
       end
     end
 
     def compile(value : String) : Compiled
-      ["`#{value}`"] of Item
+      js.string(value)
     end
   end
 end
