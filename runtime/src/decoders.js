@@ -1,5 +1,6 @@
 import indentString from "indent-string";
 
+// Formats the given value as JSON with extra indentation.
 export const format = (value) => {
   let string = JSON.stringify(value, "", 2);
 
@@ -10,6 +11,8 @@ export const format = (value) => {
   return indentString(string);
 };
 
+// A class to keep the errors when decoding it keeps the path
+// to the nested objects.
 export class Error {
   constructor(message, path = []) {
     this.message = message;
@@ -136,6 +139,7 @@ I was trying to decode the value:
 as a Map, but could not.
 `;
 
+// Decodes `String` (by checking for the type)
 export const decodeString = (ok, err) => (input) => {
   if (typeof input != "string") {
     return new err(new Error(NOT_A_STRING.replace("{value}", format(input))));
@@ -144,6 +148,8 @@ export const decodeString = (ok, err) => (input) => {
   }
 };
 
+// Decodes `Time` either a UNIX timestamp or any values that the
+// environment can parse with the `Date` construtor.
 export const decodeTime = (ok, err) => (input) => {
   let parsed = NaN;
 
@@ -160,6 +166,7 @@ export const decodeTime = (ok, err) => (input) => {
   }
 };
 
+// Decodes `Number` using `parseFloat`.
 export const decodeNumber = (ok, err) => (input) => {
   let value = parseFloat(input);
 
@@ -170,6 +177,7 @@ export const decodeNumber = (ok, err) => (input) => {
   }
 };
 
+// Decodes Bool` (by checking for type)
 export const decodeBoolean = (ok, err) => (input) => {
   if (typeof input != "boolean") {
     return new err(new Error(NOT_A_BOOLEAN.replace("{value}", format(input))));
@@ -178,6 +186,8 @@ export const decodeBoolean = (ok, err) => (input) => {
   }
 };
 
+// Decodes an object field using the decoder (only works on "object" types
+// expect arrays)
 export const decodeField = (key, decoder, err) => (input) => {
   if (
     typeof input !== "object" ||
@@ -192,9 +202,7 @@ export const decodeField = (key, decoder, err) => (input) => {
 
     return new err(new Error(message));
   } else {
-    const actual = input[key];
-
-    const decoded = decoder(actual);
+    const decoded = decoder(input[key]);
 
     if (decoded instanceof err) {
       decoded._0.push({ type: "FIELD", value: key });
@@ -205,6 +213,7 @@ export const decodeField = (key, decoder, err) => (input) => {
   }
 };
 
+// Decodes `Array` with the decoder.
 export const decodeArray = (decoder, ok, err) => (input) => {
   if (!Array.isArray(input)) {
     return new err(new Error(NOT_AN_ARRAY.replace("{value}", format(input))));
@@ -230,6 +239,8 @@ export const decodeArray = (decoder, ok, err) => (input) => {
   return new ok(results);
 };
 
+// Decodes `Maybe`. `null` and `undefined` becomes `Nothing` otherwise
+// the decoded value is returned as a `Just`.
 export const decodeMaybe = (decoder, ok, err, just, nothing) => (input) => {
   if (input == null || input == undefined) {
     return new ok(new nothing());
@@ -244,6 +255,7 @@ export const decodeMaybe = (decoder, ok, err, just, nothing) => (input) => {
   }
 };
 
+// Decodes `Tuple(...)` with the decoders.
 export const decodeTuple = (decoders, ok, err) => (input) => {
   if (!Array.isArray(input)) {
     return new err(new Error(NOT_A_TUPLE.replace("{value}", format(input))));
@@ -275,6 +287,8 @@ export const decodeTuple = (decoders, ok, err) => (input) => {
   return new ok(results);
 };
 
+// Decodes an object as a `Map(key, value)` (it only works on objects with
+// string keys so normal objects).
 export const decodeMap = (decoder, ok, err) => (input) => {
   if (
     typeof input !== "object" ||
@@ -302,9 +316,8 @@ export const decodeMap = (decoder, ok, err) => (input) => {
   }
 };
 
-export const decodeObject = (ok) => (value) => new ok(value);
-
-export const decoder = (ok, err, mappings) => (input) => {
+// Decodes a record, using the mappings.
+export const decoder = (mappings, ok, err) => (input) => {
   const object = {};
 
   for (let key in mappings) {
@@ -326,3 +339,6 @@ export const decoder = (ok, err, mappings) => (input) => {
 
   return new ok(object);
 };
+
+// Decodes an `object` by wrapping in an `Ok`.
+export const decodeObject = (ok) => (value) => new ok(value);

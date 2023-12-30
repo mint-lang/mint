@@ -3,6 +3,9 @@ import RouteParser from "route-parser";
 import { h, render } from "preact";
 import "event-propagation-path";
 
+class DecodingError extends Error {}
+
+// Comparison function for route variables later on.
 const equals = (a, b) => {
   if (a instanceof Object) {
     return b instanceof Object && deepEqual(a, b);
@@ -11,6 +14,7 @@ const equals = (a, b) => {
   }
 };
 
+// `queueMicrotask` polyfill.
 const queueTask = (callback) => {
   if (typeof window.queueMicrotask !== "function") {
     Promise.resolve()
@@ -25,6 +29,7 @@ const queueTask = (callback) => {
   }
 };
 
+// Returns the route information by parsing the route.
 const getRouteInfo = (url, routes) => {
   for (let route of routes) {
     if (route.path === "*") {
@@ -39,6 +44,8 @@ const getRouteInfo = (url, routes) => {
   return null;
 };
 
+// This is the root element, it intercepts click so navigation just works as
+// expected without having to use custom elements for it.
 const Root = (props) => {
   const handleClick = (event) => {
     // If someone prevented default we honor that.
@@ -90,18 +97,19 @@ const Root = (props) => {
 
 class Program {
   constructor(ok, routes) {
-    this.ok = ok;
     this.root = document.createElement("div");
-    document.body.appendChild(this.root);
-
-    this.routes = routes;
     this.routeInfo = null;
+    this.routes = routes;
+    this.ok = ok;
+
+    document.body.appendChild(this.root);
 
     window.addEventListener("popstate", (event) => {
       this.handlePopState(event);
     });
   }
 
+  // Handles resolving the page position after a navigation event.
   resolvePagePosition(triggerJump) {
     // Queue a microTask, this will run after Preact does a render.
     queueTask(() => {
@@ -113,8 +121,8 @@ class Program {
           let elem = null;
           try {
             elem =
-              this.root.querySelector(hash) ||
-              this.root.querySelector(`a[name="${hash.slice(1)}"]`);
+              this.root.querySelector(hash) || // ID
+              this.root.querySelector(`a[name="${hash.slice(1)}"]`); // Anchor
           } finally {
           }
 
@@ -124,7 +132,7 @@ class Program {
             }
           } else {
             console.warn(
-              `${hash} matches no element with an id and no link with a name`,
+              `MINT: ${hash} matches no element with an id and no link with a name`,
             );
           }
         } else if (triggerJump) {
@@ -134,6 +142,7 @@ class Program {
     });
   }
 
+  // Handles navigation events.
   handlePopState(event) {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
@@ -155,6 +164,7 @@ class Program {
     this.routeInfo = routeInfo;
   }
 
+  // Helper function for above.
   runRouteHandler(routeInfo) {
     const { route } = routeInfo;
 
@@ -173,6 +183,7 @@ class Program {
             throw new DecodingError();
           }
         });
+
         route.handler.apply(null, args);
       } catch (error) {
         if (error.constructor !== DecodingError) {
@@ -182,6 +193,7 @@ class Program {
     }
   }
 
+  // Renders the program and runs current route handlers.
   render(main, globals) {
     if (typeof main !== "undefined") {
       render(
@@ -194,12 +206,9 @@ class Program {
       this.handlePopState();
     }
   }
-
-  addRoutes(routes) {
-    this.routes = this.routes.concat(routes);
-  }
 }
 
+// Function to navigate to a different url.
 export const navigate = (
   url,
   dispatch = true,
@@ -209,6 +218,7 @@ export const navigate = (
   let pathname = window.location.pathname;
   let search = window.location.search;
   let hash = window.location.hash;
+
   let fullPath = pathname + search + hash;
 
   if (fullPath !== url) {
@@ -218,6 +228,7 @@ export const navigate = (
       window.history.replaceState({}, "", url);
     }
   }
+
   if (dispatch) {
     let event = new PopStateEvent("popstate");
     event.triggerJump = triggerJump;
@@ -226,6 +237,7 @@ export const navigate = (
   }
 };
 
-export const program = (main, ok, routes) => {
-  new Program(ok, routes).render(main);
+// Creates a program.
+export const program = (main, globals, ok, routes) => {
+  new Program(ok, routes).render(main, globals);
 };

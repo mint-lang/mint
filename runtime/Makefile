@@ -17,4 +17,4 @@ test:
 		--bundle
 
 format:
-	yarn prettier --write index.js test.js src/**
+	yarn prettier --write *.js **/*.js

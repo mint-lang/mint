@@ -29,13 +29,13 @@ import {
 const
   A = B(1),
   C = B(1),
-  a = D(C, A, {
+  a = D({
     blah: E(C, A)
-  }),
-  b = D(C, A, {
+  }, C, A),
+  b = D({
     name: E(C, A),
     y: a
-  }),
+  }, C, A),
   F = () => {
     (b)((null));
     return ``

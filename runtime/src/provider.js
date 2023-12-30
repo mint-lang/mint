@@ -1,7 +1,8 @@
 import { untracked } from "@preact/signals";
 import { useEffect } from "preact/hooks";
 
-// This creates a function which is used for subscribing to a provider.
+// This creates a function which is used for subscribing to a provider. We use
+// `untracked` to not to subscribe to any outside signals.
 export const createProvider = (subscriptions, update) => {
   // This is the subscription function.
   return (subscription) => {

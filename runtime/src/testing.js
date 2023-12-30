@@ -1,5 +1,7 @@
 import { compare } from "./equality";
 
+// This is a class for tests. It allows to have multiple steps which are
+// evaluated asynchronously.
 class TestContext {
   constructor(subject, teardown) {
     this.teardown = teardown;
@@ -45,6 +47,8 @@ class TestContext {
   }
 }
 
+// This is the test runner which runs the tests and sends reports to
+// the cli using websockets.
 class TestRunner {
   constructor(suites, url, id) {
     this.socket = new WebSocket(url);
@@ -52,6 +56,7 @@ class TestRunner {
     this.url = url;
     this.id = id;
 
+    // Catch debug messages.
     window.DEBUG = {
       log: (value) => {
         let result = "";
@@ -185,6 +190,7 @@ class TestRunner {
   }
 }
 
+// This function creates a test for an equality operation (either == or !=).
 export const testOperation = (left, right, operator) => {
   return new TestContext(left).step((subject) => {
     let result = compare(subject, right);

@@ -1,13 +1,16 @@
 import { identity } from "./utilities";
 
+// Encodes `Time`
 export const encodeTime = (value) => value.toISOString();
 
+// Encodes `Array(item)`
 export const encodeArray = (encoder) => (value) => {
   return value.map((item) => {
     return encoder ? encoder(item) : item;
   });
 };
 
+// Encodes `Map(String, value)` as a JS object.
 export const encodeMap = (encoder) => (value) => {
   const result = {};
 
@@ -18,14 +21,16 @@ export const encodeMap = (encoder) => (value) => {
   return result;
 };
 
+// Encodes `Maybe`. `Nothing` becomes `null`.
 export const encodeMaybe = (encoder, just) => (value) => {
   if (value instanceof just) {
-    return encoder ? encoder(value._0) : value._0;
+    return encoder(value._0);
   } else {
     return null;
   }
 };
 
+// Encodes `Tuple(...)`
 export const encodeTuple = (encoders) => (value) => {
   return value.map((item, index) => {
     const encoder = encoders[index];
@@ -33,6 +38,7 @@ export const encodeTuple = (encoders) => (value) => {
   });
 };
 
+// Encode a record with the encoders.
 export const encoder = (encoders) => (value) => {
   const result = {};
 

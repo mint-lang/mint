@@ -1,4 +1,4 @@
-// Inserts styles into the document.
+// Inserts styles into the document (used in tests).
 export const insertStyles = (styles) => {
   let style = document.createElement("style");
   document.head.appendChild(style);

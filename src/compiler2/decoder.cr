@@ -18,7 +18,7 @@ module Mint
 
         [
           Variable.new.tap do |variable|
-            add variable, js.call(Builtin::Decoder, [ok, err, js.object(item)])
+            add variable, js.call(Builtin::Decoder, [js.object(item), ok, err])
           end,
         ] of Item
       end

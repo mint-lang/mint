@@ -23,7 +23,7 @@ export const useDidUpdate = (callback) => {
   });
 };
 
-// The `or` operator.
+// Function for the `or` operator.
 export const or = (item, value) => {
   if (item !== undefined && item !== null) {
     return item;
@@ -32,8 +32,10 @@ export const or = (item, value) => {
   }
 };
 
+// Converts the arguments into an array.
 export const toArray = (...args) => {
   let items = Array.from(args);
+  console.log(items)
   if (Array.isArray(items[0]) && items.length === 1) {
     return items[0];
   } else {
@@ -41,5 +43,8 @@ export const toArray = (...args) => {
   }
 };
 
-export const access = (field) => (value) => value[field]
+// Function for member access.
+export const access = (field) => (value) => value[field];
+
+// Identity function used in encoders.
 export const identity = (a) => a;

@@ -45,13 +45,13 @@ const
   C = B(1),
   D = B(1),
   E = B(0),
-  a = F(C, A, {
+  a = F({
     size: [
       G(C, A),
       "SIIIZEEE"
     ]
-  }),
-  b = F(C, A, {
+  }, C, A),
+  b = F({
     maybe: H(I(C, A), C, A, D, E),
     array: J(I(C, A), C, A),
     string: I(C, A),
@@ -59,7 +59,7 @@ const
     bool: K(C, A),
     time: L(C, A),
     y: a
-  }),
+  }, C, A),
   M = () => {
     b(undefined);
     return ``
