@@ -21,15 +21,18 @@ Dir
         config =
           Mint::Compiler2::Config.new(
             runtime_path: "runtime",
+            include_program: false,
             css_prefix: nil,
             relative: false,
             optimize: false,
-            build: true)
+            build: true,
+            test: nil)
+
+        compiled =
+          Mint::Compiler2.program(artifacts, config)
 
         result =
-          Mint::Compiler2
-            .spec(artifacts, config)
-            .strip
+          "#{compiled[0]}\n\n#{compiled[1]}".strip
 
         begin
           result.should eq(expected.strip)

@@ -8,8 +8,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { translate as B } from "runtime";
+import {
+  translations as C,
+  translate as B,
+  locale as D
+} from "runtime";
 
 const A = () => {
   return B(`test`)
 };
+
+C.value = {
+  en: {
+    'test': `Hello`
+  }
+};
+
+D.value = `en`;

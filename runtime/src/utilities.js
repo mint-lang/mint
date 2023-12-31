@@ -35,7 +35,6 @@ export const or = (item, value) => {
 // Converts the arguments into an array.
 export const toArray = (...args) => {
   let items = Array.from(args);
-  console.log(items)
   if (Array.isArray(items[0]) && items.length === 1) {
     return items[0];
   } else {

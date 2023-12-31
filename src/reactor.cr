@@ -40,9 +40,11 @@ module Mint
             Compiler2::Config.new(
               css_prefix: workspace.json.application.css_prefix,
               runtime_path: "./runtime.js",
+              include_program: true,
               relative: false,
               optimize: false,
-              build: false)
+              build: false,
+              test: nil)
 
           # Compile.
           @script, @css =

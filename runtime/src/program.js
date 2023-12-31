@@ -238,6 +238,6 @@ export const navigate = (
 };
 
 // Creates a program.
-export const program = (main, globals, ok, routes) => {
+export const program = (main, globals, ok, routes = []) => {
   new Program(ok, routes).render(main, globals);
 };

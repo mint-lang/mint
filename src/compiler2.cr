@@ -84,7 +84,6 @@ module Mint
       # Utilities.
       NormalizeEvent
       ArrayAccess
-      Translate
       Identity
       ToArray
       Compare
@@ -101,6 +100,12 @@ module Mint
       TestContext
       TestRender
       TestRunner
+
+      # Translations
+      Translations
+      Translate
+      SetLocale
+      Locale
     end
 
     delegate resolve_order, variables, cache, lookups, record_field_lookup, ast,
@@ -195,6 +200,35 @@ module Mint
       nil
     end
 
+    # Translations
+    def translations
+      mapped =
+        artifacts
+          .locales
+          .each_with_object({} of String => Hash(String, Compiled)) do |(key, data), memo|
+            data.each do |language, node|
+              if node.in?(artifacts.checked)
+                memo[language] ||= {} of String => Compiled
+                memo[language]["'#{key}'"] = compile(node)
+              end
+            end
+          end
+
+      object =
+        mapped.each_with_object({} of String => Compiled) do |(language, tokens), memo|
+          memo[language] = js.object(tokens)
+        end
+
+      if object.empty?
+        [[] of Item]
+      else
+        [
+          js.assign([Builtin::Translations, ".value"] of Item, js.object(object)),
+          js.assign([Builtin::Locale, ".value"] of Item, js.string(object.keys.first)),
+        ]
+      end
+    end
+
     # Compiles the program call.
     def program
       routes =
@@ -214,8 +248,8 @@ module Mint
 
       js.new(Builtin::TestRunner, [
         js.array(suites),
-        [%("#{url}")] of Item,
-        [id] of Item,
+        js.string(url),
+        js.string(id),
       ])
     end
 

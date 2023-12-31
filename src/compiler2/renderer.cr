@@ -14,24 +14,18 @@ module Mint
       # The current indentation depth.
       property depth : Int32 = 0
 
-      # The compiler configuration
-      getter config : Config
-
-      def initialize(@config)
-      end
-
-      def imports
-        return nil if builtins.empty?
+      def imports(optimize : Bool, runtime_path : String)
+        return "" if builtins.empty?
 
         items =
           builtins.map do |item|
             "#{item.to_s.camelcase(lower: true)} as #{class_pool.of(item, nil)}"
           end.sort_by!(&.size).reverse!
 
-        if items.size > 1 && !config.optimize
-          %(import {\n#{items.join(",\n").indent}\n} from "#{config.runtime_path}")
+        if items.size > 1 && !optimize
+          %(import {\n#{items.join(",\n").indent}\n} from "#{runtime_path}")
         else
-          %(import { #{items.join(",")} } from "#{config.runtime_path}")
+          %(import { #{items.join(",")} } from "#{runtime_path}")
         end
       end
 

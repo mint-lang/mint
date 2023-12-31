@@ -159,10 +159,5 @@ module Mint
         add(items)
       end
     end
-
-    #   if node.locales?
-    #     heads["componentWillUnmount"] << "_L._unsubscribe(this)"
-    #     heads["componentDidMount"] << "_L._subscribe(this)"
-    #   end
   end
 end

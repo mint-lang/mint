@@ -129,16 +129,15 @@ module Mint
 
       config =
         Compiler2::Config.new(
+          test: {"ws://#{@flags.browser_host}:#{@flags.browser_port}/", @test_id},
           runtime_path: "/runtime.js",
+          include_program: false,
           css_prefix: nil,
           optimize: false,
           relative: false,
           build: false)
 
-      ws_url =
-        "ws://#{@flags.browser_host}:#{@flags.browser_port}/"
-
-      Compiler2.test(type_checker.artifacts, config, ws_url)
+      Compiler2.program(type_checker.artifacts, config)[0]
     rescue error : Error
       error.to_html
     end

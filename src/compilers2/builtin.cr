@@ -29,6 +29,10 @@ module Mint
           [Builtin::Navigate] of Item
         when "compare"
           [Builtin::Compare] of Item
+        when "setLocale"
+          [Builtin::SetLocale] of Item
+        when "locale"
+          [Builtin::Locale, ".value"] of Item
         when "nothing"
           nothing
         when "just"
