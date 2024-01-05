@@ -33,11 +33,11 @@ import {
   createElement as G,
   useFunction as J,
   useComputed as E,
-  useSignal as I,
   pattern as L,
   useMemo as F,
   variant as B,
   setRef as N,
+  useRef as I,
   match as K
 } from "runtime";
 
@@ -62,7 +62,7 @@ const
     const
       c = I(new C()),
       d = J(() => {
-        return K(c.value, [
+        return K(c.current, [
           [
             L(A, [M]),
             (e) => {

@@ -1,5 +1,5 @@
 export { createElement, Fragment as fragment } from "preact";
-export { useEffect, useMemo } from "preact/hooks";
+export { useEffect, useMemo, useRef } from "preact/hooks";
 export { createPortal } from "preact/compat";
 
 export {

@@ -18,8 +18,8 @@ export const useFunction = (fn) => {
 
 // This sets the references to an element or component.
 export const setRef = (value, just) => (element) => {
-  if (value.value._0 !== element) {
-    value.value = new just(element)
+  if (value.current._0 !== element) {
+    value.current = new just(element)
   }
 }
 

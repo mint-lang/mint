@@ -49,7 +49,7 @@ module Mint
 
         refs =
           node.refs.to_h.keys.map do |ref|
-            {ref, ref, js.call(Builtin::UseSignal, [js.new(nothing, [] of Compiled)])}
+            {ref, ref, js.call(Builtin::UseRef, [js.new(nothing, [] of Compiled)])}
           end
 
         properties =

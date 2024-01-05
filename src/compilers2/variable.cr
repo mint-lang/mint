@@ -23,7 +23,7 @@ module Mint
                   .refs
                   .find! { |(ref, _)| ref.value == node.value }[0]
 
-              [Signal.new(ref)] of Item
+              [Ref.new(ref)] of Item
             else
               raise "SHOULD NOT HAPPEN"
             end

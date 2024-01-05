@@ -3,7 +3,7 @@ module Mint
     include Helpers
 
     # Represents a compiled item
-    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Variable
+    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Variable | Ref
 
     # Represents an generated idetifier from the parts of the union type.
     alias Id = Ast::Node | Variable
@@ -14,6 +14,10 @@ module Mint
     # Represents a Preact signal (https://preactjs.com/guide/v10/signals/). Signals are treated
     # differently from vaiables because we will need to access them using the `.value` accessor.
     record Signal, value : Ast::Node
+
+    # Represents a reference to an HTML element or other component. They are treated differently
+    # because they have a `.current` accessor.
+    record Ref, value : Ast::Node
 
     # Represents code which needs to be indented.
     record Indent, items : Compiled
@@ -51,6 +55,7 @@ module Mint
       UseSignal
       Computed
       UseMemo
+      UseRef
       Signal
       Batch
 
