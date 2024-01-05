@@ -23,31 +23,26 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
-  createElement as F,
-  useProviders as E,
-  signal as A
+  createProvider as B,
+  createElement as E,
+  useId as D
 } from "runtime";
 
 const
-  a = A([]),
-  B = C(a, () => {
+  a = new Map(),
+  A = B(a, () => {
     return null
   }),
-  D = () => {
-    E([[
-      () => {
-        return B({
-          moves: (b) => {
-            return null
-          },
-          ups: (c) => {
-            return null
-          }
-        })
+  C = () => {
+    const b = D();
+    A(b, (false ? {
+      moves: (c) => {
+        return null
       },
-      false
-    ]]);
-    return F(`div`, {})
+      ups: (d) => {
+        return null
+      }
+    } : null));
+    return E(`div`, {})
   };
 

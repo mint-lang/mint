@@ -3,10 +3,11 @@ module Mint
     class Artifacts
       getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order, locales
-      getter scope
+      getter scope, components_touched
 
       def initialize(@ast : Ast,
                      @component_records = {} of Ast::Component => Record,
+                     @components_touched = Set(Ast::Component).new,
                      @record_field_lookup = {} of Ast::Node => String,
                      @variables = {} of Ast::Node => Tuple(Ast::Node, Ast::Node),
                      @lookups = {} of Ast::Node => Tuple(Ast::Node, Ast::Node?),

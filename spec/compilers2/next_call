@@ -18,20 +18,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
+  useFunction as C,
   useSignal as B,
-  batch as C
+  batch as D
 } from "runtime";
 
 const A = () => {
   const
     a = B(`Joe`),
     b = B(24),
-    c = () => {
-      return C(() => {
+    c = C(() => {
+      return D(() => {
         a.value = `Hello`;
         b.value = 30
       })
-    };
+    });
   c();
   return ``
 };

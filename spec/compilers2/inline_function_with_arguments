@@ -13,13 +13,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+import { useFunction as B } from "runtime";
+
 const A = () => {
-  const a = () => {
+  const a = B(() => {
     const b = (c) => {
       return c
     };
     return b(`Joe`)
-  };
+  });
   a();
   return ``
 };

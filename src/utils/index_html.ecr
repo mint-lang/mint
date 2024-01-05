@@ -27,14 +27,17 @@
         <style>
           <%= SourceFiles.external_stylesheets %>
         </style>
+
+        <style type="text/css">
+          <%= @index_css %>
+        </style>
       <% else %>
         <link rel="stylesheet" href="<%= path_for("external-stylesheets.css") %>">
       <% end %>
     <% end %>
   </head>
   <body>
-    <%# In development runtime comes separately and %>
-    <%# the live reload script necessary. %>
+    <%# In development the live reload script necessary. %>
     <% if env.development? %>
       <% if @live_reload %>
         <script src="<%= path_for("live-reload.js") %>"></script>

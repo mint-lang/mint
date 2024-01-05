@@ -14,27 +14,28 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  style as C
+  createElement as C,
+  useFunction as B,
+  style as D
 } from "runtime";
 
 const A = () => {
   const
-    a = (b) => {
+    a = B((b) => {
       const _ = {
         [`--a-a`]: b
       };
       return _
-    },
-    c = (d) => {
+    }),
+    c = B((d) => {
       const _ = {
         [`--b-a`]: d
       };
       return _
-    };
-  return B(`div`, {
+    });
+  return C(`div`, {
     className: `Main_one Main_two`,
-    style: C([
+    style: D([
       a(`red`),
       c(`blue`)
     ])

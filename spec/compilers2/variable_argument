@@ -4,13 +4,15 @@ component Main {
   }
 
   fun render : String {
-  	test("X")
+    test("X")
   }
 }
 --------------------------------------------------------------------------------
+import { useFunction as B } from "runtime";
+
 const A = () => {
-  const a = (b) => {
+  const a = B((b) => {
     return b
-  };
+  });
   return a(`X`)
 };

@@ -8,9 +8,11 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+import { useFunction as B } from "runtime";
+
 const A = () => {
-  const a = (b, c) => {
+  const a = B((b, c) => {
     return ``
-  };
+  });
   return a(``, 0)
 };

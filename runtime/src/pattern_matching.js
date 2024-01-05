@@ -115,8 +115,7 @@ export const destructure = (value, pattern, values = []) => {
     for (let index in pattern.patterns) {
       const item = pattern.patterns[index];
 
-      // TODO: This needs to be updated when new mapping is figured out.
-      if (!destructure(value[value[item[0]]], item[1], values)) {
+      if (!destructure(value[item[0]], item[1], values)) {
         return false;
       }
     }

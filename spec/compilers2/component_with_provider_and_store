@@ -35,12 +35,12 @@ component Main {
 import {
   createProvider as C,
   createElement as F,
-  useProviders as E,
-  signal as A
+  signal as A,
+  useId as E
 } from "runtime";
 
 const
-  a = A([]),
+  a = new Map(),
   b = () => {
     return `hello`
   },
@@ -49,18 +49,14 @@ const
     return null
   }),
   D = () => {
-    E([[
-      () => {
-        return B({
-          moves: (d) => {
-            return null
-          },
-          ups: (e) => {
-            return null
-          }
-        })
+    const d = E();
+    B(d, (false ? {
+      moves: (e) => {
+        return null
       },
-      false
-    ]]);
+      ups: (f) => {
+        return null
+      }
+    } : null));
     return F(`div`, {})
   };

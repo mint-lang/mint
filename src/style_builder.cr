@@ -184,7 +184,7 @@ module Mint
       arguments =
         compile node.arguments
 
-      {node, js.arrow_function(arguments) do
+      {node, node, js.arrow_function(arguments) do
         js.statements([
           js.const("_", static),
           js.statements(compiled_conditions),

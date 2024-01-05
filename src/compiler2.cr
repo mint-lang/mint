@@ -46,15 +46,18 @@ module Mint
       # Effects.
       UseDidUpdate
       UseComputed
+      UseFunction
       UseEffect
       UseSignal
       Computed
+      UseMemo
       Signal
       Batch
 
       # Providers.
       CreateProvider
-      UseProviders
+      Subscriptions
+      UseId
 
       # Encoders.
       EncodeTuple
@@ -87,6 +90,7 @@ module Mint
       Identity
       ToArray
       Compare
+      SetRef
       Access
       Curry
       Or
@@ -109,7 +113,7 @@ module Mint
     end
 
     delegate resolve_order, variables, cache, lookups, record_field_lookup, ast,
-      to: artifacts
+      components_touched, to: artifacts
 
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new
@@ -121,7 +125,7 @@ module Mint
     getter touched : Set(Ast::Node) = Set(Ast::Node).new
 
     # Contains the compiled JavaScript tree.
-    getter compiled = [] of Tuple(Id, Compiled)
+    getter compiled = [] of Tuple(Ast::Node, Id, Compiled)
 
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
@@ -146,13 +150,13 @@ module Mint
     end
 
     # Adds a compiled entity.
-    def add(id : Id, value : Compiled)
-      compiled << {id, value}
+    def add(node : Ast::Node, id : Id, value : Compiled)
+      compiled << {node, id, value}
     end
 
     # Adds multiple compiled entities.
-    def add(items : Array(Tuple(Id, Compiled) | Nil))
-      items.compact.each { |(id, compiled)| add(id, compiled) }
+    def add(items : Array(Tuple(Ast::Node, Id, Compiled) | Nil))
+      items.compact.each { |(node, id, compiled)| add(node, id, compiled) }
     end
 
     # Compiles a node. If the node is already compiled or not checked it
@@ -234,7 +238,7 @@ module Mint
       routes =
         compile(ast.routes.flat_map(&.routes))
 
-      js.call(Builtin::Program, [main, ok, js.array(routes)])
+      js.call(Builtin::Program, [main, js.array([] of Compiled), ok, js.array(routes)])
     end
 
     def inject_css(css : String)

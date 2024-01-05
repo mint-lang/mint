@@ -12,7 +12,7 @@ module Mint
                 [[option.parameters.size.to_s] of Item]
               end
 
-            add option, js.call(Builtin::Variant, args)
+            add option, option, js.call(Builtin::Variant, args)
           end
         end
       end

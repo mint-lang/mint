@@ -2,6 +2,9 @@ module Mint
   class Compiler2
     def encoder(type : TypeChecker::Record) : Compiled
       @encoders[type] ||= begin
+        node =
+          ast.type_definitions.find!(&.name.value.==(type.name))
+
         item =
           type
             .fields
@@ -18,7 +21,7 @@ module Mint
 
         [
           Variable.new.tap do |variable|
-            add variable, js.call(Builtin::Encoder, [js.object(item)])
+            add node, variable, js.call(Builtin::Encoder, [js.object(item)])
           end,
         ] of Item
       end

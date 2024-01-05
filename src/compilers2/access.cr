@@ -22,7 +22,7 @@ module Mint
             when Ast::Provider
               case items[0]
               when Ast::Provider
-                return [Signal.new(parent.subscription)] of Item
+                return js.call(Builtin::Subscriptions, [[parent.subscription] of Item])
               end
             end
 

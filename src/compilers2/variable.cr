@@ -10,7 +10,7 @@ module Mint
 
           # Subscriptions for providers are handled here
           if node.value == "subscriptions" && parent.is_a?(Ast::Provider)
-            return [Signal.new(parent.subscription)] of Item
+            return js.call(Builtin::Subscriptions, [[parent.subscription] of Item])
           end
 
           case {entity, parent}

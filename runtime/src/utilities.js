@@ -1,4 +1,4 @@
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef, useCallback } from "preact/hooks";
 
 // We need to have a different function for accessing array items because there
 // is no concept of `null` in Mint so we return `Just(a)` or `Nothing`.
@@ -9,6 +9,19 @@ export const arrayAccess = (array, index, just, nothing) => {
     return new nothing();
   }
 };
+
+// This is needed for functions inside components so they would remain
+// referrencially the same.
+export const useFunction = (fn) => {
+  return useCallback(fn, []);
+};
+
+// This sets the references to an element or component.
+export const setRef = (value, just) => (element) => {
+  if (value.value._0 !== element) {
+    value.value = new just(element)
+  }
+}
 
 // A hook to replace the `componentDidUpdate` function.
 export const useDidUpdate = (callback) => {

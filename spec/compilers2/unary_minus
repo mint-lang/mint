@@ -1,19 +1,12 @@
 component Main {
-  fun test : Number {
-    42
-  }
-
   fun render : String {
-    -test()
+    -(42)
 
     ""
   }
 }
 --------------------------------------------------------------------------------
 const A = () => {
-  const a = () => {
-    return 42
-  };
-  -(a());
+  -((42));
   return ``
 };

@@ -37,11 +37,11 @@ module Mint
       # Here we sort the compiled node by the order they are resovled, which
       # will prevent issues of one entity depending on others (like a const
       # depending on a function from a module).
-      compiler.compiled.sort_by! do |(id, _)|
-        case id
-        when Ast::Node
-          artifacts.resolve_order.index(id)
-        end || 0
+      compiler.compiled.sort_by! do |(node, id, y)|
+        case node
+        when Ast::TypeVariant
+          -2 if node.value.value.in?("Just", "Nothing", "Err", "Ok")
+        end || artifacts.resolve_order.index(node) || -1
       end
 
       # Built the singe `const` with multiple assignments so we can add

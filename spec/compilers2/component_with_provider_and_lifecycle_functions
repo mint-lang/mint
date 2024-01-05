@@ -35,20 +35,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
-  createElement as H,
-  useProviders as G,
+  createProvider as B,
+  createElement as G,
   useDidUpdate as F,
   useEffect as E,
-  signal as A
+  useId as D
 } from "runtime";
 
 const
-  a = A([]),
-  B = C(a, () => {
+  a = new Map(),
+  A = B(a, () => {
     return null
   }),
-  D = () => {
+  C = () => {
+    const b = D();
     E(() => {
       (() => {
         return null
@@ -60,18 +60,13 @@ const
     F(() => {
       return null
     });
-    G([[
-      () => {
-        return B({
-          moves: (b) => {
-            return null
-          },
-          ups: (c) => {
-            return null
-          }
-        })
+    A(b, (false ? {
+      moves: (c) => {
+        return null
       },
-      false
-    ]]);
-    return H(`div`, {})
+      ups: (d) => {
+        return null
+      }
+    } : null));
+    return G(`div`, {})
   };

@@ -1,14 +1,47 @@
 module Mint
   class Builder
-    def initialize(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path, watch)
-      build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+    def initialize(
+      *,
+      skip_service_worker : Bool,
+      runtime_path : String?,
+      skip_manifest : Bool,
+      skip_icons : Bool,
+      relative : Bool,
+      optimize : Bool,
+      inline : Bool,
+      watch : Bool
+    )
+      build(
+        skip_service_worker: skip_service_worker,
+        skip_manifest: skip_manifest,
+        runtime_path: runtime_path,
+        skip_icons: skip_icons,
+        relative: relative,
+        optimize: optimize,
+        inline: inline)
 
       if watch
-        watch_workspace(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+        watch_workspace(
+          skip_service_worker: skip_service_worker,
+          skip_manifest: skip_manifest,
+          runtime_path: runtime_path,
+          skip_icons: skip_icons,
+          relative: relative,
+          optimize: optimize,
+          inline: inline)
       end
     end
 
-    def build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+    def build(
+      *,
+      skip_service_worker : Bool,
+      runtime_path : String?,
+      skip_manifest : Bool,
+      skip_icons : Bool,
+      relative : Bool,
+      optimize : Bool,
+      inline : Bool
+    )
       json = MintJson.parse_current
 
       if !skip_icons && !Process.find_executable("convert")
@@ -32,11 +65,25 @@ module Mint
 
       terminal.puts "#{COG} Compiling your application:"
 
-      index_js, artifacts =
-        index(json.application.css_prefix, relative, optimize, runtime_path, json.web_components)
+      index_js, index_css, artifacts =
+        index(json.application.css_prefix, relative, optimize, json.web_components)
 
       unless inline
-        File.write Path[DIST_DIR, "index.js"], index_js
+        terminal.measure "#{COG} Writing index.js..." do
+          File.write Path[DIST_DIR, "index.js"], index_js
+        end
+
+        terminal.measure "#{COG} Writing index.css..." do
+          File.write Path[DIST_DIR, "index.css"], index_css
+        end
+
+        terminal.measure "#{COG} Writing runtime.js..." do
+          if runtime_path
+            FileUtils.cp runtime_path, Path[DIST_DIR, "runtime.js"]
+          else
+            File.write Path[DIST_DIR, "runtime.js"], Assets.read("runtime.js")
+          end
+        end
 
         if SourceFiles.external_javascripts?
           terminal.measure "#{COG} Writing external javascripts..." do
@@ -79,7 +126,13 @@ module Mint
 
       terminal.measure "#{COG} Writing index.html..." do
         File.write Path[DIST_DIR, "index.html"],
-          IndexHtml.render(:build, relative, skip_manifest, skip_service_worker, skip_icons, inline, index_js)
+          IndexHtml.render(:build, relative,
+            skip_manifest,
+            skip_service_worker,
+            skip_icons,
+            inline,
+            index_js,
+            index_css)
       end
 
       unless skip_manifest
@@ -141,15 +194,7 @@ module Mint
       end
     end
 
-    def index(css_prefix, relative, optimize, runtime_path, web_components)
-      runtime =
-        if runtime_path
-          Cli.runtime_file_not_found(runtime_path) unless File.exists?(runtime_path)
-          File.read(runtime_path)
-        else
-          Assets.read("runtime.js")
-        end
-
+    def index(css_prefix, relative, optimize, web_components)
       sources =
         Dir.glob(SourceFiles.all)
 
@@ -170,22 +215,35 @@ module Mint
         type_checker.check
       end
 
-      compiled = nil
+      compiled = {"", ""}
 
       terminal.measure "  #{ARROW} Compiling..." do
-        compiled = Compiler.compile type_checker.artifacts, {
-          web_components: web_components,
-          css_prefix:     css_prefix,
-          relative:       relative,
-          optimize:       optimize,
-          build:          true,
-        }
+        config =
+          Compiler2::Config.new(
+            runtime_path: "./runtime.js",
+            css_prefix: css_prefix,
+            include_program: true,
+            relative: relative,
+            optimize: optimize,
+            build: true,
+            test: nil)
+
+        compiled =
+          Compiler2.program(type_checker.artifacts, config)
       end
 
-      {runtime + compiled.to_s, type_checker.artifacts}
+      {compiled[0], compiled[1], type_checker.artifacts}
     end
 
-    def watch_workspace(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+    def watch_workspace(
+      skip_service_worker : Bool,
+      runtime_path : String?,
+      skip_manifest : Bool,
+      skip_icons : Bool,
+      relative : Bool,
+      optimize : Bool,
+      inline : Bool
+    )
       workspace = Workspace.current
 
       workspace.on "change" do |result|
@@ -194,7 +252,16 @@ module Mint
           terminal.reset
           terminal.puts "Rebuilding for production"
           terminal.divider
-          build(relative, skip_manifest, skip_service_worker, skip_icons, optimize, inline, runtime_path)
+
+          build(
+            skip_service_worker: skip_service_worker,
+            skip_manifest: skip_manifest,
+            runtime_path: runtime_path,
+            skip_icons: skip_icons,
+            optimize: optimize,
+            relative: relative,
+            inline: inline)
+
           terminal.divider
         when Error
         end

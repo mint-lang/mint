@@ -16,9 +16,9 @@ import {
 } from "runtime";
 
 const
-  A = B(1),
-  C = B(0),
+  A = B(0),
+  C = B(1),
   D = () => {
-    E(new C()._0, `Hello`);
+    E(new A()._0, `Hello`);
     return ``
   };

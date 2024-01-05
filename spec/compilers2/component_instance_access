@@ -29,48 +29,57 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as K,
-  createElement as F,
+  patternVariable as M,
+  createElement as G,
+  useFunction as J,
   useComputed as E,
-  pattern as J,
+  useSignal as I,
+  pattern as L,
+  useMemo as F,
   variant as B,
-  signal as H,
-  match as I
+  setRef as N,
+  match as K
 } from "runtime";
 
 const
   A = B(1),
   C = B(0),
-  D = () => {
+  D = ({
+    _
+  }) => {
     const a = E(() => {
       return `Instance`
     });
-    return F(`div`, {})
+    const b = F(() => {
+      return {
+        a
+      }
+    }, []);
+    _(b);
+    return G(`div`, {})
   },
-  G = () => {
+  H = () => {
     const
-      b = H(new C()),
-      c = () => {
-        return I(b.value, [
+      c = I(new C()),
+      d = J(() => {
+        return K(c.value, [
           [
-            J(A, [K]),
-            (d) => {
-              return d.a
+            L(A, [M]),
+            (e) => {
+              return e.a
             }
           ],
           [
-            J(C, []),
+            L(C, []),
             () => {
               return ``
             }
           ]
         ])
-      };
-    return F(`div`, {
-      "onClick": c
-    }, [F(D, {
-      ref: (e) => {
-        b.value = new A(e)
-      }
+      });
+    return G(`div`, {
+      "onClick": d
+    }, [G(D, {
+      _: N(c, A)
     })])
   };

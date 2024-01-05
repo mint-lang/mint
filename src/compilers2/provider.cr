@@ -20,6 +20,7 @@ module Mint
         update =
           {
             node,
+            node,
             js.call(Builtin::CreateProvider, [
               [node.subscription] of Item,
               compile(update, skip_const: true),
@@ -29,7 +30,8 @@ module Mint
         subscriptions =
           {
             node.subscription,
-            js.call(Builtin::Signal, [js.array([[] of Item])]),
+            node.subscription,
+            js.new("Map".as(Item)),
           }
 
         add functions + states + gets + constants + [subscriptions, update]

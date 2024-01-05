@@ -1,16 +1,9 @@
 component Main {
-  fun test : String {
-    "World!"
-  }
-
   fun render : String {
-    `      "Hello" + #{test()}   `
+    `      "Hello" + #{"World!"}   `
   }
 }
 --------------------------------------------------------------------------------
 const A = () => {
-  const a = () => {
-    return `World!`
-  };
-  return ("Hello" + a())
+  return ("Hello" + `World!`)
 };

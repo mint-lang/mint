@@ -122,6 +122,7 @@ module Mint
           component.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
             case ref
             when Ast::HtmlComponent
+              components_touched.add(component)
               component_records
                 .find(&.first.name.value.==(ref.component.value))
                 .try do |record|

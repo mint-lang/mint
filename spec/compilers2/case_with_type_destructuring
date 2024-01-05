@@ -8,8 +8,8 @@ enum C(a) {
 }
 
 component Main {
-  fun test (b : C(a)) : a {
-    case (b) {
+  fun render : String {
+    case (C::D(A::B(""))) {
       C::X => ""
       C::D(a) =>
         case (a) {
@@ -17,19 +17,15 @@ component Main {
             c
         }
     }
-  }
-
-  fun render : String {
-    test(C::D(A::B("")))
 
     ""
   }
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as H,
-  newVariant as I,
-  pattern as G,
+  patternVariable as I,
+  newVariant as G,
+  pattern as H,
   variant as B,
   match as F
 } from "runtime";
@@ -39,27 +35,24 @@ const
   C = B(1),
   D = B(1),
   E = () => {
-    const a = (b) => {
-      return F(b, [
-        [
-          G(A, []),
-          () => {
-            return ``
-          }
-        ],
-        [
-          G(C, [H]),
-          (c) => {
-            return F(c, [[
-              G(D, [H]),
-              (d) => {
-                return d
-              }
-            ]])
-          }
-        ]
-      ])
-    };
-    a(I(C)(I(D)(``)));
+    F(G(C)(G(D)(``)), [
+      [
+        H(A, []),
+        () => {
+          return ``
+        }
+      ],
+      [
+        H(C, [I]),
+        (a) => {
+          return F(a, [[
+            H(D, [I]),
+            (b) => {
+              return b
+            }
+          ]])
+        }
+      ]
+    ]);
     return ``
   };

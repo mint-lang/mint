@@ -12,7 +12,7 @@ module Mint
             Builtin::Signal
           end
 
-        {node, js.call(method, [default])}
+        {node, node, js.call(method, [default])}
       end
     end
   end

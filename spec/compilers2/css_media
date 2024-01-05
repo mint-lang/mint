@@ -19,9 +19,10 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
+  createElement as D,
+  useFunction as C,
   useComputed as B,
-  style as D
+  style as E
 } from "runtime";
 
 const A = () => {
@@ -29,16 +30,16 @@ const A = () => {
     a = B(() => {
       return `blue`
     }),
-    b = () => {
+    b = C(() => {
       const _ = {
         [`--a-a`]: a.value,
         [`--b-a`]: a.value
       };
       return _
-    };
-  return C(`div`, {
+    });
+  return D(`div`, {
     className: `Main_test`,
-    style: D([b()])
+    style: E([b()])
   })
 };
 

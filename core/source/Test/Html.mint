@@ -12,7 +12,6 @@ module Test.Html {
       document.body.appendChild(root)
       #{%testRender%}(#{node}, root)
       return new #{%testContext%}(root, () => {
-        #{%testRender%}(null, root)
         document.body.removeChild(root)
       })
     })()

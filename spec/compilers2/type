@@ -25,8 +25,8 @@ import {
 } from "runtime";
 
 const
-  A = B(0),
-  C = B(1),
+  A = B(1),
+  C = B(0),
   D = B(0),
   E = B(2),
   F = B(1),

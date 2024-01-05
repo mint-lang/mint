@@ -66,15 +66,15 @@ module Mint
       end
 
       # Renders multiple const assignments (as one).
-      def consts(items : Array(Tuple(Id, Compiled))) : Compiled
+      def consts(items : Array(Tuple(Ast::Node, Id, Compiled))) : Compiled
         if items.size == 1
-          id, value =
+          _, id, value =
             items[0]
 
           const id, value
         else
           assigns =
-            items.map { |(id, compiled)| assign(id, compiled) }
+            items.map { |(_, id, compiled)| assign(id, compiled) }
 
           if optimize?
             ["const "] + list(assigns, multiline: false)

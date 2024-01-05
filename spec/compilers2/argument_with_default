@@ -10,10 +10,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+import { useFunction as B } from "runtime";
+
 const A = () => {
-  const a = (b, c = 0) => {
+  const a = B((b, c = 0) => {
     return c
-  };
+  });
   a(``);
   return ``
 };

@@ -1,8 +1,7 @@
 // This file contains code to have value equality instead of reference equality.
 // We use a `Symbol` to have a custom equality functions and then use these
 // functions when comparing two values.
-
-const Equals = Symbol("Equals");
+export const Equals = Symbol("Equals");
 
 Boolean.prototype[Equals] =
   Symbol.prototype[Equals] =
@@ -88,6 +87,32 @@ FormData.prototype[Equals] = function (other) {
   }
 };
 
+// Maps need to have the same keys and values to be equal.
+Map.prototype[Equals] = function (other) {
+  if (other === null || other === undefined) {
+    return false;
+  }
+
+  const aKeys = Array.from(this.keys()).sort();
+  const bKeys = Array.from(other.keys()).sort();
+
+  if (compare(aKeys, bKeys)) {
+    if (aKeys.length == 0) {
+      return true;
+    }
+
+    for (let key of aKeys) {
+      if (!compare(this.get(key), other.get(key))) {
+        return false;
+      }
+    }
+
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // This is the custom comparison function.
 export const compare = (a, b) => {
   if ((a === undefined && b === undefined) || (a === null && b === null)) {
@@ -104,7 +129,14 @@ export const compare = (a, b) => {
 // This is the custom comparison function for plain objects.
 export const compareObjects = (a, b) => {
   if (a instanceof Object && b instanceof Object) {
-    const keys = new Set(Object.keys(a).concat(Object.keys(b)));
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
+
+    if (aKeys.length !== bKeys.length) {
+      return false;
+    }
+
+    const keys = new Set(aKeys.concat(bKeys));
 
     for (let key of keys) {
       if (!compare(a[key], b[key])) {

@@ -2,7 +2,7 @@ module Mint
   class Compiler2
     def resolve(node : Ast::Function)
       resolve node do
-        {node, compile(node, contents: nil, args: nil, skip_const: true)}
+        {node, node, compile(node, contents: nil, args: nil, skip_const: true)}
       end
     end
 

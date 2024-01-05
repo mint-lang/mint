@@ -2,6 +2,9 @@ module Mint
   class Compiler2
     def decoder(type : TypeChecker::Record)
       @decoders[type] ||= begin
+        node =
+          ast.type_definitions.find!(&.name.value.==(type.name))
+
         item =
           type
             .fields
@@ -18,7 +21,7 @@ module Mint
 
         [
           Variable.new.tap do |variable|
-            add variable, js.call(Builtin::Decoder, [js.object(item), ok, err])
+            add node, variable, js.call(Builtin::Decoder, [js.object(item), ok, err])
           end,
         ] of Item
       end

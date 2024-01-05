@@ -11,15 +11,18 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { useSignal as B } from "runtime";
+import {
+  useFunction as C,
+  useSignal as B
+} from "runtime";
 
 const A = () => {
   const
     a = B(`Hello`),
     b = B(`0`),
-    c = () => {
+    c = C(() => {
       return a.value + b.value
-    };
+    });
   return c()
 };
 

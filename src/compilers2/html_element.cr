@@ -74,13 +74,8 @@ module Mint
         end
 
         node.ref.try do |ref|
-          variable =
-            Variable.new
-
           attributes["ref"] =
-            js.arrow_function([[variable] of Item]) do
-              js.assign(Signal.new(ref), js.new(just, [[variable] of Item]))
-            end
+            js.call(Builtin::SetRef, [[ref] of Item, just])
         end
 
         js.call(Builtin::CreateElement, [

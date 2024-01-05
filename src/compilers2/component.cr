@@ -49,7 +49,7 @@ module Mint
 
         refs =
           node.refs.to_h.keys.map do |ref|
-            {ref, js.call(Builtin::Signal, [js.new(nothing, [] of Compiled)])}
+            {ref, ref, js.call(Builtin::UseSignal, [js.new(nothing, [] of Compiled)])}
           end
 
         properties =
@@ -68,25 +68,62 @@ module Mint
             end
           end
 
+        exposed =
+          if components_touched.includes?(node)
+            items =
+              (refs + states + gets + functions + constants)
+                .compact
+                .map do |item|
+                  [item[0]] of Item
+                end
+
+            unless items.empty?
+              variable =
+                Variable.new
+
+              properties << ["_"] of Item
+              [
+                js.const(variable, js.call(Builtin::UseMemo, [
+                  js.arrow_function { js.return(js.object_destructuring(items)) },
+                  js.array([] of Compiled),
+                ])),
+                js.call(["_"] of Item, [[variable] of Item]),
+              ]
+            end
+          end || [] of Compiled
+
         arguments =
           unless properties.empty?
             [js.object_destructuring(properties)]
           end
 
-        providers =
-          unless node.uses.empty?
+        provider_effects =
+          if node.uses.empty?
+            [] of Compiled
+          else
+            id = Variable.new
+
             node.uses.map do |use|
-              call =
-                js.arrow_function do
-                  js.return(js.call(lookups[use][0], [compile(use.data)]))
+              data =
+                if condition = use.condition
+                  js.tenary(compile(condition), compile(use.data), js.null)
+                else
+                  compile(use.data)
                 end
 
-              if condition = use.condition
-                js.array([call, compile(condition)])
-              else
-                js.array([call])
-              end
+              js.call(lookups[use][0], [[id] of Item, data])
             end
+          end
+
+        id =
+          if id
+            [{
+              node.as(Ast::Node),
+              id.as(Id),
+              js.call(Builtin::UseId, [] of Compiled),
+            }]
+          else
+            [] of Tuple(Ast::Node, Id, Compiled)
           end
 
         effect =
@@ -116,26 +153,25 @@ module Mint
             [] of Compiled
           end
 
-        provider_effect =
-          if providers
-            [js.call(Builtin::UseProviders, [js.array(providers)])]
-          else
-            [] of Compiled
-          end
-
         items =
           if node.global?
-            refs + states + gets + functions + styles + constants + [
+            refs + states + gets + functions + styles + constants + id + [
               {node,
+               node,
                compile(
                  render.not_nil!,
                  skip_const: true,
                  contents: js.statements(
-                   effect + update_effect + provider_effect))},
+                   exposed + effect + update_effect + provider_effects))},
             ]
           else
+            callbacks =
+              (functions + styles).map do |entity, entity_id, item|
+                {entity, entity_id, js.call(Builtin::UseFunction, [item])}
+              end
+
             entities =
-              (refs + states + gets + functions + styles + constants).compact
+              (refs + states + gets + callbacks + constants + id).compact
 
             consts =
               if entities.empty?
@@ -146,12 +182,13 @@ module Mint
 
             [{
               node,
+              node,
               compile(
                 render.not_nil!,
                 args: arguments,
                 skip_const: true,
                 contents: js.statements(
-                  consts + effect + update_effect + provider_effect
+                  consts + exposed + effect + update_effect + provider_effects
                 )),
             }]
           end

@@ -1,5 +1,32 @@
 import { options } from "preact";
 
+// Polyfill DataTransfer
+if (!("DataTransfer" in window)) {
+  window.DataTransfer = class {
+    constructor() {
+      this.effectAllowed = "none";
+      this.dropEffect = "none";
+      this.files = [];
+      this.types = [];
+      this.cache = {};
+    }
+
+    getData(format) {
+      return this.cache[format] || "";
+    }
+
+    setData(format, data) {
+      this.cache[format] = data;
+      return null;
+    }
+
+    clearData() {
+      this.cache = {};
+      return null;
+    }
+  };
+}
+
 // Set the event option hook to normalize the event so we can use one type
 // for events (`Html.Event``) instead of multiple event types like in
 // JavaScript (`MouseEvent`, `KeyboardEvent`, etc...). Basically we make sure

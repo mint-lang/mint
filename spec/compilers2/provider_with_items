@@ -35,13 +35,13 @@ component Main {
 import {
   createProvider as D,
   createElement as G,
-  useProviders as F,
   computed as B,
-  signal as A
+  signal as A,
+  useId as F
 } from "runtime";
 
 const
-  a = A([]),
+  a = new Map(),
   b = `hello`,
   c = () => {
     return b
@@ -54,11 +54,10 @@ const
     return await null
   }),
   E = () => {
-    F([[() => {
-      return C({
-        a: true,
-        b: false
-      })
-    }]]);
+    const f = F();
+    C(f, {
+      a: true,
+      b: false
+    });
     return G(`div`, {})
   };

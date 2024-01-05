@@ -4,6 +4,7 @@ record Test {
 
 provider Test : Test {
   fun update : Promise(Void) {
+    subscriptions
     await void
   }
 
@@ -24,25 +25,25 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
-  useProviders as E,
-  signal as A
+  createProvider as B,
+  subscriptions as C,
+  useId as E
 } from "runtime";
 
 const
-  a = A([]),
+  a = new Map(),
   b = (c) => {
     return c
   },
-  B = C(a, async () => {
+  A = B(a, async () => {
+    C(a);
     return await null
   }),
   D = () => {
-    E([[() => {
-      return B({
-        test: ``
-      })
-    }]]);
-    a.value;
+    const d = E();
+    A(d, {
+      test: ``
+    });
+    C(a);
     return b(`a`)
   };

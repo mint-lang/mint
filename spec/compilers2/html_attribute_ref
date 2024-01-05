@@ -12,8 +12,9 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as F,
+  useSignal as E,
   variant as B,
-  signal as E
+  setRef as G
 } from "runtime";
 
 const
@@ -22,9 +23,7 @@ const
   D = () => {
     const a = E(new C());
     return F(`div`, {
-      ref: (b) => {
-        a.value = new A(b)
-      }
+      ref: G(a, A)
     })
   };
 

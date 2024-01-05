@@ -14,14 +14,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+import { useFunction as B } from "runtime";
+
 const A = () => {
   const
-    a = () => {
+    a = B(() => {
       return undefined
-    },
-    b = async () => {
+    }),
+    b = B(async () => {
       return await a()
-    };
+    });
   b();
   return `Hello`
 };

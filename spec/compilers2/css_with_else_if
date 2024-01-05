@@ -18,24 +18,25 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  compare as B,
-  style as D
+  createElement as D,
+  useFunction as B,
+  compare as C,
+  style as E
 } from "runtime";
 
 const A = () => {
-  const a = (b) => {
+  const a = B((b) => {
     const _ = {};
-    (B(b, `red`) ? Object.assign(_, {
+    (C(b, `red`) ? Object.assign(_, {
       [`--a-a`]: `red`
-    }) : (B(b, `blue`) ? Object.assign(_, {
+    }) : (C(b, `blue`) ? Object.assign(_, {
       [`--a-a`]: `blue`
     }) : null));
     return _
-  };
-  return C(`div`, {}, [C(`div`, {
+  });
+  return D(`div`, {}, [D(`div`, {
     className: `Main_base`,
-    style: D([a(`blue`)])
+    style: E([a(`blue`)])
   })])
 };
 

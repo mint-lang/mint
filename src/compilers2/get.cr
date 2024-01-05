@@ -12,7 +12,7 @@ module Mint
             Builtin::Computed
           end
 
-        {node.as(Id), js.call(method, [js.arrow_function { body }])}
+        {node, node, js.call(method, [js.arrow_function { body }])}
       end
     end
   end

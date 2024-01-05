@@ -23,12 +23,13 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  style as C
+  createElement as C,
+  useFunction as B,
+  style as D
 } from "runtime";
 
 const A = () => {
-  const a = () => {
+  const a = B(() => {
     const _ = {};
     (true ? Object.assign(_, {
       [`--a-a`]: `red`
@@ -41,10 +42,10 @@ const A = () => {
       [`--b-a`]: `cyan`
     }));
     return _
-  };
-  return B(`div`, {
+  });
+  return C(`div`, {
     className: `Main_test`,
-    style: C([a()])
+    style: D([a()])
   })
 };
 

@@ -22,14 +22,14 @@ import {
 
 const
   a = A({
+    nested: b,
     name: B
   }),
   b = A({
-    nested: a,
     name: B
   }),
   C = () => {
-    b({
+    a({
       name: `Hello`,
       nested: {
         name: `Test`

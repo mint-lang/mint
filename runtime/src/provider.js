@@ -1,45 +1,45 @@
+import { useEffect, useMemo } from "preact/hooks";
 import { untracked } from "@preact/signals";
-import { useEffect } from "preact/hooks";
+import { compare } from "./equality";
+import uuid from "uuid-random";
 
 // This creates a function which is used for subscribing to a provider. We use
 // `untracked` to not to subscribe to any outside signals.
 export const createProvider = (subscriptions, update) => {
   // This is the subscription function.
-  return (subscription) => {
-    untracked(() => {
-      subscriptions.value = [...subscriptions.value, subscription];
-      update();
-    });
+  return (owner, object) => {
+    const unsubscribe = () => {
+      if (subscriptions.has(owner)) {
+        subscriptions.delete(owner);
+        untracked(update);
+      }
+    }
 
-    // Cleanup function.
-    return () => {
-      untracked(() => {
-        subscriptions.value = subscriptions.value.filter(
-          (item) => item != subscription,
-        );
-        update();
-      });
-    };
+    // This will only run when the component unmounts.
+    useEffect(() => {
+      return unsubscribe
+    }, []);
+
+    // This runs on every update so we don't return a cleanup function.
+    useEffect(() => {
+      // If the object is null that means we need to unsubscribe.
+      if (object === null) {
+        unsubscribe();
+      } else {
+        const current = subscriptions.get(owner);
+
+        if (!compare(current, object)) {
+          subscriptions.set(owner, object);
+          untracked(update);
+        }
+      }
+    })
   };
 };
 
-// A hook for using providers. On mount and every change we subscribe to the
-// given providers (if the condition is missing or true). The cleanup runs
-// before the resubscription so there won't be any invalid subscriptions.
-export const useProviders = (providers) => {
-  useEffect(() => {
-    const cleanups = providers.map((provider) => {
-      if (provider.length === 1 || provider[1]) {
-        return provider[0]();
-      }
-    });
+// Returns the subscriptions as an array.
+export const subscriptions = (items) => Array.from(items.values());
 
-    return () => {
-      cleanups.forEach((item) => {
-        if (item) {
-          item();
-        }
-      });
-    };
-  });
-};
+// Returns a unique ID for a component which doesn't change.
+export const useId = () => useMemo(uuid, []);
+
