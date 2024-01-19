@@ -13,15 +13,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { define as B } from "runtime";
-
 const A = () => {
-  const a = B('a', () => {
+  const a = () => {
     const b = (c) => {
       return c
     };
     return b(`Joe`)
-  });
+  };
   a();
   return ``
 };

@@ -94,7 +94,10 @@ module Mint
                   js.arrow_function { js.return(js.object_destructuring(items)) },
                   js.array([] of Compiled),
                 ])),
-                js.call(["_"] of Item, [[variable] of Item]),
+                js.tenary(
+                  ["_"] of Item,
+                  js.call(["_"] of Item, [[variable] of Item]),
+                  js.null),
               ]
             end
           end || [] of Compiled
@@ -182,17 +185,8 @@ module Mint
                    exposed + effect + update_effect + provider_effects))},
             ]
           else
-            callbacks =
-              functions.map do |entity, entity_id, item|
-                {
-                  entity,
-                  entity_id,
-                  js.call(Builtin::Define, [["'", entity, "'"] of Item, item]),
-                }
-              end
-
             entities =
-              (refs + states + gets + callbacks + styles + constants + id).compact
+              (refs + states + gets + functions + styles + constants + id).compact
 
             consts =
               if entities.empty?

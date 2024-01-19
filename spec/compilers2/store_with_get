@@ -14,17 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import {
-  computed as B,
-  signal as A
-} from "runtime";
+import { signal as A } from "runtime";
 
 const
   a = A(``),
-  b = B(() => {
+  b = () => {
     return `hello`
-  }),
-  C = () => {
+  },
+  B = () => {
     return a.value
   };
 

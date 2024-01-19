@@ -27,21 +27,33 @@ module Mint
             end
 
             case item = items[0]
-            when Ast::State, Ast::Get
+            when Ast::Get
+              js.call(item, [] of Compiled)
+            when Ast::State
               [Signal.new(item)] of Item
             else
               [item] of Item
             end
           end
+        elsif item = record_field_lookup[node.field]?
+          compile(node.expression) + ["."] + [node.field.value] of Item
         else
-          field =
-            if record_field_lookup[node.field]?
-              node.field.value
+          lookup =
+            lookups[node.field]
+
+          item =
+            case field = lookup[0]
+            when Ast::Variable
+              [Ref.new(lookup[0])] of Item
+            when Ast::Get
+              js.call(field, [] of Compiled)
+            when Ast::State
+              [Signal.new(field)] of Item
             else
-              lookups[node.field][0]
+              [field] of Item
             end
 
-          compile(node.expression) + [".", field]
+          compile(node.expression) + ["."] + item
         end
       end
     end

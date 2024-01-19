@@ -10,12 +10,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { define as B } from "runtime";
-
 const A = () => {
-  const a = B('a', (b, c = 0) => {
+  const a = (b, c = 0) => {
     return c
-  });
+  };
   a(``);
   return ``
 };

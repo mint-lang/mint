@@ -14,16 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { define as B } from "runtime";
-
 const A = () => {
   const
-    a = B('a', () => {
+    a = () => {
       return `test`
-    }),
-    b = B('b', () => {
+    },
+    b = () => {
       return a()
-    });
+    };
   b();
   return ``
 };

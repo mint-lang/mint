@@ -26,13 +26,12 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as B,
-  computed as E,
   signal as D
 } from "runtime";
 
 const
   A = () => {
-    return B(`div`, {}, [a.value])
+    return B(`div`, {}, [a()])
   },
   b = (c) => {
     return c
@@ -41,6 +40,6 @@ const
     return B(`div`, {}, [b(`Hello`)])
   },
   d = D(``),
-  a = E(() => {
+  a = () => {
     return d.value
-  });
+  };

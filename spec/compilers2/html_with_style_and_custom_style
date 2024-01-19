@@ -17,29 +17,28 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as D,
-  useComputed as C,
+  createElement as C,
   useSignal as B,
-  style as E
+  style as D
 } from "runtime";
 
 const A = () => {
   const
     a = B(`blue`),
-    b = C(() => {
+    b = () => {
       return undefined
-    }),
+    },
     c = () => {
       const _ = {
         [`--a-a`]: a.value
       };
       return _
     };
-  return D(`div`, {
+  return C(`div`, {
     className: `Main_test`,
-    style: E([
+    style: D([
       c(),
-      b.value
+      b()
     ])
   })
 };

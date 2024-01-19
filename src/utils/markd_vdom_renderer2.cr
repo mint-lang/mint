@@ -152,7 +152,7 @@ module Mint
                  Markd::Node::Type::HTMLBlock,
                  Markd::Node::Type::Text
                 next if (parent = node.parent?) && parent.type.image?
-                node.text.gsub('`', "\\`").strip
+                node.text.gsub('`', "\\`")
               in Markd::Node::Type::SoftBreak
                 "\n"
               in Markd::Node::Type::CustomInLine,
@@ -167,7 +167,9 @@ module Mint
             # so the children can be added there.
             case item
             when Node
-              if node.type != Markd::Node::Type::LineBreak
+              if !node.type.in?(
+                   Markd::Node::Type::LineBreak,
+                   Markd::Node::Type::Code)
                 stack.push(item)
               end
             end

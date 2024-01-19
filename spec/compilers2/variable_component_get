@@ -8,11 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { useComputed as B } from "runtime";
-
 const A = () => {
-  const a = B(() => {
+  const a = () => {
     return `Hello`
-  });
-  return a.value
+  };
+  return a()
 };

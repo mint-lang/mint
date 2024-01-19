@@ -4,20 +4,16 @@ enum Maybe(value) {
 }
 
 component Instance {
-  get name : String {
-    "Instance"
-  }
-
   fun render : Html {
-    <div></div>
+    <div as base></div>
   }
 }
 
 component Main {
-  fun handleClick : String {
+  fun handleClick {
     case (instance) {
-      Maybe::Just(component) => component.name
-      Maybe::Nothing => ""
+      Maybe::Just(component) => component.base
+      Maybe::Nothing => Maybe::Nothing
     }
   }
 
@@ -29,14 +25,14 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as K,
-  createElement as F,
-  pattern as J,
-  useMemo as E,
+  patternVariable as L,
+  createElement as G,
+  pattern as K,
+  useMemo as F,
   variant as B,
-  setRef as L,
-  useRef as H,
-  match as I
+  setRef as H,
+  useRef as E,
+  match as J
 } from "runtime";
 
 const
@@ -45,39 +41,39 @@ const
   D = ({
     _
   }) => {
-    const a = () => {
-      return `Instance`
-    };
-    const b = E(() => {
+    const a = E(new C());
+    const b = F(() => {
       return {
         a
       }
     }, []);
     (_ ? _(b) : null);
-    return F(`div`, {})
+    return G(`div`, {
+      ref: H(a, A)
+    })
   },
-  G = () => {
+  I = () => {
     const
-      c = H(new C()),
+      c = E(new C()),
       d = () => {
-        return I(c.current, [
+        return J(c.current, [
           [
-            J(A, [K]),
+            K(A, [L]),
             (e) => {
-              return e.a()
+              return e.a.current
             }
           ],
           [
-            J(C, []),
+            K(C, []),
             () => {
-              return ``
+              return new C()
             }
           ]
         ])
       };
-    return F(`div`, {
+    return G(`div`, {
       "onClick": d
-    }, [F(D, {
-      _: L(c, A)
+    }, [G(D, {
+      _: H(c, A)
     })])
   };

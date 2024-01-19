@@ -29,8 +29,9 @@ module Mint
             end
           else
             case entity
-            when Ast::State,
-                 Ast::Get
+            when Ast::Get
+              js.call(entity, [] of Compiled)
+            when Ast::State
               [Signal.new(entity)] of Item
             else
               [entity] of Item

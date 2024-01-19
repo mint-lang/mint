@@ -19,20 +19,19 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   useSignal as B,
-  define as C,
-  batch as D
+  batch as C
 } from "runtime";
 
 const A = () => {
   const
     a = B(`Joe`),
     b = B(24),
-    c = C('c', () => {
-      return D(() => {
+    c = () => {
+      return C(() => {
         a.value = `Hello`;
         b.value = 30
       })
-    });
+    };
   c();
   return ``
 };

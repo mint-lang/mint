@@ -10,16 +10,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  useComputed as B,
-  style as D
+  createElement as B,
+  style as C
 } from "runtime";
 
 const A = () => {
-  const a = B(() => {
+  const a = () => {
     return undefined
-  });
-  return C(`div`, {
-    style: D([a.value])
+  };
+  return B(`div`, {
+    style: C([a()])
   })
 };

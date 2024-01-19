@@ -14,15 +14,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { computed as A } from "runtime";
-
 const
-  a = A(() => {
+  a = () => {
     return `Hello`
-  }),
-  b = () => {
-    return a.value
   },
-  B = () => {
+  b = () => {
+    return a()
+  },
+  A = () => {
     return b()
   };

@@ -5,14 +5,14 @@ module Mint
         body =
           compile node.body, for_function: true
 
-        method =
-          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
-            Builtin::UseComputed
+        body =
+          if async?(node.body)
+            js.async_arrow_function([] of Compiled) { body }
           else
-            Builtin::Computed
+            js.arrow_function([] of Compiled) { body }
           end
 
-        {node, node, js.call(method, [js.arrow_function { body }])}
+        {node, node, body}
       end
     end
   end

@@ -8,11 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { define as B } from "runtime";
-
 const A = () => {
-  const a = B('a', (b, c) => {
+  const a = (b, c) => {
     return ``
-  });
+  };
   return a(``, 0)
 };

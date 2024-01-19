@@ -33,11 +33,10 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as D,
-  createElement as G,
-  computed as B,
+  createProvider as C,
+  createElement as F,
   signal as A,
-  useId as F
+  useId as E
 } from "runtime";
 
 const
@@ -47,19 +46,19 @@ const
     return b
   },
   d = A(``),
-  e = B(() => {
+  e = () => {
     return d.value
-  }),
-  C = D(a, async () => {
+  },
+  B = C(a, async () => {
     return await null
   }),
-  E = () => {
-    const f = F();
-    C(f, () => {
+  D = () => {
+    const f = E();
+    B(f, () => {
       return {
         a: true,
         b: false
       }
     });
-    return G(`div`, {})
+    return F(`div`, {})
   };
