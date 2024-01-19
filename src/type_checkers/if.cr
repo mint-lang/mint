@@ -75,7 +75,7 @@ module Mint
         end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
       end
 
-      if await
+      if await && truthy.name != "Promise"
         Type.new("Promise", [truthy] of Checkable)
       else
         truthy

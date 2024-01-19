@@ -31,12 +31,12 @@ component Main {
 import {
   patternVariable as M,
   createElement as G,
-  useFunction as J,
   useComputed as E,
   pattern as L,
   useMemo as F,
   variant as B,
   setRef as N,
+  define as J,
   useRef as I,
   match as K
 } from "runtime";
@@ -61,7 +61,7 @@ const
   H = () => {
     const
       c = I(new C()),
-      d = J(() => {
+      d = J('d', () => {
         return K(c.current, [
           [
             L(A, [M]),

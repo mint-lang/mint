@@ -14,14 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { useFunction as B } from "runtime";
+import { define as B } from "runtime";
 
 const A = () => {
   const
-    a = B((b, c) => {
+    a = B('a', (b, c) => {
       return c
     }),
-    d = B(() => {
+    d = B('d', () => {
       return a(`Hello`, true)
     });
   d();

@@ -18,8 +18,8 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  useFunction as C,
   useSignal as B,
+  define as C,
   batch as D
 } from "runtime";
 
@@ -27,7 +27,7 @@ const A = () => {
   const
     a = B(`Joe`),
     b = B(24),
-    c = C(() => {
+    c = C('c', () => {
       return D(() => {
         a.value = `Hello`;
         b.value = 30

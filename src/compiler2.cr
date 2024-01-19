@@ -52,6 +52,7 @@ module Mint
       UseComputed
       UseFunction
       UseEffect
+      CreateRef
       UseSignal
       Computed
       UseMemo
@@ -63,6 +64,7 @@ module Mint
       CreateProvider
       Subscriptions
       UseId
+      Uuid
 
       # Encoders.
       EncodeTuple
@@ -95,6 +97,7 @@ module Mint
       Identity
       ToArray
       Compare
+      Define
       SetRef
       Access
       Curry
@@ -243,7 +246,15 @@ module Mint
       routes =
         compile(ast.routes.flat_map(&.routes))
 
-      js.call(Builtin::Program, [main, js.array([] of Compiled), ok, js.array(routes)])
+      globals =
+        ast
+          .components
+          .select(&.global?)
+          .each_with_object({} of Item => Compiled) do |item, memo|
+            memo[item.as(Item)] = [item] of Item
+          end
+
+      js.call(Builtin::Program, [main, js.object(globals), ok, js.array(routes)])
     end
 
     def inject_css(css : String)

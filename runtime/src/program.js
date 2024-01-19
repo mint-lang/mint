@@ -123,7 +123,7 @@ class Program {
             elem =
               this.root.querySelector(hash) || // ID
               this.root.querySelector(`a[name="${hash.slice(1)}"]`); // Anchor
-          } finally {
+          } catch {
           }
 
           if (elem) {

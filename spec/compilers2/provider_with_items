@@ -55,9 +55,11 @@ const
   }),
   E = () => {
     const f = F();
-    C(f, {
-      a: true,
-      b: false
+    C(f, () => {
+      return {
+        a: true,
+        b: false
+      }
     });
     return G(`div`, {})
   };

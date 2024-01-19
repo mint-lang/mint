@@ -169,6 +169,8 @@ module Mint
 
         if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
           record = check(node)
+          cache[node] = record
+          check!(node)
           add_record record, node
           record
         end

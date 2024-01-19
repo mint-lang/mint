@@ -14,14 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { useFunction as B } from "runtime";
+import { define as B } from "runtime";
 
 const A = () => {
   const
-    a = B(() => {
+    a = B('a', () => {
       return undefined
     }),
-    b = B(async () => {
+    b = B('b', async () => {
       return await a()
     });
   b();

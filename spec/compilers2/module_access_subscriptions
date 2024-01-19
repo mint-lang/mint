@@ -41,8 +41,10 @@ const
   }),
   D = () => {
     const d = E();
-    A(d, {
-      test: ``
+    A(d, () => {
+      return {
+        test: ``
+      }
     });
     C(a);
     return b(`a`)

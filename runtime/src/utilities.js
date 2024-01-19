@@ -1,4 +1,8 @@
-import { useEffect, useRef, useCallback } from "preact/hooks";
+import { useEffect, useRef, useCallback, useMemo } from "preact/hooks";
+import { createRef as createRefOriginal } from "preact";
+import { signal } from "@preact/signals";
+
+import { Id } from "./equality";
 
 // We need to have a different function for accessing array items because there
 // is no concept of `null` in Mint so we return `Just(a)` or `Nothing`.
@@ -21,6 +25,20 @@ export const setRef = (value, just) => (element) => {
   if (value.current._0 !== element) {
     value.current = new just(element)
   }
+}
+
+// A version of useSignal which subscribes to the signal by default (like a
+// state) since we want to re-render every time the signal changes.
+export const useSignal = (value) => {
+  const sig = useMemo(() => signal(value), [])
+  sig.value;
+  return sig
+}
+
+export const createRef = (value) => {
+  const ref = createRefOriginal()
+  ref.current = value
+  return ref
 }
 
 // A hook to replace the `componentDidUpdate` function.
@@ -60,3 +78,8 @@ export const access = (field) => (value) => value[field];
 
 // Identity function used in encoders.
 export const identity = (a) => a;
+
+export const define = (id, method) => {
+  method[Id] = id
+  return method
+}

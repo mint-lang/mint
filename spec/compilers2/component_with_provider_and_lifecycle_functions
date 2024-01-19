@@ -60,13 +60,15 @@ const
     F(() => {
       return null
     });
-    A(b, (false ? {
-      moves: (c) => {
-        return null
-      },
-      ups: (d) => {
-        return null
-      }
-    } : null));
+    A(b, () => {
+      return (false ? {
+        moves: (c) => {
+          return null
+        },
+        ups: (d) => {
+          return null
+        }
+      } : null)
+    });
     return G(`div`, {})
   };

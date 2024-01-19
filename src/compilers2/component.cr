@@ -49,7 +49,14 @@ module Mint
 
         refs =
           node.refs.to_h.keys.map do |ref|
-            {ref, ref, js.call(Builtin::UseRef, [js.new(nothing, [] of Compiled)])}
+            method =
+              if node.global?
+                Builtin::CreateRef
+              else
+                Builtin::UseRef
+              end
+
+            {ref, ref, js.call(method, [js.new(nothing, [] of Compiled)])}
           end
 
         properties =
@@ -111,16 +118,26 @@ module Mint
                   compile(use.data)
                 end
 
-              js.call(lookups[use][0], [[id] of Item, data])
+              js.call(lookups[use][0], [
+                [id] of Item,
+                js.arrow_function { js.return(data) },
+              ])
             end
           end
 
         id =
           if id
+            method =
+              if node.global?
+                Builtin::Uuid
+              else
+                Builtin::UseId
+              end
+
             [{
               node.as(Ast::Node),
               id.as(Id),
-              js.call(Builtin::UseId, [] of Compiled),
+              js.call(method, [] of Compiled),
             }]
           else
             [] of Tuple(Ast::Node, Id, Compiled)
@@ -166,12 +183,16 @@ module Mint
             ]
           else
             callbacks =
-              (functions + styles).map do |entity, entity_id, item|
-                {entity, entity_id, js.call(Builtin::UseFunction, [item])}
+              functions.map do |entity, entity_id, item|
+                {
+                  entity,
+                  entity_id,
+                  js.call(Builtin::Define, [["'", entity, "'"] of Item, item]),
+                }
               end
 
             entities =
-              (refs + states + gets + callbacks + constants + id).compact
+              (refs + states + gets + callbacks + styles + constants + id).compact
 
             consts =
               if entities.empty?

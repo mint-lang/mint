@@ -15,25 +15,24 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as D,
-  useFunction as C,
+  createElement as C,
   useSignal as B,
-  style as E
+  style as D
 } from "runtime";
 
 const A = () => {
   const
     a = B(`Joe`),
-    b = C(() => {
+    b = () => {
       const _ = {
         [`--a-a`]: `"Hi"` + ` blah ` + a.value + ` ` + `"Here is some content; Thanks ${a.value}"`
       };
       return _
-    });
-  return D(`div`, {
+    };
+  return C(`div`, {
     className: `Main_unicode`,
-    style: E([b()])
-  }, [D(`span`, {})])
+    style: D([b()])
+  }, [C(`span`, {})])
 };
 
 .Main_unicode span::after {

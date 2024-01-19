@@ -12,15 +12,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  useFunction as C,
-  useSignal as B
+  useSignal as B,
+  define as C
 } from "runtime";
 
 const A = () => {
   const
     a = B(`Hello`),
     b = B(`0`),
-    c = C(() => {
+    c = C('c', () => {
       return a.value + b.value
     });
   return c()

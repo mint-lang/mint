@@ -10,21 +10,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  useFunction as B,
-  style as D
+  createElement as B,
+  style as C
 } from "runtime";
 
 const A = () => {
-  const a = B((b) => {
+  const a = (b) => {
     const _ = {
       [`--a-a`]: b
     };
     return _
-  });
-  return C(`div`, {
+  };
+  return B(`div`, {
     className: `Main_test`,
-    style: D([a(`red`)])
+    style: C([a(`red`)])
   })
 };
 

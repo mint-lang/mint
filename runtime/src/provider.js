@@ -22,14 +22,16 @@ export const createProvider = (subscriptions, update) => {
 
     // This runs on every update so we don't return a cleanup function.
     useEffect(() => {
+      const data = object();
+
       // If the object is null that means we need to unsubscribe.
-      if (object === null) {
+      if (data === null) {
         unsubscribe();
       } else {
         const current = subscriptions.get(owner);
 
-        if (!compare(current, object)) {
-          subscriptions.set(owner, object);
+        if (!compare(current, data)) {
+          subscriptions.set(owner, data);
           untracked(update);
         }
       }
@@ -42,4 +44,4 @@ export const subscriptions = (items) => Array.from(items.values());
 
 // Returns a unique ID for a component which doesn't change.
 export const useId = () => useMemo(uuid, []);
-
+export {uuid};

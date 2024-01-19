@@ -82,9 +82,9 @@ module Mint
 
         if entity = scope.resolve(possibility, node).try(&.node)
           if entity && possibility[0].ascii_uppercase?
-            variables[node.expression] = {entity, entity}
-            check!(entity)
             if target_node = scope.resolve(node.field.value, entity).try(&.node)
+              variables[node.expression] = {entity, entity}
+              check!(entity)
               variables[node] = {target_node, entity}
               variables[node.field] = {target_node, entity}
               return resolve target_node

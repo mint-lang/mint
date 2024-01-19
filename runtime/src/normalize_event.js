@@ -34,7 +34,9 @@ if (!("DataTransfer" in window)) {
 export const normalizeEvent = (event) => {
   return new Proxy(event, {
     get: function (obj, prop) {
-      if (prop in obj) {
+      if (prop === "event") {
+        return event
+      } else if (prop in obj) {
         const value = obj[prop];
 
         if (value instanceof Function) {

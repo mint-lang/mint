@@ -50,13 +50,15 @@ const
   }),
   D = () => {
     const d = E();
-    B(d, (false ? {
-      moves: (e) => {
-        return null
-      },
-      ups: (f) => {
-        return null
-      }
-    } : null));
+    B(d, () => {
+      return (false ? {
+        moves: (e) => {
+          return null
+        },
+        ups: (f) => {
+          return null
+        }
+      } : null)
+    });
     return F(`div`, {})
   };
