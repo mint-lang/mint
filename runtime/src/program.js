@@ -37,7 +37,7 @@ const getRouteInfo = (url, routes) => {
     } else {
       let vars = new RouteParser(route.path).match(url);
       if (vars) {
-        return { route: route, vars: vars };
+        return { route: route, vars: vars, url: url };
       }
     }
   }
@@ -152,7 +152,7 @@ class Program {
     if (routeInfo) {
       if (
         this.routeInfo === null ||
-        routeInfo.route.path !== this.routeInfo.route.path ||
+        routeInfo.url !== this.routeInfo.url ||
         !equals(routeInfo.vars, this.routeInfo.vars)
       ) {
         this.runRouteHandler(routeInfo);
