@@ -41,7 +41,7 @@ src/assets/runtime.js: $(shell find runtime/src -type f)
 	cd runtime && make index
 
 src/assets/runtime_test.js: $(shell find runtime/src -type f)
-	cd runtime && make test
+	cd runtime && make index_testing
 
 # This builds the binary and depends on files in some directories.
 bin/mint: \

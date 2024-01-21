@@ -15,7 +15,7 @@ class Pattern {
   }
 }
 
-// Export functions for creating patterns.
+// Export functions for creating various patterns.
 export const pattern = (variant, pattern) => new Pattern(variant, pattern);
 export const patternRecord = (patterns) => new PatternRecord(patterns);
 
@@ -25,7 +25,7 @@ export const patternSpread = Symbol("Spread");
 
 // Destructures the value using the pattern and returns the matched values of
 // the pattern as an array. If the value cannot be destructured it returns
-// `false`. This is a recursive funciton.
+// `false`. This is a recursive function.
 export const destructure = (value, pattern, values = []) => {
   // If the pattern is null it means that we skip this value.
   if (pattern === null) {
@@ -110,8 +110,8 @@ export const destructure = (value, pattern, values = []) => {
     } else {
       return false;
     }
-  } else if (pattern instanceof PatternRecord) {
     // This branch covers type variants as records.
+  } else if (pattern instanceof PatternRecord) {
     for (let index in pattern.patterns) {
       const item = pattern.patterns[index];
 
@@ -119,8 +119,8 @@ export const destructure = (value, pattern, values = []) => {
         return false;
       }
     }
-  } else {
     // We compare anything else.
+  } else {
     if (!compare(value, pattern)) {
       return false;
     }

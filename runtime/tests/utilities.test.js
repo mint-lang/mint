@@ -70,16 +70,6 @@ describe("toArray", () => {
   });
 });
 
-describe("useFunction", () => {
-  test("calls on changes", () => {
-    render(
-      h(() => {
-        useFunction(() => {});
-      }),
-    );
-  });
-});
-
 describe("useDidUpdate", () => {
   test("calls on changes", () => {
     const item = h(() => {

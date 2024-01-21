@@ -2,8 +2,9 @@
 // We use a `Symbol` to have a custom equality functions and then use these
 // functions when comparing two values.
 export const Equals = Symbol("Equals");
-export const Id = Symbol("Id");
 
+// We use regular functions instead of arrow functions because they have
+// binding (this, arguments, etc...).
 Boolean.prototype[Equals] =
   Symbol.prototype[Equals] =
   Number.prototype[Equals] =
@@ -17,11 +18,7 @@ Date.prototype[Equals] = function (other) {
 };
 
 Function.prototype[Equals] = Node.prototype[Equals] = function (other) {
-  if (this[Id]) {
-    return this[Id] === other[Id];
-  } else {
-    return this === other;
-  }
+  return this === other;
 };
 
 // Search parameters need to be the same string to be equal.
@@ -47,9 +44,11 @@ Array.prototype[Equals] = function (other) {
   if (other === null || other === undefined) {
     return false;
   }
+
   if (this.length !== other.length) {
     return false;
   }
+
   if (this.length == 0) {
     return true;
   }

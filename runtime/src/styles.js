@@ -10,7 +10,7 @@ export const insertStyles = (styles) => {
 //  style="color: red" - A CSS string (we need to parse this)
 //  style={Map.set(Map.empty(), "color", "red")} - A Mint `Map`
 //  style=[{"color", "red"}] - A Mint Array of tuples
-//  style={`{color: "red"}`} - A J
+//  style={`{color: "red"}`} - A JavaScript object
 export const style = (items) => {
   const result = {};
 
@@ -27,11 +27,7 @@ export const style = (items) => {
           setKeyValue(key, value);
         }
       });
-    } else if (item instanceof Map) {
-      for (let [key, value] of item) {
-        setKeyValue(key, value);
-      }
-    } else if (item instanceof Array) {
+    } else if (item instanceof Map || item instanceof Array) {
       for (let [key, value] of item) {
         setKeyValue(key, value);
       }

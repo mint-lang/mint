@@ -36,13 +36,19 @@ describe("equality", () => {
 
   test("same enum equals true", () => {
     expect(
-      compare(newVariant(RecordEnum)("a", "b"), newVariant(RecordEnum)("a", "b")),
+      compare(
+        newVariant(RecordEnum)("a", "b"),
+        newVariant(RecordEnum)("a", "b"),
+      ),
     ).toEqual(true);
   });
 
   test("different enum equals false", () => {
     expect(
-      compare(newVariant(RecordEnum)("a", "b"), newVariant(RecordEnum)("a", "c")),
+      compare(
+        newVariant(RecordEnum)("a", "b"),
+        newVariant(RecordEnum)("a", "c"),
+      ),
     ).toEqual(false);
   });
 });

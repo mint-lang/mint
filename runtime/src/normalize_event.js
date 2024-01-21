@@ -35,7 +35,7 @@ export const normalizeEvent = (event) => {
   return new Proxy(event, {
     get: function (obj, prop) {
       if (prop === "event") {
-        return event
+        return event;
       } else if (prop in obj) {
         const value = obj[prop];
 

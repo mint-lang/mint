@@ -10,7 +10,8 @@ export const encodeArray = (encoder) => (value) => {
   });
 };
 
-// Encodes `Map(String, value)` as a JS object.
+// Encodes `Map(String, value)` as a JS object. `Map` internally is just
+// an array of key, value pairs which is an array as well.
 export const encodeMap = (encoder) => (value) => {
   const result = {};
 
@@ -21,7 +22,7 @@ export const encodeMap = (encoder) => (value) => {
   return result;
 };
 
-// Encodes `Maybe`. `Nothing` becomes `null`.
+// Encodes `Maybe`. `Nothing` becomes `null`, `Just` is unwrapped.
 export const encodeMaybe = (encoder, just) => (value) => {
   if (value instanceof just) {
     return encoder(value._0);
@@ -38,7 +39,9 @@ export const encodeTuple = (encoders) => (value) => {
   });
 };
 
-// Encode a record with the encoders.
+// Encode a record with the encoders. An encoder can be a function or
+// an array where the first item is the function the second is the key
+// to use.
 export const encoder = (encoders) => (value) => {
   const result = {};
 

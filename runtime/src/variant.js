@@ -50,6 +50,7 @@ export const variant = (input) => {
 };
 
 // Creates a new variant from variable arguments.
-export const newVariant = (item) => {
-  return (...args) => new item(...args);
-};
+export const newVariant =
+  (item) =>
+  (...args) =>
+    new item(...args);

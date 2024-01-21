@@ -48,7 +48,7 @@ class TestContext {
 }
 
 // This is the test runner which runs the tests and sends reports to
-// the cli using websockets.
+// the CLI using websockets.
 class TestRunner {
   constructor(suites, url, id) {
     this.socket = new WebSocket(url);

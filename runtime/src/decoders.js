@@ -1,7 +1,7 @@
 import indentString from "indent-string";
 
 // Formats the given value as JSON with extra indentation.
-export const format = (value) => {
+const format = (value) => {
   let string = JSON.stringify(value, "", 2);
 
   if (typeof string === "undefined") {
@@ -11,8 +11,8 @@ export const format = (value) => {
   return indentString(string);
 };
 
-// A class to keep the errors when decoding it keeps the path
-// to the nested objects.
+// A class to keep the errors when decoding. It keeps track of the path
+// to the nested objects for reporting purpuses.
 export class Error {
   constructor(message, path = []) {
     this.message = message;
@@ -139,7 +139,7 @@ I was trying to decode the value:
 as a Map, but could not.
 `;
 
-// Decodes `String` (by checking for the type)
+// Decodes `String` (by checking for the type equality).
 export const decodeString = (ok, err) => (input) => {
   if (typeof input != "string") {
     return new err(new Error(NOT_A_STRING.replace("{value}", format(input))));
@@ -177,7 +177,7 @@ export const decodeNumber = (ok, err) => (input) => {
   }
 };
 
-// Decodes Bool` (by checking for type)
+// Decodes `Bool` (by checking for type)
 export const decodeBoolean = (ok, err) => (input) => {
   if (typeof input != "boolean") {
     return new err(new Error(NOT_A_BOOLEAN.replace("{value}", format(input))));
@@ -187,7 +187,7 @@ export const decodeBoolean = (ok, err) => (input) => {
 };
 
 // Decodes an object field using the decoder (only works on "object" types
-// expect arrays)
+// except arrays)
 export const decodeField = (key, decoder, err) => (input) => {
   if (
     typeof input !== "object" ||
@@ -242,7 +242,7 @@ export const decodeArray = (decoder, ok, err) => (input) => {
 // Decodes `Maybe`. `null` and `undefined` becomes `Nothing` otherwise
 // the decoded value is returned as a `Just`.
 export const decodeMaybe = (decoder, ok, err, just, nothing) => (input) => {
-  if (input == null || input == undefined) {
+  if (input === null || input === undefined) {
     return new ok(new nothing());
   } else {
     const result = decoder(input);

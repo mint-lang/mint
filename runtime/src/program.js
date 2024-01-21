@@ -1,8 +1,8 @@
 import { deepEqual } from "fast-equals";
 import RouteParser from "route-parser";
 import { h, render } from "preact";
-import "event-propagation-path";
 
+// An internally used error when we can't decode route parameters.
 class DecodingError extends Error {}
 
 // Comparison function for route variables later on.
@@ -33,66 +33,17 @@ const queueTask = (callback) => {
 const getRouteInfo = (url, routes) => {
   for (let route of routes) {
     if (route.path === "*") {
-      return { route: route, vars: false };
+      return { route: route, vars: false, url: url };
     } else {
       let vars = new RouteParser(route.path).match(url);
+
       if (vars) {
         return { route: route, vars: vars, url: url };
       }
     }
   }
+
   return null;
-};
-
-// This is the root element, it intercepts click so navigation just works as
-// expected without having to use custom elements for it.
-const Root = (props) => {
-  const handleClick = (event) => {
-    // If someone prevented default we honor that.
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    // If the control is pressed it means that the user wants
-    // to open it a new tab so we honor that.
-    if (event.ctrlKey) {
-      return;
-    }
-
-    for (let element of event.propagationPath()) {
-      if (element.tagName === "A") {
-        // If the target is not empty then it's probably _blank or
-        // an other window or frame so we skip.
-        if (element.target.trim() !== "") {
-          return;
-        }
-
-        if (element.origin === window.location.origin) {
-          const fullPath = element.pathname + element.search + element.hash;
-          const routeInfo = getRouteInfo(fullPath, props.routes);
-
-          if (routeInfo) {
-            event.preventDefault();
-            navigate(
-              fullPath,
-              /* dispatch */ true,
-              /* triggerJump */ true,
-              routeInfo,
-            );
-            return;
-          }
-        }
-      }
-    }
-  };
-
-  const components = [];
-
-  for (let key in props.globals) {
-    components.push(h(props.globals[key], { key: key }));
-  }
-
-  return h("div", { onClick: handleClick }, [...components, ...props.children]);
 };
 
 class Program {
@@ -104,9 +55,51 @@ class Program {
 
     document.body.appendChild(this.root);
 
-    window.addEventListener("popstate", (event) => {
-      this.handlePopState(event);
-    });
+    window.addEventListener("popstate", this.handlePopState.bind(this));
+    window.addEventListener("popstate", this.handleClick.bind(this), true);
+  }
+
+  handleClick(event) {
+    // If someone prevented default we honor that.
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    // If the control is pressed it means that the user wants
+    // to open it a new tab so we honor that.
+    if (event.ctrlKey) {
+      return;
+    }
+
+    for (let element of event.composedPath()) {
+      if (element.tagName === "A") {
+        // If the target is not empty then it's probably `_blank` or
+        // an other window or frame so we skip.
+        if (element.target.trim() !== "") {
+          return;
+        }
+
+        // We only handle same origin URLs.
+        if (element.origin === window.location.origin) {
+          const fullPath = element.pathname + element.search + element.hash;
+          const routeInfo = getRouteInfo(fullPath, props.routes);
+
+          // If we found a matchin route, we prevent default and navigate to
+          // that route.
+          if (routeInfo) {
+            event.preventDefault();
+
+            navigate(
+              fullPath,
+              /* dispatch */ true,
+              /* triggerJump */ true,
+              routeInfo,
+            );
+            return;
+          }
+        }
+      }
+    }
   }
 
   // Handles resolving the page position after a navigation event.
@@ -119,12 +112,12 @@ class Program {
 
         if (hash) {
           let elem = null;
+
           try {
             elem =
               this.root.querySelector(hash) || // ID
               this.root.querySelector(`a[name="${hash.slice(1)}"]`); // Anchor
-          } catch {
-          }
+          } catch {}
 
           if (elem) {
             if (triggerJump) {
@@ -196,12 +189,13 @@ class Program {
   // Renders the program and runs current route handlers.
   render(main, globals) {
     if (typeof main !== "undefined") {
-      render(
-        h(Root, { routes: this.routes, globals: globals }, [
-          h(main, { key: "$MAIN" }),
-        ]),
-        this.root,
-      );
+      const components = [];
+
+      for (let key in globals) {
+        components.push(h(globals[key], { key: key }));
+      }
+
+      render([...components, h(main, { key: "MINT_MAIN" })], this.root);
 
       this.handlePopState();
     }

@@ -13,11 +13,11 @@ export const createProvider = (subscriptions, update) => {
         subscriptions.delete(owner);
         untracked(update);
       }
-    }
+    };
 
     // This will only run when the component unmounts.
     useEffect(() => {
-      return unsubscribe
+      return unsubscribe;
     }, []);
 
     // This runs on every update so we don't return a cleanup function.
@@ -35,7 +35,7 @@ export const createProvider = (subscriptions, update) => {
           untracked(update);
         }
       }
-    })
+    });
   };
 };
 
@@ -44,4 +44,4 @@ export const subscriptions = (items) => Array.from(items.values());
 
 // Returns a unique ID for a component which doesn't change.
 export const useId = () => useMemo(uuid, []);
-export {uuid};
+export { uuid };
