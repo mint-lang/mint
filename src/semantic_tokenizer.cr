@@ -43,11 +43,16 @@ module Mint
     getter tokens = [] of Token
 
     def self.tokenize(ast : Ast)
-      tokenizer = self.new
-      tokenizer.tokenize(ast)
-
       parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
-      contents = ast.nodes.first.file.contents
+
+      return parts if ast.nodes.empty?
+
+      tokenizer =
+        self.new.tap(&.tokenize(ast))
+
+      contents =
+        ast.nodes.first.file.contents
+
       position = 0
 
       tokenizer.tokens.sort_by(&.from).each do |token|

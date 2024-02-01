@@ -1,8 +1,10 @@
 component Main {
+  const HTML = <div></div>
+
   fun render : Html {
-    @highlight {
-      "Test"
-    }[1]
+    <<#MARKDOWN
+    #{HTML} Some text...
+    MARKDOWN
   }
 }
 --------------------------------------------------------------------------------
@@ -12,12 +14,10 @@ import {
 } from "runtime";
 
 const A = () => {
-  return [
-    `Test`,
-    B(C, {}, [B("span", {
-      className: "line"
-    }, [B("span", {
-      className: "string"
-    }, [`"Test"`])])])
-  ][1]
+  const a = B(`div`, {});
+  return B(C, {}, [B('p', {}, [
+    ``,
+    a,
+    ` Some text...`
+  ])])
 };

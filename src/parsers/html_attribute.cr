@@ -2,6 +2,9 @@ module Mint
   class Parser
     def html_attribute(with_dashes : Bool = true) : Ast::HtmlAttribute?
       parse do |start_position|
+        # Dash (-) is for custom elements, colon (`:`) is for namespaces
+        # (xlink:actuate) and we only parse them for HTML attributes not
+        # component attributes (`with_dashes)`.
         name = variable track: false, extra_chars: with_dashes ? ['-', ':'] : [] of Char
         next unless name
 

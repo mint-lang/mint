@@ -94,15 +94,25 @@ describe Mint::Compiler2::VDOMRenderer2 do
   ].each do |(markdown, expected)|
     context markdown do
       it "renders correctly" do
-        options = Markd::Options.new
-        document = Markd::Parser.parse(markdown, options)
+        document =
+          Markd::Parser.parse(markdown, Markd::Options.new)
 
-        js = Mint::Compiler2::Js.new(false)
-        js_renderer = Mint::Compiler2::Renderer.new
-        renderer = Mint::Compiler2::VDOMRenderer2.new
+        renderer =
+          Mint::Compiler2::VDOMRenderer2.new
+
+        js =
+          Mint::Compiler2::Js.new(false)
+
+        js_renderer =
+          Mint::Compiler2::Renderer.new
+
         node =
           Mint::Compiler2::VDOMRenderer2
-            .render(renderer.render(document).children.first, js, "", [] of Mint::Compiler2::Compiled)
+            .render(
+              node: renderer.render(document, "___SEPARATOR___", false).children.first,
+              replacements: [] of Mint::Compiler2::Compiled,
+              separator: "",
+              js: js)
 
         result =
           js_renderer.render(node)

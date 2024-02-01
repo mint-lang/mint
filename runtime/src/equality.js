@@ -117,6 +117,16 @@ Map.prototype[Equals] = function (other) {
   }
 };
 
+// If the object has a specific set of keys it's a Preact virtual DOM node.
+const isVnode = (object) =>
+  typeof object == "object" &&
+  "constructor" in object &&
+  "props" in object &&
+  "type" in object &&
+  "ref" in object &&
+  "key" in object &&
+  "__" in object
+
 // This is the custom comparison function.
 export const compare = (a, b) => {
   if ((a === undefined && b === undefined) || (a === null && b === null)) {
@@ -125,6 +135,8 @@ export const compare = (a, b) => {
     return a[Equals](b);
   } else if (b != null && b != undefined && b[Equals]) {
     return b[Equals](a);
+  } else if (isVnode(a) || isVnode(b)) {
+    return a === b
   } else {
     return compareObjects(a, b);
   }

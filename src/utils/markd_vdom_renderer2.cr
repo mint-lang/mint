@@ -13,18 +13,23 @@ module Mint
       def self.render(
         *,
         replacements : Array(Compiled),
+        highlight : Bool? = nil,
         document : Markd::Node,
         separator : String,
         js : Js
       ) : Compiled
-        render(self.new.render(document), js, separator, replacements)
+        render(
+          node: self.new.render(document, separator, highlight),
+          replacements: replacements,
+          separator: separator,
+          js: js)
       end
 
       def self.render(
+        replacements : Array(Compiled),
         node : Node | String,
-        js : Js,
         separator : String,
-        replacements : Array(Compiled)
+        js : Js
       ) : Compiled
         case node
         in String
@@ -39,8 +44,13 @@ module Mint
               .transform_values { |value| [%("#{value}")] of Item }
 
           children =
-            node.children
-              .map { |item| render(item, js, separator, replacements) }
+            node.children.map do |item|
+              render(
+                replacements: replacements,
+                separator: separator,
+                node: item,
+                js: js)
+            end
 
           tag =
             case node.tag
@@ -75,7 +85,7 @@ module Mint
 
       getter stack : Array(Node) = [] of Node
 
-      def render(document : Markd::Node)
+      def render(document : Markd::Node, separator : String, highlight : Bool?)
         walker =
           document.walker
 
@@ -141,12 +151,53 @@ module Mint
                 attributes["class"] =
                   "language-#{language}" if language
 
+                children =
+                  if highlight
+                    if language == "mint"
+                      parser = Parser.new(node.text.strip, "source.mint")
+                      parser.parse_any
+
+                      unless parser.ast.nodes.empty?
+                        Compiler2
+                          .tokens_to_lines(parser.ast)
+                          .map do |parts|
+                            items =
+                              parts.map do |part|
+                                case part
+                                in String
+                                  part.gsub('`', "\\`")
+                                in Tuple(SemanticTokenizer::TokenType, String)
+                                  Node.new("span",
+                                    attributes: {"className" => part[0].to_s.underscore},
+                                    children: [part[1].gsub('`', "\\`")] of Node | String)
+                                end
+                              end
+
+                            Node.new("span",
+                              attributes: {"className" => "line"},
+                              children: items).as(Node | String)
+                          end
+                      end
+                    end || begin
+                      node
+                        .text
+                        .gsub('`', "\\`")
+                        .strip
+                        .split("\n").map do |part|
+                        Node.new("span",
+                          attributes: {"className" => "line"},
+                          children: [part] of Node | String
+                        ).as(Node | String)
+                      end
+                    end
+                  else
+                    [node.text.gsub('`', "\\`").strip] of Node | String
+                  end
+
                 Node.new("pre", children: [
                   Node.new("code",
                     attributes: attributes,
-                    children: [
-                      node.text.gsub('`', "\\`").strip,
-                    ] of Node | String),
+                    children: children),
                 ] of Node | String)
               in Markd::Node::Type::HTMLInline,
                  Markd::Node::Type::HTMLBlock,
@@ -161,7 +212,21 @@ module Mint
 
             # Push the node to the children of the parent element (the last one
             # we entered).
-            stack.last?.try(&.children.push(item)) if item
+            case item
+            when String
+              unless item.empty?
+                if item.includes?(separator)
+                  items =
+                    item.split(separator).intersperse(separator)
+
+                  stack.last?.try(&.children.concat(items))
+                else
+                  stack.last?.try(&.children.push(item))
+                end
+              end
+            when Node
+              stack.last?.try(&.children.push(item))
+            end
 
             # If there is a new block node we push it to the end of the stack,
             # so the children can be added there.
@@ -169,6 +234,7 @@ module Mint
             when Node
               if !node.type.in?(
                    Markd::Node::Type::LineBreak,
+                   Markd::Node::Type::CodeBlock,
                    Markd::Node::Type::Code)
                 stack.push(item)
               end

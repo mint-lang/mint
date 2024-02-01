@@ -109,6 +109,8 @@ module Mint
       error! :impossible_error do
         block "You have run into an impossible error. Please file an issue " \
               "with a reproducible example in the GithubRepository."
+
+        snippet node
       end unless result
 
       resolve_type(result.parameters.last)

@@ -7,6 +7,9 @@ module Mint
         global = word! "global"
         whitespace
 
+        word! "async" # For the future...
+        whitespace
+
         next unless word! "component"
         whitespace
 

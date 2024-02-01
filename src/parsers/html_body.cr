@@ -15,7 +15,7 @@ module Mint
         children = [] of Ast::Node
 
         unless self_closing
-          items = many { expression || comment }
+          items = many { comment || expression }
           whitespace
 
           closing_tag =

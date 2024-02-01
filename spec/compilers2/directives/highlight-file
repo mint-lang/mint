@@ -12,33 +12,52 @@ import {
 const A = () => {
   return B(C, {}, [
     B("span", {
-      className: "keyword"
-    }, [`component`]),
-    ` `,
-    B("span", {
-      className: "type"
-    }, [`Main`]),
-    ` {
-  `,
-    B("span", {
-      className: "keyword"
-    }, [`fun`]),
-    ` render : `,
-    B("span", {
-      className: "type"
-    }, [`Html`]),
-    ` {
-    <`,
-    B("span", {
-      className: "namespace"
-    }, [`div`]),
-    `></`,
-    B("span", {
-      className: "namespace"
-    }, [`div`]),
-    `>
-  }
-}
+      className: "line"
+    }, [
+      B("span", {
+        className: "keyword"
+      }, [`component`]),
+      ` `,
+      B("span", {
+        className: "type"
+      }, [`Main`]),
+      ` {
 `
+    ]),
+    B("span", {
+      className: "line"
+    }, [
+      `  `,
+      B("span", {
+        className: "keyword"
+      }, [`fun`]),
+      ` render : `,
+      B("span", {
+        className: "type"
+      }, [`Html`]),
+      ` {
+`
+    ]),
+    B("span", {
+      className: "line"
+    }, [
+      `    <`,
+      B("span", {
+        className: "namespace"
+      }, [`div`]),
+      `></`,
+      B("span", {
+        className: "namespace"
+      }, [`div`]),
+      `>
+`
+    ]),
+    B("span", {
+      className: "line"
+    }, [`  }
+`]),
+    B("span", {
+      className: "line"
+    }, [`}`])
   ])
 };

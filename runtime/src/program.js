@@ -56,7 +56,7 @@ class Program {
     document.body.appendChild(this.root);
 
     window.addEventListener("popstate", this.handlePopState.bind(this));
-    window.addEventListener("popstate", this.handleClick.bind(this), true);
+    window.addEventListener("click", this.handleClick.bind(this), true);
   }
 
   handleClick(event) {
@@ -82,7 +82,7 @@ class Program {
         // We only handle same origin URLs.
         if (element.origin === window.location.origin) {
           const fullPath = element.pathname + element.search + element.hash;
-          const routeInfo = getRouteInfo(fullPath, props.routes);
+          const routeInfo = getRouteInfo(fullPath, this.routes);
 
           // If we found a matchin route, we prevent default and navigate to
           // that route.

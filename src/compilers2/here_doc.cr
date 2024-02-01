@@ -36,6 +36,7 @@ module Mint
 
           VDOMRenderer2.render(
             replacements: interpolations,
+            highlight: node.highlight,
             separator: separator,
             document: document,
             js: js,
