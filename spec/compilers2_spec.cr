@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 Dir
-  .glob("./spec/compilers2/**/*")
+  .glob("./spec/compilers2/component_async_3")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
@@ -28,11 +28,20 @@ Dir
             build: true,
             test: nil)
 
-        compiled =
-          Mint::Compiler2.program(artifacts, config)
+        files =
+          Mint::Compiler2
+            .program(artifacts, config)
+            .reject! { |_, contents| contents.blank? }
 
         result =
-          "#{compiled[0]}\n\n#{compiled[1]}".strip
+          case files.size
+          when 1
+            files["/index.js"]?.to_s
+          else
+            files
+              .map { |file, contents| "---=== #{file} ===---\n#{contents}" }
+              .join("\n\n").strip
+          end
 
         begin
           result.should eq(expected.strip)

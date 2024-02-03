@@ -1,0 +1,78 @@
+async component Test {
+  fun render : Html {
+    <div>
+      Greeter.greet("async")
+      Greeter.both()
+    </div>
+  }
+}
+
+module Greeter {
+  // Only used in Test so it should be compiled with it.
+  fun greet (name : String) {
+    "I'm #{name}!"
+  }
+
+  // Only used in Main so it should be compiled with it.
+  fun main {
+    "I'm in Main!"
+  }
+
+  // Only used in both so it should be compiled with Main.
+  fun both {
+    "I'm in both!"
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      Greeter.main()
+      Greeter.both()
+      <Test/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import {
+  createElement as D,
+  lazyComponent as B,
+  lazy as E
+} from "runtime";
+
+export const
+  a = () => {
+    return `I'm in Main!`
+  },
+  b = () => {
+    return `I'm in both!`
+  },
+  A = B('/__mint__/test.js'),
+  C = () => {
+    return D(`div`, {}, [
+      a(),
+      b(),
+      D(E, {
+        x: A,
+        p: {},
+        c: []
+      })
+    ])
+  };
+
+---=== /__mint__/test.js ===---
+import { createElement as B } from "runtime";
+
+import { b as c } from "/index.js";
+
+export const
+  a = (b) => {
+    return `I'm ${b}!`
+  },
+  A = () => {
+    return B(`div`, {}, [
+      a(`async`),
+      c()
+    ])
+  };

@@ -1,5 +1,5 @@
+import { createRef as createRefOriginal, Component, createElement } from "preact";
 import { useEffect, useRef, useMemo } from "preact/hooks";
-import { createRef as createRefOriginal } from "preact";
 import { signal } from "@preact/signals";
 
 // We need to have a different function for accessing array items because there
@@ -73,3 +73,23 @@ export const access = (field) => (value) => value[field];
 
 // Identity function, used in encoders.
 export const identity = (a) => a;
+
+export class lazyComponent extends Component {
+  async componentDidMount() {
+    let x = await this.props.x();
+    this.setState({ x: x })
+  }
+
+  render() {
+    if (this.state.x) {
+      return createElement(this.state.x, this.props.p, this.props.c)
+    } else {
+      return null
+    }
+  }
+}
+
+export const lazy = (path) => async () => {
+  const x = await import(path)
+  return x.default
+}

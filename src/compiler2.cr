@@ -3,10 +3,10 @@ module Mint
     include Helpers
 
     # Represents a compiled item
-    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Variable | Ref
+    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Variable | Ref | Encoder | Decoder
 
     # Represents an generated idetifier from the parts of the union type.
-    alias Id = Ast::Node | Variable
+    alias Id = Ast::Node | Variable | Encoder | Decoder
 
     # Represents compiled code.
     alias Compiled = Array(Item)
@@ -18,6 +18,9 @@ module Mint
     # Represents a reference to an HTML element or other component. They are treated differently
     # because they have a `.current` accessor.
     record Ref, value : Ast::Node
+
+    record Encoder, value : String
+    record Decoder, value : String
 
     # Represents code which needs to be indented.
     record Indent, items : Compiled
@@ -44,8 +47,10 @@ module Mint
 
       # Rendering.
       CreateElement
+      LazyComponent
       CreatePortal
       Fragment
+      Lazy
 
       # Effects.
       UseDidUpdate
@@ -120,8 +125,8 @@ module Mint
       Locale
     end
 
-    delegate resolve_order, variables, cache, lookups, record_field_lookup, ast,
-      components_touched, to: artifacts
+    delegate record_field_lookup, ast, components_touched, to: artifacts
+    delegate resolve_order, variables, cache, lookups, to: artifacts
 
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new

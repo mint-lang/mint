@@ -16,10 +16,11 @@ module Mint
 
     def compile(node : Ast::HtmlComponent) : Compiled
       compile node do
+        component =
+          node.component_node.not_nil!
+
         children =
-          if node.children.empty?
-            [] of Item
-          else
+          unless node.children.empty?
             items =
               compile node.children
 
@@ -37,11 +38,23 @@ module Mint
             js.call(Builtin::SetRef, [[ref] of Item, just])
         end
 
-        js.call(Builtin::CreateElement, [
-          [node.component_node.not_nil!] of Item,
-          js.object(attributes),
-          children,
-        ])
+        if component.async?
+          js.call(Builtin::CreateElement, [
+            [Builtin::LazyComponent] of Item,
+            js.object({
+              "key" => js.string(component.name.value),
+              "x"   => [component] of Item,
+              "p"   => js.object(attributes),
+              "c"   => children || js.array([] of Compiled),
+            }),
+          ])
+        else
+          js.call(Builtin::CreateElement, [
+            [component] of Item,
+            js.object(attributes),
+            children || [] of Item,
+          ])
+        end
       end
     end
   end

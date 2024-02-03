@@ -52,10 +52,11 @@ module Mint
     getter records, artifacts, formatter, web_components
     getter? check_everything
 
+    property component_stack = [] of Ast::Component
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate variables, ast, lookups, cache, scope, to: artifacts
+    delegate variables, ast, lookups, cache, scope, references, to: artifacts
     delegate assets, resolve_order, locales, components_touched, to: artifacts
 
     delegate format, to: formatter
@@ -69,6 +70,9 @@ module Mint
     @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
+
+    @ref_stack = {} of Ast::Node => Array(Ast::Node)
+    @refs = [] of Ast::Node
 
     @stack = [] of Ast::Node
 
@@ -86,8 +90,9 @@ module Mint
     def print_stack
       @stack.each_with_index do |i, index|
         x = case i
-            when Ast::Component then i.name
-            when Ast::Function  then i.name.value
+            when Ast::Component then "<Component #{i.name.value}>"
+            when Ast::Function  then "<Function #{i.name.value}>"
+            when Ast::Block     then "<block>"
             when Ast::Call      then "<call>"
             else
               i
@@ -230,7 +235,35 @@ module Mint
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
+    def track_references(node)
+      return unless checking?
+
+      # Already tracked
+      if cache[node]?
+        @ref_stack[node]?.try(&.each { |child| track_references(child) })
+      end
+
+      references[node] ||= Set(Ast::Component | Nil).new
+
+      if component_stack.empty?
+        references[node].add(nil)
+      else
+        component_stack.each do |component|
+          references[node].add(component)
+        end
+      end
+    end
+
     def check!(node)
+      case node
+      when Ast::Function, Ast::Component
+        #   if node.name.value == "blah"
+        if index = @refs.index(node)
+          @ref_stack[node] = @refs[(index + 1)..]
+        end
+      end
+      # end
+
       resolve_order << node
       checked.add(node) if checking?
     end
@@ -276,6 +309,7 @@ module Mint
               node: node) if @top_level_entity.try { |item| owns?(node, item) }
 
             @stack.push node
+            @refs.push node
 
             result = check(node, *args).as(Checkable)
 
@@ -288,6 +322,8 @@ module Mint
           end
         end
       end
+    ensure
+      track_references(node)
     end
 
     def resolve(nodes : Array(Ast::Node)) : Array(Checkable)

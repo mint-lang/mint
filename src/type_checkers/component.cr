@@ -4,14 +4,20 @@ module Mint
     def check_all(node : Ast::Component) : Checkable
       resolve node
 
+      component_stack.push(node) if node.async?
+
       resolve node.gets
       resolve node.constants
       resolve node.functions
+
+      component_stack.delete(node) if node.async?
 
       VOID
     end
 
     def check(node : Ast::Component) : Checkable
+      component_stack.push(node) if node.async?
+
       # Checking for global naming conflict
       check_global_names node.name.value, node
 
@@ -206,6 +212,7 @@ module Mint
         end
       end
 
+      component_stack.delete(node) if node.async?
       VOID
     end
   end

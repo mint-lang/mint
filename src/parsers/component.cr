@@ -7,7 +7,7 @@ module Mint
         global = word! "global"
         whitespace
 
-        word! "async" # For the future...
+        async = word! "async"
         whitespace
 
         next unless word! "component"
@@ -136,6 +136,7 @@ module Mint
           locales: locales,
           styles: styles,
           states: states,
+          async: async,
           to: position,
           file: file,
           refs: refs,

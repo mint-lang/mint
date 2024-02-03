@@ -137,7 +137,8 @@ module Mint
           relative: false,
           build: false)
 
-      Compiler2.program(type_checker.artifacts, config)[0]
+      # Compiler2.program(type_checker.artifacts, config)[0]
+      {"", ""}
     rescue error : Error
       error.to_html
     end

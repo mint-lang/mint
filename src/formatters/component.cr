@@ -21,10 +21,13 @@ module Mint
       global =
         node.global? ? "global " : ""
 
+      async =
+        node.async? ? "async " : ""
+
       comment =
         node.comment.try { |item| "#{format item}\n" }
 
-      "#{comment}#{global}component #{name} {\n#{indent(body)}\n}"
+      "#{comment}#{async}#{global}component #{name} {\n#{indent(body)}\n}"
     end
   end
 end

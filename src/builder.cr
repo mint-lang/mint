@@ -229,7 +229,8 @@ module Mint
             test: nil)
 
         compiled =
-          Compiler2.program(type_checker.artifacts, config)
+          {"", ""}
+        # Compiler2.program(type_checker.artifacts, config)
       end
 
       {compiled[0], compiled[1], type_checker.artifacts}
