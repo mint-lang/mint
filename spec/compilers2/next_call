@@ -22,7 +22,7 @@ import {
   batch as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(`Joe`),
     b = B(24),

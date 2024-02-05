@@ -110,6 +110,7 @@ module Mint
         block "You have run into an impossible error. Please file an issue " \
               "with a reproducible example in the GithubRepository."
 
+        snippet "Call type:", call_type
         snippet node
       end unless result
 

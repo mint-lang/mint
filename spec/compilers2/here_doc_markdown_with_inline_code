@@ -11,7 +11,7 @@ import {
   fragment as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(C, {}, [B('ul', {}, [B('li', {}, [
     `When open pressing `,
     B('code', {}, [`Esc`]),

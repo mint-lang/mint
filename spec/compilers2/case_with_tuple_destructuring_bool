@@ -14,7 +14,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { match as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B([
     false,
     true

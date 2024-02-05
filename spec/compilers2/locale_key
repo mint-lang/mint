@@ -14,7 +14,7 @@ import {
   locale as D
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`test`)
 };
 

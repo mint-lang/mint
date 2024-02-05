@@ -52,7 +52,7 @@ module Mint
     getter records, artifacts, formatter, web_components
     getter? check_everything
 
-    property component_stack = [] of Ast::Component
+    property component_stack = [] of Ast::Node
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
@@ -243,7 +243,17 @@ module Mint
         @ref_stack[node]?.try(&.each { |child| track_references(child) })
       end
 
-      references[node] ||= Set(Ast::Component | Nil).new
+      references[node] ||= Set(Ast::Node | Nil).new
+
+      # case node
+      # when Ast::Function
+      #   if node.name.value == "test"
+      #     puts node
+      #     puts "-----"
+      #     print_stack
+      #     puts component_stack.size
+      #   end
+      # end
 
       if component_stack.empty?
         references[node].add(nil)
@@ -257,12 +267,10 @@ module Mint
     def check!(node)
       case node
       when Ast::Function, Ast::Component
-        #   if node.name.value == "blah"
         if index = @refs.index(node)
           @ref_stack[node] = @refs[(index + 1)..]
         end
       end
-      # end
 
       resolve_order << node
       checked.add(node) if checking?
@@ -288,6 +296,7 @@ module Mint
             node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
                            @top_level_entity.try { |item| owns?(node, item) }
 
+          track_references(node)
           cached
         else
           if @stack.includes?(node)
@@ -313,6 +322,8 @@ module Mint
 
             result = check(node, *args).as(Checkable)
 
+            track_references(node)
+
             cache[node] = result
             check! node
 
@@ -322,8 +333,6 @@ module Mint
           end
         end
       end
-    ensure
-      track_references(node)
     end
 
     def resolve(nodes : Array(Ast::Node)) : Array(Checkable)

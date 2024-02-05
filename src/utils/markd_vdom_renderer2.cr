@@ -36,7 +36,7 @@ module Mint
           if node == separator
             replacements.shift
           else
-            ["`", Raw.new(node), "`"] of Item
+            ["`", Raw.new(node.escape_for_javascript), "`"] of Item
           end
         in Node
           attributes =
@@ -115,7 +115,7 @@ module Mint
                 Node.new(HEADINGS[node.data["level"].as(Int32) - 1])
               in Markd::Node::Type::Code
                 Node.new("code", children: [
-                  node.text.gsub('`', "\\`").strip,
+                  node.text.strip,
                 ] of Node | String)
               in Markd::Node::Type::Link
                 Node.new("a", attributes: {
@@ -165,11 +165,11 @@ module Mint
                               parts.map do |part|
                                 case part
                                 in String
-                                  part.gsub('`', "\\`")
+                                  part
                                 in Tuple(SemanticTokenizer::TokenType, String)
                                   Node.new("span",
                                     attributes: {"className" => part[0].to_s.underscore},
-                                    children: [part[1].gsub('`', "\\`")] of Node | String)
+                                    children: [part[1]] of Node | String)
                                 end
                               end
 
@@ -181,7 +181,6 @@ module Mint
                     end || begin
                       node
                         .text
-                        .gsub('`', "\\`")
                         .strip
                         .split("\n").map do |part|
                         Node.new("span",
@@ -191,7 +190,7 @@ module Mint
                       end
                     end
                   else
-                    [node.text.gsub('`', "\\`").strip] of Node | String
+                    [node.text.strip] of Node | String
                   end
 
                 Node.new("pre", children: [
@@ -203,7 +202,7 @@ module Mint
                  Markd::Node::Type::HTMLBlock,
                  Markd::Node::Type::Text
                 next if (parent = node.parent?) && parent.type.image?
-                node.text.gsub('`', "\\`")
+                node.text
               in Markd::Node::Type::SoftBreak
                 "\n"
               in Markd::Node::Type::CustomInLine,

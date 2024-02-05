@@ -29,7 +29,7 @@ import {
   signal as D
 } from "runtime";
 
-const
+export const
   A = () => {
     return B(`div`, {}, [a()])
   },

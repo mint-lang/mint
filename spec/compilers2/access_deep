@@ -22,7 +22,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { signal as A } from "runtime";
 
-const
+export const
   a = A({
     level1: {
       level2: {

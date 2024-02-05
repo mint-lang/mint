@@ -9,7 +9,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = () => {
+export const A = () => {
   return `    Hello There!
       ${`interpolation`}
       This line should be indented by 2 spaces.

@@ -42,7 +42,7 @@ import {
   useId as D
 } from "runtime";
 
-const
+export const
   a = new Map(),
   A = B(a, () => {
     return null

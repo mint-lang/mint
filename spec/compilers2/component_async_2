@@ -26,9 +26,9 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /index.js ===---
 import {
+  lazyComponent as F,
   createElement as E,
-  lazyComponent as B,
-  lazy as F
+  lazy as B
 } from "runtime";
 
 export const
@@ -37,11 +37,13 @@ export const
   D = () => {
     return E(`div`, {}, [
       E(F, {
+        key: `First`,
         x: A,
         p: {},
         c: []
       }),
       E(F, {
+        key: `Second`,
         x: C,
         p: {},
         c: []
@@ -56,10 +58,12 @@ export const A = () => {
   return B(`div`, {}, [`First`])
 };
 
+export default A;
+
 ---=== /__mint__/second.js ===---
 import {
-  createElement as B,
-  lazy as C
+  lazyComponent as C,
+  createElement as B
 } from "runtime";
 
 import { A as D } from "/index.js";
@@ -67,6 +71,7 @@ import { A as D } from "/index.js";
 export const A = () => {
   return B(`div`, {}, [
     B(C, {
+      key: `First`,
       x: D,
       p: {},
       c: []
@@ -74,3 +79,5 @@ export const A = () => {
     `Second`
   ])
 };
+
+export default A;

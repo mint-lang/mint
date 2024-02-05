@@ -17,7 +17,7 @@ import {
   useRef as E
 } from "runtime";
 
-const
+export const
   A = B(1),
   C = B(0),
   D = () => {

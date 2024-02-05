@@ -1,11 +1,15 @@
 module Mint
   class Compiler2
-    def self.bundle_name(node : Ast::Component | Nil)
+    def self.bundle_name(node : Ast::Node | Nil)
       case node
-      in Ast::Component
+      when Ast::Component
         "/__mint__/#{node.name.value.underscore}.js"
-      in Nil
+      when Ast::Defer
+        "/__mint__/d#{node.id}.js"
+      when Nil
         "/index.js"
+      else
+        raise "Should not happen!"
       end
     end
 
@@ -40,16 +44,16 @@ module Mint
           ]
         end
 
-      # This holds the to be compiled constants per components. `nil` holds
+      # This holds the to be compiled constants per bundle. `nil` holds
       # the ones meant for the main bundle.
       bundles =
         {
           nil => [] of Tuple(Ast::Node, Id, Compiled),
-        } of Ast::Component | Nil => Array(Tuple(Ast::Node, Id, Compiled))
+        } of Ast::Node | Nil => Array(Tuple(Ast::Node, Id, Compiled))
 
-      # This holds which node belongs to which component.
+      # This holds which node belongs to which bundle.
       scopes =
-        {} of Ast::Node => Ast::Component
+        {} of Ast::Node => Ast::Node
 
       # Gather all of the IDs so we can use it to filter out imports later on.
       ids =
@@ -68,6 +72,9 @@ module Mint
         nodes.each { |item| compiler.compiled.delete(item) }
 
         case node
+        when Ast::Defer
+          bundles[node] ||= [] of Tuple(Ast::Node, Id, Compiled)
+          bundles[node].concat(nodes)
         when Ast::Component
           # We put async components into their own bundle.
           if node.async?
@@ -89,25 +96,31 @@ module Mint
           # the bundle it's used from.
           if set.includes?(nil) || (!set.includes?(nil) && set.size >= 2)
             bundles[nil].concat(nodes)
-          elsif component = set.first
-            bundles[component] ||= [] of Tuple(Ast::Node, Id, Compiled)
-            bundles[component].concat(nodes)
+          elsif first = set.first
+            bundles[first] ||= [] of Tuple(Ast::Node, Id, Compiled)
+            bundles[first].concat(nodes)
 
-            # Assign the scope to the component
-            scopes[node] = component
+            # Assign the scope to the node
+            scopes[node] = first
           end
       end
 
       # Add not already added items to the main bundle.
       bundles[nil].concat(compiler.compiled)
 
+      pool =
+        NamePool(Ast::Node | Variable | String, Ast::Node | Nil).new
+
+      class_pool =
+        NamePool(Ast::Node | Builtin, Ast::Node | Nil).new('A'.pred.to_s)
+
       rendered_bundles =
-        {} of Ast::Component | Nil => Tuple(Renderer, Array(String))
+        {} of Ast::Node | Nil => Tuple(Renderer, Array(String))
 
       # We render the bundles so we can know after what we need to import.
-      bundles.each do |component, contents|
+      bundles.each do |node, contents|
         renderer =
-          Renderer.new
+          Renderer.new(base: node, class_pool: class_pool, pool: pool)
 
         # Built the singe `const` with multiple assignments so we can add
         # things later to the array.
@@ -130,7 +143,7 @@ module Mint
 
         # If we are building the main bundle we add the translations, tests
         # and the program.
-        case component
+        case node
         when Nil
           # Add translations and tests
           items.concat compiler.translations
@@ -144,48 +157,48 @@ module Mint
         items =
           items.reject(&.empty?).map { |item| renderer.render(item) }
 
-        rendered_bundles[component] = {renderer, items}
+        rendered_bundles[node] = {renderer, items}
       end
 
       modules =
         rendered_bundles.map do |node, (renderer, items)|
           # Main doesn't import from other nodes.
-          # if node
-          # This holds the imports for each other bundle.
-          imports =
-            {} of Ast::Component | Nil => Hash(String, String)
+          if node
+            # This holds the imports for each other bundle.
+            imports =
+              {} of Ast::Node | Nil => Hash(String, String)
 
-          renderer.used.map do |item|
-            # We only need to import things that are actually exported (all
-            # other entities show up here like function arguments statement
-            # variables, etc...)
-            next unless ids.includes?(item)
+            renderer.used.map do |item|
+              # We only need to import things that are actually exported (all
+              # other entities show up here like function arguments statement
+              # variables, etc...)
+              next unless ids.includes?(item)
 
-            # Get where the entity should be.
-            target =
-              scopes[item]?
+              # Get where the entity should be.
+              target =
+                scopes[item]?
 
-            # If the target is not this bundle and it's not the same component
-            # then we need to import.
-            if target != node && item != node
-              exported_name =
-                rendered_bundles[target][0].render(item).to_s
+              # If the target is not this bundle and it's not the same bundle
+              # then we need to import.
+              if target != node && item != node
+                exported_name =
+                  rendered_bundles[target][0].render(item).to_s
 
-              imported_name =
-                renderer.render(item).to_s
+                imported_name =
+                  renderer.render(item).to_s
 
-              imports[target] ||= {} of String => String
-              imports[target][exported_name] = imported_name
+                imports[target] ||= {} of String => String
+                imports[target][exported_name] = imported_name
+              end
             end
-          end
 
-          # For each import we insert an import statment.
-          imports.each do |target, data|
-            items.unshift(renderer.import(data, config.optimize, bundle_name(target)))
-          end
+            # For each import we insert an import statment.
+            imports.each do |target, data|
+              items.unshift(renderer.import(data, config.optimize, bundle_name(target)))
+            end
 
-          items << "export default #{renderer.render(node)}" if node
-          # end
+            items << "export default #{renderer.render(node)}" if node
+          end
 
           # Gather what builtins need to be imported and add it's statement
           # as well.
@@ -193,7 +206,7 @@ module Mint
             renderer
               .builtins
               .each_with_object({} of String => String) do |item, memo|
-                memo[item.to_s.camelcase(lower: true)] = renderer.class_pool.of(item, nil)
+                memo[item.to_s.camelcase(lower: true)] = renderer.class_pool.of(item, node)
               end
 
           items

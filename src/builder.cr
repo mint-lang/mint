@@ -228,9 +228,11 @@ module Mint
             build: true,
             test: nil)
 
+        program =
+          Compiler2.program(type_checker.artifacts, config)
+
         compiled =
-          {"", ""}
-        # Compiler2.program(type_checker.artifacts, config)
+          {program["./index.js"], program["./index.css"]}
       end
 
       {compiled[0], compiled[1], type_checker.artifacts}

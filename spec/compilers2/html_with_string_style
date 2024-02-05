@@ -9,7 +9,7 @@ import {
   style as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`div`, {
     style: C([`opacity:0;`])
   })

@@ -1,11 +1,12 @@
 require "./spec_helper"
 
 Dir
-  .glob("./spec/compilers2/component_async_3")
+  .glob("./spec/compilers2/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
     next if File.basename(file).starts_with?("static_component")
+
     it file do
       begin
         # Read and separate sample from expected
@@ -39,7 +40,7 @@ Dir
             files["/index.js"]?.to_s
           else
             files
-              .map { |file, contents| "---=== #{file} ===---\n#{contents}" }
+              .map { |path, contents| "---=== #{path} ===---\n#{contents}" }
               .join("\n\n").strip
           end
 

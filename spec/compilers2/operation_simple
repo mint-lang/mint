@@ -7,7 +7,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { compare as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   B(`a`, `b`);
   return ``
 };

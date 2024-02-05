@@ -89,7 +89,9 @@ export class lazyComponent extends Component {
   }
 }
 
-export const lazy = (path) => async () => {
+export const lazy = (path) => async () => load(path)
+
+export const load = async (path) => {
   const x = await import(path)
   return x.default
 }

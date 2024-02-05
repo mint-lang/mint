@@ -12,13 +12,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as C,
   useSignal as B,
   style as D
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(`blue`),
     b = () => {
@@ -33,6 +34,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 @supports (screen) {
   .Main_test {
     color: var(--a-a);

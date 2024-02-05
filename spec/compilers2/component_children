@@ -17,7 +17,7 @@ import {
   toArray as D
 } from "runtime";
 
-const
+export const
   A = ({
     children: a = []
   }) => {

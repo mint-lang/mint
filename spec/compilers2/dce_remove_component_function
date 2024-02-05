@@ -10,6 +10,6 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`div`, {})
 };

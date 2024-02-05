@@ -14,7 +14,7 @@ import {
   style as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const a = () => {
     return undefined
   };

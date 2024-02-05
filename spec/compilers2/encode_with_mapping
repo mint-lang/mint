@@ -16,7 +16,7 @@ import {
   encoder as A
 } from "runtime";
 
-const
+export const
   a = A({
     name: [
       B,

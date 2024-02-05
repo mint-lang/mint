@@ -106,6 +106,7 @@ module Mint
       SetRef
       Access
       Curry
+      Load
       Or
 
       # Styles and CSS.

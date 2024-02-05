@@ -19,13 +19,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as C,
   style as D,
   match as B
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const a = () => {
     const _ = {};
     B(true, [
@@ -59,6 +60,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 .Main_test {
   color: var(--a-a, yellow);
 }

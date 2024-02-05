@@ -12,12 +12,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as B,
   style as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = () => {
       return 10
@@ -34,6 +35,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 .Main_test {
   margin: var(--a-a);
 }

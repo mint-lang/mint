@@ -34,13 +34,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as C,
   useSignal as B,
   style as D
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(`blue`),
     b = B(`yellow`),
@@ -59,6 +60,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 .Main_test {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;

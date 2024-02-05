@@ -16,7 +16,7 @@ import {
   useSignal as B
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const a = B({
     name: `Doe`
   });

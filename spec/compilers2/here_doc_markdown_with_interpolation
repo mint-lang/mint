@@ -13,7 +13,7 @@ import {
   fragment as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(C, {}, [
     B('h2', {}, [`Hello There`]),
     B('p', {}, [

@@ -9,14 +9,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import { createElement as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`div`, {
     className: `something` + ` Main_base`
   })
 };
 
+---=== /index.css ===---
 .Main_base {
   width: 100%;
 }

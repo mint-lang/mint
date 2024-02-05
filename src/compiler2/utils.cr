@@ -59,14 +59,14 @@ module Mint
               parts.map do |item|
                 case item
                 in String
-                  ["`", Raw.new(escape_for_javascript(item)), "`"] of Item
+                  ["`", Raw.new(item.escape_for_javascript), "`"] of Item
                 in Tuple(SemanticTokenizer::TokenType, String)
                   js.call(Builtin::CreateElement, [
                     [%("span")] of Item,
                     js.object({"className".as(Item) => [
                       %("#{item[0].to_s.underscore}"),
                     ] of Item}),
-                    js.array([["`", Raw.new(escape_for_javascript(item[1])), "`"] of Item]),
+                    js.array([["`", Raw.new(item[1].escape_for_javascript), "`"] of Item]),
                   ])
                 end
               end
@@ -98,13 +98,6 @@ module Mint
 
         {svg["width"]?, svg["height"]?, svg["viewBox"]?, data}
       end
-    end
-
-    def escape_for_javascript(value : String)
-      value
-        .gsub('\\', "\\\\")
-        .gsub('`', "\\`")
-        .gsub("${", "\\${")
     end
   end
 end

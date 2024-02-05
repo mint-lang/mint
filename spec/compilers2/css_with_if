@@ -14,12 +14,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as B,
   style as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const a = () => {
     const _ = {};
     (true ? Object.assign(_, {
@@ -35,6 +36,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 .Main_test {
   color: var(--a-a, yellow);
 }

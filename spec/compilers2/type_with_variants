@@ -21,7 +21,7 @@ import {
   match as E
 } from "runtime";
 
-const
+export const
   A = B(0),
   C = B([
     "name",

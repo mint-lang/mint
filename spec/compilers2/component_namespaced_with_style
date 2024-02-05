@@ -16,9 +16,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import { createElement as B } from "runtime";
 
-const
+export const
   A = () => {
     return B(`div`, {
       className: `Ui·Dropdown_base`
@@ -28,6 +29,7 @@ const
     return B(A, {})
   };
 
+---=== /index.css ===---
 .Ui·Dropdown_base {
   background: red;
 }

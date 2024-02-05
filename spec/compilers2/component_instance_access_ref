@@ -35,13 +35,13 @@ import {
   match as J
 } from "runtime";
 
-const
-  A = B(1),
-  C = B(0),
+export const
+  A = B(0),
+  C = B(1),
   D = ({
     _
   }) => {
-    const a = E(new C());
+    const a = E(new A());
     const b = F(() => {
       return {
         a
@@ -49,24 +49,24 @@ const
     }, []);
     (_ ? _(b) : null);
     return G(`div`, {
-      ref: H(a, A)
+      ref: H(a, C)
     })
   },
   I = () => {
     const
-      c = E(new C()),
+      c = E(new A()),
       d = () => {
         return J(c.current, [
           [
-            K(A, [L]),
+            K(C, [L]),
             (e) => {
               return e.a.current
             }
           ],
           [
-            K(C, []),
+            K(A, []),
             () => {
-              return new C()
+              return new A()
             }
           ]
         ])
@@ -74,6 +74,6 @@ const
     return G(`div`, {
       "onClick": d
     }, [G(D, {
-      _: H(c, A)
+      _: H(c, C)
     })])
   };

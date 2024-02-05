@@ -13,12 +13,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as B,
   style as C
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const a = (b) => {
     const _ = {
       [`--a-a`]: b
@@ -31,6 +32,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 .Main_one {
   color: red;
 }

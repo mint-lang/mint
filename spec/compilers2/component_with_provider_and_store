@@ -39,7 +39,7 @@ import {
   useId as E
 } from "runtime";
 
-const
+export const
   a = new Map(),
   b = () => {
     return `hello`

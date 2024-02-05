@@ -10,7 +10,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { compare as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   (B(`asd`, `asd2`) ? null : null);
   return ``
 };

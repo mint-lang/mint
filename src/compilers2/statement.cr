@@ -14,7 +14,7 @@ module Mint
             end
           end || {compile(node.expression), nil}
 
-        right = ["await "] + right if node.await
+        right = ["await "] + defer(node.expression, right) if node.await
 
         if target = node.target
           case target

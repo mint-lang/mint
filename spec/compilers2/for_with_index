@@ -15,7 +15,7 @@ import {
   compare as B
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   return (() => {
     const _0 = [];
     const _1 = [

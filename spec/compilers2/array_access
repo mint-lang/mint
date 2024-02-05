@@ -22,7 +22,7 @@ import {
   variant as B
 } from "runtime";
 
-const
+export const
   A = B(0),
   C = B(1),
   D = () => {

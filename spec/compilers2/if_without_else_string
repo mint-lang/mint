@@ -8,6 +8,6 @@ component Main {
 --------------------------------------------------------------------------------
 import { compare as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return (B(`asd`, `asd2`) ? `TRUE` : "")
 };

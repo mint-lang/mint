@@ -36,9 +36,9 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /index.js ===---
 import {
+  lazyComponent as E,
   createElement as D,
-  lazyComponent as B,
-  lazy as E
+  lazy as B
 } from "runtime";
 
 export const
@@ -54,6 +54,7 @@ export const
       a(),
       b(),
       D(E, {
+        key: `Test`,
         x: A,
         p: {},
         c: []
@@ -76,3 +77,5 @@ export const
       c()
     ])
   };
+
+export default A;

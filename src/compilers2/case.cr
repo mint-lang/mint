@@ -20,7 +20,7 @@ module Mint
 
           js.asynciif do
             js.statements([
-              js.let(variable, ["await "] + condition),
+              js.let(variable, ["await "] + defer(node.condition, condition)),
               js.return(js.call(Builtin::Match, [
                 [variable] of Item,
                 js.array(branches),

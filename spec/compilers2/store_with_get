@@ -16,7 +16,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { signal as A } from "runtime";
 
-const
+export const
   a = A(``),
   b = () => {
     return `hello`

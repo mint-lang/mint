@@ -13,7 +13,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { useSignal as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(`Hello`),
     b = B(`0`),

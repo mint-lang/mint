@@ -17,14 +17,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import { createElement as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`div`, {
     className: `Main_test`
   })
 };
 
+---=== /index.css ===---
 @font-face {
   src: url(sansation_light.woff);
   font-family: myFirstFont;

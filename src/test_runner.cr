@@ -137,8 +137,10 @@ module Mint
           relative: false,
           build: false)
 
-      # Compiler2.program(type_checker.artifacts, config)[0]
-      {"", ""}
+      program =
+        Compiler2.program(type_checker.artifacts, config)
+
+      program["/index.js"]
     rescue error : Error
       error.to_html
     end

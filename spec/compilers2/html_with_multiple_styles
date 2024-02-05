@@ -13,14 +13,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import { createElement as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   return B(`div`, {
     className: `Main_one Main_two`
   })
 };
 
+---=== /index.css ===---
 .Main_one {
   color: red;
 }

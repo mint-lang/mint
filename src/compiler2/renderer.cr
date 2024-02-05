@@ -2,20 +2,25 @@ module Mint
   class Compiler2
     # This class is responsible to render `Compiled` code.
     class Renderer
-      # The pool for class variables (uppercase).
-      getter class_pool = NamePool(Ast::Node | Builtin, Nil).new('A'.pred.to_s)
-
       # The pool for variables (lowercase).
-      getter pool = NamePool(Ast::Node | Variable | String, Nil).new
+      getter pool : NamePool(Ast::Node | Variable | String, Ast::Node | Nil)
 
-      # A set to track used builtins which will be imported.
-      getter builtins = Set(Builtin).new
+      # The pool for class variables (uppercase).
+      getter class_pool : NamePool(Ast::Node | Builtin, Ast::Node | Nil)
 
       # A set to track nodes which we rendered.
       getter used = Set(Ast::Node | Encoder | Decoder).new
 
+      # A set to track used builtins which will be imported.
+      getter builtins = Set(Builtin).new
+
+      getter base : Ast::Node | Nil
+
       # The current indentation depth.
       property depth : Int32 = 0
+
+      def initialize(*, @base, @pool, @class_pool)
+      end
 
       def import(imports : Hash(String, String), optimize : Bool, path : String)
         return "" if imports.empty?
@@ -57,11 +62,17 @@ module Mint
           used.add(item.value)
 
           # Signals are special becuse we need to use the `.value` accessor.
-          io << "#{pool.of(item.value, nil)}.value"
+          io << "#{pool.of(item.value, base)}.value"
         in Ref
           # Signals are special becuse we need to use the `.current` accessor.
-          io << "#{pool.of(item.value, nil)}.current"
+          io << "#{pool.of(item.value, base)}.current"
         in Ast::Node
+          scope =
+            case parent = item.parent
+            when Ast::Component
+              parent if parent.async?
+            end || base
+
           used.add(item)
 
           # Nodes are compiled into variables.
@@ -69,20 +80,18 @@ module Mint
           when Ast::TypeVariant,
                Ast::Component,
                Ast::Provider
-            io << class_pool.of(item, nil)
-          when Ast::Property
-            io << item.name.value
+            io << class_pool.of(item, scope)
           else
-            io << pool.of(item, nil)
+            io << pool.of(item, scope)
           end
         in Encoder, Decoder
           used.add(item)
 
-          io << pool.of(item.value, nil)
+          io << pool.of(item.value, base)
         in Variable
-          io << pool.of(item, nil)
+          io << pool.of(item, base)
         in Builtin
-          io << class_pool.of(item, nil)
+          io << class_pool.of(item, base)
 
           # We track the builtins here.
           builtins.add(item)

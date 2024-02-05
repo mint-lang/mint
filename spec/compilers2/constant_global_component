@@ -16,7 +16,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { createElement as C } from "runtime";
 
-const
+export const
   A = () => {
     return a
   },

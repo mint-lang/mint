@@ -80,7 +80,7 @@ module Mint
 
         js.asynciif do
           js.statements([
-            js.let(variable, ["await "] + compiled),
+            js.let(variable, ["await "] + defer(condition, compiled)),
             js.return(js.call(Builtin::Match, [
               [variable] of Item,
               js.array(items),

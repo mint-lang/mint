@@ -14,7 +14,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = () => {
+export const A = () => {
   const
     a = () => {
       return undefined

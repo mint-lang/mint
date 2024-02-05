@@ -12,7 +12,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { match as B } from "runtime";
 
-const A = () => {
+export const A = () => {
   (async () => {
     let a = await `Hello`;
     return B(a, [

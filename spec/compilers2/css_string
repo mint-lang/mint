@@ -14,13 +14,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as C,
   useSignal as B,
   style as D
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(`Joe`),
     b = () => {
@@ -35,6 +36,7 @@ const A = () => {
   }, [C(`span`, {})])
 };
 
+---=== /index.css ===---
 .Main_unicode span::after {
   content: var(--a-a);
 }

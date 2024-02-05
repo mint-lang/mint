@@ -28,13 +28,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /index.js ===---
 import {
   createElement as C,
   useSignal as B,
   style as D
 } from "runtime";
 
-const A = () => {
+export const A = () => {
   const
     a = B(1),
     b = () => {
@@ -49,6 +50,7 @@ const A = () => {
   })
 };
 
+---=== /index.css ===---
 @keyframes animation {
   from {
     opacity: 0;

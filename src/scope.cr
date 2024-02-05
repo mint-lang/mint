@@ -257,7 +257,8 @@ module Mint
            Ast::Property
         build(node.default, node)
       when Ast::CssSelector,
-           Ast::CssNestedAt
+           Ast::CssNestedAt,
+           Ast::Defer
         build(node.body, node)
       when Ast::Statement
         build(node.expression, node)

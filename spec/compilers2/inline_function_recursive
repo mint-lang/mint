@@ -22,7 +22,7 @@ component Main {
 --------------------------------------------------------------------------------
 import { compare as A } from "runtime";
 
-const
+export const
   a = (b) => {
     const c = (d, e) => {
       return (A(d, 0) ? e : c(d - 1, e * d))
