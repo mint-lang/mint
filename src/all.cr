@@ -42,6 +42,10 @@ require "./type_checker"
 require "./formatters/**"
 require "./formatter"
 
+require "./compilers2/**"
+require "./compiler2/**"
+require "./compiler2"
+
 require "./compilers/**"
 require "./compiler"
 

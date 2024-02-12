@@ -1,0 +1,23 @@
+component Main {
+  fun render : String {
+    let {result, formatted} =
+      @format {
+        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
+        "Bello"
+      }
+
+    result + formatted
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const [
+    a,
+    b
+  ] = [
+    `HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`,
+    `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \\
+"Bello"`
+  ];
+  return a + b
+};

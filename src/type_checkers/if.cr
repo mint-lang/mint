@@ -4,13 +4,16 @@ module Mint
       condition =
         resolve node.condition
 
-      variables =
+      variables, await =
         case item = node.condition
         when Ast::Statement
-          if item.target.is_a?(Ast::TypeDestructuring)
-            destructure(item.target.as(Ast::TypeDestructuring), condition)
+          case item.target
+          when Ast::TupleDestructuring,
+               Ast::ArrayDestructuring,
+               Ast::TypeDestructuring
+            {destructure(item.target, condition), item.await}
           end
-        end || [] of VariableScope
+        end || {[] of VariableScope, false}
 
       error! :if_condition_type_mismatch do
         block do
@@ -75,7 +78,11 @@ module Mint
         end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
       end
 
-      truthy
+      if await && truthy.name != "Promise"
+        Type.new("Promise", [truthy] of Checkable)
+      else
+        truthy
+      end
     end
   end
 end

@@ -44,15 +44,14 @@ module Mint
       def run
         execute "Building for production" do
           Builder.new(
-            flags.relative,
-            flags.skip_manifest,
-            flags.skip_service_worker,
-            flags.skip_icons,
-            flags.minify,
-            flags.inline,
-            flags.runtime,
-            flags.watch
-          )
+            skip_service_worker: flags.skip_service_worker,
+            skip_manifest: flags.skip_manifest,
+            skip_icons: flags.skip_icons,
+            runtime_path: flags.runtime,
+            relative: flags.relative,
+            optimize: flags.minify,
+            inline: flags.inline,
+            watch: flags.watch)
 
           if flags.watch
             sleep

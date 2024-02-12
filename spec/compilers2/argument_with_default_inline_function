@@ -1,0 +1,20 @@
+component Main {
+  fun render : String {
+    let test =
+      (a : String, b : Number = 0) : Number {
+        b
+      }
+
+    test("")
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = (b, c = 0) => {
+    return c
+  };
+  a(``);
+  return ``
+};

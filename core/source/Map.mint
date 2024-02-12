@@ -248,7 +248,7 @@ module Map {
       let set = false
 
       for (let item of #{map}) {
-        if (_compare(item[0], #{key})) {
+        if (#{%compare%}(item[0], #{key})) {
           set = true
           result.push([#{key}, #{value}])
         } else {

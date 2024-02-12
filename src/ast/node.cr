@@ -41,7 +41,7 @@ module Mint
       end
 
       getter file : Parser::File
-
+      property parent : Node?
       property from : Int64
       getter to : Int64
 

@@ -5,13 +5,23 @@ module Mint
         # TODO: Remove this branch in 0.21.0 when deprecation ends.
         if char! '{'
           whitespace
+          next unless head = expression
+          whitespace
 
-          items = list(terminator: '}', separator: ',') { expression }
+          next unless char! ','
+
+          items =
+            list(terminator: '}', separator: ',') { expression }
 
           whitespace
           next unless char! '}'
         elsif word!("#(")
           whitespace
+          next unless head = expression
+          whitespace
+
+          next unless char! ','
+
           items = list(terminator: '}', separator: ',') { expression }
           whitespace
 
@@ -22,6 +32,8 @@ module Mint
         else
           next
         end
+
+        items.unshift(head)
 
         Ast::TupleLiteral.new(
           from: start_position,

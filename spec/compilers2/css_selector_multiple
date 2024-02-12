@@ -1,0 +1,56 @@
+component Main {
+  style test {
+    div {
+      color: #{color};
+    }
+
+    &:focus,
+    &:hover {
+      color: red;
+    }
+  }
+
+  get color : String {
+    "blue"
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import {
+  createElement as B,
+  style as C
+} from "runtime";
+
+export const A = () => {
+  const
+    a = () => {
+      return `blue`
+    },
+    b = () => {
+      const _ = {
+        [`--a-a`]: a()
+      };
+      return _
+    };
+  return B(`div`, {
+    className: `Main_test`,
+    style: C([b()])
+  })
+};
+
+---=== /index.css ===---
+.Main_test div {
+  color: var(--a-a);
+}
+
+.Main_test:focus {
+  color: red;
+}
+
+.Main_test:hover {
+  color: red;
+}

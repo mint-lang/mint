@@ -32,7 +32,7 @@ module Set {
       const newSet = []
 
       #{set}.forEach((item) => {
-        if (_compare(item, #{value})) { return }
+        if (#{%compare%}(item, #{value})) { return }
         newSet.push(item)
       })
 
@@ -67,7 +67,7 @@ module Set {
     `
     (() => {
       for (let item of #{set}) {
-        if (_compare(item, #{value})) {
+        if (#{%compare%}(item, #{value})) {
           return true
         }
       }

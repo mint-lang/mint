@@ -1,0 +1,50 @@
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    {
+      if (let T::A(a) = await T::A("")) {
+        a
+      } else {
+        "b"
+      }
+    }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  newVariant as E,
+  pattern as G,
+  variant as B,
+  match as F
+} from "runtime";
+
+export const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    (async () => {
+      let a = await E(C)(``);
+      return F(a, [
+        [
+          G(C, [H]),
+          (b) => {
+            return b
+          }
+        ],
+        [
+          null,
+          () => {
+            return `b`
+          }
+        ]
+      ])
+    })();
+    return ``
+  };

@@ -1,0 +1,59 @@
+enum Test {
+  Item(
+    matchString : String,
+    content : String,
+    key : String)
+  None
+}
+
+component Main {
+  fun render : String {
+    let item =
+      Test::Item(
+        matchString: "MATCHSTRING",
+        content: "CONTENT",
+        key: "KEY")
+
+    case item {
+      Test::Item(content) => content
+      Test::None => ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as I,
+  patternRecord as H,
+  newVariant as E,
+  pattern as G,
+  variant as B,
+  match as F
+} from "runtime";
+
+export const
+  A = B(0),
+  C = B([
+    "matchString",
+    "content",
+    "key"
+  ]),
+  D = () => {
+    const a = E(C)(`MATCHSTRING`, `CONTENT`, `KEY`);
+    return F(a, [
+      [
+        G(C, H([[
+          `content`,
+          I
+        ]])),
+        (b) => {
+          return b
+        }
+      ],
+      [
+        G(A, []),
+        () => {
+          return ``
+        }
+      ]
+    ])
+  };

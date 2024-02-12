@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    "First line" \
+    "Second line" \
+    "Third line"
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return `First lineSecond lineThird line`
+};

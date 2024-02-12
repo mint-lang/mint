@@ -14,9 +14,9 @@ module Mint
         parts.map do |item|
           case item
           in String
-            "`#{skip { escape_for_javascript(item) }}`"
+            "`#{skip { item.escape_for_javascript }}`"
           in Tuple(SemanticTokenizer::TokenType, String)
-            "_h('span', { className: '#{item[0].to_s.underscore}' }, [`#{skip { escape_for_javascript(item[1]) }}`])"
+            "_h('span', { className: '#{item[0].to_s.underscore}' }, [`#{skip { item[1].escape_for_javascript }}`])"
           end
         end
 

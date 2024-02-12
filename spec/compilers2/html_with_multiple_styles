@@ -1,0 +1,32 @@
+component Main {
+  style one {
+    color: red;
+  }
+
+  style two {
+    color: blue;
+  }
+
+  fun render : Html {
+    <div::one::two>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import { createElement as B } from "runtime";
+
+export const A = () => {
+  return B(`div`, {
+    className: `Main_one Main_two`
+  })
+};
+
+---=== /index.css ===---
+.Main_one {
+  color: red;
+}
+
+.Main_two {
+  color: blue;
+}

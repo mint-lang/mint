@@ -52,11 +52,12 @@ module Mint
     getter records, artifacts, formatter, web_components
     getter? check_everything
 
+    property component_stack = [] of Ast::Node
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate variables, ast, lookups, cache, scope, to: artifacts
-    delegate assets, resolve_order, locales, argument_order, to: artifacts
+    delegate variables, ast, lookups, cache, scope, references, to: artifacts
+    delegate assets, resolve_order, locales, components_touched, to: artifacts
 
     delegate format, to: formatter
 
@@ -69,6 +70,9 @@ module Mint
     @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
+
+    @ref_stack = {} of Ast::Node => Array(Ast::Node)
+    @refs = [] of Ast::Node
 
     @stack = [] of Ast::Node
 
@@ -85,13 +89,7 @@ module Mint
 
     def print_stack
       @stack.each_with_index do |i, index|
-        x = case i
-            when Ast::Component then i.name
-            when Ast::Function  then i.name.value
-            when Ast::Call      then "<call>"
-            else
-              i
-            end
+        x = Compiler2.dbg_name(i)
 
         if index == 0
           puts x
@@ -169,6 +167,8 @@ module Mint
 
         if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
           record = check(node)
+          cache[node] = record
+          check!(node)
           add_record record, node
           record
         end
@@ -216,7 +216,7 @@ module Mint
       # scope.scopes[node].each_with_index do |item, index|
       #   puts scope.debug_name(item.node).indent(index * 2)
       #   item.items.each do |key, value|
-      #     puts "#{" " * (index * 2)}#{key} -> #{value.class.name}"
+      #     puts "#{" " * (index * 2)}#{key} -> #{value.node.class.name}"
       #   end
       # end
 
@@ -228,7 +228,62 @@ module Mint
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
+    def track_references(node)
+      return unless checking?
+
+      # Already tracked
+      if cache[node]?
+        @ref_stack[node]?.try(&.each do |child|
+          # If we hit a defer we break out of the loop
+          # since it will always be in a different file.
+          case child
+          when Ast::Defer
+            break
+          else
+            track_references(child)
+          end
+        end)
+      end
+
+      references[node] ||= Set(Ast::Node | Nil).new
+
+      # case node
+      # when Ast::Constant
+      #   if node.name.value == "INDEX"
+      #     puts "TRACK STACK #{Compiler2.dbg_name(node)}"
+      #     print_stack
+      #     @ref_stack[node]?.try(&.each { |child| Compiler2.dbg_name(child) })
+      #     puts component_stack.size
+      #     pp caller.reverse
+      #   end
+      # end
+
+      if component_stack.empty?
+        references[node].add(nil)
+      else
+        component_stack.reverse_each do |component|
+          references[node].add(component)
+
+          # If we hit a defer we break out of the loop
+          # since it will always be that defers file (
+          # which we added above)
+          case component
+          when Ast::Defer
+            break
+          end
+        end
+      end
+    end
+
     def check!(node)
+      case node
+      when Ast::Function, Ast::Component
+        if index = @refs.index(node)
+          @ref_stack[node] = @refs[(index + 1)..]
+        end
+      end
+
+      resolve_order << node
       checked.add(node) if checking?
     end
 
@@ -252,6 +307,7 @@ module Mint
             node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
                            @top_level_entity.try { |item| owns?(node, item) }
 
+          track_references(node)
           cached
         else
           if @stack.includes?(node)
@@ -273,12 +329,13 @@ module Mint
               node: node) if @top_level_entity.try { |item| owns?(node, item) }
 
             @stack.push node
+            @refs.push node
 
             result = check(node, *args).as(Checkable)
 
-            cache[node] = result
-            resolve_order << node
+            track_references(node)
 
+            cache[node] = result
             check! node
 
             @stack.delete node

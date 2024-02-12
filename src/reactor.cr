@@ -18,7 +18,7 @@ module Mint
 
     @sockets = [] of HTTP::WebSocket
 
-    getter script : String?
+    getter files : Hash(String, String) = {} of String => String
 
     def self.start(host : String, port : Int32, auto_format : Bool, live_reload : Bool)
       new host, port, auto_format, live_reload
@@ -35,21 +35,33 @@ module Mint
       workspace.on "change" do |result|
         case result
         when Ast
+          config =
+            Compiler2::Config.new(
+              css_prefix: workspace.json.application.css_prefix,
+              runtime_path: "/runtime.js",
+              include_program: true,
+              relative: false,
+              optimize: false,
+              build: false,
+              test: nil)
+
           # Compile.
-          @script = Compiler.compile workspace.type_checker.artifacts, {
-            css_prefix:     workspace.json.application.css_prefix,
-            web_components: workspace.json.web_components,
-            relative:       false,
-            optimize:       false,
-            build:          false,
-          }
+          @files =
+            Compiler2.program(workspace.type_checker.artifacts, config)
+          # Compiler.compile workspace.type_checker.artifacts, {
+          #   css_prefix:     workspace.json.application.css_prefix,
+          #   web_components: workspace.json.web_components,
+          #   relative:       false,
+          #   optimize:       false,
+          #   build:          false,
+          # }
 
           @artifacts = workspace.type_checker.artifacts
           @error = nil
         when Error
           @error = result.to_html
           @artifacts = nil
-          @script = nil
+          @files = {} of String => String
         end
 
         # Notifies all connected sockets to reload the page.
@@ -96,7 +108,19 @@ module Mint
       get "/index.js" do |env|
         env.response.content_type = "application/javascript"
 
-        script
+        files["/index.js"].to_s
+      end
+
+      get "/index.css" do |env|
+        env.response.content_type = "text/css"
+
+        files["/index.css"].to_s
+      end
+
+      get "/__mint__/:name" do |env|
+        env.response.content_type = "application/javascript"
+
+        files["/__mint__/#{env.params.url["name"]}"].to_s
       end
 
       get "/external-javascripts.js" do |env|

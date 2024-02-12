@@ -1,0 +1,20 @@
+component Main {
+  fun render : String {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  [
+    `Hello`,
+    `Blah`,
+    `Joe`
+  ];
+  return ``
+};

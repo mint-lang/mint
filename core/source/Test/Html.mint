@@ -6,17 +6,17 @@ module Test.Html {
     Test.Html.start(<div><{ "Content" }></div>)
   */
   fun start (node : Html) : Test.Context(Dom.Element) {
-    `
+    (`
     (() => {
       const root = document.createElement("div")
       document.body.appendChild(root)
-      ReactDOM.render(#{node}, root)
-      return new TestContext(root, () => {
-        ReactDOM.unmountComponentAtNode(root)
+      #{%testRender%}(#{node}, root)
+      return new #{%testContext%}(root, () => {
         document.body.removeChild(root)
       })
     })()
-    `
+    ` as Test.Context(Dom.Element))
+    |> Test.Context.timeout(0)
   }
 
   fun find (

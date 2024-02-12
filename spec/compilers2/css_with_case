@@ -1,0 +1,58 @@
+component Main {
+  style test {
+    color: yellow;
+
+    case ("a") {
+      "a" =>
+        color: red;
+
+      =>
+        color: blue;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import {
+  createElement as C,
+  style as D,
+  match as B
+} from "runtime";
+
+export const A = () => {
+  const a = () => {
+    const _ = {};
+    B(`a`, [
+      [
+        `a`,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `red`
+          })
+        }
+      ],
+      [
+        null,
+        () => {
+          return Object.assign(_, {
+            [`--a-a`]: `blue`
+          })
+        }
+      ]
+    ]);
+    return _
+  };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([a()])
+  })
+};
+
+---=== /index.css ===---
+.Main_test {
+  color: var(--a-a, yellow);
+}

@@ -1,0 +1,42 @@
+enum T {
+  A(String)
+  B
+}
+
+component Main {
+  fun render : String {
+    if (let T::A(a) = T::A("")) {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  newVariant as F,
+  pattern as G,
+  variant as B,
+  match as E
+} from "runtime";
+
+export const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    return E(F(C)(``), [
+      [
+        G(C, [H]),
+        (a) => {
+          return a
+        }
+      ],
+      [
+        null,
+        () => {
+          return `b`
+        }
+      ]
+    ])
+  };
