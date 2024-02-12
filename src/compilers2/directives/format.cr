@@ -9,8 +9,6 @@ module Mint
           Formatter.new
             .format(node.content, Formatter::BlockFormat::Naked)
             .gsub('\\', "\\\\")
-            .gsub('`', "\\`")
-            .gsub("${", "\\${")
 
         js.array([content, js.string(formatted)])
       end

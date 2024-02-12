@@ -7,8 +7,11 @@ module Mint
       variables, await =
         case item = node.condition
         when Ast::Statement
-          if item.target.is_a?(Ast::TypeDestructuring)
-            {destructure(item.target.as(Ast::TypeDestructuring), condition), item.await}
+          case item.target
+          when Ast::TupleDestructuring,
+               Ast::ArrayDestructuring,
+               Ast::TypeDestructuring
+            {destructure(item.target, condition), item.await}
           end
         end || {[] of VariableScope, false}
 

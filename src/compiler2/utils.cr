@@ -59,14 +59,14 @@ module Mint
               parts.map do |item|
                 case item
                 in String
-                  ["`", Raw.new(item.escape_for_javascript), "`"] of Item
+                  js.string(item)
                 in Tuple(SemanticTokenizer::TokenType, String)
                   js.call(Builtin::CreateElement, [
                     [%("span")] of Item,
                     js.object({"className".as(Item) => [
                       %("#{item[0].to_s.underscore}"),
                     ] of Item}),
-                    js.array([["`", Raw.new(item[1].escape_for_javascript), "`"] of Item]),
+                    js.array([js.string(item[1])]),
                   ])
                 end
               end

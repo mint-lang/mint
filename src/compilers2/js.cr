@@ -15,10 +15,10 @@ module Mint
         value =
           node.value.flat_map do |entity|
             case entity
-            when Ast::Node
+            in Ast::Node
               compile entity
-            else
-              entity
+            in String
+              entity.gsub("\\`", '`')
             end
           end
 

@@ -13,6 +13,33 @@ module Mint
       end
     end
 
+    def self.dbg_name(node)
+      case x = node
+      when Ast::Component
+        "<#{x.name.value}>"
+      when Ast::Module, Ast::Store, Ast::Provider
+        x.name.value
+      when Ast::Function, Ast::Constant, Ast::Get, Ast::State
+        "#{dbg_name(x.parent)}.#{x.name.value}"
+      when Ast::Block
+        "{block}"
+      when Ast::Access
+        "{access .#{x.field.value}}"
+      when Ast::Statement
+        name =
+          case target = x.target
+          when Ast::Variable
+            " #{target.value}"
+          end
+
+        "{statement#{name}}"
+      when Ast::Route
+        "{route #{x.url}}"
+      else
+        x.class.name
+      end
+    end
+
     def self.program(
       artifacts : TypeChecker::Artifacts,
       config : Config
@@ -104,6 +131,25 @@ module Mint
             scopes[node] = first
           end
       end
+
+      # bundles.each do |node, items|
+      #   entities =
+      #     items.compact_map do |item|
+      #       if item[0] == node
+      #         next if node.is_a?(Ast::Defer)
+      #       else
+      #         next if item[0].is_a?(Ast::Component) &&
+      #                 item[0].as(Ast::Component).async?
+      #       end
+
+      #       dbg_name(item[0])
+      #     end
+
+      #   puts bundle_name(node)
+      #   entities.sort.each do |item|
+      #     puts " > #{item}"
+      #   end
+      # end
 
       # Add not already added items to the main bundle.
       bundles[nil].concat(compiler.compiled)

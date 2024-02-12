@@ -26,7 +26,7 @@ module Mint
       end
 
       def string(value : String) : Compiled
-        ["`", Raw.new(value), "`"] of Item
+        ["`", Raw.new(value.gsub('`', "\\`").gsub("${", "\\${`")), "`"] of Item
       end
 
       # Renders an object destructuring.

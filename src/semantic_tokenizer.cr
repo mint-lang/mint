@@ -23,7 +23,6 @@ module Mint
     TOKEN_MAP = {
       Ast::TypeVariable  => TokenType::TypeParameter,
       Ast::Comment       => TokenType::Comment,
-      Ast::StringLiteral => TokenType::String,
       Ast::RegexpLiteral => TokenType::Regexp,
       Ast::NumberLiteral => TokenType::Number,
       Ast::Id            => TokenType::Type,
@@ -152,6 +151,46 @@ module Mint
       end
 
       add(node.tag, TokenType::Namespace)
+    end
+
+    def tokenize(node : Ast::StringLiteral)
+      if node.value.size == 0
+        add(node, TokenType::String)
+      else
+        position =
+          node.from
+
+        node.value.each_with_index do |item, index|
+          last =
+            index == (node.value.size - 1)
+
+          case item
+          in Ast::Interpolation
+            # We skip interpolations because they will be process separately
+            # but we need to proceed the position to it's end, also we need
+            # to add `#{` as a string which is everything up to the boxed
+            # expressions start.
+            add(position, item.expression.from, TokenType::String)
+            position = item.expression.to
+
+            if last
+              add(position, node.to, TokenType::String)
+            end
+          in String
+            from =
+              position
+
+            position =
+              if last
+                node.to
+              else
+                position + item.size
+              end
+
+            add(from, position, TokenType::String)
+          end
+        end
+      end
     end
 
     def tokenize(node : Ast::HtmlComponent)

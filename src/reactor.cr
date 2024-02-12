@@ -30,7 +30,7 @@ module Mint
       workspace = Workspace.current
       workspace.format = auto_format
       workspace.check_env = true
-      workspace.check_everything = true
+      workspace.check_everything = false
 
       workspace.on "change" do |result|
         case result

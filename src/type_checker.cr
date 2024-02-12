@@ -89,14 +89,7 @@ module Mint
 
     def print_stack
       @stack.each_with_index do |i, index|
-        x = case i
-            when Ast::Component then "<Component #{i.name.value}>"
-            when Ast::Function  then "<Function #{i.name.value}>"
-            when Ast::Block     then "<block>"
-            when Ast::Call      then "<call>"
-            else
-              i
-            end
+        x = Compiler2.dbg_name(i)
 
         if index == 0
           puts x
@@ -240,26 +233,44 @@ module Mint
 
       # Already tracked
       if cache[node]?
-        @ref_stack[node]?.try(&.each { |child| track_references(child) })
+        @ref_stack[node]?.try(&.each do |child|
+          # If we hit a defer we break out of the loop
+          # since it will always be in a different file.
+          case child
+          when Ast::Defer
+            break
+          else
+            track_references(child)
+          end
+        end)
       end
 
       references[node] ||= Set(Ast::Node | Nil).new
 
       # case node
-      # when Ast::Function
-      #   if node.name.value == "test"
-      #     puts node
-      #     puts "-----"
+      # when Ast::Constant
+      #   if node.name.value == "INDEX"
+      #     puts "TRACK STACK #{Compiler2.dbg_name(node)}"
       #     print_stack
+      #     @ref_stack[node]?.try(&.each { |child| Compiler2.dbg_name(child) })
       #     puts component_stack.size
+      #     pp caller.reverse
       #   end
       # end
 
       if component_stack.empty?
         references[node].add(nil)
       else
-        component_stack.each do |component|
+        component_stack.reverse_each do |component|
           references[node].add(component)
+
+          # If we hit a defer we break out of the loop
+          # since it will always be that defers file (
+          # which we added above)
+          case component
+          when Ast::Defer
+            break
+          end
         end
       end
     end

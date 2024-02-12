@@ -10,7 +10,9 @@ module Mint
             [
               item
                 .gsub('`', "\\`")
-                .gsub("${", "\\${"),
+                .gsub("${", "\\${")
+                .gsub("\\\"", "\"")
+                .gsub("\\\#{", "\#{"),
             ]
           end
         end

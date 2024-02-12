@@ -1,9 +1,9 @@
 component Main {
   fun render : String {
-    "Hello There \"Joe\""
+    "Hello There \#{name}"
   }
 }
 --------------------------------------------------------------------------------
 export const A = () => {
-  return `Hello There "Joe"`
+  return `Hello There #{name}`
 };

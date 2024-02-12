@@ -1,0 +1,53 @@
+module Data {
+  const ITEMS = defer [ defer ITEM_1 ]
+  const ITEM_1 = "Hello"
+}
+
+component Main {
+  fun componentDidMount : Promise(String) {
+    let [item] = await Data.ITEMS or return ""
+    await item
+  }
+
+  fun render : Html {
+    <div>""</div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import {
+  patternVariable as E,
+  createElement as F,
+  destructure as C,
+  useEffect as B,
+  load as D
+} from "runtime";
+
+export const
+  a = `/__mint__/d5f8d9aa357303a4ba78b554c55d598bd238f679b.js`,
+  A = () => {
+    B(() => {
+      (async () => {
+        const b = C(await D(a), [E]);
+        if (b === false) {
+          return ``
+        };
+        const [c] = b;
+        return await D(c)
+      })()
+    }, []);
+    return F(`div`, {}, [``])
+  };
+
+---=== /__mint__/d96571c631d11ed793b887a131e80107a65e05223.js ===---
+export const
+  a = `Hello`,
+  b = a;
+
+export default b;
+
+---=== /__mint__/d5f8d9aa357303a4ba78b554c55d598bd238f679b.js ===---
+export const a = [`/__mint__/d96571c631d11ed793b887a131e80107a65e05223.js`];
+
+export default a;
+

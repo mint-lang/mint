@@ -11,6 +11,7 @@ component Main {
 
   fun render : String {
     xxx
+    Test.hello
   }
 }
 --------------------------------------------------------------------------------
@@ -22,6 +23,7 @@ export const
     return `hello`
   },
   B = () => {
-    return a.value
+    a.value;
+    return b()
   };
 

@@ -27,6 +27,7 @@ module Mint
             .lchop('\r')
             .lchop("\n\r")
             .rstrip
+            .gsub("\\\#{", "\#{")
 
         if node.modifier == '#'
           document =

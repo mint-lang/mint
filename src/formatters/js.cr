@@ -7,7 +7,7 @@ module Mint
           when Ast::Interpolation
             item.source
           else
-            format(item).gsub('`', "\\`")
+            format(item)
           end
         end
 

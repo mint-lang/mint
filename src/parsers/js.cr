@@ -6,7 +6,7 @@ module Mint
 
         value =
           many(parse_whitespace: false) do
-            raw('`').try(&.gsub("\\`", '`')) || interpolation
+            raw('`') || interpolation
           end
 
         next error :js_expected_closing_tick do

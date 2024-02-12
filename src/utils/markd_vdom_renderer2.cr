@@ -36,11 +36,12 @@ module Mint
           if node == separator
             replacements.shift
           else
-            ["`", Raw.new(node.escape_for_javascript), "`"] of Item
+            js.string(node)
           end
         in Node
           attributes =
-            node.attributes
+            node
+              .attributes
               .transform_values { |value| [%("#{value}")] of Item }
 
           children =

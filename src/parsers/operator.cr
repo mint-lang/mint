@@ -52,9 +52,14 @@ module Mint
         next unless operator
         next if operator != "|>" && !whitespace?
 
-        ast.operators << {saved_position, saved_position + operator.size}
-        whitespace
+        case operator
+        when "or"
+          ast.keywords << {saved_position, saved_position + operator.size}
+        else
+          ast.operators << {saved_position, saved_position + operator.size}
+        end
 
+        whitespace
         operator
       end
     end
