@@ -69,7 +69,6 @@ module Mint
 
     @record_names = {} of String => Ast::Node
     @formatter = Formatter.new
-    @names = {} of String => Ast::Node
     @records = [] of Record
     @top_level_entity : Ast::Node?
     @languages : Array(String)
@@ -336,7 +335,16 @@ module Mint
     end
 
     def check_global_names(name : String, node : Ast::Node) : Nil
-      other = @names[name]?
+      other =
+        (
+          ast.providers.select(&.name.value.==(name)) +
+            ast.unified_modules.select(&.name.value.==(name)) +
+            ast.components.select(&.name.value.==(name)) +
+            ast.stores.select(&.name.value.==(name))
+        )
+          .to_set
+          .tap(&.delete(node))
+          .first?
 
       if other
         what =
@@ -355,8 +363,6 @@ module Mint
           node: node,
           name: name)
       end
-
-      @names[name] = node
     end
 
     def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),

@@ -6,10 +6,7 @@ module Mint
 
     def check(node : Ast) : Checkable
       # Resolve the Main component
-      node
-        .components
-        .find(&.name.value.==("Main"))
-        .try { |component| resolve component }
+      ast.main.try { |component| resolve component }
 
       node
         .type_definitions

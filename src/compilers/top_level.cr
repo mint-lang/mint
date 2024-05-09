@@ -25,7 +25,7 @@ module Mint
         new(artifacts, **options)
 
       main =
-        compiler.ast.components.find(&.name.value.==("Main")).try do |component|
+        compiler.ast.main.try do |component|
           globals =
             compiler
               .ast
@@ -55,7 +55,7 @@ module Mint
         new(artifacts, **options)
 
       main =
-        compiler.ast.components.find(&.name.value.==("Main")).try do |component|
+        compiler.ast.main.try do |component|
           globals =
             compiler
               .ast

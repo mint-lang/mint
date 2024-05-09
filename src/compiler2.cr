@@ -261,7 +261,7 @@ module Mint
 
     # Compiles the program call.
     def program
-      main.try do |component|
+      ast.main.try do |component|
         routes =
           compile(ast.routes.flat_map(&.routes))
 
@@ -304,10 +304,6 @@ module Mint
 
     # These functions are for looking up entities that the runtime uses
     # (Just, Nothing, Err, Ok, Main).
-
-    def main
-      ast.components.find(&.name.value.==("Main"))
-    end
 
     def maybe
       ast
