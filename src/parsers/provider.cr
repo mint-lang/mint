@@ -40,13 +40,14 @@ module Mint
               expected "the body of a provider", word
               snippet self
             end if items.reject(Ast::Comment).empty?
-          }) { many { function || state || get || constant || self.comment } }
+          }) { many { signal || function || state || get || constant || self.comment } }
 
         next unless body
 
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
         comments = [] of Ast::Comment
+        signals = [] of Ast::Signal
         states = [] of Ast::State
         gets = [] of Ast::Get
 
@@ -58,6 +59,8 @@ module Mint
             constants << item
           when Ast::Comment
             comments << item
+          when Ast::Signal
+            signals << item
           when Ast::State
             states << item
           when Ast::Get
@@ -79,6 +82,7 @@ module Mint
           from: start_position,
           comments: comments,
           comment: comment,
+          signals: signals,
           states: states,
           to: position,
           file: file,

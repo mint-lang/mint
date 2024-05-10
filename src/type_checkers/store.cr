@@ -9,12 +9,14 @@ module Mint
         {} of String => Ast::Node
 
       check_names(node.functions, "store", checked)
+      check_names(node.signals, "store", checked)
       check_names(node.states, "store", checked)
       check_names(node.gets, "store", checked)
 
       # Type checking the entities
       resolve node.constants
       resolve node.functions
+      resolve node.signals
       resolve node.states
       resolve node.gets
 

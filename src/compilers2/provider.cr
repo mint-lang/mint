@@ -11,6 +11,9 @@ module Mint
         constants =
           resolve node.constants
 
+        signals =
+          resolve node.signals
+
         states =
           resolve node.states
 
@@ -34,7 +37,7 @@ module Mint
             js.new("Map".as(Item)),
           }
 
-        add functions + states + gets + constants + [subscriptions, update]
+        add functions + signals + states + gets + constants + [subscriptions, update]
       end
     end
   end

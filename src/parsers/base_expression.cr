@@ -69,6 +69,8 @@ module Mint
             encode
           when "defer"
             defer
+          when "emit"
+            emit
           else
             value
           end

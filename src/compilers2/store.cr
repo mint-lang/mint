@@ -8,13 +8,16 @@ module Mint
         functions =
           resolve node.functions
 
+        signals =
+          resolve node.signals
+
         states =
           resolve node.states
 
         gets =
           resolve node.gets
 
-        add states + gets + functions + constants
+        add signals + states + gets + functions + constants
       end
     end
   end

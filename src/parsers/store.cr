@@ -29,13 +29,14 @@ module Mint
                 expected "the body of a store", word
                 snippet self
               end if items.all?(Ast::Comment)
-            }) { many { state || function || get || constant || self.comment } }
+            }) { many { signal || state || function || get || constant || self.comment } }
 
         next unless body
 
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
         comments = [] of Ast::Comment
+        signals = [] of Ast::Signal
         states = [] of Ast::State
         gets = [] of Ast::Get
 
@@ -47,6 +48,8 @@ module Mint
             functions << item
           when Ast::Comment
             comments << item
+          when Ast::Signal
+            signals << item
           when Ast::State
             states << item
           when Ast::Get
@@ -60,6 +63,7 @@ module Mint
           constants: constants,
           comments: comments,
           comment: comment,
+          signals: signals,
           states: states,
           to: position,
           file: file,

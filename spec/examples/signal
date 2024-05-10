@@ -1,0 +1,28 @@
+-----------------------------------------------------------signal_expected_name
+component Main {
+  signal
+----------------------------------------------------------signal_expected_colon
+component Main {
+  signal test
+-----------------------------------------------------------signal_expected_type
+component Main {
+  signal test :
+----------------------------------------------------------signal_expected_block
+component Main {
+  signal test : A
+-----------------------------------------------------------signal_type_mismatch
+component Main {
+  signal b : String { 0 }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  signal b : String { emit "" "" }
+
+  fun render : Html {
+    <div/>
+  }
+}

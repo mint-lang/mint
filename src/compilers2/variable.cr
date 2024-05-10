@@ -31,7 +31,7 @@ module Mint
             case entity
             when Ast::Get
               js.call(entity, [] of Compiled)
-            when Ast::State
+            when Ast::State, Ast::Signal
               [Signal.new(entity)] of Item
             else
               [entity] of Item

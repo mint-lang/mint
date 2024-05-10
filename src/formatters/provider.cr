@@ -1,14 +1,22 @@
 module Mint
   class Formatter
     def format(node : Ast::Provider) : String
-      name =
-        node.name
+      items =
+        node.functions +
+          node.constants +
+          node.comments +
+          node.signals +
+          node.states +
+          node.gets
 
       subscription =
         node.subscription
 
+      name =
+        node.name
+
       body =
-        list node.functions + node.comments + node.states + node.gets + node.constants
+        list items
 
       comment =
         node.comment.try { |item| "#{format(item)}\n" }

@@ -10,7 +10,8 @@ module Mint
           node.gets +
           node.uses +
           node.comments +
-          node.constants
+          node.constants +
+          node.signals
 
       name =
         format node.name

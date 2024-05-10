@@ -1,0 +1,21 @@
+component Main {
+  signal greeting : String {
+    emit "Blah"
+    "Hello"
+  }
+
+  fun render : String {
+    greeting
+  }
+}
+--------------------------------------------------------------------------------
+import { useSignal as B } from "./runtime.js";
+
+export const A = () => {
+  const a = B((() => {
+    a.value = `Blah`;
+    return `Hello`
+  })());
+  return a.value
+};
+

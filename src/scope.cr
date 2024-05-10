@@ -169,6 +169,7 @@ module Mint
         build(node.properties, node)
         build(node.functions, node)
         build(node.constants, node)
+        build(node.signals, node)
         build(node.states, node)
         build(node.styles, node)
         build(node.gets, node)
@@ -183,6 +184,7 @@ module Mint
       when Ast::Store
         build(node.functions, node)
         build(node.constants, node)
+        build(node.signals, node)
         build(node.states, node)
         build(node.gets, node)
       when Ast::Module
@@ -209,6 +211,7 @@ module Mint
            Ast::Property,
            Ast::Constant,
            Ast::Argument,
+           Ast::Signal,
            Ast::State,
            Ast::Get
         add(parent, node.name.value, node)
@@ -243,6 +246,7 @@ module Mint
            Ast::UnaryMinus,
            Ast::Encode,
            Ast::Decode,
+           Ast::Emit,
            Ast::Test
         build(node.expression, node)
       when Ast::Directives::Highlight
@@ -256,6 +260,8 @@ module Mint
       when Ast::Style
         build(node.arguments, node)
         build(node.body, node)
+      when Ast::Signal
+        build(node.block, node)
       when Ast::State,
            Ast::Property
         build(node.default, node)
