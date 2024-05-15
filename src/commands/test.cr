@@ -72,6 +72,9 @@ module Mint
 
           exit(1) unless succeeded
         end
+      rescue error : Error
+        terminal.reset
+        terminal.puts error.to_terminal
       end
     end
   end
