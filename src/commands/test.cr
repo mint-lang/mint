@@ -75,6 +75,7 @@ module Mint
       rescue error : Error
         terminal.reset
         terminal.puts error.to_terminal
+        exit(1)
       end
     end
   end
