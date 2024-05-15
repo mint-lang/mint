@@ -59,7 +59,7 @@ Dir
           rescue item : Mint::Error
             fail item.to_terminal.to_s
           rescue item
-            fail item.to_s + '\n' + item.backtrace.join('\n')
+            fail "#{item}\n#{item.backtrace.join('\n')}"
           end
         end
       end

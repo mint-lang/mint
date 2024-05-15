@@ -35,16 +35,14 @@ module Mint
       files
         .reduce(OpenSSL::Digest.new("SHA256")) do |digest, file|
           digest.file(file)
-        end.final.hexstring
+        end.hexfinal
     end
 
-    def get_routes : String
+    def build_routes : String
       routes = Mint::Compiler
         .new(TypeChecker.check(@artifacts.ast))
         .compile_service_worker(@artifacts.ast.routes)
-        .map do |node|
-          "...#{node}"
-        end
+        .map { |node| "...#{node}" }
 
       @js.const("routes", "[#{routes.join(", ")}]")
     end

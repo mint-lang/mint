@@ -204,7 +204,7 @@ module Mint
       workspace.watch
     end
 
-    def get_service_worker_utils
+    def service_worker_utils
       Assets.read("sw-utils.js")
     end
 
@@ -214,7 +214,7 @@ module Mint
 
     def service_worker(artifacts, relative, optimize)
       worker = ServiceWorker.new(artifacts, relative, optimize)
-      "#{get_service_worker_utils}#{worker}"
+      "#{service_worker_utils}#{worker}"
     end
   end
 end

@@ -1,5 +1,18 @@
+Documentation/DocumentationAdmonition:
+  Enabled: false
+
+Naming/RescuedExceptionsVariableName:
+  Excluded:
+    - spec/examples_spec.cr
+
 Metrics/CyclomaticComplexity:
   Enabled: false
 
 Lint/NotNil:
   Enabled: false
+
+Lint/Typos:
+  Enabled: false
+
+Lint/UselessAssign:
+  ExcludeTypeDeclarations: true

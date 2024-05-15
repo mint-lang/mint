@@ -99,8 +99,8 @@ module Mint
       def self.compute_location(file : Parser::File, from, to)
         # TODO: avoid creating this array for every (initial) call to `Node#location`
         lines = [0]
-        file.contents.each_char_with_index do |ch, i|
-          lines << i + 1 if ch == '\n'
+        file.contents.each_char_with_index do |char, i|
+          lines << i + 1 if char == '\n'
         end
 
         Location.new(

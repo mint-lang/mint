@@ -2,7 +2,7 @@ const CACHE = '<%= calculate_hash %>'
 const PRECACHE_URLS = [
 <%= precache_urls.indent(2) %>
 ]
-<%= get_routes %>
+<%= build_routes %>
 
 // On install precache all static resources
 self.addEventListener('install', event => {
