@@ -13,7 +13,7 @@ module Mint
     # This holds the elimiated packages, which package elminiated it
     # and with which constraint
     @eliminated =
-      [] of Tuple(Package, Package, Constraint)
+      [] of Tuple(Package, Package, Constraint, String)
 
     @repositories =
       {} of String => Repository
@@ -113,7 +113,7 @@ module Mint
               {name: dependency, version: resolved.to_s}
 
             # If it did not match, eliminate and retry
-            @eliminated << {package, base, constraint}
+            @eliminated << {package, base, constraint, "constraint"}
             raise Retry.new
           end
         else
@@ -126,7 +126,7 @@ module Mint
             rescue error : Error
               # If the mint.json is invalid or missing then this version
               # is eliminated.
-              @eliminated << {package, base, constraint}
+              @eliminated << {package, base, constraint, "mint.json invalid"}
             end
 
             # Skip if eliminated
@@ -141,7 +141,7 @@ module Mint
               break
             else
               # If it did not match eliminate and retry
-              @eliminated << {package, base, constraint}
+              @eliminated << {package, base, constraint, "constraint"}
               raise Retry.new
             end
           end
@@ -153,7 +153,7 @@ module Mint
             @eliminated
               .select(&.[0][:name].==(dependency))
               .map do |item|
-                "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]}"
+                "#{item[0][:version]} by #{item[2]} from #{item[1][:name]}:#{item[1][:version]} because #{item[3]}"
               end
 
           error! :installer_failed_to_install do
@@ -170,7 +170,7 @@ module Mint
               unless eliminated.empty?
                 block do
                   text "All versions of"
-                  bold name.to_s
+                  bold dependency.to_s
                   text "were eliminated:"
                 end
 
@@ -178,7 +178,7 @@ module Mint
 
                 block do
                   text "There are no version available for:"
-                  bold name.to_s
+                  bold dependency.to_s
                 end
               end
             end
