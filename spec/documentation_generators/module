@@ -1,0 +1,24 @@
+module Test {
+  fun method (argument1 : String = "Default Value") {
+    "Hello!"
+  }
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "e": [
+      {
+        "a": [
+          {
+            "t": "String",
+            "n": "argument1"
+          }
+        ],
+        "n": "method",
+        "k": 0
+      }
+    ],
+    "n": "Test",
+    "k": 2
+  }
+]
