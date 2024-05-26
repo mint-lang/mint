@@ -21,7 +21,6 @@ module Mint
 
       check_names(node.properties, "component", checked)
       check_names(node.functions, "component", checked)
-      check_names(node.signals, "component", checked)
       check_names(node.states, "component", checked)
       check_names(node.gets, "component", checked)
 
@@ -146,7 +145,6 @@ module Mint
       # Type checking the entities
       resolve node.properties
       resolve node.connects
-      resolve node.signals
       resolve node.states
       resolve node.uses
 

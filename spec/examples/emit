@@ -6,10 +6,6 @@ component Main {
   }
 }
 -------------------------------------------------------------emit_type_mismatch
-component Main {
+store Test {
   signal b : String { emit 0 }
-
-  fun render : Html {
-    <div/>
-  }
 }

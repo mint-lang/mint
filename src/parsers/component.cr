@@ -46,7 +46,6 @@ module Mint
               constant ||
               function ||
               connect ||
-              signal ||
               style ||
               state ||
               use ||
@@ -64,7 +63,6 @@ module Mint
         constants = [] of Ast::Constant
         connects = [] of Ast::Connect
         comments = [] of Ast::Comment
-        signals = [] of Ast::Signal
         styles = [] of Ast::Style
         states = [] of Ast::State
         gets = [] of Ast::Get
@@ -82,8 +80,6 @@ module Mint
             connects << item
           when Ast::Comment
             comments << item
-          when Ast::Signal
-            signals << item
           when Ast::Style
             styles << item
           when Ast::State
@@ -139,7 +135,6 @@ module Mint
           comments: comments,
           comment: comment,
           locales: locales,
-          signals: signals,
           styles: styles,
           states: states,
           async: async,

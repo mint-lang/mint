@@ -68,7 +68,7 @@ module Mint
           # Signals are special becuse we need to use the `.value` accessor.
           io << "#{pool.of(item.value, base)}.value"
         in Ref
-          # Signals are special becuse we need to use the `.current` accessor.
+          # Refs are special becuse we need to use the `.current` accessor.
           io << "#{pool.of(item.value, base)}.current"
         in Ast::Node
           scope =

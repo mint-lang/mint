@@ -1,4 +1,4 @@
-component Main {
+store Test {
   signal name
 --------------------------------------------------------------------------------
 ░ ERROR (SIGNAL_EXPECTED_COLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -8,6 +8,6 @@ space" instead:
 
    ┌ ./spec/errors/signal_expected_colon:2:13
    ├─────────────────────────────────────────
-  1│ component Main {
+  1│ store Test {
   2│   signal name
    │              ⌃⌃⌃⌃

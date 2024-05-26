@@ -169,7 +169,6 @@ module Mint
         build(node.properties, node)
         build(node.functions, node)
         build(node.constants, node)
-        build(node.signals, node)
         build(node.states, node)
         build(node.styles, node)
         build(node.gets, node)
@@ -177,6 +176,7 @@ module Mint
       when Ast::Provider
         build(node.functions, node)
         build(node.constants, node)
+        build(node.signals, node)
         build(node.states, node)
         build(node.gets, node)
 

@@ -70,12 +70,14 @@ module Mint
             connect ||
             locale ||
             routes ||
+            signal ||
             route ||
             state ||
             style ||
             store ||
             suite ||
             test ||
+            emit ||
             get ||
             use ||
             statement ||

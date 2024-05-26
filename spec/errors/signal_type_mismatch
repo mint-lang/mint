@@ -1,9 +1,5 @@
-component Main {
+store Test {
   signal b : String { 0 }
-
-  fun render : Html {
-    <div/>
-  }
 }
 --------------------------------------------------------------------------------
 ░ ERROR (SIGNAL_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -23,10 +19,7 @@ The block in question is here:
 
    ┌ ./spec/errors/signal_type_mismatch:2:21
    ├────────────────────────────────────────
-  1│ component Main {
+  1│ store Test {
   2│   signal b : String { 0 }
    │                     ⌃⌃⌃⌃⌃
-  3│
-  4│   fun render : Html {
-  5│     <div/>
-  6│   }
+  3│ }

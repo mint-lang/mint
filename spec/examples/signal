@@ -1,17 +1,17 @@
 -----------------------------------------------------------signal_expected_name
-component Main {
+store Test {
   signal
 ----------------------------------------------------------signal_expected_colon
-component Main {
+store Test {
   signal test
 -----------------------------------------------------------signal_expected_type
-component Main {
+store Test {
   signal test :
 ----------------------------------------------------------signal_expected_block
-component Main {
+store Test {
   signal test : A
 -----------------------------------------------------------signal_type_mismatch
-component Main {
+store Test {
   signal b : String { 0 }
 
   fun render : Html {
@@ -19,7 +19,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-component Main {
+store Test {
   signal b : String { emit "" "" }
 
   fun render : Html {

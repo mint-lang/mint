@@ -41,9 +41,6 @@ module Mint
         constants =
           resolve node.constants
 
-        signals =
-          resolve node.signals
-
         states =
           resolve node.states
 
@@ -81,7 +78,7 @@ module Mint
         exposed =
           if components_touched.includes?(node)
             items =
-              (refs + signals + states + gets + functions + constants)
+              (refs + states + gets + functions + constants)
                 .compact
                 .map do |item|
                   [item[0]] of Item
@@ -178,7 +175,7 @@ module Mint
 
         items =
           if node.global?
-            refs + signals + states + gets + functions + styles + constants + id + [
+            refs + states + gets + functions + styles + constants + id + [
               {node,
                node,
                compile(
@@ -189,7 +186,7 @@ module Mint
             ]
           else
             entities =
-              (refs + signals + states + gets + functions + styles + constants + id).compact
+              (refs + states + gets + functions + styles + constants + id).compact
 
             consts =
               if entities.empty?

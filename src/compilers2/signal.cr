@@ -5,14 +5,7 @@ module Mint
         block =
           compile node.block
 
-        method =
-          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
-            Builtin::UseSignal
-          else
-            Builtin::Signal
-          end
-
-        {node, node, js.call(method, [block])}
+        {node, node, js.call(Builtin::Signal, [block])}
       end
     end
   end

@@ -1,4 +1,4 @@
-component Main {
+store Test {
   signal
 --------------------------------------------------------------------------------
 ░ ERROR (SIGNAL_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -7,6 +7,6 @@ I was expecting the name of a signal but I found "a space" instead:
 
    ┌ ./spec/errors/signal_expected_name:2:8
    ├───────────────────────────────────────
-  1│ component Main {
+  1│ store Test {
   2│   signal
    │         ⌃⌃⌃⌃
