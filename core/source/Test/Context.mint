@@ -1,7 +1,8 @@
-/* A module for writing complex tests. */
+/* This module provides functions for writing complex tests. */
 module Test.Context {
   /*
-  Asserts the equality of the current value of the test with the given one.
+  Asserts the equality of the current value of the context with the specified
+  one.
 
     test {
       Test.Context.of(5)
@@ -19,33 +20,61 @@ module Test.Context {
     `
   }
 
-  /* Asserts that a given spy (function) was called. */
-  fun assertFunctionCalled (context : Test.Context(c), entity : a) : Test.Context(c) {
-    `
-    #{context}.step((subject) => {
-      if (!#{entity}._called) {
-        throw "The given function was not called!"
-      }
-      return subject
-    })
-    `
-  }
+  /*
+  Asserts that a spy (function) was called.
 
-  /* Asserts that a given spy (function) was not called. */
-  fun assertFunctionNotCalled (context : Test.Context(c), entity : a) : Test.Context(c) {
+    test {
+      let spy =
+        Text.Context.spyOn(String.toUpperCase)
+
+      "hello world!"
+      |> Text.contextOf()
+      |> Text.Context.map(spy)
+      |> Test.Context.assertFunctionCalled(spy)
+    }
+  */
+  fun assertFunctionCalled (context : Test.Context(c), function : a) : Test.Context(c) {
     `
     #{context}.step((subject) => {
-      if (#{entity}._called) {
-        throw "The given function was called!"
+      if (!#{function}._called) {
+        throw "The function was not called!"
       }
+
       return subject
     })
     `
   }
 
   /*
-  Asserts if the given value equals of the returned value from the given
-  function.
+  Asserts that a spy (function) was not called.
+
+    test {
+      let spy =
+        Text.Context.spyOn(String.toUpperCase)
+
+      "hello world!"
+      |> Text.contextOf()
+      |> Text.Context.map(String.toUpperCase)
+      |> Test.Context.assertFunctionNotCalled(spy)
+    }
+  */
+  fun assertFunctionNotCalled (
+    context : Test.Context(c),
+    function : a
+  ) : Test.Context(c) {
+    `
+    #{context}.step((subject) => {
+      if (#{function}._called) {
+        throw "The function was called!"
+      }
+
+      return subject
+    })
+    `
+  }
+
+  /*
+  Asserts if the value equals of the returned value from the function.
 
     test {
       Test.Context.of(5)
@@ -64,36 +93,34 @@ module Test.Context {
       if (!#{%compare%}(#{value}, actual)) {
         throw \`Assertion failed: ${actual} === ${#{value}}\`
       }
+
       return subject
     })
     `
   }
 
   /*
-  Asserts if the given value equals of the returned value from the given
-  function.
+  Asserts if the value equals of the returned value from the function.
 
     test {
       Test.Context.of(5)
       |> Test.Context.assert((value : Number) { value == 5 })
     }
   */
-  fun assert (
-    context : Test.Context(a),
-    method : Function(a, bool)
-  ) : Test.Context(a) {
+  fun assert (context : Test.Context(a), method : Function(a, bool)) : Test.Context(a) {
     `
     #{context}.step((subject) => {
       if (!#{method}(subject)) {
         throw \`Assertion failed!\`
       }
+
       return subject
     })
     `
   }
 
   /*
-  Maps the given subject to a new subject.
+  Maps (transforms) the subject to a new subject.
 
     test {
       Test.Context.of(5)
@@ -101,11 +128,11 @@ module Test.Context {
     }
   */
   fun map (context : Test.Context(a), method : Function(a, b)) : Test.Context(b) {
-    then(context, (item : a) : Promise(b) { Promise.resolve(method(item)) })
+    then(context, (item : a) : Promise(b) { await method(item) })
   }
 
   /*
-  Starts a test using the given value.
+  Starts a test using the value.
 
     test {
       Test.Context.of(5)
@@ -116,14 +143,24 @@ module Test.Context {
     `new #{%testContext%}(#{a})`
   }
 
-  /* Spies on the given entity if it's a function. */
+  /*
+  Spies on the entity if it's a function.
+
+    test {
+      let spy =
+        Text.Context.spyOn(String.toUpperCase)
+
+      "hello world!"
+      |> Text.contextOf()
+      |> Text.Context.map(spy)
+      |> Test.Context.assertFunctionCalled(spy)
+    }
+  */
   fun spyOn (entity : a) : a {
     `
     (() => {
       if (typeof #{entity} == "function") {
-        let _
-
-        _ = function (...args) {
+        const _ = function (...args) {
           _._called = true
           return #{entity}(...args)
         }
@@ -141,14 +178,11 @@ module Test.Context {
 
     test {
       Test.Context.of(5)
-      |> Test.Context.then((number : Number) { Promise.resolve(number + 2) })
+      |> Test.Context.then((number : Number) { await (number + 2) })
       |> Test.Context.assertEqual(7)
     }
   */
-  fun then (
-    context : Test.Context(a),
-    proc : Function(a, Promise(b))
-  ) : Test.Context(b) {
+  fun then (context : Test.Context(a), proc : Function(a, Promise(b))) : Test.Context(b) {
     `
     #{context}.step((subject) => {
       return #{proc}(subject)
@@ -157,7 +191,7 @@ module Test.Context {
   }
 
   /*
-  Adds a timeout to the test using the given duration (in milliseconds).
+  Adds a timeout to the test using the duration (in milliseconds).
 
     test {
       Test.Context.of(5)

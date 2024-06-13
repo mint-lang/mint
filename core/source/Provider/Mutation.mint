@@ -1,14 +1,38 @@
 /* Represents a subscription for `Provider.Mutation` */
-type Provider.Mutation.Subscription {
+type Provider.Mutation {
   changes : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
 /*
-A provider to provide events when the DOM structure of the given
-element changes.
+A provider to provide events when the DOM structure of the element changes.
+
+```
+component Main {
+  state counter : Number = 0
+
+  use Provider.Mutation {
+    element: root,
+    changes:
+      () {
+        Debug.log("The contents changed!")
+        next { }
+      }
+  }
+
+  fun render : Html {
+    <div as root>
+      Number.toString(counter)
+
+      <button onClick={() { next { counter: counter + 1 } }}>
+        "Increment"
+      </button>
+    </div>
+  }
+}
+```
 */
-provider Provider.Mutation : Provider.Mutation.Subscription {
+provider Provider.Mutation : Provider.Mutation {
   /* Keep a state of all observed elements. */
   state observedElements : Array(Maybe(Dom.Element)) = []
 

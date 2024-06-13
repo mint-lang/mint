@@ -1,12 +1,28 @@
 /* Represents a subscription for `Provider.TabFocus` */
-type Provider.TabFocus.Subscription {
+type Provider.TabFocus {
   onTabOut : Function(Promise(Void)),
   onTabIn : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
-/* A provider to provide the tab in and tab out events for an element. */
-provider Providers.TabFocus : Provider.TabFocus.Subscription {
+/*
+A provider to provide the tab in and tab out events for an element.
+
+```
+component Main {
+  use Provider.TabFocus {
+    onTabOut: () { Window.alert("Tabbed Out!") },
+    onTabIn: () { Window.alert("Tabbed In!") },
+    element: input
+  }
+
+  fun render : Html {
+    <input as input/>
+  }
+}
+```
+*/
+provider Provider.TabFocus : Provider.TabFocus {
   /* The listener unsubscribe functions. */
   state listeners : Maybe(Tuple(Function(Void), Function(Void))) = Maybe.Nothing
 

@@ -25,51 +25,51 @@ export const A = () => {
       class: "language-mint"
     }, [
       B('span', {
-        className: "line"
+        class: "line"
       }, [`\`Something\`
 `]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         ``,
         B('span', {
-          className: "string"
+          class: "string"
         }, [`"#{`]),
         B('span', {
-          className: "variable"
+          class: "variable"
         }, [`name`]),
         B('span', {
-          className: "string"
+          class: "string"
         }, [`}"`]),
         `
 `
       ]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         ``,
         B('span', {
-          className: "string"
+          class: "string"
         }, [`"First line" \\`]),
         `
 `
       ]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         ``,
         B('span', {
-          className: "string"
+          class: "string"
         }, [`"Second line" \\`]),
         `
 `
       ]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         ``,
         B('span', {
-          className: "string"
+          class: "string"
         }, [`"Third line"`])
       ])
     ])])

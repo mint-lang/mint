@@ -57,17 +57,17 @@ suite "Result.flatMap" {
   }
 }
 
-suite "Result.join" {
+suite "Result.flatten" {
   test "flattens nested Results" {
     (Result.ok(Result.ok("TEST"))
-    |> Result.join()
+    |> Result.flatten()
     |> Result.map(String.toLowerCase)
     |> Result.withDefault("")) == "test"
   }
 
   test "flattens nested Results when Err" {
     Result.ok(Result.error("Error"))
-    |> Result.join()
+    |> Result.flatten()
     |> Result.isError()
   }
 }

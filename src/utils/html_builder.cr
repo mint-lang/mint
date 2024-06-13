@@ -5,13 +5,18 @@ module Mint
   # `XML::Builder#element` method. <script> is handled differently since it
   #  explicitly needs a closing tag.
   class HtmlBuilder
-    def self.build(*, optimize : Bool, &)
+    def self.build(*, optimize : Bool, doctype : Bool = true, &)
       html =
         XML.build_fragment(indent: optimize ? nil : "  ") do |xml|
           with new(xml) yield
         end
 
-      "<!DOCTYPE html>#{optimize ? "" : "\n"}#{html}"
+      header =
+        if doctype
+          "<!DOCTYPE html>#{optimize ? "" : "\n"}"
+        end
+
+      "#{header}#{html}"
     end
 
     def initialize(@xml : XML::Builder)
@@ -33,7 +38,11 @@ module Mint
       @xml.element("script", **attributes) { with self yield }
     end
 
-    {% for tag in %w(html head body meta link pre code noscript div) %}
+    def tag(tag, attributes, &)
+      @xml.element(tag, attributes) { with self yield }
+    end
+
+    {% for tag in %w(html head body meta link pre code noscript div span) %}
       def {{tag.id}}(**attributes)
         @xml.element("{{tag.id}}", **attributes)
       end

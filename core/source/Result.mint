@@ -1,113 +1,115 @@
+/* Data structure for a computation that can fail. */
 type Result(error, value) {
   Err(error)
   Ok(value)
 }
 
-/* Utility function for the `Result` type. */
+/* This module provides functions for working with the `Result` type. */
 module Result {
   /*
-  Returns a new error result.
+  Returns an `Err` result wit the the error.
 
     (Result.error("error")
     |> Result.isError()) == true
   */
-  fun error (input : a) : Result(a, b) {
-    Result.Err(input)
+  fun error (error : a) : Result(a, b) {
+    Result.Err(error)
   }
 
   /*
   Maps over the value of the result to an other result and flattens it.
 
     (Result.Err("error")
-    |> Result.flatMap(\item : String => Result.Ok(item + "1"))) == Result.error("error")
+    |> Result.flatMap((item : String) { Result.Ok(item + "1") })) == Result.Err("error")
 
     (Result.Ok("ok")
-    |> Result.map(\item : String => Result.Ok(item + "1"))) == Result.ok("ok1")
+    |> Result.map((item : String) { Result.Ok(item + "1") })) == Result.Ok("ok1")
   */
   fun flatMap (
-    input : Result(error, a),
-    func : Function(a, Result(error, b))
+    result : Result(error, a),
+    function : Function(a, Result(error, b))
   ) : Result(error, b) {
-    input
-    |> Result.map(func)
-    |> Result.join()
+    result
+    |> Result.map(function)
+    |> Result.flatten()
   }
 
   /*
-  Returns true if the result is an error.
+  Returns `true` if the result is an `Err`.
 
     (Result.Err("error")
     |> Result.isError()) == true
   */
-  fun isError (input : Result(a, b)) : Bool {
-    case input {
+  fun isError (result : Result(a, b)) : Bool {
+    case result {
       Err => true
       Ok => false
     }
   }
 
   /*
-  Returns true if the result is ok.
+  Returns `true` if the result is an `Ok`.
 
     (Result.Ok("ok")
     |> Result.isOk()) == true
   */
-  fun isOk (input : Result(a, b)) : Bool {
-    case input {
+  fun isOk (result : Result(a, b)) : Bool {
+    case result {
       Err => false
       Ok => true
     }
   }
 
   /*
-  Joins two results together.
+  Flattens a nested result (where the other result is in an `Ok`).
 
-    Result.join(Result.Ok(Result.Ok("Hello"))) == Result.Ok("Hello")
-    Result.join(Result.Err("Error") == Result.Err("Error")
+    Result.flatten(Result.Ok(Result.Ok("Hello"))) == Result.Ok("Hello")
+    Result.flatten(Result.Err("Error")) == Result.Err("Error")
   */
-  fun join (input : Result(error, Result(error, value))) : Result(error, value) {
-    case input {
+  fun flatten (result : Result(error, Result(error, value))) : Result(error, value) {
+    case result {
       Err(error) => Result.Err(error)
       Ok(value) => value
     }
   }
 
   /*
-  Maps over the value of the result.
+  Apply a function to a result. If the result is `Ok`, it will be converted.
+  If the result is an `Err`, the same error value will propagate through.
 
     (Result.Err("error")
-    |> Result.map(\item : String => item + "1")) == Result.Err("error")
+    |> Result.map((item : String) { item + "1" })) == Result.Err("error")
 
     (Result.Ok("ok")
-    |> Result.map(\item : String => item + "1")) == Result.Ok("ok1")
+    |> Result.map((item : String) { item + "1" })) == Result.Ok("ok1")
   */
-  fun map (input : Result(a, b), func : Function(b, c)) : Result(a, c) {
-    case input {
-      Ok(value) => Result.Ok(func(value))
-      Err => input
+  fun map (result : Result(a, b), function : Function(b, c)) : Result(a, c) {
+    case result {
+      Ok(value) => Result.Ok(function(value))
+      Err => result
     }
   }
 
   /*
-  Maps over the error of the result.
+  Transform an `Err` value.
 
     (Result.Err("error")
-    |> Result.mapError(\item : String => item + "1")) == Result.error("error1")
+    |> Result.mapError((item : String) { item + "1" })) == Result.Err("error1")
 
     (Result.Ok("ok")
-    |> Result.mapError(\item : String => item + "1")) == Result.ok("ok")
+    |> Result.mapError((item : String) { item + "1" })) == Result.Ok("ok")
   */
-  fun mapError (input : Result(a, b), func : Function(a, c)) : Result(c, b) {
-    case input {
-      Err(value) => Result.Err(func(value))
-      Ok => input
+  fun mapError (result : Result(a, b), function : Function(a, c)) : Result(c, b) {
+    case result {
+      Err(value) => Result.Err(function(value))
+      Ok => result
     }
   }
 
   /*
-  Returns a new ok result.
+  Returns an `Ok` result with the input.
 
-    (Result.Ok("ok")
+    (Result.ok("ok")
     |> Result.isOk()) == true
   */
   fun ok (input : a) : Result(b, a) {
@@ -115,7 +117,8 @@ module Result {
   }
 
   /*
-  Converts the result into a maybe.
+  Convert to a simpler `Maybe` if the actual error message is not needed or you
+  need to interact with some code that primarily uses maybes.
 
     (Result.Ok("blah")
     |> Result.toMaybe()) == Maybe.Just("blah")
@@ -131,7 +134,8 @@ module Result {
   }
 
   /*
-  Returns the value of the result or the default value if it's an error.
+  If the result is `Ok` return the value, but if the result is an `Err` then
+  return a given default value.
 
     (Result.Err("error")
     |> Result.withDefault("a")) == "a"
@@ -139,15 +143,16 @@ module Result {
     (Result.Ok("ok")
     |> Result.withDefault("a")) == "ok"
   */
-  fun withDefault (input : Result(a, b), defaultValue : b) : b {
-    case input {
+  fun withDefault (result : Result(a, b), defaultValue : b) : b {
+    case result {
       Ok(value) => value
       Err => defaultValue
     }
   }
 
   /*
-  Returns the error of the result or the default value if it's an ok.
+  If the result is `Err` return the error, but if the result is an `Ok` then
+  return a given default error.
 
     (Result.Err("error")
     |> Result.withError("a")) == "error"
@@ -155,8 +160,8 @@ module Result {
     (Result.Ok("ok")
     |> Result.withError("a")) == "a"
   */
-  fun withError (input : Result(a, b), defaultError : a) : a {
-    case input {
+  fun withError (result : Result(a, b), defaultError : a) : a {
+    case result {
       Err(value) => value
       Ok => defaultError
     }

@@ -85,9 +85,9 @@ module Mint
               file: Parser::File.new(contents: "", path: ""),
               # TODO: We may need to store each modules name node for
               # future features, but for now we just store the first
+              comment: modules.compact_map(&.comment).first?,
               name: modules.first.name,
               comments: [] of Comment,
-              comment: nil,
               from: 0,
               to: 0,
             )

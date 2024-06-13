@@ -1,7 +1,7 @@
 module Mint
   class Parser
     def bracket_access(expression : Ast::Node) : Ast::BracketAccess?
-      parse do |start_position|
+      parse do
         next unless char! '['
         whitespace
 
@@ -18,7 +18,7 @@ module Mint
 
         Ast::BracketAccess.new(
           expression: expression,
-          from: start_position,
+          from: expression.from,
           to: position,
           index: index,
           file: file)

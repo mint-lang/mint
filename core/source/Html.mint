@@ -1,7 +1,8 @@
+/* This module provides functions for working with `Html`. */
 module Html {
   /*
-  Returns an empty Html node. It is useful for example if you don't want to
-  render something conditionally.
+  Returns an empty `Html` object. It is useful for example if you don't want to
+  render something conditionally. Same as an empty fragment `<></>`.
 
     if (Array.isEmpty(items)) {
       Html.empty()
@@ -12,10 +13,26 @@ module Html {
     }
   */
   fun empty : Html {
-    `false`
+    <></>
   }
 
-  fun isNotEmpty (element : Html) : Bool {
-    `!!#{element}`
+  /*
+  Returns whether or not the html is empty.
+
+    Html.isEmpty(<div></div>) == false
+    Html.isEmpty(<></>) == true
+  */
+  fun isEmpty (html : Html) : Bool {
+    `!#{html}`
+  }
+
+  /*
+  Returns whether or not the html is not empty.
+
+    Html.isNotEmpty(<div></div>) == true
+    Html.isNotEmpty(<></>) == false
+  */
+  fun isNotEmpty (html : Html) : Bool {
+    `!!#{html}`
   }
 }

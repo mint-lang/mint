@@ -26,38 +26,38 @@ export const A = () => {
       class: "language-mint"
     }, [
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         B('span', {
-          className: "keyword"
+          class: "keyword"
         }, [`module`]),
         ` `,
         B('span', {
-          className: "type"
+          class: "type"
         }, [`Time`]),
         ` {
 `
       ]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [
         `  `,
         B('span', {
-          className: "keyword"
+          class: "keyword"
         }, [`const`]),
         ` `,
         B('span', {
-          className: "type"
+          class: "type"
         }, [`NOW`]),
         ` = `,
         B('span', {
-          className: "string"
+          class: "string"
         }, [`""`]),
         `
 `
       ]),
       B('span', {
-        className: "line"
+        class: "line"
       }, [`}`])
     ])]),
     B('p', {}, [`Text`])

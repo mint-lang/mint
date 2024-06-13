@@ -524,11 +524,19 @@ suite "Array.sum" {
   test "it sums up the array" {
     Array.sum([1, 2, 3]) == 6
   }
+
+  test "returns 0 if the array is empty" {
+    Array.sum([]) == 0
+  }
 }
 
 suite "Array.sumBy" {
   test "it sums up the array by using the function" {
     Array.sumBy([1, 2, 3], (value : Number) : Number { value }) == 6
+  }
+
+  test "returns 0 if the array is empty" {
+    Array.sumBy([], (value : Number) : Number { value }) == 0
   }
 }
 

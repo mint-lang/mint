@@ -1,0 +1,48 @@
+component Main {
+  fun render : Html {
+    let position = {0, 0}
+
+    <<#MARKDOWN(highlight)
+    ```mint
+    <div>"#{position[0]}, #{position[1]}"</div>
+    ```
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
+
+export const A = () => {
+  const a = [
+    0,
+    0
+  ];
+  return B(C, {}, [B('pre', {}, [B('code', {
+    class: "language-mint"
+  }, [B('span', {
+    class: "line"
+  }, [
+    `<`,
+    B('span', {
+      class: "namespace"
+    }, [`div`]),
+    `>`,
+    B('span', {
+      class: "string"
+    }, [
+      `"`,
+      a[0],
+      `, `,
+      a[1],
+      `"`
+    ]),
+    `</`,
+    B('span', {
+      class: "namespace"
+    }, [`div`]),
+    `>`
+  ])])])])
+};

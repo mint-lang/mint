@@ -2,11 +2,11 @@
 `Time` represents a point in time without a time-zone attribute.
 
 The calendaric calculations are based on the rules of the proleptic Gregorian
-calendar as specified in ISO 8601. Leap seconds are ignored.
+calendar as specified in [ISO 8601]. Leap seconds are ignored.
 
-This module uses the `Date`[1] JavaScript object under the hood. Since the
-`Date` object is always in the clients time-zone, this module the UTC based
-functions `getUTC*` and `setUTC*` for querying and modifying.
+This module uses the [`Date`] JavaScript object under the hood. Since the
+`Date` object is always in the clients time-zone, this module uses the UTC
+based functions `getUTC*` and `setUTC*` for querying and modifying.
 
 Things to keep in mind when working with `Time`:
 
@@ -14,7 +14,8 @@ Things to keep in mind when working with `Time`:
 - Months start from 1 (January).
 - Days start from 1.
 
-[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+[ISO 8601]: https://en.wikipedia.org/wiki/ISO_8601
+[`Date`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 */
 module Time {
   /* PARSING ----------------------------------------------------------------- */
@@ -39,7 +40,7 @@ module Time {
   /* CONVERTING ------------------------------------------------------------- */
 
   /*
-  Returns the UNIX Timestamp (in milliseconds) of the given time.
+  Returns the UNIX Timestamp (in milliseconds) of the time.
 
     Time.toUnix(Time.utcDate(2006, 1, 2)) == 1136160000000
   */
@@ -50,7 +51,7 @@ module Time {
   /* CREATING ---------------------------------------------------------------- */
 
   /*
-  Returns the time respective to the given UNIX Timestamp (in milliseconds).
+  Returns the time respective to the UNIX Timestamp (in milliseconds).
 
     Time.unix(1136160000000) == Time.utcDate(2006, 1, 2)
   */
@@ -59,24 +60,24 @@ module Time {
   }
 
   /*
-  Returns a new time from the given parameters.
+  Returns a new time from the parameters.
 
     Time.utc(2018, 4, 5, 12, 24, 50, 100)
   */
   fun utc (
     year : Number,
-    month : Number,
-    day : Number,
-    hour : Number,
-    minute : Number,
-    second : Number,
-    millisecond : Number
+    month : Number = 1,
+    day : Number = 1,
+    hour : Number = 0,
+    minute : Number = 0,
+    second : Number = 0,
+    millisecond : Number = 0
   ) : Time {
     `new Date(Date.UTC(#{year}, #{month} - 1, #{day}, #{hour}, #{minute}, #{second}, #{millisecond}))`
   }
 
   /*
-  Returns a new time from the given parameters (without time parts).
+  Returns a new time from the parameters (without time parts).
 
     Time.utcDate(2018, 4, 5)
   */
@@ -135,7 +136,7 @@ module Time {
   /* RETRIEVING TIME INFORMATION --------------------------------------------- */
 
   /*
-  Returns the year of the given time.
+  Returns the year of the time.
 
     Time.year(Time.utcDate(2018, 4, 5)) == 2018
   */
@@ -144,7 +145,7 @@ module Time {
   }
 
   /*
-  Returns the quarter of the year in which the given time occurs.
+  Returns the quarter of the year in which the time occurs.
 
     Time.quarterOfYear(Time.utcDate(2018, 4, 5)) == 1
   */
@@ -153,7 +154,7 @@ module Time {
   }
 
   /*
-  Returns the month of the given time (as a number).
+  Returns the month of the time (as a number).
 
     Time.monthNumber(Time.utcDate(2018, 4, 5)) == 4
   */
@@ -162,7 +163,7 @@ module Time {
   }
 
   /*
-  Returns the month of the given time (as a `Month`).
+  Returns the month of the time (as a `Month`).
 
     Time.month(Time.utcDate(2018, 4, 5)) == Month.April
   */
@@ -184,7 +185,7 @@ module Time {
   }
 
   /*
-  Returns the ISO calendar year and week of the given time.
+  Returns the ISO calendar year and week of the time.
 
   The ISO calendar year to which the week belongs is not always in the same
   as the year of the regular calendar date. The first three days of January
@@ -251,7 +252,7 @@ module Time {
   }
 
   /*
-  Returns the day of the week of the given time (as a number from 1 to 7).
+  Returns the day of the week of the time (as a number from 1 to 7).
 
     Time.dayOfWeekNumber(Time.utcDate(2018, 4, 5)) == 4
   */
@@ -265,7 +266,7 @@ module Time {
   }
 
   /*
-  Returns the day of week of the given time.
+  Returns the day of week of the time.
 
     Time.dayOfWeek(Time.utcDate(2018, 4, 5)) == Weekday.Thursday
   */
@@ -282,7 +283,7 @@ module Time {
   }
 
   /*
-  Returns the day of month of the given time.
+  Returns the day of month of the time.
 
     Time.dayOfMonth(Time.utcDate(2018, 4, 5)) == 5
   */
@@ -291,7 +292,7 @@ module Time {
   }
 
   /*
-  Returns the day of the year of the given time.
+  Returns the day of the year of the time.
 
     Time.dayOfYear(Time.utcDate(2018, 4, 5)) == 95
   */
@@ -310,7 +311,7 @@ module Time {
   }
 
   /*
-  Returns the hour of the given time.
+  Returns the hour of the time.
 
     Time.hour(Time.utc(2018, 4, 5, 10, 25, 30, 40) == 10
   */
@@ -319,7 +320,7 @@ module Time {
   }
 
   /*
-  Returns the minute of the given time.
+  Returns the minute of the time.
 
     Time.minute(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 25
   */
@@ -328,7 +329,7 @@ module Time {
   }
 
   /*
-  Returns the second of the given time.
+  Returns the second of the time.
 
     Time.second(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 30
   */
@@ -337,7 +338,7 @@ module Time {
   }
 
   /*
-  Returns the millisecond of the given time.
+  Returns the millisecond of the time.
 
     Time.millisecond(Time.utc(2018, 4, 5, 10, 25, 30, 40)) == 40
   */
@@ -346,7 +347,7 @@ module Time {
   }
 
   /*
-  Returns if the year of the given time is a leap year or not.
+  Returns if the year of the time is a leap year or not.
 
     Time.isLeapYear(Time.utcDate(2011,1,1)) == false
     Time.isLeapYear(Time.utcDate(2012,1,1)) == true
@@ -356,7 +357,7 @@ module Time {
   }
 
   /*
-  Returns if the given number (year) is a leap year or not.
+  Returns if the number (year) is a leap year or not.
 
     Time.isNumberLeapYear(2020) == true
     Time.isNumberLeapYear(2021) == false
@@ -368,7 +369,7 @@ module Time {
   /* MANIPULATION ------------------------------------------------------------ */
 
   /*
-  Shifts the given time using the given time span.
+  Shifts the time using the time span.
 
     Time.shift(Time.utcDate(2018, 4, 5), Time.Span.Days(2)) ==
       Time.utcDate(2018, 4, 7)
@@ -412,8 +413,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same year
-  as the given time.
+  Returns a new time which is at the beginning of the same year as the original
+  time.
 
     Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 1, 1)
   */
@@ -429,8 +430,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same month
-  as the given time.
+  Returns a new time which is at the beginning of the same month as the
+  original time.
 
     Time.atBeginningOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
   */
@@ -446,8 +447,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same week
-  as the given time.
+  Returns a new time which is at the beginning of the same week as the original
+  time.
 
     Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
   */
@@ -459,8 +460,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same day
-  as the given time.
+  Returns a new time which is at the beginning of the same day as the original
+  time.
 
     Time.atBeginningOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) ==
       Time.utc(2017, 5, 20, 0, 0, 0, 0)
@@ -476,8 +477,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the end of the same year
-  as the given time.
+  Returns a new time which is at the end of the same year as the original time.
 
     Time.atEndOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 12, 31)
   */
@@ -493,8 +493,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the end of the same month
-  as the given time.
+  Returns a new time which is at the end of the same month as the original time.
 
     Time.atEndOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 31)
   */
@@ -511,8 +510,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same week
-  as the given time.
+  Returns a new time which is at the beginning of the same week as the original
+  time.
 
     Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
   */
@@ -523,8 +522,8 @@ module Time {
   }
 
   /*
-  Returns a new time which is at the beginning of the same day
-  as the given time.
+  Returns a new time which is at the beginning of the same day as the original
+  time.
 
     Time.atEndOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) ==
       Time.utc(2017, 5, 20, 0, 0, 0, 0)
@@ -542,7 +541,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a month later than the the given time.
+  Returns a new time which is a month later than the time.
 
     Time.nextMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 6, 20)
   */
@@ -551,7 +550,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a month sooner than the the given time.
+  Returns a new time which is a month sooner than the time.
 
     Time.previousMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 4, 20)
   */
@@ -560,7 +559,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a week later than the the given time.
+  Returns a new time which is a week later than the time.
 
     Time.nextWeek(Time.utcDate(2017, 5, 10)) == Time.utcDate(2017, 5, 17)
   */
@@ -569,7 +568,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a week sooner than the the given time.
+  Returns a new time which is a week sooner than the time.
 
     Time.previousWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 13)
   */
@@ -578,7 +577,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a day later than the the given time.
+  Returns a new time which is a day later than the time.
 
     Time.nextDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 21)
   */
@@ -587,7 +586,7 @@ module Time {
   }
 
   /*
-  Returns a new time which is a day sooner than the the given time.
+  Returns a new time which is a day sooner than the time.
 
     Time.previousDay(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 19)
   */
@@ -598,7 +597,7 @@ module Time {
   /* UTILITIES -------------------------------------------------------------- */
 
   /*
-  Returns an array of days from the given start to given end time (inclusive).
+  Returns an array of days from the start to end time (inclusive).
 
     Time.range(Time.utcDate(2006, 4, 1), Time.utcDate(2006, 4, 4)) == [
       Time.utcDate(2006, 4, 1),
@@ -625,7 +624,7 @@ module Time {
   }
 
   /*
-  Converts the given time zone, since not all browsers support time zone
+  Converts the time zone, since not all browsers support time zone
   conversion this function can fail.
 
     Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) ==

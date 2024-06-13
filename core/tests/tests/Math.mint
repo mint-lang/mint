@@ -137,9 +137,9 @@ suite "Math.PI" {
   }
 }
 
-suite "Math.SQRT12" {
-  test "returns Math.SQRT12" {
-    Math.SQRT12 == `Math.SQRT1_2`
+suite "Math.SQRT1_2" {
+  test "returns Math.SQRT1_2" {
+    Math.SQRT1_2 == `Math.SQRT1_2`
   }
 }
 

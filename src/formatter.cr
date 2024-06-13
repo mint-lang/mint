@@ -44,13 +44,13 @@ module Mint
       "(#{format(parameters, ", ")})"
     end
 
-    def format_arguments(arguments : Array(Ast::Argument))
+    def format_arguments(arguments : Array(Ast::Argument), others_size = 0)
       return if arguments.empty?
 
       value =
         format arguments
 
-      if value.sum { |string| replace_skipped(string).size } > 50
+      if (value.sum { |string| replace_skipped(string).size } + others_size) > 80
         "(\n#{indent(value.join(",\n"))}\n)"
       else
         "(#{value.join(", ")})"

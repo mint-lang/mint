@@ -1,4 +1,8 @@
-/* Functions for the `sessionStorage` API. */
+/*
+This module provides functions to work with the [SessionStorage Web API].
+
+[SessionStorage Web API]: https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
+*/
 module Storage.Session {
   /*
   Clears the session storage.
@@ -10,7 +14,7 @@ module Storage.Session {
   }
 
   /*
-  Delete the value with the given key.
+  Deletes the value with the key from the session storage.
 
     Storage.Session.delete("key")
   */
@@ -19,25 +23,27 @@ module Storage.Session {
   }
 
   /*
-  Gets the value of given key.
+  Gets the value of the key in the session storage.
 
-    Storage.Session.get("key")
+    Storage.Session.set("key", "value")
+    Storage.Session.get("key") // "value"
   */
   fun get (key : String) : Result(Storage.Error, String) {
     Storage.Common.get(`sessionStorage`, key)
   }
 
   /*
-  Returns the keys in the session storage.
+  Returns all the keys in the session storage.
 
-    Storage.Session.keys() == []
+    Storage.Session.set("key", "value")
+    Storage.Session.keys() == ["key"]
   */
   fun keys : Result(Storage.Error, Array(String)) {
     Storage.Common.keys(`sessionStorage`)
   }
 
   /*
-  Sets the given key to the given value.
+  Sets the key to the value in the session storage.
 
     Storage.Session.set("key", "value")
   */
@@ -48,7 +54,8 @@ module Storage.Session {
   /*
   Returns the number of items in the session storage.
 
-    Storage.Session.size() == 0
+    Storage.Session.set("key", "value")
+    Storage.Session.size() == 1
   */
   fun size : Result(Storage.Error, Number) {
     Storage.Common.size(`sessionStorage`)

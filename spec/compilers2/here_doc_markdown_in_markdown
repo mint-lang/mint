@@ -26,57 +26,57 @@ export const A = () => {
     class: "language-mint"
   }, [
     B('span', {
-      className: "line"
+      class: "line"
     }, [
       `<<#MD(`,
       B('span', {
-        className: "keyword"
+        class: "keyword"
       }, [`highlight`]),
       `)`,
       B('span', {
-        className: "string"
+        class: "string"
       }, [``])
     ]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`This is a paragraph.`])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [``])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`\`\`\`mint`])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`module Mint {`])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`  // This will be syntax highlighted`])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`}`])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [B('span', {
-      className: "string"
+      class: "string"
     }, [`\`\`\``])]),
     B('span', {
-      className: "line"
+      class: "line"
     }, [
       B('span', {
-        className: "string"
+        class: "string"
       }, [``]),
       `MD`
     ])

@@ -1,11 +1,43 @@
 /* Represents a subscription for `Provider.Url` */
-type Provider.Url.Subscription {
+type Provider.Url {
   changes : Function(Url, Promise(Void))
 }
 
-/* A provider for global "popstate" events, which emit the current URL. */
-provider Provider.Url : Provider.Url.Subscription {
-  /* The listener unsubscribe function. */
+/*
+A provider for global `popstate` events, which emits the current URL.
+
+```
+component Main {
+  use Provider.Url {
+    changes:
+      (url : Url) {
+        Debug.log(url)
+        next { }
+      }
+  }
+
+  fun render : Html {
+    <div>
+      <a href="/home">
+        "Home"
+      </a>
+
+      <a href="/">
+        "Root"
+      </a>
+    </div>
+  }
+}
+
+routes {
+  * {
+    ""
+  }
+}
+```
+*/
+provider Provider.Url : Provider.Url {
+  /* The unsubscribe function. */
   state listener : Maybe(Function(Void)) = Maybe.Nothing
 
   /* The event handler. */

@@ -1,4 +1,63 @@
-/* Provider to handle websocket connections. */
+/*
+Provider to handle websocket connections. Only one connection is made for an
+endpoint, events are emitted for all subscribers for that endpoint.
+
+```
+component Main {
+  state socket : Maybe(WebSocket) = Maybe.Nothing
+  state messages : Array(String) = []
+
+  use Provider.WebSocket {
+    url: "wss://echo.websocket.org/",
+    reconnectOnClose: false,
+    onOpen:
+      (socket : WebSocket) {
+        next {
+          messages: Array.push(messages, "Opened!"),
+          socket: Maybe.Just(socket)
+        }
+      },
+    onMessage:
+      (message : String) {
+        next { messages: Array.push(messages, message) }
+      },
+    onError:
+      () {
+        Debug.log("Error!")
+        next { }
+      },
+    onClose:
+      () {
+        Debug.log("Close!")
+        next { }
+      }
+  }
+
+  fun render : Html {
+    <div>
+      <button
+        onClick={
+          () {
+            if let Just(item) = socket {
+              WebSocket.send(item, "Message!")
+            }
+          }
+        }>
+
+        "Send a message"
+
+      </button>
+
+      for message of messages {
+        <div>
+          message
+        </div>
+      }
+    </div>
+  }
+}
+```
+*/
 provider Provider.WebSocket : WebSocket.Config {
   /* A state to store current connections. */
   state connections : Map(String, WebSocket) = Map.empty()

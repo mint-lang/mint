@@ -1,7 +1,10 @@
-/* Module for manipulating search parameters. */
+/*
+This module provides functions for working with the [URLSearchParams Web
+API](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+*/
 module SearchParams {
   /*
-  Appends a specified key/value pair as a new search parameter.
+  Appends a specified key-value pair.
 
     SearchParams.empty()
     |> SearchParams.append("key", "value")
@@ -27,7 +30,7 @@ module SearchParams {
   }
 
   /*
-  Deletes the given search parameter, and its associated value, from the
+  Deletes the given search parameter, and its associated value(s), from the
   list of all search parameters.
 
     SearchParams.fromString("key=value")
@@ -44,7 +47,7 @@ module SearchParams {
   }
 
   /*
-  Returns an empty search parameters object.
+  Returns an empty `SearchParams` object.
 
     SearchParams.empty()
   */
@@ -53,7 +56,7 @@ module SearchParams {
   }
 
   /*
-  Parses a string into a search parameters object.
+  Parses a string into a `SearchParams` object.
 
     SearchParams.fromString("key=value")
   */
@@ -62,7 +65,7 @@ module SearchParams {
   }
 
   /*
-  Returns the first value associated to the given search parameter.
+  Returns the first value associated of the key.
 
     (SearchParams.fromString("key=value")
      |> SearchParams.get("key")) == "value"
@@ -82,8 +85,8 @@ module SearchParams {
   }
 
   /*
-  Sets the value associated to a given search parameter to the given value.
-  If there were several values, delete the others.
+  Sets the value associated to the key. If there were several values, deletes
+  the others.
 
     SearchParams.empty()
     |> SearchParams.set("key", "value")

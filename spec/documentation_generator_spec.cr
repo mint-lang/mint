@@ -15,8 +15,7 @@ Dir
         ast.class.should eq(Mint::Ast)
 
         begin
-          artifacts =
-            Mint::TypeChecker.check(ast)
+          Mint::TypeChecker.check(ast)
 
           # Compare results
           result =

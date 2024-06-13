@@ -22,6 +22,7 @@ module Mint
     register_sub_command init, type: Init
     register_sub_command lint, type: Lint
     register_sub_command test, type: Test
+    register_sub_command docs, type: Docs
     register_sub_command loc, type: Loc
     register_sub_command ls, type: Ls
 

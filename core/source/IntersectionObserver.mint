@@ -1,10 +1,13 @@
 /*
-This module provides a wrapper for the Intersection Observer Web API [1].
-
-[1] https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+This module provides functions for working with the [Intersection Observer Web
+API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 */
 module IntersectionObserver {
-  /* Unobserves all observed elements. */
+  /*
+  Unobserves all observed elements.
+
+    IntersectionObserver.disconnect(observer)
+  */
   fun disconnect (observer : IntersectionObserver) : IntersectionObserver {
     `#{observer}.disconnect() || #{observer}`
   }
@@ -12,15 +15,14 @@ module IntersectionObserver {
   /*
   Creates a new intersection observer.
 
-    observer =
-      IntersectionObserver.new("50px", 0.1,
-        (intersectionRatio : Number) {
-          if (intersectionRatio == 1) {
-            Debug.log("Fully visible!")
-          } else {
-            Debug.log("Not fully visible!")
-          }
-        })
+    IntersectionObserver.new("50px", 0.1,
+      (intersectionRatio : Number) {
+        if (intersectionRatio == 1) {
+          Debug.log("Fully visible!")
+        } else {
+          Debug.log("Not fully visible!")
+        }
+      })
   */
   fun new (
     rootMargin : String,
@@ -30,9 +32,8 @@ module IntersectionObserver {
     `
     (() => {
       return new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          #{callback(`entry.intersectionRatio`)}
-        })
+        console.log(entries)
+        entries.forEach((entry) => #{callback(`entry.intersectionRatio`)})
       }, {
         rootMargin: #{rootMargin},
         threshold: #{threshold}
@@ -41,7 +42,13 @@ module IntersectionObserver {
     `
   }
 
-  /* Observes the given element. */
+  /*
+  Observes the element.
+
+    if let Just(element) = Dom.getElementBySelector("div") {
+      IntersectionObserver.observe(observer, element)
+    }
+  */
   fun observe (
     observer : IntersectionObserver,
     element : Dom.Element
@@ -49,7 +56,13 @@ module IntersectionObserver {
     `#{observer}.observe(#{element}) || #{observer}`
   }
 
-  /* Unobserves the given element. */
+  /*
+  Unobserves the element.
+
+    if let Just(element) = Dom.getElementBySelector("div") {
+      IntersectionObserver.unobserve(observer, element)
+    }
+  */
   fun unobserve (
     observer : IntersectionObserver,
     element : Dom.Element

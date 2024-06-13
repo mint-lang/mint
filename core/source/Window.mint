@@ -1,9 +1,14 @@
+/*
+This module provides functions for working with the [Window] JavaScript object.
+
+[Window]: https://developer.mozilla.org/en-US/docs/Web/API/Window
+*/
 module Window {
   /*
   Adds a listener to the window and returns the function which
   removes this listener.
 
-    listener =
+    let listener =
       Window.addEventListener("click", true, (event : Html.Event) {
         Debug.log(event)
       })
@@ -29,12 +34,15 @@ module Window {
   Adds a media query listener to the window and returns the function which
   removes this listener.
 
-    listener =
+    let listener =
       Window.addMediaQueryListener("(max-width: 320px)", (matches : Bool) {
         Debug.log(matches)
       })
   */
-  fun addMediaQueryListener (query : String, listener : Function(Bool, a)) : Function(Void) {
+  fun addMediaQueryListener (
+    query : String,
+    listener : Function(Bool, a)
+  ) : Function(Void) {
     `
     (() => {
       const query = window.matchMedia(#{query});
@@ -46,10 +54,8 @@ module Window {
   }
 
   /*
-  Shows the default alert popup of the browser with the given message.
-
-  This function returns a promise but blocks execution until the popup is
-  closed.
+  Shows the default alert popup of the browser with the message. This function
+  returns a promise but blocks execution until the popup is closed.
 
     Window.alert("Hello World!")
   */
@@ -64,12 +70,13 @@ module Window {
   }
 
   /*
-  Shows the default confirm popup of the browser with the given message.
+  Shows the default confirm popup of the browser with the message. This
+  function returns a promise but blocks execution until the popup is closed.
 
-  This function returns a promise but blocks execution until the popup is
-  closed.
-
-    Window.confirm("Are you ready?")
+    case await Window.confirm("Are you ready?") {
+      Ok => "The user OK-d the popup."
+      Err => "The user cancelled."
+    }
   */
   fun confirm (message : String) : Promise(Result(String, Void)) {
     `
@@ -86,7 +93,7 @@ module Window {
   }
 
   /*
-  Gets the width of the scrollbar.
+  Returns the width of the scrollbar.
 
     Window.getScrollbarWidth() == 10
   */
@@ -143,7 +150,7 @@ module Window {
   }
 
   /*
-  Returns true if the given url is the same as the current url of the page.
+  Returns `true` if the UL is the same as the current URL of the page.
 
     Window.isActiveURL("https://www.example.com")
   */
@@ -178,7 +185,7 @@ module Window {
   }
 
   /*
-  Returns `true` if the given media query matches.
+  Returns `true` if the media query matches.
 
     Window.matchesMediaQuery("(max-width: 320px)")
   */
@@ -202,7 +209,7 @@ module Window {
   }
 
   /*
-  Opens the given url in a new window or tab.
+  Opens the URL in a new window or tab.
 
     Window.open("https://www.google.com")
   */
@@ -218,9 +225,9 @@ module Window {
   execution until the popup is closed. If the user cancelled the popup it
   returns `Maybe.Nothing`.
 
-    case (Window.prompt("How old are you?")) {
-      Maybe.Just(value) => Debug.log(value)
-      Maybe.Nothing => Debug.log("User cancelled")
+    case await Window.prompt("How old are you?") {
+      Just(value) => "The user provided the value: #{value}"
+      Nothing => "The user cancelled!"
     }
   */
   fun prompt (label : String, current : String = "") : Promise(Maybe(String)) {
@@ -348,7 +355,7 @@ module Window {
   /*
   Triggers a jump to the current location on the page.
 
-  When a page loads and the current url has a hash `#anchor-name`, the browser
+  When a page loads and the current URL has a hash `#anchor-name`, the browser
   automatically jumps to the element with the matching id or to the anchor tag
   with the matching name `<a name="anchor-name">`. This behavior does not happen
   when the history is manipulated manually.
@@ -368,7 +375,7 @@ module Window {
   }
 
   /*
-  Returns the current `Url` of the window.
+  Returns the current URL of the window.
 
     Window.url().host == "www.example.com"
   */

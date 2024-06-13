@@ -1,4 +1,4 @@
-/* Functions for handling boolean values. */
+/* This module provides functions for working with boolean values. */
 module Bool {
   /*
   Converts a boolean to a string.

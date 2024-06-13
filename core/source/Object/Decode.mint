@@ -1,9 +1,9 @@
-/* Functions for decoding specific types from an `Object`. */
+/* This module provides functions for decoding specific types from an `Object`. */
 module Object.Decode {
   /*
-  Decodes the object as an `Array` using the given decoder.
+  Decodes the object as an `Array` using the decoder.
 
-    Object.Decode.array(`["A", "B"]`, Object.Decode.string) == Result.Ok(["a", "b"])
+    Object.Decode.array(`["A"]`, Object.Decode.string) == Result.Ok(["a"])
   */
   fun array (
     input : Object,
@@ -22,7 +22,7 @@ module Object.Decode {
   }
 
   /*
-  Decodes a field from an object using the given decoder.
+  Decodes a field from an object using the decoder.
 
     Object.Decode.field(
       `{field: "Value"}`, "field", Object.Decode.string) == Result.Ok("Value")
@@ -36,7 +36,7 @@ module Object.Decode {
   }
 
   /*
-  Decodes the object as a `Maybe(a)` using the given decoder.
+  Decodes the object as a `Maybe(a)` using the decoder.
 
     Object.Decode.maybe(`"A"`, Object.Decode.String) == Result.Ok(Maybe.Just("A"))
     Object.Decode.maybe(`null`, Object.Decode.String) == Result.Ok(Maybe.Nothing)

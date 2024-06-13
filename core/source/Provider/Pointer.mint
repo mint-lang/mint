@@ -1,12 +1,34 @@
 /* Represents a subscription for `Provider.Pointer` */
-type Provider.Pointer.Subscription {
+type Provider.Pointer {
   downs : Function(Html.Event, Promise(Void)),
   moves : Function(Html.Event, Promise(Void)),
   ups : Function(Html.Event, Promise(Void))
 }
 
-/* A provider for global Pointer events. */
-provider Provider.Pointer : Provider.Pointer.Subscription {
+/*
+A provider for global pointer events.
+
+```
+component Main {
+  state position : Tuple(Number, Number) = {0, 0}
+
+  use Provider.Pointer {
+    downs: Promise.never1,
+    ups: Promise.never1,
+    moves: (event : Html.Event) {
+      next {
+        position: {event.pageX, event.pageY}
+      }
+    }
+  }
+
+  fun render : Html {
+    <div>"#{position[0]}, #{position[1]}"</div>
+  }
+}
+```
+*/
+provider Provider.Pointer : Provider.Pointer {
   /* The listener unsubscribe functions. */
   state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe.Nothing
 

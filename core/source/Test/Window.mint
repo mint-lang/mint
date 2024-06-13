@@ -1,4 +1,4 @@
-/* Utility functions for the window when testing. */
+/* This module provides functions for the window when writing tests. */
 module Test.Window {
   /* Sets the horizontal scroll position of the window during a test. */
   fun setScrollLeft (context : Test.Context(a), to : Number) : Test.Context(a) {

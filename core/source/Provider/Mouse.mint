@@ -1,16 +1,38 @@
 /* Represents a subscription for `Provider.Mouse` */
-type Provider.Mouse.Subscription {
+type Provider.Mouse {
   clicks : Function(Html.Event, Promise(Void)),
   moves : Function(Html.Event, Promise(Void)),
   ups : Function(Html.Event, Promise(Void))
 }
 
-/* A provider for global mouse events. */
-provider Provider.Mouse : Provider.Mouse.Subscription {
-  /* The listener unsubscribe functions. */
+/*
+A provider for global mouse events.
+
+```
+component Main {
+  state position : Tuple(Number, Number) = {0, 0}
+
+  use Provider.Mouse {
+    clicks: Promise.never1,
+    ups: Promise.never1,
+    moves: (event : Html.Event) {
+      next {
+        position: {event.pageX, event.pageY}
+      }
+    }
+  }
+
+  fun render : Html {
+    <div>"#{position[0]}, #{position[1]}"</div>
+  }
+}
+```
+*/
+provider Provider.Mouse : Provider.Mouse {
+  /* The unsubscribe functions. */
   state listeners : Maybe(Tuple(Function(Void), Function(Void), Function(Void))) = Maybe.Nothing
 
-  /* The state to hold the animation frame id. */
+  /* The state to hold the animation frame ID. */
   state id : Number = 0
 
   /* Updates the provider. */

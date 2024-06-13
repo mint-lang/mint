@@ -1,9 +1,10 @@
+/* This module provides functions for working with the `Number` type. */
 module Number {
   /*
-  Formats the given number using the given prefix and separating the digits
-  by 3 with a comma.
+  Formats the number using the prefix and separating the digits by 3 with a
+  comma.
 
-    Number.format("$ ", 1034150) == "$ 1,034,150"
+    Number.format(1034150, "$ ") == "$ 1,034,150"
   */
   fun format (number : Number, prefix : String) : String {
     let string =
@@ -34,10 +35,10 @@ module Number {
   }
 
   /*
-  Tries to parse the given string into a number.
+  Tries to parse the string input into a number.
 
-    Number.fromString("asd") == Maybe.nothing()
-    Number.fromString("012") == Maybe.just(12)
+    Number.fromString("012") == Maybe.Just(12)
+    Number.fromString("asd") == Maybe.Nothing
   */
   fun fromString (input : String) : Maybe(Number) {
     `
@@ -46,7 +47,7 @@ module Number {
         return #{Maybe.Nothing}
       }
 
-      let value = Number(#{input})
+      const value = Number(#{input})
 
       if (Number.isNaN(value)) {
         return #{Maybe.Nothing}
@@ -58,53 +59,53 @@ module Number {
   }
 
   /*
-  Returns true if given number is even.
+  Returns `true` if number is even.
 
-    Number.isEven(1) == true
     Number.isEven(2) == false
+    Number.isEven(1) == true
   */
-  fun isEven (input : Number) : Bool {
-    `Math.abs(#{input} % 2) === 0`
+  fun isEven (number : Number) : Bool {
+    `Math.abs(#{number} % 2) === 0`
   }
 
   /*
-  Returns true if given number is `NaN`.
+  Returns `true` if number is `NaN`.
 
     Number.isNaN(`NaN`) == true
     Number.isNaN(0) == false
   */
-  fun isNaN (input : Number) : Bool {
-    `isNaN(#{input})`
+  fun isNaN (number : Number) : Bool {
+    `isNaN(#{number})`
   }
 
   /*
-  Returns true if given number is odd.
+  Returns `true` if number is odd.
 
     Number.isOdd(1) == false
     Number.isOdd(2) == true
   */
-  fun isOdd (input : Number) : Bool {
-    `#{input} % 2 === 1`
+  fun isOdd (number : Number) : Bool {
+    `#{number} % 2 === 1`
   }
 
   /*
   Formats a number using fixed-point notation.
 
-  The first arguments specifies the number of digits to appear after the decimal
-  point, it can be between 0 and 20.
+  The last arguments specifies the number of digits to appear after the
+  decimal point, it can be between 0 and 20.
 
-    Number.toFixed(2, 0.1234567) == "0.12"
+    Number.toFixed(0.1234567, 2) == "0.12"
   */
-  fun toFixed (input : Number, decimalPlaces : Number) : String {
-    `#{input}.toFixed(#{decimalPlaces})`
+  fun toFixed (number : Number, decimalPlaces : Number) : String {
+    `#{number}.toFixed(#{decimalPlaces})`
   }
 
   /*
-  Returns the string representation of the given number.
+  Returns the string representation of the number.
 
     Number.toString(123) == 123
   */
-  fun toString (input : Number) : String {
-    `#{input}.toString()`
+  fun toString (number : Number) : String {
+    `#{number}.toString()`
   }
 }

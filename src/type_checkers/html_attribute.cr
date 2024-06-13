@@ -83,6 +83,8 @@ module Mint
           expected STRING, type
           snippet "The attribute in question is here:", node
         end unless Comparer.compare(type, STRING)
+
+        type
       else
         prop =
           component
@@ -109,6 +111,9 @@ module Mint
         prop_type =
           resolve prop
 
+        resolved =
+          Comparer.compare(prop_type, type)
+
         error! :html_attribute_component_property_type_mismatch do
           block do
             text "The type of the value for the property"
@@ -121,10 +126,10 @@ module Mint
           expected prop_type, type
 
           snippet "The attribute in question is here:", node
-        end unless Comparer.compare(prop_type, type)
-      end
+        end unless resolved
 
-      type
+        resolved
+      end
     end
   end
 end

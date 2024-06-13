@@ -1,7 +1,7 @@
-/* Utility functions for working with `String`. */
+/* This module provides functions for working with the `String` type. */
 module String {
   /*
-  Capitalizes each letter in the given string.
+  Capitalizes each letter in the string.
 
     String.capitalize("The quick brown fox jumps.") == "The Quick Brown Fox Jumps."
   */
@@ -13,7 +13,7 @@ module String {
   Returns a string representing the character (exactly one UTF-16 code unit) at
   the specified index. If index is out of range, it returns an empty string.
 
-    String.charAt("The quick brown fox jumps over the lazy dog.", 4) == "q"
+    String.charAt("The quick brown fox jumps.", 4) == "q"
   */
   fun charAt (string : String, index : Number) : String {
     `#{string}.charAt(#{index})`
@@ -21,9 +21,9 @@ module String {
 
   /*
   Returns an integer between 0 and 65535 representing the UTF-16 code unit at
-  the given index.
+  the index.
 
-    String.charCodeAt("The quick brown fox jumps over the lazy dog.", 4) == Maybe.Just(113)
+    String.charCodeAt("The quick brown fox jumps.", 4) == Maybe.Just(113)
   */
   fun charCodeAt (string : String, index : Number) : Maybe(Number) {
     `
@@ -40,8 +40,7 @@ module String {
   }
 
   /*
-  Removes all occurrences of the given character from the end of the
-  given string.
+  Removes all occurrences of the character from the end of the string.
 
     String.chopEnd("The quick brown fox jumps.", ".") == "The quick brown fox jumps"
   */
@@ -58,8 +57,7 @@ module String {
   }
 
   /*
-  Removes all occurrences of the given character from the start of the
-  given string.
+  Removes all occurrences of the character from the start of the string.
 
     String.chopStart("The quick brown fox jumps.", "T") == "he quick brown fox jumps."
   */
@@ -79,11 +77,16 @@ module String {
   Returns a non-negative integer that is the UTF-16 code point value.
 
   * If there is no element at pos, returns `Maybe.Nothing`.
-  * If the element at pos is a UTF-16 high surrogate, returns the code point of the surrogate pair.
-  * If the element at pos is a UTF-16 low surrogate, returns only the low surrogate code point.
 
+  * If the element at pos is a UTF-16 high surrogate, returns the code point of
+    the surrogate pair.
 
-    String.codePointAt("☃★♲", 1) == Maybe.Just(9733)
+  * If the element at pos is a UTF-16 low surrogate, returns only the low
+    surrogate code point.
+
+  ```
+  String.codePointAt("☃★♲", 1) == Maybe.Just(9733)
+  ```
   */
   fun codePointAt (string : String, index : Number) : Maybe(Number) {
     `
@@ -100,7 +103,7 @@ module String {
   }
 
   /*
-  Joins the given array of strings.
+  Joins the array of strings.
 
     String.concat(["The", "quick", "brown", "fox", "jumps."]) == "Thequickbrownfoxjumps."
   */
@@ -139,13 +142,13 @@ module String {
   }
 
   /*
-  Determines whether a string ends with the characters of a specified string,
-  returning `true` or `false` as appropriate.
+  Determines whether a string ends with the pattern, returning `true` or
+  `false` as appropriate.
 
     String.endsWith("The quick brown fox jumps.", "jumps.") == true
   */
-  fun endsWith (string : String, end : String) : Bool {
-    `#{string}.endsWith(#{end})`
+  fun endsWith (string : String, pattern : String) : Bool {
+    `#{string}.endsWith(#{pattern})`
   }
 
   /*
@@ -167,7 +170,7 @@ module String {
   }
 
   /*
-  Indents the string with the given number of spaces.
+  Indents the string with the number of spaces.
 
     String.indent("The quick brown fox jumps.", 2) == "  The quick brown fox jumps."
     String.indent("The quick brown fox jumps.", 2, "-", false) == "--The quick brown fox jumps."
@@ -182,8 +185,8 @@ module String {
   }
 
   /*
-  Returns the index within the calling String object of the first occurrence of
-  the specified value, returns `Maybe.Nothing` if the value is not found.
+  Returns the index within the string of the first occurrence of the value,
+  returns `Maybe.Nothing` if the value is not found.
 
     String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing
     String.indexOf("The quick brown fox jumps over the lazy dog.", "fox") == Maybe.Just(16)
@@ -203,7 +206,7 @@ module String {
   }
 
   /*
-  Returns if the given string is an anagram of the other string.
+  Returns if the string is an anagram of the other string.
 
     String.isAnagram("The", "quick") == false
     String.isAnagram("rail safety", "fairy tales") == true
@@ -267,7 +270,7 @@ module String {
   }
 
   /*
-  Joins the given array of string into a single string using the separator.
+  Joins the array of strings into a single string using the separator.
 
     String.join(["The","quick","brown", "fox", "jumps."], " ") == "The quick brown fox jumps."
   */
@@ -276,8 +279,8 @@ module String {
   }
 
   /*
-  Returns the index within the calling String object of the last occurrence of
-  the specified value, returns `Maybe.Nothing` if the value is not found.
+  Returns the index within the string of the last occurrence of the specified
+  value, returns `Maybe.Nothing` if the value is not found.
 
     String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing
     String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "the") == Maybe.Just(31)
@@ -306,44 +309,39 @@ module String {
   }
 
   /*
-  Pads the current string with another string (multiple times, if needed) until
-  the resulting string reaches the given length. The padding is applied from
-  the end of the current string.
+  Pads the string with another string (multiple times, if needed) until the
+  resulting string reaches the given length. The padding is applied from the
+  end of the string.
 
     String.padEnd("5", "0", 2) == "50"
   */
-  fun padEnd (
-    string : String,
-    padString : String,
-    targetLength : Number
-  ) : String {
+  fun padEnd (string : String, padString : String, targetLength : Number) : String {
     `#{string}.padEnd(#{targetLength}, #{padString})`
   }
 
   /*
-  Pads the current string with another string (multiple times, if needed) until
-  the resulting string reaches the given length. The padding is applied from
-  the start of the current string.
+  Pads the string with another string (multiple times, if needed) until the
+  resulting string reaches the given length. The padding is applied from the
+  start of the string.
 
     String.padStart("5", "0", 2) == "05"
   */
-  fun padStart (
-    string : String,
-    padString : String,
-    targetLength : Number
-  ) : String {
+  fun padStart (string : String, padString : String, targetLength : Number) : String {
     `#{string}.padStart(#{targetLength}, #{padString})`
   }
 
   /*
   Parameterizes the string:
-  - replaces non alphanumeric, dash and underscore characters with dash
-  - converts title case to dash case (TitleCase -> title-case)
-  - collapses multiple dashes into a single one
-  - removes the leading and trailing dash(es)
-  - converts to lowercase
 
-    String.parameterize("The quick brown fox jumps.") == "the-quick-brown-fox-jumps"
+  * replaces non alphanumeric, dash and underscore characters with dash
+  * converts title case to dash case (`TitleCase -> title-case`)
+  * collapses multiple dashes into a single one
+  * removes the leading and trailing dash(es)
+  * converts to lowercase
+
+  ```
+  String.parameterize("The quick brown fox jumps.") == "the-quick-brown-fox-jumps"
+  ```
   */
   fun parameterize (string : String) : String {
     `
@@ -358,7 +356,7 @@ module String {
   }
 
   /*
-  Repeats the given string the given number of times.
+  Repeats the string by the specified number of times.
 
     String.repeat(3, "The") == "TheTheThe"
   */
@@ -367,36 +365,28 @@ module String {
   }
 
   /*
-  Returns a new string with the first matches of a pattern replaced by a
+  Returns a new string with the first match of a pattern replaced by the
   replacement.
 
     String.replace("The quick brown fox jumps.", "fox", "bear") ==
       "The quick brown bear jumps."
   */
-  fun replace (
-    string : String,
-    pattern : String,
-    replacement : String
-  ) : String {
+  fun replace (string : String, pattern : String, replacement : String) : String {
     `#{string}.replace(#{pattern}, #{replacement})`
   }
 
   /*
-  Returns a new string with all matches of a pattern replaced by a replacement.
+  Returns a new string with all matches of a pattern replaced by the replacement.
 
     String.replaceAll("The quick brown fox jumps over the lazy fox.", "fox", "bear") ==
       "The quick brown bear jumps over the lazy bear."
   */
-  fun replaceAll (
-    string : String,
-    pattern : String,
-    replacement : String
-  ) : String {
+  fun replaceAll (string : String, pattern : String, replacement : String) : String {
     `#{string}.replaceAll(#{pattern}, #{replacement})`
   }
 
   /*
-  Reverses the given string.
+  Reverses the string.
 
      String.reverse("The quick brown fox jumps.") == ".spmuj xof nworb kciuq ehT"
   */
@@ -405,7 +395,7 @@ module String {
   }
 
   /*
-  Returns number of characters in the given string.
+  Returns number of characters in the string.
 
     String.size("The quick brown fox jumps.") == 26
   */
@@ -414,7 +404,7 @@ module String {
   }
 
   /*
-  Splits the given string using the given separator.
+  Splits the string using the separator.
 
     String.split("The quick brown fox jumps.", " ") ==
       ["The", "quick", "brown", "fox", "jumps."]
@@ -424,13 +414,13 @@ module String {
   }
 
   /*
-  Determines whether a string starts with the characters of a specified string,
-  returning `true` or `false` as appropriate.
+  Determines whether a string starts with the pattern, returning `true` or
+  `false` as appropriate.
 
     String.startsWith("The quick brown fox jumps.", "The") == true
   */
-  fun startsWith (string : String, end : String) : Bool {
-    `#{string}.startsWith(#{end})`
+  fun startsWith (string : String, pattern : String) : Bool {
+    `#{string}.startsWith(#{pattern})`
   }
 
   /*
@@ -452,7 +442,7 @@ module String {
   }
 
   /*
-  Convert the given string into an array of strings.
+  Convert the string into an array of strings.
 
     String.toArray("Hello") == ["H", "e", "l", "l", "o"]
   */
@@ -461,7 +451,7 @@ module String {
   }
 
   /*
-  Converts the given string to lowercase.
+  Converts the string to lowercase.
 
      String.toLowerCase("HELLO") == "hello"
   */
@@ -470,7 +460,7 @@ module String {
   }
 
   /*
-  Converts the given string to lowercase.
+  Converts the string to uppercase.
 
      String.toUpperCase("hello") == "HELLO"
   */
@@ -488,7 +478,7 @@ module String {
   }
 
   /*
-  Returns the given string or the given default value if the string is empty.
+  Returns the string or the default value if the string is empty.
 
     String.withDefault("", "The quick brown fox jumps.") == "The quick brown fox jumps."
     String.withDefault("Hello", "The quick brown fox jumps.") == "Hello"
@@ -502,9 +492,9 @@ module String {
   }
 
   /*
-  Wraps the string with the given start and end characters.
+  Wraps the string with the start and end characters.
 
-    String.wrap("The quick brown fox jumps.", "{","}") == "{The quick brown fox jumps.}"
+    String.wrap("The quick brown fox jumps.", "{", "}") == "{The quick brown fox jumps.}"
   */
   fun wrap (string : String, start : String, end : String) : String {
     "#{start}#{string}#{end}"

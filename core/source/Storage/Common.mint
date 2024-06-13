@@ -13,9 +13,15 @@ type Storage.Error {
   Unknown
 }
 
-/* Common implementation of the storage API. */
+/*
+This module provides functions to work with the [Storage Web API]. This module
+should not be used directly, it is used by `Storage.Local` and `Storage.Session`
+modules.
+
+[Storage Web API]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
+*/
 module Storage.Common {
-  /* Clears the given storage. */
+  /* Clears the storage, removing all key-value pairs. */
   fun clear (storage : Storage) : Result(Storage.Error, Void) {
     `
     (() => {
@@ -34,7 +40,7 @@ module Storage.Common {
     `
   }
 
-  /* Deletes the value with the given key from the given storage. */
+  /* Deletes the value with the key from the storage. */
   fun delete (storage : Storage, key : String) : Result(Storage.Error, Void) {
     `
     (() => {
@@ -53,7 +59,7 @@ module Storage.Common {
     `
   }
 
-  /* Gets the value of given key in the given storage. */
+  /* Gets the value of the key in the storage. */
   fun get (storage : Storage, key : String) : Result(Storage.Error, String) {
     `
     (() => {
@@ -77,7 +83,7 @@ module Storage.Common {
     `
   }
 
-  /* Returns the keys in the given storage. */
+  /* Returns alll the keys in the storage. */
   fun keys (storage : Storage) : Result(Storage.Error, Array(String)) {
     `
     (() => {
@@ -95,7 +101,7 @@ module Storage.Common {
     `
   }
 
-  /* Sets the given key to the given value in the given storage. */
+  /* Sets the key to the value in the storage. */
   fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {
     `
     (() => {

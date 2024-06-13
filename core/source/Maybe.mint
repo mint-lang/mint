@@ -1,15 +1,15 @@
-/* The data structure for Maybe. */
+/* Represent values that may or may not exist. */
 type Maybe(value) {
   Just(value)
   Nothing
 }
 
+/* This module provides functions to work with the `Maybe` type. */
 module Maybe {
   /*
   Maps the value of a maybe with a possibility to discard it.
 
-    Maybe.Just(4)
-    |> Maybe.andThen((num : Number) : Maybe(String) {
+    Maybe.andThen(Maybe.Just(4), (num : Number) : Maybe(String) {
       if (num > 4) {
         Maybe.Just(Number.toString(num))
       } else {
@@ -19,10 +19,10 @@ module Maybe {
   */
   fun andThen (
     maybe : Maybe(value),
-    transform : Function(value, Maybe(result))
+    function : Function(value, Maybe(result))
   ) : Maybe(result) {
     case maybe {
-      Just(value) => transform(value)
+      Just(value) => function(value)
       Nothing => Maybe.Nothing
     }
   }
@@ -31,8 +31,8 @@ module Maybe {
   Flattens a nested maybe.
 
     (Maybe.Just("A")
-    |> Maybe.Just()
-    |> Maybe.flatten()) == Maybe.Just("A")
+    |> Maybe.Just
+    |> Maybe.flatten) == Maybe.Just("A")
   */
   fun flatten (maybe : Maybe(Maybe(value))) : Maybe(value) {
     case maybe {
@@ -42,26 +42,30 @@ module Maybe {
   }
 
   /*
-  Returns whether or not the maybe is just a value or not.
+  Returns whether the maybe is just a value.
 
-     Maybe.isJust(Maybe.Just("A")) == true
-     Maybe.isJust(Maybe.Nothing) == false
+    Maybe.isJust(Maybe.Just("A")) == true
+    Maybe.isJust(Maybe.Nothing) == false
   */
   fun isJust (maybe : Maybe(value)) : Bool {
     maybe != Maybe.Nothing
   }
 
   /*
-  Returns whether or not the maybe is just nothing or not.
+  Returns whether the maybe is nothing.
 
-    Maybe.isNothing(Maybe.Just("A")) == false
     Maybe.isNothing(Maybe.Nothing("A")) == false
+    Maybe.isNothing(Maybe.Just("A")) == false
   */
   fun isNothing (maybe : Maybe(value)) : Bool {
     maybe == Maybe.Nothing
   }
 
-  /* Returns a maybe containing just the given value. */
+  /*
+  Returns a maybe containing just the value.
+
+    Maybe.just("A") == Maybe.Just("A")
+  */
   fun just (value : value) : Maybe(value) {
     Maybe.Just(value)
   }
@@ -69,23 +73,31 @@ module Maybe {
   /*
   Maps the value of a maybe.
 
-    (Maybe.Just(1)
-    |> Maybe.map((number : Number) : Number { number + 2 })) == 3
+    Maybe.map(
+      Maybe.Just(1),
+      (number : Number) { number + 2 })) == Maybe.Just(3)
   */
-  fun map (maybe : Maybe(value), func : Function(value, result)) : Maybe(result) {
+  fun map (
+    maybe : Maybe(value),
+    function : Function(value, result)
+  ) : Maybe(result) {
     case maybe {
-      Just(value) => Maybe.Just(func(value))
+      Just(value) => Maybe.Just(function(value))
       Nothing => Maybe.Nothing
     }
   }
 
-  /* Returns nothing. */
+  /*
+  Returns nothing.
+
+    Maybe.nothing() == Maybe.Nothing
+  */
   fun nothing : Maybe(value) {
     Maybe.Nothing
   }
 
   /*
-  Returns the first maybe with value of the array or nothing if all are nothing.
+  Returns the first maybe with a value or nothing if all are nothing.
 
     Maybe.oneOf([Maybe.Just("A"), Maybe.Nothing]) == Maybe.just("A")
   */
@@ -96,7 +108,7 @@ module Maybe {
   }
 
   /*
-  Converts the maybe to a result using the given value as the error.
+  Converts the maybe to a result using the value as the error.
 
     Maybe.toResult(Maybe.Nothing, "Error") == Result.Error("Error")
     Maybe.toResult(Maybe.Just("A"), "Error") == Result.Ok("A")
@@ -111,23 +123,23 @@ module Maybe {
   /*
   Returns the value of a maybe or the given value if it's nothing.
 
-    Maybe.withDefault(Maybe.Nothing, "A") == "A"
     Maybe.withDefault(Maybe.Just("B"), "A") == "B"
+    Maybe.withDefault(Maybe.Nothing, "A") == "A"
   */
   fun withDefault (maybe : Maybe(value), defaultValue : value) : value {
     maybe or defaultValue
   }
 
   /*
-  Returns the value of a *maybe*, or calls the given *func* otherwise.
+  Returns the value of a maybe, or calls the given function otherwise.
 
-    Maybe.withLazyDefault(Maybe.nothing(), () { "A" }) == "A"
-    Maybe.withLazyDefault(Maybe.just("B"), () { "A" }) == "B"
+    Maybe.withLazyDefault(Maybe.Just("B"), () { "A" }) == "B"
+    Maybe.withLazyDefault(Maybe.Nothing, () { "A" }) == "A"
   */
-  fun withLazyDefault (maybe : Maybe(value), func : Function(value)) : value {
+  fun withLazyDefault (maybe : Maybe(value), function : Function(value)) : value {
     case maybe {
       Just(value) => value
-      Nothing => func()
+      Nothing => function()
     }
   }
 }

@@ -1,12 +1,13 @@
 /*
-Functions for the Map data structure for mapping keys to values.
+This module provides functions for the `Map` data structure (mapping keys to
+values).
 
-Implementation whise we are using an array of tuples where the first item is
+Implementation wise we are using an array of tuples where the first item is
 the key, where the second item is the value.
 */
 module Map {
   /*
-  Removes the item with the key.
+  Deletes the key-value pair.
 
     (Map.empty()
     |> Map.set("a", 1)
@@ -22,7 +23,7 @@ module Map {
   }
 
   /*
-  Removes all keys which match the value.
+  Delete all key-value pairs which match the value.
 
     (Map.empty()
     |> Map.set("a", 1)
@@ -38,13 +39,17 @@ module Map {
       })
   }
 
-  /* Returns an empty map. */
+  /*
+  Returns an empty map.
+
+    Map.empty()
+  */
   fun empty : Map(x, z) {
     `[]`
   }
 
   /*
-  Returns the map as an array of key/value tuples.
+  Returns the map as an array of key-value tuples.
 
     (Map.empty()
     |> Map.set("a", 1)
@@ -61,9 +66,7 @@ module Map {
     (Map.empty()
     |> Map.set("a", 0)
     |> Map.set("b", 1)
-    |> Map.findKeyBy((value : Number) : Bool {
-      value == 1
-    })) == Maybe.just("b")
+    |> Map.findKeyBy((value : Number) { value == 1 })) == Maybe.just("b")
   */
   fun findKeyBy (
     map : Map(key, value),
@@ -78,12 +81,11 @@ module Map {
   }
 
   /*
-  Converts an array of key/value tuples into a Map.
+  Converts an `Array` of key-value tuples into a map.
 
      (Map.empty()
      |> Map.set("a", 1)
-     |> Map.set("b", 2)
-     ) == Map.fromArray([{"a", 1}, {"b", 2}])
+     |> Map.set("b", 2)) == Map.fromArray([{"a", 1}, {"b", 2}])
   */
   fun fromArray (array : Array(Tuple(a, b))) : Map(a, b) {
     `#{array}`
@@ -92,9 +94,9 @@ module Map {
   /*
   Gets the value of the key.
 
-    Map.empty()
+    (Map.empty()
     |> Map.set("key", "value")
-    |> Map.get("key") == Maybe.just("value")
+    |> Map.get("key")) == Maybe.just("value")
   */
   fun get (map : Map(key, value), search : key) : Maybe(value) {
     Array.first(
@@ -150,7 +152,7 @@ module Map {
   }
 
   /*
-  Returns the keys of a map as an array.
+  Returns the keys of a map as an `Array(key)`.
 
     (Map.empty()
     |> Map.set("a", 1)
@@ -164,7 +166,7 @@ module Map {
   }
 
   /*
-  Maps over the keys/values pairs with the function.
+  Maps over the keys-values pairs with the function.
 
     (Map.empty()
     |> Map.set("a", 1)
@@ -185,11 +187,11 @@ module Map {
   /*
   Merges two maps together where the second has the precedence.
 
-    a =
+    let a =
       Map.empty()
       |> Map.set("a", "b")
 
-    b =
+    let b =
       Map.empty()
       |> Map.set("a", "y")
 
@@ -282,9 +284,7 @@ module Map {
     (Map.empty()
     |> Map.set("a", 1)
     |> Map.set("b", 2)
-    |> Map.sortBy((key : String, value : Number) : Number {
-      value - 100
-    })
+    |> Map.sortBy((key : String, value : Number) { value - 100 })
     |> Map.values()) == ["b", "a"]
   */
   fun sortBy (
@@ -310,7 +310,7 @@ module Map {
   }
 
   /*
-  Returns the values of a map as an array.
+  Returns the values of a map as an `Array(value)`.
 
     (Map.empty()
     |> Map.set("a", 1)

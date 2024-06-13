@@ -2,6 +2,12 @@ require "uri"
 
 module Mint
   class Compiler2
+    enum Highlight
+      MintOnly
+      None
+      All
+    end
+
     # This is a Virtual DOM renderer for markdown using Markd shard.
     #
     # The AST for the markdown is a tree where each node refers to the parent
@@ -12,8 +18,8 @@ module Mint
     class VDOMRenderer2
       def self.render(
         *,
+        highlight : Highlight = Highlight::None,
         replacements : Array(Compiled),
-        highlight : Bool? = nil,
         document : Markd::Node,
         separator : String,
         js : Js
@@ -23,6 +29,46 @@ module Mint
           replacements: replacements,
           separator: separator,
           js: js)
+      end
+
+      def self.render_html(
+        *,
+        highlight : Highlight = Highlight::None,
+        replacements : Array(String),
+        document : Markd::Node,
+        separator : String
+      )
+        root =
+          self.new.render(document, separator, highlight)
+
+        processor = uninitialized Node | String, HtmlBuilder -> Nil
+        processor = ->(node : Node | String, builder : HtmlBuilder) do
+          case node
+          in String
+            builder.text node
+          in Node
+            tag =
+              case x = node.tag
+              in Builtin
+                raise "WTF"
+              in String
+                x
+              end
+
+            builder.tag(tag, node.attributes) do
+              node.children.each do |child|
+                processor.call(child, builder)
+              end
+            end
+          end
+        end
+
+        XML.build_fragment(indent: nil) do |xml|
+          builder = HtmlBuilder.new(xml)
+          root.children.each do |child|
+            processor.call(child, builder)
+          end
+        end.strip
       end
 
       def self.render(
@@ -70,8 +116,8 @@ module Mint
       end
 
       class Node
+        property children : Array(Node | String)
         getter attributes : Hash(String, String)
-        getter children : Array(Node | String)
         getter tag : Builtin | String
 
         def initialize(
@@ -86,7 +132,11 @@ module Mint
 
       getter stack : Array(Node) = [] of Node
 
-      def render(document : Markd::Node, separator : String, highlight : Bool?)
+      def render(
+        document : Markd::Node,
+        separator : String,
+        highlight : Highlight
+      ) : Node
         walker =
           document.walker
 
@@ -153,8 +203,9 @@ module Mint
                   "language-#{language}" if language
 
                 children =
-                  if highlight
-                    if language == "mint"
+                  if highlight != Highlight::None
+                    if (highlight == Highlight::MintOnly && language == "mint") ||
+                       highlight == Highlight::All
                       parser = Parser.new(node.text.strip, "source.mint")
                       parser.parse_any
 
@@ -169,23 +220,20 @@ module Mint
                                   part
                                 in Tuple(SemanticTokenizer::TokenType, String)
                                   Node.new("span",
-                                    attributes: {"className" => part[0].to_s.underscore},
+                                    attributes: {"class" => part[0].to_s.underscore},
                                     children: [part[1]] of Node | String)
                                 end
                               end
 
                             Node.new("span",
-                              attributes: {"className" => "line"},
+                              attributes: {"class" => "line"},
                               children: items).as(Node | String)
                           end
                       end
                     end || begin
-                      node
-                        .text
-                        .strip
-                        .split("\n").map do |part|
+                      node.text.strip.split("\n").map do |part|
                         Node.new("span",
-                          attributes: {"className" => "line"},
+                          attributes: {"class" => "line"},
                           children: [part] of Node | String
                         ).as(Node | String)
                       end
@@ -215,17 +263,10 @@ module Mint
             case item
             when String
               unless item.empty?
-                if item.includes?(separator)
-                  items =
-                    item.split(separator).intersperse(separator)
-
-                  stack.last?.try(&.children.concat(items))
-                else
-                  stack.last?.try(&.children.push(item))
-                end
+                stack.last?.try(&.children.concat(replace_skipped(item, separator)))
               end
             when Node
-              stack.last?.try(&.children.push(item))
+              stack.last?.try(&.children.concat(replace_skipped(item, separator)))
             end
 
             # If there is a new block node we push it to the end of the stack,
@@ -264,6 +305,26 @@ module Mint
 
         # There always will be a node since we only render whole documents.
         stack.first
+      end
+
+      def replace_skipped(item : String, separator : String) : Array(Node | String)
+        if separator.size > 0 && item.includes?(separator)
+          item
+            .split(separator)
+            .intersperse(separator)
+            .map { |part| part.as(Node | String) }
+        else
+          [item] of Node | String
+        end
+      end
+
+      def replace_skipped(node : Node, separator : String) : Array(Node | String)
+        node.children =
+          node.children.flat_map do |item|
+            replace_skipped(item, separator)
+          end
+
+        [node] of Node | String
       end
     end
   end

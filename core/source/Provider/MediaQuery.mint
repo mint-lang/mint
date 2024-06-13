@@ -1,17 +1,34 @@
 /* Represents a subscription for `Provider.MediaQuery` */
-type Provider.MediaQuery.Subscription {
+type Provider.MediaQuery {
   changes : Function(Bool, Promise(Void)),
   query : String
 }
 
 /*
-This provider sends changes when the given media query in the subscription
-changes.
+This provider sends changes when the media query in the subscription changes.
+
+```
+component Main {
+  state matches : Bool = false
+
+  use Provider.MediaQuery {
+    query: "(max-width: 1000px)",
+    changes: -> matches
+  }
+
+  fun render : Html {
+    <div>
+      Bool.toString(matches)
+    </div>
+  }
+}
+```
 */
-provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
-  /* The map of the listeners. */
+provider Provider.MediaQuery : Provider.MediaQuery {
+  /* The listeners. */
   state listeners : Map(String, Function(Void)) = Map.empty()
 
+  /* Updates the provider. */
   fun update : Promise(Void) {
     let updatedListeners =
       subscriptions
@@ -19,7 +36,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
         listeners,
         (
           memo : Map(String, Function(Void)),
-          subscription : Provider.MediaQuery.Subscription
+          subscription : Provider.MediaQuery
         ) {
           if Map.get(listeners, subscription.query) == Maybe.Nothing {
             Map.set(
@@ -51,7 +68,7 @@ provider Provider.MediaQuery : Provider.MediaQuery.Subscription {
           let subscription =
             subscriptions
             |> Array.find(
-              (item : Provider.MediaQuery.Subscription) { item.query == query })
+              (item : Provider.MediaQuery) { item.query == query })
 
           if subscription == Maybe.Nothing {
             // Unsubscribe

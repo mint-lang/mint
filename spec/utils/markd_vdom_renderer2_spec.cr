@@ -121,7 +121,7 @@ describe Mint::Compiler2::VDOMRenderer2 do
         node =
           Mint::Compiler2::VDOMRenderer2
             .render(
-              node: renderer.render(document, "___SEPARATOR___", false).children.first,
+              node: renderer.render(document, "___SEPARATOR___", Mint::Compiler2::Highlight::None).children.first,
               replacements: [] of Mint::Compiler2::Compiled,
               separator: "",
               js: js)

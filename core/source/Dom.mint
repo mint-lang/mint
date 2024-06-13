@@ -1,4 +1,8 @@
-/* Functions for working with the DOM. */
+/*
+This module provides functions for working with the [DOM].
+
+[DOM]: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+*/
 module Dom {
   /*
   Blurs the active element of the page.
@@ -10,10 +14,11 @@ module Dom {
   }
 
   /*
-  Returns if the given element is in an element that matches the given
-  selector.
+  Returns if the element is in an other element that matches the selector.
 
-    Dom.containedInSelector(Dom.getElementBySelector("div"), "body")
+    if let Just(div) = Document.getElementBySelector("div") {
+      Dom.containedInSelector(div, "body")
+    }
   */
   fun containedInSelector (element : Dom.Element, selector : String) : Bool {
     `
@@ -30,16 +35,20 @@ module Dom {
   }
 
   /*
-  Returns if the given base element contains the given element.
+  Returns if the base element contains the element.
 
-    Dom.contains(body, div) == true
+    if let Just(div) =  Dom.getElementBySelector("div") {
+      if let Just(body) = Dom.getElementBySelector("body") {
+        Dom.contains(body, div)
+      }
+    }
   */
   fun contains (base : Dom.Element, element : Dom.Element) : Bool {
     `#{base}.contains(#{element})`
   }
 
   /*
-  Creates a new `Dom.Element` with the given tag.
+  Creates a new `Dom.Element` using the tag.
 
     Dom.createElement("div")
   */
@@ -51,9 +60,7 @@ module Dom {
   Tries to focus the given element (if exists) in the next 150 milliseconds.
   Fails silently if there is no element or if the element cannot be focused.
 
-    "my-id"
-    |> Dom.focus
-    |> Dom.getElementById()
+    Dom.focus(Dom.getElementBySelector("input"))
   */
   fun focus (maybeElement : Maybe(Dom.Element)) : Promise(Void) {
     if let Maybe.Just(element) = maybeElement {
@@ -62,7 +69,14 @@ module Dom {
     }
   }
 
-  /* Focuses the first focusable descendant of the given element. */
+  /*
+  Focuses the first focusable descendant of the element. Fails silently if
+  there is no element.
+
+    if let Just(body) = Document.getElementBySelector("body") {
+      Dom.focusFirst(body)
+    }
+  */
   fun focusFirst (element : Dom.Element) : Promise(Void) {
     element
     |> getFocusableElements
@@ -71,11 +85,11 @@ module Dom {
   }
 
   /*
-  Tries to focus the given element in the next 150 milliseconds.
+  Tries to focus the element in the next 150 milliseconds.
 
-    "my-div"
-    |> Dom.getElementById
-    |> Dom.focusWhenVisible()
+    if let Just(input) = Document.getElementBySelector("input") {
+      Dom.focusWhenVisible(input)
+    }
   */
   fun focusWhenVisible (element : Dom.Element) : Promise(Result(String, Void)) {
     `
@@ -120,20 +134,16 @@ module Dom {
   }
 
   /*
-  If the attribute is present, it will return its value on the given element.
+  If the attribute is present, it will return its value on the element.
 
-    outcome =
-      Dom.getElementById("my-div")
-
-    case (outcome) {
-      Maybe.Just(element) => Dom.getAttribute(element, "id") == "my-div"
-      Maybe.Nothing => false
+    if let Just(element) = Dom.getElementById("my-div") {
+      Dom.getAttribute(element, "id") == "my-div"
     }
   */
-  fun getAttribute (element : Dom.Element, name : String) : Maybe(String) {
+  fun getAttribute (element : Dom.Element, attribute : String) : Maybe(String) {
     `
     (() => {
-      const value = #{element}.getAttribute(#{name})
+      const value = #{element}.getAttribute(#{attribute})
 
       if (value === "") {
         return #{Maybe.Nothing}
@@ -145,34 +155,40 @@ module Dom {
   }
 
   /*
-  Returns all child elements of the given element.
+  Returns all child elements of the element.
 
-    Dom.getChildren())
+    if let Just(body) = Dom.getElementBySelector("body") {
+      Dom.getChildren(body)
+    }
   */
   fun getChildren (element : Dom.Element) : Array(Dom.Element) {
     `[...#{element}.children]`
   }
 
   /*
-  Returns the `clientHeight` of the given element.
+  Returns the `clientHeight` of the element.
 
-    Dom.getClientHeight(div) == 200
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getClientHeight(div) == 200
+    }
   */
   fun getClientHeight (element : Dom.Element) : Number {
     `#{element}.clientHeight || 0`
   }
 
   /*
-  Returns the `clientWidth` of the given element.
+  Returns the `clientWidth` of the element.
 
-    Dom.getClientWidth(div) == 200
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getClientWidth(div) == 200
+    }
   */
   fun getClientWidth (element : Dom.Element) : Number {
     `#{element}.clientWidth || 0`
   }
 
   /*
-  Returns the dimensions (BoundingClientRect) of a `Dom.Element`
+  Returns the dimensions (`BoundingClientRect`) of the element.
 
     Dom.getDimensions(Dom.createElement("div")) = {
       bottom: 0,
@@ -185,10 +201,10 @@ module Dom {
       y: 0
     }
   */
-  fun getDimensions (dom : Dom.Element) : Dom.Dimensions {
+  fun getDimensions (element : Dom.Element) : Dom.Dimensions {
     `
     (() => {
-      const rect = #{dom}.getBoundingClientRect()
+      const rect = #{element}.getBoundingClientRect()
 
       return #{{
         bottom: `rect.bottom`,
@@ -205,7 +221,7 @@ module Dom {
   }
 
   /*
-  Gets the element with the given id from anywhere in the page.
+  Gets the element with the id from anywhere in the page.
 
     Dom.getElementById("my-div")
   */
@@ -224,7 +240,7 @@ module Dom {
   }
 
   /*
-  Gets the first element to match the given selector from anywhere in the page.
+  Gets the first element to match the selector from anywhere in the page.
 
     Dom.getElementBySelector("body section > p:first-child")
   */
@@ -266,16 +282,23 @@ module Dom {
   }
 
   /*
-  Gets all descendant elements of an element which are matching
-  the given selector.
+  Gets all descendant elements of an element which are matching the selector.
 
-    Dom.getElementsBySelector(element, "a[name]")
+    if let Just(body) = Dom.getElementBySelector("body") {
+      Dom.getElementsBySelector(body, "a[name]")
+    }
   */
   fun getElementsBySelector (element : Dom.Element, selector : String) : Array(Dom.Element) {
     `Array.from(#{element}.querySelectorAll(#{selector}))`
   }
 
-  /* Returns all focusable descendant elements. */
+  /*
+  Returns all focusable descendant elements.
+
+    if let Just(body) = Dom.getElementBySelector("body") {
+      Dom.getFocusableElements(body)
+    }
+  */
   fun getFocusableElements (element : Dom.Element) : Array(Dom.Element) {
     `
     (() => {
@@ -324,49 +347,59 @@ module Dom {
   }
 
   /*
-  Returns the scrollable height of the given element.
+  Returns the scrollable height of the element.
 
-    Dom.getScrollHeight(div) == 0
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getScrollHeight(div) == 0
+    }
   */
   fun getScrollHeight (element : Dom.Element) : Number {
     `#{element}.scrollHeight || 0`
   }
 
   /*
-  Returns the horizontal scroll position of the given element.
+  Returns the horizontal scroll position of the element.
 
-    Dom.getScrollLeft(div) == 0
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getScrollLeft(div) == 0
+    }
   */
   fun getScrollLeft (element : Dom.Element) : Number {
     `#{element}.scrollLeft || 0`
   }
 
   /*
-  Returns the vertical scroll position of the given element.
+  Returns the vertical scroll position of the element.
 
-    Dom.getScrollTop(div) == 0
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getScrollTop(div) == 0
+    }
   */
   fun getScrollTop (element : Dom.Element) : Number {
     `#{element}.scrollTop || 0`
   }
 
   /*
-  Returns the scrollable width of the given element.
+  Returns the scrollable width of the element.
 
-    Dom.getScrollWidth(div) == 300
+    if let Just(div) = Dom.getElementBySelector("div") {
+      Dom.getScrollWidth(div) == 300
+    }
   */
   fun getScrollWidth (element : Dom.Element) : Number {
     `#{element}.scrollWidth || 0`
   }
 
   /*
-  Returns the table of contents of the given element for the given selectors.
+  Returns the table of contents of the element for the selectors.
 
-    Dom.getTableOfContents(element, "h1, h2, h3, h4") == [
-      {"h1", "The title of the page", "the-title-of-the-page"},
-      {"h2", "A subtitle of the page", "a-subtitle-of-the-page"},
-      {"h3", "A sub-subtitle of the page", "a-sub-subtitle-of-the-page"}
-    ]
+    if let Just(body) = Dom.getElementBySelector("body") {
+      Dom.getTableOfContents(body, "h1, h2, h3, h4") == [
+        {"h1", "The title of the page", "the-title-of-the-page"},
+        {"h2", "A subtitle of the page", "a-subtitle-of-the-page"},
+        {"h3", "A sub-subtitle of the page", "a-sub-subtitle-of-the-page"}
+      ]
+    }
   */
   fun getTableOfContents (element : Dom.Element, selector : String) : Array(Tuple(String, String, String)) {
     element
@@ -389,27 +422,29 @@ module Dom {
   }
 
   /*
-  Returns the tagname of the given element.
+  Returns the tagname of the element.
 
-    ("body"
-    |> Dom.getElementBySelector("body")
-    |> Dom.getTagName) == "BODY"
+    if let Just(body) = Dom.getElementBySelector("body") {
+      Dom.getTagName(body) == "BODY"
+    }
   */
   fun getTagName (element : Dom.Element) : String {
     `#{element}.tagName`
   }
 
   /*
-  Returns the text content of the given element.
+  Returns the text content of the element.
 
-    Dom.getTextContent(Dom.getElementBySelector("body"))
+    if let Just(body) = Document.getElementBySelector("body") {
+      Dom.getTextContent(body)
+    }
   */
   fun getTextContent (element : Dom.Element) : String {
     `#{element}.textContent`
   }
 
   /*
-  Measures the given text width with the given font using the canvas.
+  Measures width of the text with the font using the canvas.
 
     Dom.getTextWidth("Hello There", "20px sans-serif") = 300
   */
@@ -427,18 +462,17 @@ module Dom {
   }
 
   /*
-  Gets the value as string form a `Dom.Element`.
+  Gets the value as string form an element. If the element supports value
+  it will return it, otherwise it returns an empty string.
 
-  If the element supports value it will return it, otherwise it returns an
-  empty string.
-
-    Dom.getValue("input[value=hello]") == "hello"
-    Dom.getValue("div") == ""
+    if let Just(input) = Document.getElementBySelector("input[value=hello]") {
+      Dom.getValue(input) == "hello"
+    }
   */
-  fun getValue (dom : Dom.Element) : String {
+  fun getValue (element : Dom.Element) : String {
     `
     (() => {
-      let value = #{dom}.value
+      let value = #{element}.value
 
       if (typeof value === "string") {
         return value
@@ -450,16 +484,16 @@ module Dom {
   }
 
   /*
-  Returns whether or not the given `Dom.Element` matches the given selector.
+  Returns whether or not the element matches the selector.
 
     Dom.matches(Dom.createElement("div"), "div") == true
     Dom.matches(Dom.createElement("div"), "p") == false
   */
-  fun matches (dom : Dom.Element, selector : String) : Bool {
+  fun matches (element : Dom.Element, selector : String) : Bool {
     `
     (() => {
       try {
-        return #{dom}.matches(#{selector})
+        return #{element}.matches(#{selector})
       } catch (error) {
         return false
       }
@@ -468,17 +502,18 @@ module Dom {
   }
 
   /*
-  Scrolls the given element to the given position.
+  Scrolls the element to the position.
 
-    Dom.scrollTo(element, 10, 10)
+    if let Just(body) = Document.getElementBySelector("body") {
+      Dom.scrollTo(body, 10, 10)
+    }
   */
   fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
     `#{element}.scrollTo({ left: #{left}, top: #{top} })`
   }
 
   /*
-  Sets the given attribute to the given value of the given element and
-  returns the element.
+  Sets the attribute to the value of the element and returns the element.
 
     "a"
     |> Dom.createElement
@@ -493,12 +528,13 @@ module Dom {
   }
 
   /*
-  Sets the given style to the given value of the given element.
+  Sets the style to the value of the element.
 
-    "my-div"
-    |> Dom.getElementById()
-    |> Dom.setStyle("background", "red")
-    |> Dom.setStyle("color", "white")
+    if let Just(div) = Document.getElementBySelector("div") {
+      div
+      |> Dom.setStyle("background", "red")
+      |> Dom.setStyle("color", "white")
+    }
   */
   fun setStyle (element : Dom.Element, name : String, value : String) : Dom.Element {
     `
@@ -510,9 +546,12 @@ module Dom {
   }
 
   /*
-  Sets the value property of a `Dom.Element`.
+  Sets the value property of an element. It is used to set the value of `input`
+  fields programmatically.
 
-  It is used to set the value of `input` fields programmatically.
+    if let Just(input) = Document.getElementBySelector("input") {
+      Dom.setValue(input, "Hello World!")
+    }
   */
   fun setValue (element : Dom.Element, value : String) : Dom.Element {
     `
@@ -526,7 +565,9 @@ module Dom {
   /*
   Smooth scroll the given element to the given position.
 
-    Dom.smoothScrollTo(element, 10, 10)
+    if let Just(body) = Document.getElementBySelector("body") {
+      Dom.smoothScrollTo(body, 10, 10)
+    }
   */
   fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
     `#{element}.scrollTo({ behavior: 'smooth', left: #{left}, top: #{top} })`

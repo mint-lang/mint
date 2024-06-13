@@ -1,12 +1,33 @@
 /* Represents a subscription for `Provider.ElementSize` */
-type Provider.ElementSize.Subscription {
+type Provider.ElementSize {
   changes : Function(Dom.Dimensions, Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
-/* A provider which provides events when the size of the element changes. */
-provider Provider.ElementSize : Provider.ElementSize.Subscription {
-  /* Keep a state of all observed elements. */
+/*
+A provider which provides events when the size of the element changes.
+
+```
+component Main {
+  state height : Number = 0
+
+  use Provider.ElementSize {
+    element: base,
+    changes: (dimensions : Dom.Dimensions) {
+      next { height: dimensions.height }
+    }
+  }
+
+  fun render : Html {
+    <div as base>
+      "#{height}"
+    </div>
+  }
+}
+```
+*/
+provider Provider.ElementSize : Provider.ElementSize {
+  /* All observed elements. */
   state observedElements : Array(Maybe(Dom.Element)) = []
 
   /* The resize observer. */

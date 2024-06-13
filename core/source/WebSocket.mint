@@ -1,3 +1,4 @@
+/* Data structure for WebSocket configurations. */
 type WebSocket.Config {
   onOpen : Function(WebSocket, Promise(Void)),
   onMessage : Function(String, Promise(Void)),
@@ -7,23 +8,25 @@ type WebSocket.Config {
   url : String
 }
 
-/* This module provides a wrapper over the WebSocket Web API. */
+/*
+This module provides functions for working with the [WebSocket Web API].
+
+[WebSocket Web API]: https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+*/
 module WebSocket {
   /*
-  Closes the given websocket connection.
+  Closes the connection. If the `reconnectOnClose` flag was specified then the
+  connection will reconnect using this function.
 
     WebSocket.close(websocket)
-
-  If the `reconnectOnClose` flag was specified then the connection will
-  reconnect using this function.
   */
   fun close (socket : WebSocket) : Promise(Void) {
     `#{socket}.close()`
   }
 
   /*
-  Closes the given websocket connection without reconnecting, even if the
-  `reconnectOnClose` flag was set.
+  Closes the connection without reconnecting, even if the `reconnectOnClose`
+  flag was set.
 
     WebSocket.closeWithoutReconnecting(websocket)
   */
@@ -37,20 +40,18 @@ module WebSocket {
   }
 
   /*
-  Creates a websocket connection from the given configuration:
-
-    websocket =
-      WebSocket.open({
-        url: "wss://echo.websocket.org",
-        reconnectOnClose: true,
-        onMessage: handleMessage,
-        onError: handleError,
-        onClose: handleClose,
-        onOpen: handleOpen
-      })
-
-  If `reconnectOnClose` is set then when a connection is closed it tries to
+  Creates a `WebSocket` connection using the provided configuration. If
+  `reconnectOnClose` is set then when a connection is closed it tries to
   reconnect, using the same configuration (basically calls open again).
+
+    WebSocket.open({
+      url: "wss://echo.websocket.org",
+      reconnectOnClose: true,
+      onMessage: handleMessage,
+      onError: handleError,
+      onClose: handleClose,
+      onOpen: handleOpen
+    })
   */
   fun open (config : WebSocket.Config) : WebSocket {
     `
@@ -96,7 +97,7 @@ module WebSocket {
   }
 
   /*
-  Sends the given data to the given websocket connection.
+  Sends the data to the connection.
 
     WebSocket.send(websocket, "some data")
   */

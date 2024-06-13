@@ -35,8 +35,8 @@ module Mint
               Markd::Options.new)
 
           VDOMRenderer2.render(
+            highlight: node.highlight ? Highlight::MintOnly : Highlight::None,
             replacements: interpolations,
-            highlight: node.highlight,
             separator: separator,
             document: document,
             js: js)

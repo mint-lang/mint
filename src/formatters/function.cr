@@ -13,7 +13,7 @@ module Mint
         format node.body
 
       arguments =
-        format_arguments node.arguments
+        format_arguments node.arguments, (name.size + (type.try(&.size) || 0) + 4)
 
       comment =
         node.comment.try { |item| "#{format item}\n" }

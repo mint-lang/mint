@@ -1,6 +1,8 @@
+/* This module provides functions for working with functions. */
 module Function {
   /*
-  Debounces a function without arguments.
+  Returns a debounced version of the function which when called repeatedly
+  under inside delay, will be called only once.
 
     Function.debounce(() { Debug.log("Hello World!") }, 100)
   */
@@ -18,7 +20,7 @@ module Function {
   }
 
   /*
-  Debounces a function with only one argument.
+  Same as `debounce` but for functions with only one argument.
 
     Function.debounce1((argument : String) { Debug.log(argument) }, 100)
   */

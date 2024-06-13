@@ -8,7 +8,7 @@ module Mint
         next error :next_call_expected_fields do
           expected "the fields for a next call", word
           snippet self
-        end unless item = record
+        end unless item = record(skip_empty: false)
 
         Ast::NextCall.new(
           from: start_position,

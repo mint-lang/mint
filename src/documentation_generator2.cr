@@ -1,16 +1,30 @@
 module Mint
   class DocumentationGenerator2
+    enum Flag
+      Global
+      Async
+    end
+
     enum Kind
+      TypeField
+      Component
+      Provider
+      Property
       Function
       Constant
       Module
+      Signal
+      Store
+      State
+      Type
+      Get
     end
 
     struct Argument
       include JSON::Serializable
 
       @[JSON::Field(key: "v")]
-      getter default : String?
+      getter value : String?
 
       @[JSON::Field(key: "t")]
       getter type : String?
@@ -20,7 +34,7 @@ module Mint
 
       def initialize(
         *,
-        @default = nil,
+        @value = nil,
         @type = nil,
         @name
       )
@@ -30,29 +44,41 @@ module Mint
     struct Entity
       include JSON::Serializable
 
+      @[JSON::Field(key: "k", converter: Enum::ValueConverter(Mint::DocumentationGenerator2::Kind))]
+      getter kind : Kind
+
       @[JSON::Field(key: "a")]
       getter arguments : Array(Argument)?
-
-      @[JSON::Field(key: "v")]
-      getter default : String?
-
-      @[JSON::Field(key: "t")]
-      getter type : String?
 
       @[JSON::Field(key: "d")]
       getter description : String?
 
+      @[JSON::Field(key: "m")]
+      getter mapping : String?
+
+      @[JSON::Field(key: "s")]
+      getter source : String?
+
+      @[JSON::Field(key: "v")]
+      getter value : String?
+
+      @[JSON::Field(key: "b")]
+      getter? broken : Bool
+
+      @[JSON::Field(key: "t")]
+      getter type : String?
+
       @[JSON::Field(key: "n")]
       getter name : String
 
-      @[JSON::Field(key: "k", converter: Enum::ValueConverter(Mint::DocumentationGenerator2::Kind))]
-      getter kind : Kind
-
       def initialize(
-        *, @description,
+        *,
+        @description = nil,
         @arguments = nil,
-        @default = nil,
+        @mapping = nil,
+        @value = nil,
         @type = nil,
+        @broken,
         @name,
         @kind
       )
@@ -62,48 +88,117 @@ module Mint
     struct TopLevelEntity
       include JSON::Serializable
 
+      @[JSON::Field(key: "f", converter: JSON::ArrayConverter(Enum::ValueConverter(Mint::DocumentationGenerator2::Flag)))]
+      getter flags : Array(Flag)?
+
+      @[JSON::Field(key: "k", converter: Enum::ValueConverter(Mint::DocumentationGenerator2::Kind))]
+      getter kind : Kind
+
       @[JSON::Field(key: "e")]
       getter entities : Array(Entity)?
+
+      @[JSON::Field(key: "s")]
+      getter sources : Array(String)?
 
       @[JSON::Field(key: "d")]
       getter description : String?
 
+      @[JSON::Field(key: "l")]
+      getter link : String?
+
       @[JSON::Field(key: "n")]
       getter name : String
-
-      @[JSON::Field(key: "k", converter: Enum::ValueConverter(Mint::DocumentationGenerator2::Kind))]
-      getter kind : Kind
 
       def initialize(
         *,
         @description = nil,
         @entities = nil,
+        @flags = nil,
+        @link = nil,
         @name,
         @kind
       )
       end
     end
 
+    @formatter = Formatter.new
+
     def resolve(ast : Ast) : Array(TopLevelEntity)
-      (ast.unified_modules).map do |node|
+      (ast.type_definitions +
+        ast.unified_modules +
+        ast.components +
+        ast.providers +
+        ast.stores).map do |node|
         resolve(node)
       end
+    end
+
+    def resolve(node : Ast::Component) : TopLevelEntity
+      entities =
+        node.properties + node.constants +
+          node.functions + node.states +
+          node.gets
+
+      flags =
+        [
+          node.global? ? Flag::Global : nil,
+          node.async? ? Flag::Async : nil,
+        ].compact
+
+      TopLevelEntity.new(
+        description: markdown(node.comment),
+        entities: generate(entities),
+        name: node.name.value,
+        kind: Kind::Component,
+        flags: flags)
+    end
+
+    def resolve(node : Ast::Store) : TopLevelEntity
+      entities =
+        node.functions + node.constants + node.signals +
+          node.states + node.gets
+
+      TopLevelEntity.new(
+        description: markdown(node.comment),
+        entities: generate(entities),
+        name: node.name.value,
+        kind: Kind::Store)
+    end
+
+    def resolve(node : Ast::Provider) : TopLevelEntity
+      entities =
+        node.functions + node.constants + node.signals +
+          node.states + node.gets
+
+      TopLevelEntity.new(
+        description: markdown(node.comment),
+        entities: generate(entities),
+        name: node.name.value,
+        kind: Kind::Provider)
     end
 
     def resolve(node : Ast::Module) : TopLevelEntity
       TopLevelEntity.new(
         entities: generate(node.functions + node.constants),
-        description: node.comment.try(&.to_html),
+        description: markdown(node.comment),
         name: node.name.value,
         kind: Kind::Module)
     end
 
-    def arguments(nodes : Array(Ast::Argument))
-      nodes.map do |node|
-        Argument.new(
-          name: node.name.value,
-          type: type(node.type))
-      end
+    def resolve(node : Ast::TypeDefinition) : TopLevelEntity
+      # parameters =
+      #   "(#{node.parameters.map(&.value).join(", ")})" if node.parameters.any?
+
+      TopLevelEntity.new(
+        description: markdown(node.comment),
+        link: "#{node.name.value}(type)",
+        entities: generate(node.fields),
+        name: node.name.value,
+        kind: Kind::Type)
+    end
+
+    def resolve(node : Ast::Node)
+      raise "WTF"
     end
 
     def generate(nodes : Array(Ast::Node))
@@ -118,46 +213,219 @@ module Mint
       raise "WTF: #{node.class}"
     end
 
-    def generate(node : Ast::Function)
-      Entity.new(
-        description: node.comment.try(&.to_html),
-        arguments: arguments(node.arguments),
-        type: type(node.type),
+    def generate(node : Ast::TypeDefinitionField)
+      entity(
+        mapping: node.mapping.try(&.value.select(String).join),
+        description: node.comment,
+        name: node.key.value,
+        kind: Kind::TypeField,
+        type: node.type)
+    end
+
+    def generate(node : Ast::TypeVariant)
+      arguments =
+        case params = node.parameters
+        when Array(Ast::TypeDefinitionField)
+          params.map do |item|
+            Argument.new(
+              type: @formatter.format(item.type),
+              name: item.key.value)
+          end
+        else
+          params.map do |item|
+            Argument.new(name: @formatter.format(item))
+          end
+        end
+
+      entity(
+        description: node.comment,
+        name: node.value.value,
+        kind: Kind::TypeField,
+        arguments: arguments)
+    end
+
+    def generate(node : Ast::Property)
+      entity(
+        description: node.comment,
         name: node.name.value,
-        kind: Kind::Function)
+        kind: Kind::Property,
+        value: node.default,
+        type: node.type)
     end
 
     def generate(node : Ast::Constant)
-      Entity.new(
-        description: node.comment.try(&.to_html),
+      entity(
+        description: node.comment,
+        value: node.expression,
         name: node.name.value,
         kind: Kind::Constant)
     end
 
-    def type(node : Ast::Node | Nil)
-      case node
-      when Ast::Type
-        parameters =
-          unless node.parameters.empty?
-            values =
-              node.parameters.compact_map do |parameter|
-                case parameter
-                when Ast::Type
-                  type(parameter)
-                when Ast::TypeVariable
-                  parameter.value
-                else
-                  ""
-                end
-              end.join(", ")
+    def generate(node : Ast::Function)
+      arguments =
+        node.arguments.map do |item|
+          Argument.new(
+            value: @formatter.format(item.default),
+            type: @formatter.format(item.type),
+            name: item.name.value)
+        end
 
-            "(#{values})"
+      entity(
+        description: node.comment,
+        name: node.name.value,
+        arguments: arguments,
+        kind: Kind::Function,
+        type: node.type)
+    end
+
+    def generate(node : Ast::Signal)
+      entity(
+        description: node.comment,
+        name: node.name.value,
+        kind: Kind::Signal,
+        value: node.block,
+        type: node.type)
+    end
+
+    def generate(node : Ast::State)
+      entity(
+        description: node.comment,
+        name: node.name.value,
+        value: node.default,
+        kind: Kind::State,
+        type: node.type)
+    end
+
+    def generate(node : Ast::Get)
+      entity(
+        description: node.comment,
+        name: node.name.value,
+        type: node.type,
+        kind: Kind::Get)
+    end
+
+    def entity(
+      *,
+      arguments : Array(Argument)? = nil,
+      description : Ast::Comment? = nil,
+      value : Ast::Node? = nil,
+      mapping : String? = nil,
+      type : Ast::Node? = nil,
+      name : String,
+      kind : Kind
+    )
+      formatted_value =
+        @formatter.format(value)
+
+      formatted_type =
+        @formatter.format(type)
+
+      keyword =
+        case kind
+        in Kind::TypeField
+          ""
+        in Kind::Component
+          "component"
+        in Kind::Provider
+          "provider"
+        in Kind::Property
+          "property"
+        in Kind::Function
+          "fun"
+        in Kind::Constant
+          "const"
+        in Kind::Module
+          "module"
+        in Kind::Signal
+          "signal"
+        in Kind::Store
+          "store"
+        in Kind::State
+          "state"
+        in Kind::Type
+          "type"
+        in Kind::Get
+          "get"
+        end
+
+      size =
+        [
+          (formatted_value.try(&.size.+(3)) || 0), # " = value"
+          (formatted_type.try(&.size.+(3)) || 0),  # " : type"
+          (keyword.try(&.size.+(1)) || 0),         # "fun "
+          (name.size + 1),                         # "name "
+        ]
+
+      args =
+        arguments.try do |items|
+          size << (items.size - 1) * 2 # ", " comma and space
+          size << 2                    # "(", ")" parenthesis
+
+          items.map do |argument|
+            size << (argument.value.try(&.size.+(3)) || 0) # " = value"
+            size << (argument.type.try(&.size.+(3)) || 0)  # " : type"
+            size << argument.name.size                     # "name"
+
+            Argument.new(
+              value: highlight(argument.value),
+              type: highlight(argument.type),
+              name: argument.name)
           end
+        end
 
-        "#{node.name.value}#{parameters}"
-      else
+      Entity.new(
+        description: markdown(description),
+        value: highlight(formatted_value),
+        type: highlight(formatted_type),
+        broken: size.sum > 70,
+        mapping: mapping,
+        arguments: args,
+        name: name,
+        kind: kind)
+    end
+
+    def markdown(node : Ast::Comment | Nil)
+      case node
+      in Ast::Comment
+        document =
+          Markd::Parser.parse(
+            node.content,
+            Markd::Options.new)
+
+        Compiler2::VDOMRenderer2.render_html(
+          highlight: Compiler2::Highlight::All,
+          replacements: [] of String,
+          document: document,
+          separator: "")
+      in Nil
         nil
       end
+    end
+
+    def highlight(node : Nil)
+      nil
+    end
+
+    def highlight(node : Ast::Node)
+      highlight(@formatter.format(node))
+    end
+
+    def highlight(formatted : String)
+      parser =
+        Parser.new(formatted, "source.mint").tap(&.parse_any)
+
+      HtmlBuilder.build(optimize: true, doctype: false) do
+        SemanticTokenizer.tokenize(parser.ast).map do |item|
+          case item
+          in String
+            text item
+          in Tuple(SemanticTokenizer::TokenType, String)
+            span class: item[0].to_s.underscore do
+              text item[1]
+            end
+          end
+        end
+      end.strip
     end
   end
 end

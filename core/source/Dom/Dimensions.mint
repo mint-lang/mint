@@ -10,9 +10,17 @@ type Dom.Dimensions {
   y : Number
 }
 
-/* Methods to work with dimensions in the DOM */
+/*
+This module provides functions for working with dimensions in the [DOM].
+
+[DOM]: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model.
+*/
 module Dom.Dimensions {
-  /* Returns an empty Dom.Dimensions record. */
+  /*
+  Returns an empty `Dom.Dimensions` record.
+
+    Dom.Dimensions.empty()
+  */
   fun empty : Dom.Dimensions {
     {
       bottom: 0,

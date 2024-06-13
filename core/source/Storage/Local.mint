@@ -1,4 +1,8 @@
-/* Functions for the `localStorage` API. */
+/*
+This module provides functions to work with the [LocalStorage Web API].
+
+[LocalStorage Web API]: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+*/
 module Storage.Local {
   /*
   Clears the local storage.
@@ -10,7 +14,7 @@ module Storage.Local {
   }
 
   /*
-  Delete the value with the given key.
+  Deletes the value with the key from the local storage.
 
     Storage.Local.delete("key")
   */
@@ -19,25 +23,27 @@ module Storage.Local {
   }
 
   /*
-  Gets the value of given key.
+  Gets the value of the key in the local storage.
 
-    Storage.Local.get("key")
+    Storage.Local.set("key", "value")
+    Storage.Local.get("key") // "value"
   */
   fun get (key : String) : Result(Storage.Error, String) {
     Storage.Common.get(`localStorage`, key)
   }
 
   /*
-  Returns the keys in the local storage.
+  Returns all the keys in the local storage.
 
-    Storage.Local.keys() == []
+    Storage.Local.set("key", "value")
+    Storage.Local.keys() == ["key"]
   */
   fun keys : Result(Storage.Error, Array(String)) {
     Storage.Common.keys(`localStorage`)
   }
 
   /*
-  Sets the given key to the given value.
+  Sets the key to the value in the local storage.
 
     Storage.Local.set("key", "value")
   */
@@ -48,7 +54,8 @@ module Storage.Local {
   /*
   Returns the number of items in the local storage.
 
-    Storage.Local.size() == 0
+    Storage.Local.set("key", "value")
+    Storage.Local.size() == 1
   */
   fun size : Result(Storage.Error, Number) {
     Storage.Common.size(`localStorage`)

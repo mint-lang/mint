@@ -14,31 +14,29 @@ type Regexp.Match {
   index : Number
 }
 
-/* Functions for working with regular expressions. */
+/* This module provides functions for working with regular expressions. */
 module Regexp {
   /*
   Creates a new regular expression from a string.
 
-    (Regexp.create("test")
-    |> Regexp.toString()) == "/test/"
+    Regexp.create("test") == /test/
   */
   fun create (input : String) : Regexp {
     `new RegExp(#{input})`
   }
 
   /*
-  Creates a new regular expression using the given options.
+  Creates a new regular expression using the options.
 
-    (Regexp.createWithOptions(
+    Regexp.createWithOptions(
       "test",
       {
-        caseInsensitive = true,
-        multiline = true,
-        unicode = true,
-        global = true,
-        sticky = true
-      })
-    |> Regexp.toString()) == "/test/gimuy"
+        caseInsensitive: true,
+        multiline: true,
+        unicode: true,
+        global: true,
+        sticky: true
+      }) == /test/gimuy
   */
   fun createWithOptions (input : String, options : Regexp.Options) : Regexp {
     `
@@ -57,7 +55,7 @@ module Regexp {
   }
 
   /*
-  Escapes the given input to use in the regular expression.
+  Escapes the input to use in a regular expression.
 
     Regexp.escape("-{") == "\\-\\{"
   */
@@ -66,36 +64,24 @@ module Regexp {
   }
 
   /*
-  Returns whether or not the given regular expression matches the given string.
+  Returns whether or not the regular expression matches the string.
 
-    (Regexp.create(",")
-    |> Regexp.match("asd,asd")) == true
+    Regexp.match(/,/, "asd,asd")) == true
   */
   fun match (regexp : Regexp, input : String) : Bool {
     `#{regexp}.test(#{input})`
   }
 
   /*
-  Returns all of the matches of the given regular expression against the
-  given string.
+  Returns all of the matches of the regular expression against the string.
 
-    (Regexp.createWithOptions(
-      "\\w",
+    Regexp.matces(/\w/i, "a,b,c,d") == [
       {
-        caseInsensitive = true,
-        multiline = false,
-        unicode = false,
-        global = true,
-        sticky = false
-      })
-    |> Regexp.matces("a,b,c,d") == [
-      {
-        submatches = [],
-        match = "a",
-        index = 0
+        submatches: [],
+        match: "a",
+        index: 0
       }
     ]
-      \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
   */
   fun matches (regexp : Regexp, input : String) : Array(Regexp.Match) {
     `
@@ -128,21 +114,13 @@ module Regexp {
   }
 
   /*
-  Replaces the matches of the given regular expression using the given function
-  to calculate the replacement string.
+  Replaces the matches of the regular expression using the function to
+  calculate the replacement string.
 
-    (Regexp.createWithOptions(
-      "\\w",
-      {
-        caseInsensitive = true,
-        multiline = false,
-        unicode = false,
-        global = true,
-        sticky = false
-      })
-    |> Regexp.replace(
+    Regexp.replace(
+      /\w/i,
       "a,b,c,d",
-      \match : Regexp.Match => match.match + "1")) == "a1,b1,c1,d1"
+      (match : Regexp.Match) { match.match + "1" }) == "a1,b1,c1,d1"
   */
   fun replace (
     regexp : Regexp,
@@ -176,20 +154,18 @@ module Regexp {
   }
 
   /*
-  Splits the given string by the given regular expression.
+  Splits the string by the regular expression.
 
-    (Regexp.create(",")
-    |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
+    Regexp.split(/,/, "a,b,c,d")) == ["a", "b", "c", "d"]
   */
   fun split (regexp : Regexp, input : String) : Array(String) {
     `#{input}.split(#{regexp})`
   }
 
   /*
-  Returns the string representation of the given regular expression.
+  Returns the string representation of the regular expression.
 
-    (Regexp.create("test")
-    |> Regexp.toString()) == "/test/"
+    Regexp.toString(/test/) == "/test/"
   */
   fun toString (regexp : Regexp) : String {
     `#{regexp}.toString()`

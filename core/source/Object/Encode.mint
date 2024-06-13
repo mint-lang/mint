@@ -1,4 +1,4 @@
-/* Functions for encoding values to an `Object`. */
+/* This module provides functions for encoding values to an `Object`. */
 module Object.Encode {
   /*
   Encodes an `Array` of objects.
@@ -10,7 +10,7 @@ module Object.Encode {
   }
 
   /*
-  Encodes a `Bool`.
+  Encodes a `Bool`
 
     Object.Encode.bool(true)
   */
@@ -28,7 +28,7 @@ module Object.Encode {
   }
 
   /*
-  Encodes a `Number`.
+  Encodes a `Number`
 
     Object.Encode.number(10)
   */

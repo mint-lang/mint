@@ -1,26 +1,27 @@
-/* Functions for the Set data structure which represents a set of unique values. */
+/* This module provides functions for the `Set` type. */
 module Set {
   /*
-  Adds the given value to the set.
+  Adds the value to the set.
 
-    (Set.empty()
-    |> Set.add("value")) == Set.fromArray(["value"])
+    Set.add(Set.empty(), "value") == Set.fromArray(["value"])
   */
   fun add (set : Set(item), value : item) : Set(item) {
-    `
-    (() => {
-      if (#{has(set, value)}) { return #{set} }
+    if has(set, value) {
+      set
+    } else {
+      `
+      (() => {
+        const newSet = Array.from(#{set})
+        newSet.push(#{value})
 
-      const newSet = Array.from(#{set})
-      newSet.push(#{value})
-
-      return newSet
-    })()
-    `
+        return newSet
+      })()
+      `
+    }
   }
 
   /*
-  Deletes the given value from the set.
+  Deletes the value from the set.
 
     (Set.empty()
     |> Set.add("value")
@@ -41,23 +42,26 @@ module Set {
     `
   }
 
-  /* Returns an empty set. */
+  /*
+  Returns an empty set.
+
+    Set.empty()
+  */
   fun empty : Set(item) {
     `[]`
   }
 
   /*
-  Converts an Array to a Set.
+  Converts an `Array(a)` to a `Set(a)`, duplicates are removed.
 
-    (Set.empty()
-    |> Set.add("value")) == Set.fromArray(["value"])
+    Set.add(Set.empty(), "value") == Set.fromArray(["value"])
   */
   fun fromArray (array : Array(item)) : Set(item) {
     `#{Array.uniq(array)}`
   }
 
   /*
-  Returns whether or not the given set has the given value.
+  Returns whether or not the set has the value.
 
     (Set.empty()
     |> Set.add(Maybe.just("value"))
@@ -98,16 +102,16 @@ module Set {
   }
 
   /*
-  Returns the size of a set
+  Returns the size of a set.
 
-    Set.size(Set.fromArray([0,1,2])) == 3
+    Set.size(Set.fromArray([0, 1, 2])) == 3
   */
   fun size (set : Set(item)) : Number {
     `#{set}.length`
   }
 
   /*
-  Converts the Set to an Array.
+  Converts the `Set(a)` to an `Array(a)`.
 
     (Set.empty()
     |> Set.add("value")

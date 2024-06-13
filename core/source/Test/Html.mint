@@ -1,9 +1,11 @@
-/* Module for testing `Html` */
+/* This module provides functions for testing `Html` */
 module Test.Html {
   /*
   Starts a test of an `Html` node.
 
-    Test.Html.start(<div>"Content"</div>)
+    test {
+      Test.Html.start(<div>"Content"</div>)
+    }
   */
   fun start (node : Html) : Test.Context(Dom.Element) {
     (`
@@ -19,6 +21,15 @@ module Test.Html {
     |> Test.Context.timeout(0)
   }
 
+  /*
+  Tries to find an element matching the selector. If found it replaces the
+  value of the context with it, if not it fails the test.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.find("div")
+    }
+  */
   fun find (
     context : Test.Context(Dom.Element),
     selector : String
@@ -35,6 +46,15 @@ module Test.Html {
     `
   }
 
+  /*
+  Tries to find an element matching the selector (globally). If found it
+  replaces the value of the context with it, if not it fails the test.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.findGlobally("body")
+    }
+  */
   fun findGlobally (
     context : Test.Context(Dom.Element),
     selector : String
@@ -46,40 +66,92 @@ module Test.Html {
       if (!subject) {
         throw \`Could not find element with selector: ${#{selector}}\`
       }
+
       return subject
     })
     `
   }
 
-  fun assertTop (context : Test.Context(Dom.Element), top : Number) : Test.Context(Dom.Element) {
+  /*
+  Asserts the top position of the current element.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertTop(0)
+    }
+  */
+  fun assertTop (
+    context : Test.Context(Dom.Element),
+    top : Number
+  ) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       context,
       top,
       (element : Dom.Element) : Number { Dom.getDimensions(element).top })
   }
 
-  fun assertLeft (context : Test.Context(Dom.Element), left : Number) : Test.Context(Dom.Element) {
+  /*
+  Asserts the left position of the current element.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertLeft(0)
+    }
+  */
+  fun assertLeft (
+    context : Test.Context(Dom.Element),
+    left : Number
+  ) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       context,
       left,
       (element : Dom.Element) : Number { Dom.getDimensions(element).left })
   }
 
-  fun assertHeight (context : Test.Context(Dom.Element), height : Number) : Test.Context(Dom.Element) {
+  /*
+  Asserts the height of the current element.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertHeight(0)
+    }
+  */
+  fun assertHeight (
+    context : Test.Context(Dom.Element),
+    height : Number
+  ) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       context,
       height,
       (element : Dom.Element) : Number { Dom.getDimensions(element).height })
   }
 
-  fun assertWidth (context : Test.Context(Dom.Element), width : Number) : Test.Context(Dom.Element) {
+  /*
+  Asserts the width of the current element.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertWidth(0)
+    }
+  */
+  fun assertWidth (
+    context : Test.Context(Dom.Element),
+    width : Number
+  ) : Test.Context(Dom.Element) {
     Test.Context.assertOf(
       context,
       width,
       (element : Dom.Element) : Number { Dom.getDimensions(element).width })
   }
 
-  /* Triggers a click event on the element that matches the given selector. */
+  /*
+  Triggers a click event on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerClick("div")
+    }
+  */
   fun triggerClick (
     context : Test.Context(Dom.Element),
     selector : String
@@ -92,7 +164,14 @@ module Test.Html {
     `
   }
 
-  /* Triggers a mouse down event on the element that matches the given selector. */
+  /*
+  Triggers a mouse down event on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerMouseDown("div")
+    }
+  */
   fun triggerMouseDown (
     context : Test.Context(Dom.Element),
     selector : String
@@ -107,7 +186,14 @@ module Test.Html {
     `
   }
 
-  /* Triggers a mouse move event on the element that matches the given selector. */
+  /*
+  Triggers a mouse move event on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerMouseMove("div")
+    }
+  */
   fun triggerMouseMove (
     context : Test.Context(Dom.Element),
     selector : String
@@ -122,7 +208,14 @@ module Test.Html {
     `
   }
 
-  /* Triggers a mouse up event on the element that matches the given selector. */
+  /*
+  Triggers a mouse up event on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerMouseUp("div")
+    }
+  */
   fun triggerMouseUp (
     context : Test.Context(Dom.Element),
     selector : String
@@ -137,7 +230,14 @@ module Test.Html {
     `
   }
 
-  /* Triggers a keydown event with the specified key on the element that matches the given selector. */
+  /*
+  Triggers a keydown event with the key on the element that the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerKeyDown("div", "A")
+    }
+  */
   fun triggerKeyDown (
     context : Test.Context(Dom.Element),
     selector : String,
@@ -152,7 +252,14 @@ module Test.Html {
     `
   }
 
-  /* Triggers a keyup event with the specified key on the element that matches the given selector. */
+  /*
+  Triggers a keyup event with the key on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.triggerKeyUp("div", "A")
+    }
+  */
   fun triggerKeyUp (
     context : Test.Context(Dom.Element),
     selector : String,
@@ -167,7 +274,14 @@ module Test.Html {
     `
   }
 
-  /* Asserts the text of the element that matches the given selector. */
+  /*
+  Asserts the text of the element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertTextOf("div", "Content")
+    }
+  */
   fun assertTextOf (
     context : Test.Context(Dom.Element),
     selector : String,
@@ -191,6 +305,14 @@ module Test.Html {
     `
   }
 
+  /*
+  Asserts that the active element matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertActiveElement("div")
+    }
+  */
   fun assertActiveElement (
     context : Test.Context(Dom.Element),
     selector : String
@@ -210,7 +332,14 @@ module Test.Html {
     `
   }
 
-  /* Asserts that there is an element that matches the given selector. */
+  /*
+  Asserts that there is an element that matches the selector.
+
+    test {
+      Test.Html.start(<div>"Content"</div>)
+      |> Test.Html.assertElementExists("div")
+    }
+  */
   fun assertElementExists (
     context : Test.Context(Dom.Element),
     selector : String
@@ -227,7 +356,14 @@ module Test.Html {
     `
   }
 
-  /* Asserts the value of a CSS property on the element that matches the given selector. */
+  /*
+  Asserts the value of a CSS property on the element that matches the selector.
+
+    test {
+      Test.Html.start(<div style="color:red;">"Content"</div>)
+      |> Test.Html.assertCssOf("div", "color", "red")
+    }
+  */
   fun assertCssOf (
     context : Test.Context(Dom.Element),
     selector : String,

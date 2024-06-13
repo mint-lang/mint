@@ -1,6 +1,10 @@
 /* This module has functions for manipulating the clipboard. */
 module Clipboard {
-  /* Sets the clipboards content to the given value. */
+  /*
+  Sets the clipboards content to the given value.
+
+    Clipboard.set("Hello World!")
+  */
   fun set (value : String) : Promise(String) {
     `
     (() => {

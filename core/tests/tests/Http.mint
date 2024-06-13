@@ -232,16 +232,6 @@ suite "Http.hasHeader" {
   }
 }
 
-suite "Http.send" {
-  test "sends the request with the given ID" {
-    let response =
-      Http.get("/blah")
-      |> Http.send("A")
-
-    `#{Http.REQUESTS}["A"] != undefined`
-  }
-}
-
 component Test.Http {
   property shouldError : Bool = false
   property method : String = "GET"
@@ -253,38 +243,28 @@ component Test.Http {
   state status : Number = 0
   state body : String = ""
 
-  fun wrap (
-    input : Promise(a),
-    method : Function(Promise(a), Void)
-  ) : Promise(a) {
-    `#{method}(#{input})`
-  }
-
   fun componentDidMount : Promise(Void) {
     let request =
-      await Http.empty()
+      Http.empty()
       |> Http.url(url)
       |> Http.method(method)
-      |> Http.send("test")
-      |> wrap(
-        `
-          (async (promise) => {
-            let _requests = #{Http.REQUESTS}
-
+      |> Http.send(
+        "test",
+        (request : Object) {
+          `
+          (() => {
             if (#{shouldError}) {
-              _requests["test"].dispatchEvent(new CustomEvent("error"))
+              #{request}.dispatchEvent(new CustomEvent("error"))
             } else if (#{timeout}) {
-              _requests["test"].dispatchEvent(new CustomEvent("timeout"))
+              #{request}.dispatchEvent(new CustomEvent("timeout"))
             } else if (#{abort}) {
-              _requests["test"].abort()
+              #{request}.dispatchEvent(new CustomEvent("abort"))
             }
+          })()
+          `
+        })
 
-            const result = await promise
-            return result
-          })
-          `)
-
-    case request {
+    case await request {
       Result.Ok(response) => next { status: response.status }
 
       Result.Err(error) =>
