@@ -1,0 +1,25 @@
+component Main {
+  fun test : String {
+    let getName =
+      (name : String) : String { name }
+
+    getName("Joe")
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = () => {
+    const b = (c) => {
+      return c
+    };
+    return b(`Joe`)
+  };
+  a();
+  return ``
+};

@@ -1,0 +1,24 @@
+component Main {
+  style base {
+    width: 100%;
+  }
+
+  fun render : Html {
+    <div::base class="something">
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /index.js ===---
+import { createElement as B } from "runtime";
+
+export const A = () => {
+  return B(`div`, {
+    className: `something` + ` Main_base`
+  })
+};
+
+---=== /index.css ===---
+.Main_base {
+  width: 100%;
+}

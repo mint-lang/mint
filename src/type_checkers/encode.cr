@@ -2,13 +2,11 @@ module Mint
   class TypeChecker
     def check(node : Ast::Encode) : Checkable
       expression =
-        node.expression.try do |item|
-          case item
-          when Ast::Record
-            resolve item, true
-          else
-            resolve item
-          end
+        case item = node.expression
+        when Ast::Record
+          resolve item, true
+        else
+          resolve item
         end
 
       error! :encode_complex_type do

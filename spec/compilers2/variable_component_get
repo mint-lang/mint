@@ -1,0 +1,16 @@
+component Main {
+  get test : String {
+    "Hello"
+  }
+
+  fun render : String {
+    test
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = () => {
+    return `Hello`
+  };
+  return a()
+};

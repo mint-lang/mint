@@ -1,0 +1,26 @@
+module Test {
+  fun a (value : String) : String {
+    value
+  }
+
+  fun b : String {
+    Test.a("Lorem ipsum dolor sit amet")
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b()
+  }
+}
+--------------------------------------------------------------------------------
+export const
+  a = (b) => {
+    return b
+  },
+  c = () => {
+    return a(`Lorem ipsum dolor sit amet`)
+  },
+  A = () => {
+    return c()
+  };

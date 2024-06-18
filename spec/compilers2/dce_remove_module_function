@@ -1,0 +1,23 @@
+module Test {
+  fun test : String {
+    ""
+  }
+
+  fun x : String {
+    ""
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.test()
+  }
+}
+--------------------------------------------------------------------------------
+export const
+  a = () => {
+    return ``
+  },
+  A = () => {
+    return a()
+  };

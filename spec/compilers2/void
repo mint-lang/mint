@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    void
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  null;
+  return ``
+};

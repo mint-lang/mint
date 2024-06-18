@@ -3,7 +3,7 @@ module Mint
     RESERVED =
       %w(break case class const continue debugger default delete do else
         export extends for if import in instanceof new return super
-        switch this throw typeof var while yield state)
+        switch throw typeof var while yield state)
 
     def check(node : Ast::Variable) : Checkable
       if node.value == "void"
@@ -36,6 +36,7 @@ module Mint
         when item[0].is_a?(Ast::HtmlElement) && item[1].is_a?(Ast::Component)
           Type.new("Maybe", [Type.new("Dom.Element")] of Checkable)
         when item[0].is_a?(Ast::Component) && item[1].is_a?(Ast::Component)
+          components_touched.add(item[0].as(Ast::Component))
           Type.new("Maybe", [component_records[item[0]]] of Checkable)
         else
           case value = item[0]

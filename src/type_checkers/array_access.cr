@@ -10,6 +10,9 @@ module Mint
       type =
         resolve expression
 
+      index_type =
+        resolve index
+
       case index
       when Ast::NumberLiteral
         if type.name == "Tuple"
@@ -29,9 +32,6 @@ module Mint
           check_array_access(expression, type)
         end
       end || begin
-        index_type =
-          resolve index
-
         error! :array_access_index_not_number do
           block "The type of the index of an array access is not a number."
           expected NUMBER, index_type

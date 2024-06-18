@@ -5,6 +5,6 @@ component Html.Portals.Head {
 
   /* Renders the children into the document's head. */
   fun render : Html {
-    `_createPortal(#{children}, document.head)`
+    `#{%createPortal%}(#{children}, document.head)`
   }
 }

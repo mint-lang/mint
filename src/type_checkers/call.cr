@@ -71,8 +71,6 @@ module Mint
           end
         end
 
-      argument_order.concat args
-
       args.each_with_index do |argument, index|
         argument_type =
           resolve argument
@@ -111,6 +109,9 @@ module Mint
       error! :impossible_error do
         block "You have run into an impossible error. Please file an issue " \
               "with a reproducible example in the GithubRepository."
+
+        snippet "Call type:", call_type
+        snippet node
       end unless result
 
       resolve_type(result.parameters.last)

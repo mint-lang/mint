@@ -6,6 +6,13 @@ class String
       .rstrip
   end
 
+  def escape_for_javascript
+    self
+      .gsub('\\', "\\\\")
+      .gsub('`', "\\`")
+      .gsub("${", "\\${")
+  end
+
   def last? : Char?
     self[-1]?
   end

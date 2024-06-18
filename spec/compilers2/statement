@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    let x =
+      "hello"
+
+    x
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const a = `hello`;
+  return a
+};

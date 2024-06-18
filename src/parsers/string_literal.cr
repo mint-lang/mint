@@ -27,6 +27,9 @@ module Mint
             true
           end || false
 
+        to =
+          position
+
         # If it's separated try to parse an other part.
         if broken
           whitespace
@@ -58,8 +61,8 @@ module Mint
           from: start_position,
           broken: broken,
           value: value,
-          to: position,
-          file: file)
+          file: file,
+          to: to)
       end
     end
   end

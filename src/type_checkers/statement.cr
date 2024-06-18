@@ -29,10 +29,12 @@ module Mint
       type =
         resolve node.expression
 
-      type =
-        type.parameters.first if node.await && type.name == "Promise"
-
-      type
+      if (node.await && type.name == "Promise") ||
+         (node.await && type.name == "Deferred")
+        type.parameters.first
+      else
+        type
+      end
     end
   end
 end

@@ -1,0 +1,27 @@
+component Main {
+  fun a : String {
+    "test"
+  }
+
+  fun test : String {
+    a()
+  }
+
+  fun render : String {
+    test()
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  const
+    a = () => {
+      return `test`
+    },
+    b = () => {
+      return a()
+    };
+  b();
+  return ``
+};

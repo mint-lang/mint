@@ -37,7 +37,7 @@ component Main {
 -----------------------------------------------------array_access_invalid_tuple
 component Main {
   fun test : Maybe(String) {
-    {"Hello"}[1]
+    {"Hello", ""}[2]
   }
 
   fun render : Html {
@@ -63,7 +63,7 @@ component Main {
 --------------------------------------------------------------------------------
 component Main {
   fun test : String {
-    {"Hello"}[0]
+    {"Hello", ""}[0]
   }
 
   fun render : Html {

@@ -13,7 +13,12 @@ module Mint
           end
         end
 
-      "<<#{node.modifier}#{node.token}#{value}#{node.token}"
+      flags =
+        if node.highlight
+          "(highlight)"
+        end
+
+      "<<#{node.modifier}#{node.token}#{flags}#{value}#{node.token}"
     end
   end
 end

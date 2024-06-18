@@ -5,11 +5,15 @@ enum T {
 
 component Main {
   fun render : String {
-    if (let T::A(a) = await T::A("")) {
-      a
-    } else {
-      "b"
+    {
+      if (let T::A(a) = await T::A("")) {
+        a
+      } else {
+        "b"
+      }
     }
+
+    ""
   }
 }
 --------------------------------------------------------------------------------
@@ -30,7 +34,7 @@ class B extends _E {
 
 class C extends _C {
   render() {
-    return (async () => {
+    (async () => {
       let b = await _n(A)(``);
 
       return _match(b,[
@@ -50,6 +54,8 @@ class C extends _C {
         ]
       ]);
     })();
+
+    return ``;
   }
 };
 

@@ -74,6 +74,7 @@ module Mint
           when Array(Ast::TypeVariant)
             if option = fields.find(&.value.value.==(node.field.value))
               variables[node] = {option, parent}
+              check!(parent)
               return to_function_type(option, parent)
             end
           end
@@ -81,9 +82,9 @@ module Mint
 
         if entity = scope.resolve(possibility, node).try(&.node)
           if entity && possibility[0].ascii_uppercase?
-            variables[node.expression] = {entity, entity}
-            check!(entity)
             if target_node = scope.resolve(node.field.value, entity).try(&.node)
+              variables[node.expression] = {entity, entity}
+              check!(entity)
               variables[node] = {target_node, entity}
               variables[node.field] = {target_node, entity}
               return resolve target_node
@@ -121,6 +122,7 @@ module Mint
           component.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
             case ref
             when Ast::HtmlComponent
+              components_touched.add(component)
               component_records
                 .find(&.first.name.value.==(ref.component.value))
                 .try do |record|

@@ -1,0 +1,12 @@
+component Main {
+  fun render : String {
+    false
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  false;
+  return ``
+};
