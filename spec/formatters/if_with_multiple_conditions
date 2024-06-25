@@ -1,0 +1,19 @@
+component Main {
+  fun render : String {
+    if (true && true) || (false && false) {
+      "a"
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    if (true && true) || (false && false) {
+      "a"
+    } else {
+      "b"
+    }
+  }
+}

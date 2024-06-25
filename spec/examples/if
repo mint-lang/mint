@@ -1,11 +1,7 @@
 ----------------------------------------------------------if_expected_condition
 component Main {
   fun render : String {
-    if (
-------------------------------------------------if_expected_closing_parenthesis
-component Main {
-  fun render : String {
-    if (""
+    if
 ---------------------------------------------if_expected_truthy_opening_bracket
 component Main {
   fun render : String {
@@ -58,7 +54,7 @@ type T {
 
 component Main {
   fun render : String {
-    if (let T.B(a) = T.B(0)) {
+    if let T.B(a) = T.B(0) {
       a
     } else {
       "b"
@@ -106,7 +102,7 @@ type T {
 
 component Main {
   fun render : String {
-    if (let T.A(a) = T.A("")) {
+    if let T.A(a) = T.A("") {
       a
     } else {
       "b"
@@ -121,7 +117,7 @@ type T {
 
 component Main {
   fun render : String {
-    if (let T.A(a) = T.B) {
+    if let T.A(a) = T.B {
       a
     } else {
       "b"
@@ -136,8 +132,18 @@ type T {
 
 component Main {
   fun render : String {
-    if (let T.A(a) = T.B) {
+    if let T.A(a) = T.B {
       a
+    } else {
+      "b"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    if (true && true) || (false && false) {
+      "a"
     } else {
       "b"
     }

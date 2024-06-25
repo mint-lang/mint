@@ -12,6 +12,13 @@ module Mint
                      @from : Int64,
                      @to : Int64)
       end
+
+      def only_expression?
+        case item = expression
+        when ParenthesizedExpression
+          item unless await || target
+        end
+      end
     end
   end
 end

@@ -61,14 +61,18 @@ module Mint
 
       case statement = node.condition
       when Ast::Statement
-        case target = statement.target
-        when Ast::Node
-          match(statement.expression, [
-            {target, truthy},
-            {nil, falsy},
-          ], statement.await)
+        if item = statement.only_expression?
+          "(#{compile(item.expression)} ? #{truthy} : #{falsy})"
         else
-          "(#{compile(statement.expression)} ? #{truthy} : #{falsy})"
+          case target = statement.target
+          when Ast::Node
+            match(statement.expression, [
+              {target, truthy},
+              {nil, falsy},
+            ], statement.await)
+          else
+            "(#{compile(statement.expression)} ? #{truthy} : #{falsy})"
+          end
         end
       else
         "(#{compile(node.condition)} ? #{truthy} : #{falsy})"

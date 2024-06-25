@@ -6,7 +6,7 @@ type T {
 component Main {
   fun render : String {
     {
-      if (let T.A(a) = await T.A("")) {
+      if let T.A(a) = await T.A("") {
         a
       } else {
         "b"

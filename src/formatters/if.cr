@@ -1,8 +1,16 @@
 module Mint
   class Formatter
     def format(node : Ast::If) : String
-      condition =
+      target =
         case item = node.condition
+        when Ast::Statement
+          item.only_expression?
+        end || item
+
+      condition =
+        case item = target
+        when Ast::ParenthesizedExpression
+          format item.expression
         when Ast::Statement
           format item, false
         else

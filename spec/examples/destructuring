@@ -64,7 +64,7 @@ type T {
 
 component Main {
   fun render : String {
-    if (let T.A(a) = "") {
+    if let T.A(a) = "" {
       a
     } else {
       "b"
