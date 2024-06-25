@@ -53,20 +53,29 @@ module Mint
             js.const(index_arg, ["_i"] of Item)
           end
 
+        destructurings =
+          node.arguments.compact_map do |target|
+            next if target.is_a?(Ast::Variable)
+
+            variables =
+              [] of Compiled
+
+            pattern =
+              destructuring(target, variables)
+
+            js.const(js.array(variables),
+              js.call(Builtin::Destructure, [[target] of Item, pattern]))
+          end
+
+        head =
+          [["_i++"] of Item, index]
+
         contents =
           if condition
-            [
-              ["_i++"] of Item,
-              index,
-              condition, js.call("_0.push", [body]),
-            ]
+            head + [condition] + destructurings
           else
-            [
-              ["_i++"] of Item,
-              index,
-              js.call("_0.push", [body]),
-            ]
-          end
+            head + destructurings
+          end + [js.call("_0.push", [body])]
 
         js.iif do
           js.statements([

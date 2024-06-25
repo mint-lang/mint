@@ -9,7 +9,12 @@ module Mint
         whitespace
 
         arguments =
-          list(terminator: parens ? ')' : '{', separator: ',') { variable }
+          list(terminator: parens ? ')' : '{', separator: ',') do
+            variable(track: false) ||
+              array_destructuring ||
+              tuple_destructuring ||
+              type_destructuring
+          end
 
         whitespace
         next error :for_expected_of do

@@ -69,6 +69,18 @@ component Main {
     }
   }
 }
+-------------------------------------------------------------for_index_mismatch
+component Main {
+  fun render : Array(Html) {
+    for (item, {x} of ["A", "B"]) {
+      <div>
+        item
+      </div>
+    } when {
+      item
+    }
+  }
+}
 -------------------------------------------------------------------------------
 component Main {
   fun render : Array(Html) {
@@ -105,6 +117,16 @@ component Main {
     for (key, value, index of `` as Map(String, String)) {
       <div>
         key
+      </div>
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : Array(Html) {
+    for ({x,y} of [{0, 0}]) {
+      <div>
+        "#{x},#{y}"
       </div>
     }
   }

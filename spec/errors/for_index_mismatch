@@ -1,0 +1,24 @@
+component Main {
+  fun render : Array(Html) {
+    for (item, {x} of ["A", "B"]) {
+      <div>
+        item
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FOR_INDEX_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The index argument cannot be destructured, it must be a variable.
+
+   ┌ ./spec/errors/for_index_mismatch:3:16
+   ├──────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Array(Html) {
+  3│     for (item, {x} of ["A", "B"]) {
+   │                ⌃⌃⌃
+  4│       <div>
+  5│         item
+  6│       </div>
+  7│     }
