@@ -41,6 +41,9 @@ require "./type_checkers/**"
 require "./type_checker/**"
 require "./type_checker"
 
+require "./formatters2/**"
+require "./formatter2"
+
 require "./formatters/**"
 require "./formatter"
 
