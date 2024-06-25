@@ -8,30 +8,31 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    STRING         = Type.new("String")
-    BOOL           = Type.new("Bool")
-    NUMBER         = Type.new("Number")
-    VOID           = Type.new("Void")
-    TIME           = Type.new("Time")
-    HTML           = Type.new("Html")
-    EVENT          = Type.new("Html.Event")
-    OBJECT         = Type.new("Object")
-    REGEXP         = Type.new("Regexp")
-    OBJECT_ERROR   = Type.new("Object.Error")
-    ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
-    SET            = Type.new("Set", [Variable.new("a")] of Checkable)
-    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)
-    MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
-    RESULT         = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
-    EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
-    HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
-    TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
-    VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
-    TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
-    STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
-    VOID_PROMISE   = Type.new("Promise", [VOID] of Checkable)
-    BOOL_PROMISE   = Type.new("Promise", [BOOL] of Checkable)
-    TEST_PROMISE   = Type.new("Promise", [TEST_CONTEXT] of Checkable)
+    STRING          = Type.new("String")
+    BOOL            = Type.new("Bool")
+    NUMBER          = Type.new("Number")
+    VOID            = Type.new("Void")
+    TIME            = Type.new("Time")
+    HTML            = Type.new("Html")
+    EVENT           = Type.new("Html.Event")
+    OBJECT          = Type.new("Object")
+    REGEXP          = Type.new("Regexp")
+    OBJECT_ERROR    = Type.new("Object.Error")
+    ARRAY           = Type.new("Array", [Variable.new("a")] of Checkable)
+    SET             = Type.new("Set", [Variable.new("a")] of Checkable)
+    MAP             = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)
+    MAYBE           = Type.new("Maybe", [Variable.new("a")] of Checkable)
+    RESULT          = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
+    EVENT_FUNCTION  = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
+    NUMBER_CHILDREN = Type.new("Array", [NUMBER] of Checkable)
+    HTML_CHILDREN   = Type.new("Array", [HTML] of Checkable)
+    TEXT_CHILDREN   = Type.new("Array", [STRING] of Checkable)
+    VOID_FUNCTION   = Type.new("Function", [Variable.new("a")] of Checkable)
+    TEST_CONTEXT    = Type.new("Test.Context", [Variable.new("a")] of Checkable)
+    STYLE_MAP       = Type.new("Map", [STRING, STRING] of Checkable)
+    VOID_PROMISE    = Type.new("Promise", [VOID] of Checkable)
+    BOOL_PROMISE    = Type.new("Promise", [BOOL] of Checkable)
+    TEST_PROMISE    = Type.new("Promise", [TEST_CONTEXT] of Checkable)
 
     VALID_IF_TYPES = [
       VOID_PROMISE,
@@ -50,8 +51,10 @@ module Mint
     ] of Checkable
 
     VALID_HTML = [
+      NUMBER_CHILDREN,
       TEXT_CHILDREN,
       HTML_CHILDREN,
+      NUMBER,
       STRING,
       HTML,
     ] of Checkable

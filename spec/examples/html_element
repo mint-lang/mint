@@ -47,7 +47,7 @@ component Main {
 -----------------------------------------------------html_content_type_mismatch
 component Main {
   fun render : Html {
-    <div>0</div>
+    <div>{} of String => String</div>
   }
 }
 -------------------------------------------------------------------------------
