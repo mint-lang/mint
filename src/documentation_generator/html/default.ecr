@@ -1,0 +1,13 @@
+<% default = source(node.default) %>
+
+<% if default != "" %>
+  <% block = default.size > 50 ? "entity__default--block" : "" %>
+
+  <div class="entity__operator">
+    =
+  </div>
+
+  <div class="entity__default <%= block %>">
+    <%= default %>
+  </div>
+<% end %>

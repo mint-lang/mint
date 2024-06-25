@@ -1,5 +1,5 @@
 module Mint
-  class DocumentationGenerator
+  class DocumentationGeneratorJson
     def generate(node : Ast::Get, json : JSON::Builder)
       json.object do
         json.field "type", node.type.try { |item| stringify(item) }

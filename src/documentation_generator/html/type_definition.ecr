@@ -1,0 +1,11 @@
+<h1>
+  <%= stringify(node) %>
+  <div class="type-badge" data-type="type"></div>
+  <%= source_url(node) %>
+</h1>
+
+<h2>Fields</h2>
+
+<% node.fields.sort_by{|f| stringify(f) }.each do |f| %>
+  <%= generate(f) %>
+<% end %>

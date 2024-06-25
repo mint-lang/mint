@@ -1,0 +1,5 @@
+<% if node.comment != nil %>
+  <div class="entity__body">
+    <%= node.comment.try(&.to_html) %> 
+  </div>
+<% end %>

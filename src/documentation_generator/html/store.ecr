@@ -1,0 +1,16 @@
+<h1>
+  <%= stringify(node) %>
+  <div class="type-badge" data-type="store"></div>
+</h1>
+
+<%= comment(node) %>
+
+<h2>States</h2>
+
+<% node.states.sort_by(&.name.value).each do |s| %>
+  <%= generate(s) %>
+<% end %>
+
+<% node.functions.sort_by(&.name.value).each do |s| %>
+  <%= generate(s) %>
+<% end %>

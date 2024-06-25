@@ -3,7 +3,7 @@ module Mint
     @asts = {} of MintJson => Ast
     @error : String?
     @ast = Ast.new
-    @generator = DocumentationGenerator.new
+    @generator = DocumentationGeneratorJson.new
 
     def self.start
       new

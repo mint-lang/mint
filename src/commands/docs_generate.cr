@@ -3,33 +3,67 @@ module Mint
     class DocsGenerate < Admiral::Command
       include Command
 
-      define_help description: "Starts the documentation server"
+      define_help description: "Generates static html and json documentation"
 
-      define_flag output : String,
-        description: "The output filename",
-        default: "docs.json",
+      define_flag base : String,
+        description: "Sets the <base> url in the generated html files",
+        default: "",
+        short: "b"
+
+      define_flag git_ref : String,
+        description: "The git reference",
         required: false,
-        short: "o"
+        default: "master",
+        short: "r"
+
+      define_flag output_dir : String,
+        description: "The output directory",
+        default: "docs",
+        short: "d"
+
+      define_flag json : String,
+        description: "The json output filename",
+        default: "docs.json",
+        short: "j"
 
       def run
         execute "Generating Documentation" do
-          current =
-            MintJson.parse_current
-
           ast =
             Ast.new
 
-          current.source_files.each do |file|
+          mint_json =
+            MintJson.parse_current
+
+          mint_json.source_files.each do |file|
             ast.merge(Parser.parse(File.read(file), file))
           end
 
           ast.normalize
 
-          json =
-            DocumentationGenerator.new.generate(current, ast)
+          html(ast, mint_json)
 
-          File.write(flags.output, json)
+          json(ast, mint_json)
         end
+      end
+
+      def html(ast : Ast, mint_json : MintJson)
+        DocumentationGeneratorHtml.new(
+          mint_json,
+          ast,
+          flags.output_dir,
+          flags.base,
+          flags.git_ref
+        ).generate
+      end
+
+      def json(ast : Ast, mint_json : MintJson)
+        json =
+          DocumentationGeneratorJson.new.generate(mint_json, ast)
+
+        json_file = "#{flags.output_dir}/#{flags.json}"
+
+        Dir.mkdir_p(Path.new(json_file).dirname)
+        File.write(json_file, json)
       end
     end
   end
