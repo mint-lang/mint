@@ -9,9 +9,6 @@ component Main {
 
       {a, b} =>
         a
-
-      {a, {b}} =>
-        b
     }
   }
 }
@@ -50,17 +47,6 @@ class A extends _C {
         ],
         (a, b) => {
           return a
-        }
-      ],
-      [
-        [
-          _PV,
-          [
-            _PV
-          ]
-        ],
-        (d, c) => {
-          return c
         }
       ]
     ]);

@@ -46,6 +46,8 @@ Dir
             if exception.name.to_s != error
               fail exception.to_terminal.to_s
             end
+          rescue exception
+            fail source + '\n' + exception.to_s + '\n' + exception.backtrace.join('\n')
           end
 
           exception.should be_a(Mint::Error)
@@ -59,7 +61,7 @@ Dir
           rescue exception : Mint::Error
             fail exception.to_terminal.to_s
           rescue exception
-            fail exception.to_s + '\n' + exception.backtrace.join('\n')
+            fail source + '\n' + exception.to_s + '\n' + exception.backtrace.join('\n')
           end
         end
       end

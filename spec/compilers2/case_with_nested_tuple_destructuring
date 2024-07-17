@@ -7,9 +7,6 @@ component Main {
       {"A", {"B", "C"}} =>
         "A"
 
-      {a, b} =>
-        a
-
       {a, {b, c}} =>
         b
     }
@@ -56,22 +53,13 @@ export const A = () => {
     [
       [
         C,
-        C
-      ],
-      (a, b) => {
-        return a
-      }
-    ],
-    [
-      [
-        C,
         [
           C,
           C
         ]
       ],
-      (c, d, e) => {
-        return d
+      (a, b, c) => {
+        return b
       }
     ]
   ])

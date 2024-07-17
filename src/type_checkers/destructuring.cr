@@ -82,11 +82,20 @@ module Mint
         snippet node
       end if spreads > 1
 
-      node.items.each do |item|
+      node.items.each_with_index do |item, index|
         case item
         when Ast::Spread
-          cache[item] = condition
-          variables << {item.variable.value, condition, item}
+          if index == (node.items.size - 1)
+            cache[item] = condition
+            variables << {item.variable.value, condition, item}
+          else
+            error! :destructuring_multiple_spreads do
+              block "The spread notation can only appear as the last item " \
+                    "in a destructuring."
+
+              snippet node
+            end
+          end
         else
           destructure(item, condition.parameters[0], variables)
         end
@@ -130,6 +139,8 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
+      cache[node] = condition
+
       name =
         node.name.try(&.value) || condition.name
 
@@ -176,33 +187,33 @@ module Mint
         case fields = variant.fields
         when Array(Ast::TypeDefinitionField)
           node.items.each_with_index do |param, index|
-            case param
-            when Ast::Variable
-              found = fields.find do |field|
-                case param
-                when Ast::Variable
-                  param.value == field.key.value
-                end
-              end
+            # case param
+            # when Ast::Variable
+            #   found = fields.find do |field|
+            #     case param
+            #     when Ast::Variable
+            #       param.value == field.key.value
+            #     end
+            #   end
 
-              error! :destructuring_type_field_missing do
-                snippet "I could not find a field for a destructuring:", param.value
-                snippet "The destructuring in question is here:", param
-              end unless found
+            #   error! :destructuring_type_field_missing do
+            #     snippet "I could not find a field for a destructuring:", param.value
+            #     snippet "The destructuring in question is here:", param
+            #   end unless found
 
-              type =
-                resolve(found.type)
+            #   type =
+            #     resolve(found.type)
 
-              destructure(param, type, variables)
-            else
-              field =
-                fields[index]
+            #   destructure(param, type, variables)
+            # else
+            field =
+              fields[index]
 
-              type =
-                resolve(field.type)
+            type =
+              resolve(field.type)
 
-              destructure(param, type, variables)
-            end
+            destructure(param, type, variables)
+            # end
           end
         else
           node.items.each_with_index do |param, index|

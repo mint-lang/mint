@@ -26,6 +26,7 @@ require "./helpers"
 require "./js"
 require "./core"
 require "./env"
+require "./exhaustiveness_checker"
 
 require "./render/**"
 require "./utils/**"

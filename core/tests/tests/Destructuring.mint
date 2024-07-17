@@ -2,7 +2,6 @@ suite "Array destructuring" {
   test "spread" {
     case ["a", "b"] {
       [...b] => true
-      => false
     }
   }
 

@@ -103,17 +103,6 @@ component Main {
     ""
   }
 }
------------------------------------------------destructuring_type_field_missing
-type Maybe {
-  Just(item : String)
-}
-
-component Main {
-  fun render : String {
-    let Maybe.Just(key) = Maybe.Just(item: "") or return ""
-    ""
-  }
-}
 -------------------------------------------------------------------------------
 component Main {
   fun render : String {

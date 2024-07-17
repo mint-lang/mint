@@ -3,7 +3,7 @@ module Mint
     class TypeVariant < Node
       getter parameters, comment, value
 
-      def initialize(@parameters : Array(Node) | Array(TypeDefinitionField),
+      def initialize(@parameters : Array(Node),
                      @file : Parser::File,
                      @comment : Comment?,
                      @from : Int64,

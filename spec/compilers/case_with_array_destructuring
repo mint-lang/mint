@@ -5,7 +5,7 @@ component Main {
       ["a"] => ["a"]
       [a] => [a]
       [a, b] => [a, b]
-      [a, ...middle, b] => middle
+      [a, b, ...middle] => middle
     }
   }
 }
@@ -47,10 +47,10 @@ class A extends _C {
       [
         [
           _PV,
-          _PS,
-          _PV
+          _PV,
+          _PS
         ],
-        (e, d, f) => {
+        (e, f, d) => {
           return d
         }
       ]

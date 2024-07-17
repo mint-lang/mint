@@ -5,7 +5,7 @@ component Main {
       ["a"] => ["a"]
       [a] => [a]
       [a, b] => [a, b]
-      [a, ...middle, b] => middle
+      [a, b, ...rest] => rest
     }
   }
 }
@@ -51,11 +51,11 @@ export const A = () => {
     [
       [
         C,
-        D,
-        C
+        C,
+        D
       ],
       (d, e, f) => {
-        return e
+        return f
       }
     ]
   ])
