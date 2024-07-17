@@ -10,7 +10,8 @@ module Mint
           case item.target
           when Ast::TupleDestructuring,
                Ast::ArrayDestructuring,
-               Ast::TypeDestructuring
+               Ast::TypeDestructuring,
+               Ast::Discard
             {destructure(item.target, condition), item.await}
           end
         end || {[] of VariableScope, false}

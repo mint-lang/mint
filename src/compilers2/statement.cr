@@ -22,7 +22,8 @@ module Mint
             js.const(target, right)
           when Ast::TupleDestructuring,
                Ast::ArrayDestructuring,
-               Ast::TypeDestructuring
+               Ast::TypeDestructuring,
+               Ast::Discard
             variables = [] of Compiled
 
             pattern =

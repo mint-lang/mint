@@ -19,7 +19,10 @@ module Mint
         case target
         when Ast::Variable
           [js.const(js.variable_of(target), right)]
-        when Ast::TupleDestructuring, Ast::TypeDestructuring, Ast::ArrayDestructuring
+        when Ast::TupleDestructuring,
+             Ast::TypeDestructuring,
+             Ast::ArrayDestructuring,
+             Ast::Discard
           variables = [] of String
 
           pattern =

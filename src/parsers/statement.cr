@@ -37,7 +37,8 @@ module Mint
             case target
             when Ast::ArrayDestructuring,
                  Ast::TupleDestructuring,
-                 Ast::TypeDestructuring
+                 Ast::TypeDestructuring,
+                 Ast::Discard
               case item = body.right
               when Ast::ReturnCall
                 item.statement = node

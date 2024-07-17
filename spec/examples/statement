@@ -33,3 +33,16 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+type Test {
+  A(String)
+}
+
+component Main {
+  fun render : String {
+    let A(value) = Test.A("Hello")
+    let {a, _} = {"a", "b"}
+
+    ""
+  }
+}

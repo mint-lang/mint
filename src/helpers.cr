@@ -22,29 +22,6 @@ module Mint
       node.items.any?(Ast::Spread)
     end
 
-    # Returns whether the destructuring is exhaustive.
-    #
-    # TODO: We want to support cases like this:
-    #
-    #   type Test {
-    #     Branch(String)
-    #   }
-    #
-    #   let Test::Branch(value) = Test::Branch("Hello")
-    def exhaustive?(node : Ast::Node) : Bool
-      case node
-      when Ast::TupleDestructuring
-        node.items.all?(Ast::Variable)
-      when Ast::ArrayDestructuring
-        node.items.all? do |item|
-          item.is_a?(Ast::Variable) ||
-            item.is_a?(Ast::Spread)
-        end && node.items.any?(Ast::Spread)
-      else
-        false
-      end
-    end
-
     def owns?(node : Ast::Node, parent : Ast::Node) : Bool
       case parent
       when Ast::Store

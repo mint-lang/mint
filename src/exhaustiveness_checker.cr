@@ -234,10 +234,163 @@ module ExhaustivenessChecker
 
   # TODO: Write description...
   class Match
-    getter tree : Decision
+    getter variant_name_lookup : Proc(String, Int32, String?)
     getter diagnostics : Diagnostics
+    getter tree : Decision
 
-    def initialize(@tree, @diagnostics)
+    def initialize(@tree, @diagnostics, @variant_name_lookup)
+    end
+
+    def missing_patterns : Array(String)
+      names =
+        Set(String).new
+
+      terms =
+        [] of Term
+
+      add_missing_patterns(tree, terms, names)
+
+      # Sorting isn't necessary, but it makes it a bit easier to write tests.
+      names.to_a.sort
+    end
+
+    def add_missing_patterns(
+      node : Decision,
+      terms : Array(Term),
+      missing : Set(String)
+    )
+      case node
+      in Success
+        # Nothing to do...
+      in Failure
+        mapping = {} of Int32 => Int32
+
+        # At this point the terms stack looks something like this:
+        # `[term, term + arguments, term, ...]`. To construct a pattern
+        # name from this stack, we first map all variables to their
+        # term indexes. This is needed because when a term defines
+        # arguments, the terms for those arguments don't necessarily
+        # appear in order in the term stack.
+        #
+        # This mapping is then used when (recursively) generating a
+        # pattern name.
+        #
+        # This approach could probably be done more efficiently, so if
+        # you're reading this and happen to know of a way, please
+        # submit a merge request :)
+        terms.each_with_index do |term, index|
+          mapping[term.variable.id] = index
+        end
+
+        name =
+          if term = terms.first?
+            pattern_string(term, terms, mapping)
+          else
+            "_"
+          end
+
+        missing.add(name)
+      in Guard
+        add_missing_patterns(node.decision, terms, missing)
+      in List
+        terms.push(TEmptyList.new(node.variable))
+        add_missing_patterns(node.empty, terms, missing)
+        terms.pop
+        terms.push(TList.new(
+          node.variable,
+          node.non_empty.first,
+          node.non_empty.rest,
+        ))
+        add_missing_patterns(node.non_empty.decision, terms, missing)
+        terms.pop
+      in Switch
+        node.cases.each do |item|
+          case const = item.constructor
+          in CInt,
+             CFloat,
+             CString
+            terms.push(TInfinite.new(node.variable))
+          in CTuple
+            arguments = item.arguments.dup
+            terms.push(TTuple.new(node.variable, arguments))
+          in CVariant
+            name =
+              variant_name_lookup.call(const.type.name, const.index) || "??"
+
+            terms.push(TVariant.new(
+              node.variable,
+              name,
+              item.arguments,
+            ))
+          end
+
+          add_missing_patterns(item.body, terms, missing)
+          terms.pop
+        end
+
+        if item = node.decision
+          add_missing_patterns(item, terms, missing)
+        end
+      end
+    end
+
+    def pattern_string(term : Term, terms : Array(Term), mapping : Hash(Int32, Int32)) : String
+      case term
+      in TVariant
+        return term.name if term.arguments.empty?
+
+        args =
+          term.arguments.map do |variable|
+            if index = mapping[variable.id]?
+              pattern_string(terms[index], terms, mapping)
+            else
+              "_"
+            end
+          end.join(", ")
+
+        "#{term.name}(#{args})"
+      in TTuple
+        args =
+          term.arguments.map do |variable|
+            if index = mapping[variable.id]?
+              pattern_string(terms[index], terms, mapping)
+            else
+              "_"
+            end
+          end.join(", ")
+
+        "{#{args}}"
+      in TInfinite
+        "_"
+      in TEmptyList
+        "[]"
+      in TList
+        "[#{list_pattern_string(term, terms, mapping)}]"
+      end
+    end
+
+    def list_pattern_string(term : Term, terms : Array(Term), mapping : Hash(Int32, Int32)) : String
+      case term
+      in TInfinite,
+         TVariant
+        "_"
+      in TEmptyList
+        ""
+      in TList
+        first =
+          mapping[term.first.id]?
+            .try { |index| pattern_string(terms[index], terms, mapping) } || "_"
+
+        rest =
+          mapping[term.rest.id]?
+            .try { |index| pattern_string(terms[index], terms, mapping) } || "_"
+
+        case rest
+        when ""  then first
+        when "_" then "#{first}, ..._"
+        else          "#{first}, #{rest}"
+        end
+      end
     end
   end
 
@@ -255,7 +408,7 @@ module ExhaustivenessChecker
     end
 
     def compile(rows : Array(Row)) : Match
-      Match.new(compile_rows(rows), diagnostics)
+      Match.new(compile_rows(rows), diagnostics, variant_name_lookup)
     end
 
     def compile_rows(rows : Array(Row)) : Decision
@@ -717,158 +870,6 @@ module ExhaustivenessChecker
         0
       in CVariant
         item.index
-      end
-    end
-
-    def missing_patterns(match : Match) : Array(String)
-      names =
-        Set(String).new
-
-      terms =
-        [] of Term
-
-      add_missing_patterns(match.tree, terms, names)
-
-      # Sorting isn't necessary, but it makes it a bit easier to write tests.
-      names.to_a.sort
-    end
-
-    def add_missing_patterns(
-      node : Decision,
-      terms : Array(Term),
-      missing : Set(String)
-    )
-      case node
-      in Success
-        # Nothing to do...
-      in Failure
-        mapping = {} of Int32 => Int32
-
-        # At this point the terms stack looks something like this:
-        # `[term, term + arguments, term, ...]`. To construct a pattern
-        # name from this stack, we first map all variables to their
-        # term indexes. This is needed because when a term defines
-        # arguments, the terms for those arguments don't necessarily
-        # appear in order in the term stack.
-        #
-        # This mapping is then used when (recursively) generating a
-        # pattern name.
-        #
-        # This approach could probably be done more efficiently, so if
-        # you're reading this and happen to know of a way, please
-        # submit a merge request :)
-        terms.each_with_index do |term, index|
-          mapping[term.variable.id] = index
-        end
-
-        name =
-          if term = terms.first?
-            pattern_string(term, terms, mapping)
-          else
-            "_"
-          end
-
-        missing.add(name)
-      in Guard
-        add_missing_patterns(node.decision, terms, missing)
-      in List
-        terms.push(TEmptyList.new(node.variable))
-        add_missing_patterns(node.empty, terms, missing)
-        terms.pop
-        terms.push(TList.new(
-          node.variable,
-          node.non_empty.first,
-          node.non_empty.rest,
-        ))
-        add_missing_patterns(node.non_empty.decision, terms, missing)
-        terms.pop
-      in Switch
-        node.cases.each do |item|
-          case const = item.constructor
-          in CInt,
-             CFloat,
-             CString
-            terms.push(TInfinite.new(node.variable))
-          in CTuple
-            arguments = item.arguments.dup
-            terms.push(TTuple.new(node.variable, arguments))
-          in CVariant
-            name =
-              variant_name_lookup.call(const.type.name, const.index) || "??"
-
-            terms.push(TVariant.new(
-              node.variable,
-              name,
-              item.arguments,
-            ))
-          end
-
-          add_missing_patterns(item.body, terms, missing)
-          terms.pop
-        end
-
-        if item = node.decision
-          add_missing_patterns(item, terms, missing)
-        end
-      end
-    end
-
-    def pattern_string(term : Term, terms : Array(Term), mapping : Hash(Int32, Int32)) : String
-      case term
-      in TVariant
-        return term.name if term.arguments.empty?
-
-        args =
-          term.arguments.map do |variable|
-            if index = mapping[variable.id]?
-              pattern_string(terms[index], terms, mapping)
-            else
-              "_"
-            end
-          end.join(", ")
-
-        "#{term.name}(#{args})"
-      in TTuple
-        args =
-          term.arguments.map do |variable|
-            if index = mapping[variable.id]?
-              pattern_string(terms[index], terms, mapping)
-            else
-              "_"
-            end
-          end.join(", ")
-
-        "{#{args}}"
-      in TInfinite
-        "_"
-      in TEmptyList
-        "[]"
-      in TList
-        "[#{list_pattern_string(term, terms, mapping)}]"
-      end
-    end
-
-    def list_pattern_string(term : Term, terms : Array(Term), mapping : Hash(Int32, Int32)) : String
-      case term
-      in TInfinite,
-         TVariant
-        "_"
-      in TEmptyList
-        ""
-      in TList
-        first =
-          mapping[term.first.id]?
-            .try { |index| pattern_string(terms[index], terms, mapping) } || "_"
-
-        rest =
-          mapping[term.rest.id]?
-            .try { |index| pattern_string(terms[index], terms, mapping) } || "_"
-
-        case rest
-        when ""  then first
-        when "_" then "#{first}, ..._"
-        else          "#{first}, #{rest}"
-        end
       end
     end
   end

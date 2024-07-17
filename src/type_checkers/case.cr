@@ -98,7 +98,46 @@ module Mint
       ExhaustivenessChecker::PDiscard.new
     end
 
-    #
+    def check_exhaustiveness(target : Checkable, patterns : Array(Ast::Node?))
+      compiler = ExhaustivenessChecker::Compiler.new(
+        ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
+          if defi = ast.type_definitions.find(&.name.value.==(type.name))
+            case fields = defi.fields
+            when Array(Ast::TypeVariant)
+              fields.map do |variant|
+                params =
+                  variant.parameters.map(&->to_pattern_type(Ast::Node))
+
+                ExhaustivenessChecker::Variant.new(params)
+              end
+            end
+          end
+        },
+        ->(name : String, index : Int32) : String | Nil {
+          if defi = ast.type_definitions.find(&.name.value.==(name))
+            case fields = defi.fields
+            when Array(Ast::TypeVariant)
+              fields[index].value.value
+            end
+          end
+        })
+
+      type =
+        to_pattern_type(target)
+
+      variable =
+        compiler.new_variable(type)
+
+      rows =
+        patterns.map_with_index do |pattern, index|
+          ExhaustivenessChecker::Row.new(
+            [ExhaustivenessChecker::Column.new(variable, to_pattern(pattern))],
+            nil,
+            ExhaustivenessChecker::Body.new([] of {String, ExhaustivenessChecker::Variable}, index))
+        end
+
+      compiler.compile(rows)
+    end
 
     def check(node : Ast::Case) : Checkable
       condition =
@@ -144,51 +183,15 @@ module Mint
           end
 
       begin
-        branches =
+        patterns =
           node.branches.map(&.pattern)
 
-        c = ExhaustivenessChecker::Compiler.new(
-          ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
-            if defi = ast.type_definitions.find(&.name.value.==(type.name))
-              case fields = defi.fields
-              when Array(Ast::TypeVariant)
-                fields.map do |variant|
-                  params =
-                    variant.parameters.map(&->to_pattern_type(Ast::Node))
-
-                  ExhaustivenessChecker::Variant.new(params)
-                end
-              end
-            end
-          },
-          ->(name : String, index : Int32) : String | Nil {
-            if defi = ast.type_definitions.find(&.name.value.==(name))
-              case fields = defi.fields
-              when Array(Ast::TypeVariant)
-                fields[index].value.value
-              end
-            end
-          })
-
-        case_type =
-          to_pattern_type(condition)
-
-        case_var =
-          c.new_variable(case_type)
-
-        rows =
-          branches.map_with_index do |pattern, index|
-            ExhaustivenessChecker::Row.new(
-              [ExhaustivenessChecker::Column.new(case_var, to_pattern(pattern))],
-              nil,
-              ExhaustivenessChecker::Body.new([] of {String, ExhaustivenessChecker::Variable}, index))
-          end
-
-        match = c.compile(rows)
+        match =
+          check_exhaustiveness(condition, patterns)
 
         missing =
           if match.diagnostics.missing?
-            c.missing_patterns(match)
+            match.missing_patterns
           else
             [] of String
           end
