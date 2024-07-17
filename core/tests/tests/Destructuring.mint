@@ -1,13 +1,13 @@
 suite "Array destructuring" {
   test "spread" {
     case ["a", "b"] {
-      [...b] => true
+      [..._] => true
     }
   }
 
   test "one item" {
     case ["a"] {
-      [a] => true
+      [_] => true
       => false
     }
   }

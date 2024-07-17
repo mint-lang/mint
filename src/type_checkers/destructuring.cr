@@ -29,6 +29,14 @@ module Mint
     end
 
     def destructure(
+      node : Ast::Discard,
+      condition : Checkable,
+      variables : Array(VariableScope) = [] of VariableScope
+    )
+      variables
+    end
+
+    def destructure(
       node : Ast::Node,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
@@ -87,7 +95,10 @@ module Mint
         when Ast::Spread
           if index == (node.items.size - 1)
             cache[item] = condition
-            variables << {item.variable.value, condition, item}
+            case variable = item.variable
+            when Ast::Variable
+              variables << {variable.value, condition, item}
+            end
           else
             error! :destructuring_multiple_spreads do
               block "The spread notation can only appear as the last item " \

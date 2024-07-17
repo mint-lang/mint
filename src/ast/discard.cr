@@ -1,10 +1,7 @@
 module Mint
   class Ast
-    class Spread < Node
-      getter variable
-
+    class Discard < Node
       def initialize(@file : Parser::File,
-                     @variable : Node,
                      @from : Int64,
                      @to : Int64)
       end

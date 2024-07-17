@@ -22,6 +22,10 @@ module Mint
       compile(node)
     end
 
+    def destructuring(node : Ast::Discard, variables : Array(Compiled)) : Compiled
+      js.null # This means to skip this value when destructuring.
+    end
+
     def destructuring(node : Nil, variables : Array(Compiled)) : Compiled
       js.null # This means to skip this value when destructuring.
     end

@@ -124,9 +124,10 @@ module ExhaustivenessChecker
   #
   # These are used to determine missing branches.
 
-  alias Term = TVariant | TInfinite | TEmptyList | TList
+  alias Term = TVariant | TInfinite | TEmptyList | TList | TTuple
 
   variant TList, variable : Variable, first : Variable, rest : Variable
+  variant TTuple, variable : Variable, arguments : Array(Variable)
   variant TEmptyList, variable : Variable
   variant TInfinite, variable : Variable
 
@@ -790,7 +791,7 @@ module ExhaustivenessChecker
             terms.push(TInfinite.new(node.variable))
           in CTuple
             arguments = item.arguments.dup
-            terms.push(TVariant.new(node.variable, "#", arguments))
+            terms.push(TTuple.new(node.variable, arguments))
           in CVariant
             name =
               variant_name_lookup.call(const.type.name, const.index) || "??"
@@ -827,6 +828,17 @@ module ExhaustivenessChecker
           end.join(", ")
 
         "#{term.name}(#{args})"
+      in TTuple
+        args =
+          term.arguments.map do |variable|
+            if index = mapping[variable.id]?
+              pattern_string(terms[index], terms, mapping)
+            else
+              "_"
+            end
+          end.join(", ")
+
+        "{#{args}}"
       in TInfinite
         "_"
       in TEmptyList

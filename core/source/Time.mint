@@ -381,28 +381,28 @@ module Time {
 
       #{
         case (delta) {
-          Time.Span.Milliseconds(amount) =>
+          Milliseconds(amount) =>
             `time.setUTCMilliseconds(time.getUTCMilliseconds() + #{amount})`
 
-          Time.Span.Seconds(amount) =>
+          Seconds(amount) =>
             `time.setUTCSeconds(time.getUTCSeconds() + #{amount})`
 
-          Time.Span.Minutes(amount)      =>
+          Minutes(amount)      =>
             `time.setUTCMinutes(time.getUTCMinutes() + #{amount})`
 
-          Time.Span.Hours(amount)        =>
+          Hours(amount)        =>
             `time.setUTCHours(time.getUTCHours() + #{amount})`
 
-          Time.Span.Days(amount)         =>
+          Days(amount)         =>
             `time.setUTCDate(time.getUTCDate() + #{amount})`
 
-          Time.Span.Weeks(amount)        =>
+          Weeks(amount)        =>
             `time.setUTCDate(time.getUTCDate() + (7 * #{amount}))`
 
-          Time.Span.Months(amount)       =>
+          Months(amount)       =>
             `time.setUTCMonth(time.getUTCMonth() + #{amount})`
 
-          Time.Span.Years(amount)        =>
+          Years(amount)        =>
             `time.setUTCFullYear(time.getUTCFullYear() + #{amount})`
         }
       }

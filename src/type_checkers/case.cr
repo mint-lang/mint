@@ -90,6 +90,10 @@ module Mint
       end || ExhaustivenessChecker::PString.new(node.source)
     end
 
+    def to_pattern(node : Ast::Discard) : ExhaustivenessChecker::Pattern
+      ExhaustivenessChecker::PDiscard.new
+    end
+
     def to_pattern(node : Nil) : ExhaustivenessChecker::Pattern
       ExhaustivenessChecker::PDiscard.new
     end

@@ -7,7 +7,7 @@ module Mint
         next error :spread_expected_variable do
           expected "the name of a spread", word
           snippet self
-        end unless variable = self.variable
+        end unless variable = self.variable || discard
 
         Ast::Spread.new(
           from: start_position,
