@@ -66,7 +66,7 @@ module Mint
           end unless Comparer.compare(last, type)
         end
 
-        if async?(node.expressions) && last.name != "Promise"
+        if async.includes?(node) && last.name != "Promise"
           Type.new("Promise", [last] of Checkable)
         else
           last

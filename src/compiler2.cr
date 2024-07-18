@@ -4,7 +4,8 @@ module Mint
 
     # Represents a compiled item
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw |
-                 Variable | Ref | Encoder | Decoder | Asset | Deferred
+                 Variable | Ref | Encoder | Decoder | Asset | Deferred |
+                 Function | Await
 
     # Represents an generated idetifier from the parts of the union type.
     alias Id = Ast::Node | Variable | Encoder | Decoder
@@ -26,11 +27,17 @@ module Mint
     # because they have a `.current` accessor.
     record Ref, value : Ast::Node
 
+    # Represents a function.
+    record Function, value : Compiled
+
     # Represents code which needs to be indented.
     record Indent, items : Compiled
 
     # Represents raw code (which does not get modified or indented).
     record Raw, value : String
+
+    # Represents the await keyword.
+    class Await; end
 
     # Represents a variable.
     class Variable; end

@@ -12,4 +12,28 @@ suite "Pipe with await" {
 
     y == "Hello World!"
   }
+
+  test "it awaits #2" {
+    let x =
+      (value : String) {
+        await value
+      }
+
+    ("Hello World!"
+    |> await x
+    |> await x) == "Hello World!"
+  }
+
+  test "it awaits #3" {
+    let x =
+      (value : String) {
+        await value
+      }
+
+    [
+      ("Hello World!"
+      |> await x
+      |> await x)
+    ] == ["Hello World!"]
+  }
 }

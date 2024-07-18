@@ -13,11 +13,7 @@ module Mint
         arguments =
           compile node.arguments
 
-        if async?(node.body.expressions)
-          js.async_arrow_function(arguments) { body }
-        else
-          js.arrow_function(arguments) { body }
-        end
+        js.arrow_function(arguments) { body }
       end
     end
   end

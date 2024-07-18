@@ -8,7 +8,7 @@ module Mint
         last =
           expressions.pop
 
-        if expressions.empty? && !async?(node.expressions)
+        if expressions.empty? && !Js.async?(expressions)
           if for_function
             js.return(last)
           else
@@ -16,10 +16,6 @@ module Mint
           end
         elsif for_function
           js.statements(expressions + [js.return(last)])
-        elsif async?(node.expressions)
-          js.asynciif do
-            js.statements(expressions + [js.return(last)])
-          end
         else
           js.iif do
             js.statements(expressions + [js.return(last)])

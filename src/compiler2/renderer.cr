@@ -62,6 +62,10 @@ module Mint
       # We are using a string builder to build the final compiled code.
       def render(item : Item, io : IO = IO::Memory.new)
         case item
+        in Await
+          io << "await"
+        in Function
+          render(item.value, io)
         in Signal
           used.add(item.value)
 

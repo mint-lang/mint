@@ -12,6 +12,10 @@ module Mint
           type
         end
 
+      if node.await && (block = self.block)
+        async.add(block)
+      end
+
       required =
         case target = node.target
         when Ast::TupleDestructuring,

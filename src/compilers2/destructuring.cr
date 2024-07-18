@@ -89,9 +89,9 @@ module Mint
         variable =
           Variable.new
 
-        js.asynciif do
+        js.iif do
           js.statements([
-            js.let(variable, ["await "] + defer(condition, compiled)),
+            js.let(variable, ([Await.new, " "] of Item) + defer(condition, compiled)),
             js.return(js.call(Builtin::Match, [
               [variable] of Item,
               js.array(items),

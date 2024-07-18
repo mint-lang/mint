@@ -117,6 +117,10 @@ module Mint
 
       final = resolve_type(result.parameters.last)
 
+      if node.await && (block = self.block)
+        async.add(block)
+      end
+
       if node.await && final.name == "Promise"
         final.parameters.first
       else

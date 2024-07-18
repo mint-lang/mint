@@ -28,11 +28,7 @@ module Mint
       items << compile(node.body, for_function: true)
 
       body =
-        if async?(node.body.expressions)
-          js.async_arrow_function(arguments) { js.statements(items) }
-        else
-          js.arrow_function(arguments) { js.statements(items) }
-        end
+        js.arrow_function(arguments) { js.statements(items) }
 
       if skip_const
         body

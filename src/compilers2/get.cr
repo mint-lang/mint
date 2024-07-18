@@ -6,11 +6,7 @@ module Mint
           compile node.body, for_function: true
 
         body =
-          if async?(node.body.expressions)
-            js.async_arrow_function([] of Compiled) { body }
-          else
-            js.arrow_function([] of Compiled) { body }
-          end
+          js.arrow_function([] of Compiled) { body }
 
         {node, node, body}
       end

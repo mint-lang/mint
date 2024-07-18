@@ -153,6 +153,10 @@ module Mint
         end
       end
 
+      if await && (block = self.block)
+        async.add(block)
+      end
+
       first =
         resolve node.branches.first, condition
 

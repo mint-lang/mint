@@ -47,7 +47,7 @@ module Mint
           end
 
         if await
-          ["await "] + body
+          ([Await.new, " "] of Item) + body
         else
           body
         end
@@ -148,24 +148,14 @@ module Mint
         ["return "] + item
       end
 
-      # Renders an async immediately invoked function.
-      def asynciif(&) : Compiled
-        function([] of Compiled, async: true, invoke: true) { yield }
-      end
-
-      # Renders an async immediately invoked function.
+      # Renders an immediately invoked function.
       def iif(&) : Compiled
-        function([] of Compiled, async: false, invoke: true) { yield }
-      end
-
-      # Renders an async arrow function.
-      def async_arrow_function(arguments : Array(Compiled) = [] of Compiled, &) : Compiled
-        function(arguments, async: true, invoke: false) { yield }
+        function([] of Compiled, invoke: true) { yield }
       end
 
       # Renders an arrow function.
       def arrow_function(arguments : Array(Compiled) = [] of Compiled, &) : Compiled
-        function(arguments, async: false, invoke: false) { yield }
+        function(arguments, invoke: false) { yield }
       end
 
       # Renders an list (separated by commas).
@@ -180,17 +170,17 @@ module Mint
       # Renders a function.
       private def function(
         arguments : Array(Compiled) = [] of Compiled, *,
-        async : Bool, invoke : Bool, &
+        invoke : Bool, &
       )
+        items =
+          block(yield)
+
         keyword =
-          if async
+          if self.class.async?(items)
             "async "
           else
             ""
           end
-
-        items =
-          block(yield)
 
         head, tail, parens =
           if invoke
@@ -199,11 +189,14 @@ module Mint
             ["", "", ""]
           end
 
-        [head, keyword, "("] +
-          list(arguments) +
-          [optimize? ? ")=>" : ") => "] +
-          items +
-          [tail, parens]
+        [
+          Function.new(
+            [head, keyword, "("] +
+            list(arguments) +
+            [optimize? ? ")=>" : ") => "] +
+            items +
+            [tail, parens]),
+        ] of Item
       end
 
       # Renders a block ({...}).
@@ -218,6 +211,27 @@ module Mint
       # Joins the items with the given separator.
       private def join(items : Array(Compiled), separator : String) : Compiled
         items.reject(&.empty?).intersperse([separator]).flatten
+      end
+
+      def self.async?(items : Array(Compiled))
+        # ameba:disable Performance/AnyInsteadOfEmpty
+        items.any?(&->async?(Compiled))
+      end
+
+      def self.async?(items : Compiled)
+        # ameba:disable Performance/AnyInsteadOfEmpty
+        items.any?(&->async?(Item))
+      end
+
+      def self.async?(item : Item)
+        case item
+        when Await
+          true
+        when Indent
+          async?(item.items)
+        else
+          false
+        end
       end
     end
   end

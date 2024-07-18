@@ -16,6 +16,10 @@ module Mint
           end
         end || {[] of VariableScope, false}
 
+      if await && (block = self.block)
+        async.add(block)
+      end
+
       error! :if_condition_type_mismatch do
         block do
           text "The type of the"

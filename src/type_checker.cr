@@ -67,6 +67,7 @@ module Mint
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate variables, ast, lookups, cache, scope, references, to: artifacts
     delegate assets, resolve_order, locales, components_touched, to: artifacts
+    delegate async, to: artifacts
 
     delegate format, to: formatter
 
@@ -77,8 +78,13 @@ module Mint
     @languages : Array(String)
     @referee : Ast::Node?
 
+    @block_stack = [] of Ast::Block
     @record_name_char : String = 'A'.pred.to_s
     @stack = [] of Ast::Node
+
+    def block
+      @block_stack.last?
+    end
 
     def initialize(ast : Ast, @check_env = true, @web_components = [] of String, @check_everything = true)
       ast.normalize
@@ -257,6 +263,8 @@ module Mint
       in Checkable
         node
       in Ast::Node
+        @block_stack.push(node) if node.is_a?(Ast::Block)
+
         if cached = cache[node]?
           invalid_self_reference(
             referee: @referee.not_nil!,
@@ -304,6 +312,8 @@ module Mint
           end
         end
       end
+    ensure
+      @block_stack.delete(node) if node.is_a?(Ast::Block)
     end
 
     def resolve(nodes : Array(Ast::Node)) : Array(Checkable)

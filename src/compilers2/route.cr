@@ -19,11 +19,7 @@ module Mint
             .map { |argument| decoder(cache[argument]) }
 
         handler =
-          if async?(node.expression.expressions)
-            js.async_arrow_function(arguments) { js.return(expression) }
-          else
-            js.arrow_function(arguments) { js.return(expression) }
-          end
+          js.arrow_function(arguments) { js.return(expression) }
 
         js.object({
           "await"    => [node.await.to_s] of Item,

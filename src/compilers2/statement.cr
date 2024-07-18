@@ -14,7 +14,7 @@ module Mint
             end
           end || {compile(node.expression), nil}
 
-        right = ["await "] + defer(node.expression, right) if node.await
+        right = ([Await.new, " "] of Item) + defer(node.expression, right) if node.await
 
         if target = node.target
           case target

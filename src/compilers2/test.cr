@@ -25,7 +25,7 @@ module Mint
           end || compile(node.expression)
 
         js.object({
-          "proc"     => js.async_arrow_function { js.return(expression) },
+          "proc"     => js.arrow_function { js.return(expression) },
           "location" => location,
           "name"     => name,
         })
