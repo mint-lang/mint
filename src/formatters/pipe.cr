@@ -7,7 +7,12 @@ module Mint
       expression =
         format node.expression
 
-      "#{argument}\n|> #{expression}"
+      await =
+        if node.await
+          "await "
+        end
+
+      "#{argument}\n|> #{await}#{expression}"
     end
   end
 end

@@ -7,6 +7,12 @@ module Mint
     # Operations can be chained recursively with this method as seen below.
     def operation(left : Ast::Node, operator : String) : Ast::Operation?
       parse do
+        if operator == "|>"
+          whitespace
+          await = keyword! "await"
+          whitespace
+        end
+
         next error :operation_expected_expression do
           expected "the right side expression of an operation", word
           snippet self
@@ -20,6 +26,7 @@ module Mint
               Ast::Operation.new(
                 operator: operator,
                 from: left.from,
+                await: await,
                 to: right.to,
                 right: right,
                 file: file,
@@ -33,6 +40,7 @@ module Mint
         Ast::Operation.new(
           operator: operator,
           from: left.from,
+          await: await,
           to: right.to,
           right: right,
           file: file,

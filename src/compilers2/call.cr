@@ -19,7 +19,7 @@ module Mint
             expression
           end
 
-        js.call(receiver, arguments)
+        js.call(receiver, arguments, node.await)
       end
     end
   end

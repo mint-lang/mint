@@ -45,7 +45,22 @@ module Mint
     end
 
     def async?(node : Ast::Node) : Bool
-      node.expressions.select(Ast::Statement).any?(&.await)
+      case node
+      when Ast::Statement
+        node.await || async?(node.expression)
+      when Ast::Pipe
+        node.await || async?(node.expression) || async?(node.argument)
+      when Ast::Call
+        node.await || async?(node.expression) || async?(node.arguments)
+      when Ast::Field
+        async?(node.value)
+      else
+        false
+      end
+    end
+
+    def async?(nodes : Array(Ast::Node))
+      nodes.any? { |item| async?(item) }
     end
 
     def static?(nodes : Array(Ast::Node)) : Bool

@@ -20,7 +20,7 @@ module Mint
       body =
         js.statements(items)
 
-      if async?(node.body)
+      if async?(node.body.expressions)
         js.async_function(name, arguments, body)
       else
         js.function(name, arguments, body)

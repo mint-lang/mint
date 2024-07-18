@@ -18,7 +18,7 @@ module Mint
           .map { |argument| @serializer.decoder(cache[argument]) }
 
       handler =
-        if async?(node.expression)
+        if async?(node.expression.expressions)
           js.async_arrow_function(arguments, expression)
         else
           js.arrow_function(arguments, expression)

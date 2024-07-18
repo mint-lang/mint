@@ -1,11 +1,12 @@
 module Mint
   class Ast
     class Pipe < Node
-      getter expression, argument
+      getter expression, argument, await
 
       def initialize(@file : Parser::File,
                      @expression : Node,
                      @argument : Node,
+                     @await : Bool?,
                      @from : Int64,
                      @to : Int64)
       end
@@ -28,11 +29,13 @@ module Mint
               expression: item.expression,
               file: item.file,
               from: item.from,
+              await: await,
               to: item.to)
           else
             Ast::Call.new(
               expression: expression,
               arguments: [arg],
+              await: await,
               file: file,
               from: from,
               to: to)

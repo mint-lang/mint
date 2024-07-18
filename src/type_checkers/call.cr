@@ -115,7 +115,13 @@ module Mint
         snippet node
       end unless result
 
-      resolve_type(result.parameters.last)
+      final = resolve_type(result.parameters.last)
+
+      if node.await && final.name == "Promise"
+        final.parameters.first
+      else
+        final
+      end
     end
   end
 end

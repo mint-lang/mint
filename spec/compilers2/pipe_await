@@ -1,0 +1,34 @@
+component Main {
+  fun pipe (value : String) : Promise(String) {
+    await value
+  }
+
+  fun test {
+    let value =
+      "Hello"
+      |> await pipe
+      |> await pipe
+
+    value == "asd"
+  }
+
+  fun render : String {
+    test()
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import { compare as B } from "./runtime.js";
+
+export const A = () => {
+  const
+    a = async (b) => {
+      return await b
+    },
+    c = async () => {
+      const d = await a(await a(`Hello`));
+      return B(d, `asd`)
+    };
+  c();
+  return ``
+};

@@ -11,6 +11,10 @@ module Mint
                      @from : Int64,
                      @to : Int64)
       end
+
+      def await
+        nil
+      end
     end
   end
 end
