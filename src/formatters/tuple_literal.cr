@@ -1,21 +1,12 @@
 module Mint
   class Formatter
-    def format(node : Ast::TupleLiteral) : String
-      mutliline =
-        if node.items.size > 0
-          Ast.new_line?(node.items.first, node.items.last)
-        else
-          false
-        end
-
-      items =
-        format node.items, mutliline ? ",\n" : ", "
-
-      if mutliline || replace_skipped(items).includes?('\n')
-        "{\n#{indent(items)}\n}"
-      else
-        "{#{items}}"
-      end
+    def format(node : Ast::TupleLiteral) : Nodes
+      group(
+        items: node.items.map(&->format(Ast::Node)),
+        behavior: Behavior::BreakAll,
+        ends: {"{", "}"},
+        separator: ",",
+        pad: false)
     end
   end
 end

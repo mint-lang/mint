@@ -1,17 +1,16 @@
 module Mint
   class Formatter
-    def format(node : Ast::Operation) : String
+    def format(node : Ast::Operation) : Nodes
       left =
         format node.left
 
       right =
         format node.right
 
-      if node.new_line? &&
-         node.right.is_a?(Ast::Operation)
-        "#{left} #{node.operator}\n#{indent(right.remove_all_leading_whitespace)}"
+      if node.right.is_a?(Ast::Operation)
+        left + [" #{node.operator} "] + right
       else
-        "#{left} #{node.operator} #{right}"
+        left + [" #{node.operator} "] + right
       end
     end
   end

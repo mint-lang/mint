@@ -1,13 +1,13 @@
 module Mint
   class Formatter
-    def format(node : Ast::HereDocument) : String
+    def format(node : Ast::HereDocument) : Nodes
       value =
-        node.value.reduce("") do |memo, item|
+        node.value.reduce([] of Node) do |memo, item|
           case item
           when Ast::Node
             memo + format(item)
           when String
-            memo + skip_string(item)
+            memo + [item] of Node
           else
             memo
           end
@@ -15,10 +15,12 @@ module Mint
 
       flags =
         if node.highlight
-          "(highlight)"
+          format("(highlight)")
+        else
+          [] of Node
         end
 
-      "<<#{node.modifier}#{node.token}#{flags}#{value}#{node.token}"
+      ["<<#{node.modifier}#{node.token}"] + flags + value + [node.token]
     end
   end
 end

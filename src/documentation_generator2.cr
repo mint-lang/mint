@@ -228,12 +228,12 @@ module Mint
         when Array(Ast::TypeDefinitionField)
           params.map do |item|
             Argument.new(
-              type: @formatter.format(item.type),
+              type: @formatter.format!(item.type),
               name: item.key.value)
           end
         else
           params.map do |item|
-            Argument.new(name: @formatter.format(item))
+            Argument.new(name: @formatter.format!(item))
           end
         end
 
@@ -265,8 +265,8 @@ module Mint
       arguments =
         node.arguments.map do |item|
           Argument.new(
-            value: @formatter.format(item.default),
-            type: @formatter.format(item.type),
+            value: @formatter.format!(item.default),
+            type: @formatter.format!(item.type),
             name: item.name.value)
         end
 
@@ -315,10 +315,10 @@ module Mint
       kind : Kind
     )
       formatted_value =
-        @formatter.format(value)
+        @formatter.format!(value)
 
       formatted_type =
-        @formatter.format(type)
+        @formatter.format!(type)
 
       keyword =
         case kind
@@ -407,7 +407,7 @@ module Mint
     end
 
     def highlight(node : Ast::Node)
-      highlight(@formatter.format(node))
+      highlight(@formatter.format!(node))
     end
 
     def highlight(formatted : String)

@@ -15,11 +15,11 @@ module Mint
           end
 
         arguments =
-          workspace.formatter.format_arguments(node.arguments)
+          "" # workspace.formatter.format_arguments(node.arguments)
 
         type =
           node.type.try do |item|
-            ": #{workspace.formatter.format(item)}"
+            ": #{workspace.formatter.format!(item)}"
           end
 
         [

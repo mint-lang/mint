@@ -1,32 +1,28 @@
 module Mint
   class Formatter
-    def format(node : Ast::Property) : String
+    def format(node : Ast::Property) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       name =
         format node.name
 
       type =
-        node.type.try do |item|
-          " : #{format(item)}"
+        format(node.type) do |item|
+          [" : "] + format(item)
         end
-
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
 
       head =
-        "#{comment}property #{name}#{type}"
+        ["property "] + name + type
 
-      if default = node.default
-        formatted =
-          format default
-
-        if default.new_line? || Ast.new_line?(node.name, default)
-          "#{head} =\n#{indent(formatted)}"
+      comment +
+        if default = node.default
+          break_not_fits(
+            items: {head, format(default)},
+            separator: " =")
         else
-          "#{head} = #{formatted}"
+          head
         end
-      else
-        head
-      end
     end
   end
 end

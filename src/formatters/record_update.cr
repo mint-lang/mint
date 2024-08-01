@@ -1,17 +1,16 @@
 module Mint
   class Formatter
-    def format(node : Ast::RecordUpdate) : String
+    def format(node : Ast::RecordUpdate) : Nodes
       expression =
         format node.expression
 
-      fields =
-        format node.fields
-
-      if node.fields.size >= 2 || fields.any? { |string| replace_skipped(string).includes?('\n') }
-        "{ #{expression} |\n#{indent(fields.join(",\n"))}\n}"
-      else
-        "{ #{expression} | #{fields.join} }"
-      end
+      ["{ "] + expression + [" |"] +
+        group(
+          items: node.fields.map(&->format(Ast::Node)),
+          behavior: Behavior::BreakAll,
+          ends: {"", "}"},
+          separator: ",",
+          pad: true)
     end
   end
 end

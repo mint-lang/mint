@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::CaseBranch) : String
+    def format(node : Ast::CaseBranch) : Nodes
       expression =
         case item = node.expression
         when Array(Ast::CssDefinition)
@@ -8,24 +8,19 @@ module Mint
         when Ast::Node
           format item
         else
-          ""
+          [] of Node
         end
 
-      pattern =
-        format node.pattern
-
-      head =
-        if pattern
-          "#{pattern} =>"
+      pattern, separator =
+        if node.pattern
+          {format(node.pattern), " =>"}
         else
-          "=>"
+          {[] of Node, "=>"}
         end
 
-      if replace_skipped(expression).includes?('\n') || node.new_line?
-        "#{head}\n#{indent(expression)}"
-      else
-        "#{head} #{expression}"
-      end
+      break_not_fits(
+        items: {pattern, expression},
+        separator: separator)
     end
   end
 end

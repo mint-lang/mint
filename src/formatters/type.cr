@@ -1,14 +1,13 @@
 module Mint
   class Formatter
-    def format(node : Ast::Type) : String
+    def format(node : Ast::Type) : Nodes
       parameters =
-        format node.parameters, ", "
+        format_arguments node.parameters, empty_parenthesis: false
 
-      if parameters.empty?
+      name =
         format node.name
-      else
-        "#{format node.name}(#{parameters})"
-      end
+
+      name + parameters
     end
   end
 end

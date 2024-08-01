@@ -1,21 +1,21 @@
 module Mint
   class Formatter
-    def format(node : Ast::Get) : String
+    def format(node : Ast::Get) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       name =
         format node.name
-
-      type =
-        node.type.try do |item|
-          " : #{format(item)}"
-        end
 
       body =
         format node.body
 
-      comment =
-        node.comment.try { |item| "#{format(item)}\n" }
+      type =
+        format(node.type) do |item|
+          [" : "] + format(item)
+        end
 
-      "#{comment}get #{name}#{type} #{body}"
+      comment + ["get "] + name + type + [" "] + body
     end
   end
 end

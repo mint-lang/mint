@@ -1,29 +1,22 @@
 module Mint
   class Formatter
-    def format(node : Ast::Js) : String
+    def format(node : Ast::Js) : Nodes
       body =
-        node.value.join do |item|
+        node.value.reduce([] of Node) do |memo, item|
           case item
           when Ast::Interpolation
-            item.source
+            memo + [item.source]
           else
-            format(item)
+            memo + format(item)
           end
         end
 
       type =
-        node.type.try do |item|
-          " as #{format(item)}"
+        format(node.type) do |item|
+          [" as "] + format(item)
         end
 
-      body =
-        if body.includes?('\n')
-          skip { body }
-        else
-          body
-        end
-
-      "`#{body}`#{type}"
+      ["`"] + body + ["`"] + type
     end
   end
 end

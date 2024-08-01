@@ -14,7 +14,7 @@ module Mint
 
         type =
           node.type.try do |item|
-            ": #{workspace.formatter.format(item)}"
+            ": #{workspace.formatter.format!(item)}"
           end
 
         [

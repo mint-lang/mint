@@ -1,12 +1,12 @@
 module Mint
   class Formatter
-    def format(node : Ast::Statement, newline = true) : String
+    def format(node : Ast::Statement, newline = true) : Nodes
       expression =
         format node.expression
 
       left =
         if node.await
-          "await #{expression}"
+          ["await "] + expression
         else
           expression
         end
@@ -19,9 +19,9 @@ module Mint
           format node.target
 
         if newline
-          "let #{target} =\n#{indent(left)}"
+          ["let "] + target + [" =", Nest.new([Line.new(1)] + left)]
         else
-          "let #{target} = #{left}"
+          ["let "] + target + [" = "] + left
         end
       end
     end

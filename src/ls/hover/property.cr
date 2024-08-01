@@ -4,12 +4,12 @@ module Mint
       def hover(node : Ast::Property, workspace) : Array(String)
         default =
           node.default.try do |item|
-            " = #{workspace.formatter.format(item)}"
+            " = #{workspace.formatter.format!(item)}"
           end
 
         type =
           node.type.try do |item|
-            " : #{workspace.formatter.format(item)}"
+            " : #{workspace.formatter.format!(item)}"
           end
 
         [

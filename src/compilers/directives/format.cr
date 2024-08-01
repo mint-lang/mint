@@ -7,7 +7,7 @@ module Mint
       formatted =
         skip do
           Formatter.new
-            .format(node.content, Formatter::BlockFormat::Naked)
+            .format!(node.content, Formatter::BlockFormat::Naked)
             .gsub('\\', "\\\\")
             .gsub('`', "\\`")
             .gsub("${", "\\${")

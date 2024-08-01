@@ -203,7 +203,7 @@ module Mint
         extra =
           node.branches.each_with_index.reject do |_, index|
             match.diagnostics.reachable.includes?(index)
-          end.map { |item| formatter.format(item[0]) }.to_a
+          end.map { |item| formatter.format!(item[0]) }.to_a
 
         error! :case_not_exhaustive do
           snippet "Not all possibilities of a case expression are covered. " \

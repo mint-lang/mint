@@ -12,7 +12,7 @@ module Mint
               default =
                 Mint::Formatter
                   .new(workspace.json.formatter_config)
-                  .format(property.default)
+                  .format!(property.default)
                   .to_s
                   .gsub("}", "\\}")
 

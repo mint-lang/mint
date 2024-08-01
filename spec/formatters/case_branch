@@ -16,8 +16,8 @@ module Test {
 
       /* Comment2 */
       "multiline" =>
-        "multi line content multi line content multi line content" \
-        " multi line content"
+        "multi line content multi line content multi line content multi " \
+        "line content"
 
       /* Comment3 */
       => "others"

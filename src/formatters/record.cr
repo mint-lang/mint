@@ -1,18 +1,15 @@
 module Mint
   class Formatter
-    def format(node : Ast::Record, multiline = false) : String
-      body =
-        format node.fields
-
-      if node.fields.size >= 2 || multiline || body.any? do |string|
-           replace_skipped(string).includes?('\n')
-         end
-        "{\n#{indent(list(node.fields.zip(body), ","))}\n}"
+    def format(node : Ast::Record, multiline = false) : Nodes
+      if node.fields.empty?
+        format("{ }")
       else
-        body =
-          body.join(", ").presence.try { |v| " #{v} " } || " "
-
-        "{#{body}}"
+        group(
+          items: node.fields.map(&->format(Ast::Node)),
+          behavior: Behavior::BreakAll,
+          ends: {"{", "}"},
+          separator: ",",
+          pad: true)
       end
     end
   end

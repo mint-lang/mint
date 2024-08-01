@@ -1,17 +1,17 @@
 module Mint
   class Formatter
-    def format(node : Ast::TypeDestructuring)
+    def format(node : Ast::TypeDestructuring) : Nodes
       items =
-        format node.items, ", "
+        format_arguments node.items, empty_parenthesis: false
 
       name =
-        "#{format node.name}." if node.name
+        if node.name
+          format(node.name) + ["."]
+        else
+          [] of Node
+        end
 
-      if items.empty?
-        "#{name}#{format node.variant}"
-      else
-        "#{name}#{format node.variant}(#{items})"
-      end
+      name + format(node.variant) + items
     end
   end
 end

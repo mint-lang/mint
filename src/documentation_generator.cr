@@ -78,7 +78,7 @@ module Mint
     end
 
     def source(node)
-      @formatter.source(node)
+      @formatter.format!(node)
     end
   end
 end

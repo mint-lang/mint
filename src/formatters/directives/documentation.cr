@@ -1,7 +1,7 @@
 module Mint
   class Formatter
-    def format(node : Ast::Directives::Documentation)
-      "@documentation(#{format node.entity})"
+    def format(node : Ast::Directives::Documentation) : Nodes
+      format("@documentation(#{node.entity.value})")
     end
   end
 end

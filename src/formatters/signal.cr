@@ -1,6 +1,9 @@
 module Mint
   class Formatter
-    def format(node : Ast::Signal) : String
+    def format(node : Ast::Signal) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       block =
         format node.block
 
@@ -10,10 +13,7 @@ module Mint
       type =
         format node.type
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
-
-      "#{comment}signal #{name} : #{type} #{block}"
+      comment + ["signal "] + name + [" : "] + type + [" "] + block
     end
   end
 end

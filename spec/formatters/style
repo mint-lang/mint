@@ -1,0 +1,28 @@
+component A {
+  style test (a : String, b : String, c : String, d : String, e : String, f : String) {
+    background: red;
+    color: blue;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test (
+    a : String,
+    b : String,
+    c : String,
+    d : String,
+    e : String,
+    f : String
+  ) {
+    background: red;
+    color: blue;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

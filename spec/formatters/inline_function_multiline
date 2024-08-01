@@ -5,7 +5,7 @@ type X {
 
 module A {
   fun test : String {
-    let a = (name:String,age:Number):X{{name: name, age: age}}
+    let a = (name:String,age:Number):X{{name: name, age: age + 100000000000000}}
 
     let result =
       a("Joe", 25)
@@ -23,10 +23,7 @@ module A {
   fun test : String {
     let a =
       (name : String, age : Number) : X {
-        {
-          name: name,
-          age: age
-        }
+        { name: name, age: age + 100000000000000 }
       }
 
     let result =

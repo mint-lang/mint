@@ -1,7 +1,7 @@
 module Mint
   class Formatter
-    def format(node : Ast::Spread) : String
-      "...#{format(node.variable)}"
+    def format(node : Ast::Spread) : Nodes
+      ["..."] + format(node.variable)
     end
   end
 end

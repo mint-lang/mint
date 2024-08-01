@@ -1,15 +1,15 @@
 store Test {
-  state a : String = "a"
-  state b : String = "b"
-  state c : String = "c"
-  state d : String = "d"
-  state e : String = "e"
-  state f : String = "f"
-  state g : String = "g"
+  state aaaaaaa : String = "a"
+  state bbbbbbb : String = "b"
+  state ccccccc : String = "c"
+  state ddddddd : String = "d"
+  state eeeeeee : String = "e"
+  state fffffff : String = "f"
+  state ggggggg : String = "g"
 }
 
 component A {
-  connectTest exposing{a,b,c,d,e,f,g}
+  connectTest exposing{aaaaaaa,bbbbbbb,ccccccc,ddddddd,eeeeeee,fffffff,ggggggg}
 
   fun render : Html {
     <div/>
@@ -17,24 +17,24 @@ component A {
 }
 --------------------------------------------------------------------------------
 store Test {
-  state a : String = "a"
-  state b : String = "b"
-  state c : String = "c"
-  state d : String = "d"
-  state e : String = "e"
-  state f : String = "f"
-  state g : String = "g"
+  state aaaaaaa : String = "a"
+  state bbbbbbb : String = "b"
+  state ccccccc : String = "c"
+  state ddddddd : String = "d"
+  state eeeeeee : String = "e"
+  state fffffff : String = "f"
+  state ggggggg : String = "g"
 }
 
 component A {
   connect Test exposing {
-    a,
-    b,
-    c,
-    d,
-    e,
-    f,
-    g
+    aaaaaaa,
+    bbbbbbb,
+    ccccccc,
+    ddddddd,
+    eeeeeee,
+    fffffff,
+    ggggggg
   }
 
   fun render : Html {

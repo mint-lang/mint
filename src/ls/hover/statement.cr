@@ -10,7 +10,7 @@ module Mint
             formatted =
               workspace
                 .formatter
-                .format(target)
+                .format!(target)
 
             "**#{formatted} =**"
           end

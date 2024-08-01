@@ -43,6 +43,7 @@ require "./type_checker/**"
 require "./type_checker"
 
 require "./formatters/**"
+require "./formatter/**"
 require "./formatter"
 
 require "./compilers2/**"

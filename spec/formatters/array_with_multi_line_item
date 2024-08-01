@@ -1,0 +1,19 @@
+module Test {
+  fun test : Array(String) {
+    [
+      "Hello
+ World!", "Blah", "Joe"
+    ]
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Array(String) {
+    [
+      "Hello
+ World!",
+      "Blah",
+      "Joe"
+    ]
+  }
+}

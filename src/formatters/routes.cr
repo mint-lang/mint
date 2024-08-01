@@ -1,10 +1,12 @@
 module Mint
   class Formatter
-    def format(node : Ast::Routes) : String
-      body =
-        list node.routes + node.comments
-
-      "routes {\n#{indent(body)}\n}"
+    def format(node : Ast::Routes) : Nodes
+      ["routes "] + group(
+        items: [list(node.routes + node.comments)],
+        behavior: Behavior::Block,
+        ends: {"{", "}"},
+        separator: "",
+        pad: false)
     end
   end
 end

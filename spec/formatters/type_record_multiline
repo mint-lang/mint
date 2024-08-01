@@ -6,7 +6,7 @@ type A {
 component Main {
   const X =
     A.B(
-      color: "Blue",
+      color: "This is a looong string that will break it into a new line.",
       name: "Joe",
     )
 
@@ -23,7 +23,7 @@ type A {
 component Main {
   const X =
     A.B(
-      color: "Blue",
+      color: "This is a looong string that will break it into a new line.",
       name: "Joe")
 
   fun render : String {

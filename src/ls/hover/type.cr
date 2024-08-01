@@ -12,7 +12,7 @@ module Mint
           hover(definition, workspace)
         else
           type =
-            workspace.formatter.format(node)
+            workspace.formatter.format!(node)
 
           ["```\n#{type}\n```"]
         end

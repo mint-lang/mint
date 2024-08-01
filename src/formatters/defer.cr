@@ -1,10 +1,7 @@
 module Mint
   class Formatter
-    def format(node : Ast::Defer) : String
-      body =
-        format node.body
-
-      "defer #{body}"
+    def format(node : Ast::Defer) : Nodes
+      ["defer "] + format(node.body)
     end
   end
 end

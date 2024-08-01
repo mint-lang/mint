@@ -1,24 +1,25 @@
 module Mint
   class Formatter
-    def format(node : Ast::Field) : String
+    def format(node : Ast::Field) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       value =
         format node.value
 
       key =
         format node.key
 
-      comment =
-        node.comment.try { |item| "#{format(item)}\n" }
-
-      if key
-        if replace_skipped(value).includes?('\n')
-          "#{comment}#{key}:\n#{indent(value)}"
+      body =
+        if node.key
+          break_not_fits(
+            items: {key, value},
+            separator: ":")
         else
-          "#{comment}#{key}: #{value}"
+          value
         end
-      else
-        "#{comment}#{value}"
-      end
+
+      comment + body
     end
   end
 end

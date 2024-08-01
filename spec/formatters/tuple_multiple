@@ -1,7 +1,7 @@
 module Test {
   fun test : Tuple(String, String, String) {
     {
-      "Hello",
+      "Hello this is a long string which will make the tuple multiline...",
       "Blah", "Joe"
     }
   }
@@ -10,7 +10,7 @@ module Test {
 module Test {
   fun test : Tuple(String, String, String) {
     {
-      "Hello",
+      "Hello this is a long string which will make the tuple multiline...",
       "Blah",
       "Joe"
     }

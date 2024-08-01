@@ -7,7 +7,7 @@ module Mint
 
         formatted =
           Formatter.new
-            .format(node.content, Formatter::BlockFormat::Naked)
+            .format!(node.content, Formatter::BlockFormat::Naked)
             .gsub('\\', "\\\\")
 
         js.array([content, js.string(formatted)])

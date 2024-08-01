@@ -64,7 +64,7 @@ module Mint
           Parser.parse(input, "stdin.mint")
 
         formatted =
-          Formatter.new(config).format(artifact)
+          Formatter.new.format(artifact)
 
         terminal.puts formatted
       rescue error : Error
@@ -83,7 +83,7 @@ module Mint
             Parser.parse(file)
 
           formatted =
-            Formatter.new(config).format(artifact)
+            Formatter.new.format(artifact)
 
           next {Status::Same, file} if formatted == File.read(file)
 

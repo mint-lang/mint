@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::If) : String
+    def format(node : Ast::If) : Nodes
       target =
         case item = node.condition
         when Ast::Statement
@@ -23,39 +23,53 @@ module Mint
       truthy =
         case truthy_item
         when Array(Ast::CssDefinition)
-          "{\n#{indent(list(truthy_item))}\n}"
+          group(
+            items: [list(truthy_item)],
+            behavior: Behavior::Block,
+            ends: {"{", "}"},
+            separator: "",
+            pad: false)
         when Ast::Node
           format truthy_item
         else
-          ""
+          [] of Node
         end
 
       falsy =
         if falsy_item.is_a?(Ast::If)
-          " else #{format(falsy_item)}"
+          [" else "] + format(falsy_item)
         else
           body =
             case falsy_item
             when Array(Ast::CssDefinition)
-              "{\n#{indent(list(falsy_item))}\n}"
+              group(
+                behavior: Behavior::Block,
+                items: [list(falsy_item)],
+                ends: {"{", "}"},
+                separator: "",
+                pad: false)
             when Ast::Node
               format falsy_item
             end
 
-          " else #{body}" if body
+          if body
+            [" else "] + body
+          else
+            [] of Node
+          end
         end
 
-      condition =
-        if replace_skipped(condition).includes?('\n')
-          condition
-            .remove_all_leading_whitespace
-            .indent(4)
-            .lstrip
-        else
-          condition
-        end
+      # condition =
+      #   if replace_skipped(condition).includes?('\n')
+      #     condition
+      #       .remove_all_leading_whitespace
+      #       .indent(4)
+      #       .lstrip
+      #   else
+      #     condition
+      #   end
 
-      "if #{condition} #{truthy}#{falsy}"
+      ["if "] + condition + [" "] + truthy + falsy
     end
   end
 end

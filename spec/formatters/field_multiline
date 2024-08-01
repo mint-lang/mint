@@ -16,8 +16,8 @@ module Test {
   fun get : Test {
     {
       a:
-        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
-        "elloHelloHelloHelloHelloHelloHelloHello"
+        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHe" \
+        "lloHelloHelloHelloHelloHello"
     }
   }
 }

@@ -1,0 +1,26 @@
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    { a: if true { "True" } else { "False" } }
+  }
+}
+--------------------------------------------------------------------------------
+type Test {
+  a : String
+}
+
+module Test {
+  fun get : Test {
+    {
+      a:
+        if true {
+          "True"
+        } else {
+          "False"
+        }
+    }
+  }
+}

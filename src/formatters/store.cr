@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::Store) : String
+    def format(node : Ast::Store) : Nodes
       items =
         node.functions +
           node.constants +
@@ -9,16 +9,21 @@ module Mint
           node.states +
           node.gets
 
+      comment =
+        format_documentation_comment node.comment
+
       name =
         format node.name
 
       body =
         list items
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
-
-      "#{comment}store #{name} {\n#{indent(body)}\n}"
+      comment + ["store "] + name + [" "] + group(
+        behavior: Behavior::Block,
+        ends: {"{", "}"},
+        separator: "",
+        items: [body],
+        pad: false)
     end
   end
 end

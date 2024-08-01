@@ -1,6 +1,6 @@
 component Test {
   /* Comment */propertyname:String=
-  "hello"
+  "Hello this is a looong string that will only fit in the next line..."
 
   fun render : Html {
     <div/>
@@ -10,7 +10,7 @@ component Test {
 component Test {
   /* Comment */
   property name : String =
-    "hello"
+    "Hello this is a looong string that will only fit in the next line..."
 
   fun render : Html {
     <div/>

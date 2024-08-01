@@ -1,27 +1,21 @@
 module Mint
   class Formatter
-    def format(node : Ast::Map) : String
-      body =
-        format node.fields
-
+    def format(node : Ast::Map) : Nodes
       types =
-        node.types.try do |items|
-          " of #{format(items[0])} => #{format(items[1])}"
+        format(node.types) do |items|
+          [" of "] + format(items[0]) + [" => "] + format(items[1])
         end
 
-      formatted =
-        if node.fields.size >= 2 || body.any? do |string|
-             replace_skipped(string).includes?('\n')
-           end
-          "{\n#{indent(body.join(",\n"))}\n}"
-        else
-          body =
-            body.join(", ").presence.try { |v| " #{v} " } || " "
-
-          "{#{body}}"
-        end
-
-      "#{formatted}#{types}"
+      if node.fields.empty?
+        format("{ }")
+      else
+        group(
+          items: node.fields.map(&->format(Ast::Node)),
+          behavior: Behavior::BreakAll,
+          ends: {"{", "}"},
+          separator: ",",
+          pad: true)
+      end + types
     end
   end
 end

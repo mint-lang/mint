@@ -1,13 +1,12 @@
 module Mint
   class Formatter
-    def format(node : Ast::StateSetter) : String
+    def format(node : Ast::StateSetter) : Nodes
       entity =
-        node
-          .entity
-          .try(&->format(Ast::Id))
-          .try { |item| "#{item}" }
+        format(node.entity) do |item|
+          format(item) + ["."]
+        end
 
-      "-> #{entity}#{node.state.value}"
+      ["-> "] + entity + [node.state.value]
     end
   end
 end

@@ -16,8 +16,7 @@ export const A = () => {
     b
   ] = [
     `HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`,
-    `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \\
-"Bello"`
+    `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello"`
   ];
   return a + b
 };

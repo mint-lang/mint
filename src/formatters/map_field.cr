@@ -1,20 +1,18 @@
 module Mint
   class Formatter
-    def format(node : Ast::MapField) : String
+    def format(node : Ast::MapField) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       value =
         format node.value
 
       key =
         format node.key
 
-      comment =
-        node.comment.try { |item| "#{format(item)}\n" }
-
-      if replace_skipped(value).includes?('\n')
-        "#{comment}#{key} =>\n#{indent(value)}"
-      else
-        "#{comment}#{key} => #{value}"
-      end
+      comment + break_not_fits(
+        items: {key, value},
+        separator: " =>")
     end
   end
 end

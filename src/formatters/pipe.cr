@@ -1,6 +1,6 @@
 module Mint
   class Formatter
-    def format(node : Ast::Pipe) : String
+    def format(node : Ast::Pipe) : Nodes
       argument =
         format node.argument
 
@@ -9,10 +9,12 @@ module Mint
 
       await =
         if node.await
-          "await "
+          format("await ")
+        else
+          [] of Node
         end
 
-      "#{argument}\n|> #{await}#{expression}"
+      argument + [Line.new(1), "|> "] of Node + await + expression
     end
   end
 end

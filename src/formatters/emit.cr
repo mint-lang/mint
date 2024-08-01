@@ -1,10 +1,7 @@
 module Mint
   class Formatter
-    def format(node : Ast::Emit) : String
-      expression =
-        format node.expression
-
-      "emit #{expression}"
+    def format(node : Ast::Emit) : Nodes
+      ["emit "] + format(node.expression)
     end
   end
 end

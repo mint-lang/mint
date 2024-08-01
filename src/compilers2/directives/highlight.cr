@@ -6,7 +6,7 @@ module Mint
           compile node.content
 
         formatted =
-          Formatter.new.format(node.content, Formatter::BlockFormat::Naked)
+          Formatter.new.format!(node.content, Formatter::BlockFormat::Naked)
 
         parser =
           Parser.new(formatted, "source.mint").tap(&.parse_any)

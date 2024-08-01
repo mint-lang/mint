@@ -1,27 +1,18 @@
 module Mint
   class Formatter
-    def format(node : Ast::Connect) : String
+    def format(node : Ast::Connect) : Nodes
       store =
-        node.store
-
-      separated =
-        Ast.new_line?(node.keys.first, node.keys.last)
-
-      should_break =
-        node.keys.size > 6 || separated
+        format node.store
 
       keys =
-        if should_break
-          format node.keys, ",\n"
-        else
-          format node.keys, ", "
-        end
+        group(
+          items: node.keys.map(&->format(Ast::Node)),
+          behavior: Behavior::BreakAll,
+          ends: {"{", "}"},
+          separator: ",",
+          pad: true)
 
-      if should_break
-        "connect #{format store} exposing {\n#{indent(keys)}\n}"
-      else
-        "connect #{format store} exposing { #{keys} }"
-      end
+      ["connect "] + store + [" exposing "] + keys
     end
   end
 end
