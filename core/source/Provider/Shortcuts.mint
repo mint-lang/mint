@@ -19,7 +19,6 @@ type Provider.Shortcuts {
 }
 
 /*
-
 This provider allows components to subscribe to global shortcuts.
 
 ```
@@ -88,7 +87,9 @@ provider Provider.Shortcuts : Provider.Shortcuts {
       next { listener: Maybe.Nothing }
     } else {
       if listener == Maybe.Nothing {
-        next { listener: Maybe.Just(Window.addEventListener("keydown", true, handle)) }
+        next {
+          listener: Maybe.Just(Window.addEventListener("keydown", true, handle))
+        }
       }
     }
   }

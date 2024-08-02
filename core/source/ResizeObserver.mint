@@ -50,7 +50,10 @@ module ResizeObserver {
       ResizeObserver.observe(observer, element, true, true)
     }
   */
-  fun observe (observer : ResizeObserver, element : Dom.Element) : ResizeObserver {
+  fun observe (
+    observer : ResizeObserver,
+    element : Dom.Element
+  ) : ResizeObserver {
     `#{observer}.observe(#{element}) || #{observer}`
   }
 
@@ -61,7 +64,10 @@ module ResizeObserver {
       ResizeObserver.unobserve(observer, element)
     }
   */
-  fun unobserve (observer : ResizeObserver, element : Dom.Element) : ResizeObserver {
+  fun unobserve (
+    observer : ResizeObserver,
+    element : Dom.Element
+  ) : ResizeObserver {
     `#{observer}.unobserve(#{element}) || #{observer}`
   }
 }

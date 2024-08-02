@@ -102,7 +102,11 @@ module Storage.Common {
   }
 
   /* Sets the key to the value in the storage. */
-  fun set (storage : Storage, key : String, value : String) : Result(Storage.Error, Void) {
+  fun set (
+    storage : Storage,
+    key : String,
+    value : String
+  ) : Result(Storage.Error, Void) {
     `
     (() => {
       try {

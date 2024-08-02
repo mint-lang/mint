@@ -57,7 +57,10 @@ provider Provider.Url : Provider.Url {
       next { listener: Maybe.Nothing }
     } else {
       if listener == Maybe.Nothing {
-        next { listener: Maybe.Just(Window.addEventListener("popstate", false, handle)) }
+        next {
+          listener:
+            Maybe.Just(Window.addEventListener("popstate", false, handle))
+        }
       }
     }
   }

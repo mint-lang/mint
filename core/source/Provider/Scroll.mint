@@ -51,7 +51,9 @@ provider Provider.Scroll : Provider.Scroll {
       next { listener: Maybe.Nothing }
     } else {
       if listener == Maybe.Nothing {
-        next { listener: Maybe.Just(Window.addEventListener("scroll", false, handle)) }
+        next {
+          listener: Maybe.Just(Window.addEventListener("scroll", false, handle))
+        }
       }
     }
   }

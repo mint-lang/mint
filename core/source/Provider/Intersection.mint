@@ -65,7 +65,8 @@ component Main {
 */
 provider Provider.Intersection : Provider.Intersection {
   /* The observers. */
-  state observers : Array(Tuple(Provider.Intersection, IntersectionObserver)) = []
+  state observers : Array(Tuple(Provider.Intersection, IntersectionObserver)) =
+    []
 
   /* Updates the provider. */
   fun update : Promise(Void) {
@@ -96,10 +97,8 @@ provider Provider.Intersection : Provider.Intersection {
           Maybe.Just(
             {
               subscription,
-              IntersectionObserver.new(
-                subscription.rootMargin,
-                subscription.threshold,
-                subscription.callback)
+              IntersectionObserver.new(subscription.rootMargin,
+                subscription.threshold, subscription.callback)
               |> IntersectionObserver.observe(observed)
             })
         }

@@ -13,9 +13,7 @@ component Test.Provider.AnimationFrame {
   }
 
   fun render : Html {
-    <div>
-      Number.toString(frames)
-    </div>
+    <div>Number.toString(frames)</div>
   }
 }
 
@@ -25,8 +23,6 @@ suite "Provider.AnimationFrame.frames" {
     |> Test.Html.start()
     |> Test.Context.timeout(10)
     |> Test.Context.assert(
-      (element : Dom.Element) {
-        Dom.getTextContent(element) != "0"
-      })
+      (element : Dom.Element) { Dom.getTextContent(element) != "0" })
   }
 }

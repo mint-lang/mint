@@ -40,7 +40,9 @@ provider Provider.Mutation : Provider.Mutation {
   state observer = MutationObserver.new(notify)
 
   /* Notifies the subscribers when changes occur. */
-  fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Void))) {
+  fun notify (
+    entries : Array(MutationObserver.Entry)
+  ) : Array(Array(Promise(Void))) {
     for entry of entries {
       for subscription of subscriptions {
         if let Maybe.Just(element) = subscription.element {
@@ -68,12 +70,11 @@ provider Provider.Mutation : Provider.Mutation {
     }
 
     /* Update the observed elements array. */
-    next
-      {
-        observedElements:
-          for subscription of subscriptions {
-            subscription.element
-          }
-      }
+    next {
+      observedElements:
+        for subscription of subscriptions {
+          subscription.element
+        }
+    }
   }
 }

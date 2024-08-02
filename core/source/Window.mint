@@ -161,12 +161,7 @@ module Window {
     let current =
       Url.parse(url)
 
-    (window.hostname == current.hostname &&
-      window.protocol == current.protocol &&
-      window.origin == current.origin &&
-      window.path == current.path &&
-      window.host == current.host &&
-      window.port == current.port)
+    (window.hostname == current.hostname && window.protocol == current.protocol && window.origin == current.origin && window.path == current.path && window.host == current.host && window.port == current.port)
   }
 
   /*

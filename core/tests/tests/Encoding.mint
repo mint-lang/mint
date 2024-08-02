@@ -74,10 +74,7 @@ suite "Encode" {
 
   test "it encodes a record (with nested fields)" {
     let encoded =
-      encode {
-        field: "Mapped Field",
-        nested: { field: "Field" }
-      }
+      encode { field: "Mapped Field", nested: { field: "Field" } }
 
     `
     typeof #{encoded} == "object" &&

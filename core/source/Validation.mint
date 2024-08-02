@@ -39,21 +39,19 @@ module Validation {
   // A regular expression to validate an email address.
   const EMAIL_REGEXP =
     Regexp.createWithOptions(
-      "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-" \
-      "Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-" \
-      "]{0,61}[a-zA-Z0-9])?)*$",
-      {
-        caseInsensitive: true,
-        multiline: false,
-        unicode: false,
-        global: false,
-        sticky: false
-      })
+      "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[" \
+      "a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+        {
+          caseInsensitive: true,
+          multiline: false,
+          unicode: false,
+          global: false,
+          sticky: false
+        })
 
   // A regular expression to validate digits.
   const DIGITS_REGEXP =
-    Regexp.createWithOptions(
-      "^[0-9]+$",
+    Regexp.createWithOptions("^[0-9]+$",
       {
         caseInsensitive: true,
         multiline: false,
@@ -69,7 +67,10 @@ module Validation {
     |> Validation.merge
     |> Validation.getFirstError("name")) // "Please enter the name."
   */
-  fun getFirstError (errors : Map(String, Array(String)), key : String) : Maybe(String) {
+  fun getFirstError (
+    errors : Map(String, Array(String)),
+    key : String
+  ) : Maybe(String) {
     errors
     |> Map.get(key)
     |> Maybe.map(Array.first)
@@ -223,12 +224,9 @@ module Validation {
     errors : Array(Maybe(Tuple(String, String)))
   ) : Map(String, Array(String)) {
     errors
-    |> Array.reduce(
-      Map.empty(),
-      (
-        memo : Map(String, Array(String)),
-        item : Maybe(Tuple(String, String))
-      ) : Map(String, Array(String)) {
+    |> Array.reduce(Map.empty(),
+      (memo : Map(String, Array(String)), item : Maybe(Tuple(String, String))) : Map(
+        String, Array(String)) {
         case item {
           Maybe.Just(error) =>
             {

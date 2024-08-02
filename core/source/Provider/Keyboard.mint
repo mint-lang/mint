@@ -29,8 +29,7 @@ provider Provider.Keyboard : Provider.Keyboard {
   /* Updates the provider. */
   fun update : Promise(Void) {
     if Array.isEmpty(subscriptions) {
-      Maybe.map(
-        listeners,
+      Maybe.map(listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
           let {keydownListener, keyupListener} =
             methods
@@ -42,29 +41,24 @@ provider Provider.Keyboard : Provider.Keyboard {
       next { listeners: Maybe.Nothing }
     } else {
       if listeners == Maybe.Nothing {
-        next
-          {
-            listeners:
-              Maybe.Just(
-                {
-                  Window.addEventListener(
-                    "keydown",
-                    true,
-                    (event : Html.Event) {
-                      for subscription of subscriptions {
-                        subscription.downs(event)
-                      }
-                    }),
-                  Window.addEventListener(
-                    "keyup",
-                    true,
-                    (event : Html.Event) {
-                      for subscription of subscriptions {
-                        subscription.ups(event)
-                      }
-                    })
-                })
-          }
+        next {
+          listeners:
+            Maybe.Just(
+              {
+                Window.addEventListener("keydown", true,
+                  (event : Html.Event) {
+                    for subscription of subscriptions {
+                      subscription.downs(event)
+                    }
+                  }),
+                Window.addEventListener("keyup", true,
+                  (event : Html.Event) {
+                    for subscription of subscriptions {
+                      subscription.ups(event)
+                    }
+                  })
+              })
+        }
       }
     }
   }

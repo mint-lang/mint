@@ -46,11 +46,7 @@ suite "Array.at" {
 
 suite "Array.compact" {
   test "it flattens an array of maybes" {
-    Array.compact(
-      [
-        Maybe.Just("A"),
-        Maybe.Nothing
-      ]) == ["A"]
+    Array.compact([Maybe.Just("A"), Maybe.Nothing]) == ["A"]
   }
 }
 
@@ -185,12 +181,7 @@ suite "Array.groupsOf" {
       [1, 2, 3, 4, 5, 6, 7, 8]
       |> Array.groupsOf(2)
 
-    (result == [
-      [1, 2],
-      [3, 4],
-      [5, 6],
-      [7, 8]
-    ])
+    (result == [[1, 2], [3, 4], [5, 6], [7, 8]])
   }
 }
 
@@ -199,12 +190,7 @@ suite "Array.groupsOfFromEnd" {
     let result =
       Array.groupsOfFromEnd([1, 2, 3, 4, 5, 6, 7], 2)
 
-    (result == [
-      [1],
-      [2, 3],
-      [4, 5],
-      [6, 7]
-    ])
+    (result == [[1], [2, 3], [4, 5], [6, 7]])
   }
 }
 
@@ -241,8 +227,7 @@ suite "Array.insertAt" {
     Array.insertAt(["b", "c"], "a", 2) == ["b", "c", "a"]
   }
 
-  test "it inserts item at back if the position is greater then " \
-  "the length" {
+  test "it inserts item at back if the position is greater then the length" {
     Array.insertAt(["b", "c"], "a", 10) == ["b", "c", "a"]
   }
 }
@@ -394,18 +379,14 @@ suite "Array.range" {
 
 suite "Array.reduce" {
   test "it reduces an array to a single value" {
-    Array.reduce(
-      [1, 2, 3],
-      0,
+    Array.reduce([1, 2, 3], 0,
       (memo : Number, item : Number) : Number { memo + item }) == 6
   }
 }
 
 suite "Array.reduceEnd" {
   test "it reduces an array to a single value from the right" {
-    Array.reduceEnd(
-      [1, 2, 3],
-      0,
+    Array.reduceEnd([1, 2, 3], 0,
       (memo : Number, item : Number) : Number { memo + item }) == 6
   }
 }
@@ -496,11 +477,7 @@ suite "Array.slice" {
 
 suite "Array.sort" {
   test "sorts the array based on predicate function" {
-    ([
-      3,
-      2,
-      1
-    ]
+    ([3, 2, 1]
     |> Array.sort((a : Number, b : Number) : Number { a - b })
     |> Array.map(Number.toString)
     |> String.join("")) == "123"
@@ -509,11 +486,7 @@ suite "Array.sort" {
 
 suite "Array.sortBy" {
   test "sorts the array based on predicate function" {
-    ([
-      3,
-      2,
-      1
-    ]
+    ([3, 2, 1]
     |> Array.sortBy((a : Number) : Number { a })
     |> Array.map(Number.toString)
     |> String.join("")) == "123"
@@ -546,10 +519,7 @@ suite "Array.swap" {
   }
 
   test "it returns array if index is negative #1" {
-    Array.swap(["a", "b"], -1, 1) == [
-      "a",
-      "b"
-    ]
+    Array.swap(["a", "b"], -1, 1) == ["a", "b"]
   }
 
   test "it returns array if index is negative #2" {
@@ -599,6 +569,10 @@ suite "Array.unshift" {
 
 suite "Array.updateAt" {
   test "it updates the item at the given index" {
-    Array.updateAt([0, 1, 2], 2, (number : Number) : Number { number + 2 }) == [0, 1, 4]
+    Array.updateAt([0, 1, 2], 2, (number : Number) : Number { number + 2 }) == [
+      0,
+      1,
+      4
+    ]
   }
 }

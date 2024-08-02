@@ -11,7 +11,11 @@ module Time {
 
     Time.distanceOfTimeInWords(time, now, Time.Format.English) == "in 4 hours"
   */
-  fun distanceOfTimeInWords (from : Time, to : Time, language : Time.Format.Language) {
+  fun distanceOfTimeInWords (
+    from : Time,
+    to : Time,
+    language : Time.Format.Language
+  ) {
     let distance =
       Time.toUnix(to) - Time.toUnix(from)
 
@@ -126,7 +130,11 @@ module Time {
   * `%y` - year modulo 100
   * `%Y` - year, zero padded
   */
-  fun format (time : Time, language : Time.Format.Language, pattern : String) : String {
+  fun format (
+    time : Time,
+    language : Time.Format.Language,
+    pattern : String
+  ) : String {
     `
     (() => {
       let result = "";
@@ -183,7 +191,11 @@ module Time {
 
     Time.formatToken(Time.Format:ENGLISH, "Y", Time.utcDate(2018, 4, 5)) == "2018"
   */
-  fun formatToken (time : Time, language : Time.Format.Language, token : String) : String {
+  fun formatToken (
+    time : Time,
+    language : Time.Format.Language,
+    token : String
+  ) : String {
     case token {
       /* short day name (Sun, Mon, Tue, ...) */
       "a" =>
@@ -238,8 +250,7 @@ module Time {
         |> String.toUpperCase
 
       /* date and time (Tue Apr 5 10:26:19 2016) */
-      "c" =>
-        format(time, language, "%a %b %-d %H:%M:%S %Y")
+      "c" => format(time, language, "%a %b %-d %H:%M:%S %Y")
 
       /* year divided by 100. */
       "C" =>
@@ -260,8 +271,7 @@ module Time {
         |> Number.toString
 
       /* date (04/05/16) */
-      "D" =>
-        format(time, language, "%m/%d/%Y")
+      "D" => format(time, language, "%m/%d/%Y")
 
       /* day of month, blank padded (" 1", " 2", ..., "10", "11", ...) */
       "e" =>
@@ -271,8 +281,7 @@ module Time {
         |> String.padStart(" ", 2)
 
       /* ISO 8601 date (2016-04-05) */
-      "F" =>
-        format(time, language, "%Y-%m-%d")
+      "F" => format(time, language, "%Y-%m-%d")
 
       /* week-based calendar year modulo 100 (00..99) */
       "g" =>
@@ -370,12 +379,10 @@ module Time {
         |> String.toUpperCase
 
       /* 12-hour time (03:04:05 AM) */
-      "r" =>
-        format(time, language, "%I:%M:%S %P")
+      "r" => format(time, language, "%I:%M:%S %P")
 
       /* 24-hour time (13:04) */
-      "R" =>
-        format(time, language, "%H:%M")
+      "R" => format(time, language, "%H:%M")
 
       /* seconds since unix epoch */
       "s" =>
@@ -391,8 +398,7 @@ module Time {
         |> String.padStart("0", 2)
 
       /* 24-hour time (13:04:05) */
-      "T" =>
-        format(time, language, "%H:%M:%S")
+      "T" => format(time, language, "%H:%M:%S")
 
       /* day of week (Monday is 1, 1..7) */
       "u" =>
@@ -421,12 +427,10 @@ module Time {
         }
 
       /* (same as %D) date (04/05/16) */
-      "x" =>
-        format(time, language, "%m/%d/%Y")
+      "x" => format(time, language, "%m/%d/%Y")
 
       /* (same as %T) 24-hour time (13:04:05) */
-      "X" =>
-        format(time, language, "%H:%M:%S")
+      "X" => format(time, language, "%H:%M:%S")
 
       /* year modulo 100. */
       "y" =>
@@ -440,8 +444,7 @@ module Time {
         |> Number.toString
         |> String.padStart("0", 4)
 
-      =>
-        token
+      => token
     }
   }
 }

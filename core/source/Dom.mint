@@ -288,7 +288,10 @@ module Dom {
       Dom.getElementsBySelector(body, "a[name]")
     }
   */
-  fun getElementsBySelector (element : Dom.Element, selector : String) : Array(Dom.Element) {
+  fun getElementsBySelector (
+    element : Dom.Element,
+    selector : String
+  ) : Array(Dom.Element) {
     `Array.from(#{element}.querySelectorAll(#{selector}))`
   }
 
@@ -401,7 +404,10 @@ module Dom {
       ]
     }
   */
-  fun getTableOfContents (element : Dom.Element, selector : String) : Array(Tuple(String, String, String)) {
+  fun getTableOfContents (
+    element : Dom.Element,
+    selector : String
+  ) : Array(Tuple(String, String, String)) {
     element
     |> getElementsBySelector(selector)
     |> Array.map(
@@ -508,7 +514,11 @@ module Dom {
       Dom.scrollTo(body, 10, 10)
     }
   */
-  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
+  fun scrollTo (
+    element : Dom.Element,
+    left : Number,
+    top : Number
+  ) : Promise(Void) {
     `#{element}.scrollTo({ left: #{left}, top: #{top} })`
   }
 
@@ -536,7 +546,11 @@ module Dom {
       |> Dom.setStyle("color", "white")
     }
   */
-  fun setStyle (element : Dom.Element, name : String, value : String) : Dom.Element {
+  fun setStyle (
+    element : Dom.Element,
+    name : String,
+    value : String
+  ) : Dom.Element {
     `
     (() => {
       #{element}.style[#{name}] = #{value}
@@ -569,7 +583,11 @@ module Dom {
       Dom.smoothScrollTo(body, 10, 10)
     }
   */
-  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Void) {
+  fun smoothScrollTo (
+    element : Dom.Element,
+    left : Number,
+    top : Number
+  ) : Promise(Void) {
     `#{element}.scrollTo({ behavior: 'smooth', left: #{left}, top: #{top} })`
   }
 }

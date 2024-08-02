@@ -9,7 +9,11 @@ module SearchParams {
     SearchParams.empty()
     |> SearchParams.append("key", "value")
   */
-  fun append (params : SearchParams, key : String, value : String) : SearchParams {
+  fun append (
+    params : SearchParams,
+    key : String,
+    value : String
+  ) : SearchParams {
     `
     (() => {
       let newParams = new URLSearchParams(#{params}.toString())

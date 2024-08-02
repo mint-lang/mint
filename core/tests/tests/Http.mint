@@ -94,14 +94,8 @@ suite "Http.jsonBody" {
       method: "GET",
       headers:
         [
-          {
-            key: "existing header",
-            value: "value"
-          },
-          {
-            key: "Content-Type",
-            value: "application/json"
-          }
+          { key: "existing header", value: "value" },
+          { key: "Content-Type", value: "application/json" }
         ],
       url: ""
     }
@@ -114,13 +108,7 @@ suite "Http.jsonBody" {
       withCredentials: false,
       body: `"{\"user\":\"spaceman\"}"`,
       method: "GET",
-      headers:
-        [
-          {
-            key: "Content-Type",
-            value: "text/plain"
-          }
-        ],
+      headers: [{ key: "Content-Type", value: "text/plain" }],
       url: ""
     }
   }
@@ -170,17 +158,7 @@ suite "Http.header" {
     (Http.empty()
     |> Http.header("A", "B")
     |> Http.header("X", "Y")) == {
-      headers:
-        [
-          {
-            key: "A",
-            value: "B"
-          },
-          {
-            key: "X",
-            value: "Y"
-          }
-        ],
+      headers: [{ key: "A", value: "B" }, { key: "X", value: "Y" }],
       withCredentials: false,
       method: "GET",
       body: `null`,
@@ -193,17 +171,7 @@ suite "Http.header" {
     |> Http.header("A", "B")
     |> Http.header("X", "Y")
     |> Http.header("A", "C")) == {
-      headers:
-        [
-          {
-            key: "X",
-            value: "Y"
-          },
-          {
-            key: "A",
-            value: "C"
-          }
-        ],
+      headers: [{ key: "X", value: "Y" }, { key: "A", value: "C" }],
       withCredentials: false,
       method: "GET",
       body: `null`,
@@ -248,8 +216,7 @@ component Test.Http {
       Http.empty()
       |> Http.url(url)
       |> Http.method(method)
-      |> Http.send(
-        "test",
+      |> Http.send("test",
         (request : Object) {
           `
           (() => {
@@ -270,49 +237,27 @@ component Test.Http {
       Result.Err(error) =>
         case error.type {
           Http.Error.NetworkError =>
-            next
-              {
-                errorMessage: "network-error",
-                status: error.status
-              }
+            next { errorMessage: "network-error", status: error.status }
 
           Http.Error.BadUrl =>
-            next
-              {
-                errorMessage: "bad-url",
-                status: error.status
-              }
+            next { errorMessage: "bad-url", status: error.status }
 
           Http.Error.Timeout =>
-            next
-              {
-                errorMessage: "timeout",
-                status: error.status
-              }
+            next { errorMessage: "timeout", status: error.status }
 
           Http.Error.Aborted =>
-            next
-              {
-                errorMessage: "aborted",
-                status: error.status
-              }
+            next { errorMessage: "aborted", status: error.status }
         }
     }
   }
 
   fun render : Html {
     <div>
-      <error>
-        errorMessage
-      </error>
+      <error>errorMessage</error>
 
-      <content>
-        body
-      </content>
+      <content>body</content>
 
-      <status>
-        Number.toString(status)
-      </status>
+      <status>Number.toString(status)</status>
     </div>
   }
 }

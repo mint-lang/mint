@@ -321,49 +321,57 @@ suite "Time.shift" {
 
 suite "Time.atBeginningOfYear" {
   test "returns a time which is at the beginning of the same year as the given time" {
-    Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 1, 1)
+    Time.atBeginningOfYear(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 1,
+      1)
   }
 }
 
 suite "Time.atBeginningOfMonth" {
   test "returns a time which is at the beginning of the same month as the given time" {
-    Time.atBeginningOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 1)
+    Time.atBeginningOfMonth(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5,
+      1)
   }
 }
 
 suite "Time.atBeginningOfWeek" {
   test "returns a time which is at the beginning of the same week as the given time" {
-    Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5, 15)
+    Time.atBeginningOfWeek(Time.utcDate(2017, 5, 20)) == Time.utcDate(2017, 5,
+      15)
   }
 }
 
 suite "Time.atBeginningOfDay" {
   test "returns a time which is at the beginning of the same day as the given time" {
-    Time.atBeginningOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(2017, 5, 20, 0, 0, 0, 0)
+    Time.atBeginningOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(
+      2017, 5, 20, 0, 0, 0, 0)
   }
 }
 
 suite "Time.atEndOfYear" {
   test "returns a time which is at the end of the same year as the given time" {
-    Time.atEndOfYear(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 12, 31, 23, 59, 59, 999)
+    Time.atEndOfYear(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 12, 31, 23,
+      59, 59, 999)
   }
 }
 
 suite "Time.atEndOfMonth" {
   test "returns a time which is at the end of the same month as the given time" {
-    Time.atEndOfMonth(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 31, 23, 59, 59, 999)
+    Time.atEndOfMonth(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 31, 23,
+      59, 59, 999)
   }
 }
 
 suite "Time.atEndOfWeek" {
   test "returns a time which is at the end of the same week as the given time" {
-    Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 21, 23, 59, 59, 999)
+    Time.atEndOfWeek(Time.utcDate(2017, 5, 20)) == Time.utc(2017, 5, 21, 23,
+      59, 59, 999)
   }
 }
 
 suite "Time.atEndOfDay" {
   test "returns a time which is at the end of the same day as the given time" {
-    Time.atEndOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(2017, 5, 20, 23, 59, 59, 999)
+    Time.atEndOfDay(Time.utc(2017, 5, 20, 10, 34, 22, 40)) == Time.utc(2017, 5,
+      20, 23, 59, 59, 999)
   }
 }
 
@@ -416,6 +424,7 @@ suite "Time.range" {
 
 suite "Time.inZone" {
   test "it returns a new time in the given time zone" {
-    Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) == Maybe.Just(Time.utc(2019, 1, 1, 2, 12, 35, 200))
+    Time.inZone("America/New_York", Time.utc(2019, 1, 1, 7, 12, 35, 200)) == Maybe.Just(
+      Time.utc(2019, 1, 1, 2, 12, 35, 200))
   }
 }

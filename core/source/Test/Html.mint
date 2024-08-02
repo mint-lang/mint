@@ -84,9 +84,7 @@ module Test.Html {
     context : Test.Context(Dom.Element),
     top : Number
   ) : Test.Context(Dom.Element) {
-    Test.Context.assertOf(
-      context,
-      top,
+    Test.Context.assertOf(context, top,
       (element : Dom.Element) : Number { Dom.getDimensions(element).top })
   }
 
@@ -102,9 +100,7 @@ module Test.Html {
     context : Test.Context(Dom.Element),
     left : Number
   ) : Test.Context(Dom.Element) {
-    Test.Context.assertOf(
-      context,
-      left,
+    Test.Context.assertOf(context, left,
       (element : Dom.Element) : Number { Dom.getDimensions(element).left })
   }
 
@@ -120,9 +116,7 @@ module Test.Html {
     context : Test.Context(Dom.Element),
     height : Number
   ) : Test.Context(Dom.Element) {
-    Test.Context.assertOf(
-      context,
-      height,
+    Test.Context.assertOf(context, height,
       (element : Dom.Element) : Number { Dom.getDimensions(element).height })
   }
 
@@ -138,9 +132,7 @@ module Test.Html {
     context : Test.Context(Dom.Element),
     width : Number
   ) : Test.Context(Dom.Element) {
-    Test.Context.assertOf(
-      context,
-      width,
+    Test.Context.assertOf(context, width,
       (element : Dom.Element) : Number { Dom.getDimensions(element).width })
   }
 

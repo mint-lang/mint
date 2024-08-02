@@ -9,13 +9,9 @@ component Test.Provider.Keyboard {
 
   fun render : Html {
     <div>
-      <downs>
-        Number.toString(downs)
-      </downs>
+      <downs>Number.toString(downs)</downs>
 
-      <ups>
-        Number.toString(ups)
-      </ups>
+      <ups>Number.toString(ups)</ups>
     </div>
   }
 }

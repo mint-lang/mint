@@ -30,7 +30,10 @@ module Map {
     |> Map.set("b", 1)
     |> Map.deleteValues(1)) == Map.empty()
   */
-  fun deleteValues (map : Map(key, value), valueToDelete : value) : Map(key, value) {
+  fun deleteValues (
+    map : Map(key, value),
+    valueToDelete : value
+  ) : Map(key, value) {
     Map.fromArray(
       for key, value of map {
         {key, value}
@@ -199,9 +202,7 @@ module Map {
     |> Map.get("a")) == Maybe.Just("y")
   */
   fun merge (map1 : Map(key, value), map2 : Map(key, value)) : Map(key, value) {
-    Map.reduce(
-      map2,
-      map1,
+    Map.reduce(map2, map1,
       (memo : Map(key, value), key : key, value : value) {
         Map.set(memo, key, value)
       })

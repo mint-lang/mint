@@ -125,13 +125,9 @@ component Test.Dom.Focus {
     <>
       <input::input as input id="input"/>
 
-      <button
-        id="show"
-        onClick={show}/>
+      <button id="show" onClick={show}/>
 
-      <button
-        id="focus"
-        onClick={focus}/>
+      <button id="focus" onClick={focus}/>
     </>
   }
 }
@@ -153,8 +149,6 @@ suite "Dom.getChildren" {
     <Test.Dom.Focus/>
     |> Test.Html.start()
     |> Test.Context.assert(
-      (element : Dom.Element) {
-        Array.size(Dom.getChildren(element)) == 3
-      })
+      (element : Dom.Element) { Array.size(Dom.getChildren(element)) == 3 })
   }
 }

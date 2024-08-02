@@ -8,13 +8,9 @@ component Store.Test {
 
   fun render : Html {
     <>
-      <span>
-        test
-      </span>
+      <span>test</span>
 
-      <strong>
-        x
-      </strong>
+      <strong>x</strong>
     </>
   }
 }

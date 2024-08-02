@@ -34,7 +34,9 @@ provider Provider.ElementSize : Provider.ElementSize {
   state observer = ResizeObserver.new(notify)
 
   /* Notifies all subscribers when there are changes. */
-  fun notify (entries : Array(ResizeObserver.Entry)) : Array(Array(Promise(Void))) {
+  fun notify (
+    entries : Array(ResizeObserver.Entry)
+  ) : Array(Array(Promise(Void))) {
     for entry of entries {
       for subscription of subscriptions {
         if subscription.element == Maybe.Just(entry.target) {
@@ -59,12 +61,11 @@ provider Provider.ElementSize : Provider.ElementSize {
       }
     }
 
-    next
-      {
-        observedElements:
-          for subscription of subscriptions {
-            subscription.element
-          }
-      }
+    next {
+      observedElements:
+        for subscription of subscriptions {
+          subscription.element
+        }
+    }
   }
 }

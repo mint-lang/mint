@@ -100,7 +100,10 @@ module Html.DataTransfer {
 
     Html.DataTransfer.setDropEffect(event.dataTransfer, "copy")
   */
-  fun setDropEffect (data : Html.DataTransfer, value : String) : Html.DataTransfer {
+  fun setDropEffect (
+    data : Html.DataTransfer,
+    value : String
+  ) : Html.DataTransfer {
     `(#{data}.dropEffect = #{value}) && #{data}`
   }
 
@@ -109,7 +112,10 @@ module Html.DataTransfer {
 
     Html.DataTransfer.setEffectAllowed(event.dataTransfer, "copy")
   */
-  fun setEffectAllowed (data : Html.DataTransfer, value : String) : Html.DataTransfer {
+  fun setEffectAllowed (
+    data : Html.DataTransfer,
+    value : String
+  ) : Html.DataTransfer {
     `(#{data}.effectAllowed = #{value}) && #{data}`
   }
 }

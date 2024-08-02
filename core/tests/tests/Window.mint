@@ -4,10 +4,7 @@ component ScrollTest {
   state scrollTop = 0
 
   use Provider.Scroll {
-    scrolls:
-      (event : Html.Event) : Promise(Void) {
-        update()
-      }
+    scrolls: (event : Html.Event) : Promise(Void) { update() }
   }
 
   style base {
@@ -20,37 +17,28 @@ component ScrollTest {
   }
 
   fun update {
-    next
-      {
-        scrollWidth: Window.scrollWidth(),
-        scrollLeft: Window.scrollLeft(),
-        scrollTop: Window.scrollTop()
-      }
+    next {
+      scrollWidth: Window.scrollWidth(),
+      scrollLeft: Window.scrollLeft(),
+      scrollTop: Window.scrollTop()
+    }
   }
 
   fun render : Html {
     <div::base>
-      <scroll-width>
-        Number.toString(scrollWidth)
-      </scroll-width>
+      <scroll-width>Number.toString(scrollWidth)</scroll-width>
 
       "|"
 
-      <scroll-height>
-        Number.toString(Window.scrollHeight())
-      </scroll-height>
+      <scroll-height>Number.toString(Window.scrollHeight())</scroll-height>
 
       "|"
 
-      <scroll-left>
-        Number.toString(scrollLeft)
-      </scroll-left>
+      <scroll-left>Number.toString(scrollLeft)</scroll-left>
 
       "|"
 
-      <scroll-top>
-        Number.toString(scrollTop)
-      </scroll-top>
+      <scroll-top>Number.toString(scrollTop)</scroll-top>
     </div>
   }
 }

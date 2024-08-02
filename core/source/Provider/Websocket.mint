@@ -110,19 +110,14 @@ provider Provider.WebSocket : WebSocket.Config {
   fun update : Promise(Void) {
     let updatedConnections =
       subscriptions
-      |> Array.reduce(
-        connections,
-        (
-          memo : Map(String, WebSocket),
-          config : WebSocket.Config
-        ) {
+      |> Array.reduce(connections,
+        (memo : Map(String, WebSocket), config : WebSocket.Config) {
           if Map.get(connections, config.url) == Maybe.Nothing {
-            Map.set(
-              memo,
-              config.url,
+            Map.set(memo, config.url,
               WebSocket.open(
                 {
-                  onMessage: (message : String) { onMessage(config.url, message) },
+                  onMessage:
+                    (message : String) { onMessage(config.url, message) },
                   onOpen: (socket : WebSocket) { onOpen(config.url, socket) },
                   onClose: () { onClose(config.url) },
                   onError: () { onError(config.url) },
@@ -136,15 +131,11 @@ provider Provider.WebSocket : WebSocket.Config {
 
     let finalConnections =
       updatedConnections
-      |> Map.reduce(
-        updatedConnections,
-        (
-          memo : Map(String, WebSocket),
-          url : String,
-          socket : WebSocket
-        ) {
+      |> Map.reduce(updatedConnections,
+        (memo : Map(String, WebSocket), url : String, socket : WebSocket) {
           let subscription =
-            Array.find(subscriptions, (config : WebSocket.Config) { config.url == url })
+            Array.find(subscriptions,
+              (config : WebSocket.Config) { config.url == url })
 
           if subscription == Maybe.Nothing {
             WebSocket.closeWithoutReconnecting(socket)

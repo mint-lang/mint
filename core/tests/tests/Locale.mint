@@ -8,9 +8,7 @@ locale hu {
 
 component Test.Locale {
   fun render : Html {
-    <div onClick={(event : Html.Event) { Locale.set("hu") }}>
-      :key
-    </div>
+    <div onClick={(event : Html.Event) { Locale.set("hu") }}>:key</div>
   }
 }
 

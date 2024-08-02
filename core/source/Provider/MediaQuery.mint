@@ -32,18 +32,11 @@ provider Provider.MediaQuery : Provider.MediaQuery {
   fun update : Promise(Void) {
     let updatedListeners =
       subscriptions
-      |> Array.reduce(
-        listeners,
-        (
-          memo : Map(String, Function(Void)),
-          subscription : Provider.MediaQuery
-        ) {
+      |> Array.reduce(listeners,
+        (memo : Map(String, Function(Void)), subscription : Provider.MediaQuery) {
           if Map.get(listeners, subscription.query) == Maybe.Nothing {
-            Map.set(
-              memo,
-              subscription.query,
-              Window.addMediaQueryListener(
-                subscription.query,
+            Map.set(memo, subscription.query,
+              Window.addMediaQueryListener(subscription.query,
                 (active : Bool) {
                   for item of subscriptions {
                     subscription.changes(active)
@@ -58,17 +51,12 @@ provider Provider.MediaQuery : Provider.MediaQuery {
 
     let finalListeners =
       updatedListeners
-      |> Map.reduce(
-        updatedListeners,
-        (
-          memo : Map(String, Function(Void)),
-          query : String,
-          listener : Function(Void)
-        ) {
+      |> Map.reduce(updatedListeners,
+        (memo : Map(String, Function(Void)), query : String,
+          listener : Function(Void)) {
           let subscription =
             subscriptions
-            |> Array.find(
-              (item : Provider.MediaQuery) { item.query == query })
+            |> Array.find((item : Provider.MediaQuery) { item.query == query })
 
           if subscription == Maybe.Nothing {
             // Unsubscribe

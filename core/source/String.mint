@@ -315,7 +315,11 @@ module String {
 
     String.padEnd("5", "0", 2) == "50"
   */
-  fun padEnd (string : String, padString : String, targetLength : Number) : String {
+  fun padEnd (
+    string : String,
+    padString : String,
+    targetLength : Number
+  ) : String {
     `#{string}.padEnd(#{targetLength}, #{padString})`
   }
 
@@ -326,7 +330,11 @@ module String {
 
     String.padStart("5", "0", 2) == "05"
   */
-  fun padStart (string : String, padString : String, targetLength : Number) : String {
+  fun padStart (
+    string : String,
+    padString : String,
+    targetLength : Number
+  ) : String {
     `#{string}.padStart(#{targetLength}, #{padString})`
   }
 
@@ -381,7 +389,11 @@ module String {
     String.replaceAll("The quick brown fox jumps over the lazy fox.", "fox", "bear") ==
       "The quick brown bear jumps over the lazy bear."
   */
-  fun replaceAll (string : String, pattern : String, replacement : String) : String {
+  fun replaceAll (
+    string : String,
+    pattern : String,
+    replacement : String
+  ) : String {
     `#{string}.replaceAll(#{pattern}, #{replacement})`
   }
 

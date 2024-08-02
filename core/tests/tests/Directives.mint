@@ -27,8 +27,7 @@ suite "@format" {
         }
       }
 
-    value == "Hello World!" &&
-      formatted == <<~MINT
+    value == "Hello World!" && formatted == <<~MINT
       {
         "Hello World!"
       }

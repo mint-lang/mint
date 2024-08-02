@@ -126,13 +126,7 @@ store Http {
       }
   */
   fun empty : Http.Request {
-    {
-      withCredentials: false,
-      method: "GET",
-      body: `null`,
-      headers: [],
-      url: ""
-    }
+    { withCredentials: false, method: "GET", body: `null`, headers: [], url: "" }
   }
 
   /*
@@ -184,7 +178,11 @@ store Http {
     Http.empty()
     |> Http.header("Content-Type", "application/json")
   */
-  fun header (request : Http.Request, key : String, value : String) : Http.Request {
+  fun header (
+    request : Http.Request,
+    key : String,
+    value : String
+  ) : Http.Request {
     { request |
       headers:
         request.headers
@@ -192,11 +190,7 @@ store Http {
           (header : Http.Header) : Bool {
             String.toLowerCase(header.key) == String.toLowerCase(key)
           })
-        |> Array.push(
-          {
-            key: key,
-            value: value
-          })
+        |> Array.push({ key: key, value: value })
     }
   }
 

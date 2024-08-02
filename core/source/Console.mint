@@ -47,7 +47,11 @@ module Console {
     Console.assert(false, "Message...") // This will not print the message.
     Console.assert(true, "Message...") // This will print the message.
   */
-  fun assert (assertion : Bool, value : a, values : Array(b) = []) : Tuple(Bool, a, Array(b)) {
+  fun assert (
+    assertion : Bool,
+    value : a,
+    values : Array(b) = []
+  ) : Tuple(Bool, a, Array(b)) {
     `console.assert(#{assertion}, #{value}, ...#{values})`
     {assertion, value, values}
   }
@@ -328,7 +332,10 @@ module Console {
     Console.timeLog("My Timer")
     Console.timeEnd("My Timer")
   */
-  fun timeLog (label : String = "Default", values : Array(a) = []) : Tuple(String, Array(a)) {
+  fun timeLog (
+    label : String = "Default",
+    values : Array(a) = []
+  ) : Tuple(String, Array(a)) {
     `console.timeLog(#{label}, ...#{values})`
     {label, values}
   }

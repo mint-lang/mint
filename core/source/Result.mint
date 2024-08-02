@@ -66,7 +66,9 @@ module Result {
     Result.flatten(Result.Ok(Result.Ok("Hello"))) == Result.Ok("Hello")
     Result.flatten(Result.Err("Error")) == Result.Err("Error")
   */
-  fun flatten (result : Result(error, Result(error, value))) : Result(error, value) {
+  fun flatten (
+    result : Result(error, Result(error, value))
+  ) : Result(error, value) {
     case result {
       Err(error) => Result.Err(error)
       Ok(value) => value

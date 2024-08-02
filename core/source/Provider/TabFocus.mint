@@ -57,8 +57,7 @@ provider Provider.TabFocus : Provider.TabFocus {
   /* Updates the provider. */
   fun update : Promise(Void) {
     if Array.isEmpty(subscriptions) {
-      Maybe.map(
-        listeners,
+      Maybe.map(listeners,
         (methods : Tuple(Function(Void), Function(Void))) {
           let {keyDownListener, keyUpListener} =
             methods
@@ -70,15 +69,14 @@ provider Provider.TabFocus : Provider.TabFocus {
       next { listeners: Maybe.Nothing }
     } else {
       if listeners == Maybe.Nothing {
-        next
-          {
-            listeners:
-              Maybe.Just(
-                {
-                  Window.addEventListener("keydown", true, handleKeyDown),
-                  Window.addEventListener("keyup", true, handleKeyUp)
-                })
-          }
+        next {
+          listeners:
+            Maybe.Just(
+              {
+                Window.addEventListener("keydown", true, handleKeyDown),
+                Window.addEventListener("keyup", true, handleKeyUp)
+              })
+        }
       }
     }
   }

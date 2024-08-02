@@ -41,7 +41,9 @@ provider Provider.Resize : Provider.Resize {
       next { listener: Maybe.Nothing }
     } else {
       if listener == Maybe.Nothing {
-        next { listener: Maybe.Just(Window.addEventListener("resize", true, handle)) }
+        next {
+          listener: Maybe.Just(Window.addEventListener("resize", true, handle))
+        }
       }
     }
   }

@@ -18,7 +18,9 @@ module MutationObserver {
       }
     })
   */
-  fun new (callback : Function(Array(MutationObserver.Entry), a)) : MutationObserver {
+  fun new (
+    callback : Function(Array(MutationObserver.Entry), a)
+  ) : MutationObserver {
     `new MutationObserver(#{callback})`
   }
 
@@ -50,7 +52,10 @@ module MutationObserver {
       MutationObserver.unobserve(observer, element)
     }
   */
-  fun unobserve (observer : MutationObserver, element : Dom.Element) : MutationObserver {
+  fun unobserve (
+    observer : MutationObserver,
+    element : Dom.Element
+  ) : MutationObserver {
     `#{observer}.disconnect(#{element}) || #{observer}`
   }
 }

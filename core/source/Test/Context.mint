@@ -33,7 +33,10 @@ module Test.Context {
       |> Test.Context.assertFunctionCalled(spy)
     }
   */
-  fun assertFunctionCalled (context : Test.Context(c), function : a) : Test.Context(c) {
+  fun assertFunctionCalled (
+    context : Test.Context(c),
+    function : a
+  ) : Test.Context(c) {
     `
     #{context}.step((subject) => {
       if (!#{function}._called) {
@@ -107,7 +110,10 @@ module Test.Context {
       |> Test.Context.assert((value : Number) { value == 5 })
     }
   */
-  fun assert (context : Test.Context(a), method : Function(a, bool)) : Test.Context(a) {
+  fun assert (
+    context : Test.Context(a),
+    method : Function(a, bool)
+  ) : Test.Context(a) {
     `
     #{context}.step((subject) => {
       if (!#{method}(subject)) {
@@ -182,7 +188,10 @@ module Test.Context {
       |> Test.Context.assertEqual(7)
     }
   */
-  fun then (context : Test.Context(a), proc : Function(a, Promise(b))) : Test.Context(b) {
+  fun then (
+    context : Test.Context(a),
+    proc : Function(a, Promise(b))
+  ) : Test.Context(b) {
     `
     #{context}.step((subject) => {
       return #{proc}(subject)
@@ -200,8 +209,7 @@ module Test.Context {
     }
   */
   fun timeout (context : Test.Context(a), duration : Number) : Test.Context(a) {
-    then(
-      context,
+    then(context,
       (subject : a) : Promise(a) {
         await Timer.timeout(duration)
         subject

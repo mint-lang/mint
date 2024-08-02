@@ -51,7 +51,9 @@ provider Provider.OutsideClick : Provider.OutsideClick {
       next { listener: Maybe.Nothing }
     } else {
       if listener == Maybe.Nothing {
-        next { listener: Maybe.Just(Window.addEventListener("mouseup", true, handle)) }
+        next {
+          listener: Maybe.Just(Window.addEventListener("mouseup", true, handle))
+        }
       }
     }
   }

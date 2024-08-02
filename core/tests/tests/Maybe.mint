@@ -114,18 +114,12 @@ suite "Maybe.flatten" {
 
 suite "Maybe.oneOf" {
   test "returns the first just" {
-    ([
-      Maybe.nothing(),
-      Maybe.just("A")
-    ]
+    ([Maybe.nothing(), Maybe.just("A")]
     |> Maybe.oneOf()) == Maybe.just("A")
   }
 
   test "returns nested nothing b" {
-    ([
-      Maybe.nothing(),
-      Maybe.nothing()
-    ]
+    ([Maybe.nothing(), Maybe.nothing()]
     |> Maybe.oneOf()) == Maybe.nothing()
   }
 }

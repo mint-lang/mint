@@ -1,9 +1,7 @@
 suite "Pipe with await" {
   test "it awaits" {
     let x =
-      (value : String) {
-        await value
-      }
+      (value : String) { await value }
 
     let y =
       "Hello World!"
@@ -15,9 +13,7 @@ suite "Pipe with await" {
 
   test "it awaits #2" {
     let x =
-      (value : String) {
-        await value
-      }
+      (value : String) { await value }
 
     ("Hello World!"
     |> await x
@@ -26,9 +22,7 @@ suite "Pipe with await" {
 
   test "it awaits #3" {
     let x =
-      (value : String) {
-        await value
-      }
+      (value : String) { await value }
 
     [
       ("Hello World!"

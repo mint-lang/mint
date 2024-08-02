@@ -8,9 +8,7 @@ component Test.CSS {
   }
 
   fun render : Html {
-    <div::root>
-      <span/>
-    </div>
+    <div::root><span/></div>
   }
 }
 

@@ -41,9 +41,7 @@ module Array {
     Array.compact([Maybe.Just("A"), Maybe.Nothing]) == ["A"]
   */
   fun compact (array : Array(Maybe(item))) : Array(item) {
-    Array.reduce(
-      array,
-      [],
+    Array.reduce(array, [],
       (memo : Array(item), item : Maybe(item)) : Array(item) {
         case item {
           Just(value) => Array.push(memo, value)
@@ -300,7 +298,11 @@ module Array {
 
     Array.insertAt(["b","c"], "a", 0) == ["a","b","c"]
   */
-  fun insertAt (array : Array(item), item : item, position : Number) : Array(item) {
+  fun insertAt (
+    array : Array(item),
+    item : item,
+    position : Number
+  ) : Array(item) {
     `
     (() => {
       const result = [...#{array}]
@@ -544,7 +546,10 @@ module Array {
 
     Array.reject([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == [1, 3]
   */
-  fun reject (array : Array(item), function : Function(item, Bool)) : Array(item) {
+  fun reject (
+    array : Array(item),
+    function : Function(item, Bool)
+  ) : Array(item) {
     `#{array}.filter((item) => !#{function}(item))`
   }
 
@@ -597,7 +602,10 @@ module Array {
 
     Array.select([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == [2, 4]
   */
-  fun select (array : Array(item), function : Function(item, Bool)) : Array(item) {
+  fun select (
+    array : Array(item),
+    function : Function(item, Bool)
+  ) : Array(item) {
     `#{array}.filter(#{function})`
   }
 
@@ -651,7 +659,10 @@ module Array {
   Array.sort([4, 1, 3, 2], (a : Number, b : Number) { a - b }) == [1, 2, 3, 4]
   ```
   */
-  fun sort (array : Array(item), function : Function(item, item, Number)) : Array(item) {
+  fun sort (
+    array : Array(item),
+    function : Function(item, item, Number)
+  ) : Array(item) {
     `[...#{array}].sort(#{function})`
   }
 
@@ -661,7 +672,10 @@ module Array {
 
     Array.sortBy([4, 1, 3, 2], (number : Number) { number }) == [1, 2, 3, 4]
   */
-  fun sortBy (array : Array(item), function : Function(item, result)) : Array(item) {
+  fun sortBy (
+    array : Array(item),
+    function : Function(item, result)
+  ) : Array(item) {
     `
     (() => {
       return #{array}.sort((a, b) => {
@@ -689,12 +703,8 @@ module Array {
     Array.sum([]) == 0
   */
   fun sum (array : Array(Number)) : Number {
-    Array.reduce(
-      array,
-      0,
-      (memo : Number, item : Number) : Number {
-        item + memo
-      })
+    Array.reduce(array, 0,
+      (memo : Number, item : Number) : Number { item + memo })
   }
 
   /*
