@@ -1,27 +1,18 @@
 module Mint
   class Compiler
-    def resolve(node : Ast::HtmlAttribute, is_element = true) : Hash(String, String)
+    def resolve(
+      node : Ast::HtmlAttribute, *,
+      is_element = true
+    ) : Hash(Item, Compiled)
       value =
         compile node.value
 
-      downcase_name =
-        node.name.value.downcase
-
-      case downcase_name
-      when .starts_with?("on")
-        if is_element
-          value = "(event => (#{value})(_normalizeEvent(event)))"
-        end
-      when "ref"
-        value = "(ref => { ref ? #{value}.call(this, ref) : null })"
-      end
-
-      if downcase_name == "readonly" && is_element
-        {"readOnly" => value}
+      if node.name.value.downcase == "readonly" && is_element
+        {"readOnly".as(Item) => value}
       elsif lookups[node]?.try(&.first?)
-        {js.variable_of(lookups[node][0]) => value}
+        {lookups[node][0].as(Item) => value}
       else
-        { %("#{node.name.value}") => value }
+        { %("#{node.name.value}").as(Item) => value }
       end
     end
   end

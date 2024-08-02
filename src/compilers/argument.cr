@@ -1,13 +1,13 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Argument) : String
-      name =
-        js.variable_of(node)
-
-      default =
-        node.default.try { |item| " = #{compile item}" }
-
-      "#{name}#{default}"
+    def compile(node : Ast::Argument) : Compiled
+      compile node do
+        if default = node.default
+          js.assign(node, compile(default))
+        else
+          [node] of Item
+        end
+      end
     end
   end
 end

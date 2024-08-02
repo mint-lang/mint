@@ -1,11 +1,13 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Field)
-      compile node.value
+    def compile(node : Ast::Field)
+      compile node do
+        compile node.value
+      end
     end
 
-    def resolve(node : Ast::Field) : Hash(String, String)
-      return {} of String => String unless key = node.key
+    def resolve(node : Ast::Field) : Hash(Item, Compiled)
+      return {} of Item => Compiled unless key = node.key
 
       value =
         compile node.value
@@ -13,7 +15,7 @@ module Mint
       name =
         key.value
 
-      {name => value}
+      {name.as(Item) => value}
     end
   end
 end

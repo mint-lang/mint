@@ -1,124 +1,92 @@
 module Mint
   class Compiler
-    def compile(value : String)
-      "`#{value}`"
-    end
-
-    def compile(value : Array(Ast::Node | String), quote_string : Bool = false)
-      if value.any?(Ast::Node)
-        value.compact_map do |part|
-          case part
-          when Ast::StringLiteral
-            compile part, quote: quote_string
+    def compile(node : Ast::HtmlElement) : Compiled
+      compile node do
+        children =
+          if node.children.empty?
+            [] of Item
           else
-            compile part
-          end.presence
-        end.join(" + ")
-      else
-        result =
-          value
-            .select(String)
-            .join(' ')
+            items =
+              compile node.children
 
-        compile result
-      end
-    end
-
-    def _compile(node : Ast::HtmlElement) : String
-      tag =
-        node.tag.value
-
-      children =
-        if node.children.empty?
-          ""
-        else
-          items =
-            compile node.children
-
-          js.array(items)
-        end
-
-      attributes =
-        node
-          .attributes
-          .reject(&.name.value.in?("class", "style"))
-          .map { |attribute| resolve(attribute) }
-          .reduce({} of String => String) { |memo, item| memo.merge(item) }
-
-      style_nodes =
-        node.styles.map { |item| lookups[item][0].as(Ast::Style) }
-
-      class_name =
-        unless style_nodes.empty?
-          style_nodes.join(' ') do |style_node|
-            style_builder.prefixed_class_name(style_node)
+            js.array(items)
           end
+
+        attributes =
+          node
+            .attributes
+            .reject(&.name.value.in?("class", "style"))
+            .map { |item| resolve(item, is_element: true) }
+            .reduce({} of Item => Compiled) { |memo, item| memo.merge(item) }
+
+        style_nodes =
+          node.styles.compact_map(&.style_node)
+
+        class_name =
+          unless style_nodes.empty?
+            style_nodes.join(' ') do |style_node|
+              style_builder.prefixed_class_name(style_node)
+            end
+          end
+
+        class_name_attribute =
+          node
+            .attributes
+            .find(&.name.value.==("class"))
+            .try { |attribute| compile(attribute.value) }
+
+        classes =
+          case
+          when class_name && class_name_attribute
+            class_name_attribute + [" + ` #{class_name}`"]
+          when class_name_attribute
+            class_name_attribute
+          when class_name
+            js.string(class_name)
+          end
+
+        custom_styles =
+          node
+            .attributes
+            .find(&.name.value.==("style"))
+            .try { |attribute| compile(attribute.value) }
+
+        styles = [] of Compiled
+
+        node.styles.each do |item|
+          next unless style = item.style_node
+          next unless style_builder.any?(style)
+
+          arguments =
+            item
+              .arguments
+              .sort_by { |arg| resolve_order.index(arg) || -1 }
+              .map { |arg| compile(arg).as(Compiled) }
+
+          styles << js.call(style, arguments)
         end
 
-      class_name_attribute =
-        node.attributes.find(&.name.value.==("class"))
+        styles << custom_styles if custom_styles
 
-      class_name_attribute_value =
-        if class_name_attribute
-          compile(class_name_attribute.value)
+        if classes
+          attributes["className"] = classes
         end
 
-      classes =
-        case
-        when class_name && class_name_attribute_value
-          "#{class_name_attribute_value} + ` #{class_name}`"
-        when class_name_attribute_value
-          "#{class_name_attribute_value}"
-        when class_name
-          "`#{class_name}`"
+        unless styles.empty?
+          attributes["style"] = js.call(Builtin::Style, [js.array(styles)])
         end
 
-      attributes["className"] = classes if classes
+        node.ref.try do |ref|
+          attributes["ref"] =
+            js.call(Builtin::SetRef, [[ref] of Item, just])
+        end
 
-      custom_styles = node
-        .attributes
-        .find(&.name.value.==("style"))
-        .try { |attribute| compile(attribute.value) }
-
-      styles = %w[]
-
-      node.styles.each do |item|
-        next unless style_builder.any?(lookups[item][0])
-
-        arguments =
-          compile item.arguments
-
-        style_name =
-          style_builder.style_pool.of(lookups[item][0].as(Ast::Style), nil)
-
-        styles << js.call("this.$#{style_name}", arguments)
+        js.call(Builtin::CreateElement, [
+          js.string(node.tag.value),
+          js.object(attributes),
+          children,
+        ])
       end
-
-      styles << custom_styles if custom_styles
-
-      unless styles.empty?
-        attributes["style"] = "_style([#{styles.join(", ")}])"
-      end
-
-      node.ref.try do |ref|
-        attributes["ref"] = "(element) => { this._#{ref.value} = element }"
-      end
-
-      attributes =
-        if attributes.empty?
-          "{}"
-        else
-          js.object(attributes)
-        end
-
-      contents =
-        [%("#{tag}"),
-         attributes,
-         children]
-          .reject!(&.empty?)
-          .join(", ")
-
-      "_h(#{contents})"
     end
   end
 end

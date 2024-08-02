@@ -1,8 +1,11 @@
 module Mint
   class Compiler
-    def _compile(items : Array(Ast::CssDefinition), block : Proc(String, String)?)
+    def compile(
+      items : Array(Ast::CssDefinition),
+      block : Proc(String, String)?
+    ) : Compiled
       compiled =
-        items.each_with_object({} of String => String) do |definition, memo|
+        items.each_with_object({} of String => Compiled) do |definition, memo|
           variable =
             if block
               block.call(definition.name)
@@ -16,66 +19,70 @@ module Mint
           memo["[`#{variable}`]"] = value
         end
 
-      "Object.assign(_, #{js.object(compiled)})"
+      js.call("Object.assign", [["_"] of Item, js.object(compiled)])
     end
 
-    def compile(node : Ast::If, block : Proc(String, String)? = nil) : String
-      node.in?(checked) ? _compile(node, block) : ""
-    end
+    def compile(
+      node : Ast::If,
+      block : Proc(String, String)? = nil
+    ) : Compiled
+      compile node do
+        truthy_item, falsy_item =
+          node.branches
 
-    def _compile(node : Ast::If, block : Proc(String, String)? = nil) : String
-      truthy_item, falsy_item =
-        node.branches
-
-      truthy =
-        if truthy_item.expressions.all?(Ast::CssDefinition)
-          _compile truthy_item.expressions.select(Ast::CssDefinition), block: block
-        else
-          compile truthy_item
-        end
-
-      falsy =
-        case item = falsy_item
-        when Ast::If
-          compile item, block: block
-        when Ast::Block
-          if item.expressions.all?(Ast::CssDefinition)
-            _compile item.expressions.select(Ast::CssDefinition), block: block
+        truthy =
+          if truthy_item.expressions.all?(Ast::CssDefinition)
+            compile(
+              truthy_item.expressions.select(Ast::CssDefinition), block: block)
           else
-            compile item
+            compile truthy_item
           end
-        else
-          if truthy_item
-            type = cache[truthy_item]
 
-            case type.name
-            when "Array"
-              "[]"
-            when "String"
-              "\"\""
-            when "Maybe"
-              "new #{nothing}"
+        falsy =
+          case item = falsy_item
+          when Ast::If
+            compile item, block: block
+          when Ast::Block
+            if item.expressions.all?(Ast::CssDefinition)
+              compile(
+                item.expressions.select(Ast::CssDefinition), block: block)
+            else
+              compile item
+            end
+          else
+            if truthy_item
+              case cache[truthy_item].name
+              when "Array"
+                ["[]"] of Item
+              when "String"
+                ["\"\""] of Item
+              when "Maybe"
+                js.new(nothing)
+              end
+            end
+          end || js.null
+
+        case statement = node.condition
+        when Ast::Statement
+          if item = statement.only_expression?
+            js.tenary(compile(item.expression), truthy, falsy)
+          else
+            case target = statement.target
+            when Ast::Node
+              match(
+                statement.expression,
+                [
+                  {target, truthy},
+                  {nil, falsy},
+                ],
+                statement.await)
+            else
+              js.tenary(compile(statement.expression), truthy, falsy)
             end
           end
-        end || "null"
-
-      case statement = node.condition
-      when Ast::Statement
-        if item = statement.only_expression?
-          "(#{compile(item.expression)} ? #{truthy} : #{falsy})"
         else
-          case target = statement.target
-          when Ast::Node
-            match(statement.expression, [
-              {target, truthy},
-              {nil, falsy},
-            ], statement.await)
-          else
-            "(#{compile(statement.expression)} ? #{truthy} : #{falsy})"
-          end
+          js.tenary(compile(node.condition), truthy, falsy)
         end
-      else
-        "(#{compile(node.condition)} ? #{truthy} : #{falsy})"
       end
     end
   end

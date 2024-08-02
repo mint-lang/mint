@@ -1,29 +1,28 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Decode) : String
-      type =
-        cache[node]
+    def compile(node : Ast::Decode) : Compiled
+      compile node do
+        type =
+          cache[node]
 
-      object =
-        case type.name
-        when "Result"
-          type.parameters.last
-        when "Function"
-          type.parameters.last.parameters.last
+        object =
+          case type.name
+          when "Function"
+            type.parameters.last.parameters.last
+          when "Result"
+            type.parameters.last
+          else
+            raise "Unkown decoder for type: #{type.name}!"
+          end
+
+        code =
+          decoder object
+
+        if item = node.expression
+          js.call(code, [compile(item)])
         else
-          raise "SHOULD NOT HAPPEN"
+          code
         end
-
-      code =
-        @serializer.decoder object
-
-      if item = node.expression
-        expression =
-          compile item
-
-        "#{code}(#{expression})"
-      else
-        "((_)=>#{code}(_))"
       end
     end
   end

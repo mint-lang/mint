@@ -1,7 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::BoolLiteral) : String
-      node.value.to_s
+    def compile(node : Ast::BoolLiteral) : Compiled
+      compile node do
+        [node.value.to_s] of Item
+      end
     end
   end
 end

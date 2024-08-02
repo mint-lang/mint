@@ -1,7 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::NumberLiteral) : String
-      static_value(node).to_s
+    def compile(node : Ast::NumberLiteral) : Compiled
+      compile node do
+        [static_value(node).to_s] of Item
+      end
     end
   end
 end

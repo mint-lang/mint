@@ -392,8 +392,8 @@ module Mint
             node.content,
             Markd::Options.new)
 
-        Compiler2::VDOMRenderer2.render_html(
-          highlight: Compiler2::Highlight::All,
+        Compiler::VDOMRenderer2.render_html(
+          highlight: Compiler::Highlight::All,
           replacements: [] of String,
           document: document,
           separator: "")

@@ -46,11 +46,8 @@ require "./formatters/**"
 require "./formatter/**"
 require "./formatter"
 
-require "./compilers2/**"
-require "./compiler2/**"
-require "./compiler2"
-
 require "./compilers/**"
+require "./compiler/**"
 require "./compiler"
 
 require "./installer/**"

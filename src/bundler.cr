@@ -3,7 +3,7 @@ require "csv"
 module Mint
   # This class is responsible for compiling and building the application.
   class Bundler
-    alias Bundle = Compiler2::Bundle
+    alias Bundle = Compiler::Bundle
 
     record Config,
       test : NamedTuple(url: String, id: String)?,
@@ -50,7 +50,7 @@ module Mint
 
     def generate_application
       compiler =
-        Compiler2.new(artifacts, application.css_prefix, config)
+        Compiler.new(artifacts, application.css_prefix, config)
 
       Logger.log "Compiling intermediate representation..." do
         # Gather all top level entities and resolve them, this will populate the
@@ -84,8 +84,8 @@ module Mint
       # the ones meant for the main bundle.
       bundles =
         {
-          Bundle::Index => ([] of Tuple(Ast::Node, Compiler2::Id, Compiler2::Compiled)),
-        } of Ast::Node | Bundle => Array(Tuple(Ast::Node, Compiler2::Id, Compiler2::Compiled))
+          Bundle::Index => ([] of Tuple(Ast::Node, Compiler::Id, Compiler::Compiled)),
+        } of Ast::Node | Bundle => Array(Tuple(Ast::Node, Compiler::Id, Compiler::Compiled))
 
       # This holds which node belongs to which bundle.
       scopes =
@@ -130,28 +130,28 @@ module Mint
               component,
               component,
               compiler.js.call(
-                Compiler2::Builtin::Lazy,
-                [[Compiler2::Deferred.new(component)] of Compiler2::Item]),
+                Compiler::Builtin::Lazy,
+                [[Compiler::Deferred.new(component)] of Compiler::Item]),
             }))
           end
 
         class_pool =
-          NamePool(Ast::Node | Compiler2::Builtin, Ast::Node | Bundle).new('A'.pred.to_s)
+          NamePool(Ast::Node | Compiler::Builtin, Ast::Node | Bundle).new('A'.pred.to_s)
 
         pool =
-          NamePool(Compiler2::Variable |
-                   Compiler2::Encoder |
-                   Compiler2::Decoder |
+          NamePool(Compiler::Variable |
+                   Compiler::Encoder |
+                   Compiler::Decoder |
                    Ast::Node |
                    String, Ast::Node | Bundle).new
 
         rendered_bundles =
-          {} of Ast::Node | Bundle => Tuple(Compiler2::Renderer, Array(String))
+          {} of Ast::Node | Bundle => Tuple(Compiler::Renderer, Array(String))
 
         # We render the bundles so we can know after what we need to import.
         bundles.each do |node, contents|
           renderer =
-            Compiler2::Renderer.new(
+            Compiler::Renderer.new(
               bundle_path: ->path_for_bundle(Ast::Node | Bundle),
               deferred_path: ->bundle_name(Ast::Node | Bundle),
               references: artifacts.references,
@@ -163,7 +163,7 @@ module Mint
           # things later to the array.
           items =
             if contents.empty?
-              [] of Compiler2::Compiled
+              [] of Compiler::Compiled
             else
               # Here we sort the compiled node by the order they are resovled, which
               # will prevent issues of one entity depending on others (like a const

@@ -1,10 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Asset) : String
-      prefix =
-        relative ? "" : "/"
-
-      "`#{prefix}#{ASSET_DIR}/#{node.filename(build: @build)}`"
+    def compile(node : Ast::Directives::Asset) : Compiled
+      compile node do
+        [Asset.new(node)] of Item
+      end
     end
   end
 end

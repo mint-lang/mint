@@ -1,13 +1,22 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::HtmlFragment) : String
-      if node.children.empty?
-        "null"
-      else
-        items =
-          compile node.children
+    def compile(node : Ast::HtmlFragment) : Compiled
+      compile node do
+        case node.children.size
+        when 0
+          js.null
+        when 1
+          compile node.children.first
+        else
+          items =
+            compile node.children
 
-        "_h(React.Fragment, {}, #{js.array(items)})"
+          js.call(Builtin::CreateElement, [
+            [Builtin::Fragment] of Item,
+            ["{}"] of Item,
+            js.array(items),
+          ])
+        end
       end
     end
   end

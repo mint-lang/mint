@@ -9,7 +9,7 @@ module Mint
     end
 
     alias Bundles = Hash(Ast::Node | Bundle, Set(Ast::Node))
-    alias Bundle = Compiler2::Bundle
+    alias Bundle = Compiler::Bundle
 
     # This hash contains which nodes belong to which bundle.
     getter bundles = Bundles.new

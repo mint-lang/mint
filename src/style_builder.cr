@@ -118,11 +118,11 @@ module Mint
     end
   end
 
-  class VariableCompiler2
+  class VariableCompiler
     delegate ifs, variables, variable_name, any?, style_pool, cases, to: @builder
     delegate js, compile, to: @compiler
 
-    getter compiler : Compiler2
+    getter compiler : Compiler
     getter builder : StyleBuilder
 
     def initialize(@builder, @compiler)
@@ -136,12 +136,12 @@ module Mint
           .try do |hash|
             items =
               hash
-                .each_with_object({} of String => Compiler2::Compiled) do |(key, value), memo|
+                .each_with_object({} of String => Compiler::Compiled) do |(key, value), memo|
                   memo["[`#{key}`]"] = compile value, quote_string: true
                 end
 
             js.object(items) unless items.empty?
-          end || ["{}"] of Compiler2::Item
+          end || ["{}"] of Compiler::Item
 
       compiled_conditions =
         begin
@@ -175,7 +175,7 @@ module Mint
                 when Ast::If, Ast::Case
                   compile item, proc
                 else
-                  [] of Compiler2::Item
+                  [] of Compiler::Item
                 end
               end
           end
@@ -188,7 +188,7 @@ module Mint
         js.statements([
           js.const("_", static),
           js.statements(compiled_conditions),
-          js.return(["_"] of Compiler2::Item),
+          js.return(["_"] of Compiler::Item),
         ])
       end}
     end
@@ -262,8 +262,8 @@ module Mint
         .compile(node)
     end
 
-    def compile_style(node : Ast::Style, compiler : Compiler2)
-      VariableCompiler2
+    def compile_style(node : Ast::Style, compiler : Compiler)
+      VariableCompiler
         .new(self, compiler)
         .compile(node)
     end

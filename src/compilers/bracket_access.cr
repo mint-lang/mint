@@ -1,24 +1,28 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::BracketAccess) : String
-      type =
-        cache[node.expression]
+    def compile(node : Ast::BracketAccess) : Compiled
+      compile node do
+        expression =
+          compile node.expression
 
-      expression =
-        compile node.expression
+        type =
+          cache[node.expression]
 
-      index =
-        case item = node.index
-        when Ast::NumberLiteral
-          item.value.to_i
-        when Ast::Node
-          compile node.index.as(Ast::Node)
+        index =
+          compile node.index
+
+        if type.name == "Tuple" && node.index.is_a?(Ast::NumberLiteral)
+          expression + js.array([index])
+        else
+          accessor =
+            if type.name == "Map"
+              Builtin::MapAccess
+            else
+              Builtin::BracketAccess
+            end
+
+          js.call(accessor, [expression, index, just, nothing])
         end
-
-      if type.name == "Tuple" && node.index.is_a?(Ast::NumberLiteral)
-        "#{expression}[#{index}]"
-      else
-        "_at(#{expression}, #{index})"
       end
     end
   end

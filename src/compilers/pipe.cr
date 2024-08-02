@@ -1,7 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Pipe) : String
-      compile node.call
+    def compile(node : Ast::Pipe) : Compiled
+      compile node do
+        compile node.call
+      end
     end
   end
 end

@@ -1,11 +1,12 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Documentation) : String
-      entity =
-        lookups[node][0]
-
-      JSON.build do |json|
-        DocumentationGenerator.new.generate(entity, json)
+    def compile(node : Ast::Directives::Documentation) : Compiled
+      compile node do
+        [
+          JSON.build do |json|
+            DocumentationGenerator.new.generate(lookups[node][0], json)
+          end,
+        ] of Item
       end
     end
   end

@@ -1,10 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::TupleLiteral) : String
-      items =
-        compile node.items, ", "
-
-      "[#{items}]"
+    def compile(node : Ast::TupleLiteral) : Compiled
+      compile node do
+        js.array(compile(node.items))
+      end
     end
   end
 end

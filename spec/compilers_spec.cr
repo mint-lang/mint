@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 Dir
-  .glob("./spec/compilers/**/*")
+  .glob("./spec/compilers2/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
@@ -14,19 +14,49 @@ Dir
         ast = Mint::Parser.parse(sample, file)
         ast.class.should eq(Mint::Ast)
 
-        begin
-          artifacts = Mint::TypeChecker.check(ast)
+        artifacts =
+          Mint::TypeChecker.check(ast)
 
-          # Compare results
-          result = Mint::Compiler.compile_bare(artifacts, {
-            css_prefix: nil,
-            optimize:   false,
-            relative:   false,
-            build:      true,
-          })
-        rescue error : Mint::Error
-          fail error.to_terminal.to_s
-        end
+        config =
+          Mint::Bundler::Config.new(
+            generate_manifest: false,
+            include_program: false,
+            live_reload: false,
+            runtime_path: nil,
+            skip_icons: false,
+            hash_assets: true,
+            relative: false,
+            optimize: false,
+            test: nil)
+
+        json =
+          Mint::MintJson.new
+
+        files =
+          Mint::Bundler.new(
+            artifacts: artifacts,
+            config: config,
+            json: json
+          ).bundle.map do |path, contents|
+            {path, case contents
+            in Proc(String)
+              contents.call
+            in String
+              contents
+            end}
+          end.to_h
+            .reject { |_, contents| contents.blank? }
+            .reject { |key, _| key.in?("/__mint__/runtime.js", "index.html") }
+
+        result =
+          case files.size
+          when 1
+            files.first[1]
+          else
+            files
+              .map { |path, contents| "---=== #{path} ===---\n#{contents}" }
+              .join("\n\n").strip
+          end
 
         begin
           result.should eq(expected.strip)

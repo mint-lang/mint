@@ -1,45 +1,32 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Svg) : String
-      name =
-        static_components_pool.of(node.path, nil)
+    def compile(node : Ast::Directives::Svg) : Compiled
+      compile node do
+        resolve node do
+          parsed =
+            parse_svg(node.file_contents)
 
-      static_components[name] ||= begin
-        value = compile_svg_directive(node)
-        return "" unless value
-        value
-      end
+          return [] of Item unless parsed
 
-      "$#{name}()"
-    end
+          width, height, view_box, data =
+            parsed
 
-    def compile_svg_directive(node : Ast::Directives::Svg) : String?
-      parsed =
-        parse_svg(node.file_contents)
+          attributes =
+            js.object({
+              "dangerouslySetInnerHTML" => js.object({"__html" => js.string(data)}),
+              "viewBox"                 => js.string(view_box.to_s),
+              "height"                  => js.string(height.to_s),
+              "width"                   => js.string(width.to_s),
+            } of Item => Compiled)
 
-      return unless parsed
+          add([
+            {node,
+             node,
+             js.call(Builtin::CreateElement, [js.string("svg"), attributes])},
+          ])
+        end
 
-      width, height, view_box, data =
-        parsed
-
-      attributes =
-        "{ width: '#{width}', height: '#{height}', viewBox: '#{view_box}', dangerouslySetInnerHTML: { __html: `#{data}` }}"
-
-      "_h('svg', #{attributes})"
-    end
-
-    def parse_svg(contents)
-      document =
-        XML.parse(contents)
-
-      svg =
-        document.first_element_child
-
-      if svg
-        data =
-          svg.children.join.strip
-
-        {svg["width"]?, svg["height"]?, svg["viewBox"]?, data}
+        [node] of Item
       end
     end
   end

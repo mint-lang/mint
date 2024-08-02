@@ -1,18 +1,13 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Record) : String
-      fields =
-        node.fields
-          .map { |item| resolve(item) }
-          .reduce({} of String => String) { |memo, item| memo.merge(item) }
+    def compile(node : Ast::Record) : Compiled
+      compile node do
+        fields =
+          node.fields
+            .map { |item| resolve(item) }
+            .reduce({} of Item => Compiled) { |memo, item| memo.merge(item) }
 
-      if type = cache[node]?
-        name =
-          js.class_of(type.name)
-
-        "new #{name}(#{js.object(fields)})"
-      else
-        "new Record(#{js.object(fields)})"
+        js.object(fields)
       end
     end
   end

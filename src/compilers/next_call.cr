@@ -1,38 +1,34 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::NextCall) : String
-      entity =
-        lookups[node]?.try(&.first?)
+    def compile(node : Ast::NextCall) : Compiled
+      compile node do
+        entity =
+          lookups[node]?.try(&.first?)
 
-      if node.data.fields.empty?
-        "null"
-      else
-        state =
-          node.data.fields.each_with_object({} of String => String) do |item, memo|
-            next memo unless key = item.key
+        if node.data.fields.empty?
+          js.null
+        else
+          assigns =
+            node.data.fields.compact_map do |item|
+              next unless key = item.key
 
-            field =
-              case entity
-              when Ast::Provider
-                entity
-                  .states
-                  .find(&.name.value.==(key.value))
-              when Ast::Component, Ast::Store
-                entity
-                  .states
-                  .find(&.name.value.==(key.value))
-              end
+              field =
+                case entity
+                when Ast::Component, Ast::Store, Ast::Provider
+                  entity.states.find(&.name.value.==(key.value))
+                end
 
-            if field
-              memo[js.variable_of(field)] = compile item.value
-            else
-              memo
+              next unless field
+
+              js.assign(Signal.new(field), compile(item.value))
             end
-          end
 
-        js.promise do
-          js.arrow_function(%w[_resolve]) do
-            "this.setState(_u(this.state, new Record(#{js.object(state)})), _resolve)\n"
+          if assigns.size > 1
+            js.call(Builtin::Batch, [
+              js.arrow_function { js.statements(assigns) },
+            ])
+          else
+            js.iif { assigns[0] }
           end
         end
       end

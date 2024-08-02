@@ -1,15 +1,20 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::RecordUpdate) : String
-      expression =
-        compile node.expression
+    def compile(node : Ast::RecordUpdate) : Compiled
+      compile node do
+        expression =
+          compile node.expression
 
-      fields =
-        node.fields
-          .map { |item| resolve(item) }
-          .reduce({} of String => String) { |memo, item| memo.merge(item) }
+        fields =
+          node.fields
+            .map { |item| resolve(item) }
+            .reduce({} of String => Compiled) { |memo, item| memo.merge(item) }
+            .map { |key, value| [key, ": "] + value }
 
-      "_u(#{expression}, #{js.object(fields)})"
+        fields.unshift(["..."] + expression)
+
+        js.object_destructuring(fields)
+      end
     end
   end
 end

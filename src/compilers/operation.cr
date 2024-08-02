@@ -1,21 +1,23 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Operation) : String
-      left =
-        compile node.left
+    def compile(node : Ast::Operation) : Compiled
+      compile node do
+        left =
+          compile node.left
 
-      right =
-        compile node.right
+        right =
+          compile node.right
 
-      case node.operator
-      when "or"
-        "_o(#{left}._0, #{right})"
-      when "=="
-        "_compare(#{left}, #{right})"
-      when "!="
-        "!_compare(#{left}, #{right})"
-      else
-        "#{left} #{node.operator} #{right}"
+        case node.operator
+        when "or"
+          js.call(Builtin::Or, [nothing, err, left, right])
+        when "=="
+          js.call(Builtin::Compare, [left, right])
+        when "!="
+          ["!"] + js.call(Builtin::Compare, [left, right])
+        else
+          left + [" #{node.operator} "] + right
+        end
       end
     end
   end

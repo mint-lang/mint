@@ -1,7 +1,7 @@
 require "uri"
 
 module Mint
-  class Compiler2
+  class Compiler
     enum Highlight
       MintOnly
       None
@@ -210,7 +210,7 @@ module Mint
                       parser.parse_any
 
                       unless parser.ast.nodes.empty?
-                        Compiler2
+                        Compiler
                           .tokens_to_lines(parser.ast)
                           .map do |parts|
                             items =

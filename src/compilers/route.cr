@@ -1,39 +1,34 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Route) : String
-      expression =
-        compile node.expression
+    def compile(node : Ast::Route) : Compiled
+      compile node do
+        expression =
+          compile node.expression
 
-      arguments =
-        compile node.arguments
+        arguments =
+          compile node.arguments
 
-      mapping =
-        node
-          .arguments
-          .map { |argument| "'#{argument.name.value}'" }
+        mapping =
+          node
+            .arguments
+            .map { |argument| js.string(argument.name.value) }
 
-      decoders =
-        node
-          .arguments
-          .map { |argument| @serializer.decoder(cache[argument]) }
+        decoders =
+          node
+            .arguments
+            .map { |argument| decoder(cache[argument]) }
 
-      handler =
-        if async?(node.expression.expressions)
-          js.async_arrow_function(arguments, expression)
-        else
-          js.arrow_function(arguments, expression)
-        end
+        handler =
+          js.arrow_function(arguments) { js.return(expression) }
 
-      js.object({
-        "handler"  => handler,
-        "decoders" => js.array(decoders),
-        "mapping"  => js.array(mapping),
-        "path"     => "`#{node.url}`",
-      })
-    end
-
-    def _compile_service_worker(node : Ast::Route) : String
-      "'#{node.url}'"
+        js.object({
+          "await"    => [node.await.to_s] of Item,
+          "path"     => js.string(node.url),
+          "decoders" => js.array(decoders),
+          "mapping"  => js.array(mapping),
+          "handler"  => handler,
+        })
+      end
     end
   end
 end

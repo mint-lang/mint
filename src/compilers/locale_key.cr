@@ -1,7 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::LocaleKey) : String
-      %(_L.t("#{node.value}"))
+    def compile(node : Ast::LocaleKey) : Compiled
+      compile node do
+        js.call(Builtin::Translate, [js.string(node.value)])
+      end
     end
   end
 end
