@@ -81,6 +81,20 @@ component Main {
     <Test/>
   }
 }
+-----------------------------------------------------property_children_mismatch
+component Test {
+  property children : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
 -------------------------------------------------------------------------------
 component Test {
   property name : String = "Joe"

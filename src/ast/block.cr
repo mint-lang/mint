@@ -1,10 +1,9 @@
 module Mint
   class Ast
     class Block < Node
-      getter expressions, returns
+      getter expressions
 
-      def initialize(@returns : Array(ReturnCall),
-                     @expressions : Array(Node),
+      def initialize(@expressions : Array(Node),
                      @file : Parser::File,
                      @from : Int64,
                      @to : Int64)

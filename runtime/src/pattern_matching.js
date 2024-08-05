@@ -1,12 +1,5 @@
 import { compare } from "./equality";
 
-// This is a pattern for destructuring records.
-class PatternRecord {
-  constructor(patterns) {
-    this.patterns = patterns;
-  }
-}
-
 // This is a pattern for destructuring types.
 class Pattern {
   constructor(variant, pattern) {
@@ -17,7 +10,6 @@ class Pattern {
 
 // Export functions for creating various patterns.
 export const pattern = (variant, pattern) => new Pattern(variant, pattern);
-export const patternRecord = (patterns) => new PatternRecord(patterns);
 
 // Symbols to use during pattern matching.
 export const patternVariable = Symbol("Variable");
@@ -94,32 +86,16 @@ export const destructure = (value, pattern, values = []) => {
     // This branch covers type variants.
   } else if (pattern instanceof Pattern) {
     if (value instanceof pattern.variant) {
-      if (pattern.pattern instanceof PatternRecord) {
-        if (!destructure(value, pattern.pattern, values)) {
+      for (let index in pattern.pattern) {
+        if (
+          !destructure(value[`_${index}`], pattern.pattern[index], values)
+        ) {
           return false;
-        }
-      } else {
-        for (let index in pattern.pattern) {
-          if (
-            !destructure(value[`_${index}`], pattern.pattern[index], values)
-          ) {
-            return false;
-          }
         }
       }
     } else {
       return false;
     }
-    // This branch covers type variants as records.
-  } else if (pattern instanceof PatternRecord) {
-    for (let index in pattern.patterns) {
-      const item = pattern.patterns[index];
-
-      if (!destructure(value[item[0]], item[1], values)) {
-        return false;
-      }
-    }
-    // We compare anything else.
   } else {
     if (!compare(value, pattern)) {
       return false;

@@ -1,20 +1,19 @@
 type A {
-  B(name : String, color : String)
+  B(name : String, age : Number)
   C
 }
 
 component Main {
   fun render : String {
-    case (A.B(name: "Joe", color: "Blue")) {
-      A.B(color, name) => color
+    case (A.B(name: "Joe", age: 32)) {
+      A.B(name, age) => name
       A.C => ""
     }
   }
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as I,
-  patternRecord as H,
+  patternVariable as H,
   newVariant as F,
   pattern as G,
   variant as B,
@@ -24,22 +23,16 @@ import {
 export const
   A = B([
     "name",
-    "color"
+    "age"
   ]),
   C = B(0),
   D = () => {
-    return E(F(A)(`Joe`, `Blue`), [
+    return E(F(A)(`Joe`, 32), [
       [
-        G(A, H([
-          [
-            `color`,
-            I
-          ],
-          [
-            `name`,
-            I
-          ]
-        ])),
+        G(A, [
+          H,
+          H
+        ]),
         (a, b) => {
           return a
         }

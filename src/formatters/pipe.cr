@@ -7,14 +7,7 @@ module Mint
       expression =
         format node.expression
 
-      await =
-        if node.await
-          format("await ")
-        else
-          [] of Node
-        end
-
-      argument + [Line.new(1), "|> "] of Node + await + expression
+      argument + [Line.new(1), "|> "] of Node + expression
     end
   end
 end

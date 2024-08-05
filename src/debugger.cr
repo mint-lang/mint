@@ -5,8 +5,16 @@ module Mint
         node.class.name.sub("Mint::Ast::", "")
 
       case x = node
+      when Ast::Pipe
+        "Pipe(#{dbg(x.argument)} |> #{dbg(x.expression)})"
+      when Ast::Operation
+        "#{dbg(x.left)} #{x.operator} #{dbg(x.right)}"
+      when Ast::Statement
+        "Statement(#{dbg(x.expression)})"
+      when Ast::Await
+        "Await(#{dbg(x.body)})"
       when Ast::Route
-        "Route (#{x.url})"
+        "Route(#{x.url})"
       when Ast::Component
         "<#{x.name.value}>"
       when Ast::Module, Ast::Store, Ast::Provider, Ast::Type

@@ -1,0 +1,31 @@
+component Test {
+  property children : Array(Html)
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_CHILDREN_DEFAULT_REQUIRED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+There should be a default value for the children property:
+
+  []
+
+The property in question is here:
+
+   ┌ ./spec/errors/property_children_default_requried:2:3
+   ├─────────────────────────────────────────────────────
+  1│ component Test {
+  2│   property children : Array(Html)
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }

@@ -59,14 +59,14 @@ module Mint
             for_expression
           when "if"
             if_expression
-          when "return"
-            return_call
           when "next"
             next_call
           when "decode"
             decode
           when "encode"
             encode
+          when "await"
+            await
           when "defer"
             defer
           when "emit"

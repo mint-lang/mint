@@ -19,35 +19,27 @@ module Mint
         end
 
         whitespace
-        await = keyword! "await"
-
-        whitespace
         next unless body = expression
 
+        return_value =
+          parse do
+            whitespace
+            next unless keyword! "or"
+
+            whitespace
+            next unless keyword! "return"
+
+            whitespace
+            expression
+          end
+
         Ast::Statement.new(
+          return_value: return_value,
           from: start_position,
           expression: body,
           target: target,
-          await: await,
           to: position,
-          file: file
-        ).tap do |node|
-          case body
-          when Ast::Operation
-            case target
-            when Ast::ArrayDestructuring,
-                 Ast::TupleDestructuring,
-                 Ast::TypeDestructuring,
-                 Ast::Discard
-              case item = body.right
-              when Ast::ReturnCall
-                item.statement = node
-              end
-            end
-          when Ast::ReturnCall
-            body.statement = node
-          end
-        end
+          file: file)
       end
     end
   end

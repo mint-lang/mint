@@ -29,6 +29,7 @@ module Mint
           expression: expression,
           from: expression.from,
           arguments: arguments,
+          await: false,
           to: position,
           file: file)
       end

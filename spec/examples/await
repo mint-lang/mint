@@ -1,0 +1,19 @@
+component Main {
+  fun render : String {
+    {
+      await "Hello"
+    }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    {
+      "asd" |> await defer (value : String) { value }
+    }
+
+    ""
+  }
+}

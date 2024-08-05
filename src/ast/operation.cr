@@ -1,11 +1,10 @@
 module Mint
   class Ast
     class Operation < Node
-      getter operator, await, right, left
+      getter operator, right, left
 
       def initialize(@file : Parser::File,
                      @operator : String,
-                     @await : Bool?,
                      @right : Node,
                      @from : Int64,
                      @left : Node,

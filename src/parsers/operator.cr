@@ -54,6 +54,13 @@ module Mint
 
         case operator
         when "or"
+          # This is not an operation but part of a statements
+          # "or return" section.
+          next if parse do
+                    whitespace
+                    keyword! "return"
+                  end
+
           ast.keywords << {saved_position, saved_position + operator.size}
         else
           ast.operators << {saved_position, saved_position + operator.size}

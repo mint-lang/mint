@@ -37,6 +37,7 @@ export const variant = (input) => {
 
         for (let index = 0; index < input.length; index++) {
           this[input[index]] = args[index];
+          this[`_${index}`] = args[index];
         }
       } else {
         this.length = input;

@@ -154,10 +154,6 @@ module Mint
       node
     end
 
-    def resolve_type(node : Js)
-      JS
-    end
-
     def resolve_type(node : Type)
       resolve_record_definition(node.name) ||
         component_records.values.find(&.name.==(node.name)) || begin

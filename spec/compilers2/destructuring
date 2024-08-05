@@ -15,15 +15,14 @@ component Main {
         key: "KEY")
 
     case item {
-      Test.Item(content) => content
+      Test.Item(_, content) => content
       Test.None => ""
     }
   }
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as I,
-  patternRecord as H,
+  patternVariable as H,
   newVariant as E,
   pattern as G,
   variant as B,
@@ -41,10 +40,10 @@ export const
     const a = E(A)(`MATCHSTRING`, `CONTENT`, `KEY`);
     return F(a, [
       [
-        G(A, H([[
-          `content`,
-          I
-        ]])),
+        G(A, [
+          null,
+          H
+        ]),
         (b) => {
           return b
         }

@@ -57,7 +57,6 @@ module Mint
       # Pattern matching.
       PatternVariable
       PatternSpread
-      PatternRecord
       Destructure
       Pattern
       Match

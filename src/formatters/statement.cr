@@ -4,24 +4,17 @@ module Mint
       expression =
         format node.expression
 
-      left =
-        if node.await
-          ["await "] + expression
-        else
-          expression
-        end
-
       case node.target
       when Nil
-        left
+        expression
       else
         target =
           format node.target
 
         if newline
-          ["let "] + target + [" =", Nest.new([Line.new(1)] + left)]
+          ["let "] + target + [" =", Nest.new([Line.new(1)] + expression)]
         else
-          ["let "] + target + [" = "] + left
+          ["let "] + target + [" = "] + expression
         end
       end
     end

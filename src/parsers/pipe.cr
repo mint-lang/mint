@@ -18,7 +18,6 @@ module Mint
 
       Ast::Pipe.new(
         expression: expression,
-        await: operation.await,
         from: argument.from,
         argument: argument,
         to: expression.to,

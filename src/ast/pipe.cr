@@ -1,12 +1,11 @@
 module Mint
   class Ast
     class Pipe < Node
-      getter expression, argument, await
+      getter expression, argument
 
       def initialize(@file : Parser::File,
                      @expression : Node,
                      @argument : Node,
-                     @await : Bool?,
                      @from : Int64,
                      @to : Int64)
       end
@@ -22,7 +21,15 @@ module Mint
               comment: nil,
               key: nil)
 
-          case item = expression
+          target, await =
+            case item = expression
+            when Ast::Await
+              {item.body, true}
+            else
+              {item, false}
+            end
+
+          case item = target
           when Ast::Call
             Ast::Call.new(
               arguments: [arg] + item.arguments,

@@ -74,8 +74,7 @@ module Mint
                 [
                   {target, truthy},
                   {nil, falsy},
-                ],
-                statement.await)
+                ])
             else
               js.tenary(compile(statement.expression), truthy, falsy)
             end

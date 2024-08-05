@@ -8,9 +8,6 @@ module Mint
         parenthesis = char! '('
         whitespace
 
-        await = keyword! "await"
-        whitespace
-
         next error :case_expected_condition do
           expected "the condition of a case", word
           snippet self
@@ -58,7 +55,6 @@ module Mint
           from: start_position,
           branches: branches,
           comments: comments,
-          await: await,
           to: position,
           file: file)
       end

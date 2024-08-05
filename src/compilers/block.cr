@@ -5,10 +5,13 @@ module Mint
         expressions =
           compile node.expressions.select(Ast::Statement)
 
+        async =
+          Js.async?(expressions)
+
         last =
           expressions.pop
 
-        if expressions.empty? && !Js.async?(expressions)
+        if expressions.empty? && !async
           if for_function
             js.return(last)
           else

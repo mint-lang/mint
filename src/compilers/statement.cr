@@ -2,19 +2,8 @@ module Mint
   class Compiler
     def compile(node : Ast::Statement) : Compiled
       compile node do
-        right, return_call =
-          case expression = node.expression
-          when Ast::Operation
-            case item = expression.right
-            when Ast::ReturnCall
-              {
-                compile(expression.left),
-                compile(item.expression),
-              }
-            end
-          end || {compile(node.expression), nil}
-
-        right = ([Await.new, " "] of Item) + defer(node.expression, right) if node.await
+        right =
+          compile(node.expression)
 
         if target = node.target
           case target
@@ -42,8 +31,8 @@ module Mint
                 js.const(var, js.call(Builtin::Destructure, [right, pattern]))
 
               return_if =
-                if return_call
-                  js.if([var, " === false"], js.return(return_call))
+                if ret = node.return_value
+                  js.if([var, " === false"], js.return(compile(ret)))
                 end
 
               js.statements([

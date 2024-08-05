@@ -19,10 +19,10 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   patternVariable as H,
-  newVariant as E,
+  newVariant as F,
   pattern as G,
   variant as B,
-  match as F
+  match as E
 } from "./runtime.js";
 
 export const
@@ -30,12 +30,11 @@ export const
   C = B(0),
   D = () => {
     (async () => {
-      let a = await E(A)(``);
-      return F(a, [
+      return E(await F(A)(``), [
         [
           G(A, [H]),
-          (b) => {
-            return b
+          (a) => {
+            return a
           }
         ],
         [

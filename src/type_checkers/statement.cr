@@ -4,33 +4,23 @@ module Mint
       type =
         resolve node.expression
 
-      type =
-        if (node.await && type.name == "Promise") ||
-           (node.await && type.name == "Deferred")
-          type.parameters.first
-        else
-          type
-        end
-
-      if node.await && (block = self.block)
-        async.add(block)
-      end
-
       required =
         case target = node.target
         when Ast::TupleDestructuring,
              Ast::ArrayDestructuring,
              Ast::TypeDestructuring,
              Ast::Discard
-          case item = node.expression
-          when Ast::Operation
-            !item.right.is_a?(Ast::ReturnCall)
+          destructure(target, type)
+
+          if node.if_node
+            false
           else
-            destructure(target, type)
             check_exhaustiveness(type, [target]).diagnostics.missing? &&
-              !node.if_node
+              !node.return_value
           end
         end
+
+      node.return_value.try(&->resolve(Ast::Node))
 
       error! :statement_return_required do
         block do

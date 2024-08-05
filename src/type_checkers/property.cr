@@ -56,6 +56,18 @@ module Mint
         snippet "The property in question is here:", node
       end if final.have_holes?
 
+      error! :property_children_mismatch do
+        snippet "The type of the children property must be:", HTML_CHILDREN
+        snippet "Instead it is:", final
+        snippet "The property in question is here:", node
+      end if node.name.value == "children" &&
+             !Comparer.compare(HTML_CHILDREN, final)
+
+      error! :property_children_default_required do
+        snippet "There should be a default value for the children property:", "[]"
+        snippet "The property in question is here:", node
+      end if node.name.value == "children" && node.default.nil?
+
       final
     end
   end

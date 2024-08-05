@@ -1,9 +1,11 @@
 component Main {
   fun render : String {
-    case await "Hello" {
-      "test" => true
-      "Hello" => false
-      => false
+    {
+      case await "Hello" {
+        "test" => true
+        "Hello" => false
+        => false
+      }
     }
 
     ""
@@ -14,8 +16,7 @@ import { match as B } from "./runtime.js";
 
 export const A = () => {
   (async () => {
-    let a = await `Hello`;
-    return B(a, [
+    return B(await `Hello`, [
       [
         `test`,
         () => {

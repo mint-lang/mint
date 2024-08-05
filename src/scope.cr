@@ -267,9 +267,11 @@ module Mint
         build(node.default, node)
       when Ast::CssSelector,
            Ast::CssNestedAt,
-           Ast::Defer
+           Ast::Defer,
+           Ast::Await
         build(node.body, node)
       when Ast::Statement
+        build(node.return_value, node)
         build(node.expression, node)
         build(node.target, node)
       when Ast::CssDefinition

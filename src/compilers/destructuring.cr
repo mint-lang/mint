@@ -37,21 +37,7 @@ module Mint
       case item = lookups[node][0]
       when Ast::TypeVariant
         items =
-          if item.fields
-            params = node.items.select(Ast::Variable)
-
-            if !params.empty?
-              fields =
-                params.map do |param|
-                  js.array([
-                    js.string(param.value),
-                    destructuring(param, variables),
-                  ])
-                end
-
-              js.call(Builtin::PatternRecord, [js.array(fields)])
-            end
-          end || js.array(node.items.map do |param|
+          js.array(node.items.map do |param|
             destructuring(param, variables)
           end)
 
@@ -65,8 +51,7 @@ module Mint
 
     def match(
       condition : Ast::Node,
-      branches : Array(Tuple(Ast::Node?, Compiled)),
-      await : Bool
+      branches : Array(Tuple(Ast::Node?, Compiled))
     ) : Compiled
       items =
         branches.map do |(pattern, expression)|
@@ -82,25 +67,7 @@ module Mint
           js.array([matcher, result])
         end
 
-      compiled =
-        compile(condition)
-
-      if await
-        variable =
-          Variable.new
-
-        js.iif do
-          js.statements([
-            js.let(variable, ([Await.new, " "] of Item) + defer(condition, compiled)),
-            js.return(js.call(Builtin::Match, [
-              [variable] of Item,
-              js.array(items),
-            ])),
-          ])
-        end
-      else
-        js.call(Builtin::Match, [compiled, js.array(items)])
-      end
+      js.call(Builtin::Match, [compile(condition), js.array(items)])
     end
   end
 end

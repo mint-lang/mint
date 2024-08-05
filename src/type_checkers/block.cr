@@ -52,16 +52,18 @@ module Mint
           snippet node
         end if expressions.last.target
 
-        node.returns.each do |item|
+        node.expressions.select(Ast::Statement).each do |item|
+          next unless return_value = item.return_value
+
           type =
-            cache[item]
+            cache[return_value]
 
           error! :statement_return_type_mismatch do
             snippet "The type of a return call does not match the return " \
                     "type of the block:", type
 
             snippet "I was expecting:", last
-            snippet "It return call in question is here:", item
+            snippet "It return call in question is here:", return_value
             snippet "The returned value of the block is here:", expressions.last
           end unless Comparer.compare(last, type)
         end

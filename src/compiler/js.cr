@@ -37,19 +37,12 @@ module Mint
       end
 
       # Renders a call.
-      def call(name : Item | Compiled, arguments : Array(Compiled), await : Bool? = nil) : Compiled
-        body =
-          case name
-          in Compiled
-            name + ["("] + list(arguments) + [")"]
-          in Item
-            [name, "("] + list(arguments) + [")"]
-          end
-
-        if await
-          ([Await.new, " "] of Item) + body
-        else
-          body
+      def call(name : Item | Compiled, arguments : Array(Compiled)) : Compiled
+        case name
+        in Compiled
+          name + ["("] + list(arguments) + [")"]
+        in Item
+          [name, "("] + list(arguments) + [")"]
         end
       end
 

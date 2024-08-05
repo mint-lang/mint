@@ -10,14 +10,7 @@ module Mint
       body =
         list items
 
-      await =
-        if node.await
-          format("await ")
-        else
-          [] of Node
-        end
-
-      ["case "] + await + condition + [" "] +
+      ["case "] + condition + [" "] +
         group(
           behavior: Behavior::Block,
           ends: {"{", "}"},

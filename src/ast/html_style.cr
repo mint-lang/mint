@@ -12,6 +12,7 @@ module Mint
                      @to : Int64)
       end
 
+      # This is here to provide compatiblity for calls...
       def await
         nil
       end

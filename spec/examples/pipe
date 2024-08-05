@@ -52,6 +52,9 @@ component Main {
       "Hello"
       |> await pipe
       |> await pipe
+      |> await pipe
+      |> await pipe
+      |> await pipe
 
     value == "asd"
   }
