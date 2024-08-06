@@ -3,7 +3,7 @@ module Mint
     RESERVED =
       %w(break case class const continue debugger default delete do else
         export extends for if import in instanceof new return super
-        switch throw typeof var while yield state)
+        switch throw typeof var while yield)
 
     def check(node : Ast::Variable) : Checkable
       if node.value == "void"
