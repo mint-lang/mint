@@ -43,10 +43,13 @@ module Mint
     getter tokens = [] of Token
 
     def self.tokenize(ast : Ast)
+      parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
+
+      return parts if ast.nodes.empty?
+
       tokenizer = self.new
       tokenizer.tokenize(ast)
 
-      parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
       contents = ast.nodes.first.file.contents
       position = 0
 

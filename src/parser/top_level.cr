@@ -12,6 +12,43 @@ module Mint
       parser.ast
     end
 
+    def parse_any : Nil
+      many do
+        oneof do
+          module_definition ||
+            type_definition ||
+            html_attribute ||
+            interpolation ||
+            css_font_face ||
+            css_keyframes ||
+            component ||
+            constant ||
+            property ||
+            operator ||
+            provider ||
+            css_node ||
+            function ||
+            comment ||
+            connect ||
+            locale ||
+            routes ||
+            route ||
+            state ||
+            store ||
+            style ||
+            suite ||
+            test ||
+            type ||
+            get ||
+            use ||
+            statement ||
+            case_branch ||
+            destructuring ||
+            expression
+        end
+      end
+    end
+
     def parse : Nil
       # Comment needs to be last since other comments are parsed with the
       # entities.
