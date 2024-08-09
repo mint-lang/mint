@@ -32,7 +32,9 @@ jobs:
         run: crystal spec --error-on-warnings --error-trace
 
       - name: Run CLI specs
-        run: crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace
+        run: |
+          make build &&
+          crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace
 
       - name: Build the binary
         run: shards build --error-on-warnings --error-trace
