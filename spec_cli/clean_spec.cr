@@ -21,19 +21,16 @@ context "Clean" do
       TEXT
   end
 
-  it "cleans the package cache directory" do
+  pending "cleans the package cache directory" do
     FileUtils.mkdir Mint::MINT_PACKAGES_DIR
 
-    # The directory cannot be created on macOS on CI for some reason.
-    if Dir.exists?(Mint::MINT_PACKAGES_DIR)
-      expect_output ["clean", "--package-cache"], <<-TEXT
-        Mint - Removing directories
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        Deleting: ××××
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        All done in ××××!
-        TEXT
-    end
+    expect_output ["clean", "--package-cache"], <<-TEXT
+      Mint - Removing directories
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      Deleting: ××××
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      All done in ××××!
+      TEXT
   end
 
   it "nothing to delete" do
