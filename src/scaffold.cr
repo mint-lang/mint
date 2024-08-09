@@ -38,7 +38,7 @@ module Mint
 
         File.write_p(Path[path, "source", "Main.mint"], main)
       else
-        Assets.files.each do |file|
+        Assets.files.sort_by(&.path).each do |file|
           next unless file.path.starts_with?("/scaffold/")
           File.write_p(Path[path, file.path.lchop("/scaffold/")], file)
         end
