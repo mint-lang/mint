@@ -31,13 +31,11 @@ jobs:
       - name: Run specs
         run: crystal spec --error-on-warnings --error-trace
 
-      - name: Run CLI specs
-        run: |
-          make build &&
-          crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace
-
       - name: Build the binary
         run: shards build --error-on-warnings --error-trace
+
+      - name: Run CLI specs
+        run: crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace
 
       - name: Run core specs (Firefox)
         working-directory: ./core/tests
