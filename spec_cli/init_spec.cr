@@ -1,6 +1,10 @@
 require "./spec_helper"
 
 context "init" do
+  before_each do
+    FileUtils.rm_rf "my-project"
+  end
+
   after_each do
     FileUtils.rm_rf "my-project"
   end

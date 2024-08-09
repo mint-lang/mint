@@ -1,6 +1,14 @@
 require "./spec_helper"
 
 context "Format" do
+  before_each do
+    FileUtils.rm_rf "source.mint"
+  end
+
+  after_each do
+    FileUtils.rm_rf "source.mint"
+  end
+
   formatted_code =
     <<-MINT
     type Test {

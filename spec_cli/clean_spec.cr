@@ -1,6 +1,12 @@
 require "./spec_helper"
 
 context "Clean" do
+  before_each do
+    FileUtils.rm_rf Mint::MINT_PACKAGES_DIR
+    FileUtils.rm_rf ".mint"
+    FileUtils.rm_rf "dist"
+  end
+
   it "cleans the temporary directory" do
     FileUtils.mkdir ".mint"
     FileUtils.mkdir "dist"
