@@ -57,7 +57,7 @@ context "Format" do
   end
 
   it "check code from STDIN (formatted)" do
-    expect_output ["format", "--stdin", "--check"], <<-TEXT, formatted_code
+    expect_output ["format", "--stdin", "--check"], <<-TEXT, formatted_code + "\n"
       Mint - Checking source from STDIN
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       Source is formatted!
@@ -101,7 +101,7 @@ context "Format" do
   end
 
   it "all files formatted" do
-    File.write("source.mint", formatted_code)
+    File.write("source.mint", formatted_code + "\n")
 
     expect_output ["format", "source.mint"], <<-TEXT
       Mint - Formatting files

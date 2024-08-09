@@ -64,7 +64,7 @@ module Mint
           Parser.parse(input, "stdin.mint")
 
         formatted =
-          Formatter.new.format(artifact)
+          Formatter.new.format(artifact) + "\n"
 
         if flags.check
           execute "Checking source from STDIN" do
@@ -95,7 +95,7 @@ module Mint
             Parser.parse(file)
 
           formatted =
-            Formatter.new.format(artifact)
+            Formatter.new.format(artifact) + "\n"
 
           next {Status::Same, file} if formatted == File.read(file)
 
