@@ -14,28 +14,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  $Main_test() {
-    const _ = {};
-
-    (true ? Object.assign(_, {
-      [`--a-a`]: `red`
-    }) : null);
-
-    return _;
-  }
-
-  render() {
-    return _h("div", {
-      className: `Main_test`,
-      style: _style([this.$Main_test()])
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_test {
   color: yellow;
 }
@@ -45,4 +24,23 @@ _insertStyles(`
     color: var(--a-a);
   }
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as B,
+  style as C
+} from "./runtime.js";
+
+export const A = () => {
+  const a = () => {
+    const _ = {};
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : null);
+    return _
+  };
+  return B(`div`, {
+    className: `Main_test`,
+    style: C([a()])
+  })
+};

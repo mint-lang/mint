@@ -17,7 +17,8 @@ module Mint
           name = arguments.name.presence
 
           loop do
-            terminal.puts "Please provide a name for the project (for example my-project):"
+            terminal.puts "Please provide a name for the project " \
+                          "(for example my-project):"
             break if name = gets.presence
           end unless name
 

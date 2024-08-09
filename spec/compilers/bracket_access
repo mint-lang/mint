@@ -1,39 +1,43 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
 component Main {
-  fun test : Maybe(String) {
+  fun render : String {
     [
       "Hello",
       "Blah",
       "Joe"
     ][1]
-  }
 
-  fun test1 : Maybe(a) {
     [][1]
-  }
 
-  fun render : String {
-    test()
-
-    test1()
+    { "key" => "value" }["key"]
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return _at([`Hello`, `Blah`, `Joe`], 1);
-  }
+import {
+  bracketAccess as E,
+  mapAccess as F,
+  variant as B
+} from "./runtime.js";
 
-  b() {
-    return _at([], 1);
-  }
-
-  render() {
-    this.a();
-    this.b();
-    return ``;
-  }
-};
-
-A.displayName = "Main";
+export const
+  A = B(0),
+  C = B(1),
+  D = () => {
+    E([
+      `Hello`,
+      `Blah`,
+      `Joe`
+    ], 1, C, A);
+    E([], 1, C, A);
+    F([[
+      `key`,
+      `value`
+    ]], `key`, C, A);
+    return ``
+  };

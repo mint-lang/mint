@@ -10,7 +10,7 @@ module Mint
         Same
       end
 
-      define_help description: "Formats .mint files."
+      define_help description: "Formats *.mint files."
 
       define_argument pattern : String,
         description: "The pattern which determines which files to format."
@@ -66,7 +66,19 @@ module Mint
         formatted =
           Formatter.new.format(artifact)
 
-        terminal.puts formatted
+        if flags.check
+          execute "Checking source from STDIN" do
+            if input != formatted
+              terminal.puts "Source is not formatted!"
+              terminal.divider
+              error nil, terminal.position
+            else
+              terminal.puts "Source is formatted!"
+            end
+          end
+        else
+          terminal.puts formatted
+        end
       rescue error : Error
         error error.to_terminal, terminal.position
       end

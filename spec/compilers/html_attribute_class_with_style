@@ -9,18 +9,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      className: `something` + ` Main_base`
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_base {
   width: 100%;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {
+    className: `something` + ` Main_base`
+  })
+};

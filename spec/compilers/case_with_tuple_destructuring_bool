@@ -12,35 +12,36 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _match([false, true],[
-      [
-        [
-          true,
-          false
-        ],
-        () => {
-          return `B`
-        }
-      ],
-      [
-        [
-          false,
-          true
-        ],
-        () => {
-          return `A`
-        }
-      ],
-      [
-        null,
-        () => {
-          return `C`
-        }
-      ]
-    ]);
-  }
-};
+import { match as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B([
+    false,
+    true
+  ], [
+    [
+      [
+        true,
+        false
+      ],
+      () => {
+        return `B`
+      }
+    ],
+    [
+      [
+        false,
+        true
+      ],
+      () => {
+        return `A`
+      }
+    ],
+    [
+      null,
+      () => {
+        return `C`
+      }
+    ]
+  ])
+};

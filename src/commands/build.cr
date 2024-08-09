@@ -63,7 +63,7 @@ module Mint
               terminal.puts "Building for production..."
               terminal.divider
 
-              terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...") do
+              terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
                 FileUtils.rm_rf DIST_DIR
               end
 

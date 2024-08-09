@@ -12,37 +12,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  get b() {
-    return B.a;
-  }
+import { createElement as B } from "./runtime.js";
 
-  componentWillUnmount() {
-    B._unsubscribe(this);
-  }
-
-  componentDidMount() {
-    B._subscribe(this);
-  }
-
-  render() {
-    return _h("div", {}, [
-      this.a
-    ]);
-  }
-};
-
-A.displayName = "Main";
-
-const B = new(class extends _S {
-  constructor() {
-    super();
-    this.state = {};
-
-    this._d({
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-});
+export const
+  a = `ASD`,
+  A = () => {
+    return B(`div`, {}, [a])
+  };

@@ -1,21 +1,9 @@
 component Main {
-  fun test (input : String) : String {
-    input
-  }
-
   fun render : String {
-    `      "Hello" + #{test(`"World!"`)}   `
+    `      "Hello" + #{`"World!"`}   `
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a(b) {
-    return b;
-  }
-
-  render() {
-    return ("Hello" + this.a(("World!")));
-  }
+export const A = () => {
+  return ("Hello" + ("World!"))
 };
-
-A.displayName = "Main";

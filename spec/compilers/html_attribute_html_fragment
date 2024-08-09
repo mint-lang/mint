@@ -12,33 +12,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
+import { createElement as B } from "./runtime.js";
 
-    this._d({
-      a: [
-        null,
-        null
-      ]
-    });
-  }
-
-  render() {
-    return _h("div", {});
-  }
-};
-
-A.displayName = "Thing";
-
-class B extends _C {
-  render() {
-    return _h(A, {
-      a: _h(React.Fragment, {}, [
-        `x`
-      ])
-    });
-  }
-};
-
-B.displayName = "Main";
+export const
+  A = ({
+    a = null
+  }) => {
+    return B(`div`, {})
+  },
+  C = () => {
+    return B(A, {
+      a: `x`
+    })
+  };

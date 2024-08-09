@@ -10,28 +10,28 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return (() => {
-      const _0 = [];
-      const _1 = [`A`, `B`];
-      let _i = -1;
+import {
+  createElement as C,
+  compare as B
+} from "./runtime.js";
 
-      for (let a of _1) {
-        _i++;
-        const b = _i;
-
-        const _2 = _compare(b, 10)
-        if (!_2) { continue };
-
-        _0.push(_h("div", {}, [
-          a
-        ]));
+export const A = () => {
+  return (() => {
+    const _0 = [];
+    const _1 = [
+      `A`,
+      `B`
+    ];
+    let _i = -1;
+    for (let a of _1) {
+      _i++;
+      const b = _i;
+      const _2 = B(b, 10);
+      if (!_2) {
+        continue
       };
-
-      return _0;
-    })();
-  }
+      _0.push(C(`div`, {}, [a]))
+    };
+    return _0
+  })()
 };
-
-A.displayName = "Main";

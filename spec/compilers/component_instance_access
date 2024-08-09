@@ -28,66 +28,56 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
+import {
+  patternVariable as K,
+  createElement as F,
+  pattern as J,
+  useMemo as E,
+  variant as B,
+  setRef as L,
+  useRef as H,
+  match as I
+} from "./runtime.js";
 
-class B extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
-
-class C extends _C {
-  get a() {
-    return `Instance`
-  }
-
-  render() {
-    return _h("div", {});
-  }
-};
-
-C.displayName = "Instance";
-
-class D extends _C {
-  get c() {
-    return (this._instance ? new A(this._instance) : new B);
-  }
-
-  b() {
-    return _match(this.c,[
-      [
-        _PE(A,[
-          _PV
-        ]),
-        (d) => {
-          return d.a
-        }
-      ],
-      [
-        _PE(B,[]),
-        () => {
-          return ``
-        }
-      ]
-    ]);
-  }
-
-  render() {
-    return _h("div", {
-      "onClick": (event => (this.b)(_normalizeEvent(event)))
-    }, [
-      _h(C, {
-        ref: (instance) => { this._instance = instance }
-      })
-    ]);
-  }
-};
-
-D.displayName = "Main";
+export const
+  A = B(1),
+  C = B(0),
+  D = ({
+    _
+  }) => {
+    const a = () => {
+      return `Instance`
+    };
+    const b = E(() => {
+      return {
+        a
+      }
+    }, []);
+    (_ ? _(b) : null);
+    return F(`div`, {})
+  },
+  G = () => {
+    const
+      c = H(new C()),
+      d = () => {
+        return I(c.current, [
+          [
+            J(A, [K]),
+            (e) => {
+              return e.a()
+            }
+          ],
+          [
+            J(C, []),
+            () => {
+              return ``
+            }
+          ]
+        ])
+      };
+    return F(`div`, {
+      "onClick": d
+    }, [F(D, {
+      _: L(c, A)
+    })])
+  };

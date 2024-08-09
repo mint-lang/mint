@@ -1,0 +1,3 @@
+type Test {
+  file : String
+}

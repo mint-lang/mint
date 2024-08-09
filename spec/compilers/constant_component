@@ -6,20 +6,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
-
-    this._d({},{
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-
-  render() {
-    return this.a;
-  }
+export const A = () => {
+  const a = `ASD`;
+  return a
 };
-
-A.displayName = "Main";

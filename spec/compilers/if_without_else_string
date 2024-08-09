@@ -6,10 +6,8 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return (_compare(`asd`, `asd2`) ? `TRUE` : "");
-  }
-};
+import { compare as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return (B(`asd`, `asd2`) ? `TRUE` : "")
+};

@@ -8,19 +8,8 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  name: [
-    "name",
-    Decoder.string
-  ]
-});
-
-class B extends _C {
-  render() {
-    return new A({
-      name: `test`
-    }).name;
-  }
+export const A = () => {
+  return {
+    name: `test`
+  }.name
 };
-
-B.displayName = "Main";

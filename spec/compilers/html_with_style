@@ -34,46 +34,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
-
-    this.state = new Record({
-      a: `blue`,
-      b: `yellow`
-    });
-  }
-
-  $Main_test() {
-    const _ = {
-      [`--a-a`]: this.a,
-      [`--a-b`]: this.a,
-      [`--a-c`]: this.a,
-      [`--a-d`]: this.b
-    };
-
-    return _;
-  }
-
-  get a() {
-    return this.state.a;
-  }
-
-  get b() {
-    return this.state.b;
-  }
-
-  render() {
-    return _h("div", {
-      className: `Main_test`,
-      style: _style([this.$Main_test()])
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_test {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-touch-callout: none;
@@ -98,4 +59,29 @@ _insertStyles(`
 .Main_test > span {
   font-size: .8em;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`blue`),
+    b = B(`yellow`),
+    c = () => {
+      const _ = {
+        [`--a-a`]: a.value,
+        [`--a-b`]: a.value,
+        [`--a-c`]: a.value,
+        [`--a-d`]: b.value
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([c()])
+  })
+};

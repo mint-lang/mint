@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 Dir
-  .glob("./spec/compilers2/**/*")
+  .glob("./spec/compilers/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|

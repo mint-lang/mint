@@ -64,7 +64,7 @@ component Content {
       Here are some links which you might find helpful going forward:
 
       * The [interactive tutorial] to learn Mint 🧑‍🎓
-      * The [guide] with information on best practices 📚
+      * The [guides] with information on best practices 📚
       * The documentation of the [standard library] 📜
       * The [RealWorld] example application 💡
 
@@ -78,7 +78,7 @@ component Content {
       [interactive tutorial]: https://mint-lang.com/tutorial
       [discord server]: https://discord.gg/EtApG7BGfy
       [standard library]: https://mint-lang.com/api
-      [guide]: https://mint-lang.com/guide
+      [guides]: https://mint-lang.com/guides
       MARKDOWN
     </div>
   }

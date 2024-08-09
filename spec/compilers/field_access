@@ -24,29 +24,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  name: [
-    "name",
-    Decoder.string
-  ]
-});
+import { access as B } from "./runtime.js";
 
-const C = new(class extends _M {
-  a(b, c) {
-    return;
-  }
-});
-
-class B extends _C {
-  render() {
-    C.a([new A({
-      name: `Joe`
-    }), new A({
-      name: `Doe`
-    })], ((_) => _.name));
-
-    return `asd`;
-  }
-};
-
-B.displayName = "Main";
+export const
+  a = (b, c) => {
+    return undefined
+  },
+  A = () => {
+    a([
+      {
+        name: `Joe`
+      },
+      {
+        name: `Doe`
+      }
+    ], B(`name`));
+    return `asd`
+  };

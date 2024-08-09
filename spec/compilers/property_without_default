@@ -12,33 +12,17 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
+import { createElement as B } from "./runtime.js";
 
-    this._d({
-      a: [
-        null,
-        null
-      ]
-    });
-  }
+export const
+  A = ({
+    a
+  }) => {
+    return B(`div`, {})
+  },
+  C = () => {
+    return B(A, {
+      a: `HELLO`
+    })
+  };
 
-  render() {
-    return _h("div", {});
-  }
-};
-
-A.displayName = "Test";
-
-class B extends _C {
-  render() {
-    return $a();
-  }
-};
-
-B.displayName = "Main";
-
-const $a = _m(() => _h(A, {
-  a: `HELLO`
-}));

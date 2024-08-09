@@ -8,25 +8,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return (() => {
-      const _0 = [];
-      const _1 = [`A`, `B`];
-      let _i = -1;
+import { createElement as B } from "./runtime.js";
 
-      for (let a of _1) {
-        _i++;
-        const b = _i;
-
-        _0.push(_h("div", {}, [
-          a
-        ]));
-      };
-
-      return _0;
-    })();
-  }
+export const A = () => {
+  return (() => {
+    const _0 = [];
+    const _1 = [
+      `A`,
+      `B`
+    ];
+    let _i = -1;
+    for (let a of _1) {
+      _i++;
+      const b = _i;
+      _0.push(B(`div`, {}, [a]))
+    };
+    return _0
+  })()
 };
-
-A.displayName = "Main";

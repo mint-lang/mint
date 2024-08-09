@@ -18,17 +18,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      className: `Main_test`
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_test:focus {
   color: red;
 }
@@ -40,4 +30,12 @@ _insertStyles(`
 .Main_test.someclass {
   color: red;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {
+    className: `Main_test`
+  })
+};

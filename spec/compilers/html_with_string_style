@@ -4,12 +4,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      style: _style([`opacity:0;`])
-    });
-  }
-};
+import {
+  createElement as B,
+  style as C
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(`div`, {
+    style: C([`opacity:0;`])
+  })
+};

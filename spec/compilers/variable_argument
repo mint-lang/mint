@@ -4,18 +4,13 @@ component Main {
   }
 
   fun render : String {
-  	test("X")
+    test("X")
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a(b) {
-    return b;
-  }
-
-  render() {
-    return this.a(`X`);
-  }
+export const A = () => {
+  const a = (b) => {
+    return b
+  };
+  return a(`X`)
 };
-
-A.displayName = "Main";

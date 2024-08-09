@@ -4,7 +4,7 @@ store Test {
   }
 
   fun b : String {
-    Test.a
+    a
   }
 }
 
@@ -14,25 +14,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return B.a();
-  }
-};
-
-A.displayName = "Main";
-
-const B = new(class extends _S {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  get b() {
+export const
+  a = () => {
     return `Hello`
-  }
-
-  a() {
-    return B.b;
-  }
-});
+  },
+  b = () => {
+    return a()
+  },
+  A = () => {
+    return b()
+  };

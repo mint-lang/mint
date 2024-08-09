@@ -40,10 +40,10 @@ module Mint
 
     def bundle
       Logger.log "Building application" { generate_application }
-      Logger.log "Building index.html" { generate_index_html }
-      Logger.log "Building manifest" { generate_manifest } if config.generate_manifest
-      Logger.log "Building icons" { generate_icons } unless config.skip_icons
-      Logger.log "Building assets" { generate_assets }
+      Logger.log "Generating index.html" { generate_index_html }
+      Logger.log "Generating manifest" { generate_manifest } if config.generate_manifest
+      Logger.log "Generating icons" { generate_icons } unless config.skip_icons
+      Logger.log "Copying assets" { generate_assets }
 
       files
     end

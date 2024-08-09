@@ -9,3 +9,7 @@ Documentation/DocumentationAdmonition:
 
 Lint/UselessAssign:
   ExcludeTypeDeclarations: true
+
+Lint/SpecFilename:
+  Excluded:
+    - spec/spec_helpers.cr

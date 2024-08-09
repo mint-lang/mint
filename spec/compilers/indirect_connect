@@ -19,54 +19,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  get c() {
-    return B.b;
-  }
+import { signal as A } from "./runtime.js";
 
-  componentWillUnmount() {
-    B._unsubscribe(this);
-  }
-
-  componentDidMount() {
-    B._subscribe(this);
-  }
-
-  render() {
-    return C.a;
-  }
-};
-
-A.displayName = "Main";
-
-const B = new(class extends _S {
-  constructor() {
-    super();
-
-    this.state = {
-      b: ``
-    };
-  }
-
-  get b() {
-    return this.state.b;
-  }
-
-  d() {
-    return `hello`;
-  }
-});
-
-const C = new(class extends _S {
-  constructor() {
-    super();
-
-    this.state = {
-      a: ``
-    };
-  }
-
-  get a() {
-    return this.state.a;
-  }
-});
+export const
+  a = () => {
+    return `hello`
+  },
+  b = A(``),
+  c = A(``),
+  B = () => {
+    return c.value
+  };

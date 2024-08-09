@@ -13,41 +13,46 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _match([`A`, 0, true],[
-      [
-        [
-          `A`,
-          0,
-          false
-        ],
-        () => {
-          return `B`
-        }
-      ],
-      [
-        [
-          `A`,
-          0,
-          true
-        ],
-        () => {
-          return `A`
-        }
-      ],
-      [
-        [
-          _PV,
-          _PV,
-          _PV
-        ],
-        (a, b, c) => {
-          return a
-        }
-      ]
-    ]);
-  }
-};
+import {
+  patternVariable as C,
+  match as B
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B([
+    `A`,
+    0,
+    true
+  ], [
+    [
+      [
+        `A`,
+        0,
+        false
+      ],
+      () => {
+        return `B`
+      }
+    ],
+    [
+      [
+        `A`,
+        0,
+        true
+      ],
+      () => {
+        return `A`
+      }
+    ],
+    [
+      [
+        C,
+        C,
+        C
+      ],
+      (a, b, c) => {
+        return a
+      }
+    ]
+  ])
+};

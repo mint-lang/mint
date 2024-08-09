@@ -1,44 +1,29 @@
-type Maybe(a) {
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+type Maybe(value) {
   Nothing
-  Just(a)
+  Just(value)
 }
 
 component Main {
-  fun test : String {
-    Maybe.Nothing or "Hello"
-  }
-
   fun render : String {
-    test()
-
-    ""
+    Maybe.Nothing or "Hello"
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
+import {
+  variant as B,
+  or as G
+} from "./runtime.js";
 
-class B extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class C extends _C {
-  a() {
-    return _o(new A()._0, `Hello`);
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
-};
-
-C.displayName = "Main";
+export const
+  A = B(0),
+  C = B(1),
+  D = B(1),
+  E = B(1),
+  F = () => {
+    return G(A, D, new A(), `Hello`)
+  };

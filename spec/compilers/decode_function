@@ -1,3 +1,8 @@
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
 type X.Y {
   blah : String
 }
@@ -9,36 +14,29 @@ type X {
 
 component Main {
   fun render : String {
-    (decode as X)(``)
+    (decode as X)(`null`)
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  blah: [
-    "blah",
-    Decoder.string
-  ]
-});
+import {
+  decodeString as E,
+  decoder as D,
+  variant as B
+} from "./runtime.js";
 
-const B = _R({
-  name: [
-    "name",
-    Decoder.string
-  ],
-  y: [
-    "y",
-    ((_)=>A.decode(_)),
-    ((_)=>A.encode(_))
-  ]
-});
-
-class C extends _C {
-  render() {
-    (((_)=>((_)=>B.decode(_))(_)))();
-    return ``;
-  }
-};
-
-C.displayName = "Main";
+export const
+  A = B(1),
+  C = B(1),
+  a = D({
+    blah: E(C, A)
+  }, C, A),
+  b = D({
+    name: E(C, A),
+    y: a
+  }, C, A),
+  F = () => {
+    (b)((null));
+    return ``
+  };

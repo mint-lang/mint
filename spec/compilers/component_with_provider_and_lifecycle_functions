@@ -34,62 +34,41 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({});
+import {
+  createProvider as B,
+  createElement as G,
+  useDidUpdate as F,
+  useEffect as E,
+  useId as D
+} from "./runtime.js";
 
-const B = new(class extends _P {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  update() {
-    return null;
-  }
-});
-
-class C extends _C {
-  componentWillUnmount() {
-    B._unsubscribe(this);
-    return null;
-  }
-
-  componentDidUpdate() {
-    if (false) {
-      B._subscribe(this, new A({
-        moves: (a) => {
+export const
+  a = new Map(),
+  A = B(a, () => {
+    return null
+  }),
+  C = () => {
+    const b = D();
+    E(() => {
+      (() => {
+        return null
+      })();
+      return () => {
+        return null
+      }
+    }, []);
+    F(() => {
+      return null
+    });
+    A(b, () => {
+      return (false ? {
+        moves: (c) => {
           return null
         },
-        ups: (b) => {
+        ups: (d) => {
           return null
         }
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-
-    return null;
-  }
-
-  componentDidMount() {
-    if (false) {
-      B._subscribe(this, new A({
-        moves: (a) => {
-          return null
-        },
-        ups: (b) => {
-          return null
-        }
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-
-    return null;
-  }
-
-  render() {
-    return _h("div", {});
-  }
-};
-
-C.displayName = "Main";
+      } : null)
+    });
+    return G(`div`, {})
+  };

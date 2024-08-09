@@ -16,30 +16,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      className: `Ui·Dropdown_base`
-    }, [
-      `test`
-    ]);
-  }
-};
-
-A.displayName = "Ui.Dropdown";
-
-class B extends _C {
-  render() {
-    return $a();
-  }
-};
-
-B.displayName = "Main";
-
-const $a = _m(() => _h(A, {}));
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Ui·Dropdown_base {
   background: red;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const
+  A = () => {
+    return B(`div`, {
+      className: `Ui·Dropdown_base`
+    }, [`test`])
+  },
+  C = () => {
+    return B(A, {})
+  };

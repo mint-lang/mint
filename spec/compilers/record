@@ -4,43 +4,22 @@ type Test {
 }
 
 component Main {
-  fun test : Test {
+  fun render : Html {
     {
       a: "Hello",
       b: 0
     }
-  }
-
-  fun render : Html {
-    test()
 
     <div/>
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  a: [
-    "a",
-    Decoder.string
-  ],
-  b: [
-    "b",
-    Decoder.number
-  ]
-});
+import { createElement as B } from "./runtime.js";
 
-class B extends _C {
-  a() {
-    return new A({
-      a: `Hello`,
-      b: 0
-    });
-  }
-
-  render() {
-    this.a();
-    return _h("div", {});
-  }
+export const A = () => {
+  {
+    a: `Hello`,
+    b: 0
+  };
+  return B(`div`, {})
 };
-
-B.displayName = "Main";

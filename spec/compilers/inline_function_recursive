@@ -20,21 +20,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends _M {
-  a(b) {
-    const d = (e, c) => {
-      return (_compare(e, 0) ? c : d(e - 1, c * e))
+import { compare as A } from "./runtime.js";
+
+export const
+  a = (b) => {
+    const c = (d, e) => {
+      return (A(d, 0) ? e : c(d - 1, e * d))
     };
-
-    return d(b, 1);
-  }
-});
-
-class A extends _C {
-  render() {
-    B.a(3);
-    return ``;
-  }
-};
-
-A.displayName = "Main";
+    return c(b, 1)
+  },
+  B = () => {
+    a(3);
+    return ``
+  };

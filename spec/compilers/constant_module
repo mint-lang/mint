@@ -10,24 +10,11 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends _M {
-  constructor() {
-    super();
+import { createElement as B } from "./runtime.js";
 
-    this._d({
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-});
+export const
+  a = `ASD`,
+  A = () => {
+    return B(`div`, {}, [a])
+  };
 
-class A extends _C {
-  render() {
-    return _h("div", {}, [
-      B.a
-    ]);
-  }
-};
-
-A.displayName = "Main";

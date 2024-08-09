@@ -28,7 +28,7 @@ Dir
         result = formatter.format(ast)
 
         begin
-          result.should eq(expected.lstrip)
+          result.should eq(expected.strip)
         rescue error
           fail diff(expected, result)
         end
@@ -40,7 +40,7 @@ Dir
         result = formatter.format(ast)
 
         begin
-          result.should eq(expected.lstrip)
+          result.should eq(expected.strip)
         rescue error
           fail diff(expected, result)
         end

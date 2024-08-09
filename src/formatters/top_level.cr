@@ -17,7 +17,7 @@ module Mint
         .intersperse([Line.new(2)] of Node)
         .flatten
 
-      Renderer.render(body) + "\n"
+      Renderer.render(body)
     end
   end
 end

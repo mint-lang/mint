@@ -10,11 +10,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    const [a,b] = [`HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`, `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello"`];
-    return a + b;
-  }
+export const A = () => {
+  const [
+    a,
+    b
+  ] = [
+    `HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello`,
+    `"HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHBello"`
+  ];
+  return a + b
 };
-
-A.displayName = "Main";

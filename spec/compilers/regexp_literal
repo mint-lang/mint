@@ -1,24 +1,11 @@
 component Main {
-  fun regexp : Regexp {
-    /.*/gm
-  }
-
   fun render : String {
-    regexp()
-
+    /.*/gm
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return /.*/gm;
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  /.*/gm;
+  return ``
 };
-
-A.displayName = "Main";

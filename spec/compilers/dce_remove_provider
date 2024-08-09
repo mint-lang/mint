@@ -8,9 +8,3 @@ provider MouseProvider : Subscription {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  name: [
-    "name",
-    Decoder.string
-  ]
-});

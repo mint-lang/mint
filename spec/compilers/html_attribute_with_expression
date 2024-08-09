@@ -5,12 +5,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      "title": `Hello ` + `there!`
-    });
-  }
-};
+import { createElement as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(`div`, {
+    "title": `Hello ` + `there!`
+  })
+};

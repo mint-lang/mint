@@ -3,6 +3,11 @@ type Test {
 }
 
 provider Test : Test {
+  fun update : Promise(Void) {
+    subscriptions
+    await void
+  }
+
   fun print (a : String) : String {
     a
   }
@@ -19,53 +24,28 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  test: [
-    "test",
-    Decoder.string
-  ]
-});
+import {
+  createProvider as B,
+  subscriptions as C,
+  useId as E
+} from "./runtime.js";
 
-const B = new(class extends _P {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  a(b) {
-    return b;
-  }
-});
-
-class C extends _C {
-  componentWillUnmount() {
-    B._unsubscribe(this);
-  }
-
-  componentDidUpdate() {
-    if (true) {
-      B._subscribe(this, new A({
+export const
+  a = new Map(),
+  b = (c) => {
+    return c
+  },
+  A = B(a, async () => {
+    C(a);
+    return await null
+  }),
+  D = () => {
+    const d = E();
+    A(d, () => {
+      return {
         test: ``
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  componentDidMount() {
-    if (true) {
-      B._subscribe(this, new A({
-        test: ``
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  render() {
-    B._subscriptions;
-    return B.a(`a`);
-  }
-};
-
-C.displayName = "Main";
+      }
+    });
+    C(a);
+    return b(`a`)
+  };

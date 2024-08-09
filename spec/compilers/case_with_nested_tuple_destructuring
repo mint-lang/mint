@@ -1,56 +1,66 @@
 component Main {
   fun render : String {
-    case ({"A", {"B", ""}}) {
-      {"A", {"C", ""}} =>
+    case ({"A", {"B", "C"}}) {
+      {"A", {"C", "D"}} =>
         "B"
 
-      {"A", {"B", ""}} =>
+      {"A", {"B", "C"}} =>
         "A"
 
-      {a, b} =>
-        a
+      {a, {b, c}} =>
+        b
     }
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _match([`A`, [`B`, ``]],[
-      [
-        [
-          `A`,
-          [
-            `C`,
-            ``
-          ]
-        ],
-        () => {
-          return `B`
-        }
-      ],
-      [
-        [
-          `A`,
-          [
-            `B`,
-            ``
-          ]
-        ],
-        () => {
-          return `A`
-        }
-      ],
-      [
-        [
-          _PV,
-          _PV
-        ],
-        (a, b) => {
-          return a
-        }
-      ]
-    ]);
-  }
-};
+import {
+  patternVariable as C,
+  match as B
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B([
+    `A`,
+    [
+      `B`,
+      `C`
+    ]
+  ], [
+    [
+      [
+        `A`,
+        [
+          `C`,
+          `D`
+        ]
+      ],
+      () => {
+        return `B`
+      }
+    ],
+    [
+      [
+        `A`,
+        [
+          `B`,
+          `C`
+        ]
+      ],
+      () => {
+        return `A`
+      }
+    ],
+    [
+      [
+        C,
+        [
+          C,
+          C
+        ]
+      ],
+      (a, b, c) => {
+        return b
+      }
+    ]
+  ])
+};

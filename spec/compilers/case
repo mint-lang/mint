@@ -10,31 +10,28 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    _match(`Hello`,[
-      [
-        `test`,
-        () => {
-          return true
-        }
-      ],
-      [
-        `Hello`,
-        () => {
-          return false
-        }
-      ],
-      [
-        null,
-        () => {
-          return false
-        }
-      ]
-    ]);
+import { match as B } from "./runtime.js";
 
-    return ``;
-  }
+export const A = () => {
+  B(`Hello`, [
+    [
+      `test`,
+      () => {
+        return true
+      }
+    ],
+    [
+      `Hello`,
+      () => {
+        return false
+      }
+    ],
+    [
+      null,
+      () => {
+        return false
+      }
+    ]
+  ]);
+  return ``
 };
-
-A.displayName = "Main";

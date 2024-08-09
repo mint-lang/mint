@@ -4,10 +4,6 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return `Hello There \"Joe\"`;
-  }
+export const A = () => {
+  return `Hello There "Joe"`
 };
-
-A.displayName = "Main";
