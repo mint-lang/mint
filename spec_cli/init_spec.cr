@@ -29,19 +29,19 @@ context "init" do
       Mint - Initializing a new project
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Writing files:
+        ➔ assets
+          ➔ bottom-center.png
+          ➔ bottom-left.png
+          ➔ bottom-right.png
+          ➔ favicon.png
+          ➔ head.html
+          ➔ logo.svg
+          ➔ top-center.png
+          ➔ top-left.png
+          ➔ top-right.png
         ➔ source
           ➔ Content.mint
           ➔ Main.mint
-        ➔ assets
-          ➔ head.html
-          ➔ top-center.png
-          ➔ top-right.png
-          ➔ top-left.png
-          ➔ bottom-center.png
-          ➔ logo.svg
-          ➔ favicon.png
-          ➔ bottom-right.png
-          ➔ bottom-left.png
         ➔ tests
           ➔ Main.mint
         ➔ mint.json

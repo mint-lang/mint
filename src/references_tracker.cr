@@ -84,7 +84,7 @@ module Mint
 
     # Calculates which node belongs to which bundle.
     def calculate(nodes : Set(Ast::Node)) : Bundles
-      # Collapse links, removing not needed ones an repointing.
+      # Collapse links, removing not needed ones and repointing.
       collapse
 
       # These will be the bundles, plus the index.

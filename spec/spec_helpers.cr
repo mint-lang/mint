@@ -1,8 +1,6 @@
 def expect_diff(a, b)
   a.should eq(b)
 rescue error
-  puts a
-  puts b
   fail diff(a, b)
 end
 
