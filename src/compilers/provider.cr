@@ -32,7 +32,7 @@ module Mint
 
         subscriptions =
           {
-            node.subscription,
+            node,
             node.subscription,
             js.new("Map".as(Item)),
           }

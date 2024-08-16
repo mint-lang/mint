@@ -14,7 +14,7 @@ module Mint
     alias Compiled = Array(Item)
 
     # Represents an reference to a file
-    record Asset, value : Ast::Node | Bundle
+    record Asset, value : Ast::Node
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node

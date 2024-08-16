@@ -31,12 +31,12 @@ import {
 } from "./runtime.js";
 
 export const
-  a = new Map(),
-  b = (c) => {
-    return c
+  a = (b) => {
+    return b
   },
-  A = B(a, async () => {
-    C(a);
+  c = new Map(),
+  A = B(c, async () => {
+    C(c);
     return await null
   }),
   D = () => {
@@ -46,6 +46,6 @@ export const
         test: ``
       }
     });
-    C(a);
-    return b(`a`)
+    C(c);
+    return a(`a`)
   };

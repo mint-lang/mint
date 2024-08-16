@@ -3,10 +3,10 @@ module Mint
     # This class is responsible to render `Compiled` code.
     class Renderer
       # The pool for variables (lowercase).
-      getter pool : NamePool(Ast::Node | Variable | String | Encoder | Decoder, Ast::Node | Bundle)
+      getter pool : NamePool(Ast::Node | Variable | String | Encoder | Decoder, Set(Ast::Node) | Bundle)
 
       # The pool for class variables (uppercase).
-      getter class_pool : NamePool(Ast::Node | Builtin, Ast::Node | Bundle)
+      getter class_pool : NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle)
 
       # A set to track nodes which we rendered.
       getter used = Set(Ast::Node | Encoder | Decoder).new
@@ -14,16 +14,16 @@ module Mint
       # A set to track used builtins which will be imported.
       getter builtins = Set(Builtin).new
 
-      getter references : ReferencesTracker
-      getter base : Ast::Node | Bundle
+      getter bundles : Hash(Set(Ast::Node) | Bundle, Set(Ast::Node))
+      getter base : Set(Ast::Node) | Bundle
 
-      getter deferred_path : Proc(Ast::Node | Bundle, String)
-      getter bundle_path : Proc(Ast::Node | Bundle, String)
+      getter deferred_path : Proc(Set(Ast::Node) | Bundle, String)
+      getter asset_path : Proc(Ast::Node, String)
 
       # The current indentation depth.
       property depth : Int32 = 0
 
-      def initialize(*, @base, @pool, @class_pool, @bundle_path, @deferred_path, @references)
+      def initialize(*, @base, @pool, @class_pool, @asset_path, @deferred_path, @bundles)
       end
 
       def import(imports : Hash(String, String), optimize : Bool, path : String)
@@ -78,7 +78,7 @@ module Mint
           scope =
             case item
             when Ast::Property
-              references.bundle_of(item)
+              bundles.find(&.last.includes?(item)).try(&.first)
             end || base
 
           used.add(item)
@@ -114,9 +114,12 @@ module Mint
             io << (" " * depth * 2) if char == '\n'
           end
         in Deferred
-          io << "`./#{deferred_path.call(item.value)}`"
+          bundle =
+            bundles.find!(&.last.includes?(item.value)).first
+
+          io << "`./#{deferred_path.call(bundle)}`"
         in Asset
-          io << "`#{bundle_path.call(item.value)}`"
+          io << "`#{asset_path.call(item.value)}`"
         in Indent
           self.depth += 1
           render(item.items, io)

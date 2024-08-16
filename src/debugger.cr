@@ -1,5 +1,21 @@
 module Mint
   class Debugger
+    def self.id(node : Nil)
+      "×"
+    end
+
+    def self.id(node : Ast::Node)
+      "#{dbg(node)}@#{node.from}:#{node.to}"
+    end
+
+    def self.id(bundle : Compiler::Bundle)
+      bundle.to_s
+    end
+
+    def self.id(nodes : Set(Ast::Node))
+      "{#{nodes.map(&->id(Ast::Node)).join(", ")}}"
+    end
+
     def self.dbg(node)
       name =
         node.class.name.sub("Mint::Ast::", "")
@@ -17,8 +33,10 @@ module Mint
         "Route(#{x.url})"
       when Ast::Component
         "<#{x.name.value}>"
-      when Ast::Module, Ast::Store, Ast::Provider, Ast::Type
+      when Ast::Module, Ast::Store, Ast::Provider
         x.name.value
+      when Ast::Type
+        "^#{x.name.value}"
       when Ast::TypeDefinition
         "TD: #{x.name.value}"
       when Ast::TypeVariant

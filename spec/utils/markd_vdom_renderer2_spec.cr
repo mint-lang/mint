@@ -106,18 +106,18 @@ module Mint
               Js.new(false)
 
             class_pool =
-              NamePool(Ast::Node | Builtin, Ast::Node | Bundle).new('A'.pred.to_s)
+              NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
 
             pool =
-              NamePool(Ast::Node | Decoder | Encoder | Variable | String, Ast::Node | Bundle).new
+              NamePool(Ast::Node | Decoder | Encoder | Variable | String, Set(Ast::Node) | Bundle).new
 
             js_renderer =
               Renderer.new(
-                deferred_path: ->(_node : Ast::Node | Bundle) { "" },
-                bundle_path: ->(_node : Ast::Node | Bundle) { "" },
-                references: ReferencesTracker.new,
-                base: Bundle::Index,
+                bundles: {} of Set(Ast::Node) | Bundle => Set(Ast::Node),
+                deferred_path: ->(_node : Set(Ast::Node) | Bundle) { "" },
+                asset_path: ->(_node : Ast::Node) { "" },
                 class_pool: class_pool,
+                base: Bundle::Index,
                 pool: pool)
 
             node =

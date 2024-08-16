@@ -40,12 +40,12 @@ import {
 } from "./runtime.js";
 
 export const
-  a = new Map(),
-  b = () => {
+  a = () => {
     return `hello`
   },
-  c = A(``),
-  B = C(a, () => {
+  b = A(``),
+  c = new Map(),
+  B = C(c, () => {
     return null
   }),
   D = () => {

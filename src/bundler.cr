@@ -30,7 +30,7 @@ module Mint
     getter json : MintJson
 
     # Contains the names of the bundles.
-    getter bundle_names = {} of Ast::Node | Bundle => String
+    getter bundle_names = {} of Set(Ast::Node) | Bundle => String
 
     delegate application, to: json
 
@@ -85,24 +85,24 @@ module Mint
       bundles =
         {
           Bundle::Index => ([] of Tuple(Ast::Node, Compiler::Id, Compiler::Compiled)),
-        } of Ast::Node | Bundle => Array(Tuple(Ast::Node, Compiler::Id, Compiler::Compiled))
+        } of Set(Ast::Node) | Bundle => Array(Tuple(Ast::Node, Compiler::Id, Compiler::Compiled))
 
       # This holds which node belongs to which bundle.
       scopes =
-        {} of Ast::Node => Ast::Node
+        {} of Ast::Node => Set(Ast::Node)
 
       # Gather all of the IDs so we can use it to filter out imports later on.
       ids =
         compiler.compiled.map { |(_, id, _)| id }
 
-      Logger.log "Calculating dependencies for bundles..." do
+      calculated_bundles = Logger.log "Calculating dependencies for bundles..." do
         # Calculate the bundles.
-        artifacts.references.calculate(artifacts.ast.nodes.to_set)
+        artifacts.references.calculate
       end
 
       Logger.log "Bundling and rendering JavaScript..." do
         # Here we separate the compiled items to each bundle.
-        artifacts.references.bundles.each do |node, dependencies|
+        calculated_bundles.each do |node, dependencies|
           bundles[node] =
             dependencies.flat_map do |dependency|
               compiler.compiled.select { |item| item[0] == dependency }
@@ -110,7 +110,7 @@ module Mint
 
           bundles[node].try(&.each do |item|
             case node
-            when Ast::Node
+            when Set(Ast::Node)
               scopes[item[0]] = node
             end
           end)
@@ -123,7 +123,9 @@ module Mint
           .nodes
           .select(Ast::HtmlComponent)
           .select(&.component_node.try(&.async?))
-          .map { |item| {item.component_node.not_nil!, artifacts.references.bundle_of(item)} }
+          .map do |item|
+            {item.component_node.not_nil!, calculated_bundles.find!(&.last.includes?(item)).first}
+          end
           .uniq!
           .map do |(component, bundle)|
             bundles[bundle]?.try(&.unshift({
@@ -136,25 +138,25 @@ module Mint
           end
 
         class_pool =
-          NamePool(Ast::Node | Compiler::Builtin, Ast::Node | Bundle).new('A'.pred.to_s)
+          NamePool(Ast::Node | Compiler::Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
 
         pool =
           NamePool(Compiler::Variable |
                    Compiler::Encoder |
                    Compiler::Decoder |
                    Ast::Node |
-                   String, Ast::Node | Bundle).new
+                   String, Set(Ast::Node) | Bundle).new
 
         rendered_bundles =
-          {} of Ast::Node | Bundle => Tuple(Compiler::Renderer, Array(String))
+          {} of Set(Ast::Node) | Bundle => Tuple(Compiler::Renderer, Array(String))
 
         # We render the bundles so we can know after what we need to import.
         bundles.each do |node, contents|
           renderer =
             Compiler::Renderer.new(
-              bundle_path: ->path_for_bundle(Ast::Node | Bundle),
-              deferred_path: ->bundle_name(Ast::Node | Bundle),
-              references: artifacts.references,
+              deferred_path: ->bundle_name(Set(Ast::Node) | Bundle),
+              asset_path: ->asset_path(Ast::Node),
+              bundles: calculated_bundles,
               class_pool: class_pool,
               base: node,
               pool: pool)
@@ -204,7 +206,7 @@ module Mint
           else
             # This holds the imports for each other bundle.
             imports =
-              {} of Ast::Node | Bundle => Hash(String, String)
+              {} of Set(Ast::Node) | Bundle => Hash(String, String)
 
             renderer.used.map do |item|
               # We only need to import things that are actually exported (all
@@ -212,7 +214,10 @@ module Mint
               # variables, etc...)
               next unless ids.includes?(item)
 
+              # We don't import async components.
               case item
+              when Ast::Id
+                next # NOTE: Don't know how this can be here...
               when Ast::Component
                 next if item.async?
               end
@@ -223,7 +228,7 @@ module Mint
 
               # If the target is not this bundle and it's not the same bundle
               # then we need to import.
-              if target != node && item != node
+              if target != node && Set.new([item]) != node
                 exported_name =
                   rendered_bundles[target][0].render(item).to_s
 
@@ -245,8 +250,11 @@ module Mint
             end
 
             case node
-            when Ast::Node
-              items << "export default #{renderer.render(node)}" if node
+            in Bundle::Index
+            in Set(Ast::Node)
+              if node.size == 1
+                items << "export default #{renderer.render(node.first)}"
+              end
             end
           end
 
@@ -428,24 +436,31 @@ module Mint
       "#{config.relative ? "" : "/"}#{ASSET_DIR}/#{filename}"
     end
 
-    def bundle_name(node : Ast::Node | Bundle) : String
+    def bundle_name(node : Set(Ast::Node) | Bundle) : String
       @bundle_names[node] ||= begin
         case node
-        when Ast::Directives::FileBased
-          node.filename(build: config.hash_assets)
-        when Bundle::Index
+        in Bundle::Index
           "index.js"
-        else
+        in Set(Ast::Node)
           "#{@bundle_counter += 1}.js"
         end
       end
     end
 
-    def path_for_import(node : Ast::Node | Bundle) : String
+    def path_for_import(node : Set(Ast::Node) | Bundle) : String
       "./#{bundle_name(node)}"
     end
 
-    def path_for_bundle(node : Ast::Node | Bundle) : String
+    def asset_path(node : Ast::Node)
+      case node
+      when Ast::Directives::FileBased
+        path_for_asset(node.filename(build: config.hash_assets))
+      else
+        ""
+      end
+    end
+
+    def path_for_bundle(node : Set(Ast::Node) | Bundle) : String
       path_for_asset(bundle_name(node))
     end
   end

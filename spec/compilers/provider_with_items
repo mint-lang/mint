@@ -40,16 +40,16 @@ import {
 } from "./runtime.js";
 
 export const
-  a = new Map(),
-  b = `hello`,
-  c = () => {
-    return b
+  a = `hello`,
+  b = () => {
+    return a
   },
-  d = A(``),
-  e = () => {
-    return d.value
+  c = A(``),
+  d = () => {
+    return c.value
   },
-  B = C(a, async () => {
+  e = new Map(),
+  B = C(e, async () => {
     return await null
   }),
   D = () => {

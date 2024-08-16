@@ -115,9 +115,7 @@ module Mint
     def resolve_records
       ast.type_definitions.each do |definition|
         next if definition.fields.is_a?(Array(Ast::TypeVariant))
-        value = check(definition)
-        cache[definition] = value
-        check! definition
+        value = resolve(definition)
         add_record(value, definition)
       end
 
@@ -170,9 +168,7 @@ module Mint
         node = ast.type_definitions.find(&.name.value.==(name))
 
         if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
-          record = check(node)
-          cache[node] = record
-          check!(node)
+          record = resolve(node)
           add_record record, node
           record
         end
@@ -236,7 +232,7 @@ module Mint
       if last = @stack.last?
         return if node.is_a?(Ast::Connect)
         # puts "Linking #{Debugger.dbg(node)} -> #{Debugger.dbg(last)}"
-        references.add(last, node)
+        references.add(node, last)
       end
     end
 
