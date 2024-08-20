@@ -21,17 +21,19 @@ context "Clean" do
       TEXT
   end
 
-  pending "cleans the package cache directory" do
-    FileUtils.mkdir Mint::MINT_PACKAGES_DIR
+  {% if flag?(:linux) %}
+    it "cleans the package cache directory" do
+      FileUtils.mkdir Mint::MINT_PACKAGES_DIR
 
-    expect_output ["clean", "--package-cache"], <<-TEXT
+      expect_output ["clean", "--package-cache"], <<-TEXT
       Mint - Removing directories
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       Deleting: ××××
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       All done in ××××!
       TEXT
-  end
+    end
+  {% end %}
 
   it "nothing to delete" do
     expect_output ["clean"], <<-TEXT
