@@ -5,7 +5,7 @@ module Mint
         # The real path of the asset on the disk.
         getter real_path : Path
 
-        # The given path of the asset.
+        # The given path of the asset, relative to the source file.
         getter path : String
 
         def initialize(
@@ -21,7 +21,9 @@ module Mint
         # uses the the file contents as the hash value to make sure that the
         # file will not be cached.
         def filename(*, build : Bool) : String?
-          raise "Should not happen!" unless exists?
+          Errorable.error :file_not_found do
+            snippet "I cloudn't find a file:", self
+          end unless exists?
 
           hash_base =
             build ? file_contents : real_path.to_s

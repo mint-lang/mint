@@ -1,12 +1,12 @@
 module Mint
   class Ast
     class Comment < Node
+      getter content, type, next_comment
+
       enum Type
         Inline
         Block
       end
-
-      getter content, type, next_comment
 
       def initialize(@next_comment : Comment?,
                      @file : Parser::File,
