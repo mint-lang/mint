@@ -19,7 +19,7 @@ module Mint
             MintJson.parse_current
 
           generator =
-            DocumentationGenerator2.new
+            DocumentationGenerator.new
 
           ast =
             Ast.new.tap do |item|

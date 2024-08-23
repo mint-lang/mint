@@ -31,7 +31,6 @@ module Mint
           js
         when '@'
           highlight_file_directive ||
-            documentation_directive ||
             highlight_directive ||
             format_directive ||
             inline_directive ||

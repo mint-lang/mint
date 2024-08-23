@@ -8,9 +8,6 @@ dependencies:
   baked_file_system:
     github: schovi/baked_file_system
     version: ~> 0.10.0
-  kemal:
-    github: kemalcr/kemal
-    version: ~> 1.4.0
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.12.1

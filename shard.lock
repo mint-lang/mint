@@ -12,10 +12,6 @@ shards:
     git: https://github.com/gtramontina/ansi-escapes.cr.git
     version: 1.0.0
 
-  backtracer:
-    git: https://github.com/sija/backtracer.cr.git
-    version: 1.2.2
-
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
     version: 0.10.0
@@ -24,19 +20,7 @@ shards:
     git: https://github.com/gdotdesign/cr-dotenv.git
     version: 1.0.0
 
-  exception_page:
-    git: https://github.com/crystal-loot/exception_page.git
-    version: 0.3.1
-
-  kemal:
-    git: https://github.com/kemalcr/kemal.git
-    version: 1.4.0
-
   markd:
     git: https://github.com/icyleaf/markd.git
     version: 0.5.0
-
-  radix:
-    git: https://github.com/luislavena/radix.git
-    version: 0.4.1
 

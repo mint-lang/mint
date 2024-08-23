@@ -19,7 +19,7 @@ Dir
 
           # Compare results
           result =
-            Mint::DocumentationGenerator2.new.resolve(ast).to_pretty_json
+            Mint::DocumentationGenerator.new.resolve(ast).to_pretty_json
         rescue error : Mint::Error
           fail error.to_terminal.to_s
         end

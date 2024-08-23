@@ -218,8 +218,7 @@ module Mint
       end
 
       case node
-      when Ast::Directives::Documentation,
-           Ast::Directives::HighlightFile,
+      when Ast::Directives::HighlightFile,
            Ast::Directives::Inline,
            Ast::Directives::Asset,
            Ast::Directives::Svg,
