@@ -21,7 +21,7 @@ module Mint
           snippet "The argument in question is here:", node
         end unless resolved
 
-        resolved
+        type
       in {Nil, Checkable}
         type
       end

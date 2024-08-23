@@ -105,10 +105,18 @@ module Mint
             case fields = defi.fields
             when Array(Ast::TypeVariant)
               fields.map do |variant|
-                params =
-                  variant.parameters.map(&->to_pattern_type(Ast::Node))
+                parameters =
+                  variant.parameters.map do |param|
+                    case param
+                    when Ast::TypeVariable
+                      case type
+                      when ExhaustivenessChecker::Type
+                        type.parameters[defi.parameters.index!(&.value.==(param.value))]
+                      end
+                    end || to_pattern_type(param)
+                  end
 
-                ExhaustivenessChecker::Variant.new(params)
+                ExhaustivenessChecker::Variant.new(parameters)
               end
             end
           end
@@ -137,6 +145,12 @@ module Mint
         end
 
       compiler.compile(rows)
+    rescue e
+      error! :blah do
+        block e.message.to_s
+        snippet "Type:", target
+        snippet "Node:", patterns[0].not_nil!
+      end
     end
 
     def check(node : Ast::Case) : Checkable

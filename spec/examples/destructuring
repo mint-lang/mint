@@ -134,3 +134,19 @@ component Main {
     }
   }
 }
+-------------------------------------------------------------------------------
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+component Main {
+  fun render : String {
+    let object = `{}`
+
+    let Ok([first]) =
+      decode object as Array(Object) or return ""
+
+    ""
+  }
+}

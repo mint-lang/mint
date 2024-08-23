@@ -212,3 +212,15 @@ routes {
     Test.set()
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun test (decoder : Function(Object, Result(Object.Error, Array(a))) =
+    decode as Array(String)) {
+    decoder(``)
+  }
+
+  fun render : Html {
+    test(decode as Array(Number))
+    <div></div>
+  }
+}
