@@ -5,33 +5,47 @@ module Mint
 
       define_help description: "Generates API Documentation"
 
-      define_flag output : String,
-        description: "The output filename",
-        default: "docs.json",
-        required: false,
-        short: "o"
+      define_argument directory : String,
+        description: "The directory to generate the docs to",
+        default: "docs"
+
+      define_flag include_packages : Bool,
+        description: "If specified, documentation will be generated for used packages as well.",
+        default: false
+
+      define_flag include_core : Bool,
+        description: "If specified, documentation will be generated for the standard library as well.",
+        default: false
 
       def run
         execute "Documentation Generator" do
-          puts "#{COG} Generating documentation..."
+          directory =
+            arguments.directory.not_nil! # There is a default above
 
-          current =
-            MintJson.parse_current
+          jsons = [MintJson.parse_current]
+          jsons.concat(SourceFiles.packages) if flags.include_packages
 
-          generator =
-            DocumentationGenerator.new
-
-          ast =
-            Ast.new.tap do |item|
-              current.source_files.each do |file|
-                item.merge(Parser.parse(File.read(file), file))
+          asts =
+            jsons.map do |json|
+              Ast.new.tap do |ast|
+                json.source_files.each do |file|
+                  ast.merge(Parser.parse(File.read(file), file))
+                end
               end
-            end.normalize
+            end
 
-          json =
-            generator.resolve(ast).to_json
+          asts << Core.ast if flags.include_core
 
-          File.write(flags.output, json)
+          terminal.measure %(#{COG} Clearing the "#{directory}" directory...) do
+            FileUtils.rm_rf directory
+            Dir.mkdir directory
+          end
+
+          terminal.measure "#{COG} Generating documentation..." do
+            StaticDocumentationGenerator
+              .generate(asts)
+              .each { |path, contents| File.write_p(Path[directory, path], contents) }
+          end
         end
       end
     end

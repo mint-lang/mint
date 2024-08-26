@@ -1,0 +1,264 @@
+/* ---- FONTS --------------------------------------------------------------- */
+@font-face {
+  src: url('fonts/noto-sans-v36-latin_latin-ext-300.woff2') format('woff2');
+  font-family: 'Noto Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('fonts/noto-sans-v36-latin_latin-ext-regular.woff2') format('woff2');
+  font-family: 'Noto Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  src: url('fonts/noto-sans-v36-latin_latin-ext-500.woff2') format('woff2');
+  font-family: 'Noto Sans';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('fonts/forum-v18-latin_latin-ext-regular.woff2') format('woff2');
+  font-family: 'Forum';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  src: url('fonts/fira-code-v22-latin_latin-ext-regular.woff2') format('woff2');
+  font-family: 'Fira Code';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* ---- BODY AND VARIABLES -------------------------------------------------- */
+body {
+  --color-darkmagenta: darkmagenta;
+  --color-darkorange: darkorange;
+  --color-royalblue: royalblue;
+  --color-indianred: indianred;
+  --color-mintgreen: #277944;
+  --color-comment: darkgray;
+  --color-crimson: crimson;
+
+  --line-number-color: #CCCCCC;
+  --background-color: #FFFFFF;
+  --border-color: #EAEAEA;
+  --text-color: #333333;
+
+  grid-template-columns: auto 1fr auto;
+  display: grid;
+
+  font-family: Noto Sans;
+  font-weight: 300;
+  font-size: 16px;
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* ---- SIDEBAR ------------------------------------------------------------- */
+aside {
+  border-right: 3px double var(--border-color);
+  padding-right: 40px;
+  margin-right: 40px;
+}
+
+/* ---- LINK AND BADGE ------------------------------------------------------ */
+a.link {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 6px;
+  display: grid;
+
+  padding: 4px 0;
+
+  text-decoration: none;
+  line-height: 1;
+  color: inherit;
+
+  &:hover, &.active {
+    color: var(--color-mintgreen);
+  }
+}
+
+.badge {
+  place-content: center;
+  display: inline-grid;
+
+  color: var(--background-color);
+  text-align: center;
+  font-weight: 600;
+  font-size: 10px;
+
+  border-radius: 2px;
+  height: 16px;
+  width: 16px;
+
+  position: relative;
+  top: 1px;
+}
+
+/* ---- CONTENT ------------------------------------------------------------- */
+
+article {
+  min-width: 0;
+}
+
+article a:not([name]) {
+  color: var(--color-mintgreen);
+}
+
+h1 {
+  border-bottom: 3px double var(--border-color);
+  margin-bottom: 15px;
+  margin-top: 0;
+
+  font-optical-sizing: auto;
+  font-family: "Fira Code";
+  font-weight: 400;
+  font-size: 26px;
+}
+
+.content {
+  line-height: 1.5;
+}
+
+.content > *:first-child {
+  margin-top: 0;
+}
+
+.content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- ENTITY -------------------------------------------------------------- */
+.entity {
+  margin-top: 30px;
+}
+
+.entity + .entity {
+  margin-top: 45px;
+}
+
+.entity:has(a:target) {
+  outline: 2px dashed var(--color-mintgreen);
+  outline-offset: 15px;
+  border-radius: 1px;
+}
+
+.entity-signature {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+
+  font-optical-sizing: auto;
+  font-family: "Fira Code";
+  font-weight: 400;
+  font-size: 16px;
+
+  flex-wrap: wrap;
+  display: flex;
+
+  white-space: pre;
+}
+
+.entity-signature a:not([name]) {
+  text-decoration: none;
+  color: inherit;
+}
+
+.entity-signature a:not([name]):hover {
+  color: var(--color-mintgreen);
+  text-decoration: underline;
+}
+
+/* ---- TABLE OF CONTENTS --------------------------------------------------- */
+nav {
+  align-content: start;
+  align-self: start;
+  display: grid;
+
+  margin-left: 40px;
+  position: sticky;
+  top: 20px;
+}
+
+nav strong {
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 10px;
+  color: #999;
+}
+
+/* ---- CODE BLOCKS --------------------------------------------------------- */
+pre {
+  font-size: 14px;
+  overflow: auto;
+  min-width: 0;
+}
+
+pre code {
+  font-optical-sizing: auto;
+  font-family: "Fira Code";
+  font-weight: 400;
+}
+
+pre code .line {
+  counter-increment: snippet;
+  position: relative;
+  min-height: 1em;
+  display: block;
+}
+
+pre code .line::before {
+  content: counter(snippet);
+  border-right: 1px solid var(--border-color);
+  color: var(--line-number-color);
+  display: inline-block;
+  padding-right: 0.75em;
+  margin-right: 0.75em;
+  text-align: right;
+  width: 1.5em;
+}
+
+/* ---- SYNTAX HIGHLIGHTING ------------------------------------------------- */
+.keyword {
+  color: var(--color-darkmagenta);
+}
+
+.regexp {
+  color: var(--color-darkorange);
+}
+
+.namespace, .property {
+  color: var(--color-indianred);
+}
+
+.type {
+  color: var(--color-royalblue);
+}
+
+.string {
+  color: var(--color-mintgreen);
+}
+
+.comment {
+  color: var(--color-comment);
+}
+
+.number {
+  color: var(--color-crimson);
+}

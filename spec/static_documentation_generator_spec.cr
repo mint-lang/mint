@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 Dir
-  .glob("./spec/documentation_generators/**/*")
+  .glob("./spec/static_documentation_generators/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
@@ -19,7 +19,9 @@ Dir
 
           # Compare results
           result =
-            Mint::DocumentationGenerator.resolve(ast).to_pretty_json
+            format_xml(
+              Mint::StaticDocumentationGenerator.generate([ast])["Test.html"]
+            ).sub("<?xml version=\"1.0\"?>\n", "").strip
         rescue error : Mint::Error
           fail error.to_terminal.to_s
         end

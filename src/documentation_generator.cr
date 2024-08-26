@@ -1,5 +1,7 @@
 module Mint
-  class DocumentationGenerator
+  module DocumentationGenerator
+    extend self
+
     enum Flag
       Global
       Async
@@ -121,7 +123,7 @@ module Mint
       end
     end
 
-    @formatter = Formatter.new
+    @@formatter = Formatter.new
 
     def resolve(ast : Ast) : Array(TopLevelEntity)
       (ast.type_definitions +
@@ -228,14 +230,16 @@ module Mint
         when Array(Ast::TypeDefinitionField)
           params.map do |item|
             Argument.new(
-              type: @formatter.format!(item.type),
+              type: @@formatter.format!(item.type),
               name: item.key.value)
           end
         else
           params.map do |item|
-            Argument.new(name: @formatter.format!(item))
+            Argument.new(name: @@formatter.format!(item))
           end
         end
+
+      arguments = nil if arguments.empty?
 
       entity(
         description: node.comment,
@@ -265,10 +269,12 @@ module Mint
       arguments =
         node.arguments.map do |item|
           Argument.new(
-            value: @formatter.format!(item.default),
-            type: @formatter.format!(item.type),
+            value: @@formatter.format!(item.default),
+            type: @@formatter.format!(item.type),
             name: item.name.value)
         end
+
+      arguments = nil if arguments.empty?
 
       entity(
         description: node.comment,
@@ -315,10 +321,10 @@ module Mint
       kind : Kind
     )
       formatted_value =
-        @formatter.format!(value)
+        @@formatter.format!(value)
 
       formatted_type =
-        @formatter.format!(type)
+        @@formatter.format!(type)
 
       keyword =
         case kind
@@ -407,7 +413,7 @@ module Mint
     end
 
     def highlight(node : Ast::Node)
-      highlight(@formatter.format!(node))
+      highlight(@@formatter.format!(node))
     end
 
     def highlight(formatted : String)

@@ -8,7 +8,9 @@ module Mint
     def self.build(*, optimize : Bool, doctype : Bool = true, &)
       html =
         XML.build_fragment(indent: optimize ? nil : "  ") do |xml|
-          with new(xml) yield
+          builder = new(xml)
+
+          with builder yield builder
         end
 
       header =
@@ -30,6 +32,10 @@ module Mint
       @xml.text(contents)
     end
 
+    def tag(tag, attributes, &)
+      @xml.element(tag, attributes) { with self yield }
+    end
+
     def script(**attributes)
       script(**attributes) { text("") }
     end
@@ -38,11 +44,15 @@ module Mint
       @xml.element("script", **attributes) { with self yield }
     end
 
-    def tag(tag, attributes, &)
-      @xml.element(tag, attributes) { with self yield }
+    def a(**attributes)
+      a(**attributes) { text("") }
     end
 
-    {% for tag in %w(html head body meta link pre code noscript div span) %}
+    def a(**attributes, &)
+      @xml.element("a", **attributes) { with self yield }
+    end
+
+    {% for tag in %w(html head body meta link pre code noscript div span h1 h2 h3 title aside article nav strong) %}
       def {{tag.id}}(**attributes)
         @xml.element("{{tag.id}}", **attributes)
       end

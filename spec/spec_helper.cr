@@ -218,3 +218,21 @@ def lsp_json(messages)
     json.to_pretty_json
   end
 end
+
+def format_xml(xml)
+  input, output, error =
+    {IO::Memory.new(xml), IO::Memory.new, IO::Memory.new}
+
+  Process.run(
+    args: ["--format", "-"],
+    command: "xmllint",
+    clear_env: true,
+    output: output,
+    input: input,
+    error: error,
+    env: {
+      "NO_COLOR" => "1",
+    })
+
+  output.rewind.gets_to_end
+end

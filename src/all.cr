@@ -57,6 +57,7 @@ require "./parser/*"
 require "./parser"
 
 require "./documentation_generator"
+require "./static_documentation_generator"
 
 require "./semantic_tokenizer"
 require "./references_tracker"

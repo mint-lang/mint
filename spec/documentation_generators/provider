@@ -28,7 +28,6 @@ provider Test : Subscription {
     "e": [
       {
         "k": 4,
-        "a": [],
         "b": false,
         "n": "update"
       }

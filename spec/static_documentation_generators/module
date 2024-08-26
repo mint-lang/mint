@@ -1,0 +1,87 @@
+// Module Description
+module Test {
+  // Constant Description
+  const CONSTANT = "TEST"
+
+  // Function Description
+  fun function (argument1 : String = "Default Value") : String {
+    "Hello!"
+  }
+
+  // Broken Function Description
+  fun brokenFunction (argument1 : String, argument2 : String = "Default Value") : String {
+    "Hello!"
+  }
+}
+--------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../style.css"/>
+    <title>Test</title>
+  </head>
+  <body>
+    <aside>
+      <a href="Test.html" class="link"><span class="badge" style="background: var(--color-darkorange)">M</span>Test</a>
+    </aside>
+    <article>
+      <h1>
+        <span class="keyword">module </span>
+        <span>Test</span>
+      </h1>
+      <div class="content">
+        <p>Module Description</p>
+      </div>
+      <div class="entity">
+        <a name="CONSTANT" id="CONSTANT"/>
+        <div class="entity-signature">
+          <span class="keyword">const </span>
+          <a href="#CONSTANT">CONSTANT</a>
+          <div>
+            <span> = </span>
+            <span class="string">"TEST"</span>
+          </div>
+        </div>
+        <div class="content">
+          <p>Constant Description</p>
+        </div>
+      </div>
+      <div class="entity">
+        <a name="brokenFunction" id="brokenFunction"/>
+        <div class="entity-signature">
+          <div><span class="keyword">fun </span><a href="#brokenFunction">brokenFunction</a> (</div>
+          <div class="argument">
+            <span>argument1</span>
+            <span> : </span>
+            <span class="type">String</span>
+            <span>, </span>
+          </div>
+          <div class="argument">
+            <span>argument2</span>
+            <span> : </span>
+            <span class="type">String</span>
+            <span> = </span>
+            <span class="string">"Default Value"</span>
+          </div>
+          <div>)<span> : </span><span class="type">String</span></div>
+        </div>
+        <div class="content">
+          <p>Broken Function Description</p>
+        </div>
+      </div>
+      <div class="entity">
+        <a name="function" id="function"/>
+        <div class="entity-signature"><span class="keyword">fun </span><a href="#function">function</a> (<div class="argument"><span>argument1</span><span> : </span><span class="type">String</span><span> = </span><span class="string">"Default Value"</span></div>)<span> : </span><span class="type">String</span></div>
+        <div class="content">
+          <p>Function Description</p>
+        </div>
+      </div>
+    </article>
+    <nav>
+      <strong>ON THIS PAGE</strong>
+      <a href="#function" class="link"><span class="badge" style="background: var(--color-mintgreen)">F</span>function</a>
+      <a href="#brokenFunction" class="link"><span class="badge" style="background: var(--color-mintgreen)">F</span>brokenFunction</a>
+      <a href="#CONSTANT" class="link"><span class="badge" style="background: var(--text-color)">C</span>CONSTANT</a>
+    </nav>
+  </body>
+</html>

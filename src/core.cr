@@ -4,6 +4,8 @@ module Mint
 
     bake_folder "../core/source"
 
+    class_getter json = MintJson.new(%({"name": "core"}), "core", "mint.json")
+
     class_getter ast : Ast do
       files.reduce(Ast.new) do |memo, file|
         memo.merge Parser.parse(file.read, file.path)
