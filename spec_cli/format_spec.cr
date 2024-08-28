@@ -1,11 +1,11 @@
 require "./spec_helper"
 
-context "Format" do
-  before_each do
+context "format" do
+  before_all do
     FileUtils.rm_rf "source.mint"
   end
 
-  after_each do
+  after_all do
     FileUtils.rm_rf "source.mint"
   end
 
@@ -21,12 +21,12 @@ context "Format" do
     typeTest{file:String}
     MINT
 
-  it "prints the help" do
+  it "displays help with '--help' flag" do
     expect_output ["format", "--help"], <<-TEXT
       Usage:
         ×××× format [flags...] <pattern> [arg...]
 
-      Formats *.mint files.
+      Formats "*.mint" files.
 
       Flags:
         --check  # Checks that formatting code produces no changes.
@@ -76,7 +76,7 @@ context "Format" do
       TEXT
   end
 
-  it "formatted files" do
+  it "some files formatted" do
     File.write("source.mint", unformatted_code)
 
     expect_output ["format", "source.mint"], <<-TEXT
@@ -88,7 +88,7 @@ context "Format" do
       TEXT
   end
 
-  it "not formatted (--check)" do
+  it "some files not formatted (--check)" do
     File.write("source.mint", unformatted_code)
 
     expect_output ["format", "source.mint", "--check"], <<-TEXT

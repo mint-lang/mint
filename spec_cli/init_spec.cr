@@ -9,6 +9,22 @@ context "init" do
     FileUtils.rm_rf "my-project"
   end
 
+  it "displays help with '--help' flag" do
+    expect_output ["init", "--help"], <<-TEXT
+      Usage:
+        ×××× init [flags...] <name> [arg...]
+
+      Initializes a new project.
+
+      Flags:
+        --bare  # If speficied, an empty project will be generated.
+        --help  # Displays help for the current command.
+
+      Arguments:
+        name    # The name of the new project.
+      TEXT
+  end
+
   it "asks for a name if not provided" do
     expect_output(["init", "--bare"], <<-TEXT, "\nmy-project\n")
       Mint - Initializing a new project
@@ -72,22 +88,6 @@ context "init" do
         ➔ mint.json
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       All done in ××××!
-      TEXT
-  end
-
-  it "displays help with '--help' flag" do
-    expect_output ["init", "--help"], <<-TEXT
-      Usage:
-        ×××× init [flags...] <name> [arg...]
-
-      Initializes a new project.
-
-      Flags:
-        --bare  # If speficied, an empty project will be generated.
-        --help  # Displays help for the current command.
-
-      Arguments:
-        name    # The name of the new project.
       TEXT
   end
 end

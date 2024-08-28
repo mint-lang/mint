@@ -3,24 +3,25 @@ module Mint
     class Docs < Admiral::Command
       include Command
 
-      define_help description: "Generates API Documentation"
-
-      define_argument directory : String,
-        description: "The directory to generate the docs to",
-        default: "docs"
-
-      define_flag include_packages : Bool,
-        description: "If specified, documentation will be generated for used packages as well.",
-        default: false
+      define_help description: "Generates API Documentation."
 
       define_flag include_core : Bool,
         description: "If specified, documentation will be generated for the standard library as well.",
         default: false
 
+      define_flag include_packages : Bool,
+        description: "If specified, documentation will be generated for used packages as well.",
+        default: false
+
+      define_argument directory : String,
+        description: "The directory to generate the docs to.",
+        default: "docs",
+        required: true
+
       def run
-        execute "Documentation Generator" do
+        execute "Generating documentation" do
           directory =
-            arguments.directory.not_nil! # There is a default above
+            arguments.directory
 
           jsons = [MintJson.parse_current]
           jsons.concat(SourceFiles.packages) if flags.include_packages

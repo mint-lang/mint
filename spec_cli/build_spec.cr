@@ -1,22 +1,41 @@
 require "./spec_helper"
 
 context "build" do
-  before_each do
+  before_all do
     FileUtils.rm_rf "my-project"
     run ["init", "my-project"]
     FileUtils.cd "my-project"
   end
 
-  after_each do
+  after_all do
     FileUtils.cd ".."
     FileUtils.rm_rf "my-project"
   end
 
+  it "displays help with '--help' flag" do
+    expect_output ["build", "--help"], <<-TEXT
+      Usage:
+        ×××× build [flags...] [arg...]
+
+      Builds the project for production.
+
+      Flags:
+        --env, -e            # Loads the given .env file.
+        --generate-manifest  # If specified, the web manifest will be generated.
+        --help               # Displays help for the current command.
+        --no-optimize        # If specified, the resulting JavaScript code will not be optimized.
+        --relative, -r       # If specified, the URLs in the HTML will be in relative format.
+        --runtime            # If specified, the supplied runtime will be used instead of the default.
+        --skip-icons         # If specified, the application icons will not be generated.
+        --timings            # If specified, timings will be printed.
+        --verbose            # If specified, all written files will be logged.
+        --watch, -w          # If specified, will build on every change.
+      TEXT
+  end
+
   it "builds the project" do
     expect_output ["build"], <<-TEXT
-      Mint - Building for production...
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      Building for production...
+      Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
       ⚙ Building... ××××
@@ -30,9 +49,7 @@ context "build" do
 
   it "shows timings with the `--timings` flag" do
     expect_output ["build", "--timings"], <<-TEXT
-      Mint - Building for production...
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      Building for production...
+      Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
       ⚙ Building... ××××
@@ -57,9 +74,7 @@ context "build" do
 
   it "generates manifeset with the `--generate-manifest` flag" do
     expect_output ["build", "--generate-manifest"], <<-TEXT
-      Mint - Building for production...
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      Building for production...
+      Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
       ⚙ Building... ××××
@@ -75,8 +90,7 @@ context "build" do
 
   it "logs the files using the `--verbose` flag" do
     expect_output ["build", "--verbose"], <<-TEXT
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      Building for production...
+      Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
       ⚙ Building... ××××

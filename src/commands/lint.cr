@@ -10,21 +10,13 @@ module Mint
         default: false
 
       def run
-        succeeded =
-          if flags.json
-            lint
-          else
-            execute "Linting" { lint }
-          end
+        ast =
+          Ast.new.merge(Core.ast)
 
-        exit(1) unless succeeded
-      end
+        errors =
+          [] of Error
 
-      protected def parse(ast, errors) : Nil
-        sources =
-          Dir.glob(SourceFiles.all)
-
-        sources.reduce(ast) do |memo, file|
+        Dir.glob(SourceFiles.all).reduce(ast) do |memo, file|
           begin
             memo.merge(Parser.parse(file))
           rescue error : Error
@@ -33,37 +25,36 @@ module Mint
 
           memo
         end
-      end
 
-      protected def type_check(ast, errors) : Nil
-        TypeChecker.new(ast).tap(&.check)
-      rescue error : Error
-        errors << error
-      end
+        begin
+          TypeChecker.new(ast).tap(&.check)
+        rescue error : Error
+          errors << error
+        end if errors.empty?
 
-      def lint
-        errors =
-          [] of Error
-
-        ast =
-          Ast.new.merge(Core.ast)
-
-        parse(ast, errors)
-        type_check(ast, errors) if errors.empty?
-
-        if flags.json
-          terminal.puts errors.compact_map(&.to_terminal.to_s.uncolorize).to_json
-        else
-          if errors.empty?
-            terminal.puts "No errors were detected!"
-          else
-            errors.each do |error|
-              terminal.print error.to_terminal
+        if errors.empty?
+          unless flags.json
+            execute "Linting" do
+              terminal.puts "No errors detected."
             end
           end
-        end
+        else
+          if flags.json
+            terminal.puts errors.compact_map(&.to_terminal.to_s.uncolorize).to_json
+          else
+            if errors.empty?
+              terminal.puts "No errors were detected!"
+            else
+              execute "Linting" do
+                errors.each do |error|
+                  terminal.print error.to_terminal
+                end
+              end
+            end
+          end
 
-        errors.empty?
+          exit(1)
+        end
       end
     end
   end

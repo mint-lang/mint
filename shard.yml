@@ -1,5 +1,8 @@
 name: mint
+
 version: 0.20.0-alpha.2
+license: BSD-3-Clause
+crystal: ~> 1.7
 
 authors:
   - Szikszai Gusztáv
@@ -30,6 +33,3 @@ targets:
   mint:
     main: src/mint.cr
 
-crystal: ~> 1.7
-
-license: BSD-3-Clause

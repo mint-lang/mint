@@ -34,16 +34,16 @@ module Mint
         default: false,
         short: "w"
 
-      define_flag env : String,
-        description: "Loads the given .env file.",
-        short: "e"
-
       define_flag timings : Bool,
         description: "If specified, timings will be printed.",
         default: false
 
+      define_flag env : String,
+        description: "Loads the given .env file.",
+        short: "e"
+
       def run
-        execute "Building for production...", env: flags.env do
+        execute "Building for production", env: flags.env do
           # Initialize the workspace from the current working directory.
           # We don't check everything to speed things up so only the hot
           # path is checked.
@@ -60,9 +60,6 @@ module Mint
 
             case result
             in Ast
-              terminal.puts "Building for production..."
-              terminal.divider
-
               terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
                 FileUtils.rm_rf DIST_DIR
               end

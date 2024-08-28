@@ -10,7 +10,7 @@ module Mint
         Same
       end
 
-      define_help description: "Formats *.mint files."
+      define_help description: %(Formats "*.mint" files.)
 
       define_argument pattern : String,
         description: "The pattern which determines which files to format."

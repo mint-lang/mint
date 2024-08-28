@@ -10,17 +10,14 @@ module Mint
 
       # ameba:disable Performance/AnyInsteadOfEmpty
       if artifacts.any?(&->Dir.exists?(String))
-        artifacts.each(&->safe_delete(String))
+        artifacts.each do |artifact|
+          Dir.safe_delete artifact do
+            terminal.puts "Deleting: #{artifact}"
+          end
+        end
       else
         terminal.puts "Nothing to delete."
       end
-    end
-
-    private def self.safe_delete(directory)
-      return unless Dir.exists?(directory)
-
-      terminal.puts "Deleting: #{directory}"
-      FileUtils.rm_rf(directory)
     end
 
     def self.terminal

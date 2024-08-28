@@ -1,6 +1,6 @@
 module Mint
   class SemanticTokenizer
-    # This is a subset of the LSPs SemanticTokenTypes enum.
+    # This is a subset of the LSPs `SemanticTokenTypes` enum.
     enum TokenType
       TypeParameter
       Type
@@ -17,6 +17,7 @@ module Mint
       Regexp
     end
 
+    # This is used by the language server.
     TOKEN_TYPES = TokenType.names.map!(&.camelcase(lower: true))
 
     # This represents which token types are used for which node.
@@ -70,14 +71,11 @@ module Mint
       parts
     end
 
-    def self.highlight(path : String, html : Bool = false)
+    def self.highlight(path : String, *, html : Bool = false)
       ast =
-        Parser.parse(path)
+        Parser.new(File.read(path), path).tap(&.parse_any).ast
 
-      parts =
-        tokenize(ast)
-
-      parts.join do |item|
+      tokenize(ast).join do |item|
         case item
         in String
           html ? HTML.escape(item) : item
@@ -123,7 +121,7 @@ module Mint
     end
 
     def tokenize(nodes : Array(Ast::Node))
-      nodes.each { |node| tokenize(node) }
+      nodes.each(&->tokenize(Ast::Node))
     end
 
     def tokenize(node : Ast::Node?)
@@ -134,9 +132,9 @@ module Mint
 
     def tokenize(node : Ast::Variable)
       if node.value[0].ascii_lowercase?
-        add(node, TokenType::Variable)
+        add(node, :variable)
       else
-        add(node, TokenType::Type)
+        add(node, :type)
       end
     end
 
@@ -150,18 +148,25 @@ module Mint
         add(position, position + node.tag.value.size, :namespace)
       end
 
-      add(node.tag, TokenType::Namespace)
+      add(node.tag, :namespace)
+    end
+
+    def tokenize(node : Ast::HtmlComponent)
+      # The closing tag is not saved only the position to it.
+      node.closing_tag_position.try do |position|
+        add(position, position + node.component.value.size, :type)
+      end
     end
 
     def tokenize(node : Ast::StringLiteral | Ast::HereDocument)
       if node.value.size == 0
-        add(node, TokenType::String)
+        add(node, :string)
       else
         position =
           case node
           when Ast::HereDocument
             if node.highlight
-              node.from + node.token.size + 14
+              node.from + node.token.size + 14 # The highlight keyword
             else
               node.from + node.token.size + 3
             end
@@ -176,14 +181,16 @@ module Mint
           case item
           in Ast::Interpolation
             # We skip interpolations because they will be process separately
-            # but we need to proceed the position to it's end, also we need
+            # but we need to advance the position to it's end, also we need
             # to add `#{` as a string which is everything up to the boxed
             # expressions start.
-            add(position, item.expression.from, TokenType::String)
-            position = item.expression.to
+            add(position, item.expression.from, :string)
+
+            position =
+              item.expression.to
 
             if last
-              add(position, node.to, TokenType::String)
+              add(position, node.to, :string)
             end
           in String
             from =
@@ -201,15 +208,9 @@ module Mint
                 position + item.size
               end
 
-            add(from, position, TokenType::String)
+            add(from, position, :string)
           end
         end
-      end
-    end
-
-    def tokenize(node : Ast::HtmlComponent)
-      node.closing_tag_position.try do |position|
-        add(position, position + node.component.value.size, :type)
       end
     end
 

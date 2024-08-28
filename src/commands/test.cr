@@ -55,7 +55,7 @@ module Mint
 
       def run
         runner =
-          execute "Running Tests", env: flags.env do
+          execute "Running tests", env: flags.env do
             TestRunner.new(flags, arguments)
           end
 

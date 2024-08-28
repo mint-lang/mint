@@ -2,7 +2,7 @@ module Mint
   class Cli < Admiral::Command
     module Command
       def execute(message, *, env : String? = nil, & : -> T) : T? forall T
-        # On Ctrl+C and abort and exit
+        # On Ctrl+C and abort and exit.
         Signal::INT.trap do
           terminal.puts
           terminal.divider
@@ -10,12 +10,12 @@ module Mint
           exit(1)
         end
 
-        # Print header and divider
+        # Print header and divider.
         terminal.header "Mint - #{message}"
         terminal.divider
 
         # Save terminal position in order to render divider in
-        # case of an error
+        # case of an error.
         position =
           terminal.position
 
@@ -23,49 +23,49 @@ module Mint
         result = nil
 
         begin
-          # Load environment variables
+          # Load environment variables.
           Env.init(env) do |file|
             terminal.puts "#{COG} Loaded environment variables from: #{file}"
           end
 
-          # Measure elapsed time of a command
+          # Measure elapsed time of a command.
           elapsed = Time.measure { result = yield }
         rescue CliException
-          # In case of a CLI exception just exit
+          # In case of a CLI exception just exit.
           error nil, position
         rescue error : Error
-          # In case of an error print it
+          # In case of an error print it.
           error error.to_terminal, position
         rescue exception : Exception
-          # In case of an exception print it
+          # In case of an exception print it.
           error exception.inspect_with_backtrace, position
         end
 
-        # Format the elapsed time into a human readable format
+        # Format the elapsed time into a human readable format.
         formatted =
           TimeFormat.auto(elapsed).colorize.mode(:bold)
 
-        # Print all done mssage
+        # Print all done mssage.
         terminal.divider
         terminal.puts "All done in #{formatted}!"
 
         result
       end
 
-      # Handles an error
+      # Handles an error.
       def error(message, position)
         # Check if the command printed anything (last position of the IO is not
-        # the current one)
+        # the current one).
         printed =
           terminal.position != position
 
-        # If printed we need to print a divider
+        # If printed we need to print a divider.
         if printed
           terminal.puts
           terminal.divider
         end
 
-        # If we have a message we need to print it and a divider
+        # If we have a message we need to print it and a divider.
         if message
           terminal.puts
           terminal.print message
@@ -74,7 +74,7 @@ module Mint
 
         terminal.puts "There was an error, exiting...".colorize.mode(:bold)
 
-        # Exit with one to trigger failures in CI environments
+        # Exit with one to trigger failures in CI environments.
         exit(1)
       end
 

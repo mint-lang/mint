@@ -28,7 +28,7 @@ module Mint
       @root_dependencies = MintJson.parse_current.dependencies
 
       if @root_dependencies.empty?
-        terminal.puts "There are no dependencies!\n\nThere is nothing to do!"
+        terminal.puts "There are no dependencies!\nThere is nothing to do!"
       else
         terminal.puts "#{COG} Constructing dependency tree..."
         resolve_dependencies

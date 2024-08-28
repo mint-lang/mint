@@ -105,6 +105,7 @@ module Mint
               from: 0,
               to: 0)
           end
+
       self
     end
   end

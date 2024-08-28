@@ -1,4 +1,10 @@
 class Dir
+  def self.safe_delete(directory, &)
+    return unless Dir.exists?(directory)
+    yield
+    FileUtils.rm_rf(directory)
+  end
+
   def self.tempdir(&)
     path =
       Path[tempdir, Random::Secure.hex]
