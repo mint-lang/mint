@@ -29,30 +29,37 @@ ensure
 end
 
 def matches_template(template, expected)
+  expected =
+    expected.uncolorize
+
   parts =
     template.split(/×+/)
 
-  position =
-    0
+  fills =
+    [] of String
+
+  parts.reduce(0) do |position, item|
+    unless index = expected.index(item, position)
+      raise <<-TEXT
+        TEMPLATE INVALID!
+
+        TEMPLATE:
+        #{template}
+
+        ITEM:
+        #{item}
+
+        EXPECTED:
+        #{expected}
+        TEXT
+    end
+
+    fills << expected[position, index - position]
+    index + item.size
+  end
 
   replaced =
-    if parts.size <= 1
-      template
-    else
-      parts.reduce("") do |memo, item|
-        if index = expected.index(item, position)
-          value =
-            expected[position, index - position]
-
-          position =
-            index + item.size
-
-          memo + value.to_s + item
-        else
-          memo + item
-        end
-      end
-    end
+    parts.zip(fills).join { |part, fill| fill + part }
 
   expect_diff(replaced, expected)
 end

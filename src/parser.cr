@@ -59,7 +59,10 @@ module Mint
     # Checks if we reached the end of the file raises an error otherwise.
     def eof! : Bool
       whitespace
-      error :expected_eof { expected "the end of the file", word } unless eof?
+      error :expected_eof do
+        expected "the end of the file", word
+        snippet self
+      end unless eof?
       true
     end
 

@@ -1,6 +1,7 @@
 require "file_utils"
 require "spec"
 
+require "../src/ext/string"
 require "../src/constants"
 require "../src/version"
 
