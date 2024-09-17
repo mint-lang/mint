@@ -54,14 +54,15 @@ module Mint
     getter type_checker : TypeChecker
     getter cache : Hash(String, Ast)
     getter formatter : Formatter
+    getter test_path : String?
     getter json : MintJson
     getter error : Error?
     getter root : String
 
+    property? presist_on_update : Bool = false
     property? check_everything : Bool = true
     property? check_env : Bool = false
     property? format : Bool = false
-    getter test_path : String?
 
     def test_path=(value)
       @test_path = value
@@ -212,10 +213,12 @@ module Mint
       @error = nil
 
       call "change", ast
+      ast
     rescue error : Error
       @error = error
 
       call "change", error
+      error
     end
 
     def format(file)
@@ -225,7 +228,7 @@ module Mint
     end
 
     def update(contents, file)
-      self[file] = process(contents, file)
+      self[file] = process(contents, Path[root, file].to_s)
       @error = nil
 
       call "change", ast
@@ -240,8 +243,15 @@ module Mint
     end
 
     private def process(contents, file)
+      real_path =
+        if File.exists?(file)
+          File.realpath(file)
+        else
+          file
+        end
+
       ast =
-        Parser.parse(contents, File.realpath(file))
+        Parser.parse(contents, real_path)
 
       if format?
         formatted =

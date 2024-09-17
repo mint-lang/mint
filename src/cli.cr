@@ -1,5 +1,5 @@
 require "admiral"
-require "./commands/command"
+require "./command"
 require "./commands/**"
 
 module Mint

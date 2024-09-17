@@ -8,12 +8,6 @@ module LSP
   #   end
   #
   class Server
-    @@methods = {} of String => RequestMessage.class | NotificationMessage.class
-
-    macro method(name, message)
-      @@methods[{{name}}] = {{message}}
-    end
-
     def initialize(@in : IO, @out : IO)
     end
 
@@ -24,6 +18,14 @@ module LSP
     def send(content : String)
       @out << prepend_header(content)
       @out.flush
+    end
+
+    def send_notification(method, params)
+      send({
+        "jsonrpc" => "2.0",
+        "method"  => method,
+        "params"  => params,
+      }.to_json)
     end
 
     def send_request(id, method, params)
@@ -65,48 +67,49 @@ module LSP
         })
     end
 
+    def process(contents)
+      # Parse the contents as JSON
+      json =
+        JSON.parse(contents)
+
+      # Get the method name
+      name =
+        json["method"]?
+
+      # If we have a method name get the method class
+      if name
+        method =
+          @methods[name.as_s]?
+
+        # If the given method is implemented
+        # get an instance using the contents
+        if method
+          message =
+            method.from_json(contents)
+
+          result =
+            message.execute(self)
+
+          case message
+          when RequestMessage
+            send_response(id: message.id, result: result)
+          end
+        end
+      end
+    rescue error
+      log(error.to_s)
+      error.backtrace?.try(&.each { |item| log(item) })
+    end
+
     # Reads a message from the input IO, and converts to a Message object,
     # calls execute on it and send the result if it's a request message.
     def read
       return exit(1) if @in.closed?
-
-      MessageParser.parse(@in) do |contents|
-        # Parse the contents as JSON
-        json =
-          JSON.parse(contents)
-
-        # Get the method name
-        name =
-          json["method"]?
-
-        # If we have a method name get the method class
-        if name
-          method =
-            @@methods[name.as_s]?
-
-          # If the given method is implemented
-          # get an instance using the contents
-          if method
-            message =
-              method.from_json(contents)
-
-            result =
-              message.execute(self)
-
-            case message
-            when RequestMessage
-              send_response(id: message.id, result: result)
-            end
-          end
-        end
-      end
+      MessageParser.parse(@in, &->process(String))
     rescue error : IO::EOFError
       # Client has exited unexpectedly without
       # sending an "exit" lifecycle message
       exit(1)
-    rescue error
-      log(error.to_s)
-      error.backtrace?.try(&.each { |item| log(item) })
     end
   end
 end

@@ -1,21 +1,30 @@
 module Mint
   module LS
     class Server < LSP::Server
-      # Lifecycle methods
-      method "initialize", Initialize
-      method "shutdown", Shutdown
-      method "exit", Exit
+      @methods = {
+        # Lifecycle methods
+        "initialize" => Initialize,
+        "shutdown"   => Shutdown,
+        "exit"       => Exit,
 
-      # Text document related methods
-      method "textDocument/willSaveWaitUntil", WillSaveWaitUntil
-      method "textDocument/semanticTokens/full", SemanticTokens
-      method "textDocument/foldingRange", FoldingRange
-      method "textDocument/formatting", Formatting
-      method "textDocument/completion", Completion
-      method "textDocument/codeAction", CodeAction
-      method "textDocument/definition", Definition
-      method "textDocument/didChange", DidChange
-      method "textDocument/hover", Hover
+        # Text document related methods
+        "textDocument/willSaveWaitUntil"   => WillSaveWaitUntil,
+        "textDocument/semanticTokens/full" => SemanticTokens,
+        "textDocument/foldingRange"        => FoldingRange,
+        "textDocument/formatting"          => Formatting,
+        "textDocument/completion"          => Completion,
+        "textDocument/codeAction"          => CodeAction,
+        "textDocument/definition"          => Definition,
+        "textDocument/didChange"           => DidChange,
+        "textDocument/didOpen"             => DidOpen,
+        "textDocument/hover"               => Hover,
+
+        # Workspace related methods
+        "workspace/applyEdit" => ApplyEdit,
+
+        # Mint specific methods
+        "mint/sandboxCompile" => SandboxCompile,
+      }
 
       property params : LSP::InitializeParams? = nil
 
@@ -44,6 +53,14 @@ module Mint
 
       def nodes_at_cursor(params : LSP::CodeActionParams) : Array(Ast::Node)
         nodes_at_cursor(params.text_document.path, params.range.start)
+      end
+
+      def workspace(path : String)
+        Workspace[path]
+      end
+
+      def workspace(uri : URI)
+        Workspace[uri.path.to_s]
       end
 
       def nodes_at_path(path : String)

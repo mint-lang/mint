@@ -1,7 +1,7 @@
 module Mint
   module LS
-    class DidChange < LSP::NotificationMessage
-      property params : LSP::DidChangeTextDocumentParams
+    class DidOpen < LSP::NotificationMessage
+      property params : LSP::DidOpenTextDocumentParams
 
       def execute(server)
         uri =
@@ -10,7 +10,7 @@ module Mint
         workspace =
           server.workspace(uri)
 
-        workspace.update(params.content_changes.first.text, uri.path)
+        workspace.update(params.text_document.text, uri.path)
       end
     end
   end

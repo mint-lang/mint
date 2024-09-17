@@ -14,6 +14,6 @@ module LSP
     # The method to be invoked.
     property method : String
 
-    abstract def execute(server : Server)
+    # abstract def execute(server : Server)
   end
 end

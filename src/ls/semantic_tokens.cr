@@ -9,7 +9,7 @@ module Mint
           URI.parse(params.text_document.uri)
 
         ast =
-          Workspace[uri.path.to_s][uri.path.to_s]
+          server.workspace(uri)[uri.path.to_s]
 
         # This is used later on to convert the line/column of each token
         file =

@@ -16,7 +16,7 @@ module Mint
 
       Dir.glob(@pattern).each do |file|
         path =
-          Path[file].normalize.to_s
+          Path[file].normalize.expand.to_s
 
         current.add({path, File.info(path).modification_time})
       end
@@ -29,7 +29,7 @@ module Mint
     def watch(&)
       loop do
         detect do |diff|
-          yield diff.map(&.[0]).uniq! unless diff.empty?
+          yield diff.map(&.first).uniq! unless diff.empty?
         end
 
         sleep 0.5
