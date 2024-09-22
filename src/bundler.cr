@@ -319,6 +319,10 @@ module Mint
                 end
               end
 
+              unless application.title.blank?
+                title { text application.title }
+              end
+
               link rel: "stylesheet", href: path_for_asset("index.css")
               raw application.head
             end
