@@ -1,7 +1,7 @@
 module Mint
   class TypeChecker
     RESERVED =
-      %w(break case class const continue debugger default delete do else
+      %w(break case class const continue debugger default do else
         export extends for if import in instanceof new return super
         switch throw typeof var while yield)
 

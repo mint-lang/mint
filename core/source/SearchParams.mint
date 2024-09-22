@@ -4,7 +4,8 @@ API](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
 */
 module SearchParams {
   /*
-  Appends a specified key-value pair.
+  Appends a specified key-value pair. It appends empty strings by default,
+  which can be controlled with the last parameter.
 
     SearchParams.empty()
     |> SearchParams.append("key", "value")
@@ -12,15 +13,20 @@ module SearchParams {
   fun append (
     params : SearchParams,
     key : String,
-    value : String
+    value : String,
+    appendBlank : Bool = true
   ) : SearchParams {
-    `
-    (() => {
-      let newParams = new URLSearchParams(#{params}.toString())
-      newParams.append(#{key}, #{value})
-      return newParams
-    })()
-    `
+    if !appendBlank && String.isBlank(value) {
+      params
+    } else {
+      `
+      (() => {
+        let newParams = new URLSearchParams(#{params}.toString())
+        newParams.append(#{key}, #{value})
+        return newParams
+      })()
+      `
+    }
   }
 
   /*
@@ -90,19 +96,29 @@ module SearchParams {
 
   /*
   Sets the value associated to the key. If there were several values, deletes
-  the others.
+  the others. If `removeBlank` is true it will delete the key if the value
+  is blank.
 
     SearchParams.empty()
     |> SearchParams.set("key", "value")
   */
-  fun set (params : SearchParams, key : String, value : String) : SearchParams {
-    `
-    (() => {
-      let newParams = new URLSearchParams(#{params}.toString())
-      newParams.set(#{key}, #{value})
-      return newParams
-    })()
-    `
+  fun set (
+    params : SearchParams,
+    key : String,
+    value : String,
+    removeBlank : Bool = false
+  ) : SearchParams {
+    if removeBlank && String.isBlank(value) {
+      delete(params, key)
+    } else {
+      `
+      (() => {
+        let newParams = new URLSearchParams(#{params}.toString())
+        newParams.set(#{key}, #{value})
+        return newParams
+      })()
+      `
+    }
   }
 
   /*

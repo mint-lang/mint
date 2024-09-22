@@ -75,8 +75,24 @@ module Url {
 
     Url.toString(url) == "https://www.example.com/path/?search=foo#hash"
   */
-  fun toString (url : Url) : String {
-    `#{url}.origin + #{url}.path + #{url}.search + #{url}.hash`
+  fun toString (url : Url, removeBlank : Bool = false) : String {
+    let search =
+      if String.trim(url.search) == "?" {
+        ""
+      } else {
+        url.search
+      }
+
+    let hash =
+      if String.trim(url.search) == "#" {
+        ""
+      } else {
+        url.hash
+      }
+
+    [url.origin, url.path, search, hash]
+    |> Array.reject(String.isBlank)
+    |> String.join("")
   }
 
   /*
