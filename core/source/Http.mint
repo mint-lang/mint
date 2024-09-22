@@ -320,7 +320,7 @@ store Http {
       xhr.addEventListener('load', async (event) => {
         #{next { requests: Map.delete(requests, id)}}
 
-        let contentType = xhr.getResponseHeader("Content-Type");
+        let contentType = xhr.getResponseHeader("Content-Type") || "";
         let responseText = await xhr.response.text();
         let body;
 
