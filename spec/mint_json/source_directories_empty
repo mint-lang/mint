@@ -1,0 +1,17 @@
+{
+  "source-directories": []
+}
+--------------------------------------------------------------------------------
+░ ERROR (SOURCE_DIRECTORIES_EMPTY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The source-directories field lists all directories (relative to the mint.json
+file) which contain the source files of the application.
+
+The source-directories array should not be empty, but it is:
+
+   ┌ mint.json:2:25
+   ├───────────────────────────
+  1│ {
+  2│   "source-directories": []
+   │                         ⌃
+  3│ }

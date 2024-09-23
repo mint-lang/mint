@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "package": { "xxx": "" }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_INVALID_KEY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A dependency object has an invalid key:
+
+  xxx
+
+It is here:
+
+   ┌ mint.json:3:25
+   ├─────────────────────────────
+  1│ {
+  2│   "dependencies": {
+  3│     "package": { "xxx": "" }
+   │                         ⌃
+  4│   }
+  5│ }

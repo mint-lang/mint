@@ -301,8 +301,8 @@ module Mint
                 meta name: name, content: content
               end
 
-              unless application.theme.blank?
-                meta name: "theme-color", content: application.theme
+              unless application.theme_color.blank?
+                meta name: "theme-color", content: application.theme_color
               end
 
               if generate_icons?
@@ -368,9 +368,9 @@ module Mint
           end
         {
           "orientation"      => application.orientation,
+          "background_color" => application.theme_color,
+          "theme_color"      => application.theme_color,
           "display"          => application.display,
-          "background_color" => application.theme,
-          "theme_color"      => application.theme,
           "name"             => application.name,
           "short_name"       => application.name,
           "icons"            => icons,

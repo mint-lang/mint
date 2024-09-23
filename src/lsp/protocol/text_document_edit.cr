@@ -3,7 +3,8 @@ module LSP
     include JSON::Serializable
 
     # The text document to change.
-    property textDocument : OptionalVersionedTextDocumentIdentifier
+    @[JSON::Field(key: "textDocument")]
+    property text_document : OptionalVersionedTextDocumentIdentifier
 
     # The edits to be applied.
     property edits : Array(TextEdit)

@@ -52,7 +52,7 @@ module Mint
           workspace.check_env = true
 
           # Check if we have dependencies installed.
-          workspace.json.check_dependencies!
+          check_dependencies!(workspace.json.dependencies)
 
           # On any change we copy the build to the dist directory.
           workspace.on("change") do |result|

@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "package": {
+      "repository": 0
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_REPOSITORY_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The repository field of a depencency must be an string, but it's not:
+
+   ┌ mint.json:4:21
+   ├──────────────────────
+  1│ {
+  2│   "dependencies": {
+  3│     "package": {
+  4│       "repository": 0
+   │                     ⌃
+  5│     }
+  6│   }
+  7│ }

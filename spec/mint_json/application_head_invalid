@@ -1,0 +1,18 @@
+{
+  "application": {
+    "head": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_HEAD_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The head field of the application object should be a string, but it's not:
+
+   ┌ mint.json:3:13
+   ├───────────────────
+  1│ {
+  2│   "application": {
+  3│     "head": 0
+   │             ⌃
+  4│   }
+  5│ }

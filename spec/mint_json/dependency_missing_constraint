@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "package": {
+      "repository": "https://www.github.com/user/repo"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_MISSING_CONSTRAINT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A dependency object is missing the constraint field:
+
+   ┌ mint.json:6:3
+   ├───────────────────────────────────────────────────────
+  2│   "dependencies": {
+  3│     "package": {
+  4│       "repository": "https://www.github.com/user/repo"
+  5│     }
+  6│   }
+   │   ⌃
+  7│ }

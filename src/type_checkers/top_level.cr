@@ -32,12 +32,6 @@ module Mint
             end
         end
 
-      web_components.each do |component|
-        node.components.find(&.name.value.==(component)).try do |item|
-          resolve item
-        end
-      end
-
       # Resolve routes
       resolve node.routes
       resolve node.suites

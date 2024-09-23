@@ -1,0 +1,18 @@
+{
+  "application": {
+    "title": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_TITLE_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The title field of the application object should be a string, but it's not:
+
+   ┌ mint.json:3:14
+   ├───────────────────
+  1│ {
+  2│   "application": {
+  3│     "title": 0
+   │              ⌃
+  4│   }
+  5│ }

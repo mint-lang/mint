@@ -78,6 +78,27 @@ module Mint
         exit(1)
       end
 
+      def check_dependencies!(dependencies : Array(Installer::Dependency))
+        dependencies.each do |dependency|
+          next if Dir.exists?(".mint/packages/#{dependency.name}")
+
+          terminal.puts "#{COG} Ensuring dependencies..."
+          terminal.puts " ↳ Not all dependencies in your mint.json file are installed."
+          terminal.puts "   Would you like to install them now? (Y/n)"
+
+          answer = gets.to_s.downcase
+          terminal.puts AnsiEscapes::Erase.lines(2)
+
+          if answer == "y"
+            Installer.new
+            break
+          else
+            terminal.print "#{WARNING} Missing dependencies..."
+            raise CliException.new
+          end
+        end
+      end
+
       def terminal
         Render::Terminal::STDOUT
       end

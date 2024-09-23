@@ -27,7 +27,16 @@ module Mint
   class Error < Exception
     alias Element = Text | Bold | Code
 
-    record Snippet, value : Ast::Node | String | TypeChecker::Checkable
+    record SnippetData,
+      filename : String,
+      input : String,
+      from : Int64,
+      to : Int64
+
+    alias SnippetTarget = TypeChecker::Checkable | SnippetData |
+                          Ast::Node | Parser | String
+
+    record Snippet, value : TypeChecker::Checkable | String | SnippetData
     record Code, value : String
     record Bold, value : String
     record Text, value : String
@@ -45,6 +54,7 @@ module Mint
 
     def block(&)
       with self yield
+
       @blocks << @current
       @current = [] of Element
     end
@@ -65,23 +75,35 @@ module Mint
       @current << Bold.new(value)
     end
 
-    def snippet(value : String, node : Ast::Node | TypeChecker::Checkable | String)
+    def snippet(value : String, node : SnippetTarget)
       block value
       snippet node
     end
 
-    def snippet(value : Parser)
-      from =
-        value.position
+    def snippet(value : SnippetTarget)
+      target =
+        case value
+        in Parser
+          SnippetData.new(
+            to: value.position + value.word.to_s.size,
+            input: value.file.contents,
+            filename: value.file.path,
+            from: value.position)
+        in Ast::Node
+          SnippetData.new(
+            input: value.file.contents,
+            filename: value.file.path,
+            from: value.from,
+            to: value.to)
+        in SnippetData
+          value
+        in TypeChecker::Checkable
+          value
+        in String
+          value
+        end
 
-      to =
-        value.position + value.word.to_s.size
-
-      snippet(Ast::Node.new(file: value.file, from: from, to: to))
-    end
-
-    def snippet(value : String | Ast::Node | TypeChecker::Checkable)
-      @blocks << Snippet.new(value)
+      @blocks << Snippet.new(target)
     end
 
     def expected(subject : TypeChecker::Checkable | String, got : TypeChecker::Checkable)
@@ -122,14 +144,7 @@ module Mint
       blocks.each do |element|
         case element
         in Error::Snippet
-          case node = element.value
-          in TypeChecker::Checkable
-            renderer.snippet node
-          in Ast::Node
-            renderer.snippet node
-          in String
-            renderer.snippet node
-          end
+          renderer.snippet element.value
         in Array(Error::Element)
           renderer.block do
             element.each do |item|

@@ -6,6 +6,7 @@ module LSP
     property overwrite : Bool?
 
     # Ignore if exists.
-    property ignoreIfExists : Bool?
+    @[JSON::Field(key: "ignoreIfExists")]
+    property ignore_if_exists : Bool?
   end
 end

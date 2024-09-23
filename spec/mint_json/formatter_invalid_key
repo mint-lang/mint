@@ -1,0 +1,22 @@
+{
+  "formatter": {
+    "xxx": ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FORMATTER_INVALID_KEY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The formatter object has an invalid key:
+
+  xxx
+
+It is here:
+
+   ┌ mint.json:3:12
+   ├─────────────────
+  1│ {
+  2│   "formatter": {
+  3│     "xxx": ""
+   │            ⌃
+  4│   }
+  5│ }

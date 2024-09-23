@@ -1,0 +1,18 @@
+{
+  "application": {
+    "meta": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_META_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The meta field of the application object should be an object, but it's not:
+
+   ┌ mint.json:3:13
+   ├───────────────────
+  1│ {
+  2│   "application": {
+  3│     "meta": 0
+   │             ⌃
+  4│   }
+  5│ }

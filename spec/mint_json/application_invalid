@@ -1,0 +1,14 @@
+{
+  "application": 0
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The application field should be an object, but it's not:
+
+   ┌ mint.json:2:18
+   ├───────────────────
+  1│ {
+  2│   "application": 0
+   │                  ⌃
+  3│ }
