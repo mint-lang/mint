@@ -20,18 +20,20 @@ module Mint
 
       def run
         execute "Generating documentation" do
-          directory =
-            arguments.directory
+          directory = arguments.directory
+          json = MintJson.current
 
-          jsons = [MintJson.current]
-          jsons.concat(SourceFiles.packages) if flags.include_packages
+          jsons =
+            if flags.include_packages
+              SourceFiles.packages(json, include_self: true)
+            else
+              [json]
+            end
 
           asts =
-            jsons.map do |json|
+            SourceFiles.sources(jsons).map do |file|
               Ast.new.tap do |ast|
-                SourceFiles.source_files(json).each do |file|
-                  ast.merge(Parser.parse(File.read(file), file))
-                end
+                ast.merge(Parser.parse(File.read(file), file))
               end
             end
 

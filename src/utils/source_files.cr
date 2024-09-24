@@ -2,57 +2,58 @@ module Mint
   module SourceFiles
     extend self
 
-    def source_files(json)
-      glob =
-        json.source_directories.map { |dir| glob_pattern(File.dirname(json.path), dir) }
-
-      Dir.glob(glob)
-    end
-
-    def glob_pattern(*dirs : Path | String)
-      Path[*dirs, "**", "*.mint"].to_posix.to_s
-    end
-
-    def tests
-      MintJson
-        .current
-        .test_directories
-        .map { |dir| glob_pattern(dir) }
-    end
-
-    def current
-      MintJson
-        .current
+    def sources(json : MintJson) : Array(String)
+      json
         .source_directories
-        .map { |dir| glob_pattern(dir) }
+        .map { |dir| glob_pattern(File.dirname(json.path), dir) }
+        .try(&->Dir.glob(Array(String)))
     end
 
-    def each_package(&)
+    def tests(json : MintJson) : Array(String)
+      json
+        .test_directories
+        .map { |dir| glob_pattern(File.dirname(json.path), dir) }
+        .try(&->Dir.glob(Array(String)))
+    end
+
+    def all(json : MintJson) : Array(String)
+      sources(json) + tests(json)
+    end
+
+    def sources(jsons : Array(MintJson)) : Array(String)
+      jsons.flat_map(&->sources(MintJson))
+    end
+
+    def tests(jsons : Array(MintJson)) : Array(String)
+      jsons.flat_map(&->tests(MintJson))
+    end
+
+    def all(jsons : Array(MintJson)) : Array(String)
+      sources(jsons) + tests(jsons)
+    end
+
+    def packages(json : MintJson, *, include_self : Bool = false)
+      (include_self ? [json] : [] of MintJson).tap do |jsons|
+        each_package(json) do |package_json|
+          jsons << package_json
+        end
+      end
+    end
+
+    private def each_package(json : MintJson, &)
       pattern =
-        Path[".", ".mint", "packages", "**", "mint.json"]
+        Path[
+          File.dirname(json.path),
+          ".", ".mint", "packages", "**", "mint.json",
+        ]
 
       Dir.glob(pattern).each do |file|
         yield MintJson.parse(file)
       end
     end
 
-    def packages
-      ([] of MintJson).tap do |package_definitions|
-        each_package { |json| package_definitions << json }
-      end
-    end
-
-    def all
-      current.dup.tap do |package_dirs|
-        each_package do |json|
-          dirs =
-            json.source_directories.map do |dir|
-              glob_pattern(File.dirname(json.path), dir)
-            end
-
-          package_dirs.concat dirs
-        end
-      end
+    private def glob_pattern(*dirs : Path | String)
+      Path[*dirs, "**", "*.mint"].to_posix.to_s
     end
   end
 end

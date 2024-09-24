@@ -58,6 +58,13 @@ module Mint
     extend self
 
     def render(input : String, filename : String, from : Int64, to : Int64, padding = 4, width = 80)
+      path =
+        if (full = Path[filename]).absolute?
+          if full.expand.to_s.starts_with?(Dir.current.to_s)
+            full.relative_to?(Dir.current).try(&.to_s)
+          end
+        end || filename
+
       # Transform each line into a record for further use.
       lines =
         input.lines.reduce({[] of Line, 0}) do |memo, raw|
@@ -170,7 +177,7 @@ module Mint
         input[0..from].lines.last.size
 
       title =
-        "#{filename}:#{line}:#{column}"
+        "#{path}:#{line}:#{column}"
 
       gutter_divider =
         " " * gutter_width

@@ -19,7 +19,7 @@ module Mint
       end
 
       private def files
-        Dir.glob(SourceFiles.all).to_a
+        Dir.glob(SourceFiles.all(MintJson.current)).to_a
       end
 
       private def count

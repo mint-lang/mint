@@ -10,13 +10,11 @@ module Mint
         default: false
 
       def run
-        ast =
-          Ast.new.merge(Core.ast)
+        ast = Ast.new.merge(Core.ast)
+        json = MintJson.current
+        errors = [] of Error
 
-        errors =
-          [] of Error
-
-        Dir.glob(SourceFiles.all).reduce(ast) do |memo, file|
+        Dir.glob(SourceFiles.all(json)).reduce(ast) do |memo, file|
           begin
             memo.merge(Parser.parse(file))
           rescue error : Error

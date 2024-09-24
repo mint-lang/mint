@@ -85,10 +85,7 @@ module Mint
 
       private def format_files
         pattern =
-          arguments.pattern.presence || json.try do |item|
-            (item.source_directories | item.test_directories)
-              .map(&->SourceFiles.glob_pattern(String))
-          end
+          arguments.pattern.presence || json.try(&->SourceFiles.all(MintJson))
 
         Dir.glob(pattern || "").map do |file|
           artifact =
