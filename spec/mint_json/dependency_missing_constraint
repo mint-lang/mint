@@ -10,7 +10,7 @@
 
 A dependency object is missing the constraint field:
 
-   ┌ mint.json:6:3
+   ┌ spec/fixtures/mint.json:6:3
    ├───────────────────────────────────────────────────────
   2│   "dependencies": {
   3│     "package": {

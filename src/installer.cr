@@ -25,7 +25,7 @@ module Mint
     getter root_dependencies = [] of Dependency
 
     def initialize
-      @root_dependencies = MintJson.parse_current.dependencies
+      @root_dependencies = MintJson.current.dependencies
 
       if @root_dependencies.empty?
         terminal.puts "There are no dependencies!\nThere is nothing to do!"

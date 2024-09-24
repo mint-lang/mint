@@ -30,7 +30,7 @@ Dir
             test: nil)
 
         json =
-          Mint::MintJson.new
+          Mint::MintJson.parse("{}", "mint.json")
 
         files =
           Mint::Bundler.new(

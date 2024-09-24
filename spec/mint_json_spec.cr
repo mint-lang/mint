@@ -10,7 +10,7 @@ Dir
         File.read(file).split("-" * 80)
 
       begin
-        Mint::MintJson.new(source, "spec/fixtures", "mint.json")
+        Mint::MintJson.parse(contents: source, path: "spec/fixtures/mint.json")
       rescue error : Mint::Error
         result =
           error.to_terminal.to_s.uncolorize
@@ -22,7 +22,7 @@ Dir
 
 it "non existent file" do
   begin
-    Mint::MintJson.from_file("test.json")
+    Mint::MintJson.parse("test.json")
   rescue error : Mint::Error
     error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
     ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░

@@ -31,7 +31,7 @@ module Mint
           @files =
             Bundler.new(
               artifacts: workspace.type_checker.artifacts,
-              json: MintJson.new,
+              json: workspace.json,
               config: Bundler::Config.new(
                 runtime_path: flags.runtime,
                 generate_manifest: false,

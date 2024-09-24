@@ -9,8 +9,8 @@
 The indent-size field of the formatter configuration must be a number, but it's
 not:
 
-   ┌ mint.json:3:20
-   ├──────────────────────
+   ┌ spec/fixtures/mint.json:3:20
+   ├─────────────────────────────
   1│ {
   2│   "formatter": {
   3│     "indent-size": ""

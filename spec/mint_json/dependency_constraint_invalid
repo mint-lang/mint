@@ -11,8 +11,8 @@
 
 The constraint field of a depencency must be an string, but it's not:
 
-   ┌ mint.json:5:21
-   ├────────────────────────
+   ┌ spec/fixtures/mint.json:5:21
+   ├─────────────────────────────
   1│ {
   2│   "dependencies": {
   3│     "package": {

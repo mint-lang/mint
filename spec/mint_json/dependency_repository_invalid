@@ -10,8 +10,8 @@
 
 The repository field of a depencency must be an string, but it's not:
 
-   ┌ mint.json:4:21
-   ├──────────────────────
+   ┌ spec/fixtures/mint.json:4:21
+   ├─────────────────────────────
   1│ {
   2│   "dependencies": {
   3│     "package": {

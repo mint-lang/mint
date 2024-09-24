@@ -8,8 +8,8 @@
 
 The icon field of the application object should be a string, but it's not:
 
-   ┌ mint.json:3:13
-   ├───────────────────
+   ┌ spec/fixtures/mint.json:3:13
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "icon": 0

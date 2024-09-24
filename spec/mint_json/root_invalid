@@ -4,6 +4,6 @@
 
 The root item should be an object, but it's not:
 
-   ┌ mint.json:1:2
-   ├──────────────
+   ┌ spec/fixtures/mint.json:1:2
+   ├────────────────────────────
   1│ ""

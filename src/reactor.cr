@@ -25,7 +25,7 @@ module Mint
           in TypeChecker
             Bundler.new(
               artifacts: result.artifacts,
-              json: MintJson.new,
+              json: MintJson.current,
               config: Bundler::Config.new(
                 generate_manifest: false,
                 include_program: true,

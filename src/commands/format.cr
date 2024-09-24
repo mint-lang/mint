@@ -111,11 +111,11 @@ module Mint
       # We try to honor the config of the current project but
       # allow for formatting without one using defaults.
       private def config
-        json.try(&.formatter_config) || Formatter::Config.new
+        json.try(&.formatter) || Formatter::Config.new
       end
 
       private def json
-        MintJson.parse_current?
+        MintJson.current?
       end
     end
   end

@@ -71,7 +71,7 @@ module Mint
         Workspace2.new(check)
 
       @json =
-        MintJson.parse_current
+        MintJson.current
 
       @globs =
         [

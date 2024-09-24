@@ -8,8 +8,8 @@
 
 The css-prefix field of the application object should be a string, but it's not:
 
-   ┌ mint.json:3:19
-   ├────────────────────
+   ┌ spec/fixtures/mint.json:3:19
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "css-prefix": 0

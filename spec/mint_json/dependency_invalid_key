@@ -12,7 +12,7 @@ A dependency object has an invalid key:
 
 It is here:
 
-   ┌ mint.json:3:25
+   ┌ spec/fixtures/mint.json:3:25
    ├─────────────────────────────
   1│ {
   2│   "dependencies": {

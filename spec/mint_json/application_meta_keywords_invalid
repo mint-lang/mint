@@ -10,8 +10,8 @@
 
 The keywords field of the meta object should be an array, but it's not:
 
-   ┌ mint.json:4:19
-   ├────────────────────
+   ┌ spec/fixtures/mint.json:4:19
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "meta": {

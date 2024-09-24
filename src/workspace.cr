@@ -75,11 +75,11 @@ module Mint
 
       @json =
         FileUtils.cd(@root) do
-          MintJson.from_file(json_path)
+          MintJson.parse(json_path)
         end
 
       @formatter =
-        Mint::Formatter.new(json.formatter_config)
+        Mint::Formatter.new(json.formatter)
 
       @json_watcher =
         Watcher.new([json_path])
@@ -223,7 +223,7 @@ module Mint
 
     def format(file)
       Formatter
-        .new(json.formatter_config)
+        .new(json.formatter)
         .format(self[file])
     end
 
@@ -256,7 +256,7 @@ module Mint
       if format?
         formatted =
           Formatter
-            .new(json.formatter_config)
+            .new(json.formatter)
             .format(ast)
 
         if formatted != File.read(file)

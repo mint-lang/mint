@@ -8,8 +8,8 @@
 
 A dependency object is missing the repository field:
 
-   ┌ mint.json:4:3
-   ├────────────────────
+   ┌ spec/fixtures/mint.json:4:3
+   ├────────────────────────────
   1│ {
   2│   "dependencies": {
   3│     "package": { }

@@ -12,8 +12,8 @@ The formatter object has an invalid key:
 
 It is here:
 
-   ┌ mint.json:3:12
-   ├─────────────────
+   ┌ spec/fixtures/mint.json:3:12
+   ├─────────────────────────────
   1│ {
   2│   "formatter": {
   3│     "xxx": ""

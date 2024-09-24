@@ -10,8 +10,8 @@
 
 A keyword should be a string, but it's not:
 
-   ┌ mint.json:4:20
-   ├──────────────────────
+   ┌ spec/fixtures/mint.json:4:20
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "meta": {

@@ -8,8 +8,8 @@ The dependencies field lists all the dependencies for the application.
 
 It should be an object, but it's not:
 
-   ┌ mint.json:2:19
-   ├────────────────────
+   ┌ spec/fixtures/mint.json:2:19
+   ├─────────────────────────────
   1│ {
   2│   "dependencies": 0
    │                   ⌃

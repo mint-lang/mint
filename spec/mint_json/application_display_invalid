@@ -8,8 +8,8 @@
 
 The display field of the application object should be a string, but it's not:
 
-   ┌ mint.json:3:16
-   ├───────────────────
+   ┌ spec/fixtures/mint.json:3:16
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "display": 0

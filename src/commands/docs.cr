@@ -23,13 +23,13 @@ module Mint
           directory =
             arguments.directory
 
-          jsons = [MintJson.parse_current]
+          jsons = [MintJson.current]
           jsons.concat(SourceFiles.packages) if flags.include_packages
 
           asts =
             jsons.map do |json|
               Ast.new.tap do |ast|
-                json.source_files.each do |file|
+                SourceFiles.source_files(json).each do |file|
                   ast.merge(Parser.parse(File.read(file), file))
                 end
               end

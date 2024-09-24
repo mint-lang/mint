@@ -6,8 +6,8 @@
 
 The mint-version field should be a string, but it's not:
 
-   ┌ mint.json:2:19
-   ├────────────────────
+   ┌ spec/fixtures/mint.json:2:19
+   ├─────────────────────────────
   1│ {
   2│   "mint-version": 0
    │                   ⌃

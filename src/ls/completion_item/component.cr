@@ -11,7 +11,7 @@ module Mint
             .map do |property|
               default =
                 Mint::Formatter
-                  .new(workspace.json.formatter_config)
+                  .new(workspace.json.formatter)
                   .format!(property.default)
                   .to_s
                   .gsub("}", "\\}")

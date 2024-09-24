@@ -12,8 +12,8 @@ It should point to an HTML file, which be injected to the <head> tag of the
 generated HTML. It is used to include external dependencies (CSS, JS, analytics,
 etc...)
 
-   ┌ mint.json:3:13
-   ├────────────────────────
+   ┌ spec/fixtures/mint.json:3:13
+   ├─────────────────────────────
   1│ {
   2│   "application": {
   3│     "head": "head.html"
