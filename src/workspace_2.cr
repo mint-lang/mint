@@ -58,82 +58,87 @@ module Mint
   end
 
   class FileWorkspace
+    enum Action
+      Compile
+      Reset
+    end
+
+    getter? include_tests : Bool = false
     getter? format : Bool
-    getter check : Check
+    getter path : String
 
     def initialize(
       *,
-      @check : Check,
+      @include_tests : Bool,
       @format : Bool,
+      @path : String,
+      check : Check,
+      watch : Bool,
       &@listener : TypeChecker | Error -> Nil
     )
-      @workspace =
-        Workspace2.new(check)
+      @workspace = Workspace2.new(check)
+      @watcher = Watcher.new(%w[])
 
-      @json =
-        MintJson.current
-
-      @globs =
-        [
-          ".mint/**/*.mint",
-          ".mint/**/mint.json",
-          "**/*.mint",
-          "**/mint.json",
-          ".env",
-        ]
-
-      @watcher =
-        Watcher.new(@globs)
-
-      spawn { @watcher.watch(&->update(Array(String))) }
+      reset(!watch)
+      spawn { @watcher.watch(&->update(Array(String))) } if watch
     end
 
-    def reset
+    def reset(process : Bool = true)
       @workspace.clear
-      update(Dir.glob(@globs.select(&.ends_with?(".mint"))))
+
+      @watcher.pattern = globs =
+        SourceFiles.everything(
+          MintJson.parse(@path),
+          include_tests: @include_tests)
+
+      update(Dir.glob(globs.select(&.ends_with?(".mint")))) if process
     end
 
     def update(files : Array(String))
-      process = true
+      actions = [] of Action
 
-      files.each do |file|
-        if File.extname(file) == ".mint"
-          if File.exists?(file)
-            contents =
-              File.read(file)
+      Logger.log "Parsing files" do
+        files.each do |file|
+          if File.extname(file) == ".mint"
+            if File.exists?(file)
+              contents =
+                File.read(file)
 
-            if format?
-              if ast = @workspace.ast?(file)
-                formatted =
-                  Formatter.new.format(ast)
+              if format?
+                if ast = @workspace.ast?(file)
+                  formatted =
+                    Formatter.new.format(ast)
 
-                if formatted != contents
-                  File.write(file, formatted)
-
-                  # Since formatting a file will trigger another change we skip
-                  # processing this file and don't trigger type checking.
-                  process = false
-                  next
+                  if formatted != contents
+                    File.write(file, formatted)
+                  end
                 end
               end
+
+              @workspace.update(contents, file)
+            else
+              @workspace.delete(file)
             end
 
-            @workspace.update(contents, file)
+            actions << Action::Compile
           else
-            @workspace.delete(file)
-          end
-        else
-          # We need to do a reset because:
-          # 1. packages could have been added or removed
-          # 2. source directories could have been added or removed
-          case File.basename(file)
-          when "mint.json"
-            reset
+            # We need to do a reset because:
+            # 1. packages could have changed
+            # 2. source directories could have changed
+            # 3. variables in the .env file cloud have changed
+            case File.basename(file)
+            when "mint.json", ".env"
+              actions << Action::Reset
+            end
           end
         end
       end
 
-      @listener.call(@workspace.process) if process
+      if actions.includes?(Action::Reset)
+        reset
+      else
+        @listener.call(Logger.log "Type Checking" { @workspace.process })
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def decoder(type : TypeChecker::Record)
+    def decoder(type : TypeChecker::Record) : Compiled
       @decoders[type] ||= begin
         node =
           ast.type_definitions.find!(&.name.value.==(type.name))

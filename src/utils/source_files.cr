@@ -2,37 +2,25 @@ module Mint
   module SourceFiles
     extend self
 
-    def sources(json : MintJson) : Array(String)
-      json
-        .source_directories
-        .map { |dir| glob_pattern(File.dirname(json.path), dir) }
-        .try(&->Dir.glob(Array(String)))
+    def globs(jsons : Array(MintJson), *, include_tests = false) : Array(String)
+      jsons.flat_map { |json| globs(json, include_tests: include_tests) }
     end
 
-    def tests(json : MintJson) : Array(String)
-      json
-        .test_directories
-        .map { |dir| glob_pattern(File.dirname(json.path), dir) }
-        .try(&->Dir.glob(Array(String)))
+    def globs(json : MintJson, *, include_tests = false) : Array(String)
+      if include_tests
+        json.source_directories | json.test_directories
+      else
+        json.source_directories
+      end.map { |dir| glob_pattern(File.dirname(json.path), dir) }
     end
 
-    def all(json : MintJson) : Array(String)
-      sources(json) + tests(json)
+    def everything(json : MintJson, *, include_tests = false) : Array(String)
+      packages(json, include_self: true)
+        .flat_map { |item| globs(item, include_tests: include_tests) + [item.path] }
+        .push(Path[File.dirname(json.path), ".env"].to_s)
     end
 
-    def sources(jsons : Array(MintJson)) : Array(String)
-      jsons.flat_map(&->sources(MintJson))
-    end
-
-    def tests(jsons : Array(MintJson)) : Array(String)
-      jsons.flat_map(&->tests(MintJson))
-    end
-
-    def all(jsons : Array(MintJson)) : Array(String)
-      sources(jsons) + tests(jsons)
-    end
-
-    def packages(json : MintJson, *, include_self : Bool = false)
+    def packages(json : MintJson, *, include_self = false) : Array(MintJson)
       (include_self ? [json] : [] of MintJson).tap do |jsons|
         each_package(json) do |package_json|
           jsons << package_json

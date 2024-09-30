@@ -29,7 +29,8 @@ module Mint
         short: "e"
 
       def run
-        execute "Running the development server", env: flags.env do
+        execute "Running the development server",
+          check_dependencies: true, env: flags.env do
           Reactor.new(
             format: flags.format,
             reload: flags.reload,

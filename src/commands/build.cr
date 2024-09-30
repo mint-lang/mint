@@ -43,23 +43,19 @@ module Mint
         short: "e"
 
       def run
-        execute "Building for production", env: flags.env do
-          # Initialize the workspace from the current working directory.
-          # We don't check everything to speed things up so only the hot
-          # path is checked.
-          workspace = Workspace.current
-          workspace.check_everything = false
-          workspace.check_env = true
-
-          # Check if we have dependencies installed.
-          check_dependencies!(workspace.json.dependencies)
-
-          # On any change we copy the build to the dist directory.
-          workspace.on("change") do |result|
+        execute "Building for production",
+          check_dependencies: true, env: flags.env do
+          FileWorkspace.new(
+            path: Path[Dir.current, "mint.json"].to_s,
+            check: Check::Environment,
+            include_tests: false,
+            watch: flags.watch,
+            format: false,
+          ) do |result|
             terminal.reset if flags.watch
 
             case result
-            in Ast
+            in TypeChecker
               terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
                 FileUtils.rm_rf DIST_DIR
               end
@@ -67,8 +63,8 @@ module Mint
               files =
                 terminal.measure "#{COG} Building..." do
                   Bundler.new(
-                    artifacts: workspace.type_checker.artifacts,
-                    json: workspace.json,
+                    artifacts: result.artifacts,
+                    json: MintJson.current,
                     config: Bundler::Config.new(
                       generate_manifest: flags.generate_manifest,
                       skip_icons: flags.skip_icons,
@@ -121,14 +117,8 @@ module Mint
             end
           end
 
-          # Do the initial parsing and type checking.
-          workspace.update_cache
-
           # Start wathing for changes if the flag is set.
-          if flags.watch
-            workspace.watch
-            sleep
-          end
+          sleep if flags.watch
         end
       end
     end

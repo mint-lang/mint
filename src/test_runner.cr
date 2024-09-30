@@ -21,17 +21,19 @@ module Mint
       @browser = Browser.new(flags.browser.downcase)
       @watch = flags.watch || flags.manual
 
-      workspace = Workspace.current
-      workspace.test_path = arguments.test || "*"
-      workspace.check_env = true
-
-      workspace.on "change" do |result|
+      FileWorkspace.new(
+        path: Path[Dir.current, "mint.json"].to_s,
+        check: Check::Environment,
+        include_tests: true,
+        format: false,
+        watch: @watch
+      ) do |result|
         case result
-        in Ast
+        in TypeChecker
           @files =
             Bundler.new(
-              artifacts: workspace.type_checker.artifacts,
-              json: workspace.json,
+              artifacts: result.artifacts,
+              json: MintJson.current,
               config: Bundler::Config.new(
                 runtime_path: flags.runtime,
                 generate_manifest: false,
@@ -42,8 +44,9 @@ module Mint
                 optimize: false,
                 relative: false,
                 test: {
-                  url: "ws://#{flags.browser_host}:#{flags.browser_port}/",
-                  id:  "",
+                  url:  "ws://#{flags.browser_host}:#{flags.browser_port}/",
+                  glob: arguments.test || "**/*",
+                  id:   "",
                 })
             ).bundle
 
@@ -119,14 +122,8 @@ module Mint
       ) do |host, port|
         terminal.puts "#{COG} Test server started: http://#{host}:#{port}/"
 
-        # Trigger first session
-        workspace.update_cache
-
         if @watch
           terminal.puts "#{COG} Waiting for a browser to connect..."
-
-          # Watch for changes...
-          workspace.watch
         end
       end
     end

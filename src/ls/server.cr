@@ -64,7 +64,7 @@ module Mint
       end
 
       def nodes_at_path(path : String)
-        Mint::Workspace[path]
+        Workspace[path]
           .ast
           .nodes
           .select(&.file.path.==(path))

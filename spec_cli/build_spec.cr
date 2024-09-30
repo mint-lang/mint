@@ -62,11 +62,11 @@ context "build" do
       Building application                       | ××××
         Compiling intermediate representation... | ××××
         Calculating dependencies for bundles...  | ××××
-        Bundling and rendering JavaScript...     | ××××
+        Bundling and generating JavaScript...    | ××××
       Generating index.html                      | ××××
       Generating icons                           | ××××
       Copying assets                             | ××××
-      Building index.css                         | ××××
+      Generating index.css                       | ××××
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       All done in ××××!
       TEXT

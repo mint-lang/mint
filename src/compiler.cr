@@ -295,9 +295,14 @@ module Mint
     end
 
     # Compile test runner.
-    def test(url, id)
+    def test(*, url, id, glob)
+      subjects =
+        ast.suites.select do |suite|
+          File.match?(glob, Path[suite.file.path].relative_to(Dir.current))
+        end
+
       suites =
-        compile(ast.suites)
+        compile(subjects)
 
       ["export default "] + js.arrow_function do
         js.new(Builtin::TestRunner, [

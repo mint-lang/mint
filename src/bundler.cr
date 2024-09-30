@@ -6,7 +6,7 @@ module Mint
     alias Bundle = Compiler::Bundle
 
     record Config,
-      test : NamedTuple(url: String, id: String)?,
+      test : NamedTuple(url: String, id: String, glob: String)?,
       generate_manifest : Bool,
       include_program : Bool,
       runtime_path : String?,
@@ -65,7 +65,7 @@ module Mint
       # Compile the CSS.
       files[path_for_asset("index.css")] =
         ->do
-          Logger.log "Building index.css" do
+          Logger.log "Generating index.css" do
             compiler.style_builder.compile
           end
         end
@@ -75,7 +75,7 @@ module Mint
           # Compile tests if there is configration for it.
           Logger.log "Compiling tests" do
             [
-              compiler.test(test_information[:url], test_information[:id]),
+              compiler.test(**test_information),
             ]
           end
         end
@@ -100,7 +100,7 @@ module Mint
         artifacts.references.calculate
       end
 
-      Logger.log "Bundling and rendering JavaScript..." do
+      Logger.log "Bundling and generating JavaScript..." do
         # Here we separate the compiled items to each bundle.
         calculated_bundles.each do |node, dependencies|
           bundles[node] =

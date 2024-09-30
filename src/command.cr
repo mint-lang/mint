@@ -1,7 +1,13 @@
 module Mint
   class Cli < Admiral::Command
     module Command
-      def execute(message, *, env : String? = nil, & : -> T) : T? forall T
+      def execute(
+        message : String,
+        *,
+        check_dependencies : Bool = false,
+        env : String? = nil,
+        & : -> T
+      ) : T? forall T
         # On Ctrl+C and abort and exit.
         Signal::INT.trap do
           terminal.puts
@@ -28,11 +34,10 @@ module Mint
             terminal.puts "#{COG} Loaded environment variables from: #{file}"
           end
 
+          check_dependencies! if check_dependencies
+
           # Measure elapsed time of a command.
           elapsed = Time.measure { result = yield }
-        rescue CliException
-          # In case of a CLI exception just exit.
-          error nil, position
         rescue error : Error
           # In case of an error print it.
           error error.to_terminal, position
@@ -78,8 +83,8 @@ module Mint
         exit(1)
       end
 
-      def check_dependencies!(dependencies : Array(Installer::Dependency))
-        dependencies.each do |dependency|
+      def check_dependencies!
+        MintJson.current.dependencies.each do |dependency|
           next if Dir.exists?(".mint/packages/#{dependency.name}")
 
           terminal.puts "#{COG} Ensuring dependencies..."
@@ -93,8 +98,7 @@ module Mint
             Installer.new
             break
           else
-            terminal.print "#{WARNING} Missing dependencies..."
-            raise CliException.new
+            error "#{WARNING} Missing dependencies...", terminal.position
           end
         end
       end

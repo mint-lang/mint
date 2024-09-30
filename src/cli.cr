@@ -3,9 +3,6 @@ require "./command"
 require "./commands/**"
 
 module Mint
-  class CliException < Exception
-  end
-
   class Cli < Admiral::Command
     include Command
 

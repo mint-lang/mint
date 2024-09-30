@@ -14,15 +14,16 @@ module Mint
         json = MintJson.current
         errors = [] of Error
 
-        Dir.glob(SourceFiles.all(json)).reduce(ast) do |memo, file|
-          begin
-            memo.merge(Parser.parse(file))
-          rescue error : Error
-            errors << error
-          end
+        Dir.glob(SourceFiles.globs(json, include_tests: true))
+          .reduce(ast) do |memo, file|
+            begin
+              memo.merge(Parser.parse(file))
+            rescue error : Error
+              errors << error
+            end
 
-          memo
-        end
+            memo
+          end
 
         begin
           TypeChecker.new(ast).tap(&.check)
