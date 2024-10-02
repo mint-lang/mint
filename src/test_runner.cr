@@ -26,44 +26,44 @@ module Mint
         check: Check::Environment,
         include_tests: true,
         format: false,
-        watch: @watch
-      ) do |result|
-        case result
-        in TypeChecker
-          @files =
-            Bundler.new(
-              artifacts: result.artifacts,
-              json: MintJson.current,
-              config: Bundler::Config.new(
-                runtime_path: flags.runtime,
-                generate_manifest: false,
-                include_program: false,
-                live_reload: false,
-                hash_assets: true,
-                skip_icons: true,
-                optimize: false,
-                relative: false,
-                test: {
-                  url:  "ws://#{flags.browser_host}:#{flags.browser_port}/",
-                  glob: arguments.test || "**/*",
-                  id:   "",
-                })
-            ).bundle
+        watch: @watch,
+        listener: ->(result : TypeChecker | Error) do
+          case result
+          in TypeChecker
+            @files =
+              Bundler.new(
+                artifacts: result.artifacts,
+                json: MintJson.current,
+                config: Bundler::Config.new(
+                  runtime_path: flags.runtime,
+                  generate_manifest: false,
+                  include_program: false,
+                  live_reload: false,
+                  hash_assets: true,
+                  skip_icons: true,
+                  optimize: false,
+                  relative: false,
+                  test: {
+                    url:  "ws://#{flags.browser_host}:#{flags.browser_port}/",
+                    glob: arguments.test || "**/*",
+                    id:   "",
+                  })
+              ).bundle
 
-          unless flags.manual
-            # Stop and cleanup previous browser session
-            @browser.cleanup
+            unless flags.manual
+              # Stop and cleanup previous browser session
+              @browser.cleanup
 
-            terminal.puts "#{COG} Starting browser..." unless @watch
+              terminal.puts "#{COG} Starting browser..." unless @watch
 
-            spawn do
-              @browser.open("http://#{flags.browser_host}:#{flags.browser_port}")
+              spawn do
+                @browser.open("http://#{flags.browser_host}:#{flags.browser_port}")
+              end
             end
+          in Error
+            terminal.puts(result.to_terminal)
           end
-        in Error
-          terminal.puts(result.to_terminal)
-        end
-      end
+        end)
 
       websocket_handler =
         HTTP::WebSocketHandler.new do |socket|

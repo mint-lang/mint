@@ -24,31 +24,32 @@ module Mint
         check: Check::Environment,
         include_tests: false,
         format: format?,
-        watch: true
-      ) do |result|
-        @files =
-          case result
-          in TypeChecker
-            Bundler.new(
-              artifacts: result.artifacts,
-              json: MintJson.current,
-              config: Bundler::Config.new(
-                generate_manifest: false,
-                include_program: true,
-                hash_assets: false,
-                runtime_path: nil,
-                live_reload: true,
-                skip_icons: false,
-                optimize: false,
-                relative: false,
-                test: nil),
-            ).bundle
-          in Error
-            error(result)
-          end
+        watch: true,
+        listener: ->(result : TypeChecker | Error) do
+          @files =
+            case result
+            in TypeChecker
+              Bundler.new(
+                artifacts: result.artifacts,
+                json: MintJson.current,
+                config: Bundler::Config.new(
+                  generate_manifest: false,
+                  include_program: true,
+                  hash_assets: false,
+                  runtime_path: nil,
+                  live_reload: true,
+                  skip_icons: false,
+                  optimize: false,
+                  relative: false,
+                  test: nil),
+              ).bundle
+            in Error
+              error(result)
+            end
 
-        @sockets.each(&.send("reload")) if reload?
-      end
+          terminal.puts "#{COG} Compiled..."
+          @sockets.each(&.send("reload")) if reload?
+        end)
 
       # The websocket handle saves the sockets when they connect and
       # removes them when they disconnect.

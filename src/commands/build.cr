@@ -51,71 +51,71 @@ module Mint
             include_tests: false,
             watch: flags.watch,
             format: false,
-          ) do |result|
-            terminal.reset if flags.watch
+            listener: ->(result : TypeChecker | Error) do
+              terminal.reset if flags.watch
 
-            case result
-            in TypeChecker
-              terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
-                FileUtils.rm_rf DIST_DIR
-              end
+              case result
+              in TypeChecker
+                terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
+                  FileUtils.rm_rf DIST_DIR
+                end
 
-              files =
-                terminal.measure "#{COG} Building..." do
-                  Bundler.new(
-                    artifacts: result.artifacts,
-                    json: MintJson.current,
-                    config: Bundler::Config.new(
-                      generate_manifest: flags.generate_manifest,
-                      skip_icons: flags.skip_icons,
-                      optimize: !flags.no_optimize,
-                      runtime_path: flags.runtime,
-                      relative: flags.relative,
-                      include_program: true,
-                      live_reload: false,
-                      hash_assets: true,
-                      test: nil)).bundle
-                end || {} of String => Proc(String)
+                files =
+                  terminal.measure "#{COG} Building..." do
+                    Bundler.new(
+                      artifacts: result.artifacts,
+                      json: MintJson.current,
+                      config: Bundler::Config.new(
+                        generate_manifest: flags.generate_manifest,
+                        skip_icons: flags.skip_icons,
+                        optimize: !flags.no_optimize,
+                        runtime_path: flags.runtime,
+                        relative: flags.relative,
+                        include_program: true,
+                        live_reload: false,
+                        hash_assets: true,
+                        test: nil)).bundle
+                  end || {} of String => Proc(String)
 
-              bundle_size = 0
+                bundle_size = 0
 
-              files.keys.sort_by!(&.size).reverse!.each do |path|
-                chopped =
-                  path.lchop('/')
+                files.keys.sort_by!(&.size).reverse!.each do |path|
+                  chopped =
+                    path.lchop('/')
 
-                content =
-                  files[path].call
+                  content =
+                    files[path].call
 
-                size =
-                  content.bytesize
+                  size =
+                    content.bytesize
 
-                proc =
-                  ->{ File.write_p(Path[DIST_DIR, chopped], content) }
+                  proc =
+                    ->{ File.write_p(Path[DIST_DIR, chopped], content) }
 
-                bundle_size +=
-                  size
+                  bundle_size +=
+                    size
 
-                if flags.verbose
-                  terminal.measure "#{COG} Writing #{chopped} (#{size.humanize_bytes(format: :JEDEC)})..." do
+                  if flags.verbose
+                    terminal.measure "#{COG} Writing #{chopped} (#{size.humanize_bytes(format: :JEDEC)})..." do
+                      proc.call
+                    end
+                  else
                     proc.call
                   end
-                else
-                  proc.call
                 end
-              end
 
-              terminal.divider
-              terminal.puts "Bundle size: #{bundle_size.humanize_bytes(format: :JEDEC)}"
-              terminal.puts "Files: #{files.size}"
-
-              if flags.timings
                 terminal.divider
-                Logger.print(terminal)
+                terminal.puts "Bundle size: #{bundle_size.humanize_bytes(format: :JEDEC)}"
+                terminal.puts "Files: #{files.size}"
+
+                if flags.timings
+                  terminal.divider
+                  Logger.print(terminal)
+                end
+              in Error
+                terminal.print result.to_terminal
               end
-            in Error
-              terminal.print result.to_terminal
-            end
-          end
+            end)
 
           # Start wathing for changes if the flag is set.
           sleep if flags.watch

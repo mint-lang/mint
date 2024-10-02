@@ -53,6 +53,8 @@ module Mint
 
         io.puts "#{message.ljust(width)} | #{formatted}"
       end
+
+      @@current = [] of Log
     end
 
     # Logs the message with the block elapsed time.
