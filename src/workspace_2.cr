@@ -6,10 +6,10 @@ module Mint
   end
 
   class LSWorkspace
-    delegate :artifacts, :ast, :update, :delete, :process, to: @cache
+    delegate :artifacts, :ast, :update, :delete, :process, to: @workspace
 
     def initialize(uri : String)
-      @cache =
+      @workspace =
         if uri.starts_with?("sandbox://")
           SandboxWorkspace.new(Check::All)
         else
@@ -28,6 +28,10 @@ module Mint
     end
   end
 
+  # A workspace represents a Mint project either in the file system or in
+  # memory.A workspace provides up to date, type checked artifacts which
+  # can be used in other places (bundler, test runner, development server,
+  # language server, etc...)
   class Workspace2
     class Cache
       # Stores the AST (or error) of the file at the given path.
@@ -82,10 +86,16 @@ module Mint
       end
     end
 
+    # The current artifacts of the program or the current error.
     @result : TypeChecker | Error = Error.new(:unitialized_workspace)
+
+    # The listener to call when a new result is ready.
     @listener : Proc(TypeChecker | Error, Nil) | Nil
+
+    # The AST cache.
     @cache : Cache
 
+    # The ID for debouncing the update.
     @id = 0
 
     def initialize
@@ -147,10 +157,13 @@ module Mint
     end
   end
 
+  # A sandbox workspace is just an in memory workspace.
   class SandboxWorkspace < Workspace2
     @async = true
   end
 
+  # A file workspace watches the appropriate files of a project and recompiles
+  # it when they change.
   class FileWorkspace < Workspace2
     enum Action
       Compile

@@ -28,6 +28,8 @@ module Mint
 
       property params : LSP::InitializeParams? = nil
 
+      @@workspaces = {} of String => LSWorkspace
+
       # Logs the given stack.
       def debug_stack(stack : Array(Ast::Node))
         stack.each_with_index do |item, index|
