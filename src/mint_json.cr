@@ -46,12 +46,12 @@ module Mint
     )
     end
 
-    def self.parse(contents : String, path : String) : MintJson
-      Parser.parse(contents: contents, path: path)
+    def self.parse(path : String, *, search : Bool = false) : MintJson
+      Parser.parse(path, search: search)
     end
 
-    def self.parse(path : String) : MintJson
-      Parser.parse(path)
+    def self.parse(contents : String, path : String) : MintJson
+      Parser.parse(contents: contents, path: path)
     end
 
     def self.current : MintJson

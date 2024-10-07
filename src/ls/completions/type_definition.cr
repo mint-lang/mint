@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       def completions(node : Ast::TypeDefinition) : Array(LSP::CompletionItem)
         case fields = node.fields
         when Array(Ast::TypeVariant)

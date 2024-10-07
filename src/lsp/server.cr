@@ -97,8 +97,9 @@ module LSP
         end
       end
     rescue error
-      log(error.to_s)
-      error.backtrace?.try(&.each { |item| log(item) })
+      show_message_request(error.to_s)
+      # log()
+      # error.backtrace?.try(&.each { |item| log(item) })
     end
 
     # Reads a message from the input IO, and converts to a Message object,

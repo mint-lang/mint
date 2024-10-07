@@ -21,8 +21,22 @@ module Mint
         end
       end
 
-      def self.parse(path : String) : MintJson
-        parse(contents: File.read(path), path: path)
+      def self.parse(path : String, *, search : Bool = false) : MintJson
+        file = path
+
+        if search
+          Errorable.error :mint_json_not_found do
+            block do
+              text "I could not find a"
+              bold "mint.json"
+              text "file in the path or any of its parent directories:"
+            end
+
+            snippet path
+          end unless file = File.find_in_ancestors(path, "mint.json")
+        end
+
+        parse(contents: File.read(file), path: file)
       rescue error : Error
         raise error # Propagate our own errors.
       rescue exception

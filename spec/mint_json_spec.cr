@@ -33,3 +33,17 @@ it "non existent file" do
     TEXT
   end
 end
+
+it "no mint.json in directory or parents" do
+  begin
+    Mint::MintJson.parse("test.json", search: true)
+  rescue error : Mint::Error
+    error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
+    ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+    There was a problem trying to open a mint.json file: test.json
+
+      Error opening file with mode 'r': 'test.json': No such file or directory
+    TEXT
+  end
+end

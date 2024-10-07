@@ -1,11 +1,15 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::TypeDestructuring, workspace) : Array(String)
+      def hover(
+        node : Ast::TypeDestructuring,
+        workspace : FileWorkspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         item =
-          workspace.type_checker.lookups[node].try(&.first?)
+          type_checker.lookups[node].try(&.first?)
 
-        hover(item, workspace)
+        hover(item, workspace, type_checker)
       end
     end
   end

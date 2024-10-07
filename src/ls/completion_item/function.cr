@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       def completion_item(node : Ast::Function, parent_name : Ast::Id? = nil) : LSP::CompletionItem
         name =
           if parent_name

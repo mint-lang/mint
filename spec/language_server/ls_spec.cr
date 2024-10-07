@@ -1,11 +1,18 @@
 require "../spec_helper"
 
+struct CompletionResult
+  include JSON::Serializable
+
+  getter result : Array(LSP::CompletionItem)
+  getter id : Int32
+end
+
 def clean_json(workspace : Workspace, path : String)
   path.strip.gsub("\#{root_path}", workspace.root_path)
 end
 
 Dir
-  .glob("./spec/language_server/{hover,semantic_tokens}/**/*")
+  .glob("./spec/language_server/{hover,completion,code_actions,semantic_tokens}/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
@@ -16,18 +23,30 @@ Dir
         position = 0
 
         requests = [] of String
-        responses = [] of String
+        responses = [] of {String, Int32 | Nil, String}
 
-        contents.scan(/^\-+(\w+)( [\w.]+)?/m) do |match|
-          text = contents[position, match.begin - position]
+        contents.scan(/^\-+(\w+)( [\w\-.]+)?( [\w\-.]+)?/m) do |match|
+          text =
+            contents[position, match.begin - position].strip
 
           case match[1]
           when "file"
-            workspace.file match[2].strip, text.strip
+            workspace.file match[2].strip, text
           when "request"
             requests << clean_json(workspace, text)
           when "response"
-            responses << clean_json(workspace, text)
+            id, param =
+              if value = match[3]?.try(&.strip)
+                {match[2]?.to_s.strip, value}
+              else
+                {"", match[2]?.to_s.strip}
+              end
+
+            responses << {
+              clean_json(workspace, text),
+              id.to_i32?,
+              param,
+            }
           else
             raise Exception.new("Unknown type #{match[1].inspect}, expected file, request or response")
           end
@@ -41,16 +60,30 @@ Dir
         actual_responses = lsp_json(requests)
 
         responses.each do |expected_response|
-          expected_id = JSON.parse(expected_response)["id"].as_i
+          expected_id =
+            expected_response[1] ||
+              JSON.parse(expected_response[0])["id"].as_i?
 
-          actual_response = actual_responses.find! do |response|
-            JSON.parse(response)["id"].as_i == expected_id
-          end
+          actual_response =
+            actual_responses.find! do |response|
+              JSON.parse(response)["id"].as_i? == expected_id
+            end
 
-          begin
-            expected_response.should eq(actual_response)
-          rescue error
-            fail diff(actual_response, expected_response)
+          case expected_response[2]
+          when "contain"
+            json =
+              JSON.parse(actual_response)
+
+            expected =
+              JSON.parse(expected_response[0])
+
+            json.to_json.should contain(expected.to_json)
+          else
+            begin
+              expected_response[0].should eq(actual_response)
+            rescue error
+              fail diff(expected_response[0], actual_response)
+            end
           end
         end
       end

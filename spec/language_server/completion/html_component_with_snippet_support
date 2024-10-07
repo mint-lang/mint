@@ -1,0 +1,49 @@
+component Test {
+  fun render : Html {
+    <></>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "capabilities": {
+      "textDocument": {
+        "completion": {
+          "completionItem": {
+            "snippetSupport": true
+          }
+        }
+      }
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "id": 1,
+  "method":  "textDocument/completion",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 4
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "label": "Test",
+  "kind": 15,
+  "detail": "Component",
+  "documentation": "",
+  "deprecated": false,
+  "preselect": false,
+  "sortText": "Test",
+  "filterText": "Test",
+  "insertText": "<Test>\n  $0\n</Test>",
+  "insertTextFormat": 2
+}
+--------------------------------------------------------------response 1 contain

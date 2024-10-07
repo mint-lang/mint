@@ -8,11 +8,11 @@ module Mint
         "exit"       => Exit,
 
         # Text document related methods
+        "textDocument/completion"          => CompletionRequest,
         "textDocument/willSaveWaitUntil"   => WillSaveWaitUntil,
         "textDocument/semanticTokens/full" => SemanticTokens,
         "textDocument/foldingRange"        => FoldingRange,
         "textDocument/formatting"          => Formatting,
-        "textDocument/completion"          => Completion,
         "textDocument/codeAction"          => CodeAction,
         "textDocument/definition"          => Definition,
         "textDocument/didChange"           => DidChange,
@@ -28,7 +28,7 @@ module Mint
 
       property params : LSP::InitializeParams? = nil
 
-      @@workspaces = {} of String => LSWorkspace
+      @@workspaces = {} of String => FileWorkspace
 
       # Logs the given stack.
       def debug_stack(stack : Array(Ast::Node))
@@ -70,6 +70,23 @@ module Mint
           .ast
           .nodes
           .select(&.file.path.==(path))
+      end
+
+      # TODO: Rename to workspace
+      def ws(path : String) : FileWorkspace
+        base =
+          File.find_in_ancestors(path, "mint.json").to_s
+
+        # TODO: Turn on `watch` when watcher supports direct update on
+        #       initialize.
+        @@workspaces[base] ||=
+          FileWorkspace.new(
+            include_tests: true,
+            check: Check::Unreachable,
+            listener: nil,
+            format: false,
+            watch: false,
+            path: base)
       end
     end
   end

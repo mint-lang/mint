@@ -22,10 +22,6 @@ module Mint
             path: uri)
         end
     end
-
-    def format(uri : String) : String?
-      Formatter.new.format(ast) if ast = ast(uri)
-    end
   end
 
   # A workspace represents a Mint project either in the file system or in
@@ -87,7 +83,7 @@ module Mint
     end
 
     # The current artifacts of the program or the current error.
-    @result : TypeChecker | Error = Error.new(:unitialized_workspace)
+    getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
 
     # The listener to call when a new result is ready.
     @listener : Proc(TypeChecker | Error, Nil) | Nil
@@ -103,20 +99,20 @@ module Mint
     end
 
     def artifacts : Artifacts | Error
-      case result
+      case item = result
       in TypeChecker
-        result.artifacts
+        item.artifacts
       in Error
-        result
+        item
       end
     end
 
     def ast : Ast | Error
-      case result
+      case item = result
       in TypeChecker
-        result.artifacts.ast
+        item.artifacts.ast
       in Error
-        result
+        item
       end
     end
 
@@ -126,12 +122,12 @@ module Mint
 
     def update(contents : String, path : String)
       @cache.update(contents, path)
-      notify
+      # notify
     end
 
     def delete(path : String)
       @cache.delete(path)
-      notify
+      # notify
     end
 
     # This is a debounced method so it type checks after
@@ -176,15 +172,15 @@ module Mint
 
     def initialize(
       *,
-      @listener : Proc(TypeChecker | Error, Nil),
+      @listener : Proc(TypeChecker | Error, Nil) | Nil,
       @include_tests : Bool,
       @format : Bool,
       @path : String,
       check : Check,
       watch : Bool
     )
-      @cache = Cache.new(check)
       @watcher = Watcher.new(%w[])
+      @cache = Cache.new(check)
       @async = watch
 
       reset(!watch)
@@ -196,10 +192,57 @@ module Mint
 
       @watcher.pattern = globs =
         SourceFiles.everything(
-          MintJson.parse(@path),
+          MintJson.parse(@path, search: true),
           include_tests: @include_tests)
 
-      update(Dir.glob(globs.select(&.ends_with?(".mint")))) if process
+      if process
+        files =
+          Dir.glob(globs.select(&.ends_with?(".mint"))).map do |item|
+            Path[item].normalize.to_s
+          end
+
+        update(files)
+      end
+    end
+
+    def nodes_at_cursor(
+      *,
+      column : Int64,
+      path : String,
+      line : Int64
+    ) : Array(Ast::Node) | Error
+      map_error(ast,
+        &.nodes_at_cursor(line: line, column: column, path: path))
+    end
+
+    def nodes_at_path(path : String)
+      map_error(ast, &.nodes_at_path(path))
+    end
+
+    def format(node : Nil) : String
+      ""
+    end
+
+    def format(node : Ast::Node) : String
+      Formatter.new.format!(node)
+    end
+
+    def format(path : String) : String
+      case ast = ast(path)
+      when Ast
+        Formatter.new.format(ast)
+      else
+        ""
+      end
+    end
+
+    def map_error(item : T | Error, & : T -> R) : R | Error forall T, R
+      case item
+      in Error
+        item
+      in T
+        yield item
+      end
     end
 
     def update(files : Array(String))

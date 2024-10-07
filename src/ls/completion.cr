@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       HTML_TAG_COMPLETIONS =
         {{ read_file("#{__DIR__}/../assets/html_tags").strip }}
           .lines
@@ -14,48 +14,37 @@ module Mint
               label: name)
           end
 
-      property params : LSP::CompletionParams
-      property snippet_support : Bool?
-
-      def completions(node : Ast::Node, global : Bool = false)
-        [] of LSP::CompletionItem
+      def initialize(
+        *,
+        @type_checker : TypeChecker,
+        @workspace : FileWorkspace,
+        @snippet_support : Bool
+      )
       end
 
-      def workspace
-        Mint::Workspace[params.path]
-      end
-
-      def execute(server)
-        @snippet_support =
-          server
-            .params
-            .try(&.capabilities.text_document)
-            .try(&.completion)
-            .try(&.completion_item)
-            .try(&.snippet_support)
+      def process(params : LSP::CompletionParams)
+        ast =
+          @type_checker.artifacts.ast
 
         global_completions =
-          (workspace.ast.stores +
-            workspace.ast.unified_modules +
-            workspace.ast.components.select(&.global?))
-            .flat_map { |node| completions(node, global: true) }
+          (
+            ast.stores +
+              ast.unified_modules +
+              ast.components.select(&.global?)
+          ).flat_map { |node| completions(node, global: true) }
 
         scope_completions =
-          server
-            .nodes_at_cursor(params)
-            .flat_map { |node| completions(node) }
+          ast.nodes_at_cursor(
+            column: params.position.character,
+            path: params.text_document.path,
+            line: params.position.line + 1
+          ).flat_map { |node| completions(node) }
 
         component_completions =
-          workspace
-            .ast
-            .components
-            .map { |node| completion_item(node) }
+          ast.components.map { |node| completion_item(node) }
 
         type_completions =
-          workspace
-            .ast
-            .type_definitions
-            .flat_map { |node| completions(node) }
+          ast.type_definitions.flat_map { |node| completions(node) }
 
         (global_completions +
           component_completions +
@@ -68,9 +57,40 @@ module Mint
             item.insert_text =
               item.insert_text
                 .gsub(/\$\d/, "")
-                .gsub(/\$\{.*\}/, "") unless snippet_support
+                .gsub(/\$\{.*\}/, "") unless @snippet_support
             item
           end
+      end
+
+      def completions(node : Ast::Node, global : Bool = false)
+        [] of LSP::CompletionItem
+      end
+    end
+
+    class CompletionRequest < LSP::RequestMessage
+      property params : LSP::CompletionParams
+
+      def execute(server)
+        snippet_support =
+          server
+            .params
+            .try(&.capabilities.text_document)
+            .try(&.completion)
+            .try(&.completion_item)
+            .try(&.snippet_support) || false
+
+        workspace =
+          server.ws(params.path)
+
+        case type_checker = workspace.result
+        in TypeChecker
+          Completion.new(
+            snippet_support: snippet_support,
+            type_checker: type_checker,
+            workspace: workspace
+          ).process(params)
+        in Error
+        end
       end
     end
   end
