@@ -1,11 +1,12 @@
 module Mint
   module LS
-    class Definition < LSP::RequestMessage
-      def definition(node : Ast::Type, workspace : Workspace, stack : Array(Ast::Node))
+    class Definitions
+      def definition(node : Ast::Type)
         return unless cursor_intersects?(node.name)
 
         return unless record =
-                        workspace.ast.type_definitions.find(&.name.value.==(node.name.value))
+                        @type_checker.artifacts.ast.type_definitions
+                          .find(&.name.value.==(node.name.value))
 
         return if Core.ast.type_definitions.includes?(record)
 

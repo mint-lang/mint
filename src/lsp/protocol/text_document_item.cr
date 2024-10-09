@@ -18,5 +18,10 @@ module LSP
 
     def initialize(@uri, @version, @language_id, @text)
     end
+
+    # Returns the path of the URI
+    def path
+      URI.parse(uri).try(&.path).to_s
+    end
   end
 end

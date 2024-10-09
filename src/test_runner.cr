@@ -26,7 +26,6 @@ module Mint
         check: Check::Environment,
         include_tests: true,
         format: false,
-        watch: @watch,
         listener: ->(result : TypeChecker | Error) do
           case result
           in TypeChecker

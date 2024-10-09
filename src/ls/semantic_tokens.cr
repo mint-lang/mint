@@ -10,7 +10,7 @@ module Mint
           URI.parse(params.text_document.uri).path.to_s
 
         data =
-          case ast = server.ws(path).ast(path)
+          case ast = server.workspace(path).ast(path)
           when Ast
             # This is used later on to convert the line/column of each token
             file =

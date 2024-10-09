@@ -1,10 +1,11 @@
 module Mint
   module LS
-    class Definition < LSP::RequestMessage
-      def definition(node : Ast::HtmlStyle, workspace : Workspace, stack : Array(Ast::Node))
+    class Definitions
+      def definition(node : Ast::HtmlStyle)
         return unless cursor_intersects?(node.name)
 
-        return unless component = stack.find(&.is_a?(Ast::Component)).as?(Ast::Component)
+        return unless component =
+                        @stack.find(&.is_a?(Ast::Component)).as?(Ast::Component)
 
         return unless component_style =
                         component.styles.find(&.name.value.== node.name.value)

@@ -80,10 +80,6 @@ class Workspace
   @files = {} of String => File
   @id : String
 
-  def workspace
-    Mint::Workspace[File.join(@root, "test.file")]
-  end
-
   def initialize
     @id =
       Random.new.hex(5)
@@ -217,6 +213,8 @@ def lsp_json(messages)
     json = JSON.parse(content)
     json.to_pretty_json
   end
+rescue IO::EOFError
+  [] of String
 end
 
 def format_xml(xml)

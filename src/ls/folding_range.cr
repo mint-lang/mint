@@ -2,24 +2,20 @@ module Mint
   module LS
     class FoldingRange < LSP::RequestMessage
       property params : LSP::FoldingRangeParams
-      getter ranges = [] of LSP::FoldingRange
 
-      def range(node : Ast::Component)
-        range(node.comment)
-        range(node, node.comment)
+      def range(node : Ast::Component) : Array(LSP::FoldingRange)
+        range(node.comment.try(&.location)) + range(node, node.comment)
       end
 
-      def range(node : Ast::Module)
-        range(node.comment)
-        range(node, node.comment)
+      def range(node : Ast::Module) : Array(LSP::FoldingRange)
+        range(node.comment.try(&.location)) + range(node, node.comment)
       end
 
-      def range(node : Ast::Function)
-        range(node.comment)
-        range(node, node.comment)
+      def range(node : Ast::Function) : Array(LSP::FoldingRange)
+        range(node.comment.try(&.location)) + range(node, node.comment)
       end
 
-      def range(node : Ast::Node, comment : Ast::Comment?)
+      def range(node : Ast::Node, comment : Ast::Comment?) : Array(LSP::FoldingRange)
         if comment
           range(comment.location.end[0], node.location.end[0])
         else
@@ -27,33 +23,34 @@ module Mint
         end
       end
 
-      def range(node : Ast::Node?)
-        nil
+      def range(node : Ast::Node?) : Array(LSP::FoldingRange)
+        [] of LSP::FoldingRange
       end
 
-      def range(location : Ast::Node::Location)
+      def range(location : Ast::Node::Location) : Array(LSP::FoldingRange)
         range(location.start[0], location.end[0])
       end
 
-      def range(start_line, end_line)
-        ranges << LSP::FoldingRange.new(
-          start_line: start_line - 1,
-          end_line: end_line - 1)
+      def range(start_line, end_line) : Array(LSP::FoldingRange)
+        [
+          LSP::FoldingRange.new(
+            start_line: start_line - 1,
+            end_line: end_line - 1),
+        ]
       end
 
       def execute(server)
-        unless workspace.error
-          server
+        workspace =
+          server.workspace(params.text_document.path)
+
+        case type_checker = workspace.result
+        in TypeChecker
+          type_checker.artifacts.ast
             .nodes_at_path(params.text_document.path)
             .select { |node| node.location.start[0] != node.location.end[0] }
-            .compact_map { |node| range(node) }
+            .flat_map { |node| range(node) }
+        in Error
         end
-
-        ranges
-      end
-
-      private def workspace
-        Workspace[params.text_document.path]
       end
     end
   end

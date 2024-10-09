@@ -23,7 +23,7 @@ module Mint
 
       def execute(server : LSP::Server)
         workspace =
-          server.ws(params.text_document.path)
+          server.workspace(params.text_document.path)
 
         nodes =
           workspace.nodes_at_cursor(

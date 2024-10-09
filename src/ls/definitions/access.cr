@@ -1,8 +1,9 @@
 module Mint
   module LS
-    class Definition < LSP::RequestMessage
-      def definition(node : Ast::Access, server : Server, workspace : Workspace, stack : Array(Ast::Node))
-        lookup = workspace.type_checker.variables[node]?.try(&.first)
+    class Definitions
+      def definition(node : Ast::Access)
+        lookup =
+          @type_checker.variables[node]?.try(&.first)
 
         if lookup
           case lookup

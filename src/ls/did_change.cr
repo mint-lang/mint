@@ -8,7 +8,7 @@ module Mint
           params.text_document.path
 
         server
-          .ws(path)
+          .workspace(path)
           .update(params.content_changes.first.text, path)
       end
     end

@@ -5,7 +5,7 @@ module Mint
 
       define_help description: "Miscellaneous Tools"
 
-      register_sub_command "sandbox-server", type: SandboxServer
+      register_sub_command "ls-websocket", type: LsWebSocket
       register_sub_command highlight, type: Highlight
       register_sub_command clean, type: Clean
       register_sub_command loc, type: Loc

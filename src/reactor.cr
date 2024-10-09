@@ -24,7 +24,6 @@ module Mint
         check: Check::Environment,
         include_tests: false,
         format: format?,
-        watch: true,
         listener: ->(result : TypeChecker | Error) do
           @files =
             case result
@@ -47,7 +46,6 @@ module Mint
               error(result)
             end
 
-          terminal.puts "#{COG} Compiled..."
           @sockets.each(&.send("reload")) if reload?
         end)
 

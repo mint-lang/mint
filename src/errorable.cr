@@ -137,6 +137,10 @@ module Mint
       end
     end
 
+    def to_s
+      to_terminal.to_s
+    end
+
     def to_terminal
       renderer = Render::Terminal.new
       renderer.title "ERROR (#{name})"

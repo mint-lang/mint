@@ -1,0 +1,37 @@
+component Test {
+  fun render : Html {
+    <div></div>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/willSaveWaitUntil",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "reason": 1
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 9999,
+          "character": 999
+        }
+      },
+      "newText": "component Test {\n  fun render : Html {\n    <div/>\n  }\n}"
+    }
+  ],
+  "id": 0
+}
+------------------------------------------------------------------------response

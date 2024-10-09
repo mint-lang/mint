@@ -1,18 +1,11 @@
-require "../spec_helper"
-
-struct CompletionResult
-  include JSON::Serializable
-
-  getter result : Array(LSP::CompletionItem)
-  getter id : Int32
-end
+require "./spec_helper"
 
 def clean_json(workspace : Workspace, path : String)
   path.strip.gsub("\#{root_path}", workspace.root_path)
 end
 
 Dir
-  .glob("./spec/language_server/{hover,completion,code_actions,semantic_tokens}/**/*")
+  .glob("./spec/language_server/**/*")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|
@@ -55,36 +48,40 @@ Dir
         end
 
         raise Exception.new("Expected requests") if requests.empty?
-        raise Exception.new("Expected responses") if responses.empty?
 
         actual_responses = lsp_json(requests)
 
-        responses.each do |expected_response|
-          expected_id =
-            expected_response[1] ||
-              JSON.parse(expected_response[0])["id"].as_i?
+        if responses.size > 0
+          responses.each do |expected_response|
+            expected_id =
+              expected_response[1] ||
+                JSON.parse(expected_response[0])["id"].as_i?
 
-          actual_response =
-            actual_responses.find! do |response|
-              JSON.parse(response)["id"].as_i? == expected_id
-            end
+            actual_response =
+              actual_responses.find! do |response|
+                JSON.parse(response)["id"].as_i? == expected_id
+              end
 
-          case expected_response[2]
-          when "contain"
-            json =
-              JSON.parse(actual_response)
+            case expected_response[2]
+            when "contain"
+              json =
+                JSON.parse(actual_response)
 
-            expected =
-              JSON.parse(expected_response[0])
+              expected =
+                JSON.parse(expected_response[0])
 
-            json.to_json.should contain(expected.to_json)
-          else
-            begin
-              expected_response[0].should eq(actual_response)
-            rescue error
-              fail diff(expected_response[0], actual_response)
+              json.to_json.should contain(expected.to_json)
+            else
+              begin
+                expected_response[0].should eq(actual_response)
+              rescue error
+                fail diff(expected_response[0], actual_response)
+              end
             end
           end
+        elsif actual_responses.size > 0
+          puts actual_responses
+          raise Exception.new("No responses expected")
         end
       end
     end

@@ -49,7 +49,6 @@ module Mint
             path: Path[Dir.current, "mint.json"].to_s,
             check: Check::Environment,
             include_tests: false,
-            watch: flags.watch,
             format: false,
             listener: ->(result : TypeChecker | Error) do
               terminal.reset if flags.watch

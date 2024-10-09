@@ -45,7 +45,7 @@ module Mint
         # this could take a while because the workspace parses
         # and type checks all of its source files.
         workspace =
-          server.ws(uri.path.to_s)
+          server.workspace(uri.path.to_s)
 
         contents =
           case type_checker = workspace.result

@@ -1,298 +1,242 @@
 module Mint
-  # A workspace represents a mint project where the root is the directory
-  # containing the `mint.json` file.
-  #
-  # The workspace provides:
-  # - an up to date AST of the project
-  # - provides packages and information
-  # - emits events for changes
-  class Workspace
-    @@workspaces = {} of String => Workspace
+  @[Flags]
+  enum Check
+    Environment
+    Unreachable
+  end
 
-    class_getter workspaces
+  # A workspace represents a Mint project either in the file system or in
+  # memory.A workspace provides up to date, type checked artifacts which
+  # can be used in other places (bundler, test runner, development server,
+  # language server, etc...)
+  class Workspace2
+    class Cache
+      # Stores the AST (or error) of the file at the given path.
+      @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
 
-    def self.from_file(path : String) : Workspace
-      new(root_from_file(path))
-    end
+      def initialize(@check : Check)
+      end
 
-    def self.current : Workspace
-      new(Dir.current)
-    end
+      def update(contents : String, path : String)
+        @cache[path] = Parser.parse?(contents, path)
+      end
 
-    def self.root_from_file(path : String) : String
-      root = File.dirname(path)
+      def delete(path : String)
+        @cache.delete(path)
+      end
 
-      loop do
-        raise "Invalid workspace!" if root == "." || root == "/"
+      def ast(path : String) : Ast | Error | Nil
+        @cache[path]?
+      end
 
-        if File.exists?(Path[root, "mint.json"])
-          break
+      def clear
+        @cache.clear
+      end
+
+      def process
+        errors =
+          @cache.values.select(Error)
+
+        if error = errors.first?
+          error
         else
-          root = File.dirname(root)
+          ast =
+            @cache
+              .values
+              .select(Ast)
+              .reduce(Ast.new) { |memo, item| memo.merge item }
+              .tap do |item|
+                # Only merge the core if it's not the core (if it has `Maybe`
+                # defined then it's the core).
+                item.merge(Core.ast) unless item.type_definitions.index(&.name.==("Maybe"))
+              end
+              .normalize
+
+          TypeChecker.new(
+            check_everything: @check.unreachable?,
+            check_env: @check.environment?,
+            ast: ast
+          ).tap(&.check)
         end
-      end
-
-      root
-    end
-
-    def self.[](path)
-      root = root_from_file(path)
-
-      @@workspaces[root] ||=
-        Workspace.new(root)
-          .tap(&.update_cache)
-          .tap(&.watch)
-    end
-
-    alias ChangeProc = Proc(Ast | Error, Nil)
-
-    @event_handlers = {} of String => Array(ChangeProc)
-    @cache = {} of String => Ast
-    @env_watcher : Watcher?
-    @pattern = %w[]
-
-    getter type_checker : TypeChecker
-    getter cache : Hash(String, Ast)
-    getter formatter : Formatter
-    getter test_path : String?
-    getter json : MintJson
-    getter error : Error?
-    getter root : String
-
-    property? presist_on_update : Bool = false
-    property? check_everything : Bool = true
-    property? check_env : Bool = false
-    property? format : Bool = false
-
-    def test_path=(value)
-      @test_path = value
-      update_patterns
-    end
-
-    def initialize(@root : String)
-      json_path =
-        Path[@root, "mint.json"].to_s
-
-      @json =
-        FileUtils.cd(@root) do
-          MintJson.parse(json_path)
-        end
-
-      @formatter =
-        Mint::Formatter.new(json.formatter)
-
-      @json_watcher =
-        Watcher.new([json_path])
-
-      @source_watcher =
-        Watcher.new(all_files_pattern)
-
-      @env_watcher =
-        Env.env.try do |file|
-          Watcher.new([file])
-        end
-
-      @type_checker =
-        TypeChecker.new(Ast.new)
-    end
-
-    def on(event, &handler : ChangeProc)
-      @event_handlers[event] ||= [] of ChangeProc
-      @event_handlers[event] << handler
-    end
-
-    def packages : Array(Workspace)
-      pattern =
-        Path[root, ".mint", "packages", "**", "mint.json"]
-
-      Dir.glob(pattern).map do |file|
-        Workspace.from_file(file)
+      rescue error : Error
+        error
       end
     end
 
-    def ast
-      result =
-        @cache.values.reduce(Ast.new) { |memo, item| memo.merge item }
+    # The current artifacts of the program or the current error.
+    getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
 
-      result.merge(Core.ast) if @json.name != "core"
-      result.normalize
+    # The listener to call when a new result is ready.
+    @listener : Proc(TypeChecker | Error, Nil) | Nil
+
+    # The AST cache.
+    @cache : Cache
+
+    # The ID for debouncing the update.
+    @id = 0
+
+    def initialize
+      @cache = Workspace.new(Check::All)
     end
 
-    def []?(file)
-      @cache[normalize_path(file)]?
-    end
-
-    def [](file)
-      @cache[normalize_path(file)]
-    end
-
-    protected def []=(file, value)
-      @cache[normalize_path(file)] = value
-    end
-
-    def initialize_cache(&)
-      files = self.files
-      files.each_with_index do |file, index|
-        self[file] ||= Parser.parse(file)
-
-        yield file, index, files.size
+    def artifacts : Artifacts | Error
+      case item = result
+      in TypeChecker
+        item.artifacts
+      in Error
+        item
       end
     end
 
-    def watch
-      spawn do
-        # Watches all the `*.mint` files
-        @source_watcher.watch do |files|
-          # Remove the changed files from the cache
-          files.each { |file| @cache.delete(file) }
-
-          # Update the cache
-          update_cache
-        end
+    def ast : Ast | Error
+      case item = result
+      in TypeChecker
+        item.artifacts.ast
+      in Error
+        item
       end
+    end
 
-      spawn do
-        # Watches the `mint.json` file
-        @json_watcher.watch do
-          # We need to update the patterns because:
-          # 1. packages could have been added or removed
-          # 2. source directories could have been added or removed
-          update_patterns
+    def ast(path : String) : Ast | Error | Nil
+      @cache.ast(path)
+    end
 
-          # Reset the cache, this will cause a full recompilation, in the
-          # future this could be changed to only remove files from the cache
-          # that have been changed.
-          reset_cache
-        end
+    def update(contents : String, path : String)
+      @cache.update(contents, path)
+      self
+    end
+
+    def delete(path : String)
+      @cache.delete(path)
+    end
+
+    def delayed_process
+      spawn { process }
+    end
+
+    def process
+      @result = Logger.log "Type Checking" { @cache.process }
+      @listener.try(&.call(@result))
+    end
+  end
+
+  # A file workspace watches the appropriate files of a project and recompiles
+  # it when they change.
+  class FileWorkspace < Workspace2
+    getter? include_tests : Bool = false
+    getter? format : Bool
+    getter path : String
+
+    def initialize(
+      *,
+      @listener : Proc(TypeChecker | Error, Nil) | Nil,
+      @include_tests : Bool,
+      @format : Bool,
+      @path : String,
+      check : Check
+    )
+      @watcher = Watcher.new(&->update(Array(String), Symbol))
+      @cache = Cache.new(check)
+
+      reset
+      @watcher.watch
+    end
+
+    def nodes_at_cursor(
+      *,
+      column : Int64,
+      path : String,
+      line : Int64
+    ) : Array(Ast::Node) | Error
+      map_error(ast,
+        &.nodes_at_cursor(line: line, column: column, path: path))
+    end
+
+    def nodes_at_path(path : String)
+      map_error(ast, &.nodes_at_path(path))
+    end
+
+    def format(node : Nil) : String
+      ""
+    end
+
+    def format(node : Ast::Node) : String
+      Formatter.new.format!(node)
+    end
+
+    def format(path : String) : String
+      case ast = ast(path)
+      when Ast
+        Formatter.new.format(ast)
+      else
+        ""
       end
+    end
 
-      spawn do
-        @env_watcher.try &.watch do
-          Env.load do
-            update_cache
+    def map_error(item : T | Error, & : T -> R) : R | Error forall T, R
+      case item
+      in Error
+        item
+      in T
+        yield item
+      end
+    end
+
+    def reset
+      @cache.clear
+      @watcher.patterns =
+        SourceFiles.everything(
+          MintJson.parse(@path, search: true),
+          include_tests: @include_tests)
+    rescue error : Error
+      @result = error
+      @listener.try(&.call(@result))
+    end
+
+    def update(files : Array(String), reason : Symbol)
+      actions = [] of Symbol
+
+      Logger.log "Parsing files" do
+        files.each do |file|
+          if File.extname(file) == ".mint"
+            if File.exists?(file)
+              contents = File.read(file)
+              update(contents, file)
+
+              if format?
+                case ast = @cache.ast(file)
+                when Ast
+                  formatted =
+                    Formatter.new.format(ast)
+
+                  if formatted != contents
+                    File.write(file, formatted)
+                  end
+                end
+              end
+            else
+              delete(file)
+            end
+
+            actions << :compile
+          else
+            # We need to do a reset because:
+            # 1. packages could have changed
+            # 2. source directories could have changed
+            # 3. variables in the .env file cloud have changed
+            case File.basename(file)
+            when "mint.json", ".env"
+              actions << :reset
+            end
           end
         end
       end
-    end
 
-    def files
-      Dir.glob(all_files_pattern)
-    end
-
-    def files_pattern : Array(String)
-      files =
-        json
-          .source_directories
-          .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
-
-      if path = test_path
-        files + if path == "*"
-          json
-            .test_directories
-            .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
-        else
-          [path]
-        end
+      if actions.includes?(:reset) && reason == :modified
+        reset
       else
-        files
+        process
       end
-    end
-
-    def update_cache
-      Logger.log "Parsing files" do
-        files.each do |file|
-          path =
-            File.realpath(file)
-
-          self[file] ||= process(File.read(path), path)
-        end
-      end
-
-      Logger.log "Type Checking" { check! }
-
-      @error = nil
-
-      call "change", ast
-      ast
-    rescue error : Error
-      @error = error
-
-      call "change", error
-      error
-    end
-
-    def format(file)
-      Formatter
-        .new(json.formatter)
-        .format(self[file])
-    end
-
-    def update(contents, file)
-      self[file] = process(contents, Path[root, file].to_s)
-      @error = nil
-
-      call "change", ast
-    rescue error : Error
-      @error = error
-
-      call "change", error
-    end
-
-    private def normalize_path(file)
-      Path[file].normalize.to_s
-    end
-
-    private def process(contents, file)
-      real_path =
-        if File.exists?(file)
-          File.realpath(file)
-        else
-          file
-        end
-
-      ast =
-        Parser.parse(contents, real_path)
-
-      if format?
-        formatted =
-          Formatter
-            .new(json.formatter)
-            .format(ast)
-
-        if formatted != File.read(file)
-          File.write(file, formatted)
-        end
-      end
-
-      ast
-    end
-
-    private def check!
-      @type_checker =
-        Mint::TypeChecker.new(
-          check_everything: check_everything?,
-          check_env: check_env?,
-          ast: ast
-        ).tap(&.check)
-    end
-
-    private def call(event, arg)
-      @event_handlers[event]?.try(&.each(&.call(arg)))
-    end
-
-    def reset_cache
-      @cache = {} of String => Ast
-      update_cache
-    end
-
-    private def update_patterns
-      @source_watcher.pattern = all_files_pattern
-    end
-
-    private def all_files_pattern : Array(String)
-      packages
-        .flat_map(&.files_pattern)
-        .concat(files_pattern)
     end
   end
 end

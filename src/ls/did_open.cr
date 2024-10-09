@@ -3,14 +3,13 @@ module Mint
     class DidOpen < LSP::NotificationMessage
       property params : LSP::DidOpenTextDocumentParams
 
-      def execute(server)
-        uri =
-          URI.parse(params.text_document.uri)
+      def execute(server) : Nil
+        path =
+          params.text_document.path
 
-        workspace =
-          server.workspace(uri)
-
-        workspace.update(params.text_document.text, uri.path)
+        server
+          .workspace(path)
+          .update(params.text_document.text, path)
       end
     end
   end

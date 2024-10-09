@@ -1,0 +1,39 @@
+/*
+Comment line 1...
+Comment line 2...
+*/
+component Test {
+  fun render {
+    <div/>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/foldingRange",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "startLine": 5,
+      "endLine": 7
+    },
+    {
+      "startLine": 0,
+      "endLine": 3
+    },
+    {
+      "startLine": 3,
+      "endLine": 8
+    }
+  ],
+  "id": 0
+}
+------------------------------------------------------------------------response

@@ -39,11 +39,11 @@ it "no mint.json in directory or parents" do
     Mint::MintJson.parse("test.json", search: true)
   rescue error : Mint::Error
     error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
-    ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    ░ ERROR (MINT_JSON_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-    There was a problem trying to open a mint.json file: test.json
+    I could not find a mint.json file in the path or any of its parent directories:
 
-      Error opening file with mode 'r': 'test.json': No such file or directory
+      test.json
     TEXT
   end
 end
