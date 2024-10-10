@@ -36,4 +36,21 @@ context "test" do
         test                                                                 # The path to the test file to run.
       TEXT
   end
+
+  it "runs the tests" do
+    expect_output ["test"], clear_env: false, template: <<-TEXT
+      Mint - Running tests
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      ⚙ Starting browser...
+      ⚙ Test server started: http://127.0.0.1:3001/
+      ⚙ Running tests:
+      .
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      1 tests
+        ➔ 1 passed
+        ➔ 0 failed
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      All done in ××××!
+      TEXT
+  end
 end
