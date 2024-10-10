@@ -105,8 +105,8 @@ module Mint
             "--profile-directory=#{profile_directory}",
             "--remote-debugging-port=9222",
             "--window-size=1920,1080",
+            "--headless=old",
             "--disable-gpu",
-            "--headless",
             url,
           ])
         else
