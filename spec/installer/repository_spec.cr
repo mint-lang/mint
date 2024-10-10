@@ -16,7 +16,7 @@ describe "Repository" do
 
         I could not parse the following mint.json file:
 
-           ┌ /tmp/mint-packages/success/mint.json:1:1
+           ┌ #{tmp_dir}/success/mint.json:1:1
            ├─────────────────────────────────────────
           1│ hello
         MESSAGE

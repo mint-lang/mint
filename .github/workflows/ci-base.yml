@@ -22,6 +22,12 @@ jobs:
         with:
           crystal: ${{ inputs.crystal-version }}
 
+      - if: matrix.os == 'ubuntu-latest'
+        name: Install `xmllint` (Linux)
+        run: |
+          apt-get update
+          apt-get install libxml2-utils -y
+
       - name: Download source
         uses: actions/checkout@v4
 
