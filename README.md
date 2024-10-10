@@ -1,4 +1,4 @@
-# ![Mint](src/assets/mint-logo.svg)
+# ![Mint](src/documentation/Brand/logo.svg)
 
 [![CI](https://github.com/mint-lang/mint/actions/workflows/ci.yml/badge.svg)](https://github.com/mint-lang/mint/actions/workflows/ci.yml)
 [![Discord](https://img.shields.io/discord/698214718241767445)](https://discord.gg/NXFUJs2)
