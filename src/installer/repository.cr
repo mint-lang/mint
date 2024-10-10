@@ -1,5 +1,7 @@
 module Mint
   class Installer
+    include Errorable
+
     # This class is for handling git repositories of packages.
     #
     # Repositories are cloned into a temp directory (/tmp/mint-packages) if

@@ -68,13 +68,6 @@ module Mint
           end
         end
 
-        ast.nodes[start_nodes_position...].each do |node|
-          case node
-          when Ast::Function
-            node.keep_name = true if node.name.value == "update"
-          end
-        end
-
         Ast::Provider.new(
           subscription: subscription,
           functions: functions,

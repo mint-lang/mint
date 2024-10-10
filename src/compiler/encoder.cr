@@ -48,7 +48,7 @@ module Mint
     end
 
     def encoder(node : TypeChecker::Variable)
-      raise "Cannot generate an encoder for a type variable!"
+      unreachable! "Cannot generate an encoder for a type variable!"
     end
   end
 end

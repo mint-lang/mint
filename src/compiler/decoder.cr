@@ -53,12 +53,12 @@ module Mint
 
         js.call(Builtin::DecodeTuple, [js.array(decoders), ok, err])
       else
-        raise "Cannot generate a decoder for #{type}!"
+        unreachable! "Cannot generate a decoder for #{type}!"
       end
     end
 
     def decoder(node : TypeChecker::Variable)
-      raise "Cannot generate a decoder for a type variable!"
+      unreachable! "Cannot generate a decoder for a type variable!"
     end
   end
 end

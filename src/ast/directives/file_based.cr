@@ -2,6 +2,8 @@ module Mint
   class Ast
     module Directives
       class FileBased < Node
+        include Errorable
+
         # The real path of the asset on the disk.
         getter real_path : Path
 
@@ -21,7 +23,7 @@ module Mint
         # uses the the file contents as the hash value to make sure that the
         # file will not be cached.
         def filename(*, build : Bool) : String?
-          Errorable.error :file_not_found do
+          error! :file_not_found do
             snippet "I cloudn't find a file:", self
           end unless exists?
 

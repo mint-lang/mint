@@ -1,7 +1,5 @@
 module Mint
   class TestRunner
-    include Errorable
-
     class Message
       include JSON::Serializable
 

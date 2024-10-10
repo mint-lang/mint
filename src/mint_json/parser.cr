@@ -2,11 +2,12 @@ module Mint
   class MintJson
     class Parser
       include Errorable
+      extend Errorable
 
       def self.parse(*, contents : String, path : String) : MintJson
         new(contents: contents, path: path).parse
       rescue exception : JSON::ParseException
-        Errorable.error :invalid_json do
+        error! :invalid_json do
           block do
             text "I could not parse the following"
             bold "mint.json"
@@ -25,7 +26,7 @@ module Mint
         file = path
 
         if search
-          Errorable.error :mint_json_not_found do
+          error! :mint_json_not_found do
             block do
               text "I could not find a"
               bold "mint.json"
@@ -40,7 +41,7 @@ module Mint
       rescue error : Error
         raise error # Propagate our own errors.
       rescue exception
-        Errorable.error :mint_json_invalid do
+        error! :mint_json_invalid do
           block do
             text "There was a problem trying to open a"
             bold "mint.json"

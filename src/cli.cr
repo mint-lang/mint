@@ -20,7 +20,7 @@ module Mint
     register_sub_command docs, type: Docs
 
     def self.runtime_file_not_found(path : String)
-      Errorable.error :runtime_file_not_found do
+      error! :runtime_file_not_found do
         block do
           text "The specified runtime file"
           code path

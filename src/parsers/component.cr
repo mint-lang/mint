@@ -98,15 +98,6 @@ module Mint
           case node
           when Ast::LocaleKey
             locales = true
-          when Ast::Function
-            if node.name.value.in?([
-                 "componentWillUnmount",
-                 "componentDidUpdate",
-                 "componentDidMount",
-                 "render",
-               ])
-              node.keep_name = true
-            end
           when Ast::HtmlElement
             node.styles.each do |style|
               style.style_node =

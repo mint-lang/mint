@@ -2,6 +2,7 @@ require "dotenv"
 
 module Mint
   module Env
+    include Errorable
     extend self
 
     class_getter env : String?
@@ -23,7 +24,7 @@ module Mint
         end
 
       if env
-        Errorable.error :env_file_not_found do
+        error! :env_file_not_found do
           block do
             text "The specified environment file"
             code env

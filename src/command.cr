@@ -1,6 +1,8 @@
 module Mint
   class Cli < Admiral::Command
     module Command
+      include Errorable
+
       def execute(
         message : String,
         *,

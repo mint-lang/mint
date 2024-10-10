@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    # This class is resposible for creating a tree of JS code
+    # This class is resposible for creating a tree of JS code.
     class Js
       # Whether or not to optimize the output.
       getter? optimize : Bool = false
@@ -51,7 +51,13 @@ module Mint
         if optimize? || items.size <= 1
           ["["] + list(items) + ["]"]
         else
-          ["[", Indent.new(["\n"] + list(items, multiline: true)), "\n]"] of Item
+          [
+            "[",
+            Indent.new(
+              ["\n"] + list(items, multiline: true)
+            ),
+            "\n]",
+          ] of Item
         end
       end
 
@@ -79,13 +85,18 @@ module Mint
           if optimize?
             ["const "] + list(assigns, multiline: false)
           else
-            ["const"] + [Indent.new(["\n"] + list(assigns, multiline: true))] of Item
+            ["const"] + [
+              Indent.new(["\n"] + list(assigns, multiline: true)),
+            ] of Item
           end
         end
       end
 
       # Renders an initializer.
-      def new(name : Item | Compiled, items : Array(Compiled) = [] of Compiled) : Compiled
+      def new(
+        name : Item | Compiled,
+        items : Array(Compiled) = [] of Compiled
+      ) : Compiled
         ["new "] + call(name, items)
       end
 
@@ -147,12 +158,18 @@ module Mint
       end
 
       # Renders an arrow function.
-      def arrow_function(arguments : Array(Compiled) = [] of Compiled, &) : Compiled
+      def arrow_function(
+        arguments : Array(Compiled) = [] of Compiled, &
+      ) : Compiled
         function(arguments, invoke: false) { yield }
       end
 
       # Renders an list (separated by commas).
-      private def list(arguments : Array(Compiled), *, multiline : Bool = false) : Compiled
+      private def list(
+        arguments : Array(Compiled),
+        *,
+        multiline : Bool = false
+      ) : Compiled
         if multiline
           join(arguments, ",\n")
         else

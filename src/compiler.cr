@@ -1,5 +1,6 @@
 module Mint
   class Compiler
+    include Errorable
     include Helpers
 
     # Represents a compiled item

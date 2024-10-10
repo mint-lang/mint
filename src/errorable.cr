@@ -1,31 +1,36 @@
 module Mint
-  # This module is used in all of the stages of the compiler which can error
-  # out (parser, type checker, scope builder, etc...).
-  #
-  # It defines an interface (method) for creating descriptive errors and it can
-  # either gather them or raise them depending on the raise errors flag, which
-  # the including entity must define (unusally in the initialize method).
+  # This module is used in all of things which can error out (parser, type
+  # checker, scope builder, etc...)
   module Errorable
-    # The errors found during parsing.
-    getter errors : Array(Error) = [] of Error
+    def unreachable!(message : String)
+      error! :unreachable do
+        block do
+          text "You have run into unreachable code."
+          text "Please create an issue about this!"
+        end
 
-    def self.error(name : Symbol, &)
-      raise Error.new(name).tap { |error| with error yield }
+        snippet message
+      end
     end
 
     def error!(name : Symbol, &)
-      raise Error.new(name).tap { |error| with error yield }
-    end
-
-    def error(name : Symbol, &)
-      errors << Error.new(name).tap { |error| with error yield }
-      nil
+      raise Mint::Error.new(name).tap { |error| with error yield }
     end
   end
 
-  # Represents a raisable rich and descriptive error.
+  # Represents a raisable rich and descriptive error. The error can be built
+  # using a DLS.
   class Error < Exception
+    # Anything that can be a snippet.
+    alias SnippetTarget = TypeChecker::Checkable | SnippetData |
+                          Ast::Node | Parser | String
+
     alias Element = Text | Bold | Code
+
+    record Snippet, value : TypeChecker::Checkable | String | SnippetData
+    record Code, value : String
+    record Bold, value : String
+    record Text, value : String
 
     record SnippetData,
       filename : String,
@@ -33,23 +38,15 @@ module Mint
       from : Int64,
       to : Int64
 
-    alias SnippetTarget = TypeChecker::Checkable | SnippetData |
-                          Ast::Node | Parser | String
-
-    record Snippet, value : TypeChecker::Checkable | String | SnippetData
-    record Code, value : String
-    record Bold, value : String
-    record Text, value : String
-
+    # The message is based on blocks of elements. The blocks are separated
+    # by double new lines.
     getter blocks = [] of Array(Element) | Snippet
+
+    # The name of the error.
     getter name : Symbol
 
     def initialize(@name : Symbol)
       @current = [] of Element
-    end
-
-    def build(&)
-      with self yield
     end
 
     def block(&)
@@ -106,7 +103,10 @@ module Mint
       @blocks << Snippet.new(target)
     end
 
-    def expected(subject : TypeChecker::Checkable | String, got : TypeChecker::Checkable)
+    def expected(
+      subject : TypeChecker::Checkable | String,
+      got : TypeChecker::Checkable
+    )
       snippet "I was expecting:", subject
       snippet "Instead it is:", got
     end
@@ -124,21 +124,17 @@ module Mint
         html do
           head do
             meta charset: "utf-8"
-            meta content: "width=device-width, initial-scale=1, shrink-to-fit=no",
-              name: "viewport"
 
-            if reload
-              script src: "/live-reload.js"
-            end
+            meta(
+              content: "width=device-width, initial-scale=1, shrink-to-fit=no",
+              name: "viewport")
+
+            script src: "/live-reload.js" if reload
           end
 
           body { pre { code { text to_terminal.to_s.uncolorize } } }
         end
       end
-    end
-
-    def to_s
-      to_terminal.to_s
     end
 
     def to_terminal
@@ -166,6 +162,10 @@ module Mint
       end
 
       renderer.io
+    end
+
+    def to_s
+      to_terminal.to_s
     end
   end
 end

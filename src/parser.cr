@@ -1,7 +1,9 @@
 module Mint
   class Parser
-    include Errorable
     include Helpers
+
+    # The errors found.
+    getter errors : Array(Error) = [] of Error
 
     # The position of the cursor, which is at the character we are currently
     # parsing.
@@ -44,6 +46,10 @@ module Mint
           @position = start_position
         end
       end
+    end
+
+    def error(name : Symbol, &) : Nil
+      errors << Error.new(name).tap { |error| with error yield }
     end
 
     # Moves the cursor forward by one character.

@@ -13,9 +13,9 @@ module Mint
                      @comment : Comment?,
                      @subscription : Id,
                      @gets : Array(Get),
-                     @name : Id,
                      @from : Int64,
-                     @to : Int64)
+                     @to : Int64,
+                     @name : Id)
       end
     end
   end
