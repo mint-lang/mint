@@ -57,7 +57,7 @@ describe Mint::FileWorkspace do
       FileUtils.touch(Path[workspace.root_path, "File1.mint"])
       FileUtils.touch(Path[workspace.root_path, "File2.mint"])
 
-      sleep 1
+      sleep 1.seconds
 
       results.size.should eq(2)
     end

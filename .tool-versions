@@ -1,4 +1,4 @@
-crystal 1.10.1
+crystal 1.14.0
 mint 0.19.0
 nodejs 20.10.0
 yarn 1.22.19
