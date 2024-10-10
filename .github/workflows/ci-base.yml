@@ -41,7 +41,7 @@ jobs:
         run: shards build --error-on-warnings --error-trace
 
       - name: Run CLI specs
-        run: crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace
+        run: crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace -p -v
 
       - name: Run core specs (Firefox)
         working-directory: ./core/tests
