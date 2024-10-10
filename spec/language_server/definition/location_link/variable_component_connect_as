@@ -54,7 +54,7 @@ store Theme {
           "character": 21
         }
       },
-      "targetUri": "file://#{root_path}/test.mint",
+      "targetUri": "file://#{root_path}/store.mint",
       "targetRange": {
         "start": {
           "line": 1,
@@ -62,17 +62,17 @@ store Theme {
         },
         "end": {
           "line": 1,
-          "character": 52
+          "character": 36
         }
       },
       "targetSelectionRange": {
         "start": {
           "line": 1,
-          "character": 38
+          "character": 8
         },
         "end": {
           "line": 1,
-          "character": 50
+          "character": 15
         }
       }
     }

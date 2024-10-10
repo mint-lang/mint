@@ -86,8 +86,7 @@ module Mint
       private def format_files
         pattern =
           arguments.pattern.presence || json.try do |item|
-            (item.source_directories | item.test_directories)
-              .map(&->SourceFiles.glob_pattern(String))
+            SourceFiles.globs(item, include_tests: true)
           end
 
         Dir.glob(pattern || "").map do |file|
@@ -111,11 +110,11 @@ module Mint
       # We try to honor the config of the current project but
       # allow for formatting without one using defaults.
       private def config
-        json.try(&.formatter_config) || Formatter::Config.new
+        json.try(&.formatter) || Formatter::Config.new
       end
 
       private def json
-        MintJson.parse_current?
+        MintJson.current?
       end
     end
   end

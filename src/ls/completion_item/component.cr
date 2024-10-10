@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       def completion_item(node : Ast::Component) : LSP::CompletionItem
         index = 0
 
@@ -10,14 +10,13 @@ module Mint
             .reject(&.name.value.==("children"))
             .map do |property|
               default =
-                Mint::Formatter
-                  .new(workspace.json.formatter_config)
-                  .format!(property.default)
+                @workspace
+                  .format(property.default)
                   .to_s
                   .gsub("}", "\\}")
 
               type =
-                workspace.type_checker.cache[property]?
+                @type_checker.cache[property]?
 
               value =
                 case type.try(&.name)

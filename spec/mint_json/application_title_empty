@@ -1,0 +1,18 @@
+{
+  "application": {
+    "title": ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_TITLE_EMPTY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The title field of the application object should not be empty, but it is:
+
+   ┌ spec/fixtures/mint.json:3:14
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "title": ""
+   │              ⌃
+  4│   }
+  5│ }

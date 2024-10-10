@@ -1,288 +1,186 @@
 module Mint
-  # A workspace represents a mint project where the root is the directory
-  # containing the `mint.json` file.
+  @[Flags]
+  enum Check
+    Environment
+    Unreachable
+  end
+
+  # A workspace represents a Mint project in the file system.
+  # - It provides up to date, type checked artifacts which can be used in other
+  #   places (bundler, test runner, development server, etc...).
+  # - It watches the appropriate files and recompiles when they change.
+  # - It does a compilation on initialization, so artifacts are ready to be
+  #   used.
   #
-  # The workspace provides:
-  # - an up to date AST of the project
-  # - provides packages and information
-  # - emits events for changes
-  class Workspace
-    @@workspaces = {} of String => Workspace
+  class FileWorkspace
+    # The current artifacts of the program or the current error.
+    getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
 
-    class_getter workspaces
+    # Stores the AST (or error) of the file at the given path.
+    @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
 
-    def self.from_file(path : String) : Workspace
-      new(root_from_file(path))
+    # The listener to call when a new result is ready.
+    @listener : Proc(TypeChecker | Error, Nil) | Nil
+
+    def initialize(
+      *,
+      @listener : Proc(TypeChecker | Error, Nil) | Nil,
+      @include_tests : Bool,
+      @format : Bool,
+      @check : Check,
+      @path : String
+    )
+      (@watcher = Watcher.new(&->update(Array(String), Symbol)))
+        .tap { reset }
+        .watch
     end
 
-    def self.current : Workspace
-      new(Dir.current)
+    def update(contents : String, path : String) : Nil
+      @cache[path] = Parser.parse?(contents, path)
     end
 
-    def self.root_from_file(path : String) : String
-      root = File.dirname(path)
+    def delete(path : String) : Nil
+      @cache.delete(path)
+    end
 
-      loop do
-        raise "Invalid workspace!" if root == "." || root == "/"
+    def artifacts : TypeChecker::Artifacts | Error
+      map_error(result, &.artifacts)
+    end
 
-        if File.exists?(Path[root, "mint.json"])
-          break
+    def ast(path : String) : Ast | Error | Nil
+      @cache[path]?
+    end
+
+    def ast : Ast | Error
+      map_error(artifacts, &.ast)
+    end
+
+    def nodes_at_cursor(
+      *,
+      column : Int64,
+      path : String,
+      line : Int64
+    ) : Array(Ast::Node) | Error
+      map_error(ast, &.nodes_at_cursor(
+        line: line, column: column, path: path))
+    end
+
+    def nodes_at_path(path : String)
+      map_error(ast, &.nodes_at_path(path))
+    end
+
+    def format(node : Ast::Node | Nil) : String | Nil
+      Formatter.new.format!(node)
+    end
+
+    def format(path : String) : String | Error | Nil
+      case item = ast(path)
+      in Ast
+        Formatter.new.format(item)
+      in Error, Nil
+        item
+      end
+    end
+
+    def reset
+      @cache.clear
+      @watcher.patterns =
+        SourceFiles.everything(
+          MintJson.parse(@path, search: true),
+          include_tests: @include_tests)
+    rescue error : Error
+      set(error)
+    end
+
+    def check
+      Logger.log "Type Checking" do
+        if error = @cache.values.select(Error).first?
+          error
         else
-          root = File.dirname(root)
+          ast =
+            @cache
+              .values
+              .select(Ast)
+              .reduce(Ast.new) { |memo, item| memo.merge item }
+              .tap do |item|
+                # Only merge the core if it's not the core (if it has `Maybe`
+                # defined then it's the core). This is so the language server
+                # works with the core files.
+                unless item.type_definitions.index(&.name.==("Maybe"))
+                  item.merge(Core.ast)
+                end
+              end
+              .normalize
+
+          TypeChecker.new(
+            check_everything: @check.unreachable?,
+            check_env: @check.environment?,
+            ast: ast
+          ).tap(&.check)
         end
       end
-
-      root
+    rescue error : Error
+      error
     end
 
-    def self.[](path)
-      root = root_from_file(path)
+    def update(files : Array(String), reason : Symbol)
+      actions = [] of Symbol
 
-      @@workspaces[root] ||=
-        Workspace.new(root)
-          .tap(&.update_cache)
-          .tap(&.watch)
-    end
+      Logger.log "Parsing files" do
+        files.each do |file|
+          if File.extname(file) == ".mint"
+            if File.exists?(file)
+              contents = File.read(file)
+              update(contents, file)
 
-    alias ChangeProc = Proc(Ast | Error, Nil)
+              if @format
+                case ast = ast(file)
+                when Ast
+                  formatted =
+                    Formatter.new.format(ast)
 
-    @event_handlers = {} of String => Array(ChangeProc)
-    @cache = {} of String => Ast
-    @env_watcher : Watcher?
-    @pattern = %w[]
+                  if formatted != contents
+                    File.write(file, formatted)
+                  end
+                end
+              end
+            else
+              delete(file)
+            end
 
-    getter type_checker : TypeChecker
-    getter cache : Hash(String, Ast)
-    getter formatter : Formatter
-    getter json : MintJson
-    getter error : Error?
-    getter root : String
-
-    property? check_everything : Bool = true
-    property? check_env : Bool = false
-    property? format : Bool = false
-    getter test_path : String?
-
-    def test_path=(value)
-      @test_path = value
-      update_patterns
-    end
-
-    def initialize(@root : String)
-      json_path =
-        Path[@root, "mint.json"].to_s
-
-      @json =
-        FileUtils.cd(@root) do
-          MintJson.from_file(json_path)
-        end
-
-      @formatter =
-        Mint::Formatter.new(json.formatter_config)
-
-      @json_watcher =
-        Watcher.new([json_path])
-
-      @source_watcher =
-        Watcher.new(all_files_pattern)
-
-      @env_watcher =
-        Env.env.try do |file|
-          Watcher.new([file])
-        end
-
-      @type_checker =
-        TypeChecker.new(Ast.new)
-    end
-
-    def on(event, &handler : ChangeProc)
-      @event_handlers[event] ||= [] of ChangeProc
-      @event_handlers[event] << handler
-    end
-
-    def packages : Array(Workspace)
-      pattern =
-        Path[root, ".mint", "packages", "**", "mint.json"]
-
-      Dir.glob(pattern).map do |file|
-        Workspace.from_file(file)
-      end
-    end
-
-    def ast
-      result =
-        @cache.values.reduce(Ast.new) { |memo, item| memo.merge item }
-
-      result.merge(Core.ast) if @json.name != "core"
-      result.normalize
-    end
-
-    def []?(file)
-      @cache[normalize_path(file)]?
-    end
-
-    def [](file)
-      @cache[normalize_path(file)]
-    end
-
-    protected def []=(file, value)
-      @cache[normalize_path(file)] = value
-    end
-
-    def initialize_cache(&)
-      files = self.files
-      files.each_with_index do |file, index|
-        self[file] ||= Parser.parse(file)
-
-        yield file, index, files.size
-      end
-    end
-
-    def watch
-      spawn do
-        # Watches all the `*.mint` files
-        @source_watcher.watch do |files|
-          # Remove the changed files from the cache
-          files.each { |file| @cache.delete(file) }
-
-          # Update the cache
-          update_cache
-        end
-      end
-
-      spawn do
-        # Watches the `mint.json` file
-        @json_watcher.watch do
-          # We need to update the patterns because:
-          # 1. packages could have been added or removed
-          # 2. source directories could have been added or removed
-          update_patterns
-
-          # Reset the cache, this will cause a full recompilation, in the
-          # future this could be changed to only remove files from the cache
-          # that have been changed.
-          reset_cache
-        end
-      end
-
-      spawn do
-        @env_watcher.try &.watch do
-          Env.load do
-            update_cache
+            actions << :compile
+          else
+            # We need to do a reset because:
+            # 1. packages could have changed
+            # 2. source directories could have changed
+            # 3. variables in the .env file cloud have changed
+            case File.basename(file)
+            when "mint.json", ".env"
+              actions << :reset
+            end
           end
         end
       end
-    end
 
-    def files
-      Dir.glob(all_files_pattern)
-    end
-
-    def files_pattern : Array(String)
-      files =
-        json
-          .source_directories
-          .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
-
-      if path = test_path
-        files + if path == "*"
-          json
-            .test_directories
-            .map { |dir| Path[root, dir, "**", "*.mint"].to_posix.to_s }
-        else
-          [path]
-        end
+      if actions.includes?(:reset) && reason == :modified
+        reset
       else
-        files
+        set(check)
       end
     end
 
-    def update_cache
-      Logger.log "Parsing files" do
-        files.each do |file|
-          path =
-            File.realpath(file)
+    private def set(value : TypeChecker | Error) : Nil
+      @result = value
+      @listener.try(&.call(value))
+    end
 
-          self[file] ||= process(File.read(path), path)
-        end
+    private def map_error(item : T | Error, & : T -> R) : R | Error forall T, R
+      case item
+      in Error
+        item
+      in T
+        yield item
       end
-
-      Logger.log "Type Checking" { check! }
-
-      @error = nil
-
-      call "change", ast
-    rescue error : Error
-      @error = error
-
-      call "change", error
-    end
-
-    def format(file)
-      Formatter
-        .new(json.formatter_config)
-        .format(self[file])
-    end
-
-    def update(contents, file)
-      self[file] = process(contents, file)
-      @error = nil
-
-      call "change", ast
-    rescue error : Error
-      @error = error
-
-      call "change", error
-    end
-
-    private def normalize_path(file)
-      Path[file].normalize.to_s
-    end
-
-    private def process(contents, file)
-      ast =
-        Parser.parse(contents, File.realpath(file))
-
-      if format?
-        formatted =
-          Formatter
-            .new(json.formatter_config)
-            .format(ast)
-
-        if formatted != File.read(file)
-          File.write(file, formatted)
-        end
-      end
-
-      ast
-    end
-
-    private def check!
-      @type_checker =
-        Mint::TypeChecker.new(
-          check_everything: check_everything?,
-          check_env: check_env?,
-          ast: ast
-        ).tap(&.check)
-    end
-
-    private def call(event, arg)
-      @event_handlers[event]?.try(&.each(&.call(arg)))
-    end
-
-    def reset_cache
-      @cache = {} of String => Ast
-      update_cache
-    end
-
-    private def update_patterns
-      @source_watcher.pattern = all_files_pattern
-    end
-
-    private def all_files_pattern : Array(String)
-      packages
-        .flat_map(&.files_pattern)
-        .concat(files_pattern)
     end
   end
 end

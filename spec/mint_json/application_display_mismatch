@@ -1,0 +1,25 @@
+{
+  "application": {
+    "display": "xxx"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_DISPLAY_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value of the display field should be one of:
+
+  fullscreen
+  standalone
+  minimal-ui
+  browser
+
+It is here:
+
+   ┌ spec/fixtures/mint.json:3:16
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "display": "xxx"
+   │                ⌃
+  4│   }
+  5│ }

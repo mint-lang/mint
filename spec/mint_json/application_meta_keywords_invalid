@@ -1,0 +1,22 @@
+{
+  "application": {
+    "meta": {
+      "keywords": 0
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_META_KEYWORDS_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The keywords field of the meta object should be an array, but it's not:
+
+   ┌ spec/fixtures/mint.json:4:19
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "meta": {
+  4│       "keywords": 0
+   │                   ⌃
+  5│     }
+  6│   }
+  7│ }

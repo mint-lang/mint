@@ -266,6 +266,7 @@ module Mint
       HtmlBuilder.build(optimize: true) do |builder|
         html do
           head do
+            meta charset: "utf-8"
             link rel: "stylesheet", href: "../style.css"
 
             title do

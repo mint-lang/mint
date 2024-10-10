@@ -1,0 +1,19 @@
+component Test {
+  fun render : Html {
+    <div></div>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/didOpen",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint",
+      "languageId": "mint",
+      "version": 1,
+      "text": "component Test {\n        fun render : Html {\n\n\n          <div></div>\n        }\n      }"
+    }
+  }
+}
+-------------------------------------------------------------------------request

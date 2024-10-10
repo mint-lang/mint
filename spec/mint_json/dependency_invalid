@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "package": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A dependency must be an object, but it's not:
+
+   ┌ spec/fixtures/mint.json:3:16
+   ├─────────────────────────────
+  1│ {
+  2│   "dependencies": {
+  3│     "package": 0
+   │                ⌃
+  4│   }
+  5│ }

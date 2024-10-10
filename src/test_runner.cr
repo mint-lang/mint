@@ -21,46 +21,48 @@ module Mint
       @browser = Browser.new(flags.browser.downcase)
       @watch = flags.watch || flags.manual
 
-      workspace = Workspace.current
-      workspace.test_path = arguments.test || "*"
-      workspace.check_env = true
+      FileWorkspace.new(
+        path: Path[Dir.current, "mint.json"].to_s,
+        check: Check::Environment,
+        include_tests: true,
+        format: false,
+        listener: ->(result : TypeChecker | Error) do
+          case result
+          in TypeChecker
+            @files =
+              Bundler.new(
+                artifacts: result.artifacts,
+                json: MintJson.current,
+                config: Bundler::Config.new(
+                  runtime_path: flags.runtime,
+                  generate_manifest: false,
+                  include_program: false,
+                  live_reload: false,
+                  hash_assets: true,
+                  skip_icons: true,
+                  optimize: false,
+                  relative: false,
+                  test: {
+                    url:  "ws://#{flags.browser_host}:#{flags.browser_port}/",
+                    glob: arguments.test || "**/*",
+                    id:   "",
+                  })
+              ).bundle
 
-      workspace.on "change" do |result|
-        case result
-        in Ast
-          @files =
-            Bundler.new(
-              artifacts: workspace.type_checker.artifacts,
-              json: MintJson.new,
-              config: Bundler::Config.new(
-                runtime_path: flags.runtime,
-                generate_manifest: false,
-                include_program: false,
-                live_reload: false,
-                hash_assets: true,
-                skip_icons: true,
-                optimize: false,
-                relative: false,
-                test: {
-                  url: "ws://#{flags.browser_host}:#{flags.browser_port}/",
-                  id:  "",
-                })
-            ).bundle
+            unless flags.manual
+              # Stop and cleanup previous browser session
+              @browser.cleanup
 
-          unless flags.manual
-            # Stop and cleanup previous browser session
-            @browser.cleanup
+              terminal.puts "#{COG} Starting browser..." unless @watch
 
-            terminal.puts "#{COG} Starting browser..." unless @watch
-
-            spawn do
-              @browser.open("http://#{flags.browser_host}:#{flags.browser_port}")
+              spawn do
+                @browser.open("http://#{flags.browser_host}:#{flags.browser_port}")
+              end
             end
+          in Error
+            terminal.puts(result.to_terminal)
           end
-        in Error
-          terminal.puts(result.to_terminal)
-        end
-      end
+        end)
 
       websocket_handler =
         HTTP::WebSocketHandler.new do |socket|
@@ -119,14 +121,8 @@ module Mint
       ) do |host, port|
         terminal.puts "#{COG} Test server started: http://#{host}:#{port}/"
 
-        # Trigger first session
-        workspace.update_cache
-
         if @watch
           terminal.puts "#{COG} Waiting for a browser to connect..."
-
-          # Watch for changes...
-          workspace.watch
         end
       end
     end

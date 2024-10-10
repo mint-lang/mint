@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "package": { }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_MISSING_REPOSITORY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A dependency object is missing the repository field:
+
+   ┌ spec/fixtures/mint.json:4:3
+   ├────────────────────────────
+  1│ {
+  2│   "dependencies": {
+  3│     "package": { }
+  4│   }
+   │   ⌃
+  5│ }

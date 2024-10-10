@@ -43,92 +43,81 @@ module Mint
         short: "e"
 
       def run
-        execute "Building for production", env: flags.env do
-          # Initialize the workspace from the current working directory.
-          # We don't check everything to speed things up so only the hot
-          # path is checked.
-          workspace = Workspace.current
-          workspace.check_everything = false
-          workspace.check_env = true
+        execute "Building for production",
+          check_dependencies: true, env: flags.env do
+          FileWorkspace.new(
+            path: Path[Dir.current, "mint.json"].to_s,
+            check: Check::Environment,
+            include_tests: false,
+            format: false,
+            listener: ->(result : TypeChecker | Error) do
+              terminal.reset if flags.watch
 
-          # Check if we have dependencies installed.
-          workspace.json.check_dependencies!
+              case result
+              in TypeChecker
+                terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
+                  FileUtils.rm_rf DIST_DIR
+                end
 
-          # On any change we copy the build to the dist directory.
-          workspace.on("change") do |result|
-            terminal.reset if flags.watch
+                files =
+                  terminal.measure "#{COG} Building..." do
+                    Bundler.new(
+                      artifacts: result.artifacts,
+                      json: MintJson.current,
+                      config: Bundler::Config.new(
+                        generate_manifest: flags.generate_manifest,
+                        skip_icons: flags.skip_icons,
+                        optimize: !flags.no_optimize,
+                        runtime_path: flags.runtime,
+                        relative: flags.relative,
+                        include_program: true,
+                        live_reload: false,
+                        hash_assets: true,
+                        test: nil)).bundle
+                  end || {} of String => Proc(String)
 
-            case result
-            in Ast
-              terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
-                FileUtils.rm_rf DIST_DIR
-              end
+                bundle_size = 0
 
-              files =
-                terminal.measure "#{COG} Building..." do
-                  Bundler.new(
-                    artifacts: workspace.type_checker.artifacts,
-                    json: workspace.json,
-                    config: Bundler::Config.new(
-                      generate_manifest: flags.generate_manifest,
-                      skip_icons: flags.skip_icons,
-                      optimize: !flags.no_optimize,
-                      runtime_path: flags.runtime,
-                      relative: flags.relative,
-                      include_program: true,
-                      live_reload: false,
-                      hash_assets: true,
-                      test: nil)).bundle
-                end || {} of String => Proc(String)
+                files.keys.sort_by!(&.size).reverse!.each do |path|
+                  chopped =
+                    path.lchop('/')
 
-              bundle_size = 0
+                  content =
+                    files[path].call
 
-              files.keys.sort_by!(&.size).reverse!.each do |path|
-                chopped =
-                  path.lchop('/')
+                  size =
+                    content.bytesize
 
-                content =
-                  files[path].call
+                  proc =
+                    ->{ File.write_p(Path[DIST_DIR, chopped], content) }
 
-                size =
-                  content.bytesize
+                  bundle_size +=
+                    size
 
-                proc =
-                  ->{ File.write_p(Path[DIST_DIR, chopped], content) }
-
-                bundle_size +=
-                  size
-
-                if flags.verbose
-                  terminal.measure "#{COG} Writing #{chopped} (#{size.humanize_bytes(format: :JEDEC)})..." do
+                  if flags.verbose
+                    terminal.measure "#{COG} Writing #{chopped} (#{size.humanize_bytes(format: :JEDEC)})..." do
+                      proc.call
+                    end
+                  else
                     proc.call
                   end
-                else
-                  proc.call
                 end
-              end
 
-              terminal.divider
-              terminal.puts "Bundle size: #{bundle_size.humanize_bytes(format: :JEDEC)}"
-              terminal.puts "Files: #{files.size}"
-
-              if flags.timings
                 terminal.divider
-                Logger.print(terminal)
-              end
-            in Error
-              terminal.print result.to_terminal
-            end
-          end
+                terminal.puts "Bundle size: #{bundle_size.humanize_bytes(format: :JEDEC)}"
+                terminal.puts "Files: #{files.size}"
 
-          # Do the initial parsing and type checking.
-          workspace.update_cache
+                if flags.timings
+                  terminal.divider
+                  Logger.print(terminal)
+                end
+              in Error
+                terminal.print result.to_terminal
+              end
+            end)
 
           # Start wathing for changes if the flag is set.
-          if flags.watch
-            workspace.watch
-            sleep
-          end
+          sleep if flags.watch
         end
       end
     end

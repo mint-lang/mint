@@ -4,12 +4,20 @@ module Mint
       parse ::File.read(file), file
     end
 
-    def self.parse(contents, file) : Ast
+    def self.parse?(contents, file) : Ast | Error
       parser = new(contents, file)
       parser.parse
       parser.eof!
-      parser.errors.first?.try { |error| raise error }
-      parser.ast
+      parser.errors.first? || parser.ast
+    end
+
+    def self.parse(contents, file) : Ast
+      case result = parse?(contents, file)
+      in Error
+        raise result
+      in Ast
+        result
+      end
     end
 
     def parse : Nil

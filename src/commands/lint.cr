@@ -10,21 +10,20 @@ module Mint
         default: false
 
       def run
-        ast =
-          Ast.new.merge(Core.ast)
+        ast = Ast.new.merge(Core.ast)
+        json = MintJson.current
+        errors = [] of Error
 
-        errors =
-          [] of Error
+        Dir.glob(SourceFiles.globs(json, include_tests: true))
+          .reduce(ast) do |memo, file|
+            begin
+              memo.merge(Parser.parse(file))
+            rescue error : Error
+              errors << error
+            end
 
-        Dir.glob(SourceFiles.all).reduce(ast) do |memo, file|
-          begin
-            memo.merge(Parser.parse(file))
-          rescue error : Error
-            errors << error
+            memo
           end
-
-          memo
-        end
 
         begin
           TypeChecker.new(ast).tap(&.check)

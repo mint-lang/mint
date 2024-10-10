@@ -1,0 +1,14 @@
+{
+  "test-directories": ["xxx"]
+}
+--------------------------------------------------------------------------------
+░ ERROR (TEST_DIRECTORY_NOT_EXISTS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The test directory xxx does not exists:
+
+   ┌ spec/fixtures/mint.json:2:24
+   ├──────────────────────────────
+  1│ {
+  2│   "test-directories": ["xxx"]
+   │                        ⌃
+  3│ }

@@ -1,0 +1,24 @@
+{
+  "mint-version": "0.0.0 <= v < 0.0.1"
+}
+--------------------------------------------------------------------------------
+░ ERROR (MINT_VERSION_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The mint-version field does not match this version of Mint.
+
+I was looking for
+
+  0.0.0 <= v < 0.0.1
+
+but found instead:
+
+  0.20.0-alpha.2
+
+It is here:
+
+   ┌ spec/fixtures/mint.json:2:19
+   ├───────────────────────────────────────
+  1│ {
+  2│   "mint-version": "0.0.0 <= v < 0.0.1"
+   │                   ⌃
+  3│ }

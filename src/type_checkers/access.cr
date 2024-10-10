@@ -61,13 +61,15 @@ module Mint
           variable.value
         end
 
-      # possibilities.each do |possibility|
+      # Type variant
       if possibility
         if parent = ast.type_definitions.find(&.name.value.==(possibility))
           case fields = parent.fields
           when Array(Ast::TypeVariant)
             if option = fields.find(&.value.value.==(node.field.value))
               variables[node] = {option, parent}
+              variables[node.field] = {option, parent}
+              variables[node.expression] = {parent, parent}
               # puts({Debugger.dbg(parent), Debugger.dbg(node)})
               resolve(parent)
               return to_function_type(option, parent)
@@ -75,6 +77,7 @@ module Mint
           end
         end
 
+        # Constant
         if entity = scope.resolve(possibility, node).try(&.node)
           if entity && possibility[0].ascii_uppercase?
             if target_node = scope.resolve(node.field.value, entity).try(&.node)
@@ -142,7 +145,7 @@ module Mint
 
         resolve lookups[node.field][0]
       else
-        record_field_lookup[node.field] = new_target.name
+        record_field_lookup[node.field] = target.name
       end
 
       new_target

@@ -3,14 +3,13 @@ module Mint
     class DidChange < LSP::NotificationMessage
       property params : LSP::DidChangeTextDocumentParams
 
-      def execute(server)
-        uri =
-          URI.parse(params.text_document.uri)
+      def execute(server) : Nil
+        path =
+          params.text_document.path
 
-        workspace =
-          Workspace[uri.path.to_s]
-
-        workspace.update(params.content_changes.first.text, uri.path)
+        server
+          .workspace(path)
+          .update(params.content_changes.first.text, path)
       end
     end
   end

@@ -5,17 +5,16 @@ module Mint
       property params : LSP::TextDocumentPositionParams
 
       def execute(server) : Array(LSP::LocationLink) | Array(LSP::Location) | LSP::Location | Nil
-        uri =
-          URI.parse(params.text_document.uri)
-
         workspace =
-          Workspace[uri.path.to_s]
+          server.workspace(params.path)
 
-        unless workspace.error
+        case type_checker = workspace.result
+        in TypeChecker
           stack =
-            server.nodes_at_cursor(params)
-
-          return unless node = stack[0]?
+            type_checker.artifacts.ast.nodes_at_cursor(
+              column: params.position.character,
+              path: params.text_document.path,
+              line: params.position.line + 1)
 
           # stack.each do |item|
           #   print item.class.name.sub("Mint::Ast::", "")
@@ -26,6 +25,8 @@ module Mint
           #   puts item.location.start
           # end
 
+          return unless node = stack[0]?
+
           has_link_support =
             server
               .params
@@ -33,7 +34,12 @@ module Mint
               .try(&.definition)
               .try(&.link_support) || false
 
-          links = definition(node, workspace, stack)
+          links =
+            Definitions.new(
+              type_checker: type_checker,
+              params: params,
+              stack: stack,
+            ).definition(node)
 
           case links
           when Array(LSP::LocationLink)
@@ -49,63 +55,14 @@ module Mint
 
             [links]
           end
+        in Error
         end
-      end
-
-      def definition(node : Ast::Node, workspace : Workspace, stack : Array(Ast::Node))
-        nil
-      end
-
-      def cursor_intersects?(node : Ast::Node, position : LSP::Position) : Bool
-        node.location.contains?(position.line + 1, position.character)
-      end
-
-      def cursor_intersects?(node : Ast::Node, params : LSP::TextDocumentPositionParams) : Bool
-        cursor_intersects?(node, params.position)
-      end
-
-      def cursor_intersects?(node : Ast::Node) : Bool
-        cursor_intersects?(node, params)
-      end
-
-      def find_component(workspace : Workspace, name : String) : Ast::Component?
-        # Do not include any core component
-        return if Core.ast.components.any?(&.name.value.== name)
-
-        workspace.ast.components.find(&.name.value.== name)
-      end
-
-      def to_lsp_range(location : Ast::Node::Location) : LSP::Range
-        LSP::Range.new(
-          start: LSP::Position.new(
-            line: location.start[0] - 1,
-            character: location.start[1]
-          ),
-          end: LSP::Position.new(
-            line: location.end[0] - 1,
-            character: location.end[1]
-          )
-        )
       end
 
       def to_lsp_location(location_link : LSP::LocationLink) : LSP::Location
         LSP::Location.new(
           range: location_link.target_selection_range,
           uri: location_link.target_uri,
-        )
-      end
-
-      # Returns a `LSP::LocationLink` that links from *source* to the *target* node
-      #
-      # The *parent* node is used to provide the full range for the *target* node.
-      # For example, for a function, *target* would be the function name, and *parent*
-      # would be the whole node, including function body and any comments
-      def location_link(source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink
-        LSP::LocationLink.new(
-          origin_selection_range: to_lsp_range(source.location),
-          target_uri: "file://#{target.location.filename}",
-          target_range: to_lsp_range(parent.location),
-          target_selection_range: to_lsp_range(target.location)
         )
       end
     end

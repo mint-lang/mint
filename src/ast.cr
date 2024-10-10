@@ -62,6 +62,19 @@ module Mint
       self.class.new.merge(self)
     end
 
+    def nodes_at_cursor(
+      *,
+      column : Int64,
+      path : String,
+      line : Int64
+    ) : Array(Ast::Node)
+      nodes_at_path(path).select!(&.location.contains?(line, column))
+    end
+
+    def nodes_at_path(path : String) : Array(Ast::Node)
+      nodes.select(&.file.path.==(path))
+    end
+
     def includes?(node : Ast::Node, other : Ast::Node)
       node.input == other.input &&
         node.from <= other.from &&

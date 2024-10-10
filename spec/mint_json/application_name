@@ -1,0 +1,18 @@
+{
+  "application": {
+    "name": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_NAME_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The name field of the application object should be a string, but it's not:
+
+   ┌ spec/fixtures/mint.json:3:13
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "name": 0
+   │             ⌃
+  4│   }
+  5│ }

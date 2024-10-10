@@ -1,0 +1,19 @@
+{
+  "application": {
+    "theme-color": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_THEME_COLOR_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The theme-color field of the application object should be a string, but it's
+not:
+
+   ┌ spec/fixtures/mint.json:3:20
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "theme-color": 0
+   │                    ⌃
+  4│   }
+  5│ }

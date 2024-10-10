@@ -1,7 +1,11 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::TypeDefinition, workspace) : Array(String)
+      def hover(
+        node : Ast::TypeDefinition,
+        workspace : FileWorkspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         parameters =
           "" # workspace.formatter.format_parameters(node.parameters)
 
@@ -23,7 +27,7 @@ module Mint
           ] + fields).compact
         else
           type =
-            workspace.formatter.format!(node)
+            workspace.format(node)
 
           ["```\n#{type}\n```"]
         end

@@ -59,7 +59,7 @@ module Mint
       HTML,
     ] of Checkable
 
-    getter records, artifacts, formatter, web_components
+    getter records, artifacts, formatter
     getter? check_everything
 
     property? checking = true
@@ -86,7 +86,7 @@ module Mint
       @block_stack.last?
     end
 
-    def initialize(ast : Ast, @check_env = true, @web_components = [] of String, @check_everything = true)
+    def initialize(ast : Ast, @check_env = true, @check_everything = true)
       ast.normalize
 
       @languages = ast.unified_locales.map(&.language)

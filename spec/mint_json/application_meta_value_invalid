@@ -1,0 +1,22 @@
+{
+  "application": {
+    "meta": {
+      "viewport": 0
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_META_VALUE_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value of a meta field should be a string, but it's not:
+
+   ┌ spec/fixtures/mint.json:4:19
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "meta": {
+  4│       "viewport": 0
+   │                   ⌃
+  5│     }
+  6│   }
+  7│ }

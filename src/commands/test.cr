@@ -34,7 +34,8 @@ module Mint
         short: "m"
 
       define_flag watch : Bool,
-        description: "Watch files for changes and rerun tests."
+        description: "Watch files for changes and rerun tests.",
+        short: "w"
 
       define_flag host : String,
         description: "Host to serve the tests on.",

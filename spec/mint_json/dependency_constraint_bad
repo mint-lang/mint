@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "package": {
+      "repository": "",
+      "constraint": "xxx"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCY_CONSTRAINT_BAD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The constraint of a dependency is either in this format:
+
+  0.0.0 <= v < 1.0.0
+
+or a git tag / commit / branch followed by the version:
+
+  master:0.1.0
+
+I could not find either:
+
+   ┌ spec/fixtures/mint.json:5:21
+   ├─────────────────────────────
+  1│ {
+  2│   "dependencies": {
+  3│     "package": {
+  4│       "repository": "",
+  5│       "constraint": "xxx"
+   │                     ⌃
+  6│     }
+  7│   }
+  8│ }

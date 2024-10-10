@@ -20,18 +20,20 @@ module Mint
 
       def run
         execute "Generating documentation" do
-          directory =
-            arguments.directory
+          directory = arguments.directory
+          json = MintJson.current
 
-          jsons = [MintJson.parse_current]
-          jsons.concat(SourceFiles.packages) if flags.include_packages
+          jsons =
+            if flags.include_packages
+              SourceFiles.packages(json, include_self: true)
+            else
+              [json]
+            end
 
           asts =
-            jsons.map do |json|
+            Dir.glob(SourceFiles.globs(jsons)).map do |file|
               Ast.new.tap do |ast|
-                json.source_files.each do |file|
-                  ast.merge(Parser.parse(File.read(file), file))
-                end
+                ast.merge(Parser.parse(File.read(file), file))
               end
             end
 
@@ -43,9 +45,9 @@ module Mint
           end
 
           terminal.measure "#{COG} Generating documentation..." do
-            StaticDocumentationGenerator
-              .generate(asts)
-              .each { |path, contents| File.write_p(Path[directory, path], contents) }
+            StaticDocumentationGenerator.generate(asts).each do |path, contents|
+              File.write_p(Path[directory, path], contents)
+            end
           end
         end
       end

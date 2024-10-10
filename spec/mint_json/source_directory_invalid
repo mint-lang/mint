@@ -1,0 +1,14 @@
+{
+  "source-directories": [0]
+}
+--------------------------------------------------------------------------------
+░ ERROR (SOURCE_DIRECTORY_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+All entries in the source-directories array should be string:
+
+   ┌ spec/fixtures/mint.json:2:26
+   ├─────────────────────────────
+  1│ {
+  2│   "source-directories": [0]
+   │                          ⌃
+  3│ }

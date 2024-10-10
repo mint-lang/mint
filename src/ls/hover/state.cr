@@ -1,13 +1,17 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::State, workspace) : Array(String)
+      def hover(
+        node : Ast::State,
+        workspace : FileWorkspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         default =
-          " = #{workspace.formatter.format!(node.default)}"
+          " = #{workspace.format(node.default)}"
 
         type =
           node.type.try do |item|
-            " : #{workspace.formatter.format!(item)}"
+            " : #{workspace.format(item)}"
           end
 
         [

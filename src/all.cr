@@ -68,10 +68,11 @@ require "./test_runner"
 require "./lsp/**"
 require "./ls/**"
 
+require "./mint_json/**"
 require "./mint_json"
+
 require "./scaffold"
 require "./reactor"
-require "./sandbox_server"
 require "./cli"
 require "./workspace"
 require "./debugger"

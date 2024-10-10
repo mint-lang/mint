@@ -19,46 +19,35 @@ module Mint
     @sockets = [] of HTTP::WebSocket
 
     def initialize(*, @host, @port, @format, @reload)
-      # Initialize the workspace from the current working directory. We don't
-      # check everything to speed things up so only the hot path is checked.
-      workspace = Workspace.current
-      workspace.check_everything = false
-      workspace.check_env = true
-      workspace.format = format?
+      FileWorkspace.new(
+        path: Path[Dir.current, "mint.json"].to_s,
+        check: Check::Environment,
+        include_tests: false,
+        format: format?,
+        listener: ->(result : TypeChecker | Error) do
+          @files =
+            case result
+            in TypeChecker
+              Bundler.new(
+                artifacts: result.artifacts,
+                json: MintJson.current,
+                config: Bundler::Config.new(
+                  generate_manifest: false,
+                  include_program: true,
+                  hash_assets: false,
+                  runtime_path: nil,
+                  live_reload: true,
+                  skip_icons: false,
+                  optimize: false,
+                  relative: false,
+                  test: nil),
+              ).bundle
+            in Error
+              error(result)
+            end
 
-      # Check if we have dependencies installed.
-      workspace.json.check_dependencies!
-
-      # On any change we update the result and notify all clients to
-      # reload the application.
-      workspace.on "change" do |result|
-        @files =
-          case result
-          in Ast
-            Bundler.new(
-              artifacts: workspace.type_checker.artifacts,
-              json: workspace.json,
-              config: Bundler::Config.new(
-                generate_manifest: false,
-                include_program: true,
-                hash_assets: false,
-                runtime_path: nil,
-                live_reload: true,
-                skip_icons: false,
-                optimize: false,
-                relative: false,
-                test: nil),
-            ).bundle
-          in Error
-            error(result)
-          end
-
-        @sockets.each(&.send("reload"))
-      end
-
-      # Do the initial parsing and type checking and start wathing for changes.
-      workspace.update_cache
-      workspace.watch
+          @sockets.each(&.send("reload")) if reload?
+        end)
 
       # The websocket handle saves the sockets when they connect and
       # removes them when they disconnect.
