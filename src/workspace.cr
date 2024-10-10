@@ -5,141 +5,54 @@ module Mint
     Unreachable
   end
 
-  # A workspace represents a Mint project either in the file system or in
-  # memory.A workspace provides up to date, type checked artifacts which
-  # can be used in other places (bundler, test runner, development server,
-  # language server, etc...)
-  class Workspace2
-    class Cache
-      # Stores the AST (or error) of the file at the given path.
-      @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
-
-      def initialize(@check : Check)
-      end
-
-      def update(contents : String, path : String)
-        @cache[path] = Parser.parse?(contents, path)
-      end
-
-      def delete(path : String)
-        @cache.delete(path)
-      end
-
-      def ast(path : String) : Ast | Error | Nil
-        @cache[path]?
-      end
-
-      def clear
-        @cache.clear
-      end
-
-      def process
-        errors =
-          @cache.values.select(Error)
-
-        if error = errors.first?
-          error
-        else
-          ast =
-            @cache
-              .values
-              .select(Ast)
-              .reduce(Ast.new) { |memo, item| memo.merge item }
-              .tap do |item|
-                # Only merge the core if it's not the core (if it has `Maybe`
-                # defined then it's the core).
-                item.merge(Core.ast) unless item.type_definitions.index(&.name.==("Maybe"))
-              end
-              .normalize
-
-          TypeChecker.new(
-            check_everything: @check.unreachable?,
-            check_env: @check.environment?,
-            ast: ast
-          ).tap(&.check)
-        end
-      rescue error : Error
-        error
-      end
-    end
-
+  # A workspace represents a Mint project in the file system.
+  # - It provides up to date, type checked artifacts which can be used in other
+  #   places (bundler, test runner, development server, etc...).
+  # - It watches the appropriate files and recompiles when they change.
+  # - It does a compilation on initialization, so artifacts are ready to be
+  #   used.
+  #
+  class FileWorkspace
     # The current artifacts of the program or the current error.
     getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
 
+    # Stores the AST (or error) of the file at the given path.
+    @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
+
     # The listener to call when a new result is ready.
     @listener : Proc(TypeChecker | Error, Nil) | Nil
-
-    # The AST cache.
-    @cache : Cache
-
-    # The ID for debouncing the update.
-    @id = 0
-
-    def initialize
-      @cache = Workspace.new(Check::All)
-    end
-
-    def artifacts : Artifacts | Error
-      case item = result
-      in TypeChecker
-        item.artifacts
-      in Error
-        item
-      end
-    end
-
-    def ast : Ast | Error
-      case item = result
-      in TypeChecker
-        item.artifacts.ast
-      in Error
-        item
-      end
-    end
-
-    def ast(path : String) : Ast | Error | Nil
-      @cache.ast(path)
-    end
-
-    def update(contents : String, path : String)
-      @cache.update(contents, path)
-      self
-    end
-
-    def delete(path : String)
-      @cache.delete(path)
-    end
-
-    def delayed_process
-      spawn { process }
-    end
-
-    def process
-      @result = Logger.log "Type Checking" { @cache.process }
-      @listener.try(&.call(@result))
-    end
-  end
-
-  # A file workspace watches the appropriate files of a project and recompiles
-  # it when they change.
-  class FileWorkspace < Workspace2
-    getter? include_tests : Bool = false
-    getter? format : Bool
-    getter path : String
 
     def initialize(
       *,
       @listener : Proc(TypeChecker | Error, Nil) | Nil,
       @include_tests : Bool,
       @format : Bool,
-      @path : String,
-      check : Check
+      @check : Check,
+      @path : String
     )
-      @watcher = Watcher.new(&->update(Array(String), Symbol))
-      @cache = Cache.new(check)
+      (@watcher = Watcher.new(&->update(Array(String), Symbol)))
+        .tap { reset }
+        .watch
+    end
 
-      reset
-      @watcher.watch
+    def update(contents : String, path : String) : Nil
+      @cache[path] = Parser.parse?(contents, path)
+    end
+
+    def delete(path : String) : Nil
+      @cache.delete(path)
+    end
+
+    def artifacts : TypeChecker::Artifacts | Error
+      map_error(result, &.artifacts)
+    end
+
+    def ast(path : String) : Ast | Error | Nil
+      @cache[path]?
+    end
+
+    def ast : Ast | Error
+      map_error(artifacts, &.ast)
     end
 
     def nodes_at_cursor(
@@ -148,37 +61,24 @@ module Mint
       path : String,
       line : Int64
     ) : Array(Ast::Node) | Error
-      map_error(ast,
-        &.nodes_at_cursor(line: line, column: column, path: path))
+      map_error(ast, &.nodes_at_cursor(
+        line: line, column: column, path: path))
     end
 
     def nodes_at_path(path : String)
       map_error(ast, &.nodes_at_path(path))
     end
 
-    def format(node : Nil) : String
-      ""
-    end
-
-    def format(node : Ast::Node) : String
+    def format(node : Ast::Node | Nil) : String | Nil
       Formatter.new.format!(node)
     end
 
-    def format(path : String) : String
-      case ast = ast(path)
-      when Ast
-        Formatter.new.format(ast)
-      else
-        ""
-      end
-    end
-
-    def map_error(item : T | Error, & : T -> R) : R | Error forall T, R
-      case item
-      in Error
+    def format(path : String) : String | Error | Nil
+      case item = ast(path)
+      in Ast
+        Formatter.new.format(item)
+      in Error, Nil
         item
-      in T
-        yield item
       end
     end
 
@@ -189,8 +89,38 @@ module Mint
           MintJson.parse(@path, search: true),
           include_tests: @include_tests)
     rescue error : Error
-      @result = error
-      @listener.try(&.call(@result))
+      set(error)
+    end
+
+    def check
+      Logger.log "Type Checking" do
+        if error = @cache.values.select(Error).first?
+          error
+        else
+          ast =
+            @cache
+              .values
+              .select(Ast)
+              .reduce(Ast.new) { |memo, item| memo.merge item }
+              .tap do |item|
+                # Only merge the core if it's not the core (if it has `Maybe`
+                # defined then it's the core). This is so the language server
+                # works with the core files.
+                unless item.type_definitions.index(&.name.==("Maybe"))
+                  item.merge(Core.ast)
+                end
+              end
+              .normalize
+
+          TypeChecker.new(
+            check_everything: @check.unreachable?,
+            check_env: @check.environment?,
+            ast: ast
+          ).tap(&.check)
+        end
+      end
+    rescue error : Error
+      error
     end
 
     def update(files : Array(String), reason : Symbol)
@@ -203,8 +133,8 @@ module Mint
               contents = File.read(file)
               update(contents, file)
 
-              if format?
-                case ast = @cache.ast(file)
+              if @format
+                case ast = ast(file)
                 when Ast
                   formatted =
                     Formatter.new.format(ast)
@@ -235,7 +165,21 @@ module Mint
       if actions.includes?(:reset) && reason == :modified
         reset
       else
-        process
+        set(check)
+      end
+    end
+
+    private def set(value : TypeChecker | Error) : Nil
+      @result = value
+      @listener.try(&.call(value))
+    end
+
+    private def map_error(item : T | Error, & : T -> R) : R | Error forall T, R
+      case item
+      in Error
+        item
+      in T
+        yield item
       end
     end
   end

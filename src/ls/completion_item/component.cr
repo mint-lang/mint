@@ -12,6 +12,7 @@ module Mint
               default =
                 @workspace
                   .format(property.default)
+                  .to_s
                   .gsub("}", "\\}")
 
               type =

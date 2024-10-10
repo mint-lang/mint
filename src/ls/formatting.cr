@@ -7,11 +7,8 @@ module Mint
         workspace =
           server.workspace(params.text_document.path)
 
-        case workspace.ast(params.text_document.path)
-        in Ast
-          formatted =
-            workspace.format(params.text_document.path)
-
+        case formatted = workspace.format(params.text_document.path)
+        in String
           [
             LSP::TextEdit.new(new_text: formatted, range: LSP::Range.new(
               start: LSP::Position.new(line: 0, character: 0),
@@ -26,7 +23,7 @@ module Mint
           # because SublimeText LSP client freezes if there is no response.
           %w[]
         in Nil
-          %[]
+          %w[]
         end
       end
     end
