@@ -1,6 +1,5 @@
 module Mint
-  # This is a name pool. It returns a unique identifier for a given item of a
-  # given base item.
+  # It returns a unique identifier for a given item of a given base item.
   #
   # In Mint it's used to get variable names for blocks of selectors
   # and CSS properties.

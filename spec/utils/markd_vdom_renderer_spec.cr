@@ -1,8 +1,10 @@
 require "../spec_helper"
 
-describe Mint::VDOMRenderer do
-  html_block =
-    <<-HTML
+module Mint
+  class Compiler
+    describe VDOMRenderer do
+      html_block =
+        <<-HTML
     <table>
       <tr>
         <td>
@@ -12,36 +14,130 @@ describe Mint::VDOMRenderer do
     </table>
     HTML
 
-  [
-    {"# Heading 1", "_h('h1',{},[`Heading 1`])"},
-    {"## Heading 2", "_h('h2',{},[`Heading 2`])"},
-    {"### Heading 3", "_h('h3',{},[`Heading 3`])"},
-    {"#### Heading 4", "_h('h4',{},[`Heading 4`])"},
-    {"##### Heading 5", "_h('h5',{},[`Heading 5`])"},
-    {"###### Heading 6", "_h('h6',{},[`Heading 6`])"},
-    {"Paragraph", "_h('p',{},[`Paragraph`])"},
-    {"_em_", "_h('p',{},[_h('em',{},[`em`])])"},
-    {"**strong**", "_h('p',{},[_h('strong',{},[`strong`])])"},
-    {"foo\nbaz", "_h('p',{},[`foo`,`\n`,`baz`])"},
-    {"foo\\\nbar", "_h('p',{},[`foo`,_h('br',{},[]),`bar`])"},
-    {"`code`", "_h('p',{},[_h('code',{},[`code`])])"},
-    {"```html\ncode\n```", %(_h('pre',{},[_h('code',{class:"language-html"},[`code`])]))},
-    {"-----", "_h('hr',{},[])"},
-    {"> quote", "_h('blockquote',{},[_h('p',{},[`quote`])])"},
-    {"* item 1\n* item 2", "_h('ul',{},[_h('li',{},[`item 1`]),_h('li',{},[`item 2`])])"},
-    {"[link](url)", %(_h('p',{},[_h('a',{href:"url"},[`link`])]))},
-    {"![alt](url)", %(_h('p',{},[_h('img',{src:"url",alt:"alt"},[])]))},
-    {html_block, %(`#{html_block}`)},
-    {"<del>*foo*</del>", "_h('p',{},[`<del>`,_h('em',{},[`foo`]),`</del>`])"},
-    {"<style>*foo*</style>", "`<style>*foo*</style>`"},
-  ].each do |(markdown, expected)|
-    context markdown do
-      it "renders correctly" do
-        options = Markd::Options.new
-        document = Markd::Parser.parse(markdown, options)
+      [
+        {"**strong**", "A('p', {}, [A('strong', {}, [`strong`])])"},
+        {"> quote", "A('blockquote', {}, [A('p', {}, [`quote`])])"},
+        {"`code`", "A('p', {}, [A('code', {}, [`code`])])"},
+        {"<style>*foo*</style>", "`<style>*foo*</style>`"},
+        {"###### Heading 6", "A('h6', {}, [`Heading 6`])"},
+        {"##### Heading 5", "A('h5', {}, [`Heading 5`])"},
+        {"#### Heading 4", "A('h4', {}, [`Heading 4`])"},
+        {"### Heading 3", "A('h3', {}, [`Heading 3`])"},
+        {"## Heading 2", "A('h2', {}, [`Heading 2`])"},
+        {"# Heading 1", "A('h1', {}, [`Heading 1`])"},
+        {"_em_", "A('p', {}, [A('em', {}, [`em`])])"},
+        {"Paragraph", "A('p', {}, [`Paragraph`])"},
+        {html_block, %(`#{html_block}`)},
+        {"-----", "A('hr', {}, [])"},
+        {
+          "foo\nbaz",
+          <<-TEXT
+      A('p', {}, [
+        `foo`,
+        `\n`,
+        `baz`
+      ])
+      TEXT
+        },
+        {
+          "foo\\\nbar",
+          <<-TEXT
+      A('p', {}, [
+        `foo`,
+        A('br', {}, []),
+        `bar`
+      ])
+      TEXT
+        },
+        {
+          "```html\ncode\n```",
+          <<-TEXT
+      A('pre', {}, [A('code', {
+        class: "language-html"
+      }, [`code`])])
+      TEXT
+        },
+        {
+          "* item 1\n* item 2",
+          <<-TEXT
+      A('ul', {}, [
+        A('li', {}, [`item 1`]),
+        A('li', {}, [`item 2`])
+      ])
+      TEXT
+        },
+        {
+          "[link](url)",
+          <<-TEXT
+      A('p', {}, [A('a', {
+        href: "url"
+      }, [`link`])])
+      TEXT
+        },
+        {
+          "![alt](url)",
+          <<-TEXT
+      A('p', {}, [A('img', {
+        src: "url",
+        alt: "alt"
+      }, [])])
+      TEXT
+        },
+        {
+          "<del>*foo*</del>",
+          <<-TEXT
+      A('p', {}, [
+        `<del>`,
+        A('em', {}, [`foo`]),
+        `</del>`
+      ])
+      TEXT
+        },
+      ].each do |(markdown, expected)|
+        context markdown do
+          it "renders correctly" do
+            document =
+              Markd::Parser.parse(markdown, Markd::Options.new)
 
-        renderer = Mint::VDOMRenderer.new
-        renderer.render(document.first_child).should eq(expected)
+            renderer =
+              VDOMRenderer.new
+
+            js =
+              Js.new(false)
+
+            class_pool =
+              NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
+
+            pool =
+              NamePool(Ast::Node | Decoder | Encoder | Variable | String, Set(Ast::Node) | Bundle).new
+
+            js_renderer =
+              Renderer.new(
+                bundles: {} of Set(Ast::Node) | Bundle => Set(Ast::Node),
+                deferred_path: ->(_node : Set(Ast::Node) | Bundle) { "" },
+                asset_path: ->(_node : Ast::Node) { "" },
+                class_pool: class_pool,
+                base: Bundle::Index,
+                pool: pool)
+
+            node =
+              VDOMRenderer
+                .render(
+                  node: renderer.render(document, "___SEPARATOR___", VDOMRenderer::Highlight::None).children.first,
+                  replacements: [] of Compiled,
+                  separator: "",
+                  js: js)
+
+            result =
+              js_renderer.render(node)
+
+            begin
+              result.should eq(expected.strip)
+            rescue error
+              fail diff(expected, result)
+            end
+          end
+        end
       end
     end
   end

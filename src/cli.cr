@@ -19,16 +19,6 @@ module Mint
     register_sub_command test, type: Test
     register_sub_command docs, type: Docs
 
-    def self.runtime_file_not_found(path : String)
-      error! :runtime_file_not_found do
-        block do
-          text "The specified runtime file"
-          code path
-          text "could not be found"
-        end
-      end
-    end
-
     def run
       execute "Help" do
         terminal.puts help

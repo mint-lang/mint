@@ -14,15 +14,15 @@ module Mint
     # Represents compiled code.
     alias Compiled = Array(Item)
 
-    # Represents an reference to a file
-    record Asset, value : Ast::Node
-
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
 
     # Represents a Preact signal (https://preactjs.com/guide/v10/signals/). Signals are treated
     # differently from vaiables because we will need to access them using the `.value` accessor.
     record Signal, value : Ast::Node
+
+    # Represents an reference to a file
+    record Asset, value : Ast::Node
 
     # Represents a reference to an HTML element or other component. They are treated differently
     # because they have a `.current` accessor.
@@ -37,9 +37,6 @@ module Mint
     # Represents raw code (which does not get modified or indented).
     record Raw, value : String
 
-    # Represents the await keyword.
-    class Await; end
-
     # Represents a variable.
     class Variable; end
 
@@ -48,6 +45,9 @@ module Mint
 
     # Represents a decoder.
     class Decoder; end
+
+    # Represents the await keyword.
+    class Await; end
 
     enum Bundle
       Index
@@ -215,7 +215,7 @@ module Mint
 
     # Fallback for compiling a node.
     def compile(node : Ast::Node) : Compiled
-      raise "Missing compiler for: #{node.class.to_s.upcase}"
+      unreachable! "Missing compiler for: #{node.class.to_s.upcase}"
     end
 
     # Resolves a top-level node.
@@ -233,8 +233,7 @@ module Mint
 
     # Fallback resolving nodes.
     def resolve(node : Ast::Node)
-      puts "Missing resolver for: #{node.class.to_s.upcase}"
-      nil
+      unreachable! "Missing resolver for: #{node.class.to_s.upcase}"
     end
 
     # Translations

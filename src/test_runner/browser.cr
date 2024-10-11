@@ -34,7 +34,7 @@ module Mint
 
         path =
           paths
-            .compact_map { |item| Process.find_executable(item) }
+            .compact_map(&->Process.find_executable(String))
             .first?
 
         error! :browser_not_found do
@@ -55,7 +55,7 @@ module Mint
         profile_directory =
           Path[Dir.tempdir, Random.new.hex(5)]
             .to_s
-            .tap { |directory| Dir.mkdir(directory) }
+            .tap(&->Dir.mkdir(String))
 
         begin
           # Start the browser process

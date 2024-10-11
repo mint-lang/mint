@@ -423,6 +423,7 @@ module Mint
 
       files[path_for_asset("runtime.js")] =
         if runtime_path = config.runtime_path
+          # TODO: Raise if runtime not found
           ->{ File.read(runtime_path) }
         elsif config.test
           ->{ Assets.read("runtime_test.js") }

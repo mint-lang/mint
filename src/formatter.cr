@@ -147,7 +147,10 @@ module Mint
 
     # Helpers for recursively formatting things...
 
-    def format_arguments(nodes : Array(Ast::Node), empty_parenthesis = true) : Nodes
+    def format_arguments(
+      nodes : Array(Ast::Node), *,
+      empty_parenthesis = true
+    ) : Nodes
       return empty_parenthesis ? ["()"] of Node : [] of Node if nodes.empty?
 
       behavior =

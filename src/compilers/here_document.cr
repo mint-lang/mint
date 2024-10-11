@@ -34,10 +34,17 @@ module Mint
               value.shrink_to_minimum_leading_whitespace,
               Markd::Options.new)
 
-          VDOMRenderer2.render(
-            highlight: node.highlight ? Highlight::MintOnly : Highlight::None,
+          highlight =
+            if node.highlight
+              VDOMRenderer::Highlight::MintOnly
+            else
+              VDOMRenderer::Highlight::None
+            end
+
+          VDOMRenderer.render(
             replacements: interpolations,
             separator: separator,
+            highlight: highlight,
             document: document,
             js: js)
         else

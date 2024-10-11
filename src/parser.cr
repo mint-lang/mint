@@ -62,7 +62,7 @@ module Mint
       @position == input.size
     end
 
-    # Checks if we reached the end of the file raises an error otherwise.
+    # Checks if we reached the end of the file, adds an error otherwise.
     def eof! : Bool
       whitespace
       error :expected_eof do

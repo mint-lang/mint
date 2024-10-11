@@ -24,35 +24,36 @@ module Mint
     def initialize(@xml : XML::Builder)
     end
 
-    def raw(contents)
-      @xml.raw(contents)
-    end
-
-    def text(contents)
-      @xml.text(contents)
-    end
-
     def tag(tag, attributes, &)
       @xml.element(tag, attributes) { with self yield }
-    end
-
-    def script(**attributes)
-      script(**attributes) { text("") }
     end
 
     def script(**attributes, &)
       @xml.element("script", **attributes) { with self yield }
     end
 
-    def a(**attributes)
-      a(**attributes) { text("") }
+    def script(**attributes)
+      script(**attributes) { text("") }
     end
 
     def a(**attributes, &)
       @xml.element("a", **attributes) { with self yield }
     end
 
-    {% for tag in %w(html head body meta link pre code noscript div span h1 h2 h3 title aside article nav strong) %}
+    def a(**attributes)
+      a(**attributes) { text("") }
+    end
+
+    def text(contents)
+      @xml.text(contents)
+    end
+
+    def raw(contents)
+      @xml.raw(contents)
+    end
+
+    {% for tag in %w(html head body meta link pre code noscript div span h1 h2
+                    h3 title aside article nav strong) %}
       def {{tag.id}}(**attributes)
         @xml.element("{{tag.id}}", **attributes)
       end

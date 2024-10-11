@@ -1,9 +1,5 @@
 module Mint
   class Parser
-    def self.parse(file) : Ast
-      parse ::File.read(file), file
-    end
-
     def self.parse?(contents, file) : Ast | Error
       parser = new(contents, file)
       parser.parse
@@ -20,12 +16,16 @@ module Mint
       end
     end
 
-    def self.parse_any(file) : Ast
-      parse_any ::File.read(file), file
+    def self.parse(file) : Ast
+      parse ::File.read(file), file
     end
 
     def self.parse_any(contents, file) : Ast
       new(contents, file).tap(&.parse_any).ast
+    end
+
+    def self.parse_any(file) : Ast
+      parse_any ::File.read(file), file
     end
 
     def parse : Nil

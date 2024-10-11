@@ -30,6 +30,7 @@ module Mint
         in Line
           # We reset the column to the current nesting depth.
           self.column = depth * 2
+
           [LineBreak.new(node.count, depth)] of Processed
         in NestedString
           # Every line in this will have a fixed indentation
@@ -113,9 +114,8 @@ module Mint
               process(nodes)
 
             # We have a previous rendered node.
+            # TODO: Check if all of the conditions are still needed.
             if last
-              # TODO: Check if all of the conditions are still needed.
-
               space_separated =
                 last && Ast.space_separated?(last, item)
 

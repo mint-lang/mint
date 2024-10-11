@@ -2,26 +2,6 @@ module Mint
   # This module contains helper functions which are used in many parts of the
   # process (parser, compiler, type checker, ect...).
   module Helpers
-    # Returns true if the destructuring covers
-    # arrays with the given length.
-    #
-    # [x, ...rest] => 1+
-    # [x]          => 1
-    # [...rest]    => 0+
-    # []           => 0
-    def covers?(node : Ast::ArrayDestructuring, length : Int32) : Bool
-      if spread?(node)
-        length >= (node.items.size - 1)
-      else
-        length == node.items.size
-      end
-    end
-
-    # Returns whether there are any spreads in the items.
-    def spread?(node : Ast::ArrayDestructuring) : Bool
-      node.items.any?(Ast::Spread)
-    end
-
     def owns?(node : Ast::Node, parent : Ast::Node) : Bool
       case parent
       when Ast::Store

@@ -398,8 +398,8 @@ module Mint
             node.content,
             Markd::Options.new)
 
-        Compiler::VDOMRenderer2.render_html(
-          highlight: Compiler::Highlight::All,
+        VDOMRenderer.render_html(
+          highlight: VDOMRenderer::Highlight::All,
           replacements: [] of String,
           document: document,
           separator: "")
