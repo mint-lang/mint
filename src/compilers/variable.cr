@@ -33,6 +33,12 @@ module Mint
               js.call(entity, [] of Compiled)
             when Ast::State, Ast::Signal
               [Signal.new(entity)] of Item
+            when Ast::Constant
+              if (parent = entity.parent).is_a?(Ast::Component) && !parent.global?
+                [Signal.new(entity)] of Item
+              else
+                [entity] of Item
+              end
             else
               [entity] of Item
             end

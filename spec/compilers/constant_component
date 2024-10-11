@@ -6,7 +6,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+import { useSignal as B } from "./runtime.js";
+
 export const A = () => {
-  const a = `ASD`;
-  return a
+  const a = B(`ASD`);
+  return a.value
 };

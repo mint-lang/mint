@@ -2,7 +2,17 @@ module Mint
   class Compiler
     def resolve(node : Ast::Constant)
       resolve node do
-        {node, node, compile(node.expression)}
+        value =
+          compile(node.expression)
+
+        item =
+          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
+            js.call(Builtin::UseSignal, [value])
+          else
+            value
+          end
+
+        {node, node, item}
       end
     end
   end
