@@ -21,10 +21,14 @@ module Mint
         block(fields)
       end
 
+      # Renders `null`.
       def null : Compiled
         ["null"] of Item
       end
 
+      # Renders a string using a template literal (``).
+      #
+      # TODO: Check if a simple string is enough?
       def string(value : String) : Compiled
         ["`", Raw.new(value.gsub('`', "\\`").gsub("${", "\\${`")), "`"] of Item
       end
@@ -53,9 +57,7 @@ module Mint
         else
           [
             "[",
-            Indent.new(
-              ["\n"] + list(items, multiline: true)
-            ),
+            Indent.new(["\n"] + list(items, multiline: true)),
             "\n]",
           ] of Item
         end
@@ -122,12 +124,18 @@ module Mint
 
       # Renders an if statement.
       def if(condition : Compiled, body : Compiled) : Compiled
-        ["if", optimize? ? "(" : " ("] + condition + [optimize? ? ")" : ") "] +
+        ["if", optimize? ? "(" : " ("] +
+          condition +
+          [optimize? ? ")" : ") "] +
           block(body)
       end
 
       # Renders an tenary operator.
-      def tenary(condition : Compiled, truthy : Compiled, falsy : Compiled)
+      def tenary(
+        condition : Compiled,
+        truthy : Compiled,
+        falsy : Compiled
+      ) : Compiled
         ["("] +
           condition +
           [optimize? ? "?" : " ? "] +

@@ -1,10 +1,4 @@
 module Mint
-  @[Flags]
-  enum Check
-    Environment
-    Unreachable
-  end
-
   # A workspace represents a Mint project in the file system.
   # - It provides up to date, type checked artifacts which can be used in other
   #   places (bundler, test runner, development server, etc...).

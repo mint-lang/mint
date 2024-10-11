@@ -3,7 +3,7 @@ module Mint
     def compile(node : Ast::Env) : Compiled
       compile node do
         value =
-          MINT_ENV[node.name].to_s
+          MINT_ENV[node.name]?.to_s
 
         js.string(value)
       end

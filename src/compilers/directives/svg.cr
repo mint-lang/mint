@@ -3,8 +3,19 @@ module Mint
     def compile(node : Ast::Directives::Svg) : Compiled
       compile node do
         resolve node do
+          document =
+            XML.parse(node.file_contents)
+
+          svg =
+            document.first_element_child
+
           parsed =
-            parse_svg(node.file_contents)
+            if svg
+              data =
+                svg.children.join.strip
+
+              {svg["width"]?, svg["height"]?, svg["viewBox"]?, data}
+            end
 
           return [] of Item unless parsed
 

@@ -1,5 +1,7 @@
 module Mint
   class SemanticTokenizer
+    alias Item = String | Tuple(SemanticTokenizer::TokenType, String)
+
     # This is a subset of the LSPs `SemanticTokenTypes` enum.
     enum TokenType
       TypeParameter
@@ -42,40 +44,79 @@ module Mint
     # This is where the resulting tokens are stored.
     getter tokens = [] of Token
 
-    def self.tokenize(ast : Ast)
-      parts = [] of String | Tuple(SemanticTokenizer::TokenType, String)
+    # Returns the tokenized version of the AST where the lines contain their
+    # respective tokens.
+    def self.tokenize_with_lines(ast : Ast) : Array(Array(Item))
+      [[] of Item].tap do |lines|
+        parts = tokenize(ast)
+        index = 0
 
-      return parts if ast.nodes.empty?
+        processor =
+          ->(string : String, item : Item) {
+            if string.includes?("\n")
+              parts =
+                string.split("\n")
 
-      tokenizer =
-        self.new.tap(&.tokenize(ast))
+              parts.each_with_index do |part, part_index|
+                not_last =
+                  part_index < (parts.size - 1)
 
-      contents =
-        ast.nodes.first.file.contents
+                case item
+                in String
+                  lines[index].push(not_last ? part.as(String) + "\n" : part)
+                in Tuple(SemanticTokenizer::TokenType, String)
+                  lines[index].push({item[0], part.as(String)})
+                end
 
-      position = 0
+                if not_last
+                  index += 1
+                  lines << [] of Item
+                end
+              end
+            else
+              lines[index].push(item)
+            end
+          }
 
-      tokenizer.tokens.sort_by(&.from).each do |token|
-        if token.from > position
-          parts << contents[position, token.from - position]
+        parts.each do |item|
+          case item
+          in String
+            processor.call(item, item)
+          in Tuple(SemanticTokenizer::TokenType, String)
+            processor.call(item[1], item)
+          end
         end
-
-        parts << {token.type, contents[token.from, token.to - token.from]}
-        position = token.to
       end
-
-      if position < contents.size
-        parts << contents[position, contents.size]
-      end
-
-      parts
     end
 
-    def self.highlight(path : String, *, html : Bool = false)
-      ast =
-        Parser.new(File.read(path), path).tap(&.parse_any).ast
+    # Returns the tokenized version of the AST.
+    def self.tokenize(ast : Ast) : Array(Item)
+      ([] of Item).tap do |parts|
+        next parts if ast.nodes.empty?
 
-      tokenize(ast).join do |item|
+        tokenizer =
+          self.new.tap(&.tokenize(ast))
+
+        contents =
+          ast.nodes.first.file.contents
+
+        position = 0
+
+        tokenizer.tokens.sort_by(&.from).each do |token|
+          parts << contents[position, token.from - position] if token.from > position
+          parts << {token.type, contents[token.from, token.to - token.from]}
+          position = token.to
+        end
+
+        if position < contents.size
+          parts << contents[position, contents.size]
+        end
+      end
+    end
+
+    # Highlights the file.
+    def self.highlight(path : String, *, html : Bool = false) : String
+      tokenize(Parser.parse_any(path)).join do |item|
         case item
         in String
           html ? HTML.escape(item) : item
@@ -85,39 +126,31 @@ module Mint
           end
 
           case item[0]
-          in .type?
-            item[1].colorize(:yellow)
-          in .type_parameter?
-            item[1].colorize(:light_yellow)
-          in .variable?
-            item[1].colorize(:dark_gray)
-          in .namespace?
-            item[1].colorize(:light_blue)
-          in .keyword?
-            item[1].colorize(:magenta)
           in .property?
             item[1].colorize(:dark_gray).mode(:underline)
+          in .operator?
+            item[1].colorize(:light_magenta)
+          in .type_parameter?
+            item[1].colorize(:light_yellow)
+          in .namespace?
+            item[1].colorize(:light_blue)
           in .comment?
             item[1].colorize(:light_gray)
+          in .regexp?
+            item[1].colorize(:light_red)
+          in .variable?
+            item[1].colorize(:dark_gray)
+          in .keyword?
+            item[1].colorize(:magenta)
+          in .type?
+            item[1].colorize(:yellow)
           in .string?
             item[1].colorize(:green)
           in .number?
             item[1].colorize(:red)
-          in .regexp?
-            item[1].colorize(:light_red)
-          in .operator?
-            item[1].colorize(:light_magenta)
           end.to_s
         end
       end
-    end
-
-    def tokenize(ast : Ast)
-      # We add the operators and keywords directly from the AST
-      ast.operators.each { |(from, to)| add(from, to, :operator) }
-      ast.keywords.each { |(from, to)| add(from, to, :keyword) }
-
-      tokenize(ast.nodes)
     end
 
     def tokenize(nodes : Array(Ast::Node))
@@ -130,16 +163,23 @@ module Mint
       end
     end
 
-    def tokenize(node : Ast::Variable)
-      if node.value[0].ascii_lowercase?
-        add(node, :variable)
-      else
-        add(node, :type)
-      end
+    def tokenize(ast : Ast) : Nil
+      # We add the operators and keywords directly from the AST
+      ast.operators.each { |(from, to)| add(from, to, :operator) }
+      ast.keywords.each { |(from, to)| add(from, to, :keyword) }
+
+      tokenize(ast.nodes)
     end
 
     def tokenize(node : Ast::CssDefinition)
       add(node.from, node.from + node.name.size, :property)
+    end
+
+    def tokenize(node : Ast::HtmlComponent)
+      # The closing tag is not saved only the position to it.
+      node.closing_tag_position.try do |position|
+        add(position, position + node.component.value.size, :type)
+      end
     end
 
     def tokenize(node : Ast::HtmlElement)
@@ -151,10 +191,11 @@ module Mint
       add(node.tag, :namespace)
     end
 
-    def tokenize(node : Ast::HtmlComponent)
-      # The closing tag is not saved only the position to it.
-      node.closing_tag_position.try do |position|
-        add(position, position + node.component.value.size, :type)
+    def tokenize(node : Ast::Variable)
+      if node.value[0].ascii_lowercase?
+        add(node, :variable)
+      else
+        add(node, :type)
       end
     end
 

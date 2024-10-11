@@ -417,11 +417,11 @@ module Mint
     end
 
     def highlight(formatted : String)
-      parser =
-        Parser.new(formatted, "source.mint").tap(&.parse_any)
+      ast =
+        Parser.parse_any(formatted, "source.mint")
 
       HtmlBuilder.build(optimize: true, doctype: false) do
-        SemanticTokenizer.tokenize(parser.ast).map do |item|
+        SemanticTokenizer.tokenize(ast).map do |item|
           case item
           in String
             text item

@@ -58,6 +58,10 @@ export const A = () => {
 `]),
     B("span", {
       className: "line"
-    }, [`}`])
+    }, [`}
+`]),
+    B("span", {
+      className: "line"
+    }, [``])
   ])
 };

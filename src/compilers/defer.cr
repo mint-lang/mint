@@ -7,14 +7,5 @@ module Mint
         [Deferred.new(node)] of Item
       end
     end
-
-    def defer(node : Ast::Node, compiled : Compiled)
-      case type = cache[node]
-      when TypeChecker::Type
-        if type.name == "Deferred"
-          js.call(Builtin::Load, [compiled])
-        end
-      end || compiled
-    end
   end
 end

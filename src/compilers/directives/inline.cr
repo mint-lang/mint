@@ -1,7 +1,11 @@
 module Mint
   class Compiler
     def compile(node : Ast::Directives::Inline) : Compiled
-      ["`", Raw.new(node.file_contents.gsub("\\", "\\\\").gsub("`", "\\`")), "`"] of Item
+      inlined =
+        Raw.new(node.file_contents.gsub("\\", "\\\\").gsub("`", "\\`"))
+
+      # TODO: Maybe use `js.string`?
+      ["`", inlined, "`"] of Item
     end
   end
 end

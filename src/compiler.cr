@@ -148,8 +148,8 @@ module Mint
       Locale
     end
 
+    delegate resolve_order, variables, cache, lookups, checked, to: artifacts
     delegate record_field_lookup, ast, components_touched, to: artifacts
-    delegate resolve_order, variables, cache, lookups, to: artifacts
 
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new
@@ -238,7 +238,7 @@ module Mint
     end
 
     # Translations
-    def translations
+    def translations : Array(Compiled)
       mapped =
         artifacts
           .locales
@@ -267,7 +267,7 @@ module Mint
     end
 
     # Compiles the program call.
-    def program
+    def program : Compiled
       ast.main.try do |component|
         routes =
           compile(ast.routes.flat_map(&.routes))
@@ -291,12 +291,12 @@ module Mint
       end || [] of Item
     end
 
-    def inject_css(css : String)
+    def inject_css(css : String) : Compiled
       js.call(Builtin::InsertStyles, [[%(`#{css}`)] of Item])
     end
 
     # Compile test runner.
-    def test(*, url, id, glob)
+    def test(*, url, id, glob) : Compiled
       subjects =
         ast.suites.select do |suite|
           File.match?(glob, Path[suite.file.path].relative_to(Dir.current))
@@ -312,6 +312,50 @@ module Mint
           js.string(id),
         ])
       end
+    end
+
+    def tokenize(ast : Ast) : Compiled
+      mapped =
+        SemanticTokenizer
+          .tokenize_with_lines(ast)
+          .map do |parts|
+            items =
+              parts.map do |item|
+                case item
+                in String
+                  js.string(item)
+                in Tuple(SemanticTokenizer::TokenType, String)
+                  js.call(Builtin::CreateElement, [
+                    [%("span")] of Item,
+                    js.object({"className".as(Item) => [
+                      %("#{item[0].to_s.underscore}"),
+                    ] of Item}),
+                    js.array([js.string(item[1])]),
+                  ])
+                end
+              end
+
+            js.call(Builtin::CreateElement, [
+              [%("span")] of Item,
+              js.object({"className".as(Item) => [%("line")] of Item}),
+              js.array(items),
+            ])
+          end
+
+      js.call(Builtin::CreateElement, [
+        [Builtin::Fragment] of Item,
+        ["{}"] of Item,
+        js.array(mapped),
+      ])
+    end
+
+    def defer(node : Ast::Node, compiled : Compiled)
+      case type = cache[node]
+      when TypeChecker::Type
+        if type.name == "Deferred"
+          js.call(Builtin::Load, [compiled])
+        end
+      end || compiled
     end
 
     # These functions are for looking up entities that the runtime uses

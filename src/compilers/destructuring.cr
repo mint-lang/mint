@@ -13,6 +13,10 @@ module Mint
       [Builtin::PatternVariable] of Item
     end
 
+    def destructuring(node : Ast::Discard, variables : Array(Compiled)) : Compiled
+      js.null # This means to skip this value when destructuring.
+    end
+
     def destructuring(node : Ast::Spread, variables : Array(Compiled)) : Compiled
       variables << [node] of Item
       [Builtin::PatternSpread] of Item
@@ -20,10 +24,6 @@ module Mint
 
     def destructuring(node : Ast::Node, variables : Array(Compiled)) : Compiled
       compile(node)
-    end
-
-    def destructuring(node : Ast::Discard, variables : Array(Compiled)) : Compiled
-      js.null # This means to skip this value when destructuring.
     end
 
     def destructuring(node : Nil, variables : Array(Compiled)) : Compiled

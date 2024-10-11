@@ -206,12 +206,12 @@ module Mint
                   if highlight != Highlight::None
                     if (highlight == Highlight::MintOnly && language == "mint") ||
                        highlight == Highlight::All
-                      parser = Parser.new(node.text.strip, "source.mint")
-                      parser.parse_any
+                      ast =
+                        Parser.parse_any(node.text.strip, "source.mint")
 
-                      unless parser.ast.nodes.empty?
-                        Compiler
-                          .tokens_to_lines(parser.ast)
+                      unless ast.nodes.empty?
+                        SemanticTokenizer
+                          .tokenize_with_lines(ast)
                           .map do |parts|
                             items =
                               parts.map do |part|

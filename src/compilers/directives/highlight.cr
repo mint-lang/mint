@@ -8,10 +8,10 @@ module Mint
         formatted =
           Formatter.new.format!(node.content, Formatter::BlockFormat::Naked)
 
-        parser =
-          Parser.new(formatted, "source.mint").tap(&.parse_any)
+        ast =
+          Parser.parse_any(formatted, "source.mint")
 
-        js.array([content, tokenize(parser.ast)])
+        js.array([content, tokenize(ast)])
       end
     end
   end

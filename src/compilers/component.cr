@@ -3,13 +3,13 @@ module Mint
     def resolve(node : Ast::Component)
       resolve node do
         node.styles.each do |style|
-          next unless style.in?(@artifacts.checked)
+          next unless style.in?(checked)
           style_builder.process(style, node.name.value.gsub('.', '·'))
         end
 
         styles =
           node.styles.compact_map do |style_node|
-            next unless style_node.in?(@artifacts.checked)
+            next unless style_node.in?(checked)
             style_builder.compile_style(style_node, self)
           end
 

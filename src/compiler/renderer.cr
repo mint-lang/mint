@@ -8,22 +8,36 @@ module Mint
       # The pool for class variables (uppercase).
       getter class_pool : NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle)
 
+      # The bundles which we use to get their filename.
+      getter bundles : Hash(Set(Ast::Node) | Bundle, Set(Ast::Node))
+
+      # A method to get the deffered path of a bundle.
+      getter deferred_path : Proc(Set(Ast::Node) | Bundle, String)
+
       # A set to track nodes which we rendered.
       getter used = Set(Ast::Node | Encoder | Decoder).new
+
+      # A method to get the path of an asset.
+      getter asset_path : Proc(Ast::Node, String)
 
       # A set to track used builtins which will be imported.
       getter builtins = Set(Builtin).new
 
-      getter bundles : Hash(Set(Ast::Node) | Bundle, Set(Ast::Node))
+      # The current bundle.
       getter base : Set(Ast::Node) | Bundle
-
-      getter deferred_path : Proc(Set(Ast::Node) | Bundle, String)
-      getter asset_path : Proc(Ast::Node, String)
 
       # The current indentation depth.
       property depth : Int32 = 0
 
-      def initialize(*, @base, @pool, @class_pool, @asset_path, @deferred_path, @bundles)
+      def initialize(
+        *,
+        @deferred_path,
+        @class_pool,
+        @asset_path,
+        @bundles,
+        @pool,
+        @base
+      )
       end
 
       def import(imports : Hash(String, String), optimize : Bool, path : String)
@@ -53,7 +67,7 @@ module Mint
         end
       end
 
-      def render(items : Compiled, io : IO)
+      def render(items : Compiled, io : IO) : Nil
         items.each do |item|
           render(item, io)
         end
@@ -89,7 +103,6 @@ module Mint
                Ast::Component,
                Ast::Provider
             io << class_pool.of(item, scope)
-            # io << "/* #{Debugger.dbg(item)} */"
           else
             io << pool.of(item, scope)
           end
@@ -100,10 +113,9 @@ module Mint
         in Variable
           io << pool.of(item, base)
         in Builtin
-          io << class_pool.of(item, base)
-
-          # We track the builtins here.
           builtins.add(item)
+
+          io << class_pool.of(item, base)
         in Raw
           io << item.value
         in String

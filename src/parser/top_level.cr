@@ -20,6 +20,14 @@ module Mint
       end
     end
 
+    def self.parse_any(file) : Ast
+      parse_any ::File.read(file), file
+    end
+
+    def self.parse_any(contents, file) : Ast
+      new(contents, file).tap(&.parse_any).ast
+    end
+
     def parse : Nil
       # Comment needs to be last since other comments are parsed with the
       # entities.

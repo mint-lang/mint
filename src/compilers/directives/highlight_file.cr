@@ -2,13 +2,7 @@ module Mint
   class Compiler
     def compile(node : Ast::Directives::HighlightFile) : Compiled
       compile node do
-        contents =
-          File.read(node.real_path)
-
-        parser =
-          Parser.new(contents.strip, node.real_path.to_s).tap(&.parse_any)
-
-        tokenize(parser.ast)
+        tokenize(Parser.parse_any(node.real_path.to_s))
       end
     end
   end
