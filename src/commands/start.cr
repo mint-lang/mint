@@ -5,14 +5,13 @@ module Mint
 
       define_help description: "Starts the development server."
 
+      define_flag no_reload : Bool,
+        description: "Do not reload the browser when something changes.",
+        default: false
+
       define_flag format : Bool,
         description: "Formats the source files when they change.",
         default: false
-
-      define_flag reload : Bool,
-        description: "Reload the browser when something changes.",
-        default: true,
-        short: "r"
 
       define_flag host : String,
         description: "The host to serve the application on.",
@@ -32,8 +31,8 @@ module Mint
         execute "Running the development server",
           check_dependencies: true, env: flags.env do
           Reactor.new(
+            reload: !flags.no_reload,
             format: flags.format,
-            reload: flags.reload,
             host: flags.host,
             port: flags.port)
         end

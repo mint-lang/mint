@@ -7,7 +7,7 @@ spec:
 
 .PHONY: spec-cli
 spec-cli: build
-	crystal spec spec_cli/*_spec.cr --error-on-warnings --error-trace --progress
+	crystal spec spec_cli/*_spec.cr spec_cli/**/*_spec.cr --error-on-warnings --error-trace --progress
 
 .PHONY: format
 format:

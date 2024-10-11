@@ -1,4 +1,4 @@
-require "./spec_helper"
+require "../spec_helper"
 
 context "clean" do
   before_all do

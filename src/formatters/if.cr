@@ -59,16 +59,6 @@ module Mint
           end
         end
 
-      # condition =
-      #   if replace_skipped(condition).includes?('\n')
-      #     condition
-      #       .remove_all_leading_whitespace
-      #       .indent(4)
-      #       .lstrip
-      #   else
-      #     condition
-      #   end
-
       ["if "] + condition + [" "] + truthy + falsy
     end
   end
