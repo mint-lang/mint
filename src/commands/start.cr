@@ -5,6 +5,9 @@ module Mint
 
       define_help description: "Starts the development server."
 
+      define_flag runtime : String,
+        description: "If specified, the supplied runtime will be used instead of the default."
+
       define_flag no_reload : Bool,
         description: "Do not reload the browser when something changes.",
         default: false
@@ -32,6 +35,7 @@ module Mint
           check_dependencies: true, env: flags.env do
           Reactor.new(
             reload: !flags.no_reload,
+            runtime: flags.runtime,
             format: flags.format,
             host: flags.host,
             port: flags.port)

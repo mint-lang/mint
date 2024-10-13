@@ -1,29 +1,17 @@
 module Mint
   class Reactor
-    # Whether or not to reload the browser after a change is made.
-    getter? reload : Bool
-
-    # Whether or not to format the files after a change is made.
-    getter? format : Bool
-
-    # The host to start the server on.
-    getter host : String
-
-    # The port to start the server on.
-    getter port : Int32
-
     # The resulting files of bundling.
     @files : Hash(String, Proc(String)) = {} of String => Proc(String)
 
     # The currently connected clients.
     @sockets = [] of HTTP::WebSocket
 
-    def initialize(*, @host, @port, @format, @reload)
+    def initialize(*, @reload : Bool, format, host, port, runtime)
       FileWorkspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
         check: Check::Environment,
         include_tests: false,
-        format: format?,
+        format: format,
         listener: ->(result : TypeChecker | Error) do
           @files =
             case result
@@ -34,9 +22,9 @@ module Mint
                 config: Bundler::Config.new(
                   generate_manifest: false,
                   include_program: true,
+                  runtime_path: runtime,
+                  live_reload: @reload,
                   hash_assets: false,
-                  runtime_path: nil,
-                  live_reload: true,
                   skip_icons: false,
                   optimize: false,
                   relative: false,
@@ -46,7 +34,7 @@ module Mint
               error(result)
             end
 
-          @sockets.each(&.send("reload")) if reload?
+          @sockets.each(&.send("reload")) if @reload
         end)
 
       # The websocket handle saves the sockets when they connect and
@@ -81,15 +69,15 @@ module Mint
         server: server,
         host: host,
         port: port
-      ) do |host, port|
-        terminal.puts "#{COG} Development server started on http://#{host}:#{port}/"
+      ) do |resolved_host, resolved_port|
+        terminal.puts "#{COG} Development server started on http://#{resolved_host}:#{resolved_port}/"
       end
     end
 
     def error(error)
       {
         "/live-reload.js" => ->{ Assets.read("live-reload.js") },
-        "index.html"      => ->{ error.to_html(reload?) },
+        "index.html"      => ->{ error.to_html(@reload) },
       }
     end
 
