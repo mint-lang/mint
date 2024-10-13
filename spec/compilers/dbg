@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    dbg "Hello World!"
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return (() => {
+    const a = `Hello World!`;
+    console.log(`./spec/compilers/dbg:3:4`);
+    console.log(a);
+    return a
+  })()
+};

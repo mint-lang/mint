@@ -70,6 +70,8 @@ module Mint
             defer
           when "emit"
             emit
+          when "dbg"
+            dbg
           else
             value
           end
