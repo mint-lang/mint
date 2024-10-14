@@ -36,7 +36,6 @@ module Mint
             in TypeChecker
               Bundler.new(
                 artifacts: result.artifacts,
-                json: @json,
                 config: Bundler::Config.new(
                   generate_manifest: false,
                   include_program: true,
@@ -45,6 +44,7 @@ module Mint
                   runtime_path: nil,
                   skip_icons: true,
                   optimize: true,
+                  json: @json,
                   test: nil),
               ).bundle
             in Error

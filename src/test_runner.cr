@@ -32,11 +32,11 @@ module Mint
             @files =
               Bundler.new(
                 artifacts: result.artifacts,
-                json: MintJson.current,
                 config: Bundler::Config.new(
                   runtime_path: flags.runtime,
                   generate_manifest: false,
                   include_program: false,
+                  json: MintJson.current,
                   live_reload: false,
                   hash_assets: true,
                   skip_icons: true,

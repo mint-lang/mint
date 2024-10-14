@@ -19,6 +19,7 @@ Dir
 
         config =
           Mint::Bundler::Config.new(
+            json: Mint::MintJson.parse("{}", "mint.json"),
             generate_manifest: false,
             include_program: false,
             live_reload: false,
@@ -28,14 +29,10 @@ Dir
             optimize: false,
             test: nil)
 
-        json =
-          Mint::MintJson.parse("{}", "mint.json")
-
         files =
           Mint::Bundler.new(
             artifacts: artifacts,
             config: config,
-            json: json
           ).bundle.map do |path, contents|
             {path, case contents
             in Proc(String)

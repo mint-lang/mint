@@ -107,7 +107,7 @@ module Mint
     # The configuration.
     getter config : Config
 
-    def initialize(@config = Config.new)
+    def initialize(@config)
     end
 
     # Helpers for creating nodes...

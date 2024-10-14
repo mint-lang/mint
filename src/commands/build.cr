@@ -58,12 +58,12 @@ module Mint
                   terminal.measure "#{COG} Building..." do
                     Bundler.new(
                       artifacts: result.artifacts,
-                      json: MintJson.current,
                       config: Bundler::Config.new(
                         generate_manifest: flags.generate_manifest,
                         skip_icons: flags.skip_icons,
                         optimize: !flags.no_optimize,
                         runtime_path: flags.runtime,
+                        json: MintJson.current,
                         include_program: true,
                         live_reload: false,
                         hash_assets: true,

@@ -72,7 +72,7 @@ module Mint
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @formatter = Formatter.new
+    @formatter = Formatter.new(Formatter::Config.new)
     @records = [] of Record
     @top_level_entity : Ast::Node?
     @languages : Array(String)

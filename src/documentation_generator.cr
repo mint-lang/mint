@@ -132,7 +132,7 @@ module Mint
       end
     end
 
-    @@formatter = Formatter.new
+    @@formatter = Formatter.new(Formatter::Config.new)
 
     def resolve(node : Ast::Node)
       unreachable! "No documentation generator for class: #{node.class}!"

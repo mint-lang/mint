@@ -176,6 +176,9 @@ module Mint
     getter js : Js
 
     def initialize(@artifacts, css_prefix, @config)
+      @formatter =
+        Formatter.new(config.json.formatter)
+
       @js =
         Js.new(optimize: config.optimize)
 

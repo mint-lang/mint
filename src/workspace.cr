@@ -63,14 +63,19 @@ module Mint
       map_error(ast, &.nodes_at_path(path))
     end
 
+    def formatter_config
+      MintJson.parse?(@path, search: true).try(&.formatter) ||
+        Formatter::Config.new
+    end
+
     def format(node : Ast::Node | Nil) : String | Nil
-      Formatter.new.format!(node)
+      Formatter.new(formatter_config).format!(node)
     end
 
     def format(path : String) : String | Error | Nil
       case item = ast(path)
       in Ast
-        Formatter.new.format(item)
+        Formatter.new(formatter_config).format(item)
       in Error, Nil
         item
       end
@@ -131,7 +136,7 @@ module Mint
                 case ast = ast(file)
                 when Ast
                   formatted =
-                    Formatter.new.format(ast)
+                    Formatter.new(formatter_config).format(ast) + "\n"
 
                   if formatted != contents
                     File.write(file, formatted)

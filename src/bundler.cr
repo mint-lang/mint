@@ -13,6 +13,7 @@ module Mint
       live_reload : Bool,
       hash_assets : Bool,
       skip_icons : Bool,
+      json : MintJson,
       optimize : Bool
 
     # The end result of the bundling. It contains the all the files for the
@@ -25,15 +26,13 @@ module Mint
     # The bundle configuration.
     getter config : Config
 
-    # The application configuration.
-    getter json : MintJson
-
     # Contains the names of the bundles.
     getter bundle_names = {} of Set(Ast::Node) | Bundle => String
 
     delegate application, to: json
+    delegate json, to: config
 
-    def initialize(*, @config, @artifacts, @json)
+    def initialize(*, @config, @artifacts)
       @bundle_counter = 0
     end
 

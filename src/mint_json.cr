@@ -46,6 +46,12 @@ module Mint
     )
     end
 
+    def self.parse?(path : String, *, search : Bool = false) : MintJson?
+      parse(path, search: search)
+    rescue
+      nil
+    end
+
     def self.parse(path : String, *, search : Bool = false) : MintJson
       Parser.parse(path, search: search)
     end

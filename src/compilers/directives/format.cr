@@ -6,7 +6,7 @@ module Mint
           compile node.content
 
         formatted =
-          Formatter.new
+          @formatter
             .format!(node.content, Formatter::BlockFormat::Naked)
             .gsub('\\', "\\\\")
 
