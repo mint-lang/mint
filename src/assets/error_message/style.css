@@ -1,0 +1,45 @@
+body {
+  --background-color: #FFFFFF;
+  --text-color: #333333;
+
+  background-image: url(/bottom-left.png),
+                    url(/bottom-center.png),
+                    url(/bottom-right.png),
+                    url(/top-left.png),
+                    url(/top-center.png),
+                    url(/top-right.png);
+
+  background-position: calc(100% + 15px) 100%, 50% 100%, -20px 100%,
+                       -20px 0, 50% 0, calc(100% + 15px) 0;
+  background-repeat: no-repeat;
+
+  place-content: center;
+  display: grid;
+
+  box-sizing: border-box;
+  padding: 10px;
+  height: 100vh;
+  margin: 0;
+
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+pre {
+  background: rgba(255,255,255,0.8);
+  outline: 3px double indianred;
+  font-size: 16px;
+  padding: 20px;
+  min-width: 0;
+}
+
+pre code {
+  display: block;
+  overflow: auto;
+}
+
+@media (max-width: 500px) {
+  pre {
+    padding: 10px;
+  }
+}

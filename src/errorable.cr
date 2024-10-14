@@ -119,24 +119,6 @@ module Mint
       end
     end
 
-    def to_html(reload : Bool = false)
-      HtmlBuilder.build(optimize: true) do
-        html do
-          head do
-            meta charset: "utf-8"
-
-            meta(
-              content: "width=device-width, initial-scale=1, shrink-to-fit=no",
-              name: "viewport")
-
-            script src: "/live-reload.js" if reload
-          end
-
-          body { pre { code { text to_terminal.to_s.uncolorize } } }
-        end
-      end
-    end
-
     def to_terminal
       renderer = Render::Terminal.new
       renderer.title "ERROR (#{name})"

@@ -35,10 +35,25 @@ module Mint
           check_dependencies: true, env: flags.env do
           Reactor.new(
             reload: !flags.no_reload,
-            runtime: flags.runtime,
             format: flags.format,
             host: flags.host,
-            port: flags.port)
+            port: flags.port
+          ) do |type_checker|
+            Bundler.new(
+              artifacts: type_checker.artifacts,
+              json: MintJson.current,
+              config: Bundler::Config.new(
+                live_reload: !flags.no_reload,
+                runtime_path: flags.runtime,
+                generate_manifest: false,
+                include_program: true,
+                hash_assets: false,
+                skip_icons: false,
+                optimize: false,
+                relative: false,
+                test: nil),
+            ).bundle
+          end
         end
       end
     end

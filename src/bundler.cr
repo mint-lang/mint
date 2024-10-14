@@ -286,7 +286,7 @@ module Mint
     end
 
     def generate_index_html
-      files["index.html"] = ->do
+      files["/index.html"] = ->do
         HtmlBuilder.build(optimize: config.optimize) do
           html do
             head do
@@ -357,7 +357,7 @@ module Mint
     end
 
     def generate_manifest
-      files["manifest.webmanifest"] = ->do
+      files["/manifest.webmanifest"] = ->do
         icons =
           if generate_icons?
             ICON_SIZES.map do |size|

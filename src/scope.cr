@@ -8,37 +8,6 @@ module Mint
   # When resolving a variable we travese it's tree upwards to find the target
   # which matches the value of the variable.
   class Scope
-    # TODO: Move this somewhere else
-    def debug_name(node)
-      case node
-      when Target
-        "{#{debug_name(node.node)}, #{debug_name(node.parent)}}"
-      when Tuple(Ast::Node, Ast::Node)
-        "{#{debug_name(node[0])}, #{debug_name(node[1])}}"
-      else
-        suffix =
-          case node
-          when Ast::Component
-            node.name.value
-          when Ast::Function
-            node.name.value
-          when Ast::Argument
-            node.name.value
-          when Ast::Variable
-            node.value
-          end
-
-        prefix =
-          if suffix
-            "#{node.class.name}(#{suffix})"
-          else
-            node.class.name
-          end
-
-        "#{prefix}#{node.try(&.location.start)}"
-      end
-    end
-
     # Represents a level for a node.
     record Level, node : Ast::Node, items : Item = Item.new
 

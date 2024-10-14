@@ -15,6 +15,8 @@ MINT_ENV = {} of String => String
 require "./version"
 
 require "./ext/**"
+
+require "./error_message"
 require "./errorable"
 
 require "./exhaustiveness_checker"
@@ -54,9 +56,8 @@ require "./parsers/**"
 require "./parser/*"
 require "./parser"
 
-require "./static_documentation_generator"
 require "./documentation_generator"
-require "./documentation_server"
+require "./static_documentation_generator"
 
 require "./semantic_tokenizer"
 require "./references_tracker"

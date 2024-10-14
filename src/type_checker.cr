@@ -210,16 +210,6 @@ module Mint
     end
 
     def lookup_with_level(node : Ast::Variable)
-      # puts "----------------------"
-      # puts scope.debug_name(node)
-
-      # scope.scopes[node].each_with_index do |item, index|
-      #   puts scope.debug_name(item.node).indent(index * 2)
-      #   item.items.each do |key, value|
-      #     puts "#{" " * (index * 2)}#{key} -> #{value.node.class.name}"
-      #   end
-      # end
-
       scope.resolve(node).try do |item|
         {item.node, item.parent}
       end

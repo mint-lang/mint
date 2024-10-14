@@ -1,12 +1,19 @@
 module Mint
   class Reactor
-    # The resulting files of bundling.
+    # The resulting files.
     @files : Hash(String, Proc(String)) = {} of String => Proc(String)
 
     # The currently connected clients.
     @sockets = [] of HTTP::WebSocket
 
-    def initialize(*, @reload : Bool, format, host, port, runtime)
+    def initialize(
+      *,
+      @reload : Bool,
+      format,
+      host,
+      port,
+      &listener : Proc(TypeChecker, Hash(String, Proc(String)))
+    )
       FileWorkspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
         check: Check::Environment,
@@ -16,22 +23,9 @@ module Mint
           @files =
             case result
             in TypeChecker
-              Bundler.new(
-                artifacts: result.artifacts,
-                json: MintJson.current,
-                config: Bundler::Config.new(
-                  generate_manifest: false,
-                  include_program: true,
-                  runtime_path: runtime,
-                  live_reload: @reload,
-                  hash_assets: false,
-                  skip_icons: false,
-                  optimize: false,
-                  relative: false,
-                  test: nil),
-              ).bundle
+              listener.call(result)
             in Error
-              error(result)
+              ErrorMessage.render(result)
             end
 
           @sockets.each(&.send("reload")) if @reload
@@ -57,7 +51,7 @@ module Mint
                 file.call,
               }
             else
-              {"text/html", @files["index.html"].call}
+              {"text/html", @files["/index.html"].call}
             end
 
           context.response.content_type = content_type
@@ -72,13 +66,6 @@ module Mint
       ) do |resolved_host, resolved_port|
         terminal.puts "#{COG} Development server started on http://#{resolved_host}:#{resolved_port}/"
       end
-    end
-
-    def error(error)
-      {
-        "/live-reload.js" => ->{ Assets.read("live-reload.js") },
-        "index.html"      => ->{ error.to_html(@reload) },
-      }
     end
 
     def terminal

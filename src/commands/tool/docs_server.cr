@@ -17,9 +17,16 @@ module Mint
 
       def run
         execute "Generating documentation", check_dependencies: true do
-          DocumentationServer.new(
+          Reactor.new(
             host: flags.host,
-            port: flags.port)
+            port: flags.port,
+            format: false,
+            reload: true,
+          ) do |type_checker|
+            StaticDocumentationGenerator.generate(
+              [type_checker.artifacts.ast],
+              live_reload: true)
+          end
         end
       end
     end

@@ -107,7 +107,7 @@ module Mint
                 file.call,
               }
             else
-              {"text/html", @files["index.html"].call}
+              {"text/html", @files["/index.html"].call}
             end
 
           context.response.content_type = content_type

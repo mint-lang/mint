@@ -70,7 +70,6 @@ module Mint
               variables[node] = {option, parent}
               variables[node.field] = {option, parent}
               variables[node.expression] = {parent, parent}
-              # puts({Debugger.dbg(parent), Debugger.dbg(node)})
               resolve(parent)
               return to_function_type(option, parent)
             end

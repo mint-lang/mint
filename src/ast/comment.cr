@@ -19,10 +19,6 @@ module Mint
       def block?
         type == Type::Block
       end
-
-      def to_html
-        Markd.to_html(content)
-      end
     end
   end
 end

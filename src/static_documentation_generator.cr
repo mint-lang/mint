@@ -7,7 +7,7 @@ module Mint
     alias Entity = DocumentationGenerator::Entity
     alias Kind = DocumentationGenerator::Kind
 
-    def generate(asts : Array(Ast)) : Hash(String, Proc(String))
+    def generate(asts : Array(Ast), live_reload : Bool = false) : Hash(String, Proc(String))
       ast =
         asts
           .reduce(Ast.new) { |memo, item| memo.merge(item) }
@@ -17,12 +17,15 @@ module Mint
         DocumentationGenerator.resolve(ast)
 
       entities
-        .map { |entity| generate(entity, entities) }
+        .map { |entity| generate(entity, entities, live_reload) }
         .to_h
         .tap do |files|
-          files["index.html"] =
+          files["/live-reload.js"] =
+            ->{ Assets.read("live-reload.js") } if live_reload
+
+          files["/index.html"] =
             ->do
-              layout "API Documentation", entities do
+              layout "API Documentation", entities, live_reload do
                 article do
                   h1 do
                     text "API Documentation"
@@ -33,23 +36,20 @@ module Mint
 
           Assets.files.each do |file|
             next unless file.path.starts_with?("/docs/")
-
-            contents =
-              file.gets_to_end
-
-            files[file.path.lchop("/docs/")] = ->{ contents }
+            files[file.path.lchop("/docs")] = ->{ Assets.read(file.path) }
           end
         end
     end
 
     def generate(
       entity : TopLevelEntity,
-      entities : Array(TopLevelEntity)
+      entities : Array(TopLevelEntity),
+      live_reload : Bool
     ) : {String, Proc(String)}
       {
         href(entity),
         ->do
-          layout entity.name, entities do |builder|
+          layout entity.name, entities, live_reload do |builder|
             article do
               h1 do
                 if flags = entity.flags
@@ -281,12 +281,13 @@ module Mint
       end
     end
 
-    def layout(title : String, entities : Array(TopLevelEntity), &) : String
+    def layout(title : String, entities : Array(TopLevelEntity), live_reload : Bool, &) : String
       HtmlBuilder.build(optimize: true) do |builder|
         html do
           head do
             meta charset: "utf-8"
-            link rel: "stylesheet", href: "../style.css"
+            link rel: "stylesheet", href: "style.css"
+            script src: "/live-reload.js" if live_reload
 
             title do
               text title

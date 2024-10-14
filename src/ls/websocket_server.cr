@@ -49,7 +49,7 @@ module Mint
                   test: nil),
               ).bundle
             in Error
-              {"index.html" => ->{ result.to_html }}
+              ErrorMessage.render(result)
             end
 
           IO::Memory.new.tap do |io|
