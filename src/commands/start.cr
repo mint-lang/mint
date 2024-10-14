@@ -50,7 +50,6 @@ module Mint
                 hash_assets: false,
                 skip_icons: false,
                 optimize: false,
-                relative: false,
                 test: nil),
             ).bundle
           end

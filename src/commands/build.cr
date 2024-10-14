@@ -12,11 +12,6 @@ module Mint
         description: "If specified, the resulting JavaScript code will not be optimized.",
         default: false
 
-      define_flag relative : Bool,
-        description: "If specified, the URLs in the HTML will be in relative format.",
-        default: false,
-        short: "r"
-
       define_flag skip_icons : Bool,
         description: "If specified, the application icons will not be generated.",
         default: false
@@ -69,7 +64,6 @@ module Mint
                         skip_icons: flags.skip_icons,
                         optimize: !flags.no_optimize,
                         runtime_path: flags.runtime,
-                        relative: flags.relative,
                         include_program: true,
                         live_reload: false,
                         hash_assets: true,

@@ -13,7 +13,6 @@ module Mint
       live_reload : Bool,
       hash_assets : Bool,
       skip_icons : Bool,
-      relative : Bool,
       optimize : Bool
 
     # The end result of the bundling. It contains the all the files for the
@@ -438,7 +437,7 @@ module Mint
     end
 
     def path_for_asset(filename : String) : String
-      "#{config.relative ? "" : "/"}#{ASSET_DIR}/#{filename}"
+      "/#{ASSET_DIR}/#{filename}"
     end
 
     def bundle_name(node : Set(Ast::Node) | Bundle) : String

@@ -24,7 +24,6 @@ context "build" do
         --generate-manifest  # If specified, the web manifest will be generated.
         --help               # Displays help for the current command.
         --no-optimize        # If specified, the resulting JavaScript code will not be optimized.
-        --relative, -r       # If specified, the URLs in the HTML will be in relative format.
         --runtime            # If specified, the supplied runtime will be used instead of the default.
         --skip-icons         # If specified, the application icons will not be generated.
         --timings            # If specified, timings will be printed.

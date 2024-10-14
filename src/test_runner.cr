@@ -41,7 +41,6 @@ module Mint
                   hash_assets: true,
                   skip_icons: true,
                   optimize: false,
-                  relative: false,
                   test: {
                     url:  "ws://#{flags.browser_host}:#{flags.browser_port}/",
                     glob: arguments.test || "**/*",

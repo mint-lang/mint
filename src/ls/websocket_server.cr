@@ -44,7 +44,6 @@ module Mint
                   live_reload: false,
                   runtime_path: nil,
                   skip_icons: true,
-                  relative: false,
                   optimize: true,
                   test: nil),
               ).bundle

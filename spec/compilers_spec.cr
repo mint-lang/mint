@@ -25,7 +25,6 @@ Dir
             runtime_path: nil,
             skip_icons: false,
             hash_assets: true,
-            relative: false,
             optimize: false,
             test: nil)
 
@@ -46,7 +45,7 @@ Dir
             end}
           end.to_h
             .reject { |_, contents| contents.blank? }
-            .reject { |key, _| key.in?("/__mint__/runtime.js", "index.html") }
+            .reject { |key, _| key.in?("/__mint__/runtime.js", "/index.html") }
 
         result =
           case files.size
