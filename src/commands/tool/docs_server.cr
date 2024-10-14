@@ -3,7 +3,7 @@ module Mint
     class DocsServer < Admiral::Command
       include Command
 
-      define_help description: "Generates API Documentation."
+      define_help description: "API Documentation Server."
 
       define_flag host : String,
         description: "The host to serve the documentation on.",
