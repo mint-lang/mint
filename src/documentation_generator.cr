@@ -1,5 +1,13 @@
 module Mint
+  # This module contains funcions for generating JSON compatible
+  # API documentation of souce code. It uses a unfified sutructure for
+  # entities and top-level entities.
+  #
+  # It is used in two places currently:
+  # - `StaticDocumentationGenerator` which generates HTML documentation
+  # - On the website which consumes JSON to display the documentation
   module DocumentationGenerator
+    include Errorable
     extend self
 
     enum Flag
@@ -96,11 +104,11 @@ module Mint
       @[JSON::Field(key: "k", converter: Enum::ValueConverter(Mint::DocumentationGenerator::Kind))]
       getter kind : Kind
 
+      @[JSON::Field(key: "p")]
+      getter parameters : Array(String)?
+
       @[JSON::Field(key: "e")]
       getter entities : Array(Entity)?
-
-      @[JSON::Field(key: "s")]
-      getter sources : Array(String)?
 
       @[JSON::Field(key: "d")]
       getter description : String?
@@ -114,6 +122,7 @@ module Mint
       def initialize(
         *,
         @description = nil,
+        @parameters = nil,
         @entities = nil,
         @flags = nil,
         @link = nil,
@@ -125,14 +134,18 @@ module Mint
 
     @@formatter = Formatter.new
 
+    def resolve(node : Ast::Node)
+      unreachable! "No documentation generator for class: #{node.class}!"
+    end
+
     def resolve(ast : Ast) : Array(TopLevelEntity)
-      (ast.type_definitions +
-        ast.unified_modules +
-        ast.components +
-        ast.providers +
-        ast.stores).map do |node|
-        resolve(node)
-      end
+      (
+        ast.type_definitions +
+          ast.unified_modules +
+          ast.components +
+          ast.providers +
+          ast.stores
+      ).map { |node| resolve(node) }
     end
 
     def resolve(node : Ast::Component) : TopLevelEntity
@@ -188,19 +201,20 @@ module Mint
     end
 
     def resolve(node : Ast::TypeDefinition) : TopLevelEntity
-      # parameters =
-      #   "(#{node.parameters.map(&.value).join(", ")})" if node.parameters.any?
+      parameters =
+        node.parameters.map(&.value) if node.parameters.size > 0
 
       TopLevelEntity.new(
         description: markdown(node.comment),
         link: "#{node.name.value}(type)",
         entities: generate(node.fields),
+        parameters: parameters,
         name: node.name.value,
         kind: Kind::Type)
     end
 
-    def resolve(node : Ast::Node)
-      raise "WTF"
+    def generate(node : Ast::Node)
+      unreachable! "No documentation generator for class: #{node.class}!"
     end
 
     def generate(nodes : Array(Ast::Node))
@@ -209,10 +223,6 @@ module Mint
 
     def generate(node : Nil) : Nil
       nil
-    end
-
-    def generate(node : Ast::Node)
-      raise "WTF: #{node.class}"
     end
 
     def generate(node : Ast::TypeDefinitionField)
@@ -237,9 +247,7 @@ module Mint
           params.map do |item|
             Argument.new(name: @@formatter.format!(item))
           end
-        end
-
-      arguments = nil if arguments.empty?
+        end if node.parameters.size > 0
 
       entity(
         description: node.comment,
@@ -272,9 +280,7 @@ module Mint
             value: @@formatter.format!(item.default),
             type: @@formatter.format!(item.type),
             name: item.name.value)
-        end
-
-      arguments = nil if arguments.empty?
+        end if node.arguments.size > 0
 
       entity(
         description: node.comment,
@@ -408,14 +414,6 @@ module Mint
       end
     end
 
-    def highlight(node : Nil)
-      nil
-    end
-
-    def highlight(node : Ast::Node)
-      highlight(@@formatter.format!(node))
-    end
-
     def highlight(formatted : String)
       ast =
         Parser.parse_any(formatted, "source.mint")
@@ -432,6 +430,14 @@ module Mint
           end
         end
       end.strip
+    end
+
+    def highlight(node : Nil)
+      nil
+    end
+
+    def highlight(node : Ast::Node)
+      highlight(@@formatter.format!(node))
     end
   end
 end

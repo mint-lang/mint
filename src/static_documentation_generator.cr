@@ -20,13 +20,14 @@ module Mint
         .map { |entity| generate(entity, entities) }
         .to_h
         .tap do |files|
-          files["index.html"] = layout "API Documentation", entities do
-            article do
-              h1 do
-                text "API Documentation"
+          files["index.html"] =
+            layout "API Documentation", entities do
+              article do
+                h1 do
+                  text "API Documentation"
+                end
               end
             end
-          end
 
           Assets.files.each do |file|
             next unless file.path.starts_with?("/docs/")
@@ -57,6 +58,16 @@ module Mint
 
               span class: "keyword" { text "#{kind(entity.kind)} " }
               span { text entity.name }
+
+              if parameters = entity.parameters
+                span { text "(" }
+
+                parameters
+                  .intersperse(", ")
+                  .each { |param| span { text param } }
+
+                span { text ")" }
+              end
             end
 
             if description = entity.description
@@ -176,30 +187,30 @@ module Mint
 
     def badge(value : Kind)
       case value
-      in .type_field?
-        {"F", "var(--color-royalblue)"}
-      in .component?
-        {"C", "var(--color-mintgreen)"}
       in .provider?
         {"P", "var(--color-darkmagenta)"}
       in .property?
         {"P", "var(--color-darkorange)"}
-      in .function?
-        {"F", "var(--color-mintgreen)"}
-      in .constant?
-        {"C", "var(--text-color)"}
       in .module?
         {"M", "var(--color-darkorange)"}
       in .signal?
         {"S", "var(--color-indianred)"}
-      in .store?
-        {"S", "var(--color-crimson)"}
       in .state?
         {"S", "var(--color-indianred)"}
       in .type?
         {"T", "var(--color-royalblue)"}
       in .get?
         {"G", "var(--color-royalblue)"}
+      in .function?
+        {"F", "var(--color-mintgreen)"}
+      in .type_field?
+        {"F", "var(--color-royalblue)"}
+      in .component?
+        {"C", "var(--color-mintgreen)"}
+      in .store?
+        {"S", "var(--color-crimson)"}
+      in .constant?
+        {"C", "var(--text-color)"}
       end
     end
 
