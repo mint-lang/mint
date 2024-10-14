@@ -6,6 +6,7 @@ module Mint
       define_help description: "Miscellaneous Tools"
 
       register_sub_command "ls-websocket", type: LsWebSocket
+      register_sub_command "docs-server", type: DocsServer
       register_sub_command "highlight", type: Highlight
       register_sub_command "docs-json", type: DocsJson
       register_sub_command "clean", type: Clean

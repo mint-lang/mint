@@ -46,7 +46,7 @@ module Mint
 
           terminal.measure "#{COG} Generating documentation..." do
             StaticDocumentationGenerator.generate(asts).each do |path, contents|
-              File.write_p(Path[directory, path], contents)
+              File.write_p(Path[directory, path], contents.call)
             end
           end
         end

@@ -20,7 +20,7 @@ Dir
           # Compare results
           result =
             format_xml(
-              Mint::StaticDocumentationGenerator.generate([ast])["Test.html"]
+              Mint::StaticDocumentationGenerator.generate([ast])["Test.html"].call
             ).sub("<?xml version=\"1.0\"?>\n", "").strip
         rescue error : Mint::Error
           fail error.to_terminal.to_s

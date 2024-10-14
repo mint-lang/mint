@@ -10,17 +10,17 @@ module Mint
         default: false
 
       define_flag host : String,
-        description: "The host to serve the application on.",
+        description: "The host to serve the language server on.",
         default: ENV["HOST"]? || "0.0.0.0",
         short: "h"
 
       define_flag port : Int32,
-        description: "The port to serve the application on.",
-        default: (ENV["PORT"]? || "3004").to_i,
+        description: "The port to serve the language server on.",
+        default: (ENV["PORT"]? || "3003").to_i,
         short: "p"
 
       def run
-        execute("Running language server over websocket") do
+        execute "Running language server over websocket" do
           server =
             HTTP::Server.new(
               [

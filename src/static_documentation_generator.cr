@@ -7,7 +7,7 @@ module Mint
     alias Entity = DocumentationGenerator::Entity
     alias Kind = DocumentationGenerator::Kind
 
-    def generate(asts : Array(Ast)) : Hash(String, String)
+    def generate(asts : Array(Ast)) : Hash(String, Proc(String))
       ast =
         asts
           .reduce(Ast.new) { |memo, item| memo.merge(item) }
@@ -21,17 +21,23 @@ module Mint
         .to_h
         .tap do |files|
           files["index.html"] =
-            layout "API Documentation", entities do
-              article do
-                h1 do
-                  text "API Documentation"
+            ->do
+              layout "API Documentation", entities do
+                article do
+                  h1 do
+                    text "API Documentation"
+                  end
                 end
               end
             end
 
           Assets.files.each do |file|
             next unless file.path.starts_with?("/docs/")
-            files[file.path.lchop("/docs/")] = file.gets_to_end
+
+            contents =
+              file.gets_to_end
+
+            files[file.path.lchop("/docs/")] = ->{ contents }
           end
         end
     end
@@ -39,66 +45,68 @@ module Mint
     def generate(
       entity : TopLevelEntity,
       entities : Array(TopLevelEntity)
-    ) : {String, String}
+    ) : {String, Proc(String)}
       {
         href(entity),
-        layout entity.name, entities do |builder|
-          article do
-            h1 do
-              if flags = entity.flags
-                flags.each do |flag|
-                  case flag
-                  in .global?
-                    span class: "keyword" { text "global " }
-                  in .async?
-                    span class: "keyword" { text "async " }
+        ->do
+          layout entity.name, entities do |builder|
+            article do
+              h1 do
+                if flags = entity.flags
+                  flags.each do |flag|
+                    case flag
+                    in .global?
+                      span class: "keyword" { text "global " }
+                    in .async?
+                      span class: "keyword" { text "async " }
+                    end
                   end
+                end
+
+                span class: "keyword" { text "#{kind(entity.kind)} " }
+                span { text entity.name }
+
+                if parameters = entity.parameters
+                  span { text "(" }
+
+                  parameters
+                    .intersperse(", ")
+                    .each { |param| span { text param } }
+
+                  span { text ")" }
                 end
               end
 
-              span class: "keyword" { text "#{kind(entity.kind)} " }
-              span { text entity.name }
-
-              if parameters = entity.parameters
-                span { text "(" }
-
-                parameters
-                  .intersperse(", ")
-                  .each { |param| span { text param } }
-
-                span { text ")" }
+              if description = entity.description
+                div class: "content" do
+                  raw description
+                end
               end
-            end
 
-            if description = entity.description
-              div class: "content" do
-                raw description
-              end
-            end
+              if sub_entities = entity.entities
+                sub_entities.sort_by(&.name).each do |item|
+                  div class: "entity" do
+                    a name: item.name, id: item.name
 
-            if entities = entity.entities
-              entities.sort_by(&.name).each do |item|
-                div class: "entity" do
-                  a name: item.name, id: item.name
+                    entity_signature item, builder
 
-                  entity_signature item, builder
-
-                  if description = item.description
-                    div class: "content" do
-                      raw description
+                    if description = item.description
+                      div class: "content" do
+                        raw description
+                      end
                     end
                   end
                 end
               end
             end
-          end
 
-          nav do
-            strong { text "ON THIS PAGE" }
+            nav do
+              strong { text "ON THIS PAGE" }
 
-            entity.entities.try(&.each do |item|
-              link item, builder
-            end)
+              entity.entities.try(&.each do |item|
+                link item, builder
+              end)
+            end
           end
         end,
       }

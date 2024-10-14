@@ -1,95 +1,55 @@
 module Mint
   class DocumentationServer
-    @asts = {} of MintJson => Ast
-    @error : String?
-    @ast = Ast.new
-    @generator = DocumentationGenerator.new
+    @files : Hash(String, Proc(String)) = {} of String => Proc(String)
 
-    def self.start
-      new
-    end
+    def initialize(*, host, port)
+      FileWorkspace.new(
+        path: Path[Dir.current, "mint.json"].to_s,
+        include_tests: true,
+        check: Check::None,
+        format: false,
+        listener: ->(result : TypeChecker | Error) do
+          @files =
+            case result
+            in TypeChecker
+              StaticDocumentationGenerator.generate([result.artifacts.ast])
+            in Error
+              error(result)
+            end
+        end)
 
-    def initialize
-      core_json = MintJson.new(%({"name": "core"}), "core", "mint.json")
+      server =
+        HTTP::Server.new([HTTP::CompressHandler.new]) do |context|
+          path =
+            context.request.path.lstrip("/")
 
-      @asts[core_json] = Core.ast
+          # Handle the request depending on the result.
+          content_type, content =
+            if file = @files[path]?
+              {
+                MIME.from_filename?(path).to_s || "text/plain",
+                file.call,
+              }
+            else
+              {"text/html", @files["index.html"].call}
+            end
 
-      SourceFiles.packages.each do |package|
-        ast = Ast.new
-
-        package.source_files.each do |file|
-          ast.merge(Parser.parse(File.read(file), file))
+          context.response.content_type = content_type
+          context.response.print content
         end
 
-        @asts[package] = ast
-      end
-
-      @watcher =
-        AstWatcher.new(->{ SourceFiles.current }, include_core: false) do |result|
-          case result
-          when Ast
-            @ast = result.normalize
-            @error = nil
-          when Error
-            raise result
-          end
-        end
-
-      spawn do
-        @watcher.watch do |result|
-          case result
-          when Ast
-            @ast = result.normalize
-            @error = nil
-          when Error
-            @error = result.to_html
-            @ast = Ast.new
-          end
-        end
-      end
-
-      setup_kemal
-
-      # Server.run(name: "Documentation", port: 3002)
-    end
-
-    def setup_kemal
-      get "/documentation.json" do |env|
-        env.response.headers["Access-Control-Allow-Origin"] = "*"
-        env.response.content_type = "application/json"
-        @generator.generate @asts.merge({MintJson.parse_current => @ast})
-      end
-
-      get "/" do
-        index
-      end
-
-      get "/:name" do |env|
-        filename =
-          env.params.url["name"]
-
-        # Lookup given *filename*
-        asset = Assets.read?("docs-viewer/#{filename}")
-
-        if asset
-          # Set cache to expire in 30 days.
-          env.response.headers["Cache-Control"] = "max-age=2592000"
-
-          env.response.content_type =
-            MIME.from_filename?(filename).to_s
-        end
-
-        asset || index
-      end
-
-      # If we didn't handle any route return the index as well.
-      error 404 do |env|
-        halt env, response: index, status_code: 200
+      # Start the server.
+      Server.run(
+        server: server,
+        host: host,
+        port: port
+      ) do |resolved_host, resolved_port|
+        terminal.puts "#{COG} Development server started on http://#{resolved_host}:#{resolved_port}/"
       end
     end
 
-    def index
-      Assets.read("docs-viewer/index.html")
+    def error(error)
+      {"index.html" => ->{ error.to_html }}
     end
 
     def terminal
