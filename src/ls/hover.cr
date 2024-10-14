@@ -7,7 +7,7 @@ module Mint
       # Fallback handler for nil, obviously it should not happen.
       def hover(
         node : Nil,
-        workspace : FileWorkspace,
+        workspace : Workspace,
         type_checker : TypeChecker
       ) : Array(String)
         ["This should not happen! Please create an issue about this!"]
@@ -16,7 +16,7 @@ module Mint
       # Fallback handler for nodes that does not have a handler yet.
       def hover(
         node : Ast::Node,
-        workspace : FileWorkspace,
+        workspace : Workspace,
         type_checker : TypeChecker
       ) : Array(String)
         type =

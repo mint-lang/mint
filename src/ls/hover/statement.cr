@@ -3,7 +3,7 @@ module Mint
     class Hover < LSP::RequestMessage
       def hover(
         node : Ast::Statement,
-        workspace : FileWorkspace,
+        workspace : Workspace,
         type_checker : TypeChecker
       ) : Array(String)
         type =

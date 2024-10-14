@@ -3,21 +3,21 @@ module Mint
     class CodeAction < LSP::RequestMessage
       property params : LSP::CodeActionParams
 
-      def actions(node : Ast::Provider, workspace : FileWorkspace)
+      def actions(node : Ast::Provider, workspace : Workspace)
         [
           ProviderActions.order_entities(
             node, workspace, params.text_document.uri),
         ]
       end
 
-      def actions(node : Ast::Module, workspace : FileWorkspace)
+      def actions(node : Ast::Module, workspace : Workspace)
         [
           ModuleActions.order_entities(
             node, workspace, params.text_document.uri),
         ]
       end
 
-      def actions(node : Ast::Node, workspace : FileWorkspace)
+      def actions(node : Ast::Node, workspace : Workspace)
         [] of LSP::CodeAction
       end
 

@@ -14,7 +14,7 @@ module Mint
       port,
       &listener : Proc(TypeChecker, Hash(String, Proc(String)))
     )
-      FileWorkspace.new(
+      Workspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
         check: Check::Environment,
         include_tests: false,

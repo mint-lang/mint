@@ -3,7 +3,7 @@ module Mint
     # A server to use the LSP over websockets.
     class WebSocketServer < Server
       class Sandbox
-        getter workspace : FileWorkspace
+        getter workspace : Workspace
 
         @directory : Path
 
@@ -13,7 +13,7 @@ module Mint
           @id = Random::Secure.hex
 
           # We create a temporary directory for the workspace with a "mint.json"
-          # so the `FileWorkspace` can work.
+          # so the `Workspace` can work.
           @directory =
             Path[Dir.tempdir, @id].tap do |path|
               FileUtils.mkdir_p(path)
@@ -22,7 +22,7 @@ module Mint
 
           # There is only one workspace.
           @workspace =
-            FileWorkspace.new(
+            Workspace.new(
               path: Path[@directory, "mint.json"].to_s,
               listener: ->build(TypeChecker | Error),
               check: Check::Unreachable,
@@ -90,7 +90,7 @@ module Mint
         @sandbox.try(&.cleanup)
       end
 
-      def workspace(path : String) : FileWorkspace
+      def workspace(path : String) : Workspace
         @sandbox.try(&.workspace) || super(path)
       end
 

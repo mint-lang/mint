@@ -21,7 +21,7 @@ module Mint
       @browser = Browser.new(flags.browser.downcase)
       @watch = flags.watch || flags.manual
 
-      FileWorkspace.new(
+      Workspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
         check: Check::Environment,
         include_tests: true,

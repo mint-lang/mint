@@ -22,14 +22,14 @@ module Mint
 
       property params : LSP::InitializeParams? = nil
 
-      @@workspaces = {} of String => FileWorkspace
+      @@workspaces = {} of String => Workspace
 
-      def workspace(path : String) : FileWorkspace
+      def workspace(path : String) : Workspace
         base =
           File.find_in_ancestors(path, "mint.json").to_s
 
         @@workspaces[base] ||=
-          FileWorkspace.new(
+          Workspace.new(
             check: Check::Unreachable,
             include_tests: true,
             listener: nil,

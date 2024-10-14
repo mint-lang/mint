@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Mint::FileWorkspace do
+describe Mint::Workspace do
   it "notifies immediately (success)" do
     with_workspace do |workspace|
       workspace.file("Main.mint", "")
@@ -8,7 +8,7 @@ describe Mint::FileWorkspace do
       results =
         [] of Mint::TypeChecker | Mint::Error
 
-      Mint::FileWorkspace.new(
+      Mint::Workspace.new(
         listener: ->(item : Mint::TypeChecker | Mint::Error) { results << item },
         path: Path[workspace.root_path, "mint.json"].to_s,
         check: Mint::Check::Environment,
@@ -25,7 +25,7 @@ describe Mint::FileWorkspace do
       results =
         [] of Mint::TypeChecker | Mint::Error
 
-      Mint::FileWorkspace.new(
+      Mint::Workspace.new(
         listener: ->(item : Mint::TypeChecker | Mint::Error) { results << item },
         check: Mint::Check::Environment,
         path: workspace.root_path,
@@ -46,7 +46,7 @@ describe Mint::FileWorkspace do
       results =
         [] of Mint::TypeChecker | Mint::Error
 
-      Mint::FileWorkspace.new(
+      Mint::Workspace.new(
         listener: ->(item : Mint::TypeChecker | Mint::Error) { results << item },
         path: Path[workspace.root_path, "mint.json"].to_s,
         check: Mint::Check::Environment,

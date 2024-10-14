@@ -17,8 +17,8 @@ module Mint
       def initialize(
         *,
         @type_checker : TypeChecker,
-        @workspace : FileWorkspace,
-        @snippet_support : Bool
+        @snippet_support : Bool,
+        @workspace : Workspace
       )
       end
 

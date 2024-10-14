@@ -40,7 +40,7 @@ module Mint
       def run
         execute "Building for production",
           check_dependencies: true, env: flags.env do
-          FileWorkspace.new(
+          Workspace.new(
             path: Path[Dir.current, "mint.json"].to_s,
             check: Check::Environment,
             include_tests: false,

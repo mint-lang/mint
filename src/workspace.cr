@@ -6,7 +6,7 @@ module Mint
   # - It does a compilation on initialization, so artifacts are ready to be
   #   used.
   #
-  class FileWorkspace
+  class Workspace
     # The current artifacts of the program or the current error.
     getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
 
