@@ -17,7 +17,7 @@ module Mint
         .intersperse([Line.new(2)] of Node)
         .flatten
 
-      Renderer.render(body)
+      Renderer.render(body, config)
     end
   end
 end

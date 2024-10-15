@@ -10,6 +10,12 @@ module Mint
       # The max number of columns.
       getter max : Int32 = 80
 
+      # The indentation size
+      getter indent_size : Int32
+
+      def initialize(@indent_size)
+      end
+
       def process(nodes : Nodes) : Array(Processed)
         nodes.flat_map(&->process(Node))
       end
@@ -29,9 +35,9 @@ module Mint
           [node] of Processed
         in Line
           # We reset the column to the current nesting depth.
-          self.column = depth * 2
+          self.column = depth * indent_size
 
-          [LineBreak.new(node.count, depth)] of Processed
+          [LineBreak.new(node.count, depth, indent_size)] of Processed
         in NestedString
           # Every line in this will have a fixed indentation
           # on top the nesting depth.
@@ -39,7 +45,7 @@ module Mint
             case item
             in String
               head =
-                "\n" + " " * (node.indentation + depth * 2)
+                "\n" + " " * (node.indentation + depth * indent_size)
 
               process(item.lstrip.gsub(/\n\s*/, head))
             in Nodes
@@ -64,7 +70,7 @@ module Mint
                   available = (max - 5 - column)
                   remaining = part
 
-                  if size > available && (size > (max - 5 - depth * 2))
+                  if size > available && (size > (max - 5 - depth * indent_size))
                     loop do
                       result += process(remaining[0..available]?.to_s)
                       result += process([%(" \\), Line.new(1), %(")])

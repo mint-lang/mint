@@ -3,18 +3,21 @@ module Mint
     module Renderer
       extend self
 
-      def render(nodes : Nodes) : String
+      def render(nodes : Nodes, config : Formatter::Config) : String
         # Process the nodes and merge consecutive strings.
         processed =
-          Processor.new.process(nodes).reduce([] of Processed) do |memo, item|
-            if memo.last?.is_a?(String) && item.is_a?(String)
-              memo << (memo.pop.as(String) + item.as(String))
-            else
-              memo << item
-            end
+          Processor
+            .new(config.indent_size)
+            .process(nodes)
+            .reduce([] of Processed) do |memo, item|
+              if memo.last?.is_a?(String) && item.is_a?(String)
+                memo << (memo.pop.as(String) + item.as(String))
+              else
+                memo << item
+              end
 
-            memo
-          end
+              memo
+            end
 
         render(processed).remove_trailing_whitespace
       end
@@ -38,7 +41,7 @@ module Mint
         in LineBreak
           node.count.times do
             io << '\n'
-            io << (" " * node.depth * 2)
+            io << (" " * node.depth * node.indent_size)
           end
         end
       end

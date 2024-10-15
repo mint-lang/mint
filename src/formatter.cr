@@ -97,10 +97,11 @@ module Mint
     alias Processed = LineBreak | String
 
     class LineBreak
+      getter indent_size : Int32
       property count : Int32
       getter depth : Int32
 
-      def initialize(@count, @depth)
+      def initialize(@count, @depth, @indent_size)
       end
     end
 
@@ -139,7 +140,7 @@ module Mint
     # Actuall formatting things as strings...
 
     def format!(*args, **named) : String
-      Renderer.render(format(*args, **named))
+      Renderer.render(format(*args, **named), config)
     end
 
     def format!(value : Nil) : Nil
