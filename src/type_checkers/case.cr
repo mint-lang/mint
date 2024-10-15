@@ -68,7 +68,6 @@ module Mint
       when Ast::TypeDefinitionField
         to_pattern_type(node.type)
       else
-        puts node.inspect
         raise "WTF"
       end
     end

@@ -163,7 +163,7 @@ module Mint
 
       if actions.includes?(:reset) && reason == :modified
         reset
-      else
+      elsif actions.includes?(:compile)
         set(check)
       end
     end

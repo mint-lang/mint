@@ -40,7 +40,7 @@ module Mint
     def watch
       spawn do
         loop do
-          sleep 0.5.seconds
+          sleep 0.1.seconds
           scan :modified
         end
       end

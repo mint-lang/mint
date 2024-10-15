@@ -20,13 +20,19 @@ module Mint
         end
 
         whitespace
-        if keyword! "as"
-          whitespace
-          next error :html_element_expected_reference do
-            expected "the reference of an HTML element", word
-            snippet self
-          end unless ref = variable
-        end
+
+        ref =
+          parse do
+            next unless keyword! "as"
+            next unless whitespace!
+
+            next error :html_element_expected_reference do
+              expected "the reference of an HTML element", word
+              snippet self
+            end unless value = variable
+
+            value
+          end
 
         body =
           html_body(

@@ -2,12 +2,12 @@ module Mint
   module LS
     class Server < LSP::Server
       @methods = {
-        # Lifecycle methods
+        # Lifecycle methods.
         "initialize" => Initialize,
         "shutdown"   => Shutdown,
         "exit"       => Exit,
 
-        # Text document related methods
+        # Text document related methods.
         "textDocument/completion"          => CompletionRequest,
         "textDocument/willSaveWaitUntil"   => WillSaveWaitUntil,
         "textDocument/semanticTokens/full" => SemanticTokens,
@@ -18,9 +18,14 @@ module Mint
         "textDocument/didChange"           => DidChange,
         "textDocument/didOpen"             => DidOpen,
         "textDocument/hover"               => Hover,
+
+        # Sandbox related methods (non-standard).
+        "sandbox/update" => SandboxUpdate,
+        "sandbox/reset"  => SandboxReset,
       }
 
       property params : LSP::InitializeParams? = nil
+      property sandbox : Sandbox?
 
       @@workspaces = {} of String => Workspace
 
