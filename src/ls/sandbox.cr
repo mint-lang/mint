@@ -66,7 +66,7 @@ module Mint
                 test: nil),
             ).bundle
           in Error
-            ErrorMessage.render(result)
+            ErrorMessage.render(result, live_reload: false)
           end
 
         IO::Memory.new.tap do |io|

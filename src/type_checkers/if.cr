@@ -14,7 +14,7 @@ module Mint
                Ast::Discard
             destructure(item.target, condition)
           end
-        end || [] of VariableScope
+        end
 
       error! :if_condition_type_mismatch do
         block do
@@ -25,14 +25,14 @@ module Mint
 
         snippet condition
         snippet "The condition in question is here:", node.condition
-      end if variables.empty? && !Comparer.compare(condition, BOOL)
+      end if variables.nil? && !Comparer.compare(condition, BOOL)
 
       truthy_item, falsy_item =
         node.branches
 
-      variables.each do |variable|
+      variables.try(&.each do |variable|
         scope.add(truthy_item, variable[0], variable[2])
-      end
+      end)
 
       truthy =
         resolve truthy_item

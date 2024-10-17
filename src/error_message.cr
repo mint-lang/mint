@@ -1,10 +1,10 @@
 module Mint
   module ErrorMessage
-    def self.render(error : Error) : Hash(String, Proc(String))
+    def self.render(error : Error, *, live_reload = true) : Hash(String, Proc(String))
       files = {} of String => Proc(String)
 
       files["/live-reload.js"] =
-        ->{ Assets.read("live-reload.js") }
+        ->{ Assets.read("live-reload.js") } if live_reload
 
       files["/index.html"] =
         ->do
@@ -17,7 +17,7 @@ module Mint
                 title { text "#{error.name.to_s.upcase} | Mint Error" }
 
                 link rel: "stylesheet", href: "/style.css"
-                script src: "/live-reload.js"
+                script src: "/live-reload.js" if live_reload
               end
 
               body do

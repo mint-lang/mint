@@ -25,7 +25,7 @@ module Mint
             in TypeChecker
               listener.call(result)
             in Error
-              ErrorMessage.render(result)
+              ErrorMessage.render(result, live_reload: @reload)
             end
 
           @sockets.each(&.send("reload")) if @reload
