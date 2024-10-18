@@ -29,7 +29,7 @@ jobs:
         name: Build binary (Linux)
         run: |
           mkdir build
-          docker-compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --static --no-debug --release
+          docker compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --static --no-debug --release
 
       - if: startsWith(matrix.os, 'macos')
         name: Build binary (macOS)
