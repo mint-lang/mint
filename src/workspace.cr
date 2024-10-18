@@ -49,6 +49,22 @@ module Mint
       map_error(artifacts, &.ast)
     end
 
+    def unchecked_ast
+      @cache
+        .values
+        .select(Ast)
+        .reduce(Ast.new) { |memo, item| memo.merge item }
+        .tap do |item|
+          # Only merge the core if it's not the core (if it has `Maybe`
+          # defined then it's the core). This is so the language server
+          # works with the core files.
+          unless item.type_definitions.index(&.name.==("Maybe"))
+            item.merge(Core.ast)
+          end
+        end
+        .normalize
+    end
+
     def nodes_at_cursor(
       *,
       column : Int64,
@@ -96,25 +112,10 @@ module Mint
         if error = @cache.values.select(Error).first?
           error
         else
-          ast =
-            @cache
-              .values
-              .select(Ast)
-              .reduce(Ast.new) { |memo, item| memo.merge item }
-              .tap do |item|
-                # Only merge the core if it's not the core (if it has `Maybe`
-                # defined then it's the core). This is so the language server
-                # works with the core files.
-                unless item.type_definitions.index(&.name.==("Maybe"))
-                  item.merge(Core.ast)
-                end
-              end
-              .normalize
-
           TypeChecker.new(
             check_everything: @check.unreachable?,
             check_env: @check.environment?,
-            ast: ast
+            ast: unchecked_ast
           ).tap(&.check)
         end
       end
@@ -153,8 +154,9 @@ module Mint
             # 1. packages could have changed
             # 2. source directories could have changed
             # 3. variables in the .env file cloud have changed
-            case File.basename(file)
+            case basename = File.basename(file)
             when "mint.json", ".env"
+              Env.init(basename) { } if basename == ".env"
               actions << :reset
             end
           end

@@ -15,15 +15,18 @@ module Mint
         workspace =
           server.workspace(params.path)
 
-        case type_checker = workspace.result
-        in TypeChecker
-          Completion.new(
-            snippet_support: snippet_support,
-            type_checker: type_checker,
-            workspace: workspace
-          ).process(params)
-        in Error
-        end
+        type_checker =
+          case item = workspace.result
+          in TypeChecker
+            item
+          in Error
+          end
+
+        Completion.new(
+          snippet_support: snippet_support,
+          type_checker: type_checker,
+          workspace: workspace
+        ).process(params)
       end
     end
   end

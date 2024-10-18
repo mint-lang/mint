@@ -16,7 +16,7 @@ module Mint
                   .gsub("}", "\\}")
 
               type =
-                @type_checker.cache[property]?
+                @type_checker.try(&.cache[property]?)
 
               value =
                 case type.try(&.name)

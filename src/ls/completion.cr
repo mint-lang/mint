@@ -16,7 +16,7 @@ module Mint
 
       def initialize(
         *,
-        @type_checker : TypeChecker,
+        @type_checker : TypeChecker | Nil,
         @snippet_support : Bool,
         @workspace : Workspace
       )
@@ -24,7 +24,7 @@ module Mint
 
       def process(params : LSP::CompletionParams)
         ast =
-          @type_checker.artifacts.ast
+          @workspace.unchecked_ast
 
         global_completions =
           (
