@@ -37,6 +37,7 @@ module Mint
           Workspace.new(
             check: Check::Unreachable,
             include_tests: true,
+            dot_env: ".env",
             listener: nil,
             format: false,
             path: base)

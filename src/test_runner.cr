@@ -23,6 +23,7 @@ module Mint
 
       Workspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
+        dot_env: flags.env || ".env",
         check: Check::Environment,
         include_tests: true,
         format: false,

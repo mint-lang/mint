@@ -9,6 +9,7 @@ module Mint
     def initialize(
       *,
       @reload : Bool,
+      dot_env,
       format,
       host,
       port,
@@ -16,6 +17,7 @@ module Mint
     )
       Workspace.new(
         path: Path[Dir.current, "mint.json"].to_s,
+        dot_env: dot_env || ".env",
         check: Check::Environment,
         include_tests: false,
         format: format,

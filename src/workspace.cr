@@ -20,10 +20,14 @@ module Mint
       *,
       @listener : Proc(TypeChecker | Error, Nil) | Nil,
       @include_tests : Bool,
+      dot_env : String,
       @format : Bool,
       @check : Check,
       @path : String
     )
+      @dot_env =
+        File.basename(dot_env)
+
       (@watcher = Watcher.new(&->update(Array(String), Symbol)))
         .tap { reset }
         .watch
@@ -102,7 +106,8 @@ module Mint
       @watcher.patterns =
         SourceFiles.everything(
           MintJson.parse(@path, search: true),
-          include_tests: @include_tests)
+          include_tests: @include_tests,
+          dot_env: @dot_env)
     rescue error : Error
       set(error)
     end
@@ -154,11 +159,12 @@ module Mint
             # 1. packages could have changed
             # 2. source directories could have changed
             # 3. variables in the .env file cloud have changed
-            case basename = File.basename(file)
-            when "mint.json", ".env"
-              Env.init(basename) { } if basename == ".env"
-              actions << :reset
+            case File.basename(file)
+            when @dot_env
+              Env.init(file)
             end
+
+            actions << :reset
           end
         end
       end

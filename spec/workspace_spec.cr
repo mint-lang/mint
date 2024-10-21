@@ -13,6 +13,7 @@ describe Mint::Workspace do
         path: Path[workspace.root_path, "mint.json"].to_s,
         check: Mint::Check::Environment,
         include_tests: false,
+        dot_env: ".env",
         format: false)
 
       results.size.should eq(1)
@@ -30,6 +31,7 @@ describe Mint::Workspace do
         check: Mint::Check::Environment,
         path: workspace.root_path,
         include_tests: false,
+        dot_env: ".env",
         format: false)
 
       results.size.should eq(1)
@@ -51,6 +53,7 @@ describe Mint::Workspace do
         path: Path[workspace.root_path, "mint.json"].to_s,
         check: Mint::Check::Environment,
         include_tests: false,
+        dot_env: ".env",
         format: false)
 
       FileUtils.touch(Path[workspace.root_path, "Main.mint"])

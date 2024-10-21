@@ -32,10 +32,11 @@ module Mint
 
       def run
         execute "Running the development server",
-          check_dependencies: true, env: flags.env do
+          check_dependencies: true do
           Reactor.new(
             reload: !flags.no_reload,
             format: flags.format,
+            dot_env: flags.env,
             host: flags.host,
             port: flags.port
           ) do |type_checker|

@@ -20,6 +20,7 @@ module Mint
           Reactor.new(
             host: flags.host,
             port: flags.port,
+            dot_env: ".env",
             format: false,
             reload: true,
           ) do |type_checker|

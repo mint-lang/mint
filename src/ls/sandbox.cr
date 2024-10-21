@@ -24,6 +24,7 @@ module Mint
             listener: ->build(TypeChecker | Error),
             check: Check::Unreachable,
             include_tests: true,
+            dot_env: ".env",
             format: false)
       end
 

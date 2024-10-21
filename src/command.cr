@@ -31,11 +31,6 @@ module Mint
         result = nil
 
         begin
-          # Load environment variables.
-          Env.init(env) do |file|
-            terminal.puts "#{COG} Loaded environment variables from: #{file}"
-          end
-
           check_dependencies! if check_dependencies
 
           # Measure elapsed time of a command.
