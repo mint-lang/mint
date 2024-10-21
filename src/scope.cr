@@ -80,10 +80,25 @@ module Mint
 
     # Builds a level for the node and yields the parents scope.
     def create(node : Ast::Node, parent : Ast::Node | Nil = nil)
-      # Copy the stack of the parent so we can `see` it's targets.
       scopes[node] =
         if parent
-          scopes[parent].dup
+          # For defers we need to restrict their scope to the globally
+          # accessible entities only, since they cannot access outer scopes
+          # like variables in a block above them.
+          if parent.is_a?(Ast::Defer)
+            scopes[parent].select do |level|
+              level == root ||
+                case item = level.node
+                when Ast::Component
+                  item.global?
+                when Ast::Provider, Ast::Module, Ast::Store
+                  true
+                end
+            end
+          else
+            # Copy the stack of the parent so we can `see` it's targets.
+            scopes[parent].dup
+          end
         else
           [root] of Level
         end
