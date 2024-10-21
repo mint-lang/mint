@@ -33,7 +33,7 @@ export const setRef = (value, just) => (element) => {
   }
 };
 
-// A version of `useSignal`` which subscribes to the signal by default (like a
+// A version of `useSignal` which subscribes to the signal by default (like a
 // state) since we want to re-render every time the signal changes.
 export const useSignal = (value) => {
   const item = useMemo(() => signal(value), []);

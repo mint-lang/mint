@@ -87,7 +87,7 @@ module Mint
 
       # This holds which node belongs to which bundle.
       scopes =
-        {} of Ast::Node => Set(Ast::Node)
+        {} of Compiler::Id => Set(Ast::Node)
 
       # Gather all of the IDs so we can use it to filter out imports later on.
       ids =
@@ -99,8 +99,20 @@ module Mint
       end
 
       Logger.log "Bundling and generating JavaScript..." do
+        # NOTE: For debugging purposes.
+        # puts "Compiled entities:"
+        # compiler.compiled.each do |(a, b, c)|
+        #   puts " -> #{Debugger.dbg(a)}, #{Debugger.dbg(b)}"
+        # end
+
         # Here we separate the compiled items to each bundle.
         calculated_bundles.each do |node, dependencies|
+          # NOTE: For debugging purposes.
+          # puts "Bundle for #{Debugger.dbg(node)}:"
+          # dependencies.each do |dep|
+          #   puts " -> #{Debugger.dbg(dep)}"
+          # end
+
           bundles[node] =
             dependencies.flat_map do |dependency|
               compiler.compiled.select { |item| item[0] == dependency }
@@ -109,10 +121,18 @@ module Mint
           bundles[node].try(&.each do |item|
             case node
             when Set(Ast::Node)
-              scopes[item[0]] = node
+              scopes[item[1]] = node
             end
           end)
         end
+
+        # NOTE: For debugging purposes.
+        # bundles.each do |key, items|
+        #   puts "Bundle #{Debugger.dbg(key)}:"
+        #   items.each do |(a, b, c)|
+        #     puts " -> #{Debugger.dbg(a)}, #{Debugger.dbg(b)}"
+        #   end
+        # end
 
         # Here we add async components to a bundle so they can be loaded
         # and referenced in the virtual DOM.
@@ -208,7 +228,7 @@ module Mint
 
             renderer.used.map do |item|
               # We only need to import things that are actually exported (all
-              # other entities show up here like function arguments statement
+              # other entities show up here like function arguments, statement
               # variables, etc...)
               next unless ids.includes?(item)
 
