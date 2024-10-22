@@ -123,7 +123,9 @@ module Mint
             # TODO: Check if all of the conditions are still needed.
             if last
               space_separated =
-                last && Ast.space_separated?(last, item)
+                last &&
+                  !last.is_a?(Ast::Comment) &&
+                  Ast.space_separated?(last, item)
 
               comments_and_one_is_block =
                 last.is_a?(Ast::Comment) &&

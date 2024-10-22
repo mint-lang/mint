@@ -2,7 +2,7 @@ module Mint
   class Parser
     def comment : Ast::Comment?
       parse do |start_position|
-        content, type, next_comment =
+        content, type, next_comment, to =
           if word! "/*"
             consumed =
               gather { consume { !word?("*/") && !eof? } }.to_s
@@ -12,10 +12,13 @@ module Mint
               snippet self
             end unless word! "*/"
 
-            {consumed, Ast::Comment::Type::Block, nil}
+            {consumed, Ast::Comment::Type::Block, nil, position}
           elsif word! "//"
             consumed =
               gather { consume { char != '\n' && !eof? } }.to_s
+
+            to_position =
+              position
 
             comment =
               parse do
@@ -24,9 +27,9 @@ module Mint
                 self.comment
               end
 
-            {consumed, Ast::Comment::Type::Inline, comment}
+            {consumed, Ast::Comment::Type::Inline, comment, to_position}
           else
-            {nil, Ast::Comment::Type::Block, nil}
+            {nil, Ast::Comment::Type::Block, nil, position}
           end
 
         next unless content
@@ -35,9 +38,9 @@ module Mint
           next_comment: next_comment,
           from: start_position,
           content: content,
-          to: position,
           type: type,
-          file: file)
+          file: file,
+          to: to)
       end
     end
   end
