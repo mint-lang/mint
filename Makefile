@@ -41,6 +41,12 @@ local: build
 documentation:
 	rm -rf docs && crystal docs
 
+.PHONY: development-release
+development-release:
+	docker-compose run --rm app \
+		crystal build src/mint.cr -o mint-dev --static --no-debug --release
+		mv ./mint-dev ~/.bin/
+
 src/assets/runtime.js: $(shell find runtime/src -type f)
 	cd runtime && make index
 
