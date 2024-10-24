@@ -1,3 +1,8 @@
+# This file is used to build the release version of Mint
+# locally and on linux CI.
+#
+# NOTE: Make sure that the crystal version is the same as
+#       in the `.tool-versions` and `Dockerfile` files.
 version: "2"
 services:
   app:
