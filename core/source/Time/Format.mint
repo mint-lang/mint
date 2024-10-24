@@ -99,6 +99,7 @@ module Time {
   * `%C` - year divided by 100
   * `%d` - day of month, zero padded (01, 02, ...)
   * `%-d` - day of month (1, 2, ..., 31)
+  * - %*d: day of month, ordinal (1st, 2nd, ...)
   * `%D` - date (04/05/16)
   * `%e` - day of month, blank padded (" 1", " 2", ..., "10", "11", ...)
   * `%F` - ISO 8601 date (2016-04-05)
@@ -260,15 +261,23 @@ module Time {
       /* day of month, zero padded (01, 02, ...) */
       "d" =>
         time
-        |> dayOfMonth()
+        |> dayOfMonth
         |> Number.toString
         |> String.padStart("0", 2)
 
       /* day of month (1, 2, ..., 31) */
       "-d" =>
         time
-        |> dayOfMonth()
+        |> dayOfMonth
         |> Number.toString
+
+      "*d" =>
+        {
+          let day =
+            dayOfMonth(time)
+
+          "#{day}#{language.toOrdinalSuffix(day)}"
+        }
 
       /* date (04/05/16) */
       "D" => format(time, language, "%m/%d/%Y")
@@ -276,7 +285,7 @@ module Time {
       /* day of month, blank padded (" 1", " 2", ..., "10", "11", ...) */
       "e" =>
         time
-        |> dayOfMonth()
+        |> dayOfMonth
         |> Number.toString
         |> String.padStart(" ", 2)
 
@@ -299,14 +308,14 @@ module Time {
       "H" =>
         time
         |> hour
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart("0", 2)
 
       /* hour of the day, 12-hour clock, zero padded (00, 01, ..., 12) */
       "I" =>
         (hour(time) - 12)
         |> Math.abs
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart("0", 2)
 
       /* day of year, zero padded (001, 002, ..., 365) */
@@ -320,34 +329,34 @@ module Time {
       "k" =>
         time
         |> hour
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart(" ", 2)
 
       /* hour of the day, 12-hour clock, blank padded (" 0", " 1", ..., "12") */
       "l" =>
         (hour(time) - 12)
         |> Math.abs
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart(" ", 2)
 
       /* milliseconds, zero padded (000, 001, ..., 999) */
       "L" =>
         time
         |> millisecond
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart("0", 3)
 
       /* month number, zero padded (01, 02, ..., 12) */
       "m" =>
         time
-        |> monthNumber()
+        |> monthNumber
         |> Number.toString
         |> String.padStart("0", 2)
 
       /* month number, blank padded (" 1", " 2", ..., "12") */
       "_m" =>
         time
-        |> monthNumber()
+        |> monthNumber
         |> Number.toString
         |> String.padStart(" ", 2)
 
@@ -361,13 +370,13 @@ module Time {
       "M" =>
         time
         |> minute
-        |> Number.toString()
+        |> Number.toString
         |> String.padStart("0", 2)
 
       /* am-pm (lowercase) */
       "p" =>
         time
-        |> hour()
+        |> hour
         |> language.amPm
         |> String.toLowerCase
 
