@@ -59,6 +59,7 @@ module Test {
       }
     ],
     "d": "<p>Module Description</p>",
+    "l": "Test",
     "n": "Test"
   }
 ]

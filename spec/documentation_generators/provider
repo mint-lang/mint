@@ -33,6 +33,7 @@ provider Test : Subscription {
       }
     ],
     "d": "<p>Provider Description</p>",
+    "l": "Test",
     "n": "Test"
   }
 ]

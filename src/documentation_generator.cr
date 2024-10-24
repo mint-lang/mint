@@ -114,7 +114,7 @@ module Mint
       getter description : String?
 
       @[JSON::Field(key: "l")]
-      getter link : String?
+      getter link : String
 
       @[JSON::Field(key: "n")]
       getter name : String
@@ -125,10 +125,11 @@ module Mint
         @parameters = nil,
         @entities = nil,
         @flags = nil,
-        @link = nil,
+        link = nil,
         @name,
         @kind
       )
+        @link = link || @name
       end
     end
 

@@ -70,6 +70,7 @@ store Test {
       }
     ],
     "d": "<p>Store Description</p>",
+    "l": "Test",
     "n": "Test"
   }
 ]
