@@ -304,12 +304,18 @@ module Math {
   }
 
   /*
-  Returns the value of a number rounded to the nearest integer.
+  Returns the value of a number rounded to the nearest decimal point (0 by
+  default).
 
     Math.round(0.5) == 1
+    Math.round(0.53, 1) == 0.5
   */
-  fun round (number : Number) : Number {
-    `Math.round(#{number})`
+  fun round (number : Number, decimals : Number = 0) : Number {
+    if decimals == 0 {
+      `Math.round(#{number})`
+    } else {
+      `Math.round(#{number} * (10 * #{decimals})) / (10 * #{decimals})`
+    }
   }
 
   /*

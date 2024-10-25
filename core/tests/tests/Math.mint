@@ -34,6 +34,14 @@ suite "Math.round" {
   test "rounds down correctly" {
     Math.round(0.49) == 0
   }
+
+  test "rounds up correctly (decimals)" {
+    Math.round(0.51, 1) == 0.5
+  }
+
+  test "rounds down correctly (decimals)" {
+    Math.round(0.49, 1) == 0.5
+  }
 }
 
 suite "Math.min" {
