@@ -56,7 +56,7 @@ module Mint
                 Builtin::UseRef
               end
 
-            {ref, ref, js.call(method, [js.new(nothing, [] of Compiled)])}
+            {node, ref, js.call(method, [js.new(nothing, [] of Compiled)])}
           end
 
         properties =
@@ -81,7 +81,7 @@ module Mint
               (refs + states + gets + functions + constants)
                 .compact
                 .map do |item|
-                  [item[0]] of Item
+                  [item[1]] of Item
                 end
 
             unless items.empty?
