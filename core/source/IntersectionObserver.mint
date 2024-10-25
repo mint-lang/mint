@@ -32,7 +32,6 @@ module IntersectionObserver {
     `
     (() => {
       return new IntersectionObserver((entries) => {
-        console.log(entries)
         entries.forEach((entry) => #{callback(`entry.intersectionRatio`)})
       }, {
         rootMargin: #{rootMargin},
