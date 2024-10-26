@@ -33,7 +33,8 @@ module Mint
       when Ast::Component
         link(node, parent) unless node.async?
       when Ast::Defer
-        # We don't link this to the parent.
+        # We link this to itself so it can be a bundle later.
+        link(node, node)
       else
         link(node, parent)
       end
@@ -61,7 +62,7 @@ module Mint
         if bundle?(node)
           [node] of Ast::Node
         else
-          # Select all the link for the node.
+          # Select all the links for the node.
           links =
             @links.select { |item| item[:node] == node }
 

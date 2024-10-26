@@ -10,7 +10,7 @@ type Status {
 routes {
   / {
     let x = { name: "Blah" }
-    Status::Loading
+    Status.Loading
     Shared.greet(x.name)
   }
 }

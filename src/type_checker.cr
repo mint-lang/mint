@@ -80,8 +80,9 @@ module Mint
     @languages : Array(String)
     @referee : Ast::Node?
 
-    @block_stack = [] of Ast::Block
     @record_name_char : String = 'A'.pred.to_s
+    @references_stack = [] of Ast::Node
+    @block_stack = [] of Ast::Block
     @stack = [] of Ast::Node
 
     def block
@@ -221,7 +222,7 @@ module Mint
     # --------------------------------------------------------------------------
 
     def track_references(node)
-      if last = @stack.last?
+      if last = @references_stack.last?
         return if node.is_a?(Ast::Connect)
         # puts "Linking #{Debugger.dbg(node)} -> #{Debugger.dbg(last)}"
         references.add(node, last)
@@ -255,8 +256,7 @@ module Mint
             node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
                            @top_level_entity.try { |item| owns?(node, item) }
 
-          # save_ref(node)
-          track_references(node)
+          track_references(node) if trackable?(node)
           cached
         else
           if @stack.includes?(node)
@@ -280,16 +280,19 @@ module Mint
               referee: @referee.not_nil!,
               node: node) if @top_level_entity.try { |item| owns?(node, item) }
 
-            track_references(node)
-            @stack.push node
+            if trackable?(node)
+              track_references(node)
+              @references_stack.push node
+            end
 
-            # save_ref(node)
+            @stack.push node
 
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
             check! node
 
+            @references_stack.delete node
             @stack.delete node
 
             result
@@ -446,6 +449,36 @@ module Mint
     ensure
       @top_level_entity = nil
       @referee = nil
+    end
+
+    def trackable?(node : Ast::Node)
+      case node
+      when Ast::TypeDefinitionField,
+           Ast::Directives::Svg,
+           Ast::TypeDefinition,
+           Ast::HtmlComponent,
+           Ast::TypeVariable,
+           Ast::TypeVariant,
+           Ast::Component,
+           Ast::Constant,
+           Ast::Provider,
+           Ast::Function,
+           Ast::Property,
+           Ast::Routes,
+           Ast::Signal,
+           Ast::Encode,
+           Ast::Decode,
+           Ast::Module,
+           Ast::State,
+           Ast::Defer,
+           Ast::Store,
+           Ast::Style,
+           Ast::Suite,
+           Ast::Get
+        true
+      else
+        false
+      end
     end
   end
 end
