@@ -1,3 +1,5 @@
 module Mint
-  VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify }}
+  def self.version
+    {{ `shards version "#{__DIR__}"`.chomp.stringify }}
+  end
 end

@@ -6,6 +6,12 @@ MINT_ENV["TEST"] = "TRUE"
 require "./spec_helpers"
 require "../src/all"
 
+module Mint
+  def self.version
+    "99.99.99"
+  end
+end
+
 # Mock things
 class Mint::Installer::Repository
   @terminal = Render::Terminal.new

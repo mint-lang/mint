@@ -2,7 +2,7 @@ require "./spec_helper"
 
 context "Version" do
   it "prints the version" do
-    expect_output ["version"], "Mint #{Mint::VERSION}"
+    expect_output ["version"], "Mint #{Mint.version}"
   end
 
   it "prints the help" do

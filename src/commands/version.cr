@@ -6,7 +6,7 @@ module Mint
       define_help description: "Shows version."
 
       def run
-        terminal.puts "Mint #{Mint::VERSION}"
+        terminal.puts "Mint #{Mint.version}"
       end
     end
   end

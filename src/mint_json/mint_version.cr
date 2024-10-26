@@ -34,7 +34,7 @@ module Mint
         end unless constraint
 
         resolved =
-          Installer::Semver.parse(VERSION.rchop("-devel"))
+          Installer::Semver.parse(Mint.version.rchop("-devel"))
 
         error! :mint_version_mismatch do
           block do
@@ -44,7 +44,7 @@ module Mint
           end
 
           snippet "I was looking for", constraint.to_s
-          snippet "but found instead:", VERSION
+          snippet "but found instead:", Mint.version
 
           snippet "It is here:", snippet_data(location)
         end unless resolved < constraint.upper && resolved >= constraint.lower
