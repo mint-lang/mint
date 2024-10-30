@@ -1,12 +1,5 @@
 import { expect, test, describe } from "vitest";
-import { insertStyles, style } from "../index";
-
-describe("insertStyles", () => {
-  test("adds styles to the document", () => {
-    insertStyles("test");
-    expect(document.head.querySelector("style").textContent).toBe("test");
-  });
-});
+import { style } from "../index";
 
 describe("style", () => {
   test("it creates an object from objects and maps", () => {

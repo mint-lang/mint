@@ -75,7 +75,6 @@ module Mint
 
       # Effects.
       UseDidUpdate
-      UseComputed
       UseFunction
       UseEffect
       CreateRef
@@ -132,7 +131,6 @@ module Mint
       Or
 
       # Styles and CSS.
-      InsertStyles
       Style
 
       # Test
@@ -291,10 +289,6 @@ module Mint
           ])
         end
       end || [] of Item
-    end
-
-    def inject_css(css : String) : Compiled
-      js.call(Builtin::InsertStyles, [[%(`#{css}`)] of Item])
     end
 
     # Compile test runner.
