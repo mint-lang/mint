@@ -23,7 +23,7 @@ jobs:
         run: shards install
 
       - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v4
+        uses: rlespinasse/github-slug-action@v5
 
       - if: matrix.os == 'ubuntu-latest'
         name: Build binary (Linux)
