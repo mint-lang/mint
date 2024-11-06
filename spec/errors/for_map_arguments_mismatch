@@ -6,7 +6,7 @@ component Main {
   fun render : Array(Html) {
     for (item of map) {
       <div>
-        <{ item }>
+        item
       </div>
     }
   }
@@ -26,6 +26,6 @@ arguments:
    7│     for (item of map) {
     │          ⌃⌃⌃⌃
    8│       <div>
-   9│         <{ item }>
+   9│         item
   10│       </div>
   11│     }

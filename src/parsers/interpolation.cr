@@ -1,6 +1,10 @@
 module Mint
   class Parser
     def interpolation : Ast::Interpolation?
+      interpolation { expression }
+    end
+
+    def interpolation(& : -> Ast::Node?) : Ast::Interpolation?
       parse do |start_position|
         next unless word! "\#{"
         whitespace
@@ -8,7 +12,7 @@ module Mint
         next error :interpolation_expected_expression do
           expected "the expression of an interpolation", word
           snippet self
-        end unless expression = self.expression
+        end unless expression = yield
         whitespace
 
         next error :interpolation_expected_closing_bracket do

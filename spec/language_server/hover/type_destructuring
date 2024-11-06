@@ -1,5 +1,5 @@
 /* Comment for Status enum. */
-enum Status {
+type Status {
   Error
   Ok
 }
@@ -7,8 +7,8 @@ enum Status {
 module Test {
   fun toString (status : Status) : String {
     case (status) {
-      Status::Error => "Error"
-      Status::Ok => "Ok"
+      Status.Error => "Error"
+      Status.Ok => "Ok"
     }
   }
 }

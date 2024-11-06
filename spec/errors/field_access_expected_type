@@ -1,0 +1,14 @@
+component Main {
+  fun render : Html {
+    .a(
+--------------------------------------------------------------------------------
+░ ERROR (FIELD_ACCESS_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of a field access but I found "a space" instead:
+
+   ┌ ./spec/errors/field_access_expected_type:3:7
+   ├─────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     .a(
+   │        ⌃⌃⌃⌃

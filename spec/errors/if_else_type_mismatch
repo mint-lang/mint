@@ -10,8 +10,7 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (IF_ELSE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-The falsy (else) branch of an if expression does not match the type of the
-truthy branch.
+The else branch of an if expression does not match the type of the main branch.
 
 I was expecting:
 

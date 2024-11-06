@@ -1,23 +1,26 @@
+/* A data structure for the resize obeservers entry. */
 type ResizeObserver.Entry {
   dimensions : Dom.Dimensions,
   target : Dom.Element
 }
 
-/* This module provides a wrapper for the Resize Observer Web API. */
+/*
+This module provides functions for working with the [Resize Observer Web API].
+
+[Resize Observer Web API]: https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+*/
 module ResizeObserver {
   /*
   Creates a new resize observer.
 
-    observer =
+    let observer =
       ResizeObserver.new((entries : ResizeObserver.Entry) {
         for (entry of entries) {
           Debug.log(entry)
         }
       })
   */
-  fun new (
-    callback : Function(Array(ResizeObserver.Entry), a)
-  ) : ResizeObserver {
+  fun new (callback : Function(Array(ResizeObserver.Entry), a)) : ResizeObserver {
     `
     new ResizeObserver((entries) => {
       const values = entries.map((item) => {
@@ -40,13 +43,31 @@ module ResizeObserver {
     `
   }
 
-  /* Observes the given element. */
-  fun observe (observer : ResizeObserver, element : Dom.Element) : ResizeObserver {
+  /*
+  Observes the element.
+
+    if let Just(element) = Dom.getElementBySelector("div") {
+      ResizeObserver.observe(observer, element, true, true)
+    }
+  */
+  fun observe (
+    observer : ResizeObserver,
+    element : Dom.Element
+  ) : ResizeObserver {
     `#{observer}.observe(#{element}) || #{observer}`
   }
 
-  /* Unobserves the given element. */
-  fun unobserve (observer : ResizeObserver, element : Dom.Element) : ResizeObserver {
+  /*
+  Unobserves the element.
+
+    if let Just(element) = Dom.getElementBySelector("div") {
+      ResizeObserver.unobserve(observer, element)
+    }
+  */
+  fun unobserve (
+    observer : ResizeObserver,
+    element : Dom.Element
+  ) : ResizeObserver {
     `#{observer}.unobserve(#{element}) || #{observer}`
   }
 }

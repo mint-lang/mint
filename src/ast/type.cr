@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Type < Node
-      getter name, parameters
+      getter parameters, name
 
       def initialize(@parameters : Array(Node),
                      @file : Parser::File,

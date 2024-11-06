@@ -1,0 +1,10 @@
+component Main {
+  fun render : String {
+    @inline(../../fixtures/data.txt)
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return `Hello World!
+`
+};

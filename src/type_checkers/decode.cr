@@ -4,8 +4,6 @@ module Mint
       type =
         resolve node.type
 
-      raise "" unless type
-
       error! :decode_complex_type do
         snippet "This type cannot be automatically decoded:", type
 

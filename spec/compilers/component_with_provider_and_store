@@ -1,4 +1,4 @@
-record MouseProvider.Data {
+type MouseProvider.Data {
   moves : Function(Position, Void),
   ups : Function(Position, Void)
 }
@@ -32,84 +32,33 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({});
+import {
+  createProvider as C,
+  createElement as F,
+  signal as A,
+  useId as E
+} from "./runtime.js";
 
-const B = new(class extends _P {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  update() {
-    return null;
-  }
-});
-
-class C extends _C {
-  get d() {
-    return D.c;
-  }
-
-  f (...params) { return D.e(...params); }
-
-  componentWillUnmount() {
-    D._unsubscribe(this);
-    B._unsubscribe(this);
-  }
-
-  componentDidUpdate() {
-    if (false) {
-      B._subscribe(this, new A({
-        moves: (a) => {
+export const
+  a = () => {
+    return `hello`
+  },
+  b = A(``),
+  c = new Map(),
+  B = C(c, () => {
+    return null
+  }),
+  D = () => {
+    const d = E();
+    B(d, () => {
+      return (false ? {
+        moves: (e) => {
           return null
         },
-        ups: (b) => {
+        ups: (f) => {
           return null
         }
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  componentDidMount() {
-    D._subscribe(this);
-
-    if (false) {
-      B._subscribe(this, new A({
-        moves: (a) => {
-          return null
-        },
-        ups: (b) => {
-          return null
-        }
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  render() {
-    return _h("div", {});
-  }
-};
-
-C.displayName = "Main";
-
-const D = new(class extends _S {
-  constructor() {
-    super();
-
-    this.state = {
-      c: ``
-    };
-  }
-
-  get c() {
-    return this.state.c;
-  }
-
-  e() {
-    return `hello`;
-  }
-});
+      } : null)
+    });
+    return F(`div`, {})
+  };

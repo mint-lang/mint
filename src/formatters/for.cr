@@ -1,21 +1,21 @@
 module Mint
   class Formatter
-    def format(node : Ast::For) : String
-      body =
-        format node.body
+    def format(node : Ast::For) : Nodes
+      arguments =
+        format node.arguments, ", "
 
       subject =
         format node.subject
 
-      arguments =
-        format node.arguments, ", "
+      body =
+        format node.body
 
       condition =
-        if item = node.condition
-          " when #{format(item)}"
+        format(node.condition) do |item|
+          [" when "] + format(item)
         end
 
-      "for #{arguments} of #{subject} #{body}#{condition}"
+      ["for "] + arguments + [" of "] + subject + [" "] + body + condition
     end
   end
 end

@@ -1,0 +1,36 @@
+-------------------------------------------------field_access_expected_variable
+component Main {
+  fun render : Html {
+    .
+--------------------------------------field_access_expected_opening_parenthesis
+component Main {
+  fun render : Html {
+    .a
+-----------------------------------------------------field_access_expected_type
+component Main {
+  fun render : Html {
+    .a(
+--------------------------------------field_access_expected_closing_parenthesis
+component Main {
+  fun render : Html {
+    .a(A
+---------------------------------------------------field_access_field_not_found
+type Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .asd(Test)({test: "Hello"})
+  }
+}
+-------------------------------------------------------------------------------
+type Test {
+  test : String
+}
+
+component Main {
+  fun render : String {
+    .test(Test)({test: "Hello"})
+  }
+}

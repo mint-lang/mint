@@ -6,8 +6,8 @@ module Test.Module {
 }
 
 component Test {
-  fun render : Html {
-    <{ Test.Module.test() }>
+  fun render : String {
+    Test.Module.test()
   }
 }
 ------------------------------------------------------------------file test.mint
@@ -20,7 +20,7 @@ component Test {
     },
     "position": {
       "line": 9,
-      "character": 22
+      "character": 19
     }
   }
 }

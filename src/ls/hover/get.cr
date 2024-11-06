@@ -1,10 +1,17 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Get, workspace) : Array(String)
+      def hover(
+        node : Ast::Get,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
+        ast =
+          type_checker.artifacts.ast
+
         entity =
-          workspace.ast.components.find(&.gets.includes?(node)) ||
-            workspace.ast.stores.find(&.gets.includes?(node))
+          ast.components.find(&.gets.includes?(node)) ||
+            ast.stores.find(&.gets.includes?(node))
 
         name =
           case entity
@@ -14,7 +21,7 @@ module Mint
 
         type =
           node.type.try do |item|
-            ": #{workspace.formatter.format(item)}"
+            ": #{workspace.format(item)}"
           end
 
         [

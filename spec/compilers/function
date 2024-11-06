@@ -10,16 +10,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return true;
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  const a = () => {
+    return true
+  };
+  a();
+  return ``
 };
-
-A.displayName = "Main";
-

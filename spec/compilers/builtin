@@ -1,0 +1,17 @@
+component Main {
+  fun render : Html {
+    `#{%decodeBoolean%}`
+
+    <div></div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  decodeBoolean as B
+} from "./runtime.js";
+
+export const A = () => {
+  (B);
+  return C(`div`, {})
+};

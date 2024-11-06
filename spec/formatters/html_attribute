@@ -14,8 +14,6 @@ component Test {
   }
 
   fun render : Html {
-    <div
-      name="Hello"
-      value={toString(0)}/>
+    <div name="Hello" value={toString(0)}/>
   }
 }

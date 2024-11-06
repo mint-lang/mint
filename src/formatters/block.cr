@@ -7,24 +7,31 @@ module Mint
       Block
     end
 
-    def format(node : Ast::Block, format = BlockFormat::Block) : String
+    def format(node : Ast::Block, format = BlockFormat::Block) : Nodes
       body =
         list node.expressions
 
       if format == BlockFormat::Naked
         body
+      elsif format == BlockFormat::Block
+        group(
+          behavior: Behavior::Block,
+          ends: {"{", "}"},
+          separator: "",
+          items: [body],
+          pad: false)
       else
-        if format == BlockFormat::Block || replace_skipped(body).includes?('\n') || node.new_line?
-          "{\n#{indent(body)}\n}"
+        case format
+        when BlockFormat::Attribute,
+             BlockFormat::Inline
+          group(
+            pad: format == BlockFormat::Inline,
+            behavior: Behavior::BreakAll,
+            ends: {"{", "}"},
+            items: [body],
+            separator: "")
         else
-          case format
-          when BlockFormat::Attribute
-            "{#{body}}"
-          when BlockFormat::Inline
-            "{ #{body} }"
-          else
-            "{#{body}}"
-          end
+          ["{"] + body + ["}"]
         end
       end
     end

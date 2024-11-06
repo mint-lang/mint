@@ -27,7 +27,7 @@ component Main {
   }
 }
 ---------------------------------------------------------use_condition_mismatch
-record Provider.Data {
+type Provider.Data {
   a : String,
   b : String
 }
@@ -51,12 +51,12 @@ component Main {
   }
 }
 ------------------------------------------------------use_subscription_mismatch
-record Provider.Data {
+type Provider.Data {
   a : String,
   b : Bool
 }
 
-record Test {
+type Test {
   a : String,
   b : String
 }
@@ -80,7 +80,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Provider.Data {
+type Provider.Data {
   a : String,
   b : String
 }

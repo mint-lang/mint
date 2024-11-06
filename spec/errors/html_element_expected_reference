@@ -1,14 +1,14 @@
 component Main {
   fun render : Html {
-    <test as
+    <test as />
 --------------------------------------------------------------------------------
 ░ ERROR (HTML_ELEMENT_EXPECTED_REFERENCE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-I was expecting the reference of an HTML element but I found "a space" instead:
+I was expecting the reference of an HTML element but I found "/>" instead:
 
-   ┌ ./spec/errors/html_element_expected_reference:3:12
+   ┌ ./spec/errors/html_element_expected_reference:3:14
    ├───────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
-  3│     <test as
-   │             ⌃⌃⌃⌃
+  3│     <test as />
+   │              ⌃⌃

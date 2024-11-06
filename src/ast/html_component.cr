@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class HtmlComponent < Node
-      getter attributes, children, component, comments, ref
+      getter attributes, component, children, comments, ref
       getter closing_tag_position
 
       property component_node : Ast::Component? = nil

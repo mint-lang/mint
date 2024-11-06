@@ -19,7 +19,7 @@ module Mint
         type =
           parse(track: false) do
             whitespace
-            next unless word! "of"
+            next unless keyword! "of"
 
             whitespace
             next error :array_expected_type_or_variable do

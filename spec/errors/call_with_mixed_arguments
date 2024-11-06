@@ -15,13 +15,13 @@ specific cases I cannot pair the arguments with the values.
 
 The call in question is here:
 
-    ┌ ./spec/errors/call_with_mixed_arguments:7:9
+    ┌ ./spec/errors/call_with_mixed_arguments:7:5
     ├────────────────────────────────────────────
    3│     <div/>
    4│   }
    5│
    6│   fun render : Html {
    7│     test(0, argument1: "")
-    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
    8│   }
    9│ }

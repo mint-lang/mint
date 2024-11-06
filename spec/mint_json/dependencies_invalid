@@ -1,0 +1,16 @@
+{
+  "dependencies": 0
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCIES_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The dependencies field lists all the dependencies for the application.
+
+It should be an object, but it's not:
+
+   ┌ spec/fixtures/mint.json:2:19
+   ├─────────────────────────────
+  1│ {
+  2│   "dependencies": 0
+   │                   ⌃
+  3│ }

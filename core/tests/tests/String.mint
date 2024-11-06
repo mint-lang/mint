@@ -76,15 +76,15 @@ suite "String.contains" {
 
 suite "String.dropEnd" {
   test "it removes the given number of characters" {
-    String.dropEnd("The quick brown fox jumps.", 1) == "The quick brown fox jumps" &&
-      String.dropEnd("The quick brown fox jumps.", 2) == "The quick brown fox jump"
+    String.dropEnd("The quick brown fox jumps.", 1) == "The quick brown fox jumps" && String.dropEnd(
+      "The quick brown fox jumps.", 2) == "The quick brown fox jump"
   }
 }
 
 suite "String.dropStart" {
   test "it removes the given number of characters" {
-    String.dropStart("The quick brown fox jumps.", 1) == "he quick brown fox jumps." &&
-      String.dropStart("The quick brown fox jumps.", 2) == "e quick brown fox jumps."
+    String.dropStart("The quick brown fox jumps.", 1) == "he quick brown fox jumps." && String.dropStart(
+      "The quick brown fox jumps.", 2) == "e quick brown fox jumps."
   }
 }
 
@@ -126,8 +126,8 @@ suite "String.indent" {
 
 suite "String.indexOf" {
   test "it returns the index of the search param" {
-    String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing &&
-      String.indexOf("The quick brown fox jumps over the lazy dog.", "fox") == Maybe.Just(16)
+    String.indexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing && String.indexOf(
+      "The quick brown fox jumps over the lazy dog.", "fox") == Maybe.Just(16)
   }
 }
 
@@ -205,8 +205,8 @@ suite "String.join" {
 
 suite "String.lastIndexOf" {
   test "it returns the last index of the search param" {
-    String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing &&
-      String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "the") == Maybe.Just(31)
+    String.lastIndexOf("The quick brown fox jumps over the lazy dog.", "whale") == Maybe.Nothing && String.lastIndexOf(
+      "The quick brown fox jumps over the lazy dog.", "the") == Maybe.Just(31)
   }
 }
 
@@ -248,7 +248,8 @@ suite "String.replace" {
 
 suite "String.replaceAll" {
   test "it replaces the given pattern with replacement" {
-    String.replaceAll("The quick brown fox jumps over the lazy fox.", "fox", "bear") == "The quick brown bear jumps over the lazy bear."
+    String.replaceAll("The quick brown fox jumps over the lazy fox.", "fox",
+      "bear") == "The quick brown bear jumps over the lazy bear."
   }
 }
 
@@ -270,7 +271,13 @@ suite "String.size" {
 
 suite "String.split" {
   test "splits the string with a separator" {
-    String.split("The quick brown fox jumps.", " ") == ["The", "quick", "brown", "fox", "jumps."]
+    String.split("The quick brown fox jumps.", " ") == [
+      "The",
+      "quick",
+      "brown",
+      "fox",
+      "jumps."
+    ]
   }
 }
 

@@ -1,0 +1,22 @@
+component Main {
+  fun render : Html {
+    `#{%wtf%}`
+
+    <div></div>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (UNKOWN_BUILTIN) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+There is no builtin with the name: wtf
+
+   ┌ ./spec/errors/unkown_builtin:3:8
+   ├─────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     `#{%wtf%}`
+   │        ⌃⌃⌃⌃⌃
+  4│
+  5│     <div></div>
+  6│   }
+  7│ }

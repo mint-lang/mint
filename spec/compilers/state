@@ -11,31 +11,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
+import { useSignal as B } from "./runtime.js";
 
-    this.state = new Record({
-      b: `Hello`,
-      c: `0`
-    });
-  }
-
-  get b() {
-    return this.state.b;
-  }
-
-  get c() {
-    return this.state.c;
-  }
-
-  a() {
-    return this.b + this.c;
-  }
-
-  render() {
-    return this.a();
-  }
+export const A = () => {
+  const
+    a = B(`Hello`),
+    b = B(`0`),
+    c = () => {
+      return a.value + b.value
+    };
+  return c()
 };
 
-A.displayName = "Main";

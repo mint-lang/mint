@@ -40,3 +40,27 @@ component Main {
     |> (value : String) : String { value }
   }
 }
+
+-------------------------------------------------------------------------------
+component Main {
+  fun pipe (value : String) : Promise(String) {
+    await value
+  }
+
+  fun test {
+    let value =
+      "Hello"
+      |> await pipe
+      |> await pipe
+      |> await pipe
+      |> await pipe
+      |> await pipe
+
+    value == "asd"
+  }
+
+  fun render : String {
+    test()
+    ""
+  }
+}

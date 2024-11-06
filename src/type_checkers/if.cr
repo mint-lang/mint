@@ -7,10 +7,14 @@ module Mint
       variables =
         case item = node.condition
         when Ast::Statement
-          if item.target.is_a?(Ast::TypeDestructuring)
-            destructure(item.target.as(Ast::TypeDestructuring), condition)
+          case item.target
+          when Ast::TupleDestructuring,
+               Ast::ArrayDestructuring,
+               Ast::TypeDestructuring,
+               Ast::Discard
+            destructure(item.target, condition)
           end
-        end || [] of VariableScope
+        end
 
       error! :if_condition_type_mismatch do
         block do
@@ -21,14 +25,14 @@ module Mint
 
         snippet condition
         snippet "The condition in question is here:", node.condition
-      end if variables.empty? && !Comparer.compare(condition, BOOL)
+      end if variables.nil? && !Comparer.compare(condition, BOOL)
 
       truthy_item, falsy_item =
         node.branches
 
-      variables.each do |var|
-        scope.add(truthy_item, var[0], var[2])
-      end
+      variables.try(&.each do |variable|
+        scope.add(truthy_item, variable[0], variable[2])
+      end)
 
       truthy =
         resolve truthy_item
@@ -40,8 +44,8 @@ module Mint
         error! :if_else_type_mismatch do
           block do
             text "The"
-            bold "falsy (else) branch of an if expression"
-            text "does not match the type of the truthy branch."
+            bold "else branch of an if expression"
+            text "does not match the type of the main branch."
           end
 
           expected truthy, falsy
@@ -66,11 +70,10 @@ module Mint
             bold "else branch."
           end
 
-          block "The elese branch can be omitted if the truthy branch returns one of:"
+          block "The elese branch can only be omitted if the truthy branch returns one of:"
           snippet VALID_IF_TYPES.map(&.to_pretty).join("\n")
           block "but it returns"
           snippet truthy
-
           snippet node
         end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
       end

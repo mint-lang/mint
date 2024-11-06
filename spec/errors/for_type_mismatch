@@ -2,7 +2,7 @@ component Main {
   fun render : Array(Html) {
     for (item of "A") {
       <div>
-        <{ item }>
+        item
       </div>
     }
   }
@@ -29,6 +29,6 @@ The iterable object in question is here:
   3│     for (item of "A") {
    │                  ⌃⌃⌃
   4│       <div>
-  5│         <{ item }>
+  5│         item
   6│       </div>
   7│     }

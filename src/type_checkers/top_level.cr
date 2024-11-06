@@ -6,10 +6,7 @@ module Mint
 
     def check(node : Ast) : Checkable
       # Resolve the Main component
-      node
-        .components
-        .find(&.name.value.==("Main"))
-        .try { |component| resolve component }
+      ast.main.try { |component| resolve component }
 
       node
         .type_definitions
@@ -34,12 +31,6 @@ module Mint
               resolve function
             end
         end
-
-      web_components.each do |component|
-        node.components.find(&.name.value.==(component)).try do |item|
-          resolve item
-        end
-      end
 
       # Resolve routes
       resolve node.routes

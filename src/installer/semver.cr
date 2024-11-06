@@ -2,7 +2,8 @@ module Mint
   class Installer
     class Semver
       def self.parse?(string : String)
-        parts = string.split('.')
+        parts =
+          string.split('-').first.to_s.split('.')
 
         return unless parts.size == 3
         return unless parts.all?(&.chars.all?(&.number?))

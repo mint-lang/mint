@@ -1,4 +1,4 @@
-record Blah {
+type Blah {
   blah : String
 }
 

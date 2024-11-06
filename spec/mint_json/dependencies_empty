@@ -1,0 +1,16 @@
+{
+  "dependencies": {}
+}
+--------------------------------------------------------------------------------
+░ ERROR (DEPENDENCIES_EMPTY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The dependencies field lists all the dependencies for the application.
+
+The dependencies object should not be empty, but it is:
+
+   ┌ spec/fixtures/mint.json:2:19
+   ├─────────────────────────────
+  1│ {
+  2│   "dependencies": {}
+   │                   ⌃
+  3│ }

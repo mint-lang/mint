@@ -8,11 +8,11 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-░ ERROR (HTML_STYLE_ARGUMENT_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░ ERROR (CALL_ARGUMENT_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-The 1st argument to a style call is causing a mismatch.
+The 1st argument to a function is causing a mismatch.
 
-The style is expecting the 1st argument to be:
+The function is expecting the 1st argument to be:
 
   String
 
@@ -20,7 +20,7 @@ Instead it is:
 
   Bool
 
-The style call in question is here:
+The call in question is here:
 
     ┌ ./spec/errors/html_style_argument_type_mismatch:7:9
     ├────────────────────────────────────────────────────

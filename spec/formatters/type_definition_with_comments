@@ -4,6 +4,7 @@
 type Test {
   /* B */
   a : String,
+
   /* C */
   b : Blah
 }

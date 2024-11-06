@@ -1,13 +1,17 @@
-/* Functions for getting, creating and reading files in different formats. */
+/*
+This module provides functions for getting, creating and reading files in
+different formats.
+*/
 module File {
   /*
-  Prompts a dialog for the saving the given file.
+  Prompts a dialog for the saving the file.
 
-    file = await File.select(*)
+    let file =
+      await File.select("*")
 
     File.download(file)
   */
-  fun download (file : File) : Void {
+  fun download (file : File) : Promise(Void) {
     let url =
       Url.createObjectUrlFromFile(file)
 
@@ -20,7 +24,7 @@ module File {
     })()
     `
 
-    Url.revokeObjectUrl(url)
+    await Url.revokeObjectUrl(url)
   }
 
   /*
@@ -33,7 +37,7 @@ module File {
   }
 
   /*
-  Returns the mime type of the file.
+  Returns the mime-type of the file.
 
     (File.fromString("Some contents...", "test.txt", "text/plain")
     |> File.mimeType()) == "text/plain"
@@ -53,12 +57,13 @@ module File {
   }
 
   /*
-  Reads the contents of the given file as a String.
+  Reads the contents of the file as an `ArrayBuffer`.
 
-    file =
+    let file =
       File.create("Some content...", "test.txt", "text/plain")
 
-    File.readAsArrayBuffer(file)
+    let buffer =
+      File.readAsArrayBuffer(file)
   */
   fun readAsArrayBuffer (file : File) : Promise(ArrayBuffer) {
     `
@@ -66,7 +71,7 @@ module File {
       const reader = new FileReader()
 
       return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.addEventListener('load', () => resolve(reader.result))
         reader.readAsArrayBuffer(#{file})
       })
     })()
@@ -76,13 +81,13 @@ module File {
   /*
   Reads the contents of the given file as a Data URL.
 
-    files =
+    let files =
       await File.select("text/plain")
 
-    url =
-      File.readAsDataURL(file)
+    let dataUrl =
+      await File.readAsDataURL(file)
 
-    url == "data:text/plain;...."
+    dataUrl == "data:text/plain;...."
   */
   fun readAsDataURL (file : File) : Promise(String) {
     `
@@ -90,7 +95,7 @@ module File {
       const reader = new FileReader()
 
       return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.addEventListener('load', () => resolve(reader.result))
         reader.readAsDataURL(#{file})
       })
     })()
@@ -98,15 +103,15 @@ module File {
   }
 
   /*
-  Reads the contents of the given file as a String.
+  Reads the contents of the given file as a `String`.
 
-    file =
+    let file =
       File.create("Some content...", "test.txt", "text/plain")
 
-    url =
+    let string =
       await File.readAsString(file)
 
-    url == "Some content..."
+    string == "Some content..."
   */
   fun readAsString (file : File) : Promise(String) {
     `
@@ -114,7 +119,7 @@ module File {
       const reader = new FileReader()
 
       return new Promise((resolve, reject) => {
-        reader.addEventListener('load', (event) => { resolve(reader.result) })
+        reader.addEventListener('load', () => resolve(reader.result))
         reader.readAsText(#{file})
       })
     })()
@@ -124,20 +129,20 @@ module File {
   /*
   Opens the browsers file dialog for selecting a single file.
 
-  * The mime type can be restricted to the given one.
-  * It might not resolve if the user cancels the dialog.
+  * It will not resolve if the user cancels the dialog.
+  * The mime type can be restricted.
 
-    file =
-      await File.select("application/json")
-
-    Debug.log(file)
+  ```
+  let file =
+    await File.select("application/json")
+  ```
   */
   fun select (accept : String) : Promise(File) {
     `
     (() => {
       const input = document.createElement('input')
 
-      input.style.position = 'absolute'
+      input.style.position = 'fixed'
       input.style.height = '1px'
       input.style.width = '1px'
       input.style.left = '-1px'
@@ -149,11 +154,9 @@ module File {
       document.body.appendChild(input)
 
       return new Promise((resolve) => {
-        input.addEventListener('change', () => {
-          resolve(input.files[0])
-        })
+        input.addEventListener('change', () => resolve(input.files[0]))
         input.click()
-        document.body.removeChild(input)
+        input.remove()
       })
     })()
     `
@@ -162,20 +165,20 @@ module File {
   /*
   Opens the browsers file dialog for selecting multiple files.
 
-  * The mime type can be restricted to the given one.
-  * It might not resolve if the user cancels the dialog.
+  * It will not resolve if the user cancels the dialog.
+  * The mime type can be restricted.
 
-    files =
-      await File.selectMultiple("application/json")
-
-    Debug.log(files)
+  ```
+  let files =
+    await File.selectMultiple("application/json")
+  ```
   */
   fun selectMultiple (accept : String) : Promise(Array(File)) {
     `
     (() => {
       const input = document.createElement('input')
 
-      input.style.position = 'absolute'
+      input.style.position = 'fixed'
       input.style.height = '1px'
       input.style.width = '1px'
       input.style.left = '-1px'
@@ -188,12 +191,9 @@ module File {
       document.body.appendChild(input)
 
       return new Promise((resolve, reject) => {
-        input.addEventListener('change', () => {
-          resolve(Array.from(input.files))
-        })
-
+        input.addEventListener('change', () => resolve(Array.from(input.files)))
         input.click()
-        document.body.removeChild(input)
+        input.remove()
       })
     })()
     `

@@ -46,7 +46,7 @@ module Test {
 
 component Main {
   fun render : String {
-    Test.greet() + Test:FIRST + Test:SECOND
+    Test.greet() + Test.FIRST + Test.SECOND
   }
 }
 -------------------------------------------------------------------------------

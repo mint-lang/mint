@@ -1,43 +1,30 @@
-record Test {
+type Test {
   name : String,
   age : Number
 }
 
 component Main {
-  fun test : Object {
-    encode { name: "Hello", age: 20 }
-  }
-
   fun render : String {
-    test()
+    encode { name: "Hello", age: 20 }
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  name: [
-    "name",
-    Decoder.string
-  ],
-  age: [
-    "age",
-    Decoder.number
-  ]
-});
+import {
+  identity as B,
+  encoder as A
+} from "./runtime.js";
 
-class B extends _C {
-  a() {
-    return ((_)=>A.encode(_))(new A({
+export const
+  a = A({
+    name: B,
+    age: B
+  }),
+  C = () => {
+    a({
       name: `Hello`,
       age: 20
-    }));
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
-};
-
-B.displayName = "Main";
+    });
+    return ``
+  };

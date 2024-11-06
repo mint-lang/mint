@@ -14,20 +14,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends _M {
-  b(c) {
-    return c;
-  }
-
-  a() {
-    return B.b(`Lorem ipsum dolor sit amet`);
-  }
-});
-
-class A extends _C {
-  render() {
-    return B.a();
-  }
-};
-
-A.displayName = "Main";
+export const
+  a = (b) => {
+    return b
+  },
+  c = () => {
+    return a(`Lorem ipsum dolor sit amet`)
+  },
+  A = () => {
+    return c()
+  };

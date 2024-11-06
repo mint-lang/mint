@@ -1,25 +1,21 @@
 module Mint
   class Formatter
-    def format(node : Ast::Style) : String
+    def format(node : Ast::Style) : Nodes
       name =
         format node.name
 
       body =
-        list node.body
+        group(
+          behavior: Behavior::Block,
+          items: [list(node.body)],
+          ends: {"{", "}"},
+          separator: "",
+          pad: false)
 
-      arguments =
-        unless node.arguments.empty?
-          value =
-            format node.arguments
-
-          if value.sum { |string| replace_skipped(string).size } > 50
-            "(\n#{indent(value.join(",\n"))}\n) "
-          else
-            "(#{value.join(", ")}) "
-          end
-        end
-
-      "style #{name} #{arguments}{\n#{indent(body)}\n}"
+      entity(
+        arguments: node.arguments.map(&->format(Ast::Node)),
+        head: [format("style "), name].flatten,
+        tail: format("")) + body
     end
   end
 end

@@ -1,10 +1,5 @@
 module Mint
   class Formatter
-    def self.format(file) : String
-      formatter = new(Parser.parse(file))
-      formatter.format
-    end
-
     def format(ast : Ast) : String
       body = (
         ast.type_definitions +
@@ -19,13 +14,10 @@ module Mint
       )
         .sort_by!(&.from)
         .map { |node| format node }
+        .intersperse([Line.new(2)] of Node)
+        .flatten
 
-      result =
-        body
-          .join("\n\n")
-          .remove_trailing_whitespace + "\n"
-
-      replace_skipped(result)
+      Renderer.render(body, config)
     end
   end
 end

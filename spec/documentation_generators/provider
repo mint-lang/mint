@@ -1,0 +1,39 @@
+type Subscription {
+  name : String
+}
+
+// Provider Description
+provider Test : Subscription {
+  fun update {
+    next {}
+  }
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "k": 10,
+    "e": [
+      {
+        "k": 0,
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "name"
+      }
+    ],
+    "l": "Subscription(type)",
+    "n": "Subscription"
+  },
+  {
+    "k": 2,
+    "e": [
+      {
+        "k": 4,
+        "b": false,
+        "n": "update"
+      }
+    ],
+    "d": "<p>Provider Description</p>",
+    "l": "Test",
+    "n": "Test"
+  }
+]

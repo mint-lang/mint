@@ -1,13 +1,9 @@
 component Main {
-  fun render : Html {
-    <div/>
+  fun render : String {
+    ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {});
-  }
+export const A = () => {
+  return ``
 };
-
-A.displayName = "Main";

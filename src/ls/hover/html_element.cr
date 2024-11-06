@@ -1,7 +1,11 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::HtmlElement, workspace) : Array(String)
+      def hover(
+        node : Ast::HtmlElement,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         path =
           URI.encode_path(node.tag.value)
 

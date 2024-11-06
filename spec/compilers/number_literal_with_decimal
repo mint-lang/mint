@@ -1,24 +1,11 @@
 component Main {
-  fun test : Number {
-    10.120
-  }
-
   fun render : String {
-    test()
-
+    10.120
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return 10.120;
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  10.120;
+  return ``
 };
-
-A.displayName = "Main";

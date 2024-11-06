@@ -50,7 +50,7 @@ component Main {
   }
 }
 ---------------------------------------------------------property_type_mismatch
-record A {
+type A {
   a : String
 }
 
@@ -70,6 +70,20 @@ component Main {
 ------------------------------------------------property_type_or_default_needed
 component Test {
   property name
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-----------------------------------------------------property_children_mismatch
+component Test {
+  property children : String
 
   fun render : Html {
     <div/>

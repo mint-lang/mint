@@ -2,7 +2,7 @@ module Mint
   class Parser
     def highlight_directive : Ast::Directives::Highlight?
       parse do |start_position|
-        next unless word! "@highlight"
+        next unless keyword! "@highlight"
         whitespace
 
         content =

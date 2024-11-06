@@ -4,7 +4,7 @@ component Test {
       "Hello There"
 
       <></>
-      <><{"AA"}></>
+      <>"AA"</>
     </>
   }
 }
@@ -15,7 +15,7 @@ component Test {
       "Hello There"
 
       <></>
-      <><{ "AA" }></>
+      <>"AA"</>
     </>
   }
 }

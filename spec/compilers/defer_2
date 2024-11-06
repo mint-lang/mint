@@ -1,0 +1,52 @@
+module Data {
+  const ITEMS = defer [ defer ITEM_1 ]
+  const ITEM_1 = "Hello"
+}
+
+component Main {
+  fun componentDidMount : Promise(String) {
+    let [item] = await Data.ITEMS or return ""
+    await item
+  }
+
+  fun render : Html {
+    <div>""</div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  patternVariable as E,
+  createElement as F,
+  destructure as C,
+  useEffect as B,
+  load as D
+} from "./runtime.js";
+
+export const
+  a = `./1.js`,
+  A = () => {
+    B(() => {
+      (async () => {
+        const b = C(await D(a), [E]);
+        if (b === false) {
+          return ``
+        };
+        const [c] = b;
+        return await D(c)
+      })()
+    }, []);
+    return F(`div`, {}, [``])
+  };
+
+---=== /__mint__/1.js ===---
+export const a = [`./2.js`];
+
+export default a;
+
+---=== /__mint__/2.js ===---
+export const
+  a = `Hello`,
+  b = a;
+
+export default b;

@@ -8,14 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  get a() {
+export const A = () => {
+  const a = () => {
     return ``
-  }
-
-  render() {
-    return this.a;
-  }
+  };
+  return a()
 };
-
-A.displayName = "Main";

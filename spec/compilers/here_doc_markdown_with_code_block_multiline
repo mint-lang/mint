@@ -1,0 +1,65 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN(highlight)
+    Text
+
+    ```mint
+    module Time {
+      const NOW = ""
+    }
+    ```
+
+    Text
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
+
+export const A = () => {
+  return B(C, {}, [
+    B('p', {}, [`Text`]),
+    B('pre', {}, [B('code', {
+      class: "language-mint"
+    }, [
+      B('span', {
+        class: "line"
+      }, [
+        B('span', {
+          class: "keyword"
+        }, [`module`]),
+        ` `,
+        B('span', {
+          class: "type"
+        }, [`Time`]),
+        ` {
+`
+      ]),
+      B('span', {
+        class: "line"
+      }, [
+        `  `,
+        B('span', {
+          class: "keyword"
+        }, [`const`]),
+        ` `,
+        B('span', {
+          class: "type"
+        }, [`NOW`]),
+        ` = `,
+        B('span', {
+          class: "string"
+        }, [`""`]),
+        `
+`
+      ]),
+      B('span', {
+        class: "line"
+      }, [`}`])
+    ])]),
+    B('p', {}, [`Text`])
+  ])
+};

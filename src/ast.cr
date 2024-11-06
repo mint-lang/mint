@@ -26,7 +26,7 @@ module Mint
     end
 
     def self.space_separated?(node1, node2)
-      node1.file.contents[node1.from, node2.from - node1.from].includes?("\n\n")
+      node1.file.contents[node1.to, node2.from - node1.to].count('\n') > 1
     end
 
     def self.new_line?(node1, node2)
@@ -62,6 +62,19 @@ module Mint
       self.class.new.merge(self)
     end
 
+    def nodes_at_cursor(
+      *,
+      column : Int64,
+      path : String,
+      line : Int64
+    ) : Array(Ast::Node)
+      nodes_at_path(path).select!(&.location.contains?(line, column))
+    end
+
+    def nodes_at_path(path : String) : Array(Ast::Node)
+      nodes.select(&.file.path.==(path))
+    end
+
     def includes?(node : Ast::Node, other : Ast::Node)
       node.input == other.input &&
         node.from <= other.from &&
@@ -85,9 +98,9 @@ module Mint
               file: Parser::File.new(contents: "", path: ""),
               # TODO: We may need to store each modules name node for
               # future features, but for now we just store the first
+              comment: modules.compact_map(&.comment).first?,
               name: modules.first.name,
               comments: [] of Comment,
-              comment: nil,
               from: 0,
               to: 0,
             )
@@ -105,6 +118,7 @@ module Mint
               from: 0,
               to: 0)
           end
+
       self
     end
   end

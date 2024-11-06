@@ -1,0 +1,11 @@
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon.svg)
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    @svg(../../fixtures/icon.svg)
+  }
+}

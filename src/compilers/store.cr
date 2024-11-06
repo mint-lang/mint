@@ -1,53 +1,23 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Store) : String
-      functions =
-        compile node.functions
+    def resolve(node : Ast::Store)
+      resolve node do
+        constants =
+          resolve node.constants
 
-      states =
-        compile node.states
+        functions =
+          resolve node.functions
 
-      gets =
-        compile node.gets
+        signals =
+          resolve node.signals
 
-      constructor =
-        compile_constructor node
+        states =
+          resolve node.states
 
-      body =
-        [constructor] &+ states &+ gets &+ functions
+        gets =
+          resolve node.gets
 
-      name =
-        js.class_of(node)
-
-      js.store(name, body)
-    end
-
-    def compile_constructor(node : Ast::Store | Ast::Provider) : String
-      states =
-        node
-          .states
-          .select(&.in?(checked))
-          .each_with_object({} of String => String) do |state, memo|
-            name =
-              js.variable_of(state)
-
-            default =
-              compile state.default
-
-            memo[name] = default
-          end
-
-      constants =
-        if !node.constants.empty?
-          js.call("this._d", [js.object(compile_constants(node.constants))])
-        end
-
-      js.function("constructor", %w[]) do
-        js.statements([
-          js.call("super", %w[]),
-          js.assign("this.state", js.object(states)),
-          constants,
-        ].compact)
+        add signals + states + gets + functions + constants
       end
     end
   end

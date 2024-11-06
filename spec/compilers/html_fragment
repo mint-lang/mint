@@ -2,20 +2,21 @@ component Main {
   fun render : Html {
     <div>
       <>
-        <{ "A" }>
+        "A"
+        "B"
       </>
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {}, [
-      _h(React.Fragment, {}, [
-        `A`
-      ])
-    ]);
-  }
-};
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(`div`, {}, [B(C, {}, [
+    `A`,
+    `B`
+  ])])
+};

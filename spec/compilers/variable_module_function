@@ -17,22 +17,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const B = new(class extends _M {
-  c() {
-    return `Hello`;
-  }
-
-  a() {
-    return B.c;
-  }
-});
-
-class A extends _C {
-  render() {
-    const b = B.a();
-    return b();
-  }
-};
-
-A.displayName = "Main";
-
+export const
+  a = () => {
+    return `Hello`
+  },
+  b = () => {
+    return a
+  },
+  A = () => {
+    const c = b();
+    return c()
+  };

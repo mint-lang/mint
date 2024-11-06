@@ -1,6 +1,6 @@
 component Main {
   fun render : String {
-    let Maybe::Just(a) = "" or return ""
+    let Maybe.Just(a) = "" or return ""
     ""
   }
 }
@@ -17,8 +17,8 @@ The destructuring in question is here:
    ├─────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
-  3│     let Maybe::Just(a) = "" or return ""
-   │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│     let Maybe.Just(a) = "" or return ""
+   │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
   4│     ""
   5│   }
   6│ }

@@ -8,12 +8,14 @@ module Mint
           if char! '*'
             "*"
           else
-            gather { chars { |char| !char.in?(' ', '\n', '\r', '\t', '{', '(') } }.to_s
+            gather do
+              chars { |char| !char.in?(' ', '\n', '\r', '\t', '{', '(') }
+            end.to_s
           end
 
         arguments = [] of Ast::Argument
-
         whitespace
+
         if char! '('
           arguments =
             list(terminator: ')', separator: ',') do
@@ -27,6 +29,9 @@ module Mint
           end unless char! ')'
           whitespace
         end
+
+        await = keyword! "await"
+        whitespace
 
         body =
           block(
@@ -49,6 +54,7 @@ module Mint
           arguments: arguments,
           from: start_position,
           expression: body,
+          await: await,
           to: position,
           file: file,
           url: url)

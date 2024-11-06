@@ -10,20 +10,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return `test`;
-  }
-};
+import { createElement as C } from "./runtime.js";
 
-A.displayName = "Ui.Dropdown";
-
-class B extends _C {
-  render() {
-    return $a();
-  }
-};
-
-B.displayName = "Main";
-
-const $a = _m(() => _h(A, {}));
+export const
+  A = () => {
+    return `test`
+  },
+  B = () => {
+    return C(A, {})
+  };

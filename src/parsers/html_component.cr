@@ -6,14 +6,18 @@ module Mint
         next unless component = id
         whitespace
 
-        if word! "as"
-          whitespace
+        ref =
+          parse do
+            next unless keyword! "as"
+            next unless whitespace!
 
-          next error :html_component_expected_reference do
-            expected "the reference of the HTML component", word
-            snippet self
-          end unless ref = variable
-        end
+            next error :html_component_expected_reference do
+              expected "the reference of the HTML component", word
+              snippet self
+            end unless value = variable
+
+            value
+          end
 
         body =
           html_body(

@@ -1,6 +1,10 @@
 /* This module has functions for manipulating the clipboard. */
 module Clipboard {
-  /* Sets the clipboards content to the given value. */
+  /*
+  Sets the clipboards content to the given value.
+
+    Clipboard.set("Hello World!")
+  */
   fun set (value : String) : Promise(String) {
     `
     (() => {
@@ -29,12 +33,17 @@ module Clipboard {
 
       // Get selection and replace current selection
       const selection = window.getSelection()
-      const lastRanges = Array.from({length: selection.rangeCount}, (_, i) => selection.getRangeAt(i))
+
+      const lastRanges =
+        Array.from(
+          { length: selection.rangeCount },
+          (_, i) => selection.getRangeAt(i))
+
       selection.removeAllRanges()
       selection.addRange(range)
 
       // Select all the text
-      textarea.setSelectionRange(0, 999999)
+      textarea.setSelectionRange(0, Number.MAX_SAFE_INTEGER)
 
       // Copy to clipboard
       document.execCommand("copy")

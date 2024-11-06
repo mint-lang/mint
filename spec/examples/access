@@ -5,9 +5,9 @@ component Main {
 ----------------------------------------------------------access_expected_field
 component Main {
   fun render {
-    A::
+    A.
 ---------------------------------------------------------access_field_not_found
-record Blah {
+type Blah {
   blah : String
 }
 
@@ -28,7 +28,7 @@ component Main {
   }
 }
 --------------------------------------------------------------access_not_record
-record Blah {
+type Blah {
   blah : String
 }
 
@@ -40,10 +40,6 @@ component Main {
     blah.blah.blah
   }
 }
-----------------------------------------------------------access_expected_field
-component Main {
-  fun render : String {
-    A.
 --------------------------------------------------------------access_not_record
 module Test {
   fun b : Function(String) {
@@ -69,11 +65,11 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Blah1 {
+type Blah1 {
   blah : String
 }
 
-record Blah {
+type Blah {
   blah : Blah1
 }
 
@@ -115,7 +111,7 @@ store Test {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   test : String
 }
 
@@ -135,7 +131,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   test : String
 }
 

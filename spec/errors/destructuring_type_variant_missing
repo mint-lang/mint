@@ -1,10 +1,10 @@
-enum Maybe {
+type Maybe {
   Nothing
 }
 
 component Main {
   fun render : String {
-    let Maybe::Just(a) = "" or return ""
+    let Maybe.Just(a) = "" or return ""
     ""
   }
 }
@@ -19,8 +19,8 @@ I could not find the variant "Just" of type "Maybe" for a destructuring:
    4│
    5│ component Main {
    6│   fun render : String {
-   7│     let Maybe::Just(a) = "" or return ""
-    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│     let Maybe.Just(a) = "" or return ""
+    │         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
    8│     ""
    9│   }
   10│ }
@@ -30,11 +30,11 @@ The type is defined here:
    ┌ ./spec/errors/destructuring_type_variant_missing:1:1
    ├─────────────────────────────────────────────────────
    │ ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
-  1│ enum Maybe {
+  1│ type Maybe {
   2│   Nothing
   3│ }
    │ ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
   4│
   5│ component Main {
   6│   fun render : String {
-  7│     let Maybe::Just(a) = "" or return ""
+  7│     let Maybe.Just(a) = "" or return ""

@@ -8,11 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    (_compare(`asd`, `asd2`) ? null : null);
-    return ``;
-  }
-};
+import { compare as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  (B(`asd`, `asd2`) ? null : null);
+  return ``
+};

@@ -17,34 +17,31 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  $Main_base(a) {
-    const _ = {};
-
-    (_compare(a, `red`) ? Object.assign(_, {
-      [`--a-a`]: `red`
-    }) : (_compare(a, `blue`) ? Object.assign(_, {
-      [`--a-a`]: `blue`
-    }) : null));
-
-    return _;
-  }
-
-  render() {
-    return _h("div", {}, [
-      _h("div", {
-        className: `Main_base`,
-        style: _style([this.$Main_base(`blue`)])
-      })
-    ]);
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_base {
   height: 20px;
   background: var(--a-a);
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  compare as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const a = (b) => {
+    const _ = {};
+    (B(b, `red`) ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : (B(b, `blue`) ? Object.assign(_, {
+      [`--a-a`]: `blue`
+    }) : null));
+    return _
+  };
+  return C(`div`, {}, [C(`div`, {
+    className: `Main_base`,
+    style: D([a(`blue`)])
+  })])
+};

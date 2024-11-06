@@ -1,12 +1,12 @@
 module Mint
   class TypeChecker
-    def unwind_access(node : Ast::Access, stack = [] of Ast::Node) : Array(Ast::Node)
+    def unwind_access(node : Ast::Access, stack = [] of Ast::Variable) : Array(Ast::Variable)
       case item = node.expression
       when Ast::Access
         stack.unshift(item.field)
         unwind_access(item, stack)
-      when Ast::Variable
-        stack.unshift(node.expression)
+      when Ast::Variable # Value
+        stack.unshift(item)
       end
 
       stack
@@ -41,49 +41,47 @@ module Mint
       end
     end
 
+    # Maybe.Just -> Type Variant
+    # Maybe.isJust -> Entity function
+    # Html.Event.ADD -> Entity Constant
+    # (() { { a: "B" }}).a -> Record access
     def check(node : Ast::Access) : Checkable
-      possibilities = [] of String
+      possibility =
+        case variable = node.expression
+        when Ast::Access
+          stack =
+            unwind_access(node)
 
-      case variable = node.expression
-      when Ast::Access
-        stack = unwind_access(node)
-        target = ""
-
-        loop do
-          case item = stack.shift?
-          when Ast::Variable
-            target +=
-              if target.blank?
-                item.value
-              else
-                "." + item.value
-              end
-
-            possibilities.unshift target
+          if stack.empty?
+            nil
           else
-            break
+            stack.join(".", &.value)
           end
+        when Ast::Variable
+          variable.value
         end
-      when Ast::Variable
-        possibilities << variable.value
-      end
 
-      possibilities.each do |possibility|
+      # Type variant
+      if possibility
         if parent = ast.type_definitions.find(&.name.value.==(possibility))
           case fields = parent.fields
           when Array(Ast::TypeVariant)
             if option = fields.find(&.value.value.==(node.field.value))
               variables[node] = {option, parent}
+              variables[node.field] = {option, parent}
+              variables[node.expression] = {parent, parent}
+              resolve(parent)
               return to_function_type(option, parent)
             end
           end
         end
 
+        # Constant
         if entity = scope.resolve(possibility, node).try(&.node)
           if entity && possibility[0].ascii_uppercase?
-            variables[node.expression] = {entity, entity}
-            check!(entity)
             if target_node = scope.resolve(node.field.value, entity).try(&.node)
+              variables[node.expression] = {entity, entity}
+              check!(entity)
               variables[node] = {target_node, entity}
               variables[node.field] = {target_node, entity}
               return resolve target_node
@@ -121,6 +119,7 @@ module Mint
           component.refs.reduce({} of String => Ast::Node) do |memo, (variable, ref)|
             case ref
             when Ast::HtmlComponent
+              components_touched.add(component)
               component_records
                 .find(&.first.name.value.==(ref.component.value))
                 .try do |record|
@@ -145,7 +144,7 @@ module Mint
 
         resolve lookups[node.field][0]
       else
-        record_field_lookup[node.field] = new_target.name
+        record_field_lookup[node.field] = target.name
       end
 
       new_target

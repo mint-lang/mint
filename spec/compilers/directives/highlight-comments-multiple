@@ -1,0 +1,49 @@
+component Main {
+  fun render : Html {
+    @highlight {
+      // Comment1
+      // Comment2
+      ""
+    }[1]
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
+
+export const A = () => {
+  return [
+    ``,
+    B(C, {}, [
+      B("span", {
+        className: "line"
+      }, [
+        B("span", {
+          className: "comment"
+        }, [`// Comment1`]),
+        `
+`
+      ]),
+      B("span", {
+        className: "line"
+      }, [
+        ``,
+        B("span", {
+          className: "comment"
+        }, [`// Comment2`]),
+        `
+`
+      ]),
+      B("span", {
+        className: "line"
+      }, [
+        ``,
+        B("span", {
+          className: "string"
+        }, [`""`])
+      ])
+    ])
+  ][1]
+};

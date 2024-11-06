@@ -1,10 +1,10 @@
-enum Maybe {
+type Maybe {
   Just(String)
 }
 
 component Main {
   fun render : Html {
-    encode Maybe::Just("")
+    encode Maybe.Just("")
   }
 }
 --------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ The encode in question is here:
    4│
    5│ component Main {
    6│   fun render : Html {
-   7│     encode Maybe::Just("")
-    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│     encode Maybe.Just("")
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
    8│   }
    9│ }

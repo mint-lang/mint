@@ -1,0 +1,16 @@
+type A {
+  B(name2 : String, name1 : String, name : String, color2 : String, color1 : String, color : String)
+  C
+}
+--------------------------------------------------------------------------------
+type A {
+  B(
+    name2 : String,
+    name1 : String,
+    name : String,
+    color2 : String,
+    color1 : String,
+    color : String)
+
+  C
+}

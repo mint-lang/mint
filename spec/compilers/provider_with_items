@@ -1,4 +1,4 @@
-record Subscription {
+type Subscription {
   a : Bool,
   b : Bool
 }
@@ -10,6 +10,10 @@ provider Provider : Subscription {
 
   get b : String {
     a
+  }
+
+  fun update : Promise(Void) {
+    await void
   }
 
   fun name : String {
@@ -28,75 +32,33 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  a: [
-    "a",
-    Decoder.boolean
-  ],
-  b: [
-    "b",
-    Decoder.boolean
-  ]
-});
+import {
+  createProvider as C,
+  createElement as F,
+  signal as A,
+  useId as E
+} from "./runtime.js";
 
-const B = new(class extends _P {
-  constructor() {
-    super();
-
-    this.state = {
-      c: ``
-    };
-
-    this._d({
-      b: () => {
-        return `hello`
+export const
+  a = `hello`,
+  b = () => {
+    return a
+  },
+  c = A(``),
+  d = () => {
+    return c.value
+  },
+  e = new Map(),
+  B = C(e, async () => {
+    return await null
+  }),
+  D = () => {
+    const f = E();
+    B(f, () => {
+      return {
+        a: true,
+        b: false
       }
     });
-  }
-
-  get c() {
-    return this.state.c;
-  }
-
-  get d() {
-    return this.c
-  }
-
-  a() {
-    return this.b;
-  }
-});
-
-class C extends _C {
-  componentWillUnmount() {
-    B._unsubscribe(this);
-  }
-
-  componentDidUpdate() {
-    if (true) {
-      B._subscribe(this, new A({
-        a: true,
-        b: false
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  componentDidMount() {
-    if (true) {
-      B._subscribe(this, new A({
-        a: true,
-        b: false
-      }))
-    } else {
-      B._unsubscribe(this)
-    };
-  }
-
-  render() {
-    return _h("div", {});
-  }
-};
-
-C.displayName = "Main";
+    return F(`div`, {})
+  };

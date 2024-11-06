@@ -1,0 +1,33 @@
+module Html.Event {
+  const DOWN_ARROW = "Hello"
+}
+
+component Main {
+  fun render : String {
+    case "" {
+      Html.Event.DOWN_ARROW => "a"
+      => "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import { match as B } from "./runtime.js";
+
+export const
+  a = `Hello`,
+  A = () => {
+    return B(``, [
+      [
+        a,
+        () => {
+          return `a`
+        }
+      ],
+      [
+        null,
+        () => {
+          return `b`
+        }
+      ]
+    ])
+  };

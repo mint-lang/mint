@@ -1,0 +1,63 @@
+component First {
+  property test : String = ""
+
+  fun render : String {
+    test
+  }
+}
+
+async component Lesson {
+  property test : String = ""
+
+  fun render : String {
+    test
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <First test="Blah"/>
+      <Lesson test="Hello"/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as F,
+  createElement as E,
+  lazy as C
+} from "./runtime.js";
+
+export const
+  A = ({
+    a = ``
+  }) => {
+    return a
+  },
+  B = C(`./1.js`),
+  D = () => {
+    return E(`div`, {}, [
+      E(A, {
+        a: `Blah`
+      }),
+      E(F, {
+        c: [],
+        key: `Lesson`,
+        p: {
+          a: `Hello`
+        },
+        x: B
+      })
+    ])
+  };
+
+---=== /__mint__/1.js ===---
+export const A = ({
+  a = ``
+}) => {
+  return a
+};
+
+export default A;

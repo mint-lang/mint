@@ -1,0 +1,118 @@
+type User {
+  name : String
+}
+
+type Status {
+  Loading
+  Loaded
+}
+
+routes {
+  / {
+    let x = { name: "Blah" }
+    Status.Loading
+    Shared.greet(x.name)
+  }
+}
+
+module Shared {
+  // This is a deferred value which will be loaded
+  // in the `componentDidMount` function in the
+  // `Main` component.
+  const CONTENT =
+    defer "Hello, I was loaded later..."
+
+  fun greet (subject : String) : String {
+    "Hello #{subject}!"
+  }
+}
+
+// This is an async component which is loads when used.
+async component Greeter {
+  property subject : String
+
+  fun render : String {
+    { name: "Joe" }
+    Shared.greet(subject)
+  }
+}
+
+component Main {
+  state content : String = ""
+
+  fun componentDidMount {
+    let content =
+      await Shared.CONTENT
+
+    next { content: content }
+  }
+
+  fun render : Html {
+    <>
+      <Greeter subject="World"/>
+      Shared.greet("Me")
+    </>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as I,
+  createElement as G,
+  useEffect as E,
+  useSignal as D,
+  fragment as H,
+  variant as K,
+  load as F,
+  lazy as B
+} from "./runtime.js";
+
+export const
+  a = `./1.js`,
+  b = (c) => {
+    return `Hello ${c}!`
+  },
+  A = B(`./2.js`),
+  C = () => {
+    const d = D(``);
+    E(() => {
+      (async () => {
+        const e = await F(a);
+        return (() => {
+          d.value = e
+        })()
+      })()
+    }, []);
+    return G(H, {}, [
+      G(I, {
+        c: [],
+        key: `Greeter`,
+        p: {
+          a: `World`
+        },
+        x: A
+      }),
+      b(`Me`)
+    ])
+  },
+  J = K(0),
+  L = K(0);
+
+---=== /__mint__/1.js ===---
+export const a = `Hello, I was loaded later...`;
+
+export default a;
+
+---=== /__mint__/2.js ===---
+import { b } from "./index.js";
+
+export const A = ({
+  a
+}) => {
+  {
+    name: `Joe`
+  };
+  return b(a)
+};
+
+export default A;

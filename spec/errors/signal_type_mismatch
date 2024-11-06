@@ -1,0 +1,25 @@
+store Test {
+  signal b : String { 0 }
+}
+--------------------------------------------------------------------------------
+░ ERROR (SIGNAL_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The return type of the block of the a signal does not match the signals type
+annotation.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+The block in question is here:
+
+   ┌ ./spec/errors/signal_type_mismatch:2:21
+   ├────────────────────────────────────────
+  1│ store Test {
+  2│   signal b : String { 0 }
+   │                     ⌃⌃⌃⌃⌃
+  3│ }

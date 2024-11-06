@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class HtmlElement < Node
-      getter attributes, children, styles, tag, comments, ref
+      getter attributes, children, comments, styles, tag, ref
       getter closing_tag_position
 
       property? in_component : Bool = false

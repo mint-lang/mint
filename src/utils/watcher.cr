@@ -1,38 +1,48 @@
 module Mint
+  # A class for detecting changes to a set of sepcific files (sepcifically
+  # `*.mint`, `.env` and `mint.json`).
   class Watcher
-    def self.watch(pattern, &)
-      new(pattern).watch { |files| yield files }
+    @patterns : Array(String) = [] of String
+    @state = Set(Tuple(String, Time)).new
+
+    def initialize(&@listener : Proc(Array(String), Symbol, Nil))
     end
 
-    setter pattern
-
-    def initialize(@pattern : Array(String))
-      @state = Set(Tuple(String, Time)).new
-      detect { }
+    def patterns=(@patterns : Array(String))
+      @state.clear
+      scan :reset
     end
 
-    def detect(&)
-      current = Set(Tuple(String, Time)).new
+    def scan(reason : Symbol)
+      # We sort so the files can be processed in the same order every time.
+      current =
+        Dir.glob(@patterns)
+          .map(&->info(String))
+          .sort_by!(&.last)
+          .to_set
 
-      Dir.glob(@pattern).each do |file|
-        path =
-          Path[file].normalize.to_s
+      # Symmetric Difference: returns a new set (self - other) | (other - self).
+      diff = @state ^ current
 
-        current.add({path, File.info(path).modification_time})
-      end
-
-      yield @state ^ current
+      # Only notify if there is actual changes.
+      @listener.call(diff.map(&.first).uniq!, reason) unless diff.empty?
 
       @state = current
     end
 
-    def watch(&)
-      loop do
-        detect do |diff|
-          yield diff.map(&.[0]).uniq! unless diff.empty?
-        end
+    def info(file : String)
+      path =
+        Path[file].normalize.expand.to_s
 
-        sleep 0.5
+      {path, File.info(path).modification_time}
+    end
+
+    def watch
+      spawn do
+        loop do
+          sleep 0.1.seconds
+          scan :modified
+        end
       end
     end
   end

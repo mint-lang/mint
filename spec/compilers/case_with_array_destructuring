@@ -5,57 +5,58 @@ component Main {
       ["a"] => ["a"]
       [a] => [a]
       [a, b] => [a, b]
-      [a, ...middle, b] => middle
+      [a, b, ...rest] => rest
     }
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _match([],[
-      [
-        [],
-        () => {
-          return [``]
-        }
-      ],
-      [
-        [
-          `a`
-        ],
-        () => {
-          return [`a`]
-        }
-      ],
-      [
-        [
-          _PV
-        ],
-        (a) => {
-          return [a]
-        }
-      ],
-      [
-        [
-          _PV,
-          _PV
-        ],
-        (b, c) => {
-          return [b, c]
-        }
-      ],
-      [
-        [
-          _PV,
-          _PS,
-          _PV
-        ],
-        (e, d, f) => {
-          return d
-        }
-      ]
-    ]);
-  }
-};
+import {
+  patternVariable as C,
+  patternSpread as D,
+  match as B
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B([], [
+    [
+      [],
+      () => {
+        return [``]
+      }
+    ],
+    [
+      [`a`],
+      () => {
+        return [`a`]
+      }
+    ],
+    [
+      [C],
+      (a) => {
+        return [a]
+      }
+    ],
+    [
+      [
+        C,
+        C
+      ],
+      (b, c) => {
+        return [
+          b,
+          c
+        ]
+      }
+    ],
+    [
+      [
+        C,
+        C,
+        D
+      ],
+      (d, e, f) => {
+        return f
+      }
+    ]
+  ])
+};

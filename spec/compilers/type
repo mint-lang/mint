@@ -1,103 +1,39 @@
-enum Test(a) {
+type Test(a) {
   X
   Y
   Z(Res(a, Number))
 }
 
-enum Res(error, value) {
+type Res(error, value) {
   Error(error)
   Ok(value)
   Other(error, value)
 }
 
 component Main {
-  fun a : Test(a) {
-    Test::X
-  }
-
-  fun b : Res(String, String) {
-    Res::Other("", "")
-  }
-
-  fun c : Test(String) {
-    Test::Z(Res::Error(""))
-  }
-
   fun render : String {
-    a()
-    b()
-    c()
-
+    Test.X
+    Res.Other("", "")
+    Test.Z(Res.Error(""))
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
+import {
+  newVariant as I,
+  variant as B
+} from "./runtime.js";
 
-class B extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
-
-class C extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class D extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class E extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class F extends _E {
-  constructor(_0, _1) {
-    super();
-    this._0 = _0;
-    this._1 = _1;
-    this.length = 2;
-  }
-};
-
-class G extends _C {
-  a() {
-    return new A();
-  }
-
-  b() {
-    return _n(F)(``, ``);
-  }
-
-  c() {
-    return _n(C)(_n(D)(``));
-  }
-
-  render() {
-    this.a();
-    this.b();
-    this.c();
-    return ``;
-  }
-};
-
-G.displayName = "Main";
+export const
+  A = B(1),
+  C = B(0),
+  D = B(0),
+  E = B(1),
+  F = B(1),
+  G = B(2),
+  H = () => {
+    new C();
+    I(G)(``, ``);
+    I(E)(I(F)(``));
+    return ``
+  };

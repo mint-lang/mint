@@ -38,13 +38,31 @@ module Mint
         .arguments
         .each_with_index do |argument, index|
           if (is_map && index == 2) || (is_array_or_set && index == 1)
-            cache[argument] = NUMBER
+            case argument
+            when Ast::Variable
+              cache[argument] = NUMBER
 
-            scope.add(node, argument.value, argument)
+              scope.add(node, argument.value, argument)
+            else
+              error! :for_index_mismatch do
+                snippet "The index argument cannot be destructured, it " \
+                        "must be a variable.", argument
+              end
+            end
           else
-            cache[argument] = subject.parameters[index]
+            case argument
+            when Ast::Variable
+              cache[argument] = subject.parameters[index]
 
-            scope.add(node, argument.value, argument)
+              scope.add(node, argument.value, argument)
+            else
+              type =
+                (is_array_or_set || is_map).not_nil!.parameters[index]
+
+              destructure(argument, type).each do |var|
+                scope.add(node, var[0], var[2])
+              end
+            end
           end
         end
 

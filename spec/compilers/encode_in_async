@@ -1,0 +1,49 @@
+async component X {
+  fun render : Html {
+    encode { name: "Hello" }
+    <></>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <X/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as E,
+  createElement as D,
+  lazy as B
+} from "./runtime.js";
+
+export const
+  A = B(`./1.js`),
+  C = () => {
+    return D(E, {
+      c: [],
+      key: `X`,
+      p: {},
+      x: A
+    })
+  };
+
+---=== /__mint__/1.js ===---
+import {
+  identity as B,
+  encoder as A
+} from "./runtime.js";
+
+export const
+  a = A({
+    name: B
+  }),
+  C = () => {
+    a({
+      name: `Hello`
+    });
+    return null
+  };
+
+export default C;

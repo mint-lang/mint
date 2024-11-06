@@ -1,0 +1,39 @@
+// Type Description
+type Maybe(value) {
+  // Variant Description
+  Just(value)
+
+  // Variant Description
+  Nothing
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "k": 10,
+    "p": [
+      "value"
+    ],
+    "e": [
+      {
+        "k": 0,
+        "a": [
+          {
+            "n": "value"
+          }
+        ],
+        "d": "<p>Variant Description</p>",
+        "b": false,
+        "n": "Just"
+      },
+      {
+        "k": 0,
+        "d": "<p>Variant Description</p>",
+        "b": false,
+        "n": "Nothing"
+      }
+    ],
+    "d": "<p>Type Description</p>",
+    "l": "Maybe(type)",
+    "n": "Maybe"
+  }
+]

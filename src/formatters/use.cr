@@ -1,15 +1,20 @@
 module Mint
   class Formatter
-    def format(node : Ast::Use) : String
+    def format(node : Ast::Use) : Nodes
       data =
-        format node.data, node.condition
+        format node.data
 
-      if condition = node.condition
-        condition =
-          " when {\n#{indent(format(condition))}\n}"
-      end
+      condition =
+        format(node.condition) do |item|
+          [" when "] + group(
+            behavior: Behavior::BreakAll,
+            items: [format(item)],
+            ends: {"{", "}"},
+            separator: ",",
+            pad: true)
+        end
 
-      "use #{format node.provider} #{data}#{condition}"
+      ["use "] + format(node.provider) + [" "] + data + condition
     end
   end
 end

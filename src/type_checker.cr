@@ -8,32 +8,35 @@ module Mint
     # Built in types
     # ----------------------------------------------------------------------------
 
-    STRING         = Type.new("String")
-    BOOL           = Type.new("Bool")
-    NUMBER         = Type.new("Number")
-    VOID           = Type.new("Void")
-    TIME           = Type.new("Time")
-    HTML           = Type.new("Html")
-    EVENT          = Type.new("Html.Event")
-    OBJECT         = Type.new("Object")
-    REGEXP         = Type.new("Regexp")
-    OBJECT_ERROR   = Type.new("Object.Error")
-    ARRAY          = Type.new("Array", [Variable.new("a")] of Checkable)
-    SET            = Type.new("Set", [Variable.new("a")] of Checkable)
-    MAP            = Type.new("Map", [Variable.new("a"), Variable.new("a")] of Checkable)
-    MAYBE          = Type.new("Maybe", [Variable.new("a")] of Checkable)
-    RESULT         = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
-    EVENT_FUNCTION = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
-    HTML_CHILDREN  = Type.new("Array", [HTML] of Checkable)
-    TEXT_CHILDREN  = Type.new("Array", [STRING] of Checkable)
-    VOID_FUNCTION  = Type.new("Function", [Variable.new("a")] of Checkable)
-    TEST_CONTEXT   = Type.new("Test.Context", [Variable.new("a")] of Checkable)
-    STYLE_MAP      = Type.new("Map", [STRING, STRING] of Checkable)
-    VOID_PROMISE   = Type.new("Promise", [VOID] of Checkable)
-    BOOL_PROMISE   = Type.new("Promise", [BOOL] of Checkable)
-    TEST_PROMISE   = Type.new("Promise", [TEST_CONTEXT] of Checkable)
+    STRING          = Type.new("String")
+    BOOL            = Type.new("Bool")
+    NUMBER          = Type.new("Number")
+    VOID            = Type.new("Void")
+    TIME            = Type.new("Time")
+    HTML            = Type.new("Html")
+    EVENT           = Type.new("Html.Event")
+    OBJECT          = Type.new("Object")
+    REGEXP          = Type.new("Regexp")
+    OBJECT_ERROR    = Type.new("Object.Error")
+    ARRAY           = Type.new("Array", [Variable.new("a")] of Checkable)
+    SET             = Type.new("Set", [Variable.new("a")] of Checkable)
+    MAP             = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)
+    MAYBE           = Type.new("Maybe", [Variable.new("a")] of Checkable)
+    RESULT          = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
+    EVENT_FUNCTION  = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
+    NUMBER_CHILDREN = Type.new("Array", [NUMBER] of Checkable)
+    HTML_CHILDREN   = Type.new("Array", [HTML] of Checkable)
+    TEXT_CHILDREN   = Type.new("Array", [STRING] of Checkable)
+    VOID_FUNCTION   = Type.new("Function", [Variable.new("a")] of Checkable)
+    TEST_CONTEXT    = Type.new("Test.Context", [Variable.new("a")] of Checkable)
+    STYLE_MAP       = Type.new("Map", [STRING, STRING] of Checkable)
+    VOID_PROMISE    = Type.new("Promise", [VOID] of Checkable)
+    MAYBE_PROMISE   = Type.new("Promise", [MAYBE] of Checkable)
+    BOOL_PROMISE    = Type.new("Promise", [BOOL] of Checkable)
+    TEST_PROMISE    = Type.new("Promise", [TEST_CONTEXT] of Checkable)
 
     VALID_IF_TYPES = [
+      MAYBE_PROMISE,
       VOID_PROMISE,
       STRING,
       ARRAY,
@@ -49,30 +52,44 @@ module Mint
       BOOL,
     ] of Checkable
 
-    getter records, artifacts, formatter, web_components
+    VALID_HTML = [
+      NUMBER_CHILDREN,
+      TEXT_CHILDREN,
+      HTML_CHILDREN,
+      NUMBER,
+      STRING,
+      HTML,
+    ] of Checkable
+
+    getter records, artifacts, formatter
     getter? check_everything
 
     property? checking = true
 
     delegate checked, record_field_lookup, component_records, to: artifacts
-    delegate variables, ast, lookups, cache, scope, to: artifacts
-    delegate assets, resolve_order, locales, argument_order, to: artifacts
+    delegate variables, ast, lookups, cache, scope, references, to: artifacts
+    delegate assets, resolve_order, locales, components_touched, to: artifacts
+    delegate async, to: artifacts
 
     delegate format, to: formatter
 
     @record_names = {} of String => Ast::Node
-    @formatter = Formatter.new
-    @names = {} of String => Ast::Node
+    @formatter = Formatter.new(Formatter::Config.new)
     @records = [] of Record
     @top_level_entity : Ast::Node?
     @languages : Array(String)
     @referee : Ast::Node?
 
     @record_name_char : String = 'A'.pred.to_s
-
+    @references_stack = [] of Ast::Node
+    @block_stack = [] of Ast::Block
     @stack = [] of Ast::Node
 
-    def initialize(ast : Ast, @check_env = true, @web_components = [] of String, @check_everything = true)
+    def block
+      @block_stack.last?
+    end
+
+    def initialize(ast : Ast, @check_env = true, @check_everything = true)
       ast.normalize
 
       @languages = ast.unified_locales.map(&.language)
@@ -85,13 +102,7 @@ module Mint
 
     def print_stack
       @stack.each_with_index do |i, index|
-        x = case i
-            when Ast::Component then i.name
-            when Ast::Function  then i.name.value
-            when Ast::Call      then "<call>"
-            else
-              i
-            end
+        x = Debugger.dbg(i)
 
         if index == 0
           puts x
@@ -105,13 +116,9 @@ module Mint
     # --------------------------------------------------------------------------
 
     def resolve_records
-      add_record Record.new("Unit"), Ast::Record.empty
-
       ast.type_definitions.each do |definition|
         next if definition.fields.is_a?(Array(Ast::TypeVariant))
-        value = check(definition)
-        cache[definition] = value
-        check! definition
+        value = resolve(definition)
         add_record(value, definition)
       end
 
@@ -131,7 +138,7 @@ module Mint
 
       contents =
         <<-MINT
-        record #{name} {
+        type #{name} {
         #{compiled_fields}
         }
         MINT
@@ -146,10 +153,6 @@ module Mint
 
     def resolve_type(node : Record | Variable)
       node
-    end
-
-    def resolve_type(node : Js)
-      JS
     end
 
     def resolve_type(node : Type)
@@ -168,7 +171,7 @@ module Mint
         node = ast.type_definitions.find(&.name.value.==(name))
 
         if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
-          record = check(node)
+          record = resolve(node)
           add_record record, node
           record
         end
@@ -210,16 +213,6 @@ module Mint
     end
 
     def lookup_with_level(node : Ast::Variable)
-      # puts "----------------------"
-      # puts scope.debug_name(node)
-
-      # scope.scopes[node].each_with_index do |item, index|
-      #   puts scope.debug_name(item.node).indent(index * 2)
-      #   item.items.each do |key, value|
-      #     puts "#{" " * (index * 2)}#{key} -> #{value.class.name}"
-      #   end
-      # end
-
       scope.resolve(node).try do |item|
         {item.node, item.parent}
       end
@@ -228,7 +221,16 @@ module Mint
     # Helpers for checking things
     # --------------------------------------------------------------------------
 
+    def track_references(node)
+      if last = @references_stack.last?
+        return if node.is_a?(Ast::Connect)
+        # puts "Linking #{Debugger.dbg(node)} -> #{Debugger.dbg(last)}"
+        references.add(node, last)
+      end
+    end
+
     def check!(node)
+      resolve_order << node
       checked.add(node) if checking?
     end
 
@@ -246,12 +248,15 @@ module Mint
       in Checkable
         node
       in Ast::Node
+        @block_stack.push(node) if node.is_a?(Ast::Block)
+
         if cached = cache[node]?
           invalid_self_reference(
             referee: @referee.not_nil!,
             node: node) if @stack.none? { |item| item.is_a?(Ast::Function) || item.is_a?(Ast::InlineFunction) } &&
                            @top_level_entity.try { |item| owns?(node, item) }
 
+          track_references(node) if trackable?(node)
           cached
         else
           if @stack.includes?(node)
@@ -260,33 +265,42 @@ module Mint
               VOID
             when Ast::Function, Ast::InlineFunction
               static_type_signature(node)
-            else
+            when Ast::State
+              if type = node.type
+                resolve type
+              end
+            end ||
               error! :recursion do
                 snippet "Recursion is only supported in specific cases " \
                         "at this time. Unfortunatly here is not supported:", node
                 snippet "The previous step in the recursion was here:", @stack.last
               end
-            end
           else
             invalid_self_reference(
               referee: @referee.not_nil!,
               node: node) if @top_level_entity.try { |item| owns?(node, item) }
+
+            if trackable?(node)
+              track_references(node)
+              @references_stack.push node
+            end
 
             @stack.push node
 
             result = check(node, *args).as(Checkable)
 
             cache[node] = result
-            resolve_order << node
-
             check! node
 
+            @references_stack.delete node
             @stack.delete node
 
             result
           end
         end
       end
+    ensure
+      @block_stack.delete(node) if node.is_a?(Ast::Block)
     end
 
     def resolve(nodes : Array(Ast::Node)) : Array(Checkable)
@@ -321,7 +335,16 @@ module Mint
     end
 
     def check_global_names(name : String, node : Ast::Node) : Nil
-      other = @names[name]?
+      other =
+        (
+          ast.providers.select(&.name.value.==(name)) +
+            ast.unified_modules.select(&.name.value.==(name)) +
+            ast.components.select(&.name.value.==(name)) +
+            ast.stores.select(&.name.value.==(name))
+        )
+          .to_set
+          .tap(&.delete(node))
+          .first?
 
       if other
         what =
@@ -340,11 +363,9 @@ module Mint
           node: node,
           name: name)
       end
-
-      @names[name] = node
     end
 
-    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State),
+    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State | Ast::Signal),
                     error : String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
@@ -361,6 +382,7 @@ module Mint
             when Ast::Function then "function"
             when Ast::Get      then "get"
             when Ast::Property then "property"
+            when Ast::Signal   then "signal"
             else
               ""
             end
@@ -427,6 +449,36 @@ module Mint
     ensure
       @top_level_entity = nil
       @referee = nil
+    end
+
+    def trackable?(node : Ast::Node)
+      case node
+      when Ast::TypeDefinitionField,
+           Ast::Directives::Svg,
+           Ast::TypeDefinition,
+           Ast::HtmlComponent,
+           Ast::TypeVariable,
+           Ast::TypeVariant,
+           Ast::Component,
+           Ast::Constant,
+           Ast::Provider,
+           Ast::Function,
+           Ast::Property,
+           Ast::Routes,
+           Ast::Signal,
+           Ast::Encode,
+           Ast::Decode,
+           Ast::Module,
+           Ast::State,
+           Ast::Defer,
+           Ast::Store,
+           Ast::Style,
+           Ast::Suite,
+           Ast::Get
+        true
+      else
+        false
+      end
     end
   end
 end

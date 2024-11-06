@@ -1,7 +1,8 @@
 /*
-Module to work with the [ArrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer).
+This module provides functions to work with the [ArrayBuffer Web API]. They are
+used to encode and decode binary data.
 
-ArrayBuffer is used to encode binary data.
+[ArrayBuffer Web API]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 */
 module ArrayBuffer {
   /*

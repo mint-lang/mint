@@ -1,0 +1,22 @@
+{
+  "application": {
+    "head": "head.html"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_HEAD_NOT_EXISTS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The head field of the application object points to a file that does not exists.
+
+It should point to an HTML file, which be injected to the <head> tag of the
+generated HTML. It is used to include external dependencies (CSS, JS, analytics,
+etc...)
+
+   ┌ spec/fixtures/mint.json:3:13
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "head": "head.html"
+   │             ⌃
+  4│   }
+  5│ }

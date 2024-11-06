@@ -1,0 +1,25 @@
+component Main {
+  fun render : String {
+    encode { name: "Hello", age: 20 }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  identity as B,
+  encoder as A
+} from "./runtime.js";
+
+export const
+  a = A({
+    name: B,
+    age: B
+  }),
+  C = () => {
+    a({
+      name: `Hello`,
+      age: 20
+    });
+    return ``
+  };

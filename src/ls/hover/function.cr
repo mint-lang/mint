@@ -1,12 +1,19 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Function, workspace) : Array(String)
+      def hover(
+        node : Ast::Function,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
+        ast =
+          type_checker.artifacts.ast
+
         entity =
-          workspace.ast.unified_modules.find(&.functions.includes?(node)) ||
-            workspace.ast.components.find(&.functions.includes?(node)) ||
-            workspace.ast.providers.find(&.functions.includes?(node)) ||
-            workspace.ast.stores.find(&.functions.includes?(node))
+          ast.unified_modules.find(&.functions.includes?(node)) ||
+            ast.components.find(&.functions.includes?(node)) ||
+            ast.providers.find(&.functions.includes?(node)) ||
+            ast.stores.find(&.functions.includes?(node))
 
         name =
           case entity
@@ -15,11 +22,11 @@ module Mint
           end
 
         arguments =
-          workspace.formatter.format_arguments(node.arguments)
+          "" # workspace.formatter.format_arguments(node.arguments)
 
         type =
           node.type.try do |item|
-            ": #{workspace.formatter.format(item)}"
+            ": #{workspace.format(item)}"
           end
 
         [

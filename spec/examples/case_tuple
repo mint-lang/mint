@@ -1,4 +1,4 @@
------------------------------------------------------------case_unnecessary_all
+---------------------------------------------------------------case_unnecessary
 component Main {
   fun render : String {
     case ({"A","B"}) {
@@ -7,7 +7,7 @@ component Main {
     }
   }
 }
----------------------------------------------------------------case_not_covered
+------------------------------------------------------------case_not_exhaustive
 component Main {
   fun render : String {
     case ({"A","B"}) {

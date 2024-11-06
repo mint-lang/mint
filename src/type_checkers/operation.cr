@@ -54,9 +54,27 @@ module Mint
       end
     end
 
+    def operation_bool_type_mismatch(
+      value : TypeChecker::Checkable,
+      operator : String,
+      node : Ast::Node,
+      side : String
+    )
+      error! :operation_bool_type_mismatch do
+        block do
+          text "The type of the"
+          bold side
+          text "operand does not match the type of an operation."
+        end
+
+        expected TypeChecker::BOOL, value
+        snippet "The operation in question is here:", node
+      end
+    end
+
     def check(node : Ast::Operation) : Checkable
       case node.operator
-      when "!=", "==", "<", ">", "<=", ">=", "&&", "||"
+      when "!=", "=="
         right = resolve node.right
         left = resolve node.left
 
@@ -67,6 +85,25 @@ module Mint
         ) unless Comparer.compare(left, right)
 
         BOOL
+      when "&&", "||"
+        right = resolve node.right
+        left = resolve node.left
+
+        operation_bool_type_mismatch(
+          operator: node.operator,
+          side: "left",
+          value: left,
+          node: node,
+        ) unless Comparer.compare(left, BOOL)
+
+        operation_bool_type_mismatch(
+          operator: node.operator,
+          side: "right",
+          value: right,
+          node: node,
+        ) unless Comparer.compare(right, BOOL)
+
+        left
       when "+"
         right = resolve node.right
         left = resolve node.left
@@ -92,7 +129,7 @@ module Mint
         ) unless Comparer.compare(left, right)
 
         left
-      when "-", "*", "/", "%", "**"
+      when "-", "*", "/", "%", "**", "<", ">", "<=", ">="
         right = resolve node.right
         left = resolve node.left
 
@@ -110,13 +147,12 @@ module Mint
           node: node,
         ) unless Comparer.compare(right, NUMBER)
 
-        operation_type_mismatch(
-          right: right,
-          left: left,
-          node: node,
-        ) unless Comparer.compare(left, right)
-
-        NUMBER
+        case node.operator
+        when "-", "*", "/", "%", "**"
+          NUMBER
+        else
+          BOOL
+        end
       when "|>"
         error! :operation_pipe_ambiguous do
           block "I cannot determine the order of the operands because the " \

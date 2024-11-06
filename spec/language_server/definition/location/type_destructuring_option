@@ -3,7 +3,7 @@ enum Status {
   Error
   Ok
 }
-------------------------------------------------------------------file status.mint
+----------------------------------------------------------------file status.mint
 module Test {
   fun toString (status : Status) : String {
     case status {

@@ -1,4 +1,4 @@
-record Test.Subscription {
+type Test.Subscription {
   test : Test
 }
 

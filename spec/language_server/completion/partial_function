@@ -1,0 +1,37 @@
+module Test {
+  fun otherFunction (name : String) : String {
+    name
+  }
+}
+------------------------------------------------------------------file test.mint
+component Other {
+  fun
+}
+-----------------------------------------------------------------file other.mint
+{
+  "id": 0,
+  "method":  "textDocument/completion",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/other.mint"
+    },
+    "position": {
+      "line": 2,
+      "character": 5
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "label": "Test.otherFunction",
+  "kind": 3,
+  "detail": "Function",
+  "documentation": "",
+  "deprecated": false,
+  "preselect": false,
+  "sortText": "Test.otherFunction",
+  "filterText": "Test.otherFunction",
+  "insertText": "Test.otherFunction()",
+  "insertTextFormat": 2
+}
+--------------------------------------------------------------response 0 contain

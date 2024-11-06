@@ -1,13 +1,15 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Get) : String
-      body =
-        compile node.body, for_function: true
+    def resolve(node : Ast::Get)
+      resolve node do
+        body =
+          compile node.body, for_function: true
 
-      name =
-        js.variable_of(node)
+        body =
+          js.arrow_function([] of Compiled) { body }
 
-      js.get(name, body)
+        {node, node, body}
+      end
     end
   end
 end

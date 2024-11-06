@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class HtmlFragment < Node
-      getter children, tag, comments
+      getter comments, children, tag
 
       def initialize(@comments : Array(Comment),
                      @children : Array(Node),

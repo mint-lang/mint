@@ -1,4 +1,4 @@
-enum A {
+type A {
   B(a)
 }
 --------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ parameter was not defined in the type definition:
 
    ┌ ./spec/errors/type_definition_not_defined_parameter:2:5
    ├────────────────────────────────────────────────────────
-  1│ enum A {
+  1│ type A {
   2│   B(a)
    │     ⌃
   3│ }

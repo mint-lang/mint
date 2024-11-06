@@ -1,19 +1,32 @@
-/* Module for manipulating search parameters. */
+/*
+This module provides functions for working with the [URLSearchParams Web
+API](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams).
+*/
 module SearchParams {
   /*
-  Appends a specified key/value pair as a new search parameter.
+  Appends a specified key-value pair. It appends empty strings by default,
+  which can be controlled with the last parameter.
 
     SearchParams.empty()
     |> SearchParams.append("key", "value")
   */
-  fun append (params : SearchParams, key : String, value : String) : SearchParams {
-    `
-    (() => {
-      let newParams = new URLSearchParams(#{params}.toString())
-      newParams.append(#{key}, #{value})
-      return newParams
-    })()
-    `
+  fun append (
+    params : SearchParams,
+    key : String,
+    value : String,
+    appendBlank : Bool = true
+  ) : SearchParams {
+    if !appendBlank && String.isBlank(value) {
+      params
+    } else {
+      `
+      (() => {
+        let newParams = new URLSearchParams(#{params}.toString())
+        newParams.append(#{key}, #{value})
+        return newParams
+      })()
+      `
+    }
   }
 
   /*
@@ -27,7 +40,7 @@ module SearchParams {
   }
 
   /*
-  Deletes the given search parameter, and its associated value, from the
+  Deletes the given search parameter, and its associated value(s), from the
   list of all search parameters.
 
     SearchParams.fromString("key=value")
@@ -44,7 +57,7 @@ module SearchParams {
   }
 
   /*
-  Returns an empty search parameters object.
+  Returns an empty `SearchParams` object.
 
     SearchParams.empty()
   */
@@ -53,7 +66,7 @@ module SearchParams {
   }
 
   /*
-  Parses a string into a search parameters object.
+  Parses a string into a `SearchParams` object.
 
     SearchParams.fromString("key=value")
   */
@@ -62,7 +75,7 @@ module SearchParams {
   }
 
   /*
-  Returns the first value associated to the given search parameter.
+  Returns the first value associated of the key.
 
     (SearchParams.fromString("key=value")
      |> SearchParams.get("key")) == "value"
@@ -73,29 +86,39 @@ module SearchParams {
       let value = #{params}.get(#{key})
 
       if (value === null) {
-        return #{Maybe::Nothing}
+        return #{Maybe.Nothing}
       } else {
-        return #{Maybe::Just(`value`)}
+        return #{Maybe.Just(`value`)}
       }
     })()
     `
   }
 
   /*
-  Sets the value associated to a given search parameter to the given value.
-  If there were several values, delete the others.
+  Sets the value associated to the key. If there were several values, deletes
+  the others. If `removeBlank` is true it will delete the key if the value
+  is blank.
 
     SearchParams.empty()
     |> SearchParams.set("key", "value")
   */
-  fun set (params : SearchParams, key : String, value : String) : SearchParams {
-    `
-    (() => {
-      let newParams = new URLSearchParams(#{params}.toString())
-      newParams.set(#{key}, #{value})
-      return newParams
-    })()
-    `
+  fun set (
+    params : SearchParams,
+    key : String,
+    value : String,
+    removeBlank : Bool = false
+  ) : SearchParams {
+    if removeBlank && String.isBlank(value) {
+      delete(params, key)
+    } else {
+      `
+      (() => {
+        let newParams = new URLSearchParams(#{params}.toString())
+        newParams.set(#{key}, #{value})
+        return newParams
+      })()
+      `
+    }
   }
 
   /*

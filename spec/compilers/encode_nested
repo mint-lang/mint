@@ -1,0 +1,39 @@
+type Test {
+  nested : Nested,
+  name : String
+}
+
+type Nested {
+  name : String
+}
+
+component Main {
+  fun render : String {
+    encode { name: "Hello", nested: { name: "Test" } }
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  identity as B,
+  encoder as A
+} from "./runtime.js";
+
+export const
+  a = A({
+    name: B
+  }),
+  b = A({
+    nested: a,
+    name: B
+  }),
+  C = () => {
+    b({
+      name: `Hello`,
+      nested: {
+        name: `Test`
+      }
+    });
+    return ``
+  };

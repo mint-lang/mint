@@ -1,0 +1,76 @@
+// Store Description
+store Test {
+  // Constant Description
+  const CONSTANT = "TEST"
+
+  // State Description
+  state test : String = "STATE"
+
+  // Signal Description
+  signal value : String { "Hello" }
+
+  // Get Description
+  get computed : String {
+    "GET"
+  }
+
+  // Function Description
+  fun function (argument1 : String = "Default Value") : String {
+    "FUNCTION"
+  }
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "k": 8,
+    "e": [
+      {
+        "k": 4,
+        "a": [
+          {
+            "v": "<span class=\"string\">&quot;Default Value&quot;</span>",
+            "t": "<span class=\"type\">String</span>",
+            "n": "argument1"
+          }
+        ],
+        "d": "<p>Function Description</p>",
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "function"
+      },
+      {
+        "k": 5,
+        "d": "<p>Constant Description</p>",
+        "v": "<span class=\"string\">&quot;TEST&quot;</span>",
+        "b": false,
+        "n": "CONSTANT"
+      },
+      {
+        "k": 7,
+        "d": "<p>Signal Description</p>",
+        "v": "{\n  <span class=\"string\">&quot;Hello&quot;</span>\n}",
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "value"
+      },
+      {
+        "k": 9,
+        "d": "<p>State Description</p>",
+        "v": "<span class=\"string\">&quot;STATE&quot;</span>",
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "test"
+      },
+      {
+        "k": 11,
+        "d": "<p>Get Description</p>",
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "computed"
+      }
+    ],
+    "d": "<p>Store Description</p>",
+    "l": "Test",
+    "n": "Test"
+  }
+]

@@ -2,7 +2,7 @@ module Mint
   class Parser
     def use : Ast::Use?
       parse do |start_position|
-        next unless word! "use"
+        next unless keyword! "use"
         whitespace
 
         next error :use_expected_provider do
@@ -19,7 +19,7 @@ module Mint
         condition =
           parse(track: false) do
             whitespace
-            next unless word! "when"
+            next unless keyword! "when"
             whitespace
 
             brackets(

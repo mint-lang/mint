@@ -3,6 +3,7 @@ module Mint
     def field(*, key_required : Bool = true) : Ast::Field?
       parse do |start_position|
         comment = self.comment
+        whitespace
 
         key =
           parse(track: false) do

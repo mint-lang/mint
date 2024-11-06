@@ -5,30 +5,16 @@ store Test {
 component Main {
   fun render : Html {
     <div>
-      <{ Test:NAME }>
+      Test.NAME
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {}, [
-      B.a
-    ]);
-  }
-};
+import { createElement as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const
+  a = `ASD`,
+  A = () => {
+    return B(`div`, {}, [a])
+  };
 
-const B = new(class extends _S {
-  constructor() {
-    super();
-    this.state = {};
-
-    this._d({
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-});

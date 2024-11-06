@@ -1,4 +1,8 @@
-provider MouseProvider : Unit {
+type Subscription {
+  name : String
+}
+
+provider MouseProvider : Subscription {
   fun attach : Void {
     void
   }

@@ -3,7 +3,7 @@ component Main {
 
   fun render : Html {
     <div>
-      <{ data.name }>
+      data.name
     </div>
   }
 }
@@ -24,4 +24,4 @@ It was used here:
   3│
   4│   fun render : Html {
   5│     <div>
-  6│       <{ data.name }>
+  6│       data.name

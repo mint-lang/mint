@@ -1,52 +1,42 @@
-record X.Y {
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+type X.Y {
   blah : String
 }
 
-record X {
+type X {
   name : String,
   y: X.Y
 }
 
 component Main {
-  fun x (input : Object) : Result(Object.Error, x) {
-    decode input as X
-  }
-
   fun render : String {
-    x(``)
+    decode `null` as Object as X
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-const A = _R({
-  blah: [
-    "blah",
-    Decoder.string
-  ]
-});
+import {
+  decodeString as E,
+  decoder as D,
+  variant as B
+} from "./runtime.js";
 
-const B = _R({
-  name: [
-    "name",
-    Decoder.string
-  ],
-  y: [
-    "y",
-    ((_)=>A.decode(_)),
-    ((_)=>A.encode(_))
-  ]
-});
-
-class C extends _C {
-  a(b) {
-    return ((_)=>B.decode(_))(b);
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
-};
-
-C.displayName = "Main";
+export const
+  A = B(1),
+  C = B(1),
+  a = D({
+    blah: E(C, A)
+  }, C, A),
+  b = D({
+    name: E(C, A),
+    y: a
+  }, C, A),
+  F = () => {
+    b((null));
+    return ``
+  };

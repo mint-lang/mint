@@ -13,34 +13,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  $Main_one(a) {
-    const _ = {
-      [`--a-a`]: a
-    };
-
-    return _;
-  }
-
-  $Main_two(b) {
-    const _ = {
-      [`--b-a`]: b
-    };
-
-    return _;
-  }
-
-  render() {
-    return _h("div", {
-      className: `Main_one Main_two`,
-      style: _style([this.$Main_one(`red`), this.$Main_two(`blue`)])
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_one {
   color: var(--a-a);
 }
@@ -48,4 +21,32 @@ _insertStyles(`
 .Main_two {
   color: var(--b-a);
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as B,
+  style as C
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = (b) => {
+      const _ = {
+        [`--a-a`]: b
+      };
+      return _
+    },
+    c = (d) => {
+      const _ = {
+        [`--b-a`]: d
+      };
+      return _
+    };
+  return B(`div`, {
+    className: `Main_one Main_two`,
+    style: C([
+      a(`red`),
+      c(`blue`)
+    ])
+  })
+};

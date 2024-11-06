@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class TypeDefinitionField < Node
-      getter key, type, mapping, comment
+      getter mapping, comment, type, key
 
       def initialize(@mapping : StringLiteral?,
                      @file : Parser::File,

@@ -7,42 +7,15 @@ component Main {
 
   fun render : Html {
     <div>
-      <{ NAME }>
+      NAME
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  get a() {
-    return B.b;
-  }
+import { createElement as B } from "./runtime.js";
 
-  componentWillUnmount() {
-    B._unsubscribe(this);
-  }
-
-  componentDidMount() {
-    B._subscribe(this);
-  }
-
-  render() {
-    return _h("div", {}, [
-      this.a
-    ]);
-  }
-};
-
-A.displayName = "Main";
-
-const B = new(class extends _S {
-  constructor() {
-    super();
-    this.state = {};
-
-    this._d({
-      b: () => {
-        return `ASD`
-      }
-    });
-  }
-});
+export const
+  a = `ASD`,
+  A = () => {
+    return B(`div`, {}, [a])
+  };

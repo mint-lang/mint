@@ -1,0 +1,52 @@
+--------------------------------------------------map_field_expected_expression
+component Main {
+  state data : Map(String, String) = { "name" =>
+----------------------------------------------------------map_expected_key_type
+component Main {
+  state data : Map(String, String) = { "name" => "value" } of
+-------------------------------------------------------------map_expected_arrow
+component Main {
+  state data : Map(String, String) = { "name" => "value" } of String
+--------------------------------------------------------map_expected_value_type
+component Main {
+  state data : Map(String, String) = { "name" => "value" } of String =>
+---------------------------------------------------map_not_matches_defined_type
+component Main {
+  state data : Map(String, String) = { "name" => "value" } of Number => String
+
+  fun render : Html {
+    <div>
+      data["name"] or ""
+    </div>
+  }
+}
+------------------------------------------------------------map_key_not_matches
+component Main {
+  state data : Map(String, String) = { "name" => "value", 0 => "value" }
+
+  fun render : Html {
+    <div>
+      data["name"] or ""
+    </div>
+  }
+}
+----------------------------------------------------------map_value_not_matches
+component Main {
+  state data : Map(String, String) = { "name" => "value", "name" => 0 }
+
+  fun render : Html {
+    <div>
+      data["name"] or ""
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  state data : Map(String, String) = { "name" => "value" } of String => String
+
+  fun render : Html {
+    <div>
+      data["name"] or ""
+    </div>
+  }
+}

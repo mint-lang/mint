@@ -1,9 +1,9 @@
-record Provider.Data {
+type Provider.Data {
   a : String,
   b : Bool
 }
 
-record Test {
+type Test {
   a : String,
   b : String
 }

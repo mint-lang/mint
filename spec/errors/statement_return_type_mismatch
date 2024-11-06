@@ -1,12 +1,12 @@
-enum Test {
+type Test {
   A(String)
   B(String)
 }
 
 component Main {
   fun render : String {
-    let Test::B(x) =
-      Test::A("Hello") or return 0
+    let Test.B(x) =
+      Test.A("Hello") or return 0
 
     x
   }
@@ -24,14 +24,14 @@ I was expecting:
 
 It return call in question is here:
 
-    ┌ ./spec/errors/statement_return_type_mismatch:9:27
+    ┌ ./spec/errors/statement_return_type_mismatch:9:33
     ├──────────────────────────────────────────────────
    5│
    6│ component Main {
    7│   fun render : String {
-   8│     let Test::B(x) =
-   9│       Test::A("Hello") or return 0
-    │                           ⌃⌃⌃⌃⌃⌃⌃⌃
+   8│     let Test.B(x) =
+   9│       Test.A("Hello") or return 0
+    │                                 ⌃
   10│
   11│     x
   12│   }
@@ -42,8 +42,8 @@ The returned value of the block is here:
     ┌ ./spec/errors/statement_return_type_mismatch:11:5
     ├──────────────────────────────────────────────────
    7│   fun render : String {
-   8│     let Test::B(x) =
-   9│       Test::A("Hello") or return 0
+   8│     let Test.B(x) =
+   9│       Test.A("Hello") or return 0
   10│
   11│     x
     │     ⌃

@@ -1,0 +1,21 @@
+module A {
+  fun test (name : String, other : String) : Bool {
+    true
+  }
+
+  fun test2 : Bool {
+    test(name: "Hello there, this will break the call into two lines...", other: "Something else...")
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test (name : String, other : String) : Bool {
+    true
+  }
+
+  fun test2 : Bool {
+    test(
+      name: "Hello there, this will break the call into two lines...",
+      other: "Something else...")
+  }
+}

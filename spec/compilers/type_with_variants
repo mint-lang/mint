@@ -1,64 +1,47 @@
-enum A {
-  B(name : String, color : String)
+type A {
+  B(name : String, age : Number)
   C
 }
 
 component Main {
   fun render : String {
-    case (A::B(name: "Joe", color: "Blue")) {
-      A::B(color, name) => color
-      A::C => ""
+    case (A.B(name: "Joe", age: 32)) {
+      A.B(name, age) => name
+      A.C => ""
     }
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor(_0, _1) {
-    super();
-    this._0 = _0;
-    this._1 = _1;
-    this.length = 2;
+import {
+  patternVariable as H,
+  newVariant as F,
+  pattern as G,
+  variant as B,
+  match as E
+} from "./runtime.js";
 
-    this._mapping = {
-      name: "_0",
-      color: "_1"
-    };
-  }
-};
-
-class B extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
-
-class C extends _C {
-  render() {
-    return _match(_n(A)(`Joe`, `Blue`),[
+export const
+  A = B([
+    "name",
+    "age"
+  ]),
+  C = B(0),
+  D = () => {
+    return E(F(A)(`Joe`, 32), [
       [
-        _PE(A,_PR([
-          [
-            "color",
-            _PV
-          ],
-          [
-            "name",
-            _PV
-          ]
-        ])),
+        G(A, [
+          H,
+          H
+        ]),
         (a, b) => {
           return a
         }
       ],
       [
-        _PE(B,[]),
+        G(C, []),
         () => {
           return ``
         }
       ]
-    ]);
-  }
-};
-
-C.displayName = "Main";
+    ])
+  };

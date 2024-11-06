@@ -1,7 +1,11 @@
-/* This module provides a wrapper over the Animation Frame Web API. */
+/*
+This module provides functions to work with the [Animation Frame Web API].
+
+[Animation Frame Web API]: https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
+*/
 module AnimationFrame {
   /*
-  Cancels a scheduled function call.
+  Cancels a previously scheduled function call using the `request` function.
 
     AnimationFrame.cancel(id)
   */
@@ -10,9 +14,13 @@ module AnimationFrame {
   }
 
   /*
-  Schedules the function to run on the next frame, and returns its ID.
+  Schedules the function to run on the next frame, and returns its ID for
+  possible cancellation.
 
-    id = AnimationFrame.request((timestamp : Number) { Debug.log("Hello") })
+    let id =
+      AnimationFrame.request((timestamp : Number) {
+        Debug.log("Hello")
+      })
   */
   fun request (function : Function(Number, a)) : Number {
     `requestAnimationFrame(#{function})`

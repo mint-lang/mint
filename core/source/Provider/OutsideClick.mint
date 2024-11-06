@@ -1,11 +1,30 @@
 /* Represents a subscription for `Provider.OutsideClick` */
-type Provider.OutsideClick.Subscription {
-  clicks : Function(Promise(Void)),
-  elements : Array(Maybe(Dom.Element))
+type Provider.OutsideClick {
+  elements : Array(Maybe(Dom.Element)),
+  clicks : Function(Promise(Void))
 }
 
-/* A provider to provide events when clicking outside of the given element. */
-provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
+/*
+A provider to provide events when clicking outside of one of the elements.
+
+```
+component Main {
+  use Provider.OutsideClick {
+    elements: [root],
+    clicks:
+      () {
+        Debug.log("Clicked outside!")
+        next { }
+      }
+  }
+
+  fun render : Html {
+    <div as root>"Hello World!"</div>
+  }
+}
+```
+*/
+provider Provider.OutsideClick : Provider.OutsideClick {
   /* The listener unsubscribe function. */
   state listener : Maybe(Function(Void)) = Maybe.Nothing
 
@@ -31,11 +50,10 @@ provider Provider.OutsideClick : Provider.OutsideClick.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("mouseup", true, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next {
+          listener: Maybe.Just(Window.addEventListener("mouseup", true, handle))
+        }
       }
     }
   }

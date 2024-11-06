@@ -1,63 +1,93 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::For) : String
-      subject_type =
-        cache[node.subject]
+    def compile(node : Ast::For) : Compiled
+      compile node do
+        subject =
+          compile node.subject
 
-      body =
-        compile node.body
+        subject_type =
+          cache[node.subject]
 
-      subject =
-        compile node.subject
+        body =
+          compile node.body
 
-      arguments, index_arg =
-        if (subject_type.name == "Array" && node.arguments.size == 1) ||
-           (subject_type.name == "Set" && node.arguments.size == 1) ||
-           (subject_type.name == "Map" && node.arguments.size == 2)
-          if node.arguments.size == 1
-            {js.variable_of(node.arguments[0]), nil}
+        arguments, index_arg =
+          if (subject_type.name == "Array" && node.arguments.size == 1) ||
+             (subject_type.name == "Set" && node.arguments.size == 1) ||
+             (subject_type.name == "Map" && node.arguments.size == 2)
+            if node.arguments.size == 1
+              {
+                [node.arguments[0].as(Item)],
+                nil,
+              }
+            else
+              {
+                js.array(node.arguments.map { |item| [item] of Item }),
+                nil,
+              }
+            end
           else
-            {js.array(node.arguments.map { |arg| js.variable_of(arg) }), nil}
+            if node.arguments.size == 2
+              {
+                [node.arguments[0].as(Item)],
+                node.arguments[1],
+              }
+            else
+              {
+                js.array(node.arguments[0..1].map { |item| [item] of Item }),
+                node.arguments[2],
+              }
+            end
           end
-        else
-          if node.arguments.size == 2
-            {js.variable_of(node.arguments[0]), node.arguments[1]}
+
+        condition =
+          node.condition.try do |item|
+            js.statements([
+              js.const("_2".as(Item), compile(item)),
+              js.if(["!_2"] of Item, ["continue"] of Item),
+            ])
+          end
+
+        index =
+          if index_arg
+            js.const(index_arg, ["_i"] of Item)
+          end
+
+        destructurings =
+          node.arguments.compact_map do |target|
+            next if target.is_a?(Ast::Variable)
+
+            variables =
+              [] of Compiled
+
+            pattern =
+              destructuring(target, variables)
+
+            js.const(js.array(variables),
+              js.call(Builtin::Destructure, [[target] of Item, pattern]))
+          end
+
+        head =
+          [["_i++"] of Item, index]
+
+        contents =
+          if condition
+            head + [condition] + destructurings
           else
-            {
-              js.array(node.arguments[0..1].map { |arg| js.variable_of(arg) }),
-              node.arguments[2],
-            }
-          end
-        end
+            head + destructurings
+          end + [js.call("_0.push", [body])]
 
-      condition =
-        node.condition.try do |item|
-          <<-JS
-          const _2 = #{compile(item)}
-          if (!_2) { continue }
-          JS
+        js.iif do
+          js.statements([
+            js.const("_0".as(Item), js.array([] of Compiled)),
+            js.const("_1".as(Item), subject),
+            js.let("_i".as(Item), ["-1"] of Item),
+            js.for(["let "] + arguments, ["_1"] of Item) do
+              js.statements(contents.compact)
+            end,
+            js.return(["_0"] of Item),
+          ])
         end
-
-      index =
-        if index_arg
-          "const #{js.variable_of(index_arg)} = _i"
-        end
-
-      contents =
-        if condition
-          ["_i++", index, condition, "_0.push(#{body})"]
-        else
-          ["_i++", index, "_0.push(#{body})"]
-        end
-
-      js.iif do
-        js.statements([
-          "const _0 = []",
-          "const _1 = #{subject}",
-          "let _i = -1",
-          js.for("let #{arguments} of _1", js.statements(contents.compact)),
-          js.return("_0"),
-        ])
       end
     end
   end

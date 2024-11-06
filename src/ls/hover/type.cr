@@ -1,18 +1,23 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::Type, workspace) : Array(String)
+      def hover(
+        node : Ast::Type,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         definition =
-          workspace
+          type_checker
+            .artifacts
             .ast
             .type_definitions
             .find(&.name.value.==(node.name.value))
 
         if definition
-          hover(definition, workspace)
+          hover(definition, workspace, type_checker)
         else
           type =
-            workspace.formatter.format(node)
+            workspace.format(node)
 
           ["```\n#{type}\n```"]
         end

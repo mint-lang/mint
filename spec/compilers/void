@@ -1,24 +1,11 @@
 component Main {
-  fun test : Void {
-    void
-  }
-
   fun render : String {
-    let x = test
-
+    void
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return null;
-  }
-
-  render() {
-    const b = this.a;
-    return ``;
-  }
+export const A = () => {
+  null;
+  return ``
 };
-
-A.displayName = "Main";

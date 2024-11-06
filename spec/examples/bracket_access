@@ -1,0 +1,76 @@
+--------------------------------------------------bracket_access_expected_index
+component Main {
+  fun render : String {
+    array[
+----------------------------------------bracket_access_expected_closing_bracket
+component Main {
+  fun render : String {
+    array[0
+------------------------------------------------bracket_access_index_not_number
+component Main {
+  fun render : Html {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]["asd"]
+
+    <div/>
+  }
+}
+--------------------------------------------------bracket_access_not_accessible
+component Main {
+  fun render : Html {
+    ""[0]
+
+    <div/>
+  }
+}
+---------------------------------------------------bracket_access_invalid_tuple
+component Main {
+  fun render : Html {
+    {"Hello", ""}[2]
+
+    <div/>
+  }
+}
+--------------------------------------------bracket_access_invalid_tuple_access
+component Main {
+  fun render : Html {
+    {"Hello", ""}["asd"]
+
+    <div/>
+  }
+}
+---------------------------------------------bracket_access_invalid_tuple_index
+component Main {
+  fun render : Html {
+    {"Hello", ""}[0.2]
+
+    <div/>
+  }
+}
+-----------------------------------------------bracket_access_index_not_map_key
+component Main {
+  fun render : String {
+    { 0 => "a" }["a"]
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ][1] or ""
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : Html {
+    {"Hello", ""}[0]
+
+    <div/>
+  }
+}

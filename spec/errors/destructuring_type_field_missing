@@ -1,10 +1,10 @@
-enum Maybe {
+type Maybe {
   Just(item : String)
 }
 
 component Main {
   fun render : String {
-    let Maybe::Just(key) = Maybe::Just(item: "") or return ""
+    let Maybe.Just(key) = Maybe.Just(item: "") or return ""
     ""
   }
 }
@@ -17,14 +17,14 @@ I could not find a field for a destructuring:
 
 The destructuring in question is here:
 
-    ┌ ./spec/errors/destructuring_type_field_missing:7:21
-    ├──────────────────────────────────────────────────────────────
+    ┌ ./spec/errors/destructuring_type_field_missing:7:20
+    ├────────────────────────────────────────────────────────────
    3│ }
    4│
    5│ component Main {
    6│   fun render : String {
-   7│     let Maybe::Just(key) = Maybe::Just(item: "") or return ""
-    │                     ⌃⌃⌃
+   7│     let Maybe.Just(key) = Maybe.Just(item: "") or return ""
+    │                    ⌃⌃⌃
    8│     ""
    9│   }
   10│ }

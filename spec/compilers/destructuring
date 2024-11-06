@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   Item(
     matchString : String,
     content : String,
@@ -7,71 +7,52 @@ enum Test {
 }
 
 component Main {
-  fun content (item : Test) : String {
-    case item {
-      Test::Item(content) => content
-      Test::None => ""
-    }
-  }
-
   fun render : String {
-    content(
-      Test::Item(
+    let item =
+      Test.Item(
         matchString: "MATCHSTRING",
         content: "CONTENT",
-        key: "KEY"))
+        key: "KEY")
+
+    case item {
+      Test.Item(_, content) => content
+      Test.None => ""
+    }
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor(_0, _1, _2) {
-    super();
-    this._0 = _0;
-    this._1 = _1;
-    this._2 = _2;
-    this.length = 3;
+import {
+  patternVariable as H,
+  newVariant as E,
+  pattern as G,
+  variant as B,
+  match as F
+} from "./runtime.js";
 
-    this._mapping = {
-      matchString: "_0",
-      content: "_1",
-      key: "_2"
-    };
-  }
-};
-
-class B extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
-
-class C extends _C {
-  a(b) {
-    return _match(b,[
+export const
+  A = B([
+    "matchString",
+    "content",
+    "key"
+  ]),
+  C = B(0),
+  D = () => {
+    const a = E(A)(`MATCHSTRING`, `CONTENT`, `KEY`);
+    return F(a, [
       [
-        _PE(A,_PR([
-          [
-            "content",
-            _PV
-          ]
-        ])),
-        (c) => {
-          return c
+        G(A, [
+          null,
+          H
+        ]),
+        (b) => {
+          return b
         }
       ],
       [
-        _PE(B,[]),
+        G(C, []),
         () => {
           return ``
         }
       ]
-    ]);
-  }
-
-  render() {
-    return this.a(_n(A)(`MATCHSTRING`, `CONTENT`, `KEY`));
-  }
-};
-
-C.displayName = "Main";
+    ])
+  };

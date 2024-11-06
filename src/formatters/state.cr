@@ -1,6 +1,9 @@
 module Mint
   class Formatter
-    def format(node : Ast::State) : String
+    def format(node : Ast::State) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       default =
         format node.default
 
@@ -8,19 +11,16 @@ module Mint
         format node.name
 
       type =
-        node.type.try do |item|
-          " : #{format(item)}"
+        format(node.type) do |item|
+          [" : "] + format(item)
         end
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
+      head =
+        ["state "] + name + type
 
-      if type.try(&.includes?('\n')) ||
-         default.includes?('\n')
-        "#{comment}state #{name}#{type} =\n#{indent(default)}"
-      else
-        "#{comment}state #{name}#{type} = #{default}"
-      end
+      comment + break_not_fits(
+        items: {head, default},
+        separator: " =")
     end
   end
 end

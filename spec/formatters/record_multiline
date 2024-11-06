@@ -5,7 +5,7 @@ type A {
 
 module Test {
   fun test : A {
-    {a:"Hello",b:true}
+    {a:"Hello this is a looong string so it will only fit in the next line.",b:true}
   }
 }
 --------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ type A {
 module Test {
   fun test : A {
     {
-      a: "Hello",
+      a: "Hello this is a looong string so it will only fit in the next line.",
       b: true
     }
   }

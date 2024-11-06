@@ -1,14 +1,38 @@
 /* Represents a subscription for `Provider.Mutation` */
-type Provider.Mutation.Subscription {
+type Provider.Mutation {
   changes : Function(Promise(Void)),
   element : Maybe(Dom.Element)
 }
 
 /*
-A provider to provide events when the DOM structure of the given
-element changes.
+A provider to provide events when the DOM structure of the element changes.
+
+```
+component Main {
+  state counter : Number = 0
+
+  use Provider.Mutation {
+    element: root,
+    changes:
+      () {
+        Debug.log("The contents changed!")
+        next { }
+      }
+  }
+
+  fun render : Html {
+    <div as root>
+      Number.toString(counter)
+
+      <button onClick={() { next { counter: counter + 1 } }}>
+        "Increment"
+      </button>
+    </div>
+  }
+}
+```
 */
-provider Provider.Mutation : Provider.Mutation.Subscription {
+provider Provider.Mutation : Provider.Mutation {
   /* Keep a state of all observed elements. */
   state observedElements : Array(Maybe(Dom.Element)) = []
 
@@ -16,18 +40,15 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   state observer = MutationObserver.new(notify)
 
   /* Notifies the subscribers when changes occur. */
-  fun notify (entries : Array(MutationObserver.Entry)) : Array(Array(Promise(Void))) {
+  fun notify (
+    entries : Array(MutationObserver.Entry)
+  ) : Array(Array(Promise(Void))) {
     for entry of entries {
       for subscription of subscriptions {
-        case subscription.element {
-          Maybe.Just(element) =>
-            if Dom.contains(element, entry.target) {
-              subscription.changes()
-            } else {
-              next { }
-            }
-
-          Maybe.Nothing => next { }
+        if let Maybe.Just(element) = subscription.element {
+          if Dom.contains(element, entry.target) {
+            subscription.changes()
+          }
         }
       }
     }
@@ -42,24 +63,18 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
 
     /* For each subscription observe the given elements. */
     for subscription of subscriptions {
-      case subscription.element {
-        Maybe.Just(element) =>
-          {
-            MutationObserver.observe(observer, element, true, true)
-            subscription.changes()
-          }
-
-        Maybe.Nothing => next { }
+      if let Maybe.Just(element) = subscription.element {
+        MutationObserver.observe(observer, element, true, true)
+        subscription.changes()
       }
     }
 
     /* Update the observed elements array. */
-    next
-      {
-        observedElements:
-          for subscription of subscriptions {
-            subscription.element
-          }
-      }
+    next {
+      observedElements:
+        for subscription of subscriptions {
+          subscription.element
+        }
+    }
   }
 }

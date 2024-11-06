@@ -1,0 +1,11 @@
+module Test {
+  fun test : Map(String, String) {
+    {"a" => "Hello" } of String => String
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Map(String, String) {
+    { "a" => "Hello" } of String => String
+  }
+}

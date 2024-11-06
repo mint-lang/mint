@@ -7,8 +7,7 @@ suite "Regexp.create" {
 
 suite "Regexp.createWithOptions" {
   test "it returns a new Regexp with the specified options" {
-    (Regexp.createWithOptions(
-      "a",
+    (Regexp.createWithOptions("a",
       {
         caseInsensitive: true,
         multiline: true,
@@ -36,19 +35,13 @@ suite "Regexp.escape" {
 suite "Regexp.split" {
   test "splits a string with a regexp" {
     (Regexp.create(",")
-    |> Regexp.split("a,b,c,d")) == [
-      "a",
-      "b",
-      "c",
-      "d"
-    ]
+    |> Regexp.split("a,b,c,d")) == ["a", "b", "c", "d"]
   }
 }
 
 suite "Regexp.matches" {
   test "it returns matches" {
-    (Regexp.createWithOptions(
-      "\\w",
+    (Regexp.createWithOptions("\\w",
       {
         caseInsensitive: true,
         multiline: false,
@@ -57,26 +50,10 @@ suite "Regexp.matches" {
         sticky: false
       })
     |> Regexp.matches("a,b,c,d")) == [
-      {
-        submatches: [],
-        match: "a",
-        index: 1
-      },
-      {
-        submatches: [],
-        match: "b",
-        index: 2
-      },
-      {
-        submatches: [],
-        match: "c",
-        index: 3
-      },
-      {
-        submatches: [],
-        match: "d",
-        index: 4
-      }
+      { submatches: [], match: "a", index: 1 },
+      { submatches: [], match: "b", index: 2 },
+      { submatches: [], match: "c", index: 3 },
+      { submatches: [], match: "d", index: 4 }
     ]
   }
 }
@@ -95,8 +72,7 @@ suite "Regexp.match" {
 
 suite "Regexp.replace" {
   test "replaces the matches with a replacer" {
-    (Regexp.createWithOptions(
-      "\\w",
+    (Regexp.createWithOptions("\\w",
       {
         caseInsensitive: true,
         multiline: false,
@@ -104,8 +80,9 @@ suite "Regexp.replace" {
         global: true,
         sticky: false
       })
-    |> Regexp.replace(
-      "a,b,c,d",
-      (match : Regexp.Match) : String { match.match + Number.toString(match.index) })) == "a1,b2,c3,d4"
+    |> Regexp.replace("a,b,c,d",
+      (match : Regexp.Match) : String {
+        match.match + Number.toString(match.index)
+      })) == "a1,b2,c3,d4"
   }
 }

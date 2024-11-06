@@ -2,8 +2,12 @@ module LSP
   struct WorkspaceEdit
     include JSON::Serializable
 
+    alias Value = Array(TextDocumentEdit | CreateFile) |
+                  Array(TextDocumentEdit) |
+                  Nil
+
     # Holds changes to existing resources.
-    property changes : Hash(String, Array(TextEdit))
+    property changes : Hash(String, Array(TextEdit)) | Nil
 
     # Depending on the client capability
     # `workspace.workspaceEdit.resourceOperations` document changes are either
@@ -19,9 +23,8 @@ module LSP
     # `workspace.workspaceEdit.resourceOperations` then only plain `TextEdit`s
     # using the `changes` property are supported.
 
-    # TODO:
-    # @[JSON::Field(key: "documentChanges")]
-    # property document_changes : Array(TextDocumentEdit) | TextDocumentEdit | CreateFile | RenameFile | DeleteFile?
+    @[JSON::Field(key: "documentChanges")]
+    property document_changes : Value
 
     # A map of change annotations that can be referenced in
     # `AnnotatedTextEdit`s or create, rename and delete file / folder

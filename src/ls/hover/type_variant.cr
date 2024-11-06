@@ -1,9 +1,14 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::TypeVariant, workspace) : Array(String)
+      def hover(
+        node : Ast::TypeVariant,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         item =
-          workspace
+          type_checker
+            .artifacts
             .ast
             .type_definitions
             .find do |definition|
@@ -13,7 +18,7 @@ module Mint
               end
             end
 
-        hover(item, workspace)
+        hover(item, workspace, type_checker)
       end
     end
   end

@@ -5,59 +5,59 @@ module Time.Format {
       toMonthAbbreviation:
         (month : Month) {
           case month {
-            Month.January => "Jan"
-            Month.February => "Feb"
-            Month.March => "Mar"
-            Month.April => "Apr"
-            Month.May => "May"
-            Month.June => "Jun"
-            Month.July => "Jul"
-            Month.August => "Aug"
-            Month.September => "Sep"
-            Month.October => "Oct"
-            Month.November => "Nov"
-            Month.December => "Dec"
+            January => "Jan"
+            February => "Feb"
+            March => "Mar"
+            April => "Apr"
+            May => "May"
+            June => "Jun"
+            July => "Jul"
+            August => "Aug"
+            September => "Sep"
+            October => "Oct"
+            November => "Nov"
+            December => "Dec"
           }
         },
       toMonthName:
         (month : Month) {
           case month {
-            Month.January => "January"
-            Month.February => "February"
-            Month.March => "March"
-            Month.April => "April"
-            Month.May => "May"
-            Month.June => "June"
-            Month.July => "July"
-            Month.August => "August"
-            Month.September => "September"
-            Month.October => "October"
-            Month.November => "November"
-            Month.December => "December"
+            January => "January"
+            February => "February"
+            March => "March"
+            April => "April"
+            May => "May"
+            June => "June"
+            July => "July"
+            August => "August"
+            September => "September"
+            October => "October"
+            November => "November"
+            December => "December"
           }
         },
       toWeekdayName:
         (weekday : Weekday) {
           case weekday {
-            Weekday.Monday => "Monday"
-            Weekday.Tuesday => "Tuesday"
-            Weekday.Wednesday => "Wednesday"
-            Weekday.Thursday => "Thursday"
-            Weekday.Friday => "Friday"
-            Weekday.Saturday => "Saturday"
-            Weekday.Sunday => "Sunday"
+            Monday => "Monday"
+            Tuesday => "Tuesday"
+            Wednesday => "Wednesday"
+            Thursday => "Thursday"
+            Friday => "Friday"
+            Saturday => "Saturday"
+            Sunday => "Sunday"
           }
         },
       toWeekdayAbbreviation:
         (weekday : Weekday) {
           case weekday {
-            Weekday.Monday => "Mon"
-            Weekday.Tuesday => "Tue"
-            Weekday.Wednesday => "Wed"
-            Weekday.Thursday => "Thu"
-            Weekday.Friday => "Fri"
-            Weekday.Saturday => "Sat"
-            Weekday.Sunday => "Sun"
+            Monday => "Mon"
+            Tuesday => "Tue"
+            Wednesday => "Wed"
+            Thursday => "Thu"
+            Friday => "Fri"
+            Saturday => "Sat"
+            Sunday => "Sun"
           }
         },
       toOrdinalSuffix:

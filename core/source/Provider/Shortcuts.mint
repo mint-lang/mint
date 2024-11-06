@@ -1,10 +1,10 @@
 /*
 Represents a shortcut:
 
-- **action** - the function to execute when the shortcut is pressed
-- **condition** - the function that evaluates if the action should be called
-- **shortcut** - the array of **keyCodes** that needs to be matched.
-- **bypassFocused** - whether or not trigger the action if something is in focus
+* **bypassFocused** - whether or not trigger the action if something is in focus
+* **condition** - the function that evaluates if the action should be called
+* **action** - the function to execute when the shortcut is pressed
+* **shortcut** - the array of **keyCodes** that needs to be matched
 */
 type Provider.Shortcuts.Shortcut {
   action : Function(Promise(Void)),
@@ -14,12 +14,34 @@ type Provider.Shortcuts.Shortcut {
 }
 
 /* Record for `Provider.Shortcuts`. */
-type Provider.Shortcuts.Subscription {
+type Provider.Shortcuts {
   shortcuts : Array(Provider.Shortcuts.Shortcut)
 }
 
-/* This provider allows components to subscribe to global shortcuts. */
-provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
+/*
+This provider allows components to subscribe to global shortcuts.
+
+```
+component Main {
+  use Provider.Shortcuts {
+    shortcuts:
+      [
+        {
+          action: () { Window.alert("Shotcut pressed!") },
+          shortcut: [Html.Event.CTRL, Html.Event.G],
+          condition: () { true },
+          bypassFocused: false
+        }
+      ]
+  }
+
+  fun render : Html {
+    <div>"Press CTRL+G"</div>
+  }
+}
+```
+*/
+provider Provider.Shortcuts : Provider.Shortcuts {
   /* The listener unsubscribe function. */
   state listener : Maybe(Function(Void)) = Maybe.Nothing
 
@@ -28,15 +50,11 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
     let control =
       if event.ctrlKey && event.keyCode != 17 {
         Maybe.Just(17)
-      } else {
-        Maybe.Nothing
       }
 
     let shift =
       if event.shiftKey && event.keyCode != 16 {
         Maybe.Just(16)
-      } else {
-        Maybe.Nothing
       }
 
     let combo =
@@ -68,11 +86,10 @@ provider Provider.Shortcuts : Provider.Shortcuts.Subscription {
       Maybe.map(listener, (unsubscribe : Function(Void)) { unsubscribe() })
       next { listener: Maybe.Nothing }
     } else {
-      case listener {
-        Maybe.Nothing =>
-          next { listener: Maybe.Just(Window.addEventListener("keydown", true, handle)) }
-
-        => next { }
+      if listener == Maybe.Nothing {
+        next {
+          listener: Maybe.Just(Window.addEventListener("keydown", true, handle))
+        }
       }
     }
   }

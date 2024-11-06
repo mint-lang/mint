@@ -3,7 +3,7 @@ module Mint
     class For < Node
       getter subject, body, arguments, condition
 
-      def initialize(@arguments : Array(Variable),
+      def initialize(@arguments : Array(Node),
                      @file : Parser::File,
                      @condition : Block?,
                      @subject : Node,

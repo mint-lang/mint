@@ -1,24 +1,31 @@
 module Mint
   class Formatter
-    def format(node : Ast::Comment) : String
-      value =
-        node
-          .content
-          .remove_leading_whitespace
-          .rstrip
+    def format(node : Ast::Comment) : Nodes
+      formatted =
+        if node.type.block?
+          value =
+            node.content.strip
 
-      if node.type.block?
-        if replace_skipped(value).includes?('\n')
-          "/*\n#{value}\n*/"
+          if value.includes?('\n')
+            ["/*", Line.new(1), value, Line.new(1), "*/"] of Node
+          else
+            ["/* ", value, " */"] of Node
+          end
         else
-          "/* #{value} */"
+          value =
+            node.content.rstrip
+
+          if value.size > 0 && value[0] != ' '
+            ["// #{value}"] of Node
+          else
+            ["//#{value}"] of Node
+          end
         end
+
+      if node.next_comment
+        formatted + [Line.new(1)] + format(node.next_comment)
       else
-        if value.size > 0 && value[0] != ' '
-          "// #{value}"
-        else
-          "//#{value}"
-        end
+        formatted
       end
     end
   end

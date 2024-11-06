@@ -1,0 +1,15 @@
+component Main {
+  fun render : Html {
+    .
+--------------------------------------------------------------------------------
+░ ERROR (FIELD_ACCESS_EXPECTED_VARIABLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the field of the accessed entity of a field access but I found
+"a space" instead:
+
+   ┌ ./spec/errors/field_access_expected_variable:3:5
+   ├─────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     .
+   │      ⌃⌃⌃⌃

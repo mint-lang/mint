@@ -27,26 +27,9 @@ module Mint
 
         next unless expressions
 
-        returns =
-          expressions.compact_map do |item|
-            case item
-            when Ast::ReturnCall
-              item
-            when Ast::Statement
-              case expression = item.expression
-              when Ast::Operation
-                case right = expression.right
-                when Ast::ReturnCall
-                  right
-                end
-              end
-            end
-          end
-
         Ast::Block.new(
           expressions: expressions,
           from: start_position,
-          returns: returns,
           to: position,
           file: file)
       end

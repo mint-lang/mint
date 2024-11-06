@@ -55,7 +55,7 @@ module Test {
       "originSelectionRange": {
         "start": {
           "line": 3,
-          "character": 14
+          "character": 6
         },
         "end": {
           "line": 3,

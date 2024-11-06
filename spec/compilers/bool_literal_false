@@ -1,24 +1,12 @@
 component Main {
-  fun test : Bool {
-    false
-  }
-
   fun render : String {
-    test()
+    false
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return false;
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  false;
+  return ``
 };
-
-A.displayName = "Main";

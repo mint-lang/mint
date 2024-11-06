@@ -1,0 +1,42 @@
+component Main {
+  fun test : Maybe(String) {
+    [
+      "Hello",
+      "Blah",
+      "Joe"
+    ]["asd"]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (BRACKET_ACCESS_INDEX_NOT_NUMBER) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the index of a bracket access is not a number.
+
+I was expecting:
+
+  Number
+
+Instead it is:
+
+  String
+
+The index in question is here:
+
+    ┌ ./spec/errors/bracket_access_index_not_number:7:7
+    ├──────────────────────────────────────────────────
+   3│     [
+   4│       "Hello",
+   5│       "Blah",
+   6│       "Joe"
+   7│     ]["asd"]
+    │       ⌃⌃⌃⌃⌃
+   8│   }
+   9│
+  10│   fun render : Html {
+  11│     test()

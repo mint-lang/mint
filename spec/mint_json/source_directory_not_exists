@@ -1,0 +1,14 @@
+{
+  "source-directories": ["xxx"]
+}
+--------------------------------------------------------------------------------
+░ ERROR (SOURCE_DIRECTORY_NOT_EXISTS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The source directory xxx does not exists:
+
+   ┌ spec/fixtures/mint.json:2:26
+   ├────────────────────────────────
+  1│ {
+  2│   "source-directories": ["xxx"]
+   │                          ⌃
+  3│ }

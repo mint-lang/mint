@@ -1,13 +1,12 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Encode) : String
-      expression =
-        compile node.expression
+    def compile(node : Ast::Encode) : Compiled
+      compile node do
+        code =
+          encoder cache[node.expression]
 
-      code =
-        @serializer.encoder cache[node.expression]
-
-      "#{code}(#{expression})"
+        js.call(code, [compile(node.expression)])
+      end
     end
   end
 end

@@ -1,12 +1,12 @@
 component Test.Provider.Tick {
   state counter : Number = 0
 
-  use Provider.Tick { ticks: () : Promise(Void) { next { counter: counter + 1 } } }
+  use Provider.Tick {
+    ticks: () : Promise(Void) { next { counter: counter + 1 } }
+  }
 
   fun render : Html {
-    <div>
-      <{ Number.toString(counter) }>
-    </div>
+    <div>Number.toString(counter)</div>
   }
 }
 

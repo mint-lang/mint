@@ -11,18 +11,15 @@ describe "Repository" do
 
         repository = Mint::Installer::Repository.new("name", "success")
 
-        message = <<-MESSAGE
-        ░ ERROR (REPOSITORY_INVALID_MINT_JSON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-        I could not parse the mint.json for the package: name (success) for the version
-        or tag: master
-        MESSAGE
-
         begin
           repository.json("master")
           fail "Should have raised!"
         rescue error : Mint::Error
-          error.to_terminal.to_s.uncolorize.should eq(message)
+          error
+            .to_terminal
+            .to_s
+            .uncolorize
+            .should contain("I could not parse the following mint.json file")
         end
       end
 

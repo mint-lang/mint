@@ -1,0 +1,33 @@
+component Test {
+  fun render : Html {
+    <></>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method":  "textDocument/completion",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 3,
+      "character": 4
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "label": "Test",
+  "kind": 15,
+  "detail": "Component",
+  "documentation": "",
+  "deprecated": false,
+  "preselect": false,
+  "sortText": "Test",
+  "filterText": "Test",
+  "insertText": "<Test>\n  \n</Test>",
+  "insertTextFormat": 2
+}
+--------------------------------------------------------------response 0 contain

@@ -1,19 +1,30 @@
 module Mint
   class Formatter
-    def format(node : Ast::Provider) : String
-      name =
-        node.name
-
-      subscription =
-        node.subscription
-
-      body =
-        list node.functions + node.comments + node.states + node.gets + node.constants
+    def format(node : Ast::Provider) : Nodes
+      items =
+        node.functions +
+          node.constants +
+          node.comments +
+          node.signals +
+          node.states +
+          node.gets
 
       comment =
-        node.comment.try { |item| "#{format(item)}\n" }
+        format_documentation_comment node.comment
 
-      "#{comment}provider #{format name} : #{format subscription} {\n#{indent(body)}\n}"
+      subscription =
+        format node.subscription
+
+      name =
+        format node.name
+
+      comment + ["provider "] + name + [" : "] + subscription + [" "] +
+        group(
+          behavior: Behavior::Block,
+          items: [list(items)],
+          ends: {"{", "}"},
+          separator: "",
+          pad: false)
     end
   end
 end

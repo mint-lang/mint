@@ -3,7 +3,7 @@ component Test {
   state age : Number = 24
 
   fun test : Promise(Void) {
-    next {name: "Hello",age:30}
+    next {name: "Hello this is some loooong string to break this next thing.",age:30}
   }
 
   fun render : Html {
@@ -16,11 +16,10 @@ component Test {
   state age : Number = 24
 
   fun test : Promise(Void) {
-    next
-      {
-        name: "Hello",
-        age: 30
-      }
+    next {
+      name: "Hello this is some loooong string to break this next thing.",
+      age: 30
+    }
   }
 
   fun render : Html {

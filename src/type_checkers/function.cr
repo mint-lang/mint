@@ -1,43 +1,10 @@
 module Mint
   class TypeChecker
-    def check_arguments(arguments : Array(Ast::Argument))
-      was_default = false
-
-      arguments.each do |argument|
-        name =
-          argument.name.value
-
-        other =
-          (arguments - [argument]).find(&.name.value.==(name))
-
-        error! :function_argument_must_have_a_default_value do
-          block do
-            text "The argument"
-            bold %("#{name}")
-            text "is declared after one that had a default value."
-          end
-
-          block "Arguments that come after ones that have a default value must also have a default value."
-
-          snippet "The argument in question is here:", argument
-        end if was_default && !argument.default
-
-        was_default = true if argument.default
-
-        error! :function_argument_conflict do
-          block do
-            text "The argument"
-            bold %("#{name}")
-            text "is declared multiple times."
-          end
-
-          snippet "It is declared here:", other
-          snippet "It is also declared here:", argument
-        end if other
-      end
+    def check(node : Ast::Function)
+      check_function(node)
     end
 
-    def check(node : Ast::Function) : Checkable
+    def check_function(node : Ast::Function | Ast::InlineFunction) : Checkable
       check_arguments(node.arguments)
 
       arguments =
@@ -60,8 +27,22 @@ module Mint
           resolved =
             Comparer.compare(defined_type, final_type)
 
-          error! :function_type_mismatch do
-            block "The return type of a function does not match its type definition."
+          error_type, error_entity =
+            case node
+            in Ast::Function
+              {
+                :function_type_mismatch,
+                "a function",
+              }
+            in Ast::InlineFunction
+              {
+                :inline_function_type_mismatch,
+                "an anonymous function",
+              }
+            end
+
+          error! error_type do
+            block "The return type of #{error_entity} does not match its type definition."
 
             snippet "I was expecting:", return_type
             snippet "Which is defined here:", type

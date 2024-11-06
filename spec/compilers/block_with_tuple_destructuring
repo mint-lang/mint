@@ -6,11 +6,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    const [a,b] = [`Some string...`, `B`];
-    return a + `, other string...`;
-  }
+export const A = () => {
+  const [
+    a,
+    b
+  ] = [
+    `Some string...`,
+    `B`
+  ];
+  return a + `, other string...`
 };
-
-A.displayName = "Main";

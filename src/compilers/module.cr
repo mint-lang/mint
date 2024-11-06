@@ -1,26 +1,15 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Module) : String
-      name =
-        js.class_of(node)
+    def resolve(node : Ast::Module)
+      resolve node do
+        functions =
+          resolve node.functions
 
-      functions =
-        compile node.functions
+        constants =
+          resolve node.constants
 
-      constants =
-        compile_constants node.constants
-
-      constructor =
-        unless constants.empty?
-          [js.function("constructor", %w[]) do
-            js.statements([
-              js.call("super", %w[]),
-              js.call("this._d", [js.object(constants)]),
-            ])
-          end]
-        end
-
-      js.module(name, %w[] &+ functions &+ constructor)
+        add functions + constants
+      end
     end
   end
 end

@@ -1,35 +1,28 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Block, for_function = false) : String
-      node.in?(checked) ? _compile(node, for_function) : ""
-    end
+    def compile(node : Ast::Block, for_function = false) : Compiled
+      compile node do
+        expressions =
+          compile node.expressions.select(Ast::Statement)
 
-    def _compile(node : Ast::Block, for_function = false) : String
-      expressions =
-        node
-          .expressions
-          .select(Ast::Statement)
-          .sort_by! { |item| resolve_order.index(item) || -1 }
-          .flat_map { |item| _compile2 item }
+        async =
+          Js.async?(expressions)
 
-      last =
-        expressions.pop
+        last =
+          expressions.pop
 
-      if expressions.empty? && !async?(node)
-        if for_function
-          js.return(last)
+        if expressions.empty? && !async
+          if for_function
+            js.return(last)
+          else
+            last
+          end
+        elsif for_function
+          js.statements(expressions + [js.return(last)])
         else
-          last
-        end
-      elsif for_function
-        js.statements(expressions + [js.return(last)])
-      elsif async?(node)
-        js.asynciif do
-          js.statements(expressions + [js.return(last)])
-        end
-      else
-        js.iif do
-          js.statements(expressions + [js.return(last)])
+          js.iif do
+            js.statements(expressions + [js.return(last)])
+          end
         end
       end
     end

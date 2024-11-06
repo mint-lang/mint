@@ -37,14 +37,14 @@ suite "Suite 2" {
   }
 }
 ---------------------------------------------------------------variable_missing
-enum A {
+type A {
   B(String)
   C
 }
 
 component Main {
   fun render : String {
-    case (A::D(0)) {
+    case (A.D(0)) {
       => ""
     }
   }
@@ -52,7 +52,7 @@ component Main {
 ---------------------------------------------------------------variable_missing
 component Main {
   fun render : String {
-    case (C::D(0)) {
+    case (C.D(0)) {
       => ""
     }
   }

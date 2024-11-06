@@ -1,0 +1,26 @@
+store Test {
+  signal greeting : String {
+    emit "Blah"
+    "Hello"
+  }
+}
+
+component Main {
+  connect Test exposing { greeting }
+
+  fun render : String {
+    greeting
+  }
+}
+--------------------------------------------------------------------------------
+import { signal as A } from "./runtime.js";
+
+export const
+  a = A((() => {
+    a.value = `Blah`;
+    return `Hello`
+  })()),
+  B = () => {
+    return a.value
+  };
+

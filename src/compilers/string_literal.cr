@@ -1,30 +1,26 @@
 module Mint
   class Compiler
-    def compile(node : Ast::StringLiteral, quote : Bool = false) : String
-      node.in?(checked) ? _compile(node, quote) : ""
-    end
-
-    def _compile(node : Ast::StringLiteral, quote : Bool = false) : String
+    def compile(node : Ast::StringLiteral, quote : Bool = false) : Compiled
       value =
-        node
-          .value
-          .join do |item|
-            case item
-            when Ast::Node
-              "${#{compile(item)}}"
-            when String
+        node.value.flat_map do |item|
+          case item
+          in Ast::Node
+            ["${"] + compile(item) + ["}"]
+          in String
+            [
               item
                 .gsub('`', "\\`")
                 .gsub("${", "\\${")
-            else
-              ""
-            end
+                .gsub("\\\"", "\"")
+                .gsub("\\\#{", "\#{"),
+            ]
           end
+        end
 
       if quote
-        %(`"#{value}"`)
+        [%(`")] + value + [%("`)]
       else
-        "`#{value}`"
+        ["`"] + value + ["`"]
       end
     end
   end

@@ -1,28 +1,18 @@
 component Main {
-  fun test : Bool {
+  fun render : String {
     if ("asd" == "asd2") {
       true
     } else {
       false
     }
-  }
-
-  fun render : String {
-    test()
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return (_compare(`asd`, `asd2`) ? true : false);
-  }
+import { compare as B } from "./runtime.js";
 
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  (B(`asd`, `asd2`) ? true : false);
+  return ``
 };
-
-A.displayName = "Main";

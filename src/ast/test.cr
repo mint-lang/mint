@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Test < Node
-      getter name, expression
+      getter expression, name
 
       def initialize(@name : StringLiteral,
                      @file : Parser::File,

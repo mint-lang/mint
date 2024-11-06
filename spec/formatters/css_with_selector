@@ -20,8 +20,7 @@ component A {
       color: blue;
     }
 
-    &:active,
-    &:hover {
+    &:active, &:hover {
       color: yellow;
     }
   }

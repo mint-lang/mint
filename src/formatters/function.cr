@@ -1,27 +1,27 @@
 module Mint
   class Formatter
-    def format(node : Ast::Function) : String
+    def format(node : Ast::Function) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       name =
         format node.name
-
-      type =
-        node.type.try do |item|
-          ": #{format(item)}"
-        end
 
       body =
         format node.body
 
-      arguments =
-        format_arguments node.arguments
-
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
+      type =
+        format node.type do |item|
+          [": "] + format(item)
+        end
 
       head =
-        ["fun", name, arguments, type].compact!.join(' ')
+        entity(
+          arguments: node.arguments.map(&->format(Ast::Node)),
+          head: [format("fun "), name].flatten,
+          tail: type)
 
-      "#{comment}#{head} #{body}"
+      comment + head + [" "] + body
     end
   end
 end

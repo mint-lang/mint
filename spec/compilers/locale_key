@@ -8,18 +8,20 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  componentWillUnmount() {
-    _L._unsubscribe(this);
-  }
+import {
+  translations as C,
+  translate as B,
+  locale as D
+} from "./runtime.js";
 
-  componentDidMount() {
-    _L._subscribe(this);
-  }
+export const A = () => {
+  return B(`test`)
+};
 
-  render() {
-    return _L.t("test");
+C.value = {
+  en: {
+    'test': `Hello`
   }
 };
 
-A.displayName = "Main";
+D.value = `en`;

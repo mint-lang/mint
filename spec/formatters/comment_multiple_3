@@ -1,0 +1,15 @@
+module Test {
+  fun test : String {
+    // Comment E
+    // Comment F
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : String {
+    // Comment E
+    // Comment F
+    ""
+  }
+}

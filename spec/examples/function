@@ -72,7 +72,7 @@ component Main {
   }
 }
 ---------------------------------------------------------function_type_mismatch
-enum Maybe(value) {
+type Maybe(value) {
   Just(value)
   Nothing
 }
@@ -80,8 +80,8 @@ enum Maybe(value) {
 component Main {
   fun testCase : Maybe(String) {
     case (-1) {
-      -1 => Maybe::Nothing
-      => Maybe::Just(2)
+      -1 => Maybe.Nothing
+      => Maybe.Just(2)
     }
   }
 

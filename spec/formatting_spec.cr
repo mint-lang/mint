@@ -22,13 +22,13 @@ Dir
           fail error.to_terminal.to_s
         end
 
-        formatter = Mint::Formatter.new
+        formatter = Mint::Formatter.new(Mint::Formatter::Config.new)
 
         # Format and compare the results
         result = formatter.format(ast)
 
         begin
-          result.should eq(expected.lstrip)
+          result.should eq(expected.strip)
         rescue error
           fail diff(expected, result)
         end
@@ -40,7 +40,7 @@ Dir
         result = formatter.format(ast)
 
         begin
-          result.should eq(expected.lstrip)
+          result.should eq(expected.strip)
         rescue error
           fail diff(expected, result)
         end

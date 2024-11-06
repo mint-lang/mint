@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Get < Node
-      getter name, body, type, comment
+      getter comment, name, body, type
 
       def initialize(@file : Parser::File,
                      @comment : Comment?,

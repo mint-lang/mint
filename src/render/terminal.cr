@@ -199,8 +199,13 @@ module Mint
         print "\n\n"
       end
 
-      def snippet(node : Ast::Node)
-        print TerminalSnippet.render(node.file.contents, node.file.path, node.from, node.to, width: @width).indent
+      def snippet(value : Error::SnippetData)
+        print TerminalSnippet.render(
+          filename: value.filename,
+          input: value.input,
+          from: value.from,
+          to: value.to,
+          width: @width).indent
         print "\n\n"
       end
 
@@ -248,6 +253,7 @@ module Mint
       end
 
       def reset
+        @position = 0
         print "\ec"
       end
 

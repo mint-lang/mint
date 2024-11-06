@@ -1,10 +1,12 @@
 module Mint
   class Formatter
-    def format(node : Ast::CssNestedAt) : String
-      body =
-        list node.body
-
-      "@#{node.name} #{node.content.strip} {\n#{indent(body)}\n}"
+    def format(node : Ast::CssNestedAt) : Nodes
+      ["@#{node.name} #{node.content.strip} "] + group(
+        behavior: Behavior::Block,
+        items: [list(node.body)],
+        ends: {"{", "}"},
+        separator: "",
+        pad: false)
     end
   end
 end

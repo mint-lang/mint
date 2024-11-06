@@ -8,13 +8,22 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h(React.Fragment,{},[_h('h2',{},[`Hello There`]),_h('p',{},[_h("div", {}, [
-  `Hello`
-]),`
-`,`World`,`!`])]);
-  }
-};
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(C, {}, [
+    B('h2', {}, [`Hello There`]),
+    B('p', {}, [
+      ``,
+      B(`div`, {}, [`Hello`]),
+      ``,
+      `
+`,
+      `World`,
+      `!`
+    ])
+  ])
+};

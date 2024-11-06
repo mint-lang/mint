@@ -3,11 +3,15 @@ module Mint
     def component : Ast::Component?
       parse do |start_position, start_nodes_position|
         comment = self.comment
-
-        global = word! "global"
         whitespace
 
-        next unless word! "component"
+        global = keyword! "global"
+        whitespace
+
+        async = keyword! "async"
+        whitespace
+
+        next unless keyword! "component"
         whitespace
 
         next error :component_expected_name do
@@ -47,8 +51,8 @@ module Mint
               use ||
               get ||
               self.comment
-            # ^^ This needs to be last because it can eat the documentation
-            # comment of the sub entities.
+            # ^^^^^^^^^^^^ This needs to be last because it can
+            # eat the documentation comment of the sub entities.
           end
         end
 
@@ -94,15 +98,6 @@ module Mint
           case node
           when Ast::LocaleKey
             locales = true
-          when Ast::Function
-            if node.name.value.in?([
-                 "componentWillUnmount",
-                 "componentDidUpdate",
-                 "componentDidMount",
-                 "render",
-               ])
-              node.keep_name = true
-            end
           when Ast::HtmlElement
             node.styles.each do |style|
               style.style_node =
@@ -133,6 +128,7 @@ module Mint
           locales: locales,
           styles: styles,
           states: states,
+          async: async,
           to: position,
           file: file,
           refs: refs,

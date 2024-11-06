@@ -1,25 +1,44 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Provider) : String
-      functions =
-        compile node.functions
+    def resolve(node : Ast::Provider)
+      resolve node do
+        update =
+          node.functions.find!(&.name.value.==("update"))
 
-      states =
-        compile node.states
+        functions =
+          resolve(node.functions - [update])
 
-      gets =
-        compile node.gets
+        constants =
+          resolve node.constants
 
-      constructor =
-        compile_constructor node
+        signals =
+          resolve node.signals
 
-      body =
-        [constructor] &+ states &+ gets &+ functions
+        states =
+          resolve node.states
 
-      name =
-        js.class_of(node)
+        gets =
+          resolve node.gets
 
-      js.provider(name, body)
+        update =
+          {
+            node,
+            node,
+            js.call(Builtin::CreateProvider, [
+              [node.subscription] of Item,
+              compile(update, skip_const: true),
+            ]),
+          }
+
+        subscriptions =
+          {
+            node,
+            node.subscription,
+            js.new("Map".as(Item)),
+          }
+
+        add functions + signals + states + gets + constants + [subscriptions, update]
+      end
     end
   end
 end

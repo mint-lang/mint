@@ -1,31 +1,31 @@
-/* Mathematical functions. */
+/* This module provides mathematical functions and constants. */
 module Math {
-  /* Euler's number and the base of natural logarithms; approximately `2.718`. */
-  const E = `Math.E`
-
-  /* Natural logarithm of `10`; approximately `2.303`. */
-  const LN10 = `Math.LN10`
-
-  /* Natural logarithm of `2`; approximately `0.693`. */
-  const LN2 = `Math.LN2`
-
-  /* Base-10 logarithm of `E`; approximately `0.434`. */
+  /* Base-10 logarithm of `E` (approximately `0.434`) */
   const LOG10E = `Math.LOG10E`
 
-  /* Base-2 logarithm of `E`; approximately `1.443`. */
+  /* Square root of `0.5` (approximately `0.707`) */
+  const SQRT1_2 = `Math.SQRT1_2`
+
+  /* Base-2 logarithm of `E` (approximately `1.443`) */
   const LOG2E = `Math.LOG2E`
 
-  /* Ratio of a circle's circumference to its diameter; approximately `3.14159`. */
-  const PI = `Math.PI`
-
-  /* Square root of `0.5`; approximately `0.707`. */
-  const SQRT12 = `Math.SQRT1_2`
-
-  /* Square root of `2`; approximately `1.414`. */
+  /* Square root of `2` (approximately `1.414`) */
   const SQRT2 = `Math.SQRT2`
 
+  /* Natural logarithm of `10` (approximately `2.303`) */
+  const LN10 = `Math.LN10`
+
+  /* Natural logarithm of `2` (approximately `0.693`) */
+  const LN2 = `Math.LN2`
+
+  /* Ratio of a circle's circumference to its diameter (approximately `3.14159`) */
+  const PI = `Math.PI`
+
+  /* Euler's number and the base of natural logarithms (approximately `2.718`) */
+  const E = `Math.E`
+
   /*
-  Returns the absolute value of the given number.
+  Returns the absolute value of the number.
 
     Math.abs(1) == 1
     Math.abs(-1) == 1
@@ -34,43 +34,72 @@ module Math {
     `Math.abs(#{number})`
   }
 
-  /* Returns the inverse cosine of the given angle in radians */
-  fun acos (number : Number) : Number {
-    `Math.acos(#{number})`
+  /*
+  Returns the inverse cosine of the angle in radian.
+
+    Math.acos(0) == 1.5707963267948966
+  */
+  fun acos (angle : Number) : Number {
+    `Math.acos(#{angle})`
   }
 
-  /* Returns the inverse hyperbolic cosine of the given angle in radians */
-  fun acosh (number : Number) : Number {
-    `Math.acosh(#{number})`
+  /*
+  Returns the inverse hyperbolic cosine of the angle in radians.
+
+    Math.acosh(2) == 1.3169578969248166
+  */
+  fun acosh (angle : Number) : Number {
+    `Math.acosh(#{angle})`
   }
 
-  /* Returns the inverse sine of the given angle in radians */
-  fun asin (number : Number) : Number {
-    `Math.asin(#{number})`
+  /*
+  Returns the inverse sine of the angle in radians.
+
+    Math.asin(0.5) == 0.5235987755982989
+  */
+  fun asin (angle : Number) : Number {
+    `Math.asin(#{angle})`
   }
 
-  /* Returns the inverse hyperbolic sine of the given angle in radians */
-  fun asinh (number : Number) : Number {
-    `Math.asinh(#{number})`
+  /*
+  Returns the inverse hyperbolic sine of the angle in radians.
+
+    Math.asinh(1) == 0.881373587019543
+  */
+  fun asinh (angle : Number) : Number {
+    `Math.asinh(#{angle})`
   }
 
-  /* Returns the inverse tangent of the given angle in radians */
-  fun atan (number : Number) : Number {
-    `Math.atan(#{number})`
+  /*
+  Returns the inverse tangent of the angle in radians.
+
+    Math.atan(1) == 0.7853981633974483
+  */
+  fun atan (angle : Number) : Number {
+    `Math.atan(#{angle})`
   }
 
-  /* Returns the angle in the plane (in radians) between the positive x-axis and the ray from (0, 0) to the point (x, y) */
+  /*
+  Returns the angle in the plane (in radians) between the positive x-axis
+  and the ray from (0, 0) to the point (x, y).
+
+    Math.atan2(90, 15) == 1.4056476493802699
+  */
   fun atan2 (y : Number, x : Number) : Number {
     `Math.atan2(#{y}, #{x})`
   }
 
-  /* Returns the inverse hyperbolic tangent of the given angle in radians */
-  fun atanh (number : Number) : Number {
-    `Math.atanh(#{number})`
+  /*
+  Returns the inverse hyperbolic tangent of the angle in radians.
+
+    Math.atanh(0.5) == 0.5493061443340548
+  */
+  fun atanh (angle : Number) : Number {
+    `Math.atanh(#{angle})`
   }
 
   /*
-  Returns the cubic root of the given number
+  Returns the cubic root of the number.
 
     Math.cbrt(1) == 1
     Math.cbrt(64) == 4
@@ -80,7 +109,7 @@ module Math {
   }
 
   /*
-  Returns the smallest integer greater than or equal to the given number.
+  Returns the smallest integer greater than or equal to the number.
 
     Math.ceil(0.3) == 1
   */
@@ -89,7 +118,7 @@ module Math {
   }
 
   /*
-  Clamps the given number between the given upper and lower bounds.
+  Clamps the number between the upper and lower bounds.
 
     Math.clamp(100, 0, 10) == 10
     Math.clamp(-100, 0, 10) == 0
@@ -99,32 +128,45 @@ module Math {
   }
 
   /*
-  Returns the number of leading zero bits in the 32-bit binary representation of a number
+  Returns the number of leading zero bits in the 32-bit binary representation
+  of the number.
 
-   00000000000000000000000000000100
-   Math.clz32(4) == 29
+    // 00000000000000000000000000000100
+    Math.clz32(4) == 29
   */
   fun clz32 (number : Number) : Number {
     `Math.clz32(#{number})`
   }
 
-  /* Returns the cosine of the given angle in radians */
-  fun cos (number : Number) : Number {
-    `Math.cos(#{number})`
+  /*
+  Returns the cosine of the angle in radians.
+
+    Math.cos(1) == 0.5403023058681398
+  */
+  fun cos (angle : Number) : Number {
+    `Math.cos(#{angle})`
   }
 
-  /* Returns the hyperbolic cosine of the given angle in radians */
-  fun cosh (number : Number) : Number {
-    `Math.cosh(#{number})`
+  /*
+  Returns the hyperbolic cosine of the angle in radians.
+
+    Math.cosh(1) == 1.5430806348152437
+  */
+  fun cosh (angle : Number) : Number {
+    `Math.cosh(#{angle})`
   }
 
-  /* Returns the value of `Math:E` raised to the power x, where x is the given number */
+  /*
+  Returns the value of `Math.E` raised to the power x, where x is the number.
+
+    Math.exp(1) == 2.718281828459045
+  */
   fun exp (x : Number) : Number {
     `Math.exp(#{x})`
   }
 
   /*
-  Returns the value of `Math:E` to the power x, minus 1
+  Returns the value of `Math.E` to the power x, minus 1.
 
     Math.exp(2) == 7.38905609893065
     Math.expm1(2) == 6.38905609893065
@@ -134,7 +176,7 @@ module Math {
   }
 
   /*
-  Returns the largest integer less than or equal to the given number.
+  Returns the largest integer less than or equal to the number.
 
     Math.floor(0.8) == 0
   */
@@ -152,7 +194,12 @@ module Math {
     `Number((#{b} - (Math.floor(#{b} / #{a}) * #{a})).toPrecision(8))`
   }
 
-  /* Returns the nearest 32-bit single precision float representation of the given number. */
+  /*
+  Returns the nearest 32-bit single precision float representation of the
+  number.
+
+    Math.fround(1.337) == 1.3370000123977661
+  */
   fun fround (number : Number) : Number {
     `Math.fround(#{number})`
   }
@@ -176,7 +223,7 @@ module Math {
   }
 
   /*
-  Returns natural logarithm (base e) of the given value
+  Returns natural logarithm (base e) of the value.
 
     Math.log(1) == 0
   */
@@ -185,7 +232,7 @@ module Math {
   }
 
   /*
-  Returns natural logarithm (base 10) of the given value
+  Returns natural logarithm (base 10) of the value.
 
     Math.log10(100) == 10
   */
@@ -194,7 +241,7 @@ module Math {
   }
 
   /*
-  Returns natural logarithm (base e) of the given value, plus 1
+  Returns natural logarithm (base e) of the value, plus 1.
 
     Math.log1p(1) == 0
   */
@@ -203,7 +250,7 @@ module Math {
   }
 
   /*
-  Returns natural logarithm (base 2) of the given value
+  Returns natural logarithm (base 2) of the value.
 
     Math.log2(8) == 3
   */
@@ -230,7 +277,7 @@ module Math {
   }
 
   /*
-  Negates the given number.
+  Negates the number.
 
     Math.negate(1) == -1
   */
@@ -239,7 +286,7 @@ module Math {
   }
 
   /*
-  Returns the exponent power of the given number.
+  Returns the exponent power of the number.
 
     Math.pow(2, 2) == 4
   */
@@ -247,22 +294,32 @@ module Math {
     `Math.pow(#{value}, #{exponent})`
   }
 
-  /* Returns a pseudo-random number in the range 0 to less than 1. */
+  /*
+  Returns a pseudo-random number in the range 0 to less than 1.
+
+    Math.random() // A random number between 0 and 1.
+  */
   fun random : Number {
     `Math.random()`
   }
 
   /*
-  Returns the value of a number rounded to the nearest integer.
+  Returns the value of a number rounded to the nearest decimal point (0 by
+  default).
 
     Math.round(0.5) == 1
+    Math.round(0.53, 1) == 0.5
   */
-  fun round (number : Number) : Number {
-    `Math.round(#{number})`
+  fun round (number : Number, decimals : Number = 0) : Number {
+    if decimals == 0 {
+      `Math.round(#{number})`
+    } else {
+      `Math.round(#{number} * (10 * #{decimals})) / (10 * #{decimals})`
+    }
   }
 
   /*
-  Returns the sign of the given number (1 or -1)
+  Returns the sign of the number (1 or -1).
 
     Math.sign(5) == 1
     Math.sign(-5) == -1
@@ -271,18 +328,26 @@ module Math {
     `Math.sign(#{number})`
   }
 
-  /* Calculates the sine of the given angle in radians */
-  fun sin (value : Number) : Number {
-    `Math.sin(#{value})`
-  }
+  /*
+  Calculates the sine of the angle in radians.
 
-  /* Calculates the hyperbolic sine of the given angle in radians */
-  fun sinh (number : Number) : Number {
-    `Math.sinh(#{number})`
+    Math.sin(1) == 0.8414709848078965
+  */
+  fun sin (angle : Number) : Number {
+    `Math.sin(#{angle})`
   }
 
   /*
-  Returns the square root of the given number
+  Calculates the hyperbolic sine of the angle in radians.
+
+    Math.sinh(1) == 1.1752011936438014
+  */
+  fun sinh (angle : Number) : Number {
+    `Math.sinh(#{angle})`
+  }
+
+  /*
+  Returns the square root of the number.
 
     Math.sqrt(4) == 2
   */
@@ -290,14 +355,22 @@ module Math {
     `Math.sqrt(#{value})`
   }
 
-  /* Calculates the tangent of the given angle in radians */
-  fun tan (number : Number) {
-    `Math.tan(#{number})`
+  /*
+  Calculates the tangent of the angle in radians.
+
+    Math.tan(1) == 1.5574077246549023
+  */
+  fun tan (angle : Number) {
+    `Math.tan(#{angle})`
   }
 
-  /* Calculates the hyperbolic tangent of the given angle in radians */
-  fun tanh (number : Number) : Number {
-    `Math.tanh(#{number})`
+  /*
+  Calculates the hyperbolic tangent of the angle in radians.
+
+    Math.tanh(1) == 0.7615941559557649
+  */
+  fun tanh (angle : Number) : Number {
+    `Math.tanh(#{angle})`
   }
 
   /*

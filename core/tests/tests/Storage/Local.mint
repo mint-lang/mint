@@ -8,8 +8,8 @@ suite "Storage.Local.set" {
     Storage.Local.set("test", "test")
 
     case Storage.Local.get("test") {
-      Result.Ok(value) => value == "test"
-      Result.Err => false
+      Ok(value) => value == "test"
+      Err => false
     }
   }
 
@@ -27,15 +27,15 @@ suite "Storage.Local.get" {
     Storage.Local.set("test", "test")
 
     case Storage.Local.get("test") {
-      Result.Ok(value) => value == "test"
-      Result.Err => false
+      Ok(value) => value == "test"
+      Err => false
     }
   }
 
   test "it returns nothing if the key does not exists" {
     case Storage.Local.get("test") {
-      Result.Ok(value) => false
-      Result.Err => true
+      Ok(_) => false
+      Err => true
     }
   }
 }

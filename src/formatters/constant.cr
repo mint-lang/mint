@@ -1,20 +1,18 @@
 module Mint
   class Formatter
-    def format(node : Ast::Constant) : String
+    def format(node : Ast::Constant) : Nodes
+      comment =
+        format_documentation_comment node.comment
+
       expression =
         format node.expression
 
       name =
         format node.name
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
-
-      if node.expression.new_line?
-        "#{comment}const #{name} =\n#{indent(expression)}"
-      else
-        "#{comment}const #{name} = #{expression}"
-      end
+      comment + break_not_fits(
+        items: {["const "] + name, expression},
+        separator: " =")
     end
   end
 end

@@ -2,22 +2,13 @@ module Mint
   class Parser
     def if_expression(for_css = false) : Ast::If?
       parse do |start_position|
-        next unless word! "if"
-        whitespace
-
-        parens = char! '('
+        next unless keyword! "if"
         whitespace
 
         next error :if_expected_condition do
           expected "the condition", word
           snippet self
         end unless condition = statement || expression
-        whitespace
-
-        next error :if_expected_closing_parenthesis do
-          expected "the closing parenthesis of the condition of an if expression", word
-          snippet self
-        end if parens && !char!(')')
         whitespace
 
         truthy =
@@ -41,7 +32,7 @@ module Mint
         falsy = nil
         whitespace
 
-        if word! "else"
+        if keyword! "else"
           whitespace
 
           unless falsy = if_expression(for_css: for_css)

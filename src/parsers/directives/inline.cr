@@ -2,7 +2,7 @@ module Mint
   class Parser
     def inline_directive : Ast::Directives::Inline?
       parse do |start_position|
-        next unless word! "@inline"
+        next unless keyword! "@inline"
 
         next error :inline_directive_expected_opening_parenthesis do
           expected "the opening parenthesis of an inline directive", word

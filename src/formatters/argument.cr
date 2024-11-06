@@ -1,22 +1,22 @@
 module Mint
   class Formatter
-    def format(node : Ast::Argument) : String
+    def format(node : Ast::Argument) : Nodes
+      default =
+        format node.default
+
       name =
         format node.name
 
       type =
         format node.type
 
-      default =
-        format node.default
-
       head =
-        "#{name} : #{type}"
+        name + [" : "] + type
 
-      if default
-        "#{head} = #{default}"
-      else
+      if default.empty?
         head
+      else
+        head + [" = "] + default
       end
     end
   end

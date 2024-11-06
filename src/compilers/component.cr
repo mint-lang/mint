@@ -1,219 +1,215 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Component) : String
-      name =
-        js.class_of(node)
-
-      prefixed_name =
-        if node.global?
-          "$#{name}"
-        else
-          name
+    def resolve(node : Ast::Component)
+      resolve node do
+        node.styles.each do |style|
+          next unless style.in?(checked)
+          style_builder.process(style, node.name.value.gsub('.', '·'))
         end
 
-      global_let =
-        "let #{name}" if node.global?
+        styles =
+          node.styles.compact_map do |style_node|
+            next unless style_node.in?(checked)
+            style_builder.compile_style(style_node, self)
+          end
 
-      compile node.styles, node
+        did_update = nil
+        unmount = nil
+        render = nil
+        mount = nil
 
-      styles =
-        node.styles.compact_map do |style_node|
-          style_builder.compile_style(style_node, self).presence
-        end
-
-      functions =
-        compile_component_functions node
-
-      constants =
-        compile_constants node.constants
-
-      gets =
-        compile node.gets
-
-      states =
-        compile node.states
-
-      refs =
-        node.refs.map do |(ref, _)|
-          js.get(js.variable_of(ref), "return (this._#{ref.value} ? new #{just}(this._#{ref.value}) : new #{nothing});")
-        end
-
-      display_name =
-        js.display_name(prefixed_name, node.name)
-
-      store_stuff =
-        compile_component_store_data node
-
-      constructor_body = %w[]
-
-      default_props =
-        node.properties.each_with_object({} of String => String) do |prop, memo|
-          prop_name =
-            if prop.name.value == "children"
-              %("children")
+        functions =
+          node.functions.compact_map do |function|
+            case function.name.value
+            when "componentDidUpdate"
+              did_update = function
+              nil
+            when "componentWillUnmount"
+              unmount = function
+              nil
+            when "componentDidMount"
+              mount = function
+              nil
+            when "render"
+              render = function
+              nil
             else
-              "null"
-            end
-
-          value =
-            prop.default.try do |item|
-              compile item
-            end || "null"
-
-          memo[js.variable_of(prop)] = js.array([prop_name, value])
-        end
-
-      case {default_props.empty?, constants.empty?}
-      when {false, true}
-        constructor_body << js.call("this._d", [
-          js.object(default_props),
-        ])
-      when {false, false}, {true, false}
-        constructor_body << js.call("this._d", [
-          js.object(default_props),
-          js.object(constants),
-        ])
-      end
-
-      unless node.states.empty?
-        values =
-          node
-            .states
-            .each_with_object({} of String => String) do |item, memo|
-              memo[js.variable_of(item)] = compile item.default
-            end
-
-        constructor_body << "this.state = new Record(#{js.object(values)})"
-      end
-
-      constructor =
-        unless constructor_body.empty?
-          js.function("constructor", %w[props]) do
-            constructor_body.unshift js.call("super", %w[props])
-
-            js.statements(constructor_body)
-          end
-        end
-
-      functions << js.function("_persist", %w[], js.assign(name, "this")) if node.global?
-
-      body =
-        ([constructor] &+ styles + gets &+ refs &+ states &+ store_stuff &+ functions)
-          .compact
-
-      js.statements([
-        js.class(prefixed_name, extends: "_C", body: body),
-        display_name,
-        global_let,
-      ].compact)
-    end
-
-    def compile_component_store_data(node : Ast::Component) : Array(String)
-      node.connects.reduce(%w[]) do |memo, item|
-        store = ast.stores.find(&.name.value.==(item.store.value))
-
-        if store
-          item.keys.map do |key|
-            store_name = js.class_of(store)
-
-            original = key.name.value
-
-            id = js.variable_of(lookups[key][0])
-            name = js.variable_of(key)
-
-            case
-            when store.constants.any?(&.name.value.==(original)),
-                 store.gets.any?(&.name.value.==(original)),
-                 store.states.find(&.name.value.==(original))
-              memo << js.get(name, "return #{store_name}.#{id};")
-            when store.functions.any?(&.name.value.==(original))
-              memo << "#{name} (...params) { return #{store_name}.#{id}(...params); }"
+              resolve function
             end
           end
-        end
 
-        memo
-      end
-    end
+        constants =
+          resolve node.constants
 
-    def compile_component_functions(node : Ast::Component) : Array(String)
-      heads = {
-        "componentWillUnmount" => %w[],
-        "componentDidUpdate"   => %w[],
-        "componentDidMount"    => %w[],
-      }
+        states =
+          resolve node.states
 
-      if node.locales?
-        heads["componentWillUnmount"] << "_L._unsubscribe(this)"
-        heads["componentDidMount"] << "_L._subscribe(this)"
-      end
+        gets =
+          resolve node.gets
 
-      node.connects.each do |item|
-        store =
-          ast.stores.find(&.name.value.==(item.store.value))
+        refs =
+          node.refs.to_h.keys.map do |ref|
+            method =
+              if node.global?
+                Builtin::CreateRef
+              else
+                Builtin::UseRef
+              end
 
-        if store
-          name =
-            js.class_of(store)
-
-          heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
-          heads["componentDidMount"] << "#{name}._subscribe(this)"
-        end
-      end
-
-      node.uses.each do |use|
-        if condition = use.condition
-          condition = compile(condition)
-        end
-        condition ||= "true"
-
-        name =
-          js.class_of(lookups[use][0])
-
-        data =
-          compile use.data
-
-        # indent compiled record to match the `if` branch
-        data = data.lines.map_with_index do |line, idx|
-          idx.zero? ? line : line.indent
-        end.join('\n')
-
-        body =
-          <<-JS
-          if (#{condition}) {
-            #{name}._subscribe(this, #{data})
-          } else {
-            #{name}._unsubscribe(this)
-          }
-          JS
-
-        heads["componentWillUnmount"] << "#{name}._unsubscribe(this)"
-        heads["componentDidUpdate"] << body
-        heads["componentDidMount"] << body
-      end
-
-      others =
-        node
-          .functions
-          .reject { |function| heads[function.name.value]? }
-          .map { |function| compile(function, "").as(String) }
-
-      specials =
-        heads.map do |key, value|
-          function =
-            node.functions.find(&.name.value.==(key))
-
-          # If the user defined the same function the code goes after it.
-          if function && !value.empty?
-            compile function, js.statements(value)
-          elsif !value.empty?
-            js.function(key, %w[], js.statements(value))
-          elsif function
-            compile function, ""
+            {node, ref, js.call(method, [js.new(nothing, [] of Compiled)])}
           end
-        end
 
-      (specials + others).compact_map(&.presence)
+        properties =
+          node.properties.map do |prop|
+            name =
+              if prop.name.value == "children"
+                ["children: ", prop] of Item
+              else
+                [prop] of Item
+              end
+
+            if default = prop.default
+              js.assign(name, compile(default))
+            else
+              name
+            end
+          end
+
+        exposed =
+          if components_touched.includes?(node)
+            items =
+              (refs + states + gets + functions + constants)
+                .compact
+                .map do |item|
+                  [item[1]] of Item
+                end
+
+            unless items.empty?
+              variable =
+                Variable.new
+
+              properties << ["_"] of Item
+              [
+                js.const(variable, js.call(Builtin::UseMemo, [
+                  js.arrow_function { js.return(js.object_destructuring(items)) },
+                  js.array([] of Compiled),
+                ])),
+                js.tenary(
+                  ["_"] of Item,
+                  js.call(["_"] of Item, [[variable] of Item]),
+                  js.null),
+              ]
+            end
+          end || [] of Compiled
+
+        arguments =
+          unless properties.empty?
+            [js.object_destructuring(properties)]
+          end
+
+        provider_effects =
+          if node.uses.empty?
+            [] of Compiled
+          else
+            id = Variable.new
+
+            node.uses.map do |use|
+              data =
+                if condition = use.condition
+                  js.tenary(compile(condition), compile(use.data), js.null)
+                else
+                  compile(use.data)
+                end
+
+              js.call(lookups[use][0], [
+                [id] of Item,
+                js.arrow_function { js.return(data) },
+              ])
+            end
+          end
+
+        id =
+          if id
+            method =
+              if node.global?
+                Builtin::Uuid
+              else
+                Builtin::UseId
+              end
+
+            [{
+              node.as(Ast::Node),
+              id.as(Id),
+              js.call(method, [] of Compiled),
+            }]
+          else
+            [] of Tuple(Ast::Node, Id, Compiled)
+          end
+
+        effect =
+          if mount || unmount
+            body = [] of Compiled
+            body << ["("] + compile(mount, skip_const: true) + [")()"] if mount
+            body << js.return(compile(unmount, skip_const: true)) if unmount
+
+            [
+              js.call(Builtin::UseEffect, [
+                js.arrow_function([] of Compiled) { js.statements(body) },
+                ["[]"] of Item,
+              ]),
+            ]
+          else
+            [] of Compiled
+          end
+
+        update_effect =
+          if did_update
+            [
+              js.call(Builtin::UseDidUpdate, [
+                compile(did_update, skip_const: true),
+              ]),
+            ]
+          else
+            [] of Compiled
+          end
+
+        items =
+          if node.global?
+            refs + states + gets + functions + styles + constants + id + [
+              {node,
+               node,
+               compile(
+                 render.not_nil!,
+                 skip_const: true,
+                 contents: js.statements(
+                   exposed + effect + update_effect + provider_effects))},
+            ]
+          else
+            entities =
+              (refs + states + gets + functions + styles + constants + id).compact
+
+            consts =
+              if entities.empty?
+                [] of Compiled
+              else
+                [js.consts(entities)]
+              end
+
+            [{
+              node,
+              node,
+              compile(
+                render.not_nil!,
+                args: arguments,
+                skip_const: true,
+                contents: js.statements(
+                  consts + exposed + effect + update_effect + provider_effects
+                )),
+            }]
+          end
+
+        add(items)
+      end
     end
   end
 end

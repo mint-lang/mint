@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class TypeDestructuring < Node
-      getter name, variant, items
+      getter variant, items, name
 
       def initialize(@items : Array(Node),
                      @file : Parser::File,

@@ -1,0 +1,28 @@
+-----------------------------------------------------------signal_expected_name
+store Test {
+  signal
+----------------------------------------------------------signal_expected_colon
+store Test {
+  signal test
+-----------------------------------------------------------signal_expected_type
+store Test {
+  signal test :
+----------------------------------------------------------signal_expected_block
+store Test {
+  signal test : A
+-----------------------------------------------------------signal_type_mismatch
+store Test {
+  signal b : String { 0 }
+
+  fun render : Html {
+    <div/>
+  }
+}
+-------------------------------------------------------------------------------
+store Test {
+  signal b : String { emit "" "" }
+
+  fun render : Html {
+    <div/>
+  }
+}

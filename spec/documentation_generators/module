@@ -1,0 +1,65 @@
+// Module Description
+module Test {
+  // Constant Description
+  const CONSTANT = "TEST"
+
+  // Function Description
+  fun function (argument1 : String = "Default Value") : String {
+    "Hello!"
+  }
+
+  // Broken Function Description
+  fun brokenFunction (argument1 : String, argument2 : String = "Default Value") : String {
+    "Hello!"
+  }
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "k": 6,
+    "e": [
+      {
+        "k": 4,
+        "a": [
+          {
+            "v": "<span class=\"string\">&quot;Default Value&quot;</span>",
+            "t": "<span class=\"type\">String</span>",
+            "n": "argument1"
+          }
+        ],
+        "d": "<p>Function Description</p>",
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "function"
+      },
+      {
+        "k": 4,
+        "a": [
+          {
+            "t": "<span class=\"type\">String</span>",
+            "n": "argument1"
+          },
+          {
+            "v": "<span class=\"string\">&quot;Default Value&quot;</span>",
+            "t": "<span class=\"type\">String</span>",
+            "n": "argument2"
+          }
+        ],
+        "d": "<p>Broken Function Description</p>",
+        "b": true,
+        "t": "<span class=\"type\">String</span>",
+        "n": "brokenFunction"
+      },
+      {
+        "k": 5,
+        "d": "<p>Constant Description</p>",
+        "v": "<span class=\"string\">&quot;TEST&quot;</span>",
+        "b": false,
+        "n": "CONSTANT"
+      }
+    ],
+    "d": "<p>Module Description</p>",
+    "l": "Test",
+    "n": "Test"
+  }
+]

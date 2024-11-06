@@ -1,52 +1,49 @@
 module Mint
   class Compiler
-    def _compile2(node : Ast::Statement) : Array(String)
-      right, return_call =
-        case expression = node.expression
-        when Ast::Operation
-          case item = expression.right
-          when Ast::ReturnCall
-            {
-              compile(expression.left),
-              compile(item.expression),
-            }
-          end
-        end || {compile(node.expression), nil}
+    def compile(node : Ast::Statement) : Compiled
+      compile node do
+        right =
+          compile(node.expression)
 
-      right = "await #{right}" if node.await
-
-      if target = node.target
-        case target
-        when Ast::Variable
-          [js.const(js.variable_of(target), right)]
-        when Ast::TupleDestructuring, Ast::TypeDestructuring, Ast::ArrayDestructuring
-          variables = [] of String
-
-          pattern =
-            destructuring(target, variables)
-
+        if target = node.target
           case target
-          when Ast::TupleDestructuring
-            if target.items.all?(Ast::Variable)
-              ["const [#{variables.join(",")}] = #{right}"]
-            end
-          end || begin
-            var, const =
-              js.const("__match(#{right}, #{pattern})")
+          when Ast::Variable
+            js.const(target, right)
+          when Ast::TupleDestructuring,
+               Ast::ArrayDestructuring,
+               Ast::TypeDestructuring,
+               Ast::Discard
+            variables = [] of Compiled
 
-            return_if =
-              if return_call
-                js.if("#{var} === false", js.return(return_call))
+            pattern =
+              destructuring(target, variables)
+
+            case target
+            when Ast::TupleDestructuring
+              if target.items.all?(Ast::Variable)
+                js.const(js.array(variables), right)
               end
+            end || begin
+              var =
+                Variable.new
 
-            [
-              const,
-              return_if,
-              "const [#{variables.join(",")}] = #{var}",
-            ].compact
+              const =
+                js.const(var, js.call(Builtin::Destructure, [right, pattern]))
+
+              return_if =
+                if ret = node.return_value
+                  js.if([var, " === false"], js.return(compile(ret)))
+                end
+
+              js.statements([
+                const,
+                return_if,
+                js.const(js.array(variables), [var]),
+              ].compact)
+            end
           end
-        end
-      end || [right]
+        end || right
+      end
     end
   end
 end

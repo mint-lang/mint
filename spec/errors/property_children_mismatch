@@ -1,0 +1,35 @@
+component Test {
+  property children : String
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROPERTY_CHILDREN_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the children property must be:
+
+  Array(Html)
+
+Instead it is:
+
+  String
+
+The property in question is here:
+
+   ┌ ./spec/errors/property_children_mismatch:2:3
+   ├─────────────────────────────────────────────
+  1│ component Test {
+  2│   property children : String
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }

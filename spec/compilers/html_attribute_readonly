@@ -4,13 +4,10 @@ component Main {
     </div>
   }
 }
---------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      readOnly: true
-    });
-  }
-};
+--------------------------------------------------------------------------------import { createElement as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(`div`, {
+    readOnly: true
+  })
+};

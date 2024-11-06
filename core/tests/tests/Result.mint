@@ -43,31 +43,29 @@ suite "Result.map" {
 suite "Result.flatMap" {
   test "flat maps over the Ok Result" {
     (Result.ok("TEST")
-    |> Result.flatMap(
-      (r : String) : Result(error, String) { Result.ok(r) })
+    |> Result.flatMap((r : String) : Result(error, String) { Result.ok(r) })
     |> Result.map(String.toLowerCase)
     |> Result.withDefault("")) == "test"
   }
 
   test "flat maps over the Err Result" {
     Result.ok("TEST")
-    |> Result.flatMap(
-      (r : String) : Result(error, String) { Result.error(r) })
+    |> Result.flatMap((r : String) : Result(error, String) { Result.error(r) })
     |> Result.isError()
   }
 }
 
-suite "Result.join" {
+suite "Result.flatten" {
   test "flattens nested Results" {
     (Result.ok(Result.ok("TEST"))
-    |> Result.join()
+    |> Result.flatten()
     |> Result.map(String.toLowerCase)
     |> Result.withDefault("")) == "test"
   }
 
   test "flattens nested Results when Err" {
     Result.ok(Result.error("Error"))
-    |> Result.join()
+    |> Result.flatten()
     |> Result.isError()
   }
 }

@@ -1,11 +1,11 @@
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
 
 component Main {
   fun render : String {
-    Maybe::Just(0) or "Hello"
+    Maybe.Just(0) or "Hello"
   }
 }
 --------------------------------------------------------------------------------
@@ -24,13 +24,13 @@ Instead it is:
 
 The operation in question is here:
 
-    ┌ ./spec/errors/operation_or_type_mismatch:8:16
-    ├──────────────────────────────────────────────
+    ┌ ./spec/errors/operation_or_type_mismatch:8:5
+    ├─────────────────────────────────────────────
    4│ }
    5│
    6│ component Main {
    7│   fun render : String {
-   8│     Maybe::Just(0) or "Hello"
-    │                ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│     Maybe.Just(0) or "Hello"
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
    9│   }
   10│ }

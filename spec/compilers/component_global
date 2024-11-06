@@ -1,11 +1,17 @@
 global component Notifications {
+  state test : String = ""
+
+  get value : String {
+    test
+  }
+
   fun notify (value : String) : String {
     value
   }
 
   fun render : Html {
     <div>
-      "Test"
+      value
     </div>
   }
 }
@@ -13,36 +19,27 @@ global component Notifications {
 component Main {
   fun render : Html {
     <div>
-      <{ Notifications.notify("Hello") }>
+      Notifications.notify("Hello")
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class $A extends _C {
-  a(b) {
-    return b;
-  }
+import {
+  createElement as B,
+  signal as D
+} from "./runtime.js";
 
-  render() {
-    return _h("div", {}, [
-      `Test`
-    ]);
-  }
-
-  _persist() {
-    A = this
-  }
-};
-
-$A.displayName = "Notifications";
-let A;
-
-class B extends _C {
-  render() {
-    return _h("div", {}, [
-      A.a(`Hello`)
-    ]);
-  }
-};
-
-B.displayName = "Main";
+export const
+  A = () => {
+    return B(`div`, {}, [a()])
+  },
+  b = (c) => {
+    return c
+  },
+  C = () => {
+    return B(`div`, {}, [b(`Hello`)])
+  },
+  d = D(``),
+  a = () => {
+    return d.value
+  };

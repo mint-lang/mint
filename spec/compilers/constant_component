@@ -6,20 +6,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
+import { useSignal as B } from "./runtime.js";
 
-    this._d({},{
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-
-  render() {
-    return this.a;
-  }
+export const A = () => {
+  const a = B(`ASD`);
+  return a.value
 };
-
-A.displayName = "Main";

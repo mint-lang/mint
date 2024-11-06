@@ -1,0 +1,24 @@
+component Main {
+  const HTML = <div></div>
+
+  fun render : Html {
+    <<#MARKDOWN
+    #{HTML} Some text...
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  useSignal as B,
+  fragment as D
+} from "./runtime.js";
+
+export const A = () => {
+  const a = B(C(`div`, {}));
+  return C(D, {}, [C('p', {}, [
+    ``,
+    a.value,
+    ` Some text...`
+  ])])
+};

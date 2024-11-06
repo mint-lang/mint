@@ -1,0 +1,17 @@
+{
+  "test-directories": []
+}
+--------------------------------------------------------------------------------
+░ ERROR (TEST_DIRECTORIES_EMPTY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The test-directories field lists all directories (relative to the mint.json
+file) which contain the test files of the application.
+
+The test-directories array should not be empty, but it is:
+
+   ┌ spec/fixtures/mint.json:2:23
+   ├─────────────────────────────
+  1│ {
+  2│   "test-directories": []
+   │                       ⌃
+  3│ }

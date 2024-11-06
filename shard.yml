@@ -1,5 +1,8 @@
 name: mint
-version: 0.19.0
+
+version: 0.20.0
+license: BSD-3-Clause
+crystal: ~> 1.7
 
 authors:
   - Szikszai Gusztáv
@@ -8,9 +11,6 @@ dependencies:
   baked_file_system:
     github: schovi/baked_file_system
     version: ~> 0.10.0
-  kemal:
-    github: kemalcr/kemal
-    version: ~> 1.5.0
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.12.1
@@ -27,12 +27,8 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 1.6.0
+    version: ~> 1.6.1
 
 targets:
   mint:
     main: src/mint.cr
-
-crystal: ~> 1.7
-
-license: BSD-3-Clause

@@ -1,5 +1,10 @@
 component Test.Provider.Scroll {
-  use Provider.Scroll { scrolls: (event : Html.Event) : Promise(Void) { next { position: Window.scrollTop() } } }
+  use Provider.Scroll {
+    scrolls:
+      (event : Html.Event) : Promise(Void) {
+        next { position: Window.scrollTop() }
+      }
+  }
 
   state position : Number = 0
 
@@ -9,9 +14,7 @@ component Test.Provider.Scroll {
   }
 
   fun render : Html {
-    <div::base>
-      <{ Number.toString(position) }>
-    </div>
+    <div::base>Number.toString(position)</div>
   }
 }
 

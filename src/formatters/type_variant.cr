@@ -1,20 +1,13 @@
 module Mint
   class Formatter
-    def format(node : Ast::TypeVariant)
+    def format(node : Ast::TypeVariant) : Nodes
       comment =
-        node.comment.try { |item| "#{format item}\n" }
+        format_documentation_comment(node.comment)
 
       parameters =
-        if (fields = node.fields) && fields.size > 0 && node.new_line?
-          items =
-            format fields, ",\n"
+        format_arguments(node.parameters, empty_parenthesis: false)
 
-          "(\n#{indent(items)})"
-        else
-          format_parameters(node.parameters)
-        end
-
-      "#{comment}#{format node.value}#{parameters}"
+      comment + format(node.value) + parameters
     end
   end
 end

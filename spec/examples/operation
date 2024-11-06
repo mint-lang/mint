@@ -50,20 +50,31 @@ component Main {
     true + "Hello"
   }
 }
-
+---------------------------------------------------operation_bool_type_mismatch
+component Main {
+  fun render : String {
+    true && "Hello"
+  }
+}
+---------------------------------------------------operation_bool_type_mismatch
+component Main {
+  fun render : String {
+    "Hello" && true
+  }
+}
 -----------------------------------------------------operation_or_type_mismatch
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
 
 component Main {
   fun render : String {
-    Maybe::Just(0) or "Hello"
+    Maybe.Just(0) or "Hello"
   }
 }
 -----------------------------------------------operation_or_not_maybe_or_result
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
@@ -118,14 +129,14 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-enum Maybe(a) {
+type Maybe(a) {
   Nothing
   Just(a)
 }
 
 component Main {
   fun render : String {
-    Maybe::Nothing or "Hello"
+    Maybe.Nothing or "Hello"
   }
 }
 -------------------------------------------------------------------------------

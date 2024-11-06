@@ -10,21 +10,23 @@ type Url {
   port : String
 }
 
-/* Utility functions for working with `Url` */
+/* This module provides functions functions for working with the `Url` type. */
 module Url {
   /*
-  Creates an url from the given file, which is available until the current
-  window is closed.
+  Creates an URL from the file, which is available until the current window is
+  closed.
 
-    File.fromString("Content", "test.html", "text/html")
-    |> Url.createObjectUrlFromFile()
+    let file =
+      File.fromString("Content", "test.html", "text/html")
+
+    Url.createObjectUrlFromFile(file)
   */
   fun createObjectUrlFromFile (file : File) : String {
     `URL.createObjectURL(#{file})`
   }
 
   /*
-  Creates an url from the given content and type, which is available until the
+  Creates an URL from the content and type, which is available until the
   current window is closed.
 
     Url.createObjectUrlFromString("Content", "text/html")
@@ -39,48 +41,67 @@ module Url {
   }
 
   /*
-  Parses the given string as an `Url`.
+  Parses the string as an `Url`.
 
     Url.parse("https://www.example.com").host == "www.example.com"
   */
   fun parse (url : String) : Url {
+    let anchor =
+      Dom.createElement("a")
+
     `
     (() => {
-      if (!this._a) {
-        this._a = document.createElement('a')
-      }
-
-      this._a.href = #{url}
+      #{anchor}.href = #{url}
 
       return #{{
-        hostname: `this._a.hostname || ""`,
-        protocol: `this._a.protocol || ""`,
-        origin: `this._a.origin || ""`,
-        path: `this._a.pathname || ""`,
-        search: `this._a.search || ""`,
-        hash: `this._a.hash || ""`,
-        host: `this._a.host || ""`,
-        port: `this._a.port || ""`
+        hostname: `#{anchor}.hostname || ""`,
+        protocol: `#{anchor}.protocol || ""`,
+        origin: `#{anchor}.origin || ""`,
+        path: `#{anchor}.pathname || ""`,
+        search: `#{anchor}.search || ""`,
+        hash: `#{anchor}.hash || ""`,
+        host: `#{anchor}.host || ""`,
+        port: `#{anchor}.port || ""`
       }}
     })()
     `
   }
 
   /*
-  Converts the given `Url` to a `String`.
+  Converts the url to a `String`.
 
-    (Url.parse("https://www.example.com/path/?search=foo#hash")
-    |> Url.toString()) == "https://www.example.com/path/?search=foo#hash"
+    let url =
+      Url.parse("https://www.example.com/path/?search=foo#hash")
+
+    Url.toString(url) == "https://www.example.com/path/?search=foo#hash"
   */
-  fun toString (url : Url) : String {
-    `#{url}.origin + #{url}.path + #{url}.search + #{url}.hash`
+  fun toString (url : Url, removeBlank : Bool = false) : String {
+    let search =
+      if String.trim(url.search) == "?" {
+        ""
+      } else {
+        url.search
+      }
+
+    let hash =
+      if String.trim(url.search) == "#" {
+        ""
+      } else {
+        url.hash
+      }
+
+    [url.origin, url.path, search, hash]
+    |> Array.reject(String.isBlank)
+    |> String.join("")
   }
 
   /*
   Releases an existing object URL which was previously created.
 
-    Url.createObjectUrlFromString("Content", "text/html")
-    |> Url.revokeObjectUrl()
+    let url =
+      Url.createObjectUrlFromString("Content", "text/html")
+
+    Url.revokeObjectUrl(url)
   */
   fun revokeObjectUrl (url : String) : Void {
     `URL.revokeObjectURL(#{url})`

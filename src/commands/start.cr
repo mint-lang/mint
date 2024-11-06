@@ -3,34 +3,57 @@ module Mint
     class Start < Admiral::Command
       include Command
 
-      define_help description: "Starts the development server"
+      define_help description: "Starts the development server."
 
-      define_flag auto_format : Bool,
-        description: "Auto formats the source files when running development server",
-        required: false,
+      define_flag runtime : String,
+        description: "If specified, the supplied runtime will be used instead of the default."
+
+      define_flag no_reload : Bool,
+        description: "Do not reload the browser when something changes.",
+        default: false
+
+      define_flag format : Bool,
+        description: "Formats the source files when they change.",
         default: false
 
       define_flag host : String,
-        description: "Change the host to serve the application on. (Default: 127.0.0.1)",
-        default: ENV["HOST"]? || "127.0.0.1",
-        required: false,
+        description: "The host to serve the application on.",
+        default: ENV["HOST"]? || "0.0.0.0",
         short: "h"
 
       define_flag port : Int32,
-        description: "Change the port to serve the application on. (Default: 3000)",
+        description: "The port to serve the application on.",
         default: (ENV["PORT"]? || "3000").to_i,
-        required: false,
         short: "p"
 
-      define_flag live_reload : Bool,
-        description: "Whether or not to reload the browser when something changes. (Default true)",
-        required: false,
-        default: true,
-        short: "r"
+      define_flag env : String,
+        description: "Loads the given .env file.",
+        short: "e"
 
       def run
-        execute "Running the development server" do
-          Reactor.start flags.host, flags.port, flags.auto_format, flags.live_reload
+        execute "Running the development server",
+          check_dependencies: true do
+          Reactor.new(
+            reload: !flags.no_reload,
+            format: flags.format,
+            dot_env: flags.env,
+            host: flags.host,
+            port: flags.port
+          ) do |type_checker|
+            Bundler.new(
+              artifacts: type_checker.artifacts,
+              config: Bundler::Config.new(
+                live_reload: !flags.no_reload,
+                runtime_path: flags.runtime,
+                generate_manifest: false,
+                json: MintJson.current,
+                include_program: true,
+                hash_assets: false,
+                skip_icons: false,
+                optimize: false,
+                test: nil),
+            ).bundle
+          end
         end
       end
     end

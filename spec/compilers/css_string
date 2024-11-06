@@ -14,41 +14,29 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
-
-    this.state = new Record({
-      a: `Joe`
-    });
-  }
-
-  $Main_unicode() {
-    const _ = {
-      [`--a-a`]: `"Hi"` + ` blah ` + this.a + ` ` + `"Here is some content; Thanks ${this.a}"`
-    };
-
-    return _;
-  }
-
-  get a() {
-    return this.state.a;
-  }
-
-  render() {
-    return _h("div", {
-      className: `Main_unicode`,
-      style: _style([this.$Main_unicode()])
-    }, [
-      _h("span", {})
-    ]);
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_unicode span::after {
   content: var(--a-a);
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`Joe`),
+    b = () => {
+      const _ = {
+        [`--a-a`]: `"Hi"` + ` blah ` + a.value + ` ` + `"Here is some content; Thanks ${a.value}"`
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_unicode`,
+    style: D([b()])
+  }, [C(`span`, {})])
+};

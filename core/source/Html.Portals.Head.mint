@@ -1,10 +1,18 @@
-/* A React portal for the head. */
+/*
+A component to render `Html` in the `<head>`.
+
+```
+<Html.Portals.Head>
+  <link rel="stylesheet" href="index.css"/>
+</Html.Portals.Head>
+```
+*/
 component Html.Portals.Head {
-  /* The children to render into the portal */
+  /* The children to render. */
   property children : Array(Html) = []
 
-  /* Renders the children into the document's head. */
+  /* Renders the children in the `</head>`. */
   fun render : Html {
-    `_createPortal(#{children}, document.head)`
+    `#{%createPortal%}(#{children}, document.head)`
   }
 }

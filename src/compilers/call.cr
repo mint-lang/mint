@@ -1,17 +1,25 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Call) : String
-      expression =
-        compile node.expression
+    def compile(node : Ast::Call) : Compiled
+      compile node do
+        expression =
+          compile node.expression
 
-      arguments =
-        compile node.arguments.sort_by { |item| argument_order.index(item) || -1 }, ", "
+        arguments =
+          node
+            .arguments
+            .sort_by { |item| resolve_order.index(item) || -1 }
+            .map { |item| compile item }
 
-      case
-      when node.expression.is_a?(Ast::InlineFunction)
-        "(#{expression})(#{arguments})"
-      else
-        "#{expression}(#{arguments})"
+        receiver =
+          case
+          when node.expression.is_a?(Ast::InlineFunction)
+            ["("] + expression + [")"]
+          else
+            expression
+          end
+
+        js.call(receiver, arguments)
       end
     end
   end

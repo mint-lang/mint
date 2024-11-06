@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    array[0
+--------------------------------------------------------------------------------
+░ ERROR (BRACKET_ACCESS_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a bracket access but I found "a space"
+instead:
+
+   ┌ ./spec/errors/bracket_access_expected_closing_bracket:3:11
+   ├───────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     array[0
+   │            ⌃⌃⌃⌃

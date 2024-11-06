@@ -1,23 +1,21 @@
 component Main {
   fun render : Html {
     <div>
-      <{ (n : String) : String { n }("3") }>
-      <{ "3" |> (n : String) : String { n } }>
+      (n : String) : String { n }("3")
+      "3" |> (n : String) : String { n }
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {}, [
-      ((a) => {
-        return a
-      })(`3`),
-      ((b) => {
-        return b
-      })(`3`)
-    ]);
-  }
-};
+import { createElement as B } from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(`div`, {}, [
+    ((a) => {
+      return a
+    })(`3`),
+    ((b) => {
+      return b
+    })(`3`)
+  ])
+};

@@ -9,8 +9,9 @@ component Test {
     <div
       name="Hello"
       value={
-        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloH" \
-        "elloHelloHelloHelloHelloHelloHelloHelloHello"
-      }/>
+        "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHe" \
+        "lloHelloHelloHelloHelloHelloHello"
+      }
+    />
   }
 }

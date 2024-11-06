@@ -2,7 +2,7 @@ module Mint
   class Parser
     def test : Ast::Test?
       parse do |start_position|
-        next unless word! "test"
+        next unless keyword! "test"
         whitespace
 
         next error :test_expected_name do

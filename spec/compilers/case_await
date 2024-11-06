@@ -1,44 +1,41 @@
 component Main {
   fun render : String {
-    case await "Hello" {
-      "test" => true
-      "Hello" => false
-      => false
+    {
+      case await "Hello" {
+        "test" => true
+        "Hello" => false
+        => false
+      }
     }
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    (async () => {
-      let a = await `Hello`;
+import { match as B } from "./runtime.js";
 
-      return _match(a,[
-        [
-          `test`,
-          () => {
-            return true
-          }
-        ],
-        [
-          `Hello`,
-          () => {
-            return false
-          }
-        ],
-        [
-          null,
-          () => {
-            return false
-          }
-        ]
-      ]);
-    })();
-
-    return ``;
-  }
+export const A = () => {
+  (async () => {
+    return B(await `Hello`, [
+      [
+        `test`,
+        () => {
+          return true
+        }
+      ],
+      [
+        `Hello`,
+        () => {
+          return false
+        }
+      ],
+      [
+        null,
+        () => {
+          return false
+        }
+      ]
+    ])
+  })();
+  return ``
 };
-
-A.displayName = "Main";

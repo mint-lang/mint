@@ -1,3 +1,8 @@
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
 component Main {
   fun render : String {
     decode (`[]`) as Tuple(String, Number, String)
@@ -6,11 +11,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    Decoder.tuple([Decoder.string,Decoder.number,Decoder.string])((([])));
-    return ``;
-  }
-};
+import {
+  decodeNumber as G,
+  decodeString as F,
+  decodeTuple as E,
+  variant as B
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const
+  A = B(1),
+  C = B(1),
+  D = () => {
+    E([
+      F(C, A),
+      G(C, A),
+      F(C, A)
+    ], C, A)((([])));
+    return ``
+  };

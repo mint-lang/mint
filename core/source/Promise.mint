@@ -1,12 +1,16 @@
-/* Utility functions for working with promises. */
+/* This module provides functions for working with promises. */
 module Promise {
-  /* Returns a resolved promise with `Void` which never fails. */
+  /*
+  Returns a resolved promise with `Void` which never fails.
+
+    Promise.never()
+  */
   fun never : Promise(Void) {
     resolve(void)
   }
 
   /*
-  Returns a resolved promise with `Void` which never fails with one
+  Returns a resolved promise with `Void` which never fails, with one
   argument which is ignored.
 
     Promise.never1("Value")
@@ -16,7 +20,7 @@ module Promise {
   }
 
   /*
-  Returns a resolved promise with `Void` which never fails with two
+  Returns a resolved promise with `Void` which never fails, with two
   arguments which are ignored.
 
     Promise.never1("Value1", "Value2")
@@ -26,7 +30,7 @@ module Promise {
   }
 
   /*
-  Returns a resolved promise with `Void` which never fails with three
+  Returns a resolved promise with `Void` which never fails, with three
   arguments which are ignored.
 
     Promise.never1("Value1", "Value2", "Value3")
@@ -43,7 +47,8 @@ module Promise {
   /*
   Create a promise with manual resolve.
 
-    {resolve, promise} = Promise.create()
+    let {resolve, promise} =
+      Promise.create()
   */
   fun create : Tuple(Function(value, Void), Promise(value)) {
     `

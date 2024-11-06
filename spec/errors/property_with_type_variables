@@ -4,7 +4,7 @@ type Maybe(a) {
 }
 
 component Test {
-  property name : Maybe(a) = Maybe::Nothing
+  property name : Maybe(a) = Maybe.Nothing
 
   fun render : Html {
     <div/>
@@ -35,8 +35,8 @@ The property in question is here:
    4│ }
    5│
    6│ component Test {
-   7│   property name : Maybe(a) = Maybe::Nothing
-    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│   property name : Maybe(a) = Maybe.Nothing
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
    8│
    9│   fun render : Html {
   10│     <div/>

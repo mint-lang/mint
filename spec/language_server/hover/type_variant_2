@@ -1,5 +1,5 @@
 /* Comment for Status enum. */
-enum Status {
+type Status {
   Error
   Ok
 }

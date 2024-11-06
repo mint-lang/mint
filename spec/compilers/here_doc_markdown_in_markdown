@@ -1,0 +1,84 @@
+component Main {
+  fun render : Html {
+    <<#MARKDOWN(highlight)
+    ~~~mint
+    <<#MD(highlight)
+    This is a paragraph.
+
+    ```mint
+    module Mint {
+      // This will be syntax highlighted
+    }
+    ```
+    MD
+    ~~~
+    MARKDOWN
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
+
+export const A = () => {
+  return B(C, {}, [B('pre', {}, [B('code', {
+    class: "language-mint"
+  }, [
+    B('span', {
+      class: "line"
+    }, [
+      `<<#MD(`,
+      B('span', {
+        class: "keyword"
+      }, [`highlight`]),
+      `)`,
+      B('span', {
+        class: "string"
+      }, [``])
+    ]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`This is a paragraph.`])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [``])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`\`\`\`mint`])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`module Mint {`])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`  // This will be syntax highlighted`])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`}`])]),
+    B('span', {
+      class: "line"
+    }, [B('span', {
+      class: "string"
+    }, [`\`\`\``])]),
+    B('span', {
+      class: "line"
+    }, [
+      B('span', {
+        class: "string"
+      }, [``]),
+      `MD`
+    ])
+  ])])])
+};

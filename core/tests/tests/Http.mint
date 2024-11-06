@@ -94,14 +94,8 @@ suite "Http.jsonBody" {
       method: "GET",
       headers:
         [
-          {
-            key: "existing header",
-            value: "value"
-          },
-          {
-            key: "Content-Type",
-            value: "application/json"
-          }
+          { key: "existing header", value: "value" },
+          { key: "Content-Type", value: "application/json" }
         ],
       url: ""
     }
@@ -114,13 +108,7 @@ suite "Http.jsonBody" {
       withCredentials: false,
       body: `"{\"user\":\"spaceman\"}"`,
       method: "GET",
-      headers:
-        [
-          {
-            key: "Content-Type",
-            value: "text/plain"
-          }
-        ],
+      headers: [{ key: "Content-Type", value: "text/plain" }],
       url: ""
     }
   }
@@ -170,17 +158,7 @@ suite "Http.header" {
     (Http.empty()
     |> Http.header("A", "B")
     |> Http.header("X", "Y")) == {
-      headers:
-        [
-          {
-            key: "A",
-            value: "B"
-          },
-          {
-            key: "X",
-            value: "Y"
-          }
-        ],
+      headers: [{ key: "A", value: "B" }, { key: "X", value: "Y" }],
       withCredentials: false,
       method: "GET",
       body: `null`,
@@ -193,17 +171,7 @@ suite "Http.header" {
     |> Http.header("A", "B")
     |> Http.header("X", "Y")
     |> Http.header("A", "C")) == {
-      headers:
-        [
-          {
-            key: "X",
-            value: "Y"
-          },
-          {
-            key: "A",
-            value: "C"
-          }
-        ],
+      headers: [{ key: "X", value: "Y" }, { key: "A", value: "C" }],
       withCredentials: false,
       method: "GET",
       body: `null`,
@@ -232,16 +200,6 @@ suite "Http.hasHeader" {
   }
 }
 
-suite "Http.send" {
-  test "sends the request with the given ID" {
-    let response =
-      Http.get("/blah")
-      |> Http.send("A")
-
-    `#{Http.requests()}["A"] != undefined`
-  }
-}
-
 component Test.Http {
   property shouldError : Bool = false
   property method : String = "GET"
@@ -253,86 +211,53 @@ component Test.Http {
   state status : Number = 0
   state body : String = ""
 
-  fun wrap (
-    input : Promise(a),
-    method : Function(Promise(a), Void)
-  ) : Promise(a) {
-    `#{method}(#{input})`
-  }
-
   fun componentDidMount : Promise(Void) {
     let request =
-      await Http.empty()
+      Http.empty()
       |> Http.url(url)
       |> Http.method(method)
-      |> Http.send("test")
-      |> wrap(
-        `
-          (async (promise) => {
-            let _requests = #{Http.requests()}
-
+      |> Http.send("test",
+        (request : Object) {
+          `
+          (() => {
             if (#{shouldError}) {
-              _requests["test"].dispatchEvent(new CustomEvent("error"))
+              #{request}.dispatchEvent(new CustomEvent("error"))
             } else if (#{timeout}) {
-              _requests["test"].dispatchEvent(new CustomEvent("timeout"))
+              #{request}.dispatchEvent(new CustomEvent("timeout"))
             } else if (#{abort}) {
-              _requests["test"].abort()
+              #{request}.dispatchEvent(new CustomEvent("abort"))
             }
+          })()
+          `
+        })
 
-            const result = await promise
-            return result
-          })
-          `)
-
-    case request {
+    case await request {
       Result.Ok(response) => next { status: response.status }
 
       Result.Err(error) =>
         case error.type {
           Http.Error.NetworkError =>
-            next
-              {
-                errorMessage: "network-error",
-                status: error.status
-              }
+            next { errorMessage: "network-error", status: error.status }
 
           Http.Error.BadUrl =>
-            next
-              {
-                errorMessage: "bad-url",
-                status: error.status
-              }
+            next { errorMessage: "bad-url", status: error.status }
 
           Http.Error.Timeout =>
-            next
-              {
-                errorMessage: "timeout",
-                status: error.status
-              }
+            next { errorMessage: "timeout", status: error.status }
 
           Http.Error.Aborted =>
-            next
-              {
-                errorMessage: "aborted",
-                status: error.status
-              }
+            next { errorMessage: "aborted", status: error.status }
         }
     }
   }
 
   fun render : Html {
     <div>
-      <error>
-        <{ errorMessage }>
-      </error>
+      <error>errorMessage</error>
 
-      <content>
-        <{ body }>
-      </content>
+      <content>body</content>
 
-      <status>
-        <{ Number.toString(status) }>
-      </status>
+      <status>Number.toString(status)</status>
     </div>
   }
 }

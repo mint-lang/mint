@@ -1,0 +1,26 @@
+----------------------------------------------------------------variable_missing
+component Main {
+  fun render : Html {
+    let outer = "Some value..."
+
+    defer { outer + "Hello" }
+
+    <></>
+  }
+}
+--------------------------------------------------------------------------------
+module Data {
+  const ITEMS = defer [ defer ITEM_1 ]
+  const ITEM_1 = "Hello"
+}
+
+component Main {
+  fun componentDidMount : Promise(String) {
+    let [item] = await Data.ITEMS or return ""
+    await item
+  }
+
+  fun render : Html {
+    <div>""</div>
+  }
+}

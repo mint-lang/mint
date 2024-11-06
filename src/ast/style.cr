@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Style < Node
-      getter name, body, arguments
+      getter arguments, body, name
 
       def initialize(@arguments : Array(Argument),
                      @file : Parser::File,

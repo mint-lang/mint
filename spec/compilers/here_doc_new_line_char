@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    <<~MINT
+    \n
+    MINT
+  }
+}
+--------------------------------------------------------------------------------
+export const A = () => {
+  return `\\n`
+};

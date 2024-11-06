@@ -1,10 +1,9 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::NegatedExpression) : String
-      expression =
-        compile node.expression
-
-      "#{node.negations}#{expression}"
+    def compile(node : Ast::NegatedExpression) : Compiled
+      compile node do
+        [node.negations] + compile(node.expression)
+      end
     end
   end
 end

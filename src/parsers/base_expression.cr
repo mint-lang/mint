@@ -12,7 +12,7 @@ module Mint
         when '('
           parenthesized_expression || inline_function
         when '-', .ascii_number?
-          number_literal || unary_minus
+          state_setter || number_literal || unary_minus
         when '!'
           negated_expression
         when '"'
@@ -22,7 +22,7 @@ module Mint
         when '#'
           tuple_literal
         when '.'
-          member_access
+          field_access
         when '['
           array_literal
         when ':'
@@ -31,7 +31,6 @@ module Mint
           js
         when '@'
           highlight_file_directive ||
-            documentation_directive ||
             highlight_directive ||
             format_directive ||
             inline_directive ||
@@ -39,14 +38,14 @@ module Mint
             svg_directive ||
             env
         when '<'
-          html_expression ||
-            html_component ||
+          html_component ||
             here_document ||
             html_element ||
             html_fragment
         when '{'
           record_update ||
             record ||
+            map ||
             tuple_literal ||
             block
         else
@@ -59,14 +58,20 @@ module Mint
             for_expression
           when "if"
             if_expression
-          when "return"
-            return_call
           when "next"
             next_call
           when "decode"
             decode
           when "encode"
             encode
+          when "await"
+            await
+          when "defer"
+            defer
+          when "emit"
+            emit
+          when "dbg"
+            dbg
           else
             value
           end
@@ -76,7 +81,7 @@ module Mint
 
       # We try to chain accesses and calls until we can.
       #
-      # TODO: Remove `::`, `:` cases in 0.21.0 when deprecation ends.
+      # TODO: Remove `::`, `:` cases in 0.21.0
       loop do
         node =
           if word? "::"
@@ -90,7 +95,7 @@ module Mint
             when '('
               call(left)
             when '['
-              array_access(left)
+              bracket_access(left)
             end
           end
 

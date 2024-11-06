@@ -16,8 +16,6 @@ component Test {
   }
 
   fun render : Html {
-    <div::base>
-      /* Some comment. */
-    </div>
+    <div::base>/* Some comment. */</div>
   }
 }

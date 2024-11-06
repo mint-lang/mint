@@ -4,7 +4,7 @@ module Mint
       getter functions, gets, uses, name, comment, refs, constants
       getter properties, connects, styles, states, comments
 
-      getter? global, locales
+      getter? global, locales, async
 
       def initialize(@refs : Array(Tuple(Variable, Node)),
                      @properties : Array(Property),
@@ -20,6 +20,7 @@ module Mint
                      @uses : Array(Use),
                      @locales : Bool,
                      @global : Bool,
+                     @async : Bool,
                      @from : Int64,
                      @to : Int64,
                      @name : Id)

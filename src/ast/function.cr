@@ -1,10 +1,7 @@
 module Mint
   class Ast
     class Function < Node
-      getter name, arguments, body, type
-      getter comment
-
-      property? keep_name = false
+      getter arguments, comment, name, type, body
 
       def initialize(@arguments : Array(Argument),
                      @file : Parser::File,

@@ -4,9 +4,9 @@ module Mint
     def check_all(node : Ast::Component) : Checkable
       resolve node
 
-      resolve node.gets
       resolve node.constants
       resolve node.functions
+      resolve node.gets
 
       VOID
     end
@@ -143,8 +143,8 @@ module Mint
       end
 
       # Type checking the entities
-      resolve node.connects
       resolve node.properties
+      resolve node.connects
       resolve node.states
       resolve node.uses
 

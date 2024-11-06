@@ -3,30 +3,14 @@ require "spec"
 ENV["SPEC"] = "TRUE"
 MINT_ENV["TEST"] = "TRUE"
 
-def diff(a, b)
-  file1 = File.tempfile do |io|
-    io.puts a.strip
-    io.flush
-  end
-  file2 = File.tempfile do |io|
-    io.puts b
-    io.flush
-  end
-
-  io = IO::Memory.new
-
-  Process.run("git", [
-    "--no-pager", "diff", "--no-index", "--color=always",
-    file1.path, file2.path,
-  ], output: io)
-
-  io.to_s
-ensure
-  file1.try &.delete
-  file2.try &.delete
-end
-
+require "./spec_helpers"
 require "../src/all"
+
+module Mint
+  def self.version
+    "99.99.99"
+  end
+end
 
 # Mock things
 class Mint::Installer::Repository
@@ -101,10 +85,6 @@ end
 class Workspace
   @files = {} of String => File
   @id : String
-
-  def workspace
-    Mint::Workspace[File.join(@root, "test.file")]
-  end
 
   def initialize
     @id =
@@ -239,4 +219,24 @@ def lsp_json(messages)
     json = JSON.parse(content)
     json.to_pretty_json
   end
+rescue IO::EOFError
+  [] of String
+end
+
+def format_xml(xml)
+  input, output, error =
+    {IO::Memory.new(xml), IO::Memory.new, IO::Memory.new}
+
+  Process.run(
+    args: ["--format", "-"],
+    command: "xmllint",
+    clear_env: true,
+    output: output,
+    input: input,
+    error: error,
+    env: {
+      "NO_COLOR" => "1",
+    })
+
+  output.rewind.gets_to_end
 end

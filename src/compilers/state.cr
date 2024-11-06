@@ -1,10 +1,19 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::State) : String
-      name =
-        js.variable_of(node)
+    def resolve(node : Ast::State)
+      resolve node do
+        default =
+          compile node.default
 
-      js.get(name, "return this.state.#{name};")
+        method =
+          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
+            Builtin::UseSignal
+          else
+            Builtin::Signal
+          end
+
+        {node, node, js.call(method, [default])}
+      end
     end
   end
 end

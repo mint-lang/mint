@@ -1,0 +1,22 @@
+component Main {
+  fun render : Html {
+    .a(String)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (FIELD_ACCESS_NOT_RECORD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of the accessed entity is not a record:
+
+  String
+
+The field access in question is here:
+
+   ┌ ./spec/errors/field_access_not_record:3:5
+   ├──────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : Html {
+  3│     .a(String)
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }

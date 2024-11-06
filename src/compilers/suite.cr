@@ -1,32 +1,30 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Suite) : String
-      name =
-        compile node.name
+    def compile(node : Ast::Suite) : Compiled
+      compile node do
+        location =
+          [Raw.new(node.location.to_json)]
 
-      location =
-        node.location.to_json
+        constants =
+          resolve node.constants
 
-      tests =
-        compile node.tests
+        functions =
+          resolve node.functions
 
-      constants =
-        compile_constants(node.constants).map do |key, value|
-          "#{key}: #{value}"
-        end
+        tests =
+          compile node.tests
 
-      functions =
-        compile node.functions
+        name =
+          compile node.name
 
-      context =
-        "{ #{(constants + functions).join(",")} }"
+        add(functions + constants)
 
-      js.object({
-        "tests"    => js.array(tests),
-        "location" => location,
-        "context"  => context,
-        "name"     => name,
-      })
+        js.object({
+          "tests"    => js.array(tests),
+          "location" => location,
+          "name"     => name,
+        })
+      end
     end
   end
 end

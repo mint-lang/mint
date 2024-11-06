@@ -1,0 +1,37 @@
+component Main {
+  fun test : Maybe(String) {
+    0[0]
+  }
+
+  fun render : Html {
+    test()
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (BRACKET_ACCESS_NOT_ACCESSIBLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The entity you are trying to access an item from is not an array, map or a
+tuple.
+
+I was expecting:
+
+  Array(a), Map(a, b) or Tuple(...)
+
+Instead it is:
+
+  Number
+
+The array in question is here:
+
+   ┌ ./spec/errors/bracket_access_not_accessible:3:5
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun test : Maybe(String) {
+  3│     0[0]
+   │     ⌃
+  4│   }
+  5│
+  6│   fun render : Html {
+  7│     test()

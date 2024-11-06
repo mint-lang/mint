@@ -1,14 +1,7 @@
---------------------------------------------type_destructuring_expected_variant
-module Test {
-  fun toString (status : Status) : String {
-    case (status) {
-      A::
-  }
-}
 --------------------------------type_destructuring_expected_closing_parenthesis
 module Test {
   fun toString (status : Status) : String {
     case (status) {
-      A::B(
+      A.B(
   }
 }

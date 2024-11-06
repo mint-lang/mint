@@ -1,11 +1,11 @@
-enum T {
+type T {
   A(String)
   B
 }
 
 component Main {
   fun render : String {
-    if (let T::A(a) = T::A("")) {
+    if let T.A(a) = T.A("") {
       a
     } else {
       "b"
@@ -13,28 +13,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
+import {
+  patternVariable as H,
+  newVariant as F,
+  pattern as G,
+  variant as B,
+  match as E
+} from "./runtime.js";
 
-class B extends _E {
-  constructor() {
-    super();
-    this.length = 0;
-  }
-};
-
-class C extends _C {
-  render() {
-    return _match(_n(A)(``),[
+export const
+  A = B(1),
+  C = B(0),
+  D = () => {
+    return E(F(A)(``), [
       [
-        _PE(A,[
-          _PV
-        ]),
+        G(A, [H]),
         (a) => {
           return a
         }
@@ -45,8 +38,5 @@ class C extends _C {
           return `b`
         }
       ]
-    ]);
-  }
-};
-
-C.displayName = "Main";
+    ])
+  };

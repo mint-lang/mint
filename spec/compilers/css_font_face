@@ -17,17 +17,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h("div", {
-      className: `Main_test`
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 @font-face {
   src: url(sansation_light.woff);
   font-family: myFirstFont;
@@ -38,4 +28,12 @@ _insertStyles(`
   font-family: myFirstFont;
   font-weight: bold;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import { createElement as B } from "./runtime.js";
+
+export const A = () => {
+  return B(`div`, {
+    className: `Main_test`
+  })
+};

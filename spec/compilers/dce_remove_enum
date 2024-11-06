@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   X
   Y
   Z

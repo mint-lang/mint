@@ -1,6 +1,6 @@
 component Main {
   fun render : Html {
-    <div><{ 0 }></div>
+    <div>0</div>
   }
 }
 --------------------------------------------------------------------------------
@@ -19,11 +19,11 @@ Instead it is:
 
   Number
 
-   ┌ ./spec/errors/html_content_type_mismatch:3:13
+   ┌ ./spec/errors/html_content_type_mismatch:3:10
    ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
-  3│     <div><{ 0 }></div>
-   │             ⌃
+  3│     <div>0</div>
+   │          ⌃
   4│   }
   5│ }

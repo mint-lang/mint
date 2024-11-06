@@ -4,26 +4,64 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  render() {
-    return _h(React.Fragment, {}, [_h('span', { className: 'keyword' }, [`component`]),
-    ` `,
-    _h('span', { className: 'type' }, [`Main`]),
-    ` {
-  `,
-    _h('span', { className: 'keyword' }, [`fun`]),
-    ` render : `,
-    _h('span', { className: 'type' }, [`Html`]),
-    ` {
-    <`,
-    _h('span', { className: 'namespace' }, [`div`]),
-    `></`,
-    _h('span', { className: 'namespace' }, [`div`]),
-    `>
-  }
-}
-`]);
-  }
-};
+import {
+  createElement as B,
+  fragment as C
+} from "./runtime.js";
 
-A.displayName = "Main";
+export const A = () => {
+  return B(C, {}, [
+    B("span", {
+      className: "line"
+    }, [
+      B("span", {
+        className: "keyword"
+      }, [`component`]),
+      ` `,
+      B("span", {
+        className: "type"
+      }, [`Main`]),
+      ` {
+`
+    ]),
+    B("span", {
+      className: "line"
+    }, [
+      `  `,
+      B("span", {
+        className: "keyword"
+      }, [`fun`]),
+      ` render : `,
+      B("span", {
+        className: "type"
+      }, [`Html`]),
+      ` {
+`
+    ]),
+    B("span", {
+      className: "line"
+    }, [
+      `    <`,
+      B("span", {
+        className: "namespace"
+      }, [`div`]),
+      `></`,
+      B("span", {
+        className: "namespace"
+      }, [`div`]),
+      `>
+`
+    ]),
+    B("span", {
+      className: "line"
+    }, [`  }
+`]),
+    B("span", {
+      className: "line"
+    }, [`}
+`]),
+    B("span", {
+      className: "line"
+    }, [``])
+  ])
+};

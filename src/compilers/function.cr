@@ -1,29 +1,39 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Function, contents = "") : String
-      node.in?(checked) ? _compile(node, contents) : ""
+    def resolve(node : Ast::Function)
+      resolve node do
+        {node, node, compile(node, contents: nil, args: nil, skip_const: true)}
+      end
     end
 
-    def _compile(node : Ast::Function, contents = "") : String
-      name =
-        js.variable_of(node)
+    def compile(node : Ast::Function)
+      compile node do
+        compile(node, contents: nil, args: nil)
+      end
+    end
 
+    def compile(
+      node : Ast::Function, *,
+      contents : Compiled | Nil = nil,
+      args : Array(Compiled) | Nil = nil,
+      skip_const : Bool = false
+    ) : Compiled
       items =
-        [] of String
+        [] of Compiled
 
       arguments =
-        compile node.arguments
+        args || compile(node.arguments)
 
-      items << contents unless contents.empty?
+      items << contents if contents
       items << compile(node.body, for_function: true)
 
       body =
-        js.statements(items)
+        js.arrow_function(arguments) { js.statements(items) }
 
-      if async?(node.body)
-        js.async_function(name, arguments, body)
+      if skip_const
+        body
       else
-        js.function(name, arguments, body)
+        js.const(node, body)
       end
     end
   end

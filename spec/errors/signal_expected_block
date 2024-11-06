@@ -1,0 +1,12 @@
+store Test {
+  signal name : A
+--------------------------------------------------------------------------------
+░ ERROR (SIGNAL_EXPECTED_BLOCK) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the block of a signal but I found "a space" instead:
+
+   ┌ ./spec/errors/signal_expected_block:2:17
+   ├─────────────────────────────────────────
+  1│ store Test {
+  2│   signal name : A
+   │                  ⌃⌃⌃⌃

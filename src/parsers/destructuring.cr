@@ -4,6 +4,7 @@ module Mint
       array_destructuring ||
         tuple_destructuring ||
         type_destructuring ||
+        discard ||
         expression
     end
   end

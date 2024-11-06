@@ -1,9 +1,13 @@
 module Mint
   module LS
     class Hover < LSP::RequestMessage
-      def hover(node : Ast::TypeDefinition, workspace) : Array(String)
+      def hover(
+        node : Ast::TypeDefinition,
+        workspace : Workspace,
+        type_checker : TypeChecker
+      ) : Array(String)
         parameters =
-          workspace.formatter.format_parameters(node.parameters)
+          "" # workspace.formatter.format_parameters(node.parameters)
 
         case items = node.fields
         when Array(Ast::TypeVariant)
@@ -12,7 +16,7 @@ module Mint
               option.comment.try { |item| " - #{item.content.strip}" }
 
             params =
-              workspace.formatter.format_parameters(option.parameters)
+              "" # workspace.formatter.format_parameters(option.parameters)
 
             "**#{option.value.value}#{params}**#{comment}"
           end
@@ -23,7 +27,7 @@ module Mint
           ] + fields).compact
         else
           type =
-            workspace.formatter.format(node)
+            workspace.format(node)
 
           ["```\n#{type}\n```"]
         end

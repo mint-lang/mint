@@ -8,37 +8,6 @@ module Mint
   # When resolving a variable we travese it's tree upwards to find the target
   # which matches the value of the variable.
   class Scope
-    # TODO: Move this somewhere else
-    def debug_name(node)
-      case node
-      when Target
-        "{#{debug_name(node.node)}, #{debug_name(node.parent)}}"
-      when Tuple(Ast::Node, Ast::Node)
-        "{#{debug_name(node[0])}, #{debug_name(node[1])}}"
-      else
-        suffix =
-          case node
-          when Ast::Component
-            node.name.value
-          when Ast::Function
-            node.name.value
-          when Ast::Argument
-            node.name.value
-          when Ast::Variable
-            node.value
-          end
-
-        prefix =
-          if suffix
-            "#{node.class.name}(#{suffix})"
-          else
-            node.class.name
-          end
-
-        "#{prefix}#{node.try(&.location.start)}"
-      end
-    end
-
     # Represents a level for a node.
     record Level, node : Ast::Node, items : Item = Item.new
 
@@ -80,7 +49,7 @@ module Mint
           when Ast::Store
             connect.keys.each do |key|
               @scopes[store][1].items[key.name.value]?.try do |value|
-                stack[1].items[key.target.try(&.value) || key.name.value] = Target.new(key, value.node)
+                stack[1].items[key.target.try(&.value) || key.name.value] = value
               end
             end
           end
@@ -111,10 +80,25 @@ module Mint
 
     # Builds a level for the node and yields the parents scope.
     def create(node : Ast::Node, parent : Ast::Node | Nil = nil)
-      # Copy the stack of the parent so we can `see` it's targets.
       scopes[node] =
         if parent
-          scopes[parent].dup
+          # For defers we need to restrict their scope to the globally
+          # accessible entities only, since they cannot access outer scopes
+          # like variables in a block above them.
+          if parent.is_a?(Ast::Defer)
+            scopes[parent].select do |level|
+              level == root ||
+                case item = level.node
+                when Ast::Component
+                  item.global?
+                when Ast::Provider, Ast::Module, Ast::Store
+                  true
+                end
+            end
+          else
+            # Copy the stack of the parent so we can `see` it's targets.
+            scopes[parent].dup
+          end
         else
           [root] of Level
         end
@@ -176,6 +160,7 @@ module Mint
       when Ast::Provider
         build(node.functions, node)
         build(node.constants, node)
+        build(node.signals, node)
         build(node.states, node)
         build(node.gets, node)
 
@@ -183,6 +168,7 @@ module Mint
       when Ast::Store
         build(node.functions, node)
         build(node.constants, node)
+        build(node.signals, node)
         build(node.states, node)
         build(node.gets, node)
       when Ast::Module
@@ -209,15 +195,14 @@ module Mint
            Ast::Property,
            Ast::Constant,
            Ast::Argument,
+           Ast::Signal,
            Ast::State,
            Ast::Get
         add(parent, node.name.value, node)
       end
 
       case node
-      when Ast::Directives::Documentation,
-           Ast::Directives::HighlightFile,
-           Ast::Directives::Highlight,
+      when Ast::Directives::HighlightFile,
            Ast::Directives::Inline,
            Ast::Directives::Asset,
            Ast::Directives::Svg,
@@ -226,9 +211,12 @@ module Mint
            Ast::TypeDestructuring,
            Ast::NumberLiteral,
            Ast::RegexpLiteral,
-           Ast::MemberAccess,
+           Ast::FieldAccess,
            Ast::BoolLiteral,
+           Ast::StateSetter,
            Ast::LocaleKey,
+           Ast::Variable,
+           Ast::Builtin,
            Ast::Comment,
            Ast::Env
       when Ast::StringLiteral,
@@ -241,8 +229,12 @@ module Mint
            Ast::UnaryMinus,
            Ast::Encode,
            Ast::Decode,
-           Ast::Test
+           Ast::Emit,
+           Ast::Test,
+           Ast::Dbg
         build(node.expression, node)
+      when Ast::Directives::Highlight
+        build(node.content, node)
       when Ast::CaseBranch
         build(node.expression, node)
         build(node.pattern, node)
@@ -252,13 +244,18 @@ module Mint
       when Ast::Style
         build(node.arguments, node)
         build(node.body, node)
+      when Ast::Signal
+        build(node.block, node)
       when Ast::State,
            Ast::Property
         build(node.default, node)
       when Ast::CssSelector,
-           Ast::CssNestedAt
+           Ast::CssNestedAt,
+           Ast::Defer,
+           Ast::Await
         build(node.body, node)
       when Ast::Statement
+        build(node.return_value, node)
         build(node.expression, node)
         build(node.target, node)
       when Ast::CssDefinition
@@ -300,8 +297,6 @@ module Mint
       when Ast::Pipe
         build(node.expression, node)
         build(node.argument, node)
-      when Ast::HtmlExpression
-        build(node.expressions, node)
       when Ast::HtmlFragment
         build(node.children, node)
       when Ast::HtmlAttribute
@@ -314,8 +309,7 @@ module Mint
         build(node.expression, node)
       when Ast::Directives::Format
         build(node.content, node)
-      when Ast::Variable
-      when Ast::ArrayAccess
+      when Ast::BracketAccess
         build(node.expression, node)
 
         case node.index
@@ -325,7 +319,8 @@ module Mint
       when Ast::Use
         build(node.condition, node)
         build(node.data, node)
-      when Ast::Record
+      when Ast::Record,
+           Ast::Map
         build(node.fields, node)
       when Ast::NextCall
         build(node.data, node)
@@ -335,6 +330,9 @@ module Mint
       when Ast::Route
         build(node.expression, node)
         build(node.arguments, node)
+      when Ast::MapField
+        build(node.value, node)
+        build(node.key, node)
       when Ast::Field
         build(node.value, node)
 

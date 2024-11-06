@@ -1,7 +1,9 @@
 module Mint
   class Parser
-    include Errorable
     include Helpers
+
+    # The errors found.
+    getter errors : Array(Error) = [] of Error
 
     # The position of the cursor, which is at the character we are currently
     # parsing.
@@ -35,6 +37,7 @@ module Mint
       (yield position, nodes_size, @errors.size).tap do |node|
         case node
         when Ast::Node
+          ast.nodes[nodes_size..-1].each { |child| child.parent ||= node unless child == node }
           ast.nodes << node if track
         when Nil
           ast.operators.delete_at(operators_size...)
@@ -43,6 +46,10 @@ module Mint
           @position = start_position
         end
       end
+    end
+
+    def error(name : Symbol, &) : Nil
+      errors << Error.new(name).tap { |error| with error yield }
     end
 
     # Moves the cursor forward by one character.
@@ -55,10 +62,13 @@ module Mint
       @position == input.size
     end
 
-    # Checks if we reached the end of the file raises an error otherwise.
+    # Checks if we reached the end of the file, adds an error otherwise.
     def eof! : Bool
       whitespace
-      error :expected_eof { expected "the end of the file", word } unless eof?
+      error :expected_eof do
+        expected "the end of the file", word
+        snippet self
+      end unless eof?
       true
     end
 
@@ -170,16 +180,16 @@ module Mint
     def word!(expected : String) : Bool
       if word?(expected)
         @position += expected.size
-
-        if expected.chars.all?(&.ascii_lowercase?) &&
-           !expected.blank? &&
-           expected != "or"
-          @ast.keywords << {position - expected.size, position}
-        end
-
         true
       else
         false
+      end
+    end
+
+    # Consumes a word and saves it as a keyword for syntax highlighting.
+    def keyword!(expected : String) : Bool
+      word!(expected).tap do |result|
+        @ast.keywords << {position - expected.size, position} if result
       end
     end
 
@@ -223,7 +233,7 @@ module Mint
           ascii_letters_or_numbers
         end
 
-        next if char == '_'
+        next if char == '_' # If there is an underscore it's a constant...
         next unless name
 
         parse do

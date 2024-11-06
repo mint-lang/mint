@@ -9,40 +9,18 @@ global component Test {
 component Main {
   fun render : Html {
     <div>
-      <{ Test:NAME }>
+      Test.NAME
     </div>
   }
 }
 --------------------------------------------------------------------------------
-class $A extends _C {
-  constructor(props) {
-    super(props);
+import { createElement as C } from "./runtime.js";
 
-    this._d({},{
-      a: () => {
-        return `ASD`
-      }
-    });
-  }
-
-  render() {
-    return this.a;
-  }
-
-  _persist() {
-    A = this
-  }
-};
-
-$A.displayName = "Test";
-let A;
-
-class B extends _C {
-  render() {
-    return _h("div", {}, [
-      A.a
-    ]);
-  }
-};
-
-B.displayName = "Main";
+export const
+  A = () => {
+    return a
+  },
+  a = `ASD`,
+  B = () => {
+    return C(`div`, {}, [a])
+  };

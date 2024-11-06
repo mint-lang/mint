@@ -1,0 +1,19 @@
+{
+  "application": {
+    "orientation": 0
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_ORIENTATION_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The orientation field of the application object should be a string, but it's
+not:
+
+   ┌ spec/fixtures/mint.json:3:20
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "orientation": 0
+   │                    ⌃
+  4│   }
+  5│ }

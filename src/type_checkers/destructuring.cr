@@ -29,6 +29,14 @@ module Mint
     end
 
     def destructure(
+      node : Ast::Discard,
+      condition : Checkable,
+      variables : Array(VariableScope) = [] of VariableScope
+    )
+      variables
+    end
+
+    def destructure(
       node : Ast::Node,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
@@ -82,11 +90,23 @@ module Mint
         snippet node
       end if spreads > 1
 
-      node.items.each do |item|
+      node.items.each_with_index do |item, index|
         case item
         when Ast::Spread
-          cache[item] = condition
-          variables << {item.variable.value, condition, item}
+          if index == (node.items.size - 1)
+            cache[item] = condition
+            case variable = item.variable
+            when Ast::Variable
+              variables << {variable.value, condition, item}
+            end
+          else
+            error! :destructuring_multiple_spreads do
+              block "The spread notation can only appear as the last item " \
+                    "in a destructuring."
+
+              snippet node
+            end
+          end
         else
           destructure(item, condition.parameters[0], variables)
         end
@@ -130,71 +150,73 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope
     )
+      cache[node] = condition
+
       name =
         node.name.try(&.value) || condition.name
 
-      parent =
-        ast.type_definitions.find(&.name.value.==(name))
+      if node.items.empty? &&
+         (entity_name = node.name.try(&.value)) &&
+         (parent = scope.resolve(entity_name, node).try(&.node)) &&
+         (entity = scope.resolve(node.variant.value, parent).try(&.node))
+        check!(parent)
+        lookups[node] = {entity, parent}
+        return destructure(entity, condition, variables)
+      elsif parent = ast.type_definitions.find(&.name.value.==(name))
+        variant =
+          case fields = parent.fields
+          when Array(Ast::TypeVariant)
+            fields.find(&.value.value.==(node.variant.value))
+          end
 
-      error! :destructuring_type_missing do
-        snippet "I could not find the type for a destructuring with the name:", name.to_s
-        snippet "The destructuring in question is here:", node
-      end unless parent
+        error! :destructuring_type_variant_missing do
+          block do
+            text "I could not find the variant"
+            bold %("#{node.variant.value}")
+            text "of type"
+            bold %("#{parent.name.value}")
+            text "for a destructuring:"
+          end
 
-      variant =
-        case fields = parent.fields
-        when Array(Ast::TypeVariant)
-          fields.find(&.value.value.==(node.variant.value))
-        end
+          snippet node
+          snippet "The type is defined here:", parent
+        end unless variant
 
-      error! :destructuring_type_variant_missing do
-        block do
-          text "I could not find the variant"
-          bold %("#{node.variant.value}")
-          text "of type"
-          bold %("#{parent.name.value}")
-          text "for a destructuring:"
-        end
+        lookups[node] = {variant, parent}
 
-        snippet node
-        snippet "The type is defined here:", parent
-      end unless variant
+        type = resolve(parent)
 
-      lookups[node] = {variant, parent}
+        unified =
+          Comparer.compare(type, condition)
 
-      type = resolve(parent)
+        destructuring_type_mismatch(
+          expected: condition,
+          node: node,
+          got: type,
+        ) unless unified
 
-      unified =
-        Comparer.compare(type, condition)
+        case fields = variant.fields
+        when Array(Ast::TypeDefinitionField)
+          node.items.each_with_index do |param, index|
+            # case param
+            # when Ast::Variable
+            #   found = fields.find do |field|
+            #     case param
+            #     when Ast::Variable
+            #       param.value == field.key.value
+            #     end
+            #   end
 
-      destructuring_type_mismatch(
-        expected: condition,
-        node: node,
-        got: type,
-      ) unless unified
+            #   error! :destructuring_type_field_missing do
+            #     snippet "I could not find a field for a destructuring:", param.value
+            #     snippet "The destructuring in question is here:", param
+            #   end unless found
 
-      case fields = variant.fields
-      when Array(Ast::TypeDefinitionField)
-        node.items.each_with_index do |param, index|
-          case param
-          when Ast::Variable
-            found = fields.find do |field|
-              case param
-              when Ast::Variable
-                param.value == field.key.value
-              end
-            end
+            #   type =
+            #     resolve(found.type)
 
-            error! :destructuring_type_field_missing do
-              snippet "I could not find a field for a destructuring:", param.value
-              snippet "The destructuring in question is here:", param
-            end unless found
-
-            type =
-              resolve(found.type)
-
-            destructure(param, type, variables)
-          else
+            #   destructure(param, type, variables)
+            # else
             field =
               fields[index]
 
@@ -202,60 +224,66 @@ module Mint
               resolve(field.type)
 
             destructure(param, type, variables)
+            # end
           end
-        end
-      else
-        node.items.each_with_index do |param, index|
-          case param
-          when Ast::Variable
-            error! :destructuring_no_parameter do
-              block do
-                text "You are trying to destructure the"
-                bold index.to_s
-                text "parameter from the type variant:"
-                bold variant.value.value
+        else
+          node.items.each_with_index do |param, index|
+            case param
+            when Ast::Variable
+              error! :destructuring_no_parameter do
+                block do
+                  text "You are trying to destructure the"
+                  bold index.to_s
+                  text "parameter from the type variant:"
+                  bold variant.value.value
+                end
+
+                block do
+                  text "The variant only has"
+                  bold variant.parameters.size.to_s
+                  text "parameters."
+                end
+
+                snippet "You are trying to destructure it here:", param
+                snippet "The option is defined here:", variant
+              end unless variant.parameters[index]?
+
+              variant_type =
+                resolve(variant.parameters[index]).not_nil!
+
+              mapping = {} of String => Checkable
+
+              parent.parameters.each_with_index do |param2, index2|
+                mapping[param2.value] = condition.parameters[index2]
               end
 
-              block do
-                text "The variant only has"
-                bold variant.parameters.size.to_s
-                text "parameters."
-              end
+              resolved_type =
+                Comparer.fill(variant_type, mapping).not_nil!
 
-              snippet "You are trying to destructure it here:", param
-              snippet "The option is defined here:", variant
-            end unless variant.parameters[index]?
+              destructure(param, resolved_type, variables)
+            else
+              sub_type =
+                case item = variant.parameters[index]
+                when Ast::Type
+                  resolve(item)
+                when Ast::TypeVariable
+                  unified.parameters[parent.parameters.index! { |variable| variable.value == item.value }]
+                else
+                  VOID # Can't happen
+                end
 
-            variant_type =
-              resolve(variant.parameters[index]).not_nil!
-
-            mapping = {} of String => Checkable
-
-            parent.parameters.each_with_index do |param2, index2|
-              mapping[param2.value] = condition.parameters[index2]
+              destructure(param, sub_type, variables)
             end
-
-            resolved_type =
-              Comparer.fill(variant_type, mapping).not_nil!
-
-            destructure(param, resolved_type, variables)
-          else
-            sub_type =
-              case item = variant.parameters[index]
-              when Ast::Type
-                resolve(item)
-              when Ast::TypeVariable
-                unified.parameters[parent.parameters.index! { |variable| variable.value == item.value }]
-              else
-                VOID # Can't happen
-              end
-
-            destructure(param, sub_type, variables)
           end
         end
+
+        return variables
       end
 
-      variables
+      error! :destructuring_type_missing do
+        snippet "I could not find the type for a destructuring with the name:", name.to_s
+        snippet "The destructuring in question is here:", node
+      end
     end
   end
 end

@@ -1,3 +1,13 @@
+suite "Map literal" {
+  test "creates a map" {
+    Map.size({ "a" => "b", "c" => "d" }) == 2
+  }
+
+  test "accesses the map" {
+    { "a" => "b" }["a"] == Maybe.Just("b")
+  }
+}
+
 suite "Map with enums" {
   test "Map.set" {
     (Map.empty()
@@ -112,8 +122,7 @@ suite "Map.reduce" {
     (Map.empty()
     |> Map.set("a", 1)
     |> Map.set("b", 2)
-    |> Map.reduce(
-      0,
+    |> Map.reduce(0,
       (memo : Number, key : String, value : Number) : Number { memo + value })) == 3
   }
 }
@@ -156,10 +165,7 @@ suite "Map.values" {
     (Map.empty()
     |> Map.set("a", 1)
     |> Map.set("b", 2)
-    |> Map.values()) == [
-      1,
-      2
-    ]
+    |> Map.values()) == [1, 2]
   }
 }
 
@@ -168,10 +174,7 @@ suite "Map.keys" {
     (Map.empty()
     |> Map.set("a", 1)
     |> Map.set("b", 2)
-    |> Map.keys()) == [
-      "a",
-      "b"
-    ]
+    |> Map.keys()) == ["a", "b"]
   }
 }
 
@@ -181,10 +184,7 @@ suite "Map.sortBy" {
     |> Map.set("a", 2)
     |> Map.set("b", 1)
     |> Map.sortBy((key : String, value : Number) : Number { value })
-    |> Map.keys()) == [
-      "b",
-      "a"
-    ]
+    |> Map.keys()) == ["b", "a"]
   }
 }
 
@@ -207,10 +207,7 @@ suite "Map.map" {
     |> Map.set("a", 1)
     |> Map.set("b", 2)
     |> Map.map((key : String, value : Number) : Number { value * 2 })
-    |> Map.values()) == [
-      2,
-      4
-    ]
+    |> Map.values()) == [2, 4]
   }
 }
 
@@ -248,7 +245,7 @@ suite "Map.entries" {
     (Map.empty()
     |> Map.set("a", 100)
     |> Map.set("b", 200)
-    |> Map.entries()) == [#("a", 100), #("b", 200)]
+    |> Map.entries()) == [{"a", 100}, {"b", 200}]
   }
 }
 
@@ -256,6 +253,6 @@ suite "Map.fromArray" {
   test "convert an array of tuples into a map" {
     (Map.empty()
     |> Map.set("a", 1)
-    |> Map.set("b", 2)) == Map.fromArray([#("a", 1), #("b", 2)])
+    |> Map.set("b", 2)) == Map.fromArray([{"a", 1}, {"b", 2}])
   }
 }

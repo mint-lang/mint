@@ -2,13 +2,13 @@ module Mint
   class Parser
     def next_call : Ast::NextCall?
       parse do |start_position|
-        next unless word! "next"
+        next unless keyword! "next"
         whitespace
 
         next error :next_call_expected_fields do
           expected "the fields for a next call", word
           snippet self
-        end unless item = record
+        end unless item = record(skip_empty: false)
 
         Ast::NextCall.new(
           from: start_position,

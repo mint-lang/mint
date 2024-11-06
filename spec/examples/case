@@ -34,22 +34,22 @@ component Main {
     }
   }
 }
------------------------------------------------------------case_unnecessary_all
-enum A {
+---------------------------------------------------------------case_unnecessary
+type A {
   B
   C
 }
 
 component Main {
   fun render : String {
-    case (A::B) {
-      A::B => "a"
-      A::C => "c"
+    case (A.B) {
+      A.B => "a"
+      A.C => "c"
       => "x"
     }
   }
 }
----------------------------------------------------------------case_not_covered
+------------------------------------------------------------case_not_exhaustive
 component Main {
   fun render : String {
     case ("a") {
@@ -57,8 +57,8 @@ component Main {
     }
   }
 }
-----------------------------------------------------------case_type_not_covered
-enum A {
+------------------------------------------------------------case_not_exhaustive
+type A {
   B
   C
   D
@@ -66,9 +66,9 @@ enum A {
 
 component Main {
   fun render : String {
-    case (A::B) {
-      A::B => "a"
-      A::C => "c"
+    case (A.B) {
+      A.B => "a"
+      A.C => "c"
     }
   }
 }
@@ -83,7 +83,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-enum Maybe(value) {
+type Maybe(value) {
   Just(value)
   Nothing
 }
@@ -91,8 +91,8 @@ enum Maybe(value) {
 component Main {
   fun testCase : Maybe(Number) {
     case (-1) {
-      -1 => Maybe::Nothing
-      => Maybe::Just(2)
+      -1 => Maybe.Nothing
+      => Maybe.Just(2)
     }
   }
 
@@ -110,7 +110,7 @@ module Test {
 component Main {
   fun render : String {
     case ("x") {
-      Test:X => "x"
+      Test.X => "x"
       "a" => "a"
       "b" => "b"
       => "c"

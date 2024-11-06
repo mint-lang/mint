@@ -125,13 +125,9 @@ component Test.Dom.Focus {
     <>
       <input::input as input id="input"/>
 
-      <button
-        id="show"
-        onClick={show}/>
+      <button id="show" onClick={show}/>
 
-      <button
-        id="focus"
-        onClick={focus}/>
+      <button id="focus" onClick={focus}/>
     </>
   }
 }
@@ -145,5 +141,14 @@ suite "Dom.focusWhenVisible" {
     |> Test.Context.timeout(200)
     |> Test.Html.assertCssOf("#input", "display", "inline-block")
     |> Test.Html.assertActiveElement("#input")
+  }
+}
+
+suite "Dom.getChildren" {
+  test "it returns children" {
+    <Test.Dom.Focus/>
+    |> Test.Html.start()
+    |> Test.Context.assert(
+      (element : Dom.Element) { Array.size(Dom.getChildren(element)) == 3 })
   }
 }

@@ -1,18 +1,26 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Statement) : Checkable
+      type =
+        resolve node.expression
+
       required =
         case target = node.target
         when Ast::TupleDestructuring,
              Ast::ArrayDestructuring,
-             Ast::TypeDestructuring
-          case item = node.expression
-          when Ast::Operation
-            !item.right.is_a?(Ast::ReturnCall)
+             Ast::TypeDestructuring,
+             Ast::Discard
+          destructure(target, type)
+
+          if node.if_node
+            false
           else
-            !exhaustive?(target) && !node.if_node
+            check_exhaustiveness(type, [target]).diagnostics.missing? &&
+              !node.return_value
           end
         end
+
+      node.return_value.try(&->resolve(Ast::Node))
 
       error! :statement_return_required do
         block do
@@ -25,12 +33,6 @@ module Mint
 
         snippet node
       end if required
-
-      type =
-        resolve node.expression
-
-      type =
-        type.parameters.first if node.await && type.name == "Promise"
 
       type
     end

@@ -1,19 +1,22 @@
 module Mint
   class Formatter
-    def format(node : Ast::Case) : String
-      condition =
-        format node.condition
-
+    def format(node : Ast::Case) : Nodes
       items =
         node.branches + node.comments
+
+      condition =
+        format node.condition
 
       body =
         list items
 
-      await =
-        "await " if node.await
-
-      "case #{await}#{condition} {\n#{indent(body)}\n}"
+      ["case "] + condition + [" "] +
+        group(
+          behavior: Behavior::Block,
+          ends: {"{", "}"},
+          separator: "",
+          items: [body],
+          pad: false)
     end
   end
 end

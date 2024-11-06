@@ -1,30 +1,44 @@
 module Mint
   class Formatter
-    def format(node : Ast::Component) : String
+    def format(node : Ast::Component) : Nodes
       items =
         node.properties +
+          node.constants +
+          node.functions +
+          node.comments +
           node.connects +
           node.styles +
           node.states +
-          node.functions +
           node.gets +
-          node.uses +
-          node.comments +
-          node.constants
+          node.uses
+
+      global =
+        node.global? ? format("global") : [] of Node
+
+      async =
+        node.async? ? format("async") : [] of Node
+
+      comment =
+        format_documentation_comment node.comment
 
       name =
         format node.name
 
       body =
-        list items
+        group(
+          behavior: Behavior::Block,
+          items: [list(items)],
+          ends: {"{", "}"},
+          separator: "",
+          pad: false)
 
-      global =
-        node.global? ? "global " : ""
+      rest =
+        [async, global, ["component"], name, body]
+          .reject(&.empty?)
+          .intersperse(format(" "))
+          .flatten
 
-      comment =
-        node.comment.try { |item| "#{format item}\n" }
-
-      "#{comment}#{global}component #{name} {\n#{indent(body)}\n}"
+      comment + rest
     end
   end
 end

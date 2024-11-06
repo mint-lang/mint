@@ -1,10 +1,18 @@
-/* A React portal for the body. */
+/*
+A component to render `Html` in the `<body>`.
+
+```
+<Html.Portals.Body>
+  "Hello World!"
+</Html.Portals.Body>
+```
+*/
 component Html.Portals.Body {
-  /* The children to render into the portal */
+  /* The children to render. */
   property children : Array(Html) = []
 
-  /* Renders the children into the document's body. */
+  /* Renders the children in the `</body>`. */
   fun render : Html {
-    `_createPortal(#{children}, document.body)`
+    `#{%createPortal%}(#{children}, document.body)`
   }
 }

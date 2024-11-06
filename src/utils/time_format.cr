@@ -10,6 +10,7 @@ module Mint
       return minutes(time_f) if time_f / SECONDS_IN_MINUTE >= 1
       return seconds(time_f) if time_f >= 1
       return milliseconds(time_f) if time_f * MILLISECONDS_IN_SECOND >= 1
+
       microseconds(time_f)
     end
 

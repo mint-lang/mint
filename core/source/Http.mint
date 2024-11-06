@@ -54,79 +54,85 @@ type Http.Error {
 }
 
 /*
-Module for sending HTTP requests.
+This store provides functions for sending and tracking HTTP requests.
 
-```
-request = await
-  "https://httpbin.org/get"
+```mint
+let request =
+  await "https://httpbin.org/get"
   |> Http.get()
   |> Http.send()
 
 case (request) {
-  Result::Ok(response) =>
+  Ok(response) =>
     Debug.log(response)
 
-  Result::Err(error) =>
+  Err(error) =>
     Debug.log(error)
 }
 ```
 */
-module Http {
+store Http {
+  /* The state for tracking requests. */
+  state requests = { } of String => Object
+
+  /*
+  Aborts the running request with the id.
+
+    Http.abort("my-request")
+  */
+  fun abort (id : String) : Promise(Void) {
+    if let Just(request) = requests[id] {
+      `#{request}.abort()`
+    }
+
+    next { requests: Map.delete(requests, id) }
+  }
+
   /*
   Aborts all running requests.
 
     Http.abortAll()
   */
-  fun abortAll : Void {
-    `
-    this._requests && Object.keys(this._requests).forEach((uid) => {
-      this._requests[uid].abort()
-      delete this._requests[uid]
-    })
-    `
+  fun abortAll : Promise(Void) {
+    for key, object of requests {
+      `#{object}.abort()`
+    }
+
+    next { requests: { } of String => Object }
   }
 
   /*
-  Creates a request record where the method is DELETE
+  Creates a request record where the method is `DELETE`.
 
-    request =
-      Http.delete("https://httpbin.org/delete")
-
-    request.method == "DELETE"
+    Http.delete("https://httpbin.org/delete").method == "DELETE"
   */
-  fun delete (urlValue : String) : Http.Request {
+  fun delete (value : String) : Http.Request {
     empty()
     |> method("DELETE")
-    |> url(urlValue)
+    |> url(value)
   }
 
   /*
-  Creates an empty request record. It is useful if you want to use a non-
-  standard HTTP method.
+  Creates an empty request record. It is useful if you want to use a
+  non-standard HTTP method.
 
     Http.empty() ==
       {
-        withCredentials = false,
-        method = "GET",
-        body = `null`,
-        headers = [],
-        url = ""
+        withCredentials: false,
+        method: "GET",
+        body: `null`,
+        headers: [],
+        url: ""
       }
   */
   fun empty : Http.Request {
-    {
-      withCredentials: false,
-      method: "GET",
-      body: `null`,
-      headers: [],
-      url: ""
-    }
+    { withCredentials: false, method: "GET", body: `null`, headers: [], url: "" }
   }
 
   /*
-  Sets the body of the request to the given string
+  Sets the body of the request to the provided `FormData` object.
 
-    formData =
+    let formData =
       FormData.empty()
       |> FormData.addString("key", "value")
 
@@ -140,12 +146,9 @@ module Http {
   }
 
   /*
-  Creates a request record where the method is GET
+  Creates a request record where the method is `GET`.
 
-    request =
-      Http.get("https://httpbin.org/get")
-
-    request.method == "GET"
+    Http.get("https://httpbin.org/get").method == "GET"
   */
   fun get (urlValue : String) : Http.Request {
     empty()
@@ -154,11 +157,11 @@ module Http {
   }
 
   /*
-  Checks the prescence of a header with the given key.
+  Checks the prescence of a header with the key.
 
     Http.empty()
     |> Http.header("Content-Type", "application/json")
-    |> Http.hasHeader("Content-Type")
+    |> Http.hasHeader("Content-Type") == true
   */
   fun hasHeader (request : Http.Request, key : String) : Bool {
     request.headers
@@ -169,12 +172,17 @@ module Http {
   }
 
   /*
-  Adds a header to the request with the given key and value. Overwrites the value if key already exists.
+  Adds a header to the request with the key and value. Overwrites the value
+  if key already exists.
 
     Http.empty()
     |> Http.header("Content-Type", "application/json")
   */
-  fun header (request : Http.Request, key : String, value : String) : Http.Request {
+  fun header (
+    request : Http.Request,
+    key : String,
+    value : String
+  ) : Http.Request {
     { request |
       headers:
         request.headers
@@ -182,16 +190,12 @@ module Http {
           (header : Http.Header) : Bool {
             String.toLowerCase(header.key) == String.toLowerCase(key)
           })
-        |> Array.push(
-          {
-            key: key,
-            value: value
-          })
+        |> Array.push({ key: key, value: value })
     }
   }
 
   /*
-  Sets the body of the request to the given object encoded to JSON
+  Sets the body of the request to the object encoded to JSON.
 
     "https://httpbin.org/anything"
     |> Http.post()
@@ -208,7 +212,7 @@ module Http {
   }
 
   /*
-  Sets the method of the request to the given one.
+  Sets the method of the request.
 
     Http.empty()
     |> Http.method("PATCH")
@@ -218,12 +222,9 @@ module Http {
   }
 
   /*
-  Creates a request record where the method is POST
+  Creates a request record where the method is `POST`.
 
-    request =
-      Http.post("https://httpbin.org/post")
-
-    request.method == "POST"
+    Http.post("https://httpbin.org/post").method == "POST"
   */
   fun post (urlValue : String) : Http.Request {
     empty()
@@ -232,12 +233,9 @@ module Http {
   }
 
   /*
-  Creates a request record where the method is PUT
+  Creates a request record where the method is `PUT`.
 
-    request =
-      Http.put("https://httpbin.org/put")
-
-    request.method == "PUT"
+    Http.put("https://httpbin.org/put").method == "PUT"
   */
   fun put (urlValue : String) : Http.Request {
     empty()
@@ -245,29 +243,26 @@ module Http {
     |> url(urlValue)
   }
 
-  /* Returns all running requests. */
-  fun requests : Map(String, Http.NativeRequest) {
-    `this._requests`
-  }
-
   /*
-  Sends the request with a unique ID (generated by default) so it could be aborted later.
+  Sends the request with the ID (generated if not provided) so it could be
+  aborted later. The running request with the same id is aborted before the new
+  request is sent.
 
     "https://httpbin.org/get"
     |> Http.get()
-    |> Http.sendWithId("my-request")
+    |> Http.send("my-request")
   */
   fun send (
     request : Http.Request,
-    uid : String = Uid.generate()
+    id : String = Uid.generate(),
+    instrument : Function(Object, a) = (value : Object) { void }
   ) : Promise(Result(Http.ErrorResponse, Http.Response)) {
+    await abort(id)
+
     `
     new Promise((resolve, reject) => {
-      if (!this._requests) { this._requests = {} }
-
-      let xhr = new XMLHttpRequest()
-
-      this._requests[#{uid}] = xhr
+      const xhr = new XMLHttpRequest();
+      #{next { requests: Map.set(requests, id, `xhr`)}};
 
       xhr.withCredentials = #{request.withCredentials}
       xhr.responseType = "blob"
@@ -286,11 +281,11 @@ module Http {
       try {
         xhr.open(#{request.method}.toUpperCase(), #{request.url}, true)
       } catch (error) {
-        delete this._requests[#{uid}]
+        #{next { requests: Map.delete(requests, id)}}
 
-        resolve(#{Result::Err({
+        resolve(#{Result.Err({
           headers: `getResponseHeaders()`,
-          type: Http.Error::BadUrl,
+          type: Http.Error.BadUrl,
           status: `xhr.status`,
           url: request.url
         })})
@@ -301,31 +296,31 @@ module Http {
       })
 
       xhr.addEventListener('error', (event) => {
-        delete this._requests[#{uid}]
+        #{next { requests: Map.delete(requests, id)}}
 
-        resolve(#{Result::Err({
+        resolve(#{Result.Err({
           headers: `getResponseHeaders()`,
-          type: Http.Error::NetworkError,
+          type: Http.Error.NetworkError,
           status: `xhr.status`,
           url: request.url
         })})
       })
 
       xhr.addEventListener('timeout', (event) => {
-        delete this._requests[#{uid}]
+        #{next { requests: Map.delete(requests, id)}}
 
-        resolve(#{Result::Err({
+        resolve(#{Result.Err({
           headers: `getResponseHeaders()`,
-          type: Http.Error::Timeout,
+          type: Http.Error.Timeout,
           status: `xhr.status`,
           url: request.url
         })})
       })
 
       xhr.addEventListener('load', async (event) => {
-        delete this._requests[#{uid}]
+        #{next { requests: Map.delete(requests, id)}}
 
-        let contentType = xhr.getResponseHeader("Content-Type");
+        let contentType = xhr.getResponseHeader("Content-Type") || "";
         let responseText = await xhr.response.text();
         let body;
 
@@ -337,9 +332,9 @@ module Http {
             object.querySelector("parsererror");
 
           if (errorNode) {
-            body = #{Http.ResponseBody::Text(`responseText`)};
+            body = #{Http.ResponseBody.Text(`responseText`)};
           } else {
-            body = #{Http.ResponseBody::HTML(`object`)};
+            body = #{Http.ResponseBody.HTML(`object`)};
           }
         } else if (contentType.startsWith("application/xml")) {
           const object =
@@ -349,26 +344,26 @@ module Http {
             object.querySelector("parsererror");
 
           if (errorNode) {
-            body = #{Http.ResponseBody::Text(`responseText`)};
+            body = #{Http.ResponseBody.Text(`responseText`)};
           } else {
-            body = #{Http.ResponseBody::XML(`object`)};
+            body = #{Http.ResponseBody.XML(`object`)};
           }
         } else if (contentType.startsWith("application/json")) {
           try {
-            body = #{Http.ResponseBody::JSON(`JSON.parse(responseText)`)};
+            body = #{Http.ResponseBody.JSON(`JSON.parse(responseText)`)};
           } catch (e) {
-            body = #{Http.ResponseBody::Text(`responseText`)};
+            body = #{Http.ResponseBody.Text(`responseText`)};
           }
         } else if (contentType.startsWith("text/")) {
-          body = #{Http.ResponseBody::Text(`responseText`)};
+          body = #{Http.ResponseBody.Text(`responseText`)};
         }
 
         if (!body) {
           const parts = #{Url.parse(request.url).path}.split('/');
-          body = #{Http.ResponseBody::File(`new File([xhr.response], parts[parts.length - 1], { type: contentType })`)};
+          body = #{Http.ResponseBody.File(`new File([xhr.response], parts[parts.length - 1], { type: contentType })`)};
         }
 
-        resolve(#{Result::Ok({
+        resolve(#{Result.Ok({
           headers: `getResponseHeaders()`,
           bodyString: `responseText`,
           status: `xhr.status`,
@@ -377,23 +372,24 @@ module Http {
       })
 
       xhr.addEventListener('abort', (event) => {
-        delete this._requests[#{uid}]
+        #{next { requests: Map.delete(requests, id)}}
 
-        resolve(#{Result::Err({
+        resolve(#{Result.Err({
           headers: `getResponseHeaders()`,
-          type: Http.Error::Aborted,
+          type: Http.Error.Aborted,
           status: `xhr.status`,
           url: request.url
         })})
       })
 
+      #{instrument(`xhr`)};
       xhr.send(#{request.body})
     })
     `
   }
 
   /*
-  Sets the body of the request to the given string
+  Sets the body of the request as `String`.
 
     "https://httpbin.org/anything"
     |> Http.post()
@@ -405,7 +401,7 @@ module Http {
   }
 
   /*
-  Sets the URL of the request to the given one.
+  Sets the URL of the request.
 
     Http.empty()
     |> Http.url("https://httpbin.org/anything")
@@ -415,7 +411,7 @@ module Http {
   }
 
   /*
-  Sets the withCredentials of the request to the given one.
+  Sets the `withCredentials` of the request.
 
     Http.empty()
     |> Http.withCredentials(true)

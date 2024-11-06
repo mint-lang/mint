@@ -1,0 +1,21 @@
+{
+  "application": {
+    "icon": "icon.jpg"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (APPLICATION_ICON_NOT_EXISTS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The icon field of the application object points to a file that does not exists.
+
+It should point to an image which will be used to generate favicons for the
+application.
+
+   ┌ spec/fixtures/mint.json:3:13
+   ├─────────────────────────────
+  1│ {
+  2│   "application": {
+  3│     "icon": "icon.jpg"
+   │             ⌃
+  4│   }
+  5│ }

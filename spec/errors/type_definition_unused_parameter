@@ -1,4 +1,4 @@
-enum A(a, b, c) {
+type A(a, b, c) {
   B
   C
 }
@@ -10,7 +10,7 @@ by any of the options:
 
    ┌ ./spec/errors/type_definition_unused_parameter:1:8
    ├───────────────────────────────────────────────────
-  1│ enum A(a, b, c) {
+  1│ type A(a, b, c) {
    │        ⌃
   2│   B
   3│   C

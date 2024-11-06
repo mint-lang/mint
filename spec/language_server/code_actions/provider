@@ -1,0 +1,59 @@
+type Test {
+  name : String
+}
+
+provider Test : Test {
+  fun test : String {
+    ""
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/codeAction",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "range": {
+      "start": { "line": 5, "character": 11 },
+      "end": { "line": 5, "character": 11 }
+    },
+    "context": {
+      "diagnostics": []
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "title": "Order Entities",
+      "kind": "source",
+      "diagnostics": [],
+      "isPreferred": false,
+      "edit": {
+        "changes": {
+          "file://#{root_path}/test.mint": [
+            {
+              "range": {
+                "start": {
+                  "line": 0,
+                  "character": 0
+                },
+                "end": {
+                  "line": 9999,
+                  "character": 999
+                }
+              },
+              "newText": "type Test {\n  name : String\n}\n\nprovider Test : Test {\n  fun test : String {\n    \"\"\n  }\n}"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "id": 0
+}
+------------------------------------------------------------------------response

@@ -1,10 +1,12 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Env) : String
-      value =
-        MINT_ENV[node.name].to_s.gsub('`', "\\`")
+    def compile(node : Ast::Env) : Compiled
+      compile node do
+        value =
+          MINT_ENV[node.name]?.to_s
 
-      "`#{value}`"
+        js.string(value)
+      end
     end
   end
 end

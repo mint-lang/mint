@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class InlineFunction < Node
-      getter body, arguments, type
+      getter arguments, body, type
 
       def initialize(@arguments : Array(Argument),
                      @file : Parser::File,

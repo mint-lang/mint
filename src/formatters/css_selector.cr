@@ -1,15 +1,32 @@
 module Mint
   class Formatter
-    def format(node : Ast::CssSelector) : String
+    def format(node : Ast::CssSelector) : Nodes
+      items =
+        node.selectors.map do |item|
+          if item.starts_with?(' ')
+            format(item.lstrip)
+          else
+            format("&#{item}")
+          end
+        end
+
       selectors =
-        node
-          .selectors
-          .join(",\n") { |item| item.starts_with?(' ') ? item.lstrip : "&#{item}" }
+        group(
+          behavior: Behavior::BreakNotFits,
+          separator: ",",
+          ends: {"", ""},
+          items: items,
+          pad: false)
 
       body =
-        list node.body
+        group(
+          behavior: Behavior::Block,
+          items: [list(node.body)],
+          ends: {"{", "}"},
+          separator: "",
+          pad: false)
 
-      "#{selectors} {\n#{indent(body)}\n}"
+      selectors + [" "] + body
     end
   end
 end

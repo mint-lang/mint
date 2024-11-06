@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       def completion_item(node : Ast::Function, parent_name : Ast::Id? = nil) : LSP::CompletionItem
         name =
           if parent_name
@@ -16,15 +16,10 @@ module Mint
               %(${#{index + 1}:#{argument.name.value}})
             end
 
-        snippet =
-          <<-MINT
-          #{name}(#{arguments.join(", ")})
-          MINT
-
         LSP::CompletionItem.new(
           documentation: node.comment.try(&.content).to_s,
+          insert_text: "#{name}(#{arguments.join(", ")})",
           kind: LSP::CompletionItemKind::Function,
-          insert_text: snippet,
           detail: "Function",
           filter_text: name,
           sort_text: name,

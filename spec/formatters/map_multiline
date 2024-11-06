@@ -1,0 +1,14 @@
+module Test {
+  fun test : Map(String, String) {
+    {"a" => "Hello long string number one string.", "b" => "Hello long string number two string."}
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Map(String, String) {
+    {
+      "a" => "Hello long string number one string.",
+      "b" => "Hello long string number two string."
+    }
+  }
+}

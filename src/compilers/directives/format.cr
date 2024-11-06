@@ -1,19 +1,17 @@
 module Mint
   class Compiler
-    def _compile(node : Ast::Directives::Format) : String
-      content =
-        compile node.content
+    def compile(node : Ast::Directives::Format) : Compiled
+      compile node do
+        content =
+          compile node.content
 
-      formatted =
-        skip do
-          Formatter.new
-            .format(node.content, Formatter::BlockFormat::Naked)
+        formatted =
+          @formatter
+            .format!(node.content, Formatter::BlockFormat::Naked)
             .gsub('\\', "\\\\")
-            .gsub('`', "\\`")
-            .gsub("${", "\\${")
-        end
 
-      "[#{content}, `#{formatted}`]"
+        js.array([content, js.string(formatted)])
+      end
     end
   end
 end

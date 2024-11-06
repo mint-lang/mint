@@ -13,9 +13,7 @@ component Test.Provider.AnimationFrame {
   }
 
   fun render : Html {
-    <div>
-      <{ Number.toString(frames) }>
-    </div>
+    <div>Number.toString(frames)</div>
   }
 }
 
@@ -23,8 +21,8 @@ suite "Provider.AnimationFrame.frames" {
   test "called on an animation frame" {
     <Test.Provider.AnimationFrame/>
     |> Test.Html.start()
-    |> Test.Html.assertTextOf("div", "1")
-    |> Test.Html.assertTextOf("div", "2")
-    |> Test.Html.assertTextOf("div", "3")
+    |> Test.Context.timeout(10)
+    |> Test.Context.assert(
+      (element : Dom.Element) { Dom.getTextContent(element) != "0" })
   }
 }

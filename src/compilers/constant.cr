@@ -1,13 +1,19 @@
 module Mint
   class Compiler
-    def compile_constants(nodes : Array(Ast::Constant)) : Hash(String, String)
-      nodes
-        .select(&.in?(checked))
-        .sort_by! { |item| resolve_order.index(item) || -1 }
-        .each_with_object({} of String => String) do |node, memo|
-          memo[js.variable_of(node)] =
-            js.arrow_function(%w[], js.return(compile(node.expression)))
-        end
+    def resolve(node : Ast::Constant)
+      resolve node do
+        value =
+          compile(node.expression)
+
+        item =
+          if (parent = node.parent).is_a?(Ast::Component) && !parent.global?
+            js.call(Builtin::UseSignal, [value])
+          else
+            value
+          end
+
+        {node, node, item}
+      end
     end
   end
 end

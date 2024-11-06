@@ -2,7 +2,7 @@ module Mint
   class Parser
     def encode : Ast::Encode?
       parse do |start_position|
-        next unless word! "encode"
+        next unless keyword! "encode"
         whitespace
 
         next error :encode_expected_expression do

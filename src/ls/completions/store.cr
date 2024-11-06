@@ -1,6 +1,6 @@
 module Mint
   module LS
-    class Completion < LSP::RequestMessage
+    class Completion
       def completions(node : Ast::Store, global : Bool = false) : Array(LSP::CompletionItem)
         name =
           node.name if global

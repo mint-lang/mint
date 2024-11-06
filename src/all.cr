@@ -1,13 +1,13 @@
 require "baked_file_system"
 require "ansi-escapes"
+require "compress/zip"
 require "file_utils"
 require "colorize"
 require "markd"
-require "kemal"
 require "uuid"
+require "http"
 require "html"
 require "json"
-require "ecr"
 require "xml"
 
 MINT_ENV = {} of String => String
@@ -15,13 +15,15 @@ MINT_ENV = {} of String => String
 require "./version"
 
 require "./ext/**"
+
+require "./error_message"
 require "./errorable"
 
+require "./exhaustiveness_checker"
 require "./constants"
-require "./assets"
-require "./skippable"
 require "./helpers"
-require "./js"
+require "./logger"
+require "./assets"
 require "./core"
 require "./env"
 
@@ -40,9 +42,11 @@ require "./type_checker/**"
 require "./type_checker"
 
 require "./formatters/**"
+require "./formatter/**"
 require "./formatter"
 
 require "./compilers/**"
+require "./compiler/**"
 require "./compiler"
 
 require "./installer/**"
@@ -52,11 +56,11 @@ require "./parsers/**"
 require "./parser/*"
 require "./parser"
 
-require "./documentation_generator/**"
 require "./documentation_generator"
-require "./documentation_server"
+require "./static_documentation_generator"
 
 require "./semantic_tokenizer"
+require "./references_tracker"
 
 require "./test_runner/**"
 require "./test_runner"
@@ -64,12 +68,12 @@ require "./test_runner"
 require "./lsp/**"
 require "./ls/**"
 
+require "./mint_json/**"
 require "./mint_json"
-require "./app_init/scaffold"
-require "./reactor"
-require "./builder"
-require "./sandbox_server"
-require "./cli"
+
 require "./workspace"
+require "./scaffold"
 require "./debugger"
-require "./artifact_cleaner"
+require "./reactor"
+require "./bundler"
+require "./cli"

@@ -156,7 +156,8 @@ The following tokens can be used in the pattern:
   - %c: date and time (Tue Apr 5 10:26:19 2016)
   - %C: year divided by 100
   - %d: day of month, zero padded (01, 02, ...)
-  - %-d: day of month (1, 2, ..., 31)
+  - %-d: day of month (1, 2, ...)
+  - %*d: day of month, ordinal (1st, 2nd, ...)
   - %D: date (04/05/16)
   - %e: day of month, blank padded (" 1", " 2", ..., "10", "11", ...)
   - %F: ISO 8601 date (2016-04-05)

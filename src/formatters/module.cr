@@ -1,18 +1,21 @@
 module Mint
   class Formatter
-    def format(node : Ast::Module) : String
+    def format(node : Ast::Module) : Nodes
       items =
-        node.functions +
-          node.comments +
-          node.constants
-
-      body =
-        list items
+        node.constants +
+          node.functions +
+          node.comments
 
       comment =
-        node.comment.try { |item| "#{format item}\n" }
+        format_documentation_comment node.comment
 
-      "#{comment}module #{format node.name} {\n#{indent(body)}\n}"
+      comment + ["module "] + format(node.name) + [" "] +
+        group(
+          behavior: Behavior::Block,
+          items: [list(items)],
+          ends: {"{", "}"},
+          separator: "",
+          pad: false)
     end
   end
 end

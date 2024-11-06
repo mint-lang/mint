@@ -1,3 +1,12 @@
+-------------------------------------------------------js_expected_closing_tick
+component Main {
+  fun render : String {
+    `"Hello"
+---------------------------------------------------js_expected_type_or_variable
+component Main {
+  fun render : String {
+    `"Hello"` as
+-------------------------------------------------------------------------------
 component Main {
   fun render : String {
     `"Hello"`

@@ -17,37 +17,21 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
+import {
+  useSignal as B,
+  batch as C
+} from "./runtime.js";
 
-    this.state = new Record({
-      b: `Joe`,
-      c: 24
-    });
-  }
-
-  get b() {
-    return this.state.b;
-  }
-
-  get c() {
-    return this.state.c;
-  }
-
-  a() {
-    return new Promise((_resolve) => {
-      this.setState(_u(this.state, new Record({
-        b: `Hello`,
-        c: 30
-      })), _resolve)
-    });
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  const
+    a = B(`Joe`),
+    b = B(24),
+    c = () => {
+      return C(() => {
+        a.value = `Hello`;
+        b.value = 30
+      })
+    };
+  c();
+  return ``
 };
-
-A.displayName = "Main";

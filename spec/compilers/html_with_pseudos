@@ -27,45 +27,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  constructor(props) {
-    super(props);
-
-    this.state = new Record({
-      b: `yellow`,
-      a: `blue`
-    });
-  }
-
-  $Main_test() {
-    const _ = {
-      [`--a-a`]: this.a,
-      [`--b-a`]: this.b,
-      [`--c-a`]: `Hello`
-    };
-
-    return _;
-  }
-
-  get b() {
-    return this.state.b;
-  }
-
-  get a() {
-    return this.state.a;
-  }
-
-  render() {
-    return _h("div", {
-      className: `Main_test`,
-      style: _style([this.$Main_test()])
-    });
-  }
-};
-
-A.displayName = "Main";
-
-_insertStyles(`
+---=== /__mint__/index.css ===---
 .Main_test {
   background: var(--a-a);
   color: red;
@@ -84,4 +46,28 @@ _insertStyles(`
   font-family: var(--c-a);
   color: blue;
 }
-`);
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as C,
+  useSignal as B,
+  style as D
+} from "./runtime.js";
+
+export const A = () => {
+  const
+    a = B(`yellow`),
+    b = B(`blue`),
+    c = () => {
+      const _ = {
+        [`--a-a`]: b.value,
+        [`--b-a`]: a.value,
+        [`--c-a`]: `Hello`
+      };
+      return _
+    };
+  return C(`div`, {
+    className: `Main_test`,
+    style: D([c()])
+  })
+};

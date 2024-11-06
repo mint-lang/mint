@@ -1,0 +1,30 @@
+body {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 20px;
+  display: grid;
+  margin: 0;
+
+  background-color:  #FFFFFF;
+  color: #333333;
+}
+
+pre {
+  background: rgba(255,255,255,0.8);
+  outline: 6px double indianred;
+  font-size: 14px;
+  padding: 20px;
+  min-width: 0;
+  margin: 0;
+}
+
+pre code {
+  overflow: auto;
+  display: block;
+}
+
+@media (max-width: 500px) {
+  pre {
+    padding: 10px;
+  }
+}

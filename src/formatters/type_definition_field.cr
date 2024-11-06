@@ -1,24 +1,23 @@
 module Mint
   class Formatter
-    def format(node : Ast::TypeDefinitionField) : String
-      key =
-        format node.key
+    def format(node : Ast::TypeDefinitionField) : Nodes
+      comment =
+        format_documentation_comment node.comment
 
       type =
         format node.type
 
+      key =
+        format node.key
+
       mapping =
-        node.mapping.try do |item|
-          mapping_key =
-            format item
+        format(node.mapping) do |item|
+          [" using "] + format(item)
+        end
 
-          " using #{mapping_key}"
-        end.to_s
-
-      comment =
-        node.comment.try { |item| "#{format(item)}\n" }
-
-      "#{comment}#{key} : #{type}#{mapping}"
+      comment + break_not_fits(
+        items: {key, type + mapping},
+        separator: " :")
     end
   end
 end

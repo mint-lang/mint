@@ -33,14 +33,14 @@ component Main {
   }
 }
 ----------------------------------------------------call_argument_type_mismatch
-enum A {
+type A {
   B(String)
   C
 }
 
 component Main {
   fun render : String {
-    case (A::B(0)) {
+    case (A.B(0)) {
       => ""
     }
   }
@@ -123,16 +123,6 @@ component Main {
     Test.b()
   }
 }
-----------------------------------------------------call_argument_type_mismatch
-record Test {
-  test : String
-}
-
-component Main {
-  fun render : String {
-    .asd({test: "Hello"})
-  }
-}
 ------------------------------------------------------------call_not_a_function
 component Main {
   const A = "a"
@@ -142,7 +132,7 @@ component Main {
       A("A is a String constant, but calling it like a function compiles")
 
     <div>
-      <{ a }>
+      a
     </div>
   }
 }
@@ -220,5 +210,17 @@ component Main {
 routes {
   / {
     Test.set()
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (decoder : Function(Object, Result(Object.Error, Array(a))) =
+    decode as Array(String)) {
+    decoder(``)
+  }
+
+  fun render : Html {
+    test(decode as Array(Number))
+    <div></div>
   }
 }

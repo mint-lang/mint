@@ -1,0 +1,11 @@
+-----------------------------------------------------------------emit_no_signal
+component Main {
+  fun render : Html {
+    emit 0
+    <div/>
+  }
+}
+-------------------------------------------------------------emit_type_mismatch
+store Test {
+  signal b : String { emit 0 }
+}

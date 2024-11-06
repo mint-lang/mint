@@ -1,4 +1,4 @@
-enum Maybe(value) {
+type Maybe(value) {
   Just(value)
   Nothing
 }
@@ -16,8 +16,8 @@ component Test {
 component Main {
   fun handleClick : String {
     case (test) {
-      Maybe::Just(component) => component.something("asd")
-      Maybe::Nothing => "asd"
+      Just(component) => component.something("asd")
+      Nothing => "asd"
     }
   }
 
@@ -28,7 +28,7 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-enum Maybe(value) {
+type Maybe(value) {
   Just(value)
   Nothing
 }
@@ -46,8 +46,8 @@ component Test {
 component Main {
   fun handleClick : String {
     case (test) {
-      Maybe::Just(component) => handleComponent(component)
-      Maybe::Nothing => "asd"
+      Just(component) => handleComponent(component)
+      Nothing => "asd"
     }
   }
 

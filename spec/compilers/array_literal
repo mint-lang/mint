@@ -1,28 +1,20 @@
 component Main {
-  fun test : Array(String) {
+  fun render : String {
     [
       "Hello",
       "Blah",
       "Joe"
     ]
-  }
-
-  fun render : String {
-    test()
 
     ""
   }
 }
 --------------------------------------------------------------------------------
-class A extends _C {
-  a() {
-    return [`Hello`, `Blah`, `Joe`];
-  }
-
-  render() {
-    this.a();
-    return ``;
-  }
+export const A = () => {
+  [
+    `Hello`,
+    `Blah`,
+    `Joe`
+  ];
+  return ``
 };
-
-A.displayName = "Main";

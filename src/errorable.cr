@@ -1,50 +1,57 @@
 module Mint
-  # This module is used in all of the stages of the compiler which can error
-  # out (parser, type checker, scope builder, etc...).
-  #
-  # It defines an interface (method) for creating descriptive errors and it can
-  # either gather them or raise them depending on the raise errors flag, which
-  # the including entity must define (unusally in the initialize method).
+  # This module is used in all of things which can error out (parser, type
+  # checker, scope builder, etc...)
   module Errorable
-    # The errors found during parsing.
-    getter errors : Array(Error) = [] of Error
+    def unreachable!(message : String)
+      error! :unreachable do
+        block do
+          text "You have run into unreachable code."
+          text "Please create an issue about this!"
+        end
 
-    def self.error(name : Symbol, &)
-      raise Error.new(name).tap { |error| with error yield }
+        snippet message
+      end
     end
 
     def error!(name : Symbol, &)
-      raise Error.new(name).tap { |error| with error yield }
-    end
-
-    def error(name : Symbol, &)
-      errors << Error.new(name).tap { |error| with error yield }
-      nil
+      raise Mint::Error.new(name).tap { |error| with error yield }
     end
   end
 
-  # Represents a raisable rich and descriptive error.
+  # Represents a raisable rich and descriptive error. The error can be built
+  # using a DLS.
   class Error < Exception
+    # Anything that can be a snippet.
+    alias SnippetTarget = TypeChecker::Checkable | SnippetData |
+                          Ast::Node | Parser | String
+
     alias Element = Text | Bold | Code
 
-    record Snippet, value : Ast::Node | String | TypeChecker::Checkable
+    record Snippet, value : TypeChecker::Checkable | String | SnippetData
     record Code, value : String
     record Bold, value : String
     record Text, value : String
 
+    record SnippetData,
+      filename : String,
+      input : String,
+      from : Int64,
+      to : Int64
+
+    # The message is based on blocks of elements. The blocks are separated
+    # by double new lines.
     getter blocks = [] of Array(Element) | Snippet
+
+    # The name of the error.
     getter name : Symbol
 
     def initialize(@name : Symbol)
       @current = [] of Element
     end
 
-    def build(&)
-      with self yield
-    end
-
     def block(&)
       with self yield
+
       @blocks << @current
       @current = [] of Element
     end
@@ -65,26 +72,41 @@ module Mint
       @current << Bold.new(value)
     end
 
-    def snippet(value : String, node : Ast::Node | TypeChecker::Checkable | String)
+    def snippet(value : String, node : SnippetTarget)
       block value
       snippet node
     end
 
-    def snippet(value : Parser)
-      from =
-        value.position
+    def snippet(value : SnippetTarget)
+      target =
+        case value
+        in Parser
+          SnippetData.new(
+            to: value.position + value.word.to_s.size,
+            input: value.file.contents,
+            filename: value.file.path,
+            from: value.position)
+        in Ast::Node
+          SnippetData.new(
+            input: value.file.contents,
+            filename: value.file.path,
+            from: value.from,
+            to: value.to)
+        in SnippetData
+          value
+        in TypeChecker::Checkable
+          value
+        in String
+          value
+        end
 
-      to =
-        value.position + value.word.to_s.size
-
-      snippet(Ast::Node.new(file: value.file, from: from, to: to))
+      @blocks << Snippet.new(target)
     end
 
-    def snippet(value : String | Ast::Node | TypeChecker::Checkable)
-      @blocks << Snippet.new(value)
-    end
-
-    def expected(subject : TypeChecker::Checkable | String, got : TypeChecker::Checkable)
+    def expected(
+      subject : TypeChecker::Checkable | String,
+      got : TypeChecker::Checkable
+    )
       snippet "I was expecting:", subject
       snippet "Instead it is:", got
     end
@@ -97,86 +119,23 @@ module Mint
       end
     end
 
-    def to_html
-      renderer = Render::Html.new
-      renderer.title "ERROR (#{name})"
-
-      blocks.each do |element|
-        case element
-        # when TypeList
-        #   renderer.type_list element.value
-        # when StringList
-        #   renderer.list element.value
-        # when Pre
-        #   renderer.pre element.value
-        # when Type
-        #   renderer.type element.value
-        # when Title
-        #   renderer.title element.value
-        when Error::Snippet
-          case node = element.value
-          when TypeChecker::Checkable
-            renderer.pre node.to_pretty
-          when Ast::Node
-            renderer.snippet node
-          end
-        when Array(Error::Element)
-          renderer.block do
-            element.each do |item|
-              case item
-              when Error::Text
-                text item.value
-              when Error::Bold
-                bold item.value
-              when Error::Code
-                code item.value
-              end
-            end
-          end
-        end
-      end
-
-      # ameba:disable Lint/UselessAssign
-      contents =
-        renderer.io.to_s
-
-      ECR.render("#{__DIR__}/message.ecr")
-    end
-
     def to_terminal
       renderer = Render::Terminal.new
       renderer.title "ERROR (#{name})"
 
       blocks.each do |element|
         case element
-        # when TypeList
-        #   renderer.type_list element.value
-        # when StringList
-        #   renderer.list element.value
-        # when Pre
-        #   renderer.pre element.value
-        # when Type
-        #   renderer.type element.value
-        # when Title
-        #   renderer.title element.value
-        when Error::Snippet
-          case node = element.value
-          when TypeChecker::Checkable
-            renderer.snippet node
-          when Ast::Node
-            renderer.snippet node
-          when String
-            renderer.snippet node
-          end
-        when Array(Error::Element)
+        in Error::Snippet
+          renderer.snippet element.value
+        in Array(Error::Element)
           renderer.block do
             element.each do |item|
               case item
-              when Error::Text
+              in Error::Text
                 text item.value
-              when Error::Bold
+              in Error::Bold
                 bold item.value
-              when Error::Code
+              in Error::Code
                 code item.value
               end
             end
@@ -185,6 +144,10 @@ module Mint
       end
 
       renderer.io
+    end
+
+    def to_s
+      to_terminal.to_s
     end
   end
 end

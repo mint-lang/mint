@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   A(String)
   B(String)
 }
@@ -6,8 +6,8 @@ enum Test {
 component Main {
   fun render : String {
     {
-      let Test::A(a) =
-        await Test::A("Some string...") or return "RETURN"
+      let Test.A(a) =
+        await Test.A("Some string...") or return "RETURN"
 
       a
     }
@@ -16,39 +16,25 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-class A extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
+import {
+  patternVariable as H,
+  destructure as E,
+  newVariant as F,
+  pattern as G,
+  variant as B
+} from "./runtime.js";
 
-class B extends _E {
-  constructor(_0) {
-    super();
-    this._0 = _0;
-    this.length = 1;
-  }
-};
-
-class C extends _C {
-  render() {
+export const
+  A = B(1),
+  C = B(1),
+  D = () => {
     (async () => {
-      const b = __match(await _n(A)(`Some string...`), _PE(A,[
-        _PV
-      ]));
-
-      if (b === false) {
+      const a = E(await F(A)(`Some string...`), G(A, [H]));
+      if (a === false) {
         return `RETURN`
       };
-
-      const [a] = b;
-      return a;
+      const [b] = a;
+      return b
     })();
-
-    return ``;
-  }
-};
-
-C.displayName = "Main";
+    return ``
+  };

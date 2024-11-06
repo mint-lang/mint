@@ -1,4 +1,4 @@
-enum Test {
+type Test {
   A(
 --------------------------------------------------------------------------------
 ░ ERROR (TYPE_VARIANT_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -8,6 +8,6 @@ instead:
 
    ┌ ./spec/errors/type_variant_expected_closing_parenthesis:2:4
    ├────────────────────────────────────────────────────────────
-  1│ enum Test {
+  1│ type Test {
   2│   A(
    │     ⌃⌃⌃⌃

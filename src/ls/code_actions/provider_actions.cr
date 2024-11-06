@@ -18,25 +18,21 @@ module Mint
             node.functions.sort_by(&.name.value))
             .each_with_index { |entity, index| entity.from = order[index] }
 
-          # This should not fail since we return on errors earlier
-          formatted =
-            workspace.format(URI.parse(uri).path.to_s)
-
-          # Create a workspace edit of the formatted document
-          edit =
-            LSP::WorkspaceEdit.new({
-              uri => [
-                LSP::TextEdit.new(new_text: formatted, range: LSP::Range.new(
-                  start: LSP::Position.new(line: 0, character: 0),
-                  end: LSP::Position.new(line: 9999, character: 999)
-                )),
-              ],
-            })
-
-          LSP::CodeAction.new(
-            title: "Order Entities",
-            kind: "source",
-            edit: edit)
+          case formatted = workspace.format(URI.parse(uri).path.to_s)
+          in String
+            LSP::CodeAction.new(
+              title: "Order Entities",
+              kind: "source",
+              edit: LSP::WorkspaceEdit.new({
+                uri => [
+                  LSP::TextEdit.new(new_text: formatted, range: LSP::Range.new(
+                    start: LSP::Position.new(line: 0, character: 0),
+                    end: LSP::Position.new(line: 9999, character: 999)
+                  )),
+                ],
+              }))
+          in Error, Nil
+          end
         end
       end
     end

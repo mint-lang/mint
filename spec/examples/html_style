@@ -8,7 +8,7 @@ component Main {
     <div::base/>
   }
 }
-----------------------------------------------html_style_argument_size_mismatch
+----------------------------------------------------call_argument_size_mismatch
 component Main {
   style base (name : String, active : Bool) {
     color: red;
@@ -18,7 +18,7 @@ component Main {
     <div::base("Hello")/>
   }
 }
-----------------------------------------------html_style_argument_size_mismatch
+----------------------------------------------------call_argument_size_mismatch
 component Main {
   style base (name : String, active : Bool) {
     color: red;
@@ -28,7 +28,7 @@ component Main {
     <div::base(0,1,2)/>
   }
 }
-----------------------------------------------html_style_argument_type_mismatch
+----------------------------------------------------call_argument_type_mismatch
 component Main {
   style base (name : String, active : Bool) {
     color: red;

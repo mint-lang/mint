@@ -7,7 +7,7 @@ component Main {
   get record : Record(String, Bool) {
     { a | a: ""
 ----------------------------------------------record_update_not_updating_record
-record Test {
+type Test {
   a : String,
   b : Number
 }
@@ -29,7 +29,7 @@ component Main {
   }
 }
 ----------------------------------------------------record_update_type_mismatch
-record Test {
+type Test {
   a : String,
   b : Number
 }
@@ -55,7 +55,7 @@ component Main {
   }
 }
 ----------------------------------------------------record_update_not_found_key
-record Test {
+type Test {
   a : String,
   b : Number
 }
@@ -81,7 +81,7 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
-record Test {
+type Test {
   a : String,
   b : Number
 }

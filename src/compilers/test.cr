@@ -1,54 +1,35 @@
 module Mint
   class Compiler
-    def _compile_operation_test(operation : Ast::Operation) : String?
-      operator =
-        operation.operator
+    def compile(node : Ast::Test) : Compiled
+      compile node do
+        location =
+          [Raw.new(node.location.to_json)]
 
-      return unless operator.in?("==", "!=")
+        name =
+          compile node.name
 
-      right =
-        compile operation.right
+        expression =
+          case operation = node.expression
+          when Ast::Operation
+            if (operator = operation.operator).in?("==", "!=")
+              right =
+                compile operation.right
 
-      left =
-        compile operation.left
+              left =
+                compile operation.left
 
-      <<-COMPILED
-      (() => {
-        const context = new TestContext(#{left})
-        const right = #{right}
+              js.call(
+                Builtin::TestOperation,
+                [left, right, [operator] of (Item)])
+            end
+          end || compile(node.expression)
 
-        context.step((subject) => {
-          if (#{"!" if operator == "=="}_compare(subject, right)) {
-            throw `Assertion failed: ${right} #{operator} ${subject}`
-          }
-          return true
+        js.object({
+          "proc"     => js.arrow_function { js.return(expression) },
+          "location" => location,
+          "name"     => name,
         })
-        return context
-      })()
-      COMPILED
-    end
-
-    def _compile(node : Ast::Test) : String
-      name =
-        compile node.name
-
-      location =
-        node.location.to_json
-
-      raw_expression =
-        node.expression
-
-      expression =
-        case raw_expression
-        when Ast::Operation
-          _compile_operation_test(raw_expression)
-        end || compile(raw_expression)
-
-      js.object({
-        "proc"     => "async function () { return #{expression} }",
-        "location" => location,
-        "name"     => name,
-      })
+      end
     end
   end
 end

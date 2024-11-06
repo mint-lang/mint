@@ -3,14 +3,19 @@ require "./reporter"
 module Mint
   class TestRunner
     class DotReporter < Reporter
+      # The maximum length of a line of dots.
       private MAX_LINE_LENGTH = 80
 
+      # Characters for some states
       private SUCCESS_MARKER = ".".colorize(:green)
-      private FAIL_MARKER    = "F".colorize(:red)
       private ERROR_MARKER   = "E".colorize(:red)
+      private FAIL_MARKER    = "F".colorize(:red)
 
-      def initialize
+      @count = 0
+
+      def reset
         @count = 0
+        super
       end
 
       def with_count(&)
@@ -19,38 +24,26 @@ module Mint
         @count += 1
       end
 
-      def succeeded(name)
-        with_count do
-          print SUCCESS_MARKER
-        end
-      end
-
-      def failed(name, error)
-        with_count do
-          print FAIL_MARKER
-        end
-      end
-
-      def errored(name, error)
-        with_count do
-          print ERROR_MARKER
-        end
-      end
-
-      def suite(name)
-      end
-
-      def done
+      def report
         puts
+        super
       end
 
-      def reset
-        @count = 0
-      end
+      def process(message : Message)
+        case message.type
+        when "LOG"
+          # We restart the count because the parent class
+          # displays the log.
+          @count = 0
+        when "SUCCEEDED"
+          with_count { print SUCCESS_MARKER }
+        when "FAILED"
+          with_count { print FAIL_MARKER }
+        when "ERRORED"
+          with_count { print ERROR_MARKER }
+        end
 
-      def crashed(message)
-        puts
-        puts "❗ An internal error occurred while executing a test: #{message}".colorize(:red)
+        super
       end
     end
   end

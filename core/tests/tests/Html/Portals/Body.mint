@@ -1,8 +1,6 @@
 suite "Html.Portals.Body" {
   test "renders single children into the body" {
-    <Html.Portals.Body>
-      <portal-body/>
-    </Html.Portals.Body>
+    <Html.Portals.Body><portal-body/></Html.Portals.Body>
     |> Test.Html.start()
     |> Test.Context.then(
       (subject : Dom.Element) : Promise(Bool) {

@@ -1,15 +1,31 @@
 module Mint
   class Parser
+    def self.parse?(contents, file) : Ast | Error
+      parser = new(contents, file)
+      parser.parse
+      parser.eof!
+      parser.errors.first? || parser.ast
+    end
+
+    def self.parse(contents, file) : Ast
+      case result = parse?(contents, file)
+      in Error
+        raise result
+      in Ast
+        result
+      end
+    end
+
     def self.parse(file) : Ast
       parse ::File.read(file), file
     end
 
-    def self.parse(contents, file) : Ast
-      parser = new(contents, file)
-      parser.parse
-      parser.eof!
-      parser.errors.first?.try { |error| raise error }
-      parser.ast
+    def self.parse_any(contents, file) : Ast
+      new(contents, file).tap(&.parse_any).ast
+    end
+
+    def self.parse_any(file) : Ast
+      parse_any ::File.read(file), file
     end
 
     def parse : Nil
@@ -47,6 +63,44 @@ module Mint
           ast.stores << item
         when Ast::Suite
           ast.suites << item
+        end
+      end
+    end
+
+    def parse_any : Nil
+      many do
+        oneof do
+          module_definition ||
+            type_definition ||
+            html_attribute ||
+            interpolation ||
+            css_font_face ||
+            css_keyframes ||
+            component ||
+            constant ||
+            property ||
+            operator ||
+            provider ||
+            function ||
+            comment ||
+            connect ||
+            locale ||
+            routes ||
+            signal ||
+            route ||
+            state ||
+            style ||
+            store ||
+            suite ||
+            test ||
+            emit ||
+            get ||
+            use ||
+            statement ||
+            case_branch ||
+            destructuring ||
+            css_node ||
+            expression
         end
       end
     end

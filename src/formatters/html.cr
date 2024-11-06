@@ -1,42 +1,37 @@
 module Mint
   class Formatter
-    def format(node : Ast::HtmlElement | Ast::HtmlComponent,
-               prefix : String,
-               tag : String) : String
-      attributes =
-        format node.attributes
-
-      multiline =
-        attributes.size >= 2 || attributes.any? do |attribute|
-          replace_skipped(attribute).includes?('\n')
-        end
-
-      attributes =
-        if attributes.empty?
-          ""
-        elsif multiline
-          indent("\n#{attributes.join('\n')}")
-        else
-          " #{attributes.join(' ')}"
-        end
-
+    def format(
+      *,
+      node : Ast::HtmlElement | Ast::HtmlComponent,
+      prefix : Nodes,
+      tag : Nodes
+    ) : Nodes
       child_nodes =
         node.children + node.comments
 
-      children =
-        indent(list(child_nodes))
+      attributes =
+        group(
+          items: node.attributes.map(&->format(Ast::Node)),
+          behavior: Behavior::BreakAll,
+          ends: {"", ""},
+          separator: "",
+          pad: false)
 
-      if node.attributes.empty? &&
-         node.children.size == 1 &&
-         node.children.first.is_a?(Ast::StringLiteral) &&
-         !children.includes?('\n')
-        "<#{prefix}#{attributes}>#{children.strip}</#{tag}>"
-      elsif child_nodes.empty?
-        "<#{prefix}#{attributes}/>"
-      elsif replace_skipped(attributes).includes?('\n')
-        "<#{prefix}#{attributes}>\n\n#{children}\n\n</#{tag}>"
+      children =
+        group(
+          behavior: Behavior::BreakAll,
+          items: [list(child_nodes)],
+          ends: {"", ""},
+          separator: "",
+          pad: false)
+
+      head =
+        ["<"] + prefix + (node.attributes.empty? ? ([] of Node) : [" "])
+
+      if child_nodes.empty?
+        head + attributes + ["/>"]
       else
-        "<#{prefix}#{attributes}>\n#{children}\n</#{tag}>"
+        head + attributes + [">"] + children + ["</"] + tag + [">"]
       end
     end
   end
