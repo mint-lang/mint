@@ -14,12 +14,12 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as C,
-  match as B
+  patternVariable as B,
+  match as A
 } from "./runtime.js";
 
-export const A = () => {
-  return B([
+export const C = () => {
+  return A([
     `A`,
     0,
     true
@@ -46,9 +46,9 @@ export const A = () => {
     ],
     [
       [
-        C,
-        C,
-        C
+        B,
+        B,
+        B
       ],
       (a, b, c) => {
         return a

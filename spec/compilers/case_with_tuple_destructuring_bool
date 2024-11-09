@@ -12,10 +12,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { match as B } from "./runtime.js";
+import { match as A } from "./runtime.js";
 
-export const A = () => {
-  return B([
+export const B = () => {
+  return A([
     false,
     true
   ], [

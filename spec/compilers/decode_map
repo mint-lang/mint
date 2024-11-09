@@ -12,15 +12,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  decodeNumber as F,
-  decodeMap as E,
-  variant as B
+  decodeNumber as C,
+  decodeMap as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(1),
-  D = () => {
-    E(F(C, A), C, A)((([])));
+  D = A(1),
+  E = A(1),
+  F = () => {
+    B(C(E, D), E, D)((([])));
     return ``
   };

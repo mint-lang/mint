@@ -22,14 +22,14 @@ component Main {
 }
 
 ---=== /__mint__/index.js ===---
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
 export const
-  A = () => {
-    return B(`div`, {
+  B = () => {
+    return A(`div`, {
       className: `Ui·Dropdown_base`
     }, [`test`])
   },
   C = () => {
-    return B(A, {})
+    return A(B, {})
   };

@@ -17,19 +17,19 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as H,
-  destructure as E,
-  newVariant as F,
-  pattern as G,
-  variant as B
+  patternVariable as E,
+  destructure as B,
+  newVariant as C,
+  pattern as D,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(1),
-  D = () => {
+  F = A(1),
+  G = A(1),
+  H = () => {
     (async () => {
-      const a = E(await F(A)(`Some string...`), G(A, [H]));
+      const a = B(await C(F)(`Some string...`), D(F, [E]));
       if (a === false) {
         return `RETURN`
       };

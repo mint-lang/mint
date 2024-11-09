@@ -13,16 +13,16 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  toArray as D
+  createElement as A,
+  toArray as B
 } from "./runtime.js";
 
 export const
-  A = ({
+  C = ({
     children: a = []
   }) => {
     return a
   },
-  B = () => {
-    return C(A, {}, D(``))
+  D = () => {
+    return A(C, {}, B(``))
   };

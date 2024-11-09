@@ -24,13 +24,13 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { access as B } from "./runtime.js";
+import { access as A } from "./runtime.js";
 
 export const
   a = (b, c) => {
     return undefined
   },
-  A = () => {
+  B = () => {
     a([
       {
         name: `Joe`
@@ -38,6 +38,6 @@ export const
       {
         name: `Doe`
       }
-    ], B(`name`));
+    ], A(`name`));
     return `asd`
   };

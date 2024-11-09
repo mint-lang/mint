@@ -14,12 +14,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
-export const A = () => {
+export const B = () => {
   {
     a: `Hello`,
     b: 0
   };
-  return B(`div`, {})
+  return A(`div`, {})
 };

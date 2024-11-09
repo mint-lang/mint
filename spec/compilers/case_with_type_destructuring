@@ -23,30 +23,30 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as I,
-  newVariant as G,
-  pattern as H,
-  variant as B,
-  match as F
+  patternVariable as E,
+  newVariant as C,
+  pattern as D,
+  variant as A,
+  match as B
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = B(1),
-  E = () => {
-    F(G(A)(G(D)(``)), [
+  F = A(1),
+  G = A(0),
+  H = A(1),
+  I = () => {
+    B(C(F)(C(H)(``)), [
       [
-        H(C, []),
+        D(G, []),
         () => {
           return ``
         }
       ],
       [
-        H(A, [I]),
+        D(F, [E]),
         (a) => {
-          return F(a, [[
-            H(D, [I]),
+          return B(a, [[
+            D(H, [E]),
             (b) => {
               return b
             }

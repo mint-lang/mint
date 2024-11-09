@@ -34,6 +34,7 @@ module Mint
               Bundler.new(
                 artifacts: result.artifacts,
                 config: Bundler::Config.new(
+                  generate_source_maps: flags.generate_source_maps,
                   runtime_path: flags.runtime,
                   generate_manifest: false,
                   include_program: false,

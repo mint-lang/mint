@@ -25,55 +25,55 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as L,
-  createElement as G,
-  pattern as K,
-  useMemo as F,
-  variant as B,
-  setRef as H,
-  useRef as E,
-  match as J
+  patternVariable as H,
+  createElement as D,
+  pattern as G,
+  useMemo as C,
+  variant as A,
+  setRef as E,
+  useRef as B,
+  match as F
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = ({
+  I = A(1),
+  J = A(0),
+  K = ({
     _
   }) => {
-    const a = E(new C());
-    const b = F(() => {
+    const a = B(new J());
+    const b = C(() => {
       return {
         a
       }
     }, []);
     (_ ? _(b) : null);
-    return G(`div`, {
-      ref: H(a, A)
+    return D(`div`, {
+      ref: E(a, I)
     })
   },
-  I = () => {
+  L = () => {
     const
-      c = E(new C()),
+      c = B(new J()),
       d = () => {
-        return J(c.current, [
+        return F(c.current, [
           [
-            K(A, [L]),
+            G(I, [H]),
             (e) => {
               return e.a.current
             }
           ],
           [
-            K(C, []),
+            G(J, []),
             () => {
-              return new C()
+              return new J()
             }
           ]
         ])
       };
-    return G(`div`, {
+    return D(`div`, {
       "onClick": d
-    }, [G(D, {
-      _: H(c, A)
+    }, [D(K, {
+      _: E(c, I)
     })])
   };

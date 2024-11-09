@@ -20,20 +20,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  newVariant as I,
-  variant as B
+  newVariant as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = B(0),
-  E = B(1),
-  F = B(1),
-  G = B(2),
-  H = () => {
-    new C();
-    I(G)(``, ``);
-    I(E)(I(F)(``));
+  C = A(1),
+  D = A(0),
+  E = A(0),
+  F = A(1),
+  G = A(1),
+  H = A(2),
+  I = () => {
+    new D();
+    B(H)(``, ``);
+    B(F)(B(G)(``));
     return ``
   };

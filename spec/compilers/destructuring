@@ -22,34 +22,34 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as H,
-  newVariant as E,
-  pattern as G,
-  variant as B,
-  match as F
+  patternVariable as E,
+  newVariant as B,
+  pattern as D,
+  variant as A,
+  match as C
 } from "./runtime.js";
 
 export const
-  A = B([
+  F = A([
     "matchString",
     "content",
     "key"
   ]),
-  C = B(0),
-  D = () => {
-    const a = E(A)(`MATCHSTRING`, `CONTENT`, `KEY`);
-    return F(a, [
+  G = A(0),
+  H = () => {
+    const a = B(F)(`MATCHSTRING`, `CONTENT`, `KEY`);
+    return C(a, [
       [
-        G(A, [
+        D(F, [
           null,
-          H
+          E
         ]),
         (b) => {
           return b
         }
       ],
       [
-        G(C, []),
+        D(G, []),
         () => {
           return ``
         }

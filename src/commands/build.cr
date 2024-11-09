@@ -20,6 +20,10 @@ module Mint
         description: "If specified, the web manifest will be generated.",
         default: false
 
+      define_flag generate_source_maps : Bool,
+        description: "If specified, source maps will be generated.",
+        default: false
+
       define_flag verbose : Bool,
         description: "If specified, all written files will be logged.",
         default: false
@@ -60,6 +64,7 @@ module Mint
                     Bundler.new(
                       artifacts: result.artifacts,
                       config: Bundler::Config.new(
+                        generate_source_maps: flags.generate_source_maps,
                         generate_manifest: flags.generate_manifest,
                         skip_icons: flags.skip_icons,
                         optimize: !flags.no_optimize,

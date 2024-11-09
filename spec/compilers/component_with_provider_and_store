@@ -33,10 +33,10 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
-  createElement as F,
+  createProvider as B,
+  createElement as D,
   signal as A,
-  useId as E
+  useId as C
 } from "./runtime.js";
 
 export const
@@ -45,12 +45,12 @@ export const
   },
   b = A(``),
   c = new Map(),
-  B = C(c, () => {
+  E = B(c, () => {
     return null
   }),
-  D = () => {
-    const d = E();
-    B(d, () => {
+  F = () => {
+    const d = C();
+    E(d, () => {
       return (false ? {
         moves: (e) => {
           return null
@@ -60,5 +60,5 @@ export const
         }
       } : null)
     });
-    return F(`div`, {})
+    return D(`div`, {})
   };

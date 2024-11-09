@@ -7,6 +7,7 @@ module Mint
 
     record Config,
       test : NamedTuple(url: String, id: String, glob: String)?,
+      generate_source_maps : Bool,
       generate_manifest : Bool,
       include_program : Bool,
       runtime_path : String?,
@@ -93,10 +94,11 @@ module Mint
       ids =
         compiler.compiled.map { |(_, id, _)| id }
 
-      calculated_bundles = Logger.log "Calculating dependencies for bundles..." do
-        # Calculate the bundles.
-        artifacts.references.calculate
-      end
+      calculated_bundles =
+        Logger.log "Calculating dependencies for bundles..." do
+          # Calculate the bundles.
+          artifacts.references.calculate
+        end
 
       Logger.log "Bundling and generating JavaScript..." do
         # NOTE: For debugging purposes.
@@ -165,21 +167,22 @@ module Mint
                    Ast::Node |
                    String, Set(Ast::Node) | Bundle).new
 
-        rendered_bundles =
-          {} of Set(Ast::Node) | Bundle => Tuple(Compiler::Renderer, Array(String))
+        processed_bundles =
+          {} of Set(Ast::Node) | Bundle => Tuple(Compiler::Renderer, Array(Compiler::Compiled))
 
         # We render the bundles so we can know after what we need to import.
         bundles.each do |node, contents|
           renderer =
             Compiler::Renderer.new(
               deferred_path: ->bundle_name(Set(Ast::Node) | Bundle),
+              generate_source_maps: config.generate_source_maps,
               asset_path: ->asset_path(Ast::Node),
               bundles: calculated_bundles,
               class_pool: class_pool,
               base: node,
               pool: pool)
 
-          # Built the singe `const` with multiple assignments so we can add
+          # Build the single `const` with multiple assignments so we can add
           # things later to the array.
           items =
             if contents.empty?
@@ -210,95 +213,109 @@ module Mint
             items << compiler.program if config.include_program
           end
 
-          # Render the final JavaScript.
-          items =
-            items.reject(&.empty?).map { |item| renderer.render(item) }
-
-          rendered_bundles[node] = {renderer, items}
+          processed_bundles[node] = {renderer, items.reject(&.empty?)}
         end
 
-        rendered_bundles.each do |node, (renderer, items)|
-          case node
-          when Bundle::Index
-            # Index doesn't import from other nodes.
-          else
-            # This holds the imports for each other bundle.
-            imports =
-              {} of Set(Ast::Node) | Bundle => Hash(String, String)
-
-            renderer.used.map do |item|
-              # We only need to import things that are actually exported (all
-              # other entities show up here like function arguments, statement
-              # variables, etc...)
-              next unless ids.includes?(item)
-
-              # We don't import async components.
-              case item
-              when Ast::Id
-                next # NOTE: Don't know how this can be here...
-              when Ast::Component
-                next if item.async?
-              end
-
-              # Get where the entity should be.
-              target =
-                scopes[item]? || Bundle::Index
-
-              # If the target is not this bundle and it's not the same bundle
-              # then we need to import.
-              if target != node && Set.new([item]) != node
-                exported_name =
-                  rendered_bundles[target][0].render(item).to_s
-
-                imported_name =
-                  renderer.render(item).to_s
-
-                imports[target] ||= {} of String => String
-                imports[target][exported_name] = imported_name
-              end
-            end
-
-            # For each import we insert an import statement.
-            imports.each do |target, data|
-              items.unshift(
-                renderer.import(
-                  data,
-                  config.optimize,
-                  path_for_import(target)))
-            end
+        rendered_bundles =
+          processed_bundles.map do |node, (renderer, items)|
+            used =
+              compiler.gather_used(items)
 
             case node
-            in Bundle::Index
-            in Set(Ast::Node)
-              if node.size == 1
-                items << "export default #{renderer.render(node.first)}"
+            when Bundle::Index
+              # Index doesn't import from other nodes.
+            else
+              # This holds the imports for each other bundle.
+              imports =
+                {} of Set(Ast::Node) | Bundle => Hash(String, String)
+
+              used.map do |item|
+                # We only need to import things that are actually exported (all
+                # other entities show up here like function arguments, statement
+                # variables, etc...)
+                next unless ids.includes?(item)
+
+                # We don't import async components.
+                case item
+                when Ast::Id
+                  next # NOTE: Don't know how this can be here...
+                when Ast::Component
+                  next if item.async?
+                end
+
+                # Get where the entity should be.
+                target =
+                  scopes[item]? || Bundle::Index
+
+                # If the target is not this bundle and it's not the same bundle
+                # then we need to import.
+                if target != node && Set.new([item]) != node
+                  exported_name =
+                    processed_bundles[target][0].render(item).to_s
+
+                  imported_name =
+                    renderer.render(item).to_s
+
+                  imports[target] ||= {} of String => String
+                  imports[target][exported_name] = imported_name
+                end
+              end
+
+              # For each import we insert an import statement.
+              imports.each do |target, data|
+                items.unshift(compiler.js.import(data, path_for_import(target)))
+              end
+
+              case node
+              in Bundle::Index
+              in Set(Ast::Node)
+                if node.size == 1
+                  items << ["export default ", node.first] of Compiler::Item
+                end
               end
             end
+
+            # Gather what builtins need to be imported and add it's statement
+            # as well.
+            builtins =
+              used
+                .select(Compiler::Builtin)
+                .each_with_object({} of String => String) do |item, memo|
+                  memo[item.to_s.camelcase(lower: true)] = renderer.class_pool.of(item, node)
+                end
+
+            items
+              .unshift(compiler.js.import(builtins, "./runtime.js"))
+              .reject!(&.empty?)
+
+            path =
+              path_for_bundle(node)
+
+            js =
+              if items.empty?
+                ""
+              else
+                renderer.render(compiler.js.statements(items, line_count: 2)) + ";"
+              end
+
+            files[path] = ->{ js }
+
+            {renderer, path, js}
           end
 
-          # Gather what builtins need to be imported and add it's statement
-          # as well.
-          builtins =
-            renderer
-              .builtins
-              .each_with_object({} of String => String) do |item, memo|
-                memo[item.to_s.camelcase(lower: true)] = renderer.class_pool.of(item, node)
-              end
+        if config.generate_source_maps
+          Logger.log "Generating source maps..." do
+            rendered_bundles.each do |(renderer, path, js)|
+              source_map_path =
+                "#{path}.map"
 
-          items
-            .unshift(renderer.import(builtins, config.optimize, "./runtime.js"))
-            .reject!(&.blank?)
+              source_map =
+                SourceMapGenerator.new(renderer.mappings, js).generate
 
-          js =
-            if items.empty?
-              ""
-            elsif config.optimize
-              items.join(";")
-            else
-              items.join(";\n\n") + ";"
+              files[path] = ->{ "#{js}\n//# sourceMappingURL=#{File.basename(source_map_path)}" }
+              files[source_map_path] = ->{ source_map }
             end
-
-          files[path_for_bundle(node)] = ->{ js }
+          end
         end
       end
     end

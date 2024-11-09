@@ -8,9 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { compare as B } from "./runtime.js";
+import { compare as A } from "./runtime.js";
 
-export const A = () => {
-  (B(`asd`, `asd2`) ? null : null);
+export const B = () => {
+  (A(`asd`, `asd2`) ? null : null);
   return ``
 };

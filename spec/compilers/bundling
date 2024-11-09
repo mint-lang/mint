@@ -57,14 +57,14 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as I,
-  createElement as G,
-  useEffect as E,
-  useSignal as D,
-  fragment as H,
-  variant as K,
-  load as F,
-  lazy as B
+  lazyComponent as G,
+  createElement as E,
+  useEffect as C,
+  useSignal as B,
+  fragment as F,
+  variant as H,
+  load as D,
+  lazy as A
 } from "./runtime.js";
 
 export const
@@ -72,31 +72,31 @@ export const
   b = (c) => {
     return `Hello ${c}!`
   },
-  A = B(`./2.js`),
-  C = () => {
-    const d = D(``);
-    E(() => {
+  I = A(`./2.js`),
+  J = () => {
+    const d = B(``);
+    C(() => {
       (async () => {
-        const e = await F(a);
+        const e = await D(a);
         return (() => {
           d.value = e
         })()
       })()
     }, []);
-    return G(H, {}, [
-      G(I, {
+    return E(F, {}, [
+      E(G, {
         c: [],
         key: `Greeter`,
         p: {
           a: `World`
         },
-        x: A
+        x: I
       }),
       b(`Me`)
     ])
   },
-  J = K(0),
-  L = K(0);
+  K = H(0),
+  L = H(0);
 
 ---=== /__mint__/1.js ===---
 export const a = `Hello, I was loaded later...`;

@@ -14,61 +14,61 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [
-    B('p', {}, [`#{name}`]),
-    B('pre', {}, [B('code', {
+export const C = () => {
+  return A(B, {}, [
+    A('p', {}, [`#{name}`]),
+    A('pre', {}, [A('code', {
       class: "language-mint"
     }, [
-      B('span', {
+      A('span', {
         class: "line"
       }, [`\`Something\`
 `]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [
         ``,
-        B('span', {
+        A('span', {
           class: "string"
         }, [`"#{`]),
-        B('span', {
+        A('span', {
           class: "variable"
         }, [`name`]),
-        B('span', {
+        A('span', {
           class: "string"
         }, [`}"`]),
         `
 `
       ]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [
         ``,
-        B('span', {
+        A('span', {
           class: "string"
         }, [`"First line" \\`]),
         `
 `
       ]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [
         ``,
-        B('span', {
+        A('span', {
           class: "string"
         }, [`"Second line" \\`]),
         `
 `
       ]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [
         ``,
-        B('span', {
+        A('span', {
           class: "string"
         }, [`"Third line"`])
       ])

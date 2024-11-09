@@ -13,13 +13,13 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   signal as A,
-  match as C
+  match as B
 } from "./runtime.js";
 
 export const
   a = A(`Hello`),
-  B = () => {
-    return C(``, [
+  C = () => {
+    return B(``, [
       [
         a.value,
         () => {

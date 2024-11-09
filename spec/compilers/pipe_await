@@ -18,16 +18,16 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { compare as B } from "./runtime.js";
+import { compare as A } from "./runtime.js";
 
-export const A = () => {
+export const B = () => {
   const
     a = async (b) => {
       return await b
     },
     c = async () => {
       const d = await a(await a(`Hello`));
-      return B(d, `asd`)
+      return A(d, `asd`)
     };
   c();
   return ``

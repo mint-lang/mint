@@ -18,24 +18,24 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  decodeNumber as F,
-  decodeString as E,
-  identity as H,
-  encoder as G,
-  decoder as D,
-  variant as B
+  decodeNumber as D,
+  decodeString as C,
+  identity as F,
+  encoder as E,
+  decoder as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(1),
-  a = D({
-    string: E(C, A),
-    number: F(C, A)
-  }, C, A),
-  b = G({
-    string: H,
-    number: H
+  G = A(1),
+  H = A(1),
+  a = B({
+    string: C(H, G),
+    number: D(H, G)
+  }, H, G),
+  b = E({
+    string: F,
+    number: F
   }),
   I = () => {
     a(undefined);

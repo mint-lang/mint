@@ -25,30 +25,30 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as F,
-  createElement as E,
-  lazy as C
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
 } from "./runtime.js";
 
 export const
-  A = ({
+  D = ({
     a = ``
   }) => {
     return a
   },
-  B = C(`./1.js`),
-  D = () => {
-    return E(`div`, {}, [
-      E(A, {
+  E = A(`./1.js`),
+  F = () => {
+    return B(`div`, {}, [
+      B(D, {
         a: `Blah`
       }),
-      E(F, {
+      B(C, {
         c: [],
         key: `Lesson`,
         p: {
           a: `Hello`
         },
-        x: B
+        x: E
       })
     ])
   };

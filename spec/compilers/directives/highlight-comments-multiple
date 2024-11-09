@@ -9,38 +9,38 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   return [
     ``,
-    B(C, {}, [
-      B("span", {
+    A(B, {}, [
+      A("span", {
         className: "line"
       }, [
-        B("span", {
+        A("span", {
           className: "comment"
         }, [`// Comment1`]),
         `
 `
       ]),
-      B("span", {
+      A("span", {
         className: "line"
       }, [
         ``,
-        B("span", {
+        A("span", {
           className: "comment"
         }, [`// Comment2`]),
         `
 `
       ]),
-      B("span", {
+      A("span", {
         className: "line"
       }, [
         ``,
-        B("span", {
+        A("span", {
           className: "string"
         }, [`""`])
       ])

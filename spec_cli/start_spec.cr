@@ -22,6 +22,7 @@ context "test" do
       Flags:
         --env, -e                                            # Loads the given .env file.
         --format                                             # Formats the source files when they change.
+        --generate-source-maps                               # If specified, source maps will be generated.
         --help                                               # Displays help for the current command.
         --host, -h (default: ENV["HOST"]? || "0.0.0.0")      # The host to serve the application on.
         --no-reload                                          # Do not reload the browser when something changes.

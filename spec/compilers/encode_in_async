@@ -13,19 +13,19 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as E,
-  createElement as D,
-  lazy as B
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
 } from "./runtime.js";
 
 export const
-  A = B(`./1.js`),
-  C = () => {
-    return D(E, {
+  D = A(`./1.js`),
+  E = () => {
+    return B(C, {
       c: [],
       key: `X`,
       p: {},
-      x: A
+      x: D
     })
   };
 

@@ -9,14 +9,14 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  useSignal as B,
-  fragment as D
+  createElement as B,
+  useSignal as A,
+  fragment as C
 } from "./runtime.js";
 
-export const A = () => {
-  const a = B(C(`div`, {}));
-  return C(D, {}, [C('p', {}, [
+export const D = () => {
+  const a = A(B(`div`, {}));
+  return B(C, {}, [B('p', {}, [
     ``,
     a.value,
     ` Some text...`

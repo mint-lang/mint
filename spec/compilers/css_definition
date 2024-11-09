@@ -19,11 +19,11 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as B,
-  style as C
+  createElement as A,
+  style as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   const
     a = () => {
       return 10
@@ -34,8 +34,8 @@ export const A = () => {
       };
       return _
     };
-  return B(`div`, {
+  return A(`div`, {
     className: `Main_test`,
-    style: C([b()])
+    style: B([b()])
   })
 };

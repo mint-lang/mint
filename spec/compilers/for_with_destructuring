@@ -9,12 +9,12 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as C,
-  createElement as D,
-  destructure as B
+  patternVariable as B,
+  createElement as C,
+  destructure as A
 } from "./runtime.js";
 
-export const A = () => {
+export const D = () => {
   return (() => {
     const _0 = [];
     const _1 = [[
@@ -27,11 +27,11 @@ export const A = () => {
       const [
         b,
         c
-      ] = B(a, [
-        C,
-        C
+      ] = A(a, [
+        B,
+        B
       ]);
-      _0.push(D(`div`, {}, [`${b},${c}`]))
+      _0.push(C(`div`, {}, [`${b},${c}`]))
     };
     return _0
   })()

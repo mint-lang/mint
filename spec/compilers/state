@@ -11,15 +11,14 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { useSignal as B } from "./runtime.js";
+import { useSignal as A } from "./runtime.js";
 
-export const A = () => {
+export const B = () => {
   const
-    a = B(`Hello`),
-    b = B(`0`),
+    a = A(`Hello`),
+    b = A(`0`),
     c = () => {
       return a.value + b.value
     };
   return c()
 };
-

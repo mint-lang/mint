@@ -21,11 +21,11 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as B,
-  style as C
+  createElement as A,
+  style as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   const a = () => {
     const _ = {};
     (true ? Object.assign(_, {
@@ -35,8 +35,8 @@ export const A = () => {
     }));
     return _
   };
-  return B(`div`, {
+  return A(`div`, {
     className: `Main_test`,
-    style: C([a()])
+    style: B([a()])
   })
 };

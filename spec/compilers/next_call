@@ -18,16 +18,16 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  useSignal as B,
-  batch as C
+  useSignal as A,
+  batch as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   const
-    a = B(`Joe`),
-    b = B(24),
+    a = A(`Joe`),
+    b = A(24),
     c = () => {
-      return C(() => {
+      return B(() => {
         a.value = `Hello`;
         b.value = 30
       })

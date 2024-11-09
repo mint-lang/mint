@@ -6,10 +6,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { match as B } from "./runtime.js";
+import { match as A } from "./runtime.js";
 
-export const A = () => {
-  return B(`Hello`, [[
+export const B = () => {
+  return A(`Hello`, [[
     null,
     () => {
       return `false`

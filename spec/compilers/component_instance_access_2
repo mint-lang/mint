@@ -16,21 +16,21 @@ global component Global {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as E,
-  createRef as F,
-  variant as B,
-  setRef as H
+  createElement as B,
+  createRef as C,
+  variant as A,
+  setRef as D
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = () => {
-    return E(`div`, {})
-  },
-  a = F(new C()),
+  E = A(1),
+  F = A(0),
   G = () => {
-    return E(D, {
-      _: H(a, A)
+    return B(`div`, {})
+  },
+  a = C(new F()),
+  H = () => {
+    return B(G, {
+      _: D(a, E)
     })
   };

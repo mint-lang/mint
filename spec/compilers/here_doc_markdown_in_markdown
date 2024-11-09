@@ -17,65 +17,65 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [B('pre', {}, [B('code', {
+export const C = () => {
+  return A(B, {}, [A('pre', {}, [A('code', {
     class: "language-mint"
   }, [
-    B('span', {
+    A('span', {
       class: "line"
     }, [
       `<<#MD(`,
-      B('span', {
+      A('span', {
         class: "keyword"
       }, [`highlight`]),
       `)`,
-      B('span', {
+      A('span', {
         class: "string"
       }, [``])
     ]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`This is a paragraph.`])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [``])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`\`\`\`mint`])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`module Mint {`])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`  // This will be syntax highlighted`])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`}`])]),
-    B('span', {
+    A('span', {
       class: "line"
-    }, [B('span', {
+    }, [A('span', {
       class: "string"
     }, [`\`\`\``])]),
-    B('span', {
+    A('span', {
       class: "line"
     }, [
-      B('span', {
+      A('span', {
         class: "string"
       }, [``]),
       `MD`
