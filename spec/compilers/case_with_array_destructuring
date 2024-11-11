@@ -11,13 +11,13 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as C,
-  patternSpread as D,
-  match as B
+  patternVariable as B,
+  patternSpread as C,
+  match as A
 } from "./runtime.js";
 
-export const A = () => {
-  return B([], [
+export const D = () => {
+  return A([], [
     [
       [],
       () => {
@@ -31,15 +31,15 @@ export const A = () => {
       }
     ],
     [
-      [C],
+      [B],
       (a) => {
         return [a]
       }
     ],
     [
       [
-        C,
-        C
+        B,
+        B
       ],
       (b, c) => {
         return [
@@ -50,9 +50,9 @@ export const A = () => {
     ],
     [
       [
-        C,
-        C,
-        D
+        B,
+        B,
+        C
       ],
       (d, e, f) => {
         return f

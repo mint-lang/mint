@@ -25,23 +25,23 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as C,
-  compare as B,
-  style as D
+  createElement as B,
+  compare as A,
+  style as C
 } from "./runtime.js";
 
-export const A = () => {
+export const D = () => {
   const a = (b) => {
     const _ = {};
-    (B(b, `red`) ? Object.assign(_, {
+    (A(b, `red`) ? Object.assign(_, {
       [`--a-a`]: `red`
-    }) : (B(b, `blue`) ? Object.assign(_, {
+    }) : (A(b, `blue`) ? Object.assign(_, {
       [`--a-a`]: `blue`
     }) : null));
     return _
   };
-  return C(`div`, {}, [C(`div`, {
+  return B(`div`, {}, [B(`div`, {
     className: `Main_base`,
-    style: D([a(`blue`)])
+    style: C([a(`blue`)])
   })])
 };

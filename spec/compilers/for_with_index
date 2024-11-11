@@ -11,11 +11,11 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  compare as B
+  createElement as B,
+  compare as A
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   return (() => {
     const _0 = [];
     const _1 = [
@@ -26,11 +26,11 @@ export const A = () => {
     for (let a of _1) {
       _i++;
       const b = _i;
-      const _2 = B(b, 10);
+      const _2 = A(b, 10);
       if (!_2) {
         continue
       };
-      _0.push(C(`div`, {}, [a]))
+      _0.push(B(`div`, {}, [a]))
     };
     return _0
   })()

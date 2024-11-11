@@ -12,20 +12,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  decodeNumber as G,
-  decodeString as F,
-  decodeTuple as E,
-  variant as B
+  decodeNumber as D,
+  decodeString as C,
+  decodeTuple as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(1),
-  D = () => {
-    E([
-      F(C, A),
-      G(C, A),
-      F(C, A)
-    ], C, A)((([])));
+  E = A(1),
+  F = A(1),
+  G = () => {
+    B([
+      C(F, E),
+      D(F, E),
+      C(F, E)
+    ], F, E)((([])));
     return ``
   };

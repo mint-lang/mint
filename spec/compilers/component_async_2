@@ -26,59 +26,59 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as F,
-  createElement as E,
-  lazy as B
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
 } from "./runtime.js";
 
 export const
-  A = B(`./1.js`),
-  C = B(`./2.js`),
-  D = () => {
-    return E(`div`, {}, [
-      E(F, {
+  D = A(`./1.js`),
+  E = A(`./2.js`),
+  F = () => {
+    return B(`div`, {}, [
+      B(C, {
         c: [],
         key: `First`,
         p: {},
-        x: A
+        x: D
       }),
-      E(F, {
+      B(C, {
         c: [],
         key: `Second`,
         p: {},
-        x: C
+        x: E
       })
     ])
   };
 
 ---=== /__mint__/1.js ===---
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
-export const A = () => {
-  return B(`div`, {}, [`First`])
+export const B = () => {
+  return A(`div`, {}, [`First`])
 };
 
-export default A;
+export default B;
 
 ---=== /__mint__/2.js ===---
 import {
-  lazyComponent as E,
-  createElement as D,
-  lazy as B
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
 } from "./runtime.js";
 
 export const
-  A = B(`./1.js`),
-  C = () => {
-    return D(`div`, {}, [
-      D(E, {
+  D = A(`./1.js`),
+  E = () => {
+    return B(`div`, {}, [
+      B(C, {
         c: [],
         key: `First`,
         p: {},
-        x: A
+        x: D
       }),
       `Second`
     ])
   };
 
-export default C;
+export default E;

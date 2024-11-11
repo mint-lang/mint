@@ -10,15 +10,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  style as C
+  createElement as A,
+  style as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   const a = () => {
     return undefined
   };
-  return B(`div`, {
-    style: C([a()])
+  return A(`div`, {
+    style: B([a()])
   })
 };

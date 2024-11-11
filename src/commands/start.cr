@@ -12,6 +12,10 @@ module Mint
         description: "Do not reload the browser when something changes.",
         default: false
 
+      define_flag generate_source_maps : Bool,
+        description: "If specified, source maps will be generated.",
+        default: false
+
       define_flag format : Bool,
         description: "Formats the source files when they change.",
         default: false
@@ -43,6 +47,7 @@ module Mint
             Bundler.new(
               artifacts: type_checker.artifacts,
               config: Bundler::Config.new(
+                generate_source_maps: flags.generate_source_maps,
                 live_reload: !flags.no_reload,
                 runtime_path: flags.runtime,
                 generate_manifest: false,

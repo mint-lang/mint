@@ -8,6 +8,25 @@ module Mint
       def initialize(@optimize)
       end
 
+      # Renders an import statement.
+      def import(imports : Hash(String, String), path : String) : Compiled
+        return [] of Item if imports.empty?
+
+        items =
+          imports
+            .map { |(key, value)| key == value ? key : "#{key} as #{value}" }
+            .sort_by!(&.size).reverse!
+            .map { |value| [value] of Item }
+
+        if optimize?
+          ["import "] + block(join(items, ",")) + [%( from "#{path}")]
+        elsif items.size == 1
+          ["import { "] + join(items, ",") + [%( } from "#{path}")]
+        else
+          ["import ", Indent.new(["{\n"] + join(items, ",\n")), %(\n} from "#{path}")] of Item
+        end
+      end
+
       # Renders an object. The key can be any item but it's usually a string
       # or an identifier.
       def object(items : Hash(Item, Compiled)) : Compiled
@@ -64,8 +83,8 @@ module Mint
       end
 
       # Renders statements.
-      def statements(items : Array(Compiled)) : Compiled
-        join(items.reject(&.empty?), optimize? ? ";" : ";\n")
+      def statements(items : Array(Compiled), *, line_count = 1) : Compiled
+        join(items.reject(&.empty?), optimize? ? ";" : ";" + "\n" * line_count)
       end
 
       # Renders a const assignment.
@@ -247,6 +266,8 @@ module Mint
           true
         when Indent
           async?(item.items)
+        when SourceMapped
+          async?(item.value)
         else
           false
         end

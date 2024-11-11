@@ -7,14 +7,14 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [B('ul', {}, [B('li', {}, [
+export const C = () => {
+  return A(B, {}, [A('ul', {}, [A('li', {}, [
     `When open pressing `,
-    B('code', {}, [`Esc`]),
+    A('code', {}, [`Esc`]),
     ` closes it.`
   ])])])
 };

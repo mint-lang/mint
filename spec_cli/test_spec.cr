@@ -24,6 +24,7 @@ context "test" do
         --browser-host, -x (default: ENV["BROWSER_HOST"]? || "127.0.0.1")    # Target host, useful when hosted on another machine.
         --browser-port, -c (default: (ENV["BROWSER_PORT"]? || "3001").to_i)  # Target port, useful when hosted on another machine.
         --env, -e                                                            # Loads the given .env file.
+        --generate-source-maps                                               # If specified, source maps will be generated.
         --help                                                               # Displays help for the current command.
         --host, -h (default: ENV["HOST"]? || "127.0.0.1")                    # Host to serve the tests on.
         --manual, -m                                                         # Start the test server for manual testing.

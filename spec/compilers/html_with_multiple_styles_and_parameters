@@ -24,19 +24,19 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as B,
-  style as C
+  createElement as A,
+  style as B
 } from "./runtime.js";
 
-export const A = () => {
+export const C = () => {
   const a = (b) => {
     const _ = {
       [`--a-a`]: b
     };
     return _
   };
-  return B(`div`, {
+  return A(`div`, {
     className: `Main_one Main_two`,
-    style: C([a(`blue`)])
+    style: B([a(`blue`)])
   })
 };

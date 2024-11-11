@@ -20,15 +20,16 @@ context "build" do
       Builds the project for production.
 
       Flags:
-        --env, -e            # Loads the given .env file.
-        --generate-manifest  # If specified, the web manifest will be generated.
-        --help               # Displays help for the current command.
-        --no-optimize        # If specified, the resulting JavaScript code will not be optimized.
-        --runtime            # If specified, the supplied runtime will be used instead of the default.
-        --skip-icons         # If specified, the application icons will not be generated.
-        --timings            # If specified, timings will be printed.
-        --verbose            # If specified, all written files will be logged.
-        --watch, -w          # If specified, will build on every change.
+        --env, -e               # Loads the given .env file.
+        --generate-manifest     # If specified, the web manifest will be generated.
+        --generate-source-maps  # If specified, source maps will be generated.
+        --help                  # Displays help for the current command.
+        --no-optimize           # If specified, the resulting JavaScript code will not be optimized.
+        --runtime               # If specified, the supplied runtime will be used instead of the default.
+        --skip-icons            # If specified, the application icons will not be generated.
+        --timings               # If specified, timings will be printed.
+        --verbose               # If specified, all written files will be logged.
+        --watch, -w             # If specified, will build on every change.
       TEXT
   end
 

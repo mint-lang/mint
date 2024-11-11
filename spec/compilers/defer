@@ -28,9 +28,9 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  createElement as D,
-  useEffect as B,
-  load as C
+  createElement as C,
+  useEffect as A,
+  load as B
 } from "./runtime.js";
 
 export const
@@ -38,23 +38,23 @@ export const
     return `Blah`
   },
   b = `./1.js`,
-  A = () => {
-    B(() => {
+  D = () => {
+    A(() => {
       (async () => {
-        const c = await C(b);
+        const c = await B(b);
         return c
       })()
     }, []);
-    return D(`div`, {}, [a()])
+    return C(`div`, {}, [a()])
   };
 
 ---=== /__mint__/1.js ===---
-import { a as c } from "./index.js";
+import { a } from "./index.js";
 
 export const
-  a = () => {
+  b = () => {
     return `Hello!`
   },
-  b = a() + c();
+  c = b() + a();
 
-export default b;
+export default c;

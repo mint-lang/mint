@@ -36,9 +36,9 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as E,
-  createElement as D,
-  lazy as B
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
 } from "./runtime.js";
 
 export const
@@ -48,34 +48,34 @@ export const
   b = () => {
     return `I'm in both!`
   },
-  A = B(`./1.js`),
-  C = () => {
-    return D(`div`, {}, [
+  D = A(`./1.js`),
+  E = () => {
+    return B(`div`, {}, [
       a(),
       b(),
-      D(E, {
+      B(C, {
         c: [],
         key: `Test`,
         p: {},
-        x: A
+        x: D
       })
     ])
   };
 
 ---=== /__mint__/1.js ===---
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
-import { b as c } from "./index.js";
+import { b as a } from "./index.js";
 
 export const
-  a = (b) => {
-    return `I'm ${b}!`
+  b = (c) => {
+    return `I'm ${c}!`
   },
-  A = () => {
-    return B(`div`, {}, [
-      a(`async`),
-      c()
+  B = () => {
+    return A(`div`, {}, [
+      b(`async`),
+      a()
     ])
   };
 
-export default A;
+export default B;

@@ -2,17 +2,17 @@ module Mint
   class Compiler
     def resolve(node : Ast::Function)
       resolve node do
-        {node, node, compile(node, contents: nil, args: nil, skip_const: true)}
+        {node, node, compile_function(node, contents: nil, args: nil, skip_const: true)}
       end
     end
 
-    def compile(node : Ast::Function)
+    def compile_function(node : Ast::Function)
       compile node do
         compile(node, contents: nil, args: nil)
       end
     end
 
-    def compile(
+    def compile_function(
       node : Ast::Function, *,
       contents : Compiled | Nil = nil,
       args : Array(Compiled) | Nil = nil,
@@ -28,7 +28,11 @@ module Mint
       items << compile(node.body, for_function: true)
 
       body =
-        js.arrow_function(arguments) { js.statements(items) }
+        [
+          SourceMapped.new(
+            value: js.arrow_function(arguments) { js.statements(items) },
+            node: node),
+        ] of Item
 
       if skip_const
         body

@@ -9,16 +9,16 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [
-    B('h2', {}, [`Hello There`]),
-    B('p', {}, [
+export const C = () => {
+  return A(B, {}, [
+    A('h2', {}, [`Hello There`]),
+    A('p', {}, [
       ``,
-      B(`div`, {}, [`Hello`]),
+      A(`div`, {}, [`Hello`]),
       ``,
       `
 `,

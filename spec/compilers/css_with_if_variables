@@ -28,14 +28,14 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as C,
+  createElement as B,
   signal as A,
-  style as D
+  style as C
 } from "./runtime.js";
 
 export const
   a = A(false),
-  B = () => {
+  D = () => {
     const b = () => {
       const _ = {};
       (a.value ? Object.assign(_, {
@@ -45,8 +45,8 @@ export const
       }));
       return _
     };
-    return C(`div`, {
+    return B(`div`, {
       className: `Main_test`,
-      style: D([b()])
+      style: C([b()])
     })
   };

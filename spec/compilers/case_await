@@ -12,11 +12,11 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { match as B } from "./runtime.js";
+import { match as A } from "./runtime.js";
 
-export const A = () => {
+export const B = () => {
   (async () => {
-    return B(await `Hello`, [
+    return A(await `Hello`, [
       [
         `test`,
         () => {

@@ -21,21 +21,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  decodeString as E,
-  decoder as D,
-  variant as B
+  decodeString as C,
+  decoder as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(1),
-  a = D({
-    blah: E(C, A)
-  }, C, A),
-  b = D({
-    name: E(C, A),
+  D = A(1),
+  E = A(1),
+  a = B({
+    blah: C(E, D)
+  }, E, D),
+  b = B({
+    name: C(E, D),
     y: a
-  }, C, A),
+  }, E, D),
   F = () => {
     b((null));
     return ``

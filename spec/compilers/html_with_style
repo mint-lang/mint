@@ -62,15 +62,15 @@ component Main {
 
 ---=== /__mint__/index.js ===---
 import {
-  createElement as C,
-  useSignal as B,
-  style as D
+  createElement as B,
+  useSignal as A,
+  style as C
 } from "./runtime.js";
 
-export const A = () => {
+export const D = () => {
   const
-    a = B(`blue`),
-    b = B(`yellow`),
+    a = A(`blue`),
+    b = A(`yellow`),
     c = () => {
       const _ = {
         [`--a-a`]: a.value,
@@ -80,8 +80,8 @@ export const A = () => {
       };
       return _
     };
-  return C(`div`, {
+  return B(`div`, {
     className: `Main_test`,
-    style: D([c()])
+    style: C([c()])
   })
 };

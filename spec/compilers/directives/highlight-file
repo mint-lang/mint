@@ -5,62 +5,62 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [
-    B("span", {
+export const C = () => {
+  return A(B, {}, [
+    A("span", {
       className: "line"
     }, [
-      B("span", {
+      A("span", {
         className: "keyword"
       }, [`component`]),
       ` `,
-      B("span", {
+      A("span", {
         className: "type"
       }, [`Main`]),
       ` {
 `
     ]),
-    B("span", {
+    A("span", {
       className: "line"
     }, [
       `  `,
-      B("span", {
+      A("span", {
         className: "keyword"
       }, [`fun`]),
       ` render : `,
-      B("span", {
+      A("span", {
         className: "type"
       }, [`Html`]),
       ` {
 `
     ]),
-    B("span", {
+    A("span", {
       className: "line"
     }, [
       `    <`,
-      B("span", {
+      A("span", {
         className: "namespace"
       }, [`div`]),
       `></`,
-      B("span", {
+      A("span", {
         className: "namespace"
       }, [`div`]),
       `>
 `
     ]),
-    B("span", {
+    A("span", {
       className: "line"
     }, [`  }
 `]),
-    B("span", {
+    A("span", {
       className: "line"
     }, [`}
 `]),
-    B("span", {
+    A("span", {
       className: "line"
     }, [``])
   ])

@@ -10,12 +10,12 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(`div`, {}, [B(C, {}, [
+export const C = () => {
+  return A(`div`, {}, [A(B, {}, [
     `A`,
     `B`
   ])])

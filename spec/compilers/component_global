@@ -25,21 +25,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  signal as D
+  createElement as A,
+  signal as B
 } from "./runtime.js";
 
 export const
-  A = () => {
-    return B(`div`, {}, [a()])
+  C = () => {
+    return A(`div`, {}, [a()])
   },
   b = (c) => {
     return c
   },
-  C = () => {
-    return B(`div`, {}, [b(`Hello`)])
+  D = () => {
+    return A(`div`, {}, [b(`Hello`)])
   },
-  d = D(``),
+  d = B(``),
   a = () => {
     return d.value
   };

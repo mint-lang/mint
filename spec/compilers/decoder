@@ -30,36 +30,36 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  decodeBoolean as K,
-  decodeString as I,
-  decodeNumber as G,
-  decodeArray as J,
-  decodeMaybe as H,
-  decodeTime as L,
-  decoder as F,
-  variant as B
+  decodeBoolean as G,
+  decodeString as E,
+  decodeNumber as C,
+  decodeArray as F,
+  decodeMaybe as D,
+  decodeTime as H,
+  decoder as B,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = B(1),
-  E = B(1),
-  a = F({
+  I = A(1),
+  J = A(0),
+  K = A(1),
+  L = A(1),
+  a = B({
     size: [
-      G(E, D),
+      C(L, K),
       "SIIIZEEE"
     ]
-  }, E, D),
-  b = F({
-    maybe: H(I(E, D), E, D, A, C),
-    array: J(I(E, D), E, D),
-    string: I(E, D),
-    number: G(E, D),
-    bool: K(E, D),
-    time: L(E, D),
+  }, L, K),
+  b = B({
+    maybe: D(E(L, K), L, K, I, J),
+    array: F(E(L, K), L, K),
+    string: E(L, K),
+    number: C(L, K),
+    bool: G(L, K),
+    time: H(L, K),
     y: a
-  }, E, D),
+  }, L, K),
   M = () => {
     b(undefined);
     return ``

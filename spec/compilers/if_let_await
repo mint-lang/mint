@@ -18,21 +18,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  patternVariable as H,
-  newVariant as F,
-  pattern as G,
-  variant as B,
-  match as E
+  patternVariable as E,
+  newVariant as C,
+  pattern as D,
+  variant as A,
+  match as B
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = () => {
+  F = A(1),
+  G = A(0),
+  H = () => {
     (async () => {
-      return E(await F(A)(``), [
+      return B(await C(F)(``), [
         [
-          G(A, [H]),
+          D(F, [E]),
           (a) => {
             return a
           }

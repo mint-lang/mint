@@ -25,9 +25,9 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as B,
-  subscriptions as C,
-  useId as E
+  createProvider as A,
+  subscriptions as B,
+  useId as C
 } from "./runtime.js";
 
 export const
@@ -35,17 +35,17 @@ export const
     return b
   },
   c = new Map(),
-  A = B(c, async () => {
-    C(c);
+  D = A(c, async () => {
+    B(c);
     return await null
   }),
-  D = () => {
-    const d = E();
-    A(d, () => {
+  E = () => {
+    const d = C();
+    D(d, () => {
       return {
         test: ``
       }
     });
-    C(c);
+    B(c);
     return a(`a`)
   };

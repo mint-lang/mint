@@ -20,6 +20,7 @@ Dir
         config =
           Mint::Bundler::Config.new(
             json: Mint::MintJson.parse("{}", "mint.json"),
+            generate_source_maps: false,
             generate_manifest: false,
             include_program: false,
             live_reload: false,

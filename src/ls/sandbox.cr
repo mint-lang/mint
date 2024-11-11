@@ -56,6 +56,7 @@ module Mint
             Bundler.new(
               artifacts: result.artifacts,
               config: Bundler::Config.new(
+                generate_source_maps: true,
                 generate_manifest: false,
                 include_program: true,
                 hash_assets: false,

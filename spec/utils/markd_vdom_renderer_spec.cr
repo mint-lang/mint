@@ -113,9 +113,10 @@ module Mint
 
             js_renderer =
               Renderer.new(
-                bundles: {} of Set(Ast::Node) | Bundle => Set(Ast::Node),
                 deferred_path: ->(_node : Set(Ast::Node) | Bundle) { "" },
+                bundles: {} of Set(Ast::Node) | Bundle => Set(Ast::Node),
                 asset_path: ->(_node : Ast::Node) { "" },
+                generate_source_maps: false,
                 class_pool: class_pool,
                 base: Bundle::Index,
                 pool: pool)

@@ -23,6 +23,10 @@ module Mint
         default: (ENV["BROWSER_PORT"]? || "3001").to_i,
         short: "c"
 
+      define_flag generate_source_maps : Bool,
+        description: "If specified, source maps will be generated.",
+        default: false
+
       define_flag reporter : String,
         description: "Which reporter to use (dot, documentation),",
         default: "dot",

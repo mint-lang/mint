@@ -26,7 +26,7 @@ module Mint
             node,
             js.call(Builtin::CreateProvider, [
               [node.subscription] of Item,
-              compile(update, skip_const: true),
+              compile_function(update, skip_const: true),
             ]),
           }
 

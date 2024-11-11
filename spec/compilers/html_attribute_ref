@@ -11,19 +11,18 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as F,
-  variant as B,
-  setRef as G,
-  useRef as E
+  createElement as C,
+  variant as A,
+  setRef as D,
+  useRef as B
 } from "./runtime.js";
 
 export const
-  A = B(1),
-  C = B(0),
-  D = () => {
-    const a = E(new C());
-    return F(`div`, {
-      ref: G(a, A)
+  E = A(1),
+  F = A(0),
+  G = () => {
+    const a = B(new F());
+    return C(`div`, {
+      ref: D(a, E)
     })
   };
-

@@ -20,24 +20,24 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  bracketAccess as E,
-  mapAccess as F,
-  variant as B
+  bracketAccess as B,
+  mapAccess as C,
+  variant as A
 } from "./runtime.js";
 
 export const
-  A = B(0),
-  C = B(1),
-  D = () => {
-    E([
+  D = A(0),
+  E = A(1),
+  F = () => {
+    B([
       `Hello`,
       `Blah`,
       `Joe`
-    ], 1, C, A);
-    E([], 1, C, A);
-    F([[
+    ], 1, E, D);
+    B([], 1, E, D);
+    C([[
       `key`,
       `value`
-    ]], `key`, C, A);
+    ]], `key`, E, D);
     return ``
   };

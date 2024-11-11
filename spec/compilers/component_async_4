@@ -40,34 +40,34 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as G,
-  createElement as B,
-  lazy as E
+  lazyComponent as C,
+  createElement as A,
+  lazy as B
 } from "./runtime.js";
 
 export const
-  A = ({
+  D = ({
     a = ``
   }) => {
-    return B(`div`, {}, [a])
+    return A(`div`, {}, [a])
   },
-  C = ({
+  E = ({
     b = 18
   }) => {
-    return B(`div`, {}, [`${b}px`])
+    return A(`div`, {}, [`${b}px`])
   },
-  D = E(`./1.js`),
-  F = () => {
-    return B(`div`, {}, [
-      B(A, {
+  F = B(`./1.js`),
+  G = () => {
+    return A(`div`, {}, [
+      A(D, {
         a: `blah`
       }),
-      B(C, {}),
-      B(G, {
+      A(E, {}),
+      A(C, {
         c: [],
         key: `Test`,
         p: {},
-        x: D
+        x: F
       })
     ])
   };
@@ -75,16 +75,16 @@ export const
 ---=== /__mint__/1.js ===---
 import { createElement as B } from "./runtime.js";
 
-import { C } from "./index.js";
+import { E as A } from "./index.js";
 
-export const A = ({
+export const C = ({
   a = ``,
   b = ``,
   c = ``
 }) => {
-  return B(C, {
+  return B(A, {
     b: 16
   })
 };
 
-export default A;
+export default C;

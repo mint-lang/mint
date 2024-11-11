@@ -15,51 +15,51 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  fragment as C
+  createElement as A,
+  fragment as B
 } from "./runtime.js";
 
-export const A = () => {
-  return B(C, {}, [
-    B('p', {}, [`Text`]),
-    B('pre', {}, [B('code', {
+export const C = () => {
+  return A(B, {}, [
+    A('p', {}, [`Text`]),
+    A('pre', {}, [A('code', {
       class: "language-mint"
     }, [
-      B('span', {
+      A('span', {
         class: "line"
       }, [
-        B('span', {
+        A('span', {
           class: "keyword"
         }, [`module`]),
         ` `,
-        B('span', {
+        A('span', {
           class: "type"
         }, [`Time`]),
         ` {
 `
       ]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [
         `  `,
-        B('span', {
+        A('span', {
           class: "keyword"
         }, [`const`]),
         ` `,
-        B('span', {
+        A('span', {
           class: "type"
         }, [`NOW`]),
         ` = `,
-        B('span', {
+        A('span', {
           class: "string"
         }, [`""`]),
         `
 `
       ]),
-      B('span', {
+      A('span', {
         class: "line"
       }, [`}`])
     ])]),
-    B('p', {}, [`Text`])
+    A('p', {}, [`Text`])
   ])
 };

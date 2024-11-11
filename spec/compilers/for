@@ -8,9 +8,9 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
-export const A = () => {
+export const B = () => {
   return (() => {
     const _0 = [];
     const _1 = [
@@ -20,7 +20,7 @@ export const A = () => {
     let _i = -1;
     for (let a of _1) {
       _i++;
-      _0.push(B(`div`, {}, [a]))
+      _0.push(A(`div`, {}, [a]))
     };
     return _0
   })()

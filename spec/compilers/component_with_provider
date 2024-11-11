@@ -23,19 +23,19 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as B,
-  createElement as E,
-  useId as D
+  createProvider as A,
+  createElement as C,
+  useId as B
 } from "./runtime.js";
 
 export const
   a = new Map(),
-  A = B(a, () => {
+  D = A(a, () => {
     return null
   }),
-  C = () => {
-    const b = D();
-    A(b, () => {
+  E = () => {
+    const b = B();
+    D(b, () => {
       return (false ? {
         moves: (c) => {
           return null
@@ -45,6 +45,5 @@ export const
         }
       } : null)
     });
-    return E(`div`, {})
+    return C(`div`, {})
   };
-

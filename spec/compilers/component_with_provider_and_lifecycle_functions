@@ -35,21 +35,21 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as B,
-  createElement as G,
-  useDidUpdate as F,
-  useEffect as E,
-  useId as D
+  createProvider as A,
+  createElement as E,
+  useDidUpdate as D,
+  useEffect as C,
+  useId as B
 } from "./runtime.js";
 
 export const
   a = new Map(),
-  A = B(a, () => {
+  F = A(a, () => {
     return null
   }),
-  C = () => {
-    const b = D();
-    E(() => {
+  G = () => {
+    const b = B();
+    C(() => {
       (() => {
         return null
       })();
@@ -57,10 +57,10 @@ export const
         return null
       }
     }, []);
-    F(() => {
+    D(() => {
       return null
     });
-    A(b, () => {
+    F(b, () => {
       return (false ? {
         moves: (c) => {
           return null
@@ -70,5 +70,5 @@ export const
         }
       } : null)
     });
-    return G(`div`, {})
+    return E(`div`, {})
   };

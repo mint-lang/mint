@@ -12,17 +12,17 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as C,
-  useSignal as B
+  createElement as B,
+  useSignal as A
 } from "./runtime.js";
 
-export const A = () => {
-  const a = B({
+export const C = () => {
+  const a = A({
     name: `Doe`
   });
   {
     ...a.value,
     name: `John`
   };
-  return C(`div`, {})
+  return B(`div`, {})
 };

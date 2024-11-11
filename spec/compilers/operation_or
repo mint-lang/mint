@@ -15,15 +15,15 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  variant as B,
-  or as G
+  variant as A,
+  or as B
 } from "./runtime.js";
 
 export const
-  A = B(0),
-  C = B(1),
-  D = B(1),
-  E = B(1),
-  F = () => {
-    return G(A, D, new A(), `Hello`)
+  C = A(0),
+  D = A(1),
+  E = A(1),
+  F = A(1),
+  G = () => {
+    return B(C, E, new C(), `Hello`)
   };

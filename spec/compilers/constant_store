@@ -10,11 +10,10 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { createElement as B } from "./runtime.js";
+import { createElement as A } from "./runtime.js";
 
 export const
   a = `ASD`,
-  A = () => {
-    return B(`div`, {}, [a])
+  B = () => {
+    return A(`div`, {}, [a])
   };
-

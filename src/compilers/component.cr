@@ -149,8 +149,8 @@ module Mint
         effect =
           if mount || unmount
             body = [] of Compiled
-            body << ["("] + compile(mount, skip_const: true) + [")()"] if mount
-            body << js.return(compile(unmount, skip_const: true)) if unmount
+            body << ["("] + compile_function(mount, skip_const: true) + [")()"] if mount
+            body << js.return(compile_function(unmount, skip_const: true)) if unmount
 
             [
               js.call(Builtin::UseEffect, [
@@ -166,7 +166,7 @@ module Mint
           if did_update
             [
               js.call(Builtin::UseDidUpdate, [
-                compile(did_update, skip_const: true),
+                compile_function(did_update, skip_const: true),
               ]),
             ]
           else
@@ -178,7 +178,7 @@ module Mint
             refs + states + gets + functions + styles + constants + id + [
               {node,
                node,
-               compile(
+               compile_function(
                  render.not_nil!,
                  skip_const: true,
                  contents: js.statements(
@@ -198,7 +198,7 @@ module Mint
             [{
               node,
               node,
-              compile(
+              compile_function(
                 render.not_nil!,
                 args: arguments,
                 skip_const: true,

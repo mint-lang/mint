@@ -26,4 +26,3 @@ export const
     a.value;
     return b()
   };
-

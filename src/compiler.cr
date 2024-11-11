@@ -6,13 +6,16 @@ module Mint
     # Represents a compiled item
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw |
                  Variable | Ref | Encoder | Decoder | Asset | Deferred |
-                 Function | Await
+                 Function | Await | SourceMapped
 
     # Represents an generated idetifier from the parts of the union type.
     alias Id = Ast::Node | Variable | Encoder | Decoder
 
     # Represents compiled code.
     alias Compiled = Array(Item)
+
+    # Represents entites which are used in a program.
+    alias Used = Set(Ast::Node | Encoder | Decoder | Builtin)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -27,6 +30,9 @@ module Mint
     # Represents a reference to an HTML element or other component. They are treated differently
     # because they have a `.current` accessor.
     record Ref, value : Ast::Node
+
+    # A node for tracking source mappings.
+    record SourceMapped, value : Compiled, node : Ast::Node
 
     # Represents a function.
     record Function, value : Compiled
@@ -200,7 +206,9 @@ module Mint
       if touched.includes?(node) || !node.in?(artifacts.checked)
         [] of Item
       else
-        yield.tap { touched.add(node) }
+        ([SourceMapped.new(node: node, value: yield)] of Item).tap do
+          touched.add(node)
+        end
       end
     end
 
@@ -310,6 +318,7 @@ module Mint
       end
     end
 
+    # Semantic tokenizes the given AST.
     def tokenize(ast : Ast) : Compiled
       mapped =
         SemanticTokenizer
@@ -352,6 +361,34 @@ module Mint
           js.call(Builtin::Load, [compiled])
         end
       end || compiled
+    end
+
+    def gather_used(items : Array(Compiled))
+      Used.new.tap { |used| items.each { |item| gather_used(item, used) } }
+    end
+
+    def gather_used(items : Compiled, used : Used)
+      items.each { |item| gather_used(item, used) }
+    end
+
+    def gather_used(item : Item, used : Used)
+      case item
+      in Variable, Deferred, String, Asset, Await, Ref, Raw
+      in SourceMapped
+        gather_used(item.value, used)
+      in Function
+        gather_used(item.value, used)
+      in Indent
+        gather_used(item.items, used)
+      in Signal
+        used.add(item.value)
+      in Encoder, Decoder
+        used.add(item)
+      in Ast::Node
+        used.add(item)
+      in Builtin
+        used.add(item)
+      end
     end
 
     # These functions are for looking up entities that the runtime uses
