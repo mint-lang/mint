@@ -30,9 +30,6 @@ module Mint
     BASE64_DIGITS =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".chars
 
-    BASE64_VALUES =
-      (0..64).reduce({} of Char => Int32) { |hash, i| hash[BASE64_DIGITS[i]] = i }
-
     # Returns the base 64 VLQ encoded value.
     def self.encode(int)
       vlq = to_vlq_signed(int)
