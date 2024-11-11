@@ -21,8 +21,7 @@ module Mint
     def initialize(unsorted : Deque(Mapping), @generated)
       # We sort the mappings into lines.
       unsorted.each do |item|
-        mappings[item[1][0]] ||= [] of Mapping
-        mappings[item[1][0]] << item
+        (mappings[item[1][0]] ||= [] of Mapping) << item
       end
     end
 
@@ -49,53 +48,51 @@ module Mint
 
       generated_mappings =
         (0..generated.lines.size).map do |line_index|
-          if items = mappings[line_index]?
-            items.reduce({[] of String, 0}) do |(memo, last), item|
-              column =
-                item[1][1]
+          next "" unless items = mappings[line_index]?
 
-              segment =
-                VLQ.encode(column - last)
+          items.reduce({[] of String, 0}) do |(memo, last), item|
+            column =
+              item[1][1]
 
-              if node = item[0]
-                # TODO: After the refactor of location remove
-                #       this temporary variable.
-                location =
-                  node.location
+            segment =
+              VLQ.encode(column - last)
 
-                source_line =
-                  location.start[0] - 1
+            if node = item[0]
+              # TODO: After the refactor of location remove
+              #       this temporary variable.
+              location =
+                node.location
 
-                source_column =
-                  location.start[1]
+              source_line =
+                location.start[0] - 1
 
-                source_index =
-                  get_source_index(node.file)
+              source_column =
+                location.start[1]
 
-                # The order is significant.
-                segment += VLQ.encode(source_index - last_index)
-                segment += VLQ.encode(source_line - last_line)
-                segment += VLQ.encode(source_column - last_column)
+              source_index =
+                get_source_index(node.file)
 
-                if name = item[2]
-                  source_name_index =
-                    get_source_name_index(name)
+              # The order is significant.
+              segment += VLQ.encode(source_index - last_index)
+              segment += VLQ.encode(source_line - last_line)
+              segment += VLQ.encode(source_column - last_column)
 
-                  segment += VLQ.encode(source_name_index - last_name_index)
-                  last_name_index = source_name_index
-                end
+              if name = item[2]
+                source_name_index =
+                  get_source_name_index(name)
 
-                last_column = source_column
-                last_index = source_index
-                last_line = source_line
+                segment += VLQ.encode(source_name_index - last_name_index)
+                last_name_index = source_name_index
               end
 
-              memo << segment
-              {memo, column}
-            end[0].join(",")
-          else
-            ""
-          end
+              last_column = source_column
+              last_index = source_index
+              last_line = source_line
+            end
+
+            memo << segment
+            {memo, column}
+          end.first.join(",")
         end.join(";")
 
       {
