@@ -1,5 +1,5 @@
 module Mint
-  # Support for encoding/decoding the variable length quantity format.
+  # Support for encoding the variable length quantity format.
   #
   # This implementation is heavily based on https://github.com/mozilla/source-map
   # Copyright 2009-2011, Mozilla Foundation and contributors, BSD
@@ -50,42 +50,8 @@ module Mint
       encoded
     end
 
-    # Decodes the next base 64 VLQ value from the given string and returns the
-    # value and the rest of the string.
-    def self.decode(str)
-      chars = str.chars
-      continue = true
-      shift = 0
-      vlq = 0
-
-      while continue
-        char = chars.shift or raise "Expected more digits in base 64 VLQ value."
-        digit = base64_decode(char)
-        continue = false if (digit & VLQ_CONTINUATION_BIT) == 0
-        digit &= VLQ_BASE_MASK
-        vlq += digit << shift
-        shift += VLQ_BASE_SHIFT
-      end
-
-      [from_vlq_signed(vlq), String.new(chars)]
-    end
-
-    # Decode an array of variable length quantities from the given string
-    def self.decode_array(str)
-      output = [] of Tuple(Int32, String)
-      while !str.empty?
-        int, str = decode(str)
-        output << int
-      end
-      output
-    end
-
     private def self.base64_encode(int)
       BASE64_DIGITS[int]? || raise ArgumentError.new "#{int} is not a valid base64 digit"
-    end
-
-    private def self.base64_decode(char)
-      BASE64_VALUES[char]? || raise ArgumentError.new "#{char} is not a valid base64 digit"
     end
 
     # Converts from a two's-complement integer to an integer where the
@@ -97,19 +63,6 @@ module Mint
         ((-int) << 1) + 1
       else
         int << 1
-      end
-    end
-
-    # Converts to a two's-complement value from a value where the sign bit is
-    # placed in the least significant bit. For example, as decimals:
-    #
-    #  2 (10 binary) becomes 1, 3 (11 binary) becomes -1
-    #  4 (100 binary) becomes 2, 5 (101 binary) becomes -2
-    private def self.from_vlq_signed(vlq)
-      if vlq & 1 == 1
-        -(vlq >> 1)
-      else
-        vlq >> 1
       end
     end
   end
