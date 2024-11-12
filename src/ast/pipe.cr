@@ -3,11 +3,11 @@ module Mint
     class Pipe < Node
       getter expression, argument
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @expression : Node,
-                     @argument : Node,
-                     @from : Int64,
-                     @to : Int64)
+                     @argument : Node)
       end
 
       def call

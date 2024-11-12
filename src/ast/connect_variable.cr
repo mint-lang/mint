@@ -3,11 +3,11 @@ module Mint
     class ConnectVariable < Node
       getter target, name
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @target : Variable?,
-                     @name : Variable,
-                     @from : Int64,
-                     @to : Int64)
+                     @name : Variable)
       end
     end
   end

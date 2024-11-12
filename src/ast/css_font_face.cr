@@ -4,9 +4,9 @@ module Mint
       getter definitions
 
       def initialize(@definitions : Array(Node),
-                     @file : Parser::File,
-                     @from : Int64,
-                     @to : Int64)
+                     @from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File)
       end
     end
   end

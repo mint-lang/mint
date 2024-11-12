@@ -4,10 +4,10 @@ module Mint
       getter name, value
 
       def initialize(@value : Array(String | Node),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @name : String,
-                     @from : Int64,
-                     @to : Int64)
+                     @name : String)
       end
     end
   end

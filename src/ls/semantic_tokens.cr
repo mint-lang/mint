@@ -11,26 +11,19 @@ module Mint
 
         case ast = server.workspace(path).ast(path)
         when Ast
-          # This is used later on to convert the line/column of each token
-          file =
-            ast.nodes.first.file
-
           tokenizer = SemanticTokenizer.new
           tokenizer.tokenize(ast)
 
           tokens =
-            tokenizer.tokens.sort_by(&.from).compact_map do |token|
-              location =
-                Ast::Node.compute_location(file, token.from, token.to)
-
+            tokenizer.tokens.sort_by(&.from.offset).compact_map do |token|
               type =
                 token.type.to_s.underscore
 
               if index = SemanticTokenizer::TOKEN_TYPES.index(type)
                 [
-                  location.start[0] - 1,
-                  location.start[1],
-                  token.to - token.from,
+                  token.from.line - 1,
+                  token.from.column,
+                  token.to.offset - token.from.offset,
                   index.to_i64,
                   0_i64,
                 ]

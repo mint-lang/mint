@@ -58,16 +58,11 @@ module Mint
               VLQ.encode(column - last)
 
             if node = item[0]
-              # TODO: After the refactor of location remove
-              #       this temporary variable.
-              location =
-                node.location
-
               source_line =
-                location.start[0] - 1
+                node.from.line - 1
 
               source_column =
-                location.start[1]
+                node.from.column
 
               source_index =
                 get_source_index(node.file)

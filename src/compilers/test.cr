@@ -3,7 +3,13 @@ module Mint
     def compile(node : Ast::Test) : Compiled
       compile node do
         location =
-          [Raw.new(node.location.to_json)]
+          [
+            Raw.new({
+              start:    {node.from.line, node.from.column},
+              end:      {node.to.line, node.to.column},
+              filename: node.file.path,
+            }.to_json),
+          ]
 
         name =
           compile node.name

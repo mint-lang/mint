@@ -4,13 +4,13 @@ module Mint
       getter arguments, comment, name, type, body
 
       def initialize(@arguments : Array(Argument),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
                      @name : Variable,
                      @type : Node?,
-                     @body : Block,
-                     @from : Int64,
-                     @to : Int64)
+                     @body : Block)
       end
     end
   end

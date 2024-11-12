@@ -5,10 +5,10 @@ module Mint
 
       def initialize(@branches : Array(CaseBranch),
                      @comments : Array(Comment),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @condition : Node,
-                     @from : Int64,
-                     @to : Int64)
+                     @condition : Node)
       end
     end
   end

@@ -3,11 +3,11 @@ module Mint
     class FieldAccess < Node
       getter name, type
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @name : Variable,
-                     @from : Int64,
-                     @type : Type,
-                     @to : Int64)
+                     @type : Type)
       end
     end
   end

@@ -102,7 +102,7 @@ module Mint
           result = [] of Processed
           last = nil
 
-          node.items.sort_by(&.first.from).each do |(item, nodes)|
+          node.items.sort_by(&.first.from.offset).each do |(item, nodes)|
             if last
               if separator = node.separator
                 result += process([separator] of Node)

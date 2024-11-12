@@ -5,12 +5,12 @@ module Mint
 
       getter return_value, expression, target
 
-      def initialize(@return_value : Node?,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @return_value : Node?,
                      @file : Parser::File,
                      @expression : Node,
-                     @target : Node?,
-                     @from : Int64,
-                     @to : Int64)
+                     @target : Node?)
       end
 
       def only_expression?

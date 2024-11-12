@@ -7,7 +7,7 @@ module Mint
 
     # The position of the cursor, which is at the character we are currently
     # parsing.
-    getter position : Int64 = 0
+    getter position : Location = Location.new
 
     # The input which is an array of characters because this way it's faster in
     # cases where the original code contains multi-byte characters.
@@ -54,12 +54,24 @@ module Mint
 
     # Moves the cursor forward by one character.
     def step
-      @position += 1
+      position, line, column =
+        @position.to_tuple
+
+      case char
+      when '\n'
+        column = 0_i64
+        line += 1
+      else
+        column += 1
+      end
+
+      @position =
+        Location.new(offset: position + 1, line: line, column: column)
     end
 
     # Returns whether or not the cursor is at the end of the file.
     def eof? : Bool
-      @position == input.size
+      @position.offset == input.size
     end
 
     # Checks if we reached the end of the file, adds an error otherwise.
@@ -74,7 +86,7 @@ module Mint
 
     # Returns the current character.
     def char : Char
-      input[position]? || '\0'
+      input[position.offset]? || '\0'
     end
 
     # If the character is parsed with the given block, moves the cursor forward.
@@ -89,17 +101,17 @@ module Mint
 
     # Returns the next character.
     def next_char : Char
-      input[position + 1]? || '\0'
+      input[position.offset + 1]? || '\0'
     end
 
     # Returns the previous character.
     def previous_char : Char
-      input[position - 1]? || '\0'
+      input[position.offset - 1]? || '\0'
     end
 
     # Returns the current word (sequence of ascii lowercase letters).
     def ascii_word : String
-      index = position
+      index = position.offset
       word = ""
 
       while (input[index]? || '\0').ascii_letter?
@@ -138,12 +150,12 @@ module Mint
     # Starts to parse something, if the cursor moved during, return the parsed
     # string.
     def gather(&) : String?
-      start_position = position
+      start_position = position.offset
 
       yield
 
-      if position > start_position
-        result = file.contents[start_position, position - start_position]
+      if position.offset > start_position
+        result = file.contents[start_position, position.offset - start_position]
         result unless result.empty?
       end
     end
@@ -172,14 +184,14 @@ module Mint
     # Returns whether or not the word is at the current position.
     def word?(word) : Bool
       word.chars.each_with_index.all? do |char, i|
-        input[position + i]? == char
+        input[position.offset + i]? == char
       end
     end
 
     # Consumes a word and steps the cursor forward if successful.
     def word!(expected : String) : Bool
       if word?(expected)
-        @position += expected.size
+        expected.size.times.each { step }
         true
       else
         false
@@ -188,8 +200,10 @@ module Mint
 
     # Consumes a word and saves it as a keyword for syntax highlighting.
     def keyword!(expected : String) : Bool
+      start_position = position
+
       word!(expected).tap do |result|
-        @ast.keywords << {position - expected.size, position} if result
+        @ast.keywords << {from: start_position, to: position} if result
       end
     end
 
@@ -208,7 +222,7 @@ module Mint
     def whitespace! : Bool
       parse do |start_position|
         whitespace
-        next false if position == start_position
+        next false if position.offset == start_position
         true
       end
     end

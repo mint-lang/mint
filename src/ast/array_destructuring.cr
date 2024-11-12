@@ -3,10 +3,10 @@ module Mint
     class ArrayDestructuring < Node
       getter items
 
-      def initialize(@file : Parser::File,
-                     @items : Array(Node),
-                     @from : Int64,
-                     @to : Int64)
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
+                     @items : Array(Node))
       end
     end
   end

@@ -11,7 +11,7 @@ module Mint
           styles = many(parse_whitespace: false) { html_style }
 
           # We need to consume the double colon for the error.
-          @position += 2 if word? "::"
+          word! "::"
 
           next error :html_element_expected_style do
             expected "the style for an HTML element", word

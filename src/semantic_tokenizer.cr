@@ -34,9 +34,9 @@ module Mint
     # Represents a semantic token using the positions of the token instead
     # of line / column (for the LSP it is converted to line /column).
     record Token,
-      type : TokenType,
-      from : Int64,
-      to : Int64
+      from : Parser::Location,
+      to : Parser::Location,
+      type : TokenType
 
     # We keep a cache of all tokenized nodes to avoid duplications
     getter cache = Set(Ast::Node).new
@@ -102,10 +102,10 @@ module Mint
 
         position = 0
 
-        tokenizer.tokens.sort_by(&.from).each do |token|
-          parts << contents[position, token.from - position] if token.from > position
-          parts << {token.type, contents[token.from, token.to - token.from]}
-          position = token.to
+        tokenizer.tokens.sort_by(&.from.offset).each do |token|
+          parts << contents[position, token.from.offset - position] if token.from.offset > position
+          parts << {token.type, contents[token.from.offset, token.to.offset - token.from.offset]}
+          position = token.to.offset
         end
 
         if position < contents.size
@@ -165,8 +165,8 @@ module Mint
 
     def tokenize(ast : Ast) : Nil
       # We add the operators and keywords directly from the AST
-      ast.operators.each { |(from, to)| add(from, to, :operator) }
-      ast.keywords.each { |(from, to)| add(from, to, :keyword) }
+      ast.operators.each { |item| add(item[:from], item[:to], :operator) }
+      ast.keywords.each { |item| add(item[:from], item[:to], :keyword) }
 
       tokenize(ast.nodes)
     end
@@ -207,9 +207,9 @@ module Mint
           case node
           when Ast::HereDocument
             if node.highlight
-              node.from + node.token.size + 14 # The highlight keyword
+              node.from + (node.token.size + 14) # The highlight keyword
             else
-              node.from + node.token.size + 3
+              node.from + (node.token.size + 3)
             end
           else
             node.from
@@ -255,7 +255,7 @@ module Mint
       end
     end
 
-    def add(from : Int64, to : Int64, type : TokenType)
+    def add(from : Parser::Location, to : Parser::Location, type : TokenType)
       tokens << Token.new(
         type: type,
         from: from,

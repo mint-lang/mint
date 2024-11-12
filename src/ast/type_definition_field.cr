@@ -4,12 +4,12 @@ module Mint
       getter mapping, comment, type, key
 
       def initialize(@mapping : StringLiteral?,
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
                      @key : Variable,
-                     @from : Int64,
-                     @type : Node,
-                     @to : Int64)
+                     @type : Node)
       end
     end
   end

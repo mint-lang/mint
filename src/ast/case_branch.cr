@@ -4,10 +4,10 @@ module Mint
       getter pattern, expression
 
       def initialize(@expression : Node | Array(CssDefinition),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @pattern : Node?,
-                     @from : Int64,
-                     @to : Int64)
+                     @pattern : Node?)
       end
     end
   end

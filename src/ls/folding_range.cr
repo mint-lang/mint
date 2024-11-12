@@ -4,31 +4,28 @@ module Mint
       property params : LSP::FoldingRangeParams
 
       def range(node : Ast::Component) : Array(LSP::FoldingRange)
-        range(node.comment.try(&.location)) + range(node, node.comment)
+        range(node, node.comment)
       end
 
       def range(node : Ast::Module) : Array(LSP::FoldingRange)
-        range(node.comment.try(&.location)) + range(node, node.comment)
+        range(node, node.comment)
       end
 
       def range(node : Ast::Function) : Array(LSP::FoldingRange)
-        range(node.comment.try(&.location)) + range(node, node.comment)
+        range(node, node.comment)
       end
 
       def range(node : Ast::Node, comment : Ast::Comment?) : Array(LSP::FoldingRange)
         if comment
-          range(comment.location.end[0], node.location.end[0])
+          range(comment.from.line, comment.to.line) +
+            range(comment.to.line, node.to.line)
         else
-          range(node.location)
+          range(node.from.line, node.to.line)
         end
       end
 
       def range(node : Ast::Node?) : Array(LSP::FoldingRange)
         [] of LSP::FoldingRange
-      end
-
-      def range(location : Ast::Node::Location) : Array(LSP::FoldingRange)
-        range(location.start[0], location.end[0])
       end
 
       def range(start_line, end_line) : Array(LSP::FoldingRange)
@@ -47,7 +44,7 @@ module Mint
         in TypeChecker
           type_checker.artifacts.ast
             .nodes_at_path(params.text_document.path)
-            .select { |node| node.location.start[0] != node.location.end[0] }
+            .reject { |node| node.from.line == node.to.line }
             .flat_map { |node| range(node) }
         in Error
         end

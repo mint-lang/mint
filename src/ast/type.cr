@@ -4,9 +4,9 @@ module Mint
       getter parameters, name
 
       def initialize(@parameters : Array(Node),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @from : Int64,
-                     @to : Int64,
                      @name : Id)
       end
     end

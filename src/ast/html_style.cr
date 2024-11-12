@@ -6,13 +6,13 @@ module Mint
       property style_node : Ast::Style? = nil
 
       def initialize(@arguments : Array(Field),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @name : Variable,
-                     @from : Int64,
-                     @to : Int64)
+                     @name : Variable)
       end
 
-      # This is here to provide compatiblity for calls...
+      # NOTE: This is here to provide compatiblity for calls (functions)...
       def await
         nil
       end

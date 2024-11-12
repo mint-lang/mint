@@ -3,11 +3,11 @@ module Mint
     class RegexpLiteral < Node
       getter value, flags
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @value : String,
-                     @flags : String,
-                     @from : Int64,
-                     @to : Int64)
+                     @flags : String)
       end
     end
   end

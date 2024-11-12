@@ -4,10 +4,10 @@ module Mint
       getter comments, children, tag
 
       def initialize(@comments : Array(Comment),
+                     @from : Parser::Location,
                      @children : Array(Node),
-                     @file : Parser::File,
-                     @from : Int64,
-                     @to : Int64)
+                     @to : Parser::Location,
+                     @file : Parser::File)
       end
     end
   end

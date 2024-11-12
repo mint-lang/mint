@@ -158,7 +158,7 @@ module Mint
 
             conditions
               .flatten
-              .sort_by!(&.from)
+              .sort_by!(&.from.offset)
               .map do |item|
                 proc =
                   (Proc(String, String).new { |name|

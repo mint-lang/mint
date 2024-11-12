@@ -12,7 +12,7 @@ module Mint
         ast.comments +
         ast.locales
       )
-        .sort_by!(&.from)
+        .sort_by!(&.from.offset)
         .map { |node| format node }
         .intersperse([Line.new(2)] of Node)
         .flatten

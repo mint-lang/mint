@@ -82,16 +82,16 @@ module Mint
         case value
         in Parser
           SnippetData.new(
-            to: value.position + value.word.to_s.size,
+            to: value.position.offset + value.word.to_s.size,
+            from: value.position.offset,
             input: value.file.contents,
-            filename: value.file.path,
-            from: value.position)
+            filename: value.file.path)
         in Ast::Node
           SnippetData.new(
             input: value.file.contents,
             filename: value.file.path,
-            from: value.from,
-            to: value.to)
+            from: value.from.offset,
+            to: value.to.offset)
         in SnippetData
           value
         in TypeChecker::Checkable

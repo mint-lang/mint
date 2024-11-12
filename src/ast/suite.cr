@@ -6,11 +6,11 @@ module Mint
       def initialize(@constants : Array(Constant),
                      @functions : Array(Function),
                      @comments : Array(Comment),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @name : StringLiteral,
-                     @tests : Array(Test),
                      @file : Parser::File,
-                     @from : Int64,
-                     @to : Int64)
+                     @tests : Array(Test))
       end
     end
   end

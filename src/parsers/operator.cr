@@ -61,9 +61,9 @@ module Mint
                     keyword! "return"
                   end
 
-          ast.keywords << {saved_position, saved_position + operator.size}
+          ast.keywords << {from: saved_position, to: saved_position + operator.size}
         else
-          ast.operators << {saved_position, saved_position + operator.size}
+          ast.operators << {from: saved_position, to: saved_position + operator.size}
         end
 
         whitespace

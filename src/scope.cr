@@ -24,7 +24,12 @@ module Mint
     # We track the level of a node in here.
     getter nodes = {} of Ast::Node => Level
 
-    getter root = Level.new(Ast::Node.new(Parser::File.new("", ""), 0, 0))
+    getter root =
+      Level.new(
+        Ast::Node.new(
+          Parser::File.new("", ""),
+          Parser::Location.new,
+          Parser::Location.new))
 
     def initialize(@ast : Ast)
       (@ast.unified_locales +

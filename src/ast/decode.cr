@@ -3,11 +3,11 @@ module Mint
     class Decode < Node
       getter expression, type
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @expression : Node?,
-                     @from : Int64,
-                     @type : Type,
-                     @to : Int64)
+                     @type : Type)
       end
     end
   end

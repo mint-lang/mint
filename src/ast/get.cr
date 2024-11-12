@@ -3,13 +3,13 @@ module Mint
     class Get < Node
       getter comment, name, body, type
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @comment : Comment?,
                      @name : Variable,
                      @body : Block,
-                     @from : Int64,
-                     @type : Node?,
-                     @to : Int64)
+                     @type : Node?)
       end
     end
   end

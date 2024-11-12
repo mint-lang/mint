@@ -5,9 +5,9 @@ module Mint
 
       def initialize(@types : Tuple(Ast::Node, Ast::Node)?,
                      @fields : Array(MapField),
-                     @file : Parser::File,
-                     @from : Int64,
-                     @to : Int64)
+                     @from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File)
       end
     end
   end

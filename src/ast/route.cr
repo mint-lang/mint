@@ -4,12 +4,12 @@ module Mint
       getter expression, arguments, url, await
 
       def initialize(@arguments : Array(Argument),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @expression : Block,
-                     @from : Int64,
                      @await : Bool,
-                     @url : String,
-                     @to : Int64)
+                     @url : String)
       end
     end
   end
