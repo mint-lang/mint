@@ -7,7 +7,9 @@ module Mint
       getter to : Parser::Location
       getter file : Parser::File
 
-      @source : String?
+      getter source : String do
+        file.contents[from.offset, to.offset - from.offset]
+      end
 
       def initialize(@file, @from, @to)
       end
@@ -31,10 +33,6 @@ module Mint
 
       def new_line?
         to.line > from.line
-      end
-
-      getter source : String do
-        file.contents[from.offset, to.offset - from.offset]
       end
     end
   end
