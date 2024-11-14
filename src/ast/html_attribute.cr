@@ -3,11 +3,11 @@ module Mint
     class HtmlAttribute < Node
       getter value, name
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @name : Variable,
-                     @value : Node,
-                     @from : Int64,
-                     @to : Int64)
+                     @value : Node)
       end
     end
   end

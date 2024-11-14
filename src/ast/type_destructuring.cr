@@ -3,11 +3,11 @@ module Mint
     class TypeDestructuring < Node
       getter variant, items, name
 
-      def initialize(@items : Array(Node),
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @from : Int64,
+                     @items : Array(Node),
                      @variant : Id,
-                     @to : Int64,
                      @name : Id?)
       end
     end

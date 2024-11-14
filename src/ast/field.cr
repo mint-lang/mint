@@ -3,12 +3,12 @@ module Mint
     class Field < Node
       getter key, value, comment
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @comment : Comment?,
                      @key : Variable?,
-                     @value : Node,
-                     @from : Int64,
-                     @to : Int64)
+                     @value : Node)
       end
     end
   end

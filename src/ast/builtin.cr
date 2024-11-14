@@ -3,10 +3,10 @@ module Mint
     class Builtin < Node
       getter value
 
-      def initialize(@file : Parser::File,
-                     @value : String,
-                     @from : Int64,
-                     @to : Int64)
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
+                     @value : String)
       end
     end
   end

@@ -4,10 +4,10 @@ module Mint
       getter selectors, body
 
       def initialize(@selectors : Array(String),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @body : Array(Node),
-                     @from : Int64,
-                     @to : Int64)
+                     @body : Array(Node))
       end
     end
   end

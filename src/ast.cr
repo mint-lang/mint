@@ -5,9 +5,9 @@ module Mint
 
     getter unified_modules, unified_locales
 
-    def initialize(@type_definitions = [] of TypeDefinition,
-                   @operators = [] of Tuple(Int64, Int64),
-                   @keywords = [] of Tuple(Int64, Int64),
+    def initialize(@operators = [] of {from: Parser::Location, to: Parser::Location},
+                   @keywords = [] of {from: Parser::Location, to: Parser::Location},
+                   @type_definitions = [] of TypeDefinition,
                    @unified_modules = [] of Module,
                    @unified_locales = [] of Locale,
                    @components = [] of Component,
@@ -21,26 +21,12 @@ module Mint
                    @nodes = [] of Node)
     end
 
+    def self.space_separated?(node1, node2)
+      (node2.from.line - node1.to.line) > 1
+    end
+
     def main : Component?
       @components.find(&.name.value.==("Main"))
-    end
-
-    def self.space_separated?(node1, node2)
-      node1.file.contents[node1.to, node2.from - node1.to].count('\n') > 1
-    end
-
-    def self.new_line?(node1, node2)
-      node1.file.contents[node1.from, node2.from - node1.from].includes?('\n')
-    end
-
-    def new_line?(node1, node2)
-      start_position =
-        node1.from
-
-      count =
-        node2.to - node1.from
-
-      node1.file.contents[start_position, count].includes?('\n')
     end
 
     def merge(ast) : self
@@ -68,7 +54,7 @@ module Mint
       path : String,
       line : Int64
     ) : Array(Ast::Node)
-      nodes_at_path(path).select!(&.location.contains?(line, column))
+      nodes_at_path(path).select!(&.contains?(line, column))
     end
 
     def nodes_at_path(path : String) : Array(Ast::Node)
@@ -93,17 +79,16 @@ module Mint
           .group_by(&.name.value)
           .map do |_, modules|
             Module.new(
-              functions: modules.flat_map(&.functions),
-              constants: modules.flat_map(&.constants),
-              file: Parser::File.new(contents: "", path: ""),
               # TODO: We may need to store each modules name node for
               # future features, but for now we just store the first
               comment: modules.compact_map(&.comment).first?,
+              file: Parser::File.new(contents: "", path: ""),
+              functions: modules.flat_map(&.functions),
+              constants: modules.flat_map(&.constants),
+              from: Parser::Location.new,
+              to: Parser::Location.new,
               name: modules.first.name,
-              comments: [] of Comment,
-              from: 0,
-              to: 0,
-            )
+              comments: [] of Comment)
           end
 
       @unified_locales =
@@ -114,9 +99,9 @@ module Mint
               file: Parser::File.new(contents: "", path: ""),
               fields: locales.flat_map(&.fields),
               language: locales.first.language,
-              comment: nil,
-              from: 0,
-              to: 0)
+              from: Parser::Location.new,
+              to: Parser::Location.new,
+              comment: nil)
           end
 
       self

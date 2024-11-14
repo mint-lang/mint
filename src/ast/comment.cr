@@ -8,12 +8,12 @@ module Mint
         Block
       end
 
-      def initialize(@next_comment : Comment?,
+      def initialize(@from : Parser::Location,
+                     @next_comment : Comment?,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @content : String,
-                     @from : Int64,
-                     @type : Type,
-                     @to : Int64)
+                     @type : Type)
       end
 
       def block?

@@ -14,7 +14,7 @@ module Mint
       end
 
       def cursor_intersects?(node : Ast::Node, position : LSP::Position) : Bool
-        node.location.contains?(position.line + 1, position.character)
+        node.contains?(position.line + 1, position.character)
       end
 
       def cursor_intersects?(node : Ast::Node, params : LSP::TextDocumentPositionParams) : Bool
@@ -32,15 +32,15 @@ module Mint
         @type_checker.ast.components.find(&.name.value.== name)
       end
 
-      def to_lsp_range(location : Ast::Node::Location) : LSP::Range
+      def to_lsp_range(node : Ast::Node) : LSP::Range
         LSP::Range.new(
           start: LSP::Position.new(
-            line: location.start[0] - 1,
-            character: location.start[1]
+            character: node.from.column,
+            line: node.from.line - 1
           ),
           end: LSP::Position.new(
-            line: location.end[0] - 1,
-            character: location.end[1]
+            character: node.to.column,
+            line: node.to.line - 1
           )
         )
       end
@@ -52,10 +52,10 @@ module Mint
       # would be the whole node, including function body and any comments
       def location_link(source : Ast::Node, target : Ast::Node, parent : Ast::Node) : LSP::LocationLink
         LSP::LocationLink.new(
-          origin_selection_range: to_lsp_range(source.location),
-          target_uri: "file://#{target.location.filename}",
-          target_range: to_lsp_range(parent.location),
-          target_selection_range: to_lsp_range(target.location)
+          origin_selection_range: to_lsp_range(source),
+          target_selection_range: to_lsp_range(target),
+          target_uri: "file://#{target.file.path}",
+          target_range: to_lsp_range(parent),
         )
       end
     end

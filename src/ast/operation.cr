@@ -3,12 +3,12 @@ module Mint
     class Operation < Node
       getter operator, right, left
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @operator : String,
                      @right : Node,
-                     @from : Int64,
-                     @left : Node,
-                     @to : Int64)
+                     @left : Node)
       end
     end
   end

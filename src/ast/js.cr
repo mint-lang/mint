@@ -4,10 +4,10 @@ module Mint
       getter value, type
 
       def initialize(@value : Array(String | Interpolation),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @from : Int64,
-                     @type : Node?,
-                     @to : Int64)
+                     @type : Node?)
       end
     end
   end

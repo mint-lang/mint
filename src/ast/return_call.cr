@@ -5,10 +5,10 @@ module Mint
 
       getter expression
 
-      def initialize(@file : Parser::File,
-                     @expression : Node,
-                     @from : Int64,
-                     @to : Int64)
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
+                     @expression : Node)
       end
     end
   end

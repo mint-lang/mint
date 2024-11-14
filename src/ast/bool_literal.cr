@@ -3,10 +3,10 @@ module Mint
     class BoolLiteral < Node
       getter value
 
-      def initialize(@file : Parser::File,
-                     @value : Bool,
-                     @from : Int64,
-                     @to : Int64)
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
+                     @value : Bool)
       end
     end
   end

@@ -8,12 +8,12 @@ module Mint
                      @constants : Array(Constant),
                      @comments : Array(Comment),
                      @signals : Array(Signal),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @states : Array(State),
                      @file : Parser::File,
                      @comment : Comment?,
                      @gets : Array(Get),
-                     @from : Int64,
-                     @to : Int64,
                      @name : Id)
       end
     end

@@ -4,10 +4,10 @@ module Mint
       getter parameters, comment, value
 
       def initialize(@parameters : Array(Node),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
-                     @from : Int64,
-                     @to : Int64,
                      @value : Id)
       end
 

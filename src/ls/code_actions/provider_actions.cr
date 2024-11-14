@@ -8,7 +8,7 @@ module Mint
           # Save the original order of constants and functions
           order =
             (node.functions + node.constants + node.states + node.gets)
-              .sort_by!(&.from)
+              .sort_by!(&.from.offset)
               .map(&.from)
 
           # Reorder by name and the appropriate order from the original order

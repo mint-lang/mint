@@ -7,11 +7,11 @@ module Mint
                        Tuple(Block, Nil) |
                        Tuple(Block, If)
 
-      def initialize(@branches : Branches,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
-                     @condition : Node,
-                     @from : Int64,
-                     @to : Int64)
+                     @branches : Branches,
+                     @condition : Node)
       end
     end
   end

@@ -4,10 +4,10 @@ module Mint
       class Highlight < Node
         getter content
 
-        def initialize(@file : Parser::File,
-                       @content : Block,
-                       @from : Int64,
-                       @to : Int64)
+        def initialize(@from : Parser::Location,
+                       @to : Parser::Location,
+                       @file : Parser::File,
+                       @content : Block)
         end
       end
     end

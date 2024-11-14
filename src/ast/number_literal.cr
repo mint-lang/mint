@@ -4,11 +4,11 @@ module Mint
       getter? float
       getter value
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @value : String,
-                     @float : Bool,
-                     @from : Int64,
-                     @to : Int64)
+                     @float : Bool)
       end
     end
   end

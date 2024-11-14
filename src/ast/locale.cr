@@ -3,12 +3,12 @@ module Mint
     class Locale < Node
       getter language, fields, comment
 
-      def initialize(@fields : Array(Field),
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @fields : Array(Field),
                      @file : Parser::File,
                      @comment : Comment?,
-                     @language : String,
-                     @from : Int64,
-                     @to : Int64)
+                     @language : String)
       end
     end
   end

@@ -6,16 +6,16 @@ module Mint
 
       property? in_component : Bool = false
 
-      def initialize(@attributes : Array(HtmlAttribute),
-                     @closing_tag_position : Int64?,
+      def initialize(@closing_tag_position : Parser::Location?,
+                     @attributes : Array(HtmlAttribute),
                      @comments : Array(Comment),
                      @styles : Array(HtmlStyle),
+                     @from : Parser::Location,
                      @children : Array(Node),
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @ref : Variable?,
-                     @tag : Variable,
-                     @from : Int64,
-                     @to : Int64)
+                     @tag : Variable)
       end
     end
   end

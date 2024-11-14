@@ -11,10 +11,10 @@ module Mint
         getter path : String
 
         def initialize(
+          @from : Parser::Location,
+          @to : Parser::Location,
           @file : Parser::File,
-          @path : String,
-          @from : Int64,
-          @to : Int64
+          @path : String
         )
           @real_path = Path[file.path].sibling(path).expand
         end

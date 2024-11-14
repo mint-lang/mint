@@ -3,11 +3,11 @@ module Mint
     class Test < Node
       getter expression, name
 
-      def initialize(@name : StringLiteral,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @name : StringLiteral,
                      @file : Parser::File,
-                     @expression : Block,
-                     @from : Int64,
-                     @to : Int64)
+                     @expression : Block)
       end
     end
   end

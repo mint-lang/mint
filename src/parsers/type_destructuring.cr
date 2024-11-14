@@ -28,19 +28,32 @@ module Mint
               parent_name =
                 parts.join('.')
 
-              parent_to =
-                start_position + parent_name.size
+              parent_size =
+                parent_name.size
 
-              {Ast::Id.new(
-                from: start_position,
-                value: parent_name,
-                to: parent_to,
-                file: file),
-               Ast::Id.new(
-                 to: parent_to + 1 + variant_name.size,
-                 value: variant_name,
-                 from: parent_to,
-                 file: file)}
+              variant_size =
+                variant_name.size
+
+              # It is safe to add the parents size to the column
+              # because it cannot be on a different line.
+              parent_to =
+                start_position + parent_size
+
+              variant_to =
+                parent_to + (1 + variant_size)
+
+              {
+                Ast::Id.new(
+                  from: start_position,
+                  value: parent_name,
+                  to: parent_to,
+                  file: file),
+                Ast::Id.new(
+                  value: variant_name,
+                  from: parent_to,
+                  to: variant_to,
+                  file: file),
+              }
             else
               {nil, name}
             end

@@ -5,10 +5,10 @@ module Mint
 
       def initialize(@fields : Array(TypeDefinitionField) | Array(TypeVariant),
                      @parameters : Array(TypeVariable),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
-                     @from : Int64,
-                     @to : Int64,
                      @name : Id)
       end
     end

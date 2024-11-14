@@ -3,10 +3,10 @@ module Mint
     class Defer < Node
       getter body
 
-      def initialize(@file : Parser::File,
-                     @from : Int64,
-                     @body : Node,
-                     @to : Int64)
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
+                     @body : Node)
       end
     end
   end

@@ -3,13 +3,13 @@ module Mint
     class Signal < Node
       getter block, comment, type, name
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @comment : Comment?,
                      @name : Variable,
                      @block : Block,
-                     @from : Int64,
-                     @type : Type,
-                     @to : Int64)
+                     @type : Type)
       end
     end
   end

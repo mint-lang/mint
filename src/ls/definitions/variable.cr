@@ -41,9 +41,16 @@ module Mint
         # target Ast::Variable and not its containing node, so we must search for it
         return unless parent =
                         @type_checker.artifacts.ast.nodes
-                          .select { |other| other.is_a?(Ast::TypeDestructuring) || other.is_a?(Ast::Statement) || other.is_a?(Ast::For) }
+                          .select do |other|
+                            other.is_a?(Ast::TypeDestructuring) ||
+                            other.is_a?(Ast::Statement) ||
+                            other.is_a?(Ast::For)
+                          end
                           .select(&.file.path.==(variable.file.path))
-                          .find { |other| other.from < variable.from && other.to > variable.to }
+                          .find do |other|
+                            other.from.offset < variable.from.offset &&
+                            other.to.offset > variable.to.offset
+                          end
 
         location_link node, variable, parent
       end

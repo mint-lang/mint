@@ -12,6 +12,8 @@ module Mint
                      @functions : Array(Function),
                      @comments : Array(Comment),
                      @connects : Array(Connect),
+                     @from : Parser::Location,
+                     @to : Parser::Location,
                      @states : Array(State),
                      @styles : Array(Style),
                      @file : Parser::File,
@@ -21,8 +23,6 @@ module Mint
                      @locales : Bool,
                      @global : Bool,
                      @async : Bool,
-                     @from : Int64,
-                     @to : Int64,
                      @name : Id)
       end
     end

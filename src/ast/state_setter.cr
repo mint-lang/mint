@@ -3,11 +3,11 @@ module Mint
     class StateSetter < Node
       getter entity, state
 
-      def initialize(@file : Parser::File,
+      def initialize(@from : Parser::Location,
+                     @to : Parser::Location,
+                     @file : Parser::File,
                      @state : Variable,
-                     @from : Int64,
-                     @entity : Id?,
-                     @to : Int64)
+                     @entity : Id?)
       end
     end
   end
