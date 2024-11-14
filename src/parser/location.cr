@@ -1,12 +1,7 @@
 module Mint
   class Parser
     # Offset (from the start of the file), line and column.
-    record Location, offset : Int64, line : Int64, column : Int64 do
-      def initialize
-        @offset = 0
-        @column = 0
-        @line = 1
-      end
+    record Location, offset : Int64 = 0, line : Int64 = 0, column : Int64 = 0 do
 
       def -(other : Int64) : Location
         Location.new(

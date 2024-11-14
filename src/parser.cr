@@ -191,7 +191,7 @@ module Mint
     # Consumes a word and steps the cursor forward if successful.
     def word!(expected : String) : Bool
       if word?(expected)
-        expected.size.times.each { step }
+        expected.size.times { step }
         true
       else
         false

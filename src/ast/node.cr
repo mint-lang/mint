@@ -33,8 +33,8 @@ module Mint
         to.line > from.line
       end
 
-      def source
-        @source ||= file.contents[from.offset, to.offset - from.offset]
+      getter source : String do
+        file.contents[from.offset, to.offset - from.offset]
       end
     end
   end
