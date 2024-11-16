@@ -102,6 +102,14 @@ export const normalizeEvent = (event) => {
             return -1;
           case "screenY":
             return -1;
+          case "layerX":
+            return -1;
+          case "layerY":
+            return -1;
+          case "offsetX":
+            return -1;
+          case "offsetY":
+            return -1;
 
           // onScroll
           case "detail":
