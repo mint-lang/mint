@@ -47,7 +47,7 @@ module Mint
       live_reload : Bool
     ) : {String, Proc(String)}
       {
-        href(entity),
+        "/#{href(entity)}",
         ->do
           layout entity.name, entities, live_reload do |builder|
             article do
