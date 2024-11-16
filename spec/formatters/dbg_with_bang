@@ -1,0 +1,11 @@
+component Main {
+  fun render : String {
+    dbg! "Hello World!"
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    dbg! "Hello World!"
+  }
+}

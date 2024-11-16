@@ -8,8 +8,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-export const A = () => {
-  return {
-    name: `test`
-  }.name
-};
+import { record as A } from "./runtime.js";
+
+export const
+  a = A(`X`),
+  B = () => {
+    return a({
+      name: `test`
+    }).name
+  };

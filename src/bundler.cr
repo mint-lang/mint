@@ -164,6 +164,7 @@ module Mint
           NamePool(Compiler::Variable |
                    Compiler::Encoder |
                    Compiler::Decoder |
+                   Compiler::Record |
                    Ast::Node |
                    String, Set(Ast::Node) | Bundle).new
 

@@ -1,7 +1,7 @@
 // This file contains code to have value equality instead of reference equality.
 // We use a `Symbol` to have a custom equality functions and then use these
 // functions when comparing two values.
-export const Equals = Symbol("Equals");
+import { Equals } from './symbols';
 
 /* v8 ignore next 3 */
 if (typeof Node === "undefined") {
@@ -123,7 +123,7 @@ Map.prototype[Equals] = function (other) {
 };
 
 // If the object has a specific set of keys it's a Preact virtual DOM node.
-const isVnode = (object) =>
+export const isVnode = (object) =>
   object !== undefined &&
   object !== null &&
   typeof object == "object" &&

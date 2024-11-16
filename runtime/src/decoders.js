@@ -1,4 +1,5 @@
 import indentString from "indent-string";
+import { Name } from "./symbols";
 
 // Formats the given value as JSON with extra indentation.
 const format = (value) => {
@@ -317,8 +318,8 @@ export const decodeMap = (decoder, ok, err) => (input) => {
 };
 
 // Decodes a record, using the mappings.
-export const decoder = (mappings, ok, err) => (input) => {
-  const object = {};
+export const decoder = (name, mappings, ok, err) => (input) => {
+  const object = {[Name]: name};
 
   for (let key in mappings) {
     let decoder = mappings[key];

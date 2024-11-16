@@ -57,46 +57,48 @@ component Main {
 --------------------------------------------------------------------------------
 ---=== /__mint__/index.js ===---
 import {
-  lazyComponent as G,
-  createElement as E,
-  useEffect as C,
-  useSignal as B,
-  fragment as F,
-  variant as H,
-  load as D,
-  lazy as A
+  lazyComponent as H,
+  createElement as F,
+  useEffect as D,
+  useSignal as C,
+  fragment as G,
+  variant as I,
+  record as A,
+  load as E,
+  lazy as B
 } from "./runtime.js";
 
 export const
-  a = `./1.js`,
-  b = (c) => {
-    return `Hello ${c}!`
+  a = A(`User`),
+  b = `./1.js`,
+  c = (d) => {
+    return `Hello ${d}!`
   },
-  I = A(`./2.js`),
-  J = () => {
-    const d = B(``);
-    C(() => {
+  J = B(`./2.js`),
+  K = () => {
+    const e = C(``);
+    D(() => {
       (async () => {
-        const e = await D(a);
+        const f = await E(b);
         return (() => {
-          d.value = e
+          e.value = f
         })()
       })()
     }, []);
-    return E(F, {}, [
-      E(G, {
+    return F(G, {}, [
+      F(H, {
         c: [],
         key: `Greeter`,
         p: {
           a: `World`
         },
-        x: I
+        x: J
       }),
-      b(`Me`)
+      c(`Me`)
     ])
   },
-  K = H(0),
-  L = H(0);
+  L = I(0, `Status.Loading`),
+  M = I(0, `Status.Loaded`);
 
 ---=== /__mint__/1.js ===---
 export const a = `Hello, I was loaded later...`;
@@ -104,15 +106,18 @@ export const a = `Hello, I was loaded later...`;
 export default a;
 
 ---=== /__mint__/2.js ===---
-import { b } from "./index.js";
+import {
+  a as b,
+  c
+} from "./index.js";
 
 export const A = ({
   a
 }) => {
-  {
+  b({
     name: `Joe`
-  };
-  return b(a)
+  });
+  return c(a)
 };
 
 export default A;

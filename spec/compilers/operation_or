@@ -20,10 +20,10 @@ import {
 } from "./runtime.js";
 
 export const
-  C = A(0),
-  D = A(1),
-  E = A(1),
-  F = A(1),
+  C = A(0, `Maybe.Nothing`),
+  D = A(1, `Maybe.Just`),
+  E = A(1, `Result.Err`),
+  F = A(1, `Result.Ok`),
   G = () => {
     return B(C, E, new C(), `Hello`)
   };

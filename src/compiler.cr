@@ -6,16 +6,16 @@ module Mint
     # Represents a compiled item
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw |
                  Variable | Ref | Encoder | Decoder | Asset | Deferred |
-                 Function | Await | SourceMapped
+                 Function | Await | SourceMapped | Record
 
     # Represents an generated idetifier from the parts of the union type.
-    alias Id = Ast::Node | Variable | Encoder | Decoder
+    alias Id = Ast::Node | Variable | Encoder | Decoder | Record
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
     # Represents entites which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Builtin)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -52,6 +52,9 @@ module Mint
     # Represents a decoder.
     class Decoder; end
 
+    # Represents a decoder.
+    class Record; end
+
     # Represents the await keyword.
     class Await; end
 
@@ -68,9 +71,10 @@ module Mint
       Pattern
       Match
 
-      # Type variants.
+      # Types, variants, records.
       NewVariant
       Variant
+      Record
 
       # Rendering.
       CreateElement
@@ -150,6 +154,9 @@ module Mint
       Translate
       SetLocale
       Locale
+
+      # Debugging
+      Inspect
     end
 
     delegate resolve_order, variables, cache, lookups, checked, to: artifacts
@@ -161,11 +168,14 @@ module Mint
     # Contains the generated decoders.
     getter decoders = Hash(TypeChecker::Checkable, Compiled).new
 
+    # Contains the compiled JavaScript tree.
+    getter compiled = [] of Tuple(Ast::Node, Id, Compiled)
+
     # A set to track already rendered nodes.
     getter touched : Set(Ast::Node) = Set(Ast::Node).new
 
-    # Contains the compiled JavaScript tree.
-    getter compiled = [] of Tuple(Ast::Node, Id, Compiled)
+    # Contains the generated record constructors.
+    getter records = Hash(String, Compiled).new
 
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
@@ -382,7 +392,7 @@ module Mint
         gather_used(item.items, used)
       in Signal
         used.add(item.value)
-      in Encoder, Decoder
+      in Encoder, Decoder, Record
         used.add(item)
       in Ast::Node
         used.add(item)

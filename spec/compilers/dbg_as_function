@@ -4,10 +4,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-export const A = () => {
+import { inspect as A } from "./runtime.js";
+
+export const B = () => {
   return (a) => {
     console.log(`./spec/compilers/dbg_as_function:3:22`);
-    console.log(a);
+    console.log(A(a));
     return a
   }(`Hello World!`)
 };

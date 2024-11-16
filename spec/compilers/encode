@@ -13,7 +13,8 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   identity as B,
-  encoder as A
+  encoder as A,
+  record as C
 } from "./runtime.js";
 
 export const
@@ -21,10 +22,11 @@ export const
     name: B,
     age: B
   }),
-  C = () => {
-    a({
+  b = C(`Test`),
+  D = () => {
+    a(b({
       name: `Hello`,
       age: 20
-    });
+    }));
     return ``
   };

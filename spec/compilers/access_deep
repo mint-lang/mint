@@ -20,16 +20,22 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { signal as A } from "./runtime.js";
+import {
+  signal as B,
+  record as A
+} from "./runtime.js";
 
 export const
-  a = A({
-    level1: {
-      level2: {
+  a = A(`Level2`),
+  b = A(`Level1`),
+  c = A(`Locale`),
+  d = B(c({
+    level1: b({
+      level2: a({
         name: `Test`
-      }
-    }
-  }),
-  B = () => {
-    return a.value.level1.level2.name
+      })
+    })
+  })),
+  C = () => {
+    return d.value.level1.level2.name
   };

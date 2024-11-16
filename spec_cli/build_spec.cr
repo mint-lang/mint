@@ -101,9 +101,9 @@ context "build" do
       ⚙ Writing __mint__/top-right_b74c8a753f67cde5e97e6fbb5ec63c52.png (60.6KB)... ××××
       ⚙ Writing __mint__/top-left_50246e01096cfd733510104620d52c8e.png (48.1KB)... ××××
       ⚙ Writing __mint__/runtime.js (××××KB)... ××××
-      ⚙ Writing __mint__/index.css (1.46KB)... ××××
-      ⚙ Writing __mint__/index.js (9.54KB)... ××××
-      ⚙ Writing index.html (924B)... ××××
+      ⚙ Writing __mint__/index.css (××××KB)... ××××
+      ⚙ Writing __mint__/index.js (××××KB)... ××××
+      ⚙ Writing index.html (××××)... ××××
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       Bundle size: ××××KB
       Files: 10

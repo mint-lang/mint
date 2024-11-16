@@ -24,20 +24,24 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import { access as A } from "./runtime.js";
+import {
+  access as B,
+  record as A
+} from "./runtime.js";
 
 export const
-  a = (b, c) => {
+  a = A(`X`),
+  b = (c, d) => {
     return undefined
   },
-  B = () => {
-    a([
-      {
+  C = () => {
+    b([
+      a({
         name: `Joe`
-      },
-      {
+      }),
+      a({
         name: `Doe`
-      }
-    ], A(`name`));
+      })
+    ], B(`name`));
     return `asd`
   };

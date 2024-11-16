@@ -1,16 +1,14 @@
 component Main {
   fun render : String {
-    dbg "Hello World!"
+    dbg! "Hello World!"
   }
 }
 --------------------------------------------------------------------------------
-import { inspect as A } from "./runtime.js";
-
-export const B = () => {
+export const A = () => {
   return (() => {
     const a = `Hello World!`;
-    console.log(`./spec/compilers/dbg:3:4`);
-    console.log(A(a));
+    console.log(`./spec/compilers/dbg_bang:3:4`);
+    console.log(a);
     return a
   })()
 };

@@ -41,17 +41,17 @@ import {
 } from "./runtime.js";
 
 export const
-  I = A(1),
-  J = A(0),
-  K = A(1),
-  L = A(1),
-  a = B({
+  I = A(1, `Maybe.Just`),
+  J = A(0, `Maybe.Nothing`),
+  K = A(1, `Result.Err`),
+  L = A(1, `Result.Ok`),
+  a = B(`Y`, {
     size: [
       C(L, K),
       "SIIIZEEE"
     ]
   }, L, K),
-  b = B({
+  b = B(`X`, {
     maybe: D(E(L, K), L, K, I, J),
     array: F(E(L, K), L, K),
     string: E(L, K),

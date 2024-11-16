@@ -6,7 +6,14 @@ module Mint
           [" "] + format(item)
         end
 
-      ["dbg"] + expression
+      bang =
+        if node.bang?
+          "!"
+        else
+          ""
+        end
+
+      ["dbg", bang] + expression
     end
   end
 end

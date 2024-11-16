@@ -1,7 +1,8 @@
-import { Equals, compareObjects, compare } from "./equality";
+import { compareObjects, compare } from "./equality";
+import { Equals, Name } from "./symbols";
 
 // The base class for variants.
-class Variant {
+export class Variant {
   [Equals](other) {
     if (!(other instanceof this.constructor)) {
       return false;
@@ -27,10 +28,11 @@ class Variant {
 
 // Creates an type variant class, this is needed so we can do proper
 // comparisons and pattern matching / destructuring.
-export const variant = (input) => {
+export const variant = (input, name) => {
   return class extends Variant {
     constructor(...args) {
       super();
+      this[Name] = name
       if (Array.isArray(input)) {
         this.length = input.length;
         this.record = true;

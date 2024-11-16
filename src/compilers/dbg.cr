@@ -8,20 +8,34 @@ module Mint
         var =
           [Variable.new] of Item
 
+        arg =
+          if node.bang?
+            var
+          else
+            js.call(Builtin::Inspect, [var])
+          end
+
+        location =
+          if config.generate_source_maps
+            [] of Item
+          else
+            js.call(["console.log"] of Item, [location])
+          end
+
         if expression = node.expression
           js.iif do
             js.statements([
               js.const(var, compile(expression)),
-              js.call(["console.log"] of Item, [location]),
-              js.call(["console.log"] of Item, [var]),
+              location,
+              js.call(["console.log"] of Item, [arg]),
               js.return(var),
             ])
           end
         else
           js.arrow_function([var]) do
             js.statements([
-              js.call(["console.log"] of Item, [location]),
-              js.call(["console.log"] of Item, [var]),
+              location,
+              js.call(["console.log"] of Item, [arg]),
               js.return(var),
             ])
           end

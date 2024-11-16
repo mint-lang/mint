@@ -24,8 +24,8 @@ export const
   F = A([
     "name",
     "age"
-  ]),
-  G = A(0),
+  ], `A.B`),
+  G = A(0, `A.C`),
   H = () => {
     return B(C(F)(`Joe`, 32), [
       [

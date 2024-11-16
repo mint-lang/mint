@@ -31,9 +31,9 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(1),
-  G = A(0),
-  H = A(1),
+  F = A(1, `C.D`),
+  G = A(0, `C.X`),
+  H = A(1, `A.B`),
   I = () => {
     B(C(F)(C(H)(``)), [
       [
