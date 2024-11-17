@@ -17,11 +17,13 @@ test("comparing same symbols", () => {
 });
 
 test("comparing vnodes", () => {
-  expect(compare(
-    {props: {}, type: {}, ref: {}, key: {},"__": {}},
-    {props: {}, type: {}, ref: {}, key: {},"__": {}}
-  )).toBe(false);
-})
+  expect(
+    compare(
+      { props: {}, type: {}, ref: {}, key: {}, __: {} },
+      { props: {}, type: {}, ref: {}, key: {}, __: {} },
+    ),
+  ).toBe(false);
+});
 
 test("comparing same arrays", () => {
   expect(["A"] == ["A"]).toBe(false);

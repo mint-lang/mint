@@ -32,7 +32,7 @@ export const variant = (input, name) => {
   return class extends Variant {
     constructor(...args) {
       super();
-      this[Name] = name
+      this[Name] = name;
       if (Array.isArray(input)) {
         this.length = input.length;
         this.record = true;

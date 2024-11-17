@@ -319,7 +319,7 @@ export const decodeMap = (decoder, ok, err) => (input) => {
 
 // Decodes a record, using the mappings.
 export const decoder = (name, mappings, ok, err) => (input) => {
-  const object = {[Name]: name};
+  const object = { [Name]: name };
 
   for (let key in mappings) {
     let decoder = mappings[key];

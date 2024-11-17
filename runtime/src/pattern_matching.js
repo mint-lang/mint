@@ -87,9 +87,7 @@ export const destructure = (value, pattern, values = []) => {
   } else if (pattern instanceof Pattern) {
     if (value instanceof pattern.variant) {
       for (let index in pattern.pattern) {
-        if (
-          !destructure(value[`_${index}`], pattern.pattern[index], values)
-        ) {
+        if (!destructure(value[`_${index}`], pattern.pattern[index], values)) {
           return false;
         }
       }

@@ -22,7 +22,9 @@ test("inspecting boolean", () => {
 });
 
 test("inspecting boolean", () => {
-  expect(inspect({props: {}, type: {}, ref: {}, key: {},"__": {}})).toBe(`VNode`);
+  expect(inspect({ props: {}, type: {}, ref: {}, key: {}, __: {} })).toBe(
+    `VNode`,
+  );
 });
 
 test("inspecting object", () => {
@@ -38,23 +40,27 @@ test("inspecting element", () => {
 });
 
 test("inspecting variant", () => {
-  const Test = variant(0, `Test`)
+  const Test = variant(0, `Test`);
   expect(inspect(newVariant(Test)())).toBe(`Test`);
 });
 
 test("inspecting variant (with parameters)", () => {
-  const Test = variant(1, `Test`)
+  const Test = variant(1, `Test`);
   expect(inspect(newVariant(Test)("Hello"))).toBe(`Test("Hello")`);
 });
 
 test("inspecting variant (with named parameters)", () => {
-  const Test = variant(["a", "b"], `Test`)
-  expect(inspect(newVariant(Test)("Hello", "World!"))).toBe(`Test(a: "Hello", b: "World!")`);
+  const Test = variant(["a", "b"], `Test`);
+  expect(inspect(newVariant(Test)("Hello", "World!"))).toBe(
+    `Test(a: "Hello", b: "World!")`,
+  );
 });
 
 test("inspecting record", () => {
-  const Test = record(`Test`)
-  expect(inspect(Test({ a: "Hello", b: "World!"}))).toBe(`Test { a: "Hello", b: "World!" }`);
+  const Test = record(`Test`);
+  expect(inspect(Test({ a: "Hello", b: "World!" }))).toBe(
+    `Test { a: "Hello", b: "World!" }`,
+  );
 });
 
 test("inspecting array", () => {
@@ -66,7 +72,9 @@ test("inspecting unkown", () => {
 });
 
 test("inspecting nested", () => {
-  expect(inspect({ a: "Hello", b: "World!", nested: { x: "With new line!\nYes!"}})).toBe(`{
+  expect(
+    inspect({ a: "Hello", b: "World!", nested: { x: "With new line!\nYes!" } }),
+  ).toBe(`{
   a: "Hello",
   b: "World!",
   nested: {

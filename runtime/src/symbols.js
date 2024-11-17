@@ -1,2 +1,2 @@
 export const Equals = Symbol("Equals");
-export const Name = Symbol('Name');
+export const Name = Symbol("Name");

@@ -1,11 +1,11 @@
 // This file contains code to have value equality instead of reference equality.
 // We use a `Symbol` to have a custom equality functions and then use these
 // functions when comparing two values.
-import { Equals } from './symbols';
+import { Equals } from "./symbols";
 
 /* v8 ignore next 3 */
 if (typeof Node === "undefined") {
-  self.Node = class {}
+  self.Node = class {};
 }
 
 // We use regular functions instead of arrow functions because they have
@@ -132,7 +132,7 @@ export const isVnode = (object) =>
   "type" in object &&
   "ref" in object &&
   "key" in object &&
-  "__" in object
+  "__" in object;
 
 // This is the custom comparison function.
 export const compare = (a, b) => {
@@ -143,7 +143,7 @@ export const compare = (a, b) => {
   } else if (b != null && b != undefined && b[Equals]) {
     return b[Equals](a);
   } else if (isVnode(a) || isVnode(b)) {
-    return a === b
+    return a === b;
   } else {
     return compareObjects(a, b);
   }

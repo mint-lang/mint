@@ -149,7 +149,9 @@ class Program {
         !equals(routeInfo.vars, this.routeInfo.vars)
       ) {
         const handler = this.runRouteHandler(routeInfo);
-        if (routeInfo.route.await) { await handler }
+        if (routeInfo.route.await) {
+          await handler;
+        }
       }
 
       this.resolvePagePosition(!!event?.triggerJump);
@@ -198,7 +200,7 @@ class Program {
 
     let mainNode;
     if (typeof main !== "undefined") {
-      mainNode = h(main, { key: "MINT_MAIN" })
+      mainNode = h(main, { key: "MINT_MAIN" });
     }
 
     render([...components, mainNode], this.root);

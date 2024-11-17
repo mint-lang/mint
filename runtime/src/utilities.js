@@ -1,6 +1,11 @@
-import { createRef as createRefOriginal, Component, createElement } from "preact";
 import { useEffect, useRef, useMemo } from "preact/hooks";
 import { signal } from "@preact/signals";
+
+import {
+  createRef as createRefOriginal,
+  createElement,
+  Component,
+} from "preact";
 
 import { compare } from "./equality";
 import { Name } from "./symbols";
@@ -9,12 +14,12 @@ import { Name } from "./symbols";
 export const mapAccess = (map, key, just, nothing) => {
   for (const item of map) {
     if (compare(item[0], key)) {
-      return new just(item[1])
+      return new just(item[1]);
     }
   }
 
   return new nothing();
-}
+};
 
 // We need to have a different function for accessing array items because there
 // is no concept of `null` in Mint so we return `Just(a)` or `Nothing`.
@@ -89,29 +94,29 @@ export const access = (field) => (value) => value[field];
 export const identity = (a) => a;
 
 // Creates an instrumented object so we know which record it belongs to.
-export const record = (name) => (value) => ({ [Name]: name, ...value})
+export const record = (name) => (value) => ({ [Name]: name, ...value });
 
 // A component to lazy load another component.
 export class lazyComponent extends Component {
   async componentDidMount() {
     let x = await this.props.x();
-    this.setState({ x: x })
+    this.setState({ x: x });
   }
 
   render() {
     if (this.state.x) {
-      return createElement(this.state.x, this.props.p, this.props.c)
+      return createElement(this.state.x, this.props.p, this.props.c);
     } else {
-      return null
+      return null;
     }
   }
 }
 
 // A higher order function to lazy load a module.
-export const lazy = (path) => async () => load(path)
+export const lazy = (path) => async () => load(path);
 
 // Loads load a module.
 export const load = async (path) => {
-  const x = await import(path)
-  return x.default
-}
+  const x = await import(path);
+  return x.default;
+};

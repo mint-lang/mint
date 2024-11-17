@@ -45,7 +45,7 @@ describe("or", () => {
   });
 
   test("it returns the given item", () => {
-    expect(or(Nothing, Err, new Nothing, "b")).toEqual("b");
+    expect(or(Nothing, Err, new Nothing(), "b")).toEqual("b");
   });
 });
 
