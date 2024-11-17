@@ -33,6 +33,8 @@ module Mint
           [Builtin::Navigate] of Item
         when "compare"
           [Builtin::Compare] of Item
+        when "inspect"
+          [Builtin::Inspect] of Item
         when "nothing"
           nothing
         when "just"

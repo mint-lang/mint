@@ -25,8 +25,8 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(1),
-  G = A(1),
+  F = A(1, `Test.A`),
+  G = A(1, `Test.B`),
   H = () => {
     (async () => {
       const a = B(await C(F)(`Some string...`), D(F, [E]));

@@ -1,10 +1,10 @@
 type Test(a) {
   X
   Y
-  Z(Res(a, Number))
+  Z(Result(a, Number))
 }
 
-type Res(error, value) {
+type Result(error, value) {
   Error(error)
   Ok(value)
   Other(error, value)
@@ -13,8 +13,8 @@ type Res(error, value) {
 component Main {
   fun render : String {
     Test.X
-    Res.Other("", "")
-    Test.Z(Res.Error(""))
+    Result.Other("", "")
+    Test.Z(Result.Error(""))
     ""
   }
 }
@@ -25,12 +25,12 @@ import {
 } from "./runtime.js";
 
 export const
-  C = A(1),
-  D = A(0),
-  E = A(0),
-  F = A(1),
-  G = A(1),
-  H = A(2),
+  C = A(1, `Result.Ok`),
+  D = A(0, `Test.X`),
+  E = A(0, `Test.Y`),
+  F = A(1, `Test.Z`),
+  G = A(1, `Result.Error`),
+  H = A(2, `Result.Other`),
   I = () => {
     new D();
     B(H)(``, ``);

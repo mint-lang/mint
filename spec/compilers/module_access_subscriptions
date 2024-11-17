@@ -25,27 +25,29 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as A,
-  subscriptions as B,
-  useId as C
+  createProvider as B,
+  subscriptions as C,
+  record as A,
+  useId as D
 } from "./runtime.js";
 
 export const
-  a = (b) => {
-    return b
+  a = A(`Test`),
+  b = (c) => {
+    return c
   },
-  c = new Map(),
-  D = A(c, async () => {
-    B(c);
+  d = new Map(),
+  E = B(d, async () => {
+    C(d);
     return await null
   }),
-  E = () => {
-    const d = C();
-    D(d, () => {
-      return {
+  F = () => {
+    const e = D();
+    E(e, () => {
+      return a({
         test: ``
-      }
+      })
     });
-    B(c);
-    return a(`a`)
+    C(d);
+    return b(`a`)
   };

@@ -32,18 +32,20 @@ export const
 ---=== /__mint__/1.js ===---
 import {
   identity as B,
-  encoder as A
+  encoder as A,
+  record as C
 } from "./runtime.js";
 
 export const
   a = A({
     name: B
   }),
-  C = () => {
-    a({
+  b = C(`A`),
+  D = () => {
+    a(b({
       name: `Hello`
-    });
+    }));
     return null
   };
 
-export default C;
+export default D;

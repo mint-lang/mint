@@ -23,25 +23,27 @@ import {
   identity as F,
   encoder as E,
   decoder as B,
-  variant as A
+  variant as A,
+  record as G
 } from "./runtime.js";
 
 export const
-  G = A(1),
-  H = A(1),
-  a = B({
-    string: C(H, G),
-    number: D(H, G)
-  }, H, G),
+  H = A(1, `Result.Err`),
+  I = A(1, `Result.Ok`),
+  a = B(`Test`, {
+    string: C(I, H),
+    number: D(I, H)
+  }, I, H),
   b = E({
     string: F,
     number: F
   }),
-  I = () => {
+  c = G(`Test`),
+  J = () => {
     a(undefined);
-    b({
+    b(c({
       string: `String`,
       number: 10
-    });
+    }));
     return ``
   };

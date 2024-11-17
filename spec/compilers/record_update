@@ -12,17 +12,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  useSignal as A
+  createElement as C,
+  useSignal as B,
+  record as A
 } from "./runtime.js";
 
-export const C = () => {
-  const a = A({
-    name: `Doe`
-  });
-  {
-    ...a.value,
-    name: `John`
+export const
+  a = A(`Record`),
+  D = () => {
+    const b = B(a({
+      name: `Doe`
+    }));
+    {
+      ...b.value,
+      name: `John`
+    };
+    return C(`div`, {})
   };
-  return B(`div`, {})
-};

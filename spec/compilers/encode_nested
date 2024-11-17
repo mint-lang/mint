@@ -17,23 +17,26 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   identity as B,
-  encoder as A
+  encoder as A,
+  record as C
 } from "./runtime.js";
 
 export const
   a = A({
     name: B
   }),
-  b = A({
+  b = C(`Nested`),
+  c = A({
     nested: a,
     name: B
   }),
-  C = () => {
-    b({
+  d = C(`Test`),
+  D = () => {
+    c(d({
       name: `Hello`,
-      nested: {
+      nested: b({
         name: `Test`
-      }
-    });
+      })
+    }));
     return ``
   };

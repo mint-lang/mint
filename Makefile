@@ -47,10 +47,15 @@ development-release:
 		crystal build src/mint.cr -o mint-dev --static --no-debug --release
 		mv ./mint-dev ~/.bin/
 
-src/assets/runtime.js: $(shell find runtime/src -type f)
+src/assets/runtime.js: \
+	$(shell find runtime/src -type f) \
+	runtime/index.js
 	cd runtime && make index
 
-src/assets/runtime_test.js: $(shell find runtime/src -type f)
+src/assets/runtime_test.js: \
+	$(shell find runtime/src -type f) \
+	runtime/index_testing.js \
+	runtime/index.js
 	cd runtime && make index_testing
 
 # This builds the binary and depends on files in some directories.

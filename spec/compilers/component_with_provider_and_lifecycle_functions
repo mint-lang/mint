@@ -35,21 +35,23 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as A,
-  createElement as E,
-  useDidUpdate as D,
-  useEffect as C,
-  useId as B
+  createProvider as B,
+  createElement as F,
+  useDidUpdate as E,
+  useEffect as D,
+  record as A,
+  useId as C
 } from "./runtime.js";
 
 export const
-  a = new Map(),
-  F = A(a, () => {
+  a = A(`MouseProvider.Data`),
+  b = new Map(),
+  G = B(b, () => {
     return null
   }),
-  G = () => {
-    const b = B();
-    C(() => {
+  H = () => {
+    const c = C();
+    D(() => {
       (() => {
         return null
       })();
@@ -57,18 +59,18 @@ export const
         return null
       }
     }, []);
-    D(() => {
+    E(() => {
       return null
     });
-    F(b, () => {
-      return (false ? {
-        moves: (c) => {
+    G(c, () => {
+      return (false ? a({
+        moves: (d) => {
           return null
         },
-        ups: (d) => {
+        ups: (e) => {
           return null
         }
-      } : null)
+      }) : null)
     });
-    return E(`div`, {})
+    return F(`div`, {})
   };

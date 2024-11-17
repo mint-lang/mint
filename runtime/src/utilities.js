@@ -3,6 +3,7 @@ import { useEffect, useRef, useMemo } from "preact/hooks";
 import { signal } from "@preact/signals";
 
 import { compare } from "./equality";
+import { Name } from "./symbols";
 
 // This finds the first element matching the key in a map ([[key, value]]).
 export const mapAccess = (map, key, just, nothing) => {
@@ -87,6 +88,10 @@ export const access = (field) => (value) => value[field];
 // Identity function, used in encoders.
 export const identity = (a) => a;
 
+// Creates an instrumented object so we know which record it belongs to.
+export const record = (name) => (value) => ({ [Name]: name, ...value})
+
+// A component to lazy load another component.
 export class lazyComponent extends Component {
   async componentDidMount() {
     let x = await this.props.x();
@@ -102,8 +107,10 @@ export class lazyComponent extends Component {
   }
 }
 
+// A higher order function to lazy load a module.
 export const lazy = (path) => async () => load(path)
 
+// Loads load a module.
 export const load = async (path) => {
   const x = await import(path)
   return x.default

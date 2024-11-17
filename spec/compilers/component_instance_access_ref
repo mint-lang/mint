@@ -36,8 +36,8 @@ import {
 } from "./runtime.js";
 
 export const
-  I = A(1),
-  J = A(0),
+  I = A(1, `Maybe.Just`),
+  J = A(0, `Maybe.Nothing`),
   K = ({
     _
   }) => {
