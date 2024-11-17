@@ -79,7 +79,6 @@ module Mint
             component ||
             constant ||
             property ||
-            operator ||
             provider ||
             function ||
             comment ||
