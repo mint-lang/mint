@@ -590,4 +590,34 @@ module Dom {
   ) : Promise(Void) {
     `#{element}.scrollTo({ behavior: 'smooth', left: #{left}, top: #{top} })`
   }
+
+  /*
+  Returns the distance from the outer border of the element (including its
+  margin) to the left padding edge of the closest positioned ancestor element.
+
+  If the element is not in the DOM or not an element is passed (for example
+  `TextNode`) then the value will be `0`.
+
+    if let Just(div) = Document.getElementBySelector("div") {
+      Dom.offsetLeft(div)
+    }
+  */
+  fun offsetLeft (element : Dom.Element) : Number {
+    `#{element}.offsetLeft || 0`
+  }
+
+  /*
+  Returns the distance from the outer border of the element (including its
+  margin) to the top padding edge of the closest positioned ancestor element.
+
+  If the element is not in the DOM or not an element is passed (for example
+  `TextNode`) then the value will be `0`.
+
+    if let Just(div) = Document.getElementBySelector("div") {
+      Dom.offsetTop(div)
+    }
+  */
+  fun offsetTop (element : Dom.Element) : Number {
+    `#{element}.offsetTop || 0`
+  }
 }

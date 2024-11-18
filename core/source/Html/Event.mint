@@ -42,6 +42,10 @@ type Html.Event {
   clientY : Number,
   screenX : Number,
   screenY : Number,
+  offsetX : Number,
+  offsetY : Number,
+  layerX : Number,
+  layerY : Number,
   pageX : Number,
   pageY : Number,
 

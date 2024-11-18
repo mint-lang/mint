@@ -152,3 +152,21 @@ suite "Dom.getChildren" {
       (element : Dom.Element) { Array.size(Dom.getChildren(element)) == 3 })
   }
 }
+
+suite "Dom.offsetLeft" {
+  test "returns the offsetLeft value of the element" {
+    <div/>
+    |> Test.Html.start()
+    |> Test.Context.assert(
+      (element : Dom.Element) { Dom.offsetLeft(element) == 8 })
+  }
+}
+
+suite "Dom.offsetTop" {
+  test "returns the offsetTop value of the element" {
+    <div/>
+    |> Test.Html.start()
+    |> Test.Context.assert(
+      (element : Dom.Element) { Dom.offsetTop(element) == 8 })
+  }
+}
