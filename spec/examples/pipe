@@ -64,3 +64,15 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun test (value : String) {
+    value
+  }
+
+  fun render : Html {
+    "test" |> test
+
+    <div/>
+  }
+}
