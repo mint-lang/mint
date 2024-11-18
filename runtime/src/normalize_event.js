@@ -62,17 +62,17 @@ export const normalizeEvent = (event) => {
           case "altKey":
             return false;
           case "charCode":
-            return -1;
+            return 0;
           case "ctrlKey":
             return false;
           case "key":
             return "";
           case "keyCode":
-            return -1;
+            return 0;
           case "locale":
             return "";
           case "location":
-            return -1;
+            return 0;
           case "metaKey":
             return false;
           case "repeat":
@@ -80,50 +80,50 @@ export const normalizeEvent = (event) => {
           case "shiftKey":
             return false;
           case "which":
-            return -1;
+            return 0;
 
           // onClick onContextMenu onDoubleClick onDrag onDragStart onDragEnd
           // onDragEnter onDragExit onDragLeave onDragOver onDrop onMouseDown
           // onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver
           // onMouseUp
           case "button":
-            return -1;
+            return -1; // 0 is the left button
           case "buttons":
-            return -1;
+            return 0;
           case "clientX":
-            return -1;
+            return 0;
           case "clientY":
-            return -1;
+            return 0;
           case "pageX":
-            return -1;
+            return 0;
           case "pageY":
-            return -1;
+            return 0;
           case "screenX":
-            return -1;
+            return 0;
           case "screenY":
-            return -1;
+            return 0;
           case "layerX":
-            return -1;
+            return 0;
           case "layerY":
-            return -1;
+            return 0;
           case "offsetX":
-            return -1;
+            return 0;
           case "offsetY":
-            return -1;
+            return 0;
 
           // onScroll
           case "detail":
-            return -1;
+            return 0;
 
           // onWheel
           case "deltaMode":
-            return -1;
+            return -1; // 0 is pixels
           case "deltaX":
-            return -1;
+            return 0;
           case "deltaY":
-            return -1;
+            return 0;
           case "deltaZ":
-            return -1;
+            return 0;
 
           // onAnimationStart onAnimationEnd onAnimationIteration
           case "animationName":
@@ -131,7 +131,7 @@ export const normalizeEvent = (event) => {
           case "pseudoElement":
             return "";
           case "elapsedTime":
-            return -1;
+            return 0;
 
           // onTransitionEnd
           case "propertyName":
