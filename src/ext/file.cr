@@ -4,6 +4,11 @@ class File
     File.write path, contents
   end
 
+  def self.relative_path_from_ancestor(path : String, name : String) : String
+    return path unless directory = File.find_in_ancestors(path, "mint.json")
+    Path[path].relative_to(File.dirname(directory)).to_s
+  end
+
   def self.find_in_ancestors(base : String, name : String) : String?
     root = File.dirname(base)
 
