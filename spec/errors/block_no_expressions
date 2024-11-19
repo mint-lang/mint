@@ -12,8 +12,8 @@ component Main {
 
 This block doesn't have any statements. It should have at least one.
 
-   ┌ ./spec/errors/block_no_expressions:2:26
-   ├────────────────────────────────────────
+   ┌ errors/block_no_expressions:2:26
+   ├─────────────────────────────────
   1│ component Main {
    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
   2│   fun componentDidUpdate {

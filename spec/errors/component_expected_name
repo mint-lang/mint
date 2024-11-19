@@ -7,7 +7,7 @@ lowercase, uppercase letters and numbers.
 
 I was expecting name of the component but I found "a space" instead:
 
-   ┌ ./spec/errors/component_expected_name:1:9
-   ├──────────────────────────────────────────
+   ┌ errors/component_expected_name:1:9
+   ├───────────────────────────────────
   1│ component
    │          ⌃⌃⌃⌃

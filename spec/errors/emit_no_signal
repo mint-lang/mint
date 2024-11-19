@@ -9,8 +9,8 @@ component Main {
 
 Emit cannot be used outside of signals:
 
-   ┌ ./spec/errors/emit_no_signal:3:5
-   ├─────────────────────────────────
+   ┌ errors/emit_no_signal:3:5
+   ├──────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     emit 0

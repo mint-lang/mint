@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the branches of a case but I found "a space" instead:
 
-   ┌ ./spec/errors/case_expected_branches:3:16
-   ├──────────────────────────────────────────
+   ┌ errors/case_expected_branches:3:16
+   ├───────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     case ("a") {

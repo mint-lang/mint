@@ -12,8 +12,8 @@ I cannot find the environment variable with the name:
 
 Here is where it is referenced:
 
-   ┌ ./spec/errors/env_not_found_variable:3:5
-   ├─────────────────────────────────────────
+   ┌ errors/env_not_found_variable:3:5
+   ├──────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @XXX

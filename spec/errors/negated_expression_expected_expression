@@ -1,13 +1,14 @@
 component Main {
   fun render : String {
     !
---------------------------------------------------------------------------------░ ERROR (NEGATED_EXPRESSION_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+--------------------------------------------------------------------------------
+░ ERROR (NEGATED_EXPRESSION_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 I was expecting the expression of a negated expression but I found "a space"
 instead:
 
-   ┌ ./spec/errors/negated_expression_expected_expression:3:5
-   ├─────────────────────────────────────────────────────────
+   ┌ errors/negated_expression_expected_expression:3:5
+   ├──────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     !

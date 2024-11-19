@@ -23,8 +23,8 @@ Instead it is:
 
 The operation in question is here:
 
-    ┌ ./spec/errors/operation_or_not_maybe_or_result:8:5
-    ├───────────────────────────────────────────────────
+    ┌ errors/operation_or_not_maybe_or_result:8:5
+    ├────────────────────────────────────────────
    4│ }
    5│
    6│ component Main {

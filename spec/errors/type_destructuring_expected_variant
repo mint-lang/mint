@@ -7,8 +7,8 @@ module Test {
 
 I was expecting the type of an type destructuring but I found "a space" instead:
 
-   ┌ ./spec/errors/type_destructuring_expected_variant:4:9
-   ├──────────────────────────────────────────────────────
+   ┌ errors/type_destructuring_expected_variant:4:9
+   ├───────────────────────────────────────────────
   1│ module Test {
   2│   fun toString (status : Status) : String {
   3│     case (status) {

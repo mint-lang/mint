@@ -6,8 +6,8 @@ component Main {
 I was expecting the "exposing" keyword for a connect but I found "a space"
 instead:
 
-   ┌ ./spec/errors/connect_expected_exposing:2:14
-   ├─────────────────────────────────────────────
+   ┌ errors/connect_expected_exposing:2:14
+   ├──────────────────────────────────────
   1│ component Main {
   2│   connect Test
    │               ⌃⌃⌃⌃

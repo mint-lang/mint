@@ -7,8 +7,8 @@ component Main {
 I was expecting the definitions of a CSS font-face rule but I found "a space"
 instead:
 
-   ┌ ./spec/errors/css_font_face_expected_definitions:3:16
-   ├──────────────────────────────────────────────────────
+   ┌ errors/css_font_face_expected_definitions:3:16
+   ├───────────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     @font-face {

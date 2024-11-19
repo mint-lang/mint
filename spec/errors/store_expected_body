@@ -4,7 +4,7 @@ store X {
 
 I was expecting the body of a store but I found "a space" instead:
 
-   ┌ ./spec/errors/store_expected_body:1:9
-   ├──────────────────────────────────────
+   ┌ errors/store_expected_body:1:9
+   ├───────────────────────────────
   1│ store X {
    │          ⌃⌃⌃⌃

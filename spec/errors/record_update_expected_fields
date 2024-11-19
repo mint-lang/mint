@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the fields for a record update but I found "a space" instead:
 
-   ┌ ./spec/errors/record_update_expected_fields:3:9
-   ├────────────────────────────────────────────────
+   ┌ errors/record_update_expected_fields:3:9
+   ├─────────────────────────────────────────
   1│ component Main {
   2│   get record : Record(String, Bool) {
   3│     { a |

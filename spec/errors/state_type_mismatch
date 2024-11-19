@@ -10,8 +10,8 @@ component Main {
 
 The type of the default value of the a state does not match its type annotation:
 
-   ┌ ./spec/errors/state_type_mismatch:2:22
-   ├───────────────────────────────────────
+   ┌ errors/state_type_mismatch:2:22
+   ├────────────────────────────────
   1│ component Main {
   2│   state b : String = 0
    │                      ⌃
@@ -27,4 +27,3 @@ I was expecting:
 Instead it is:
 
   Number
-

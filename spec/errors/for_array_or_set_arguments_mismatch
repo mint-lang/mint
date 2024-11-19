@@ -13,8 +13,8 @@ component Main {
 If the iterable object of a for expression is a set or an array. Then it needs
 to the have only 1 argument:
 
-   ┌ ./spec/errors/for_array_or_set_arguments_mismatch:3:10
-   ├───────────────────────────────────────────────────────
+   ┌ errors/for_array_or_set_arguments_mismatch:3:10
+   ├────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Array(Html) {
   3│     for (item, item2, item3 of ["A", "B"]) {

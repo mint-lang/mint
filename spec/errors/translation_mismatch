@@ -27,8 +27,8 @@ Instead it is:
 
 The defined value in language "hu" is here:
 
-    ┌ ./spec/errors/translation_mismatch:6:9
-    ├───────────────────────────────────────
+    ┌ errors/translation_mismatch:6:9
+    ├────────────────────────────────
    2│   test: ""
    3│ }
    4│
@@ -42,8 +42,8 @@ The defined value in language "hu" is here:
 
 The defined value in language "en" is here:
 
-   ┌ ./spec/errors/translation_mismatch:2:9
-   ├───────────────────────────────────────
+   ┌ errors/translation_mismatch:2:9
+   ├────────────────────────────────
   1│ locale en {
   2│   test: ""
    │         ⌃⌃
@@ -54,8 +54,8 @@ The defined value in language "en" is here:
 
 The locale key in question is here:
 
-    ┌ ./spec/errors/translation_mismatch:11:5
-    ├────────────────────────────────────────
+    ┌ errors/translation_mismatch:11:5
+    ├─────────────────────────────────
    7│ }
    8│
    9│ component Main {

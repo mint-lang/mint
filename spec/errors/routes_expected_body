@@ -4,7 +4,7 @@ routes {
 
 I was expecting the body of a routes block but I found "a space" instead:
 
-   ┌ ./spec/errors/routes_expected_body:1:8
-   ├───────────────────────────────────────
+   ┌ errors/routes_expected_body:1:8
+   ├────────────────────────────────
   1│ routes {
    │         ⌃⌃⌃⌃

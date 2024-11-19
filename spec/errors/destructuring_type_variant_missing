@@ -13,8 +13,8 @@ component Main {
 
 I could not find the variant "Just" of type "Maybe" for a destructuring:
 
-    ┌ ./spec/errors/destructuring_type_variant_missing:7:9
-    ├─────────────────────────────────────────────────────
+    ┌ errors/destructuring_type_variant_missing:7:9
+    ├──────────────────────────────────────────────
    3│ }
    4│
    5│ component Main {
@@ -27,8 +27,8 @@ I could not find the variant "Just" of type "Maybe" for a destructuring:
 
 The type is defined here:
 
-   ┌ ./spec/errors/destructuring_type_variant_missing:1:1
-   ├─────────────────────────────────────────────────────
+   ┌ errors/destructuring_type_variant_missing:1:1
+   ├──────────────────────────────────────────────
    │ ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
   1│ type Maybe {
   2│   Nothing

@@ -18,8 +18,8 @@ There is no translation for the key "test" in the language "hu".
 
 The locale key in question is here:
 
-    ┌ ./spec/errors/translation_not_translated:11:5
-    ├──────────────────────────────────────────────
+    ┌ errors/translation_not_translated:11:5
+    ├───────────────────────────────────────
    7│ }
    8│
    9│ component Main {

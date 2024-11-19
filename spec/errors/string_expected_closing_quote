@@ -7,8 +7,8 @@ component Main {
 I was expecting the closing quoute of a string literal but I found "a space"
 instead:
 
-   ┌ ./spec/errors/string_expected_closing_quote:3:5
-   ├────────────────────────────────────────────────
+   ┌ errors/string_expected_closing_quote:3:5
+   ├─────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     "

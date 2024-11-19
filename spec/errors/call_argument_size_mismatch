@@ -26,8 +26,8 @@ The type of the function is:
 
 The call in question is here:
 
-    ┌ ./spec/errors/call_argument_size_mismatch:7:5
-    ├──────────────────────────────────────────────
+    ┌ errors/call_argument_size_mismatch:7:5
+    ├───────────────────────────────────────
    3│     input
    4│   }
    5│

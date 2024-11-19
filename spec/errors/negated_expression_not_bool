@@ -13,7 +13,8 @@ component Main {
     }
   }
 }
---------------------------------------------------------------------------------░ ERROR (NEGATED_EXPRESSION_NOT_BOOL) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+--------------------------------------------------------------------------------
+░ ERROR (NEGATED_EXPRESSION_NOT_BOOL) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 A negated expressions expression must evaluate to a boolean, but it is:
 
@@ -21,8 +22,8 @@ A negated expressions expression must evaluate to a boolean, but it is:
 
 The negated expression in question is here:
 
-   ┌ ./spec/errors/negated_expression_not_bool:3:5
-   ├──────────────────────────────────────────────
+   ┌ errors/negated_expression_not_bool:3:5
+   ├───────────────────────────────────────
   1│ module Test {
   2│   fun test : Bool {
   3│     !"asd"

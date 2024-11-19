@@ -20,8 +20,8 @@ I was expecting:
 
 Which is defined here:
 
-   ┌ ./spec/errors/function_type_mismatch:2:14
-   ├──────────────────────────────────────────
+   ┌ errors/function_type_mismatch:2:14
+   ├───────────────────────────────────
   1│ component Main {
   2│   fun test : Bool {
    │              ⌃⌃⌃⌃
@@ -36,8 +36,8 @@ Instead it is:
 
 Which is returned here:
 
-   ┌ ./spec/errors/function_type_mismatch:3:5
-   ├─────────────────────────────────────────
+   ┌ errors/function_type_mismatch:3:5
+   ├──────────────────────────────────
   1│ component Main {
   2│   fun test : Bool {
   3│     "hello"
@@ -46,4 +46,3 @@ Which is returned here:
   5│
   6│   fun render : String {
   7│     test()
-

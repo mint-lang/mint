@@ -20,8 +20,8 @@ There are multiple styles with the name:
 
 One style is here:
 
-    ┌ ./spec/errors/component_style_name_conflict:6:3
-    ├────────────────────────────────────────────────
+    ┌ errors/component_style_name_conflict:6:3
+    ├─────────────────────────────────────────
    2│   style title {
    3│     color: red;
    4│   }
@@ -38,8 +38,8 @@ One style is here:
 
 An other style is here:
 
-   ┌ ./spec/errors/component_style_name_conflict:2:3
-   ├────────────────────────────────────────────────
+   ┌ errors/component_style_name_conflict:2:3
+   ├─────────────────────────────────────────
   1│ component Main {
    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
   2│   style title {

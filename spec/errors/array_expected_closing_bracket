@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the closing bracket of an array but I found "a space" instead:
 
-   ┌ ./spec/errors/array_expected_closing_bracket:3:8
-   ├─────────────────────────────────────────────────
+   ┌ errors/array_expected_closing_bracket:3:8
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   fun render : Array(String) {
   3│     ["A"

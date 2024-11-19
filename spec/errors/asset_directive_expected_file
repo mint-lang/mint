@@ -12,12 +12,11 @@ The path specified for an asset directive does not exist:
 
 The asset directive in question is here:
 
-   ┌ ./spec/errors/asset_directive_expected_file:3:5
-   ├────────────────────────────────────────────────
+   ┌ errors/asset_directive_expected_file:3:5
+   ├─────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @asset(path)
    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
   4│   }
   5│ }
-

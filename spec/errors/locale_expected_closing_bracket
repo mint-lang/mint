@@ -4,7 +4,7 @@ locale en {
 
 I was expecting the opening bracket of a locale but I found "a space" instead:
 
-   ┌ ./spec/errors/locale_expected_closing_bracket:1:11
-   ├───────────────────────────────────────────────────
+   ┌ errors/locale_expected_closing_bracket:1:11
+   ├────────────────────────────────────────────
   1│ locale en {
    │            ⌃⌃⌃⌃

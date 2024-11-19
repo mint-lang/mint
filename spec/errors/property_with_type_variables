@@ -29,8 +29,8 @@ The type is:
 
 The property in question is here:
 
-    ┌ ./spec/errors/property_with_type_variables:7:3
-    ├───────────────────────────────────────────────
+    ┌ errors/property_with_type_variables:7:3
+    ├───────────────────────────────────────────
    3│   Just(a)
    4│ }
    5│

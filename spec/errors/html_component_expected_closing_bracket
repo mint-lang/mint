@@ -7,8 +7,8 @@ component Main {
 I was expecting the closing bracket of a HTML component but I found "a space"
 instead:
 
-   ┌ ./spec/errors/html_component_expected_closing_bracket:3:9
-   ├──────────────────────────────────────────────────────────
+   ┌ errors/html_component_expected_closing_bracket:3:9
+   ├───────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <Test

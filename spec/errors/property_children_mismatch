@@ -24,8 +24,8 @@ Instead it is:
 
 The property in question is here:
 
-   ┌ ./spec/errors/property_children_mismatch:2:3
-   ├─────────────────────────────────────────────
+   ┌ errors/property_children_mismatch:2:3
+   ├──────────────────────────────────────
   1│ component Test {
   2│   property children : String
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

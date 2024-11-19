@@ -18,8 +18,8 @@ Instead it is:
 
 The interpolation in question is here:
 
-   ┌ ./spec/errors/string_literal_interpolation_type_mismatch:5:18
-   ├──────────────────────────────────────────────────────────────
+   ┌ errors/string_literal_interpolation_type_mismatch:5:18
+   ├───────────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     let name = void

@@ -19,8 +19,8 @@ Instead the type of the function is:
 
 The function in question is here:
 
-   ┌ ./spec/errors/component_render_function_mismatch:2:3
-   ├─────────────────────────────────────────────────────
+   ┌ errors/component_render_function_mismatch:2:3
+   ├──────────────────────────────────────────────
   1│ component Main {
    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
   2│   fun render : Bool {

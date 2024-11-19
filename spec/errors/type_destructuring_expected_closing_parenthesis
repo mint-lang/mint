@@ -8,11 +8,10 @@ module Test {
 I was expecting the closing parenthesis of an type destructuring but I found "a
 space" instead:
 
-   ┌ ./spec/errors/type_destructuring_expected_closing_parenthesis:4:10
-   ├───────────────────────────────────────────────────────────────────
+   ┌ errors/type_destructuring_expected_closing_parenthesis:4:10
+   ├────────────────────────────────────────────────────────────
   1│ module Test {
   2│   fun toString (status : Status) : String {
   3│     case (status) {
   4│       A.B(
    │           ⌃⌃⌃⌃
-

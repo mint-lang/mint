@@ -22,8 +22,8 @@ Instead it is:
 
 The value in question is here:
 
-    ┌ ./spec/errors/for_condition_type_mismatch:8:7
-    ├──────────────────────────────────────────────
+    ┌ errors/for_condition_type_mismatch:8:7
+    ├───────────────────────────────────────
    4│       <div>
    5│         item
    6│       </div>

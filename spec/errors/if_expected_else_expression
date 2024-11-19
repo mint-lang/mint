@@ -6,8 +6,8 @@ component Main {
 
 I was expecting an expression for the else branch but I found "a space" instead:
 
-   ┌ ./spec/errors/if_expected_else_expression:3:26
-   ├───────────────────────────────────────────────
+   ┌ errors/if_expected_else_expression:3:26
+   ├────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     if ("") { "a" } else {

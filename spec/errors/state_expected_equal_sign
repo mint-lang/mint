@@ -5,8 +5,8 @@ component Main {
 
 I was expecting the equal sign of a state but I found "a space" instead:
 
-   ┌ ./spec/errors/state_expected_equal_sign:2:12
-   ├─────────────────────────────────────────────
+   ┌ errors/state_expected_equal_sign:2:12
+   ├──────────────────────────────────────
   1│ component Main {
   2│   state test
    │             ⌃⌃⌃⌃

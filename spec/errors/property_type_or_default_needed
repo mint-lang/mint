@@ -16,8 +16,8 @@ component Main {
 
 The type or default value of a property needs to be defined, but neither was.
 
-   ┌ ./spec/errors/property_type_or_default_needed:2:3
-   ├──────────────────────────────────────────────────
+   ┌ errors/property_type_or_default_needed:2:3
+   ├───────────────────────────────────────────
   1│ component Test {
   2│   property name
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

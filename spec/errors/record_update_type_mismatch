@@ -28,8 +28,8 @@ component Main {
 
 One of the updated fields of a record do not match its type:
 
-    ┌ ./spec/errors/record_update_type_mismatch:16:7
-    ├───────────────────────────────────────────────
+    ┌ errors/record_update_type_mismatch:16:7
+    ├────────────────────────────────────────
   12│       }
   13│
   14│     { x |
@@ -51,8 +51,8 @@ Instead it is:
 
 The record is here:
 
-    ┌ ./spec/errors/record_update_type_mismatch:8:9
-    ├──────────────────────────────────────────────
+    ┌ errors/record_update_type_mismatch:8:9
+    ├───────────────────────────────────────
    4│ }
    5│
    6│ component Main {

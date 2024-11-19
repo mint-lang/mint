@@ -22,8 +22,8 @@ Instead it is:
 
 The iterable object in question is here:
 
-   ┌ ./spec/errors/for_type_mismatch:3:18
-   ├─────────────────────────────────────
+   ┌ errors/for_type_mismatch:3:18
+   ├──────────────────────────────
   1│ component Main {
   2│   fun render : Array(Html) {
   3│     for (item of "A") {

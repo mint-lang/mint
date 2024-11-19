@@ -7,8 +7,8 @@ component Main {
 I was expecting the opening bracket of a CSS keyframes rule but I found "a
 space" instead:
 
-   ┌ ./spec/errors/css_keyframes_expected_opening_bracket:3:19
-   ├──────────────────────────────────────────────────────────
+   ┌ errors/css_keyframes_expected_opening_bracket:3:19
+   ├───────────────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     @keyframes name

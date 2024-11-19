@@ -10,8 +10,8 @@ The object to be encoded must come from an expression, here is an example:
 
 I was expecting the expression but I found "a space" instead:
 
-   ┌ ./spec/errors/encode_expected_expression:3:10
-   ├──────────────────────────────────────────────
+   ┌ errors/encode_expected_expression:3:10
+   ├───────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     encode

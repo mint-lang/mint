@@ -13,8 +13,8 @@ I could not find the type for a destructuring with the name:
 
 The destructuring in question is here:
 
-   ┌ ./spec/errors/destructuring_type_missing:3:9
-   ├─────────────────────────────────────────────
+   ┌ errors/destructuring_type_missing:3:9
+   ├────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     let Maybe.Just(a) = "" or return ""

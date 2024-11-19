@@ -26,8 +26,8 @@ Instead it is:
 
 The property in question is here:
 
-   ┌ ./spec/errors/property_type_mismatch:2:3
-   ├─────────────────────────────────────────
+   ┌ errors/property_type_mismatch:2:3
+   ├──────────────────────────────────
   1│ component Test {
   2│   property name : String = true
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

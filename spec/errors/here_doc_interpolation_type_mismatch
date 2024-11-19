@@ -20,8 +20,8 @@ Instead it is:
 
 The interpolation in question is here:
 
-   ┌ ./spec/errors/here_doc_interpolation_type_mismatch:4:7
-   ├───────────────────────────────────────────────────────
+   ┌ errors/here_doc_interpolation_type_mismatch:4:7
+   ├────────────────────────────────────────────────
   1│ component Main {
   2│   fun render {
   3│     <<-TEST

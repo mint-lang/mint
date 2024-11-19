@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the semicolon of a CSS definition but I found "a space" instead:
 
-   ┌ ./spec/errors/css_definition_expected_semicolon:3:19
-   ├─────────────────────────────────────────────────────
+   ┌ errors/css_definition_expected_semicolon:3:19
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     background: red

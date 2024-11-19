@@ -7,7 +7,7 @@ lowercase, uppercase letters and numbers.
 
 I was expecting name of the module but I found "a space" instead:
 
-   ┌ ./spec/errors/module_expected_name:1:6
-   ├───────────────────────────────────────
+   ┌ errors/module_expected_name:1:6
+   ├────────────────────────────────
   1│ module
    │       ⌃⌃⌃⌃

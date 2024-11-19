@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the name of a spread but I found "a space" instead:
 
-   ┌ ./spec/errors/spread_expected_variable:3:15
-   ├────────────────────────────────────────────
+   ┌ errors/spread_expected_variable:3:15
+   ├─────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     let [x, ...

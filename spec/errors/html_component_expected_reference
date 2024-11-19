@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the reference of the HTML component but I found "/>" instead:
 
-   ┌ ./spec/errors/html_component_expected_reference:3:14
-   ├─────────────────────────────────────────────────────
+   ┌ errors/html_component_expected_reference:3:14
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <Test as />

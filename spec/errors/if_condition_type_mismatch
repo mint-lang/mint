@@ -17,8 +17,8 @@ is:
 
 The condition in question is here:
 
-   ┌ ./spec/errors/if_condition_type_mismatch:3:8
-   ├─────────────────────────────────────────────
+   ┌ errors/if_condition_type_mismatch:3:8
+   ├──────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     if ("a") {

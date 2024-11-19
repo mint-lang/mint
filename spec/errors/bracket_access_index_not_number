@@ -28,8 +28,8 @@ Instead it is:
 
 The index in question is here:
 
-    ┌ ./spec/errors/bracket_access_index_not_number:7:7
-    ├──────────────────────────────────────────────────
+    ┌ errors/bracket_access_index_not_number:7:7
+    ├───────────────────────────────────────────
    3│     [
    4│       "Hello",
    5│       "Blah",

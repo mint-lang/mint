@@ -15,7 +15,7 @@ ambiguous. Wrap operands in parentheses to avoid ambiguity.
 
 The piped call in question is here:
 
-    ┌ ./spec/errors/operation_pipe_ambiguous:7:15
+    ┌ errors/operation_pipe_ambiguous:7:15
     ├────────────────────────────────────────────
    3│     ""
    4│   }

@@ -17,8 +17,8 @@ Instead it is:
 
 The block in question is here:
 
-   ┌ ./spec/errors/signal_type_mismatch:2:21
-   ├────────────────────────────────────────
+   ┌ errors/signal_type_mismatch:2:21
+   ├─────────────────────────────────
   1│ store Test {
   2│   signal b : String { 0 }
    │                     ⌃⌃⌃⌃⌃

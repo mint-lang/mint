@@ -5,8 +5,8 @@ store Test {
 
 I was expecting the type of a signal but I found "a space" instead:
 
-   ┌ ./spec/errors/signal_expected_type:2:15
-   ├────────────────────────────────────────
+   ┌ errors/signal_expected_type:2:15
+   ├─────────────────────────────────
   1│ store Test {
   2│   signal name :
    │                ⌃⌃⌃⌃

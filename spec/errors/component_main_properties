@@ -13,8 +13,8 @@ to them.
 
 A property is defined here:
 
-   ┌ ./spec/errors/component_main_properties:2:3
-   ├────────────────────────────────────────────
+   ┌ errors/component_main_properties:2:3
+   ├─────────────────────────────────────
   1│ component Main {
   2│   property name : String = "Joe"
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -25,8 +25,8 @@ A property is defined here:
 
 The component in question is here:
 
-   ┌ ./spec/errors/component_main_properties:1:1
-   ├────────────────────────────────────────────
+   ┌ errors/component_main_properties:1:1
+   ├─────────────────────────────────────
   1│ component Main {
   2│   property name : String = "Joe"
   3│

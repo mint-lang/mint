@@ -9,8 +9,8 @@ provider Provider : Subscription {
 I was looking for the record type of the subscription "Subscription" but could
 not find it:
 
-   ┌ ./spec/errors/provider_not_found_subscription:1:1
-   ├──────────────────────────────────────────────────
+   ┌ errors/provider_not_found_subscription:1:1
+   ├───────────────────────────────────────────
   1│ provider Provider : Subscription {
   2│   fun test : Bool {
   3│     true

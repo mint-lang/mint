@@ -10,8 +10,8 @@ component Main {
 
 There is already a property with the name "render" in this component:
 
-   ┌ ./spec/errors/entity_name_conflict:2:3
-   ├───────────────────────────────────────
+   ┌ errors/entity_name_conflict:2:3
+   ├────────────────────────────────
   1│ component Main {
   2│   property render : String = ""
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -22,8 +22,8 @@ There is already a property with the name "render" in this component:
 
 You are trying to define something with the same name here:
 
-   ┌ ./spec/errors/entity_name_conflict:4:3
-   ├───────────────────────────────────────
+   ┌ errors/entity_name_conflict:4:3
+   ├────────────────────────────────
   1│ component Main {
   2│   property render : String = ""
   3│

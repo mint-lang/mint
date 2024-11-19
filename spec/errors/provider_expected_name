@@ -4,7 +4,7 @@ provider
 
 I was expecting the name of a provider but I found "a space" instead:
 
-   ┌ ./spec/errors/provider_expected_name:1:8
-   ├─────────────────────────────────────────
+   ┌ errors/provider_expected_name:1:8
+   ├──────────────────────────────────
   1│ provider
    │         ⌃⌃⌃⌃

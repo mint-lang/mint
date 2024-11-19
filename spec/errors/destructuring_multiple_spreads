@@ -13,8 +13,8 @@ don't know how to distribute the leftover items.
 
 This array destructuring contains 2 spread notations:
 
-   ┌ ./spec/errors/destructuring_multiple_spreads:4:7
-   ├─────────────────────────────────────────────────
+   ┌ errors/destructuring_multiple_spreads:4:7
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     case [] {

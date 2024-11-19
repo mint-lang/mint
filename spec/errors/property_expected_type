@@ -5,8 +5,8 @@ component Test {
 
 I was expecting the type of a property but I found "a space" instead:
 
-   ┌ ./spec/errors/property_expected_type:2:17
-   ├──────────────────────────────────────────
+   ┌ errors/property_expected_type:2:17
+   ├───────────────────────────────────
   1│ component Test {
   2│   property test :
    │                  ⌃⌃⌃⌃

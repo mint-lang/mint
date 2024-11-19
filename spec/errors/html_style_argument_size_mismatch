@@ -21,8 +21,8 @@ The type of the function is:
 
 The call in question is here:
 
-    ┌ ./spec/errors/html_style_argument_size_mismatch:7:9
-    ├────────────────────────────────────────────────────
+    ┌ errors/html_style_argument_size_mismatch:7:9
+    ├─────────────────────────────────────────────
    3│     color: red;
    4│   }
    5│

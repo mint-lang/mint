@@ -7,8 +7,8 @@ suite "X" {
 
 I was expecting the closing bracket of a suite but I found "a space" instead:
 
-   ┌ ./spec/errors/suite_expected_closing_bracket:4:3
-   ├─────────────────────────────────────────────────
+   ┌ errors/suite_expected_closing_bracket:4:3
+   ├──────────────────────────────────────────
   1│ suite "X" {
   2│   test "X" {
   3│     true

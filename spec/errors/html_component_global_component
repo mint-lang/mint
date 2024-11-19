@@ -15,8 +15,8 @@ component Main {
 Global components are added to the body and always rendered and cannot be used
 as regular components:
 
-    ┌ ./spec/errors/html_component_global_component:9:5
-    ├──────────────────────────────────────────────────
+    ┌ errors/html_component_global_component:9:5
+    ├───────────────────────────────────────────
    5│ }
    6│
    7│ component Main {
@@ -25,4 +25,3 @@ as regular components:
     │     ⌃⌃⌃⌃
   10│   }
   11│ }
-

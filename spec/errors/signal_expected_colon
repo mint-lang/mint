@@ -6,8 +6,8 @@ store Test {
 I was expecting the colon separating the type from the signal but I found "a
 space" instead:
 
-   ┌ ./spec/errors/signal_expected_colon:2:13
-   ├─────────────────────────────────────────
+   ┌ errors/signal_expected_colon:2:13
+   ├──────────────────────────────────
   1│ store Test {
   2│   signal name
    │              ⌃⌃⌃⌃

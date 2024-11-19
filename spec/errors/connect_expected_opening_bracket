@@ -5,8 +5,8 @@ component Main {
 
 I was expecting the opening bracket of a connect but I found "a space" instead:
 
-   ┌ ./spec/errors/connect_expected_opening_bracket:2:23
-   ├────────────────────────────────────────────────────
+   ┌ errors/connect_expected_opening_bracket:2:23
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   connect Test exposing
    │                        ⌃⌃⌃⌃

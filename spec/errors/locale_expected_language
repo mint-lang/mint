@@ -4,7 +4,7 @@ locale
 
 I was expecting the language code of the locale but I found "a space" instead:
 
-   ┌ ./spec/errors/locale_expected_language:1:6
-   ├───────────────────────────────────────────
+   ┌ errors/locale_expected_language:1:6
+   ├────────────────────────────────────
   1│ locale
    │       ⌃⌃⌃⌃

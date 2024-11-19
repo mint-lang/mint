@@ -14,8 +14,8 @@ component Main {
 
 Styling of elements outside of components is not allowed:
 
-   ┌ ./spec/errors/html_element_style_outside_of_component:3:5
-   ├──────────────────────────────────────────────────────────
+   ┌ errors/html_element_style_outside_of_component:3:5
+   ├───────────────────────────────────────────────────
   1│ module X {
   2│   fun render : Html {
   3│     <div::base/>

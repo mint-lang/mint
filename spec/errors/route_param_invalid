@@ -8,8 +8,8 @@ routes {
 
 The type of a route parameter cannot be used in routes:
 
-   ┌ ./spec/errors/route_param_invalid:2:18
-   ├───────────────────────────────────────
+   ┌ errors/route_param_invalid:2:18
+   ├──────────────────────────────────
   1│ routes {
   2│   /:name (name : Array(String)) {
    │                  ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -21,4 +21,3 @@ Only these types can be used as route parameters:
 
   String
   Number
-

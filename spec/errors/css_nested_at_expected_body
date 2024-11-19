@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the body of a CSS at rule but I found "a space" instead:
 
-   ┌ ./spec/errors/css_nested_at_expected_body:3:31
-   ├───────────────────────────────────────────────
+   ┌ errors/css_nested_at_expected_body:3:31
+   ├────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     @media (max-width: 100px) {

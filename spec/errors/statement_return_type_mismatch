@@ -24,8 +24,8 @@ I was expecting:
 
 It return call in question is here:
 
-    ┌ ./spec/errors/statement_return_type_mismatch:9:33
-    ├──────────────────────────────────────────────────
+    ┌ errors/statement_return_type_mismatch:9:33
+    ├───────────────────────────────────────────
    5│
    6│ component Main {
    7│   fun render : String {
@@ -39,8 +39,8 @@ It return call in question is here:
 
 The returned value of the block is here:
 
-    ┌ ./spec/errors/statement_return_type_mismatch:11:5
-    ├──────────────────────────────────────────────────
+    ┌ errors/statement_return_type_mismatch:11:5
+    ├───────────────────────────────────────────
    7│   fun render : String {
    8│     let Test.B(x) =
    9│       Test.A("Hello") or return 0

@@ -20,8 +20,8 @@ I was expecting:
 
 Which is defined here:
 
-   ┌ ./spec/errors/get_type_mismatch:2:14
-   ├─────────────────────────────────────
+   ┌ errors/get_type_mismatch:2:14
+   ├──────────────────────────────
   1│ component Main {
   2│   get test : Number {
    │              ⌃⌃⌃⌃⌃⌃
@@ -36,8 +36,8 @@ Instead it is:
 
 Which is returned here:
 
-   ┌ ./spec/errors/get_type_mismatch:3:5
-   ├────────────────────────────────────
+   ┌ errors/get_type_mismatch:3:5
+   ├─────────────────────────────
   1│ component Main {
   2│   get test : Number {
   3│     "asd"

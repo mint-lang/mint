@@ -6,8 +6,8 @@ component Main {
 I was expecting the closing bracket of a use condition but I found "a space"
 instead:
 
-   ┌ ./spec/errors/use_expected_condition_closing_bracket:2:29
-   ├──────────────────────────────────────────────────────────
+   ┌ errors/use_expected_condition_closing_bracket:2:29
+   ├───────────────────────────────────────────────────
   1│ component Main {
   2│   use A { a: "" } when { true
    │                              ⌃⌃⌃⌃

@@ -12,8 +12,8 @@ component Main {
 
 There is no CSS property with the name: "colorasd"
 
-   ┌ ./spec/errors/css_definition_no_property:3:5
-   ├─────────────────────────────────────────────
+   ┌ errors/css_definition_no_property:3:5
+   ├──────────────────────────────────────
   1│ component Main {
   2│   style test {
   3│     colorasd: hello;

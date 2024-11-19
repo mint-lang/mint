@@ -12,8 +12,8 @@ component Main {
 
 The index argument cannot be destructured, it must be a variable.
 
-   ┌ ./spec/errors/for_index_mismatch:3:16
-   ├──────────────────────────────────────
+   ┌ errors/for_index_mismatch:3:16
+   ├────────────────────────────────────
   1│ component Main {
   2│   fun render : Array(Html) {
   3│     for (item, {x} of ["A", "B"]) {

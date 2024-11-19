@@ -7,8 +7,8 @@ component Main {
 I was expecting the "as" keyword of a decode expression but I found "a space"
 instead:
 
-   ┌ ./spec/errors/decode_expected_as:3:13
-   ├──────────────────────────────────────
+   ┌ errors/decode_expected_as:3:13
+   ├───────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     decode ""

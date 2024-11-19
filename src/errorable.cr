@@ -83,13 +83,13 @@ module Mint
         in Parser
           SnippetData.new(
             to: value.position.offset + value.word.to_s.size,
+            filename: value.file.relative_path,
             from: value.position.offset,
-            input: value.file.contents,
-            filename: value.file.path)
+            input: value.file.contents)
         in Ast::Node
           SnippetData.new(
+            filename: value.file.relative_path,
             input: value.file.contents,
-            filename: value.file.path,
             from: value.from.offset,
             to: value.to.offset)
         in SnippetData

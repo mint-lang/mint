@@ -5,8 +5,8 @@ component Main {
 
 I was expecting the expression of a constant but I found "a space" instead:
 
-   ┌ ./spec/errors/constant_expected_expression:2:14
-   ├────────────────────────────────────────────────
+   ┌ errors/constant_expected_expression:2:14
+   ├─────────────────────────────────────────
   1│ component Main {
   2│   const TEST =
    │               ⌃⌃⌃⌃
