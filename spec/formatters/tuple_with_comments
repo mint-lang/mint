@@ -1,0 +1,21 @@
+module Test {
+  fun test : Tuple(String, String) {
+    {
+      // Comment for "Blah"
+      "Blah",
+      // Comment for "Joe"
+      "Joe"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Tuple(String, String) {
+    {
+      // Comment for "Blah"
+      "Blah",
+      // Comment for "Joe"
+      "Joe"
+    }
+  }
+}

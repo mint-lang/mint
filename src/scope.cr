@@ -229,6 +229,7 @@ module Mint
            Ast::Js
         build(node.value.select(Ast::Interpolation), node)
       when Ast::ParenthesizedExpression,
+           Ast::CommentedExpression,
            Ast::NegatedExpression,
            Ast::Interpolation,
            Ast::UnaryMinus,

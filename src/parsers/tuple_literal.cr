@@ -5,13 +5,13 @@ module Mint
         next unless char! '{'
 
         whitespace
-        next unless head = expression
+        next unless head = commented_expression
 
         whitespace
         next unless char! ','
 
         items =
-          list(terminator: '}', separator: ',') { expression }
+          list(terminator: '}', separator: ',') { commented_expression }
 
         whitespace
         next unless char! '}'

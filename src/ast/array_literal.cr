@@ -3,10 +3,10 @@ module Mint
     class ArrayLiteral < Node
       getter items, type
 
-      def initialize(@from : Parser::Location,
+      def initialize(@items : Array(CommentedExpression),
+                     @from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
-                     @items : Array(Node),
                      @type : Node?)
       end
     end

@@ -1,0 +1,21 @@
+module Test {
+  fun test : Array(String) {
+    [
+      // Item 1 Comment
+      "Item 1",
+      // Item 2 comment
+      "Item 2"
+    ] of String
+  }
+}
+--------------------------------------------------------------------------------
+module Test {
+  fun test : Array(String) {
+    [
+      // Item 1 Comment
+      "Item 1",
+      // Item 2 comment
+      "Item 2"
+    ] of String
+  }
+}

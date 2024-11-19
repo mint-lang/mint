@@ -8,7 +8,7 @@ module Mint
         items = list(
           terminator: ']',
           separator: ','
-        ) { expression }
+        ) { commented_expression }
         whitespace
 
         next error :array_expected_closing_bracket do
