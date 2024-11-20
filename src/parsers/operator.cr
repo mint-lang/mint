@@ -26,8 +26,11 @@ module Mint
       "!"  => 16,
     }
 
-    def operator : String?
+    def operator : Tuple(String, Ast::Comment?)?
       parse do |start_position|
+        whitespace
+
+        comment = self.comment
         whitespace
 
         saved_position =
@@ -90,7 +93,7 @@ module Mint
         end
 
         whitespace
-        operator
+        {operator, comment}
       end
     end
   end

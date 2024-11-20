@@ -3,8 +3,11 @@ module Mint
     def expression : Ast::Node?
       return unless expression = base_expression
 
-      if operator = self.operator
-        pipe operation(expression, operator)
+      if item = self.operator
+        operator, comment =
+          item
+
+        pipe operation(expression, operator, comment)
       else
         expression
       end

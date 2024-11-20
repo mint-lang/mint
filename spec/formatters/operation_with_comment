@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    "Hello" // Some comment
+    + "There"
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "Hello" // Some comment
+     + "There"
+  }
+}

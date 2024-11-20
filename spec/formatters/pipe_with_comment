@@ -1,0 +1,27 @@
+component Main {
+  fun test (value : String) {
+    value
+  }
+
+  fun render : Html {
+    "test"
+    // Some comment
+    |> test
+
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun test (value : String) {
+    value
+  }
+
+  fun render : Html {
+    "test"
+    // Some comment
+    |> test
+
+    <div/>
+  }
+}
