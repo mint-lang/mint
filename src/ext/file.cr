@@ -5,7 +5,7 @@ class File
   end
 
   def self.relative_path_from_ancestor(path : String, name : String) : String
-    return path unless directory = File.find_in_ancestors(path, "mint.json")
+    return path unless directory = File.find_in_ancestors(path, name)
     Path[path].relative_to(File.dirname(directory)).to_s
   end
 
