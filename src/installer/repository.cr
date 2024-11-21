@@ -188,7 +188,7 @@ module Mint
 
       # The directory of the repository
       def directory
-        Path[MINT_PACKAGES_DIR, url].to_s
+        Path[MINT_PACKAGES_DIR, Digest::MD5.hexdigest(url)].to_s
       end
 
       # Runs a shell command and returns its status, output and error in a tuple.

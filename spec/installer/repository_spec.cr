@@ -6,8 +6,8 @@ describe "Repository" do
   context "failures" do
     context "json" do
       it "raises error on bad mint.json" do
-        FileUtils.mkdir_p("#{tmp_dir}/success")
-        File.write("#{tmp_dir}/success/mint.json", "hello")
+        FileUtils.mkdir_p("#{tmp_dir}/260ca9dd8a4577fc00b7bd5810298076")
+        File.write("#{tmp_dir}/260ca9dd8a4577fc00b7bd5810298076/mint.json", "hello")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -24,7 +24,7 @@ describe "Repository" do
       end
 
       it "raises error on no mint.json" do
-        FileUtils.rm_rf("#{tmp_dir}/success")
+        FileUtils.rm_rf("#{tmp_dir}/260ca9dd8a4577fc00b7bd5810298076")
 
         repository = Mint::Installer::Repository.new("name", "success")
 
@@ -88,7 +88,7 @@ describe "Repository" do
     end
 
     it "raises error on clone" do
-      FileUtils.rm_rf("#{tmp_dir}/error")
+      FileUtils.rm_rf("#{tmp_dir}/cb5e100e5a9a3e7f6d1fd97512215282")
 
       message = <<-MESSAGE
       ░ ERROR (REPOSITORY_COULD_NOT_CLONE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -109,7 +109,7 @@ describe "Repository" do
     end
 
     it "raises error on update" do
-      FileUtils.mkdir_p("#{tmp_dir}/error")
+      FileUtils.mkdir_p("#{tmp_dir}/cb5e100e5a9a3e7f6d1fd97512215282")
 
       message = <<-MESSAGE
       ░ ERROR (REPOSITORY_COULD_NOT_UPDATE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -137,14 +137,14 @@ describe "Repository" do
     end
 
     it "clones successfully" do
-      FileUtils.rm_rf("#{tmp_dir}/success")
+      FileUtils.rm_rf("#{tmp_dir}/260ca9dd8a4577fc00b7bd5810298076")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Cloned name (success)")
     end
 
     it "updates successfully" do
-      FileUtils.mkdir_p("#{tmp_dir}/success")
+      FileUtils.mkdir_p("#{tmp_dir}/260ca9dd8a4577fc00b7bd5810298076")
 
       repository = Mint::Installer::Repository.open("name", "success")
       repository.output.should eq("  ✔ Updated name (success)")
