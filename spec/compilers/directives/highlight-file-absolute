@@ -1,0 +1,67 @@
+component Main {
+  fun render : Html {
+    @highlight-file(/fixtures/Test.mint)
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as A,
+  fragment as B
+} from "./runtime.js";
+
+export const C = () => {
+  return A(B, {}, [
+    A("span", {
+      className: "line"
+    }, [
+      A("span", {
+        className: "keyword"
+      }, [`component`]),
+      ` `,
+      A("span", {
+        className: "type"
+      }, [`Main`]),
+      ` {
+`
+    ]),
+    A("span", {
+      className: "line"
+    }, [
+      `  `,
+      A("span", {
+        className: "keyword"
+      }, [`fun`]),
+      ` render : `,
+      A("span", {
+        className: "type"
+      }, [`Html`]),
+      ` {
+`
+    ]),
+    A("span", {
+      className: "line"
+    }, [
+      `    <`,
+      A("span", {
+        className: "namespace"
+      }, [`div`]),
+      `></`,
+      A("span", {
+        className: "namespace"
+      }, [`div`]),
+      `>
+`
+    ]),
+    A("span", {
+      className: "line"
+    }, [`  }
+`]),
+    A("span", {
+      className: "line"
+    }, [`}
+`]),
+    A("span", {
+      className: "line"
+    }, [``])
+  ])
+};

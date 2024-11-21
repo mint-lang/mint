@@ -1,0 +1,20 @@
+component Main {
+  fun render : Html {
+    @svg(/fixtures/icon.svg)
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as A } from "./runtime.js";
+
+export const
+  a = A(`svg`, {
+    dangerouslySetInnerHTML: {
+      __html: `<path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/>`
+    },
+    viewBox: `0 0 24 24`,
+    height: `24`,
+    width: `24`
+  }),
+  B = () => {
+    return a
+  };

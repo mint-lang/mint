@@ -1,6 +1,5 @@
 require "spec"
 
-ENV["SPEC"] = "TRUE"
 MINT_ENV["TEST"] = "TRUE"
 
 require "./spec_helpers"

@@ -1,14 +1,10 @@
 component Main {
   fun render : String {
-    dbg! "Hello World!"
+    @inline(/fixtures/data.txt)
   }
 }
 --------------------------------------------------------------------------------
 export const A = () => {
-  return (() => {
-    const a = `Hello World!`;
-    console.log(`compilers/dbg_bang:3:4`);
-    console.log(a);
-    return a
-  })()
+  return `Hello World!
+`
 };

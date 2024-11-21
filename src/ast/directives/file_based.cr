@@ -4,11 +4,22 @@ module Mint
       class FileBased < Node
         include Errorable
 
-        # The real path of the asset on the disk.
-        getter real_path : Path
-
         # The given path of the asset, relative to the source file.
         getter path : String
+
+        # The relative path of the asset to the project root (closest `mint.json`).
+        getter relative_path : String do
+          File.relative_path_from_ancestor(path, "mint.json")
+        end
+
+        # The real path of the asset on the disk.
+        getter real_path : Path do
+          if path.starts_with?("/")
+            if json = File.find_in_ancestors(file.path, "mint.json")
+              Path[json].sibling(path.lchop('/')).expand
+            end
+          end || Path[file.path].sibling(path).expand
+        end
 
         def initialize(
           @from : Parser::Location,
@@ -16,7 +27,6 @@ module Mint
           @file : Parser::File,
           @path : String
         )
-          @real_path = Path[file.path].sibling(path).expand
         end
 
         # Returns the hashed filename of the target. For the build version it

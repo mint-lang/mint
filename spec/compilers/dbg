@@ -9,7 +9,7 @@ import { inspect as A } from "./runtime.js";
 export const B = () => {
   return (() => {
     const a = `Hello World!`;
-    console.log(`./spec/compilers/dbg:3:4`);
+    console.log(`compilers/dbg:3:4`);
     console.log(A(a));
     return a
   })()

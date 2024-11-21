@@ -2,14 +2,7 @@ module Mint
   class TypeChecker
     def check(node : Ast::Directives::Svg) : Checkable
       error! :svg_directive_expected_file do
-        path =
-          if ENV["SPEC"]?
-            node.path.to_s
-          else
-            node.real_path.to_s
-          end
-
-        snippet "The specified file for an svg directive does not exist:", path
+        snippet "The specified file for an svg directive does not exist:", node.relative_path
         snippet "The svg directive in question is here:", node
       end unless node.exists?
 
