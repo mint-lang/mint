@@ -63,6 +63,12 @@ module Mint
           block do
             bold error.to_s.strip
           end
+
+          block do
+            text "Hint: Run "
+            bold "mint tool clean; mint tool clean --package-cache"
+            text " to reset local state, and then try again."
+          end
         end unless status.success?
 
         output
@@ -138,6 +144,12 @@ module Mint
           block do
             bold error.to_s.strip
           end
+
+          block do
+            text "Hint: Run "
+            bold "mint tool clean; mint tool clean --package-cache"
+            text " to reset local state, and then try again."
+          end
         end unless status.success?
 
         terminal.puts "  #{CHECKMARK} Updated #{id}"
@@ -157,6 +169,12 @@ module Mint
 
           block do
             bold error.to_s.strip
+          end
+
+          block do
+            text "Hint: Run "
+            bold "mint tool clean; mint tool clean --package-cache"
+            text " to reset local state, and then try again."
           end
         end unless status.success?
 
