@@ -24,8 +24,8 @@ Maybe you want one of its properties:
 
 The attribute in question is here:
 
-    ┌ ./spec/errors/html_attribute_not_found_component_property:11:18
-    ├────────────────────────────────────────────────────────────────
+    ┌ errors/html_attribute_not_found_component_property:11:18
+    ├─────────────────────────────────────────────────────────
    7│ }
    8│
    9│ component Main {

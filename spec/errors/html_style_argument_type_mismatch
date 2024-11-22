@@ -22,8 +22,8 @@ Instead it is:
 
 The call in question is here:
 
-    ┌ ./spec/errors/html_style_argument_type_mismatch:7:9
-    ├────────────────────────────────────────────────────
+    ┌ errors/html_style_argument_type_mismatch:7:9
+    ├─────────────────────────────────────────────
    3│     color: red;
    4│   }
    5│

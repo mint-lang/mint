@@ -23,8 +23,8 @@ Instead it is:
 
 The branch in question is here:
 
-    ┌ ./spec/errors/case_branch_not_matches:5:7
-    ├──────────────────────────────────────────
+    ┌ errors/case_branch_not_matches:5:7
+    ├───────────────────────────────────
    1│ component Main {
    2│   fun render : String {
    3│     case ("x") {

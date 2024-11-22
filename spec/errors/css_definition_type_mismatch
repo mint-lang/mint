@@ -23,8 +23,8 @@ Instead it is:
 
 The css definition in question is here:
 
-   ┌ ./spec/errors/css_definition_type_mismatch:3:5
-   ├───────────────────────────────────────────────
+   ┌ errors/css_definition_type_mismatch:3:5
+   ├────────────────────────────────────────
   1│ component Main {
   2│   style test {
   3│     color: #{true};

@@ -25,8 +25,8 @@ Instead it is:
 
 The array in question is here:
 
-   ┌ ./spec/errors/bracket_access_not_accessible:3:5
-   ├────────────────────────────────────────────────
+   ┌ errors/bracket_access_not_accessible:3:5
+   ├─────────────────────────────────────────
   1│ component Main {
   2│   fun test : Maybe(String) {
   3│     0[0]

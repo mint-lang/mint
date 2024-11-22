@@ -4,7 +4,7 @@ component Main {
 
 I was expecting the body of a component but I found "a space" instead:
 
-   ┌ ./spec/errors/component_expected_body:1:16
-   ├───────────────────────────────────────────
+   ┌ errors/component_expected_body:1:16
+   ├────────────────────────────────────
   1│ component Main {
    │                 ⌃⌃⌃⌃

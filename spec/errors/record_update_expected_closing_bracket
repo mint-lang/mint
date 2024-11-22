@@ -7,8 +7,8 @@ component Main {
 I was expecting the closing bracket of a record update but I found "a space"
 instead:
 
-   ┌ ./spec/errors/record_update_expected_closing_bracket:3:15
-   ├──────────────────────────────────────────────────────────
+   ┌ errors/record_update_expected_closing_bracket:3:15
+   ├───────────────────────────────────────────────────
   1│ component Main {
   2│   get record : Record(String, Bool) {
   3│     { a | a: ""

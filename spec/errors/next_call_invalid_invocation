@@ -18,8 +18,8 @@ component Main {
 A next call can only called inside a component, store or provider but you tried
 to call it here:
 
-   ┌ ./spec/errors/next_call_invalid_invocation:3:5
-   ├───────────────────────────────────────────────
+   ┌ errors/next_call_invalid_invocation:3:5
+   ├────────────────────────────────────────
   1│ module Test {
   2│   fun test : Promise(Void) {
   3│     next { age: 30 }

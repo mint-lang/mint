@@ -21,8 +21,8 @@ Instead it is:
 
 The test in question is here:
 
-   ┌ ./spec/errors/test_type_mismatch:3:5
-   ├─────────────────────────────────────
+   ┌ errors/test_type_mismatch:3:5
+   ├──────────────────────────────
   1│ suite "X" {
   2│   test "X" {
   3│     "true"

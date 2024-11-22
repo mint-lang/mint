@@ -29,8 +29,8 @@ Only these types and records containing them cantext be automatically decoded:
 
 The decode question is here:
 
-    ┌ ./spec/errors/decode_complex_type:7:5
-    ├──────────────────────────────────────
+    ┌ errors/decode_complex_type:7:5
+    ├───────────────────────────────
    3│ }
    4│
    5│ component Main {

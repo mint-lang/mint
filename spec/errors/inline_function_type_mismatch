@@ -21,8 +21,8 @@ I was expecting:
 
 Which is defined here:
 
-   ┌ ./spec/errors/inline_function_type_mismatch:4:12
-   ├─────────────────────────────────────────────────
+   ┌ errors/inline_function_type_mismatch:4:12
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   fun test : String {
   3│     let a =
@@ -39,8 +39,8 @@ Instead it is:
 
 Which is returned here:
 
-   ┌ ./spec/errors/inline_function_type_mismatch:4:21
-   ├─────────────────────────────────────────────────
+   ┌ errors/inline_function_type_mismatch:4:21
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   fun test : String {
   3│     let a =

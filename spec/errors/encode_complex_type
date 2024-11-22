@@ -27,8 +27,8 @@ Only these types and records containing them can be automatically decoded:
 
 The encode in question is here:
 
-    ┌ ./spec/errors/encode_complex_type:7:5
-    ├──────────────────────────────────────
+    ┌ errors/encode_complex_type:7:5
+    ├───────────────────────────────
    3│ }
    4│
    5│ component Main {

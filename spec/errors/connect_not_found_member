@@ -16,8 +16,8 @@ The entity "y" does not exist in the connected store.
 
 The connect in question is here:
 
-    ┌ ./spec/errors/connect_not_found_member:6:3
-    ├───────────────────────────────────────────
+    ┌ errors/connect_not_found_member:6:3
+    ├────────────────────────────────────
    2│   state x : String = ""
    3│ }
    4│

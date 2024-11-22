@@ -19,8 +19,8 @@ Instead it is this:
 
 The destructuring in question is here:
 
-   ┌ ./spec/errors/destructuring_tuple_mismatch:4:7
-   ├───────────────────────────────────────────────
+   ┌ errors/destructuring_tuple_mismatch:4:7
+   ├────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     case {"a", "b"} {

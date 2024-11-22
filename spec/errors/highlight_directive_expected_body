@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the body of a highlight directive but I found "a space" instead:
 
-   ┌ ./spec/errors/highlight_directive_expected_body:3:16
-   ├─────────────────────────────────────────────────────
+   ┌ errors/highlight_directive_expected_body:3:16
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @highlight {

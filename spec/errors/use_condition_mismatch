@@ -31,8 +31,8 @@ it is:
 
 The condition in question is here:
 
-    ┌ ./spec/errors/use_condition_mismatch:17:5
-    ├──────────────────────────────────────────
+    ┌ errors/use_condition_mismatch:17:5
+    ├───────────────────────────────────
   13│   use Provider {
   14│     a: "Hello",
   15│     b: "Blah"

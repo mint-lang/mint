@@ -41,8 +41,8 @@ Instead it is:
 
 The provider in question is here:
 
-    ┌ ./spec/errors/use_subscription_mismatch:18:3
-    ├─────────────────────────────────────────────
+    ┌ errors/use_subscription_mismatch:18:3
+    ├──────────────────────────────────────
   14│   }
   15│ }
   16│

@@ -7,8 +7,8 @@ component Main {
 I was expecting the opening parenthesis of an asset directive but I found "a
 space" instead:
 
-   ┌ ./spec/errors/asset_directive_expected_opening_parenthesis:3:10
-   ├────────────────────────────────────────────────────────────────
+   ┌ errors/asset_directive_expected_opening_parenthesis:3:10
+   ├─────────────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @asset

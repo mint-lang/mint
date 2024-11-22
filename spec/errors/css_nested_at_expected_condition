@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the condition of a CSS at rule but I found "a space" instead:
 
-   ┌ ./spec/errors/css_nested_at_expected_condition:3:10
-   ├────────────────────────────────────────────────────
+   ┌ errors/css_nested_at_expected_condition:3:10
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     @media

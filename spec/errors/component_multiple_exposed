@@ -12,8 +12,8 @@ The entity "x" from a store is exposed multiple times.
 
 It is exposed here:
 
-   ┌ ./spec/errors/component_multiple_exposed:2:27
-   ├──────────────────────────────────────────────
+   ┌ errors/component_multiple_exposed:2:27
+   ├───────────────────────────────────────
   1│ component A {
   2│   connect Test exposing { x, x }
    │                           ⌃
@@ -24,8 +24,8 @@ It is exposed here:
 
 It is also exposed here:
 
-   ┌ ./spec/errors/component_multiple_exposed:2:30
-   ├──────────────────────────────────────────────
+   ┌ errors/component_multiple_exposed:2:30
+   ├───────────────────────────────────────
   1│ component A {
   2│   connect Test exposing { x, x }
    │                              ⌃

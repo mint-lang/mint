@@ -12,8 +12,8 @@ The specified file for an svg directive does not exist:
 
 The svg directive in question is here:
 
-   ┌ ./spec/errors/svg_directive_expected_file:3:5
-   ├──────────────────────────────────────────────
+   ┌ errors/svg_directive_expected_file:3:5
+   ├───────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     @svg(../../fixtures/icon-missing)

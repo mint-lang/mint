@@ -7,8 +7,8 @@ type A {
 Parameters used by options must be defined in the the type definition. This
 parameter was not defined in the type definition:
 
-   ┌ ./spec/errors/type_definition_not_defined_parameter:2:5
-   ├────────────────────────────────────────────────────────
+   ┌ errors/type_definition_not_defined_parameter:2:5
+   ├─────────────────────────────────────────────────
   1│ type A {
   2│   B(a)
    │     ⌃

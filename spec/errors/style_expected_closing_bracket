@@ -6,8 +6,8 @@ component Main {
 
 I was expecting the closing bracket of a style but I found "a space" instead:
 
-   ┌ ./spec/errors/style_expected_closing_bracket:3:15
-   ├──────────────────────────────────────────────────
+   ┌ errors/style_expected_closing_bracket:3:15
+   ├───────────────────────────────────────────
   1│ component Main {
   2│   style x {
   3│     color: red;

@@ -20,8 +20,8 @@ The entity you called is not a function, instead it is:
 
 The call in question is here:
 
-    ┌ ./spec/errors/call_not_a_function:5:5
-    ├──────────────────────────────────────
+    ┌ errors/call_not_a_function:5:5
+    ├───────────────────────────────
    1│ component Main {
    2│   state x : String = ""
    3│

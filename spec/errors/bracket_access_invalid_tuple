@@ -21,8 +21,8 @@ of the tuple is:
 
 The tuple in question is here:
 
-   ┌ ./spec/errors/bracket_access_invalid_tuple:3:5
-   ├───────────────────────────────────────────────
+   ┌ errors/bracket_access_invalid_tuple:3:5
+   ├────────────────────────────────────────
   1│ component Main {
   2│   fun test : Maybe(String) {
   3│     {"Hello", ""}[2]

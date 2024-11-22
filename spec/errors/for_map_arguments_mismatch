@@ -17,8 +17,8 @@ component Main {
 If the iterable object of a for expression is a map, then it needs to the have 2
 arguments:
 
-    ┌ ./spec/errors/for_map_arguments_mismatch:7:10
-    ├──────────────────────────────────────────────
+    ┌ errors/for_map_arguments_mismatch:7:10
+    ├───────────────────────────────────────
    3│     ``
    4│   }
    5│

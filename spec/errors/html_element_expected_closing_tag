@@ -8,8 +8,8 @@ component Main {
 
 I was expecting the closing tag of an HTML element but I found "}" instead:
 
-   ┌ ./spec/errors/html_element_expected_closing_tag:4:3
-   ├────────────────────────────────────────────────────
+   ┌ errors/html_element_expected_closing_tag:4:3
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <test>

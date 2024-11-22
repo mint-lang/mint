@@ -12,7 +12,7 @@ component Main {
 
 This name for a variable is a reserved word please use something else:
 
-   ┌ ./spec/errors/variable_reserved:3:5
+   ┌ errors/variable_reserved:3:5
    ├─────────────────────────────────────
   1│ component Main {
   2│   fun b(default : String) : String {

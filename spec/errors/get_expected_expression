@@ -5,8 +5,8 @@ component Main {
 
 I was expecting the body of a get but I found "a space" instead:
 
-   ┌ ./spec/errors/get_expected_expression:2:12
-   ├───────────────────────────────────────────
+   ┌ errors/get_expected_expression:2:12
+   ├────────────────────────────────────
   1│ component Main {
   2│   get name {
    │             ⌃⌃⌃⌃

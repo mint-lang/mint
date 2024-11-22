@@ -13,8 +13,8 @@ the first few lines of the file:
 
 The svg directive in question is here:
 
-   ┌ ./spec/errors/svg_directive_expected_svg_tag:3:5
-   ├─────────────────────────────────────────────────
+   ┌ errors/svg_directive_expected_svg_tag:3:5
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     @svg(../fixtures/icon-no-svg-tag)

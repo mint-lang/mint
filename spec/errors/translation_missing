@@ -8,8 +8,8 @@ component Main {
 
 Translations are not specified for this key:
 
-   ┌ ./spec/errors/translation_missing:3:5
-   ├──────────────────────────────────────
+   ┌ errors/translation_missing:3:5
+   ├───────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     :test

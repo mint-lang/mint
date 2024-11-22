@@ -14,8 +14,8 @@ There are multiple references with the name:
 
 One reference is here:
 
-   ┌ ./spec/errors/component_reference_name_conflict:3:13
-   ├─────────────────────────────────────────────────────
+   ┌ errors/component_reference_name_conflict:3:13
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <div as myDiv>
@@ -27,8 +27,8 @@ One reference is here:
 
 The other reference is here:
 
-   ┌ ./spec/errors/component_reference_name_conflict:4:15
-   ├─────────────────────────────────────────────────────
+   ┌ errors/component_reference_name_conflict:4:15
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <div as myDiv>

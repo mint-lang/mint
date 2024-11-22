@@ -27,8 +27,8 @@ Instead it is:
 
 The array in question is here:
 
-    ┌ ./spec/errors/array_not_matches_defined_type:6:10
-    ├──────────────────────────────────────────────────
+    ┌ errors/array_not_matches_defined_type:6:10
+    ├───────────────────────────────────────────
    2│   fun test : Array(String) {
    3│     [
    4│       "Hello",

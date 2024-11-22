@@ -7,8 +7,8 @@ component Main {
 I was expecting the selectors of a CSS keyframes rule but I found "a space"
 instead:
 
-   ┌ ./spec/errors/css_keyframes_expected_selectors:3:21
-   ├────────────────────────────────────────────────────
+   ┌ errors/css_keyframes_expected_selectors:3:21
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   style root {
   3│     @keyframes name {

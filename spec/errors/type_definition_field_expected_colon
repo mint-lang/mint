@@ -6,8 +6,8 @@ type A {
 I was expecting the colon separating a type field from the type but I found "a
 space" instead:
 
-   ┌ ./spec/errors/type_definition_field_expected_colon:2:3
-   ├───────────────────────────────────────────────────────
+   ┌ errors/type_definition_field_expected_colon:2:3
+   ├────────────────────────────────────────────────
   1│ type A {
   2│   x
    │    ⌃⌃⌃⌃

@@ -24,8 +24,8 @@ Instead it is:
 
 The attribute in question is here:
 
-    ┌ ./spec/errors/html_attribute_component_key_type_mismatch:9:8
-    ├─────────────────────────────────────────────────────────────
+    ┌ errors/html_attribute_component_key_type_mismatch:9:8
+    ├──────────────────────────────────────────────────────
    5│ }
    6│
    7│ component Main {

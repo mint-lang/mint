@@ -6,8 +6,8 @@ type Test {
 I was expecting the closing parenthesis of an type variant but I found "a space"
 instead:
 
-   ┌ ./spec/errors/type_variant_expected_closing_parenthesis:2:4
-   ├────────────────────────────────────────────────────────────
+   ┌ errors/type_variant_expected_closing_parenthesis:2:4
+   ├─────────────────────────────────────────────────────
   1│ type Test {
   2│   A(
    │     ⌃⌃⌃⌃

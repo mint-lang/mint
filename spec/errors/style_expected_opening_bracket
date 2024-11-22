@@ -5,8 +5,8 @@ component Main {
 
 I was expecting the opening bracket of a style but I found "a space" instead:
 
-   ┌ ./spec/errors/style_expected_opening_bracket:2:9
-   ├─────────────────────────────────────────────────
+   ┌ errors/style_expected_opening_bracket:2:9
+   ├──────────────────────────────────────────
   1│ component Main {
   2│   style x
    │          ⌃⌃⌃⌃

@@ -4,7 +4,7 @@ suite
 
 I was expecting the name of a suite but I found "a space" instead:
 
-   ┌ ./spec/errors/suite_expected_name:1:5
-   ├──────────────────────────────────────
+   ┌ errors/suite_expected_name:1:5
+   ├───────────────────────────────
   1│ suite
    │      ⌃⌃⌃⌃

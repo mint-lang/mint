@@ -22,8 +22,8 @@ Instead it is:
 
 The operation in question is here:
 
-   ┌ ./spec/errors/operation_numeric_type_mismatch:3:5
-   ├──────────────────────────────────────────────────
+   ┌ errors/operation_numeric_type_mismatch:3:5
+   ├───────────────────────────────────────────
   1│ component Main {
   2│   fun test : Number {
   3│     "Hello" * 0

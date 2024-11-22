@@ -5,8 +5,8 @@ suite "X" {
 
 I was expecting the opening bracket of a test but I found "a space" instead:
 
-   ┌ ./spec/errors/test_expected_opening_bracket:2:10
-   ├─────────────────────────────────────────────────
+   ┌ errors/test_expected_opening_bracket:2:10
+   ├──────────────────────────────────────────
   1│ suite "X" {
   2│   test "X"
    │           ⌃⌃⌃⌃

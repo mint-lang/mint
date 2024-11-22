@@ -10,8 +10,8 @@ component Main {
 
 This statement needs a return call because the destructuring is not exhaustive:
 
-   ┌ ./spec/errors/statement_return_required:3:5
-   ├────────────────────────────────────────────
+   ┌ errors/statement_return_required:3:5
+   ├─────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     let [a, b] = []

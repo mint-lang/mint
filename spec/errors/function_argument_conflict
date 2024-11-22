@@ -16,8 +16,8 @@ The argument "a" is declared multiple times.
 
 It is declared here:
 
-   ┌ ./spec/errors/function_argument_conflict:2:25
-   ├──────────────────────────────────────────────
+   ┌ errors/function_argument_conflict:2:25
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   fun test (a : String, a : String) : Bool {
    │                         ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -28,8 +28,8 @@ It is declared here:
 
 It is also declared here:
 
-   ┌ ./spec/errors/function_argument_conflict:2:13
-   ├──────────────────────────────────────────────
+   ┌ errors/function_argument_conflict:2:13
+   ├─────────────────────────────────────────────
   1│ component Main {
   2│   fun test (a : String, a : String) : Bool {
    │             ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

@@ -7,8 +7,8 @@ component Main {
 I was expecting the path (to the file to be inlined) of an inline directive but
 I found "a space" instead:
 
-   ┌ ./spec/errors/inline_directive_expected_path:3:12
-   ├──────────────────────────────────────────────────
+   ┌ errors/inline_directive_expected_path:3:12
+   ├───────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @inline(

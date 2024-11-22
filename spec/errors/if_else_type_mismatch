@@ -22,8 +22,8 @@ Instead it is:
 
 The value for the else branch is here:
 
-    ┌ ./spec/errors/if_else_type_mismatch:6:7
-    ├────────────────────────────────────────
+    ┌ errors/if_else_type_mismatch:6:7
+    ├─────────────────────────────────
    2│   fun render : String {
    3│     if ("a" == "b") {
    4│       "x"
@@ -33,4 +33,3 @@ The value for the else branch is here:
    7│     }
    8│   }
    9│ }
-

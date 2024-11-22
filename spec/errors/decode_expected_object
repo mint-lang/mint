@@ -18,8 +18,8 @@ Only the "Object" type can be decoded but you tried to decode:
 
 The decode question is here:
 
-    ┌ ./spec/errors/decode_expected_object:7:5
-    ├─────────────────────────────────────────
+    ┌ errors/decode_expected_object:7:5
+    ├──────────────────────────────────
    3│ }
    4│
    5│ component Main {

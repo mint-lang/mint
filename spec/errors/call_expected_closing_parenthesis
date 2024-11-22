@@ -10,8 +10,8 @@ The arguments of a call must be enclosed by parenthesis, here is an example:
 
 I was expecting the closing parenthesis of a call but I found "a space" instead:
 
-   ┌ ./spec/errors/call_expected_closing_parenthesis:3:12
-   ├─────────────────────────────────────────────────────
+   ┌ errors/call_expected_closing_parenthesis:3:12
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     test("A"

@@ -7,8 +7,8 @@ component Main {
 I was expecting the opening parenthesis of an svg directive but I found "a
 space" instead:
 
-   ┌ ./spec/errors/svg_directive_expected_opening_parenthesis:3:8
-   ├─────────────────────────────────────────────────────────────
+   ┌ errors/svg_directive_expected_opening_parenthesis:3:8
+   ├──────────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : String {
   3│     @svg

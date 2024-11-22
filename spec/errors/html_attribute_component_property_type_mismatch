@@ -27,8 +27,8 @@ Instead it is:
 
 The attribute in question is here:
 
-    ┌ ./spec/errors/html_attribute_component_property_type_mismatch:11:11
-    ├────────────────────────────────────────────────────────────────────
+    ┌ errors/html_attribute_component_property_type_mismatch:11:11
+    ├─────────────────────────────────────────────────────────────
    7│ }
    8│
    9│ component Main {

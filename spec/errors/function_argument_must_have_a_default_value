@@ -17,8 +17,8 @@ default value.
 
 The argument in question is here:
 
-   ┌ ./spec/errors/function_argument_must_have_a_default_value:2:35
-   ├───────────────────────────────────────────────────────────────
+   ┌ errors/function_argument_must_have_a_default_value:2:35
+   ├─────────────────────────────────────────────────────────
   1│ component Main {
   2│   fun test (a : String = "Hello", b : String) : Number {
    │                                   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃

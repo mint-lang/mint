@@ -14,8 +14,8 @@ component Main {
 
 Referencing elements outside of components is not allowed:
 
-   ┌ ./spec/errors/html_element_reference_outside_of_component:3:13
-   ├───────────────────────────────────────────────────────────────
+   ┌ errors/html_element_reference_outside_of_component:3:13
+   ├────────────────────────────────────────────────────────
   1│ module X {
   2│   fun render : Html {
   3│     <div as x/>

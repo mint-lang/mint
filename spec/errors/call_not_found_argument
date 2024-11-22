@@ -23,8 +23,8 @@ The type of the function is:
 
 The call in question is here:
 
-    ┌ ./spec/errors/call_not_found_argument:7:5
-    ├──────────────────────────────────────────
+    ┌ errors/call_not_found_argument:7:5
+    ├──────────────────────────────────────
    3│     <div/>
    4│   }
    5│

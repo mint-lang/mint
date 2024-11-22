@@ -19,8 +19,8 @@ Instead it is:
 
 The attribute in question is here:
 
-   ┌ ./spec/errors/html_attribute_element_attribute_type_mismatch:3:10
-   ├──────────────────────────────────────────────────────────────────
+   ┌ errors/html_attribute_element_attribute_type_mismatch:3:10
+   ├───────────────────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <div name={0}/>

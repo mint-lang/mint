@@ -12,8 +12,8 @@ I was looking for a component but could not find one with the name:
 
 It's used here:
 
-   ┌ ./spec/errors/html_component_not_found_component:3:5
-   ├─────────────────────────────────────────────────────
+   ┌ errors/html_component_not_found_component:3:5
+   ├──────────────────────────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     <X/>

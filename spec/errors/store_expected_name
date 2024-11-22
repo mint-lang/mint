@@ -4,7 +4,7 @@ store
 
 I was expecting the name of a store but I found "a space" instead:
 
-   ┌ ./spec/errors/store_expected_name:1:5
-   ├──────────────────────────────────────
+   ┌ errors/store_expected_name:1:5
+   ├───────────────────────────────
   1│ store
    │      ⌃⌃⌃⌃

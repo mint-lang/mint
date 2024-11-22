@@ -15,8 +15,8 @@ specific cases I cannot pair the arguments with the values.
 
 The call in question is here:
 
-    ┌ ./spec/errors/call_with_mixed_arguments:7:5
-    ├────────────────────────────────────────────
+    ┌ errors/call_with_mixed_arguments:7:5
+    ├─────────────────────────────────────
    3│     <div/>
    4│   }
    5│

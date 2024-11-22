@@ -18,8 +18,8 @@ I can't find the entity with the name:
 
 Here is where it is referenced:
 
-   ┌ ./spec/errors/variable_missing:3:5
-   ├───────────────────────────────────
+   ┌ errors/variable_missing:3:5
+   ├─────────────────────────────
   1│ module Test {
   2│   fun b : Function(String) {
   3│     XTest.a

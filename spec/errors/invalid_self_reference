@@ -14,8 +14,8 @@ initialized.
 
 Then entity you are referencing:
 
-   ┌ ./spec/errors/invalid_self_reference:2:3
-   ├─────────────────────────────────────────
+   ┌ errors/invalid_self_reference:2:3
+   ├──────────────────────────────────
   1│ component Main {
   2│   state c : String = b
    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
@@ -26,8 +26,8 @@ Then entity you are referencing:
 
 The entity you are referencing it from:
 
-   ┌ ./spec/errors/invalid_self_reference:3:3
-   ├─────────────────────────────────────────
+   ┌ errors/invalid_self_reference:3:3
+   ├──────────────────────────────────
   1│ component Main {
   2│   state c : String = b
   3│   state b : String = ""

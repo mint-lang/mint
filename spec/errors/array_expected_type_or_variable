@@ -11,8 +11,8 @@ example:
 
 I was expecting the type but I found "a space" instead:
 
-   ┌ ./spec/errors/array_expected_type_or_variable:3:9
-   ├──────────────────────────────────────────────────
+   ┌ errors/array_expected_type_or_variable:3:9
+   ├───────────────────────────────────────────
   1│ component Main {
   2│   fun render : Array(String) {
   3│     [] of

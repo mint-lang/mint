@@ -4,7 +4,7 @@ suite "X"
 
 I was expecting the opening bracket of a suite but I found "a space" instead:
 
-   ┌ ./spec/errors/suite_expected_opening_bracket:1:9
-   ├─────────────────────────────────────────────────
+   ┌ errors/suite_expected_opening_bracket:1:9
+   ├──────────────────────────────────────────
   1│ suite "X"
    │          ⌃⌃⌃⌃

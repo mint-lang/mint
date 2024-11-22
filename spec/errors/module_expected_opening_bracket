@@ -4,7 +4,7 @@ module Test
 
 I was expecting the opening bracket of a module but I found "a space" instead:
 
-   ┌ ./spec/errors/module_expected_opening_bracket:1:11
-   ├───────────────────────────────────────────────────
+   ┌ errors/module_expected_opening_bracket:1:11
+   ├────────────────────────────────────────────
   1│ module Test
    │            ⌃⌃⌃⌃

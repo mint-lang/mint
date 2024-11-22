@@ -15,8 +15,8 @@ component Main {
 
 I could not find a provider:
 
-   ┌ ./spec/errors/use_not_found_provider:2:7
-   ├─────────────────────────────────────────
+   ┌ errors/use_not_found_provider:2:7
+   ├──────────────────────────────────
   1│ component Main {
   2│   use Provider {
    │       ⌃⌃⌃⌃⌃⌃⌃⌃
