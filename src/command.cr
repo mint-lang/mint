@@ -88,10 +88,12 @@ module Mint
           terminal.puts " ↳ Not all dependencies in your mint.json file are installed."
           terminal.puts "   Would you like to install them now? (Y/n)"
 
-          answer = gets.to_s.downcase
+          # Accept 'Y', 'y' or empty string (Enter) as affirmative response
+          # Empty string is treated as 'Y' since Y is the default option
+          answer = gets.to_s.strip.downcase
           terminal.puts AnsiEscapes::Erase.lines(2)
 
-          if answer == "y"
+          if answer.empty? || answer == "y"
             Installer.new
             break
           else
