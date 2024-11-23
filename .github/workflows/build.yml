@@ -6,10 +6,12 @@ on:
 jobs:
   build:
     name: Build
+
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-13, macos-latest]
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -25,33 +27,37 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v5
 
+      - name: Set architecture environment variable
+        run: |
+          if [ "$RUNNER_ARCH" == "X64" ]; then
+            echo "ARCH=x86_64" >> $GITHUB_ENV
+          elif [ "$RUNNER_ARCH" == "ARM64" ]; then
+            echo "ARCH=arm64" >> $GITHUB_ENV
+          else
+            echo "ARCH=unknown" >> $GITHUB_ENV
+          fi
+
       - if: matrix.os == 'ubuntu-latest'
         name: Build binary (Linux)
         run: |
           mkdir build
-          docker compose run --rm app crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-linux --static --no-debug --release
+          docker compose run --rm app crystal build src/mint.cr \
+            -o build/mint-${GITHUB_REF_SLUG}-linux-${ARCH} \
+            --static --no-debug --release
 
       - if: startsWith(matrix.os, 'macos')
         name: Build binary (macOS)
         run: |
           mkdir build
-          crystal build src/mint.cr -o build/mint-${GITHUB_REF_SLUG}-${{ matrix.os }} --release
+          crystal build src/mint.cr \
+            -o build/mint-${GITHUB_REF_SLUG}-osx-${ARCH} \
+            --no-debug --release
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: build-${{ matrix.os }}
           path: build
-
-      - if: github.ref == 'refs/heads/master'
-        name: Upload to S3
-        uses: shallwefootball/upload-s3-action@v1.3.3
-        with:
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          aws_key_id: ${{ secrets.AWS_KEY }}
-          destination_dir: ""
-          source_dir: build
 
       - if: startsWith(github.ref, 'refs/tags/')
         name: Upload to GitHub Releases
