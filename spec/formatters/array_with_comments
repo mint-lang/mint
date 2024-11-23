@@ -5,6 +5,7 @@ module Test {
       "Item 1",
       // Item 2 comment
       "Item 2"
+      // End comment
     ] of String
   }
 }
@@ -16,6 +17,7 @@ module Test {
       "Item 1",
       // Item 2 comment
       "Item 2"
+      // End comment
     ] of String
   }
 }

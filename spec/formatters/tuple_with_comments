@@ -5,6 +5,7 @@ module Test {
       "Blah",
       // Comment for "Joe"
       "Joe"
+      // End comment
     }
   }
 }
@@ -16,6 +17,7 @@ module Test {
       "Blah",
       // Comment for "Joe"
       "Joe"
+      // End comment
     }
   }
 }

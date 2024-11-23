@@ -14,12 +14,16 @@ module Mint
           list(terminator: '}', separator: ',') { commented_expression }
 
         whitespace
+        comment = self.comment
+        whitespace
+
         next unless char! '}'
 
         items.unshift(head)
 
         Ast::TupleLiteral.new(
           from: start_position,
+          comment: comment,
           to: position,
           items: items,
           file: file)

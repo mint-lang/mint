@@ -11,6 +11,9 @@ module Mint
         ) { commented_expression }
         whitespace
 
+        comment = self.comment
+        whitespace
+
         next error :array_expected_closing_bracket do
           expected "the closing bracket of an array", word
           snippet self
@@ -41,6 +44,7 @@ module Mint
 
         Ast::ArrayLiteral.new(
           from: start_position,
+          comment: comment,
           items: items,
           to: position,
           type: type,

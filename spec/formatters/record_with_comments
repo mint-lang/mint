@@ -1,0 +1,27 @@
+type A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    {
+      // Comment
+      a:"Hello"
+      // End Comment
+    }
+  }
+}
+--------------------------------------------------------------------------------
+type A {
+  a : String
+}
+
+module Test {
+  fun test : A {
+    {
+      // Comment
+      a: "Hello"
+      // End Comment
+    }
+  }
+}

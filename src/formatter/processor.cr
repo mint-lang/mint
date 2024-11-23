@@ -158,7 +158,14 @@ module Mint
             last = item
           end
 
-          result
+          if comment = node.comment
+            line_count =
+              new_line?(last_formatted) ? 2 : 1
+
+            result + process([Line.new(line_count)] + comment)
+          else
+            result
+          end
         in Entity
           arguments =
             if node.arguments.empty?
@@ -212,14 +219,22 @@ module Mint
           padding =
             node.pad ? " " : ""
 
-          case node.behavior
+          comment, behavior =
+            if node.comment.size > 0
+              {node.comment.unshift(Line.new(1)), Behavior::Block}
+            else
+              {node.comment, node.behavior}
+            end
+
+          case behavior
           in Behavior::Block
             process(
               [
                 node.ends[0],
                 Nest.new(
                   [Line.new(1)] +
-                  node.items.intersperse([node.separator, Line.new(1)]).flatten
+                  node.items.intersperse([node.separator, Line.new(1)]).flatten +
+                  comment
                 ),
                 Line.new(1),
                 node.ends[1],
@@ -374,6 +389,7 @@ module Mint
               node.pad ? 2 : 0
 
             node.items.sum(&->size(Array(Node))) +
+              size(node.comment) +
               node.ends[0].size +
               node.ends[1].size +
               separators +

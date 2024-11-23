@@ -1,4 +1,6 @@
-/*A*/typeTest{/*B*/a:String,/*C*/b:Blah}
+/*A*/typeTest{
+  /*B*/a:String,/*C*/b:Blah// End comment
+}
 --------------------------------------------------------------------------------
 /* A */
 type Test {
@@ -7,4 +9,6 @@ type Test {
 
   /* C */
   b : Blah
+
+  // End comment
 }

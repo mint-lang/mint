@@ -8,7 +8,11 @@ module Mint
 
         unless char! '}'
           whitespace
+
           fields = list(terminator: '}', separator: ',') { field }
+          whitespace
+
+          comment = self.comment
           whitespace
 
           next unless char! '}'
@@ -18,6 +22,7 @@ module Mint
 
         Ast::Record.new(
           from: start_position,
+          comment: comment,
           fields: fields,
           to: position,
           file: file)

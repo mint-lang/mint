@@ -30,7 +30,7 @@ module Mint
 
         whitespace
 
-        fields = begin
+        fields, end_comment = begin
           if char! '{'
             variants =
               list(separator: ',', terminator: '}') { type_definition_field }
@@ -43,16 +43,20 @@ module Mint
               end
 
             whitespace
+            fields_comment = self.comment
+            whitespace
+
             next error :type_definition_expected_closing_bracket do
               expected "the closing bracket of a type definition", word
               snippet self
             end unless char! '}'
 
-            items
-          end || [] of Ast::TypeDefinitionField
+            {items, fields_comment}
+          end || {[] of Ast::TypeDefinitionField, nil}
         end
 
         Ast::TypeDefinition.new(
+          end_comment: end_comment,
           parameters: parameters,
           from: start_position,
           comment: comment,

@@ -12,6 +12,7 @@ module Mint
         else
           group(
             items: node.items.map(&->format(Ast::Node)),
+            comment: format(node.comment),
             behavior: Behavior::BreakAll,
             ends: {"[", "]"},
             separator: ",",
