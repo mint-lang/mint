@@ -223,6 +223,7 @@ module Mint
            Ast::Variable,
            Ast::Builtin,
            Ast::Comment,
+           Ast::Discard,
            Ast::Env
       when Ast::StringLiteral,
            Ast::HereDocument,
