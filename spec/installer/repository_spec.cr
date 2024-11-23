@@ -56,6 +56,9 @@ describe "Repository" do
 
       0.1.0
       0.2.0
+
+      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+      state, and then try again.
       MESSAGE
 
       begin
@@ -98,6 +101,9 @@ describe "Repository" do
       The error I got from the git command is this:
 
       cloned
+
+      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+      state, and then try again.
       MESSAGE
 
       begin
@@ -119,6 +125,9 @@ describe "Repository" do
       The error I got from the git command is this:
 
       fetched
+
+      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+      state, and then try again.
       MESSAGE
 
       begin
