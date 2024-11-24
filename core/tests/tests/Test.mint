@@ -22,7 +22,7 @@ suite "Test with HTML reference" {
   test "it works" {
     <button as button/>
     |> Test.Html.start
-    |> (context : Test.Context(Dom.Element)) { button != Maybe.Nothing }
+    |> Test.Context.map((item : Dom.Element) { button != Maybe.Nothing })
   }
 }
 
@@ -36,6 +36,6 @@ suite "Test with Component reference" {
   test "it works" {
     <TestReference as button/>
     |> Test.Html.start
-    |> (context : Test.Context(Dom.Element)) { button != Maybe.Nothing }
+    |> Test.Context.map((item : Dom.Element) { button != Maybe.Nothing })
   }
 }

@@ -210,7 +210,6 @@ class TestRunner {
           }
         }
       } catch (error) {
-        console.log(error)
         // An error occurred while trying to run a test; this is different from the test itself failing.
         this.reportTested(test, "ERRORED", error);
       }
