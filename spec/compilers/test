@@ -1,0 +1,21 @@
+suite "Test" {
+  test "X" {
+    true
+  }
+}
+--------------------------------------------------------------------------------
+import { testRunner as A } from "./runtime.js";
+
+export default () => {
+  new A([{
+    tests: [{
+      proc: () => {
+        return true
+      },
+      location: {"start":[2,2],"end":[4,3],"filename":"compilers/test"},
+      name: `X`
+    }],
+    location: {"start":[1,0],"end":[5,1],"filename":"compilers/test"},
+    name: `Test`
+  }], {}, ``, ``)
+};
