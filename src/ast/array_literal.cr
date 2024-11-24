@@ -1,12 +1,13 @@
 module Mint
   class Ast
     class ArrayLiteral < Node
-      getter items, type
+      getter comment, items, type
 
-      def initialize(@from : Parser::Location,
+      def initialize(@items : Array(CommentedExpression),
+                     @from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
-                     @items : Array(Node),
+                     @comment : Comment?,
                      @type : Node?)
       end
     end

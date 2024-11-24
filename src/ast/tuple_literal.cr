@@ -1,12 +1,13 @@
 module Mint
   class Ast
     class TupleLiteral < Node
-      getter items
+      getter comment, items
 
-      def initialize(@from : Parser::Location,
+      def initialize(@items : Array(CommentedExpression),
+                     @from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
-                     @items : Array(Node))
+                     @comment : Comment?)
       end
     end
   end

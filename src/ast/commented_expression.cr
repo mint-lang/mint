@@ -1,15 +1,13 @@
 module Mint
   class Ast
-    class Operation < Node
-      getter operator, comment, right, left
+    class CommentedExpression < Node
+      getter expression, comment
 
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
-                     @operator : String,
-                     @right : Node,
-                     @left : Node)
+                     @expression : Node)
       end
     end
   end

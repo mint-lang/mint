@@ -5,26 +5,35 @@ module Mint
     # found in the operator parser file.
     #
     # Operations can be chained recursively with this method as seen below.
-    def operation(left : Ast::Node, operator : String) : Ast::Operation?
+    def operation(
+      left : Ast::Node,
+      operator : String,
+      comment : Ast::Comment?
+    ) : Ast::Operation?
       parse do
         next error :operation_expected_expression do
           expected "the right side expression of an operation", word
           snippet self
         end unless right = base_expression
 
-        if next_operator = self.operator
+        if item = self.operator
+          next_operator, next_comment =
+            item
+
           if OPERATORS[next_operator] > OPERATORS[operator]
-            right = operation(right, next_operator)
+            right = operation(right, next_operator, next_comment)
           else
             return operation(
               Ast::Operation.new(
                 operator: operator,
+                comment: comment,
                 from: left.from,
                 to: right.to,
                 right: right,
                 file: file,
                 left: left),
-              next_operator)
+              next_operator,
+              next_comment)
           end
         end
 
@@ -32,6 +41,7 @@ module Mint
 
         Ast::Operation.new(
           operator: operator,
+          comment: comment,
           from: left.from,
           to: right.to,
           right: right,

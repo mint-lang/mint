@@ -17,6 +17,7 @@ module Mint
         end
 
       Ast::Pipe.new(
+        comment: operation.comment,
         expression: expression,
         from: argument.from,
         argument: argument,

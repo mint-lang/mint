@@ -7,6 +7,7 @@ module Mint
       ["{ "] + expression + [" |"] +
         group(
           items: node.fields.map(&->format(Ast::Node)),
+          comment: format(node.comment),
           behavior: Behavior::BreakAll,
           ends: {"", "}"},
           separator: ",",

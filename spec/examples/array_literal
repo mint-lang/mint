@@ -53,3 +53,14 @@ component Main {
     <div/>
   }
 }
+-------------------------------------------------------------------------------
+module Test {
+  fun test : Array(String) {
+    [
+      // Start Comment
+      "Item 1",
+      // End comment
+      "Item 2"
+    ] of String
+  }
+}

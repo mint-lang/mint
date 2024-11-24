@@ -5,21 +5,25 @@ module Mint
         next unless char! '{'
 
         whitespace
-        next unless head = expression
+        next unless head = commented_expression
 
         whitespace
         next unless char! ','
 
         items =
-          list(terminator: '}', separator: ',') { expression }
+          list(terminator: '}', separator: ',') { commented_expression }
 
         whitespace
+        comment = self.comment
+        whitespace
+
         next unless char! '}'
 
         items.unshift(head)
 
         Ast::TupleLiteral.new(
           from: start_position,
+          comment: comment,
           to: position,
           items: items,
           file: file)

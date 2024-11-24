@@ -47,7 +47,8 @@ module Mint
     #
     record List,
       items : Array(Tuple(Ast::Node, Nodes)),
-      separator : String? = nil
+      separator : String? = nil,
+      comment : Nodes? = nil
 
     # Describes a group of nodes, with start and end characters and a separator
     # character (or characters). The layout of the nodes are determined during
@@ -83,7 +84,8 @@ module Mint
       items : Array(Nodes),
       behavior : Behavior,
       separator : String,
-      pad : Bool
+      pad : Bool,
+      comment : Nodes = [] of Node
 
     # The possibilities on how to format groups.
     enum Behavior
@@ -131,10 +133,6 @@ module Mint
 
     def group(**params)
       [Group.new(**params)] of Node
-    end
-
-    def list(**params)
-      [List.new(**params)] of Node
     end
 
     # Actuall formatting things as strings...

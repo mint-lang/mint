@@ -151,3 +151,10 @@ component Main {
     "Hello" + "There"
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    "Hello" // Some comment
+    + "There"
+  }
+}

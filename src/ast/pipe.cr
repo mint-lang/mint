@@ -1,11 +1,12 @@
 module Mint
   class Ast
     class Pipe < Node
-      getter expression, argument
+      getter expression, argument, comment
 
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
+                     @comment : Comment?,
                      @expression : Node,
                      @argument : Node)
       end

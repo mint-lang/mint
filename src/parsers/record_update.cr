@@ -31,6 +31,8 @@ module Mint
         end if fields.empty?
 
         whitespace
+        comment = self.comment
+        whitespace
 
         next error :record_update_expected_closing_bracket do
           expected "the closing bracket of a record update", word
@@ -40,6 +42,7 @@ module Mint
         Ast::RecordUpdate.new(
           expression: expression,
           from: start_position,
+          comment: comment,
           fields: fields,
           to: position,
           file: file)
