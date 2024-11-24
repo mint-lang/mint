@@ -1,0 +1,61 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Button {
+  fun render : Html {
+    <div/>
+  }
+}
+
+suite "Test" {
+  test "X" {
+    <Button as button/>
+
+    button == Maybe.Nothing
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  testRunner as D,
+  createRef as E,
+  compare as G,
+  useMemo as B,
+  variant as A,
+  setRef as F
+} from "./runtime.js";
+
+export const
+  H = A(0, `Maybe.Nothing`),
+  I = A(1, `Maybe.Just`),
+  J = ({
+    _
+  }) => {
+    const a = B(() => {
+      return {}
+    }, []);
+    (_ ? _(a) : null);
+    return C(`div`, {})
+  };
+
+export default () => {
+  new D([{
+    tests: [{
+      proc: () => {
+        const b = E(new H());
+        return (() => {
+          C(J, {
+            _: F(b, I)
+          });
+          return G(b.current, new H())
+        })()
+      },
+      location: {"start":[13,2],"end":[17,3],"filename":"compilers/test_with_reference_component"},
+      name: `X`
+    }],
+    location: {"start":[12,0],"end":[18,1],"filename":"compilers/test_with_reference_component"},
+    name: `Test`
+  }], {}, ``, ``)
+};

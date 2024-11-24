@@ -12,8 +12,8 @@ module Mint
 
       node.ref.try do |ref|
         error! :html_element_reference_outside_of_component do
-          snippet "Referencing elements outside of components is not " \
-                  "allowed:", ref
+          snippet "Referencing elements outside of components or tests " \
+                  "is not allowed:", ref
         end unless node.in_component?
       end
 

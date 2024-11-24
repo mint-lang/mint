@@ -1,0 +1,45 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+suite "Test" {
+  test "X" {
+    <button as button/>
+
+    button == Maybe.Nothing
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as D,
+  testRunner as B,
+  createRef as C,
+  compare as F,
+  variant as A,
+  setRef as E
+} from "./runtime.js";
+
+export const
+  G = A(0, `Maybe.Nothing`),
+  H = A(1, `Maybe.Just`);
+
+export default () => {
+  new B([{
+    tests: [{
+      proc: () => {
+        const a = C(new G());
+        return (() => {
+          D(`button`, {
+            ref: E(a, H)
+          });
+          return F(a.current, new G())
+        })()
+      },
+      location: {"start":[7,2],"end":[11,3],"filename":"compilers/test_with_reference"},
+      name: `X`
+    }],
+    location: {"start":[6,0],"end":[12,1],"filename":"compilers/test_with_reference"},
+    name: `Test`
+  }], {}, ``, ``)
+};

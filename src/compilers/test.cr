@@ -14,6 +14,11 @@ module Mint
         name =
           compile node.name
 
+        refs =
+          js.consts(node.refs.to_h.keys.map do |ref|
+            {node, ref, js.call(Builtin::CreateRef, [js.new(nothing, [] of Compiled)])}
+          end)
+
         expression =
           case operation = node.expression
           when Ast::Operation
@@ -31,7 +36,7 @@ module Mint
           end || compile(node.expression)
 
         js.object({
-          "proc"     => js.arrow_function { js.return(expression) },
+          "proc"     => js.arrow_function { js.statements([refs, js.return(expression)]) },
           "location" => location,
           "name"     => name,
         })

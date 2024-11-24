@@ -351,7 +351,7 @@ module Mint
         build(node.children, node)
         build(node.styles, node)
 
-        if (root = scopes[parent][1].node).is_a?(Ast::Component) &&
+        if (root = find_parent_by_class(parent, [Ast::Component, Ast::Test])) &&
            (ref = node.ref)
           add(root, ref.value, node)
         end
@@ -359,7 +359,7 @@ module Mint
         build(node.attributes, node)
         build(node.children, node)
 
-        if (root = scopes[parent][1].node).is_a?(Ast::Component) &&
+        if (root = find_parent_by_class(parent, [Ast::Component, Ast::Test])) &&
            (ref = node.ref)
           component =
             @ast.components.find(&.name.value.==(node.component.value))
@@ -373,6 +373,10 @@ module Mint
         # TODO: Raise errorable
         raise "SCOPE!!!: #{node.class.name}"
       end
+    end
+
+    def find_parent_by_class(node, classes)
+      scopes[node].find(&.node.class.in?(classes)).try(&.node)
     end
   end
 end

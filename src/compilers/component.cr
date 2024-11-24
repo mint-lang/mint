@@ -84,22 +84,20 @@ module Mint
                   [item[1]] of Item
                 end
 
-            unless items.empty?
-              variable =
-                Variable.new
+            variable =
+              Variable.new
 
-              properties << ["_"] of Item
-              [
-                js.const(variable, js.call(Builtin::UseMemo, [
-                  js.arrow_function { js.return(js.object_destructuring(items)) },
-                  js.array([] of Compiled),
-                ])),
-                js.tenary(
-                  ["_"] of Item,
-                  js.call(["_"] of Item, [[variable] of Item]),
-                  js.null),
-              ]
-            end
+            properties << ["_"] of Item
+            [
+              js.const(variable, js.call(Builtin::UseMemo, [
+                js.arrow_function { js.return(js.object_destructuring(items)) },
+                js.array([] of Compiled),
+              ])),
+              js.tenary(
+                ["_"] of Item,
+                js.call(["_"] of Item, [[variable] of Item]),
+                js.null),
+            ]
           end || [] of Compiled
 
         arguments =

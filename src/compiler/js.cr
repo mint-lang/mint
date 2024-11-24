@@ -94,7 +94,10 @@ module Mint
 
       # Renders multiple const assignments (as one).
       def consts(items : Array(Tuple(Ast::Node, Id, Compiled))) : Compiled
-        if items.size == 1
+        case items.size
+        when 0
+          [] of Item
+        when 1
           _, id, value =
             items[0]
 

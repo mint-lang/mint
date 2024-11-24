@@ -15,9 +15,11 @@ module Mint
 
           case {entity, parent}
           when {Ast::Component, Ast::Component},
-               {Ast::HtmlElement, Ast::Component}
+               {Ast::Component, Ast::Test},
+               {Ast::HtmlElement, Ast::Component},
+               {Ast::HtmlElement, Ast::Test}
             case parent
-            when Ast::Component
+            when Ast::Component, Ast::Test
               ref =
                 parent
                   .refs
