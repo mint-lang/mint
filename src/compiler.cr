@@ -319,9 +319,18 @@ module Mint
       suites =
         compile(subjects)
 
+      globals =
+        ast
+          .components
+          .select(&.global?)
+          .each_with_object({} of Item => Compiled) do |item, memo|
+            memo[item.as(Item)] = [item] of Item
+          end
+
       ["export default "] + js.arrow_function do
         js.new(Builtin::TestRunner, [
           js.array(suites),
+          js.object(globals),
           js.string(url),
           js.string(id),
         ])

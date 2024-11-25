@@ -1,7 +1,7 @@
 module Mint
   class Parser
     def test : Ast::Test?
-      parse do |start_position|
+      parse do |start_position, start_nodes_position|
         next unless keyword! "test"
         whitespace
 
@@ -28,10 +28,25 @@ module Mint
 
         next unless expression
 
+        refs = [] of Tuple(Ast::Variable, Ast::Node)
+
+        ast.nodes[start_nodes_position...].each do |node|
+          case node
+          when Ast::HtmlComponent,
+               Ast::HtmlElement
+            node.in_component = true
+
+            if ref = node.ref
+              refs << {ref, node}
+            end
+          end
+        end
+
         Ast::Test.new(
           expression: expression,
           from: start_position,
           to: position,
+          refs: refs,
           file: file,
           name: name)
       end

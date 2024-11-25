@@ -17,18 +17,23 @@ Dir
         artifacts =
           Mint::TypeChecker.check(ast)
 
+        test_information =
+          if File.basename(file).starts_with?("test")
+            {url: "", id: "", glob: "**"}
+          end
+
         config =
           Mint::Bundler::Config.new(
             json: Mint::MintJson.parse("{}", "mint.json"),
             generate_source_maps: false,
             generate_manifest: false,
             include_program: false,
+            test: test_information,
             live_reload: false,
             runtime_path: nil,
             skip_icons: false,
             hash_assets: true,
-            optimize: false,
-            test: nil)
+            optimize: false)
 
         files =
           Mint::Bundler.new(

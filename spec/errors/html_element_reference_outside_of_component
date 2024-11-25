@@ -12,7 +12,7 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (HTML_ELEMENT_REFERENCE_OUTSIDE_OF_COMPONENT) ░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-Referencing elements outside of components is not allowed:
+Referencing elements outside of components or tests is not allowed:
 
    ┌ errors/html_element_reference_outside_of_component:3:13
    ├────────────────────────────────────────────────────────

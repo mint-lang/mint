@@ -1,4 +1,5 @@
 import { compare } from "./equality";
+import { render, h } from "preact";
 
 // This is a class for tests. It allows to have multiple steps which are
 // evaluated asynchronously.
@@ -50,8 +51,12 @@ class TestContext {
 // This is the test runner which runs the tests and sends reports to
 // the CLI using websockets.
 class TestRunner {
-  constructor(suites, url, id) {
+  constructor(suites, globals, url, id) {
+    this.root = document.createElement("div")
+    document.body.appendChild(this.root);
+
     this.socket = new WebSocket(url);
+    this.globals = globals;
     this.suites = suites;
     this.url = url;
     this.id = id;
@@ -90,6 +95,16 @@ class TestRunner {
     };
 
     this.start();
+  }
+
+  renderGlobals() {
+    const components = [];
+
+    for (let key in this.globals) {
+      components.push(h(this.globals[key], { key: key }));
+    }
+
+    render(components, this.root);
   }
 
   start() {
@@ -137,7 +152,31 @@ class TestRunner {
     this.report("LOG", null, null, message);
   }
 
-  next(resolve, reject) {
+  cleanSlate() {
+    return new Promise((resolve) => {
+      // Cleanup globals.
+      render(null, this.root);
+
+      // Set the URL to the root one.
+      if (window.location.pathname !== "/") {
+        window.history.replaceState({}, "", "/");
+      }
+
+      // Clear storages.
+      sessionStorage.clear();
+      localStorage.clear();
+
+      // TODO: Reset Stores
+
+      // Wait for rendering.
+      requestAnimationFrame(() => {
+        this.renderGlobals();
+        requestAnimationFrame(resolve);
+      })
+    })
+  }
+
+  next(resolve) {
     requestAnimationFrame(async () => {
       if (!this.suite || this.suite.tests.length === 0) {
         this.suite = this.suites.shift();
@@ -152,18 +191,9 @@ class TestRunner {
       const test = this.suite.tests.shift();
 
       try {
-        const result = await test.proc.call(this.suite.context);
+        await this.cleanSlate();
 
-        // Set the URL to the root one.
-        if (window.location.pathname !== "/") {
-          window.history.replaceState({}, "", "/");
-        }
-
-        // Clear storages.
-        sessionStorage.clear();
-        localStorage.clear();
-
-        // TODO: Reset Stores
+        const result = await test.proc();
 
         if (result instanceof TestContext) {
           try {
@@ -184,7 +214,7 @@ class TestRunner {
         this.reportTested(test, "ERRORED", error);
       }
 
-      this.next(resolve, reject);
+      this.next(resolve);
     });
   }
 }

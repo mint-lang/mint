@@ -1,0 +1,36 @@
+global component Modal {
+  fun render : Html {
+    <div>"Hello"</div>
+  }
+}
+
+suite "Test" {
+  test "X" {
+    true
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as A,
+  testRunner as B
+} from "./runtime.js";
+
+export const C = () => {
+  return A(`div`, {}, [`Hello`])
+};
+
+export default () => {
+  new B([{
+    tests: [{
+      proc: () => {
+        return true
+      },
+      location: {"start":[8,2],"end":[10,3],"filename":"compilers/test_with_global_component"},
+      name: `X`
+    }],
+    location: {"start":[7,0],"end":[11,1],"filename":"compilers/test_with_global_component"},
+    name: `Test`
+  }], {
+    C: C
+  }, ``, ``)
+};

@@ -17,3 +17,25 @@ suite "Test (Function)" {
     test() == ""
   }
 }
+
+suite "Test with HTML reference" {
+  test "it works" {
+    <button as button/>
+    |> Test.Html.start
+    |> Test.Context.map((item : Dom.Element) { button != Maybe.Nothing })
+  }
+}
+
+component TestReference {
+  fun render {
+    <div>"TestReference"</div>
+  }
+}
+
+suite "Test with Component reference" {
+  test "it works" {
+    <TestReference as button/>
+    |> Test.Html.start
+    |> Test.Context.map((item : Dom.Element) { button != Maybe.Nothing })
+  }
+}
