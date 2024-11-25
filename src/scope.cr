@@ -351,7 +351,7 @@ module Mint
         build(node.children, node)
         build(node.styles, node)
 
-        if (root = find_parent_by_class(parent, [Ast::Component, Ast::Test])) &&
+        if (root = find_parent_by_class(parent, {Ast::Component, Ast::Test})) &&
            (ref = node.ref)
           add(root, ref.value, node)
         end
@@ -359,7 +359,7 @@ module Mint
         build(node.attributes, node)
         build(node.children, node)
 
-        if (root = find_parent_by_class(parent, [Ast::Component, Ast::Test])) &&
+        if (root = find_parent_by_class(parent, {Ast::Component, Ast::Test})) &&
            (ref = node.ref)
           component =
             @ast.components.find(&.name.value.==(node.component.value))
