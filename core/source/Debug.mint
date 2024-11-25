@@ -4,9 +4,9 @@ module Debug {
   Returns a nicely formatted version of the value. Values of Mint types
   preserve their original name.
 
-    Debug.inspect("Hello World!") -> "Hello World!"
-    Debug.inspect(Maybe.Nothing) -> Maybe.Nothing
-    Debug.inspect({ name: "Joe", age: 37 }) -> User { name: "Joe", age: 37 }
+    Debug.inspect("Hello World!") // "Hello World!"
+    Debug.inspect(Maybe.Nothing) // Maybe.Nothing
+    Debug.inspect({ name: "Joe", age: 37 }) // User { name: "Joe", age: 37 }
   */
   fun inspect (value : a) : String {
     `#{%inspect%}(#{value})`
