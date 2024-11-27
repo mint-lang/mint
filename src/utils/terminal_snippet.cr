@@ -34,16 +34,16 @@ module Mint
           self[0, diff_from]
 
         center =
-          self[diff_from, diff_to].colorize.on(:white).fore(:red).to_s
+          self[diff_from, diff_to]
 
         right =
           self[diff_to, contents.size]
 
         highlighted =
-          left + center + right
+          left + center.colorize.on(:white).fore(:red).to_s + right
 
         arrows =
-          (" " * left.size) + ("⌃" * center.uncolorize.size)
+          (" " * left.size) + ("⌃" * center.size)
 
         {highlighted, arrows}
       end

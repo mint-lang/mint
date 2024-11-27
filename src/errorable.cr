@@ -81,8 +81,11 @@ module Mint
       target =
         case value
         in Parser
+          min =
+            value.char == '\0' ? 0 : 1
+
           SnippetData.new(
-            to: value.position.offset + value.word.to_s.size,
+            to: value.position.offset + [min, value.word.to_s.size].max,
             filename: value.file.relative_path,
             from: value.position.offset,
             input: value.file.contents)

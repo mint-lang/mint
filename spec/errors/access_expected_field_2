@@ -1,0 +1,14 @@
+component Main {
+  fun render : String {
+    "". word
+--------------------------------------------------------------------------------
+░ ERROR (ACCESS_EXPECTED_FIELD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of the accessed entity but I found "a space" instead:
+
+   ┌ errors/access_expected_field_2:3:8
+   ├───────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     "". word
+   │        ⌃
