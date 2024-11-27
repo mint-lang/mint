@@ -45,11 +45,14 @@ module Mint
           HTTP::CompressHandler.new,
           websocket_handler,
         ]) do |context|
+          path =
+            URI.decode(context.request.path)
+
           # Handle the request depending on the result.
           content_type, content =
-            if file = @files[context.request.path]?
+            if file = @files[path]?
               {
-                MIME.from_filename?(context.request.path).to_s || "text/plain",
+                MIME.from_filename?(path).to_s || "text/plain",
                 file.call,
               }
             else
