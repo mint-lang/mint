@@ -155,36 +155,21 @@ module Mint
       name =
         node.name.try(&.value) || condition.name
 
-      if node.items.empty? &&
-         (entity_name = node.name.try(&.value)) &&
-         (parent = scope.resolve(entity_name, node).try(&.node)) &&
-         (entity = scope.resolve(node.variant.value, parent).try(&.node))
-        check!(parent)
-        lookups[node] = {entity, parent}
-        return destructure(entity, condition, variables)
-      elsif parent = ast.type_definitions.find(&.name.value.==(name))
-        variant =
-          case fields = parent.fields
+      type_definition =
+        ast.type_definitions.find(&.name.value.==(name))
+
+      variant =
+        if type_definition
+          case fields = type_definition.fields
           when Array(Ast::TypeVariant)
             fields.find(&.value.value.==(node.variant.value))
           end
+        end
 
-        error! :destructuring_type_variant_missing do
-          block do
-            text "I could not find the variant"
-            bold %("#{node.variant.value}")
-            text "of type"
-            bold %("#{parent.name.value}")
-            text "for a destructuring:"
-          end
+      if type_definition && variant
+        lookups[node] = {variant, type_definition}
 
-          snippet node
-          snippet "The type is defined here:", parent
-        end unless variant
-
-        lookups[node] = {variant, parent}
-
-        type = resolve(parent)
+        type = resolve(type_definition)
 
         unified =
           Comparer.compare(type, condition)
@@ -253,7 +238,7 @@ module Mint
 
               mapping = {} of String => Checkable
 
-              parent.parameters.each_with_index do |param2, index2|
+              type_definition.parameters.each_with_index do |param2, index2|
                 mapping[param2.value] = condition.parameters[index2]
               end
 
@@ -267,7 +252,7 @@ module Mint
                 when Ast::Type
                   resolve(item)
                 when Ast::TypeVariable
-                  unified.parameters[parent.parameters.index! { |variable| variable.value == item.value }]
+                  unified.parameters[type_definition.parameters.index! { |variable| variable.value == item.value }]
                 else
                   VOID # Can't happen
                 end
@@ -278,6 +263,26 @@ module Mint
         end
 
         return variables
+      elsif node.items.empty? &&
+            (entity_name = node.name.try(&.value)) &&
+            (parent = scope.resolve(entity_name, node).try(&.node)) &&
+            (entity = scope.resolve(node.variant.value, parent).try(&.node))
+        check!(parent)
+        lookups[node] = {entity, parent}
+        return destructure(entity, condition, variables)
+      elsif type_definition
+        error! :destructuring_type_variant_missing do
+          block do
+            text "I could not find the variant"
+            bold %("#{node.variant.value}")
+            text "of type"
+            bold %("#{type_definition.name.value}")
+            text "for a destructuring:"
+          end
+
+          snippet node
+          snippet "The type is defined here:", type_definition
+        end
       end
 
       error! :destructuring_type_missing do

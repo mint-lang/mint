@@ -151,3 +151,27 @@ component Main {
     Test.print("a")
   }
 }
+-------------------------------------------------------------------------------
+store Settings {
+  state settings : String = ""
+}
+
+module App.Page {
+  fun test {
+    ""
+  }
+}
+
+enum App.Page {
+  Settings
+  Page
+}
+
+component Main {
+  fun render : Html {
+    case App.Page.Settings {
+      App.Page.Settings => <div></div>
+      App.Page.Page => <div></div>
+    }
+  }
+}
