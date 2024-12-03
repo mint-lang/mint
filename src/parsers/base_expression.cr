@@ -10,7 +10,8 @@ module Mint
       left =
         case char
         when '('
-          parenthesized_expression || inline_function
+          # TODO: Remove `oneof` when `:` deprecation ends.
+          oneof { parenthesized_expression || inline_function }
         when '-', .ascii_number?
           state_setter || number_literal || unary_minus
         when '!'

@@ -48,4 +48,9 @@ component Main {
     test()
   }
 }
-
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    (value: String) { value }("")
+  }
+}
