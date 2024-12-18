@@ -8,7 +8,11 @@ module Mint
         if target = node.target
           case target
           when Ast::Variable
-            js.const(target, right)
+            if node.signal?
+              js.const(target, js.call(Builtin::UnifiedSignal, [right]))
+            else
+              js.const(target, right)
+            end
           when Ast::TupleDestructuring,
                Ast::ArrayDestructuring,
                Ast::TypeDestructuring,

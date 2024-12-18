@@ -1,0 +1,13 @@
+component Main {
+  fun render : String {
+    signal name = "Hello"
+    ~name
+  }
+}
+--------------------------------------------------------------------------------
+import { unifiedSignal as A } from "./runtime.js";
+
+export const B = () => {
+  const a = A(`Hello`);
+  return a.value
+};

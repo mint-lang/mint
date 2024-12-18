@@ -2,8 +2,12 @@ module Mint
   class Parser
     def statement : Ast::Statement?
       parse do |start_position|
-        target = parse(track: false) do
-          next unless keyword! "let"
+        head = parse(track: false) do
+          signal = keyword! "signal"
+          let = keyword! "let"
+
+          next unless let || signal
+
           whitespace
 
           value = variable(track: false) ||
@@ -15,7 +19,7 @@ module Mint
           next unless char! '='
           whitespace
 
-          value
+          {value, signal}
         end
 
         whitespace
@@ -34,12 +38,19 @@ module Mint
           end
 
         Ast::Statement.new(
+          signal: head.try(&.last) || false,
           return_value: return_value,
+          target: head.try(&.first),
           from: start_position,
           expression: body,
-          target: target,
           to: position,
-          file: file)
+          file: file
+        ).tap do |node|
+          case item = head.try(&.first)
+          when Ast::Variable
+            item.parent = node
+          end
+        end
       end
     end
   end

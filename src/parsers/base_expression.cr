@@ -28,6 +28,8 @@ module Mint
           array_literal
         when ':'
           locale_key
+        when '~'
+          signal_value
         when '`'
           js
         when '@'

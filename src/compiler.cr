@@ -84,6 +84,7 @@ module Mint
       Lazy
 
       # Effects.
+      UnifiedSignal
       UseDidUpdate
       UseFunction
       UseEffect

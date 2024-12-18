@@ -1,0 +1,15 @@
+module A {
+  fun test : Bool {
+    signalx="hello"
+    true
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : Bool {
+    signal x =
+      "hello"
+
+    true
+  }
+}

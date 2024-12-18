@@ -232,6 +232,7 @@ module Mint
            Ast::CommentedExpression,
            Ast::NegatedExpression,
            Ast::Interpolation,
+           Ast::SignalValue,
            Ast::UnaryMinus,
            Ast::Encode,
            Ast::Decode,

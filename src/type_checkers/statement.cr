@@ -10,6 +10,11 @@ module Mint
              Ast::ArrayDestructuring,
              Ast::TypeDestructuring,
              Ast::Discard
+          error! :statement_signal_destructuring do
+            block "A signal statment cannot have destructurings."
+            snippet "The statement is here:", node
+          end if node.signal?
+
           destructure(target, type)
 
           if node.if_node
@@ -34,7 +39,11 @@ module Mint
         snippet node
       end if required
 
-      type
+      if node.signal?
+        Type.new("Signal", [type] of Checkable)
+      else
+        type
+      end
     end
   end
 end

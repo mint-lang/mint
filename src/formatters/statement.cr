@@ -16,10 +16,17 @@ module Mint
         target =
           format node.target
 
+        prefix =
+          if node.signal?
+            ["signal "]
+          else
+            ["let "]
+          end
+
         if newline
-          ["let "] + target + [" =", Nest.new([Line.new(1)] + expression)] + return_call
+          prefix + target + [" =", Nest.new([Line.new(1)] + expression)] + return_call
         else
-          ["let "] + target + [" = "] + expression + return_call
+          prefix + target + [" = "] + expression + return_call
         end
       end
     end

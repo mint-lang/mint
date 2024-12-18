@@ -2,7 +2,7 @@
 component Main {
   fun render : String {
     next a
----------------------------------------------------next_call_invalid_invocation
+------------------------------------------------------next_call_state_not_found
 module Test {
   fun test : Promise(Void) {
     next { age: 30 }
@@ -37,7 +37,7 @@ component Main {
     <div/>
   }
 }
-------------------------------------------------------next_call_state_not_found
+--------------------------------------------------------------next_call_invalid
 store Test {
   state a : String = ""
 
@@ -63,5 +63,13 @@ component Main {
 
   fun render : Html {
     <div/>
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    signal name = "Asd"
+    next { name: "blah" }
+    ~name
   }
 }

@@ -2,24 +2,12 @@ module Mint
   class Compiler
     def compile(node : Ast::NextCall) : Compiled
       compile node do
-        entity =
-          lookups[node]?.try(&.first?)
-
         if node.data.fields.empty?
           js.null
         else
           assigns =
             node.data.fields.compact_map do |item|
-              next unless key = item.key
-
-              field =
-                case entity
-                when Ast::Component, Ast::Store, Ast::Provider
-                  entity.states.find(&.name.value.==(key.value))
-                end
-
-              next unless field
-
+              next unless field = lookups[item]?.try(&.first?)
               js.assign(Signal.new(field), compile(item.value))
             end
 

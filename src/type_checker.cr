@@ -35,6 +35,10 @@ module Mint
     BOOL_PROMISE    = Type.new("Promise", [BOOL] of Checkable)
     TEST_PROMISE    = Type.new("Promise", [TEST_CONTEXT] of Checkable)
 
+    SIGNAL        = Type.new("Signal", [Variable.new("a")] of Checkable)
+    SIGNAL_NUMBER = Type.new("Signal", [NUMBER] of Checkable)
+    SIGNAL_STRING = Type.new("Signal", [STRING] of Checkable)
+
     VALID_IF_TYPES = [
       MAYBE_PROMISE,
       VOID_PROMISE,
@@ -56,10 +60,12 @@ module Mint
       NUMBER_CHILDREN,
       TEXT_CHILDREN,
       HTML_CHILDREN,
+      SIGNAL_NUMBER,
+      SIGNAL_STRING,
       NUMBER,
       STRING,
       HTML,
-    ] of Checkable
+    ]
 
     getter records, artifacts, formatter
     getter? check_everything

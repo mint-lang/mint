@@ -47,6 +47,19 @@ export const useSignal = (value) => {
   return item;
 };
 
+// A combined version of `signal` and `useSignal`.
+export const unifiedSignal = (value) => {
+  // We try to use the memoized version first because we might be in a
+  // components render function.
+  try {
+    return useSignal(value)
+  } catch (error) {
+    // This is kind of save since if the error is not because of the `useMemo`
+    // it will probably error out again.
+    return signal(value)
+  }
+};
+
 // A version of `createRef` with a default value.
 export const createRef = (value) => {
   const ref = createRefOriginal();

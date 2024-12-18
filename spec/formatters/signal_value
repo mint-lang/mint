@@ -1,0 +1,15 @@
+module A {
+  fun test : String {
+    signalx="hello"
+    ~x
+  }
+}
+--------------------------------------------------------------------------------
+module A {
+  fun test : String {
+    signal x =
+      "hello"
+
+    ~x
+  }
+}
