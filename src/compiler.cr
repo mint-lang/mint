@@ -111,6 +111,7 @@ module Mint
 
       # Decoders.
       DecodeBoolean
+      DecodeVariant
       DecodeObject
       DecodeString
       DecodeNumber
@@ -119,6 +120,7 @@ module Mint
       DecodeArray
       DecodeTuple
       DecodeTime
+      DecodeType
       DecodeMap
       Decoder
 

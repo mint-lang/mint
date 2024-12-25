@@ -6,22 +6,6 @@ module Mint
 
       error! :decode_complex_type do
         snippet "This type cannot be automatically decoded:", type
-
-        snippet(
-          "Only these types and records containing them cantext be " \
-          "automatically decoded:",
-          <<-MINT
-          Map(String, a)
-          Array(a)
-          Maybe(a)
-          String
-          Number
-          Object
-          Time
-          Bool
-          MINT
-        )
-
         snippet "The decode question is here:", node
       end unless check_decode(type)
 
@@ -58,23 +42,41 @@ module Mint
       when Variable
         false
       else
-        case type.name
-        when "String", "Time", "Number", "Bool", "Object"
-          true
-        when "Map"
-          type.parameters.first.name == "String" &&
-            type.parameters.first.parameters.size == 0 &&
-            check_decode(type.parameters.last)
-        when "Tuple"
-          type.parameters.all? { |item| check_decode(item) }
-        when "Array", "Maybe"
-          if type.parameters.size == 1
-            check_decode type.parameters.first
+        if definition = ast.type_definitions.find(&.name.value.==(type.name))
+          case definition.fields
+          in Array(Ast::TypeDefinitionField)
+            unreachable! "Tried to check if type #{type.to_mint} is decodeable!"
+          in Array(Ast::TypeVariant)
+            definition_type =
+              resolve(definition)
+
+            if unified = Comparer.compare(type, definition_type)
+              unified.parameters.all? do |value|
+                check_decode value
+              end
+            else
+              false
+            end
+          end
+        else
+          case type.name
+          when "String", "Time", "Number", "Bool", "Object"
+            true
+          when "Map"
+            type.parameters.first.name == "String" &&
+              type.parameters.first.parameters.size == 0 &&
+              check_decode(type.parameters.last)
+          when "Tuple"
+            type.parameters.all? { |item| check_decode(item) }
+          when "Array", "Maybe"
+            if type.parameters.size == 1
+              check_decode type.parameters.first
+            else
+              false
+            end
           else
             false
           end
-        else
-          false
         end
       end
     end

@@ -52,7 +52,7 @@ class TestContext {
 // the CLI using websockets.
 class TestRunner {
   constructor(suites, globals, url, id) {
-    this.root = document.createElement("div")
+    this.root = document.createElement("div");
     document.body.appendChild(this.root);
 
     this.socket = new WebSocket(url);
@@ -172,8 +172,8 @@ class TestRunner {
       requestAnimationFrame(() => {
         this.renderGlobals();
         requestAnimationFrame(resolve);
-      })
-    })
+      });
+    });
   }
 
   next(resolve) {
