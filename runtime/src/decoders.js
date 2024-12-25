@@ -9,7 +9,7 @@ const format = (value) => {
     string = "undefined";
   }
 
-  return indentString(string);
+  return indentString(string, 2);
 };
 
 // A class to keep the errors when decoding. It keeps track of the path
@@ -41,7 +41,7 @@ export class Error {
           case "FIELD":
             return item.value;
           case "ARRAY":
-            return `[$(item.value)]`;
+            return `[${item.value}]`;
         }
       }
     }, "");
@@ -125,7 +125,7 @@ as an Tuple, but could not.
 `;
 
 const TUPLE_ITEM_MISSING = `
-I was trying to decode one of the values of a tuple:
+I was trying to decode one of the values of a tuple at index {index}:
 
 {value}
 
@@ -268,7 +268,12 @@ export const decodeTuple = (decoders, ok, err) => (input) => {
   for (let decoder of decoders) {
     if (input[index] === undefined || input[index] === null) {
       return new err(
-        new Error(TUPLE_ITEM_MISSING.replace("{value}", format(input[index]))),
+        new Error(
+          TUPLE_ITEM_MISSING.replace("{value}", format(input[index])).replace(
+            "{index}",
+            index,
+          ),
+        ),
       );
     } else {
       let result = decoder(input[index]);
@@ -344,3 +349,39 @@ export const decoder = (name, mappings, ok, err) => (input) => {
 
 // Decodes an `object` by wrapping in an `Ok`.
 export const decodeObject = (ok) => (value) => new ok(value);
+
+// Decodes a variant.
+export const decodeVariant = (variant, decoders, ok, err) => (input) => {
+  let items = [];
+
+  if (Array.isArray(decoders)) {
+    const result = decodeTuple(decoders, ok, err)(input);
+
+    if (result instanceof err) {
+      return result;
+    }
+
+    items = result._0;
+  }
+
+  return new ok(new variant(...items));
+};
+
+// Decodes a custom type.
+export const decodeType = (name, decoders, ok, err) => (input) => {
+  const result = decodeField("type", decodeString(ok, err), err)(input);
+
+  if (result instanceof err) {
+    return result;
+  }
+
+  const decoder = decoders[result._0];
+
+  if (decoder) {
+    return decoder(input.value);
+  } else {
+    return new err(
+      new Error(`Invalid type ${input["type"]} for type: ${name}`),
+    );
+  }
+};

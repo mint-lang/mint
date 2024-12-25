@@ -9,10 +9,9 @@ export const style = (items) => {
   const result = {};
 
   const setKeyValue = (key, value) => {
-    const stringValue =
-      value.toString().trim();
+    const stringValue = value.toString().trim();
 
-    if (stringValue.indexOf("!important")) {
+    if (stringValue.indexOf("!important") != -1) {
       important = true;
     }
 
@@ -43,9 +42,8 @@ export const style = (items) => {
     let string = "";
 
     for (let key in result) {
-      string += `${key}:${result[key]};`
+      string += `${key}:${result[key]};`;
     }
-
     return string;
   } else {
     return result;

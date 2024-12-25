@@ -10,6 +10,7 @@ module Mint
         end
 
         snippet message
+        snippet "This is the stack trace:", caller.join("\n")
       end
     end
 
