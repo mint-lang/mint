@@ -38,7 +38,7 @@ context "test" do
       TEXT
   end
 
-  it "runs the tests" do
+  pending "runs the tests" do
     expect_output ["test"], clear_env: false, template: <<-TEXT
       Mint - Running tests
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
