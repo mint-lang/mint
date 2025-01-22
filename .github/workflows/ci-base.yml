@@ -15,6 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
 
     steps:
       - name: Install Crystal
@@ -42,8 +43,6 @@ jobs:
 
       - name: Run CLI specs
         run: crystal spec spec_cli/*_spec.cr spec_cli/**/*_spec.cr --error-on-warnings --error-trace
-        continue-on-error: true
-        timeout-minutes: 2
 
       - name: Run core specs (Firefox)
         working-directory: ./core/tests

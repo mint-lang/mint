@@ -102,11 +102,10 @@ module Mint
           ])
         when "chrome"
           Process.new(@path, args: [
-            "--profile-directory=#{profile_directory}",
-            "--remote-debugging-port=9222",
+            "--user-data-dir=#{profile_directory}",
             "--window-size=1920,1080",
-            "--headless=old",
             "--disable-gpu",
+            "--headless",
             url,
           ])
         else
