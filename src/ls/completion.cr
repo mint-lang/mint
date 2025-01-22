@@ -18,7 +18,7 @@ module Mint
         *,
         @type_checker : TypeChecker | Nil,
         @snippet_support : Bool,
-        @workspace : Workspace
+        @workspace : Workspace,
       )
       end
 

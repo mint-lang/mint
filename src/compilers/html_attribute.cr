@@ -2,7 +2,7 @@ module Mint
   class Compiler
     def resolve(
       node : Ast::HtmlAttribute, *,
-      is_element = true
+      is_element = true,
     ) : Hash(Item, Compiled)
       value =
         compile node.value

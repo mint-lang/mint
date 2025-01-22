@@ -3,7 +3,7 @@ module Mint
     def list(
       nodes : Array(Ast::Node),
       separator : String? = nil,
-      comment : Nodes? = nil
+      comment : Nodes? = nil,
     ) : Nodes
       [
         List.new(

@@ -4,7 +4,7 @@ module Mint
       def hover(
         node : Ast::Function,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         ast =
           type_checker.artifacts.ast

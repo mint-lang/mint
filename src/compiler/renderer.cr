@@ -50,7 +50,7 @@ module Mint
         @asset_path,
         @bundles,
         @pool,
-        @base
+        @base,
       )
       end
 

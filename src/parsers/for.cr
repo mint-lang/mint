@@ -37,15 +37,15 @@ module Mint
 
         body =
           block(
-            ->{ error :for_expected_opening_bracket do
+            -> { error :for_expected_opening_bracket do
               expected "the opening bracket of a for expression", word
               snippet self
             end },
-            ->{ error :for_expected_closing_bracket do
+            -> { error :for_expected_closing_bracket do
               expected "the closing bracket of a for expression", word
               snippet self
             end },
-            ->{ error :for_expected_body do
+            -> { error :for_expected_body do
               expected "the body of a for expression", word
               snippet self
             end })
@@ -58,15 +58,15 @@ module Mint
             whitespace
 
             block(
-              ->{ error :for_condition_expected_opening_bracket do
+              -> { error :for_condition_expected_opening_bracket do
                 expected "the opening bracket of a for condition", word
                 snippet self
               end },
-              ->{ error :for_condition_expected_closing_bracket do
+              -> { error :for_condition_expected_closing_bracket do
                 expected "the closing bracket of a for condition", word
                 snippet self
               end },
-              ->{
+              -> {
                 error :for_condition_expected_body do
                   expected "the body of a for condition", word
                   snippet self

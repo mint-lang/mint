@@ -15,11 +15,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :css_nested_at_expected_opening_bracket do
+            -> { error :css_nested_at_expected_opening_bracket do
               expected "the opening bracket of a CSS at rule", word
               snippet self
             end },
-            ->{ error :css_nested_at_expected_closing_bracket do
+            -> { error :css_nested_at_expected_closing_bracket do
               expected "the closing bracket of a CSS at rule", word
               snippet self
             end },

@@ -3,7 +3,7 @@ module Mint
     def operation_type_mismatch(
       right : TypeChecker::Checkable,
       left : TypeChecker::Checkable,
-      node : Ast::Node
+      node : Ast::Node,
     )
       error! :operation_type_mismatch do
         block do
@@ -19,7 +19,7 @@ module Mint
     def operation_plus_type_mismatch(
       value : TypeChecker::Checkable,
       node : Ast::Node,
-      side : String
+      side : String,
     )
       error! :operation_plus_type_mismatch do
         block do
@@ -40,7 +40,7 @@ module Mint
       value : TypeChecker::Checkable,
       operator : String,
       node : Ast::Node,
-      side : String
+      side : String,
     )
       error! :operation_numeric_type_mismatch do
         block do
@@ -58,7 +58,7 @@ module Mint
       value : TypeChecker::Checkable,
       operator : String,
       node : Ast::Node,
-      side : String
+      side : String,
     )
       error! :operation_bool_type_mismatch do
         block do

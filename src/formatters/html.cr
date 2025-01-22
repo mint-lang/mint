@@ -4,7 +4,7 @@ module Mint
       *,
       node : Ast::HtmlElement | Ast::HtmlComponent,
       prefix : Nodes,
-      tag : Nodes
+      tag : Nodes,
     ) : Nodes
       child_nodes =
         node.children + node.comments

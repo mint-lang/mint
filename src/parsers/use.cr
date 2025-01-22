@@ -23,11 +23,11 @@ module Mint
             whitespace
 
             brackets(
-              ->{ error :use_expected_condition_opening_bracket do
+              -> { error :use_expected_condition_opening_bracket do
                 expected "the opening bracket of a use condition", word
                 snippet self
               end },
-              ->{ error :use_expected_condition_closing_bracket do
+              -> { error :use_expected_condition_closing_bracket do
                 expected "the closing bracket of a use condition", word
                 snippet self
               end },

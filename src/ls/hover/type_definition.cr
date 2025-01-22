@@ -4,7 +4,7 @@ module Mint
       def hover(
         node : Ast::TypeDefinition,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         parameters =
           "" # workspace.formatter.format_parameters(node.parameters)

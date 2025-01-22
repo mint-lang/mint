@@ -5,7 +5,7 @@ module Mint
       expected_closing_bracket : Proc(Nil),
       expected_closing_tag : Proc(Nil),
       tag : Ast::Variable | Ast::Id,
-      with_dashes : Bool
+      with_dashes : Bool,
     )
       parse(track: false) do
         attributes = many { html_attribute(with_dashes) }

@@ -21,10 +21,10 @@ module Mint
         .to_h
         .tap do |files|
           files["/live-reload.js"] =
-            ->{ Assets.read("live-reload.js") } if live_reload
+            -> { Assets.read("live-reload.js") } if live_reload
 
           files["/index.html"] =
-            ->do
+            -> do
               layout "API Documentation", entities, live_reload do
                 article do
                   h1 do
@@ -36,7 +36,7 @@ module Mint
 
           Assets.files.each do |file|
             next unless file.path.starts_with?("/docs/")
-            files[file.path.lchop("/docs")] = ->{ Assets.read(file.path) }
+            files[file.path.lchop("/docs")] = -> { Assets.read(file.path) }
           end
         end
     end
@@ -44,11 +44,11 @@ module Mint
     def generate(
       entity : TopLevelEntity,
       entities : Array(TopLevelEntity),
-      live_reload : Bool
+      live_reload : Bool,
     ) : {String, Proc(String)}
       {
         "/#{href(entity)}",
-        ->do
+        -> do
           layout entity.name, entities, live_reload do |builder|
             article do
               h1 do
@@ -114,14 +114,14 @@ module Mint
 
     def entity_signature(
       entity : Entity,
-      builder : HtmlBuilder
+      builder : HtmlBuilder,
     )
-      head = ->do
+      head = -> do
         builder.span class: "keyword" { text "#{kind(entity.kind)} " }
         builder.a href: "##{entity.name}" { text entity.name }
       end
 
-      type = ->do
+      type = -> do
         if value = entity.type
           builder.span { text " : " }
           builder.raw value
@@ -129,7 +129,7 @@ module Mint
       end
 
       arguments = entity.arguments.try do |items|
-        ->do
+        -> do
           items.each_with_index do |argument, index|
             builder.div class: "argument" do
               span { text argument.name }

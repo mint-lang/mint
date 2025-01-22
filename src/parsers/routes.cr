@@ -7,11 +7,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :routes_expected_opening_bracket do
+            -> { error :routes_expected_opening_bracket do
               expected "the opening bracket of a routes block", word
               snippet self
             end },
-            ->{ error :routes_expected_closing_bracket do
+            -> { error :routes_expected_closing_bracket do
               expected "the closing bracket of a routes block", word
               snippet self
             end },

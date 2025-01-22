@@ -2,7 +2,7 @@ module Mint
   class Compiler
     def compile(
       value : Array(Ast::Node | String), *,
-      quote_string : Bool = false
+      quote_string : Bool = false,
     ) : Compiled
       if value.any?(Ast::Node)
         value.map do |part|

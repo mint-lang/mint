@@ -21,7 +21,7 @@ module Mint
       replacements : Array(Compiler::Compiled),
       document : Markd::Node,
       separator : String,
-      js : Compiler::Js
+      js : Compiler::Js,
     ) : Compiler::Compiled
       render(
         node: self.new.render(document, separator, highlight),
@@ -35,7 +35,7 @@ module Mint
       highlight : Highlight = Highlight::None,
       replacements : Array(String),
       document : Markd::Node,
-      separator : String
+      separator : String,
     )
       root =
         self.new.render(document, separator, highlight)
@@ -74,7 +74,7 @@ module Mint
       replacements : Array(Compiler::Compiled),
       node : Node | String,
       separator : String,
-      js : Compiler::Js
+      js : Compiler::Js,
     ) : Compiler::Compiled
       case node
       in String
@@ -122,7 +122,7 @@ module Mint
       def initialize(
         @tag : Compiler::Builtin | String, *,
         @attributes = {} of String => String,
-        @children = [] of Node | String
+        @children = [] of Node | String,
       )
       end
     end
@@ -134,7 +134,7 @@ module Mint
     def render(
       document : Markd::Node,
       separator : String,
-      highlight : Highlight
+      highlight : Highlight,
     ) : Node
       walker =
         document.walker

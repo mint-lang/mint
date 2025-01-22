@@ -108,7 +108,7 @@ module Mint
 
     def expected(
       subject : TypeChecker::Checkable | String,
-      got : TypeChecker::Checkable
+      got : TypeChecker::Checkable,
     )
       snippet "I was expecting:", subject
       snippet "Instead it is:", got

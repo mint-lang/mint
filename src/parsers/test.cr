@@ -13,15 +13,15 @@ module Mint
 
         expression =
           block(
-            ->{ error :test_expected_opening_bracket do
+            -> { error :test_expected_opening_bracket do
               expected "the opening bracket of a test", word
               snippet self
             end },
-            ->{ error :test_expected_closing_bracket do
+            -> { error :test_expected_closing_bracket do
               expected "the closing bracket of a test", word
               snippet self
             end },
-            ->{ error :test_expected_body do
+            -> { error :test_expected_body do
               expected "the body of a test", word
               snippet self
             end })

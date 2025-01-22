@@ -32,7 +32,7 @@ module Mint
 
     def destructuring(
       node : Ast::TypeDestructuring,
-      variables : Array(Compiled)
+      variables : Array(Compiled),
     ) : Compiled
       case item = lookups[node][0]
       when Ast::TypeVariant
@@ -51,7 +51,7 @@ module Mint
 
     def match(
       condition : Ast::Node,
-      branches : Array(Tuple(Ast::Node?, Compiled))
+      branches : Array(Tuple(Ast::Node?, Compiled)),
     ) : Compiled
       items =
         branches.map do |(pattern, expression)|

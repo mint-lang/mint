@@ -13,16 +13,16 @@ module Mint
 
         truthy =
           block(
-            ->{ error :if_expected_truthy_opening_bracket do
+            -> { error :if_expected_truthy_opening_bracket do
               expected "the opening bracket of the truthy branch", word
               snippet self
             end },
-            ->{ error :if_expected_truthy_closing_bracket do
+            -> { error :if_expected_truthy_closing_bracket do
               expected "the closing bracket of the truthy branch", word
               snippet self
             end },
 
-            ->{ error :if_expected_truthy_expression do
+            -> { error :if_expected_truthy_expression do
               expected "an expression for the truthy branch", word
               snippet self
             end }) { for_css ? css_definition : comment || statement }
@@ -38,15 +38,15 @@ module Mint
           unless falsy = if_expression(for_css: for_css)
             falsy =
               block(
-                ->{ error :if_expected_else_opening_bracket do
+                -> { error :if_expected_else_opening_bracket do
                   expected "the opening bracket of the else branch", word
                   snippet self
                 end },
-                ->{ error :if_expected_else_closing_bracket do
+                -> { error :if_expected_else_closing_bracket do
                   expected "the closing bracket of the else branch", word
                   snippet self
                 end },
-                ->{ error :if_expected_else_expression do
+                -> { error :if_expected_else_expression do
                   expected "an expression for the else branch", word
                   snippet self
                 end }) { for_css ? css_definition : comment || statement }

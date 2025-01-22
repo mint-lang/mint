@@ -14,11 +14,11 @@ module Mint
         end unless name
 
         selectors = brackets(
-          ->{ error :css_keyframes_expected_opening_bracket do
+          -> { error :css_keyframes_expected_opening_bracket do
             expected "the opening bracket of a CSS keyframes rule", word
             snippet self
           end },
-          ->{ error :css_keyframes_expected_closing_bracket do
+          -> { error :css_keyframes_expected_closing_bracket do
             expected "the closing bracket of a CSS keyframes rule", word
             snippet self
           end },

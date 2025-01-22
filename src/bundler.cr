@@ -63,7 +63,7 @@ module Mint
 
       # Compile the CSS.
       files[path_for_asset("index.css")] =
-        ->do
+        -> do
           Logger.log "Generating index.css" do
             compiler.style_builder.compile
           end
@@ -299,7 +299,7 @@ module Mint
                 renderer.render(compiler.js.statements(items, line_count: 2)) + ";"
               end
 
-            files[path] = ->{ js }
+            files[path] = -> { js }
 
             {renderer, path, js}
           end
@@ -313,8 +313,8 @@ module Mint
               source_map =
                 SourceMapGenerator.new(renderer.mappings, js).generate
 
-              files[path] = ->{ "#{js}\n//# sourceMappingURL=#{File.basename(source_map_path)}" }
-              files[source_map_path] = ->{ source_map }
+              files[path] = -> { "#{js}\n//# sourceMappingURL=#{File.basename(source_map_path)}" }
+              files[source_map_path] = -> { source_map }
             end
           end
         end
@@ -322,7 +322,7 @@ module Mint
     end
 
     def generate_index_html
-      files["/index.html"] = ->do
+      files["/index.html"] = -> do
         HtmlBuilder.build(optimize: config.optimize) do
           html do
             head do
@@ -393,7 +393,7 @@ module Mint
     end
 
     def generate_manifest
-      files["/manifest.webmanifest"] = ->do
+      files["/manifest.webmanifest"] = -> do
         icons =
           if generate_icons?
             ICON_SIZES.map do |size|
@@ -430,7 +430,7 @@ module Mint
 
       ICON_SIZES.each do |size|
         files[path_for_asset("icon-#{size}x#{size}.png")] =
-          ->{ IconGenerator.convert(json.application.icon, size) }
+          -> { IconGenerator.convert(json.application.icon, size) }
       end
     end
 
@@ -443,7 +443,7 @@ module Mint
           path =
             path_for_asset(asset.filename(build: config.hash_assets))
 
-          files[path] = ->{ asset.file_contents }
+          files[path] = -> { asset.file_contents }
         end
 
       if Dir.exists?(PUBLIC_DIR)
@@ -453,23 +453,23 @@ module Mint
           parts =
             Path[path].parts.tap(&.shift)
 
-          files["/#{parts.join("/")}"] = ->{ File.read(path) }
+          files["/#{parts.join("/")}"] = -> { File.read(path) }
         end
       end
 
       files[path_for_asset("runtime.js")] =
         if runtime_path = config.runtime_path
           # TODO: Raise if runtime not found
-          ->{ File.read(runtime_path) }
+          -> { File.read(runtime_path) }
         elsif config.test
-          ->{ Assets.read("runtime_test.js") }
+          -> { Assets.read("runtime_test.js") }
         else
-          ->{ Assets.read("runtime.js") }
+          -> { Assets.read("runtime.js") }
         end
 
       if config.live_reload
         files[path_for_asset("live-reload.js")] =
-          ->{ Assets.read("live-reload.js") }
+          -> { Assets.read("live-reload.js") }
       end
     end
 

@@ -35,15 +35,15 @@ module Mint
 
         body =
           block(
-            ->{ error :route_expected_opening_bracket do
+            -> { error :route_expected_opening_bracket do
               expected "the opening bracket of a route", word
               snippet self
             end },
-            ->{ error :route_expected_closing_bracket do
+            -> { error :route_expected_closing_bracket do
               expected "the closing bracket of a route", word
               snippet self
             end },
-            ->{ error :route_expected_body do
+            -> { error :route_expected_body do
               expected "the body of a route", word
               snippet self
             end })

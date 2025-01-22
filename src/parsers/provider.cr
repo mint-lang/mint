@@ -27,11 +27,11 @@ module Mint
         whitespace
 
         body = brackets(
-          ->{ error :provider_expected_opening_bracket do
+          -> { error :provider_expected_opening_bracket do
             expected "the opening bracket of a provider", word
             snippet self
           end },
-          ->{ error :provider_expected_closing_bracket do
+          -> { error :provider_expected_closing_bracket do
             expected "the closing bracket of a provider", word
             snippet self
           end },

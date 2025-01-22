@@ -78,7 +78,7 @@ module LSP
       @is_preferred = false,
       @disabled = nil,
       @command = nil,
-      @data = nil
+      @data = nil,
     )
     end
   end

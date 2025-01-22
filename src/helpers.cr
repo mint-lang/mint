@@ -78,7 +78,7 @@ module Mint
       when Ast::Statement
         static_value(node.expression)
       when Ast::RegexpLiteral
-        "/#{node.value}/#{node.flags.split.uniq.join}"
+        "/#{node.value}/#{node.flags.split.uniq!.join}"
       when Ast::TupleLiteral,
            Ast::ArrayLiteral
         "[#{static_value(node.items, ',')}]"

@@ -43,15 +43,15 @@ module Mint
 
         body =
           block(
-            ->{ error :function_expected_opening_bracket do
+            -> { error :function_expected_opening_bracket do
               expected "the opening bracket of a function", word
               snippet self
             end },
-            ->{ error :function_expected_closing_bracket do
+            -> { error :function_expected_closing_bracket do
               expected "the closing bracket of a function", word
               snippet self
             end },
-            ->{ error :function_expected_expression do
+            -> { error :function_expected_expression do
               expected "the body of a function", word
               snippet self
             end })

@@ -16,7 +16,7 @@ module Mint
       node : Ast::Function, *,
       contents : Compiled | Nil = nil,
       args : Array(Compiled) | Nil = nil,
-      skip_const : Bool = false
+      skip_const : Bool = false,
     ) : Compiled
       items =
         [] of Compiled

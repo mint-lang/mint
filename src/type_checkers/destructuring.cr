@@ -23,7 +23,7 @@ module Mint
     def destructure(
       node : Nil,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       variables
     end
@@ -31,7 +31,7 @@ module Mint
     def destructure(
       node : Ast::Discard,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       variables
     end
@@ -39,7 +39,7 @@ module Mint
     def destructure(
       node : Ast::Node,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       type =
         resolve(node)
@@ -56,7 +56,7 @@ module Mint
     def destructure(
       node : Ast::Variable,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       cache[node] = condition
       variables.tap(&.push({node.value, condition, node}))
@@ -65,7 +65,7 @@ module Mint
     def destructure(
       node : Ast::ArrayDestructuring,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       destructuring_type_mismatch(
         expected: ARRAY,
@@ -118,7 +118,7 @@ module Mint
     def destructure(
       node : Ast::TupleDestructuring,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       destructuring_type_mismatch(
         expected: Type.new("Tuple"),
@@ -148,7 +148,7 @@ module Mint
     def destructure(
       node : Ast::TypeDestructuring,
       condition : Checkable,
-      variables : Array(VariableScope) = [] of VariableScope
+      variables : Array(VariableScope) = [] of VariableScope,
     )
       cache[node] = condition
 

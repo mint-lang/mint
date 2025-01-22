@@ -16,11 +16,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :store_expected_opening_bracket do
+            -> { error :store_expected_opening_bracket do
               expected "the opening bracket of a store", word
               snippet self
             end },
-            ->{ error :store_expected_closing_bracket do
+            -> { error :store_expected_closing_bracket do
               expected "the closing bracket of a store", word
               snippet self
             end },

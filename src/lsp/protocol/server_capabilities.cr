@@ -127,7 +127,7 @@ module LSP
       @rename_provider,
       @color_provider,
       @hover_provider,
-      @workspace
+      @workspace,
     )
     end
   end

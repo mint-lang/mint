@@ -8,7 +8,7 @@ module Mint
     def operation(
       left : Ast::Node,
       operator : String,
-      comment : Ast::Comment?
+      comment : Ast::Comment?,
     ) : Ast::Operation?
       parse do
         next error :operation_expected_expression do

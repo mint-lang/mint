@@ -52,7 +52,7 @@ module Mint
       *,
       column : Int64,
       path : String,
-      line : Int64
+      line : Int64,
     ) : Array(Ast::Node)
       nodes_at_path(path).select!(&.contains?(line, column))
     end

@@ -13,11 +13,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :suite_expected_opening_bracket do
+            -> { error :suite_expected_opening_bracket do
               expected "the opening bracket of a suite", word
               snippet self
             end },
-            ->{ error :suite_expected_closing_bracket do
+            -> { error :suite_expected_closing_bracket do
               expected "the closing bracket of a suite", word
               snippet self
             end },

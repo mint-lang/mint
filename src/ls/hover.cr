@@ -8,7 +8,7 @@ module Mint
       def hover(
         node : Nil,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         ["This should not happen! Please create an issue about this!"]
       end
@@ -17,7 +17,7 @@ module Mint
       def hover(
         node : Ast::Node,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         type =
           type_of(node, type_checker)

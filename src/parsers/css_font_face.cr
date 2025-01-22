@@ -7,11 +7,11 @@ module Mint
 
         definitions =
           brackets(
-            ->{ error :css_font_face_expected_opening_bracket do
+            -> { error :css_font_face_expected_opening_bracket do
               expected "the opening bracket of a CSS font-face rule", word
               snippet self
             end },
-            ->{ error :css_font_face_expected_closing_bracket do
+            -> { error :css_font_face_expected_closing_bracket do
               expected "the closing bracket of a CSS font-face rule", word
               snippet self
             end },

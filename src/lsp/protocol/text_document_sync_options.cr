@@ -27,7 +27,7 @@ module LSP
       @open_close,
       @will_save,
       @change,
-      @save
+      @save,
     )
     end
   end

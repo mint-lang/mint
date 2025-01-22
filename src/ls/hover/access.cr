@@ -4,7 +4,7 @@ module Mint
       def hover(
         node : Ast::Access,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         if item = type_checker.variables[node]?
           case item[1]

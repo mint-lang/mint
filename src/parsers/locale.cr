@@ -16,13 +16,13 @@ module Mint
 
         fields =
           brackets(
-            ->{
+            -> {
               error :locale_expected_opening_bracket do
                 expected "the opening bracket of a locale", word
                 snippet self
               end
             },
-            ->{
+            -> {
               error :locale_expected_closing_bracket do
                 expected "the opening bracket of a locale", word
                 snippet self

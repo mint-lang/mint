@@ -4,10 +4,10 @@ module Mint
       files = {} of String => Proc(String)
 
       files["/live-reload.js"] =
-        ->{ Assets.read("live-reload.js") } if live_reload
+        -> { Assets.read("live-reload.js") } if live_reload
 
       files["/index.html"] =
-        ->do
+        -> do
           HtmlBuilder.build(optimize: true) do
             html do
               head do
@@ -29,7 +29,7 @@ module Mint
 
       Assets.files.each do |file|
         next unless file.path.starts_with?("/error_message/")
-        files[file.path.lchop("/error_message")] = ->{ Assets.read(file.path) }
+        files[file.path.lchop("/error_message")] = -> { Assets.read(file.path) }
       end
 
       files

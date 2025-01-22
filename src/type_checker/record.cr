@@ -10,7 +10,7 @@ module Mint
         @name : String,
         @fields = {} of String => Checkable,
         @mappings = {} of String => String?,
-        @label = nil
+        @label = nil,
       )
       end
 

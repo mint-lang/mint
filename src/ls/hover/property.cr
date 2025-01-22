@@ -4,7 +4,7 @@ module Mint
       def hover(
         node : Ast::Property,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         default =
           node.default.try do |item|

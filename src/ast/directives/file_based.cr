@@ -25,7 +25,7 @@ module Mint
           @from : Parser::Location,
           @to : Parser::Location,
           @file : Parser::File,
-          @path : String
+          @path : String,
         )
         end
 

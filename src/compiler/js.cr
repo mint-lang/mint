@@ -119,7 +119,7 @@ module Mint
       # Renders an initializer.
       def new(
         name : Item | Compiled,
-        items : Array(Compiled) = [] of Compiled
+        items : Array(Compiled) = [] of Compiled,
       ) : Compiled
         ["new "] + call(name, items)
       end
@@ -156,7 +156,7 @@ module Mint
       def tenary(
         condition : Compiled,
         truthy : Compiled,
-        falsy : Compiled
+        falsy : Compiled,
       ) : Compiled
         ["("] +
           condition +
@@ -198,7 +198,7 @@ module Mint
       private def list(
         arguments : Array(Compiled),
         *,
-        multiline : Bool = false
+        multiline : Bool = false,
       ) : Compiled
         if multiline
           join(arguments, ",\n")

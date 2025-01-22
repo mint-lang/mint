@@ -23,13 +23,13 @@ module Mint
           html_body(
             with_dashes: false,
             tag: component,
-            expected_closing_bracket: ->{
+            expected_closing_bracket: -> {
               error :html_component_expected_closing_bracket do
                 expected "the closing bracket of a HTML component", word
                 snippet self
               end
             },
-            expected_closing_tag: ->{
+            expected_closing_tag: -> {
               error :html_component_expected_closing_tag do
                 expected "the closing tag of a HTML component", word
                 snippet self

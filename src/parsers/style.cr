@@ -27,11 +27,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :style_expected_opening_bracket do
+            -> { error :style_expected_opening_bracket do
               expected "the opening bracket of a style", word
               snippet self
             end },
-            ->{ error :style_expected_closing_bracket do
+            -> { error :style_expected_closing_bracket do
               expected "the closing bracket of a style", word
               snippet self
             end },

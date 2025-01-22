@@ -5,7 +5,7 @@ module Mint
         *,
         @params : LSP::TextDocumentPositionParams,
         @type_checker : TypeChecker,
-        @stack : Array(Ast::Node)
+        @stack : Array(Ast::Node),
       )
       end
 

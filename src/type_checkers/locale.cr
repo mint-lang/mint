@@ -13,7 +13,7 @@ module Mint
       *,
       language : String,
       node : Ast::Field,
-      prefix : String?
+      prefix : String?,
     )
       return unless key = node.key
 

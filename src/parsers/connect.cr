@@ -19,11 +19,11 @@ module Mint
 
         keys =
           brackets(
-            ->{ error :connect_expected_opening_bracket do
+            -> { error :connect_expected_opening_bracket do
               expected "the opening bracket of a connect", word
               snippet self
             end },
-            ->{ error :connect_expected_closing_bracket do
+            -> { error :connect_expected_closing_bracket do
               expected "the closing bracket of a connect", word
               snippet self
             end },

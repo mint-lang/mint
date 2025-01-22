@@ -148,7 +148,7 @@ module Mint
 
     def format_arguments(
       nodes : Array(Ast::Node), *,
-      empty_parenthesis = true
+      empty_parenthesis = true,
     ) : Nodes
       return empty_parenthesis ? ["()"] of Node : [] of Node if nodes.empty?
 

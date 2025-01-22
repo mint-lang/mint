@@ -14,11 +14,11 @@ module Mint
 
         body =
           brackets(
-            ->{ error :css_selector_expected_opening_bracket do
+            -> { error :css_selector_expected_opening_bracket do
               expected "the opening bracket of a CSS selector", word
               snippet self
             end },
-            ->{ error :css_selector_expected_closing_bracket do
+            -> { error :css_selector_expected_closing_bracket do
               expected "the opening closing of a CSS selector", word
               snippet self
             end },

@@ -89,7 +89,7 @@ module Mint
                     content.bytesize
 
                   proc =
-                    ->{ File.write_p(Path[DIST_DIR, chopped], content) }
+                    -> { File.write_p(Path[DIST_DIR, chopped], content) }
 
                   bundle_size +=
                     size

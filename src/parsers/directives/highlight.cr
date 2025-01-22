@@ -7,15 +7,15 @@ module Mint
 
         content =
           block(
-            ->{ error :highlight_directive_expected_opening_bracket do
+            -> { error :highlight_directive_expected_opening_bracket do
               expected "the opening bracket of a highlight directive", word
               snippet self
             end },
-            ->{ error :highlight_directive_expected_closing_bracket do
+            -> { error :highlight_directive_expected_closing_bracket do
               expected "the closing bracket of a highlight directive", word
               snippet self
             end },
-            ->{ error :highlight_directive_expected_body do
+            -> { error :highlight_directive_expected_body do
               expected "the body of a highlight directive", word
               snippet self
             end })

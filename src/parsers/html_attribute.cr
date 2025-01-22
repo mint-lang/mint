@@ -18,15 +18,15 @@ module Mint
             string_literal ||
             array_literal ||
             block(
-              ->{ error :html_attribute_expected_opening_bracket do
+              -> { error :html_attribute_expected_opening_bracket do
                 expected "the opening bracket of an HTML attribute", word
                 snippet self
               end },
-              ->{ error :html_attribute_expected_closing_bracket do
+              -> { error :html_attribute_expected_closing_bracket do
                 expected "the closing bracket of an HTML attribute", word
                 snippet self
               end },
-              ->{ error :html_attribute_expected_expression do
+              -> { error :html_attribute_expected_expression do
                 expected "the expression of an HTML attribute", word
                 snippet self
               end })

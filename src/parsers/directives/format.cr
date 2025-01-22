@@ -7,15 +7,15 @@ module Mint
 
         content =
           block(
-            ->{ error :format_directive_expected_opening_bracket do
+            -> { error :format_directive_expected_opening_bracket do
               expected "the opening bracket of a format directive", word
               snippet self
             end },
-            ->{ error :format_directive_expected_closing_bracket do
+            -> { error :format_directive_expected_closing_bracket do
               expected "the closing bracket of a format directive", word
               snippet self
             end },
-            ->{ error :format_directive_expected_body do
+            -> { error :format_directive_expected_body do
               expected "the body of a format directive", word
               snippet self
             end })

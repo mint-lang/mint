@@ -257,7 +257,7 @@ module ExhaustivenessChecker
     def add_missing_patterns(
       node : Decision,
       terms : Array(Term),
-      missing : Set(String)
+      missing : Set(String),
     )
       case node
       in Success
@@ -513,7 +513,7 @@ module ExhaustivenessChecker
     def compile_constructor_cases(
       rows : Array(Row),
       branch_var : Variable,
-      cases : Array(Tuple(Constructor, Array(Variable), Array(Row)))
+      cases : Array(Tuple(Constructor, Array(Variable), Array(Row))),
     ) : Array(Case)
       rows.each do |row|
         # This row had the branching variable.
@@ -584,7 +584,7 @@ module ExhaustivenessChecker
     #
     def compile_infinite_cases(
       rows : Array(Row),
-      branch_var : Variable
+      branch_var : Variable,
     ) : Tuple(Array(Case), Decision)
       raw_cases =
         [] of Tuple(Constructor, Array(Variable), Array(Row))
@@ -654,7 +654,7 @@ module ExhaustivenessChecker
     def compile_array_cases(
       rows : Array(Row),
       branch_var : Variable,
-      type : Checkable
+      type : Checkable,
     ) : Decision
       rest_var =
         new_variable(branch_var.type)

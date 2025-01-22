@@ -62,7 +62,7 @@ module Mint
         column_number : Int32,
         line_number : Int32,
         contents : String,
-        path : String
+        path : String,
       )
         position =
           if line_number - 1 == 0

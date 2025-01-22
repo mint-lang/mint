@@ -2,7 +2,7 @@ module Mint
   class Compiler
     def compile(
       items : Array(Ast::CssDefinition),
-      block : Proc(String, String)?
+      block : Proc(String, String)?,
     ) : Compiled
       compiled =
         items.each_with_object({} of String => Compiled) do |definition, memo|
@@ -24,7 +24,7 @@ module Mint
 
     def compile(
       node : Ast::If,
-      block : Proc(String, String)? = nil
+      block : Proc(String, String)? = nil,
     ) : Compiled
       compile node do
         truthy_item, falsy_item =

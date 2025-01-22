@@ -21,7 +21,7 @@ module Mint
         @meta,
         @name,
         @head,
-        @icon
+        @icon,
       )
       end
     end
@@ -42,7 +42,7 @@ module Mint
       @application,
       @formatter,
       @name,
-      @path
+      @path,
     )
     end
 

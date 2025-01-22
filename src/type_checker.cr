@@ -319,7 +319,7 @@ module Mint
       other : Ast::Node,
       node : Ast::Node,
       what : String,
-      name : String
+      name : String,
     )
       error! :global_name_conflict do
         block do

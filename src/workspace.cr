@@ -23,7 +23,7 @@ module Mint
       dot_env : String,
       @format : Bool,
       @check : Check,
-      @path : String
+      @path : String,
     )
       @dot_env =
         File.basename(dot_env)
@@ -73,7 +73,7 @@ module Mint
       *,
       column : Int64,
       path : String,
-      line : Int64
+      line : Int64,
     ) : Array(Ast::Node) | Error
       map_error(ast, &.nodes_at_cursor(
         line: line, column: column, path: path))

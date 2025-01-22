@@ -2,7 +2,7 @@ module Mint
   class Compiler
     def compile(
       node : Ast::Case,
-      block : Proc(String, String)? = nil
+      block : Proc(String, String)? = nil,
     ) : Compiled
       compile node do
         condition =

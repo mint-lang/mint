@@ -46,7 +46,7 @@ module Mint
         *,
         @value = nil,
         @type = nil,
-        @name
+        @name,
       )
       end
     end
@@ -90,7 +90,7 @@ module Mint
         @type = nil,
         @broken,
         @name,
-        @kind
+        @kind,
       )
       end
     end
@@ -127,7 +127,7 @@ module Mint
         @flags = nil,
         link = nil,
         @name,
-        @kind
+        @kind,
       )
         @link = link || @name
       end
@@ -325,7 +325,7 @@ module Mint
       mapping : String? = nil,
       type : Ast::Node? = nil,
       name : String,
-      kind : Kind
+      kind : Kind,
     )
       formatted_value =
         @@formatter.format!(value)

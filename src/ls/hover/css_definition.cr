@@ -4,7 +4,7 @@ module Mint
       def hover(
         node : Ast::CssDefinition,
         workspace : Workspace,
-        type_checker : TypeChecker
+        type_checker : TypeChecker,
       ) : Array(String)
         path =
           URI.encode_path(node.name)
