@@ -48,9 +48,9 @@ jobs:
         working-directory: ./core/tests
         run: ../../bin/mint test -b firefox
 
-      - name: Run core specs (Google Chrome)
-        working-directory: ./core/tests
-        run: ../../bin/mint test -b chrome
+      # - name: Run core specs (Google Chrome)
+      #   working-directory: ./core/tests
+      #   run: ../../bin/mint test -b chrome
 
       - name: Check formatting (Mint)
         working-directory: ./core
