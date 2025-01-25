@@ -26,6 +26,7 @@ module Mint
           end
 
         next unless expressions
+        next if expressions.empty?
 
         Ast::Block.new(
           expressions: expressions,

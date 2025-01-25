@@ -1,0 +1,8 @@
+--------------------------------------------------inline_function_expected_body
+component Main {
+  state callback : Function(Bool, Number, void) = (a : Bool, b : Number) {  }
+
+  fun render : Html {
+    <span>"Hello"</span>
+  }
+}
