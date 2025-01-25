@@ -21,7 +21,7 @@ module Mint
 
         node.ref.try do |ref|
           attributes["_"] =
-            js.call(Builtin::SetRef, [[ref] of Item, just])
+            js.call(Builtin::SetRef, [[ref] of Item, just, nothing])
         end
 
         if component.async?

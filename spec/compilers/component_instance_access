@@ -78,6 +78,6 @@ export const
     return C(`div`, {
       "onClick": d
     }, [C(K, {
-      _: H(c, I)
+      _: H(c, I, J)
     })])
   };

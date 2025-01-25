@@ -31,7 +31,7 @@ export default () => {
         const a = C(new G());
         return (() => {
           D(`button`, {
-            ref: E(a, H)
+            ref: E(a, H, G)
           });
           return F(a.current, new G())
         })()

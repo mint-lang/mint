@@ -23,6 +23,6 @@ export const
   G = () => {
     const a = B(new F());
     return C(`div`, {
-      ref: D(a, E)
+      ref: D(a, E, F)
     })
   };

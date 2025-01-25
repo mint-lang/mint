@@ -33,8 +33,10 @@ export const bracketAccess = (array, index, just, nothing) => {
 
 // This sets the references to an element or component. The current
 // value is always a `Maybe`
-export const setRef = (value, just) => (element) => {
-  if (value.current._0 !== element) {
+export const setRef = (value, just, nothing) => (element) => {
+  if (element === null) {
+    value.current = new nothing();
+  } else {
     value.current = new just(element);
   }
 };

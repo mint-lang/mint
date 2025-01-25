@@ -31,6 +31,6 @@ export const
   a = C(new F()),
   H = () => {
     return B(G, {
-      _: D(a, E)
+      _: D(a, E, F)
     })
   };

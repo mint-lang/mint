@@ -47,7 +47,7 @@ export default () => {
         const b = E(new H());
         return (() => {
           C(J, {
-            _: F(b, I)
+            _: F(b, I, H)
           });
           return G(b.current, new H())
         })()
