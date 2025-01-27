@@ -165,7 +165,8 @@ module Mint
               line.highlight(from, to)
 
             "#{gutter} #{a}\n#{" " * gutter_width}│ #{b}"
-          elsif from == input.size && line.offset + line.contents.size == from
+          elsif (from == input.size && line.offset + line.contents.size == from) ||
+                (line.offset + line.contents.size == (to - 1))
             "#{gutter} #{line.contents}\n#{" " * gutter_width}│ #{" " * line.contents.size}⌃⌃⌃⌃"
           end || "#{gutter} #{line.contents}"
         end

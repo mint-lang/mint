@@ -181,6 +181,18 @@ module Mint
       word
     end
 
+    # Returns the word (non whitespace sequence) a the position.
+    def word(position : Location)
+      current = position.offset
+      word = ""
+
+      while (char = input[current]?) && !char.ascii_whitespace?
+        word += char
+      end
+
+      word
+    end
+
     # Returns whether or not the word is at the current position.
     def word?(word) : Bool
       word.chars.each_with_index.all? do |char, i|
@@ -410,6 +422,32 @@ module Mint
           step
         end
       end
+    end
+
+    # Returns the last non whitespace position.
+    def last_non_whitespace_position
+      position, line, column =
+        @position.to_tuple
+
+      while input[position - 1]?.try(&.ascii_whitespace?)
+        case previous_char
+        when '\n'
+          current = position - 2
+          column = 0_i64
+          line -= 1
+
+          while input[current]? && (input[current] != '\n')
+            current -= 1
+            column += 1
+          end
+        else
+          column -= 1
+        end
+
+        position -= 1
+      end
+
+      Location.new(offset: position, line: line, column: column)
     end
   end
 end

@@ -9,7 +9,7 @@ module Mint
 
         value =
           many(parse_whitespace: false) {
-            string_literal || interpolation || raw { char.in_set?("^;{\0\"") }
+            string_literal || interpolation || raw { char.in_set?("^;}{\0\"") }
           }.map do |item|
             if item.is_a?(Ast::StringLiteral) && (raw = static_value(item))
               %("#{raw}")
@@ -19,8 +19,11 @@ module Mint
           end
 
         next error :css_definition_expected_semicolon do
-          expected "the semicolon of a CSS definition", word
-          snippet self
+          position =
+            last_non_whitespace_position
+
+          expected "the semicolon of a CSS definition", word(position)
+          snippet({self, position})
         end unless char! ';'
 
         Ast::CssDefinition.new(

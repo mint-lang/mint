@@ -23,7 +23,8 @@ module Mint
   class Error < Exception
     # Anything that can be a snippet.
     alias SnippetTarget = TypeChecker::Checkable | SnippetData |
-                          Ast::Node | Parser | String
+                          Ast::Node | Parser | String |
+                          Tuple(Parser, Parser::Location)
 
     alias Element = Text | Bold | Code
 
@@ -80,6 +81,18 @@ module Mint
     def snippet(value : SnippetTarget)
       target =
         case value
+        in Tuple(Parser, Parser::Location)
+          parser, position =
+            value
+
+          min =
+            parser.input[position.offset]? == '\0' ? 0 : 1
+
+          SnippetData.new(
+            to: position.offset + [min, parser.word(position).to_s.size].max,
+            filename: parser.file.relative_path,
+            input: parser.file.contents,
+            from: position.offset)
         in Parser
           min =
             value.char == '\0' ? 0 : 1

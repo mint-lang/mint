@@ -1,0 +1,18 @@
+component Main {
+  style root {
+    background: red
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CSS_DEFINITION_EXPECTED_SEMICOLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the semicolon of a CSS definition but I found "a space" instead:
+
+   ┌ errors/css_definition_expected_semicolon_2:3:19
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   style root {
+  3│     background: red
+   │                    ⌃⌃⌃⌃
+  4│   }
+  5│ }
