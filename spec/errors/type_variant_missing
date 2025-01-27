@@ -1,0 +1,44 @@
+type Edge {
+  Start
+  Between
+  End
+}
+
+component Main {
+  fun render : String {
+    Edge.Middle
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_VARIANT_MISSING) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a variant of a type:
+
+    ┌ errors/type_variant_missing:9:10
+    ├─────────────────────────────────
+   5│ }
+   6│
+   7│ component Main {
+   8│   fun render : String {
+   9│     Edge.Middle
+    │          ⌃⌃⌃⌃⌃⌃
+  10│     ""
+  11│   }
+  12│ }
+
+The type in question is here:
+
+    ┌ errors/type_variant_missing:1:1
+    ├────────────────────────────────
+    │ ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+   1│ type Edge {
+   2│   Start
+   3│   Between
+   4│   End
+   5│ }
+    │ ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   6│
+   7│ component Main {
+   8│   fun render : String {
+   9│     Edge.Middle

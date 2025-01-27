@@ -63,6 +63,8 @@ module Mint
 
       # Type variant
       if possibility
+        entity = scope.resolve(possibility, node).try(&.node)
+
         if parent = ast.type_definitions.find(&.name.value.==(possibility))
           case fields = parent.fields
           when Array(Ast::TypeVariant)
@@ -72,12 +74,17 @@ module Mint
               variables[node.expression] = {parent, parent}
               resolve(parent)
               return to_function_type(option, parent)
+            else
+              error! :type_variant_missing do
+                snippet "I was looking for a variant of a type:", node.field
+                snippet "The type in question is here:", parent
+              end unless entity
             end
           end
         end
 
-        # Constant
-        if entity = scope.resolve(possibility, node).try(&.node)
+        # Constant & entities
+        if entity
           if entity && possibility[0].ascii_uppercase?
             if target_node = scope.resolve(node.field.value, entity).try(&.node)
               variables[node.expression] = {entity, entity}
