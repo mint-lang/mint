@@ -5,10 +5,18 @@
 //  style=[{"color", "red"}] - A Mint Array of tuples
 //  style={`{color: "red"}`} - A JavaScript object
 export const style = (items) => {
+  let important = false;
   const result = {};
 
   const setKeyValue = (key, value) => {
-    result[key.toString().trim()] = value.toString().trim();
+    const stringValue =
+      value.toString().trim();
+
+    if (stringValue.indexOf("!important")) {
+      important = true;
+    }
+
+    result[key.toString().trim()] = stringValue;
   };
 
   for (let item of items) {
@@ -31,5 +39,15 @@ export const style = (items) => {
     }
   }
 
-  return result;
+  if (important) {
+    let string = "";
+
+    for (let key in result) {
+      string += `${key}:${result[key]};`
+    }
+
+    return string;
+  } else {
+    return result;
+  }
 };
