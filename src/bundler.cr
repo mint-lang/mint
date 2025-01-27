@@ -359,8 +359,9 @@ module Mint
                 title { text application.title }
               end
 
-              link rel: "stylesheet", href: path_for_asset("index.css")
               raw application.head
+
+              link rel: "stylesheet", href: path_for_asset("index.css")
             end
 
             body do
