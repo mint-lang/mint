@@ -1,0 +1,57 @@
+type Edge {
+  Start
+  Middle
+  End
+}
+
+component Main {
+  style test (edge : Edge) {
+    case edge {
+      Start => {
+        color: red;
+      }
+
+      Middle => {
+        color: green;
+      }
+
+      End => {
+        color: brown;
+      }
+    }
+  }
+
+  fun render : Html {
+    <div>
+      <p::test(Edge.Start)>"Hello Wold!"</p>
+      <p::test(Edge.Middle)>"Hello Wold!"</p>
+      <p::test(Edge.End)>"Hello Wold!"</p>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+type Edge {
+  Start
+  Middle
+  End
+}
+
+component Main {
+  style test (edge : Edge) {
+    case edge {
+      Start => color: red;
+
+      Middle => color: green;
+
+      End => color: brown;
+    }
+  }
+
+  fun render : Html {
+    <div>
+      <p::test(Edge.Start)>"Hello Wold!"</p>
+      <p::test(Edge.Middle)>"Hello Wold!"</p>
+      <p::test(Edge.End)>"Hello Wold!"</p>
+    </div>
+  }
+}

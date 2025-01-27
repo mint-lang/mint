@@ -13,19 +13,23 @@ module Mint
 
         expression =
           if for_css
-            many { css_definition }
+            if char == '{'
+              brackets { many { css_definition } }
+            else
+              many { css_definition }
+            end
           else
-            next error :case_branch_expected_expression do
-              snippet(
-                "A case branch must have an value, here is an example:",
-                "=> value")
-
-              expected "the value of a case branch", word
-              snippet self
-            end unless item = self.expression
-
-            item
+            self.expression
           end
+
+        next error :case_branch_expected_expression do
+          snippet(
+            "A case branch must have an value, here is an example:",
+            "=> value")
+
+          expected "the value of a case branch", word
+          snippet self
+        end unless expression
 
         Ast::CaseBranch.new(
           expression: expression,
