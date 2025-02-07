@@ -454,7 +454,7 @@ module Mint
         end
 
       if Dir.exists?(PUBLIC_DIR)
-        Dir.glob(Path[PUBLIC_DIR, "**", "*"]).each do |path|
+        Dir.glob(Path[PUBLIC_DIR, "**", "*"], follow_symlinks: true).each do |path|
           next if File.directory?(path)
 
           parts =
