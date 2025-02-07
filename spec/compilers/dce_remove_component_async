@@ -1,0 +1,23 @@
+async component Test {
+  fun render : Html {
+    <Test2/>
+  }
+}
+
+component Test2 {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as A } from "./runtime.js";
+
+export const B = () => {
+  return A(`div`, {})
+};

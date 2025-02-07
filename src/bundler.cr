@@ -109,6 +109,11 @@ module Mint
 
         # Here we separate the compiled items to each bundle.
         calculated_bundles.each do |node, dependencies|
+          case node
+          when Set(Ast::Node)
+            next unless node.any?(&.in?(artifacts.checked))
+          end
+
           # NOTE: For debugging purposes.
           # puts "Bundle for #{Debugger.dbg(node)}:"
           # dependencies.each do |dep|
@@ -143,6 +148,7 @@ module Mint
           .nodes
           .select(Ast::HtmlComponent)
           .select(&.component_node.try(&.async?))
+          .select(&.in?(artifacts.checked))
           .map do |item|
             {item.component_node.not_nil!, calculated_bundles.find!(&.last.includes?(item)).first}
           end
