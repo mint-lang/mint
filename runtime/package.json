@@ -13,7 +13,7 @@
     "@vitest/coverage-v8": "^1.2.1",
     "esbuild": "^0.25.0",
     "prettier": "^3.1.0",
-    "vitest": "^1.2.1",
+    "vitest": "^1.6.1",
     "jsdom": "^23.2.0"
   }
 }
