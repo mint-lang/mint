@@ -82,13 +82,13 @@ module Mint
               # TODO: We may need to store each modules name node for
               # future features, but for now we just store the first
               comment: modules.compact_map(&.comment).first?,
-              file: Parser::File.new(contents: "", path: ""),
               functions: modules.flat_map(&.functions),
               constants: modules.flat_map(&.constants),
-              from: Parser::Location.new,
-              to: Parser::Location.new,
+              comments: modules.first.comments,
+              file: modules.first.file,
+              from: modules.first.from,
               name: modules.first.name,
-              comments: [] of Comment)
+              to: modules.first.to)
           end
 
       @unified_locales =
