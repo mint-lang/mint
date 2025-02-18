@@ -379,6 +379,9 @@ module Mint
         if type.name == "Deferred"
           js.call(Builtin::Load, [compiled])
         end
+      end || case node
+      when Ast::InlineFunction
+        ["("] + compiled + [")"]
       end || compiled
     end
 
