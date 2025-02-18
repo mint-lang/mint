@@ -232,10 +232,11 @@ module Mint
     # Consumes all available whitespace and returns true / false whether
     # there were any.
     def whitespace! : Bool
-      parse do |start_position|
+      if whitespace?
         whitespace
-        next false if position.offset == start_position
         true
+      else
+        false
       end
     end
 
