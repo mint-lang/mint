@@ -106,12 +106,11 @@ module Mint
       result =
         Comparer.compare(function_type, call_type)
 
-      error! :impossible_error do
-        block "You have run into an impossible error. Please file an issue " \
-              "with a reproducible example in the Github repository."
+      error! :call_mismatch do
+        block "The type of the call doesn't match the type of the function."
 
-        snippet "Call type:", call_type
-        snippet "Function type:", function_type
+        snippet "The function type:", function_type
+        snippet "You tried to call it as:", call_type
         snippet node
       end unless result
 
