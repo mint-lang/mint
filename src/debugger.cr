@@ -41,6 +41,8 @@ module Mint
         "TD: #{x.name.value}"
       when Ast::TypeVariant
         dbg(x.parent) + "." + x.value.value
+      when Ast::Variable
+        "#{name}(#{x.value})"
       when Ast::Function, Ast::Constant, Ast::Get, Ast::State, Ast::Property
         pn =
           case y = x.parent

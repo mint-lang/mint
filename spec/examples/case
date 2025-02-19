@@ -149,3 +149,19 @@ component Main {
     </div>
   }
 }
+-------------------------------------------------------------------------------
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    let a = "a"
+
+    case Maybe.Just("a") {
+      Maybe.Just("#{a}") => "YES"
+      => "NO"
+    }
+  }
+}

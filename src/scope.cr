@@ -211,9 +211,6 @@ module Mint
            Ast::Directives::Inline,
            Ast::Directives::Asset,
            Ast::Directives::Svg,
-           Ast::ArrayDestructuring,
-           Ast::TupleDestructuring,
-           Ast::TypeDestructuring,
            Ast::NumberLiteral,
            Ast::RegexpLiteral,
            Ast::FieldAccess,
@@ -224,6 +221,7 @@ module Mint
            Ast::Builtin,
            Ast::Comment,
            Ast::Discard,
+           Ast::Spread,
            Ast::Env
       when Ast::StringLiteral,
            Ast::HereDocument,
@@ -308,7 +306,10 @@ module Mint
         build(node.children, node)
       when Ast::HtmlAttribute
         build(node.value, node)
-      when Ast::ArrayLiteral,
+      when Ast::ArrayDestructuring,
+           Ast::TupleDestructuring,
+           Ast::TypeDestructuring,
+           Ast::ArrayLiteral,
            Ast::TupleLiteral
         build(node.items, node)
       when Ast::Call
