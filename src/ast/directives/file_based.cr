@@ -34,7 +34,7 @@ module Mint
         # file will not be cached.
         def filename(*, build : Bool) : String?
           error! :file_not_found do
-            snippet "I cloudn't find a file:", self
+            snippet "I couldn't find a file:", self
           end unless exists?
 
           hash_base =
