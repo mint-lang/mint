@@ -120,4 +120,21 @@ module Set {
   fun toArray (set : Set(item)) : Array(item) {
     `#{set}`
   }
+
+  /*
+  Applies the function against an accumulator and each element in the set (in
+    insertion order, according to the set's underlying array representation) to
+    reduce it to a single value.
+
+    ([1, 2, 3]
+      |> Set.fromArray
+      |> Set.reduce(0, (memo : Number, item : Number) : Number { memo + item })) == 6
+  */
+  fun reduce (
+    set : Set(item),
+    initial : memo,
+    function : Function(memo, item, memo)
+  ) {
+    `#{set}.reduce(#{function}, #{initial})`
+  }
 }

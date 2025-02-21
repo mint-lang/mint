@@ -82,3 +82,11 @@ suite "Set.size" {
     Set.size(Set.fromArray([0, 1, 2])) == 3
   }
 }
+
+suite "Set.reduce" {
+  test "it reduces a set to a single value" {
+    ([1, 2, 3]
+    |> Set.fromArray
+    |> Set.reduce(0, (memo : Number, item : Number) : Number { memo + item })) == 6
+  }
+}
