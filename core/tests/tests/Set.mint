@@ -106,3 +106,17 @@ suite "Set.union" {
     |> Array.sort((a : Number, b : Number) { a - b })) == [1, 2, 3, 4, 5]
   }
 }
+
+suite "Set.intersection" {
+  test "it returns a set containing the shared elements of two sets" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.intersection(left, right) == Set.fromArray([3, 4])
+  }
+}

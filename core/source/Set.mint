@@ -156,4 +156,28 @@ module Set {
   fun union (left : Set(item), right : Set(item)) : Set(item) {
     reduce(left, right, Set.add)
   }
+
+  /*
+  Returns a set containing all those elements shared by the two input sets.
+
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.union(left, right) == Set.fromArray([3, 4])
+  */
+  fun intersection (left : Set(item), right : Set(item)) : Set(item) {
+    reduce(left, Set.empty(),
+      (memo : Set(item), value : item) {
+        if Set.has(right, value) {
+          Set.add(memo, value)
+        } else {
+          memo
+        }
+      })
+  }
 }
