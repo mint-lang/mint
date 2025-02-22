@@ -223,4 +223,23 @@ module Set {
     reduce(left, true,
       (memo : Bool, value : item) { memo && !Set.has(right, value) })
   }
+
+  /*
+  Returns true if the first input set contains every element in the second input
+  set.
+
+    let inner =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let outer =
+      [3, 4, 5, 6, 1, 2]
+      |> Set.fromArray
+
+    Set.isSuperset(outer, inner) == true
+  */
+  fun isSuperset (outer : Set(item), inner : Set(item)) : Bool {
+    reduce(inner, true,
+      (memo : Bool, value : item) { memo && Set.has(outer, value) })
+  }
 }

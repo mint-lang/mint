@@ -148,3 +148,17 @@ suite "Set.isDisjoint" {
     Set.isDisjoint(left, right)
   }
 }
+
+suite "Set.isSuperset" {
+  test "it returns true if outer set contains all elements in inner set" {
+    let inner =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let outer =
+      [3, 4, 5, 6, 1, 2]
+      |> Set.fromArray
+
+    Set.isSuperset(outer, inner)
+  }
+}
