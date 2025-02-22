@@ -120,3 +120,17 @@ suite "Set.intersection" {
     Set.intersection(left, right) == Set.fromArray([3, 4])
   }
 }
+
+suite "Set.difference" {
+  test "it returns a set containing elements of one set which are not in the other" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.difference(left, right) == Set.fromArray([1, 2])
+  }
+}

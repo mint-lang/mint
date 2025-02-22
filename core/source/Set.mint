@@ -180,4 +180,29 @@ module Set {
         }
       })
   }
+
+  /*
+  Returns a set containing elements from the first input set which are not in
+    the second input set.
+
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.difference(left, right) == Set.fromArray([1, 2])
+  */
+  fun difference (left : Set(item), right : Set(item)) : Set(item) {
+    reduce(left, Set.empty(),
+      (memo : Set(item), value : item) {
+        if Set.has(right, value) {
+          memo
+        } else {
+          Set.add(memo, value)
+        }
+      })
+  }
 }
