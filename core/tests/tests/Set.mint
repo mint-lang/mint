@@ -90,3 +90,19 @@ suite "Set.reduce" {
     |> Set.reduce(0, (memo : Number, item : Number) : Number { memo + item })) == 6
   }
 }
+
+suite "Set.union" {
+  test "it returns a set which is the union of two sets" {
+    let left =
+      [1, 2, 3]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5]
+      |> Set.fromArray
+
+    (Set.union(left, right)
+    |> Set.toArray
+    |> Array.sort((a : Number, b : Number) { a - b })) == [1, 2, 3, 4, 5]
+  }
+}

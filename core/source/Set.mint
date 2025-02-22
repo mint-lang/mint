@@ -137,4 +137,23 @@ module Set {
   ) {
     `#{set}.reduce(#{function}, #{initial})`
   }
+
+  /*
+  Returns a set containing all items in the two input sets.
+
+    let left =
+      [1, 2, 3]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5]
+      |> Set.fromArray
+
+    (Set.union(left, right)
+    |> Set.toArray
+    |> Array.sort((a : Number, b : Number) { a - b })) == [1, 2, 3, 4, 5]
+  */
+  fun union (left : Set(item), right : Set(item)) : Set(item) {
+    reduce(left, right, Set.add)
+  }
 }
