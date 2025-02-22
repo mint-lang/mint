@@ -205,4 +205,22 @@ module Set {
         }
       })
   }
+
+  /*
+  Returns true if the input sets contain no elements in common.
+
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [0, 5, -1, 6]
+      |> Set.fromArray
+
+    Set.isDisjoint(left, right) == true
+  */
+  fun isDisjoint (left : Set(item), right : Set(item)) : Bool {
+    reduce(left, true,
+      (memo : Bool, value : item) { memo && !Set.has(right, value) })
+  }
 }

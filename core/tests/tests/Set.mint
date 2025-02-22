@@ -134,3 +134,17 @@ suite "Set.difference" {
     Set.difference(left, right) == Set.fromArray([1, 2])
   }
 }
+
+suite "Set.isDisjoint" {
+  test "it returns true if the two input sets contain no elements in common" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [0, 5, -1, 6]
+      |> Set.fromArray
+
+    Set.isDisjoint(left, right)
+  }
+}
