@@ -82,3 +82,83 @@ suite "Set.size" {
     Set.size(Set.fromArray([0, 1, 2])) == 3
   }
 }
+
+suite "Set.reduce" {
+  test "it reduces a set to a single value" {
+    ([1, 2, 3]
+    |> Set.fromArray
+    |> Set.reduce(0, (memo : Number, item : Number) : Number { memo + item })) == 6
+  }
+}
+
+suite "Set.union" {
+  test "it returns a set which is the union of two sets" {
+    let left =
+      [1, 2, 3]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5]
+      |> Set.fromArray
+
+    (Set.union(left, right)
+    |> Set.toArray
+    |> Array.sort((a : Number, b : Number) { a - b })) == [1, 2, 3, 4, 5]
+  }
+}
+
+suite "Set.intersection" {
+  test "it returns a set containing the shared elements of two sets" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.intersection(left, right) == Set.fromArray([3, 4])
+  }
+}
+
+suite "Set.difference" {
+  test "it returns a set containing elements of one set which are not in the other" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [3, 4, 5, 6]
+      |> Set.fromArray
+
+    Set.difference(left, right) == Set.fromArray([1, 2])
+  }
+}
+
+suite "Set.isDisjoint" {
+  test "it returns true if the two input sets contain no elements in common" {
+    let left =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let right =
+      [0, 5, -1, 6]
+      |> Set.fromArray
+
+    Set.isDisjoint(left, right)
+  }
+}
+
+suite "Set.isSuperset" {
+  test "it returns true if outer set contains all elements in inner set" {
+    let inner =
+      [1, 2, 3, 4]
+      |> Set.fromArray
+
+    let outer =
+      [3, 4, 5, 6, 1, 2]
+      |> Set.fromArray
+
+    Set.isSuperset(outer, inner)
+  }
+}
