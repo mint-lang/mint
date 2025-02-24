@@ -23,7 +23,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails, with two
   arguments which are ignored.
 
-    Promise.never1("Value1", "Value2")
+    Promise.never2("Value1", "Value2")
   */
   fun never2 (param1 : a, param2 : b) : Promise(Void) {
     Promise.resolve(void)
@@ -33,7 +33,7 @@ module Promise {
   Returns a resolved promise with `Void` which never fails, with three
   arguments which are ignored.
 
-    Promise.never1("Value1", "Value2", "Value3")
+    Promise.never3("Value1", "Value2", "Value3")
   */
   fun never3 (param1 : a, param2 : b, param3 : c) : Promise(Void) {
     Promise.resolve(void)
