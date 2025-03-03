@@ -79,7 +79,7 @@ module Mint
 
       def cleanup
         @data.try do |(process, profile_directory)|
-          process.signal(:kill) rescue nil
+          process.terminate(graceful: false) rescue nil
           FileUtils.rm_rf(profile_directory)
         end
 
