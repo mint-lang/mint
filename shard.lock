@@ -14,7 +14,7 @@ shards:
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
-    version: 0.10.0
+    version: 0.10.0+git.commit.ea0b659f43d7ce00bde66e8a87eeb4d5a112621b
 
   dotenv:
     git: https://github.com/gdotdesign/cr-dotenv.git
