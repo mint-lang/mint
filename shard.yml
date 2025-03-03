@@ -10,7 +10,7 @@ authors:
 dependencies:
   baked_file_system:
     github: schovi/baked_file_system
-    version: ~> 0.10.0
+    branch: master
   admiral:
     github: jwaldrip/admiral.cr
     version: ~> 1.12.1
