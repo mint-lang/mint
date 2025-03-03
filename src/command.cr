@@ -11,7 +11,7 @@ module Mint
         & : -> T
       ) : T? forall T
         # On Ctrl+C and abort and exit.
-        Signal::INT.trap do
+        Process.on_terminate do
           terminal.puts
           terminal.divider
           terminal.puts "Aborted! Exiting..."
