@@ -158,7 +158,7 @@ module Mint
             # We need to do a reset because:
             # 1. packages could have changed
             # 2. source directories could have changed
-            # 3. variables in the .env file cloud have changed
+            # 3. variables in the .env file could have changed
             case File.basename(file)
             when @dot_env
               Env.init(file)
