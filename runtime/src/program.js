@@ -55,8 +55,36 @@ class Program {
 
     document.body.appendChild(this.root);
 
+    window.addEventListener("submit", this.handleSubmit.bind(this), true);
     window.addEventListener("popstate", this.handlePopState.bind(this));
     window.addEventListener("click", this.handleClick.bind(this), true);
+  }
+
+  handleSubmit(event) {
+    // We only care about GET submissions.
+    if (event.target.method !== "get") {
+      return
+    }
+
+    // If someone prevented default we honor that.
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    const url = new URL(event.target.action);
+
+    // We only handle same origin URLs.
+    if (url.origin === window.location.origin) {
+      const search =
+        "?" + (new URLSearchParams(new FormData(event.target)).toString());
+
+      const fullPath =
+        url.pathname + search + url.hash;
+
+      if (this.handleRoute(fullPath)) {
+        event.preventDefault();
+      }
+    }
   }
 
   handleClick(event) {
@@ -82,24 +110,32 @@ class Program {
         // We only handle same origin URLs.
         if (element.origin === window.location.origin) {
           const fullPath = element.pathname + element.search + element.hash;
-          const routeInfo = getRouteInfo(fullPath, this.routes);
 
-          // If we found a matchin route, we prevent default and navigate to
-          // that route.
-          if (routeInfo) {
+          if (this.handleRoute(fullPath)) {
             event.preventDefault();
-
-            navigate(
-              fullPath,
-              /* dispatch */ true,
-              /* triggerJump */ true,
-              routeInfo,
-            );
             return;
           }
         }
       }
     }
+  }
+
+  handleRoute(fullPath) {
+    const routeInfo = getRouteInfo(fullPath, this.routes);
+
+    // If we found a matching route navigate to that route.
+    if (routeInfo) {
+      navigate(
+        fullPath,
+        /* dispatch */ true,
+        /* triggerJump */ true,
+        routeInfo,
+      );
+
+      return true;
+    }
+
+    return false;
   }
 
   // Handles resolving the page position after a navigation event.
