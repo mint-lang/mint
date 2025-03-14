@@ -103,6 +103,22 @@ component Main {
     ""
   }
 }
+-----------------------------------------------------destructuring_no_parameter
+type TestType {
+  Case2(field1: String, field2: Number)
+  Case1
+}
+
+component Main {
+  fun render : Html {
+    let text = case TestType.Case2("case2 text", 1) {
+      Case2(field0, field1, field2) => field1
+      Case1 => "case1"
+    }
+
+    <div>{text}</div>
+  }
+}
 -------------------------------------------------------------------------------
 component Main {
   fun render : String {

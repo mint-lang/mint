@@ -180,59 +180,34 @@ module Mint
           got: type,
         ) unless unified
 
-        case fields = variant.fields
-        when Array(Ast::TypeDefinitionField)
-          node.items.each_with_index do |param, index|
-            # case param
-            # when Ast::Variable
-            #   found = fields.find do |field|
-            #     case param
-            #     when Ast::Variable
-            #       param.value == field.key.value
-            #     end
-            #   end
+        node.items.each_with_index do |param, index|
+          case param
+          when Ast::Variable
+            error! :destructuring_no_parameter do
+              block do
+                text "You are trying to destructure the"
+                bold (index + 1).to_s
+                text "parameter from the type variant:"
+                bold variant.value.value
+              end
 
-            #   error! :destructuring_type_field_missing do
-            #     snippet "I could not find a field for a destructuring:", param.value
-            #     snippet "The destructuring in question is here:", param
-            #   end unless found
+              block do
+                text "The variant only has"
+                bold variant.parameters.size.to_s
+                text "parameters."
+              end
 
-            #   type =
-            #     resolve(found.type)
+              snippet "You are trying to destructure it here:", param
+              snippet "The option is defined here:", variant
+            end unless field = variant.parameters[index]?
 
-            #   destructure(param, type, variables)
-            # else
-            field =
-              fields[index]
+            case field
+            when Ast::TypeDefinitionField
+              type =
+                resolve(field.type)
 
-            type =
-              resolve(field.type)
-
-            destructure(param, type, variables)
-            # end
-          end
-        else
-          node.items.each_with_index do |param, index|
-            case param
-            when Ast::Variable
-              error! :destructuring_no_parameter do
-                block do
-                  text "You are trying to destructure the"
-                  bold index.to_s
-                  text "parameter from the type variant:"
-                  bold variant.value.value
-                end
-
-                block do
-                  text "The variant only has"
-                  bold variant.parameters.size.to_s
-                  text "parameters."
-                end
-
-                snippet "You are trying to destructure it here:", param
-                snippet "The option is defined here:", variant
-              end unless variant.parameters[index]?
-
+              destructure(param, type, variables)
+            else
               variant_type =
                 resolve(variant.parameters[index]).not_nil!
 
@@ -246,19 +221,19 @@ module Mint
                 Comparer.fill(variant_type, mapping).not_nil!
 
               destructure(param, resolved_type, variables)
-            else
-              sub_type =
-                case item = variant.parameters[index]
-                when Ast::Type
-                  resolve(item)
-                when Ast::TypeVariable
-                  unified.parameters[type_definition.parameters.index! { |variable| variable.value == item.value }]
-                else
-                  VOID # Can't happen
-                end
-
-              destructure(param, sub_type, variables)
             end
+          else
+            sub_type =
+              case item = variant.parameters[index]
+              when Ast::Type
+                resolve(item)
+              when Ast::TypeVariable
+                unified.parameters[type_definition.parameters.index! { |variable| variable.value == item.value }]
+              else
+                VOID # Can't happen
+              end
+
+            destructure(param, sub_type, variables)
           end
         end
 
