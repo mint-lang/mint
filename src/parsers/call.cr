@@ -8,7 +8,7 @@ module Mint
         arguments = list(
           terminator: ')',
           separator: ','
-        ) { field(key_required: false) }
+        ) { field(key_required: false, discard: true) }
 
         whitespace
         next error :call_expected_closing_parenthesis do

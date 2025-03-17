@@ -1,0 +1,20 @@
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(_, _)("A", 0)
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as A } from "./runtime.js";
+
+export const B = () => {
+  const a = (b, c) => {
+    return A(`div`, {})
+  };
+  return ((d, e) => {
+    a(d, e)
+  })(`A`, 0)
+};

@@ -24,9 +24,6 @@ module Mint
           argument_size
         end
 
-      parameters =
-        [] of Checkable
-
       error! :call_argument_size_mismatch do
         block do
           text "The function you called takes"
@@ -71,12 +68,21 @@ module Mint
           end
         end
 
-      args.each_with_index do |argument, index|
-        argument_type =
-          resolve argument
+      parameters = [] of Checkable
+      captures = [] of Checkable
 
+      args.each_with_index do |argument, index|
         function_argument_type =
           function_type.parameters[index]
+
+        argument_type =
+          case argument.value
+          when Ast::Discard
+            captures << function_argument_type
+            function_argument_type
+          else
+            resolve argument
+          end
 
         error! :call_argument_type_mismatch do
           ordinal =
@@ -116,10 +122,14 @@ module Mint
 
       final = resolve_type(result.parameters.last)
 
-      if node.await && final.name == "Promise"
-        final.parameters.first
+      if captures.empty?
+        if node.await && final.name == "Promise"
+          final.parameters.first
+        else
+          final
+        end
       else
-        final
+        Type.new("Function", captures + [final])
       end
     end
   end
