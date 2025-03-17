@@ -150,7 +150,7 @@ module Array {
   fun findByAndMap (
     array : Array(item),
     function : Function(item, Tuple(Bool, result))
-  ) : Maybe(b) {
+  ) : Maybe(result) {
     `
     (() => {
       for (let item of #{array}) {
