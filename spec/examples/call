@@ -161,6 +161,36 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(_, _)("A", 0)
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test("A", _)(0)
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(_, 0)("A")
+  }
+}
+-------------------------------------------------------------------------------
 module Test {
   fun a (x : Bool, value : String) : String {
     value

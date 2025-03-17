@@ -1,6 +1,6 @@
 module Mint
   class Parser
-    def field(*, key_required : Bool = true) : Ast::Field?
+    def field(*, key_required : Bool = true, discard : Bool = false) : Ast::Field?
       parse do |start_position|
         comment = self.comment
         whitespace
@@ -17,7 +17,13 @@ module Mint
           end
 
         next if key_required && !key
-        next unless value = expression
+
+        next unless value =
+                      if discard
+                        self.discard || expression
+                      else
+                        expression
+                      end
 
         Ast::Field.new(
           from: start_position,
