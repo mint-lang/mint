@@ -1,6 +1,6 @@
 name: mint
 
-version: 0.23.0
+version: 0.24.0-devel
 license: BSD-3-Clause
 crystal: ~> 1.7
 
