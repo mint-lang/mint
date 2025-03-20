@@ -13,7 +13,7 @@ class File
     root = File.dirname(base)
 
     loop do
-      return nil if root == "." || root == "/"
+      return nil if root == "." || root == "/" || root == Path[root].anchor.to_s
 
       if File.exists?(path = Path[root, name])
         return path.to_s
