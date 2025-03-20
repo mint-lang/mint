@@ -10,8 +10,11 @@ Dir
         # Read and separate sample from expected
         sample, expected = File.read(file).split("-" * 80)
 
+        path =
+          Path[File.dirname(__FILE__), "../", file].normalize.to_s
+
         # Parse the sample
-        ast = Mint::Parser.parse(sample, File.dirname(__FILE__) + file.lchop("./spec"))
+        ast = Mint::Parser.parse(sample, path)
         ast.class.should eq(Mint::Ast)
 
         artifacts =

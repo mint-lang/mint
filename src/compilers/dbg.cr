@@ -3,7 +3,7 @@ module Mint
     def compile(node : Ast::Dbg) : Compiled
       compile node do
         location =
-          js.string("#{node.file.relative_path}:#{node.from.line}:#{node.from.column}")
+          js.string("#{node.file.relative_path_posix}:#{node.from.line}:#{node.from.column}")
 
         var =
           [Variable.new] of Item
