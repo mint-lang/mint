@@ -13,6 +13,6 @@ export const A = () => {
     return ``
   };
   return ((d) => {
-    a(d, 0)
+    return a(d, 0)
   })(``)
 };

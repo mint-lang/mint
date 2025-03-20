@@ -33,7 +33,7 @@ module Mint
           js.call(receiver, arguments)
 
         if captures.size > 0
-          ["("] + js.arrow_function(captures) { call } + [")"]
+          ["("] + js.arrow_function(captures) { js.return(call) } + [")"]
         else
           call
         end

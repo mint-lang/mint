@@ -15,6 +15,6 @@ export const B = () => {
     return A(`div`, {})
   };
   return ((d, e) => {
-    a(d, e)
+    return a(d, e)
   })(`A`, 0)
 };
