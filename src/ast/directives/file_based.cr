@@ -12,6 +12,10 @@ module Mint
           File.relative_path_from_ancestor(path, "mint.json")
         end
 
+        getter relative_path_posix : String do
+          Path[relative_path].to_posix.to_s
+        end
+
         # The real path of the asset on the disk.
         getter real_path : Path do
           if path.starts_with?("/")
