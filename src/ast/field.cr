@@ -1,7 +1,8 @@
 module Mint
   class Ast
     class Field < Node
-      getter key, value, comment
+      getter key, comment
+      property value
 
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
@@ -9,6 +10,10 @@ module Mint
                      @comment : Comment?,
                      @key : Variable?,
                      @value : Node)
+      end
+
+      def discard?
+        value.is_a?(Discard)
       end
     end
   end

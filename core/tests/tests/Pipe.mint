@@ -30,4 +30,20 @@ suite "Pipe with await" {
       |> await x)
     ] == ["Hello World!"]
   }
+
+  test "with captures" {
+    (Math.random() * 10)
+    |> Math.floor
+    |> String.charAt("Hello World!", _)
+    |> String.toUpperCase()
+    |> String.isNotEmpty
+  }
+
+  test "with labelled captures" {
+    (Math.random() * 10)
+    |> Math.floor
+    |> String.charAt(string: "Hello World!", index: _)
+    |> String.toUpperCase()
+    |> String.isNotEmpty
+  }
 }

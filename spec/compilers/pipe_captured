@@ -1,0 +1,22 @@
+component Main {
+  fun render : Html {
+    let method =
+      (a : String, b : String) : String {
+        "#{a} #{b}!"
+      }
+
+    <div>
+      "World"
+      |> method("Hello", _)
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import { createElement as A } from "./runtime.js";
+
+export const B = () => {
+  const a = (b, c) => {
+    return `${b} ${c}!`
+  };
+  return A(`div`, {}, [a(`Hello`, `World`)])
+};

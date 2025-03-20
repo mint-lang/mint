@@ -32,9 +32,16 @@ module Mint
 
           case item = target
           when Ast::Call
+            arguments =
+              if index = item.arguments.index(&.discard?)
+                item.arguments.tap(&.[index].value = arg)
+              else
+                [arg] + item.arguments
+              end
+
             Ast::Call.new(
-              arguments: [arg] + item.arguments,
               expression: item.expression,
+              arguments: arguments,
               file: item.file,
               from: item.from,
               await: await,
