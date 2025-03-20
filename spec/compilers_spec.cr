@@ -30,8 +30,11 @@ Dir
           {Config.new, raw}
         end
 
+      file_path =
+        Path[File.dirname(__FILE__), "../", file].normalize.to_s
+
       # Parse the sample
-      ast = Mint::Parser.parse(sample, File.dirname(__FILE__) + file.lchop("./spec"))
+      ast = Mint::Parser.parse(sample, file_path)
       ast.class.should eq(Mint::Ast)
 
       artifacts =

@@ -29,7 +29,7 @@ module Mint
       end
 
       def reset(files : Array(Tuple(String, String)))
-        Dir.glob("#{@directory}/**/*") do |file|
+        Dir.glob("#{@directory.to_posix}/**/*") do |file|
           next if file == Path[@directory, "mint.json"].to_s
           FileUtils.rm(file)
         end

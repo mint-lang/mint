@@ -21,7 +21,7 @@ describe Mint::Watcher do
       watcher =
         Mint::Watcher
           .new { |items| modified = items }
-          .tap(&.patterns = ["#{directory}/**/*"])
+          .tap(&.patterns = ["#{directory.to_posix}/**/*"])
 
       # Returns all files
       modified.should eq([file1, file2])
@@ -37,7 +37,7 @@ describe Mint::Watcher do
       modified.should eq([file2])
 
       # Returns all files
-      watcher.patterns = ["#{directory}/**/*"]
+      watcher.patterns = ["#{directory.to_posix}/**/*"]
       watcher.scan(:modified)
       modified.should eq([file1])
     ensure

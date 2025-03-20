@@ -33,6 +33,9 @@ jobs:
           - os: macos-latest
             openssl: 3
 
+          - os: windows-latest
+            openssl: default
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -49,6 +52,7 @@ jobs:
         uses: rlespinasse/github-slug-action@v5
 
       - name: Set architecture environment variable
+        shell: bash
         run: |
           if [ "$RUNNER_ARCH" == "X64" ]; then
             echo "ARCH=x86_64" >> $GITHUB_ENV
@@ -59,6 +63,7 @@ jobs:
           fi
 
       - name: Set OpenSSL suffix
+        shell: bash
         run: |
           if [ "${{ matrix.openssl }}" == "3" ]; then
             echo "OPENSSL_SUFFIX=-openssl3" >> $GITHUB_ENV
@@ -127,6 +132,17 @@ jobs:
           crystal build src/mint.cr \
             -o build/mint-${GITHUB_REF_SLUG}-osx-${ARCH}${OPENSSL_SUFFIX} \
             --no-debug --release
+
+      # We are linking statically so the binary can be used on its own,
+      # otherwise the DLLs it's linked against need to be next to it.
+      - if: matrix.os == 'windows-latest'
+        name: Build binary (Windows)
+        shell: bash
+        run: |
+          mkdir build
+          crystal build src/mint.cr \
+            -o build/mint-${GITHUB_REF_SLUG}-windows-${ARCH}.exe \
+            --static --no-debug --release
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7

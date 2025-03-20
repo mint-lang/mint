@@ -441,8 +441,9 @@ module Mint
 
     def generate_icons?
       !config.skip_icons &&
-        Process.find_executable("convert") &&
-        File.exists?(json.application.icon)
+        !json.application.icon.blank? &&
+        !IconGenerator.executable.nil? &&
+        File.exists?(File.join(File.dirname(json.path), json.application.icon))
     end
 
     def generate_icons
