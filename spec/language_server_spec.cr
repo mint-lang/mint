@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 def clean_json(workspace : Workspace, path : String)
-  path.strip.gsub("\#{root_path}", workspace.root_path)
+  path.strip.gsub("\#{root_path}", workspace.root_path.to_lsp_path)
 end
 
 Dir
@@ -72,11 +72,7 @@ Dir
 
               json.to_json.should contain(expected.to_json)
             else
-              begin
-                expected_response[0].should eq(actual_response)
-              rescue error
-                fail diff(expected_response[0], actual_response)
-              end
+              JSON.parse(actual_response).should eq(JSON.parse(expected_response[0]))
             end
           end
         elsif actual_responses.size > 0

@@ -20,6 +20,14 @@ class String
     lines.join('\n', &.rstrip)
   end
 
+  def to_lsp_path
+    if self =~ /([A-Z]):\\(.*)/i
+      "/#{gsub('\\','/')}"
+    else
+      self
+    end
+  end
+
   def shrink_to_minimum_leading_whitespace : String
     # We start from the maximum number for indent size
     indent_size =
