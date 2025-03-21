@@ -22,7 +22,7 @@ class String
 
   def to_lsp_path
     if self =~ /([A-Z]):\\(.*)/i
-      "/#{gsub('\\','/')}"
+      "/#{gsub('\\', '/')}"
     else
       self
     end
