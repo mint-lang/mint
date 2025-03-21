@@ -16,7 +16,7 @@ module Mint
             node.functions.sort_by(&.name.value))
             .each_with_index { |entity, index| entity.from = order[index] }
 
-          case formatted = workspace.format(URI.parse(uri).path.to_s)
+          case formatted = workspace.format(URI.parse(uri).file_path)
           in String
             LSP::CodeAction.new(
               title: "Order Entities",

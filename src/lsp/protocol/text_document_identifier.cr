@@ -7,7 +7,7 @@ module LSP
 
     # Returns the path of the URI
     def path
-      URI.parse(uri).try(&.path).to_s
+      URI.parse(uri).try(&.file_path).to_s
     end
   end
 end
