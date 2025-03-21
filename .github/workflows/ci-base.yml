@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-13]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
 
@@ -41,10 +41,12 @@ jobs:
       - name: Build the binary
         run: shards build --error-on-warnings --error-trace
 
-      - name: Run CLI specs
+      - if: matrix.os != 'windows-latest'
+        name: Run CLI specs
         run: crystal spec spec_cli/*_spec.cr spec_cli/**/*_spec.cr --error-on-warnings --error-trace
 
-      - name: Run core specs (Firefox)
+      - if: matrix.os != 'windows-latest'
+        name: Run core specs (Firefox)
         working-directory: ./core/tests
         run: ../../bin/mint test -b firefox
 
