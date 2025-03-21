@@ -7,6 +7,7 @@ module Mint
       BROWSER_PATHS = {
         firefox: [
           "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+          "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
           "firefox-bin",
           "firefox",
         ],
