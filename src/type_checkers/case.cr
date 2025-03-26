@@ -25,6 +25,28 @@ module Mint
       end
     end
 
+    def to_pattern(node : Ast::RecordDestructuring) : ExhaustivenessChecker::Pattern
+      case type = cache[node]
+      when Record
+        arguments =
+          records.find!(&.name.==(type.name)).fields.map do |key, _|
+            if field = node.fields.find(&.key.try(&.value.==(key)))
+              to_pattern(field.value)
+            else
+              ExhaustivenessChecker::PDiscard.new
+            end
+          end
+
+        ExhaustivenessChecker::PConstructor.new(
+          arguments: arguments,
+          constructor: ExhaustivenessChecker::CVariant.new(
+            type: ExhaustivenessChecker::Type.new(type.name),
+            index: 0))
+      else
+        unreachable! "Should have record type!"
+      end
+    end
+
     def to_pattern(node : Ast::TupleDestructuring) : ExhaustivenessChecker::Pattern
       ExhaustivenessChecker::PTuple.new(node.items.map { |item| to_pattern(item) })
     end
@@ -41,7 +63,9 @@ module Mint
                 index: index))
           end
         end
-      end || ExhaustivenessChecker::PString.new(node.source)
+      end || error! :invalid_pattern do
+        snippet "The following code cannot be used as a pattern:", node
+      end
     end
 
     def to_pattern_type(type : Checkable) : ExhaustivenessChecker::Checkable
@@ -49,7 +73,9 @@ module Mint
       in Variable
         ExhaustivenessChecker::TypeVariable.new(type.name)
       in Record
-        ExhaustivenessChecker::Type.new(type.name)
+        ExhaustivenessChecker::Type.new(
+          type.name,
+          type.fields.map { |_, value| to_pattern_type(value) })
       in Type
         ExhaustivenessChecker::Type.new(
           type.name,
@@ -82,11 +108,13 @@ module Mint
 
     def to_pattern(node : Ast::Node) : ExhaustivenessChecker::Pattern
       case node
-      when Ast::ArrayLiteral
-        if node.items.empty?
-          ExhaustivenessChecker::PEmptyArray.new
-        end
-      end || ExhaustivenessChecker::PString.new(node.source)
+      when Ast::NumberLiteral,
+           Ast::StringLiteral,
+           Ast::BoolLiteral
+        ExhaustivenessChecker::PValue.new(node.source)
+      end || error! :invalid_pattern do
+        snippet "The following code cannot be used as a pattern:", node
+      end
     end
 
     def to_pattern(node : Ast::Discard) : ExhaustivenessChecker::Pattern
@@ -117,16 +145,24 @@ module Mint
 
                 ExhaustivenessChecker::Variant.new(parameters)
               end
+            when Array(Ast::TypeDefinitionField)
+              parameters =
+                fields.map do |item|
+                  to_pattern_type(item.type)
+                end
+              [ExhaustivenessChecker::Variant.new(parameters)]
             end
           end
         },
-        ->(name : String, index : Int32) : String | Nil {
+        ->(name : String, index : Int32) : String | Array(String) {
           if defi = ast.type_definitions.find(&.name.value.==(name))
             case fields = defi.fields
             when Array(Ast::TypeVariant)
               fields[index].value.value
+            when Array(Ast::TypeDefinitionField)
+              fields.compact_map(&.key.try(&.value))
             end
-          end
+          end || "??"
         })
 
       type =
@@ -144,6 +180,8 @@ module Mint
         end
 
       compiler.compile(rows)
+    rescue e : Error
+      raise e
     rescue e
       error! :blah do
         block e.message.to_s

@@ -116,6 +116,35 @@ module Mint
     end
 
     def destructure(
+      node : Ast::RecordDestructuring,
+      condition : Checkable,
+      variables : Array(VariableScope) = [] of VariableScope,
+    )
+      case condition
+      when Record
+        cache[node] = condition
+
+        node.fields.each do |field|
+          error! :destructuring_record_field_missing do
+            snippet "A required key is not present on this record:", condition
+            snippet "The key is here:", field.key.not_nil!
+          end unless type = condition.fields[field.key.try(&.value)]?
+
+          destructure(field.value, type, variables)
+        end
+
+        variables
+      else
+        error! :destructuring_non_record do
+          block "You are trying to match record patterns against non record" \
+                "in a destructuring."
+
+          snippet node
+        end
+      end
+    end
+
+    def destructure(
       node : Ast::TupleDestructuring,
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope,
@@ -229,6 +258,8 @@ module Mint
                 resolve(item)
               when Ast::TypeVariable
                 unified.parameters[type_definition.parameters.index! { |variable| variable.value == item.value }]
+              when Ast::TypeDefinitionField
+                resolve(item.type)
               else
                 VOID # Can't happen
               end

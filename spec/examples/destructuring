@@ -44,7 +44,7 @@ component Main {
 component Main {
   fun render : String {
     case {"a", "b"} {
-      {"a", {"b"}} => "a"
+      {"a", 0} => "a"
     }
   }
 }

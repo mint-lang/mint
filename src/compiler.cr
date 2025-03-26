@@ -66,6 +66,7 @@ module Mint
     enum Builtin
       # Pattern matching.
       PatternVariable
+      PatternRecord
       PatternSpread
       Destructure
       Pattern
