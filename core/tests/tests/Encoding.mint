@@ -4,6 +4,12 @@ module EncodeTest {
   }
 }
 
+type EncodeTestVariants {
+  Variant1(name : String, age : Number)
+  Variant3(String, Number)
+  Variant2
+}
+
 type EncodeNestedTest {
   field : String
 }
@@ -82,5 +88,13 @@ suite "Encode" {
       typeof #{encoded}.nested === "object" &&
       #{encoded}.nested.field === "Field"
     `
+  }
+
+  test "it encodes simple variant" {
+    let encoded =
+      encode EncodeTestVariants.Variant2
+
+    dbg! encoded
+    `#{encoded}.type` == "EncodeTestVariants.Variant2"
   }
 }

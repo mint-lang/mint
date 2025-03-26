@@ -63,7 +63,7 @@ class Program {
   handleSubmit(event) {
     // We only care about GET submissions.
     if (event.target.method !== "get") {
-      return
+      return;
     }
 
     // If someone prevented default we honor that.
@@ -76,10 +76,9 @@ class Program {
     // We only handle same origin URLs.
     if (url.origin === window.location.origin) {
       const search =
-        "?" + (new URLSearchParams(new FormData(event.target)).toString());
+        "?" + new URLSearchParams(new FormData(event.target)).toString();
 
-      const fullPath =
-        url.pathname + search + url.hash;
+      const fullPath = url.pathname + search + url.hash;
 
       if (this.handleRoute(fullPath)) {
         event.preventDefault();

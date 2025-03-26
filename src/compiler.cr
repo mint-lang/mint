@@ -102,6 +102,7 @@ module Mint
       Uuid
 
       # Encoders.
+      EncodeVariant
       EncodeTuple
       EncodeArray
       EncodeMaybe
@@ -111,6 +112,7 @@ module Mint
 
       # Decoders.
       DecodeBoolean
+      DecodeVariant
       DecodeObject
       DecodeString
       DecodeNumber
@@ -119,6 +121,7 @@ module Mint
       DecodeArray
       DecodeTuple
       DecodeTime
+      DecodeType
       DecodeMap
       Decoder
 

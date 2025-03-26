@@ -1,0 +1,58 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type Result(err, ok) {
+  Err(err)
+  Ok(ok)
+}
+
+type Test {
+  Record(name : String, age : Number)
+  Params(String, Number)
+  Empty
+}
+
+component Main {
+  fun render : String {
+    decode (`null` as Object) as Test
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  decodeVariant as C,
+  decodeNumber as E,
+  decodeString as D,
+  decodeType as B,
+  variant as A
+} from "./runtime.js";
+
+export const
+  F = A(0, `Maybe.Nothing`),
+  G = A(1, `Maybe.Just`),
+  H = A(1, `Result.Err`),
+  I = A(1, `Result.Ok`),
+  J = A([
+    "name",
+    "age"
+  ], `Test.Record`),
+  K = A(2, `Test.Params`),
+  L = A(0, `Test.Empty`),
+  a = B(`Test`, {
+    "Test.Record": C(J, [
+      D(I, H),
+      E(I, H)
+    ], I, H),
+    "Test.Params": C(K, [
+      D(I, H),
+      E(I, H)
+    ], I, H),
+    "Test.Empty": C(L, null, I, H)
+  }, I, H),
+  M = () => {
+    a(((null)));
+    return ``
+  };
