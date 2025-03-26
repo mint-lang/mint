@@ -442,7 +442,7 @@ module Array {
   The array is returned as is if:
   * `from` and `to` are the same
   * a negative number is supplied to `from`
-  * a number is supplied to `from` which is grater the the length of the array
+  * a number is supplied to `from` which is greater than the length of the array
 
   ```
   Array.move(["A", "B", "C"], -1, 1) == ["A", "B", "C"]
@@ -457,7 +457,7 @@ module Array {
   Array.move(["A", "B", "C"], 2, -1) == ["C", "A", "B"]
   ```
 
-  If a number is supplied to `to` which is grater the the length of the array,
+  If a number is supplied to `to` which is greater than the length of the array,
   then the item is moved to the last position.
 
   ```
