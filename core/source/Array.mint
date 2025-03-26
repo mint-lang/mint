@@ -16,6 +16,17 @@ module Array {
   }
 
   /*
+  Returns `true` if all items in the array matche the predicate function,
+    `false` otherwise.
+
+    Array.all([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == false
+    Array.all(["hello", "mint"], (str : String) { String.size(str) > 3 }) == true
+  */
+  fun all (array : Array(item), function : Function(item, Bool)) : Bool {
+    reduce(array, true, (memo : Bool, val : item) { memo && function(val) })
+  }
+
+  /*
   Merges two arrays together into a new one.
 
     Array.append([1, 1, 2], [3, 5, 8]) == [1, 1, 2, 3, 5, 8]

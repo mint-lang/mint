@@ -20,6 +20,16 @@ suite "Array.any" {
   }
 }
 
+suite "Array.all" {
+  test "returns true if every item matches the predicate" {
+    Array.all(["hello", "mint"], (str : String) { String.size(str) > 3 }) == true
+  }
+
+  test "returns false if any item fails to match the predicate" {
+    Array.all([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == false
+  }
+}
+
 suite "Array.append" {
   test "appends the second array before the first" {
     Array.append(["a"], ["b"]) == ["a", "b"]
