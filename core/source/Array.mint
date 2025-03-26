@@ -16,7 +16,7 @@ module Array {
   }
 
   /*
-  Returns `true` if all items in the array matche the predicate function,
+  Returns `true` if all items in the array match the predicate function,
     `false` otherwise.
 
     Array.all([1, 2, 3, 4], (number : Number) { number % 2 == 0 }) == false
