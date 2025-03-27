@@ -327,7 +327,8 @@ module Mint
       when Ast::Use
         build(node.condition, node)
         build(node.data, node)
-      when Ast::Record,
+      when Ast::RecordDestructuring,
+           Ast::Record,
            Ast::Map
         build(node.fields, node)
       when Ast::NextCall

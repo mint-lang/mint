@@ -24,7 +24,7 @@ module ExhaustivenessChecker
   # PDiscard               `_`         - matches a value
   # PVariable              `a`         - matches a value and assigns it to the variable
   # PConstructor           `Just(a)`   - matches type variants
-  # PInt, PFloat, PString  `0`, `"A"`  - matches single values
+  # PValue                 `0`, `"A"`  - matches single values
   # PTuple                 `{_, _}`    - matches tuples
   # PArray                 `[_, ..._]` - matches arrays
   # PEmptyArray            `[]`        - matches empty arrays
@@ -32,9 +32,8 @@ module ExhaustivenessChecker
   #
   # NOTE: Can `PEmptyArray` be removed in favor of `PArray`?
   # NOTE: Remove or implement (in the language) `POr` and `PAssign`.
-  # NOTE: Merge `PInt`, `PFloat` and `PString` into `PValue`.
 
-  alias Pattern = PDiscard | POr | PInt | PFloat | PString | PAssign | PTuple |
+  alias Pattern = PDiscard | POr | PValue | PAssign | PTuple |
                   PVariable | PConstructor | PArray | PEmptyArray
 
   variant PConstructor, constructor : Constructor, arguments : Array(Pattern)
@@ -43,9 +42,7 @@ module ExhaustivenessChecker
   variant POr, left : Pattern, right : Pattern
   variant PTuple, elements : Array(Pattern)
   variant PVariable, name : String
-  variant PString, value : String
-  variant PFloat, value : String
-  variant PInt, value : String
+  variant PValue, value : String
   variant PEmptyArray
   variant PDiscard
 
@@ -53,8 +50,8 @@ module ExhaustivenessChecker
   #
   # Type constructors that we can match patterns on:
   #
-  # CInt, CFloat, CString - for single values
   # CVariant              - for variants of types
+  # CValue                - for single values
   # CTuple                - for tuples
   #
   # The `index` of a `CVariant` must match the the position of variant
@@ -65,15 +62,12 @@ module ExhaustivenessChecker
   #   CVariant.new("Just", 1)
   #
   # NOTE: Can we get rid of the `index` and look it up by value?
-  # NOTE: Merge `CInt`, `CFloat` and `CString` into `CValue`.
 
-  alias Constructor = CInt | CFloat | CString | CTuple | CVariant
+  alias Constructor = CValue | CTuple | CVariant
 
   variant CVariant, type : Checkable, index : Int32
   variant CTuple, items : Array(Checkable)
-  variant CString, value : String
-  variant CFloat, value : String
-  variant CInt, value : String
+  variant CValue, value : String
 
   # DECISION -------------------------------------------------------------------
   #
@@ -124,8 +118,9 @@ module ExhaustivenessChecker
   #
   # These are used to determine missing branches.
 
-  alias Term = TVariant | TInfinite | TEmptyList | TList | TTuple
+  alias Term = TVariant | TInfinite | TEmptyList | TList | TTuple | TRecord
 
+  variant TRecord, variable : Variable, fields : Array(Tuple(String, Variable))
   variant TList, variable : Variable, first : Variable, rest : Variable
   variant TTuple, variable : Variable, arguments : Array(Variable)
   variant TEmptyList, variable : Variable
@@ -146,7 +141,7 @@ module ExhaustivenessChecker
     end
   end
 
-  # NOTE: Don't know what is this for...s
+  # NOTE: Don't know what is this for...
   class Body
     getter bindings : Array(Tuple(String, Variable)) = [] of {String, Variable}
     getter clause_index : Int32 = 0
@@ -164,7 +159,7 @@ module ExhaustivenessChecker
   # `x` is the varaible, `Just(a)` is the pattern:
   #
   #   case x {
-  #    Just(a) => ...
+  #     Just(a) => ...
   #   }
   #
   class Column
@@ -234,7 +229,7 @@ module ExhaustivenessChecker
 
   # TODO: Write description...
   class Match
-    getter variant_name_lookup : Proc(String, Int32, String?)
+    getter variant_name_lookup : Proc(String, Int32, String | Array(String))
     getter diagnostics : Diagnostics
     getter tree : Decision
 
@@ -306,22 +301,26 @@ module ExhaustivenessChecker
       in Switch
         node.cases.each do |item|
           case const = item.constructor
-          in CInt,
-             CFloat,
-             CString
+          in CValue
             terms.push(TInfinite.new(node.variable))
           in CTuple
             arguments = item.arguments.dup
             terms.push(TTuple.new(node.variable, arguments))
           in CVariant
-            name =
-              variant_name_lookup.call(const.type.name, const.index) || "??"
-
-            terms.push(TVariant.new(
-              node.variable,
-              name,
-              item.arguments,
-            ))
+            case lookup = variant_name_lookup.call(const.type.name, const.index)
+            when String
+              terms.push(TVariant.new(
+                node.variable,
+                lookup,
+                item.arguments,
+              ))
+            else
+              terms.push(TRecord.new(
+                node.variable,
+                item.arguments.map_with_index do |argument, index|
+                  {lookup[index], argument}
+                end))
+            end
           end
 
           add_missing_patterns(item.body, terms, missing)
@@ -336,6 +335,20 @@ module ExhaustivenessChecker
 
     def pattern_string(term : Term, terms : Array(Term), mapping : Hash(Int32, Int32)) : String
       case term
+      in TRecord
+        fields =
+          term.fields.map_with_index do |(key, variable)|
+            pattern =
+              if index = mapping[variable.id]?
+                pattern_string(terms[index], terms, mapping)
+              else
+                "_"
+              end
+
+            "#{key}: #{pattern}"
+          end.join(", ")
+
+        "{ #{fields} }"
       in TVariant
         return term.name if term.arguments.empty?
 
@@ -401,8 +414,36 @@ module ExhaustivenessChecker
     # The current counter for variables.
     getter variable_id : Int32 = 0
 
-    getter variant_name_lookup : Proc(String, Int32, String?)
+    getter variant_name_lookup : Proc(String, Int32, String | Array(String))
     getter variant_lookup : Proc(Checkable, Array(Variant)?)
+
+    def self.debug(value) : String
+      case value
+      when Array
+        value.map { |item| debug(item) }.join(", ")
+      when Row
+        "[#{debug(value.columns)}]"
+      when Column
+        "#{debug(value.variable)} - #{debug(value.pattern)}"
+      when Variable
+        "#{value.id}:#{debug(value.type)}"
+      when Type
+        parameters =
+          if value.parameters.empty?
+            ""
+          else
+            "(#{debug(value.parameters)})"
+          end
+
+        "#{value.name}#{parameters}"
+      when PDiscard
+        "_"
+      when PValue
+        %(#{value.value})
+      else
+        value.class.name
+      end
+    end
 
     def initialize(@variant_lookup, @variant_name_lookup)
     end
@@ -539,10 +580,8 @@ module ExhaustivenessChecker
                  PVariable,
                  PDiscard,
                  PAssign,
-                 PString,
+                 PValue,
                  PArray,
-                 PFloat,
-                 PInt,
                  POr
                 raise "Unexpected pattern: #{item}"
               end
@@ -603,12 +642,8 @@ module ExhaustivenessChecker
           flatten_or(column.pattern, row).each do |(pattern, row)|
             key, constructor =
               case item = pattern
-              in PString
-                {item.value, CString.new(item.value)}
-              in PFloat
-                {item.value, CFloat.new(item.value)}
-              in PInt
-                {item.value, CInt.new(item.value)}
+              in PValue
+                {item.value, CValue.new(item.value)}
               in PConstructor,
                  PEmptyArray,
                  PVariable,
@@ -688,11 +723,9 @@ module ExhaustivenessChecker
             in PConstructor,
                PVariable,
                PDiscard,
-               PString,
                PAssign,
+               PValue,
                PTuple,
-               PFloat,
-               PInt,
                POr
               raise "Unexpected non-list pattern: #{item}"
             end
@@ -726,11 +759,9 @@ module ExhaustivenessChecker
          PVariable,
          PDiscard,
          PAssign,
-         PString,
+         PValue,
          PArray,
-         PTuple,
-         PFloat,
-         PInt
+         PTuple
         [{pattern, row}] of Tuple(Pattern, Row)
       end
     end
@@ -843,11 +874,9 @@ module ExhaustivenessChecker
           bindings.push({pattern.name, variable})
         in PConstructor,
            PEmptyArray,
-           PString,
+           PValue,
            PArray,
-           PFloat,
            PTuple,
-           PInt,
            POr
           columns.push(column)
           column = iterator.next
@@ -863,10 +892,8 @@ module ExhaustivenessChecker
     # Returns the index of the constructor.
     def constructor_index(item : Constructor) : Int32
       case item
-      in CString,
-         CTuple,
-         CFloat,
-         CInt
+      in CValue,
+         CTuple
         0
       in CVariant
         item.index

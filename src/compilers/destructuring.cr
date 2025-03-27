@@ -30,6 +30,15 @@ module Mint
       js.null # This means to skip this value when destructuring.
     end
 
+    def destructuring(node : Ast::RecordDestructuring, variables : Array(Compiled)) : Compiled
+      patterns =
+        node.fields.each_with_object({} of Item => Compiled) do |field, memo|
+          memo[field.key.not_nil!.value] = destructuring(field.value, variables)
+        end
+
+      js.call(Builtin::PatternRecord, [js.object(patterns)])
+    end
+
     def destructuring(
       node : Ast::TypeDestructuring,
       variables : Array(Compiled),
