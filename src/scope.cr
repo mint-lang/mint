@@ -242,7 +242,7 @@ module Mint
         build(node.content, node)
       when Ast::CaseBranch
         build(node.expression, node)
-        build(node.pattern, node)
+        build(node.patterns, node)
       when Ast::Function
         build(node.arguments, node)
         build(node.body, node)

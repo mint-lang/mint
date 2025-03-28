@@ -6,12 +6,9 @@ module Mint
           next unless keyword! "let"
           whitespace
 
-          value = variable(track: false) ||
-                  array_destructuring ||
-                  tuple_destructuring ||
-                  type_destructuring
-
+          value = destructuring
           whitespace
+
           next unless char! '='
           whitespace
 
