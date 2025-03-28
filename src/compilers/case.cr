@@ -11,7 +11,7 @@ module Mint
         branches =
           node
             .branches
-            .sort_by(&.pattern.nil?.to_s)
+            .sort_by(&.patterns.nil?.to_s)
             .map { |branch| compile branch, block }
 
         js.call(Builtin::Match, [condition, js.array(branches)])

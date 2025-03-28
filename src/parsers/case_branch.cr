@@ -3,9 +3,8 @@ module Mint
     def case_branch(*, for_css : Bool = false) : Ast::CaseBranch?
       parse do |start_position|
         unless word! "=>"
-          pattern = destructuring
+          patterns = list(separator: '|', terminator: '=') { destructuring }
           whitespace
-
           next unless word! "=>"
         end
 
@@ -34,7 +33,7 @@ module Mint
         Ast::CaseBranch.new(
           expression: expression,
           from: start_position,
-          pattern: pattern,
+          patterns: patterns,
           to: position,
           file: file)
       end
