@@ -124,12 +124,12 @@ I was trying to decode the value:
 as an Tuple, but could not.
 `;
 
-const TUPLE_ITEM_MISSING = `
-I was trying to decode one of the values of a tuple at index {index}:
+const TUPLE_SIZE_MISMATCH = `
+I was trying to decode a tuple with {count} items but the value:
 
 {value}
 
-but could not.
+has only {valueCount} items.
 `;
 
 const NOT_A_MAP = `
@@ -262,29 +262,26 @@ export const decodeTuple = (decoders, ok, err) => (input) => {
     return new err(new Error(NOT_A_TUPLE.replace("{value}", format(input))));
   }
 
+  if (input.length != decoders.length) {
+    return new err(
+      new Error(
+        TUPLE_SIZE_MISMATCH.replace("{value}", format(input))
+                           .replace("{count}", decoders.length)
+                           .replace("{valueCount}", input.length)));
+  }
+
   let results = [];
   let index = 0;
 
   for (let decoder of decoders) {
-    if (input[index] === undefined || input[index] === null) {
-      return new err(
-        new Error(
-          TUPLE_ITEM_MISSING.replace("{value}", format(input[index])).replace(
-            "{index}",
-            index,
-          ),
-        ),
-      );
-    } else {
-      let result = decoder(input[index]);
+    let result = decoder(input[index]);
 
-      if (result instanceof err) {
-        result._0.push({ type: "ARRAY", value: index });
-        result._0.object = input;
-        return result;
-      } else {
-        results.push(result._0);
-      }
+    if (result instanceof err) {
+      result._0.push({ type: "ARRAY", value: index });
+      result._0.object = input;
+      return result;
+    } else {
+      results.push(result._0);
     }
 
     index++;

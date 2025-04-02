@@ -199,11 +199,13 @@ test("FAIL decodeTuple (missing item)", () => {
   expect(decoded).toBeInstanceOf(Err);
   expect(decoded._0.toString()).toBe(
     `
-I was trying to decode one of the values of a tuple at index 1:
+I was trying to decode a tuple with 2 items but the value:
 
-  undefined
+  [
+    "Hello"
+  ]
 
-but could not.
+has only 1 items.
 `.trim(),
   );
 });

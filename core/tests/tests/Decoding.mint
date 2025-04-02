@@ -1,3 +1,7 @@
+type DecodeTest {
+  VariantWithMaybe(String, Maybe(String))
+}
+
 suite "Decode" {
   test "it decodes tuples" {
     let decoded =
@@ -40,6 +44,19 @@ suite "Decode" {
 
     let roundtrip =
       decode (encode variants) as Array(EncodeTestVariants)
+
+    Result.Ok(variants) == roundtrip
+  }
+
+  test "roundtrip #2" {
+    let variants =
+      [
+        DecodeTest.VariantWithMaybe("A", Maybe.Just("B")),
+        DecodeTest.VariantWithMaybe("A", Maybe.Nothing)
+      ]
+
+    let roundtrip =
+      decode (encode variants) as Array(DecodeTest)
 
     Result.Ok(variants) == roundtrip
   }
