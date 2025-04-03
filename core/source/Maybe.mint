@@ -54,7 +54,7 @@ module Maybe {
   /*
   Returns whether the maybe is nothing.
 
-    Maybe.isNothing(Maybe.Nothing("A")) == false
+    Maybe.isNothing(Maybe.Nothing) == true
     Maybe.isNothing(Maybe.Just("A")) == false
   */
   fun isNothing (maybe : Maybe(value)) : Bool {
