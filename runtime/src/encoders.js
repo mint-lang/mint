@@ -1,4 +1,5 @@
 import { identity } from "./utilities";
+import { Name } from "./symbols";
 
 // Encodes `Time`
 export const encodeTime = (value) => value.toISOString();
@@ -55,6 +56,21 @@ export const encoder = (encoders) => (value) => {
     }
 
     result[field] = (encoder || identity)(value[key]);
+  }
+
+  return result;
+};
+
+export const encodeVariant = (encoders) => (value) => {
+  const variant = encoders.find((item) => value instanceof item[0]);
+  const result = { type: value[Name] };
+
+  if (variant[1]) {
+    result.value = [];
+
+    for (let index = 0; index < variant[1].length; index++) {
+      result.value.push(variant[1][index](value[`_${index}`]));
+    }
   }
 
   return result;

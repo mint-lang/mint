@@ -9,6 +9,6 @@ type Maybe {
 
 component Main {
   fun render : Html {
-    encode Maybe.Just("")
+    encode (`` as Blah)
   }
 }

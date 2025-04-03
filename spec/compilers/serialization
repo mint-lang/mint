@@ -1,0 +1,72 @@
+type Maybe(a) {
+  Just(a)
+  Nothing
+}
+
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+type DecodeTest {
+  VariantWithMaybe(String, Maybe(String))
+}
+
+component Main {
+  fun render : String {
+    let variants =
+      [
+        DecodeTest.VariantWithMaybe("A", Maybe.Just("B")),
+        DecodeTest.VariantWithMaybe("A", Maybe.Nothing)
+      ]
+
+    let roundtrip =
+      decode (encode variants) as Array(DecodeTest)
+
+    Result.Ok(variants) == roundtrip
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  encodeVariant as I,
+  decodeVariant as C,
+  decodeString as D,
+  encodeMaybe as K,
+  encodeArray as H,
+  decodeArray as G,
+  decodeMaybe as E,
+  newVariant as F,
+  decodeType as B,
+  identity as J,
+  compare as L,
+  variant as A
+} from "./runtime.js";
+
+export const
+  M = A(1, `Maybe.Just`),
+  N = A(0, `Maybe.Nothing`),
+  O = A(1, `Result.Err`),
+  P = A(1, `Result.Ok`),
+  Q = A(2, `DecodeTest.VariantWithMaybe`),
+  a = B(`DecodeTest`, {
+    "DecodeTest.VariantWithMaybe": C(Q, [
+      D(P, O),
+      E(D(P, O), P, O, M, N)
+    ], P, O)
+  }, P, O),
+  R = () => {
+    const b = [
+      F(Q)(`A`, F(M)(`B`)),
+      F(Q)(`A`, new N())
+    ];
+    const c = G(a, P, O)((H(I([[
+      Q,
+      [
+        J,
+        K(J, M)
+      ]
+    ]]))(b)));
+    L(F(P)(b), c);
+    return ``
+  };

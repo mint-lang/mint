@@ -1,0 +1,59 @@
+type Test {
+  Record(name : String, age : Number)
+  Params(String, Number)
+  Empty
+}
+
+component Main {
+  fun render : String {
+    encode [
+      Test.Record(name: "John", age: 20),
+      Test.Params("John", 20),
+      Test.Empty
+    ]
+
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  encodeVariant as C,
+  encodeArray as B,
+  newVariant as E,
+  identity as D,
+  variant as A
+} from "./runtime.js";
+
+export const
+  F = A([
+    "name",
+    "age"
+  ], `Test.Record`),
+  G = A(2, `Test.Params`),
+  H = A(0, `Test.Empty`),
+  I = () => {
+    B(C([
+      [
+        F,
+        [
+          D,
+          D
+        ]
+      ],
+      [
+        G,
+        [
+          D,
+          D
+        ]
+      ],
+      [
+        H
+      ]
+    ]))([
+      E(F)(`John`, 20),
+      E(G)(`John`, 20),
+      new H()
+    ]);
+    return ``
+  };

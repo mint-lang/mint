@@ -43,7 +43,46 @@ module Mint
 
         js.call(Builtin::EncodeTuple, [js.array(encoders)])
       else
-        [Builtin::Identity] of Item
+        if node = ast.type_definitions.find(&.name.value.==(type.name))
+          case variants = node.fields
+          when Array(Ast::TypeVariant)
+            substitutions =
+              node
+                .parameters
+                .each_with_index
+                .each_with_object({} of String => TypeChecker::Checkable) do |(item, index), memo|
+                  memo[item.value] = type.parameters[index]
+                end
+
+            encoders =
+              variants.compact_map do |item|
+                parameters =
+                  if item.parameters.size > 0
+                    js.array(item.parameters.map do |param|
+                      variant_type =
+                        case param
+                        when Ast::Type
+                          substitute(cache[param], substitutions)
+                        when Ast::TypeDefinitionField
+                          substitute(cache[param.type], substitutions)
+                        when Ast::TypeVariable
+                          substitutions[param.value]
+                        else
+                          unreachable! "Cannot generate an encoder for #{Debugger.dbg(param)}!"
+                        end
+
+                      encoder(variant_type)
+                    end)
+                  else
+                    [] of Item
+                  end
+
+                js.array([[item] of Item, parameters])
+              end
+
+            js.call(Builtin::EncodeVariant, [js.array(encoders)])
+          end
+        end || [Builtin::Identity] of Item
       end
     end
 

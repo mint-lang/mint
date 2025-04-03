@@ -13,6 +13,8 @@ module Mint
 
         Comparer.normalize(type)
       in Array(Ast::TypeVariant)
+        resolve(items)
+
         parameters =
           resolve node.parameters
 
