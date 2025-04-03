@@ -124,7 +124,7 @@ module Mint
           substitute(item, substitutions)
         end)
       in TypeChecker::Record
-        unreachable! "Cannot substitute on records!"
+        type
       in TypeChecker::Variable
         if found = substitutions[type.name]?
           found
