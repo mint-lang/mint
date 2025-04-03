@@ -9,6 +9,7 @@ module Mint
 
         whitespace
         next unless char! ','
+        whitespace
 
         items =
           list(terminator: '}', separator: ',') { commented_expression }

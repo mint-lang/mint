@@ -1,0 +1,33 @@
+type Record {
+  name: String,
+  age: Number
+}
+
+module Test {
+  fun test : String {
+    let item =
+      { name: "John", age: 42 }
+
+    case item {
+      { name: name, age: 42 } => name
+      => "Unkown"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+type Record {
+  name : String,
+  age : Number
+}
+
+module Test {
+  fun test : String {
+    let item =
+      { name: "John", age: 42 }
+
+    case item {
+      { name: name, age: 42 } => name
+      => "Unkown"
+    }
+  }
+}

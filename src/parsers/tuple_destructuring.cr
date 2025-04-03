@@ -3,8 +3,8 @@ module Mint
     def tuple_destructuring : Ast::TupleDestructuring?
       parse do |start_position|
         next unless char! '{'
-
         whitespace
+
         items = list(terminator: '}', separator: ',') { destructuring }
 
         whitespace

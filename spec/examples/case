@@ -102,7 +102,7 @@ component Main {
     ""
   }
 }
--------------------------------------------------------------------------------
+----------------------------------------------------------------invalid_pattern
 module Test {
   const X = "X"
 }
@@ -114,6 +114,24 @@ component Main {
       "a" => "a"
       "b" => "b"
       => "c"
+    }
+  }
+}
+----------------------------------------------------------------invalid_pattern
+type X {
+  Y
+}
+
+module Test {
+  const X = X.Y
+}
+
+component Main {
+  fun render : String {
+    let x = X.Y
+    case (x) {
+      Test.X => "x"
+      Y => "y"
     }
   }
 }
@@ -149,7 +167,7 @@ component Main {
     </div>
   }
 }
--------------------------------------------------------------------------------
+--------------------------------------------------string_expected_closing_quote
 type Maybe(a) {
   Nothing
   Just(a)
@@ -163,5 +181,105 @@ component Main {
       Maybe.Just("#{a}") => "YES"
       => "NO"
     }
+  }
+}
+-------------------------------------------------------------------------------
+type Record {
+  name: String,
+  age: Number
+}
+
+component Main {
+  fun render : String {
+    let record = {
+      name: "John",
+      age: 42
+    }
+
+    case record {
+      { age: age, name: "John"} => age
+      => 0
+    }
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+type Record {
+  name: String,
+  age: Number
+}
+
+component Main {
+  fun render : String {
+    let record = {
+      name: "John",
+      age: 42
+    }
+
+    case record {
+      { name: "John", age: age } => age
+      => 0
+    }
+
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+type Record {
+  name: String,
+  age: Number
+}
+
+component Main {
+  fun render : String {
+    let record = {
+      name: "John",
+      age: 42
+    }
+
+    case record {
+      { name: "John" } => 1
+      => 0
+    }
+
+    ""
+  }
+}
+---------------------------------------------destructuring_record_field_missing
+type Record {
+  name: String,
+  age: Number
+}
+
+component Main {
+  fun render : String {
+    let record = {
+      name: "John",
+      age: 42
+    }
+
+    case record {
+      { blah: "John" } => 1
+      => 0
+    }
+
+    ""
+  }
+}
+-------------------------------------------------------destructuring_non_record
+type Record {
+  name: String,
+  age: Number
+}
+
+component Main {
+  fun render : String {
+    case 0 {
+      { blah: "John" } => 1
+      => 0
+    }
+
+    ""
   }
 }

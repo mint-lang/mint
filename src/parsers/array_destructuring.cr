@@ -4,10 +4,7 @@ module Mint
       parse do |start_position|
         next unless char! '['
 
-        items =
-          list(terminator: ']', separator: ',') { spread || destructuring }
-
-        next if items.empty?
+        items = list(terminator: ']', separator: ',') { spread || destructuring }
         whitespace
 
         next error :array_destructuring_expected_closing_bracket do
