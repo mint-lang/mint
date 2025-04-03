@@ -1,0 +1,42 @@
+----------------------------------------missing_variable_in_alternative_pattern
+type A {
+  B(String)
+  C(String)
+  D
+}
+
+component Main {
+  fun render : String {
+    case A.B("") {
+      B(a) | C | D  => "a"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+type A {
+  B
+  C
+  D
+}
+
+component Main {
+  fun render : String {
+    case A.B {
+      B | C | D  => "a"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+type A {
+  B(String)
+  C(String)
+  D(String)
+}
+
+component Main {
+  fun render : String {
+    case A.D("WTF") {
+      B(a) | C(a) | D(a) => a
+    }
+  }
+}

@@ -12,8 +12,20 @@ module Mint
         end
 
       pattern, separator =
-        if node.pattern
-          {format(node.pattern), " =>"}
+        if patterns = node.patterns
+          if patterns.size == 1
+            {format(patterns.first), " =>"}
+          else
+            {
+              group(
+                items: patterns.map(&->format(Ast::Node)),
+                behavior: Behavior::BreakAll,
+                separator: " |",
+                ends: {"", ""},
+                pad: false,
+              ), " =>",
+            }
+          end
         else
           {[] of Node, "=>"}
         end

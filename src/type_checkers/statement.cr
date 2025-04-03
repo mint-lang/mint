@@ -15,7 +15,7 @@ module Mint
           if node.if_node
             false
           else
-            check_exhaustiveness(type, [target]).diagnostics.missing? &&
+            check_exhaustiveness(type, [[target]]).diagnostics.missing? &&
               !node.return_value
           end
         end

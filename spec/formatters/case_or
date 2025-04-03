@@ -1,0 +1,27 @@
+type A {
+  B
+  C
+  D
+}
+
+component Main {
+  fun render : String {
+    case A.B {
+      B | C | D  => "a"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+type A {
+  B
+  C
+  D
+}
+
+component Main {
+  fun render : String {
+    case A.B {
+      B | C | D => "a"
+    }
+  }
+}

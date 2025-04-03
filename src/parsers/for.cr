@@ -10,10 +10,7 @@ module Mint
 
         arguments =
           list(terminator: parens ? ')' : '{', separator: ',') do
-            variable(track: false) ||
-              array_destructuring ||
-              tuple_destructuring ||
-              type_destructuring
+            destructuring
           end
 
         whitespace

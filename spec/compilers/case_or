@@ -1,0 +1,37 @@
+type A {
+  B
+  C
+  D
+}
+
+component Main {
+  fun render : String {
+    case A.B {
+      B | C | D  => "a"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternMany as C,
+  pattern as D,
+  variant as A,
+  match as B
+} from "./runtime.js";
+
+export const
+  E = A(0, `A.B`),
+  F = A(0, `A.C`),
+  G = A(0, `A.D`),
+  H = () => {
+    return B(new E(), [[
+      C([
+        D(E, []),
+        D(F, []),
+        D(G, [])
+      ]),
+      () => {
+        return `a`
+      }
+    ]])
+  };

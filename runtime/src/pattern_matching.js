@@ -8,7 +8,13 @@ class Pattern {
   }
 }
 
-class RecordPattern {
+class PatternRecord {
+  constructor(patterns) {
+    this.patterns = patterns;
+  }
+}
+
+class PatternMany {
   constructor(patterns) {
     this.patterns = patterns;
   }
@@ -16,7 +22,8 @@ class RecordPattern {
 
 // Export functions for creating various patterns.
 export const pattern = (variant, pattern) => new Pattern(variant, pattern);
-export const patternRecord = (patterns) => new RecordPattern(patterns);
+export const patternRecord = (patterns) => new PatternRecord(patterns);
+export const patternMany = (patterns) => new PatternMany(patterns);
 
 // Symbols to use during pattern matching.
 export const patternVariable = Symbol("Variable");
@@ -101,12 +108,24 @@ export const destructure = (value, pattern, values = []) => {
     } else {
       return false;
     }
-  } else if (pattern instanceof RecordPattern) {
+  } else if (pattern instanceof PatternRecord) {
     for (let key in pattern.patterns) {
       if (!destructure(value[key], pattern.patterns[key], values)) {
         return false
       }
     }
+  } else if (pattern instanceof PatternMany) {
+    // This branch is the exact opposite of the other branches since
+    // we return after if one of the patterns match. If none matched
+    // we return false.
+
+    for (let item of pattern.patterns) {
+      if (destructure(value, item, values)) {
+        return values;
+      }
+    }
+
+    return false;
   } else {
     if (!compare(value, pattern)) {
       return false;
