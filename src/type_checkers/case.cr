@@ -106,6 +106,24 @@ module Mint
       ExhaustivenessChecker::PVariable.new(node.value)
     end
 
+    def to_pattern(nodes : Array(Ast::Node)) : ExhaustivenessChecker::Pattern
+      if nodes.size == 1
+        to_pattern(nodes.first)
+      else
+        [nodes.reduce do |memo, node|
+          ExhaustivenessChecker::POr.new(
+            case memo
+            when ExhaustivenessChecker::POr
+              memo
+            else
+              to_pattern(memo)
+            end,
+            to_pattern(node)
+          )
+        end].select(ExhaustivenessChecker::Pattern).first
+      end
+    end
+
     def to_pattern(node : Ast::Node) : ExhaustivenessChecker::Pattern
       case node
       when Ast::NumberLiteral,
@@ -125,7 +143,7 @@ module Mint
       ExhaustivenessChecker::PDiscard.new
     end
 
-    def check_exhaustiveness(target : Checkable, patterns : Array(Ast::Node?))
+    def check_exhaustiveness(target : Checkable, patterns : Array(Array(Ast::Node)?))
       compiler = ExhaustivenessChecker::Compiler.new(
         ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
           if defi = ast.type_definitions.find(&.name.value.==(type.name))
@@ -186,7 +204,7 @@ module Mint
       error! :blah do
         block e.message.to_s
         snippet "Type:", target
-        snippet "Node:", patterns[0].not_nil!
+        snippet "Node:", patterns[0].not_nil![0].not_nil!
       end
     end
 
@@ -225,7 +243,7 @@ module Mint
 
       begin
         patterns =
-          node.branches.map(&.pattern)
+          node.branches.map(&.patterns)
 
         match =
           check_exhaustiveness(condition, patterns)

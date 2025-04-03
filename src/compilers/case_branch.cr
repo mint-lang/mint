@@ -13,12 +13,19 @@ module Mint
             compile(item)
           end || [] of Item
 
-        if pattern = node.pattern
+        if patterns = node.patterns
           variables =
             [] of Compiled
 
           matcher =
-            destructuring(pattern, variables)
+            if patterns.size == 1
+              destructuring(patterns.first, variables)
+            else
+              patterns =
+                patterns.map { |pattern| destructuring(pattern, variables) }
+
+              js.call(Builtin::PatternMany, [js.array(patterns)])
+            end
 
           js.array([
             matcher,

@@ -753,7 +753,10 @@ module ExhaustivenessChecker
     def flatten_or(pattern : Pattern, row : Row) : Array(Tuple(Pattern, Row))
       case pattern
       in POr
-        [{pattern.left, row}, {pattern.right, row}]
+        [
+          flatten_or(pattern.left, row),
+          flatten_or(pattern.right, row),
+        ].flatten
       in PConstructor,
          PEmptyArray,
          PVariable,
