@@ -8,8 +8,15 @@ class Pattern {
   }
 }
 
+class RecordPattern {
+  constructor(patterns) {
+    this.patterns = patterns;
+  }
+}
+
 // Export functions for creating various patterns.
 export const pattern = (variant, pattern) => new Pattern(variant, pattern);
+export const patternRecord = (patterns) => new RecordPattern(patterns);
 
 // Symbols to use during pattern matching.
 export const patternVariable = Symbol("Variable");
@@ -93,6 +100,12 @@ export const destructure = (value, pattern, values = []) => {
       }
     } else {
       return false;
+    }
+  } else if (pattern instanceof RecordPattern) {
+    for (let key in pattern.patterns) {
+      if (!destructure(value[key], pattern.patterns[key], values)) {
+        return false
+      }
     }
   } else {
     if (!compare(value, pattern)) {
