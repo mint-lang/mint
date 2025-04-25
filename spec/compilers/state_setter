@@ -11,8 +11,8 @@ import { useSignal as A } from "./runtime.js";
 
 export const B = () => {
   const a = A(``);
-  (b) => {
+  ((b) => {
     a.value = b
-  }(`Hello`);
+  })(`Hello`);
   return a.value
 };

@@ -5,9 +5,9 @@ module Mint
         variable =
           Variable.new
 
-        js.arrow_function([[variable] of Item]) do
+        ["("] + js.arrow_function([[variable] of Item]) do
           js.assign(Signal.new(lookups[node].first), [variable] of Item)
-        end
+        end + [")"]
       end
     end
   end
