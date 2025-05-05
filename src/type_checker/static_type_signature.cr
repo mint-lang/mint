@@ -54,6 +54,11 @@ module Mint
         resolve node
       when Ast::HtmlElement
         Type.new("Dom.Element")
+      when Ast::TypeDefinition
+        parameters =
+          resolve node.parameters
+
+        Comparer.normalize(Type.new(node.name.value, parameters))
       else
         Variable.new("a")
       end

@@ -83,3 +83,15 @@ module Test {
     helper(n, 1)
   }
 }
+-------------------------------------------------------------------------------
+type Test {
+  fields: Array(Test)
+}
+
+component Main {
+  fun render : Html {
+    let test = { fields: [] }
+
+    <div></div>
+  }
+}

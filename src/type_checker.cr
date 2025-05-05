@@ -269,6 +269,8 @@ module Mint
               if type = node.type
                 resolve type
               end
+            when Ast::TypeDefinition
+              static_type_signature(node)
             end ||
               error! :recursion do
                 snippet "Recursion is only supported in specific cases " \
