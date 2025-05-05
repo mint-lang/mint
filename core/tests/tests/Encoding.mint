@@ -94,7 +94,6 @@ suite "Encode" {
     let encoded =
       encode EncodeTestVariants.Variant2
 
-    dbg! encoded
     `#{encoded}.type` == "EncodeTestVariants.Variant2"
   }
 }
