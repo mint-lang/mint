@@ -31,6 +31,7 @@ context "test" do
         --port, -p (default: (ENV["PORT"]? || "3001").to_i)                  # Port to serve the tests on.
         --reporter, -r (default: "dot")                                      # Which reporter to use (dot, documentation),
         --runtime                                                            # If specified, the supplied runtime will be used instead of the default.
+        --show-browser-output                                                # If specified, output (stdio & stderr) of browser are displayed.
         --watch, -w                                                          # Watch files for changes and rerun tests.
 
       Arguments:
