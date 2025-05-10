@@ -1,3 +1,5 @@
+require "digest/md5"
+
 module Mint
   class Compiler
     def compile(node : Ast::HereDocument) : Compiled
