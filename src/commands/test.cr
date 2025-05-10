@@ -13,6 +13,10 @@ module Mint
         default: "chrome",
         short: "b"
 
+      define_flag show_browser_output : Bool,
+        description: "If specified, output (stdio & stderr) of browser are displayed.",
+        default: false
+
       define_flag browser_host : String,
         description: "Target host, useful when hosted on another machine.",
         default: ENV["BROWSER_HOST"]? || "127.0.0.1",
