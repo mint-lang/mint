@@ -22,8 +22,9 @@ module Mint
       @data : Tuple(Process, String)?
       @browser : String
       @path : String
+      @show_browser_output : Bool
 
-      def initialize(@browser)
+      def initialize(@browser, @show_browser_output)
         @channel = Channel(Nil).new
         @path = resolve
       end
@@ -91,6 +92,11 @@ module Mint
       end
 
       def start(url, profile_directory)
+        browser_output = if @show_browser_output
+                           Process::Redirect::Inherit
+                         else
+                           Process::Redirect::Close
+                         end
         case @browser
         when "firefox"
           Process.new(@path, args: [
@@ -99,7 +105,10 @@ module Mint
             "--window-size", "1920,1080",
             "--headless",
             url,
-          ])
+          ],
+            output: browser_output,
+            error: browser_output
+          )
         when "chrome"
           Process.new(@path, args: [
             "--user-data-dir=#{profile_directory}",
@@ -107,7 +116,10 @@ module Mint
             "--disable-gpu",
             "--headless",
             url,
-          ])
+          ],
+            output: browser_output,
+            error: browser_output
+          )
         else
           error! :invalid_browser do
             block do

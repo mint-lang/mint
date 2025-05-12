@@ -18,7 +18,7 @@ module Mint
 
     def initialize(flags : Cli::Test::Flags, @arguments : Cli::Test::Arguments)
       @reporter = resolve_reporter(flags.reporter.downcase)
-      @browser = Browser.new(flags.browser.downcase)
+      @browser = Browser.new(flags.browser.downcase, flags.show_browser_output)
       @watch = flags.watch || flags.manual
 
       Workspace.new(
