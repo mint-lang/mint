@@ -142,7 +142,7 @@ module Mint
               memo[key] = fresh value
             end
 
-        Record.new(node.name, fields, label: node.label)
+        Record.new(node.name, fields, node.mappings, label: node.label)
       end
 
       def prune(node : Variable)
