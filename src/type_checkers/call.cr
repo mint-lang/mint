@@ -78,6 +78,7 @@ module Mint
         argument_type =
           case argument.value
           when Ast::Discard
+            check!(argument)
             captures << function_argument_type
             function_argument_type
           else
