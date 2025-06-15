@@ -26,7 +26,7 @@ module Mint
       @path : String,
     )
       @dot_env =
-        File.basename(dot_env)
+        File.expand_path(dot_env)
 
       (@watcher = Watcher.new(&->update(Array(String), Symbol)))
         .tap { reset }
@@ -159,8 +159,7 @@ module Mint
             # 1. packages could have changed
             # 2. source directories could have changed
             # 3. variables in the .env file could have changed
-            case File.basename(file)
-            when @dot_env
+            if file == @dot_env
               Env.init(file)
             end
 
