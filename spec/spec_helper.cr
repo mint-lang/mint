@@ -202,7 +202,7 @@ def lsp_json(messages)
   server =
     Mint::LS::Server.new(in_io, out_io)
 
-  messages.map do |item|
+  messages.flat_map do |item|
     out_io.clear
     in_io.clear
 
@@ -211,15 +211,20 @@ def lsp_json(messages)
 
     # Process the message
     server.read
+    out_io.rewind
 
-    content = LSP::MessageParser.parse(out_io.rewind, &.itself).not_nil!
+    result = [] of String
 
-    # Prettify response
-    json = JSON.parse(content)
-    json.to_pretty_json
+    loop do
+      break unless content = LSP::MessageParser.parse(out_io, &.itself)
+      # Prettify response
+      result << JSON.parse(content).to_pretty_json
+    rescue IO::EOFError
+      break
+    end
+
+    result
   end
-rescue IO::EOFError
-  [] of String
 end
 
 def format_xml(xml)

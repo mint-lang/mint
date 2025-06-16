@@ -35,8 +35,10 @@ module Mint
     record Text, value : String
 
     record SnippetData,
+      location : {Parser::Location, Parser::Location},
       filename : String,
       input : String,
+      path : String,
       from : Int64,
       to : Int64
 
@@ -46,6 +48,15 @@ module Mint
 
     # The name of the error.
     getter name : Symbol
+
+    getter location : SnippetData? do
+      blocks.select(Snippet).compact_map do |snippet|
+        case value = snippet.value
+        when SnippetData
+          value
+        end
+      end.first?
+    end
 
     def initialize(@name : Symbol)
       @current = [] of Element
@@ -92,7 +103,9 @@ module Mint
           SnippetData.new(
             to: position.offset + [min, parser.word(position).to_s.size].max,
             filename: parser.file.relative_path,
+            location: {position, position},
             input: parser.file.contents,
+            path: parser.file.path,
             from: position.offset)
         in Parser
           min =
@@ -100,14 +113,18 @@ module Mint
 
           SnippetData.new(
             to: value.position.offset + [min, value.word.to_s.size].max,
+            location: {value.position, value.position},
             filename: value.file.relative_path,
             from: value.position.offset,
-            input: value.file.contents)
+            input: value.file.contents,
+            path: value.file.path)
         in Ast::Node
           SnippetData.new(
             filename: value.file.relative_path,
+            location: {value.from, value.to},
             input: value.file.contents,
             from: value.from.offset,
+            path: value.file.path,
             to: value.to.offset)
         in SnippetData
           value

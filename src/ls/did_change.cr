@@ -9,7 +9,8 @@ module Mint
 
         server
           .workspace(path)
-          .update(params.content_changes.first.text, path)
+          .tap(&.update(params.content_changes.first.text, path))
+          .schedule_check
       end
     end
   end

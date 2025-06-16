@@ -55,11 +55,11 @@ Dir
           responses.each do |expected_response|
             expected_id =
               expected_response[1] ||
-                JSON.parse(expected_response[0])["id"].as_i?
+                JSON.parse(expected_response[0])["id"]?.try(&.as_i?)
 
             actual_response =
               actual_responses.find! do |response|
-                JSON.parse(response)["id"].as_i? == expected_id
+                JSON.parse(response)["id"]?.try(&.as_i?) == expected_id
               end
 
             case expected_response[2]
@@ -79,9 +79,6 @@ Dir
               end
             end
           end
-        elsif actual_responses.size > 0
-          puts actual_responses
-          raise Exception.new("No responses expected")
         end
       end
     end

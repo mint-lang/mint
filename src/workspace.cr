@@ -112,6 +112,10 @@ module Mint
       set(error)
     end
 
+    def schedule_check
+      set(check)
+    end
+
     def check
       Logger.log "Type Checking" do
         if error = @cache.values.select(Error).first?

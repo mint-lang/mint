@@ -29,6 +29,10 @@ module Mint
 
       @@workspaces = {} of String => Workspace
 
+      def initialize(@in : IO, @out : IO)
+        @diagnostics_provider = DiagnosticsProvider.new(self)
+      end
+
       def workspace(path : String) : Workspace
         base =
           File.find_in_ancestors(path, "mint.json").to_s
@@ -38,9 +42,11 @@ module Mint
             check: Check::Unreachable,
             include_tests: true,
             dot_env: ".env",
-            listener: nil,
             format: false,
-            path: base)
+            path: base,
+            listener: ->(item : TypeChecker | Error) {
+              @diagnostics_provider.try(&.process(item))
+            })
       end
     end
   end

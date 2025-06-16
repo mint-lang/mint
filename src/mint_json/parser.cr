@@ -73,11 +73,19 @@ module Mint
               .reduce(0) { |acc, line| acc + line.size + 1 }
           end + (column_number - 1)
 
+        location =
+          Mint::Parser::Location.new(
+            column: column_number,
+            line: line_number,
+            offset: position)
+
         Error::SnippetData.new(
+          location: {location, location},
           to: position + 1,
           input: contents,
           filename: path,
-          from: position)
+          from: position,
+          path: path)
       end
 
       def snippet_data(location : Tuple(Int32, Int32))
