@@ -39,7 +39,33 @@ module Mint
           end
         else
           if flags.json
-            terminal.puts errors.compact_map(&.to_terminal.to_s.uncolorize).to_json
+            json =
+              errors.compact_map do |error|
+                message = error.to_terminal.to_s.uncolorize
+
+                if location = error.location
+                  {
+                    name:    error.name.to_s.upcase,
+                    path:    location.path,
+                    message: message,
+                    start:   {
+                      character: location.location[0].column,
+                      line:      location.location[0].line,
+                    },
+                    end: {
+                      character: location.location[1].column,
+                      line:      location.location[1].line,
+                    },
+                  }
+                else
+                  {
+                    name:    error.name.to_s.upcase,
+                    message: message,
+                  }
+                end
+              end.to_pretty_json
+
+            terminal.puts json
           else
             if errors.empty?
               terminal.puts "No errors were detected!"
