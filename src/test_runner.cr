@@ -123,6 +123,13 @@ module Mint
       ) do |host, port|
         terminal.puts "#{COG} Test server started: http://#{host}:#{port}/"
 
+        if flags.browser_port != port
+          terminal.puts "#{WARNING} Browser port (#{flags.browser_port}) " \
+                        "doesn't match the servers port (#{port})!"
+          terminal.puts "#{WARNING} The browser running the tests might not " \
+                        "be able to connect to it!"
+        end
+
         if @watch
           terminal.puts "#{COG} Waiting for a browser to connect..."
         end
