@@ -1,0 +1,35 @@
+async component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or <>"Loading..."</>
+  }
+}
+------------------------------------------------html_component_fallback_not_html
+async component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or true
+  }
+}
+-----------------------------------------------html_component_fallback_not_async
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or ""
+  }
+}

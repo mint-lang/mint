@@ -1,0 +1,41 @@
+async component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or <>"Loading..."</>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as C,
+  createElement as B,
+  lazy as A
+} from "./runtime.js";
+
+export const
+  D = A(`./1.js`),
+  E = () => {
+    return B(C, {
+      c: [],
+      key: `Test`,
+      p: {},
+      x: D,
+      f: () => {
+        return `Loading...`
+      }
+    })
+  };
+
+---=== /__mint__/1.js ===---
+import { createElement as A } from "./runtime.js";
+
+export const B = () => {
+  return A(`div`, {})
+};
+
+export default B;

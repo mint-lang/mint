@@ -1,0 +1,34 @@
+async component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or true
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_COMPONENT_FALLBACK_NOT_HTML) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The fallback value for an async component needs to be:
+
+  Html
+
+But it is:
+
+  Bool
+
+The fallback value is here:
+
+    ┌ errors/html_component_fallback_not_html:9:16
+    ├─────────────────────────────────────────────
+   5│ }
+   6│
+   7│ component Main {
+   8│   fun render : Html {
+   9│     <Test/> or true
+    │                ⌃⌃⌃⌃
+  10│   }
+  11│ }

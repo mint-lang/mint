@@ -165,43 +165,63 @@ module Mint
         right = resolve node.right
         left = resolve node.left
 
-        case node.right
-        when Ast::ReturnCall
-          left
+        if (left_node = node.left).is_a?(Ast::HtmlComponent)
+          error! :html_component_fallback_not_async do
+            block "Fallback can only be defined for async components but " \
+                  "the component is not an async component."
+
+            snippet "You tried to fall back here:", node
+          end unless left_node.component_node.try(&.async?)
+
+          error! :html_component_fallback_not_html do
+            snippet "The fallback value for an async component needs to be:", HTML
+            snippet "But it is:", right
+            snippet "The fallback value is here:", node.right
+          end unless Comparer.matches_any?(right, VALID_HTML)
+
+          left_node.fallback_node = node.right
+
+          HTML
         else
-          error! :operation_or_not_maybe_or_result do
-            block do
-              text "For the"
-              bold "or"
-              text "operation the"
-              bold "left operand"
-              text "is invalid."
-            end
+          case node.right
+          when Ast::ReturnCall
+            left
+          else
+            error! :operation_or_invalid do
+              block do
+                text "For the"
+                bold "or"
+                text "operation the"
+                bold "left operand"
+                text "is invalid."
+              end
 
-            expected MAYBE, left
-            snippet "The operation in question is here:", node
-          end unless Comparer.compare(left, MAYBE) ||
-                     Comparer.compare(left, RESULT)
+              snippet "I was expecting:", [MAYBE, RESULT, HTML].map(&.to_mint).join("\n")
+              snippet "Instead it is:", left
+              snippet "The operation in question is here:", node
+            end unless Comparer.compare(left, MAYBE) ||
+                       Comparer.compare(left, RESULT)
 
-          type =
-            case left.name
-            when "Result"
-              left.parameters[1]
-            else
-              left.parameters[0]
-            end
+            type =
+              case left.name
+              when "Result"
+                left.parameters[1]
+              else
+                left.parameters[0]
+              end
 
-          error! :operation_or_type_mismatch do
-            block do
-              text "The type of the default value does not match the type of the"
-              text "parameter of the maybe."
-            end
+            error! :operation_or_type_mismatch do
+              block do
+                text "The type of the default value does not match the type of the"
+                text "parameter of the maybe."
+              end
 
-            expected type, right
-            snippet "The operation in question is here:", node
-          end unless Comparer.compare(type, right)
+              expected type, right
+              snippet "The operation in question is here:", node
+            end unless Comparer.compare(type, right)
 
-          type
+            type
+          end
         end
       else
         raise Mint::Error.new(:never) # Can never happen

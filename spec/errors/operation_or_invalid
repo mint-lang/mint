@@ -9,13 +9,15 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-░ ERROR (OPERATION_OR_NOT_MAYBE_OR_RESULT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░ ERROR (OPERATION_OR_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 For the or operation the left operand is invalid.
 
 I was expecting:
 
   Maybe(a)
+  Result(a, b)
+  Html
 
 Instead it is:
 
@@ -23,8 +25,8 @@ Instead it is:
 
 The operation in question is here:
 
-    ┌ errors/operation_or_not_maybe_or_result:8:5
-    ├────────────────────────────────────────────
+    ┌ errors/operation_or_invalid:8:5
+    ├────────────────────────────────
    4│ }
    5│
    6│ component Main {

@@ -73,7 +73,7 @@ component Main {
     Maybe.Just(0) or "Hello"
   }
 }
------------------------------------------------operation_or_not_maybe_or_result
+-----------------------------------------------------------operation_or_invalid
 type Maybe(a) {
   Nothing
   Just(a)

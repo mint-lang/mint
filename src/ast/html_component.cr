@@ -5,6 +5,7 @@ module Mint
       getter closing_tag_position
 
       property component_node : Ast::Component? = nil
+      property fallback_node : Ast::Node? = nil
       property? in_component : Bool = false
 
       def initialize(@closing_tag_position : Parser::Location?,

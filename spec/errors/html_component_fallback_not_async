@@ -1,0 +1,29 @@
+component Test {
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/> or true
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (HTML_COMPONENT_FALLBACK_NOT_ASYNC) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Fallback can only be defined for async components but the component is not an
+async component.
+
+You tried to fall back here:
+
+    ┌ errors/html_component_fallback_not_async:9:5
+    ├─────────────────────────────────────────────
+   5│ }
+   6│
+   7│ component Main {
+   8│   fun render : Html {
+   9│     <Test/> or true
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  10│   }
+  11│ }

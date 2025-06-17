@@ -109,7 +109,11 @@ export class lazyComponent extends Component {
     if (this.state.x) {
       return createElement(this.state.x, this.props.p, this.props.c);
     } else {
-      return null;
+      if (this.props.f) {
+        return this.props.f();
+      } else {
+        return null;
+      }
     }
   }
 }

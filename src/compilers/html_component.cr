@@ -25,6 +25,11 @@ module Mint
         end
 
         if component.async?
+          fallback =
+            if fallback_node = node.fallback_node
+              js.arrow_function { js.return(compile(fallback_node)) }
+            end
+
           js.call(Builtin::CreateElement, [
             [Builtin::LazyComponent] of Item,
             js.object({
@@ -32,7 +37,8 @@ module Mint
               "key" => js.string(component.name.value),
               "p"   => js.object(attributes),
               "x"   => [component] of Item,
-            }),
+              "f"   => fallback,
+            }.compact),
           ])
         else
           js.call(Builtin::CreateElement, [
