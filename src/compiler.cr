@@ -104,6 +104,7 @@ module Mint
       Uuid
 
       # Encoders.
+      EncodeMapArray
       EncodeVariant
       EncodeTuple
       EncodeArray
@@ -113,6 +114,7 @@ module Mint
       Encoder
 
       # Decoders.
+      DecodeMapArray
       DecodeBoolean
       DecodeVariant
       DecodeObject

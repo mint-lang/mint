@@ -34,7 +34,14 @@ module Mint
       when "Array"
         js.call(Builtin::EncodeArray, [encoder(type.parameters.first)])
       when "Map"
-        js.call(Builtin::EncodeMap, [encoder(type.parameters.last)])
+        if type.parameters.first.name == "String"
+          js.call(Builtin::EncodeMap, [encoder(type.parameters.last)])
+        else
+          js.call(Builtin::EncodeMapArray, [
+            encoder(type.parameters.first),
+            encoder(type.parameters.last),
+          ])
+        end
       when "Time"
         [Builtin::EncodeTime] of Item
       when "Tuple"

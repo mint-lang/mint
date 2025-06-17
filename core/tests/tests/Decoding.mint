@@ -60,4 +60,11 @@ suite "Decode" {
 
     Result.Ok(variants) == roundtrip
   }
+
+  test "roundtrip #3" {
+    let data =
+      { 0 => "Hello", 1 => "There" }
+
+    Result.Ok(data) == (decode (encode data) as Map(Number, String))
+  }
 }

@@ -63,8 +63,7 @@ module Mint
           when "String", "Time", "Number", "Bool", "Object"
             true
           when "Map"
-            type.parameters.first.name == "String" &&
-              type.parameters.first.parameters.size == 0 &&
+            check_decode(type.parameters.first) &&
               check_decode(type.parameters.last)
           when "Tuple"
             type.parameters.all? { |item| check_decode(item) }

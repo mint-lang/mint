@@ -23,6 +23,21 @@ export const encodeMap = (encoder) => (value) => {
   return result;
 };
 
+// Encodes `Map(a, b)` as a JS array. `Map` internally is just
+// an array of key, value pairs which is an array as well.
+export const encodeMapArray = (keyEncoder, valueEncoder) => (value) => {
+  const result = [];
+
+  for (let item of value) {
+    result.push([
+      keyEncoder ? keyEncoder(item[0]) : item[0],
+      valueEncoder ? valueEncoder(item[1]) : item[1]
+    ])
+  }
+
+  return result;
+};
+
 // Encodes `Maybe`. `Nothing` becomes `null`, `Just` is unwrapped.
 export const encodeMaybe = (encoder, just) => (value) => {
   if (value instanceof just) {

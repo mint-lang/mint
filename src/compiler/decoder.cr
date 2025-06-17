@@ -32,7 +32,16 @@ module Mint
       when "Array"
         js.call(Builtin::DecodeArray, [decoder(type.parameters.first), ok, err])
       when "Map"
-        js.call(Builtin::DecodeMap, [decoder(type.parameters.last), ok, err])
+        if type.parameters.first.name == "String"
+          js.call(Builtin::DecodeMap, [decoder(type.parameters.last), ok, err])
+        else
+          js.call(Builtin::DecodeMapArray, [
+            decoder(type.parameters.first),
+            decoder(type.parameters.last),
+            ok,
+            err,
+          ])
+        end
       when "Bool"
         js.call(Builtin::DecodeBoolean, [ok, err])
       when "Number"
