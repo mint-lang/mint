@@ -1,6 +1,22 @@
 module Mint
   module LS
     class Completion
+      KEYWORD_COMPLETIONS =
+        %w(
+          component module provider store state property connect exposing
+          style or return let if else async get fun dbg encode decode case
+          as use next of when global type @asset @svg @format @inline
+          @highlight @highlight-file
+        ).map do |keyword|
+          LSP::CompletionItem.new(
+            kind: LSP::CompletionItemKind::Keyword,
+            insert_text: keyword,
+            filter_text: keyword,
+            sort_text: keyword,
+            detail: "Keyword",
+            label: keyword)
+        end
+
       HTML_TAG_COMPLETIONS =
         {{ read_file("#{__DIR__}/../assets/html_tags").strip }}
           .lines
@@ -50,7 +66,8 @@ module Mint
           component_completions +
           scope_completions +
           type_completions +
-          HTML_TAG_COMPLETIONS)
+          HTML_TAG_COMPLETIONS +
+          KEYWORD_COMPLETIONS)
           .compact
           .sort_by!(&.label)
           .map! do |item|
