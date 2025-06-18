@@ -1,0 +1,61 @@
+type Subscription {
+    a : Bool
+}
+
+provider Test : Subscription {
+  fun render {
+    <div/>
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/documentSymbol",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "kind": 12,
+      "location": {
+        "range": {
+          "start": {
+            "line": 5,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 3
+          }
+        },
+        "uri": "file://#{root_path}/test.mint"
+      },
+      "name": "Test.render"
+    },
+    {
+      "kind": 2,
+      "location": {
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 0
+          },
+          "end": {
+            "line": 8,
+            "character": 1
+          }
+        },
+        "uri": "file://#{root_path}/test.mint"
+      },
+      "name": "Test"
+    }
+  ],
+  "id": 0
+}
+------------------------------------------------------------------------response

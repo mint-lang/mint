@@ -11,6 +11,7 @@ module Mint
         "textDocument/completion"          => CompletionRequest,
         "textDocument/willSaveWaitUntil"   => WillSaveWaitUntil,
         "textDocument/semanticTokens/full" => SemanticTokens,
+        "textDocument/documentSymbol"      => DocumentSymbol,
         "textDocument/foldingRange"        => FoldingRange,
         "textDocument/formatting"          => Formatting,
         "textDocument/codeAction"          => CodeAction,

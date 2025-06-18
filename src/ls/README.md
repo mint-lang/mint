@@ -10,7 +10,7 @@ The feature set is pretty minimal at this point:
 | :---------------------------- | :---------------------------- | :-------------------------------------------- |
 | Hover                         | :heavy_check_mark:            | Type information for entities                 |
 | Completion                    | :heavy_check_mark:            | Components, functions, etc..., based on scope |
-| Diagnostics                   | :negative_squared_cross_mark: |                                               |
+| Diagnostics                   | :heavy_check_mark:            | Single error reported at a time               |
 | Text Document Synchronization | :heavy_check_mark:            | Full files only                               |
 | Signature Help                | :negative_squared_cross_mark: |                                               |
 | Goto Declaration              | :negative_squared_cross_mark: |                                               |
@@ -18,7 +18,7 @@ The feature set is pretty minimal at this point:
 | Goto Implementation           | :heavy_check_mark:            | Some entities                                 |
 | Find References               | :negative_squared_cross_mark: |                                               |
 | Document Highlights           | :negative_squared_cross_mark: |                                               |
-| Document Symbols              | :negative_squared_cross_mark: |                                               |
+| Document Symbols              | :heavy_check_mark:            | Some entities                                 |
 | Code Action                   | :heavy_check_mark:            | Source Only (see specific section)            |
 | Code Lens                     | :negative_squared_cross_mark: |                                               |
 | Document Link                 | :negative_squared_cross_mark: |                                               |
