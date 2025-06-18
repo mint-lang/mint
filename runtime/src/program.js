@@ -47,11 +47,18 @@ const getRouteInfo = (url, routes) => {
 };
 
 class Program {
-  constructor(ok, routes) {
+  constructor(ok, routes, hashRouting) {
     this.root = document.createElement("div");
+    this.hashRouting = hashRouting;
     this.routeInfo = null;
     this.routes = routes;
     this.ok = ok;
+
+    if (hashRouting) {
+      this.navigate = navigateHash;
+    } else {
+      this.navigate = navigate;
+    }
 
     document.body.appendChild(this.root);
 
@@ -124,7 +131,7 @@ class Program {
 
     // If we found a matching route navigate to that route.
     if (routeInfo) {
-      navigate(
+      this.navigate(
         fullPath,
         /* dispatch */ true,
         /* triggerJump */ true,
@@ -158,10 +165,6 @@ class Program {
             if (triggerJump) {
               elem.scrollIntoView();
             }
-          } else {
-            console.warn(
-              `MINT: ${hash} matches no element with an id and no link with a name`,
-            );
           }
         } else if (triggerJump) {
           window.scrollTo(0, 0);
@@ -172,8 +175,16 @@ class Program {
 
   // Handles navigation events.
   async handlePopState(event) {
-    const url =
-      window.location.pathname + window.location.search + window.location.hash;
+    let url;
+
+    if (this.hashRouting) {
+      url = hrefHash();
+    } else {
+      url =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
+    }
 
     const routeInfo = event?.routeInfo || getRouteInfo(url, this.routes);
 
@@ -272,7 +283,44 @@ export const navigate = (
   }
 };
 
+// Function to navigate to a different url.
+export const navigateHash = (
+  url,
+  dispatch = true,
+  triggerJump = true,
+  routeInfo = null,
+) => {
+  let fullPath = hrefHash();
+
+  if (fullPath !== url) {
+    if (dispatch) {
+      window.history.pushState({}, "", `#${url}`);
+    } else {
+      window.history.replaceState({}, "", `#${url}`);
+    }
+  }
+
+  if (dispatch) {
+    let event = new PopStateEvent("popstate");
+    event.triggerJump = triggerJump;
+    event.routeInfo = routeInfo;
+    dispatchEvent(event);
+  }
+};
+
+export const hrefHash = () => {
+  const hash = window.location.hash.toString().replace(/^#/, "");
+
+  if (hash.startsWith("/")) {
+    return hash;
+  } else {
+    return `/${hash}`;
+  }
+};
+
+export const href = () => window.location.href;
+
 // Creates a program.
-export const program = (main, globals, ok, routes = []) => {
-  new Program(ok, routes).render(main, globals);
+export const program = (main, globals, ok, routes = [], hashRouting = fals) => {
+  new Program(ok, routes, hashRouting).render(main, globals);
 };

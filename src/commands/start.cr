@@ -16,6 +16,10 @@ module Mint
         description: "If specified, source maps will be generated.",
         default: false
 
+      define_flag hash_routing : Bool,
+        description: "If specified, the hash routing will be used.",
+        default: false
+
       define_flag format : Bool,
         description: "Formats the source files when they change.",
         default: false
@@ -38,6 +42,7 @@ module Mint
         execute "Running the development server",
           check_dependencies: true do
           Reactor.new(
+            hash_routing: flags.hash_routing,
             reload: !flags.no_reload,
             format: flags.format,
             dot_env: flags.env,
@@ -48,6 +53,7 @@ module Mint
               artifacts: type_checker.artifacts,
               config: Bundler::Config.new(
                 generate_source_maps: flags.generate_source_maps,
+                hash_routing: flags.hash_routing,
                 live_reload: !flags.no_reload,
                 runtime_path: flags.runtime,
                 generate_manifest: false,

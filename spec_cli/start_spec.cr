@@ -23,6 +23,7 @@ context "test" do
         --env, -e                                            # Loads the given .env file.
         --format                                             # Formats the source files when they change.
         --generate-source-maps                               # If specified, source maps will be generated.
+        --hash-routing                                       # If specified, the hash routing will be used.
         --help                                               # Displays help for the current command.
         --host, -h (default: ENV["HOST"]? || "0.0.0.0")      # The host to serve the application on.
         --no-reload                                          # Do not reload the browser when something changes.

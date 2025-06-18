@@ -31,8 +31,8 @@ export const encodeMapArray = (keyEncoder, valueEncoder) => (value) => {
   for (let item of value) {
     result.push([
       keyEncoder ? keyEncoder(item[0]) : item[0],
-      valueEncoder ? valueEncoder(item[1]) : item[1]
-    ])
+      valueEncoder ? valueEncoder(item[1]) : item[1],
+    ]);
   }
 
   return result;

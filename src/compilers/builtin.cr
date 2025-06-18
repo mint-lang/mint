@@ -29,12 +29,22 @@ module Mint
           [Builtin::TestRender] of Item
         when "setLocale"
           [Builtin::SetLocale] of Item
-        when "navigate"
-          [Builtin::Navigate] of Item
         when "compare"
           [Builtin::Compare] of Item
         when "inspect"
           [Builtin::Inspect] of Item
+        when "navigate"
+          if config.hash_routing
+            [Builtin::NavigateHash] of Item
+          else
+            [Builtin::Navigate] of Item
+          end
+        when "href"
+          if config.hash_routing
+            [Builtin::HrefHash] of Item
+          else
+            [Builtin::Href] of Item
+          end
         when "nothing"
           nothing
         when "just"

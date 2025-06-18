@@ -23,6 +23,7 @@ context "build" do
         --env, -e               # Loads the given .env file.
         --generate-manifest     # If specified, the web manifest will be generated.
         --generate-source-maps  # If specified, source maps will be generated.
+        --hash-routing          # If specified, the hash routing will be used.
         --help                  # Displays help for the current command.
         --no-optimize           # If specified, the resulting JavaScript code will not be optimized.
         --runtime               # If specified, the supplied runtime will be used instead of the default.

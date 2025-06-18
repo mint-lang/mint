@@ -28,6 +28,10 @@ module Mint
         description: "If specified, all written files will be logged.",
         default: false
 
+      define_flag hash_routing : Bool,
+        description: "If specified, the hash routing will be used.",
+        default: false
+
       define_flag watch : Bool,
         description: "If specified, will build on every change.",
         default: false,
@@ -66,6 +70,7 @@ module Mint
                       config: Bundler::Config.new(
                         generate_source_maps: flags.generate_source_maps,
                         generate_manifest: flags.generate_manifest,
+                        hash_routing: flags.hash_routing,
                         skip_icons: flags.skip_icons,
                         optimize: !flags.no_optimize,
                         runtime_path: flags.runtime,

@@ -59,6 +59,7 @@ module Mint
                 generate_source_maps: true,
                 generate_manifest: false,
                 include_program: true,
+                hash_routing: false,
                 hash_assets: false,
                 live_reload: false,
                 runtime_path: nil,

@@ -18,6 +18,7 @@ module Mint
       def run
         execute "Generating documentation", check_dependencies: true do
           Reactor.new(
+            hash_routing: false,
             host: flags.host,
             port: flags.port,
             dot_env: ".env",

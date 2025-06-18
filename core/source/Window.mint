@@ -146,7 +146,7 @@ module Window {
     Window.href() == "https://www.example.com"
   */
   fun href : String {
-    `window.location.href`
+    `#{%href%}()`
   }
 
   /*

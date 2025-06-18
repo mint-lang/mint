@@ -266,8 +266,10 @@ export const decodeTuple = (decoders, ok, err) => (input) => {
     return new err(
       new Error(
         TUPLE_SIZE_MISMATCH.replace("{value}", format(input))
-                           .replace("{count}", decoders.length)
-                           .replace("{valueCount}", input.length)));
+          .replace("{count}", decoders.length)
+          .replace("{valueCount}", input.length),
+      ),
+    );
   }
 
   let results = [];
@@ -320,32 +322,33 @@ export const decodeMap = (decoder, ok, err) => (input) => {
 };
 
 // Decodes an array of objects as a `Map(key, value)`.
-export const decodeMapArray = (keyDecoder, valueDecoder, ok, err) => (input) => {
-  if (!Array.isArray(input)) {
-    const message = NOT_AN_ARRAY.replace("{value}", format(input));
-    return new err(new Error(message));
-  } else {
-    const map = [];
+export const decodeMapArray =
+  (keyDecoder, valueDecoder, ok, err) => (input) => {
+    if (!Array.isArray(input)) {
+      const message = NOT_AN_ARRAY.replace("{value}", format(input));
+      return new err(new Error(message));
+    } else {
+      const map = [];
 
-    for (let item of input) {
-      const keyResult = keyDecoder(item[0]);
+      for (let item of input) {
+        const keyResult = keyDecoder(item[0]);
 
-      if (keyResult instanceof err) {
-        return keyResult;
+        if (keyResult instanceof err) {
+          return keyResult;
+        }
+
+        const valueResult = valueDecoder(item[1]);
+
+        if (valueResult instanceof err) {
+          return valueResult;
+        }
+
+        map.push([keyResult._0, valueResult._0]);
       }
 
-      const valueResult = valueDecoder(item[1]);
-
-      if (valueResult instanceof err) {
-        return valueResult;
-      }
-
-      map.push([keyResult._0, valueResult._0]);
+      return new ok(map);
     }
-
-    return new ok(map);
-  }
-};
+  };
 
 // Decodes a record, using the mappings.
 export const decoder = (name, mappings, ok, err) => (input) => {

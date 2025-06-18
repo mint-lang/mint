@@ -130,8 +130,11 @@ module Mint
       Decoder
 
       # Navigation and program.
+      NavigateHash
       Navigate
+      HrefHash
       Program
+      Href
 
       # Utilities.
       NormalizeEvent
@@ -311,6 +314,7 @@ module Mint
             js.object(globals),
             ok,
             js.array(routes),
+            [config.hash_routing.to_s] of Item,
           ])
         end
       end || [] of Item

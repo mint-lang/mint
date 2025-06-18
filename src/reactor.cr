@@ -9,6 +9,7 @@ module Mint
     def initialize(
       *,
       @reload : Bool,
+      hash_routing,
       dot_env,
       format,
       host,
@@ -45,8 +46,8 @@ module Mint
           HTTP::CompressHandler.new,
           websocket_handler,
         ]) do |context|
-          path =
-            URI.decode(context.request.path)
+          path = URI.decode(context.request.path)
+          path = path.lchop("/") if hash_routing
 
           # Handle the request depending on the result.
           content_type, content =

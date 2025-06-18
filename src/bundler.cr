@@ -1,5 +1,3 @@
-require "csv"
-
 module Mint
   # This class is responsible for compiling and building the application.
   class Bundler
@@ -11,6 +9,7 @@ module Mint
       generate_manifest : Bool,
       include_program : Bool,
       runtime_path : String?,
+      hash_routing : Bool,
       live_reload : Bool,
       hash_assets : Bool,
       skip_icons : Bool,
@@ -183,11 +182,15 @@ module Mint
             Compiler::Renderer.new(
               deferred_path: ->bundle_name(Set(Ast::Node) | Bundle),
               generate_source_maps: config.generate_source_maps,
-              asset_path: ->asset_path(Ast::Node),
               bundles: calculated_bundles,
               class_pool: class_pool,
               base: node,
-              pool: pool)
+              pool: pool,
+              asset_path: ->(item : Ast::Node) do
+                path = asset_path(item)
+                path = "./#{path}" if config.hash_routing
+                path
+              end)
 
           # Build the single `const` with multiple assignments so we can add
           # things later to the array.
@@ -376,8 +379,11 @@ module Mint
               end
 
               script type: "module" do
+                path = path_for_asset("index.js")
+                path = "./#{path}" if config.hash_routing
+
                 raw <<-TEXT
-                import Program from "#{path_for_asset("index.js")}"
+                import Program from "#{path}"
                 Program()
                 TEXT
               end
@@ -480,10 +486,6 @@ module Mint
       end
     end
 
-    def path_for_asset(filename : String) : String
-      "/#{ASSET_DIR}/#{filename}"
-    end
-
     def bundle_name(node : Set(Ast::Node) | Bundle) : String
       @bundle_names[node] ||= begin
         case node
@@ -495,10 +497,6 @@ module Mint
       end
     end
 
-    def path_for_import(node : Set(Ast::Node) | Bundle) : String
-      "./#{bundle_name(node)}"
-    end
-
     def asset_path(node : Ast::Node)
       case node
       when Ast::Directives::FileBased
@@ -506,6 +504,21 @@ module Mint
       else
         ""
       end
+    end
+
+    def path_for_asset(filename : String) : String
+      prefix =
+        if config.hash_routing
+          ""
+        else
+          "/#{ASSET_DIR}/"
+        end
+
+      "#{prefix}#{filename}"
+    end
+
+    def path_for_import(node : Set(Ast::Node) | Bundle) : String
+      "./#{bundle_name(node)}"
     end
 
     def path_for_bundle(node : Set(Ast::Node) | Bundle) : String

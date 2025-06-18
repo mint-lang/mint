@@ -111,7 +111,7 @@ export const destructure = (value, pattern, values = []) => {
   } else if (pattern instanceof PatternRecord) {
     for (let key in pattern.patterns) {
       if (!destructure(value[key], pattern.patterns[key], values)) {
-        return false
+        return false;
       }
     }
   } else if (pattern instanceof PatternMany) {

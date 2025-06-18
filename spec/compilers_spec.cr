@@ -29,6 +29,7 @@ Dir
             generate_manifest: false,
             include_program: false,
             test: test_information,
+            hash_routing: false,
             live_reload: false,
             runtime_path: nil,
             skip_icons: false,
