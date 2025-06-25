@@ -254,25 +254,39 @@ component Test.Http {
   fun render : Html {
     <div>
       <error>errorMessage</error>
-
       <content>body</content>
-
       <status>Number.toString(status)</status>
     </div>
   }
 }
 
-/*
-suite "Successful request" {
-  test "it loads" {
-    <Test.Http/>
-    |> Test.Html.start()
-    |> Test.Context.timeout(50)
-    |> Test.Html.assertTextOf("error", "")
-    |> Test.Html.assertTextOf("status", "200")
+component Test.Http.Responses {
+  state response : Result(Http.ErrorResponse, Http.Response) = Result.Err(``)
+
+  property url : String
+
+  fun componentDidMount : Promise(Void) {
+    let request =
+      Http.get(url)
+      |> Http.send()
+
+    next { response: await request }
+  }
+
+  fun render : Html {
+    <type>
+      case response {
+        Ok({ body: FormData(_) }) => "FormData"
+        Ok({ body: JSON(_) }) => "JSON"
+        Ok({ body: HTML(_) }) => "HTML"
+        Ok({ body: File(_) }) => "File"
+        Ok({ body: Text(_) }) => "Text"
+        Ok({ body: XML(_) }) => "XML"
+        Err(_) => ""
+      }
+    </type>
   }
 }
-*/
 
 suite "Http.Error" {
   test "BadUrl" {
@@ -304,5 +318,40 @@ suite "Http.Error" {
     |> Test.Context.timeout(50)
     |> Test.Html.assertTextOf("error", "aborted")
     |> Test.Html.assertTextOf("status", "0")
+  }
+
+  test "JSON" {
+    <Test.Http.Responses url="/test.json"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("type", "JSON")
+  }
+
+  test "HTML" {
+    <Test.Http.Responses url="/test.html"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("type", "HTML")
+  }
+
+  test "XML" {
+    <Test.Http.Responses url="/test.xml"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("type", "XML")
+  }
+
+  test "Text" {
+    <Test.Http.Responses url="/test.txt"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("type", "Text")
+  }
+
+  test "File" {
+    <Test.Http.Responses url="/test.png"/>
+    |> Test.Html.start()
+    |> Test.Context.timeout(50)
+    |> Test.Html.assertTextOf("type", "File")
   }
 }

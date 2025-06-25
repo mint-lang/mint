@@ -21,8 +21,15 @@ type Http.Response {
   status : Number
 }
 
+/* Represents the progress of an upload or download. */
+type Http.Progress {
+  Progress(Number)
+  Uncalculable
+}
+
 /* Represents the body of a HTTP response. */
 type Http.ResponseBody {
+  FormData(FormData)
   JSON(Object)
   HTML(Object)
   Text(String)
@@ -199,7 +206,7 @@ store Http {
 
     "https://httpbin.org/anything"
     |> Http.post()
-    |> Http.jsonBody(encode { name = "John" })
+    |> Http.jsonBody(encode { name: "John" })
     |> Http.send()
   */
   fun jsonBody (request : Http.Request, body : Object) : Http.Request {
@@ -255,7 +262,13 @@ store Http {
   fun send (
     request : Http.Request,
     id : String = Uid.generate(),
-    instrument : Function(Object, a) = (value : Object) { void }
+    instrument : Function(Object, a) = (value : Object) { void },
+    uploadProgress : Function(Http.Progress, a) = (progress : Http.Progress) {
+      void
+    },
+    downloadProgress : Function(Http.Progress, a) = (progress : Http.Progress) {
+      void
+    }
   ) : Promise(Result(Http.ErrorResponse, Http.Response)) {
     await abort(id)
 
@@ -268,14 +281,10 @@ store Http {
       xhr.responseType = "blob"
 
       const getResponseHeaders = () => {
-        return xhr
-          .getAllResponseHeaders()
-          .trim()
-          .split(/[\r\n]+/)
-          .map((line) => {
-            const parts = line.split(': ');
-            return [parts.shift(), parts.join(': ')];
-          })
+        return xhr.getAllResponseHeaders().trim().split(/[\r\n]+/).map((line) => {
+          const parts = line.split(': ');
+          return [parts.shift(), parts.join(': ')];
+        })
       }
 
       try {
@@ -306,6 +315,17 @@ store Http {
         })})
       })
 
+      xhr.addEventListener('abort', (event) => {
+        #{next { requests: Map.delete(requests, id)}}
+
+        resolve(#{Result.Err({
+          headers: `getResponseHeaders()`,
+          type: Http.Error.Aborted,
+          status: `xhr.status`,
+          url: request.url
+        })})
+      })
+
       xhr.addEventListener('timeout', (event) => {
         #{next { requests: Map.delete(requests, id)}}
 
@@ -320,8 +340,8 @@ store Http {
       xhr.addEventListener('load', async (event) => {
         #{next { requests: Map.delete(requests, id)}}
 
-        let contentType = xhr.getResponseHeader("Content-Type") || "";
-        let responseText = await xhr.response.text();
+        const contentType = xhr.getResponseHeader("Content-Type") || "";
+        const responseText = await xhr.response.text();
         let body;
 
         if (contentType.startsWith("text/html")) {
@@ -356,11 +376,27 @@ store Http {
           }
         } else if (contentType.startsWith("text/")) {
           body = #{Http.ResponseBody.Text(`responseText`)};
+        } else if (contentType.startsWith('multipart/form-data')) {
+          const response =
+            new Response(await xhr.response.arrayBuffer(), {
+              headers: getResponseHeaders(),
+              statusText: xhr.statusText,
+              status: xhr.status,
+            });
+
+          const formData =
+            await response.formData();
+
+          body = #{Http.ResponseBody.FormData(`formData`)};
         }
 
         if (!body) {
           const parts = #{Url.parse(request.url).path}.split('/');
-          body = #{Http.ResponseBody.File(`new File([xhr.response], parts[parts.length - 1], { type: contentType })`)};
+          const file = new File([xhr.response], parts[parts.length - 1], {
+            type: contentType
+          });
+
+          body = #{Http.ResponseBody.File(`file`)};
         }
 
         resolve(#{Result.Ok({
@@ -371,18 +407,24 @@ store Http {
         })})
       })
 
-      xhr.addEventListener('abort', (event) => {
-        #{next { requests: Map.delete(requests, id)}}
+      #{instrument(`xhr`)};
 
-        resolve(#{Result.Err({
-          headers: `getResponseHeaders()`,
-          type: Http.Error.Aborted,
-          status: `xhr.status`,
-          url: request.url
-        })})
+      xhr.upload.addEventListener('progress', (event) => {
+        if (event.lengthComputable) {
+          #{uploadProgress(Http.Progress.Progress(`event.loaded / event.total`))}
+        } else {
+          #{uploadProgress(Http.Progress.Uncalculable)}
+        }
+      });
+
+      xhr.addEventListener('progress', (event) => {
+        if (event.lengthComputable) {
+          #{downloadProgress(Http.Progress.Progress(`event.loaded / event.total`))}
+        } else {
+          #{downloadProgress(Http.Progress.Uncalculable)}
+        }
       })
 
-      #{instrument(`xhr`)};
       xhr.send(#{request.body})
     })
     `
