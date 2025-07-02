@@ -1,0 +1,34 @@
+exports:
+  - Nothing
+  - Just
+================================================================================
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Maybe.Just("Hello")
+    Maybe.Nothing
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  newVariant as B,
+  variant as A
+} from "./runtime.js";
+
+export const
+  C = A(0, `Maybe.Nothing`),
+  D = A(1, `Maybe.Just`),
+  E = () => {
+    B(D)(`Hello`);
+    new C();
+    return ``
+  };
+
+export const
+  Nothing = C,
+  Just = D;

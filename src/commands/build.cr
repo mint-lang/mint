@@ -45,6 +45,10 @@ module Mint
         description: "Loads the given .env file.",
         short: "e"
 
+      define_flag export : Array(String),
+        description: "The entities to export in the generated bundle.",
+        default: [] of String
+
       def run
         execute "Building for production",
           check_dependencies: true do
@@ -76,6 +80,7 @@ module Mint
                         runtime_path: flags.runtime,
                         json: MintJson.current,
                         include_program: true,
+                        exports: flags.export,
                         live_reload: false,
                         hash_assets: true,
                         test: nil)).bundle

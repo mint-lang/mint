@@ -106,13 +106,24 @@ module Mint
           assigns =
             items.map { |(_, id, compiled)| assign(id, compiled) }
 
-          if optimize?
-            ["const "] + list(assigns, multiline: false)
-          else
-            ["const"] + [
-              Indent.new(["\n"] + list(assigns, multiline: true)),
-            ] of Item
-          end
+          consts(assigns)
+        end
+      end
+
+      def consts(items : Hash(String, Compiled)) : Compiled
+        assigns =
+          items.map { |(key, compiled)| assign(key, compiled) }
+
+        consts(assigns)
+      end
+
+      def consts(assigns)
+        if optimize?
+          ["const "] + list(assigns, multiline: false)
+        else
+          ["const"] + [
+            Indent.new(["\n"] + list(assigns, multiline: true)),
+          ] of Item
         end
       end
 

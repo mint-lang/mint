@@ -134,6 +134,7 @@ module Mint
       Navigate
       HrefHash
       Program
+      Embed
       Href
 
       # Utilities.
@@ -291,6 +292,35 @@ module Mint
           js.assign([Builtin::Translations, ".value"] of Item, js.object(object)),
           js.assign([Builtin::Locale, ".value"] of Item, js.string(object.keys.first)),
         ]
+      end
+    end
+
+    def exports : Compiled
+      exports = {} of String => Compiled
+
+      ast
+        .components
+        .select(&.name.value.in?(config.exports))
+        .each do |component|
+          exports[component.name.value] =
+            js.call(Builtin::Embed, [[component] of Item])
+        end
+
+      ast
+        .nodes
+        .select(Ast::TypeVariant)
+        .select(&.value.value.in?(config.exports))
+        .each do |variant|
+          exports[variant.value.value] = [variant] of Item
+        end
+
+      exports =
+        exports.transform_keys(&.gsub('.', '_'))
+
+      if exports.empty?
+        [] of Item
+      else
+        ["export "] + js.consts(exports)
       end
     end
 

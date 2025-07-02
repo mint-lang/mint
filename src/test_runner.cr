@@ -39,6 +39,7 @@ module Mint
                   generate_manifest: false,
                   include_program: false,
                   json: MintJson.current,
+                  exports: [] of String,
                   hash_routing: false,
                   live_reload: false,
                   hash_assets: true,

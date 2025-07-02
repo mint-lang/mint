@@ -58,6 +58,7 @@ module Mint
                 runtime_path: flags.runtime,
                 generate_manifest: false,
                 json: MintJson.current,
+                exports: [] of String,
                 include_program: true,
                 hash_assets: false,
                 skip_icons: false,

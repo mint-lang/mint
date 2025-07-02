@@ -324,3 +324,12 @@ export const href = () => window.location.href;
 export const program = (main, globals, ok, routes = [], hashRouting = fals) => {
   new Program(ok, routes, hashRouting).render(main, globals);
 };
+
+export const embed = (component) => {
+  return (element, props = () => {}, children = () => []) => {
+    return {
+      render: () => render(h(component, props(), children()), element),
+      cleanup: () => render(null, element),
+    };
+  };
+};

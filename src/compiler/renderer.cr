@@ -23,6 +23,9 @@ module Mint
       # Whether or not to generate source map mappings.
       getter? generate_source_maps : Bool
 
+      # The exported entities.
+      getter exports : Array(String)
+
       # The last line index.
       property last_line : Int32 = 0
 
@@ -48,6 +51,7 @@ module Mint
         @deferred_path,
         @class_pool,
         @asset_path,
+        @exports,
         @bundles,
         @pool,
         @base,
@@ -106,6 +110,8 @@ module Mint
             append(io, char)
           end
         end
+
+        true
       end
 
       # We are using a string builder to build the final compiled code.
@@ -138,7 +144,13 @@ module Mint
                Ast::Provider
             append(io, class_pool.of(item, scope))
           else
-            append(io, pool.of(item, scope))
+            parent =
+              item.parent
+
+            case {parent, item}
+            when {Ast::Component, Ast::Property}
+              append(io, item.name.value) if parent.name.value.in?(exports)
+            end || append(io, pool.of(item, scope))
           end
         in Encoder, Decoder, Record, Variable
           append(io, pool.of(item, base))

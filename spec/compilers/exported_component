@@ -1,0 +1,36 @@
+exports:
+  - Test
+================================================================================
+component Test {
+  property name : String = "Joe"
+
+  fun render : Html {
+    <div>name</div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test name="Jane"/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as A,
+  embed as B
+} from "./runtime.js";
+
+export const
+  C = ({
+    name = `Joe`
+  }) => {
+    return A(`div`, {}, [name])
+  },
+  D = () => {
+    return A(C, {
+      name: `Jane`
+    })
+  };
+
+export const
+  Test = B(C);

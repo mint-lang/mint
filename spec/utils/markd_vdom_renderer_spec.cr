@@ -118,6 +118,7 @@ module Mint
                 asset_path: ->(_node : Ast::Node) { "" },
                 generate_source_maps: false,
                 class_pool: class_pool,
+                exports: [] of String,
                 base: Bundle::Index,
                 pool: pool)
 

@@ -1,5 +1,11 @@
 require "./spec_helper"
 
+struct Config
+  include YAML::Serializable
+
+  getter exports : Array(String)
+end
+
 Dir
   .glob("./spec/compilers/**/*")
   .select! { |file| File.file?(file) }
@@ -8,7 +14,18 @@ Dir
     it file do
       begin
         # Read and separate sample from expected
-        sample, expected = File.read(file).split("-" * 80)
+        raw, expected = File.read(file).split("-" * 80)
+
+        # Separate configuration from sample
+        config, sample =
+          if raw =~ /={80}/
+            parts =
+              raw.split("=" * 80)
+
+            {Config.from_yaml(parts[0]), parts[1]}
+          else
+            {nil, raw}
+          end
 
         # Parse the sample
         ast = Mint::Parser.parse(sample, File.dirname(__FILE__) + file.lchop("./spec"))
@@ -24,6 +41,7 @@ Dir
 
         config =
           Mint::Bundler::Config.new(
+            exports: config.try(&.exports) || [] of String,
             json: Mint::MintJson.parse("{}", "mint.json"),
             generate_source_maps: false,
             generate_manifest: false,
