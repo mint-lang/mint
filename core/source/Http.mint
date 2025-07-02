@@ -411,7 +411,7 @@ store Http {
 
       xhr.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable) {
-          #{uploadProgress(Http.Progress.Progress(`event.loaded / event.total`))}
+          #{uploadProgress(Http.Progress.Progress(Math.clamp(`event.loaded / event.total`, 0, 1)))}
         } else {
           #{uploadProgress(Http.Progress.Uncalculable)}
         }
@@ -419,7 +419,7 @@ store Http {
 
       xhr.addEventListener('progress', (event) => {
         if (event.lengthComputable) {
-          #{downloadProgress(Http.Progress.Progress(`event.loaded / event.total`))}
+          #{downloadProgress(Http.Progress.Progress(Math.clamp(`event.loaded / event.total`, 0, 1)))}
         } else {
           #{downloadProgress(Http.Progress.Uncalculable)}
         }
