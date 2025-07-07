@@ -50,7 +50,7 @@ module Mint
            Ast::State,
            Ast::Get
         static_type_signature node.type
-      when Type
+      when Ast::Type
         resolve node
       when Ast::HtmlElement
         Type.new("Dom.Element")
