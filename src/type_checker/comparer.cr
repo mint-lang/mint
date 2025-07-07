@@ -146,7 +146,9 @@ module Mint
       end
 
       def prune(node : Variable)
-        node.instance.try { |instance| prune instance } || node
+        node.instance.try do |instance|
+          prune(instance).tap(&.label=(node.label))
+        end || node
       end
 
       def prune(node : Type)

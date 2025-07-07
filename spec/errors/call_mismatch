@@ -17,15 +17,15 @@ The type of the call doesn't match the type of the function.
 The function type:
 
   Function(
-    b: a,
-    b: a,
+    a: a,
+    a: a,
     String)
 
 You tried to call it as:
 
   Function(
-    String,
-    Number,
+    a: String,
+    a: Number,
     String)
 
     ┌ errors/call_mismatch:9:5

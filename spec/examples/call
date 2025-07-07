@@ -275,3 +275,20 @@ component Main {
     test(0, "other")
   }
 }
+--------------------------------------------------------------------------------
+type Maybe(a) {
+  Just(a)
+  Nothing
+}
+
+component Main {
+  fun insertAfter (value : a, afterValue : Maybe(a), arr : Array(a)) : Array(a) {
+    []
+  }
+
+  fun render : Html {
+    insertAfter(value: "123", afterValue: Maybe.Nothing, arr: [])
+
+    <div>"Hello World!"</div>
+  }
+}
