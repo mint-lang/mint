@@ -69,7 +69,7 @@ module Mint
         end
 
       parameters = [] of Checkable
-      captures = [] of Checkable
+      captures = [] of Int32
 
       args.each_with_index do |argument, index|
         function_argument_type =
@@ -79,7 +79,7 @@ module Mint
           case argument.value
           when Ast::Discard
             check!(argument)
-            captures << function_argument_type
+            captures << index
             function_argument_type
           else
             resolve argument
@@ -130,6 +130,9 @@ module Mint
           final
         end
       else
+        captures =
+          captures.map { |index| result.parameters[index] }
+
         Type.new("Function", captures + [final])
       end
     end

@@ -254,3 +254,24 @@ component Main {
     <div></div>
   }
 }
+--------------------------------------------------------------------------------
+module Array {
+   fun map (array : Array(item), method : Function(item, result)) : Array(result) {
+    for item of array {
+      method(item)
+    }
+  }
+}
+
+component Main {
+  fun test (item : Number, other : String) : String {
+    case {"Asd", Array.map([0, 1, 2], test(_, ""))} {
+      {"Asd", ["A"]} => "A"
+      => "B"
+    }
+  }
+
+  fun render {
+    test(0, "other")
+  }
+}
