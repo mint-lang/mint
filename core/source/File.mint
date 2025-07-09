@@ -208,4 +208,36 @@ module File {
   fun size (file : File) : Number {
     `#{file}.size`
   }
+
+  /*
+  Tries to load the given URL using an HTTP request and return it as a file.
+  If there is an error it will return `Maybe.Nothing`.
+
+    File.fromUrl("https://www.example.com")
+  */
+  fun fromUrl (url : String) : Promise(Maybe(File)) {
+    let filename =
+      Array.last(String.split(Url.parse(url).path, "/")) or "unkown"
+
+    `
+    (async () => {
+      try {
+        const response =
+          await fetch(#{url});
+
+        const blob =
+          await response.blob();
+
+        const file =
+          new File([blob], #{filename}, { type:
+            response.headers.get("Content-Type")
+          });
+
+        return #{Maybe.Just(`file`)};
+      } catch (error) {
+        return #{Maybe.Nothing};
+      };
+    })()
+    `
+  }
 }

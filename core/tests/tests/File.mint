@@ -56,3 +56,19 @@ suite "File.size" {
     |> File.size()) == 7
   }
 }
+
+suite "File.fromUrl" {
+  test "it returns the file" {
+    let file =
+      await File.fromUrl("/test.txt")
+
+    Maybe.isJust(file)
+  }
+
+  test "it returns nothing" {
+    let file =
+      await File.fromUrl("ftp://www.example.com")
+
+    Maybe.isNothing(file)
+  }
+}
