@@ -74,4 +74,51 @@ module FormData {
   fun keys (formData : FormData) : Array(String) {
     `Array.from(#{formData}.keys())`
   }
+
+  /*
+  Tries to get the data from the `FormData` as a `File`.
+
+    let file =
+      File.fromString("Contents", "text.txt", "text/plain")
+
+    let data =
+      FormData.empty()
+      |> FormData.addFile("key", file)
+
+    FormData.getFile(data, "key") // Maybe.Just(file)
+  */
+  fun getFile (data : FormData, key : String) : Maybe(File) {
+    `
+    (() => {
+      const value = #{data}.get(#{key});
+
+      if (value instanceof File) {
+        return #{Maybe.Just(`value`)}
+      } else {
+        return #{Maybe.Nothing}
+      }
+    })()
+    `
+  }
+
+  /*
+  Tries to get the data from the `FormData` as a `String`.
+
+    FormData.empty()
+    |> FormData.addString("key", "value")
+    |> FormData.getString("key") // Maybe.Just("Value")
+  */
+  fun getString (data : FormData, key : String) : Maybe(String) {
+    `
+    (() => {
+      const value = #{data}.get(#{key});
+
+      if (typeof value == "string") {
+        return #{Maybe.Just(`value`)}
+      } else {
+        return #{Maybe.Nothing}
+      }
+    })()
+    `
+  }
 }

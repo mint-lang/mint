@@ -13,12 +13,29 @@ suite "FormData.addFile" {
   }
 }
 
+suite "FormData.getFile" {
+  test "return the file form data object" {
+    FormData.empty()
+    |> FormData.addFile("file", File.fromString("a", "a", "a"))
+    |> FormData.getFile("file")
+    |> Maybe.isJust()
+  }
+}
+
 suite "FormData.addString" {
   test "adds the given string value to the form data object" {
     (FormData.empty()
     |> FormData.addString("key", "hello")
     |> FormData.keys()
     |> Array.firstWithDefault("")) == "key"
+  }
+}
+
+suite "FormData.getString" {
+  test "return the string form data object" {
+    (FormData.empty()
+    |> FormData.addString("key", "hello")
+    |> FormData.getString("key")) == Maybe.Just("hello")
   }
 }
 
