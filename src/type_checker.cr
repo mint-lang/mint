@@ -69,7 +69,7 @@ module Mint
     delegate checked, record_field_lookup, component_records, to: artifacts
     delegate variables, ast, lookups, cache, scope, references, to: artifacts
     delegate assets, resolve_order, locales, components_touched, to: artifacts
-    delegate async, to: artifacts
+    delegate async, exported, to: artifacts
 
     delegate format, to: formatter
 
@@ -409,8 +409,8 @@ module Mint
       end
     end
 
-    def check : Artifacts
-      check ast
+    def check(entities : Array(String) = [] of String) : Artifacts
+      check ast, entities
       artifacts
     end
 

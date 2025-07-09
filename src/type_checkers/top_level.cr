@@ -1,13 +1,10 @@
 module Mint
   class TypeChecker
-    def self.check(node : Ast) : Artifacts
-      new(node).check
+    def self.check(node : Ast, entities : Array(String) = [] of String) : Artifacts
+      new(node).check(entities)
     end
 
-    def check(node : Ast) : Checkable
-      # Resolve the Main component
-      ast.main.try { |component| resolve component }
-
+    def check(node : Ast, entities : Array(String) = [] of String) : Checkable
       node
         .type_definitions
         .find(&.name.value.==("Maybe"))
@@ -18,23 +15,25 @@ module Mint
         .find(&.name.value.==("Result"))
         .try { |item| resolve item }
 
-      node
-        .unified_modules
-        .find(&.name.value.==("Html.Event"))
-        .try do |item|
-          resolve item
+      if entities.empty?
+        # Resolve the Main component
+        ast.main.try { |component| resolve component }
 
-          item
-            .functions
-            .find(&.name.value.==("fromEvent"))
-            .try do |function|
-              resolve function
+        resolve node.routes
+        resolve node.suites
+      else
+        entities.each do |qualified|
+          if item = scope.resolve_qualified(qualified)
+            exported.add(item)
+            resolve item
+            item.parent.try do |parent|
+              references.link(item, parent)
+              check!(parent)
             end
+          end
         end
+      end
 
-      # Resolve routes
-      resolve node.routes
-      resolve node.suites
       resolve node.components.select(&.global?)
 
       # We are turning off checking here which means that what we check after

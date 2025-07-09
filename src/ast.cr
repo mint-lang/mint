@@ -104,6 +104,11 @@ module Mint
               comment: nil)
           end
 
+      @unified_modules.each do |item|
+        item.functions.each(&.parent=(item))
+        item.constants.each(&.parent=(item))
+      end
+
       self
     end
   end

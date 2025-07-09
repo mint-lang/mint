@@ -26,14 +26,14 @@ import {
 
 export const
   C = A(1, `Result.Ok`),
-  D = A(0, `Test.X`),
-  E = A(0, `Test.Y`),
-  F = A(1, `Test.Z`),
-  G = A(1, `Result.Error`),
-  H = A(2, `Result.Other`),
+  D = A(1, `Result.Error`),
+  E = A(2, `Result.Other`),
+  F = A(0, `Test.X`),
+  G = A(0, `Test.Y`),
+  H = A(1, `Test.Z`),
   I = () => {
-    new D();
-    B(H)(``, ``);
-    B(F)(B(G)(``));
+    new F();
+    B(E)(``, ``);
+    B(H)(B(D)(``));
     return ``
   };

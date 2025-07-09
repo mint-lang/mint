@@ -116,9 +116,9 @@ module Mint
                 deferred_path: ->(_node : Set(Ast::Node) | Bundle) { "" },
                 bundles: {} of Set(Ast::Node) | Bundle => Set(Ast::Node),
                 asset_path: ->(_node : Ast::Node) { "" },
+                exported: Set(Ast::Node).new,
                 generate_source_maps: false,
                 class_pool: class_pool,
-                exports: [] of String,
                 base: Bundle::Index,
                 pool: pool)
 

@@ -24,6 +24,9 @@ module Mint
     # We track the level of a node in here.
     getter nodes = {} of Ast::Node => Level
 
+    # We track top level nodes.
+    getter top_level = {} of String => Ast::Node
+
     getter root =
       Level.new(
         Ast::Node.new(
@@ -70,6 +73,30 @@ module Mint
     # Tries to find the target of the given variable.
     def resolve(node : Ast::Variable)
       resolve(node.value, node)
+    end
+
+    def resolve_qualified(qualified : String)
+      if item = top_level[qualified]?
+        item
+      else
+        parts =
+          qualified.split('.')
+
+        entity =
+          parts.pop
+
+        name =
+          parts.join('.')
+
+        if type = @ast.type_definitions.find(&.name.value.==(name))
+          case fields = type.fields
+          when Array(Ast::TypeVariant)
+            fields.find(&.value.value.==(entity))
+          end
+        elsif parent = top_level[name]?
+          resolve(entity, parent).try(&.node)
+        end
+      end
     end
 
     def resolve(target : String, base : Ast::Node)
@@ -141,17 +168,27 @@ module Mint
     def build(node : Ast::Node)
       create(node)
 
-      name =
+      reachable =
         case node
         when Ast::Component
-          node.name.value if node.global?
+          node.global?
         when Ast::Provider,
+             Ast::Module,
+             Ast::Store
+          true
+        end
+
+      name =
+        case node
+        when Ast::Component,
+             Ast::Provider,
              Ast::Module,
              Ast::Store
           node.name.value
         end
 
-      root.items[name] = Target.new(node, root.node) if name
+      root.items[name] = Target.new(node, root.node) if name && reachable
+      top_level[name] = node if name
 
       case node
       when Ast::Component

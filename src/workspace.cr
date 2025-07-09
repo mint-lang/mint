@@ -18,6 +18,7 @@ module Mint
 
     def initialize(
       *,
+      @checked_entities : Array(String) = [] of String,
       @listener : Proc(TypeChecker | Error, Nil) | Nil,
       @include_tests : Bool,
       dot_env : String,
@@ -121,7 +122,7 @@ module Mint
             check_everything: @check.unreachable?,
             check_env: @check.environment?,
             ast: unchecked_ast
-          ).tap(&.check)
+          ).tap(&.check(@checked_entities))
         end
       end
     rescue error : Error

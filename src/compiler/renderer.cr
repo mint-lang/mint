@@ -24,7 +24,7 @@ module Mint
       getter? generate_source_maps : Bool
 
       # The exported entities.
-      getter exports : Array(String)
+      getter exported : Set(Ast::Node)
 
       # The last line index.
       property last_line : Int32 = 0
@@ -51,7 +51,7 @@ module Mint
         @deferred_path,
         @class_pool,
         @asset_path,
-        @exports,
+        @exported,
         @bundles,
         @pool,
         @base,
@@ -149,7 +149,7 @@ module Mint
 
             case {parent, item}
             when {Ast::Component, Ast::Property}
-              append(io, item.name.value) if parent.name.value.in?(exports)
+              append(io, item.name.value) if parent.in?(exported)
             end || append(io, pool.of(item, scope))
           end
         in Encoder, Decoder, Record, Variable

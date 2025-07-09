@@ -7,7 +7,6 @@ module Mint
       test : NamedTuple(url: String, id: String, glob: String)?,
       generate_source_maps : Bool,
       generate_manifest : Bool,
-      exports : Array(String),
       include_program : Bool,
       runtime_path : String?,
       hash_routing : Bool,
@@ -183,8 +182,8 @@ module Mint
             Compiler::Renderer.new(
               deferred_path: ->bundle_name(Set(Ast::Node) | Bundle),
               generate_source_maps: config.generate_source_maps,
+              exported: artifacts.exported,
               bundles: calculated_bundles,
-              exports: config.exports,
               class_pool: class_pool,
               base: node,
               pool: pool,

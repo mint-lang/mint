@@ -3,7 +3,7 @@ module Mint
     class Artifacts
       getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order, locales
-      getter scope, components_touched, references, async
+      getter scope, components_touched, references, async, exported
 
       def initialize(@ast : Ast,
                      @component_records = {} of Ast::Component => Record,
@@ -16,7 +16,8 @@ module Mint
                      @locales = {} of String => Hash(String, Ast::Node),
                      @resolve_order = [] of Ast::Node,
                      @async = Set(Ast::Node).new,
-                     @checked = Set(Ast::Node).new)
+                     @checked = Set(Ast::Node).new,
+                     @exported = Set(Ast::Node).new)
         @scope = Scope.new(@ast)
         @references = ReferencesTracker.new
       end

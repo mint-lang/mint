@@ -1,6 +1,6 @@
 exports:
-  - Nothing
-  - Just
+  - Maybe.Nothing
+  - Maybe.Just
 ================================================================================
 type Maybe(a) {
   Nothing
@@ -15,20 +15,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-import {
-  newVariant as B,
-  variant as A
-} from "./runtime.js";
+import { variant as A } from "./runtime.js";
 
 export const
-  C = A(0, `Maybe.Nothing`),
-  D = A(1, `Maybe.Just`),
-  E = () => {
-    B(D)(`Hello`);
-    new C();
-    return ``
-  };
+  B = A(0, `Maybe.Nothing`),
+  C = A(1, `Maybe.Just`);
 
 export const
-  Nothing = C,
-  Just = D;
+  Maybe_Nothing = B,
+  Maybe_Just = C;

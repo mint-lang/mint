@@ -172,6 +172,7 @@ module Mint
 
     delegate resolve_order, variables, cache, lookups, checked, to: artifacts
     delegate record_field_lookup, ast, components_touched, to: artifacts
+    delegate exported, to: artifacts
 
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new
@@ -296,23 +297,37 @@ module Mint
     end
 
     def exports : Compiled
-      exports = {} of String => Compiled
-
-      ast
-        .components
-        .select(&.name.value.in?(config.exports))
-        .each do |component|
-          exports[component.name.value] =
-            js.call(Builtin::Embed, [[component] of Item])
-        end
-
-      ast
-        .nodes
-        .select(Ast::TypeVariant)
-        .select(&.value.value.in?(config.exports))
-        .each do |variant|
-          exports[variant.value.value] = [variant] of Item
-        end
+      exports =
+        exported.compact_map do |node|
+          case node
+          when Ast::Function
+            case parent = node.parent
+            when Ast::Component,
+                 Ast::Provider,
+                 Ast::Module,
+                 Ast::Store
+              {"#{parent.name.value}.#{node.name.value}", [node] of Item}
+            end
+          when Ast::Constant
+            case parent = node.parent
+            when Ast::Component,
+                 Ast::Provider,
+                 Ast::Module,
+                 Ast::Store
+              {"#{parent.name.value}.#{node.name.value}", [node] of Item}
+            end
+          when Ast::Component
+            {
+              node.name.value,
+              js.call(Builtin::Embed, [[node] of Item]),
+            }
+          when Ast::TypeVariant
+            case parent = node.parent
+            when Ast::TypeDefinition
+              {"#{parent.name.value}.#{node.value.value}", [node] of Item}
+            end
+          end
+        end.to_h
 
       exports =
         exports.transform_keys(&.gsub('.', '_'))

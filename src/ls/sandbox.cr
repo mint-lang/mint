@@ -58,7 +58,6 @@ module Mint
               config: Bundler::Config.new(
                 generate_source_maps: true,
                 generate_manifest: false,
-                exports: [] of String,
                 include_program: true,
                 hash_routing: false,
                 hash_assets: false,

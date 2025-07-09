@@ -32,7 +32,7 @@ Dir
         ast.class.should eq(Mint::Ast)
 
         artifacts =
-          Mint::TypeChecker.check(ast)
+          Mint::TypeChecker.check(ast, config.try(&.exports) || [] of String)
 
         test_information =
           if File.basename(file).starts_with?("test")
@@ -41,7 +41,6 @@ Dir
 
         config =
           Mint::Bundler::Config.new(
-            exports: config.try(&.exports) || [] of String,
             json: Mint::MintJson.parse("{}", "mint.json"),
             generate_source_maps: false,
             generate_manifest: false,

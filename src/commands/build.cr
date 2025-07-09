@@ -54,6 +54,7 @@ module Mint
           check_dependencies: true do
           Workspace.new(
             path: Path[Dir.current, "mint.json"].to_s,
+            checked_entities: flags.export,
             dot_env: flags.env || ".env",
             check: Check::Environment,
             include_tests: false,
@@ -80,7 +81,6 @@ module Mint
                         runtime_path: flags.runtime,
                         json: MintJson.current,
                         include_program: true,
-                        exports: flags.export,
                         live_reload: false,
                         hash_assets: true,
                         test: nil)).bundle

@@ -1,0 +1,15 @@
+exports:
+  - Test.render
+================================================================================
+module Test {
+  fun render : String {
+    "Hello!"
+  }
+}
+--------------------------------------------------------------------------------
+export const a = () => {
+  return `Hello!`
+};
+
+export const
+  Test_render = a;
