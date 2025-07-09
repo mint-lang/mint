@@ -156,7 +156,7 @@ module Regexp {
   /*
   Splits the string by the regular expression.
 
-    Regexp.split(/,/, "a,b,c,d")) == ["a", "b", "c", "d"]
+    Regexp.split(/,/, "a,b,c,d") == ["a", "b", "c", "d"]
   */
   fun split (regexp : Regexp, input : String) : Array(String) {
     `#{input}.split(#{regexp})`
@@ -169,5 +169,16 @@ module Regexp {
   */
   fun toString (regexp : Regexp) : String {
     `#{regexp}.toString()`
+  }
+
+  /*
+  Executes the regular expression and returns an array of matches.
+  The returned array has the matched text as the first item, and then one item
+  for each capturing group of the matched text.
+
+    Regexp.exec(/,/, "a,b,c,d") == [","]
+  */
+  fun exec (regexp : Regexp, string : String) : Array(String) {
+    `[...#{regexp}.exec(#{string})] || []`
   }
 }

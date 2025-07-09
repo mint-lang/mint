@@ -39,6 +39,13 @@ suite "Regexp.split" {
   }
 }
 
+suite "Regexp.exec" {
+  test "executes a regexp" {
+    (Regexp.create(",")
+    |> Regexp.exec("a,b,c,d")) == [","]
+  }
+}
+
 suite "Regexp.matches" {
   test "it returns matches" {
     (Regexp.createWithOptions("\\w",
