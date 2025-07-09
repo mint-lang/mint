@@ -39,6 +39,13 @@ suite "Html.DataTransfer.getTypes" {
   }
 }
 
+suite "Html.DataTransfer.getMimeTypes" {
+  test "it returns the value" {
+    (`new DataTransfer()`
+    |> Html.DataTransfer.getMimeTypes()) == []
+  }
+}
+
 suite "Html.DataTransfer.getFiles" {
   test "it returns the value" {
     (`new DataTransfer()`

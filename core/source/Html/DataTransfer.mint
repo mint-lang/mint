@@ -66,6 +66,20 @@ module Html.DataTransfer {
   }
 
   /*
+  Returns the mime types of each dragged item.
+
+    let types =
+      Html.DataTransfer.getMimeTypes(event.dataTransfer)
+  */
+  fun getMimeTypes (transfer : Html.DataTransfer) : Array(String) {
+    `
+    ([...#{transfer}.items]
+     .filter((item) => item.kind == "file")
+     .map((item) => item.type))
+    ` as Array(String)
+  }
+
+  /*
   Sets the value for the format in the data transfer.
 
     Html.DataTransfer.setData(event.dataTransfer, "text/plain", "Hello!")
