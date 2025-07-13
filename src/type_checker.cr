@@ -367,7 +367,7 @@ module Mint
       end
     end
 
-    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State | Ast::Signal),
+    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State | Ast::Signal | Ast::Context),
                     error : String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|

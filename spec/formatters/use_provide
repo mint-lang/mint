@@ -1,0 +1,41 @@
+type Context {
+  name : String
+}
+
+component Consumer {
+  context ctx : Context
+
+  fun render {
+    ctx.name
+  }
+}
+
+component Test {
+  provide Context {
+    name: "Joe"
+  }
+
+  fun render : Html {
+    <Consumer/>
+  }
+}
+--------------------------------------------------------------------------------
+type Context {
+  name : String
+}
+
+component Consumer {
+  context ctx : Context
+
+  fun render {
+    ctx.name
+  }
+}
+
+component Test {
+  provide Context { name: "Joe" }
+
+  fun render : Html {
+    <Consumer/>
+  }
+}

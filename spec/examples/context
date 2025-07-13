@@ -1,0 +1,59 @@
+---------------------------------------------------------context_expected_name
+component Test {
+  context
+---------------------------------------------------------context_expected_colon
+component Test {
+  context test
+---------------------------------------------------------context_expected_type
+component Test {
+  context test :
+---------------------------------------------------------context_type_not_found
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------context_not_record
+type Data {
+  X
+}
+
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-------------------------------------------------------context_not_provided_for
+type Data {
+  set : String
+}
+
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}

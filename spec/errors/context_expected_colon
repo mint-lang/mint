@@ -1,0 +1,12 @@
+component Test {
+  context test
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_EXPECTED_COLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the colon of a context but I found "a space" instead:
+
+   ┌ errors/context_expected_colon:2:14
+   ├───────────────────────────────────
+  1│ component Test {
+  2│   context test
+   │               ⌃⌃⌃⌃

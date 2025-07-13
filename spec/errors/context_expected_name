@@ -1,0 +1,12 @@
+component Test {
+  context
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_EXPECTED_NAME) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a context but I found "a space" instead:
+
+   ┌ errors/context_expected_name:2:9
+   ├─────────────────────────────────
+  1│ component Test {
+  2│   context
+   │          ⌃⌃⌃⌃

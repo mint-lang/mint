@@ -1,0 +1,53 @@
+type Data {
+  X
+}
+
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_NOT_RECORD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of a context is not a record:
+
+  Data
+
+The context in question is here:
+
+    ┌ errors/context_not_record:6:3
+    ├──────────────────────────────
+   2│   X
+   3│ }
+   4│
+   5│ component Test {
+   6│   context name : Data
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│
+   8│   fun render : Html {
+   9│     <div/>
+  10│   }
+
+The type is defined here:
+
+   ┌ errors/context_not_record:1:1
+   ├──────────────────────────────
+   │ ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+  1│ type Data {
+  2│   X
+  3│ }
+   │ ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│
+  5│ component Test {
+  6│   context name : Data
+  7│
+

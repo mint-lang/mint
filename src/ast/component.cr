@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Component < Node
-      getter functions, gets, uses, name, comment, refs, constants
+      getter functions, gets, uses, name, comment, refs, constants, contexts
       getter properties, connects, styles, states, comments
 
       getter? global, locales, async
@@ -12,6 +12,7 @@ module Mint
                      @functions : Array(Function),
                      @comments : Array(Comment),
                      @connects : Array(Connect),
+                     @contexts : Array(Context),
                      @from : Parser::Location,
                      @to : Parser::Location,
                      @states : Array(State),

@@ -1,0 +1,31 @@
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_TYPE_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was looking for a type for a context but I can't find it:
+
+  Data
+
+The context in question is here:
+
+   ┌ errors/context_expected_type_not_found:2:3
+   ├───────────────────────────────────────────
+  1│ component Test {
+  2│   context name : Data
+   │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div/>
+  6│   }

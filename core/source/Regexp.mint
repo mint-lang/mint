@@ -179,6 +179,6 @@ module Regexp {
     Regexp.exec(/,/, "a,b,c,d") == [","]
   */
   fun exec (regexp : Regexp, string : String) : Array(String) {
-    `[...#{regexp}.exec(#{string})] || []`
+    `[...(#{regexp}.exec(#{string}) || [])] || []`
   }
 }

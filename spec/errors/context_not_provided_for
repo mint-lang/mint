@@ -1,0 +1,49 @@
+type Data {
+  set : String
+}
+
+component Test {
+  context name : Data
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_NOT_PROVIDED_FOR) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A value is not provided for this context in an parent component.
+
+The context in question is here:
+
+    ┌ errors/context_not_provided_for:6:3
+    ├────────────────────────────────────
+   2│   set : String
+   3│ }
+   4│
+   5│ component Test {
+   6│   context name : Data
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│
+   8│   fun render : Html {
+   9│     <div/>
+  10│   }
+
+The component was used here:
+
+    ┌ errors/context_not_provided_for:15:5
+    ├─────────────────────────────────────
+  11│ }
+  12│
+  13│ component Main {
+  14│   fun render : Html {
+  15│     <Test/>
+    │     ⌃⌃⌃⌃⌃⌃⌃
+  16│   }
+  17│ }
