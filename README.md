@@ -51,7 +51,7 @@ Here are some bigger projects built and maintained by us that showcases the lang
 - [Mint Website](https://github.com/mint-lang/mint-website) - The website for the language. It has static content (documentation, blogs) and application like content (sandboxes).
 - [Mint Realworld](https://github.com/mint-lang/mint-realworld) - The frontend implementation of the Realworld app.
 - [Mint UI](https://github.com/mint-lang/mint-ui) - A UI library written in Mint.
-- [Mint UI Website](https://github.com/mint-lang/mint-ui) - The website for Mint UI.
+- [Mint UI Website](https://github.com/mint-lang/mint-ui-website) - The website for Mint UI.
 - _Your Project_ - let us know if you writter something amazing with Mint and would like to showcase here!
 
 ## 👥&nbsp; Community
