@@ -1,4 +1,4 @@
-record Article {
+type Article {
   id : Number,
   description : String,
   title : String

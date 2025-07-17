@@ -1,4 +1,4 @@
-record Header {
+type Header {
   title : String
 }
 ----------------------------------------------------------------file record.mint
@@ -14,7 +14,7 @@ component Test {
       Header.default()
 
     <div>
-      <{ header.title }>
+      header.title
     </div>
   }
 }

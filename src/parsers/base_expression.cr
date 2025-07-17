@@ -10,8 +10,7 @@ module Mint
       left =
         case char
         when '('
-          # TODO: Remove `oneof` when `:` deprecation ends.
-          oneof { parenthesized_expression || inline_function }
+          parenthesized_expression || inline_function
         when '-', .ascii_number?
           state_setter || number_literal || unary_minus
         when '!'
@@ -81,23 +80,15 @@ module Mint
       return unless left
 
       # We try to chain accesses and calls until we can.
-      #
-      # TODO: Remove `::`, `:` cases in 0.21.0
       loop do
         node =
-          if word? "::"
+          case char
+          when '.'
             access(left)
-          else
-            case char
-            when ':'
-              access(left)
-            when '.'
-              access(left)
-            when '('
-              call(left)
-            when '['
-              bracket_access(left)
-            end
+          when '('
+            call(left)
+          when '['
+            bracket_access(left)
           end
 
         break unless node

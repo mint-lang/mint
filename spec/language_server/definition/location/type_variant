@@ -1,10 +1,10 @@
-enum Status {
+type Status {
   Error
   Ok
 }
 ----------------------------------------------------------------file status.mint
 component Test {
-  state status : Status = Status::Ok
+  state status : Status = Status.Ok
 
   fun render : Html {
     <div />
@@ -34,7 +34,7 @@ component Test {
     },
     "position": {
       "line": 1,
-      "character": 35
+      "character": 34
     }
   },
   "method": "textDocument/definition"

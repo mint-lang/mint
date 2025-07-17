@@ -1,4 +1,4 @@
-record Header {
+type Header {
   titles : Array(String)
 }
 ----------------------------------------------------------------file record.mint

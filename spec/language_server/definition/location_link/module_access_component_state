@@ -9,7 +9,7 @@ global component Header {
 component Test {
   fun render : Html {
     <div>
-      <{ Header.title }>
+      Header.title
     </div>
   }
 }
@@ -50,11 +50,11 @@ component Test {
       "originSelectionRange": {
         "start": {
           "line": 3,
-          "character": 16
+          "character": 13
         },
         "end": {
           "line": 3,
-          "character": 21
+          "character": 18
         }
       },
       "targetUri": "file://#{root_path}/header.mint",

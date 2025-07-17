@@ -1,15 +1,15 @@
-record Article {
-  id : Number,
+type Article {
   description : String,
-  title : String
+  title : String,
+  id : Number
 }
 
 module Test {
   fun makeArticle (title : String) : Article {
     {
-      id: 1,
       description: "Mint Lang",
-      title: title
+      title: title,
+      id: 1
     }
   }
 }
@@ -54,7 +54,7 @@ module Test {
         },
         "end": {
           "line": 9,
-          "character": 8
+          "character": 17
         }
       },
       "targetUri": "file://#{root_path}/test.mint",
@@ -65,7 +65,7 @@ module Test {
         },
         "end": {
           "line": 1,
-          "character": 13
+          "character": 22
         }
       },
       "targetSelectionRange": {
@@ -75,7 +75,7 @@ module Test {
         },
         "end": {
           "line": 1,
-          "character": 4
+          "character": 13
         }
       }
     }

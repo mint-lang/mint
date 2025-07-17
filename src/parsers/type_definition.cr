@@ -5,8 +5,7 @@ module Mint
         comment = self.comment
         whitespace
 
-        # TODO: Remove `record` and `enum` in 0.21.0
-        next unless keyword!("type") || keyword!("record") || keyword!("enum")
+        next unless keyword!("type")
         whitespace
 
         next error :type_definition_expected_name do

@@ -3,7 +3,7 @@ component Test {
 
   fun render : Html {
     <div>
-      <{ TEXT }>
+      TEXT
     </div>
   }
 }

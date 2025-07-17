@@ -1,11 +1,16 @@
-/* Comment for Status enum. */
-enum Status {
+component Ok {
+  fun render {
+    <div/>
+  }
+}
+-------------------------------------------------------------file component.mint
+type Status {
   Error
   Ok
 }
 ----------------------------------------------------------------file status.mint
 component Test {
-  state status : Status = Status::Ok
+  state status : Status = Status.Ok
 
   fun render : Html {
     <div />
@@ -35,7 +40,7 @@ component Test {
     },
     "position": {
       "line": 1,
-      "character": 26
+      "character": 34
     }
   },
   "method": "textDocument/definition"
@@ -48,32 +53,32 @@ component Test {
       "originSelectionRange": {
         "start": {
           "line": 1,
-          "character": 26
+          "character": 33
         },
         "end": {
           "line": 1,
-          "character": 32
+          "character": 35
         }
       },
       "targetUri": "file://#{root_path}/status.mint",
       "targetRange": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": 4,
-          "character": 1
+          "line": 3,
+          "character": 0
         }
       },
       "targetSelectionRange": {
         "start": {
-          "line": 1,
-          "character": 5
+          "line": 2,
+          "character": 2
         },
         "end": {
-          "line": 1,
-          "character": 11
+          "line": 2,
+          "character": 4
         }
       }
     }

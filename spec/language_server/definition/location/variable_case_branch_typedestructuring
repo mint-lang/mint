@@ -1,4 +1,4 @@
-enum Status {
+type Status {
   Error
   Ok(text : String)
 }
@@ -6,8 +6,8 @@ enum Status {
 module Test {
   fun toString (status : Status) : String {
     case status {
-      Status::Ok(text) => text
-      Status::Error => "error"
+      Status.Ok(text) => text
+      Status.Error => "error"
     }
   }
 }
@@ -19,7 +19,7 @@ module Test {
     "capabilities": {
       "textDocument": {
         "definition": {
-          "linkSupport": true
+          "linkSupport": false
         }
       }
     }
@@ -43,41 +43,19 @@ module Test {
 -------------------------------------------------------------------------request
 {
   "jsonrpc": "2.0",
-  "result": [
-    {
-      "originSelectionRange": {
-        "start": {
-          "line": 8,
-          "character": 26
-        },
-        "end": {
-          "line": 8,
-          "character": 30
-        }
+  "result": {
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 16
       },
-      "targetUri": "file://#{root_path}/test.mint",
-      "targetRange": {
-        "start": {
-          "line": 8,
-          "character": 6
-        },
-        "end": {
-          "line": 8,
-          "character": 22
-        }
-      },
-      "targetSelectionRange": {
-        "start": {
-          "line": 8,
-          "character": 17
-        },
-        "end": {
-          "line": 8,
-          "character": 21
-        }
+      "end": {
+        "line": 8,
+        "character": 20
       }
-    }
-  ],
+    },
+    "uri": "file://#{root_path}/test.mint"
+  },
   "id": 1
 }
 ------------------------------------------------------------------------response

@@ -3,7 +3,7 @@ component Test {
 
   fun render : Html {
     <div>
-      <{ text }>
+      text
     </div>
   }
 }
@@ -44,11 +44,11 @@ component Test {
       "originSelectionRange": {
         "start": {
           "line": 5,
-          "character": 9
+          "character": 6
         },
         "end": {
           "line": 5,
-          "character": 13
+          "character": 10
         }
       },
       "targetUri": "file://#{root_path}/test.mint",

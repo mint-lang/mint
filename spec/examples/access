@@ -162,7 +162,7 @@ module App.Page {
   }
 }
 
-enum App.Page {
+type App.Page {
   Settings
   Page
 }

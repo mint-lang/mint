@@ -1,4 +1,4 @@
-record Header {
+type Header {
   hide : Function(Void)
 }
 ----------------------------------------------------------------file record.mint

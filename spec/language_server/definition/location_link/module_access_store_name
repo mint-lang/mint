@@ -7,7 +7,7 @@ store Header {
 component Test {
   fun render : Html {
     <div>
-      <{ Header.title() }>
+      Header.title()
     </div>
   }
 }
@@ -48,11 +48,11 @@ component Test {
       "originSelectionRange": {
         "start": {
           "line": 3,
-          "character": 9
+          "character": 6
         },
         "end": {
           "line": 3,
-          "character": 15
+          "character": 12
         }
       },
       "targetUri": "file://#{root_path}/store.mint",

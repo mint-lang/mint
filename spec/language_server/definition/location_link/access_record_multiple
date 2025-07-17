@@ -1,12 +1,12 @@
-record Nested3 {
+type Nested3 {
   field3 : String
 }
 ---------------------------------------------------------------file nested3.mint
-record Nested2 {
+type Nested2 {
   field2 : Nested3
 }
 ---------------------------------------------------------------file nested2.mint
-record Nested {
+type Nested {
   field1 : Nested2
 }
 ---------------------------------------------------------------file nested1.mint

@@ -7,7 +7,7 @@ global component Header {
 component Test {
   fun render : Html {
     <div>
-      <{ Header.render() }>
+      Header.render()
     </div>
   }
 }

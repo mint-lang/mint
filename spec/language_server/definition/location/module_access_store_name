@@ -7,7 +7,7 @@ store Header {
 component Test {
   fun render : Html {
     <div>
-      <{ Header.title() }>
+      Header.title()
     </div>
   }
 }

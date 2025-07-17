@@ -7,57 +7,46 @@ module Mint
         # This means that it's an access of a constant.
         next if char == '.'
 
-        # TODO: Remove this in 0.21.0
-        next if char == ':' && !word?("::")
+        parts =
+          name.value.split('.')
 
-        # TODO: Remove this branch in 0.21.0
-        if word! "::"
-          next error :type_destructuring_expected_variant do
-            expected "the type of an type destructuring", word
-            snippet self
-          end unless variant = id(track: false)
-        else
-          parts =
-            name.value.split('.')
+        name, variant =
+          if parts.size >= 2
+            variant_name =
+              parts.pop
 
-          name, variant =
-            if parts.size >= 2
-              variant_name =
-                parts.pop
+            parent_name =
+              parts.join('.')
 
-              parent_name =
-                parts.join('.')
+            parent_size =
+              parent_name.size
 
-              parent_size =
-                parent_name.size
+            variant_size =
+              variant_name.size
 
-              variant_size =
-                variant_name.size
+            # It is safe to add the parents size to the column
+            # because it cannot be on a different line.
+            parent_to =
+              start_position + parent_size
 
-              # It is safe to add the parents size to the column
-              # because it cannot be on a different line.
-              parent_to =
-                start_position + parent_size
+            variant_to =
+              parent_to + (1 + variant_size)
 
-              variant_to =
-                parent_to + (1 + variant_size)
-
-              {
-                Ast::Id.new(
-                  from: start_position,
-                  value: parent_name,
-                  to: parent_to,
-                  file: file),
-                Ast::Id.new(
-                  value: variant_name,
-                  from: parent_to,
-                  to: variant_to,
-                  file: file),
-              }
-            else
-              {nil, name}
-            end
-        end
+            {
+              Ast::Id.new(
+                from: start_position,
+                value: parent_name,
+                to: parent_to,
+                file: file),
+              Ast::Id.new(
+                value: variant_name,
+                from: parent_to,
+                to: variant_to,
+                file: file),
+            }
+          else
+            {nil, name}
+          end
 
         ast.nodes << variant
         ast.nodes << name if name

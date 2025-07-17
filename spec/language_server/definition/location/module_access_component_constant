@@ -9,7 +9,7 @@ global component Header {
 component Test {
   fun render : Html {
     <div>
-      <{ Header:TITLE }>
+      Header.TITLE
     </div>
   }
 }

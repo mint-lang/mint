@@ -1,15 +1,15 @@
-record Article {
-  id : Number,
+type Article {
   description : String,
-  title : String
+  title : String,
+  id : Number
 }
 
 store Test {
   state article : Article =
     {
-      id: 1,
       description: "Mint Lang",
-      title: "Mint"
+      title: "Mint",
+      id: 1
     }
 
   fun load : Promise(Void) {
@@ -17,9 +17,9 @@ store Test {
       {
         article:
           {
-            id: 1,
             description: "Mint Lang",
-            title: "Mint"
+            title: "Mint",
+            id: 1
           }
       }
   }
@@ -65,7 +65,7 @@ store Test {
         },
         "end": {
           "line": 20,
-          "character": 23
+          "character": 17
         }
       },
       "targetUri": "file://#{root_path}/test.mint",
@@ -76,7 +76,7 @@ store Test {
         },
         "end": {
           "line": 2,
-          "character": 22
+          "character": 16
         }
       },
       "targetSelectionRange": {
@@ -86,7 +86,7 @@ store Test {
         },
         "end": {
           "line": 2,
-          "character": 13
+          "character": 7
         }
       }
     }

@@ -4,8 +4,8 @@ component Error {
   }
 }
 -------------------------------------------------------------file component.mint
-/* Comment for Status enum. */
-enum Status {
+/* Comment for Status type. */
+type Status {
   Error
   Ok
 }
@@ -13,8 +13,8 @@ enum Status {
 module Test {
   fun toString (status : Status) : String {
     case status {
-      Status::Error => "Error"
-      Status::Ok => "Ok"
+      Status.Error => "Error"
+      Status.Ok => "Ok"
     }
   }
 }
@@ -59,7 +59,7 @@ module Test {
         },
         "end": {
           "line": 3,
-          "character": 19
+          "character": 18
         }
       },
       "targetUri": "file://#{root_path}/status.mint",

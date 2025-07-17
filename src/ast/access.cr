@@ -3,19 +3,11 @@ module Mint
     class Access < Node
       getter field, expression, type
 
-      # TODO: Remove in 0.21.0.
-      enum Type
-        DoubleColon
-        Colon
-        Dot
-      end
-
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
                      @expression : Node,
-                     @field : Variable,
-                     @type : Type)
+                     @field : Variable)
       end
     end
   end
