@@ -43,6 +43,17 @@ module Mint
         end unless node.in_component?
       end
 
+      component.contexts.each do |context|
+        resolve context
+
+        error! :context_not_provided_for do
+          block "A value is not provided for this context in an parent component."
+          snippet "The context in question is here:", context
+          snippet "The component was used here:", node
+        end unless (@stack.select(Ast::Component) - [component])
+                     .find(&.uses.find(&.provider.value.==(context.type.value)))
+      end
+
       check_html node.children
 
       lookups[node] = {component, nil}

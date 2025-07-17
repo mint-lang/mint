@@ -195,6 +195,7 @@ module Mint
         build(node.properties, node)
         build(node.functions, node)
         build(node.constants, node)
+        build(node.contexts, node)
         build(node.states, node)
         build(node.styles, node)
         build(node.gets, node)
@@ -237,6 +238,7 @@ module Mint
            Ast::Property,
            Ast::Constant,
            Ast::Argument,
+           Ast::Context,
            Ast::Signal,
            Ast::State,
            Ast::Get
@@ -258,6 +260,7 @@ module Mint
            Ast::Builtin,
            Ast::Comment,
            Ast::Discard,
+           Ast::Context,
            Ast::Spread,
            Ast::Env
       when Ast::StringLiteral,

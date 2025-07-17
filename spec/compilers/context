@@ -1,0 +1,100 @@
+type Form {
+  set: Function(String, String, Promise(Void)),
+  get: Function(String, String)
+}
+
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type Result(err, value) {
+  Ok(value)
+  Err(err)
+}
+
+component Input {
+  property name : String
+  context form : Form
+
+  fun handleClick {
+    form.set(name, form.get(name) + "1")
+  }
+
+  fun render {
+    <button onClick={handleClick}>
+      "Change!"
+    </button>
+  }
+}
+
+component Main {
+  state form : Map(String, String) = {} of String => String
+
+  provide Form {
+    set: (name : String, value : String) { next { form: form } },
+    get: (name : String) { form[name] or "" }
+  }
+
+  fun render {
+    <div>
+      <Input name="firstname"/>
+      <Input name="lastname"/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as E,
+  createContext as B,
+  useContext as D,
+  mapAccess as H,
+  useSignal as F,
+  variant as A,
+  record as C,
+  or as G
+} from "./runtime.js";
+
+export const
+  I = A(0, `Maybe.Nothing`),
+  J = A(1, `Maybe.Just`),
+  K = A(1, `Result.Ok`),
+  L = A(1, `Result.Err`),
+  M = B(),
+  a = C(`Form`),
+  N = ({
+    b
+  }) => {
+    const
+      c = () => {
+        return d.set(b, d.get(b) + `1`)
+      },
+      d = D(M);
+    return E(`button`, {
+      "onClick": c
+    }, [`Change!`])
+  },
+  O = () => {
+    const e = F([]);
+    return E(M.Provider, {
+      value: a({
+        set: (f, g) => {
+          return (() => {
+            e.value = e.value
+          })()
+        },
+        get: (h) => {
+          return G(I, L, H(e.value, h, J, I), ``)
+        }
+      })
+    }, (() => {
+      return E(`div`, {}, [
+        E(N, {
+          b: `firstname`
+        }),
+        E(N, {
+          b: `lastname`
+        })
+      ])
+    })())
+  };

@@ -1,0 +1,24 @@
+type Context {
+  name : String
+}
+
+component Test {
+  /* Comment */contextctx:Context
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+type Context {
+  name : String
+}
+
+component Test {
+  /* Comment */
+  context ctx : Context
+
+  fun render : Html {
+    <div/>
+  }
+}

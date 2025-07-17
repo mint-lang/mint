@@ -156,6 +156,11 @@ module Mint
           append(io, pool.of(item, base))
         in Builtin
           append(io, class_pool.of(item, base))
+        in Context
+          append(io, class_pool.of(item.value, base))
+        in ContextProvider
+          append(io, class_pool.of(item.value, base))
+          append(io, ".Provider")
         in Raw
           append(io, item.value)
         in String

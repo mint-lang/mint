@@ -1,0 +1,12 @@
+component Test {
+  context test :
+--------------------------------------------------------------------------------
+░ ERROR (CONTEXT_EXPECTED_TYPE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the type of a context but I found "a space" instead:
+
+   ┌ errors/context_expected_type:2:16
+   ├──────────────────────────────────
+  1│ component Test {
+  2│   context test :
+   │                 ⌃⌃⌃⌃

@@ -105,13 +105,25 @@ module Mint
             [js.object_destructuring(properties)]
           end
 
+        contexts =
+          node.contexts.compact_map do |context|
+            if resolved = lookups[context]?.try(&.first?)
+              {node, context, js.call(Builtin::UseContext, [
+                [Context.new(resolved)] of Item,
+              ])}
+            end
+          end
+
+        providers =
+          node.uses.reject(&.context?)
+
         provider_effects =
-          if node.uses.empty?
+          if providers.empty?
             [] of Compiled
           else
             id = Variable.new
 
-            node.uses.map do |use|
+            providers.map do |use|
               data =
                 if condition = use.condition
                   js.tenary(compile(condition), compile(use.data), js.null)
@@ -171,42 +183,65 @@ module Mint
             [] of Compiled
           end
 
-        items =
-          if node.global?
-            refs + states + gets + functions + styles + constants + id + [
-              {node,
-               node,
-               compile_function(
-                 render.not_nil!,
-                 skip_const: true,
-                 contents: js.statements(
-                   exposed + effect + update_effect + provider_effects))},
-            ]
-          else
-            entities =
-              (refs + states + gets + functions + styles + constants + id).compact
+        context_providers =
+          node.uses.select(&.context?).tap(&.each do |use|
+            definition =
+              lookups[use][0]
 
+            unless @context_providers.includes?(definition)
+              @context_providers.add(definition)
+              add(definition, Context.new(definition), js.call(Builtin::CreateContext, [] of Compiled))
+            end
+          end)
+
+        items =
+          (refs + states + gets + functions + styles + constants +
+            id + contexts).compact
+
+        items, body =
+          if node.global?
+            {
+              items,
+              exposed + effect + update_effect + provider_effects,
+            }
+          else
             consts =
-              if entities.empty?
+              if items.empty?
                 [] of Compiled
               else
-                [js.consts(entities)]
+                [js.consts(items)]
               end
 
-            [{
-              node,
-              node,
-              compile_function(
-                render.not_nil!,
-                args: arguments,
-                skip_const: true,
-                contents: js.statements(
-                  consts + exposed + effect + update_effect + provider_effects
-                )),
-            }]
+            {
+              [] of Tuple(Ast::Node, Id, Compiled),
+              consts + exposed + effect + update_effect + provider_effects,
+            }
           end
 
-        add(items)
+        add(items + [
+          {
+            node,
+            node,
+            compile_function(
+              render.not_nil!,
+              contents: js.statements(body),
+              skip_const: true,
+              args: arguments,
+            ) do |contents|
+              if context_providers.empty?
+                contents
+              else
+                js.return(context_providers.reduce(js.iif { contents }) do |memo, use|
+                  js.call(Builtin::CreateElement, [
+                    [ContextProvider.new(lookups[use][0])] of Item,
+                    js.object({"value" => compile(use.data)}),
+                    memo,
+                  ])
+                end)
+              end
+            end,
+          },
+        ])
       end
     end
   end
