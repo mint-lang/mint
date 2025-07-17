@@ -75,13 +75,36 @@ module Mint
                   {target, truthy},
                   {nil, falsy},
                 ])
-            else
-              js.tenary(compile(statement.expression), truthy, falsy)
             end
           end
-        else
-          js.tenary(compile(node.condition), truthy, falsy)
-        end
+        end || case statement = node.condition
+        when Ast::Statement
+          case variable = statement.expression
+          when Ast::Variable
+            if variable.unboxed?
+              compiled =
+                compile(node.condition)
+
+              condition =
+                js.call(Builtin::IsThruthy, [compiled, just, ok])
+
+              truthy =
+                js.iif do
+                  js.statements([
+                    js.let(variable, compiled + ["._0"]),
+                    js.return(truthy),
+                  ])
+                end
+
+              js.tenary(condition, truthy, falsy)
+            end
+          end
+        end || if cache[node.condition].name.in?("Maybe", "Result")
+          condition =
+            js.call(Builtin::IsThruthy, [compile(node.condition), just, ok])
+
+          js.tenary(condition, truthy, falsy)
+        end || js.tenary(compile(node.condition), truthy, falsy)
       end
     end
   end

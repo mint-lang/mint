@@ -23,7 +23,11 @@ module Html {
     Html.isEmpty(<></>) == true
   */
   fun isEmpty (html : Html) : Bool {
-    `!#{html}`
+    if html {
+      false
+    } else {
+      true
+    }
   }
 
   /*
@@ -33,6 +37,10 @@ module Html {
     Html.isNotEmpty(<></>) == false
   */
   fun isNotEmpty (html : Html) : Bool {
-    `!!#{html}`
+    if html {
+      true
+    } else {
+      false
+    }
   }
 }

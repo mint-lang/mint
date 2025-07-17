@@ -13,7 +13,18 @@ module Mint
                Ast::TypeDestructuring,
                Ast::Discard
             destructure(item.target, condition)
+          else
+            case expression = item.expression
+            when Ast::Variable
+              if Comparer.matches_any?(condition, [MAYBE, RESULT])
+                expression.unboxed = true
+                cache[expression] = condition.parameters.first
+                [{expression.value, cache[expression], expression}]
+              end
+            end
           end
+        end || if Comparer.matches_any?(condition, [MAYBE, RESULT, HTML])
+          [] of VariableScope
         end
 
       error! :if_condition_type_mismatch do

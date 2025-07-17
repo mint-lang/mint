@@ -126,3 +126,8 @@ export const load = async (path) => {
   const x = await import(path);
   return x.default;
 };
+
+// Returns true for just and ok.
+export const isThruthy = (value, just, ok) => {
+  return value instanceof ok || value instanceof just
+};

@@ -146,6 +146,7 @@ module Mint
       # Utilities.
       NormalizeEvent
       BracketAccess
+      IsThruthy
       MapAccess
       Identity
       ToArray

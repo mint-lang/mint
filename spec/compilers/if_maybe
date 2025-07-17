@@ -1,0 +1,34 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+component Main {
+  fun render : String {
+    if Maybe.Just("A") {
+      "a"
+    } else {
+      "b"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  newVariant as C,
+  isThruthy as B,
+  variant as A
+} from "./runtime.js";
+
+export const
+  D = A(1, `Result.Err`),
+  E = A(1, `Result.Ok`),
+  F = A(0, `Maybe.Nothing`),
+  G = A(1, `Maybe.Just`),
+  H = () => {
+    return (B(C(G)(`A`), G, E) ? `a` : `b`)
+  };

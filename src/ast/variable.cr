@@ -1,6 +1,7 @@
 module Mint
   class Ast
     class Variable < Node
+      property? unboxed = false
       getter value
 
       def initialize(@from : Parser::Location,

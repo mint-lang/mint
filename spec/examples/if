@@ -148,3 +148,54 @@ component Main {
     }
   }
 }
+-------------------------------------------------------------------------------
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    if Maybe.Just("A") {
+      "a"
+    } else {
+      "b"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    let a =
+      Maybe.Just("A")
+
+    if a {
+      a
+    } else {
+      "b"
+    }
+  }
+}
+-------------------------------------------------------------------------------
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
+component Main {
+  fun render : String {
+    let a =
+      Result.Ok("A")
+
+    if a {
+      a
+    } else {
+      "b"
+    }
+  }
+}
