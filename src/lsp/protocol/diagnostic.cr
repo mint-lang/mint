@@ -42,5 +42,14 @@ module LSP
     #
     # @since 3.16.0
     property data : String?
+
+    def initialize(
+      *,
+      @severity,
+      @message,
+      @range,
+      @code,
+    )
+    end
   end
 end

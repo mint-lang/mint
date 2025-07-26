@@ -49,13 +49,13 @@ module Mint
     # The name of the error.
     getter name : Symbol
 
-    getter location : SnippetData? do
+    getter locations : Array(SnippetData) do
       blocks.select(Snippet).compact_map do |snippet|
         case value = snippet.value
         when SnippetData
           value
         end
-      end.first?
+      end
     end
 
     def initialize(@name : Symbol)

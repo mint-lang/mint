@@ -40,28 +40,32 @@ module Mint
         else
           if flags.json
             json =
-              errors.compact_map do |error|
+              errors.flat_map do |error|
                 message = error.to_terminal.to_s.uncolorize
 
-                if location = error.location
-                  {
-                    name:    error.name.to_s.upcase,
-                    path:    location.path,
-                    message: message,
-                    start:   {
-                      character: location.location[0].column,
-                      line:      location.location[0].line,
+                if (locations = error.locations).empty?
+                  [
+                    {
+                      name:    error.name.to_s.upcase,
+                      message: message,
                     },
-                    end: {
-                      character: location.location[1].column,
-                      line:      location.location[1].line,
-                    },
-                  }
+                  ]
                 else
-                  {
-                    name:    error.name.to_s.upcase,
-                    message: message,
-                  }
+                  locations.map do |location|
+                    {
+                      name:    error.name.to_s.upcase,
+                      path:    location.path,
+                      message: message,
+                      start:   {
+                        character: location.location[0].column,
+                        line:      location.location[0].line,
+                      },
+                      end: {
+                        character: location.location[1].column,
+                        line:      location.location[1].line,
+                      },
+                    }
+                  end
                 end
               end.to_pretty_json
 
