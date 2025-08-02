@@ -50,7 +50,9 @@ Dir
             fail source + '\n' + exception.to_s + '\n' + exception.backtrace.join('\n')
           end
 
-          exception.should be_a(Mint::Error)
+          unless exception.is_a?(Mint::Error)
+            fail source + '\n' + "Expected Mint Error!"
+          end
         else
           begin
             ast = Mint::Parser.parse(source, file)
