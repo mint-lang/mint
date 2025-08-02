@@ -31,22 +31,22 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(1, `C.D`),
-  G = A(0, `C.X`),
-  H = A(1, `A.B`),
+  F = A(1, `A.B`),
+  G = A(1, `C.D`),
+  H = A(0, `C.X`),
   I = () => {
-    B(C(F)(C(H)(``)), [
+    B(C(G)(C(F)(``)), [
       [
-        D(G, []),
+        D(H, []),
         () => {
           return ``
         }
       ],
       [
-        D(F, [E]),
+        D(G, [E]),
         (a) => {
           return B(a, [[
-            D(H, [E]),
+            D(F, [E]),
             (b) => {
               return b
             }

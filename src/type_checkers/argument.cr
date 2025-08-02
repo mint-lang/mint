@@ -5,8 +5,7 @@ module Mint
         node.default.try(&->resolve(Ast::Node))
 
       type =
-        resolve_type(resolve(node.type))
-          .tap(&.label = node.name.try(&.value))
+        resolve(node.type).tap(&.label = node.name.try(&.value))
 
       case {default, type}
       in {Checkable, Checkable}

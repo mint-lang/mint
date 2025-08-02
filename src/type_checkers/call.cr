@@ -121,7 +121,7 @@ module Mint
         snippet node
       end unless result
 
-      final = resolve_type(result.parameters.last)
+      final = result.parameters.last
 
       if captures.empty?
         if node.await && final.name == "Promise"

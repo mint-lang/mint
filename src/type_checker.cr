@@ -151,21 +151,6 @@ module Mint
       record
     end
 
-    def resolve_type(node : Record | Variable)
-      node
-    end
-
-    def resolve_type(node : Type)
-      resolve_record_definition(node.name) ||
-        component_records.values.find(&.name.==(node.name)) || begin
-        parameters = node.parameters.map do |param|
-          resolve_type(param).as(Checkable)
-        end
-
-        Comparer.normalize(Type.new(node.name, parameters))
-      end
-    end
-
     def resolve_record_definition(name)
       records.find(&.name.==(name)) || begin
         node = ast.type_definitions.find(&.name.value.==(name))
