@@ -9,7 +9,8 @@ module Mint
           case target
           when Ast::Variable
             js.const(target, right)
-          when Ast::TupleDestructuring,
+          when Ast::RecordDestructuring,
+               Ast::TupleDestructuring,
                Ast::ArrayDestructuring,
                Ast::TypeDestructuring,
                Ast::Discard
