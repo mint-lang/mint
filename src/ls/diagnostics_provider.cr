@@ -1,14 +1,14 @@
 module Mint
   module LS
     class DiagnosticsProvider
-      @current : String?
+      @current : Array(String)
 
       def initialize(@server : LSP::Server)
-        @current = nil
+        @current = [] of String
       end
 
       def process(item : TypeChecker | Error)
-        @current.try do |path|
+        @current.each do |path|
           @server.send_notification("textDocument/publishDiagnostics", {
             uri:         "file://#{path}",
             diagnostics: [] of String,
@@ -42,6 +42,8 @@ module Mint
               diagnostics: items,
             })
           end
+
+          @current = diagnostics.keys
         end
       end
     end
