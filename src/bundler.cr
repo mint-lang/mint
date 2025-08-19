@@ -468,7 +468,10 @@ module Mint
           parts =
             Path[path].parts.tap(&.shift)
 
-          files["/#{parts.join("/")}"] = -> { File.read(path) }
+          key = parts.join("/")
+          key = "/#{key}" unless config.hash_routing
+
+          files[key] = -> { File.read(path) }
         end
       end
 
