@@ -329,6 +329,8 @@ module Mint
             end
           end
         end
+
+        files[path_for_asset("main.js")] = -> { %(import Program from "./index.js";Program()) }
       end
     end
 
@@ -380,15 +382,10 @@ module Mint
                 script src: path_for_asset("live-reload.js")
               end
 
-              script type: "module" do
-                path = path_for_asset("index.js")
-                path = "./#{path}" if config.hash_routing
+              path = path_for_asset("main.js")
+              path = "./#{path}" if config.hash_routing
 
-                raw <<-TEXT
-                import Program from "#{path}"
-                Program()
-                TEXT
-              end
+              script type: "module", src: path
 
               noscript do
                 text "This application requires JavaScript."

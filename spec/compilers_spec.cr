@@ -66,7 +66,7 @@ Dir
             end}
           end.to_h
             .reject { |_, contents| contents.blank? }
-            .reject { |key, _| key.in?("/__mint__/runtime.js", "/index.html") }
+            .reject { |key, _| key.in?("/__mint__/runtime.js", "/index.html", "/__mint__/main.js") }
 
         result =
           case files.size
