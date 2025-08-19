@@ -16,9 +16,16 @@ module Mint
           else
             case expression = item.expression
             when Ast::Variable
-              if Comparer.matches_any?(condition, [MAYBE, RESULT])
+              type =
+                if resolved = Comparer.compare(condition, MAYBE)
+                  resolved.parameters.first
+                elsif resolved = Comparer.compare(condition, RESULT)
+                  resolved.parameters.last
+                end
+
+              if type
                 expression.unboxed = true
-                cache[expression] = condition.parameters.first
+                cache[expression] = type
                 [{expression.value, cache[expression], expression}]
               end
             end
