@@ -3,7 +3,7 @@ module Mint
     def resolve(node : Ast::Provider)
       resolve node do
         update =
-          node.functions.find!(&.name.value.==("update"))
+          node.functions.find(&.name.value.==("update"))
 
         functions =
           resolve(node.functions - [update])
@@ -21,14 +21,16 @@ module Mint
           resolve node.gets
 
         update =
-          {
-            node,
-            node,
-            js.call(Builtin::CreateProvider, [
-              [node.subscription] of Item,
-              compile_function(update, skip_const: true),
-            ]),
-          }
+          if update
+            {
+              node,
+              node,
+              js.call(Builtin::CreateProvider, [
+                [node.subscription] of Item,
+                compile_function(update, skip_const: true),
+              ]),
+            }
+          end
 
         subscriptions =
           {
@@ -37,7 +39,7 @@ module Mint
             js.new("Map".as(Item)),
           }
 
-        add functions + signals + states + gets + constants + [subscriptions, update]
+        add functions + signals + states + gets + constants + [subscriptions, update].compact
       end
     end
   end
