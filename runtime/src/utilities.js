@@ -1,5 +1,5 @@
-import { useEffect, useRef, useMemo } from "preact/hooks";
-import { signal } from "@preact/signals";
+import { signal, useSignalEffect, useSignal as useSignalOriginal } from "@preact/signals";
+import { useEffect, useRef, useMemo, useCallback } from "preact/hooks";
 
 import {
   createRef as createRefOriginal,
@@ -31,15 +31,31 @@ export const bracketAccess = (array, index, just, nothing) => {
   }
 };
 
-// This sets the references to an element or component. The current
+// These set the references to an element or component. The current
 // value is always a `Maybe`
-export const setRef = (value, just, nothing) => (element) => {
+export const setTestRef = (signal, just, nothing) => (element) => {
+  let current;
   if (element === null) {
-    value.current = new nothing();
+    current = new nothing();
   } else {
-    value.current = new just(element);
+    current = new just(element);
   }
+
+  if (signal) {
+    if (!compare(signal.peek(), current)) {
+      signal.value = current
+    }
+  }
+}
+
+export const setRef = (signal, just, nothing) => {
+  return useCallback((element) => {
+    setTestRef(signal, just, nothing)(element)
+  }, [])
 };
+
+// The normal useSignal.
+export const useRefSignal = useSignalOriginal;
 
 // A version of `useSignal` which subscribes to the signal by default (like a
 // state) since we want to re-render every time the signal changes.
@@ -47,13 +63,6 @@ export const useSignal = (value) => {
   const item = useMemo(() => signal(value), []);
   item.value;
   return item;
-};
-
-// A version of `createRef` with a default value.
-export const createRef = (value) => {
-  const ref = createRefOriginal();
-  ref.current = value;
-  return ref;
 };
 
 // A hook to replace the `componentDidUpdate` function.
@@ -131,3 +140,26 @@ export const load = async (path) => {
 export const isThruthy = (value, just, ok) => {
   return value instanceof ok || value instanceof just
 };
+
+// Returns a signal for tracking the size of an entity.
+export const useDimensions = (ref, get, empty) => {
+  const signal = useSignal(empty());
+
+  // Initial setup...
+  useSignalEffect(() => {
+    const observer = new ResizeObserver(() => {
+      signal.value = ref.value && ref.value._0 ? get(ref.value._0) : empty();
+    });
+
+    if (ref.value && ref.value._0) {
+      observer.observe(ref.value._0);
+    }
+
+    return () => {
+      signal.value = empty();
+      observer.disconnect();
+    };
+  });
+
+  return signal;
+}

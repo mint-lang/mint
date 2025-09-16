@@ -1,0 +1,61 @@
+type Dom.Dimensions {
+  height : Number,
+  bottom : Number,
+  width : Number,
+  right : Number,
+  left : Number,
+  top : Number,
+  x : Number,
+  y : Number
+}
+
+module Dom.Dimensions {
+  fun empty : Dom.Dimensions {
+    ``
+  }
+}
+
+module Dom {
+  fun getDimensions (element : Dom.Element) : Dom.Dimensions {
+    ``
+  }
+}
+
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : Html {
+    <div as div>
+      @size(div).width
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as D,
+  useDimensions as C,
+  useRefSignal as B,
+  variant as A,
+  setRef as E
+} from "./runtime.js";
+
+export const
+  F = A(0, `Maybe.Nothing`),
+  G = A(1, `Maybe.Just`),
+  a = (b) => {
+    return undefined
+  },
+  c = () => {
+    return undefined
+  },
+  H = () => {
+    const
+      d = B(new F()),
+      e = C(d, a, c);
+    return D(`div`, {
+      ref: E(d, G, F)
+    }, [e.value.width])
+  };

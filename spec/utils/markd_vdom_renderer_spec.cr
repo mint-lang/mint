@@ -109,7 +109,7 @@ module Mint
               NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
 
             pool =
-              NamePool(Ast::Node | Decoder | Encoder | Variable | Record | String, Set(Ast::Node) | Bundle).new
+              NamePool(Ast::Node | Decoder | Encoder | Variable | Record | String | Size, Set(Ast::Node) | Bundle).new
 
             js_renderer =
               Renderer.new(

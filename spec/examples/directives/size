@@ -1,0 +1,30 @@
+type Dom.Dimensions {
+  height : Number,
+  bottom : Number,
+  width : Number,
+  right : Number,
+  left : Number,
+  top : Number,
+  x : Number,
+  y : Number
+}
+
+module Dom.Dimensions {
+  fun empty : Dom.Dimensions {
+    ``
+  }
+}
+
+module Dom {
+  fun getDimensions (element : Dom.Element) : Dom.Dimensions {
+    ``
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div as div>
+      @size(div).width
+    </div>
+  }
+}

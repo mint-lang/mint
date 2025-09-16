@@ -170,6 +170,7 @@ module Mint
                    Compiler::Encoder |
                    Compiler::Decoder |
                    Compiler::Record |
+                   Compiler::Size |
                    Ast::Node |
                    String, Set(Ast::Node) | Bundle).new
 

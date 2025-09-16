@@ -30,12 +30,16 @@ module Mint
         failed =
           @messages.select(&.type.==("FAILED"))
 
+        errored =
+          @messages.select(&.type.==("ERRORED"))
+
         terminal.divider
         terminal.puts "#{@messages.size} tests"
         terminal.puts "  #{ARROW} #{succeeded} passed"
         terminal.puts "  #{ARROW} #{failed.size} failed"
+        terminal.puts "  #{ARROW} #{errored.size} errored"
 
-        failed
+        (failed + errored)
           .group_by(&.suite.to_s)
           .to_a
           .sort_by!(&.first)

@@ -77,8 +77,16 @@ module Mint
         end
 
         node.ref.try do |ref|
+          method =
+            case node.ancestor
+            when Ast::Test
+              Builtin::SetTestRef
+            else
+              Builtin::SetRef
+            end
+
           attributes["ref"] =
-            js.call(Builtin::SetRef, [[ref] of Item, just, nothing])
+            js.call(method, [[ref] of Item, just, nothing])
         end
 
         js.call(Builtin::CreateElement, [

@@ -17,9 +17,9 @@ global component Global {
 --------------------------------------------------------------------------------
 import {
   createElement as B,
-  createRef as C,
   variant as A,
-  setRef as D
+  setRef as D,
+  signal as C
 } from "./runtime.js";
 
 export const

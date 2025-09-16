@@ -27,11 +27,11 @@ component Main {
 import {
   patternVariable as H,
   createElement as D,
+  useRefSignal as B,
   pattern as G,
   useMemo as C,
   variant as A,
   setRef as E,
-  useRef as B,
   match as F
 } from "./runtime.js";
 
@@ -56,11 +56,11 @@ export const
     const
       c = B(new J()),
       d = () => {
-        return F(c.current, [
+        return F(c.value, [
           [
             G(I, [H]),
             (e) => {
-              return e.a.current
+              return e.a.value
             }
           ],
           [

@@ -48,15 +48,15 @@ module Mint
           resolve node.gets
 
         refs =
-          node.refs.to_h.keys.map do |ref|
+          node.refs.to_h.keys.flat_map do |ref|
             method =
               if node.global?
-                Builtin::CreateRef
+                Builtin::Signal
               else
-                Builtin::UseRef
+                Builtin::UseRefSignal
               end
 
-            {node, ref, js.call(method, [js.new(nothing, [] of Compiled)])}
+            {node, ref, js.call(method, [js.new(nothing, [] of Compiled)] of Compiled)}
           end
 
         properties =
@@ -194,9 +194,26 @@ module Mint
             end
           end)
 
+        sizes =
+          node.sizes
+            .uniq { |size| lookups[size][0].as(Ast::HtmlElement) }
+            .map do |size|
+              element =
+                lookups[size][0].as(Ast::HtmlElement)
+
+              item =
+                (self.sizes[element] ||= Size.new)
+
+              {node, item, js.call(Builtin::UseDimensions, [
+                [element.ref.as(Ast::Node)] of Item,
+                [dom_get_dimensions] of Item,
+                [dom_dimensions_empty] of Item,
+              ])}
+            end
+
         items =
           (refs + states + gets + functions + styles + constants +
-            id + contexts).compact
+            id + contexts + sizes).compact
 
         items, body =
           if node.global?

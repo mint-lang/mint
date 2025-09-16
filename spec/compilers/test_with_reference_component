@@ -19,12 +19,12 @@ suite "Test" {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
+  setTestRef as F,
   testRunner as D,
-  createRef as E,
   compare as G,
   useMemo as B,
   variant as A,
-  setRef as F
+  signal as E
 } from "./runtime.js";
 
 export const
@@ -49,7 +49,7 @@ export default () => {
           C(J, {
             _: F(b, I, H)
           });
-          return G(b.current, new H())
+          return G(b.value, new H())
         })()
       },
       location: {"start":[13,2],"end":[17,3],"filename":"compilers/test_with_reference_component"},

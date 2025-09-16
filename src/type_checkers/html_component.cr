@@ -40,7 +40,7 @@ module Mint
         error! :html_component_reference_outside_of_component do
           snippet "Referencing components outside of components is not " \
                   "allowed:", ref
-        end unless node.in_component?
+        end unless node.ancestor
       end
 
       component.contexts.each do |context|

@@ -6,7 +6,7 @@ module Mint
 
       property component_node : Ast::Component? = nil
       property fallback_node : Ast::Node? = nil
-      property? in_component : Bool = false
+      property ancestor : Ast::Node? = nil
 
       def initialize(@closing_tag_position : Parser::Location?,
                      @attributes : Array(HtmlAttribute),

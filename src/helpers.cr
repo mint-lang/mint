@@ -95,5 +95,19 @@ module Mint
           static_value(node.children)
       end
     end
+
+    def dom_get_dimensions
+      ast
+        .unified_modules
+        .find!(&.name.value.==("Dom"))
+        .functions.find!(&.name.value.==("getDimensions"))
+    end
+
+    def dom_dimensions_empty
+      ast
+        .unified_modules
+        .find!(&.name.value.==("Dom.Dimensions"))
+        .functions.find!(&.name.value.==("empty"))
+    end
   end
 end

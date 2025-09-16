@@ -13,11 +13,11 @@ suite "Test" {
 --------------------------------------------------------------------------------
 import {
   createElement as D,
+  setTestRef as E,
   testRunner as B,
-  createRef as C,
   compare as F,
   variant as A,
-  setRef as E
+  signal as C
 } from "./runtime.js";
 
 export const
@@ -33,7 +33,7 @@ export default () => {
           D(`button`, {
             ref: E(a, H, G)
           });
-          return F(a.current, new G())
+          return F(a.value, new G())
         })()
       },
       location: {"start":[7,2],"end":[11,3],"filename":"compilers/test_with_reference"},

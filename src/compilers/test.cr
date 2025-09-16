@@ -16,7 +16,7 @@ module Mint
 
         refs =
           js.consts(node.refs.to_h.keys.map do |ref|
-            {node, ref, js.call(Builtin::CreateRef, [js.new(nothing, [] of Compiled)])}
+            {node, ref, js.call(Builtin::Signal, [js.new(nothing, [] of Compiled)])}
           end)
 
         expression =

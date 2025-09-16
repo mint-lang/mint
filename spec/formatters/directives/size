@@ -1,0 +1,61 @@
+type Dom.Dimensions {
+  height : Number,
+  bottom : Number,
+  width : Number,
+  right : Number,
+  left : Number,
+  top : Number,
+  x : Number,
+  y : Number
+}
+
+module Dom.Dimensions {
+  fun empty : Dom.Dimensions {
+    ``
+  }
+}
+
+module Dom {
+  fun getDimensions (element : Dom.Element) : Dom.Dimensions {
+    ``
+  }
+}
+
+component Main {
+  fun render : Html {
+    @size(div)
+
+    <div as div>"Hello World"</div>
+  }
+}
+--------------------------------------------------------------------------------
+type Dom.Dimensions {
+  height : Number,
+  bottom : Number,
+  width : Number,
+  right : Number,
+  left : Number,
+  top : Number,
+  x : Number,
+  y : Number
+}
+
+module Dom.Dimensions {
+  fun empty : Dom.Dimensions {
+    ``
+  }
+}
+
+module Dom {
+  fun getDimensions (element : Dom.Element) : Dom.Dimensions {
+    ``
+  }
+}
+
+component Main {
+  fun render : Html {
+    @size(div)
+
+    <div as div>"Hello World"</div>
+  }
+}

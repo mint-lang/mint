@@ -4,7 +4,7 @@ module Mint
       getter attributes, children, comments, styles, tag, ref
       getter closing_tag_position
 
-      property? in_component : Bool = false
+      property ancestor : Ast::Node? = nil
 
       def initialize(@closing_tag_position : Parser::Location?,
                      @attributes : Array(HtmlAttribute),

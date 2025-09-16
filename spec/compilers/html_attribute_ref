@@ -12,9 +12,9 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   createElement as C,
+  useRefSignal as B,
   variant as A,
-  setRef as D,
-  useRef as B
+  setRef as D
 } from "./runtime.js";
 
 export const

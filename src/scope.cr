@@ -56,7 +56,7 @@ module Mint
           case store = @ast.stores.find(&.name.value.==(connect.store.value))
           when Ast::Store
             connect.keys.each do |key|
-              @scopes[store][1].items[key.name.value]?.try do |value|
+              scopes[store][1].items[key.name.value]?.try do |value|
                 stack[1].items[key.target.try(&.value) || key.name.value] = value
               end
             end
@@ -100,7 +100,7 @@ module Mint
     end
 
     def resolve(target : String, base : Ast::Node)
-      case stack = @scopes[base]?
+      case stack = scopes[base]?
       when Array(Level)
         stack.reverse_each do |level|
           level.items.each do |key, value|
@@ -267,6 +267,8 @@ module Mint
            Ast::HereDocument,
            Ast::Js
         build(node.value.select(Ast::Interpolation), node)
+      when Ast::Directives::Size
+        build(node.ref, node)
       when Ast::ParenthesizedExpression,
            Ast::CommentedExpression,
            Ast::NegatedExpression,
