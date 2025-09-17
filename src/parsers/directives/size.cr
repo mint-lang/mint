@@ -4,7 +4,7 @@ module Mint
       parse do |start_position|
         next unless keyword! "@size"
 
-        next error :size_directive_expected_closing_parenthesis do
+        next error :size_directive_expected_opening_parenthesis do
           expected "the opening parenthesis of size directive", word
           snippet self
         end unless char!('(')

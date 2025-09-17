@@ -13,7 +13,7 @@ module Mint
 
         resolve ast.type_definitions.find!(&.name.value.==("Dom.Dimensions"))
       else
-        error! :container_directive_expected_html_element do
+        error! :size_directive_expected_html_element do
           block "A size directive must reference an HTML element but it doesn't."
           snippet "The size directive in question is here:", node
         end

@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @size(path
+--------------------------------------------------------------------------------
+░ ERROR (SIZE_DIRECTIVE_EXPECTED_CLOSING_PARENTHESIS) ░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing parenthesis of size directive but I found "a space"
+instead:
+
+   ┌ errors/size_directive_expected_closing_parenthesis:3:14
+   ├────────────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @size(path
+   │               ⌃⌃⌃⌃

@@ -1,0 +1,15 @@
+component Main {
+  fun render : String {
+    @size(
+--------------------------------------------------------------------------------
+░ ERROR (SIZE_DIRECTIVE_EXPECTED_REF) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the variable to the reference element of a size directive but I
+found "a space" instead:
+
+   ┌ errors/size_directive_expected_ref:3:10
+   ├────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @size(
+   │           ⌃⌃⌃⌃
