@@ -48,7 +48,7 @@ module Mint
           resolve node.gets
 
         refs =
-          node.refs.to_h.keys.flat_map do |ref|
+          node.refs.to_h.keys.map do |ref|
             method =
               if node.global?
                 Builtin::Signal

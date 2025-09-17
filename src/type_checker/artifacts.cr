@@ -17,8 +17,7 @@ module Mint
                      @resolve_order = [] of Ast::Node,
                      @async = Set(Ast::Node).new,
                      @checked = Set(Ast::Node).new,
-                     @exported = Set(Ast::Node).new,
-                     @sizes = {} of Ast::Node => Set(Ast::Node))
+                     @exported = Set(Ast::Node).new)
         @scope = Scope.new(@ast)
         @references = ReferencesTracker.new
       end

@@ -127,9 +127,6 @@ module Mint
         in Signal
           # Signals are special becuse we need to use the `.value` accessor.
           append(io, "#{pool.of(item.value, base)}.value")
-        in Ref
-          # Refs are signals so we need to use the `.value` accessor.
-          append(io, "#{pool.of(item.value, base)}.value")
         in Size
           append(io, pool.of(item, base))
         in Ast::Node

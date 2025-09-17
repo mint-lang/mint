@@ -4,10 +4,10 @@ module Mint
     include Helpers
 
     # Represents a compiled item
-    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw |
-                 Variable | Ref | Encoder | Decoder | Asset | Deferred |
+    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Size |
                  Function | Await | SourceMapped | Record | Context |
-                 ContextProvider | Size
+                 Variable | Encoder | Decoder | Asset | Deferred |
+                 ContextProvider
 
     # Represents an generated idetifier from the parts of the union type.
     alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size
@@ -39,10 +39,6 @@ module Mint
 
     # Represents code which needs to be indented.
     record Indent, items : Compiled
-
-    # Represents a reference to an HTML element or other component. They are treated differently
-    # because they have a `.current` accessor.
-    record Ref, value : Ast::Node
 
     # Represents raw code (which does not get modified or indented).
     record Raw, value : String
@@ -470,7 +466,7 @@ module Mint
 
     def gather_used(item : Item, used : Used)
       case item
-      in Variable, Deferred, String, Asset, Await, Ref, Raw, Size
+      in Variable, Deferred, String, Asset, Await, Raw, Size
       in SourceMapped, Function, Context, ContextProvider
         gather_used(item.value, used)
       in Indent
