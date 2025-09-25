@@ -54,11 +54,27 @@ module Mint
           end || {[] of Ast::TypeDefinitionField, nil}
         end
 
+        context =
+          parse do
+            whitespace
+            if keyword!("context")
+              whitespace
+
+              next error :type_definition_expected_context do
+                expected "the defaultvalue of a type definition", word
+                snippet self
+              end unless value = record
+
+              value
+            end
+          end
+
         Ast::TypeDefinition.new(
           end_comment: end_comment,
           parameters: parameters,
           from: start_position,
           comment: comment,
+          context: context,
           fields: fields,
           to: position,
           name: name,

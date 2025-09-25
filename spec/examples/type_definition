@@ -37,3 +37,29 @@ type User {
   name: String using "name",
   id: String
 }
+-------------------------------------------------------------------------------
+type User {
+  name: String using "name",
+  id: String
+} context {
+  name: "NAME",
+  id: "ID"
+}
+------------------------------------------------type_defintion_context_mismatch
+type User {
+  name: String using "name",
+  id: String
+} context {
+  x: "Y"
+}
+-------------------------------------------type_defintion_variants_with_context
+type User {
+  A
+} context {
+  x: "Y"
+}
+-----------------------------------------------type_definition_expected_context
+type User {
+  name: String using "name",
+  id: String
+} context a

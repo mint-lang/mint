@@ -34,11 +34,6 @@ component Input {
 component Main {
   state form : Map(String, String) = {} of String => String
 
-  provide Form {
-    set: (name : String, value : String) { next { form: form } },
-    get: (name : String) { form[name] or "" }
-  }
-
   fun render {
     <div>
       <Input name="firstname"/>
@@ -51,20 +46,18 @@ import {
   createElement as E,
   createContext as C,
   useContext as D,
-  mapAccess as H,
   useSignal as F,
   variant as A,
-  record as B,
-  or as G
+  record as B
 } from "./runtime.js";
 
 export const
-  I = A(0, `Maybe.Nothing`),
-  J = A(1, `Maybe.Just`),
-  K = A(1, `Result.Ok`),
-  L = A(1, `Result.Err`),
+  G = A(0, `Maybe.Nothing`),
+  H = A(1, `Maybe.Just`),
+  I = A(1, `Result.Ok`),
+  J = A(1, `Result.Err`),
   a = B(`Form`),
-  M = C(a({
+  K = C(a({
     set: async (b, c) => {
       return await null
     },
@@ -72,39 +65,26 @@ export const
       return ``
     }
   })),
-  N = ({
+  L = ({
     e
   }) => {
     const
       f = () => {
         return g.set(e, g.get(e) + `1`)
       },
-      g = D(M);
+      g = D(K);
     return E(`button`, {
       "onClick": f
     }, [`Change!`])
   },
-  O = () => {
+  M = () => {
     const h = F([]);
-    return E(M.Provider, {
-      value: a({
-        set: (i, j) => {
-          return (() => {
-            h.value = h.value
-          })()
-        },
-        get: (k) => {
-          return G(I, L, H(h.value, k, J, I), ``)
-        }
+    return E(`div`, {}, [
+      E(L, {
+        e: `firstname`
+      }),
+      E(L, {
+        e: `lastname`
       })
-    }, (() => {
-      return E(`div`, {}, [
-        E(N, {
-          e: `firstname`
-        }),
-        E(N, {
-          e: `lastname`
-        })
-      ])
-    })())
+    ])
   };

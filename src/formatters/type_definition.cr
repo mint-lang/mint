@@ -13,22 +13,29 @@ module Mint
       end_comment =
         node.end_comment.try(&->format(Ast::Comment))
 
-      comment + ["type "] + name + parameters + [" "] +
-        if node.fields.is_a?(Array(Ast::TypeVariant))
-          group(
-            items: [list(nodes: node.fields, comment: end_comment)],
-            behavior: Behavior::Block,
-            ends: {"{", "}"},
-            separator: "",
-            pad: false)
-        else
-          group(
-            items: [list(nodes: node.fields, separator: ",", comment: end_comment)],
-            behavior: Behavior::Block,
-            ends: {"{", "}"},
-            separator: ",",
-            pad: false)
-        end
+      body =
+        comment + ["type "] + name + parameters + [" "] +
+          if node.fields.is_a?(Array(Ast::TypeVariant))
+            group(
+              items: [list(nodes: node.fields, comment: end_comment)],
+              behavior: Behavior::Block,
+              ends: {"{", "}"},
+              separator: "",
+              pad: false)
+          else
+            group(
+              items: [list(nodes: node.fields, separator: ",", comment: end_comment)],
+              behavior: Behavior::Block,
+              ends: {"{", "}"},
+              separator: ",",
+              pad: false)
+          end
+
+      if node.context
+        body + [" context "] + format(node.context)
+      else
+        body
+      end
     end
   end
 end

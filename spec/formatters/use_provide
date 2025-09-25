@@ -1,5 +1,7 @@
 type Context {
   name : String
+} context {
+  name: "Joe"
 }
 
 component Consumer {
@@ -22,7 +24,7 @@ component Test {
 --------------------------------------------------------------------------------
 type Context {
   name : String
-}
+} context { name: "Joe" }
 
 component Consumer {
   context ctx : Context

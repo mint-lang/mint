@@ -184,15 +184,7 @@ module Mint
           end
 
         context_providers =
-          node.uses.select(&.context?).tap(&.each do |use|
-            definition =
-              lookups[use][0]
-
-            unless @context_providers.includes?(definition)
-              @context_providers.add(definition)
-              add(definition, Context.new(definition), js.call(Builtin::CreateContext, [] of Compiled))
-            end
-          end)
+          node.uses.select(&.context?)
 
         sizes =
           node.sizes

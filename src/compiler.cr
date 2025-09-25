@@ -183,9 +183,6 @@ module Mint
     delegate record_field_lookup, ast, components_touched, to: artifacts
     delegate exported, to: artifacts
 
-    # Gather context providers.
-    getter context_providers = Set(Ast::Node).new
-
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new
 
