@@ -235,9 +235,9 @@ module Mint
               compiler.gather_used(items)
 
             case node
-            when Bundle::Index
+            in Bundle::Index
               # Index doesn't import from other nodes.
-            else
+            in Set(Ast::Node)
               # This holds the imports for each other bundle.
               imports =
                 {} of Set(Ast::Node) | Bundle => Hash(String, String)

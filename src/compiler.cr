@@ -16,7 +16,7 @@ module Mint
     alias Compiled = Array(Item)
 
     # Represents entites which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -464,8 +464,10 @@ module Mint
     def gather_used(item : Item, used : Used)
       case item
       in Variable, Deferred, String, Asset, Await, Raw, Size
-      in SourceMapped, Function, Context, ContextProvider
+      in SourceMapped, Function, ContextProvider
         gather_used(item.value, used)
+      in Context
+        used.add(item)
       in Indent
         gather_used(item.items, used)
       in Signal
