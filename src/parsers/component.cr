@@ -96,26 +96,19 @@ module Mint
         end
 
         refs = [] of Tuple(Ast::Variable, Ast::Node)
+        sizes = [] of Ast::Directives::Size
         locales = false
 
         ast.nodes[start_nodes_position...].each do |node|
           case node
+          when Ast::Directives::Size
+            sizes << node
           when Ast::LocaleKey
             locales = true
           when Ast::HtmlElement
             node.styles.each do |style|
               style.style_node =
                 styles.find(&.name.value.==(style.name.value))
-            end
-          end
-
-          case node
-          when Ast::HtmlComponent,
-               Ast::HtmlElement
-            node.in_component = true
-
-            if ref = node.ref
-              refs << {ref, node}
             end
           end
         end
@@ -133,6 +126,7 @@ module Mint
           locales: locales,
           styles: styles,
           states: states,
+          sizes: sizes,
           async: async,
           to: position,
           file: file,
@@ -141,9 +135,19 @@ module Mint
           uses: uses,
           gets: gets
         ).tap do |node|
-          ast.nodes[start_nodes_position...]
-            .select(Ast::NextCall)
-            .each(&.entity=(node))
+          ast.nodes[start_nodes_position...].each do |item|
+            case item
+            when Ast::NextCall
+              item.entity = node
+            when Ast::HtmlComponent,
+                 Ast::HtmlElement
+              item.ancestor = node
+
+              if ref = item.ref
+                node.refs << {ref, item}
+              end
+            end
+          end
         end
       end
     end

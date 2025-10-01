@@ -3,7 +3,7 @@ module Mint
     # This class is responsible to render `Compiled` code.
     class Renderer
       # The pool for variables (lowercase).
-      getter pool : NamePool(Ast::Node | Variable | String | Encoder | Decoder | Record, Set(Ast::Node) | Bundle)
+      getter pool : NamePool(Ast::Node | Variable | String | Encoder | Decoder | Record | Size, Set(Ast::Node) | Bundle)
 
       # The pool for class variables (uppercase).
       getter class_pool : NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle)
@@ -127,9 +127,8 @@ module Mint
         in Signal
           # Signals are special becuse we need to use the `.value` accessor.
           append(io, "#{pool.of(item.value, base)}.value")
-        in Ref
-          # Refs are special becuse we need to use the `.current` accessor.
-          append(io, "#{pool.of(item.value, base)}.current")
+        in Size
+          append(io, pool.of(item, base))
         in Ast::Node
           scope =
             case item

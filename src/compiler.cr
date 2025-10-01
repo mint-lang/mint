@@ -4,36 +4,32 @@ module Mint
     include Helpers
 
     # Represents a compiled item
-    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw |
-                 Variable | Ref | Encoder | Decoder | Asset | Deferred |
+    alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Size |
                  Function | Await | SourceMapped | Record | Context |
+                 Variable | Encoder | Decoder | Asset | Deferred |
                  ContextProvider
 
     # Represents an generated idetifier from the parts of the union type.
-    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context
+    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
     # Represents entites which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
 
     # Represents a Preact signal (https://preactjs.com/guide/v10/signals/). Signals are treated
     # differently from vaiables because we will need to access them using the `.value` accessor.
-    record Signal, value : Ast::Node
+    record Signal, value : Ast::Node | Size
 
     # Represents an reference to a file
     record Asset, value : Ast::Node
 
     record ContextProvider, value : Ast::Node
     record Context, value : Ast::Node
-
-    # Represents a reference to an HTML element or other component. They are treated differently
-    # because they have a `.current` accessor.
-    record Ref, value : Ast::Node
 
     # A node for tracking source mappings.
     record SourceMapped, value : Compiled, node : Ast::Node
@@ -46,6 +42,9 @@ module Mint
 
     # Represents raw code (which does not get modified or indented).
     record Raw, value : String
+
+    # Represents a size directive associated to an HTML element.
+    record Size
 
     # Represents a variable.
     class Variable; end
@@ -90,14 +89,14 @@ module Mint
       Lazy
 
       # Effects.
+      UseDimensions
       UseDidUpdate
+      UseRefSignal
       UseFunction
       UseEffect
-      CreateRef
       UseSignal
       Computed
       UseMemo
-      UseRef
       Signal
       Batch
 
@@ -152,11 +151,14 @@ module Mint
       ToArray
       Compare
       Define
-      SetRef
       Access
       Curry
       Load
       Or
+
+      # Reference
+      SetTestRef
+      SetRef
 
       # Styles and CSS.
       Style
@@ -181,9 +183,6 @@ module Mint
     delegate record_field_lookup, ast, components_touched, to: artifacts
     delegate exported, to: artifacts
 
-    # Gather context providers.
-    getter context_providers = Set(Ast::Node).new
-
     # Contains the generated encoders.
     getter encoders = Hash(TypeChecker::Checkable, Compiled).new
 
@@ -198,6 +197,9 @@ module Mint
 
     # Contains the generated record constructors.
     getter records = Hash(String, Compiled).new
+
+    # A set to track size directives.
+    getter sizes = Hash(Ast::Node, Size).new
 
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
@@ -461,13 +463,18 @@ module Mint
 
     def gather_used(item : Item, used : Used)
       case item
-      in Variable, Deferred, String, Asset, Await, Ref, Raw
-      in SourceMapped, Function, Context, ContextProvider
+      in Variable, Deferred, String, Asset, Await, Raw, Size
+      in SourceMapped, Function, ContextProvider
         gather_used(item.value, used)
+      in Context
+        used.add(item)
       in Indent
         gather_used(item.items, used)
       in Signal
-        used.add(item.value)
+        case value = item.value
+        when Ast::Node
+          used.add(value)
+        end
       in Encoder, Decoder, Record
         used.add(item)
       in Ast::Node

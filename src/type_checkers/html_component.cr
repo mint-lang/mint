@@ -40,18 +40,20 @@ module Mint
         error! :html_component_reference_outside_of_component do
           snippet "Referencing components outside of components is not " \
                   "allowed:", ref
-        end unless node.in_component?
+        end unless node.ancestor
       end
 
       component.contexts.each do |context|
         resolve context
 
-        error! :context_not_provided_for do
-          block "A value is not provided for this context in an parent component."
-          snippet "The context in question is here:", context
-          snippet "The component was used here:", node
-        end unless (@stack.select(Ast::Component) - [component])
-                     .find(&.uses.find(&.provider.value.==(context.type.value)))
+        case type = lookups[context][0]
+        when Ast::TypeDefinition
+          error! :context_no_context do
+            block "If a type is used in a context it must have a default value."
+            snippet "The type is defined here:", type
+            snippet "The context in question is here:", context
+          end unless type.context
+        end
       end
 
       check_html node.children

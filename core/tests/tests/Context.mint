@@ -1,6 +1,6 @@
 type Test.Context {
   name : String
-}
+} context { name: "NAME" }
 
 component Test.NestedConsumer {
   fun render {
@@ -29,5 +29,11 @@ suite "Context" {
     <Test.Provider/>
     |> Test.Html.start()
     |> Test.Html.assertTextOf("div", "Joe")
+  }
+
+  test "Test.Consumer" {
+    <Test.Consumer/>
+    |> Test.Html.start()
+    |> Test.Html.assertTextOf("div", "NAME")
   }
 }

@@ -39,7 +39,7 @@ component Main {
     <Test/>
   }
 }
--------------------------------------------------------context_not_provided_for
+-------------------------------------------------------------context_no_context
 type Data {
   set : String
 }

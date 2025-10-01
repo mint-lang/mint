@@ -20,8 +20,16 @@ module Mint
             .reduce({} of Item => Compiled) { |memo, item| memo.merge(item) }
 
         node.ref.try do |ref|
+          method =
+            case node.ancestor
+            when Ast::Test
+              Builtin::SetTestRef
+            else
+              Builtin::SetRef
+            end
+
           attributes["_"] =
-            js.call(Builtin::SetRef, [[ref] of Item, just, nothing])
+            js.call(method, [[ref] of Item, just, nothing])
         end
 
         if component.async?

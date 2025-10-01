@@ -16,7 +16,7 @@ type Result(err, value) {
   Err(err)
 }
 
-component Input {
+async component Input {
   property name : String
   context form : Form
 
@@ -47,24 +47,26 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
 import {
-  createElement as E,
+  lazyComponent as I,
+  createElement as F,
   createContext as C,
-  useContext as D,
   mapAccess as H,
-  useSignal as F,
+  useSignal as E,
   variant as A,
   record as B,
+  lazy as D,
   or as G
 } from "./runtime.js";
 
 export const
-  I = A(0, `Maybe.Nothing`),
-  J = A(1, `Maybe.Just`),
-  K = A(1, `Result.Ok`),
-  L = A(1, `Result.Err`),
+  J = A(0, `Maybe.Nothing`),
+  K = A(1, `Maybe.Just`),
+  L = A(1, `Result.Ok`),
+  M = A(1, `Result.Err`),
   a = B(`Form`),
-  M = C(a({
+  N = C(a({
     set: async (b, c) => {
       return await null
     },
@@ -72,39 +74,61 @@ export const
       return ``
     }
   })),
-  N = ({
-    e
-  }) => {
-    const
-      f = () => {
-        return g.set(e, g.get(e) + `1`)
-      },
-      g = D(M);
-    return E(`button`, {
-      "onClick": f
-    }, [`Change!`])
-  },
-  O = () => {
-    const h = F([]);
-    return E(M.Provider, {
+  O = D(`./1.js`),
+  P = () => {
+    const e = E([]);
+    return F(N.Provider, {
       value: a({
-        set: (i, j) => {
+        set: (f, g) => {
           return (() => {
-            h.value = h.value
+            e.value = e.value
           })()
         },
-        get: (k) => {
-          return G(I, L, H(h.value, k, J, I), ``)
+        get: (h) => {
+          return G(J, M, H(e.value, h, K, J), ``)
         }
       })
     }, (() => {
-      return E(`div`, {}, [
-        E(N, {
-          e: `firstname`
+      return F(`div`, {}, [
+        F(I, {
+          c: [],
+          key: `Input`,
+          p: {
+            a: `firstname`
+          },
+          x: O
         }),
-        E(N, {
-          e: `lastname`
+        F(I, {
+          c: [],
+          key: `Input`,
+          p: {
+            a: `lastname`
+          },
+          x: O
         })
       ])
     })())
   };
+
+---=== /__mint__/1.js ===---
+import {
+  createElement as C,
+  useContext as B
+} from "./runtime.js";
+
+import { N as A } from "./index.js";
+
+export const D = ({
+  a
+}) => {
+  const
+    b = () => {
+      return c.set(a, c.get(a) + `1`)
+    },
+    c = B(A);
+  return C(`button`, {
+    "onClick": b
+  }, [`Change!`])
+};
+
+export default D;

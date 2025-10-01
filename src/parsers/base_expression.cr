@@ -35,6 +35,7 @@ module Mint
             format_directive ||
             inline_directive ||
             asset_directive ||
+            size_directive ||
             svg_directive ||
             env
         when '<'

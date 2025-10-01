@@ -1,5 +1,5 @@
 export { createElement, Fragment as fragment, createContext } from "preact";
-export { useEffect, useMemo, useRef, useContext } from "preact/hooks";
+export { useEffect, useMemo, useContext } from "preact/hooks";
 export { signal, batch } from "@preact/signals";
 
 export * from "./src/pattern_matching";

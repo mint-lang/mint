@@ -1,0 +1,20 @@
+component Main {
+  fun render : String {
+    @size(path)
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (SIZE_DIRECTIVE_EXPECTED_HTML_ELEMENT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+A size directive must reference an HTML element but it doesn't.
+
+The size directive in question is here:
+
+   ┌ errors/size_directive_expected_html_element:3:5
+   ├────────────────────────────────────────────────
+  1│ component Main {
+  2│   fun render : String {
+  3│     @size(path)
+   │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│   }
+  5│ }
