@@ -188,19 +188,27 @@ module Mint
 
         sizes =
           node.sizes
-            .uniq { |size| lookups[size][0].as(Ast::HtmlElement) }
-            .map do |size|
-              element =
-                lookups[size][0].as(Ast::HtmlElement)
+            .uniq do |size|
+              case item = lookups[size]?
+              when Tuple(Ast::Node, Ast::Node?)
+                item[0]
+              end
+            end
+            .compact_map do |size|
+              case item = lookups[size]?
+              when Tuple(Ast::Node, Ast::Node?)
+                case element = item[0]
+                when Ast::HtmlElement
+                  item =
+                    (self.sizes[element] ||= Size.new)
 
-              item =
-                (self.sizes[element] ||= Size.new)
-
-              {node, item, js.call(Builtin::UseDimensions, [
-                [element.ref.as(Ast::Node)] of Item,
-                [dom_get_dimensions] of Item,
-                [dom_dimensions_empty] of Item,
-              ])}
+                  {node, item, js.call(Builtin::UseDimensions, [
+                    [element.ref.as(Ast::Node)] of Item,
+                    [dom_get_dimensions] of Item,
+                    [dom_dimensions_empty] of Item,
+                  ])}
+                end
+              end
             end
 
         items =
