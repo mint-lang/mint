@@ -35,7 +35,8 @@ module Mint
           Parser::Location.new))
 
     def initialize(@ast : Ast)
-      (@ast.unified_locales +
+      (@ast.type_definitions +
+        @ast.unified_locales +
         @ast.unified_modules +
         @ast.components +
         @ast.providers +
@@ -225,6 +226,8 @@ module Mint
         build(node.fields, node)
       when Ast::Routes
         build(node.routes, node)
+      when Ast::TypeDefinition
+        build(node.context, node)
       end
     end
 
