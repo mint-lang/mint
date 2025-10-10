@@ -3,10 +3,10 @@ module Mint
     def format(node : Ast::Locale) : Nodes
       ["locale #{node.language} "] +
         group(
-          items: [format node.fields],
+          items: node.fields.map(&->format(Ast::Node)),
           behavior: Behavior::Block,
           ends: {"{", "}"},
-          separator: "",
+          separator: ",",
           pad: false)
     end
   end

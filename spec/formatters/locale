@@ -3,9 +3,13 @@ locale en {
     button: {
       ok: "OK"
     }
+  },
+  other: {
+    something: "Hello"
   }
 }
 --------------------------------------------------------------------------------
 locale en {
-  ui: { button: { ok: "OK" } }
+  ui: { button: { ok: "OK" } },
+  other: { something: "Hello" }
 }
