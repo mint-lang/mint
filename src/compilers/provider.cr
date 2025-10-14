@@ -21,16 +21,18 @@ module Mint
           resolve node.gets
 
         update =
-          if update
-            {
-              node,
-              node,
-              js.call(Builtin::CreateProvider, [
-                [node.subscription] of Item,
-                compile_function(update, skip_const: true),
-              ]),
-            }
-          end
+          {
+            node,
+            node,
+            js.call(Builtin::CreateProvider, [
+              [node.subscription] of Item,
+              if update
+                compile_function(update, skip_const: true)
+              else
+                js.arrow_function { js.return(js.null) }
+              end,
+            ]),
+          }
 
         subscriptions =
           {
@@ -39,7 +41,7 @@ module Mint
             js.new("Map".as(Item)),
           }
 
-        add functions + signals + states + gets + constants + [subscriptions, update].compact
+        add functions + signals + states + gets + constants + [subscriptions, update]
       end
     end
   end

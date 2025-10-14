@@ -1,0 +1,45 @@
+type Subscription {
+  a : Bool,
+  b : Bool
+}
+
+provider Provider : Subscription {
+  state a : String = ""
+}
+
+component Main {
+  use Provider {
+    a: true,
+    b: false
+  }
+
+  fun render {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createProvider as C,
+  createElement as E,
+  signal as B,
+  record as A,
+  useId as D
+} from "./runtime.js";
+
+export const
+  a = A(`Subscription`),
+  b = B(``),
+  c = new Map(),
+  F = C(c, () => {
+    return null
+  }),
+  G = () => {
+    const d = D();
+    F(d, () => {
+      return a({
+        a: true,
+        b: false
+      })
+    });
+    return E(`div`, {})
+  };
