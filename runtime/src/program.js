@@ -321,7 +321,7 @@ export const hrefHash = () => {
 export const href = () => window.location.href;
 
 // Creates a program.
-export const program = (main, globals, ok, routes = [], hashRouting = fals) => {
+export const program = (main, globals, ok, routes = [], hashRouting = false) => {
   new Program(ok, routes, hashRouting).render(main, globals);
 };
 
