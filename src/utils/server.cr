@@ -38,7 +38,8 @@ module Mint
     end
 
     private def port_closed?(host, port)
-      client = Socket.tcp(Socket::Family::INET, true)
+      client = Socket.tcp(Socket::Family::INET)
+      Socket.set_blocking(client.fd, true)
       client.connect(host, port, 0.25)
       client.close
       true
