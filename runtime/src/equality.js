@@ -1,3 +1,5 @@
+import { Signal } from "@preact/signals";
+
 // This file contains code to have value equality instead of reference equality.
 // We use a `Symbol` to have a custom equality functions and then use these
 // functions when comparing two values.
@@ -142,7 +144,7 @@ export const compare = (a, b) => {
     return a[Equals](b);
   } else if (b != null && b != undefined && b[Equals]) {
     return b[Equals](a);
-  } else if (isVnode(a) || isVnode(b)) {
+  } else if (isVnode(a) || isVnode(b) || a instanceof Signal || b instanceof Signal) {
     return a === b;
   } else {
     return compareObjects(a, b);
