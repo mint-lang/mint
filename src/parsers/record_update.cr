@@ -6,7 +6,7 @@ module Mint
           next unless char! '{'
           whitespace
 
-          value = variable || self.expression
+          value = self.expression
           whitespace
 
           next unless value

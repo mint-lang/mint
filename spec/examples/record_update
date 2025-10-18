@@ -106,3 +106,22 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+type A {
+  b: B
+}
+
+type B {
+  str: String
+}
+
+component Main {
+  fun render {
+    let data = {b: {str: "text" }}
+
+    // let's create a copy updating only the "text"
+    let dataUpdated = { data | b: { data.b | str: "text2" } }
+
+    "ok"
+  }
+}
