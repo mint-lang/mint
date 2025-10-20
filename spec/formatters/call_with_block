@@ -1,0 +1,21 @@
+component Main {
+  fun renderTest (block : Function(String, Html)) {
+    block("TEST")
+  }
+
+  fun render : Html {
+    renderTest() { |x:String|
+      <div>x</div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun renderTest (block : Function(String, Html)) {
+    block("TEST")
+  }
+
+  fun render : Html {
+    renderTest() { |x : String| <div>x</div> }
+  }
+}

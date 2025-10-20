@@ -12,7 +12,7 @@ module Array {
     Array.any([1, 3], (number : Number) { number % 2 == 0 }) == false
   */
   fun any (array : Array(item), function : Function(item, Bool)) : Bool {
-    Array.find(array, function) != Maybe.Nothing
+    find(array, function) != Maybe.Nothing
   }
 
   /*
@@ -23,7 +23,7 @@ module Array {
     Array.all(["hello", "mint"], (str : String) { String.size(str) > 3 }) == true
   */
   fun all (array : Array(item), function : Function(item, Bool)) : Bool {
-    reduce(array, true, (memo : Bool, val : item) { memo && function(val) })
+    reduce(array, true) { |memo : Bool, val : item| memo && function(val) }
   }
 
   /*
@@ -52,13 +52,12 @@ module Array {
     Array.compact([Maybe.Just("A"), Maybe.Nothing]) == ["A"]
   */
   fun compact (array : Array(Maybe(item))) : Array(item) {
-    Array.reduce(array, [],
-      (memo : Array(item), item : Maybe(item)) : Array(item) {
-        case item {
-          Just(value) => Array.push(memo, value)
-          Nothing => memo
-        }
-      })
+    reduce(array, []) { |memo : Array(item), item : Maybe(item)|
+      case item {
+        Just(value) => Array.push(memo, value)
+        Nothing => memo
+      }
+    }
   }
 
   /*
@@ -96,7 +95,7 @@ module Array {
     Array.delete(["a", "b", "c", "a"], "a") == ["b", "c"]
   */
   fun delete (array : Array(item), what : item) : Array(item) {
-    reject(array, (item : item) { item == what })
+    reject(array) { |item : item| item == what }
   }
 
   /*
@@ -582,7 +581,7 @@ module Array {
   */
   fun reverseIf (array : Array(item), condition : Bool) : Array(item) {
     if condition {
-      Array.reverse(array)
+      reverse(array)
     } else {
       array
     }
@@ -714,8 +713,7 @@ module Array {
     Array.sum([]) == 0
   */
   fun sum (array : Array(Number)) : Number {
-    Array.reduce(array, 0,
-      (memo : Number, item : Number) : Number { item + memo })
+    Array.reduce(array, 0) { |memo : Number, item : Number| item + memo }
   }
 
   /*

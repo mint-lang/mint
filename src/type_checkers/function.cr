@@ -4,7 +4,7 @@ module Mint
       check_function(node)
     end
 
-    def check_function(node : Ast::Function | Ast::InlineFunction) : Checkable
+    def check_function(node : Ast::Function | Ast::InlineFunction | Ast::BlockFunction) : Checkable
       check_arguments(node.arguments)
 
       arguments =
@@ -29,6 +29,11 @@ module Mint
 
           error_type, error_entity =
             case node
+            in Ast::BlockFunction
+              {
+                :block_function_type_mismatch,
+                "a block function",
+              }
             in Ast::Function
               {
                 :function_type_mismatch,

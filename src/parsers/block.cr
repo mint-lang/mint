@@ -1,7 +1,7 @@
 module Mint
   class Parser
     def block : Ast::Block?
-      block { many { comment || statement } }
+      block { comment || statement }
     end
 
     def block(opening_bracket_error : Proc(Nil)? = nil,

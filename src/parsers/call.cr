@@ -25,6 +25,23 @@ module Mint
           snippet self
         end unless char! ')'
 
+        block = parse do
+          whitespace
+          block_function
+        end
+
+        if block
+          arguments.push(
+            Ast::Field.new(
+              from: block.from,
+              file: block.file,
+              to: block.to,
+              comment: nil,
+              value: block,
+              key: nil,
+            ))
+        end
+
         Ast::Call.new(
           expression: expression,
           from: expression.from,

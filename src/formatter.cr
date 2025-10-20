@@ -89,6 +89,7 @@ module Mint
 
     # The possibilities on how to format groups.
     enum Behavior
+      BreakAllButFirst
       BreakNotFits
       BreakAll
       Block
@@ -149,6 +150,7 @@ module Mint
     def format_arguments(
       nodes : Array(Ast::Node), *,
       empty_parenthesis = true,
+      block = false,
     ) : Nodes
       return empty_parenthesis ? ["()"] of Node : [] of Node if nodes.empty?
 
@@ -162,12 +164,19 @@ module Mint
           end
         end || Behavior::BreakNotFits
 
+      ends =
+        if block
+          {"|", "|"}
+        else
+          {"(", ")"}
+        end
+
       [
         Group.new(
           items: nodes.map(&->format(Ast::Node)),
           behavior: behavior,
-          ends: {"(", ")"},
           separator: ",",
+          ends: ends,
           pad: false),
       ] of Node
     end

@@ -1,0 +1,23 @@
+component Main {
+  fun renderTest (block : Function(String, Html)) {
+    block("TEST")
+  }
+
+  fun render : Html {
+    renderTest() { |x:String|
+      <div>"Hello World! This is a long, long, long line...#{x}"</div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun renderTest (block : Function(String, Html)) {
+    block("TEST")
+  }
+
+  fun render : Html {
+    renderTest() { |x : String|
+      <div>"Hello World! This is a long, long, long line...#{x}"</div>
+    }
+  }
+}

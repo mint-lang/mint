@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class Call < Node
-      getter arguments, expression, await
+      getter arguments, expression, await, block
 
       def initialize(@arguments : Array(Field),
                      @from : Parser::Location,
