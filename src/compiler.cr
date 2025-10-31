@@ -204,6 +204,9 @@ module Mint
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
 
+    # A hash to store fallback variables.
+    getter fallbacks = Hash(Ast::Node?, Variable).new
+
     # The style builder instance.
     getter style_builder : StyleBuilder
 

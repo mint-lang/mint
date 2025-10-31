@@ -63,7 +63,21 @@ module Mint
                     "type of the block:", type
 
             snippet "I was expecting:", last
-            snippet "It return call in question is here:", return_value
+            snippet "The return call in question is here:", return_value
+            snippet "The returned value of the block is here:", expressions.last
+          end unless Comparer.compare(last, type)
+        end
+
+        if fallback = node.fallback
+          type =
+            resolve(fallback)
+
+          error! :block_fallback_type_mismatch do
+            snippet "The type of the fallback expression does not match " \
+                    "the return type of the block:", type
+
+            snippet "I was expecting:", last
+            snippet "The fallback expression in question is here:", fallback
             snippet "The returned value of the block is here:", expressions.last
           end unless Comparer.compare(last, type)
         end

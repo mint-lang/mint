@@ -28,9 +28,21 @@ module Mint
         next unless expressions
         next if expressions.empty?
 
+        fallback =
+          parse do
+            whitespace
+            next unless keyword! "or"
+
+            whitespace
+            next unless expression = self.expression
+
+            expression
+          end
+
         Ast::Block.new(
           expressions: expressions,
           from: start_position,
+          fallback: fallback,
           to: position,
           file: file)
       end

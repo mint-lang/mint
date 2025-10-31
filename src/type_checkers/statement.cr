@@ -14,9 +14,17 @@ module Mint
 
           if node.if_node
             false
-          else
-            check_exhaustiveness(type, [[target]]).diagnostics.missing? &&
+          elsif check_exhaustiveness(type, [[target]]).diagnostics.missing?
+            case parent = node.parent
+            when Ast::Block
+              if parent.fallback
+                false
+              else
+                !node.return_value
+              end
+            else
               !node.return_value
+            end
           end
         end
 

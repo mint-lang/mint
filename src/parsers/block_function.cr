@@ -36,8 +36,18 @@ module Mint
               snippet self
             end unless char! '}'
 
+            fallback =
+              parse do
+                whitespace
+                next unless keyword! "or"
+
+                whitespace
+                next unless expression
+              end
+
             Ast::Block.new(
               expressions: expressions,
+              fallback: fallback,
               to: position,
               from: from,
               file: file)

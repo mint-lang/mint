@@ -2,8 +2,17 @@ module Mint
   class Compiler
     def compile(node : Ast::Block, for_function = false) : Compiled
       compile node do
-        expressions =
-          compile node.expressions.select(Ast::Statement)
+        expressions = [] of Compiled
+
+        if fallback = node.fallback
+          variable = Variable.new
+
+          expressions.unshift(js.const(variable,
+            js.arrow_function { js.return(compile(fallback)) }))
+
+          @fallbacks[fallback] = variable
+        end
+        expressions.concat(compile(node.expressions.select(Ast::Statement)))
 
         async =
           Js.async?(expressions)

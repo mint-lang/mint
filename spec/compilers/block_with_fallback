@@ -1,0 +1,44 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : Html {
+    let Just(_) =
+      Maybe.Just("")
+
+    let Just(_) =
+      Maybe.Just("")
+
+    <span>"Hello"</span>
+  } or <span>"Fallback"</span>
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  destructure as C,
+  newVariant as D,
+  pattern as E,
+  variant as A
+} from "./runtime.js";
+
+export const
+  F = A(0, `Maybe.Nothing`),
+  G = A(1, `Maybe.Just`),
+  H = () => {
+    const a = () => {
+      return B(`span`, {}, [`Fallback`])
+    };
+    const b = C(D(G)(``), E(G, [null]));
+    if (b === false) {
+      return a()
+    };
+    const [] = b;
+    const c = C(D(G)(``), E(G, [null]));
+    if (c === false) {
+      return a()
+    };
+    const [] = c;
+    return B(`span`, {}, [`Hello`])
+  };

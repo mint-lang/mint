@@ -1,0 +1,16 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : Html {
+    let Just(_) =
+      Maybe.Just("")
+
+    let Just(_) =
+      Maybe.Just("")
+
+    <span>"Hello"</span>
+  } or <span>"Fallback"</span>
+}

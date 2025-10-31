@@ -11,6 +11,13 @@ module Mint
       body =
         list node.expressions
 
+      fallback =
+        if item = node.fallback
+          [" or "] + format(item)
+        else
+          [] of Node
+        end
+
       if format == BlockFormat::Naked
         body
       elsif format == BlockFormat::Block
@@ -19,7 +26,7 @@ module Mint
           ends: {"{", "}"},
           separator: "",
           items: [body],
-          pad: false)
+          pad: false) + fallback
       else
         case format
         when BlockFormat::Attribute,
@@ -31,7 +38,7 @@ module Mint
             items: [body],
             separator: "")
         else
-          ["{"] + body + ["}"]
+          ["{"] + body + ["}"] + fallback
         end
       end
     end

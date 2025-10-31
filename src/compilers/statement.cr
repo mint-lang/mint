@@ -31,9 +31,23 @@ module Mint
               const =
                 js.const(var, js.call(Builtin::Destructure, [right, pattern]))
 
-              return_if =
+              return_value =
                 if ret = node.return_value
-                  js.if([var, " === false"], js.return(compile(ret)))
+                  compile(ret)
+                else
+                  case parent = node.parent
+                  when Ast::Block
+                    if fallback = parent.fallback
+                      if fallback_variable = @fallbacks[fallback]?
+                        js.call(fallback_variable, [] of Compiled)
+                      end
+                    end
+                  end
+                end
+
+              return_if =
+                if return_value
+                  js.if([var, " === false"], js.return(return_value))
                 end
 
               js.statements([
