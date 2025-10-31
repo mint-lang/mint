@@ -45,20 +45,25 @@ type User {
   name: "NAME",
   id: "ID"
 }
-------------------------------------------------type_defintion_context_mismatch
+-------------------------------------------------------------------------------
+type User {
+  LoggedIn
+  Guest
+} context User.Guest
+------------------------------------record_not_found_matching_record_definition
 type User {
   name: String using "name",
   id: String
 } context {
   x: "Y"
 }
--------------------------------------------type_defintion_variants_with_context
+------------------------------------record_not_found_matching_record_definition
 type User {
   A
 } context {
   x: "Y"
 }
------------------------------------------------type_definition_expected_context
+---------------------------------------------------------------variable_missing
 type User {
   name: String using "name",
   id: String

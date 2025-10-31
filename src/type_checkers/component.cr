@@ -147,6 +147,7 @@ module Mint
       # Type checking the entities
       resolve node.properties
       resolve node.connects
+      resolve node.provides
       resolve node.states
       resolve node.uses
 

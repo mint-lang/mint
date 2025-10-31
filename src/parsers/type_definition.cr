@@ -63,7 +63,7 @@ module Mint
               next error :type_definition_expected_context do
                 expected "the defaultvalue of a type definition", word
                 snippet self
-              end unless value = record
+              end unless value = expression
 
               value
             end

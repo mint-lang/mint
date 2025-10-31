@@ -197,6 +197,7 @@ module Mint
         build(node.functions, node)
         build(node.constants, node)
         build(node.contexts, node)
+        build(node.provides, node)
         build(node.states, node)
         build(node.styles, node)
         build(node.gets, node)
@@ -369,6 +370,8 @@ module Mint
         when Ast::Node
           build(node.index.as(Ast::Node), node)
         end
+      when Ast::Provide
+        build(node.expression, node)
       when Ast::Use
         build(node.condition, node)
         build(node.data, node)

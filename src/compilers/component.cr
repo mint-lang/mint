@@ -114,16 +114,13 @@ module Mint
             end
           end
 
-        providers =
-          node.uses.reject(&.context?)
-
         provider_effects =
-          if providers.empty?
+          if node.uses.empty?
             [] of Compiled
           else
             id = Variable.new
 
-            providers.map do |use|
+            node.uses.map do |use|
               data =
                 if condition = use.condition
                   js.tenary(compile(condition), compile(use.data), js.null)
@@ -182,9 +179,6 @@ module Mint
           else
             [] of Compiled
           end
-
-        context_providers =
-          node.uses.select(&.context?)
 
         sizes =
           node.sizes
@@ -245,13 +239,13 @@ module Mint
               skip_const: true,
               args: arguments,
             ) do |contents|
-              if context_providers.empty?
+              if node.provides.empty?
                 contents
               else
-                js.return(context_providers.reduce(js.iif { contents }) do |memo, use|
+                js.return(node.provides.reduce(js.iif { contents }) do |memo, use|
                   js.call(Builtin::CreateElement, [
                     [ContextProvider.new(lookups[use][0])] of Item,
-                    js.object({"value" => compile(use.data)}),
+                    js.object({"value" => compile(use.expression)}),
                     memo,
                   ])
                 end)

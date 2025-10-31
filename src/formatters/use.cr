@@ -14,14 +14,7 @@ module Mint
             pad: true)
         end
 
-      prefix =
-        if node.context?
-          "provide"
-        else
-          "use"
-        end
-
-      ["#{prefix} "] + format(node.provider) + [" "] + data + condition
+      ["use "] + format(node.provider) + [" "] + data + condition
     end
   end
 end

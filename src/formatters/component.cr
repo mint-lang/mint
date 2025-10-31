@@ -8,6 +8,7 @@ module Mint
           node.comments +
           node.connects +
           node.contexts +
+          node.provides +
           node.styles +
           node.states +
           node.gets +

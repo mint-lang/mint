@@ -46,6 +46,7 @@ module Mint
               constant ||
               function ||
               context ||
+              provide ||
               connect ||
               style ||
               state ||
@@ -65,6 +66,7 @@ module Mint
         connects = [] of Ast::Connect
         comments = [] of Ast::Comment
         contexts = [] of Ast::Context
+        provides = [] of Ast::Provide
         styles = [] of Ast::Style
         states = [] of Ast::State
         gets = [] of Ast::Get
@@ -78,6 +80,8 @@ module Mint
             functions << item
           when Ast::Constant
             constants << item
+          when Ast::Provide
+            provides << item
           when Ast::Connect
             connects << item
           when Ast::Comment
@@ -122,6 +126,7 @@ module Mint
           connects: connects,
           comments: comments,
           contexts: contexts,
+          provides: provides,
           comment: comment,
           locales: locales,
           styles: styles,

@@ -12,40 +12,8 @@ module Mint
         type =
           Comparer.normalize(Record.new(node.name.value, fields, mappings))
 
-        if item = node.context
-          check!(item)
-
-          fields =
-            item
-              .fields
-              .compact_map do |field|
-                next unless key = field.key
-                {key.value, resolve(field, false)}
-              end
-              .to_h
-
-          item.fields.each do |field|
-            record_field_lookup[field] = node.name.value
-          end
-
-          context =
-            Record.new("", fields)
-
-          cache[item] = type
-
-          error! :type_defintion_context_mismatch do
-            snippet "The context value of a type definition doesn't match the type!", context
-            snippet "The type definition is here:", node
-          end unless Comparer.compare(type, context)
-        end
-
         type
       in Array(Ast::TypeVariant)
-        error! :type_defintion_variants_with_context do
-          block "Types with variants cannot have a context value."
-          snippet "The type in question is here:", node
-        end if node.context
-
         resolve(items)
 
         parameters =

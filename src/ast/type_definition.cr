@@ -10,7 +10,7 @@ module Mint
                      @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
-                     @context : Record?,
+                     @context : Node?,
                      @name : Id)
       end
     end
