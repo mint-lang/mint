@@ -36,21 +36,6 @@ module Mint
 
       resolve node.components.select(&.global?)
 
-      node.type_definitions.each do |definition|
-        if item = definition.context
-          definition_type =
-            resolve(definition)
-
-          type =
-            resolve(item)
-
-          error! :type_defintion_context_mismatch do
-            snippet "The context value of a type definition doesn't match the type!", type
-            snippet "The type definition is here:", definition
-          end unless Comparer.compare(type, definition_type)
-        end
-      end
-
       # We are turning off checking here which means that what we check after
       # this will not be compiled.
       self.checking = false

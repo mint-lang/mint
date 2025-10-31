@@ -1,39 +1,75 @@
 module Mint
   class TypeChecker
     def check(node : Ast::TypeDefinition) : Checkable
-      case items = node.fields
-      in Array(Ast::TypeDefinitionField)
-        fields =
-          items.to_h { |item| {item.key.value, resolve(item).as(Checkable)} }
+      definition_type =
+        case items = node.fields
+        in Array(Ast::TypeDefinitionField)
+          fields =
+            items.to_h { |item| {item.key.value, resolve(item).as(Checkable)} }
 
-        mappings =
-          items.to_h { |item| {item.key.value, static_value(item.mapping)} }
+          mappings =
+            items.to_h { |item| {item.key.value, static_value(item.mapping)} }
 
+          type =
+            Comparer.normalize(Record.new(node.name.value, fields, mappings))
+
+          type
+        in Array(Ast::TypeVariant)
+          resolve(items)
+
+          parameters =
+            resolve node.parameters
+
+          used_parameters = Set(Ast::TypeVariable).new
+
+          items.each do |option|
+            check option.parameters, node.parameters, used_parameters
+          end
+
+          node.parameters.each do |parameter|
+            error! :type_definition_unused_parameter do
+              snippet "Type parameters must be used by at least one option. " \
+                      "This parameter was not used by any of the options:", parameter
+            end unless used_parameters.includes?(parameter)
+          end
+
+          Comparer.normalize(Type.new(node.name.value, parameters))
+        end
+
+      if item = node.context
         type =
-          Comparer.normalize(Record.new(node.name.value, fields, mappings))
+          case item
+          when Ast::Record
+            check!(item)
 
-        type
-      in Array(Ast::TypeVariant)
-        resolve(items)
+            fields =
+              item
+                .fields
+                .compact_map do |field|
+                  next unless key = field.key
+                  {key.value, resolve(field, false)}
+                end
+                .to_h
 
-        parameters =
-          resolve node.parameters
+            item.fields.each do |field|
+              record_field_lookup[field] = node.name.value
+            end
 
-        used_parameters = Set(Ast::TypeVariable).new
+            cache[item] = definition_type
 
-        items.each do |option|
-          check option.parameters, node.parameters, used_parameters
-        end
+            Record.new("", fields)
+          else
+            resolve(item)
+          end
 
-        node.parameters.each do |parameter|
-          error! :type_definition_unused_parameter do
-            snippet "Type parameters must be used by at least one option. " \
-                    "This parameter was not used by any of the options:", parameter
-          end unless used_parameters.includes?(parameter)
-        end
-
-        Comparer.normalize(Type.new(node.name.value, parameters))
+        error! :type_defintion_context_mismatch do
+          snippet "The context value of a type definition doesn't match the type!"
+          expected definition_type, type
+          snippet "The type definition is here:", node
+        end unless Comparer.compare(type, definition_type)
       end
+
+      definition_type
     end
 
     def check(parameters : Array(Ast::Node),

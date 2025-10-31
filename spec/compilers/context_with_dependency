@@ -1,0 +1,41 @@
+type Ui.Form {
+  errors : Map(String, String)
+} context { errors: Map.empty() }
+
+module Map {
+  fun empty : Map(a, b) {
+    `[]`
+  }
+}
+
+component Main {
+  provide Ui.Form { errors: {} of String => String }
+
+  fun render {
+    "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  createContext as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = () => {
+    return ([])
+  },
+  b = A(`Ui.Form`),
+  D = B(b({
+    errors: a()
+  })),
+  E = () => {
+    return C(D.Provider, {
+      value: b({
+        errors: []
+      })
+    }, (() => {
+      return `Hello`
+    })())
+  };

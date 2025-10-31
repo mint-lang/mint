@@ -50,14 +50,14 @@ type User {
   LoggedIn
   Guest
 } context User.Guest
-------------------------------------record_not_found_matching_record_definition
+------------------------------------------------type_defintion_context_mismatch
 type User {
   name: String using "name",
   id: String
 } context {
   x: "Y"
 }
-------------------------------------record_not_found_matching_record_definition
+------------------------------------------------type_defintion_context_mismatch
 type User {
   A
 } context {
