@@ -22,7 +22,7 @@ I was expecting:
 
   String
 
-It return call in question is here:
+The return call in question is here:
 
     ┌ errors/statement_return_type_mismatch:9:33
     ├───────────────────────────────────────────
