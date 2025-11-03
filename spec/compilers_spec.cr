@@ -3,7 +3,11 @@ require "./spec_helper"
 struct Config
   include YAML::Serializable
 
-  getter exports : Array(String)
+  getter exports = [] of String
+  getter? optimize = false
+
+  def initialize
+  end
 end
 
 Dir
@@ -24,7 +28,7 @@ Dir
 
             {Config.from_yaml(parts[0]), parts[1]}
           else
-            {nil, raw}
+            {Config.new, raw}
           end
 
         # Parse the sample
@@ -32,7 +36,7 @@ Dir
         ast.class.should eq(Mint::Ast)
 
         artifacts =
-          Mint::TypeChecker.check(ast, config.try(&.exports) || [] of String)
+          Mint::TypeChecker.check(ast, config.exports)
 
         test_information =
           if File.basename(file).starts_with?("test")
@@ -43,6 +47,7 @@ Dir
           Mint::Bundler::Config.new(
             json: Mint::MintJson.parse("{}", "mint.json"),
             generate_source_maps: false,
+            optimize: config.optimize?,
             generate_manifest: false,
             include_program: false,
             test: test_information,
@@ -50,8 +55,7 @@ Dir
             live_reload: false,
             runtime_path: nil,
             skip_icons: false,
-            hash_assets: true,
-            optimize: false)
+            hash_assets: true)
 
         files =
           Mint::Bundler.new(
