@@ -48,16 +48,18 @@ module Mint
     end
 
     # Resolves the targets which can be statically resolved, currently only
-    # the exposed variables of a connected store in a component.
+    # the exposed variables of a connected entity in a component.
     def resolve
       scopes.each do |node, stack|
         next unless node.is_a?(Ast::Component)
 
         node.connects.each do |connect|
-          case store = @ast.stores.find(&.name.value.==(connect.store.value))
-          when Ast::Store
+          if item =
+               @ast.unified_modules.find(&.name.value.==(connect.store.value)) ||
+               @ast.providers.find(&.name.value.==(connect.store.value)) ||
+               @ast.stores.find(&.name.value.==(connect.store.value))
             connect.keys.each do |key|
-              scopes[store][1].items[key.name.value]?.try do |value|
+              scopes[item][1].items[key.name.value]?.try do |value|
                 stack[1].items[key.target.try(&.value) || key.name.value] = value
               end
             end

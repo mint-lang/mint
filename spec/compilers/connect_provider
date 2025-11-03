@@ -1,0 +1,31 @@
+type S {
+  a : String
+}
+
+provider A : S {
+  fun value : String {
+    ""
+  }
+}
+
+component Main {
+  connect A exposing { value }
+
+  fun render {
+    value()
+  }
+}
+--------------------------------------------------------------------------------
+import { createProvider as A } from "./runtime.js";
+
+export const
+  a = () => {
+    return ``
+  },
+  b = new Map(),
+  B = A(b, () => {
+    return null
+  }),
+  C = () => {
+    return a()
+  };

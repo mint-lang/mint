@@ -2,7 +2,9 @@ module Mint
   class TypeChecker
     def check(node : Ast::Connect) : Checkable
       store =
-        ast.stores.find(&.name.value.==(node.store.value))
+        ast.unified_modules.find(&.name.value.==(node.store.value)) ||
+          ast.providers.find(&.name.value.==(node.store.value)) ||
+          ast.stores.find(&.name.value.==(node.store.value))
 
       error! :connect_not_found_store do
         block do

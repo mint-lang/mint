@@ -8,14 +8,12 @@ module Mint
                         @stack[1]?.as?(Ast::Connect)
 
         return unless store =
-                        @type_checker.artifacts.ast.stores
-                          .find(&.name.value.==(connect.store.value))
+                        @type_checker.artifacts.ast.unified_modules.find(&.name.value.==(connect.store.value)) ||
+                        @type_checker.artifacts.ast.providers.find(&.name.value.==(connect.store.value)) ||
+                        @type_checker.artifacts.ast.stores.find(&.name.value.==(connect.store.value))
 
         return unless target =
-                        store.functions.find(&.name.value.==(node.name.value)) ||
-                        store.constants.find(&.name.value.==(node.name.value)) ||
-                        store.states.find(&.name.value.==(node.name.value)) ||
-                        store.gets.find(&.name.value.==(node.name.value))
+                        @type_checker.artifacts.scope.resolve(node.name.value, store).try(&.node)
 
         case target
         when Ast::Function, Ast::State, Ast::Get, Ast::Constant

@@ -1,0 +1,21 @@
+module A {
+  fun value : String {
+    ""
+  }
+}
+
+component Main {
+  connect A exposing { value }
+
+  fun render {
+    value()
+  }
+}
+--------------------------------------------------------------------------------
+export const
+  a = () => {
+    return ``
+  },
+  A = () => {
+    return a()
+  };
