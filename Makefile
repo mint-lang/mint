@@ -45,7 +45,7 @@ documentation:
 development-release:
 	docker-compose run --rm app \
 		crystal build src/mint.cr -o mint-dev --static --no-debug --release
-		mv ./mint-dev ~/.bin/
+		mv ./mint-dev ~/.bin/ -f
 
 src/assets/runtime.js: \
 	$(shell find runtime/src -type f) \
