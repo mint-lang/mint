@@ -31,9 +31,10 @@ module Mint
         fallback =
           parse do
             whitespace
-            next unless keyword! "or"
 
-            whitespace
+            next unless keyword! "or"
+            next unless whitespace!
+            next if keyword! "return"
             next unless expression = self.expression
 
             expression
