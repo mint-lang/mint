@@ -27,6 +27,8 @@ module Mint
           array_literal
         when ':'
           locale_key
+        when '\''
+          tag
         when '`'
           js
         when '@'

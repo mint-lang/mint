@@ -20,7 +20,7 @@ module Mint
             next error :state_expected_type do
               expected "the type value of a state", word
               snippet self
-            end unless item = self.type
+            end unless item = self.type || tags
             whitespace
             item
           end

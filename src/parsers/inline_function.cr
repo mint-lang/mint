@@ -23,7 +23,7 @@ module Mint
             next error :inline_function_expected_type do
               expected "the type of an inline function", word
               snippet self
-            end unless item = self.type || type_variable
+            end unless item = types
             whitespace
             item
           end

@@ -21,7 +21,7 @@ module Mint
         next error :type_definition_field_expected_type do
           expected "the type of a type field", word
           snippet self
-        end unless type = self.type || type_variable
+        end unless type = types
 
         mapping =
           parse(track: false) do

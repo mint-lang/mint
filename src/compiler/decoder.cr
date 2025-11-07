@@ -119,7 +119,7 @@ module Mint
       end
     end
 
-    def decoder(node : TypeChecker::Variable)
+    def decoder(node : TypeChecker::Variable | TypeChecker::Tag | TypeChecker::Tags)
       unreachable! "Cannot generate a decoder for a type variable!"
     end
 
@@ -134,6 +134,8 @@ module Mint
         end)
       in TypeChecker::Record
         type
+      in TypeChecker::Tag, TypeChecker::Tags
+        unreachable! "Cannot find substition for variable: #{type.name}"
       in TypeChecker::Variable
         if found = substitutions[type.name]?
           found

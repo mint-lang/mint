@@ -9,7 +9,7 @@ module Mint
                      @comment : Comment?,
                      @default : Node?,
                      @name : Variable,
-                     @type : Type?)
+                     @type : Node?)
       end
     end
   end

@@ -1,0 +1,36 @@
+component View {
+  property orientation : 'horizontal' | 'vertical' = 'horizontal'
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <>
+      <View orientation='vertical'/>
+      <View/>
+    </>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as A,
+  fragment as B
+} from "./runtime.js";
+
+export const
+  C = ({
+    a = `horizontal`
+  }) => {
+    return A(`div`, {})
+  },
+  D = () => {
+    return A(B, {}, [
+      A(C, {
+        a: `vertical`
+      }),
+      A(C, {})
+    ])
+  };

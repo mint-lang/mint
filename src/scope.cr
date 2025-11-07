@@ -268,6 +268,8 @@ module Mint
            Ast::Discard,
            Ast::Context,
            Ast::Spread,
+           Ast::Tags,
+           Ast::Tag,
            Ast::Env
       when Ast::StringLiteral,
            Ast::HereDocument,

@@ -566,8 +566,15 @@ module ExhaustivenessChecker
             index, args =
               case item = pattern
               in PConstructor
+                # In case we are matching on a tag we calculate the index from
+                # the "name" of the tags type which should include the variant.
                 index_ =
-                  constructor_index(item.constructor)
+                  if branch_var.type.name.starts_with?("'")
+                    case constructor = item.constructor
+                    when CVariant
+                      branch_var.type.name.split(" | ").index(constructor.type.name)
+                    end
+                  end || constructor_index(item.constructor)
 
                 # Pad arguments to match the cases size
                 extra_args =

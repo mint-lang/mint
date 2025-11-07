@@ -23,7 +23,7 @@ module Mint
             next error :map_expected_key_type do
               expected "the type of the keys of a map", word
               snippet self
-            end unless key_type = type || type_variable
+            end unless key_type = self.types
 
             whitespace
             next error :map_expected_arrow do
@@ -35,7 +35,7 @@ module Mint
             next error :map_expected_value_type do
               expected "the type of the values of a map", word
               snippet self
-            end unless value_type = type || type_variable
+            end unless value_type = self.types
 
             {key_type, value_type}
           end

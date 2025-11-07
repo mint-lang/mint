@@ -7,7 +7,7 @@ module Mint
         if char! '('
           parameters = list(separator: ',', terminator: ')') do
             whitespace
-            type = self.type || type_variable
+            type = types
 
             whitespace
             next error :type_expected_type_or_type_variable do
@@ -23,7 +23,7 @@ module Mint
             snippet self
           end unless char! ')'
         else
-          parameters = [] of Ast::Type | Ast::TypeVariable
+          parameters = [] of Ast::Node
         end
 
         Ast::Type.new(

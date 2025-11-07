@@ -70,6 +70,10 @@ module Mint
 
     def to_pattern_type(type : Checkable) : ExhaustivenessChecker::Checkable
       case type
+      in Tag
+        ExhaustivenessChecker::Type.new(type.to_s).as(ExhaustivenessChecker::Checkable)
+      in Tags
+        ExhaustivenessChecker::Type.new(type.to_s)
       in Variable
         ExhaustivenessChecker::TypeVariable.new(type.name)
       in Record
@@ -130,6 +134,12 @@ module Mint
            Ast::StringLiteral,
            Ast::BoolLiteral
         ExhaustivenessChecker::PValue.new(node.source)
+      when Ast::Tag
+        ExhaustivenessChecker::PConstructor.new(
+          arguments: [] of ExhaustivenessChecker::Pattern,
+          constructor: ExhaustivenessChecker::CVariant.new(
+            type: to_pattern_type(cache[node]),
+            index: 0))
       end || error! :invalid_pattern do
         snippet "The following code cannot be used as a pattern:", node
       end
@@ -146,29 +156,35 @@ module Mint
     def check_exhaustiveness(target : Checkable, patterns : Array(Array(Ast::Node)?))
       compiler = ExhaustivenessChecker::Compiler.new(
         ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
-          if defi = ast.type_definitions.find(&.name.value.==(type.name))
-            case fields = defi.fields
-            when Array(Ast::TypeVariant)
-              fields.map do |variant|
-                parameters =
-                  variant.parameters.map do |param|
-                    case param
-                    when Ast::TypeVariable
-                      case type
-                      when ExhaustivenessChecker::Type
-                        type.parameters[defi.parameters.index!(&.value.==(param.value))]
-                      end
-                    end || to_pattern_type(param)
-                  end
+          if type.name.starts_with?("'")
+            type.name.split('|').map do
+              ExhaustivenessChecker::Variant.new([] of ExhaustivenessChecker::Checkable)
+            end
+          else
+            if defi = ast.type_definitions.find(&.name.value.==(type.name))
+              case fields = defi.fields
+              when Array(Ast::TypeVariant)
+                fields.map do |variant|
+                  parameters =
+                    variant.parameters.map do |param|
+                      case param
+                      when Ast::TypeVariable
+                        case type
+                        when ExhaustivenessChecker::Type
+                          type.parameters[defi.parameters.index!(&.value.==(param.value))]
+                        end
+                      end || to_pattern_type(param)
+                    end
 
-                ExhaustivenessChecker::Variant.new(parameters)
-              end
-            when Array(Ast::TypeDefinitionField)
-              parameters =
-                fields.map do |item|
-                  to_pattern_type(item.type)
+                  ExhaustivenessChecker::Variant.new(parameters)
                 end
-              [ExhaustivenessChecker::Variant.new(parameters)]
+              when Array(Ast::TypeDefinitionField)
+                parameters =
+                  fields.map do |item|
+                    to_pattern_type(item.type)
+                  end
+                [ExhaustivenessChecker::Variant.new(parameters)]
+              end
             end
           end
         },

@@ -1,5 +1,60 @@
 module Mint
   class TypeChecker
+    class Tag
+      getter name : String
+
+      property parameters = [] of Checkable
+      property label : String?
+
+      def initialize(@name)
+      end
+
+      def to_mint
+        to_s
+      end
+
+      def to_pretty
+        to_s
+      end
+
+      def to_s(io : IO)
+        io << "'"
+        io << name
+        io << "'"
+      end
+
+      def have_holes?
+        false
+      end
+    end
+
+    class Tags
+      getter options : Array(String)
+      getter name : String = ""
+
+      property parameters = [] of Checkable
+      property label : String?
+
+      def initialize(@options)
+      end
+
+      def to_mint
+        to_s
+      end
+
+      def to_pretty
+        to_s
+      end
+
+      def to_s(io : IO)
+        options.map { |tag| "'#{tag}'" }.join(io, " | ")
+      end
+
+      def have_holes?
+        false
+      end
+    end
+
     class Type
       getter parameters : Array(Checkable)
       getter name : String
