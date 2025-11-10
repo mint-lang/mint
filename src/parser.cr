@@ -299,7 +299,11 @@ module Mint
 
     # Parses a list of things, which ends in the terminator character and are
     # separated by the separator character.
-    def list(terminator : Char?, separator : Char, & : -> T?) : Array(T) forall T
+    def list(
+      terminator : Char?, separator : Char, *,
+      trailing_separator : Bool = true, & : -> T?
+    ) : Array(T) forall T
+      separator_position = nil
       result = [] of T
 
       loop do
@@ -312,14 +316,18 @@ module Mint
           yield
         end
 
-        # Break if the block didn't yield anything
-        break unless item
+        unless item
+          @position = separator_position if separator_position
+          break
+        end
 
         # Add item to results
         result << item
 
         # Using parse here will not consume whitespace if there is no separator.
-        parsed_separator = parse do
+        parsed_separator = parse do |start_position|
+          separator_position = start_position unless trailing_separator
+
           # Consume whitespace before the separator
           whitespace
 

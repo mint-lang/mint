@@ -17,6 +17,11 @@ describe Mint::Workspace do
         format: false)
 
       results.size.should eq(1)
+      case e = results[0]
+      when Mint::Error
+        puts e.to_terminal
+      end
+
       results[0].should be_a(Mint::TypeChecker)
     end
   end

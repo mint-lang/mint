@@ -22,7 +22,7 @@ module Mint
             next error :property_expected_type do
               expected "the type of a property", word
               snippet self
-            end unless item = self.type || tags
+            end unless item = tags
             item
           end
 

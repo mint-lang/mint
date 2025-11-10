@@ -4,7 +4,7 @@ module Mint
       [Group.new(
         items: node.options.map(&->format(Ast::Node)),
         behavior: Behavior::BreakNotFits,
-        separator: " |",
+        separator: " /",
         ends: {"", ""},
         pad: false)] of Node
     end

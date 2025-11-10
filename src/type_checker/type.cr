@@ -29,7 +29,7 @@ module Mint
     end
 
     class Tags
-      getter options : Array(String)
+      getter options : Array(Checkable)
       getter name : String = ""
 
       property parameters = [] of Checkable
@@ -47,7 +47,7 @@ module Mint
       end
 
       def to_s(io : IO)
-        options.map { |tag| "'#{tag}'" }.join(io, " | ")
+        options.join(io, " | ")
       end
 
       def have_holes?

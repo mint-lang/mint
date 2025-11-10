@@ -1,5 +1,5 @@
 component View {
-  property orientation : 'horizontal' | 'vertical' = 'horizontal'
+  property orientation : Horizontal / Vertical = Horizontal
 
   fun render : Html {
     <div/>
@@ -9,7 +9,7 @@ component View {
 component Main {
   fun render : Html {
     <>
-      <View orientation='vertical'/>
+      <View orientation={Vertical}/>
       <View/>
     </>
   }
@@ -22,14 +22,14 @@ import {
 
 export const
   C = ({
-    a = `horizontal`
+    a = `Horizontal`
   }) => {
     return A(`div`, {})
   },
   D = () => {
     return A(B, {}, [
       A(C, {
-        a: `vertical`
+        a: `Vertical`
       }),
       A(C, {})
     ])

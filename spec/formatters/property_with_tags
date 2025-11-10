@@ -1,5 +1,5 @@
 component View {
-  property orientation : 'horizontal' | 'vertical' = 'horizontal'
+  property orientation : Horizontal / Vertical / Horizontal
 
   fun render : Html {
     <div/>
@@ -8,12 +8,12 @@ component View {
 
 component Main {
   fun render : Html {
-    <View orientation='vertical'/>
+    <View orientation={Vertical}/>
   }
 }
 --------------------------------------------------------------------------------
 component View {
-  property orientation : 'horizontal' | 'vertical' = 'horizontal'
+  property orientation : Horizontal / Vertical / Horizontal
 
   fun render : Html {
     <div/>
@@ -22,6 +22,6 @@ component View {
 
 component Main {
   fun render : Html {
-    <View orientation='vertical'/>
+    <View orientation={Vertical}/>
   }
 }

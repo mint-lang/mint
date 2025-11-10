@@ -5,7 +5,7 @@ module Mint
 
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
-                     @options : Array(Tag),
+                     @options : Array(Type),
                      @file : Parser::File)
       end
     end

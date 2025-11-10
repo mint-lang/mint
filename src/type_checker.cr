@@ -3,7 +3,7 @@ module Mint
     include Errorable
     include Helpers
 
-    alias Checkable = Type | Record | Variable | Tags | Tag
+    alias Checkable = Type | Record | Variable | Tags
 
     # Built in types
     # ----------------------------------------------------------------------------

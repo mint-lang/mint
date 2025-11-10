@@ -1,0 +1,44 @@
+component Main {
+  fun a (d : X / Y / Z(String)) {
+    case d {
+      X => "X"
+      Y => "Y"
+      Z(value) => value
+    }
+  }
+
+  fun render {
+    <div>a(X)</div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  match as A
+} from "./runtime.js";
+
+export const C = () => {
+  const a = (b) => {
+    return A(b, [
+      [
+        null,
+        () => {
+          return `X`
+        }
+      ],
+      [
+        null,
+        () => {
+          return `Y`
+        }
+      ],
+      [
+        null,
+        () => {
+          return c
+        }
+      ]
+    ])
+  };
+  return B(`div`, {}, [a(`X`)])
+};

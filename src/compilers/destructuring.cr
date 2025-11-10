@@ -43,7 +43,7 @@ module Mint
       node : Ast::TypeDestructuring,
       variables : Array(Compiled),
     ) : Compiled
-      case item = lookups[node][0]
+      case item = lookups[node]?.try(&.first)
       when Ast::TypeVariant
         items =
           js.array(node.items.map do |param|
@@ -53,8 +53,10 @@ module Mint
         js.call(Builtin::Pattern, [[lookups[node][0]], items])
       when Ast::Constant
         [item] of Item
-      else
+      when Ast::Node
         compile(item)
+      else
+        js.null
       end
     end
 

@@ -198,9 +198,10 @@ module ExhaustivenessChecker
 
   class Type
     getter parameters : Array(Checkable)
+    getter variants : Array(Variant)?
     getter name : String
 
-    def initialize(@name, @parameters = [] of Checkable)
+    def initialize(@name, @parameters = [] of Checkable, @variants = nil)
     end
   end
 
@@ -569,12 +570,7 @@ module ExhaustivenessChecker
                 # In case we are matching on a tag we calculate the index from
                 # the "name" of the tags type which should include the variant.
                 index_ =
-                  if branch_var.type.name.starts_with?("'")
-                    case constructor = item.constructor
-                    when CVariant
-                      branch_var.type.name.split(" | ").index(constructor.type.name)
-                    end
-                  end || constructor_index(item.constructor)
+                  constructor_index(item.constructor)
 
                 # Pad arguments to match the cases size
                 extra_args =

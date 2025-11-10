@@ -129,6 +129,7 @@ module Test {
 component Main {
   fun render : String {
     let x = X.Y
+
     case (x) {
       Test.X => "x"
       Y => "y"

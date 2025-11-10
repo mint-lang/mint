@@ -63,17 +63,29 @@ module Mint
                 index: index))
           end
         end
-      end || error! :invalid_pattern do
-        snippet "The following code cannot be used as a pattern:", node
+      end || case type = cache[node]
+      when Tags
+        ExhaustivenessChecker::PConstructor.new(
+          arguments: node.items.map { |item| to_pattern(item) },
+          constructor: ExhaustivenessChecker::CVariant.new(
+            type: to_pattern_type(type),
+            index: type.options.index(&.name.==(node.variant.value)) || 0))
+      else
+        error! :invalid_pattern do
+          snippet "The following code cannot be used as a pattern:", node
+        end
       end
     end
 
     def to_pattern_type(type : Checkable) : ExhaustivenessChecker::Checkable
       case type
-      in Tag
-        ExhaustivenessChecker::Type.new(type.to_s).as(ExhaustivenessChecker::Checkable)
       in Tags
-        ExhaustivenessChecker::Type.new(type.to_s)
+        variants =
+          type.options.map do |option|
+            ExhaustivenessChecker::Variant.new(
+              option.parameters.map(&->to_pattern_type(Checkable)))
+          end
+        ExhaustivenessChecker::Type.new(type.to_s, variants: variants)
       in Variable
         ExhaustivenessChecker::TypeVariable.new(type.name)
       in Record
@@ -134,12 +146,6 @@ module Mint
            Ast::StringLiteral,
            Ast::BoolLiteral
         ExhaustivenessChecker::PValue.new(node.source)
-      when Ast::Tag
-        ExhaustivenessChecker::PConstructor.new(
-          arguments: [] of ExhaustivenessChecker::Pattern,
-          constructor: ExhaustivenessChecker::CVariant.new(
-            type: to_pattern_type(cache[node]),
-            index: 0))
       end || error! :invalid_pattern do
         snippet "The following code cannot be used as a pattern:", node
       end
@@ -156,34 +162,35 @@ module Mint
     def check_exhaustiveness(target : Checkable, patterns : Array(Array(Ast::Node)?))
       compiler = ExhaustivenessChecker::Compiler.new(
         ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
-          if type.name.starts_with?("'")
-            type.name.split('|').map do
-              ExhaustivenessChecker::Variant.new([] of ExhaustivenessChecker::Checkable)
-            end
-          else
-            if defi = ast.type_definitions.find(&.name.value.==(type.name))
-              case fields = defi.fields
-              when Array(Ast::TypeVariant)
-                fields.map do |variant|
-                  parameters =
-                    variant.parameters.map do |param|
-                      case param
-                      when Ast::TypeVariable
-                        case type
-                        when ExhaustivenessChecker::Type
-                          type.parameters[defi.parameters.index!(&.value.==(param.value))]
-                        end
-                      end || to_pattern_type(param)
-                    end
+          case type
+          when ExhaustivenessChecker::Type
+            if type.variants
+              type.variants
+            else
+              if defi = ast.type_definitions.find(&.name.value.==(type.name))
+                case fields = defi.fields
+                when Array(Ast::TypeVariant)
+                  fields.map do |variant|
+                    parameters =
+                      variant.parameters.map do |param|
+                        case param
+                        when Ast::TypeVariable
+                          case type
+                          when ExhaustivenessChecker::Type
+                            type.parameters[defi.parameters.index!(&.value.==(param.value))]
+                          end
+                        end || to_pattern_type(param)
+                      end
 
-                  ExhaustivenessChecker::Variant.new(parameters)
-                end
-              when Array(Ast::TypeDefinitionField)
-                parameters =
-                  fields.map do |item|
-                    to_pattern_type(item.type)
+                    ExhaustivenessChecker::Variant.new(parameters)
                   end
-                [ExhaustivenessChecker::Variant.new(parameters)]
+                when Array(Ast::TypeDefinitionField)
+                  parameters =
+                    fields.map do |item|
+                      to_pattern_type(item.type)
+                    end
+                  [ExhaustivenessChecker::Variant.new(parameters)]
+                end
               end
             end
           end
@@ -196,7 +203,7 @@ module Mint
             when Array(Ast::TypeDefinitionField)
               fields.compact_map(&.key.try(&.value))
             end
-          end || "??"
+          end || name.split('|')[index]? || "??"
         })
 
       type =
@@ -216,12 +223,12 @@ module Mint
       compiler.compile(rows)
     rescue e : Error
       raise e
-    rescue e
-      error! :blah do
-        block e.message.to_s
-        snippet "Type:", target
-        snippet "Node:", patterns[0].not_nil![0].not_nil!
-      end
+      # rescue e
+      # error! :exhaustiveness_check_error do
+      #   block e.message.to_s
+      #   snippet "Type:", target
+      #   snippet "Node:", patterns[0].not_nil![0].not_nil!
+      # end
     end
 
     def check(node : Ast::Case) : Checkable

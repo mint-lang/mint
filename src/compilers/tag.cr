@@ -1,7 +1,7 @@
 module Mint
   class Compiler
-    def compile(node : Ast::Tag) : Compiled
-      js.string(node.value)
+    def compile(node : Ast::Type) : Compiled
+      js.string(node.name.value)
     end
   end
 end
