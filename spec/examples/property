@@ -111,7 +111,7 @@ component Main {
 }
 -------------------------------------------------------------------------------
 component View {
-  property orientation : Horizontal / Vertical = Horizontal
+  property orientation : Horizontal | Vertical = Horizontal
 
   fun render : Html {
     <div/>
@@ -125,7 +125,7 @@ component Main {
 }
 -------------------------------------------------------------------------------
 component View {
-  property orientation : Horizontal / Vertical = Horizontal
+  property orientation : Horizontal | Vertical = Horizontal
 
   fun render : String {
     case orientation {
@@ -142,7 +142,7 @@ component Main {
 }
 -------------------------------------------------------------------------------
 component View {
-  property orientation : Horizontal / Vertical / Custom(String) = Horizontal
+  property orientation : Horizontal | Vertical | Custom(String) = Horizontal
 
   fun render : String {
     case orientation {

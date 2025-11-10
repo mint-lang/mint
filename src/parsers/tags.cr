@@ -6,7 +6,7 @@ module Mint
           list(
             trailing_separator: false,
             terminator: nil,
-            separator: '/') { type }
+            separator: '|') { type }
 
         case options.size
         when 0

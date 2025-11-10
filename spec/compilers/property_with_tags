@@ -1,5 +1,5 @@
 component View {
-  property orientation : Horizontal / Vertical = Horizontal
+  property orientation : Horizontal | Vertical = Horizontal
 
   fun render : Html {
     <div/>
