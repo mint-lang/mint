@@ -3,7 +3,7 @@ module Mint
     include Errorable
     include Helpers
 
-    alias Checkable = Type | Record | Variable
+    alias Checkable = Type | Record | Variable | Tags
 
     # Built in types
     # ----------------------------------------------------------------------------
@@ -84,6 +84,7 @@ module Mint
     @references_stack = [] of Ast::Node
     @block_stack = [] of Ast::Block
     @stack = [] of Ast::Node
+    @tags = Set(String).new
 
     def block
       @block_stack.last?

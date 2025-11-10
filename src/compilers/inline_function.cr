@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    def compile(node : Ast::InlineFunction | Ast::BlockFunction) : Compiled
+    def compile(node : Ast::InlineFunction) : Compiled
       compile node do
         body =
           case item = node.body

@@ -9,7 +9,8 @@ module Mint
         number_literal ||
         bool_literal ||
         variable ||
-        discard
+        discard ||
+        tag
     end
   end
 end

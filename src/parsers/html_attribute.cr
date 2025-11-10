@@ -17,6 +17,7 @@ module Mint
           html_fragment ||
             string_literal ||
             array_literal ||
+            tag ||
             block(
               -> { error :html_attribute_expected_opening_bracket do
                 expected "the opening bracket of an HTML attribute", word

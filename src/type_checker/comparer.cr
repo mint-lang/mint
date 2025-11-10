@@ -50,6 +50,11 @@ module Mint
           node1
         when node2.is_a?(Variable)
           unify(node2, node1)
+        when node1.is_a?(Tags)
+          raise "Not unified!" unless matches_any?(node2, node1.options)
+          node1
+        when node2.is_a?(Tags)
+          unify(node2, node1)
         when node1.is_a?(Record) && node2.is_a?(Type)
           raise "Not unified!" unless node1.name == node2.name
           node1
@@ -145,6 +150,10 @@ module Mint
         Record.new(node.name, fields, node.mappings, label: node.label)
       end
 
+      def fresh(node : Tags)
+        Tags.new(node.options.map { |item| fresh(item).as(Checkable) })
+      end
+
       def prune(node : Variable)
         node.instance.try do |instance|
           prune(instance).tap(&.label=(node.label))
@@ -156,7 +165,7 @@ module Mint
         node
       end
 
-      def prune(node : Record)
+      def prune(node : Record | Tags)
         node
       end
     end

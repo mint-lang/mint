@@ -106,7 +106,7 @@ module Mint
               Js.new(false)
 
             class_pool =
-              NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
+              NamePool(Ast::Node | Builtin | Tag, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
 
             pool =
               NamePool(Ast::Node | Decoder | Encoder | Variable | Record | String | Size, Set(Ast::Node) | Bundle).new

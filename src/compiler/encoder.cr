@@ -93,7 +93,7 @@ module Mint
       end
     end
 
-    def encoder(node : TypeChecker::Variable)
+    def encoder(node : TypeChecker::Variable | TypeChecker::Tag | TypeChecker::Tags)
       unreachable! "Cannot generate an encoder for a type variable!"
     end
   end

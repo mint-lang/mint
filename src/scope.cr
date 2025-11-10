@@ -268,6 +268,8 @@ module Mint
            Ast::Discard,
            Ast::Context,
            Ast::Spread,
+           Ast::Tags,
+           Ast::Tag,
            Ast::Env
       when Ast::StringLiteral,
            Ast::HereDocument,
@@ -333,7 +335,7 @@ module Mint
       when Ast::HtmlStyle
         build(node.arguments, node)
         build(node.name, node)
-      when Ast::InlineFunction, Ast::BlockFunction
+      when Ast::InlineFunction
         build(node.arguments, node)
         build(node.body, node)
       when Ast::Argument

@@ -239,7 +239,7 @@ module Mint
                 Line.new(1),
                 node.ends[1],
               ])
-          in Behavior::BreakAllButFirst, Behavior::BreakAll
+          in Behavior::BreakAll
             if (size(node) + column) > max
               last =
                 if node.ends[1] == ")"
@@ -249,21 +249,12 @@ module Mint
                    node.ends[1]] of Node
                 end
 
-              items, head =
-                case behavior
-                when Behavior::BreakAllButFirst
-                  {node.items[1...], [" "] + node.items.first}
-                else
-                  {node.items, [] of Node}
-                end
-
               process(
                 [
                   node.ends[0],
-                ] + head + [
                   Nest.new(
                     [Line.new(1)] +
-                    items.intersperse([node.separator, Line.new(1)]).flatten
+                    node.items.intersperse([node.separator, Line.new(1)]).flatten
                   ),
                 ] + last)
             else

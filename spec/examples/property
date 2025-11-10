@@ -109,3 +109,74 @@ component Main {
     <Test/>
   }
 }
+-------------------------------------------------------------------------------
+component View {
+  property orientation : Horizontal | Vertical = Horizontal
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View/>
+  }
+}
+-------------------------------------------------------------------------------
+component View {
+  property orientation : Horizontal | Vertical = Horizontal
+
+  fun render : String {
+    case orientation {
+     Horizontal => "horizontal"
+     Vertical => "vertical"
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View/>
+  }
+}
+-------------------------------------------------------------------------------
+component View {
+  property orientation : Horizontal | Vertical | Custom(String) = Horizontal
+
+  fun render : String {
+    case orientation {
+     Horizontal => "horizontal"
+     Vertical => "vertical"
+     Custom(value) => value
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View/>
+  }
+}
+-------------------------------------------------------------------------------
+type Orientation {
+  Horizontal
+  Vertical
+}
+
+component View {
+  property orientation : Orientation = Orientation.Horizontal
+
+  fun render : String {
+    case orientation {
+     Horizontal => "horizontal"
+     Vertical => "vertical"
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View/>
+  }
+}

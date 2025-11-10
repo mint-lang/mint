@@ -20,7 +20,7 @@ module Mint
           next error :js_expected_type_or_variable do
             expected "the type of an inlined JavaScript", word
             snippet self
-          end unless type = self.type || type_variable
+          end unless type = types
         end
 
         Ast::Js.new(

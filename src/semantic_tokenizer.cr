@@ -29,6 +29,7 @@ module Mint
       Ast::RegexpLiteral => TokenType::Regexp,
       Ast::NumberLiteral => TokenType::Number,
       Ast::Id            => TokenType::Type,
+      Ast::Tag           => TokenType::Type,
     }
 
     # Represents a semantic token using the positions of the token instead

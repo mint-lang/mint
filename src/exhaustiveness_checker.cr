@@ -198,9 +198,10 @@ module ExhaustivenessChecker
 
   class Type
     getter parameters : Array(Checkable)
+    getter variants : Array(Variant)?
     getter name : String
 
-    def initialize(@name, @parameters = [] of Checkable)
+    def initialize(@name, @parameters = [] of Checkable, @variants = nil)
     end
   end
 
@@ -566,6 +567,8 @@ module ExhaustivenessChecker
             index, args =
               case item = pattern
               in PConstructor
+                # In case we are matching on a tag we calculate the index from
+                # the "name" of the tags type which should include the variant.
                 index_ =
                   constructor_index(item.constructor)
 

@@ -37,7 +37,7 @@ module Mint
               snippet "[] of String"
               expected "the type", word
               snippet self
-            end unless item = self.type || type_variable
+            end unless item = types
 
             item
           end

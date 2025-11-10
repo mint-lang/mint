@@ -1,0 +1,27 @@
+component View {
+  property orientation : Horizontal | Vertical | Horizontal
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View orientation={Vertical}/>
+  }
+}
+--------------------------------------------------------------------------------
+component View {
+  property orientation : Horizontal | Vertical | Horizontal
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <View orientation={Vertical}/>
+  }
+}
