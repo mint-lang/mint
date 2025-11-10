@@ -256,23 +256,25 @@ module CSV {
     lineEnding : CSV.LineEnding = CSV.LineEnding.Unix
   ) : String {
     rows
-    |> Array.map() { |row : Array(String)|
-      Array.map(row) { |field : String|
-        // Double quotes need to be escaped with an extra doublequote.
-        let value =
-          String.replace(field, "\"", "\"\"")
+    |> Array.map(
+      (row : Array(String)) {
+        Array.map(row,
+          (field : String) {
+            // Double quotes need to be escaped with an extra doublequote.
+            let value =
+              String.replace(field, "\"", "\"\"")
 
-        // If the string contains a separator, \n, \r\n or " it needs to
-        // be escaped by wrapping in double quotes.
-        if String.contains(value, separator) || String.contains(value, "\n") || String.contains(
-          value, "\"") {
-          "\"#{value}\""
-        } else {
-          value
-        }
-      }
-    }
-    |> Array.map() { |row : Array(String)| String.join(row, separator) }
+            // If the string contains a separator, \n, \r\n or " it needs to
+            // be escaped by wrapping in double quotes.
+            if String.contains(value, separator) || String.contains(value, "\n") || String.contains(
+              value, "\"") {
+              "\"#{value}\""
+            } else {
+              value
+            }
+          })
+      })
+    |> Array.map((row : Array(String)) { String.join(row, separator) })
     |> String.join(
       case lineEnding {
         Windows => "\r\n"

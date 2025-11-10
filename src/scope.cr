@@ -335,7 +335,7 @@ module Mint
       when Ast::HtmlStyle
         build(node.arguments, node)
         build(node.name, node)
-      when Ast::InlineFunction, Ast::BlockFunction
+      when Ast::InlineFunction
         build(node.arguments, node)
         build(node.body, node)
       when Ast::Argument
