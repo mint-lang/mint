@@ -163,7 +163,7 @@ module Mint
           end
 
         class_pool =
-          NamePool(Ast::Node | Compiler::Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
+          NamePool(Ast::Node | Compiler::Builtin | Compiler::Tag, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
 
         pool =
           NamePool(Compiler::Variable |

@@ -177,8 +177,9 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope,
     )
-      cache[node] = condition
+      track_references(node)
 
+      cache[node] = condition
       case condition
       when Tags
         if tag = condition.options.find(&.name.==(node.variant.value))
@@ -192,7 +193,7 @@ module Mint
               end
 
               block do
-                text "The variant only has"
+                text "The tag only has"
                 bold tag.parameters.size.to_s
                 text "parameters."
               end
@@ -206,7 +207,7 @@ module Mint
 
           return variables
         end
-      else
+      end || begin
         name =
           if node.name && node.variant
             node.name.try(&.value)

@@ -69,6 +69,8 @@ module Mint
             end
           end
         elsif node.value.chars.first?.try(&.ascii_uppercase?)
+          track_references(node)
+          @tags.add(node.value)
           Type.new(node.value)
         else
           error! :variable_missing do

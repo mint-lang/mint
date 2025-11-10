@@ -7,16 +7,16 @@ module Mint
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Size |
                  Function | Await | SourceMapped | Record | Context |
                  Variable | Encoder | Decoder | Asset | Deferred |
-                 ContextProvider
+                 ContextProvider | Tag
 
     # Represents an generated idetifier from the parts of the union type.
-    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size
+    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size | Tag
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
     # Represents entites which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context | Tag)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -45,6 +45,9 @@ module Mint
 
     # Represents a size directive associated to an HTML element.
     record Size
+
+    # Represents a tag.
+    record Tag
 
     # Represents a variable.
     class Variable; end
@@ -200,6 +203,9 @@ module Mint
 
     # A set to track size directives.
     getter sizes = Hash(Ast::Node, Size).new
+
+    # A container for tags.
+    getter tags = Hash(Tuple(String, Int32), Tag).new
 
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
@@ -467,6 +473,8 @@ module Mint
     def gather_used(item : Item, used : Used)
       case item
       in Variable, Deferred, String, Asset, Await, Raw, Size
+      in Tag
+        used.add(item)
       in SourceMapped, Function, ContextProvider
         gather_used(item.value, used)
       in Context

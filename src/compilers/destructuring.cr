@@ -56,8 +56,42 @@ module Mint
       when Ast::Node
         compile(item)
       else
-        js.null
+        case condition = cache[node]?
+        when TypeChecker::Tags
+          if tag = condition.options.find(&.name.==(node.variant.value))
+            if tag.parameters.empty?
+              js.string(tag.name)
+            else
+              items =
+                js.array(node.items.map do |param|
+                  destructuring(param, variables)
+                end)
+
+              js.call(Builtin::Pattern, [tag(node, tag), items])
+            end
+          end
+        end || js.null
       end
+    end
+
+    def tag(node : Ast::Node, type : TypeChecker::Checkable)
+      id =
+        {type.name, type.parameters.size}
+
+      @tags[id] ||= begin
+        tag = Tag.new
+
+        args =
+          [
+            [type.parameters.size.to_s] of Item,
+            js.string(type.name),
+          ]
+        add(node, tag, js.call(Builtin::Variant, args))
+
+        tag
+      end
+
+      [@tags[id]] of Item
     end
 
     def match(

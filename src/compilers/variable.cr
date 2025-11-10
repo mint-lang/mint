@@ -45,9 +45,13 @@ module Mint
                 [entity] of Item
               end
             end
-          else
-            js.string(node.value)
-          end
+          elsif type = cache[node]?
+            if type.name == "Function"
+              js.call(Builtin::NewVariant, [
+                tag(node, type.parameters.last),
+              ] of Compiled)
+            end
+          end || js.string(node.value)
         end
       end
     end

@@ -8,37 +8,51 @@ component Main {
   }
 
   fun render {
-    <div>a(X)</div>
+    <div>
+      a(X)
+      a(Y)
+      a(Z("Hello"))
+    </div>
   }
 }
 --------------------------------------------------------------------------------
 import {
-  createElement as B,
-  match as A
+  patternVariable as D,
+  createElement as E,
+  newVariant as F,
+  pattern as C,
+  variant as A,
+  match as B
 } from "./runtime.js";
 
-export const C = () => {
-  const a = (b) => {
-    return A(b, [
-      [
-        null,
-        () => {
-          return `X`
-        }
-      ],
-      [
-        null,
-        () => {
-          return `Y`
-        }
-      ],
-      [
-        null,
-        () => {
-          return c
-        }
-      ]
+export const
+  G = A(1, `Z`),
+  H = () => {
+    const a = (b) => {
+      return B(b, [
+        [
+          `X`,
+          () => {
+            return `X`
+          }
+        ],
+        [
+          `Y`,
+          () => {
+            return `Y`
+          }
+        ],
+        [
+          C(G, [D]),
+          (c) => {
+            return c
+          }
+        ]
+      ])
+    };
+    return E(`div`, {}, [
+      a(`X`),
+      a(`Y`),
+      a(F(G)(`Hello`))
     ])
   };
-  return B(`div`, {}, [a(`X`)])
-};
