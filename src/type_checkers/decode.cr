@@ -10,7 +10,10 @@ module Mint
       end unless check_decode(type)
 
       result_type =
-        Type.new("Result", [OBJECT_ERROR, type] of Checkable)
+        Tags.new([
+          Type.new("Err", [OBJECT_ERROR] of Checkable),
+          Type.new("Ok", [type] of Checkable),
+        ] of Checkable)
 
       if item = node.expression
         expression =
@@ -39,6 +42,8 @@ module Mint
         type.fields.all? do |_, value|
           check_decode value
         end
+      when Tags
+        type.options.all? { |value| check_decode value }
       when Variable
         false
       else
@@ -60,7 +65,13 @@ module Mint
           end
         else
           case type.name
-          when "String", "Time", "Number", "Bool", "Object"
+          when "Just", "Ok", "Err"
+            if type.parameters.size == 1
+              check_decode type.parameters.first
+            else
+              false
+            end
+          when "String", "Time", "Number", "Bool", "Object", "Nothing"
             true
           when "Map"
             check_decode(type.parameters.first) &&

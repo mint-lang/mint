@@ -43,7 +43,10 @@ module Mint
           snippet "The index in question is here:", index
         end unless Comparer.compare(type.parameters.first, index_type)
 
-        Type.new("Maybe", [type.parameters.last] of Checkable)
+        Tags.new([
+          Type.new("Nothing", [] of Checkable),
+          Type.new("Just", [type.parameters.last] of Checkable),
+        ] of Checkable)
       elsif type.name == "Array" && type.parameters.size == 1
         error! :bracket_access_index_not_number do
           block "The type of the index of a bracket access is not a number."
@@ -51,7 +54,10 @@ module Mint
           snippet "The index in question is here:", index
         end unless Comparer.compare(index_type, NUMBER)
 
-        Type.new("Maybe", [type.parameters.first] of Checkable)
+        Tags.new([
+          Type.new("Nothing", [] of Checkable),
+          Type.new("Just", [type.parameters.first] of Checkable),
+        ] of Checkable)
       else
         error! :bracket_access_not_accessible do
           block "The entity you are trying to access an item from is not an " \

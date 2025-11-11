@@ -117,13 +117,13 @@ component Main {
     }
   }
 }
-----------------------------------------------------------------invalid_pattern
+----------------------------------------------------destructuring_type_mismatch
 type X {
   Y
 }
 
 module Test {
-  const X = X.Y
+  const X = Z
 }
 
 component Main {

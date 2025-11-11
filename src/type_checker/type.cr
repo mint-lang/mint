@@ -35,7 +35,7 @@ module Mint
       property parameters = [] of Checkable
       property label : String?
 
-      def initialize(@options)
+      def initialize(@options, *, @label = nil)
       end
 
       def to_mint

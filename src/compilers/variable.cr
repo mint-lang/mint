@@ -50,8 +50,12 @@ module Mint
               js.call(Builtin::NewVariant, [
                 tag(node, type.parameters.last),
               ] of Compiled)
+            else
+              js.call(Builtin::NewVariant, [
+                tag(node, type),
+              ] of Compiled)
             end
-          end || js.string(node.value)
+          end || [] of Item
         end
       end
     end

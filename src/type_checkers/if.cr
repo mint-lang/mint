@@ -17,10 +17,13 @@ module Mint
             case expression = item.expression
             when Ast::Variable
               type =
-                if resolved = Comparer.compare(condition, MAYBE)
-                  resolved.parameters.first
-                elsif resolved = Comparer.compare(condition, RESULT)
-                  resolved.parameters.last
+                case resolved = Comparer.compare(condition, MAYBE) ||
+                                Comparer.compare(condition, RESULT)
+                when Tags
+                  resolved
+                    .options
+                    .find { |item| item.name == "Just" || item.name == "Ok" }
+                    .try(&.parameters.first)
                 end
 
               if type

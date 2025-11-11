@@ -38,10 +38,16 @@ module Mint
           case ref
           when Ast::Component
             fields[variable.value] =
-              Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+              Tags.new([
+                Type.new("Nothing", [] of Checkable),
+                Type.new("Just", [static_type_signature(ref)] of Checkable),
+              ] of Checkable)
           when Ast::HtmlElement
             fields[variable.value] =
-              Type.new("Maybe", [static_type_signature(ref)] of Checkable)
+              Tags.new([
+                Type.new("Nothing", [] of Checkable),
+                Type.new("Just", [static_type_signature(ref)] of Checkable),
+              ] of Checkable)
           end
         end
 
@@ -55,10 +61,44 @@ module Mint
       when Ast::HtmlElement
         Type.new("Dom.Element")
       when Ast::TypeDefinition
-        parameters =
-          resolve node.parameters
+        case items = node.fields
+        in Array(Ast::TypeDefinitionField)
+          fields =
+            items.to_h { |item| {item.key.value, check(item).as(Checkable)} }
 
-        Comparer.normalize(Type.new(node.name.value, parameters))
+          mappings =
+            items.to_h { |item| {item.key.value, static_value(item.mapping)} }
+
+          type =
+            Comparer.normalize(Record.new(node.name.value, fields, mappings))
+
+          type
+        in Array(Ast::TypeVariant)
+          parameters =
+            check node.parameters
+
+          used_parameters = Set(Ast::TypeVariable).new
+
+          tags =
+            items.map do |option|
+              check option.parameters, node.parameters, used_parameters
+              check(option).as(Checkable)
+            end
+
+          node.parameters.each do |parameter|
+            error! :type_definition_unused_parameter do
+              snippet "Type parameters must be used by at least one option. " \
+                      "This parameter was not used by any of the options:", parameter
+            end unless used_parameters.includes?(parameter)
+          end
+
+          # Comparer.normalize(Type.new(node.name.value, parameters))
+          Tags.new(tags)
+        end
+        # parameters =
+        #   resolve node.parameters
+
+        # Comparer.normalize(Type.new(node.name.value, parameters))
       else
         Variable.new("a")
       end

@@ -243,6 +243,11 @@ routes {
   }
 }
 -------------------------------------------------------------------------------
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
 component Main {
   fun test (decoder : Function(Object, Result(Object.Error, Array(a))) =
     decode as Array(String)) {

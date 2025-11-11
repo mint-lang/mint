@@ -202,25 +202,29 @@ module Mint
             end unless Comparer.compare(left, MAYBE) ||
                        Comparer.compare(left, RESULT)
 
-            type =
-              case left.name
-              when "Result"
-                left.parameters[1]
-              else
-                left.parameters[0]
-              end
+            case left
+            when Tags
+              type =
+                left
+                  .options
+                  .find { |item| item.name == "Just" || item.name == "Ok" }
+                  .try(&.parameters[0])
+                  .not_nil!
 
-            error! :operation_or_type_mismatch do
-              block do
-                text "The type of the default value does not match the type of the"
-                text "parameter of the maybe."
-              end
+              error! :operation_or_type_mismatch do
+                block do
+                  text "The type of the default value does not match the type of the"
+                  text "parameter of the maybe."
+                end
 
-              expected type, right
-              snippet "The operation in question is here:", node
-            end unless Comparer.compare(type, right)
+                expected type, right
+                snippet "The operation in question is here:", node
+              end unless Comparer.compare(type, right)
 
-            type
+              type
+            else
+              unreachable! "Maybe expected!"
+            end
           end
         end
       else

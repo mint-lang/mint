@@ -5,6 +5,7 @@ alias Checkable = Mint::TypeChecker::Checkable
 alias Variable = Mint::TypeChecker::Variable
 alias Record = Mint::TypeChecker::Record
 alias Type = Mint::TypeChecker::Type
+alias Tags = Mint::TypeChecker::Tags
 
 class Parser
   getter scanner : StringScanner
@@ -155,6 +156,35 @@ describe Mint::TypeChecker do
     it "returns null record for same name" do
       Mint::TypeChecker::Comparer.compare(Record.new("Blah"), Type.new("Blah")).should be_a(Record)
       Mint::TypeChecker::Comparer.compare(Type.new("Blah"), Record.new("Blah")).should be_a(Record)
+    end
+  end
+
+  describe "Tags" do
+    it do
+      a =
+        Mint::TypeChecker::Comparer.normalize(
+          Type.new("Function", [
+            Variable.new("a"),
+            Tags.new([
+              Type.new("Nothing", [] of Checkable),
+              Type.new("Just", [Variable.new("a")] of Checkable),
+            ] of Checkable),
+          ] of Checkable))
+
+      b =
+        Mint::TypeChecker::Comparer.normalize(
+          Type.new("Function", [
+            Type.new("Number"),
+            Tags.new([
+              Type.new("Nothing", [] of Checkable),
+              Type.new("Just", [Variable.new("a")] of Checkable),
+            ] of Checkable),
+          ] of Checkable))
+
+      result = Mint::TypeChecker::Comparer.compare(a, b)
+
+      result.should_not be_nil
+      result.to_s.should eq("Function(Number, Nothing | Just(Number))")
     end
   end
 end

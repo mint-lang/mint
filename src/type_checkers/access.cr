@@ -134,7 +134,10 @@ module Mint
                 end
             when Ast::HtmlElement
               lookups[node.field] = {variable, component}
-              return Type.new("Maybe", [Type.new("Dom.Element")] of Checkable) if node.field.value == variable.value
+              return Tags.new([
+                Type.new("Nothing", [] of Checkable),
+                Type.new("Just", [Type.new("Dom.Element")] of Checkable),
+              ] of Checkable) if node.field.value == variable.value
             end
 
             memo
