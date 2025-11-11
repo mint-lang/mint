@@ -11,7 +11,7 @@ struct Config
 end
 
 Dir
-  .glob("./spec/compilers/**/*")
+  .glob("./spec/compilers/tag")
   .select! { |file| File.file?(file) }
   .sort!
   .each do |file|

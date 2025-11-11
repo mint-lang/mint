@@ -76,7 +76,7 @@ module Mint
 
     def tag(node : Ast::Node, type : TypeChecker::Checkable)
       id =
-        {type.name, type.parameters.size}
+        type.to_s
 
       @tags[id] ||= begin
         tag = Tag.new
@@ -86,7 +86,18 @@ module Mint
             [type.parameters.size.to_s] of Item,
             js.string(type.name),
           ]
-        add(node, tag, js.call(Builtin::Variant, args))
+
+        constructor =
+          js.call(Builtin::Variant, args)
+
+        c =
+          if type.parameters.size == 0
+            js.new(constructor, [] of Compiled)
+          else
+            constructor
+          end
+
+        add(node, tag, c)
 
         tag
       end

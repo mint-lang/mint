@@ -197,6 +197,8 @@ module Mint
               case parameter
               when Variable
                 mapping[parameter.id]? || (mapping[parameter.id] = fresh(parameter)).as(Checkable)
+              when Tags
+                fresh(parameter, mapping).as(Checkable)
               when Type
                 fresh(parameter, mapping).as(Checkable)
               else
@@ -205,6 +207,26 @@ module Mint
             end
 
         Type.new(node.name, params, node.label)
+      end
+
+      def fresh(node : Tags, mapping = {} of Int32 => Variable)
+        options =
+          node
+            .options
+            .map do |option|
+              case option
+              when Variable
+                mapping[option.id]? || (mapping[option.id] = fresh(option)).as(Checkable)
+              when Tags
+                fresh(option, mapping).as(Checkable)
+              when Type
+                fresh(option, mapping).as(Checkable)
+              else
+                fresh(option).as(Checkable)
+              end
+            end
+
+        Tags.new(options, label: node.label)
       end
 
       def fresh(node : Record)
@@ -216,12 +238,6 @@ module Mint
             end
 
         Record.new(node.name, fields, node.mappings, label: node.label)
-      end
-
-      def fresh(node : Tags)
-        Tags.new(
-          node.options.map { |item| fresh(item).as(Checkable) },
-          label: node.label)
       end
 
       def prune(node : Variable)

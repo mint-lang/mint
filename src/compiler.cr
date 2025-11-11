@@ -47,7 +47,7 @@ module Mint
     record Size
 
     # Represents a tag.
-    record Tag
+    class Tag; end
 
     # Represents a variable.
     class Variable; end
@@ -205,7 +205,7 @@ module Mint
     getter sizes = Hash(Ast::Node, Size).new
 
     # A container for tags.
-    getter tags = Hash(Tuple(String, Int32), Tag).new
+    getter tags = Hash(String, Tag).new
 
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
