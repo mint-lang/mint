@@ -18,9 +18,9 @@ component Main {
 import { variant as A } from "./runtime.js";
 
 export const
-  B = A(0, `Maybe.Nothing`),
-  C = A(1, `Maybe.Just`);
+  B = A(1, `Just`),
+  C = A(0, `Nothing`);
 
 export const
-  Maybe_Nothing = B,
-  Maybe_Just = C;
+  Nothing = C,
+  Just = B;

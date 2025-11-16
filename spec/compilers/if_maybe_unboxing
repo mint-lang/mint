@@ -28,13 +28,13 @@ import {
 } from "./runtime.js";
 
 export const
-  D = A(1, `Result.Err`),
-  E = A(1, `Result.Ok`),
-  F = A(0, `Maybe.Nothing`),
-  G = A(1, `Maybe.Just`),
+  D = A(1, `Err`),
+  E = A(1, `Just`),
+  F = A(0, `Nothing`),
+  G = A(1, `Ok`),
   H = () => {
-    const a = B(G)(`A`);
-    return (C(a, G, E) ? (() => {
+    const a = B(E)(`A`);
+    return (C(a, E, G) ? (() => {
       let b = a._0;
       return b
     })() : `b`)

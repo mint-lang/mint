@@ -109,3 +109,31 @@ component Main {
     <Test/>
   }
 }
+-------------------------------------------------------------------------------
+type Orientation {
+  Custom(String)
+  Horizontal
+  Vertical
+}
+
+component View {
+  property orientation : Orientation = Horizontal
+
+  fun render : String {
+    case orientation {
+     Horizontal => "horizontal"
+     Vertical => "vertical"
+     Custom(value) => value
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <>
+      <View/>
+      <View orientation={Vertical}/>
+      <View orientation={Custom("200")}/>
+    </>
+  }
+}

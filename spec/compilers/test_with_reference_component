@@ -28,8 +28,8 @@ import {
 } from "./runtime.js";
 
 export const
-  H = A(0, `Maybe.Nothing`),
-  I = A(1, `Maybe.Just`),
+  H = A(1, `Just`),
+  I = A(0, `Nothing`),
   J = ({
     _
   }) => {
@@ -44,12 +44,12 @@ export default () => {
   new D([{
     tests: [{
       proc: () => {
-        const b = E(new H());
+        const b = E(new I());
         return (() => {
           C(J, {
-            _: F(b, I, H)
+            _: F(b, H, I)
           });
-          return G(b.value, new H())
+          return G(b.value, new I())
         })()
       },
       location: {"start":[13,2],"end":[17,3],"filename":"compilers/test_with_reference_component"},

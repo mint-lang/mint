@@ -21,8 +21,6 @@ module Mint
     ARRAY           = Type.new("Array", [Variable.new("a")] of Checkable)
     SET             = Type.new("Set", [Variable.new("a")] of Checkable)
     MAP             = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)
-    MAYBE           = Type.new("Maybe", [Variable.new("a")] of Checkable)
-    RESULT          = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
     EVENT_FUNCTION  = Type.new("Function", [EVENT, Variable.new("a")] of Checkable)
     NUMBER_CHILDREN = Type.new("Array", [NUMBER] of Checkable)
     HTML_CHILDREN   = Type.new("Array", [HTML] of Checkable)
@@ -34,6 +32,10 @@ module Mint
     MAYBE_PROMISE   = Type.new("Promise", [MAYBE] of Checkable)
     BOOL_PROMISE    = Type.new("Promise", [BOOL] of Checkable)
     TEST_PROMISE    = Type.new("Promise", [TEST_CONTEXT] of Checkable)
+
+    # TODO: Variants
+    MAYBE  = Type.new("Maybe", [Variable.new("a")] of Checkable)
+    RESULT = Type.new("Result", [Variable.new("a"), Variable.new("b")] of Checkable)
 
     VALID_IF_TYPES = [
       MAYBE_PROMISE,
@@ -84,6 +86,7 @@ module Mint
     @references_stack = [] of Ast::Node
     @block_stack = [] of Ast::Block
     @stack = [] of Ast::Node
+    @tags = Set(String).new
 
     def block
       @block_stack.last?

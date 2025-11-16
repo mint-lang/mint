@@ -1,0 +1,77 @@
+type Orientation {
+  Custom(String)
+  Horizontal
+  Vertical
+}
+
+component View {
+  property orientation : Orientation = Horizontal
+
+  fun render : String {
+    case orientation {
+     Horizontal => "horizontal"
+     Vertical => "vertical"
+     Custom(value) => value
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <>
+      <View/>
+      <View orientation={Vertical}/>
+      <View orientation={Custom("200")}/>
+    </>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as D,
+  createElement as E,
+  newVariant as G,
+  fragment as F,
+  pattern as C,
+  variant as A,
+  match as B
+} from "./runtime.js";
+
+export const
+  H = A(1, `Custom`),
+  I = A(0, `Horizontal`),
+  J = A(0, `Vertical`),
+  K = ({
+    a = new I()
+  }) => {
+    return B(a, [
+      [
+        C(I, []),
+        () => {
+          return `horizontal`
+        }
+      ],
+      [
+        C(J, []),
+        () => {
+          return `vertical`
+        }
+      ],
+      [
+        C(H, [D]),
+        (b) => {
+          return b
+        }
+      ]
+    ])
+  },
+  L = () => {
+    return E(F, {}, [
+      E(K, {}),
+      E(K, {
+        a: new J()
+      }),
+      E(K, {
+        a: G(H)(`200`)
+      })
+    ])
+  };

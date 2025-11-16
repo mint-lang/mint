@@ -44,27 +44,27 @@ import {
 } from "./runtime.js";
 
 export const
-  M = A(1, `Maybe.Just`),
-  N = A(0, `Maybe.Nothing`),
-  O = A(1, `Result.Err`),
-  P = A(1, `Result.Ok`),
-  Q = A(2, `DecodeTest.VariantWithMaybe`),
+  M = A(1, `Err`),
+  N = A(1, `Just`),
+  O = A(0, `Nothing`),
+  P = A(1, `Ok`),
+  Q = A(2, `VariantWithMaybe`),
   a = B(`DecodeTest`, {
-    "DecodeTest.VariantWithMaybe": C(Q, [
-      D(P, O),
-      E(D(P, O), P, O, M, N)
-    ], P, O)
-  }, P, O),
+    "VariantWithMaybe": C(Q, [
+      D(P, M),
+      E(D(P, M), P, M, N, O)
+    ], P, M)
+  }, P, M),
   R = () => {
     const b = [
-      F(Q)(`A`, F(M)(`B`)),
-      F(Q)(`A`, new N())
+      F(Q)(`A`, F(N)(`B`)),
+      F(Q)(`A`, new O())
     ];
-    const c = G(a, P, O)((H(I([[
+    const c = G(a, P, M)((H(I([[
       Q,
       [
         J,
-        K(J, M)
+        K(J, N)
       ]
     ]]))(b)));
     L(F(P)(b), c);

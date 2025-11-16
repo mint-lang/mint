@@ -31,27 +31,27 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(0, `Maybe.Nothing`),
-  G = A(1, `Maybe.Just`),
-  H = A(1, `Result.Err`),
-  I = A(1, `Result.Ok`),
-  J = A([
+  F = A(0, `Empty`),
+  G = A(1, `Err`),
+  H = A(1, `Just`),
+  I = A(0, `Nothing`),
+  J = A(1, `Ok`),
+  K = A(2, `Params`),
+  L = A([
     "name",
     "age"
-  ], `Test.Record`),
-  K = A(2, `Test.Params`),
-  L = A(0, `Test.Empty`),
+  ], `Record`),
   a = B(`Test`, {
-    "Test.Record": C(J, [
-      D(I, H),
-      E(I, H)
-    ], I, H),
-    "Test.Params": C(K, [
-      D(I, H),
-      E(I, H)
-    ], I, H),
-    "Test.Empty": C(L, null, I, H)
-  }, I, H),
+    "Record": C(L, [
+      D(J, G),
+      E(J, G)
+    ], J, G),
+    "Params": C(K, [
+      D(J, G),
+      E(J, G)
+    ], J, G),
+    "Empty": C(F, null, J, G)
+  }, J, G),
   M = () => {
     a(((null)));
     return ``

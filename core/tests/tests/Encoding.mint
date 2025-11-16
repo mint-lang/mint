@@ -94,6 +94,6 @@ suite "Encode" {
     let encoded =
       encode EncodeTestVariants.Variant2
 
-    `#{encoded}.type` == "EncodeTestVariants.Variant2"
+    `#{encoded}.type` == "Variant2"
   }
 }

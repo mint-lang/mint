@@ -22,9 +22,15 @@ module Mint
 
           used_parameters = Set(Ast::TypeVariable).new
 
-          items.each do |option|
-            check option.parameters, node.parameters, used_parameters
-          end
+          variants =
+            items.compact_map do |option|
+              check option.parameters, node.parameters, used_parameters
+
+              case item = resolve(option)
+              when Type
+                item
+              end
+            end
 
           node.parameters.each do |parameter|
             error! :type_definition_unused_parameter do
@@ -33,7 +39,7 @@ module Mint
             end unless used_parameters.includes?(parameter)
           end
 
-          Comparer.normalize(Type.new(node.name.value, parameters))
+          Comparer.normalize(Type.new(node.name.value, parameters, nil, variants))
         end
 
       if item = node.context

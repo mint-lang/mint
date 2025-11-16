@@ -2,12 +2,18 @@ module Mint
   class TypeChecker
     class Type
       getter parameters : Array(Checkable)
+      getter variants : Array(Type)
       getter name : String
 
       property optional_count : Int32 = 0
       property label : String?
 
-      def initialize(@name, @parameters = [] of Checkable, @label = nil)
+      def initialize(
+        @name,
+        @parameters = [] of Checkable,
+        @label = nil,
+        @variants = [] of Type,
+      )
       end
 
       def to_mint

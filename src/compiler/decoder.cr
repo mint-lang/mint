@@ -96,9 +96,9 @@ module Mint
                     js.null
                   end
 
-                memo[%("#{node.name.value}.#{item.value.value}")] =
+                memo[%("#{item.value.value}")] =
                   js.call(Builtin::DecodeVariant, [
-                    [item] of Item,
+                    tag(item, cache[item]),
                     parameters,
                     ok,
                     err,

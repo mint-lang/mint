@@ -61,10 +61,10 @@ import {
 } from "./runtime.js";
 
 export const
-  J = A(0, `Maybe.Nothing`),
-  K = A(1, `Maybe.Just`),
-  L = A(1, `Result.Ok`),
-  M = A(1, `Result.Err`),
+  J = A(1, `Err`),
+  K = A(1, `Just`),
+  L = A(0, `Nothing`),
+  M = A(1, `Ok`),
   a = B(`Form`),
   N = C(a({
     set: async (b, c) => {
@@ -85,7 +85,7 @@ export const
           })()
         },
         get: (h) => {
-          return G(J, M, H(e.value, h, K, J), ``)
+          return G(L, J, H(e.value, h, K, L), ``)
         }
       })
     }, (() => {

@@ -20,9 +20,9 @@ import {
 } from "./runtime.js";
 
 export const
-  E = A(0, `A.B`),
-  F = A(0, `A.C`),
-  G = A(0, `A.D`),
+  E = A(0, `B`),
+  F = A(0, `C`),
+  G = A(0, `D`),
   H = () => {
     return B(new E(), [[
       C([

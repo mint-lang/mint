@@ -8,6 +8,29 @@ module Mint
     end
 
     def check_call(node, function_type) : Checkable
+      function_type =
+        if @tags.includes?(function_type.name)
+          pool =
+            NamePool(Ast::Node, Nil).new('a'.pred.to_s)
+
+          args =
+            node.arguments.map do |item|
+              Variable.new(pool.of(item, nil)).as(Checkable)
+            end
+
+          Type.new("Function", args + [Type.new(function_type.name, args)]).tap do |type|
+            case node
+            when Ast::Call
+              case node.expression
+              when Ast::Variable
+                cache[node.expression] = type
+              end
+            end
+          end
+        else
+          function_type
+        end
+
       return error! :call_not_a_function do
         snippet "The entity you called is not a function, instead it is:", function_type
         snippet "The call in question is here:", node

@@ -6,7 +6,7 @@ module Mint
       getter pool : NamePool(Ast::Node | Variable | String | Encoder | Decoder | Record | Size, Set(Ast::Node) | Bundle)
 
       # The pool for class variables (uppercase).
-      getter class_pool : NamePool(Ast::Node | Builtin, Set(Ast::Node) | Bundle)
+      getter class_pool : NamePool(Ast::Node | Builtin | Tag, Set(Ast::Node) | Bundle)
 
       # The bundles which we use to get their filename.
       getter bundles : Hash(Set(Ast::Node) | Bundle, Set(Ast::Node))
@@ -129,6 +129,8 @@ module Mint
           append(io, "#{pool.of(item.value, base)}.value")
         in Size
           append(io, pool.of(item, base))
+        in Tag
+          append(io, class_pool.of(item, base))
         in Ast::Node
           scope =
             case item

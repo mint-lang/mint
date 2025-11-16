@@ -22,7 +22,7 @@ component Main {
     <div::test("Name")/>
   }
 }
----------------------------------------------------------------variable_missing
+--------------------------------------------------------operation_type_mismatch
 suite "Suite" {
   const TWO = 2
 
@@ -30,7 +30,7 @@ suite "Suite" {
     1 + 1 == THREE
   }
 }
----------------------------------------------------------------variable_missing
+--------------------------------------------------------operation_type_mismatch
 suite "Suite 2" {
   test "Test" {
     1 + 1 == TWO
@@ -49,7 +49,7 @@ component Main {
     }
   }
 }
----------------------------------------------------------------variable_missing
+--------------------------------------------------------------access_not_record
 component Main {
   fun render : String {
     case (C.D(0)) {

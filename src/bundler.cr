@@ -163,7 +163,8 @@ module Mint
           end
 
         class_pool =
-          NamePool(Ast::Node | Compiler::Builtin, Set(Ast::Node) | Bundle).new('A'.pred.to_s)
+          NamePool(Ast::Node | Compiler::Builtin | Compiler::Tag, Set(Ast::Node) | Bundle)
+            .new('A'.pred.to_s)
 
         pool =
           NamePool(Compiler::Variable |
@@ -205,9 +206,10 @@ module Mint
               # depending on a function from a module).
               contents.sort_by! do |(node, id, _)|
                 case id
-                when Ast::TypeVariant
-                  -2 if id.value.value.in?("Just", "Nothing", "Err", "Ok")
-                end || artifacts.resolve_order.index(node) || -1
+                when Compiler::Tag
+                  {-2, id.name}
+                end || artifacts.resolve_order.index(node).try { |item| {item, ""} } ||
+                  {-1, ""}
               end
 
               [["export "] + compiler.js.consts(contents)]

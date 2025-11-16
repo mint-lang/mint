@@ -19,8 +19,8 @@ import {
 } from "./runtime.js";
 
 export const
-  E = A(1, `Result.Err`),
-  F = A(1, `Result.Ok`),
+  E = A(1, `Err`),
+  F = A(1, `Ok`),
   G = () => {
     B([
       C(F, E),
