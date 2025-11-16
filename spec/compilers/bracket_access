@@ -26,18 +26,18 @@ import {
 } from "./runtime.js";
 
 export const
-  D = A(0, `Maybe.Nothing`),
-  E = A(1, `Maybe.Just`),
+  D = A(1, `Just`),
+  E = A(0, `Nothing`),
   F = () => {
     B([
       `Hello`,
       `Blah`,
       `Joe`
-    ], 1, E, D);
-    B([], 1, E, D);
+    ], 1, D, E);
+    B([], 1, D, E);
     C([[
       `key`,
       `value`
-    ]], `key`, E, D);
+    ]], `key`, D, E);
     return ``
   };

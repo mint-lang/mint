@@ -21,19 +21,19 @@ import {
 } from "./runtime.js";
 
 export const
-  G = A(0, `Maybe.Nothing`),
-  H = A(1, `Maybe.Just`);
+  G = A(1, `Just`),
+  H = A(0, `Nothing`);
 
 export default () => {
   new B([{
     tests: [{
       proc: () => {
-        const a = C(new G());
+        const a = C(new H());
         return (() => {
           D(`button`, {
-            ref: E(a, H, G)
+            ref: E(a, G, H)
           });
-          return F(a.value, new G())
+          return F(a.value, new H())
         })()
       },
       location: {"start":[7,2],"end":[11,3],"filename":"compilers/test_with_reference"},

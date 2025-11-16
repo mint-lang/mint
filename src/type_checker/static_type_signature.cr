@@ -37,9 +37,11 @@ module Mint
         node.refs.each do |variable, ref|
           case ref
           when Ast::Component
+            # TODO: variants...
             fields[variable.value] =
               Type.new("Maybe", [static_type_signature(ref)] of Checkable)
           when Ast::HtmlElement
+            # TODO: variants...
             fields[variable.value] =
               Type.new("Maybe", [static_type_signature(ref)] of Checkable)
           end
@@ -58,6 +60,7 @@ module Mint
         parameters =
           resolve node.parameters
 
+        # TODO: variants...
         Comparer.normalize(Type.new(node.name.value, parameters))
       else
         Variable.new("a")

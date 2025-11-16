@@ -13,12 +13,6 @@ module Mint
         nil
       end
 
-      def compare_raw(node1, node2)
-        unify(fresh(prune(node1)), fresh(prune(node2)))
-      rescue
-        nil
-      end
-
       def fill(node, mapping : Hash(String, Checkable))
         node = prune(node)
 
@@ -29,9 +23,48 @@ module Mint
           parameters =
             node.parameters.map { |param| fill(param, mapping).as(Checkable) }
 
-          Type.new(node.name, parameters, node.label)
+          variants =
+            node.variants.compact_map do |variant|
+              case item = fill(variant, mapping).as(Checkable)
+              when Type
+                item
+              end
+            end
+
+          Type.new(node.name, parameters, node.label, variants)
         else
           node
+        end
+      end
+
+      def dbg(node : Checkable)
+        case node
+        when Variable
+          if i = node.instance
+            "#{node.name}:#{node.id} -> #{dbg(i)}"
+          else
+            "#{node.name}:#{node.id}"
+          end
+        when Type
+          variants =
+            unless node.variants.empty?
+              node.variants.map(&->dbg(Checkable)).join(" | ")
+            end
+
+          base =
+            if node.parameters.empty?
+              node.name
+            else
+              "#{node.name}(#{node.parameters.map(&->dbg(Checkable)).join(", ")})"
+            end
+
+          if variants
+            "#{base}<#{variants}>"
+          else
+            base
+          end
+        else
+          node.to_s
         end
       end
 
@@ -39,6 +72,7 @@ module Mint
         node1 = prune(node1)
         node2 = prune(node2)
 
+        # puts "#{dbg(node1)} <> #{dbg(node2)}"
         case
         when node1.is_a?(Variable)
           unless node1 == node2
@@ -59,8 +93,24 @@ module Mint
           raise "Not unified!" unless node1 == node2
           node1
         when node1.is_a?(Type) && node2.is_a?(Type)
-          if node1.name != node2.name || node1.parameters.size != node2.parameters.size
-            raise "Type error: #{node1} is not #{node2}!"
+          if node1.name != node2.name
+            if node1.variants.size > 0 && node2.variants.size == 0
+              if variant = node1.variants.find(&.name.==(node2.name))
+                unify(variant, node2)
+                # puts "#{dbg(node2)} --> #{node1}"
+
+                # TODO: unify parameters
+                node1
+              else
+                raise "Can't unify #{node1} with #{node2} no variant matches!"
+              end
+            elsif node2.variants.size > 0 && node1.variants.size == 0
+              unify(node2, node1)
+            else
+              raise "Can't unify #{node1} with #{node2}!"
+            end
+          elsif node1.parameters.size != node2.parameters.size
+            raise "Can't unify #{node1} with #{node2} parameter size mismatch!"
           else
             node1.parameters.each_with_index do |item, index|
               unify(item, node2.parameters[index])
@@ -90,6 +140,10 @@ module Mint
       end
 
       def normalize(type : Type, mapping = {} of String => Variable)
+        type.variants.map! do |variant|
+          normalize(variant, mapping)
+        end
+
         type.parameters.map! do |parameter|
           case parameter
           when Variable
@@ -131,7 +185,15 @@ module Mint
               end
             end
 
-        Type.new(node.name, params, node.label)
+        variants =
+          node.variants.compact_map do |variant|
+            case item = fresh(variant, mapping).as(Checkable)
+            when Type
+              item
+            end
+          end
+
+        Type.new(node.name, params, node.label, variants)
       end
 
       def fresh(node : Record)

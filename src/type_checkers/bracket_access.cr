@@ -43,6 +43,7 @@ module Mint
           snippet "The index in question is here:", index
         end unless Comparer.compare(type.parameters.first, index_type)
 
+        # TODO: variants...
         Type.new("Maybe", [type.parameters.last] of Checkable)
       elsif type.name == "Array" && type.parameters.size == 1
         error! :bracket_access_index_not_number do
@@ -51,6 +52,7 @@ module Mint
           snippet "The index in question is here:", index
         end unless Comparer.compare(index_type, NUMBER)
 
+        # TODO: variants...
         Type.new("Maybe", [type.parameters.first] of Checkable)
       else
         error! :bracket_access_not_accessible do

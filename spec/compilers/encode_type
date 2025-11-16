@@ -25,16 +25,16 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A([
+  F = A(0, `Empty`),
+  G = A(2, `Params`),
+  H = A([
     "name",
     "age"
-  ], `Test.Record`),
-  G = A(2, `Test.Params`),
-  H = A(0, `Test.Empty`),
+  ], `Record`),
   I = () => {
     B(C([
       [
-        F,
+        H,
         [
           D,
           D
@@ -48,12 +48,12 @@ export const
         ]
       ],
       [
-        H
+        F
       ]
     ]))([
-      E(F)(`John`, 20),
+      E(H)(`John`, 20),
       E(G)(`John`, 20),
-      new H()
+      new F()
     ]);
     return ``
   };

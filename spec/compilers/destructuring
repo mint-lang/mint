@@ -34,8 +34,8 @@ export const
     "matchString",
     "content",
     "key"
-  ], `Test.Item`),
-  G = A(0, `Test.None`),
+  ], `Item`),
+  G = A(0, `None`),
   H = () => {
     const a = B(F)(`MATCHSTRING`, `CONTENT`, `KEY`);
     return C(a, [

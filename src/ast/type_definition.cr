@@ -13,6 +13,13 @@ module Mint
                      @context : Node?,
                      @name : Id)
       end
+
+      def variant?(name : String) : TypeVariant?
+        case items = fields
+        when Array(TypeVariant)
+          items.find(&.value.value.==(name))
+        end
+      end
     end
   end
 end

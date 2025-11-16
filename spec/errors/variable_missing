@@ -1,6 +1,6 @@
 module Test {
   fun b : Function(String) {
-    XTest.a
+    a
   }
 }
 
@@ -14,7 +14,7 @@ component Main {
 
 I can't find the entity with the name:
 
-  XTest
+  a
 
 Here is where it is referenced:
 
@@ -22,8 +22,8 @@ Here is where it is referenced:
    ├─────────────────────────────
   1│ module Test {
   2│   fun b : Function(String) {
-  3│     XTest.a
-   │     ⌃⌃⌃⌃⌃
+  3│     a
+   │     ⌃
   4│   }
   5│ }
   6│

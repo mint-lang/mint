@@ -84,7 +84,7 @@ module Mint
                     [] of Item
                   end
 
-                js.array([[item] of Item, parameters])
+                js.array([tag(item, cache[item]), parameters])
               end
 
             js.call(Builtin::EncodeVariant, [js.array(encoders)])
