@@ -110,8 +110,12 @@ type TestType {
 }
 
 component Main {
+  get value : TestType {
+    Case2("case2 text", 1)
+  }
+
   fun render : Html {
-    let text = case TestType.Case2("case2 text", 1) {
+    let text = case value {
       Case2(field0, field1, field2) => field1
       Case1 => "case1"
     }
@@ -136,8 +140,12 @@ type Maybe(a) {
 }
 
 component Main {
+  get value : Maybe(String) {
+    Just("Hello")
+  }
+
   fun render : String {
-    let Just(a) = Maybe.Just("Hello") or return ""
+    let Just(a) = value or return ""
     a
   }
 }

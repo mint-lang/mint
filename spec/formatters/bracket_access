@@ -1,9 +1,19 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
 module Test {
   fun test : Maybe(String) {
     ["Hello"][ 0 ]
   }
 }
 --------------------------------------------------------------------------------
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
 module Test {
   fun test : Maybe(String) {
     ["Hello"][0]

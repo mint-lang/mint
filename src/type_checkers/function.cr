@@ -10,12 +10,6 @@ module Mint
       arguments =
         resolve node.arguments
 
-      body_type =
-        resolve node.body
-
-      final_type =
-        Type.new("Function", arguments + [body_type])
-
       resolved_type =
         if type = node.type
           return_type =
@@ -23,6 +17,12 @@ module Mint
 
           defined_type =
             Comparer.normalize(Type.new("Function", arguments + [return_type]))
+
+          body_type =
+            resolve node.body
+
+          final_type =
+            Type.new("Function", arguments + [body_type])
 
           resolved =
             Comparer.compare(defined_type, final_type)
@@ -52,7 +52,11 @@ module Mint
 
           resolved
         else
-          Comparer.normalize(final_type)
+          body_type =
+            resolve node.body
+
+          final_type =
+            Comparer.normalize(Type.new("Function", arguments + [body_type]))
         end
 
       resolved_type.optional_count = node.arguments.count(&.default)

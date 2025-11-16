@@ -36,17 +36,17 @@ component Main {
     }
   }
 }
-----------------------------------------------------------if_else_type_mismatch
+---------------------------------------------------------function_type_mismatch
 component Main {
   fun render : String {
     if ("a" == "b") {
       "x"
     } else {
-      10
+      true
     }
   }
 }
-----------------------------------------------------------if_else_type_mismatch
+---------------------------------------------------------function_type_mismatch
 type T {
   A(String)
   B(Number)
@@ -57,7 +57,7 @@ component Main {
     if let T.B(a) = T.B(0) {
       a
     } else {
-      "b"
+      true
     }
   }
 }

@@ -168,8 +168,10 @@ type App.Page {
 }
 
 component Main {
+  state page : App.Page = App.Page.Settings
+
   fun render : Html {
-    case App.Page.Settings {
+    case page {
       App.Page.Settings => <div></div>
       App.Page.Page => <div></div>
     }

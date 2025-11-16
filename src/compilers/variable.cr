@@ -51,7 +51,9 @@ module Mint
                 tag(node, type.parameters.last),
               ] of Compiled)
             else
-              tag(node, type)
+              js.call(Builtin::NewVariant, [
+                tag(node, type),
+              ] of Compiled)
             end
           end || [] of Item
         end

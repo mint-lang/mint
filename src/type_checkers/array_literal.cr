@@ -12,27 +12,41 @@ module Mint
         first =
           resolve node.items.first
 
-        rest =
-          node.items[1..node.items.size]
+        unified =
+          node
+            .items[1..]
+            .each_with_index
+            .reduce([first]) do |resolved, (item, index)|
+              type = resolve item
 
-        rest.each_with_index do |item, index|
-          type = resolve item
+              succeeded = false
+              item_type =
+                resolved.map do |item|
+                  next item if succeeded
+                  if x = Comparer.compare(type, item)
+                    succeeded = true
+                    x
+                  else
+                    item
+                  end
+                end
 
-          return error! :array_not_matches do
-            block do
-              text "The"
-              bold "#{ordinal(index + 2)} item"
-              text "of an array does not match the type of the 1st item."
+              if succeeded
+                resolved
+              else
+                resolved + [type]
+              end
             end
 
-            snippet "I was expecting the type of the 1st item:", first
-            snippet "Instead it is:", type
-            snippet "The item in question is here:", item
-          end unless Comparer.compare(type, first)
-        end
+        type =
+          if unified.size == 1
+            unified.first
+          else
+            Tags.new(unified, inferred: true)
+          end
 
         inferred_type =
-          Comparer.normalize(Type.new("Array", [first]))
+          Comparer.normalize(Type.new("Array", [type]))
 
         if defined_type
           final_type =

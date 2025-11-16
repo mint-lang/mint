@@ -15,8 +15,8 @@ For the or operation the left operand is invalid.
 
 I was expecting:
 
-  Maybe(a)
-  Result(a, b)
+  Just(a) | Nothing
+  Err(a) | Ok(a)
   Html
 
 Instead it is:

@@ -242,26 +242,27 @@ module Mint
         node
           .branches[1..]
           .each_with_index
-          .reduce(first) do |resolved, (branch, index)|
+          .reduce([first]) do |resolved, (branch, index)|
             type =
               resolve branch, condition
 
+            succeeded = false
             unified_branch =
-              Comparer.compare(type, resolved)
-
-            error! :case_branch_not_matches do
-              block do
-                text "The return type of the"
-                bold "#{ordinal(index + 2)} branch"
-                text "of a case expression does not match the type of the 1st branch."
+              resolved.map do |item|
+                next item if succeeded
+                if x = Comparer.compare(type, item)
+                  succeeded = true
+                  x
+                else
+                  item
+                end
               end
 
-              snippet "I was expecting the type of the 1st branch:", resolved
-              snippet "Instead it is:", type
-              snippet "The branch in question is here:", branch
-            end unless unified_branch
-
-            unified_branch
+            if succeeded
+              resolved
+            else
+              resolved + [type]
+            end
           end
 
       begin
@@ -307,7 +308,11 @@ module Mint
         end
       end
 
-      unified
+      if unified.size == 1
+        unified.first
+      else
+        Tags.new(unified, inferred: true)
+      end
     end
   end
 end

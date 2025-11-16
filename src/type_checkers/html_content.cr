@@ -10,9 +10,11 @@ module Mint
           block "I was expecting one of the following types:"
 
           snippet VALID_HTML.map(&.to_mint).join("\n")
+          # snippet VALID_HTML
           snippet "Instead it is:", type
           snippet child
         end unless Comparer.matches_any?(type, VALID_HTML)
+        # end unless Comparer.compare(type, VALID_HTML)
       end
 
       VOID

@@ -24,7 +24,7 @@ component Main {
   fun render : String {
     case ("a") {
       =>
---------------------------------------------------------case_branch_not_matches
+---------------------------------------------------------function_type_mismatch
 component Main {
   fun render : String {
     case ("x") {
@@ -41,8 +41,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    B
+  }
+
   fun render : String {
-    case (A.B) {
+    case (value) {
       A.B => "a"
       A.C => "c"
       => "x"
@@ -65,8 +69,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    B
+  }
+
   fun render : String {
-    case (A.B) {
+    case value {
       A.B => "a"
       A.C => "c"
     }

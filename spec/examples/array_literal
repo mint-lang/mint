@@ -6,7 +6,7 @@ component Main {
 component Main {
   fun render : Array(String) {
     [] of
---------------------------------------------------------------array_not_matches
+---------------------------------------------------------function_type_mismatch
 component Main {
   fun test : Array(String) {
     [

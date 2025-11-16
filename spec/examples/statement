@@ -5,9 +5,13 @@ type Test {
 }
 
 component Main {
+  get value : Test {
+    A("Hello")
+  }
+
   fun render : String {
-    let Test.B(x) =
-      Test.A("Hello") or return 0
+    let B(x) =
+      value or return 0
 
     x
   }
@@ -30,19 +34,6 @@ component Main {
 component Main {
   fun render : String {
     let x = "hello"
-    ""
-  }
-}
--------------------------------------------------------------------------------
-type Test {
-  A(String)
-}
-
-component Main {
-  fun render : String {
-    let A(value) = Test.A("Hello")
-    let {a, _} = {"a", "b"}
-
     ""
   }
 }

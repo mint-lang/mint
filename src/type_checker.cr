@@ -67,7 +67,7 @@ module Mint
       NUMBER,
       STRING,
       HTML,
-    ] of Checkable
+    ]
 
     getter records, artifacts, formatter
     getter? check_everything

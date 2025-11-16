@@ -44,7 +44,7 @@ Dir
             type_checker.check
           rescue exception : Mint::Error
             if exception.name.to_s != error
-              fail exception.to_terminal.to_s
+              fail source + '\n' + exception.to_terminal.to_s
             end
           rescue exception
             fail source + '\n' + exception.to_s + '\n' + exception.backtrace.join('\n')
@@ -61,7 +61,7 @@ Dir
             type_checker = Mint::TypeChecker.new(ast)
             type_checker.check
           rescue exception : Mint::Error
-            fail exception.to_terminal.to_s
+            fail source + '\n' + exception.to_terminal.to_s
           rescue exception
             fail source + '\n' + exception.to_s + '\n' + exception.backtrace.join('\n')
           end

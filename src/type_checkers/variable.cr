@@ -32,14 +32,14 @@ module Mint
             Tags.new([
               Type.new("Nothing", [] of Checkable),
               Type.new("Just", [Type.new("Dom.Element")] of Checkable),
-            ] of Checkable)
+            ] of Checkable, inferred: true)
           when item[0].is_a?(Ast::Component) &&
             (item[1].is_a?(Ast::Component) || item[1].is_a?(Ast::Test))
             components_touched.add(item[0].as(Ast::Component))
             Tags.new([
               Type.new("Nothing", [] of Checkable),
               Type.new("Just", [component_records[item[0]]] of Checkable),
-            ] of Checkable)
+            ] of Checkable, inferred: true)
           else
             case value = item[0]
             when Ast::Statement

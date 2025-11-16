@@ -4,12 +4,14 @@ type Maybe(a) {
 }
 
 component Main {
+  state a : Maybe(String) = Just("")
+
   fun render : Html {
     let Just(_) =
-      Maybe.Just("")
+      a
 
     let Just(_) =
-      Maybe.Just("")
+      a
 
     <span>"Hello"</span>
   } or <span>"Fallback"</span>

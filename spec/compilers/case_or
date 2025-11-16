@@ -5,8 +5,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    B
+  }
+
   fun render : String {
-    case A.B {
+    case value {
       B | C | D  => "a"
     }
   }

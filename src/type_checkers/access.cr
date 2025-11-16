@@ -20,7 +20,7 @@ module Mint
         resolve node
 
       if node.parameters.empty?
-        parent_type
+        option_type
       else
         parameters =
           case fields = node.fields
@@ -36,7 +36,7 @@ module Mint
             option_type.parameters.dup
           end
 
-        parameters << parent_type.as(Checkable)
+        parameters << option_type.as(Checkable)
         Comparer.normalize(Type.new("Function", parameters))
       end
     end

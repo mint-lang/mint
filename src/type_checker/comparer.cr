@@ -28,6 +28,7 @@ module Mint
         when Tags
           Tags.new(
             node.options.map { |param| fill(param, mapping).as(Checkable) },
+            inferred: node.inferred,
             label: node.label)
         when Type
           parameters =
@@ -70,24 +71,28 @@ module Mint
         when node2.is_a?(Variable)
           unify(node2, node1)
         when node1.is_a?(Tags) && node2.is_a?(Type)
-          unified = false
-          results = node1.options.map do |item|
-            begin
-              unify(node2.dup, item).tap do |result|
-                unified = true if result
+          if node1.inferred
+            raise "Not unified!"
+          else
+            unified = false
+            results = node1.options.map do |item|
+              begin
+                unify(node2.dup, item).tap do |result|
+                  unified = true if result
+                end
+              rescue
+                item
               end
-            rescue
-              item
             end
+            raise "Not unified!" unless unified
+            Tags.new(results)
           end
-          raise "Not unified!" unless unified
-          Tags.new(results)
         when node1.is_a?(Tags) && node2.is_a?(Tags)
           raise "Not unified!" unless node1.options.all?(&.is_a?(Type))
           raise "Not unified!" unless node2.options.all?(&.is_a?(Type))
 
-          if node1.options.size > node2.options.size
-            unify(node2, node1)
+          if node1.options.size != node2.options.size
+            raise "Not unified!"
           else
             unified =
               node1.options.map do |a|
@@ -95,12 +100,7 @@ module Mint
                 unify(a, b).as(Checkable)
               end
 
-            extra =
-              node2.options.select do |a|
-                !node1.options.find { |item| item.name == a.name }
-              end
-
-            Tags.new(unified + extra)
+            Tags.new(unified)
           end
         when node2.is_a?(Tags)
           unify(node2, node1)
@@ -116,11 +116,15 @@ module Mint
           if node1.name != node2.name || node1.parameters.size != node2.parameters.size
             raise "Type error: #{node1} is not #{node2}!"
           else
-            node1.parameters.each_with_index do |item, index|
-              unify(item, node2.parameters[index])
-            end
+            params =
+              node1.parameters.map_with_index do |item, index|
+                unify(item, node2.parameters[index])
+                  .tap(&.label=(item.label))
+                  .as(Checkable)
+              end
+
+            Type.new(node1.name, params)
           end
-          node1
         else
           raise "Not unified!"
         end
@@ -134,6 +138,8 @@ module Mint
           true
         when node2.is_a?(Type)
           occurs_in_type_array(node1, node2.parameters)
+        when node2.is_a?(Tags)
+          occurs_in_type_array(node1, node2.options)
         else
           false
         end
@@ -226,7 +232,7 @@ module Mint
               end
             end
 
-        Tags.new(options, label: node.label)
+        Tags.new(options, label: node.label, inferred: node.inferred)
       end
 
       def fresh(node : Record)

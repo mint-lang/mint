@@ -6,8 +6,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    B("")
+  }
+
   fun render : String {
-    case A.B("") {
+    case value {
       B(a) | C | D  => "a"
     }
   }
@@ -20,8 +24,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    B
+  }
+
   fun render : String {
-    case A.B {
+    case value {
       B | C | D  => "a"
     }
   }
@@ -34,8 +42,12 @@ type A {
 }
 
 component Main {
+  get value : A {
+    D("WTF")
+  }
+
   fun render : String {
-    case A.D("WTF") {
+    case value {
       B(a) | C(a) | D(a) => a
     }
   }

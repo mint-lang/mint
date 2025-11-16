@@ -151,14 +151,14 @@ module CSV.Parser {
         parseNext(remaining, CSV.State.JustParsedCR, items)
 
       {[token, ..._], JustParsedField, _} =>
-        Result.Err(CSV.Error.UnexpectedTokenAfterField(token))
+        Result.Err(CSV.Error.UnexpectedTokenAfterField(token) cast CSV.Error)
 
       // If we just parsed a CR, we're expecting an LF
       {[LF, ...remaining], JustParsedCR, items} =>
         parseNext(remaining, CSV.State.JustParsedNewline, items)
 
       {[token, ..._], JustParsedCR, _} =>
-        Result.Err(CSV.Error.UnexpectedTokenCarriageReturn(token))
+        Result.Err(CSV.Error.UnexpectedTokenCarriageReturn(token) cast CSV.Error)
 
       // If we just parsed a separator, we're expecting an escaped or
       // non-escaped string, or another separator (indicating an empty string)
@@ -193,7 +193,7 @@ module CSV.Parser {
           Array.unshift(items, [""]))
 
       {[token, ..._], JustParsedNewline, _} =>
-        Result.Err(CSV.Error.UnexpectedTokenAtStartOfLine(token))
+        Result.Err(CSV.Error.UnexpectedTokenAtStartOfLine(token) cast CSV.Error)
 
       // If we're inside an escaped string, we can take anything until we get
       // a double quote, but a double double quote "" escapes the double quote
@@ -219,7 +219,7 @@ module CSV.Parser {
             Array.unshift(current, "#{value}#{tokenToString(token)}")))
 
       // Anything else is an error
-      {[token, ..._], _, _} => Result.Err(CSV.Error.UnexpectedToken(token))
+      {[token, ..._], _, _} => Result.Err(CSV.Error.UnexpectedToken(token) cast CSV.Error)
     }
   }
 }

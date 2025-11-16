@@ -1,0 +1,11 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  fun render : String {
+    Just("Hello") cast Maybe(String)
+    "Hello"
+  }
+}

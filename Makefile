@@ -27,7 +27,7 @@ test: spec ameba
 
 .PHONY: test-core
 test-core: build
-	cd core/tests && ../../bin/mint test -b chrome
+	cd core/tests && ../../bin/mint test -b chrome --generate-source-maps
 
 .PHONY: development
 development: build

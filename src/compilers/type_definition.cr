@@ -21,7 +21,8 @@ module Mint
                 ]
               end
 
-            add node, option, js.call(Builtin::Variant, args)
+            # add node, option, js.call(Builtin::Variant, args)
+            tag(node, cache[option])
           end
         end
 

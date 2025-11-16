@@ -171,12 +171,14 @@ module Mint
             [HTML, STRING, HTML_CHILDREN, TEXT_CHILDREN].any? do |item|
               Comparer.compare(type, Type.new("Function", [item] of Checkable))
             end
+          # Comparer.compare(type, Type.new("Function", [VALID_HTML] of Checkable))
 
           error! :component_render_function_mismatch do
             block do
               text "I was expecting the type of the"
               bold "render"
               text "function to match one of these types:"
+              # text "function to match:"
             end
 
             snippet <<-PLAIN
@@ -186,6 +188,7 @@ module Mint
               Function(Html)
               PLAIN
 
+            # snippet VALID_HTML
             snippet "Instead the type of the function is:", type.parameters.first
             snippet "The function in question is here:", function
           end unless matches

@@ -25,15 +25,15 @@ import {
 } from "./runtime.js";
 
 export const
-  C = A(1, `Result.Ok`),
-  D = A(1, `Result.Error`),
-  E = A(2, `Result.Other`),
-  F = A(0, `Test.X`),
-  G = A(0, `Test.Y`),
-  H = A(1, `Test.Z`),
+  C = A(1, `Error`),
+  D = A(1, `Ok`),
+  E = A(2, `Other`),
+  F = new (A(0, `X`))(),
+  G = new (A(0, `Y`))(),
+  H = A(1, `Z`),
   I = () => {
-    new F();
+    F;
     B(E)(``, ``);
-    B(H)(B(D)(``));
+    B(H)(B(C)(``));
     return ``
   };

@@ -10,9 +10,9 @@ module Mint
               [] of Item
             else
               if type.name == "Function"
-                js.call(Builtin::NewVariant, [[items[0]] of Item] of Compiled)
+                js.call(Builtin::NewVariant, [tag(node, type.parameters.last)] of Compiled)
               else
-                js.new(items[0], [] of Compiled)
+                js.call(Builtin::NewVariant, [tag(node, type)] of Compiled)
               end
             end
           else

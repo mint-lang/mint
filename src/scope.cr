@@ -286,6 +286,7 @@ module Mint
            Ast::Decode,
            Ast::Emit,
            Ast::Test,
+           Ast::Cast,
            Ast::Dbg
         build(node.expression, node)
       when Ast::Directives::Highlight

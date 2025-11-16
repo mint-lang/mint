@@ -60,7 +60,7 @@ module Mint
         when TypeChecker::Tags
           if tag = condition.options.find(&.name.==(node.variant.value))
             if tag.parameters.empty?
-              js.string(tag.name)
+              tag(node, tag)
             else
               items =
                 js.array(node.items.map do |param|
@@ -75,34 +75,29 @@ module Mint
     end
 
     def tag(node : Ast::Node, type : TypeChecker::Checkable)
-      id =
-        type.to_s
+      case type
+      when TypeChecker::Type
+        id =
+          type.name + type.parameters.size.to_s
 
-      @tags[id] ||= begin
-        tag = Tag.new
+        @tags[id] ||= begin
+          tag = Tag.new
 
-        args =
-          [
-            [type.parameters.size.to_s] of Item,
-            js.string(type.name),
-          ]
+          args =
+            [
+              [type.parameters.size.to_s] of Item,
+              js.string(type.name),
+            ]
 
-        constructor =
-          js.call(Builtin::Variant, args)
+          add(node, tag, js.call(Builtin::Variant, args))
 
-        c =
-          if type.parameters.size == 0
-            js.new(constructor, [] of Compiled)
-          else
-            constructor
-          end
+          tag
+        end
 
-        add(node, tag, c)
-
-        tag
+        [@tags[id]] of Item
+      else
+        unreachable! "Can't generate tag constructor for type: #{type}"
       end
-
-      [@tags[id]] of Item
     end
 
     def match(

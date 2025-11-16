@@ -26,24 +26,26 @@ import {
 } from "./runtime.js";
 
 export const
-  G = A(1, `Z`),
-  H = () => {
+  G = new A(0, `X`)(),
+  H = new A(0, `Y`)(),
+  I = A(1, `Z`),
+  K = () => {
     const a = (b) => {
       return B(b, [
         [
-          `X`,
+          G,
           () => {
             return `X`
           }
         ],
         [
-          `Y`,
+          H,
           () => {
             return `Y`
           }
         ],
         [
-          C(G, [D]),
+          C(I, [D]),
           (c) => {
             return c
           }
@@ -51,8 +53,8 @@ export const
       ])
     };
     return E(`div`, {}, [
-      a(`X`),
-      a(`Y`),
-      a(F(G)(`Hello`))
+      a(G),
+      a(I),
+      a(F(J)(`Hello`))
     ])
   };

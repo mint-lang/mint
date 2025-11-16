@@ -513,39 +513,43 @@ module Mint
     end
 
     def just
-      [
+      node =
         maybe
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Just")),
-      ] of Item
+          .find!(&.value.value.==("Just"))
+
+      tag(node, cache[node])
     end
 
     def nothing
-      [
+      node =
         maybe
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Nothing")),
-      ] of Item
+          .find!(&.value.value.==("Nothing"))
+
+      tag(node, cache[node])
     end
 
     def ok
-      [
+      node =
         result
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Ok")),
-      ] of Item
+          .find!(&.value.value.==("Ok"))
+
+      tag(node, cache[node])
     end
 
     def err
-      [
+      node =
         result
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Err")),
-      ] of Item
+          .find!(&.value.value.==("Err"))
+
+      tag(node, cache[node])
     end
   end
 end

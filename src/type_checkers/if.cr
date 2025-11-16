@@ -62,26 +62,7 @@ module Mint
         falsy =
           resolve falsy_item
 
-        error! :if_else_type_mismatch do
-          block do
-            text "The"
-            bold "else branch of an if expression"
-            text "does not match the type of the main branch."
-          end
-
-          expected truthy, falsy
-
-          error_node =
-            case falsy_item
-            when Ast::Block
-              falsy_item.expressions.last
-            else
-              falsy_item
-            end
-
-          snippet "The value for the else branch is here:",
-            error_node.as(Ast::Node)
-        end unless Comparer.compare(truthy, falsy)
+        Comparer.compare(truthy, falsy) || Tags.new([truthy, falsy], inferred: true)
       else
         error! :if_expected_else do
           block do
@@ -97,9 +78,9 @@ module Mint
           snippet truthy
           snippet node
         end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
-      end
 
-      truthy
+        truthy
+      end
     end
   end
 end

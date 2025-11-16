@@ -178,6 +178,7 @@ module Mint
             snippet "But it is:", right
             snippet "The fallback value is here:", node.right
           end unless Comparer.matches_any?(right, VALID_HTML)
+          # end unless Comparer.compare(right, VALID_HTML)
 
           left_node.fallback_node = node.right
 
@@ -187,6 +188,10 @@ module Mint
           when Ast::ReturnCall
             left
           else
+            unified =
+              Comparer.compare(left, MAYBE) ||
+                Comparer.compare(left, RESULT)
+
             error! :operation_or_invalid do
               block do
                 text "For the"
@@ -199,32 +204,31 @@ module Mint
               snippet "I was expecting:", [MAYBE, RESULT, HTML].map(&.to_mint).join("\n")
               snippet "Instead it is:", left
               snippet "The operation in question is here:", node
-            end unless Comparer.compare(left, MAYBE) ||
-                       Comparer.compare(left, RESULT)
+            end unless unified
 
-            case left
-            when Tags
-              type =
-                left
+            type =
+              case unified
+              when Tags
+                unified
                   .options
                   .find { |item| item.name == "Just" || item.name == "Ok" }
                   .try(&.parameters[0])
                   .not_nil!
+              else
+                Variable.new("a")
+              end
 
-              error! :operation_or_type_mismatch do
-                block do
-                  text "The type of the default value does not match the type of the"
-                  text "parameter of the maybe."
-                end
+            error! :operation_or_type_mismatch do
+              block do
+                text "The type of the default value does not match the type of the"
+                text "parameter of the maybe."
+              end
 
-                expected type, right
-                snippet "The operation in question is here:", node
-              end unless Comparer.compare(type, right)
+              expected type, right
+              snippet "The operation in question is here:", node
+            end unless resolved = Comparer.compare(type, right)
 
-              type
-            else
-              unreachable! "Maybe expected!"
-            end
+            resolved
           end
         end
       else
