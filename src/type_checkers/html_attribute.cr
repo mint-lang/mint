@@ -112,7 +112,7 @@ module Mint
           resolve prop
 
         resolved =
-          Comparer.compare(prop_type, type)
+          Comparer.compare(prop_type, type, expand: true)
 
         error! :html_attribute_component_property_type_mismatch do
           block do

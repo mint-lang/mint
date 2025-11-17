@@ -7,8 +7,8 @@ module Mint
         targets.any? { |target| compare(node, target) }
       end
 
-      def compare(node1, node2)
-        prune(unify(fresh(prune(node1)), fresh(prune(node2))))
+      def compare(node1, node2, *, expand : Bool = false)
+        prune(unify(fresh(prune(node1)), fresh(prune(node2)), expand: expand))
       rescue
         nil
       end
@@ -68,7 +68,7 @@ module Mint
         end
       end
 
-      def unify(node1, node2)
+      def unify(node1, node2, *, expand : Bool)
         node1 = prune(node1)
         node2 = prune(node2)
 
@@ -83,29 +83,24 @@ module Mint
           end
           node1
         when node2.is_a?(Variable)
-          unify(node2, node1)
+          unify(node2, node1, expand: false)
         when node1.is_a?(Record) && node2.is_a?(Type)
           raise "Not unified!" unless node1.name == node2.name
           node1
         when node2.is_a?(Record) && node1.is_a?(Type)
-          unify(node2, node1)
+          unify(node2, node1, expand: false)
         when node1.is_a?(Record) && node2.is_a?(Record)
           raise "Not unified!" unless node1 == node2
           node1
         when node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name
-            if node1.variants.size > 0 && node2.variants.size == 0
+            if node1.variants.size > 0 && node2.variants.size == 0 && expand
               if variant = node1.variants.find(&.name.==(node2.name))
-                unify(variant, node2)
-                # puts "#{dbg(node2)} --> #{node1}"
-
-                # TODO: unify parameters
+                unify(variant, node2, expand: false)
                 node1
               else
                 raise "Can't unify #{node1} with #{node2} no variant matches!"
               end
-            elsif node2.variants.size > 0 && node1.variants.size == 0
-              unify(node2, node1)
             else
               raise "Can't unify #{node1} with #{node2}!"
             end
@@ -113,7 +108,7 @@ module Mint
             raise "Can't unify #{node1} with #{node2} parameter size mismatch!"
           else
             node1.parameters.each_with_index do |item, index|
-              unify(item, node2.parameters[index])
+              unify(item, node2.parameters[index], expand: false)
             end
           end
           node1

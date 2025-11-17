@@ -17,7 +17,7 @@ module Mint
         case {default, type}
         when {Checkable, Checkable}
           resolved =
-            Comparer.compare type, default
+            Comparer.compare type, default, expand: true
 
           error! :property_type_mismatch do
             block "The type of the default value of a property does not " \

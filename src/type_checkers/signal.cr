@@ -16,7 +16,7 @@ module Mint
         expected type, block
 
         snippet "The block in question is here:", node.block
-      end unless resolved = Comparer.compare(type, block)
+      end unless resolved = Comparer.compare(type, block, expand: true)
 
       resolved
     end

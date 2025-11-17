@@ -10,7 +10,7 @@ module Mint
       case {default, type}
       in {Checkable, Checkable}
         resolved =
-          Comparer.compare type, default
+          Comparer.compare type, default, expand: true
 
         error! :argument_type_mismatch do
           block "The type of the default value of an argument does not " \

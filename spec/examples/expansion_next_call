@@ -1,0 +1,41 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  state value : Maybe(String) = Nothing
+
+  fun render {
+    next { value: Just("Hello") }
+    ""
+  }
+}
+------------------------------------------------------------state_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  state value : Nothing = Maybe.Just("Hello")
+
+  fun render {
+    next { value: Maybe.Just("Hello") }
+    ""
+  }
+}
+--------------------------------------------------next_call_state_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Main {
+  state value : Nothing = Nothing
+
+  fun render {
+    next { value: Maybe.Just("Hello") }
+    ""
+  }
+}
