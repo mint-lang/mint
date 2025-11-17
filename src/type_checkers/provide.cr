@@ -17,7 +17,7 @@ module Mint
         resolve node.expression
 
       resolved =
-        Comparer.compare(expression_type, type)
+        Comparer.compare(type, expression_type, expand: true)
 
       error! :provide_type_mismatch do
         block "The type of a provide does not match its definition."

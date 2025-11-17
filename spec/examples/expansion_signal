@@ -1,0 +1,55 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+store Expansion {
+  signal a : Maybe(a) {
+    emit Nothing
+    Nothing
+  }
+}
+
+component Main {
+  fun render {
+    Expansion.a
+    ""
+  }
+}
+-------------------------------------------------------------emit_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+store Expansion {
+  signal a : Nothing {
+    emit Maybe.Just("Hello")
+    Maybe.Just("Hello")
+  }
+}
+
+component Main {
+  fun render {
+    Expansion.a
+    ""
+  }
+}
+-----------------------------------------------------------signal_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+store Expansion {
+  signal a : Nothing {
+    Maybe.Just("Hello")
+  }
+}
+
+component Main {
+  fun render {
+    Expansion.a
+    ""
+  }
+}

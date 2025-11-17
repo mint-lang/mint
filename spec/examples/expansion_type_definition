@@ -1,0 +1,38 @@
+type Value {
+  Nothing
+  Just
+} context Nothing
+
+component Main {
+  provide Value Nothing
+
+  fun render {
+    ""
+  }
+}
+---------------------------------------------------------provide_not_found_type
+type Value {
+  Nothing
+  Just
+} context Nothing
+
+component Main {
+  provide Nothing Value.Nothing
+
+  fun render {
+    ""
+  }
+}
+------------------------------------------------type_defintion_context_mismatch
+type Value {
+  Nothing
+  Just
+} context A
+
+component Main {
+  provide Value Nothing
+
+  fun render {
+    ""
+  }
+}

@@ -5,7 +5,7 @@ module Mint
         case fields = node.fields
         when Array(Ast::TypeVariant)
           fields.map do |option|
-            tag(node, cache[option])
+            tag(option, cache[option])
           end
         end
 

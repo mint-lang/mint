@@ -72,7 +72,7 @@ module Mint
           snippet "The context value of a type definition doesn't match the type!"
           expected definition_type, type
           snippet "The type definition is here:", node
-        end unless Comparer.compare(type, definition_type)
+        end unless Comparer.compare(definition_type, type, expand: true)
       end
 
       definition_type

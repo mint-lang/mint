@@ -10,9 +10,9 @@ module Mint
               [] of Item
             else
               if type.name == "Function"
-                js.call(Builtin::NewVariant, [tag(node, cache[item])] of Compiled)
+                js.call(Builtin::NewVariant, [tag(item, cache[item])] of Compiled)
               else
-                js.new(tag(node, cache[item]), [] of Compiled)
+                js.new(tag(item, cache[item]), [] of Compiled)
               end
             end
           else
