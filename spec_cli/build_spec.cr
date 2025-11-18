@@ -87,7 +87,7 @@ context "build" do
       All done in ××××!
       TEXT
 
-    File.exists?("dist/manifest.webmanifest").should eq(true)
+    File.exists?("dist/manifest.webmanifest").should be_true
   end
 
   it "logs the files using the `--verbose` flag" do

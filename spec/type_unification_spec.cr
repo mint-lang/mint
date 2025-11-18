@@ -142,14 +142,14 @@ describe Mint::TypeChecker do
       recordb = Record.new("Blah", {"name" => Type.new("B")} of String => Checkable)
 
       Mint::TypeChecker::Comparer.compare(recorda, recorda).should be_a(Record)
-      Mint::TypeChecker::Comparer.compare(recordb, recorda).should eq(nil)
+      Mint::TypeChecker::Comparer.compare(recordb, recorda).should be_nil
     end
   end
 
   describe "Record vs Type" do
     it "returns null for different name" do
-      Mint::TypeChecker::Comparer.compare(Record.new("Blah"), Type.new("Blaha")).should eq(nil)
-      Mint::TypeChecker::Comparer.compare(Type.new("Blah"), Record.new("Blaha")).should eq(nil)
+      Mint::TypeChecker::Comparer.compare(Record.new("Blah"), Type.new("Blaha")).should be_nil
+      Mint::TypeChecker::Comparer.compare(Type.new("Blah"), Record.new("Blaha")).should be_nil
     end
 
     it "returns null record for same name" do

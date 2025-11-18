@@ -26,17 +26,17 @@ describe Mint::Ast::Node do
       {node.to.line, node.to.column}.should eq({4, 3})
 
       # First line
-      node.contains?(2, 1).should eq(false) # space before `f`
-      node.contains?(2, 3).should eq(true)  # `f` of `fun`
+      node.contains?(2, 1).should be_false # space before `f`
+      node.contains?(2, 3).should be_true  # `f` of `fun`
 
       # Middle line
-      node.contains?(3, 0).should eq(true)
-      node.contains?(3, 9).should eq(true)
-      node.contains?(3, 1000).should eq(true)
+      node.contains?(3, 0).should be_true
+      node.contains?(3, 9).should be_true
+      node.contains?(3, 1000).should be_true
 
       # End line
-      node.contains?(4, 2).should eq(true)  # `}`
-      node.contains?(4, 3).should eq(false) # space after `}`
+      node.contains?(4, 2).should be_true  # `}`
+      node.contains?(4, 3).should be_false # space after `}`
     end
   end
 end
