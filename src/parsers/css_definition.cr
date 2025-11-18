@@ -8,9 +8,9 @@ module Mint
         whitespace
 
         value =
-          many(parse_whitespace: false) {
+          many(parse_whitespace: false) do
             string_literal || interpolation || raw { char.in_set?("^;}{\0\"") }
-          }.map do |item|
+          end.map do |item|
             if item.is_a?(Ast::StringLiteral) && (raw = static_value(item))
               %("#{raw}")
             else
