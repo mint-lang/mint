@@ -265,12 +265,10 @@ module Mint
       end
 
       def self.async?(items : Array(Compiled))
-        # ameba:disable Performance/AnyInsteadOfEmpty
         items.any?(&->async?(Compiled))
       end
 
       def self.async?(items : Compiled)
-        # ameba:disable Performance/AnyInsteadOfEmpty
         items.any?(&->async?(Item))
       end
 
