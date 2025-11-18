@@ -128,7 +128,7 @@ module Mint
                 item.contents.each_char do |char|
                   break unless char.ascii_whitespace?
                   count += 1
-                end || 0
+                end
                 count
               end
 
@@ -149,7 +149,7 @@ module Mint
                 item.contents.each_char do |char|
                   break unless char.ascii_whitespace?
                   count += 1
-                end || 0
+                end
                 count
               end
 
