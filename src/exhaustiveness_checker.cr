@@ -799,7 +799,7 @@ module ExhaustivenessChecker
           .first
           .columns
           .map(&.variable)
-          .max_by { |variable| counts[variable.id]? || 0 }
+          .max_by { |var| counts[var.id]? || 0 }
 
       # We branch on the type name.
       case type = variable.type
