@@ -277,7 +277,7 @@ module Mint
               {self.depth, [node.ends[0], padding] of Node}
 
             head_size =
-              self.size(head)
+              size(head)
 
             result =
               process(head)

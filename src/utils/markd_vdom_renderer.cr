@@ -24,7 +24,7 @@ module Mint
       js : Compiler::Js,
     ) : Compiler::Compiled
       render(
-        node: self.new.render(document, separator, highlight),
+        node: new.render(document, separator, highlight),
         replacements: replacements,
         separator: separator,
         js: js)
@@ -38,7 +38,7 @@ module Mint
       separator : String,
     )
       root =
-        self.new.render(document, separator, highlight)
+        new.render(document, separator, highlight)
 
       processor = uninitialized Node | String, HtmlBuilder -> Nil
       processor = ->(node : Node | String, builder : HtmlBuilder) do
