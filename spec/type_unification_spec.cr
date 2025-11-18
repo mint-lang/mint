@@ -57,54 +57,54 @@ class Parser
 end
 
 macro expect_result(a, b, expected)
-  it "{{a.id}} vs {{b.id}}" do
-    node1 = Parser.parse({{a}})
-    node2 = Parser.parse({{b}})
+  it "{{ a.id }} vs {{ b.id }}" do
+    node1 = Parser.parse({{ a }})
+    node2 = Parser.parse({{ b }})
 
     if node1 && node2
       result = Mint::TypeChecker::Comparer.compare(node1, node2)
 
       unless result
-        fail "Expected {{a.id}} to equal to {{b.id}} but it does not"
+        fail "Expected {{ a.id }} to equal to {{ b.id }} but it does not"
       end
 
-      result.to_s.should eq({{expected}})
+      result.to_s.should eq({{ expected }})
     else
-      fail "Could not parse {{a.id}} or {{b.id}}"
+      fail "Could not parse {{ a.id }} or {{ b.id }}"
     end
   end
 end
 
 macro expect_equal(a, b)
-  it "{{a.id}} vs {{b.id}}" do
-    node1 = Parser.parse({{a}})
-    node2 = Parser.parse({{b}})
+  it "{{ a.id }} vs {{ b.id }}" do
+    node1 = Parser.parse({{ a }})
+    node2 = Parser.parse({{ b }})
 
     if node1 && node2
       result = Mint::TypeChecker::Comparer.compare(node1, node2)
 
       unless result
-        fail "Expected {{a.id}} to equal to {{b.id}} but it does not"
+        fail "Expected {{ a.id }} to equal to {{ b.id }} but it does not"
       end
     else
-      fail "Could not parse {{a.id}} or {{b.id}}"
+      fail "Could not parse {{ a.id }} or {{ b.id }}"
     end
   end
 end
 
 macro expect_not_equal(a, b)
-  it "{{a.id}} vs {{b.id}}" do
-    node1 = Parser.parse({{a}})
-    node2 = Parser.parse({{b}})
+  it "{{ a.id }} vs {{ b.id }}" do
+    node1 = Parser.parse({{ a }})
+    node2 = Parser.parse({{ b }})
 
     if node1 && node2
       result = Mint::TypeChecker::Comparer.compare(node1, node2)
 
       if result
-        fail "Expected {{a.id}} not to equal to {{b.id}} but the result is #{result.to_s}"
+        fail "Expected {{ a.id }} not to equal to {{ b.id }} but the result is #{result.to_s}"
       end
     else
-      fail "Could not parse {{a.id}} or {{b.id}}"
+      fail "Could not parse {{ a.id }} or {{ b.id }}"
     end
   end
 end

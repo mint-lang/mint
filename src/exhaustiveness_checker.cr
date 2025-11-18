@@ -1,21 +1,21 @@
 module ExhaustivenessChecker
   # Like the `record` macro but for classes.
   macro variant(name, *properties, **kwargs)
-    class {{name.id}}
+    class {{ name.id }}
       {% for property in properties %}
         {% if property.is_a?(Assign) %}
-          getter {{property.target.id}}
+          getter {{ property.target.id }}
         {% elsif property.is_a?(TypeDeclaration) %}
-          getter {{property}}
+          getter {{ property }}
         {% else %}
-          getter :{{property.id}}
+          getter :{{ property.id }}
         {% end %}
       {% end %}
 
-      def initialize({{properties.map { |field| "@#{field.id}".id }.splat}})
+      def initialize({{ properties.map { |field| "@#{field.id}".id }.splat }})
       end
 
-      {{yield}}
+      {{ yield }}
     end
   end
 
