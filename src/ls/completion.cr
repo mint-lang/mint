@@ -2,12 +2,12 @@ module Mint
   module LS
     class Completion
       KEYWORD_COMPLETIONS =
-        %w(
+        %w[
           component module provider store state property connect exposing
           style or return let if else async get fun dbg encode decode case
           as use next of when global type @asset @svg @format @inline
           @highlight @highlight-file
-        ).map do |keyword|
+        ].map do |keyword|
           LSP::CompletionItem.new(
             kind: LSP::CompletionItemKind::Keyword,
             insert_text: keyword,

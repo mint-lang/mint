@@ -127,7 +127,7 @@ module Mint
       end
     end
 
-    HEADINGS = %w(h1 h2 h3 h4 h5 h6)
+    HEADINGS = %w[h1 h2 h3 h4 h5 h6]
 
     getter stack : Array(Node) = [] of Node
 

@@ -1,9 +1,9 @@
 module Mint
   class TypeChecker
     RESERVED =
-      %w(break case class const continue debugger default do else
+      %w[break case class const continue debugger default do else
         export extends for if import in instanceof new return super
-        switch throw typeof var while yield)
+        switch throw typeof var while yield]
 
     def check(node : Ast::Variable) : Checkable
       if node.value == "void"

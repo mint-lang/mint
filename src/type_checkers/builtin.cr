@@ -1,9 +1,9 @@
 module Mint
   class TypeChecker
-    EXPOSED_BUILTINS = %w(
+    EXPOSED_BUILTINS = %w[
       decodeBoolean decodeNumber decodeString decodeArray decodeField decodeMaybe
       decodeTime locale normalizeEvent createPortal testContext testRender
-      setLocale navigate compare nothing just err ok inspect href)
+      setLocale navigate compare nothing just err ok inspect href]
 
     def check(node : Ast::Builtin) : Checkable
       error! :unkown_builtin do

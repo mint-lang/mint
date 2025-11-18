@@ -52,8 +52,8 @@ module Mint
       @xml.raw(contents)
     end
 
-    {% for tag in %w(html head body meta link pre code noscript div span h1 h2
-                    h3 title aside article nav strong) %}
+    {% for tag in %w[html head body meta link pre code noscript div span h1 h2
+                    h3 title aside article nav strong] %}
       def {{ tag.id }}(**attributes)
         @xml.element("{{ tag.id }}", **attributes)
       end
