@@ -2,14 +2,14 @@ require "./spec_helper"
 
 describe Mint::StyleBuilder do
   it "builds simple styles with css prefix" do
-    example = <<-MINT
+    example = <<-'MINT'
       style test {
         div, p {
           background: red;
 
           span, strong {
             pre {
-              color: \#{"red"};
+              color: #{"red"};
             }
           }
 
@@ -46,7 +46,7 @@ describe Mint::StyleBuilder do
           @media (print) {
             div, p {
               color: black;
-              border-radius: \#{10}px;
+              border-radius: #{10}px;
             }
           }
         }
