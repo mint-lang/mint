@@ -3,8 +3,7 @@ require "../spec_helper"
 describe Mint::Ast::Node do
   context "#contains?" do
     it "checks if the location is contained within the node" do
-      example =
-        <<-MINT
+      example = <<-MINT
         component Test {
           fun render : Html {
             <div></div>

@@ -2,56 +2,55 @@ require "./spec_helper"
 
 describe Mint::StyleBuilder do
   it "builds simple styles with css prefix" do
-    example =
-      <<-MINT
-        style test {
-          div, p {
-            background: red;
+    example = <<-MINT
+      style test {
+        div, p {
+          background: red;
 
-            span, strong {
-              pre {
-                color: \#{"red"};
-              }
+          span, strong {
+            pre {
+              color: \#{"red"};
             }
+          }
 
-            span, strong {
-              pre {
-                background: white;
+          span, strong {
+            pre {
+              background: white;
 
-                @media (screen) {
-                  color: blue;
+              @media (screen) {
+                color: blue;
 
-                  a {
-                    border: 1px solid red;
-                  }
+                a {
+                  border: 1px solid red;
                 }
               }
             }
           }
+        }
 
-          @media (screen) {
-            div, p {
-              font-size: 30px;
+        @media (screen) {
+          div, p {
+            font-size: 30px;
 
-              if (true) {
-                color: red;
-              }
-            }
-          }
-
-          @media (screen) {
-            div, p {
-              color: blue;
-            }
-
-            @media (print) {
-              div, p {
-                color: black;
-                border-radius: \#{10}px;
-              }
+            if (true) {
+              color: red;
             }
           }
         }
+
+        @media (screen) {
+          div, p {
+            color: blue;
+          }
+
+          @media (print) {
+            div, p {
+              color: black;
+              border-radius: \#{10}px;
+            }
+          }
+        }
+      }
       MINT
 
     parser =
@@ -68,8 +67,7 @@ describe Mint::StyleBuilder do
   end
 
   it "optimizes class names if optimize is set" do
-    example =
-      <<-MINT
+    example = <<-MINT
         style test {
           div {
             background: red;

@@ -29,11 +29,11 @@ describe "Repository" do
         repository = Mint::Installer::Repository.new("name", "success")
 
         message = <<-MESSAGE
-        ░ ERROR (REPOSITORY_NO_MINT_JSON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+          ░ ERROR (REPOSITORY_NO_MINT_JSON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-        I could not find the mint.json for the package: name (success) for the version
-        or tag: master
-        MESSAGE
+          I could not find the mint.json for the package: name (success) for the version
+          or tag: master
+          MESSAGE
 
         begin
           repository.json("master")
@@ -48,18 +48,18 @@ describe "Repository" do
       repository = Mint::Installer::Repository.new("name", "error")
 
       message = <<-MESSAGE
-      ░ ERROR (REPOSITORY_COULD_NOT_GET_VERSIONS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_COULD_NOT_GET_VERSIONS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      I could not get the tags of the repository: error
+        I could not get the tags of the repository: error
 
-      The error I got from the git command is this:
+        The error I got from the git command is this:
 
-      0.1.0
-      0.2.0
+        0.1.0
+        0.2.0
 
-      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
-      state, and then try again.
-      MESSAGE
+        Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+        state, and then try again.
+        MESSAGE
 
       begin
         repository.versions
@@ -73,14 +73,14 @@ describe "Repository" do
       repository = Mint::Installer::Repository.new("name", "error")
 
       message = <<-MESSAGE
-      ░ ERROR (REPOSITORY_COULD_NOT_CHECKOUT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_COULD_NOT_CHECKOUT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      I could not checkout the version or tag: master of the repository: error
+        I could not checkout the version or tag: master of the repository: error
 
-      The error I got from the git command is this:
+        The error I got from the git command is this:
 
-      checked out
-      MESSAGE
+        checked out
+        MESSAGE
 
       begin
         repository.checkout("master")
@@ -94,17 +94,17 @@ describe "Repository" do
       FileUtils.rm_rf("#{tmp_dir}/cb5e100e5a9a3e7f6d1fd97512215282")
 
       message = <<-MESSAGE
-      ░ ERROR (REPOSITORY_COULD_NOT_CLONE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_COULD_NOT_CLONE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      I could not clone the repository: error
+        I could not clone the repository: error
 
-      The error I got from the git command is this:
+        The error I got from the git command is this:
 
-      cloned
+        cloned
 
-      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
-      state, and then try again.
-      MESSAGE
+        Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+        state, and then try again.
+        MESSAGE
 
       begin
         Mint::Installer::Repository.open("name", "error")
@@ -118,17 +118,17 @@ describe "Repository" do
       FileUtils.mkdir_p("#{tmp_dir}/cb5e100e5a9a3e7f6d1fd97512215282")
 
       message = <<-MESSAGE
-      ░ ERROR (REPOSITORY_COULD_NOT_UPDATE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░ ERROR (REPOSITORY_COULD_NOT_UPDATE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      I could not update the repository: error
+        I could not update the repository: error
 
-      The error I got from the git command is this:
+        The error I got from the git command is this:
 
-      fetched
+        fetched
 
-      Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
-      state, and then try again.
-      MESSAGE
+        Hint: Run  mint tool clean; mint tool clean --package-cache  to reset local
+        state, and then try again.
+        MESSAGE
 
       begin
         Mint::Installer::Repository.open("name", "error")

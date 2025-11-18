@@ -25,8 +25,8 @@ module Mint
                     end
 
                 <<-MINT
-              #{name}(#{parameters.join(", ")})
-              MINT
+                  #{name}(#{parameters.join(", ")})
+                  MINT
               end
 
             LSP::CompletionItem.new(

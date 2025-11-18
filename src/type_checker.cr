@@ -136,8 +136,7 @@ module Mint
           "#{key} : #{value.to_mint}"
         end.indent
 
-      contents =
-        <<-MINT
+      contents = <<-MINT
         type #{name} {
         #{compiled_fields}
         }

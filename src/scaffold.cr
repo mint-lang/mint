@@ -27,8 +27,7 @@ module Mint
     # Writes the files of the project.
     private def write_files
       if bare?
-        main =
-          <<-MAIN
+        main = <<-MAIN
           component Main {
             fun render : Html {
               <></>
