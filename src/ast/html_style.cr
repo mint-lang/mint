@@ -12,7 +12,7 @@ module Mint
                      @name : Variable)
       end
 
-      # NOTE: This is here to provide compatiblity for calls (functions)...
+      # NOTE: This is here to provide compatibility for calls (functions)...
       def await
         nil
       end

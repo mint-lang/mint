@@ -3,16 +3,15 @@ require "../spec_helper"
 module Mint
   class Compiler
     describe VDOMRenderer do
-      html_block =
-        <<-HTML
-    <table>
-      <tr>
-        <td>
-               hi
-        </td>
-      </tr>
-    </table>
-    HTML
+      html_block = <<-HTML
+        <table>
+          <tr>
+            <td>
+                  hi
+            </td>
+          </tr>
+        </table>
+        HTML
 
       [
         {"**strong**", "A('p', {}, [A('strong', {}, [`strong`])])"},
@@ -32,66 +31,66 @@ module Mint
         {
           "foo\nbaz",
           <<-TEXT
-      A('p', {}, [
-        `foo`,
-        `\n`,
-        `baz`
-      ])
-      TEXT
+            A('p', {}, [
+              `foo`,
+              `\n`,
+              `baz`
+            ])
+            TEXT
         },
         {
           "foo\\\nbar",
           <<-TEXT
-      A('p', {}, [
-        `foo`,
-        A('br', {}, []),
-        `bar`
-      ])
-      TEXT
+            A('p', {}, [
+              `foo`,
+              A('br', {}, []),
+              `bar`
+            ])
+            TEXT
         },
         {
           "```html\ncode\n```",
           <<-TEXT
-      A('pre', {}, [A('code', {
-        class: "language-html"
-      }, [`code`])])
-      TEXT
+            A('pre', {}, [A('code', {
+              class: "language-html"
+            }, [`code`])])
+            TEXT
         },
         {
           "* item 1\n* item 2",
           <<-TEXT
-      A('ul', {}, [
-        A('li', {}, [`item 1`]),
-        A('li', {}, [`item 2`])
-      ])
-      TEXT
+            A('ul', {}, [
+              A('li', {}, [`item 1`]),
+              A('li', {}, [`item 2`])
+            ])
+            TEXT
         },
         {
           "[link](url)",
           <<-TEXT
-      A('p', {}, [A('a', {
-        href: "url"
-      }, [`link`])])
-      TEXT
+            A('p', {}, [A('a', {
+              href: "url"
+            }, [`link`])])
+            TEXT
         },
         {
           "![alt](url)",
           <<-TEXT
-      A('p', {}, [A('img', {
-        src: "url",
-        alt: "alt"
-      }, [])])
-      TEXT
+            A('p', {}, [A('img', {
+              src: "url",
+              alt: "alt"
+            }, [])])
+            TEXT
         },
         {
           "<del>*foo*</del>",
           <<-TEXT
-      A('p', {}, [
-        `<del>`,
-        A('em', {}, [`foo`]),
-        `</del>`
-      ])
-      TEXT
+            A('p', {}, [
+              `<del>`,
+              A('em', {}, [`foo`]),
+              `</del>`
+            ])
+            TEXT
         },
       ].each do |(markdown, expected)|
         context markdown do

@@ -1,4 +1,4 @@
-/* A data structure for the mutation obeservers entry. */
+/* A data structure for the mutation observers entry. */
 type MutationObserver.Entry {
   target : Dom.Element,
   type : String

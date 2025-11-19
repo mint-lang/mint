@@ -134,7 +134,7 @@ module Mint
 
         error! :component_multiple_providers do
           block do
-            text "You are subcribing to the provider"
+            text "You are subscribing to the provider"
             bold %("#{other.provider.value}")
             text "in a component multiple times."
           end

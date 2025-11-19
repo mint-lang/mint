@@ -81,7 +81,7 @@ module Mint
                 .sort_by!(&.from)
                 .map do |item|
                   proc =
-                    (Proc(String, String).new { |name|
+                    (Proc(String, String).new do |name|
                       variable =
                         variable_name name, selector
 
@@ -89,7 +89,7 @@ module Mint
                       selector[name].variable = variable
 
                       variable
-                    }).as(Proc(String, String)?)
+                    end).as(Proc(String, String)?)
 
                   case item
                   when Ast::If, Ast::Case
@@ -161,7 +161,7 @@ module Mint
               .sort_by!(&.from.offset)
               .map do |item|
                 proc =
-                  (Proc(String, String).new { |name|
+                  (Proc(String, String).new do |name|
                     variable =
                       variable_name name, selector
 
@@ -169,7 +169,7 @@ module Mint
                     selector[name].variable = variable
 
                     variable
-                  }).as(Proc(String, String)?)
+                  end).as(Proc(String, String)?)
 
                 case item
                 when Ast::If, Ast::Case

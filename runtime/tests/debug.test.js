@@ -67,7 +67,7 @@ test("inspecting array", () => {
   expect(inspect(["Hello", "World!"])).toBe(`["Hello", "World!"]`);
 });
 
-test("inspecting unkown", () => {
+test("inspecting unknown", () => {
   expect(inspect(Symbol("WTF"))).toBe(`{ Symbol(WTF) }`);
 });
 

@@ -52,14 +52,14 @@ module Mint
       @xml.raw(contents)
     end
 
-    {% for tag in %w(html head body meta link pre code noscript div span h1 h2
-                    h3 title aside article nav strong) %}
-      def {{tag.id}}(**attributes)
-        @xml.element("{{tag.id}}", **attributes)
+    {% for tag in %w[html head body meta link pre code noscript div span h1 h2
+                    h3 title aside article nav strong] %}
+      def {{ tag.id }}(**attributes)
+        @xml.element("{{ tag.id }}", **attributes)
       end
 
-      def {{tag.id}}(**attributes)
-        @xml.element("{{tag.id}}", **attributes) do
+      def {{ tag.id }}(**attributes)
+        @xml.element("{{ tag.id }}", **attributes) do
           with self yield
         end
       end

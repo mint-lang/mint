@@ -1,6 +1,6 @@
 module Mint
   # This module contains helper functions which are used in many parts of the
-  # process (parser, compiler, type checker, ect...).
+  # process (parser, compiler, type checker, etc...).
   module Helpers
     def owns?(node : Ast::Node, parent : Ast::Node) : Bool
       case parent

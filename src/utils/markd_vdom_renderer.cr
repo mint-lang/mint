@@ -24,7 +24,7 @@ module Mint
       js : Compiler::Js,
     ) : Compiler::Compiled
       render(
-        node: self.new.render(document, separator, highlight),
+        node: new.render(document, separator, highlight),
         replacements: replacements,
         separator: separator,
         js: js)
@@ -38,7 +38,7 @@ module Mint
       separator : String,
     )
       root =
-        self.new.render(document, separator, highlight)
+        new.render(document, separator, highlight)
 
       processor = uninitialized Node | String, HtmlBuilder -> Nil
       processor = ->(node : Node | String, builder : HtmlBuilder) do
@@ -127,7 +127,7 @@ module Mint
       end
     end
 
-    HEADINGS = %w(h1 h2 h3 h4 h5 h6)
+    HEADINGS = %w[h1 h2 h3 h4 h5 h6]
 
     getter stack : Array(Node) = [] of Node
 
@@ -143,7 +143,7 @@ module Mint
         node, entering = event
 
         # If we are in a list we don't add a <p> tag if all the list
-        # items have only one paragraph (that what "thight" is).
+        # items have only one paragraph (that's what "tight" is).
         next if (grand_parent = node.parent?.try &.parent?) &&
                 node.type == Markd::Node::Type::Paragraph &&
                 grand_parent.type.list? &&

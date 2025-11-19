@@ -60,7 +60,7 @@ module Mint
           end
         else
           error! :call_with_mixed_arguments do
-            block "A call cannot have named and unamed arguments at the same " \
+            block "A call cannot have named and unnamed arguments at the same " \
                   "time because in specific cases I cannot pair the arguments " \
                   "with the values."
 

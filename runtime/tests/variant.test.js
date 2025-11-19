@@ -6,7 +6,7 @@ const TestEnum2 = variant(2);
 const TestEnum = variant(0);
 
 describe("equality", () => {
-  test("same intance equals true", () => {
+  test("same instance equals true", () => {
     expect(compare(new TestEnum(), new TestEnum())).toEqual(true);
   });
 

@@ -4,9 +4,9 @@ path = "./spec/examples/**/*"
 example = nil
 
 ENV["EXAMPLE"]?.try do |item|
-  splitted = item.split(':', 2)
-  path = splitted[0]
-  example = splitted[1]?
+  split = item.split(':', 2)
+  path = split[0]
+  example = split[1]?
 end
 
 Dir

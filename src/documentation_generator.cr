@@ -1,6 +1,6 @@
 module Mint
-  # This module contains funcions for generating JSON compatible
-  # API documentation of souce code. It uses a unfified sutructure for
+  # This module contains functions for generating JSON compatible
+  # API documentation of source code. It uses a unfified sutructure for
   # entities and top-level entities.
   #
   # It is used in two places currently:

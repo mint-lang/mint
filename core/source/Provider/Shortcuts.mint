@@ -27,7 +27,7 @@ component Main {
     shortcuts:
       [
         {
-          action: () { Window.alert("Shotcut pressed!") },
+          action: () { Window.alert("Shortcut pressed!") },
           shortcut: [Html.Event.CTRL, Html.Event.G],
           condition: () { true },
           bypassFocused: false

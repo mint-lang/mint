@@ -10,7 +10,7 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (CALL_WITH_MIXED_ARGUMENTS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-A call cannot have named and unamed arguments at the same time because in
+A call cannot have named and unnamed arguments at the same time because in
 specific cases I cannot pair the arguments with the values.
 
 The call in question is here:

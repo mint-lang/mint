@@ -1,6 +1,6 @@
 ---------------------------------------------------------provider_expected_name
 provider
--------------------------------------------------------provider_expeceted_colon
+--------------------------------------------------------provider_expected_colon
 provider Test
 -------------------------------------------------provider_expected_subscription
 provider Test :

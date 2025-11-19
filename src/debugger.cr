@@ -44,7 +44,7 @@ module Mint
       when Ast::Variable
         "#{name}(#{x.value})"
       when Ast::Function, Ast::Constant, Ast::Get, Ast::State, Ast::Property
-        pn =
+        on =
           case y = x.parent
           when Ast::Component, Ast::Module, Ast::Store, Ast::Provider
             y.name.value
@@ -52,7 +52,7 @@ module Mint
             ""
           end
 
-        "#{pn}.#{x.name.value}"
+        "#{on}.#{x.name.value}"
       else
         name
       end

@@ -20,7 +20,7 @@ There should be a default value for the children property:
 
 The property in question is here:
 
-   ┌ errors/property_children_default_requried:2:3
+   ┌ errors/property_children_default_required:2:3
    ├──────────────────────────────────────────────
   1│ component Test {
   2│   property children : Array(Html)

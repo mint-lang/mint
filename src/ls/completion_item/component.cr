@@ -44,23 +44,23 @@ module Mint
           case attributes.size
           when .> 3
             <<-MINT
-            <#{node.name.value}
-              #{attributes.join("\n  ")}>
-              $0
-            </#{node.name.value}>
-            MINT
+              <#{node.name.value}
+                #{attributes.join("\n  ")}>
+                $0
+              </#{node.name.value}>
+              MINT
           when .> 0
             <<-MINT
-            <#{node.name.value} #{attributes.join(" ")}>
-              $0
-            </#{node.name.value}>
-            MINT
+              <#{node.name.value} #{attributes.join(" ")}>
+                $0
+              </#{node.name.value}>
+              MINT
           else
             <<-MINT
-            <#{node.name.value}>
-              $0
-            </#{node.name.value}>
-            MINT
+              <#{node.name.value}>
+                $0
+              </#{node.name.value}>
+              MINT
           end
 
         LSP::CompletionItem.new(

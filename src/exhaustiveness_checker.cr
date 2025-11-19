@@ -1,21 +1,21 @@
 module ExhaustivenessChecker
   # Like the `record` macro but for classes.
   macro variant(name, *properties, **kwargs)
-    class {{name.id}}
+    class {{ name.id }}
       {% for property in properties %}
         {% if property.is_a?(Assign) %}
-          getter {{property.target.id}}
+          getter {{ property.target.id }}
         {% elsif property.is_a?(TypeDeclaration) %}
-          getter {{property}}
+          getter {{ property }}
         {% else %}
-          getter :{{property.id}}
+          getter :{{ property.id }}
         {% end %}
       {% end %}
 
-      def initialize({{properties.map { |field| "@#{field.id}".id }.splat}})
+      def initialize({{ properties.map { |field| "@#{field.id}".id }.splat }})
       end
 
-      {{yield}}
+      {{ yield }}
     end
   end
 
@@ -71,7 +71,7 @@ module ExhaustivenessChecker
 
   # DECISION -------------------------------------------------------------------
   #
-  # These are the possible values of leafs and the final match:
+  # These are the possible values of leaves and the final match:
   #
   # DSuccess - The pattern matched successfully, no missing or unused patterns.
   # DFailure - The pattern cannot be matched.
@@ -156,7 +156,7 @@ module ExhaustivenessChecker
   # that variable. A row may contain multiple columns, though this wouldn't be
   # exposed to the source language (it's an implementation detail)
   #
-  # `x` is the varaible, `Just(a)` is the pattern:
+  # `x` is the variable, `Just(a)` is the pattern:
   #
   #   case x {
   #     Just(a) => ...
@@ -799,7 +799,7 @@ module ExhaustivenessChecker
           .first
           .columns
           .map(&.variable)
-          .max_by { |variable| counts[variable.id]? || 0 }
+          .max_by { |var| counts[var.id]? || 0 }
 
       # We branch on the type name.
       case type = variable.type

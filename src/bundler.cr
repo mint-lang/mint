@@ -70,7 +70,7 @@ module Mint
 
       tests =
         if test_information = config.test
-          # Compile tests if there is configration for it.
+          # Compile tests if there is configuration for it.
           Logger.log "Compiling tests" do
             [
               compiler.test(**test_information),
@@ -200,7 +200,7 @@ module Mint
             if contents.empty?
               [] of Compiler::Compiled
             else
-              # Here we sort the compiled node by the order they are resovled, which
+              # Here we sort the compiled node by the order they are resolved, which
               # will prevent issues of one entity depending on others (like a const
               # depending on a function from a module).
               contents.sort_by! do |(node, id, _)|

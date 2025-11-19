@@ -3,7 +3,7 @@ module Mint
     # A server to use the LSP over websockets.
     class WebSocketServer < Server
       def initialize(@socket : HTTP::WebSocket, sandbox : Bool = false)
-        # We need these for compability with the server, they are not used.
+        # We need these for compatibility with the server, they are not used.
         @out = IO::Memory.new
         @in = IO::Memory.new
 

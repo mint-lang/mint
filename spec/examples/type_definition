@@ -50,14 +50,14 @@ type User {
   LoggedIn
   Guest
 } context User.Guest
-------------------------------------------------type_defintion_context_mismatch
+-----------------------------------------------type_definition_context_mismatch
 type User {
   name: String using "name",
   id: String
 } context {
   x: "Y"
 }
-------------------------------------------------type_defintion_context_mismatch
+-----------------------------------------------type_definition_context_mismatch
 type User {
   A
 } context {

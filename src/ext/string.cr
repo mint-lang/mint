@@ -1,5 +1,6 @@
 class String
   def uncolorize : String
+    # ameba:disable Style/RedundantSelf
     self
       .gsub(/[ \t]+$/m, "")
       .gsub(/\e\[(\d+;?)*m/, "")

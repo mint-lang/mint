@@ -277,7 +277,7 @@ module Mint
               {self.depth, [node.ends[0], padding] of Node}
 
             head_size =
-              self.size(head)
+              size(head)
 
             result =
               process(head)
@@ -321,7 +321,7 @@ module Mint
       # has new lines or not (used when rendering lists).
 
       def new_line?(nodes : Array(Processed))
-        nodes.any?(&->new_line?(Processed)) # ameba:disable Performance/AnyInsteadOfEmpty
+        nodes.any?(&->new_line?(Processed))
       end
 
       def new_line?(node : Processed)

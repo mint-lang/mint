@@ -6,12 +6,12 @@ component Main {
   }
 }
 --------------------------------------------------------------------------------
-░ ERROR (UNKOWN_BUILTIN) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░ ERROR (UNKNOWN_BUILTIN) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 There is no builtin with the name: wtf
 
-   ┌ errors/unkown_builtin:3:8
-   ├──────────────────────────
+   ┌ errors/unknown_builtin:3:8
+   ├───────────────────────────
   1│ component Main {
   2│   fun render : Html {
   3│     `#{%wtf%}`

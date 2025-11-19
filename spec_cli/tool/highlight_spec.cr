@@ -29,17 +29,17 @@ context "highlight" do
   end
 
   it "highlights file" do
-    expect_output ["tool", "highlight", "source/Main.mint"], <<-TEXT
+    expect_output ["tool", "highlight", "source/Main.mint"], <<-'MINT'
       // This is the component which gets rendered on the screen
       component Main {
         // Styles for the root element.
         style root {
-          background-image: url(\#{@asset(../assets/bottom-left.png)}),
-                            url(\#{@asset(../assets/bottom-center.png)}),
-                            url(\#{@asset(../assets/bottom-right.png)}),
-                            url(\#{@asset(../assets/top-left.png)}),
-                            url(\#{@asset(../assets/top-center.png)}),
-                            url(\#{@asset(../assets/top-right.png)});
+          background-image: url(#{@asset(../assets/bottom-left.png)}),
+                            url(#{@asset(../assets/bottom-center.png)}),
+                            url(#{@asset(../assets/bottom-right.png)}),
+                            url(#{@asset(../assets/top-left.png)}),
+                            url(#{@asset(../assets/top-center.png)}),
+                            url(#{@asset(../assets/top-right.png)});
 
           background-position: calc(100% + 15px) 100%, 50% 100%, -20px 100%,
                                -20px 0, 50% 0, calc(100% + 15px) 0;
@@ -105,27 +105,27 @@ context "highlight" do
 
               <div::footer>
                 @svg(../assets/logo.svg)
-                <small>"2018 - \#{Time.year(Time.now())}"</small>
+                <small>"2018 - #{Time.year(Time.now())}"</small>
               </div>
             </div>
           </div>
         }
       }
-      TEXT
+      MINT
   end
 
   it "highlights file (html)" do
-    expect_output ["tool", "highlight", "source/Main.mint", "--html"], <<-TEXT
+    expect_output ["tool", "highlight", "source/Main.mint", "--html"], <<-'MINT'
       <span class="comment">// This is the component which gets rendered on the screen</span>
       <span class="keyword">component</span> <span class="type">Main</span> {
         <span class="comment">// Styles for the root element.</span>
         <span class="keyword">style</span> <span class="variable">root</span> {
-          <span class="property">background-image</span>: url(\#{<span class="keyword">@asset</span>(../assets/bottom-left.png)}),
-                            url(\#{<span class="keyword">@asset</span>(../assets/bottom-center.png)}),
-                            url(\#{<span class="keyword">@asset</span>(../assets/bottom-right.png)}),
-                            url(\#{<span class="keyword">@asset</span>(../assets/top-left.png)}),
-                            url(\#{<span class="keyword">@asset</span>(../assets/top-center.png)}),
-                            url(\#{<span class="keyword">@asset</span>(../assets/top-right.png)});
+          <span class="property">background-image</span>: url(#{<span class="keyword">@asset</span>(../assets/bottom-left.png)}),
+                            url(#{<span class="keyword">@asset</span>(../assets/bottom-center.png)}),
+                            url(#{<span class="keyword">@asset</span>(../assets/bottom-right.png)}),
+                            url(#{<span class="keyword">@asset</span>(../assets/top-left.png)}),
+                            url(#{<span class="keyword">@asset</span>(../assets/top-center.png)}),
+                            url(#{<span class="keyword">@asset</span>(../assets/top-right.png)});
 
           <span class="property">background-position</span>: calc(100% + 15px) 100%, 50% 100%, -20px 100%,
                                -20px 0, 50% 0, calc(100% + 15px) 0;
@@ -191,13 +191,13 @@ context "highlight" do
 
               &lt;<span class="namespace">div</span>::footer&gt;
                 <span class="keyword">@svg</span>(../assets/logo.svg)
-                &lt;<span class="namespace">small</span>&gt;<span class="string">&quot;2018 -</span><span class="string"> \#{</span><span class="type">Time</span>.<span class="variable">year</span>(<span class="type">Time</span>.<span class="variable">now</span>())<span class="string">}&quot;</span>&lt;/<span class="namespace">small</span>&gt;
+                &lt;<span class="namespace">small</span>&gt;<span class="string">&quot;2018 -</span><span class="string"> #{</span><span class="type">Time</span>.<span class="variable">year</span>(<span class="type">Time</span>.<span class="variable">now</span>())<span class="string">}&quot;</span>&lt;/<span class="namespace">small</span>&gt;
               &lt;/<span class="namespace">div</span>&gt;
             &lt;/<span class="namespace">div</span>&gt;
           &lt;/<span class="namespace">div</span>&gt;
         }
       }
-      TEXT
+      MINT
   end
 
   it "missing file" do

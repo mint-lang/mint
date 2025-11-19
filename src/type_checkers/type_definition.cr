@@ -62,7 +62,7 @@ module Mint
             resolve(item)
           end
 
-        error! :type_defintion_context_mismatch do
+        error! :type_definition_context_mismatch do
           snippet "The context value of a type definition doesn't match the type!"
           expected definition_type, type
           snippet "The type definition is here:", node

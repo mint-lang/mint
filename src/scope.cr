@@ -2,10 +2,10 @@ module Mint
   # The class is responsible for keeping track of which variable is pointing to
   # which node.
   #
-  # The data strucutre is a tree where leafs are the levels of the child nodes
+  # The data structure is a tree where leaves are the levels of the child nodes
   # of an AST node and a level is a container for the possible targets.
   #
-  # When resolving a variable we travese it's tree upwards to find the target
+  # When resolving a variable we traverse it's tree upwards to find the target
   # which matches the value of the variable.
   class Scope
     # Represents a level for a node.

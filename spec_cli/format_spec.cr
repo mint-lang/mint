@@ -9,15 +9,13 @@ context "format" do
     FileUtils.rm_rf "source.mint"
   end
 
-  formatted_code =
-    <<-MINT
+  formatted_code = <<-MINT
     type Test {
       file : String
     }
     MINT
 
-  unformatted_code =
-    <<-MINT
+  unformatted_code = <<-MINT
     typeTest{file:String}
     MINT
 

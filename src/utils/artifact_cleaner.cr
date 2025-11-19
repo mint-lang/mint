@@ -8,7 +8,6 @@ module Mint
           %w[.mint dist]
         end
 
-      # ameba:disable Performance/AnyInsteadOfEmpty
       if artifacts.any?(&->Dir.exists?(String))
         artifacts.each do |artifact|
           Dir.safe_delete artifact do

@@ -10,7 +10,7 @@ module Test {
 
     case item {
       { name: name, age: 42 } => name
-      => "Unkown"
+      => "Unknown"
     }
   }
 }
@@ -27,7 +27,7 @@ module Test {
 
     case item {
       { name: name, age: 42 } => name
-      => "Unkown"
+      => "Unknown"
     }
   }
 }

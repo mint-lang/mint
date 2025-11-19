@@ -23,7 +23,7 @@ module Mint
           # because SublimeText LSP client freezes if there is no response.
           %w[]
         in Nil
-          %[]
+          %()
         end
       end
     end

@@ -9,20 +9,20 @@ module Mint
                  Variable | Encoder | Decoder | Asset | Deferred |
                  ContextProvider
 
-    # Represents an generated idetifier from the parts of the union type.
+    # Represents an generated identifier from the parts of the union type.
     alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
-    # Represents entites which are used in a program.
+    # Represents entities which are used in a program.
     alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
 
     # Represents a Preact signal (https://preactjs.com/guide/v10/signals/). Signals are treated
-    # differently from vaiables because we will need to access them using the `.value` accessor.
+    # differently from variables because we will need to access them using the `.value` accessor.
     record Signal, value : Ast::Node | Size
 
     # Represents an reference to a file

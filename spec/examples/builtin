@@ -5,7 +5,7 @@ component Main {
     <div></div>
   }
 }
-------------------------------------------------------------------unkown_builtin
+----------------------------------------------------------------unknown_builtin
 component Main {
   fun render : Html {
     `#{%wtf%}`

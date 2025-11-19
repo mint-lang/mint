@@ -136,8 +136,7 @@ module Mint
           "#{key} : #{value.to_mint}"
         end.indent
 
-      contents =
-        <<-MINT
+      contents = <<-MINT
         type #{name} {
         #{compiled_fields}
         }
@@ -259,7 +258,7 @@ module Mint
             end ||
               error! :recursion do
                 snippet "Recursion is only supported in specific cases " \
-                        "at this time. Unfortunatly here is not supported:", node
+                        "at this time. Unfortunately here is not supported:", node
                 snippet "The previous step in the recursion was here:", @stack.last
               end
           else

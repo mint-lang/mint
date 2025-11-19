@@ -94,7 +94,7 @@ module Mint
           block do
             text "The"
             bold "repository"
-            text "field of a depencency must be an string, but it's not:"
+            text "field of a dependency must be an string, but it's not:"
           end
 
           snippet snippet_data
@@ -151,7 +151,7 @@ module Mint
           block do
             text "The"
             bold "constraint"
-            text "field of a depencency must be an string, but it's not:"
+            text "field of a dependency must be an string, but it's not:"
           end
 
           snippet snippet_data

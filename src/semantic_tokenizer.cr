@@ -95,7 +95,7 @@ module Mint
         next parts if ast.nodes.empty?
 
         tokenizer =
-          self.new.tap(&.tokenize(ast))
+          new.tap(&.tokenize(ast))
 
         contents =
           ast.nodes.first.file.contents
