@@ -9,7 +9,7 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (COMPONENT_MULTIPLE_PROVIDERS) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-You are subcribing to the provider "Provider" in a component multiple times.
+You are subscribing to the provider "Provider" in a component multiple times.
 
 A subscription is here:
 

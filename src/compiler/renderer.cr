@@ -11,7 +11,7 @@ module Mint
       # The bundles which we use to get their filename.
       getter bundles : Hash(Set(Ast::Node) | Bundle, Set(Ast::Node))
 
-      # A method to get the deffered path of a bundle.
+      # A method to get the deferred path of a bundle.
       getter deferred_path : Proc(Set(Ast::Node) | Bundle, String)
 
       # A method to get the path of an asset.
@@ -125,7 +125,7 @@ module Mint
         in Function
           render(item.value, io)
         in Signal
-          # Signals are special becuse we need to use the `.value` accessor.
+          # Signals are special because we need to use the `.value` accessor.
           append(io, "#{pool.of(item.value, base)}.value")
         in Size
           append(io, pool.of(item, base))

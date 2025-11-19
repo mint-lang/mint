@@ -8,7 +8,7 @@ module Mint
   #
   class Workspace
     # The current artifacts of the program or the current error.
-    getter result : TypeChecker | Error = Error.new(:unitialized_workspace)
+    getter result : TypeChecker | Error = Error.new(:uninitialized_workspace)
 
     # Stores the AST (or error) of the file at the given path.
     @cache : Hash(String, Ast | Error) = {} of String => Ast | Error

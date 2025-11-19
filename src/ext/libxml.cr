@@ -1,4 +1,4 @@
-# These add support for writing raw text when builing XML.
+# These add support for writing raw text when building XML.
 lib LibXML
   fun xmlTextWriterWriteRaw(TextWriter, content : UInt8*) : Int
 end

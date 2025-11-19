@@ -14,7 +14,7 @@ module Mint
         end unless name = id
         whitespace
 
-        next error :provider_expeceted_colon do
+        next error :provider_expected_colon do
           expected "the colon of a provider", word
           snippet self
         end unless char! ':'

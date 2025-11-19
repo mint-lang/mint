@@ -49,7 +49,7 @@ module Mint
       error! :property_with_type_variables do
         block "The type of a property contains type variables. Type " \
               "variables in properties are not allow at this time since " \
-              "that would make the compoennt generic and it is not " \
+              "that would make the component generic and it is not " \
               "supported this time."
 
         snippet "The type is:", final

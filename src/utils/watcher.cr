@@ -1,5 +1,5 @@
 module Mint
-  # A class for detecting changes to a set of sepcific files (sepcifically
+  # A class for detecting changes to a set of specific files (specifically
   # `*.mint`, `.env` and `mint.json`).
   class Watcher
     @patterns : Array(String) = [] of String

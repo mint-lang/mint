@@ -88,7 +88,7 @@ module Mint
             bold "else branch."
           end
 
-          block "The elese branch can only be omitted if the truthy branch returns one of:"
+          block "The else branch can only be omitted if the truthy branch returns one of:"
           snippet VALID_IF_TYPES.map(&.to_pretty).join("\n")
           block "but it returns"
           snippet truthy

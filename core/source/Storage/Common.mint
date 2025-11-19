@@ -83,7 +83,7 @@ module Storage.Common {
     `
   }
 
-  /* Returns alll the keys in the storage. */
+  /* Returns all the keys in the storage. */
   fun keys (storage : Storage) : Result(Storage.Error, Array(String)) {
     `
     (() => {

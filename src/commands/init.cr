@@ -6,7 +6,7 @@ module Mint
       define_help description: "Initializes a new project."
 
       define_flag bare : Bool,
-        description: "If speficied, an empty project will be generated.",
+        description: "If specified, an empty project will be generated.",
         default: false
 
       define_argument name,

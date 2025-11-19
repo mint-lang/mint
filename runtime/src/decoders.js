@@ -13,7 +13,7 @@ const format = (value) => {
 };
 
 // A class to keep the errors when decoding. It keeps track of the path
-// to the nested objects for reporting purpuses.
+// to the nested objects for reporting purposes.
 export class Error {
   constructor(message, path = []) {
     this.message = message;
@@ -150,7 +150,7 @@ export const decodeString = (ok, err) => (input) => {
 };
 
 // Decodes `Time` either a UNIX timestamp or any values that the
-// environment can parse with the `Date` construtor.
+// environment can parse with the `Date` constructor.
 export const decodeTime = (ok, err) => (input) => {
   let parsed = NaN;
 

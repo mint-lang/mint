@@ -14,8 +14,8 @@ component Main {
 --------------------------------------------------------------------------------
 ░ ERROR (RECURSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-Recursion is only supported in specific cases at this time. Unfortunatly here is
-not supported:
+Recursion is only supported in specific cases at this time. Unfortunately here
+is not supported:
 
    ┌ errors/recursion:2:3
    ├────────────────────────────────────────

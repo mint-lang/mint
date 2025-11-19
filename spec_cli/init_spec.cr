@@ -17,7 +17,7 @@ context "init" do
       Initializes a new project.
 
       Flags:
-        --bare  # If speficied, an empty project will be generated.
+        --bare  # If specified, an empty project will be generated.
         --help  # Displays help for the current command.
 
       Arguments:

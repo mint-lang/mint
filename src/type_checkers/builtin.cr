@@ -6,7 +6,7 @@ module Mint
       setLocale navigate compare nothing just err ok inspect href]
 
     def check(node : Ast::Builtin) : Checkable
-      error! :unkown_builtin do
+      error! :unknown_builtin do
         block do
           text "There is no builtin with the name:"
           bold node.value

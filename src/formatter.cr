@@ -35,9 +35,9 @@ module Mint
     record NestedString, items : Array(String | Nodes), indentation : Int32
 
     # Describes a broken string ("Hello" \ "There") and contains logic to
-    # break the string just so that it fits with the maxmimum column length.
-    # It tries to break by words but will break words that doens't fit in the
-    # remaning column width.
+    # break the string just so that it fits with the maximum column length.
+    # It tries to break by words but will break words that doesn't fit in the
+    # remaining column width.
     record BrokenString, items : Array(String | Nodes)
 
     # Describes a list that is formatted like so:
@@ -56,22 +56,22 @@ module Mint
     #
     # `BreakAll`:
     #
-    # - If the whole group fits in the remaning space in the line (current
+    # - If the whole group fits in the remaining space in the line (current
     #   cursor position plus the size of the group) it will use a space as a
-    #   delimeter.
+    #   delimiter.
     #
-    # - Otherwise the delimeter will include a line-break and the nodes will be
-    #   layed out in separate lines indented by an extra level. The start
+    # - Otherwise the delimiter will include a line-break and the nodes will be
+    #   laid out in separate lines indented by an extra level. The start
     #   character is on the original line and the end character in it's own
     #   extra line.
     #
     # `BreakNotFits`:
     #
-    # - If the whole group fits in the remaning space in the line (current
+    # - If the whole group fits in the remaining space in the line (current
     #   cursor position plus the size of the group) it will use a space as a
-    #   delimeter.
+    #   delimiter.
     #
-    # - Otherwise the elements that would not extend beyong the current line
+    # - Otherwise the elements that would not extend beyond the current line
     #   are broken down into a new indented line and so forth...
     #
     # `Block`:
@@ -136,7 +136,7 @@ module Mint
       [Group.new(**params)] of Node
     end
 
-    # Actuall formatting things as strings...
+    # Actually formatting things as strings...
 
     def format!(*args, **named) : String
       Renderer.render(format(*args, **named), config)

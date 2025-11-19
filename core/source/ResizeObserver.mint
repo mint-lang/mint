@@ -1,4 +1,4 @@
-/* A data structure for the resize obeservers entry. */
+/* A data structure for the resize observers entry. */
 type ResizeObserver.Entry {
   dimensions : Dom.Dimensions,
   target : Dom.Element

@@ -1,6 +1,6 @@
 module Mint
   class Compiler
-    # This class is resposible for creating a tree of JS code.
+    # This class is responsible for creating a tree of JS code.
     class Js
       # Whether or not to optimize the output.
       getter? optimize : Bool = false

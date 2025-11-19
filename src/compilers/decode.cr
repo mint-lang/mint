@@ -12,7 +12,7 @@ module Mint
           when "Result"
             type.parameters.last
           else
-            unreachable! "Unkown decoder for type: #{type.name}!"
+            unreachable! "Unknown decoder for type: #{type.name}!"
           end
 
         code =

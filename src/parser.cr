@@ -280,7 +280,7 @@ module Mint
 
       loop do
         # Using parse here will not consume the whitespace if
-        # the parsing is not successfull.
+        # the parsing is not successful.
         item = parse(track: false) do
           # Consume whitespace
           whitespace if parse_whitespace

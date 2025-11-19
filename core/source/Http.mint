@@ -164,7 +164,7 @@ store Http {
   }
 
   /*
-  Checks the prescence of a header with the key.
+  Checks the presence of a header with the key.
 
     Http.empty()
     |> Http.header("Content-Type", "application/json")

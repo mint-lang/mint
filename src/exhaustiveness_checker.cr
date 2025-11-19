@@ -71,7 +71,7 @@ module ExhaustivenessChecker
 
   # DECISION -------------------------------------------------------------------
   #
-  # These are the possible values of leafs and the final match:
+  # These are the possible values of leaves and the final match:
   #
   # DSuccess - The pattern matched successfully, no missing or unused patterns.
   # DFailure - The pattern cannot be matched.
@@ -156,7 +156,7 @@ module ExhaustivenessChecker
   # that variable. A row may contain multiple columns, though this wouldn't be
   # exposed to the source language (it's an implementation detail)
   #
-  # `x` is the varaible, `Just(a)` is the pattern:
+  # `x` is the variable, `Just(a)` is the pattern:
   #
   #   case x {
   #     Just(a) => ...

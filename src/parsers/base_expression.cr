@@ -6,7 +6,7 @@ module Mint
       #
       # We are doing two big cases as an optimization: each parser can be used
       # standalone and will return nil if it can't parse, but limiting what can
-      # pe parsed avoids a lot of unneccesary cycles.
+      # pe parsed avoids a lot of unnecessary cycles.
       left =
         case char
         when '('

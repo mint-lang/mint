@@ -20,7 +20,7 @@ component Main {
 ░ ERROR (PROPERTY_WITH_TYPE_VARIABLES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 The type of a property contains type variables. Type variables in properties are
-not allow at this time since that would make the compoennt generic and it is not
+not allow at this time since that would make the component generic and it is not
 supported this time.
 
 The type is:

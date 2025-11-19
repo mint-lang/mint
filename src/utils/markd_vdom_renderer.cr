@@ -143,7 +143,7 @@ module Mint
         node, entering = event
 
         # If we are in a list we don't add a <p> tag if all the list
-        # items have only one paragraph (that what "thight" is).
+        # items have only one paragraph (that's what "tight" is).
         next if (grand_parent = node.parent?.try &.parent?) &&
                 node.type == Markd::Node::Type::Paragraph &&
                 grand_parent.type.list? &&

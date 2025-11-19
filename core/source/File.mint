@@ -217,7 +217,7 @@ module File {
   */
   fun fromUrl (url : String) : Promise(Maybe(File)) {
     let filename =
-      Array.last(String.split(Url.parse(url).path, "/")) or "unkown"
+      Array.last(String.split(Url.parse(url).path, "/")) or "unknown"
 
     `
     (async () => {

@@ -138,7 +138,7 @@ module Mint
         if found = substitutions[type.name]?
           found
         else
-          unreachable! "Cannot find substition for variable: #{type.name}"
+          unreachable! "Cannot find substitution for variable: #{type.name}"
         end
       end
     end
