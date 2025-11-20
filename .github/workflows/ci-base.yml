@@ -65,3 +65,6 @@ jobs:
 
       - name: Run ameba
         run: bin/ameba
+
+      - name: Check for typos
+        uses: crate-ci/typos@v1
