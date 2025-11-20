@@ -45,7 +45,7 @@ module Mint
         if definition = ast.type_definitions.find(&.name.value.==(type.name))
           case definition.fields
           in Array(Ast::TypeDefinitionField)
-            unreachable! "Tried to check if type #{type.to_mint} is decodeable!"
+            unreachable! "Tried to check if type #{type.to_mint} is decodable!"
           in Array(Ast::TypeVariant)
             definition_type =
               resolve(definition)

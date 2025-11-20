@@ -19,7 +19,7 @@ suite "SearchParams.get" {
     |> SearchParams.get("a")) == Maybe.just("b")
   }
 
-  test "returns nothig if key does not exists" {
+  test "returns nothing if key does not exists" {
     ("a=b&c=d"
     |> SearchParams.fromString()
     |> SearchParams.get("x")) == Maybe.nothing()

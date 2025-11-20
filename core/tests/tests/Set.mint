@@ -37,7 +37,7 @@ suite "Set.has" {
     |> Set.has(Maybe.just("value"))) == true
   }
 
-  test "it returns false if the itme does not exists in the set" {
+  test "it returns false if the item does not exists in the set" {
     (Set.empty()
     |> Set.has("x")) == false
   }

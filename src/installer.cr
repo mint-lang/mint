@@ -10,7 +10,7 @@ module Mint
     @dependencies =
       {} of Package => Hash(String, Constraint)
 
-    # This holds the elimiated packages, which package elminiated it
+    # This holds the eliminated packages, which package elminiated it
     # and with which constraint
     @eliminated =
       [] of Tuple(Package, Package, Constraint, String)
