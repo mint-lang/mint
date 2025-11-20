@@ -7,7 +7,7 @@ module Mint
   # bundles to construct. To do that we track back each node to it's root
   # node(s) through the links.
   #
-  # Asnyc components and deferred code got their on bundles
+  # Async components and deferred code got their on bundles
   # and any other code which is referenced from multiple sources will
   # get their own bundle.
   class ReferencesTracker

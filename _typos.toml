@@ -1,0 +1,24 @@
+[default]
+extend-ignore-re = [
+  # numeric literals
+  '0x[0-9a-fA-F_\.\+]+([fiu](8|16|32|64|128))?',
+  '\\u\{[0-9a-fA-F]+\}',
+  # words including a number are likely some kind of identifier
+  "[A-z]+[0-9]+",
+]
+
+[default.extend-words]
+iif = "iif"
+nd = "nd"
+
+[files]
+extend-exclude = [
+  # git and dependencies
+  ".git/**",
+  "lib/**",
+  # individual files to exclude
+  "src/assets/runtime.js",
+  "src/assets/runtime_test.js",
+  "core/source/Time/Languages/*.mint",
+  "!core/source/Time/Languages/English.mint",
+]

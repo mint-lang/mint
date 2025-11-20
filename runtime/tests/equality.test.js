@@ -227,11 +227,11 @@ describe("FormData", () => {
     expect(compare(a, null)).toBe(false);
   });
 
-  test("empty form datas are equal", () => {
+  test("empty form data objects are equal", () => {
     expect(compare(new FormData(), new FormData())).toBe(true);
   });
 
-  test("same data form datas are equal", () => {
+  test("same data form data objects are equal", () => {
     const a = new FormData();
     a.append("a", "a");
 
@@ -241,7 +241,7 @@ describe("FormData", () => {
     expect(compare(a, b)).toBe(true);
   });
 
-  test("different datas are not equal", () => {
+  test("different data objects are not equal", () => {
     const a = new FormData();
     a.append("a", "a");
 
@@ -251,7 +251,7 @@ describe("FormData", () => {
     expect(compare(a, b)).toBe(false);
   });
 
-  test("different datas are not equal", () => {
+  test("different data objects are not equal", () => {
     const a = new FormData();
     a.append("a", "b");
 
@@ -261,7 +261,7 @@ describe("FormData", () => {
     expect(compare(a, b)).toBe(false);
   });
 
-  test("same multiple data form datas are equal", () => {
+  test("same multiple data form data objects are equal", () => {
     const a = new FormData();
     a.append("a", "a");
     a.append("a", "b");
@@ -273,7 +273,7 @@ describe("FormData", () => {
     expect(compare(a, b)).toBe(true);
   });
 
-  test("same multiple data form datas with different order are equal", () => {
+  test("same multiple data form data objects with different order are equal", () => {
     const a = new FormData();
     a.append("a", "b");
     a.append("x", "y");
