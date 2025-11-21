@@ -54,7 +54,7 @@ module Mint
           expected value_type, type
 
           snippet "The record is here:", target_node
-        end unless Comparer.compare(type, value_type)
+        end unless Comparer.compare(value_type, type, expand: true)
       end
 
       target

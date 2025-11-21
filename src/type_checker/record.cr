@@ -53,19 +53,6 @@ module Mint
       def have_holes?
         fields.values.any?(&.have_holes?)
       end
-
-      def ==(other : Record)
-        self == other.fields
-      end
-
-      def ==(other : Hash(String, Checkable))
-        return false unless fields.size == other.size
-
-        other.all? do |key, type|
-          next false unless fields[key]?
-          !Comparer.compare(fields[key], type).nil?
-        end
-      end
     end
   end
 end

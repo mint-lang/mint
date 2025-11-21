@@ -1,0 +1,35 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type User {
+  age : Maybe(Number),
+  name : String,
+}
+
+component Main {
+  fun render {
+    { age: Just(32), name: "Joe" }
+
+    ""
+  }
+}
+------------------------------------record_not_found_matching_record_definition
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type User {
+  age : Nothing,
+  name : String,
+}
+
+component Main {
+  fun render {
+    { age: Maybe.Just(32), name: "Joe" }
+
+    ""
+  }
+}
