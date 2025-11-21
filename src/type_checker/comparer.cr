@@ -83,20 +83,24 @@ module Mint
           end
           node1
         when node2.is_a?(Variable)
-          unify(node2, node1, expand: false)
+          unify(node2, node1, expand: expand)
         when node1.is_a?(Record) && node2.is_a?(Type)
           raise "Not unified!" unless node1.name == node2.name
           node1
         when node2.is_a?(Record) && node1.is_a?(Type)
-          unify(node2, node1, expand: false)
+          unify(node2, node1, expand: expand)
         when node1.is_a?(Record) && node2.is_a?(Record)
-          raise "Not unified!" unless node1 == node2
+          raise "Not unified!" unless node1.fields.size == node2.fields.size
+          node1.fields.each do |key, type|
+            raise "Not unified!" unless node2.fields[key]?
+            unify(type, node2.fields[key], expand: expand)
+          end
           node1
         when node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name
             if node1.variants.size > 0 && node2.variants.size == 0 && expand
               if variant = node1.variants.find(&.name.==(node2.name))
-                unify(variant, node2, expand: false)
+                unify(variant, node2, expand: expand)
                 node1
               else
                 raise "Can't unify #{node1} with #{node2} no variant matches!"
@@ -108,7 +112,7 @@ module Mint
             raise "Can't unify #{node1} with #{node2} parameter size mismatch!"
           else
             node1.parameters.each_with_index do |item, index|
-              unify(item, node2.parameters[index], expand: false)
+              unify(item, node2.parameters[index], expand: expand)
             end
           end
           node1

@@ -119,7 +119,7 @@ module Mint
         snippet "The access in question is here:", node
       end unless new_target
 
-      if item = component_records.find(&.last.==(target))
+      if item = component_records.find { |_, value| Comparer.compare(value, target) }
         component, _ = item
 
         refs =
