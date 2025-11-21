@@ -30,7 +30,7 @@ jobs:
           sudo apt-get install libxml2-utils -y
 
       - name: Download source
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install dependencies
         run: shards install
