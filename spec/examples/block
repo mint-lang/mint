@@ -6,3 +6,39 @@ component Main {
     <span>"Hello"</span>
   }
 }
+
+
+-------------------------------------------------------------------------------
+type Maybe(value) {
+  Just(value)
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    {
+      let Just = Maybe.Just("hello") or return ""
+
+      `` as Promise(String)
+    }
+
+    ""
+  }
+}
+-------------------------------------------------statement_return_type_mismatch
+type Maybe(value) {
+  Just(value)
+  Nothing
+}
+
+component Main {
+  fun render : String {
+    {
+      let Just = Maybe.Just("hello") or return `` as Promise(String)
+
+      ""
+    }
+
+    ""
+  }
+}

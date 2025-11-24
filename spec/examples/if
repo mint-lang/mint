@@ -199,3 +199,33 @@ component Main {
     }
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Promise(Void) {
+    if true {
+      `` as Promise(Void)
+    } else {
+      Void
+    }
+  }
+
+  fun render : String {
+    test()
+    ""
+  }
+}
+-------------------------------------------------------------------------------
+component Main {
+  fun test : Promise(Void) {
+    if true {
+      Void
+    } else {
+      `` as Promise(Void)
+    }
+  }
+
+  fun render : String {
+    test()
+    ""
+  }
+}

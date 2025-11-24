@@ -78,7 +78,9 @@ module Mint
 
           snippet "The value for the else branch is here:",
             error_node.as(Ast::Node)
-        end unless Comparer.compare(truthy, falsy)
+        end unless resolved = Comparer.compare_as_promises(truthy, falsy)
+
+        resolved
       else
         error! :if_expected_else do
           block do
@@ -94,9 +96,9 @@ module Mint
           snippet truthy
           snippet node
         end unless Comparer.matches_any?(truthy, VALID_IF_TYPES)
-      end
 
-      truthy
+        truthy
+      end
     end
   end
 end

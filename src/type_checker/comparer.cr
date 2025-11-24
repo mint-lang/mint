@@ -7,6 +7,30 @@ module Mint
         targets.any? { |target| compare(node, target) }
       end
 
+      def compare_as_promises(node1, node2, *, first_only : Bool = false)
+        promise = false
+
+        if node1.name != node2.name &&
+           ((node1.name == "Promise" && node1.parameters.size == 1) ||
+           (node2.name == "Promise" && node2.parameters.size == 1 && !first_only))
+          node1 =
+            node1.parameters.first if node1.name == "Promise"
+
+          node2 =
+            node2.parameters.first if node2.name == "Promise" && !first_only
+
+          promise = true
+        end
+
+        compare(node1, node2).try do |resolved|
+          if promise
+            Type.new("Promise", [resolved] of Checkable)
+          else
+            resolved
+          end
+        end
+      end
+
       def compare(node1, node2, *, expand : Bool = false)
         prune(unify(fresh(prune(node1)), fresh(prune(node2)), expand: expand))
       rescue

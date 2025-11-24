@@ -283,3 +283,18 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case 0 {
+      0 => `` as Promise(Void)
+      1 => void
+      2 => `` as Promise(Void)
+      3 => void
+      4=> `` as Promise(Void)
+      => void
+    }
+
+    ""
+  }
+}

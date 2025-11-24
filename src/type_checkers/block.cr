@@ -65,7 +65,7 @@ module Mint
             snippet "I was expecting:", last
             snippet "The return call in question is here:", return_value
             snippet "The returned value of the block is here:", expressions.last
-          end unless Comparer.compare(last, type)
+          end unless Comparer.compare_as_promises(last, type, first_only: true)
         end
 
         if fallback = node.fallback
@@ -79,7 +79,7 @@ module Mint
             snippet "I was expecting:", last
             snippet "The fallback expression in question is here:", fallback
             snippet "The returned value of the block is here:", expressions.last
-          end unless Comparer.compare(last, type)
+          end unless Comparer.compare_as_promises(last, type, first_only: true)
         end
 
         if async.includes?(node) && last.name != "Promise"

@@ -224,7 +224,7 @@ module Mint
               resolve branch, condition
 
             unified_branch =
-              Comparer.compare(type, resolved)
+              Comparer.compare_as_promises(resolved, type)
 
             error! :case_branch_not_matches do
               block do
