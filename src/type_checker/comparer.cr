@@ -101,7 +101,6 @@ module Mint
             if node1.variants.size > 0 && node2.variants.size == 0 && expand
               if variant = node1.variants.find(&.name.==(node2.name))
                 unify(variant, node2, expand: expand)
-                node1
               else
                 raise "Can't unify #{node1} with #{node2} no variant matches!"
               end
@@ -115,6 +114,7 @@ module Mint
               unify(item, node2.parameters[index], expand: expand)
             end
           end
+
           node1
         else
           raise "Not unified!"
