@@ -23,7 +23,7 @@ component Main {
     ""
   }
 }
-------------------------------------------------type_defintion_context_mismatch
+-----------------------------------------------type_definition_context_mismatch
 type Value {
   Nothing
   Just
