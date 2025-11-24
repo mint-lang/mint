@@ -1,0 +1,17 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type User {
+  age : Maybe(Maybe(Number)),
+  name : String,
+}
+
+component Main {
+  fun render {
+    { age: Just(Just(32)), name: "Joe" }
+
+    ""
+  }
+}

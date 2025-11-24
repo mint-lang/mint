@@ -24,18 +24,18 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(0, `Maybe.Nothing`),
-  G = A(1, `Maybe.Just`),
+  F = A(1, `Just`),
+  G = A(0, `Nothing`),
   H = () => {
     const a = () => {
       return B(`span`, {}, [`Fallback`])
     };
-    const b = C(D(G)(``), E(G, [null]));
+    const b = C(D(F)(``), E(F, [null]));
     if (b === false) {
       return a()
     };
     const [] = b;
-    const c = C(D(G)(``), E(G, [null]));
+    const c = C(D(F)(``), E(F, [null]));
     if (c === false) {
       return a()
     };

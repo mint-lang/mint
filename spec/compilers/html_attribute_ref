@@ -18,8 +18,8 @@ import {
 } from "./runtime.js";
 
 export const
-  E = A(1, `Maybe.Just`),
-  F = A(0, `Maybe.Nothing`),
+  E = A(1, `Just`),
+  F = A(0, `Nothing`),
   G = () => {
     const a = B(new F());
     return C(`div`, {

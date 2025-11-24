@@ -50,7 +50,10 @@ module Mint
             destructuring(param, variables)
           end)
 
-        js.call(Builtin::Pattern, [[lookups[node][0]], items])
+        item =
+          lookups[node][0]
+
+        js.call(Builtin::Pattern, [tag(item, cache[item]), items])
       when Ast::Constant
         [item] of Item
       else

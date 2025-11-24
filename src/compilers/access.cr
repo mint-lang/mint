@@ -3,16 +3,16 @@ module Mint
     def compile(node : Ast::Access) : Compiled
       compile node do
         if items = variables[node]?
-          case items[0]
+          case item = items[0]
           when Ast::TypeVariant
             case type = cache[node]?
             when nil
               [] of Item
             else
               if type.name == "Function"
-                js.call(Builtin::NewVariant, [[items[0]] of Item] of Compiled)
+                js.call(Builtin::NewVariant, [tag(item, cache[item])] of Compiled)
               else
-                js.new(items[0], [] of Compiled)
+                js.new(tag(item, cache[item]), [] of Compiled)
               end
             end
           else

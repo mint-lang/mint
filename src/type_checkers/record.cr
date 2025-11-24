@@ -11,7 +11,9 @@ module Mint
           .to_h
 
       record =
-        records.find(&.==(fields))
+        records.find do |item|
+          Comparer.compare(item, Record.new("", fields), expand: true)
+        end
 
       record = create_record(fields) if should_create_record && !record
 

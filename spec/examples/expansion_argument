@@ -1,0 +1,35 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+module Expansion {
+  fun argument (a : Maybe(a) = Nothing) : Maybe(a) {
+    a
+  }
+}
+
+component Main {
+  fun render {
+    Expansion.argument()
+    ""
+  }
+}
+---------------------------------------------------------argument_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+module Expansion {
+  fun argument (a : Nothing = Maybe.Just("")) : Maybe(String) {
+    a
+  }
+}
+
+component Main {
+  fun render {
+    Expansion.argument()
+    ""
+  }
+}

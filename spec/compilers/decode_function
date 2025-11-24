@@ -27,8 +27,8 @@ import {
 } from "./runtime.js";
 
 export const
-  D = A(1, `Result.Err`),
-  E = A(1, `Result.Ok`),
+  D = A(1, `Err`),
+  E = A(1, `Ok`),
   a = B(`X.Y`, {
     blah: C(E, D)
   }, E, D),

@@ -28,8 +28,8 @@ import {
 } from "./runtime.js";
 
 export const
-  H = A(1, `Result.Err`),
-  I = A(1, `Result.Ok`),
+  H = A(1, `Err`),
+  I = A(1, `Ok`),
   a = B(`Test`, {
     string: C(I, H),
     number: D(I, H)

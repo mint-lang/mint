@@ -52,7 +52,7 @@ component Main {
     Test.b()
   }
 }
----------------------------------------------------------------variable_missing
+--------------------------------------------------------------access_not_record
 module Test {
   fun b : Function(String) {
     XTest.a

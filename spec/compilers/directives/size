@@ -43,8 +43,8 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(0, `Maybe.Nothing`),
-  G = A(1, `Maybe.Just`),
+  F = A(1, `Just`),
+  G = A(0, `Nothing`),
   a = (b) => {
     return undefined
   },
@@ -53,9 +53,9 @@ export const
   },
   H = () => {
     const
-      d = B(new F()),
+      d = B(new G()),
       e = C(d, a, c);
     return D(`div`, {
-      ref: E(d, G, F)
+      ref: E(d, F, G)
     }, [e.value.width])
   };

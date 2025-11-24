@@ -12,7 +12,7 @@ suite "Decode" {
 
   test "it decode simple variant" {
     let object =
-      `{ type: "EncodeTestVariants.Variant2" }`
+      `{ type: "Variant2" }`
 
     decode object as EncodeTestVariants == Result.Ok(
       EncodeTestVariants.Variant2)
@@ -20,7 +20,7 @@ suite "Decode" {
 
   test "it decodes complex variant" {
     let object =
-      `{ type: "EncodeTestVariants.Variant3", value: ["Joe", 42] }`
+      `{ type: "Variant3", value: ["Joe", 42] }`
 
     decode object as EncodeTestVariants == Result.Ok(
       EncodeTestVariants.Variant3("Joe", 42))
@@ -28,7 +28,7 @@ suite "Decode" {
 
   test "it decodes record variant" {
     let object =
-      `{ type: "EncodeTestVariants.Variant1", value: ["Joe", 42] }`
+      `{ type: "Variant1", value: ["Joe", 42] }`
 
     decode object as EncodeTestVariants == Result.Ok(
       EncodeTestVariants.Variant1("Joe", 42))

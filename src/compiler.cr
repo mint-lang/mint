@@ -7,16 +7,16 @@ module Mint
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Size |
                  Function | Await | SourceMapped | Record | Context |
                  Variable | Encoder | Decoder | Asset | Deferred |
-                 ContextProvider
+                 ContextProvider | Tag
 
     # Represents an generated identifier from the parts of the union type.
-    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size
+    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size | Tag
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
     # Represents entities which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context | Tag)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -60,6 +60,9 @@ module Mint
 
     # Represents the await keyword.
     class Await; end
+
+    # Represents a tag.
+    record Tag, name : String
 
     enum Bundle
       Index
@@ -201,6 +204,9 @@ module Mint
     # A set to track size directives.
     getter sizes = Hash(Ast::Node, Size).new
 
+    # A container for tags.
+    getter tags = Hash(String, Tag).new
+
     # The type checker artifacts.
     getter artifacts : TypeChecker::Artifacts
 
@@ -337,10 +343,7 @@ module Mint
               js.call(Builtin::Embed, [[node] of Item]),
             }
           when Ast::TypeVariant
-            case parent = node.parent
-            when Ast::TypeDefinition
-              {"#{parent.name.value}.#{node.value.value}", [node] of Item}
-            end
+            {node.value.value, tag(node, cache[node])}
           end
         end.to_h
 
@@ -467,6 +470,8 @@ module Mint
     def gather_used(item : Item, used : Used)
       case item
       in Variable, Deferred, String, Asset, Await, Raw, Size
+      in Tag
+        used.add(item)
       in SourceMapped, Function, ContextProvider
         gather_used(item.value, used)
       in Context
@@ -484,6 +489,44 @@ module Mint
         used.add(item)
       in Builtin
         used.add(item)
+      end
+    end
+
+    def tag(node : Ast::Node, type : TypeChecker::Checkable)
+      case type
+      when TypeChecker::Type
+        id =
+          type.name + type.parameters.size.to_s
+
+        @tags[id] ||= begin
+          tag =
+            Tag.new(id)
+
+          name =
+            js.string(type.name)
+
+          # pp type
+          args =
+            if !type.parameters.empty? && type.parameters.all?(&.label)
+              [
+                js.array(type.parameters.map { |item| [%("#{item.label}")] of Item }),
+                name,
+              ]
+            else
+              [
+                [type.parameters.size.to_s] of Item,
+                name,
+              ]
+            end
+
+          add(node, tag, js.call(Builtin::Variant, args))
+
+          tag
+        end
+
+        [@tags[id]] of Item
+      else
+        unreachable! "Can't generate tag constructor for type: #{type}"
       end
     end
 
@@ -505,39 +548,43 @@ module Mint
     end
 
     def just
-      [
+      node =
         maybe
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Just")),
-      ] of Item
+          .find!(&.value.value.==("Just"))
+
+      tag(node, cache[node])
     end
 
     def nothing
-      [
+      node =
         maybe
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Nothing")),
-      ] of Item
+          .find!(&.value.value.==("Nothing"))
+
+      tag(node, cache[node])
     end
 
     def ok
-      [
+      node =
         result
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Ok")),
-      ] of Item
+          .find!(&.value.value.==("Ok"))
+
+      tag(node, cache[node])
     end
 
     def err
-      [
+      node =
         result
           .fields
           .as(Array(Ast::TypeVariant))
-          .find!(&.value.value.==("Err")),
-      ] of Item
+          .find!(&.value.value.==("Err"))
+
+      tag(node, cache[node])
     end
   end
 end

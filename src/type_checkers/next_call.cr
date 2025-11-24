@@ -49,7 +49,7 @@ module Mint
           snippet "But the type you are trying to assign to it is:", type
           snippet "Here is where you did the assignment:", item
           snippet "And here is where the state is defined:", state
-        end unless Comparer.compare(state_type, type)
+        end unless Comparer.compare(state_type, type, expand: true)
       end
 
       Type.new("Promise", [VOID] of Checkable)

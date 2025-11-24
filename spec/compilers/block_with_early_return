@@ -21,8 +21,8 @@ import {
 } from "./runtime.js";
 
 export const
-  F = A(1, `Test.A`),
-  G = A(1, `Test.B`),
+  F = A(1, `A`),
+  G = A(1, `B`),
   H = () => {
     const a = B(C(F)(`Some string...`), D(F, [E]));
     if (a === false) {

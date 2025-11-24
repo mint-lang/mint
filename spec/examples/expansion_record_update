@@ -1,0 +1,35 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type User {
+  age : Maybe(Number),
+  name : String,
+}
+
+component Main {
+  fun render {
+    { { age: Just(32), name: "Joe" } | age: Just(40) }
+
+    ""
+  }
+}
+----------------------------------------------------record_update_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type User {
+  age : Nothing,
+  name : String,
+}
+
+component Main {
+  fun render {
+    { { age: Nothing, name: "Joe" } | age: Maybe.Just(40) }
+
+    ""
+  }
+}

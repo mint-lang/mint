@@ -1,0 +1,37 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Expansion {
+  property value : Maybe(String) = Nothing
+
+  fun render {
+    ""
+  }
+}
+
+component Main {
+  fun render {
+    <Expansion/>
+  }
+}
+---------------------------------------------------------property_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Expansion {
+  property value : Nothing = Maybe.Just("Hello")
+
+  fun render {
+    ""
+  }
+}
+
+component Main {
+  fun render {
+    <Expansion/>
+  }
+}

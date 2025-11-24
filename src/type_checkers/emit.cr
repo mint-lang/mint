@@ -17,7 +17,7 @@ module Mint
 
         snippet "The type of the emitted value is:", type
         snippet "The emit in question is here:", node
-      end unless Comparer.compare(type, signal_type)
+      end unless Comparer.compare(signal_type, type, expand: true)
 
       VOID
     end

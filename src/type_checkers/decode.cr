@@ -9,6 +9,7 @@ module Mint
         snippet "The decode question is here:", node
       end unless check_decode(type)
 
+      # TODO: variants...
       result_type =
         Type.new("Result", [OBJECT_ERROR, type] of Checkable)
 
