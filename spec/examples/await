@@ -17,3 +17,18 @@ component Main {
     ""
   }
 }
+--------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    {
+      let value = await [`` as Promise(String)]
+
+      case value {
+        ["a"] => "a"
+        => "b"
+      }
+    }
+
+    "Hello"
+  }
+}

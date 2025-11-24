@@ -18,6 +18,7 @@ module Mint
     OBJECT          = Type.new("Object")
     REGEXP          = Type.new("Regexp")
     OBJECT_ERROR    = Type.new("Object.Error")
+    PROMISE         = Type.new("Promise", [Variable.new("a")] of Checkable)
     ARRAY           = Type.new("Array", [Variable.new("a")] of Checkable)
     SET             = Type.new("Set", [Variable.new("a")] of Checkable)
     MAP             = Type.new("Map", [Variable.new("a"), Variable.new("b")] of Checkable)

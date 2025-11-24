@@ -1,0 +1,21 @@
+component Main {
+  fun render : String {
+    {
+      await ["a", "b"]
+    }
+
+    "Hello"
+  }
+}
+--------------------------------------------------------------------------------
+import { promiseAll as A } from "./runtime.js";
+
+export const B = () => {
+  (async () => {
+    return await A([
+      `a`,
+      `b`
+    ])
+  })();
+  return `Hello`
+};

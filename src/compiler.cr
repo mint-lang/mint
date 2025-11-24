@@ -148,6 +148,7 @@ module Mint
       # Utilities.
       NormalizeEvent
       BracketAccess
+      PromiseAll
       IsThruthy
       MapAccess
       Identity
@@ -450,8 +451,11 @@ module Mint
     def defer(node : Ast::Node, compiled : Compiled)
       case type = cache[node]
       when TypeChecker::Type
-        if type.name == "Deferred"
+        case type.name
+        when "Deferred"
           js.call(Builtin::Load, [compiled])
+        when "Array"
+          js.call(Builtin::PromiseAll, [compiled])
         end
       end || case node
       when Ast::InlineFunction

@@ -9,11 +9,14 @@ module Mint
       end
 
       case type.name
+      when "Array"
+        case type.parameters.first.name
+        when "Promise", "Deferred"
+          Type.new("Array", [type.parameters.first.parameters.first])
+        end
       when "Promise", "Deferred"
         type.parameters.first
-      else
-        type
-      end
+      end || type
     end
   end
 end
