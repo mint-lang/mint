@@ -356,7 +356,8 @@ store Http {
           } else {
             body = #{Http.ResponseBody.HTML(`object`)};
           }
-        } else if (contentType.startsWith("application/xml")) {
+        } else if (contentType.startsWith("application/xml") ||
+                   contentType.startsWith("text/xml")) {
           const object =
             (new DOMParser()).parseFromString(responseText, "application/xml");
 
