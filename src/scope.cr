@@ -340,6 +340,7 @@ module Mint
         build(node.default, node)
       when Ast::Block
         build(node.expressions, node, stack: true)
+        build(node.fallback, node)
       when Ast::Operation
         build(node.left, node)
         build(node.right, node)
