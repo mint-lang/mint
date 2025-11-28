@@ -199,7 +199,8 @@ module Mint
                   {node, item, js.call(Builtin::UseDimensions, [
                     [element.ref.as(Ast::Node)] of Item,
                     [dom_get_dimensions] of Item,
-                    [dom_dimensions_empty] of Item,
+                    just,
+                    nothing,
                   ])}
                 end
               end

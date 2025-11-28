@@ -40,10 +40,15 @@ module Dom {
   }
 }
 
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
 component Main {
   fun render : Html {
     <div as div>
-      @size(div).width
+      (@size(div) or Dom.Dimensions.empty()).width
     </div>
   }
 }

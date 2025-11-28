@@ -26,10 +26,15 @@ type Maybe(a) {
   Just(a)
 }
 
+type Result(error, value) {
+  Err(error)
+  Ok(value)
+}
+
 component Main {
   fun render : Html {
     <div as div>
-      @size(div).width
+      (@size(div) or Dom.Dimensions.empty()).width
     </div>
   }
 }
@@ -39,23 +44,26 @@ import {
   useDimensions as C,
   useRefSignal as B,
   variant as A,
-  setRef as E
+  setRef as E,
+  or as F
 } from "./runtime.js";
 
 export const
-  F = A(1, `Just`),
-  G = A(0, `Nothing`),
-  a = (b) => {
+  G = A(1, `Err`),
+  H = A(1, `Just`),
+  I = A(0, `Nothing`),
+  J = A(1, `Ok`),
+  a = () => {
     return undefined
   },
-  c = () => {
+  b = (c) => {
     return undefined
   },
-  H = () => {
+  K = () => {
     const
-      d = B(new G()),
-      e = C(d, a, c);
+      d = B(new I()),
+      e = C(d, b, H, I);
     return D(`div`, {
-      ref: E(d, F, G)
-    }, [e.value.width])
+      ref: E(d, H, I)
+    }, [(F(I, G, e.value, a())).width])
   };

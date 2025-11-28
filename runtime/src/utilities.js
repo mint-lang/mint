@@ -142,13 +142,13 @@ export const isThruthy = (value, just, ok) => {
 };
 
 // Returns a signal for tracking the size of an entity.
-export const useDimensions = (ref, get, empty) => {
-  const signal = useSignal(empty());
+export const useDimensions = (ref, get, just, nothing) => {
+  const signal = useSignal(new nothing);
 
   // Initial setup...
   useSignalEffect(() => {
     const observer = new ResizeObserver(() => {
-      signal.value = ref.value && ref.value._0 ? get(ref.value._0) : empty();
+      signal.value = ref.value && ref.value._0 ? new just(get(ref.value._0)) : new nothing;
     });
 
     if (ref.value && ref.value._0) {
@@ -156,7 +156,7 @@ export const useDimensions = (ref, get, empty) => {
     }
 
     return () => {
-      signal.value = empty();
+      signal.value = new nothing;
       observer.disconnect();
     };
   });

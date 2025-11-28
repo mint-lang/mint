@@ -11,7 +11,10 @@ module Mint
         check! ast.unified_modules.find!(&.name.value.==("Dom"))
         check! ast.unified_modules.find!(&.name.value.==("Dom.Dimensions"))
 
-        resolve ast.type_definitions.find!(&.name.value.==("Dom.Dimensions"))
+        type =
+          resolve ast.type_definitions.find!(&.name.value.==("Dom.Dimensions"))
+
+        Type.new("Maybe", [type])
       else
         error! :size_directive_expected_html_element do
           block "A size directive must reference an HTML element but it doesn't."
