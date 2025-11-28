@@ -36,7 +36,7 @@ module Mint
             behavior: Behavior::BreakAll,
             ends: {"{", "}"},
             items: [body],
-            separator: "")
+            separator: "") + fallback
         else
           ["{"] + body + ["}"] + fallback
         end
