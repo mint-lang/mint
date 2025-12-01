@@ -292,15 +292,3 @@ component Main {
     <div>"Hello World!"</div>
   }
 }
---------------------------------------------------------------------------------
-component Main {
-  fun renderTest (block : Function(String, Html)) {
-    block("TEST")
-  }
-
-  fun render : Html {
-    renderTest() { |x : String|
-      <div>x</div>
-    }
-  }
-}
