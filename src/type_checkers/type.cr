@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     def check(node : Ast::Type) : Checkable
       resolve_record_definition(node.name.value) ||
-        component_records.values.find(&.name.==(node.name.value)) || begin
+        component_records[node.name.value]?.try(&.last) || begin
         parameters =
           resolve node.parameters
 

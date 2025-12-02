@@ -119,7 +119,12 @@ module Mint
         snippet "The access in question is here:", node
       end unless new_target
 
-      if item = component_records.find { |_, value| Comparer.compare(value, target) }
+      item =
+        component_records[target.name]?.try do |(component, value)|
+          {component, target} if Comparer.compare(target, value)
+        end
+
+      if item
         component, _ = item
 
         refs =
@@ -127,11 +132,9 @@ module Mint
             case ref
             when Ast::HtmlComponent
               components_touched.add(component)
-              component_records
-                .find(&.first.name.value.==(ref.component.value))
-                .try do |record|
-                  memo[variable.value] = record.first
-                end
+              component_records[ref.component.value]?.try do |record|
+                memo[variable.value] = record.first
+              end
             when Ast::HtmlElement
               lookups[node.field] = {variable, component}
               return Type.new("Maybe", [Type.new("Dom.Element")] of Checkable) if node.field.value == variable.value
@@ -140,12 +143,21 @@ module Mint
             memo
           end
 
-        lookups[node.field] = {
+        lookup =
           (component.gets.find(&.name.value.==(node.field.value)) ||
-           component.functions.find(&.name.value.==(node.field.value)) ||
-           component.properties.find(&.name.value.==(node.field.value)) ||
-           refs[node.field.value]? ||
-           component.states.find(&.name.value.==(node.field.value))).not_nil!,
+            component.functions.find(&.name.value.==(node.field.value)) ||
+            component.properties.find(&.name.value.==(node.field.value)) ||
+            refs[node.field.value]? ||
+            component.states.find(&.name.value.==(node.field.value)))
+
+        error! :access_not_found do
+          snippet "Found a component for this type:", target
+          snippet "But there is no entitiy on it named:", node.field.value
+          snippet "The access is here:", node
+        end unless lookup
+
+        lookups[node.field] = {
+          lookup,
           component,
         }
 

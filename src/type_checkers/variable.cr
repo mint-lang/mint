@@ -33,10 +33,11 @@ module Mint
             Type.new("Maybe", [Type.new("Dom.Element")] of Checkable)
           when item[0].is_a?(Ast::Component) &&
             (item[1].is_a?(Ast::Component) || item[1].is_a?(Ast::Test))
-            components_touched.add(item[0].as(Ast::Component))
+            comp = item[0].as(Ast::Component)
+            components_touched.add(comp)
 
             # TODO: variants...
-            Type.new("Maybe", [component_records[item[0]]] of Checkable)
+            Type.new("Maybe", [component_records[comp.name.value].last] of Checkable)
           else
             case value = item[0]
             when Ast::Statement

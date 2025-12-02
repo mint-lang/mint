@@ -6,7 +6,7 @@ module Mint
       getter scope, components_touched, references, async, exported
 
       def initialize(@ast : Ast,
-                     @component_records = {} of Ast::Component => Record,
+                     @component_records = {} of String => {Ast::Component, Record},
                      @components_touched = Set(Ast::Component).new,
                      @record_field_lookup = {} of Ast::Node => String,
                      @variables = {} of Ast::Node => Tuple(Ast::Node, Ast::Node),

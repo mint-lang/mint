@@ -127,7 +127,8 @@ module Mint
       end
 
       ast.components.each do |component|
-        component_records[component] = static_type_signature(component).as(Record)
+        component_records[component.name.value] =
+          {component, static_type_signature(component).as(Record)}
       end
     end
 
