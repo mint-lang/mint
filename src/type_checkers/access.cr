@@ -152,7 +152,7 @@ module Mint
 
         error! :access_not_found do
           snippet "Found a component for this type:", target
-          snippet "But there is no entitiy on it named:", node.field.value
+          snippet "But there is no entity on it named:", node.field.value
           snippet "The access is here:", node
         end unless lookup
 
