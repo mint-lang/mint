@@ -32,14 +32,38 @@ module Mint
       end
 
       def compare(node1, node2, *, expand : Bool = false)
-        prune(unify(fresh(prune(node1)), fresh(prune(node2)), expand: expand))
+        mapping = {} of Variable => Checkable
+        unified = unify(node1, node2, mapping, expand: expand)
+        fill2(unified, mapping)
       rescue
         nil
       end
 
-      def fill(node, mapping : Hash(String, Checkable))
-        node = prune(node)
+      def fill2(node, mapping : Hash(Variable, Checkable))
+        node = prune(node, mapping)
 
+        case node
+        when Variable
+          mapping[node]? || node
+        when Type
+          parameters =
+            node.parameters.map { |param| fill2(param, mapping).as(Checkable) }
+
+          variants =
+            node.variants.compact_map do |variant|
+              case item = fill2(variant, mapping).as(Checkable)
+              when Type
+                item
+              end
+            end
+
+          Type.new(node.name, parameters, node.label, variants)
+        else
+          node
+        end
+      end
+
+      def fill(node, mapping : Hash(String, Checkable))
         case node
         when Variable
           mapping[node.name]? || node
@@ -92,10 +116,7 @@ module Mint
         end
       end
 
-      def unify(node1, node2, *, expand : Bool)
-        node1 = prune(node1)
-        node2 = prune(node2)
-
+      def unify(node1 : Checkable, node2 : Checkable, mapping : Hash(Variable, Checkable), *, expand : Bool) : Checkable
         # puts "#{dbg(node1)} <> #{dbg(node2)}"
         case
         when node1.is_a?(Variable)
@@ -103,28 +124,28 @@ module Mint
             if occurs_in_type(node1, node2)
               raise "Recursive unification!"
             end
-            node1.instance = node2
+            mapping[node1] = node2
           end
           node1
         when node2.is_a?(Variable)
-          unify(node2, node1, expand: expand)
+          unify(node2, node1, mapping, expand: expand)
         when node1.is_a?(Record) && node2.is_a?(Type)
           raise "Not unified!" unless node1.name == node2.name
           node1
         when node2.is_a?(Record) && node1.is_a?(Type)
-          unify(node2, node1, expand: expand)
+          unify(node2, node1, mapping, expand: expand)
         when node1.is_a?(Record) && node2.is_a?(Record)
           raise "Not unified!" unless node1.fields.size == node2.fields.size
           node1.fields.each do |key, type|
             raise "Not unified!" unless node2.fields[key]?
-            unify(type, node2.fields[key], expand: expand)
+            unify(type, node2.fields[key], mapping, expand: expand)
           end
           node1
         when node1.is_a?(Type) && node2.is_a?(Type)
           if node1.name != node2.name
             if node1.variants.size > 0 && node2.variants.size == 0 && expand
               if variant = node1.variants.find(&.name.==(node2.name))
-                unify(variant, node2, expand: expand)
+                unify(variant, node2, mapping, expand: expand)
               else
                 raise "Can't unify #{node1} with #{node2} no variant matches!"
               end
@@ -135,7 +156,7 @@ module Mint
             raise "Can't unify #{node1} with #{node2} parameter size mismatch!"
           else
             node1.parameters.each_with_index do |item, index|
-              unify(item, node2.parameters[index], expand: expand)
+              unify(item, node2.parameters[index], mapping, expand: expand)
             end
           end
 
@@ -146,20 +167,14 @@ module Mint
       end
 
       def occurs_in_type(node1, node2)
-        node2 = prune(node2)
+        return true if node1 == node2
 
-        case
-        when node1 == node2
-          true
-        when node2.is_a?(Type)
-          occurs_in_type_array(node1, node2.parameters)
+        case node2
+        when Type
+          node2.parameters.any? { |type| occurs_in_type(node1, type) }
         else
           false
         end
-      end
-
-      def occurs_in_type_array(node, parameters)
-        parameters.any? { |type| occurs_in_type node, type }
       end
 
       def normalize(type : Type, mapping = {} of String => Variable)
@@ -189,59 +204,28 @@ module Mint
         node
       end
 
-      def fresh(node : Variable)
-        Variable.new(node.name, node.label)
+      def prune(node : Variable, mapping : Hash(Variable, Checkable))
+        mapping[node]?.try do |instance|
+          prune(instance, mapping).tap(&.label=(node.label))
+        end || node
       end
 
-      def fresh(node : Type, mapping = {} of Int32 => Variable)
-        params =
-          node
-            .parameters
-            .map do |parameter|
-              case parameter
-              when Variable
-                mapping[parameter.id]? || (mapping[parameter.id] = fresh(parameter)).as(Checkable)
-              when Type
-                fresh(parameter, mapping).as(Checkable)
-              else
-                fresh(parameter).as(Checkable)
-              end
-            end
+      def prune(node : Type, mapping : Hash(Variable, Checkable))
+        parameters =
+          node.parameters.map { |param| prune(param, mapping).as(Checkable) }
 
         variants =
           node.variants.compact_map do |variant|
-            case item = fresh(variant, mapping).as(Checkable)
+            case item = prune(variant, mapping).as(Checkable)
             when Type
               item
             end
           end
 
-        Type.new(node.name, params, node.label, variants)
+        Type.new(node.name, parameters, node.label, variants)
       end
 
-      def fresh(node : Record)
-        fields =
-          node
-            .fields
-            .each_with_object({} of String => Checkable) do |(key, value), memo|
-              memo[key] = fresh value
-            end
-
-        Record.new(node.name, fields, node.mappings, label: node.label)
-      end
-
-      def prune(node : Variable)
-        node.instance.try do |instance|
-          prune(instance).tap(&.label=(node.label))
-        end || node
-      end
-
-      def prune(node : Type)
-        node.parameters.map! { |param| prune(param).as(Checkable) }
-        node
-      end
-
-      def prune(node : Record)
+      def prune(node : Record, mapping : Hash(Variable, Checkable))
         node
       end
     end
