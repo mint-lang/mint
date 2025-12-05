@@ -1,7 +1,7 @@
 module Mint
   class Parser
     def html_element : Ast::HtmlElement?
-      parse do |start_position|
+      parse do |start_position, nodes_size|
         next unless char! '<'
         next unless tag = variable track: false, extra_chars: ['-']
 
@@ -55,6 +55,23 @@ module Mint
 
         attributes, children, comments, closing_tag_position = body
 
+        nodes =
+          ast.nodes[nodes_size..]
+
+        static = nodes.all? do |node|
+          case node
+          when Ast::HtmlElement, Ast::StringLiteral
+            true
+          when Ast::HtmlAttribute
+            case node.name.value.downcase
+            when .starts_with?("on"), "ref", "readonly", "disabled", "checked"
+              false
+            else
+              true
+            end
+          end
+        end
+
         Ast::HtmlElement.new(
           closing_tag_position: closing_tag_position,
           attributes: attributes,
@@ -65,7 +82,12 @@ module Mint
           to: position,
           file: file,
           tag: tag,
-          ref: ref)
+          ref: ref).tap do |node|
+          if static
+            node.nodes = nodes
+            node.static = true
+          end
+        end
       end
     end
   end
