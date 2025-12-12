@@ -120,12 +120,6 @@ module Mint
     # --------------------------------------------------------------------------
 
     def resolve_records
-      ast.type_definitions.each do |definition|
-        next if definition.fields.is_a?(Array(Ast::TypeVariant))
-        value = resolve(definition)
-        add_record(value, definition)
-      end
-
       ast.components.each do |component|
         component_records[component.name.value] =
           {component, static_type_signature(component).as(Record)}
@@ -151,47 +145,7 @@ module Mint
 
       record = resolve(node)
       ast.type_definitions.push(node)
-      add_record record, node
       record
-    end
-
-    def resolve_record_definition(name)
-      records.find(&.name.==(name)) || begin
-        node = ast.type_definitions.find(&.name.value.==(name))
-
-        if node && node.fields.is_a?(Array(Ast::TypeDefinitionField))
-          record = resolve(node)
-          add_record record, node
-          record
-        end
-      end
-    end
-
-    def add_record(record, node)
-    end
-
-    def add_record(record : Record, node)
-      error! :record_with_holes do
-        snippet "Records with type variables are not allow at this time. " \
-                "I found one here:", node
-      end if record.have_holes?
-
-      other = @record_names[record.name]?
-
-      error! :record_name_conflict do
-        block do
-          text "There is already a"
-          bold "record"
-          text "with the name:"
-          bold record.name
-        end
-
-        snippet "One of them is here:", node
-        snippet "The other is here:", other
-      end if other && node != other
-
-      records << record
-      @record_names[record.name] = node
     end
 
     # Scope specific helpers

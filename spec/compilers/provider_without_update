@@ -19,24 +19,24 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
+  createProvider as B,
   createElement as E,
-  signal as B,
-  record as A,
+  record as C,
+  signal as A,
   useId as D
 } from "./runtime.js";
 
 export const
-  a = A(`Subscription`),
-  b = B(``),
-  c = new Map(),
-  F = C(c, () => {
+  a = A(``),
+  b = new Map(),
+  F = B(b, () => {
     return null
   }),
+  c = C(`Subscription`),
   G = () => {
     const d = D();
     F(d, () => {
-      return a({
+      return c({
         a: true,
         b: false
       })

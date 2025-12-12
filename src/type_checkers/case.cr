@@ -29,7 +29,7 @@ module Mint
       case type = cache[node]
       when Record
         arguments =
-          records.find!(&.name.==(type.name)).fields.map do |key, _|
+          type.fields.map do |key, _|
             if field = node.fields.find(&.key.try(&.value.==(key)))
               to_pattern(field.value)
             else

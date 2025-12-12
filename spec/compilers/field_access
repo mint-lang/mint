@@ -30,16 +30,16 @@ import {
 } from "./runtime.js";
 
 export const
-  a = A(`X`),
-  b = (c, d) => {
+  a = (b, c) => {
     return undefined
   },
+  d = A(`X`),
   C = () => {
-    b([
-      a({
+    a([
+      d({
         name: `Joe`
       }),
-      a({
+      d({
         name: `Doe`
       })
     ], B(`name`));

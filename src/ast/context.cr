@@ -8,7 +8,7 @@ module Mint
                      @file : Parser::File,
                      @comment : Comment?,
                      @name : Variable,
-                     @type : Id)
+                     @type : Node)
       end
     end
   end

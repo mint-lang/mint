@@ -23,7 +23,7 @@ module Mint
         next error :context_expected_type do
           expected "the type of a context", word
           snippet self
-        end unless type = id
+        end unless type = self.type
 
         Ast::Context.new(
           from: start_position,

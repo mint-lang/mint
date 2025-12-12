@@ -33,31 +33,31 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
+  createProvider as B,
   createElement as E,
-  signal as B,
-  record as A,
+  record as C,
+  signal as A,
   useId as D
 } from "./runtime.js";
 
 export const
-  a = A(`Subscription`),
-  b = `hello`,
-  c = () => {
-    return b
+  a = `hello`,
+  b = () => {
+    return a
   },
-  d = B(``),
-  e = () => {
-    return d.value
+  c = A(``),
+  d = () => {
+    return c.value
   },
-  f = new Map(),
-  F = C(f, async () => {
+  e = new Map(),
+  F = B(e, async () => {
     return await null
   }),
+  f = C(`Subscription`),
   G = () => {
     const g = D();
     F(g, () => {
-      return a({
+      return f({
         a: true,
         b: false
       })

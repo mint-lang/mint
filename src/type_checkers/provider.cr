@@ -12,19 +12,15 @@ module Mint
       check_names node.states, "provider", checked
       check_names node.gets, "provider", checked
 
-      # Checking for subscription
-      subscription =
-        records.find(&.name.==(node.subscription.value))
-
       error! :provider_not_found_subscription do
         block do
-          text "I was looking for the record type of the subscription"
+          text "I was looking for the type of the subscription"
           bold %("#{node.subscription.value}")
           text "but could not find it:"
         end
 
         snippet node
-      end unless subscription
+      end unless ast.type_definitions.find(&.name.value.==(node.subscription.value))
 
       # Type checking the entities
       resolve node.constants

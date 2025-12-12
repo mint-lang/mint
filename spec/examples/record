@@ -1,5 +1,5 @@
---------------------------------------------------------------record_with_holes
-type Test {
+----------------------------------------------type_definition_record_with_holes
+type Test(a) {
   a : Array(a),
   b : Number
 }

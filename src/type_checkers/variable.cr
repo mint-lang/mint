@@ -18,15 +18,13 @@ module Mint
 
           case
           when node.value == "subscriptions" && item[1].is_a?(Ast::Provider)
-            subscription =
-              records.find(&.name.==(item[1].as(Ast::Provider).subscription.value))
+            definition =
+              ast.type_definitions.find!(&.name.value.==(item[1].as(Ast::Provider).subscription.value))
 
-            case subscription
-            when Record
-              Type.new("Array", [subscription] of Checkable)
-            else
-              raise "Cannot happen!"
-            end
+            subscription =
+              resolve definition
+
+            Type.new("Array", [subscription] of Checkable)
           when item[0].is_a?(Ast::HtmlElement) &&
             (item[1].is_a?(Ast::Component) || item[1].is_a?(Ast::Test))
             # TODO: variants...

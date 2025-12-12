@@ -1,21 +1,19 @@
 module Mint
   class TypeChecker
     def check(node : Ast::Type) : Checkable
-      resolve_record_definition(node.name.value) ||
-        component_records[node.name.value]?.try(&.last) || begin
-        parameters =
-          resolve node.parameters
+      parameters =
+        resolve node.parameters
 
-        if definition = ast.type_definitions.find(&.name.value.==(node.name.value))
-          mapping =
-            definition.parameters.map_with_index do |param, index|
-              {param.value, parameters[index]}
-            end.to_h
+      if definition = ast.type_definitions.find(&.name.value.==(node.name.value))
+        mapping =
+          definition.parameters.map_with_index do |param, index|
+            {param.value, parameters[index]}
+          end.to_h
 
-          Comparer.fill(resolve(definition), mapping)
-        else
+        Comparer.fill(resolve(definition), mapping)
+      else
+        component_records[node.name.value]?.try(&.last) ||
           Comparer.normalize(Type.new(node.name.value, parameters))
-        end
       end
     end
   end

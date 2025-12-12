@@ -16,8 +16,11 @@ module Mint
       lookups[node] = {provider, nil}
 
       # This is checked by the provider so we assume it's there
+      definition =
+        ast.type_definitions.find!(&.name.value.==(provider.subscription.value))
+
       subscription =
-        records.find!(&.name.==(provider.subscription.value))
+        resolve definition
 
       record =
         resolve node.data

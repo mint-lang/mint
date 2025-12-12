@@ -6,8 +6,8 @@ provider Provider : Subscription {
 --------------------------------------------------------------------------------
 ░ ERROR (PROVIDER_NOT_FOUND_SUBSCRIPTION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-I was looking for the record type of the subscription "Subscription" but could
-not find it:
+I was looking for the type of the subscription "Subscription" but could not find
+it:
 
    ┌ errors/provider_not_found_subscription:1:1
    ├───────────────────────────────────────────

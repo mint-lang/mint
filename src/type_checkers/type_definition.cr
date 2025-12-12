@@ -1,9 +1,23 @@
 module Mint
   class TypeChecker
     def check(node : Ast::TypeDefinition) : Checkable
+      parameters =
+        resolve node.parameters
+
+      used_parameters = Set(Ast::TypeVariable).new
+
       definition_type =
         case items = node.fields
         in Array(Ast::TypeDefinitionField)
+          error! :type_definition_record_with_holes do
+            snippet "Record types with type variables are not allow at this time. " \
+                    "I found one here:", node
+          end unless node.parameters.empty?
+
+          items.each do |field|
+            check [field.type], node.parameters, used_parameters
+          end
+
           fields =
             items.to_h { |item| {item.key.value, resolve(item).as(Checkable)} }
 
@@ -17,11 +31,6 @@ module Mint
         in Array(Ast::TypeVariant)
           resolve(items)
 
-          parameters =
-            resolve node.parameters
-
-          used_parameters = Set(Ast::TypeVariable).new
-
           variants =
             items.compact_map do |option|
               check option.parameters, node.parameters, used_parameters
@@ -32,15 +41,15 @@ module Mint
               end
             end
 
-          node.parameters.each do |parameter|
-            error! :type_definition_unused_parameter do
-              snippet "Type parameters must be used by at least one option. " \
-                      "This parameter was not used by any of the options:", parameter
-            end unless used_parameters.includes?(parameter)
-          end
-
           Comparer.normalize(Type.new(node.name.value, parameters, nil, variants))
         end
+
+      node.parameters.each do |parameter|
+        error! :type_definition_unused_parameter do
+          snippet "Type parameters must be used by at least one option. " \
+                  "This parameter was not used by any of the options:", parameter
+        end unless used_parameters.includes?(parameter)
+      end
 
       if item = node.context
         type =

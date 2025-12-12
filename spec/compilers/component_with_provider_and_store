@@ -33,27 +33,27 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as C,
+  createProvider as B,
   createElement as E,
-  signal as B,
-  record as A,
+  record as C,
+  signal as A,
   useId as D
 } from "./runtime.js";
 
 export const
-  a = A(`MouseProvider.Data`),
-  b = () => {
+  a = () => {
     return `hello`
   },
-  c = B(``),
-  d = new Map(),
-  F = C(d, () => {
+  b = A(``),
+  c = new Map(),
+  F = B(c, () => {
     return null
   }),
+  d = C(`MouseProvider.Data`),
   G = () => {
     const e = D();
     F(e, () => {
-      return (false ? a({
+      return (false ? d({
         moves: (f) => {
           return null
         },

@@ -1,0 +1,15 @@
+type Test(a) {
+  a : Array(a),
+  b : Number
+}
+--------------------------------------------------------------------------------
+░ ERROR (TYPE_DEFINITION_RECORD_WITH_HOLES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+Record types with type variables are not allow at this time. I found one here:
+
+   ┌ errors/type_definition_record_with_holes:1:1
+   ├─────────────────────────────────────────────
+  1│ type Test(a) {
+  2│   a : Array(a),
+  3│   b : Number
+  4│ }

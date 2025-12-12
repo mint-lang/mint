@@ -35,20 +35,20 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as B,
+  createProvider as A,
   createElement as F,
   useDidUpdate as E,
   useEffect as D,
-  record as A,
+  record as B,
   useId as C
 } from "./runtime.js";
 
 export const
-  a = A(`MouseProvider.Data`),
-  b = new Map(),
-  G = B(b, () => {
+  a = new Map(),
+  G = A(a, () => {
     return null
   }),
+  b = B(`MouseProvider.Data`),
   H = () => {
     const c = C();
     D(() => {
@@ -63,7 +63,7 @@ export const
       return null
     });
     G(c, () => {
-      return (false ? a({
+      return (false ? b({
         moves: (d) => {
           return null
         },

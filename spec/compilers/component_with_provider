@@ -23,22 +23,22 @@ component Main {
 }
 --------------------------------------------------------------------------------
 import {
-  createProvider as B,
+  createProvider as A,
   createElement as D,
-  record as A,
+  record as B,
   useId as C
 } from "./runtime.js";
 
 export const
-  a = A(`MouseProvider.Data`),
-  b = new Map(),
-  E = B(b, () => {
+  a = new Map(),
+  E = A(a, () => {
     return null
   }),
+  b = B(`MouseProvider.Data`),
   F = () => {
     const c = C();
     E(c, () => {
-      return (false ? a({
+      return (false ? b({
         moves: (d) => {
           return null
         },

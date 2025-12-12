@@ -10,9 +10,17 @@ module Mint
           end
           .to_h
 
+      keys =
+        node.fields.compact_map(&.key.try(&.value))
+
       record =
-        records.find do |item|
-          Comparer.compare(item, Record.new("", fields), expand: true)
+        ast.type_definitions.find_value do |definition|
+          case items = definition.fields
+          when Array(Ast::TypeDefinitionField)
+            if items.all?(&.key.value.in?(keys))
+              Comparer.compare(resolve(definition), Record.new("", fields), expand: true)
+            end
+          end
         end
 
       record = create_record(fields) if should_create_record && !record
