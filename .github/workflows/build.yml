@@ -14,12 +14,12 @@ jobs:
           - os: ubuntu-latest
             openssl: default
 
-          # macOS 13 (Intel) with OpenSSL 1.1
-          - os: macos-13
+          # macOS 15 (Intel) with OpenSSL 1.1
+          - os: macos-15-intel
             openssl: default
 
-          # macOS 13 (Intel) with OpenSSL 3
-          - os: macos-13
+          # macOS 15 (Intel) with OpenSSL 3
+          - os: macos-15-intel
             openssl: 3
 
           # macOS latest (ARM64) with OpenSSL 1.1
