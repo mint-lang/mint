@@ -6,7 +6,7 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.7.0-dev+git.commit.37fe65d0d86477ecd6cf0bab2d519f2235fea6b5
+    version: 1.7.0-dev+git.commit.5d66fb5857664da54ee5e4f0a183b7baf20ae5b4
 
   ansi-escapes:
     git: https://github.com/gtramontina/ansi-escapes.cr.git
@@ -14,7 +14,7 @@ shards:
 
   baked_file_system:
     git: https://github.com/schovi/baked_file_system.git
-    version: 0.10.0+git.commit.ea0b659f43d7ce00bde66e8a87eeb4d5a112621b
+    version: 0.11.0
 
   dotenv:
     git: https://github.com/gdotdesign/cr-dotenv.git
