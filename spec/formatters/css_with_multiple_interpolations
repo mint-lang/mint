@@ -1,0 +1,21 @@
+component A {
+  style test {
+    object-fit: #{"left"} #{"center"};
+    object-position: #{"left"} value;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+--------------------------------------------------------------------------------
+component A {
+  style test {
+    object-fit: #{"left"} #{"center"};
+    object-position: #{"left"} value;
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}

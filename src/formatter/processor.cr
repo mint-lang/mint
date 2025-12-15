@@ -47,7 +47,11 @@ module Mint
               head =
                 "\n" + " " * (node.indentation + depth * indent_size)
 
-              process(item.lstrip.gsub(/\n\s*/, head))
+              if item.match(/\n\s*/)
+                process(item.lstrip.gsub(/\n\s*/, head))
+              else
+                process(item)
+              end
             in Nodes
               process(item)
             end
