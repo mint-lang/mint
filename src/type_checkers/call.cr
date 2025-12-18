@@ -60,78 +60,91 @@ module Mint
       end if node.arguments.size > argument_size ||       # If it's more than the maximum
              node.arguments.size < required_argument_size # If it's less then the minimum
 
-      args =
-        if node.arguments.all?(&.key.nil?)
-          node.arguments
-        elsif node.arguments.all?(&.key.!=(nil))
-          node.arguments.sort_by do |argument|
-            index =
-              function_type
-                .parameters
-                .index { |param| param.label == argument.key.try(&.value) }
+      args = {} of Int32 => Ast::Field
+      last_key = false
 
-            error! :call_not_found_argument do
-              snippet(
-                "I was looking for a named argument but I can't find it:",
-                argument.key.try(&.value).to_s)
+      node.arguments.each_with_index do |argument, index|
+        if key = argument.key.try(&.value)
+          last_key =
+            true
 
-              snippet "The type of the function is:", function_type
-              snippet "The call in question is here:", node
-            end unless index
+          index =
+            function_type
+              .parameters
+              .index { |param| param.label == key }
 
-            index
-          end
-        else
-          error! :call_with_mixed_arguments do
-            block "A call cannot have named and unnamed arguments at the same " \
-                  "time because in specific cases I cannot pair the arguments " \
-                  "with the values."
+          error! :call_not_found_argument do
+            snippet(
+              "I was looking for a named argument but I can't find it:",
+              argument.key.try(&.value).to_s)
+
+            snippet "The type of the function is:", function_type
+            snippet "The call in question is here:", node
+          end unless index
+        elsif last_key
+          error! :call_argument_without_label do
+            block "This unlabeled argument has been supplied after a labelled " \
+                  "argument. Once a labelled argument has been supplied all " \
+                  "following arguments must also be labelled."
 
             snippet "The call in question is here:", node
           end
         end
 
+        error! :call_argument_already_provided do
+          block "An argument was provided twice in a call."
+
+          snippet "First here:", args[index]
+          snippet "And here:", argument
+
+          snippet "The type of the function is:", function_type
+          snippet "The call in question is here:", node
+        end if args[index]?
+
+        args[index] = argument
+      end
+
+      artifacts.call_arguments[node] = [] of Ast::Field?
       parameters = [] of Checkable
       captures = [] of Int32
 
-      args.each_with_index do |argument, index|
-        function_argument_type =
-          function_type.parameters[index]
+      function_type.parameters.each_with_index do |function_argument_type, index|
+        if argument = args[index]?
+          argument_type =
+            case argument.value
+            when Ast::Discard
+              check!(argument)
+              captures << index
+              function_argument_type
+            else
+              resolve argument
+            end
 
-        argument_type =
-          case argument.value
-          when Ast::Discard
-            check!(argument)
-            captures << index
-            function_argument_type
-          else
-            resolve argument
-          end
+          error! :call_argument_type_mismatch do
+            ordinal =
+              ordinal(index + 1)
 
-        error! :call_argument_type_mismatch do
-          ordinal =
-            ordinal(index + 1)
+            block do
+              text "The"
+              bold "#{ordinal} argument"
+              text "to a function is causing a mismatch."
+            end
 
-          block do
-            text "The"
-            bold "#{ordinal} argument"
-            text "to a function is causing a mismatch."
-          end
+            snippet "The function is expecting the #{ordinal} argument to be:", function_argument_type
+            snippet "Instead it is:", argument_type
+            snippet "The call in question is here:", node
+          end unless res = Comparer.compare(function_argument_type, argument_type)
 
-          snippet "The function is expecting the #{ordinal} argument to be:", function_argument_type
-          snippet "Instead it is:", argument_type
-          snippet "The call in question is here:", node
-        end unless res = Comparer.compare(function_argument_type, argument_type)
-
-        parameters << res
-      end
-
-      if (optional_param_count = argument_size - args.size) > 0
-        parameters.concat(function_type.parameters[args.size, optional_param_count])
+          artifacts.call_arguments[node] << argument
+          parameters << res
+        else
+          artifacts.call_arguments[node] << nil
+          parameters << function_argument_type
+        end
       end
 
       call_type =
-        Type.new("Function", parameters + [function_type.parameters.last])
+        Type.new("Function", parameters)
 
       result =
         Comparer.compare(function_type, call_type)

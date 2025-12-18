@@ -8,18 +8,24 @@ module Mint
         captures =
           [] of Compiled
 
+        args =
+          artifacts.call_arguments[node].dup
+
+        while args.size > 0 && args.last.nil?
+          args.pop
+        end
+
         arguments =
-          node
-            .arguments
-            .sort_by { |item| resolve_order.index(item) || -1 }
-            .map do |item|
-              case item.value
-              when Ast::Discard
-                [Variable.new.as(Item)].tap { |var| captures << var }
-              else
-                compile item
-              end
+          args.map do |item|
+            next ["undefined"] unless item
+
+            case item.value
+            when Ast::Discard
+              [Variable.new.as(Item)].tap { |var| captures << var }
+            else
+              compile item
             end
+          end
 
         receiver =
           case

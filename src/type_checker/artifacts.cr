@@ -4,9 +4,11 @@ module Mint
       getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order, locales
       getter scope, components_touched, references, async, exported
+      getter call_arguments
 
       def initialize(@ast : Ast,
                      @component_records = {} of String => {Ast::Component, Record},
+                     @call_arguments = {} of Ast::Node => Array(Ast::Field | Nil),
                      @components_touched = Set(Ast::Component).new,
                      @record_field_lookup = {} of Ast::Node => String,
                      @variables = {} of Ast::Node => Tuple(Ast::Node, Ast::Node),

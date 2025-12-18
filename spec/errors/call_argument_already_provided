@@ -1,0 +1,59 @@
+component Main {
+  fun test (argument1 : String, argument2: Number) : Html {
+    <div/>
+  }
+
+  fun render : Html {
+    test(0, argument1: "")
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (CALL_ARGUMENT_ALREADY_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+An argument was provided twice in a call.
+
+First here:
+
+    ┌ errors/call_argument_already_provided:7:10
+    ├───────────────────────────────────────────
+   3│     <div/>
+   4│   }
+   5│
+   6│   fun render : Html {
+   7│     test(0, argument1: "")
+    │          ⌃
+   8│   }
+   9│ }
+
+And here:
+
+    ┌ errors/call_argument_already_provided:7:13
+    ├───────────────────────────────────────────
+   3│     <div/>
+   4│   }
+   5│
+   6│   fun render : Html {
+   7│     test(0, argument1: "")
+    │             ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }
+
+The type of the function is:
+
+  Function(
+    argument1: String,
+    argument2: Number,
+    Html)
+
+The call in question is here:
+
+    ┌ errors/call_argument_already_provided:7:5
+    ├──────────────────────────────────────────
+   3│     <div/>
+   4│   }
+   5│
+   6│   fun render : Html {
+   7│     test(0, argument1: "")
+    │     ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   8│   }
+   9│ }

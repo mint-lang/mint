@@ -61,7 +61,7 @@ component Main {
     <div/>
   }
 }
-------------------------------------------------------call_with_mixed_arguments
+-------------------------------------------------call_argument_already_provided
 component Main {
   fun test (argument1 : String, argument2: Number) : Html {
     <div/>
@@ -71,7 +71,7 @@ component Main {
     test(0, argument1: "")
   }
 }
-------------------------------------------------------call_with_mixed_arguments
+----------------------------------------------------call_argument_without_label
 component Main {
   fun test (argument1 : String, argument2: Number) : Html {
     <div/>
@@ -290,5 +290,26 @@ component Main {
     insertAfter(value: "123", afterValue: Maybe.Nothing, arr: [])
 
     <div>"Hello World!"</div>
+  }
+}
+--------------------------------------------------------------------------------
+component Main {
+  fun stringField (
+    name : String,
+    label : String,
+    condition : Function(Ui.Form, Bool) = (form : Ui.Form) { true },
+    checks : Array(Function(String, Tuple(Bool, String))) = [],
+    placeholder : String = "",
+    required : Bool = false,
+    value : String = ""
+  ) {
+    ""
+  }
+
+  fun render {
+    stringField(
+      name: "name",
+      label: "label",
+      required: true)
   }
 }
