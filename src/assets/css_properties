@@ -136,6 +136,9 @@ column-span
 column-width
 columns
 contain
+container
+container-name
+container-type
 content
 content-visibility
 counter-increment
