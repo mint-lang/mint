@@ -8,7 +8,7 @@ module Mint
 
       def initialize(@ast : Ast,
                      @component_records = {} of String => {Ast::Component, Record},
-                     @call_arguments = {} of Ast::Node => Array(Ast::Field | Nil),
+                     @call_arguments = {} of Ast::Node => Array(Ast::Field?),
                      @components_touched = Set(Ast::Component).new,
                      @record_field_lookup = {} of Ast::Node => String,
                      @variables = {} of Ast::Node => Tuple(Ast::Node, Ast::Node),

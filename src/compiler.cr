@@ -240,7 +240,7 @@ module Mint
     end
 
     # Adds multiple compiled entities.
-    def add(items : Array(Tuple(Ast::Node, Id, Compiled) | Nil))
+    def add(items : Array(Tuple(Ast::Node, Id, Compiled)?))
       items.compact.each { |(node, id, compiled)| add(node, id, compiled) }
     end
 

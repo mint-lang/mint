@@ -3,11 +3,10 @@ module LSP
     include JSON::Serializable
 
     alias Value = Array(TextDocumentEdit | CreateFile) |
-                  Array(TextDocumentEdit) |
-                  Nil
+                  Array(TextDocumentEdit)?
 
     # Holds changes to existing resources.
-    property changes : Hash(String, Array(TextEdit)) | Nil
+    property changes : Hash(String, Array(TextEdit))?
 
     # Depending on the client capability
     # `workspace.workspaceEdit.resourceOperations` document changes are either

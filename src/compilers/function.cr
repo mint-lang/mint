@@ -14,8 +14,8 @@ module Mint
 
     def compile_function(
       node : Ast::Function, *,
-      contents : Compiled | Nil = nil,
-      args : Array(Compiled) | Nil = nil,
+      contents : Compiled? = nil,
+      args : Array(Compiled)? = nil,
       skip_const : Bool = false,
     ) : Compiled
       compile_function(node,
@@ -27,8 +27,8 @@ module Mint
 
     def compile_function(
       node : Ast::Function, *,
-      contents : Compiled | Nil = nil,
-      args : Array(Compiled) | Nil = nil,
+      contents : Compiled? = nil,
+      args : Array(Compiled)? = nil,
       skip_const : Bool = false,
       &
     ) : Compiled

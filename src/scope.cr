@@ -114,7 +114,7 @@ module Mint
     end
 
     # Builds a level for the node and yields the parents scope.
-    def create(node : Ast::Node, parent : Ast::Node | Nil = nil)
+    def create(node : Ast::Node, parent : Ast::Node? = nil)
       scopes[node] =
         if parent
           # For defers we need to restrict their scope to the globally
@@ -234,7 +234,7 @@ module Mint
       end
     end
 
-    def build(node : Ast::Node | Nil, parent : Ast::Node)
+    def build(node : Ast::Node?, parent : Ast::Node)
       return unless node
 
       create(node, parent)

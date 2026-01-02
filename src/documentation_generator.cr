@@ -397,7 +397,7 @@ module Mint
         kind: kind)
     end
 
-    def markdown(node : Ast::Comment | Nil)
+    def markdown(node : Ast::Comment?)
       case node
       in Ast::Comment
         document =

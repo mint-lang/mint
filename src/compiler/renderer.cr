@@ -38,7 +38,7 @@ module Mint
       # The current line.
       property line : Int32 = 0
 
-      alias Mapping = Tuple(Ast::Node | Nil, Tuple(Int32, Int32), String | Nil)
+      alias Mapping = Tuple(Ast::Node?, Tuple(Int32, Int32), String?)
 
       # A mapping and stack for generating source maps. We use `Deque` because
       # we push and pop to the stack frequently.

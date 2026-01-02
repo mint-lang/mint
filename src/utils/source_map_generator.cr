@@ -1,7 +1,7 @@
 module Mint
   # This class is responsible for generating a source map.
   class SourceMapGenerator
-    alias Mapping = Tuple(Ast::Node | Nil, Tuple(Int32, Int32), String | Nil)
+    alias Mapping = Tuple(Ast::Node?, Tuple(Int32, Int32), String?)
 
     # The line mappings.
     getter mappings = {} of Int32 => Array(Mapping)

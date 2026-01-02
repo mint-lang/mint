@@ -4,7 +4,7 @@ module Mint
     class Definition < LSP::RequestMessage
       property params : LSP::TextDocumentPositionParams
 
-      def execute(server) : Array(LSP::LocationLink) | Array(LSP::Location) | LSP::Location | Nil
+      def execute(server) : Array(LSP::LocationLink) | Array(LSP::Location) | LSP::Location?
         workspace =
           server.workspace(params.path)
 
