@@ -145,7 +145,7 @@ module Mint
 
     def check_exhaustiveness(target : Checkable, patterns : Array(Array(Ast::Node)?))
       compiler = ExhaustivenessChecker::Compiler.new(
-        ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant) | Nil {
+        ->(type : ExhaustivenessChecker::Checkable) : Array(ExhaustivenessChecker::Variant)? {
           if defi = ast.type_definitions.find(&.name.value.==(type.name))
             case fields = defi.fields
             when Array(Ast::TypeVariant)

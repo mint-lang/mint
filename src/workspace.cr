@@ -14,12 +14,12 @@ module Mint
     @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
 
     # The listener to call when a new result is ready.
-    @listener : Proc(TypeChecker | Error, Nil) | Nil
+    @listener : Proc(TypeChecker | Error, Nil)?
 
     def initialize(
       *,
       @checked_entities : Array(String) = [] of String,
-      @listener : Proc(TypeChecker | Error, Nil) | Nil,
+      @listener : Proc(TypeChecker | Error, Nil)?,
       @include_tests : Bool,
       dot_env : String,
       @format : Bool,
@@ -46,7 +46,7 @@ module Mint
       map_error(result, &.artifacts)
     end
 
-    def ast(path : String) : Ast | Error | Nil
+    def ast(path : String) : Ast | Error?
       @cache[path]?
     end
 
@@ -89,11 +89,11 @@ module Mint
         Formatter::Config.new
     end
 
-    def format(node : Ast::Node | Nil) : String | Nil
+    def format(node : Ast::Node?) : String?
       Formatter.new(formatter_config).format!(node)
     end
 
-    def format(path : String) : String | Error | Nil
+    def format(path : String) : String | Error?
       case item = ast(path)
       in Ast
         Formatter.new(formatter_config).format(item)

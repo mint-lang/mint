@@ -32,7 +32,7 @@ module Mint
 
       def initialize(
         *,
-        @type_checker : TypeChecker | Nil,
+        @type_checker : TypeChecker?,
         @snippet_support : Bool,
         @workspace : Workspace,
       )

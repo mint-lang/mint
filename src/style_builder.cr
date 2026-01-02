@@ -262,12 +262,6 @@ module Mint
         .compile(node)
     end
 
-    def compile_style(node : Ast::Style, compiler : Compiler)
-      VariableCompiler
-        .new(self, compiler)
-        .compile(node)
-    end
-
     def any?(node : Ast::Node)
       variables[node]? ||
         ifs.any?(&.first.first.==(node)) ||

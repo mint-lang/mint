@@ -16,7 +16,7 @@ Dir
         position = 0
 
         requests = [] of String
-        responses = [] of {String, Int32 | Nil, String}
+        responses = [] of {String, Int32?, String}
 
         contents.scan(/^\-+(\w+)( [\w\-.]+)?( [\w\-.]+)?/m) do |match|
           text =

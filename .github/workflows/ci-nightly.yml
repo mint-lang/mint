@@ -10,3 +10,6 @@ jobs:
     uses: ./.github/workflows/ci-base.yml
     with:
       crystal-version: nightly
+
+  lint:
+    uses: ./.github/workflows/ameba.yml
