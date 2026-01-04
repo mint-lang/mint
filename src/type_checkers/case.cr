@@ -127,9 +127,14 @@ module Mint
     def to_pattern(node : Ast::Node) : ExhaustivenessChecker::Pattern
       case node
       when Ast::NumberLiteral,
-           Ast::StringLiteral,
-           Ast::BoolLiteral
+           Ast::StringLiteral
         ExhaustivenessChecker::PValue.new(node.source)
+      when Ast::BoolLiteral
+        ExhaustivenessChecker::PConstructor.new(
+          arguments: [] of ExhaustivenessChecker::Pattern,
+          constructor: ExhaustivenessChecker::CVariant.new(
+            type: to_pattern_type(cache[node]),
+            index: node.value ? 1 : 0))
       end || error! :invalid_pattern do
         snippet "The following code cannot be used as a pattern:", node
       end
@@ -170,6 +175,8 @@ module Mint
                 end
               [ExhaustivenessChecker::Variant.new(parameters)]
             end
+          elsif type.name == "Bool"
+            [ExhaustivenessChecker::Variant.new, ExhaustivenessChecker::Variant.new]
           end
         },
         ->(name : String, index : Int32) : String | Array(String) {
@@ -179,6 +186,12 @@ module Mint
               fields[index].value.value
             when Array(Ast::TypeDefinitionField)
               fields.compact_map(&.key.try(&.value))
+            end
+          elsif name == "Bool"
+            if index == "0"
+              "false"
+            else
+              "true"
             end
           end || "??"
         })

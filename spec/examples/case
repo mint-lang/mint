@@ -298,3 +298,12 @@ component Main {
     ""
   }
 }
+-------------------------------------------------------------------------------
+component Main {
+  fun render : String {
+    case true {
+      false => ""
+      true => ""
+    }
+  }
+}
