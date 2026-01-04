@@ -11,5 +11,5 @@ jobs:
     with:
       crystal-version: nightly
 
-  lint:
+  ameba:
     uses: ./.github/workflows/ameba.yml

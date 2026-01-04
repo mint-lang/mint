@@ -15,5 +15,5 @@ jobs:
     with:
       crystal-version: latest
 
-  lint:
+  ameba:
     uses: ./.github/workflows/ameba.yml
