@@ -32,3 +32,5 @@ development_dependencies:
 targets:
   mint:
     main: src/mint.cr
+  ameba:
+    main: bin/ameba.cr

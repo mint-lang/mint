@@ -19,7 +19,7 @@ format-core: build
 	cd core/tests && ../../bin/mint format
 
 .PHONY: ameba
-ameba:
+ameba: bin/ameba
 	bin/ameba
 
 .PHONY: test
@@ -57,6 +57,9 @@ src/assets/runtime_test.js: \
 	runtime/index_testing.js \
 	runtime/index.js
 	cd runtime && make index_testing
+
+bin/ameba: $(shell find lib/ameba -type f)
+	shards build ameba --progress -Dpreview_mt
 
 # This builds the binary and depends on files in some directories.
 bin/mint: \
