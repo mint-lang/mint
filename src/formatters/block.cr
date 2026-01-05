@@ -1,6 +1,7 @@
 module Mint
   class Formatter
     enum BlockFormat
+      Outdented
       Attribute
       Inline
       Naked
@@ -18,28 +19,31 @@ module Mint
           [] of Node
         end
 
-      if format == BlockFormat::Naked
+      case format
+      in BlockFormat::Naked
         body
-      elsif format == BlockFormat::Block
+      in BlockFormat::Outdented
+        group(
+          behavior: Behavior::Outdented,
+          ends: {"{", "}"},
+          separator: "",
+          items: [body],
+          pad: false) + fallback
+      in BlockFormat::Block
         group(
           behavior: Behavior::Block,
           ends: {"{", "}"},
           separator: "",
           items: [body],
           pad: false) + fallback
-      else
-        case format
-        when BlockFormat::Attribute,
-             BlockFormat::Inline
-          group(
-            pad: format == BlockFormat::Inline,
-            behavior: Behavior::BreakAll,
-            ends: {"{", "}"},
-            items: [body],
-            separator: "") + fallback
-        else
-          ["{"] + body + ["}"] + fallback
-        end
+      in BlockFormat::Attribute,
+         BlockFormat::Inline
+        group(
+          pad: format == BlockFormat::Inline,
+          behavior: Behavior::BreakAll,
+          ends: {"{", "}"},
+          items: [body],
+          separator: "") + fallback
       end
     end
   end

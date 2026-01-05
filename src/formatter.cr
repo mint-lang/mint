@@ -9,7 +9,7 @@ module Mint
 
     # Alias for a node.
     alias Node = NestedString | BreakNotFits | BrokenString | Entity | String |
-                 Group | Line | Nest | List
+                 Group | Line | Nest | List | Outdented
 
     # Alias for array of nodes.
     alias Nodes = Array(Node)
@@ -33,6 +33,9 @@ module Mint
     # Describes a group of items where the leading whitespace is set to a
     # fixed amount (on top of the current indentation).
     record NestedString, items : Array(String | Nodes), indentation : Int32
+
+    # Describes a group of items which should from their own indentation group.
+    record Outdented, items : Nodes
 
     # Describes a broken string ("Hello" \ "There") and contains logic to
     # break the string just so that it fits with the maximum column length.
@@ -90,6 +93,7 @@ module Mint
     # The possibilities on how to format groups.
     enum Behavior
       BreakNotFits
+      Outdented
       BreakAll
       Block
     end

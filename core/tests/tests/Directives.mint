@@ -22,9 +22,9 @@ suite "@format" {
   test "returns the formatter source" {
     let {value, formatted} =
       @format {
-        {
-          "Hello World!"
-        }
+  {
+    "Hello World!"
+  }
       }
 
     value == "Hello World!" && formatted == <<~MINT
@@ -38,7 +38,7 @@ suite "@format" {
 suite "@highlight" {
   test "highlights the given code" {
     @highlight {
-      "Hello World!"
+  "Hello World!"
     }[1]
     |> Test.Html.start()
     |> Test.Html.assertElementExists("span.line")

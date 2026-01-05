@@ -38,6 +38,16 @@ module Mint
           self.column = depth * indent_size
 
           [LineBreak.new(node.count, depth, indent_size)] of Processed
+        in Outdented
+          previous = {depth, column}
+
+          self.column = 0
+          self.depth = 0
+
+          process(node.items).tap do
+            self.column = previous[1]
+            self.depth = previous[0]
+          end
         in NestedString
           # Every line in this will have a fixed indentation
           # on top the nesting depth.
@@ -231,6 +241,20 @@ module Mint
             end
 
           case behavior
+          in Behavior::Outdented
+            process(
+              [
+                node.ends[0],
+                Outdented.new([
+                  Nest.new(
+                    [Line.new(1)] +
+                    node.items.intersperse([node.separator, Line.new(1)]).flatten +
+                    comment
+                  ),
+                ] of Node),
+                Line.new(1),
+                node.ends[1],
+              ])
           in Behavior::Block
             process(
               [
@@ -414,7 +438,7 @@ module Mint
               size(item)
             end
           end + 2
-        in Nest
+        in Nest, Outdented
           size(node.items)
         end
       end
