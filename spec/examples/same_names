@@ -1,0 +1,18 @@
+module Ui.Form {
+  fun empty : Ui.Form {
+    ``
+  }
+}
+
+component Ui.Form {
+  fun render {
+    ""
+  }
+}
+
+component Main {
+  fun render {
+    Ui.Form.empty()
+    <Ui.Form/>
+  }
+}

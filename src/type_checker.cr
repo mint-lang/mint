@@ -281,13 +281,16 @@ module Mint
 
     def check_global_names(name : String, node : Ast::Node) : Nil
       other =
-        (
-          ast.providers.select(&.name.value.==(name)) +
+        if node.is_a?(Ast::Component) && !node.global?
+          # Non global components can only conflict with other components since
+          # we can't reference them otherwise.
+          ast.components.select(&.name.value.==(name))
+        else
+          ast.components.select(&.name.value.==(name)).select(&.global?) +
             ast.unified_modules.select(&.name.value.==(name)) +
-            ast.components.select(&.name.value.==(name)) +
+            ast.providers.select(&.name.value.==(name)) +
             ast.stores.select(&.name.value.==(name))
-        )
-          .to_set
+        end.to_set
           .tap(&.delete(node))
           .first?
 
