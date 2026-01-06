@@ -1,0 +1,84 @@
+--------------------------------------------------------------------------------
+type Ui.Form.Model {
+  fields : Map(String, Ui.Form.Field)
+}
+
+type Ui.Form.Field {
+  condition : Function(Ui.Form.Model, Bool),
+  input : Ui.Form.Input,
+  label : String
+}
+
+type Ui.Form.Input {
+  Form(render : Function(Html), form : Ui.Form.Model)
+  Many(items : Array(Ui.Form.Field))
+
+  Pin(
+    checks : Array(Function(Array(Number), Tuple(Bool, String))),
+    value : Array(Number),
+    digits : Number,
+    required : Bool)
+
+  Select(
+    checks : Array(Function(String, Tuple(Bool, String))),
+    items : Array(Map(String, String)),
+    placeholder : Maybe(String),
+    required : Bool,
+    value : String)
+
+  TextArea(
+    checks : Array(Function(String, Tuple(Bool, String))),
+    placeholder : String,
+    required : Bool,
+    value : String)
+
+  Bool(
+    checks : Array(Function(Maybe(Bool), Tuple(Bool, String))),
+    value : Maybe(Bool),
+    required : Bool)
+
+  File(
+    checks : Array(Function(Maybe(Tuple(File, String)), Tuple(Bool, String))),
+    value : Maybe(Tuple(File, String)),
+    required : Bool)
+}
+
+module Ui.Form {
+  fun empty : Ui.Form.Model {
+    { fields: { } }
+  }
+
+  fun addField (
+    form : Ui.Form.Model,
+    name : String,
+    label : String,
+    field : Ui.Form.Input,
+    condition : Function(Ui.Form.Model, Bool) = (form : Ui.Form.Model) { true }
+  ) {
+    form
+  }
+
+  fun addForm (
+    form : Ui.Form.Model,
+    name : String,
+    label : String,
+    value : Ui.Form.Model,
+    render : Function(Html),
+    condition : Function(Ui.Form.Model, Bool) = (form : Ui.Form.Model) { true }
+  ) {
+    addField(form, name, label, Ui.Form.Input.Form(render, value), condition)
+  }
+}
+
+component Main {
+  fun render {
+    Ui.Form.empty()
+    |> Ui.Form.addForm(
+      name: "name",
+      label: "label",
+      value: Ui.Form.empty(),
+      render: () { <></> })
+
+    <></>
+  }
+}

@@ -10,7 +10,7 @@ module Mint
             {param.value, parameters[index]}
           end.to_h
 
-        Comparer.fill(resolve(definition), mapping)
+        Comparer.fill(resolve(definition), mapping).dup
       else
         component_records[node.name.value]?.try(&.last) ||
           Comparer.normalize(Type.new(node.name.value, parameters))
