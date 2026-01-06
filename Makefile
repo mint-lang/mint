@@ -68,4 +68,4 @@ bin/mint: \
 	$(shell find src -type f) \
 	src/assets/runtime_test.js \
 	src/assets/runtime.js
-	shards build --error-on-warnings --error-trace --progress
+	shards build mint --error-on-warnings --error-trace --progress
