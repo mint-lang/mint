@@ -114,7 +114,12 @@ module Mint
           end
 
           # NOTE: For debugging purposes.
-          # puts "Bundle for #{Debugger.dbg(node)}:"
+          # case node
+          # when Set(Ast::Node)
+          #   puts "Bundle for #{node.map { |item| Debugger.dbg(item) }}:"
+          # else
+          #   puts "Bundle for #{node.to_s}:"
+          # end
           # dependencies.each do |dep|
           #   puts " -> #{Debugger.dbg(dep)}"
           # end

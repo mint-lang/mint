@@ -14,14 +14,22 @@ module Mint
     alias Bundle = Set(Ast::Node) | Compiler::Bundle
     alias Nodes = Set(Ast::Node)
 
-    # A set to save the links to.
-    @links = Set(NamedTuple(node: Ast::Node, parent: Ast::Node)).new
+    class Link
+      property parent : Ast::Node
+      property node : Ast::Node
+
+      def initialize(@node, @parent)
+      end
+    end
 
     # A cache for the root lookups.
     @cache = {} of Ast::Node => Set(Ast::Node)
 
+    # A set to save the links to.
+    @links = Set(Link).new
+
     def link(node, parent)
-      @links.add({node: node, parent: parent})
+      @links.add(Link.new(node: node, parent: parent))
     end
 
     def add(node, parent)
@@ -37,6 +45,13 @@ module Mint
         link(node, node)
       else
         link(node, parent)
+      end
+    end
+
+    def replace(node, other)
+      @links.each do |link|
+        next unless link.node == node
+        link.node = other
       end
     end
 
@@ -64,14 +79,14 @@ module Mint
         else
           # Select all the links for the node.
           links =
-            @links.select { |item| item[:node] == node }
+            @links.select { |item| item.node == node }
 
           # If there are none that means we reached the root of the tree,
           # otherwise return all roots of the parent nodes.
           if links.empty?
             [node]
           else
-            links.flat_map { |item| roots(item[:parent]).to_a }
+            links.flat_map { |item| roots(item.parent).to_a }
           end
         end.to_set
       end
@@ -81,10 +96,13 @@ module Mint
     def calculate : Hash(Bundle, Nodes)
       @links
         .each_with_object({} of Ast::Node => Nodes) do |node, memo|
-          memo[node[:node]] ||= Nodes.new
-          memo[node[:node]].concat(roots(node[:parent]))
+          memo[node.node] ||= Nodes.new
+          memo[node.node].concat(roots(node.parent))
         end
         .each_with_object({} of Bundle => Nodes) do |(node, parents), memo|
+          # NOTE: For debugging purposes.
+          # puts "#{Debugger.dbg(node)} ---> #{parents.map { |item| Debugger.dbg(item) }}"
+
           bundle =
             if bundle?(parents)
               parents

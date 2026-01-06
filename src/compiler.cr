@@ -62,7 +62,7 @@ module Mint
     class Await; end
 
     # Represents a tag.
-    record Tag, name : String
+    record Tag, name : String, node : Ast::Node
 
     enum Bundle
       Index
@@ -502,9 +502,10 @@ module Mint
         id =
           type.name + type.parameters.size.to_s
 
-        @tags[id] ||= begin
+        case tag = @tags[id]?
+        when Nil
           tag =
-            Tag.new(id)
+            Tag.new(id, node)
 
           name =
             js.string(type.name)
@@ -525,7 +526,9 @@ module Mint
 
           add(node, tag, js.call(Builtin::Variant, args))
 
-          tag
+          @tags[id] = tag
+        else
+          artifacts.references.replace(node, tag.node)
         end
 
         [@tags[id]] of Item
