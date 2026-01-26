@@ -15,6 +15,7 @@ class File
     loop do
       return if root == "." || root == "/"
 
+      # ameba:disable Lint/AssignmentInCallArgument
       if File.exists?(path = Path[root, name])
         return path.to_s
       else
