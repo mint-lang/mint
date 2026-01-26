@@ -113,7 +113,7 @@ module Mint
           # Propagate RepositoryCouldNotCheckout
           raise error
         end
-      rescue error
+      rescue
         error! :repository_no_mint_json do
           block do
             text "I could not find the mint.json for the package:"

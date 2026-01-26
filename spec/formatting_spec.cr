@@ -29,7 +29,7 @@ Dir
 
         begin
           result.should eq(expected.strip)
-        rescue error
+        rescue
           fail diff(expected, result)
         end
 
@@ -41,7 +41,7 @@ Dir
 
         begin
           result.should eq(expected.strip)
-        rescue error
+        rescue
           fail diff(expected, result)
         end
       rescue error : Mint::Error

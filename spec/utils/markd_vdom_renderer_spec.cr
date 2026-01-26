@@ -134,7 +134,7 @@ module Mint
 
             begin
               result.should eq(expected.strip)
-            rescue error
+            rescue
               fail diff(expected, result)
             end
           end

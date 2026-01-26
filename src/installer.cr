@@ -123,7 +123,7 @@ module Mint
 
             begin
               repository.json(version)
-            rescue error : Error
+            rescue Error
               # If the mint.json is invalid or missing then this version
               # is eliminated.
               @eliminated << {package, base, constraint, "mint.json invalid"}
@@ -185,7 +185,7 @@ module Mint
           end
         end
       end
-    rescue error : Retry
+    rescue Retry
       # Clear the resolved cache
       @resolved = {} of String => Semver
 

@@ -74,7 +74,7 @@ Dir
             else
               begin
                 expected_response[0].should eq(actual_response)
-              rescue error
+              rescue
                 fail diff(expected_response[0], actual_response)
               end
             end

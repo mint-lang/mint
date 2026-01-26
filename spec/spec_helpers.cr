@@ -1,6 +1,6 @@
 def expect_diff(a, b)
   a.should eq(b)
-rescue error
+rescue
   fail diff(a, b)
 end
 

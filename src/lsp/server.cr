@@ -107,7 +107,7 @@ module LSP
     def read
       return exit(1) if @in.closed?
       MessageParser.parse(@in, &->process(String))
-    rescue error : IO::EOFError
+    rescue IO::EOFError
       # Client has exited unexpectedly without
       # sending an "exit" lifecycle message
       exit(1)
