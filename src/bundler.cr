@@ -418,7 +418,7 @@ module Mint
           if generate_icons?
             ICON_SIZES.map do |size|
               {
-                "src"   => "icon-#{size}x#{size}.png",
+                "src"   => path_for_asset("icon-#{size}x#{size}.png"),
                 "sizes" => "#{size}x#{size}",
                 "type"  => "image/png",
               }
