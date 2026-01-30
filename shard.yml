@@ -2,7 +2,7 @@ name: mint
 
 version: 0.29.0-devel
 license: BSD-3-Clause
-crystal: ~> 1.7
+crystal: ~> 1.19
 
 authors:
   - Szikszai Gusztáv
