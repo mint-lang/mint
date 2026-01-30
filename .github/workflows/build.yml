@@ -3,6 +3,9 @@ name: Build
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build
@@ -68,7 +71,7 @@ jobs:
         run: |
           echo "Installing OpenSSL 3 via Homebrew..."
           brew update
-          
+
           # Install or upgrade OpenSSL 3
           if brew list openssl@3 &>/dev/null; then
             echo "OpenSSL 3 found, upgrading..."
@@ -87,25 +90,25 @@ jobs:
           else
             BREW_PREFIX="/usr/local"
           fi
-          
+
           # Use the actual installation path
           OPENSSL3_PATH="${BREW_PREFIX}/opt/openssl@3"
-          
+
           # Verify OpenSSL 3 is installed
           if [ ! -d "$OPENSSL3_PATH" ]; then
             echo "Error: OpenSSL 3 not found at $OPENSSL3_PATH"
             exit 1
           fi
-          
+
           echo "OpenSSL 3 found at: $OPENSSL3_PATH"
-          
+
           # Set environment variables using the correct path
           echo "${OPENSSL3_PATH}/bin" >> $GITHUB_PATH
           echo "PKG_CONFIG_PATH=${OPENSSL3_PATH}/lib/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
           echo "LDFLAGS=-L${OPENSSL3_PATH}/lib" >> $GITHUB_ENV
           echo "CPPFLAGS=-I${OPENSSL3_PATH}/include" >> $GITHUB_ENV
           echo "OPENSSL_DIR=${OPENSSL3_PATH}" >> $GITHUB_ENV
-          
+
           # Crystal specific
           echo "CRYSTAL_LIBRARY_PATH=${OPENSSL3_PATH}/lib:$CRYSTAL_LIBRARY_PATH" >> $GITHUB_ENV
 
