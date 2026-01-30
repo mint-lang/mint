@@ -12,7 +12,7 @@ COPY . .
 RUN shards install
 
 # Build binary
-RUN shards build --static --no-debug --release
+RUN shards build mint --static --no-debug --release
 
 # This will be the actual base image
 FROM alpine
