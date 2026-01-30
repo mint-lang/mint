@@ -76,7 +76,7 @@ module Mint
         Time.instant
 
       yield.tap do
-        log.elapsed = Time.instant - start
+        log.elapsed = start.elapsed
         @@current = previous
       end
     end
