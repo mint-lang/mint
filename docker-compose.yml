@@ -6,7 +6,7 @@
 version: "2"
 services:
   app:
-    image: crystallang/crystal:1.18.2-alpine
+    image: crystallang/crystal:1.19.1-alpine
     working_dir: /app
     volumes:
       - .:/app

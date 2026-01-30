@@ -73,10 +73,10 @@ module Mint
       end
 
       start =
-        Time.monotonic
+        Time.instant
 
       yield.tap do
-        log.elapsed = Time.monotonic - start
+        log.elapsed = Time.instant - start
         @@current = previous
       end
     end

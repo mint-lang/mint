@@ -6,7 +6,7 @@ shards:
 
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.7.0-dev+git.commit.11af1b78c7ad635b94202c7bc78b3665ddb17e5e
+    version: 1.7.0-dev+git.commit.ef087fb4d2c4457b76f9845458f6f0a38bb7403b
 
   ansi-escapes:
     git: https://github.com/gtramontina/ansi-escapes.cr.git
