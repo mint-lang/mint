@@ -152,7 +152,7 @@ export const decodeString = (ok, err) => (input) => {
 // Decodes `Time` either a UNIX timestamp or any values that the
 // environment can parse with the `Date` constructor.
 export const decodeTime = (ok, err) => (input) => {
-  let parsed = NaN;
+  let parsed;
 
   if (typeof input === "number") {
     parsed = new Date(input);
