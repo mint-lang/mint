@@ -2,8 +2,6 @@ import { expect, test, describe } from "vitest";
 
 import { encodeVariant, identity, variant } from "../index";
 
-import { Name } from "../src/symbols";
-
 const VariantRecord = variant(["name", "age"], "Record");
 const VariantParams = variant(2, "Params");
 const VariantEmpty = variant(0, "Empty");
