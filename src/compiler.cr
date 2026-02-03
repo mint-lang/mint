@@ -354,7 +354,7 @@ module Mint
       if exports.empty?
         [] of Item
       else
-        ["export "] + js.consts(exports)
+        ["export "] + js.constants(exports)
       end
     end
 

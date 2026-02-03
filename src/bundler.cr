@@ -217,7 +217,7 @@ module Mint
                   {-1, ""}
               end
 
-              [["export "] + compiler.js.consts(contents)]
+              [["export "] + compiler.js.constants(contents)]
             end
 
           # If we are building the main bundle we add the translations, tests

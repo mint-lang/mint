@@ -217,16 +217,16 @@ module Mint
               exposed + effect + update_effect + provider_effects,
             }
           else
-            consts =
+            constants =
               if items.empty?
                 [] of Compiled
               else
-                [js.consts(items)]
+                [js.constants(items)]
               end
 
             {
               [] of Tuple(Ast::Node, Id, Compiled),
-              consts + exposed + effect + update_effect + provider_effects,
+              constants + exposed + effect + update_effect + provider_effects,
             }
           end
 

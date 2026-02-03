@@ -15,7 +15,7 @@ module Mint
           compile node.name
 
         refs =
-          js.consts(node.refs.to_h.keys.map do |ref|
+          js.constants(node.refs.to_h.keys.map do |ref|
             {
               node, ref,
               js.call(Builtin::Signal, [js.new(nothing, [] of Compiled)]),

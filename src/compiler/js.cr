@@ -93,7 +93,7 @@ module Mint
       end
 
       # Renders multiple const assignments (as one).
-      def consts(items : Array(Tuple(Ast::Node, Id, Compiled))) : Compiled
+      def constants(items : Array(Tuple(Ast::Node, Id, Compiled))) : Compiled
         case items.size
         when 0
           [] of Item
@@ -106,18 +106,18 @@ module Mint
           assigns =
             items.map { |(_, id, compiled)| assign(id, compiled) }
 
-          consts(assigns)
+          constants(assigns)
         end
       end
 
-      def consts(items : Hash(String, Compiled)) : Compiled
+      def constants(items : Hash(String, Compiled)) : Compiled
         assigns =
           items.map { |(key, compiled)| assign(key, compiled) }
 
-        consts(assigns)
+        constants(assigns)
       end
 
-      def consts(assigns)
+      def constants(assigns)
         if optimize?
           ["const "] + list(assigns, multiline: false)
         else
