@@ -91,6 +91,12 @@ module Mint
         @channel.send(nil)
       end
 
+      # Chromium requires --no-sandbox when running as root (common in
+      # CI / Docker environments). Without it the browser refuses to start.
+      private def needs_no_sandbox? : Bool
+        LibC.getuid == 0
+      end
+
       def start(url, profile_directory)
         browser_output = if @show_browser_output
                            Process::Redirect::Inherit
@@ -110,13 +116,17 @@ module Mint
             error: browser_output
           )
         when "chrome"
-          Process.new(@path, args: [
+          args = [
             "--user-data-dir=#{profile_directory}",
             "--window-size=1920,1080",
             "--disable-gpu",
             "--headless",
             url,
-          ],
+          ]
+
+          args.insert(3, "--no-sandbox") if needs_no_sandbox?
+
+          Process.new(@path, args: args,
             output: browser_output,
             error: browser_output
           )
