@@ -1,0 +1,13 @@
+# This is for doing development in a container using devspace
+# (https://github.com/gdotdesign/devspace).
+
+image = "crystallang/crystal:1.19.1-alpine"
+name = "mint"
+gui = true
+
+init = """
+  apk add --update --no-cache \
+          imagemagick bash pngcrush optipng git \
+          less openssh chromium nss ca-certificates ttf-freefont
+"""
+

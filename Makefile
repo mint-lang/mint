@@ -30,7 +30,7 @@ test-core: build
 	cd core/tests && ../../bin/mint test -b chrome
 
 .PHONY: development
-development: build
+development:
 	mv bin/mint ~/.bin/mint-dev
 
 .PHONY: local
@@ -43,9 +43,7 @@ documentation:
 
 .PHONY: development-release
 development-release:
-	docker-compose run --rm app \
-		crystal build src/mint.cr -o mint-dev --static --no-debug --release
-		mv ./mint-dev ~/.bin/ -f
+	shards build mint --error-on-warnings --error-trace --progress --release
 
 src/assets/runtime.js: \
 	$(shell find runtime/src -type f) \
