@@ -12,17 +12,17 @@ const encoder = [
   [VariantEmpty],
 ];
 
-test("encodeType (simple variant)", () => {
+test("encodeVariant (simple variant)", () => {
   const encoded = encodeVariant(encoder)(new VariantEmpty());
   expect(encoded).toStrictEqual({ type: "Empty" });
 });
 
-test("encodeType (params variant)", () => {
+test("encodeVariant (params variant)", () => {
   const encoded = encodeVariant(encoder)(new VariantParams("Joe", 42));
   expect(encoded).toStrictEqual({ type: "Params", value: ["Joe", 42] });
 });
 
-test("encodeType (record variant)", () => {
+test("encodeVariant (record variant)", () => {
   const encoded = encodeVariant(encoder)(new VariantRecord("Joe", 42));
   expect(encoded).toStrictEqual({ type: "Record", value: ["Joe", 42] });
 });
