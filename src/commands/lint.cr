@@ -14,12 +14,16 @@ module Mint
         json = MintJson.current
         errors = [] of Error
 
-        Dir.glob(SourceFiles.globs(json, include_tests: true))
-          .reduce(ast) do |memo, file|
-            begin
-              memo.merge(Parser.parse(file))
-            rescue error : Error
-              errors << error
+        SourceFiles
+          .everything(json, include_tests: true)
+          .select(&.ends_with?(".mint"))
+          .reduce(ast) do |memo, pattern|
+            Dir.glob(pattern) do |file|
+              begin
+                memo.merge(Parser.parse(file))
+              rescue error : Error
+                errors << error
+              end
             end
 
             memo
