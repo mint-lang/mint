@@ -6,7 +6,7 @@ name = "mint"
 gui = true
 
 init = """
-  apk add --update --no-cache \
+  apk add --update --no-cache nodejs yarn \
           imagemagick bash pngcrush optipng git \
           less openssh chromium nss ca-certificates ttf-freefont
 """
