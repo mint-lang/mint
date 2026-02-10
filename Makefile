@@ -29,10 +29,6 @@ test: spec ameba
 test-core: build
 	cd core/tests && ../../bin/mint test -b chrome
 
-.PHONY: development
-development:
-	mv bin/mint ~/.bin/mint-dev
-
 .PHONY: local
 local: build
 	mv bin/mint ~/.bin/mint
@@ -41,9 +37,15 @@ local: build
 documentation:
 	rm -rf docs && crystal docs
 
+.PHONY: development
+development:
+	devspace exec -- shards build mint --error-trace --progress --static
+	mv -f bin/mint ~/.bin/mint-dev
+
 .PHONY: development-release
 development-release:
-	shards build mint --error-on-warnings --error-trace --progress --release
+	devspace exec -- shards build mint --error-trace --progress --release --static
+	mv -f bin/mint ~/.bin/mint-dev
 
 src/assets/runtime.js: \
 	$(shell find runtime/src -type f) \
