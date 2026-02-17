@@ -1,0 +1,44 @@
+locale en {
+  test: "Hello"
+}
+
+locale fr {
+  test: "Bonjour"
+}
+
+component Main {
+  fun render : Html {
+    <div>"Hello"</div>
+  }
+}
+--------------------------------------------------------------------------------
+░ WARNING (UNUSED_LOCALE_KEY) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The locale key "test" is defined but never used.
+
+It is defined in the en locale here:
+
+   ┌ warnings/unused_locale_key:2:3
+   ├───────────────────────────────
+  1│ locale en {
+  2│   test: "Hello"
+   │   ⌃⌃⌃⌃
+  3│ }
+  4│
+  5│ locale fr {
+  6│   test: "Bonjour"
+
+It is defined in the fr locale here:
+
+    ┌ warnings/unused_locale_key:6:3
+    ├───────────────────────────────
+   2│   test: "Hello"
+   3│ }
+   4│
+   5│ locale fr {
+   6│   test: "Bonjour"
+    │   ⌃⌃⌃⌃
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : Html {

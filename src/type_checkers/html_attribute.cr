@@ -128,6 +128,21 @@ module Mint
           snippet "The attribute in question is here:", node
         end unless resolved
 
+        if default = prop.default
+          if same_value?(default, node.value)
+            warning! :attribute_same_as_default do
+              block do
+                text "The attribute"
+                bold %("#{node.name.value}")
+                text "has the same value as its default."
+              end
+
+              snippet "The attribute is here:", node
+              snippet "The default is defined here:", default
+            end
+          end
+        end
+
         resolved
       end
     end

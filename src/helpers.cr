@@ -109,5 +109,44 @@ module Mint
         .find!(&.name.value.==("Dom.Dimensions"))
         .functions.find!(&.name.value.==("empty"))
     end
+
+    def flatten(node : Ast::Node)
+      case node
+      when Ast::ParenthesizedExpression
+        flatten(node.expression)
+      when Ast::Statement
+        flatten(node.expression) unless node.target
+      when Ast::Block
+        flatten(node.expressions[0]) if node.expressions.size == 1
+      end || node
+    end
+
+    def same_value?(a : Ast::Node, b : Ast::Node) : Bool
+      a = flatten(a)
+      b = flatten(b)
+
+      case {a, b}
+      when {Ast::BoolLiteral, Ast::BoolLiteral}
+        a.value == b.value
+      when {Ast::NumberLiteral, Ast::NumberLiteral}
+        a.value == b.value
+      when {Ast::StringLiteral, Ast::StringLiteral}
+        a.value.size == 1 &&
+          b.value.size == 1 &&
+          a.value[0].is_a?(String) &&
+          b.value[0].is_a?(String) &&
+          a.value[0] == b.value[0]
+      when {Ast::Variable, Ast::Variable}
+        # Same tag or constant. This can be a false positive
+        # in cases where the two variabkes point to two
+        # different constants but it's remote and this
+        # function is only being used currently for
+        # warnings.
+        a.value[0].ascii_uppercase? &&
+          a.value == b.value
+      else
+        false
+      end
+    end
   end
 end

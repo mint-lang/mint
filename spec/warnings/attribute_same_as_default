@@ -1,0 +1,42 @@
+component Comp {
+  property name : String = "hello"
+
+  fun render : Html {
+    <div>name</div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Comp name="hello"/>
+  }
+}
+--------------------------------------------------------------------------------
+░ WARNING (ATTRIBUTE_SAME_AS_DEFAULT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The attribute "name" has the same value as its default.
+
+The attribute is here:
+
+    ┌ warnings/attribute_same_as_default:11:11
+    ├─────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : Html {
+  11│     <Comp name="hello"/>
+    │           ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│   }
+  13│ }
+
+The default is defined here:
+
+   ┌ warnings/attribute_same_as_default:2:28
+   ├────────────────────────────────────────
+  1│ component Comp {
+  2│   property name : String = "hello"
+   │                            ⌃⌃⌃⌃⌃⌃⌃
+  3│
+  4│   fun render : Html {
+  5│     <div>name</div>
+  6│   }

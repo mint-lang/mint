@@ -39,67 +39,6 @@ describe Mint::Workspace do
     end
   end
 
-  it "warns about unused locale keys" do
-    with_workspace do |workspace|
-      workspace.file("Main.mint", <<-MINT)
-        locale en {
-          test: "Hello"
-        }
-
-        locale fr {
-          test: "Bonjour"
-        }
-
-        component Main {
-          fun render : Html {
-            <div>"Hello"</div>
-          }
-        }
-        MINT
-
-      warnings = [] of Mint::Warning
-
-      Mint::Workspace.new(
-        listener: ->(result : Mint::Workspace::Result) { warnings = result.warnings },
-        path: Path[workspace.root_path, "mint.json"].to_s,
-        check: Mint::Check::Environment,
-        include_tests: false,
-        dot_env: ".env",
-        format: false)
-
-      warnings.size.should eq(1)
-      warnings[0].name.should eq(:unused_locale_key)
-    end
-  end
-
-  it "does not warn about used locale keys" do
-    with_workspace do |workspace|
-      workspace.file("Main.mint", <<-MINT)
-        locale en {
-          test: "Hello"
-        }
-
-        component Main {
-          fun render : Html {
-            <div>:test</div>
-          }
-        }
-        MINT
-
-      warnings = [] of Mint::Warning
-
-      Mint::Workspace.new(
-        listener: ->(result : Mint::Workspace::Result) { warnings = result.warnings },
-        path: Path[workspace.root_path, "mint.json"].to_s,
-        check: Mint::Check::Environment,
-        include_tests: false,
-        dot_env: ".env",
-        format: false)
-
-      warnings.should be_empty
-    end
-  end
-
   it "notifies after change (success)" do
     with_workspace do |workspace|
       workspace.file("Main.mint", "")
