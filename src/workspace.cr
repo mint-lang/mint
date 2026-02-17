@@ -127,6 +127,16 @@ module Mint
       end
     rescue error : Error
       error
+    rescue exception : Exception
+      Mint::Error.new(:type_checking_failed).tap do |error|
+        error.block do
+          text "You have run into an unexpected error during type checking."
+          text "Please create an issue about this!"
+        end
+
+        error.snippet exception.to_s
+        error.snippet "This is the stack trace:", exception.backtrace.join("\n")
+      end
     end
 
     def update(files : Array(String), reason : Symbol)
