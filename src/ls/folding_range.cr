@@ -40,7 +40,7 @@ module Mint
         workspace =
           server.workspace(params.text_document.path)
 
-        case type_checker = workspace.result
+        case type_checker = workspace.result.value
         in TypeChecker
           type_checker.artifacts.ast
             .nodes_at_path(params.text_document.path)

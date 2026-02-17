@@ -8,7 +8,7 @@ module Mint
         workspace =
           server.workspace(params.path)
 
-        case type_checker = workspace.result
+        case type_checker = workspace.result.value
         in TypeChecker
           stack =
             type_checker.artifacts.ast.nodes_at_cursor(

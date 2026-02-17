@@ -29,7 +29,7 @@ context "lints" do
     expect_output ["lint"], <<-TEXT
       Mint - Linting
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      No errors detected.
+      No errors or warnings detected.
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       All done in ××××!
       TEXT

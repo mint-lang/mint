@@ -17,7 +17,11 @@ require "./version"
 require "./ext/**"
 
 require "./error_message"
+require "./message"
 require "./errorable"
+require "./error"
+require "./warning"
+require "./warnable"
 
 require "./exhaustiveness_checker"
 require "./constants"

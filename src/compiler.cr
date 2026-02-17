@@ -296,9 +296,9 @@ module Mint
           .locales
           .each_with_object({} of String => Hash(String, Compiled)) do |(key, data), memo|
             data.each do |language, node|
-              if node.in?(artifacts.checked)
+              if node.value.in?(artifacts.checked)
                 memo[language] ||= {} of String => Compiled
-                memo[language]["'#{key}'"] = compile(node)
+                memo[language]["'#{key}'"] = compile(node.value)
               end
             end
           end

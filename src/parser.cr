@@ -1,5 +1,6 @@
 module Mint
   class Parser
+    include Warnable
     include Helpers
 
     # The errors found.

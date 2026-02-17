@@ -199,7 +199,7 @@ module Mint
         print "\n\n"
       end
 
-      def snippet(value : Error::SnippetData)
+      def snippet(value : Message::SnippetData)
         print TerminalSnippet.render(
           filename: value.filename,
           input: value.input,

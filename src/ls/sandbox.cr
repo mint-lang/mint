@@ -21,7 +21,7 @@ module Mint
         @workspace =
           Workspace.new(
             path: Path[@directory, "mint.json"].to_s,
-            listener: ->build(TypeChecker | Error),
+            listener: ->build(Workspace::Result),
             check: Check::Unreachable,
             include_tests: true,
             dot_env: ".env",
@@ -47,14 +47,14 @@ module Mint
         sleep 0.2.seconds
       end
 
-      def build(result : TypeChecker | Error)
+      def build(result : Workspace::Result)
         @server.send_notification("sandbox/compiling", nil)
 
         bundle =
-          case result
+          case value = result.value
           in TypeChecker
             Bundler.new(
-              artifacts: result.artifacts,
+              artifacts: value.artifacts,
               config: Bundler::Config.new(
                 generate_source_maps: true,
                 generate_manifest: false,
@@ -69,7 +69,7 @@ module Mint
                 test: nil),
             ).bundle
           in Error
-            ErrorMessage.render(result, live_reload: false)
+            ErrorMessage.render(value, live_reload: false)
           end
 
         IO::Memory.new.tap do |io|

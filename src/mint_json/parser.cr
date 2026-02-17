@@ -79,7 +79,7 @@ module Mint
             line: line_number,
             offset: position)
 
-        Error::SnippetData.new(
+        Message::SnippetData.new(
           location: {location, location},
           to: position + 1,
           input: contents,

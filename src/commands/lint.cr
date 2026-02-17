@@ -12,6 +12,8 @@ module Mint
       def run
         ast = Ast.new.merge(Core.ast)
         json = MintJson.current
+
+        warnings = [] of Warning
         errors = [] of Error
 
         SourceFiles
@@ -20,7 +22,17 @@ module Mint
           .reduce(ast) do |memo, pattern|
             Dir.glob(pattern) do |file|
               begin
-                memo.merge(Parser.parse(file))
+                value, file_warnings =
+                  Parser.parse_with_warnings(file)
+
+                warnings.concat(file_warnings)
+
+                case value
+                when Error
+                  errors << value
+                when Ast
+                  memo.merge(value)
+                end
               rescue error : Error
                 errors << error
               end
@@ -30,63 +42,57 @@ module Mint
           end
 
         begin
-          TypeChecker.new(ast).tap(&.check)
+          type_checker = TypeChecker.new(ast).tap(&.check)
         rescue error : Error
           errors << error
         end if errors.empty?
 
-        if errors.empty?
-          unless flags.json
-            execute "Linting" do
-              terminal.puts "No errors detected."
-            end
-          end
+        if type_checker
+          warnings.concat(type_checker.warnings)
+        end
+
+        if flags.json
+          items =
+            json(errors) + json(warnings)
+
+          terminal.puts(items.to_pretty_json) unless items.empty?
         else
-          if flags.json
-            json =
-              errors.flat_map do |error|
-                message = error.to_terminal.to_s.uncolorize
+          items = (errors + warnings).map(&.to_terminal)
 
-                if (locations = error.locations).empty?
-                  [
-                    {
-                      name:    error.name.to_s.upcase,
-                      message: message,
-                    },
-                  ]
-                else
-                  locations.map do |location|
-                    {
-                      name:    error.name.to_s.upcase,
-                      path:    location.path,
-                      message: message,
-                      start:   {
-                        character: location.location[0].column,
-                        line:      location.location[0].line,
-                      },
-                      end: {
-                        character: location.location[1].column,
-                        line:      location.location[1].line,
-                      },
-                    }
-                  end
-                end
-              end.to_pretty_json
-
-            terminal.puts json
-          else
-            if errors.empty?
-              terminal.puts "No errors were detected!"
+          execute "Linting" do
+            if items.empty?
+              terminal.puts "No errors or warnings detected."
             else
-              execute "Linting" do
-                errors.each do |error|
-                  terminal.print error.to_terminal
-                end
+              items.each do |item|
+                terminal.print item
               end
             end
           end
+        end
 
-          exit(1)
+        exit(1) unless errors.empty?
+      end
+
+      private def json(items : Array(Error) | Array(Warning))
+        items.flat_map do |item|
+          message = item.to_terminal.to_s.uncolorize
+
+          type = item.class.name.split("::").last.downcase
+
+          if (locations = item.locations).empty?
+            [{type: type, name: item.name.to_s.upcase, message: message}]
+          else
+            locations.map do |location|
+              {
+                start:   {character: location.location[0].column, line: location.location[0].line},
+                end:     {character: location.location[1].column, line: location.location[1].line},
+                name:    item.name.to_s.upcase,
+                path:    location.path,
+                message: message,
+                type:    type,
+              }
+            end
+          end
         end
       end
     end

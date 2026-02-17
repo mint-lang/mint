@@ -7,19 +7,22 @@ module Mint
   #   used.
   #
   class Workspace
-    # The current artifacts of the program or the current error.
-    getter result : TypeChecker | Error = Error.new(:uninitialized_workspace)
+    record Result, value : TypeChecker | Error, warnings : Array(Warning)
 
-    # Stores the AST (or error) of the file at the given path.
-    @cache : Hash(String, Ast | Error) = {} of String => Ast | Error
+    # The current result of the program (type checker or error) and warnings.
+    getter result : Result = Result.new(Error.new(:uninitialized_workspace), [] of Warning)
+
+    # Stores the AST (or error) of the file at the given path, along with
+    # any parser warnings.
+    @cache = {} of String => {Ast, Array(Warning)} | Error
 
     # The listener to call when a new result is ready.
-    @listener : Proc(TypeChecker | Error, Nil)?
+    @listener : Proc(Result, Nil)?
 
     def initialize(
       *,
       @checked_entities : Array(String) = [] of String,
-      @listener : Proc(TypeChecker | Error, Nil)?,
+      @listener : Proc(Result, Nil)?,
       @include_tests : Bool,
       dot_env : String,
       @format : Bool,
@@ -35,7 +38,15 @@ module Mint
     end
 
     def update(contents : String, path : String) : Nil
-      @cache[path] = Parser.parse?(contents, path)
+      result, warnings = Parser.parse_with_warnings(contents, path)
+
+      @cache[path] =
+        case value = result
+        in Ast
+          {value, warnings}
+        in Error
+          value
+        end
     end
 
     def delete(path : String) : Nil
@@ -43,21 +54,47 @@ module Mint
     end
 
     def artifacts : TypeChecker::Artifacts | Error
-      map_error(result, &.artifacts)
+      map_error(result.value, &.artifacts)
     end
 
     def ast(path : String) : Ast | Error?
-      @cache[path]?
+      case value = @cache[path]?
+      when Tuple(Ast, Array(Warning))
+        value[0]
+      when Error
+        value
+      end
     end
 
     def ast : Ast | Error
       map_error(artifacts, &.ast)
     end
 
+    def warnings(value : TypeChecker | Error) : Array(Warning)
+      parser_warnings =
+        @cache.values.compact_map do |item|
+          case item
+          when Tuple(Ast, Array(Warning))
+            item[1]
+          end
+        end.flatten
+
+      type_checker_warnings =
+        case value
+        when TypeChecker
+          value.warnings
+        else
+          [] of Warning
+        end
+
+      parser_warnings + type_checker_warnings
+    end
+
     def unchecked_ast
       @cache
         .values
-        .select(Ast)
+        .select(Tuple(Ast, Array(Warning)))
+        .map { |item| item[0] }
         .reduce(Ast.new) { |memo, item| memo.merge item }
         .tap do |item|
           # Only merge the core if it's not the core (if it has `Maybe`
@@ -187,8 +224,8 @@ module Mint
     end
 
     private def set(value : TypeChecker | Error) : Nil
-      @result = value
-      @listener.try(&.call(value))
+      @result = Result.new(value, warnings(value))
+      @listener.try(&.call(@result))
     end
 
     private def map_error(item : T | Error, & : T -> R) : R | Error forall T, R

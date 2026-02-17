@@ -48,7 +48,7 @@ module Mint
           server.workspace(uri.path.to_s)
 
         contents =
-          case type_checker = workspace.result
+          case type_checker = workspace.result.value
           in Error
             # If the workspace has an error we cannot really
             # provide and hover information, so we just provide

@@ -27,12 +27,12 @@ module Mint
         check: Check::Environment,
         include_tests: true,
         format: false,
-        listener: ->(result : TypeChecker | Error) do
-          case result
+        listener: ->(result : Workspace::Result) do
+          case value = result.value
           in TypeChecker
             @files =
               Bundler.new(
-                artifacts: result.artifacts,
+                artifacts: value.artifacts,
                 config: Bundler::Config.new(
                   generate_source_maps: flags.generate_source_maps,
                   runtime_path: flags.runtime,
@@ -62,7 +62,7 @@ module Mint
               end
             end
           in Error
-            terminal.puts(result.to_terminal)
+            terminal.puts(value.to_terminal)
           end
         end)
 

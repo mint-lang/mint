@@ -45,8 +45,8 @@ module Mint
             dot_env: ".env",
             format: false,
             path: base,
-            listener: ->(item : TypeChecker | Error) {
-              @diagnostics_provider.try(&.process(item))
+            listener: ->(result : Workspace::Result) {
+              @diagnostics_provider.try(&.process(result))
             })
       end
     end

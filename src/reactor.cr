@@ -22,13 +22,13 @@ module Mint
         check: Check::Environment,
         include_tests: false,
         format: format,
-        listener: ->(result : TypeChecker | Error) do
+        listener: ->(result : Workspace::Result) do
           @files =
-            case result
+            case value = result.value
             in TypeChecker
-              listener.call(result)
+              listener.call(value)
             in Error
-              ErrorMessage.render(result, live_reload: @reload)
+              ErrorMessage.render(value, live_reload: @reload)
             end
 
           @sockets.each(&.send("reload")) if @reload

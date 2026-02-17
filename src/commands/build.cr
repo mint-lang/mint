@@ -59,10 +59,10 @@ module Mint
             check: Check::Environment,
             include_tests: false,
             format: false,
-            listener: ->(result : TypeChecker | Error) do
+            listener: ->(result : Workspace::Result) do
               terminal.reset if flags.watch
 
-              case result
+              case value = result.value
               in TypeChecker
                 terminal.measure %(#{COG} Clearing the "#{DIST_DIR}" directory...) do
                   FileUtils.rm_rf DIST_DIR
@@ -71,7 +71,7 @@ module Mint
                 files =
                   terminal.measure "#{COG} Building..." do
                     Bundler.new(
-                      artifacts: result.artifacts,
+                      artifacts: value.artifacts,
                       config: Bundler::Config.new(
                         generate_source_maps: flags.generate_source_maps,
                         generate_manifest: flags.generate_manifest,
@@ -122,7 +122,7 @@ module Mint
                   Logger.print(terminal)
                 end
               in Error
-                terminal.print result.to_terminal
+                terminal.print value.to_terminal
               end
             end)
 

@@ -16,7 +16,7 @@ module Mint
           server.workspace(params.path)
 
         type_checker =
-          case item = workspace.result
+          case item = workspace.result.value
           in TypeChecker
             item
           in Error

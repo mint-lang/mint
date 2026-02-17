@@ -15,7 +15,7 @@ module Mint
                      @lookups = {} of Ast::Node => Tuple(Ast::Node, Ast::Node?),
                      @assets = [] of Ast::Directives::Asset,
                      @cache = {} of Ast::Node => Checkable,
-                     @locales = {} of String => Hash(String, Ast::Node),
+                     @locales = {} of String => Hash(String, Ast::Field),
                      @resolve_order = [] of Ast::Node,
                      @async = Set(Ast::Node).new,
                      @checked = Set(Ast::Node).new,

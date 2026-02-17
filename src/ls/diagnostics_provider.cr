@@ -7,7 +7,7 @@ module Mint
         @current = [] of String
       end
 
-      def process(item : TypeChecker | Error)
+      def process(result : Workspace::Result)
         @current.each do |path|
           @server.send_notification("textDocument/publishDiagnostics", {
             uri:         "file://#{path}",
@@ -15,35 +15,48 @@ module Mint
           })
         end
 
-        case item
-        when Error
-          diagnostics =
-            item
-              .locations
-              .each_with_object({} of String => Array(LSP::Diagnostic)) do |location, memo|
-                memo[location.path] ||= [] of LSP::Diagnostic
-                memo[location.path] <<
-                  LSP::Diagnostic.new(
-                    severity: LSP::DiagnosticSeverity::Error,
-                    message: item.to_terminal.to_s,
-                    code: item.name.to_s.upcase,
-                    range: LSP::Range.new(
-                      start: LSP::Position.new(
-                        character: location.location[0].column,
-                        line: location.location[0].line - 1),
-                      end: LSP::Position.new(
-                        character: location.location[1].column,
-                        line: location.location[1].line - 1)))
-              end
+        diagnostics = {} of String => Array(LSP::Diagnostic)
 
-          diagnostics.each do |path, items|
-            @server.send_notification("textDocument/publishDiagnostics", {
-              uri:         "file://#{path}",
-              diagnostics: items,
-            })
+        case value = result.value
+        when Error
+          diagnostic(value, diagnostics)
+        end
+
+        result.warnings.each { |warning| diagnostic(warning, diagnostics) }
+
+        diagnostics.each do |path, items|
+          @server.send_notification("textDocument/publishDiagnostics", {
+            uri:         "file://#{path}",
+            diagnostics: items,
+          })
+        end
+
+        @current = diagnostics.keys
+      end
+
+      def diagnostic(item : Error | Warning, diagnostics : Hash(String, Array(LSP::Diagnostic)))
+        severity =
+          case item
+          in Warning
+            LSP::DiagnosticSeverity::Warning
+          in Error
+            LSP::DiagnosticSeverity::Error
           end
 
-          @current = diagnostics.keys
+        item.locations.each do |location|
+          diagnostics[location.path] ||= [] of LSP::Diagnostic
+          diagnostics[location.path] <<
+            LSP::Diagnostic.new(
+              message: item.to_terminal.to_s,
+              code: item.name.to_s.upcase,
+              severity: severity,
+              range: LSP::Range.new(
+                start: LSP::Position.new(
+                  character: location.location[0].column,
+                  line: location.location[0].line - 1),
+                end: LSP::Position.new(
+                  character: location.location[1].column,
+                  line: location.location[1].line - 1)))
         end
       end
     end

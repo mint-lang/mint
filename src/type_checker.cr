@@ -1,6 +1,7 @@
 module Mint
   class TypeChecker
     include Errorable
+    include Warnable
     include Helpers
 
     alias Checkable = Type | Record | Variable
@@ -85,6 +86,7 @@ module Mint
 
     @record_name_char : String = 'A'.pred.to_s
     @references_stack = [] of Ast::Node
+    @locale_key_uses = Set(String).new
     @block_stack = [] of Ast::Block
     @stack = [] of Ast::Node
     @tags = Set(String).new
@@ -357,6 +359,25 @@ module Mint
 
     def check(entities : Array(String) = [] of String) : Artifacts
       check ast, entities
+
+      locales.each do |key, translations|
+        unless @locale_key_uses.includes?(key)
+          unless translations.empty?
+            warning! :unused_locale_key do
+              block do
+                text "The locale key"
+                bold %("#{key}")
+                text "is defined but never used."
+              end
+
+              translations.each do |language, field|
+                snippet "It is defined in the #{language} locale here:", field.key.not_nil!
+              end
+            end
+          end
+        end
+      end
+
       artifacts
     end
 

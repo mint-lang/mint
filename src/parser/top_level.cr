@@ -1,10 +1,18 @@
 module Mint
   class Parser
     def self.parse?(contents, file) : Ast | Error
+      parse_with_warnings(contents, file)[0]
+    end
+
+    def self.parse_with_warnings(file) : {Ast | Error, Array(Warning)}
+      parse_with_warnings(::File.read(file), file)
+    end
+
+    def self.parse_with_warnings(contents, file) : {Ast | Error, Array(Warning)}
       parser = new(contents, file)
       parser.parse
       parser.eof!
-      parser.errors.first? || parser.ast
+      {parser.errors.first? || parser.ast, parser.warnings}
     end
 
     def self.parse(contents, file) : Ast

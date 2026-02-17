@@ -1,6 +1,8 @@
 module Mint
   class TypeChecker
     def check(node : Ast::LocaleKey) : Checkable
+      @locale_key_uses.add(node.value)
+
       error! :translation_missing do
         snippet "Translations are not specified for this key:", node
       end unless translations = locales[node.value]?
@@ -20,7 +22,7 @@ module Mint
         end unless value = translations[language]?
 
         type =
-          resolve(value)
+          resolve(value.value)
 
         result =
           if result
@@ -37,14 +39,14 @@ module Mint
               end
 
               expected result[0], type
-              snippet %(The defined value in language "#{language}" is here:), value
+              snippet %(The defined value in language "#{language}" is here:), value.value
               snippet %(The defined value in language "#{result[1]}" is here:), result[2]
               snippet "The locale key in question is here:", node
             end unless resolved
 
-            {resolved, language, value}
+            {resolved, language, value.value}
           else
-            {type, language, value}
+            {type, language, value.value}
           end
       end
 

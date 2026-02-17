@@ -33,8 +33,8 @@ module Mint
             node: field)
         end
       else
-        locales[field_prefix] ||= {} of String => Ast::Node
-        locales[field_prefix][language] = item
+        locales[field_prefix] ||= {} of String => Ast::Field
+        locales[field_prefix][language] = node
       end
     end
   end
