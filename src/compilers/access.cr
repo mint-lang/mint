@@ -35,7 +35,7 @@ module Mint
               [item] of Item
             end
           end
-        elsif item = record_field_lookup[node.field]?
+        elsif record_field_lookup[node.field]?
           compile(node.expression) + ["."] + [node.field.value] of Item
         else
           lookup =
