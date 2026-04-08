@@ -33,4 +33,4 @@ targets:
   mint:
     main: src/mint.cr
   ameba:
-    main: bin/ameba.cr
+    main: lib/ameba/bin/ameba.cr
