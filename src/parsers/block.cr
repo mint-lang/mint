@@ -21,7 +21,7 @@ module Mint
         expressions =
           brackets(opening_bracket_error, closing_bracket_error) do
             many { yield }.tap do |items|
-              next items_empty_error.call if items_empty_error && items.none?
+              items_empty_error.call if items_empty_error && items.none?
             end
           end
 

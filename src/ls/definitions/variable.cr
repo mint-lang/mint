@@ -24,7 +24,7 @@ module Mint
                 end
 
             return links.first if links.size == 1
-            return links unless links.empty?
+            links unless links.empty?
           when {Ast::Variable, _}
             variable_lookup_parent(node, entity)
           else
