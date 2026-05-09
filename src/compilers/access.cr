@@ -44,7 +44,7 @@ module Mint
           item =
             case field = lookup[0]
             when Ast::Variable
-              [Signal.new(lookup[0])] of Item
+              [Signal.new(field)] of Item
             when Ast::Get
               js.call(field, [] of Compiled)
             when Ast::State, Ast::Signal
