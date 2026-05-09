@@ -5,15 +5,14 @@ module Mint
         if items = variables[node]?
           case item = items[0]
           when Ast::TypeVariant
-            case type = cache[node]?
-            when nil
-              [] of Item
-            else
+            if type = cache[node]?
               if type.name == "Function"
                 js.call(Builtin::NewVariant, [tag(item, cache[item])] of Compiled)
               else
                 js.new(tag(item, cache[item]), [] of Compiled)
               end
+            else
+              [] of Item
             end
           else
             # `subscriptions` is a special case: both the parent and the entity

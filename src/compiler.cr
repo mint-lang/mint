@@ -502,8 +502,9 @@ module Mint
         id =
           type.name + type.parameters.size.to_s
 
-        case tag = @tags[id]?
-        when Nil
+        if tag = @tags[id]?
+          artifacts.references.replace(node, tag.node)
+        else
           tag =
             Tag.new(id, node)
 
@@ -527,8 +528,6 @@ module Mint
           add(node, tag, js.call(Builtin::Variant, args))
 
           @tags[id] = tag
-        else
-          artifacts.references.replace(node, tag.node)
         end
 
         [@tags[id]] of Item
