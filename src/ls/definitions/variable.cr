@@ -37,7 +37,7 @@ module Mint
       end
 
       def variable_lookup_parent(node : Ast::Variable, variable : Ast::Variable)
-        # For some variables in the .variables` cache, we only have access to the
+        # For some variables in the `.variables` cache, we only have access to the
         # target Ast::Variable and not its containing node, so we must search for it
         return unless parent =
                         @type_checker.artifacts.ast.nodes
