@@ -3,17 +3,15 @@ module Mint
     class Definitions
       def definition(node : Ast::Variable)
         if lookup = @type_checker.variables[node]?
-          entity, parent = lookup
-
-          case {entity, parent}
-          when {Ast::TypeDefinition, _}
+          case entity = lookup[0]
+          when Ast::TypeDefinition
             location_link node, entity.name, entity
-          when {Ast::TypeVariant, _}
+          when Ast::TypeVariant
             location_link node, entity.value, entity
-          when {Ast::Component, _},
-               {Ast::Store, _}
+          when Ast::Component,
+               Ast::Store
             location_link node, entity.name, entity
-          when {Ast::Module, _}
+          when Ast::Module
             links =
               @type_checker.artifacts.ast.modules
                 .select(&.name.value.==(node.value))
@@ -25,7 +23,7 @@ module Mint
 
             return links.first if links.size == 1
             links unless links.empty?
-          when {Ast::Variable, _}
+          when Ast::Variable
             variable_lookup_parent(node, entity)
           else
             variable_lookup(node, entity)
