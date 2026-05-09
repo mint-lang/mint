@@ -47,7 +47,7 @@ module Mint
           item =
             case field = lookup[0]
             when Ast::Variable
-              [Signal.new(lookup[0])] of Item
+              [Signal.new(field)] of Item
             else
               compile_access_item(field)
             end
