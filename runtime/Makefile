@@ -1,6 +1,6 @@
 .PHONY: index
 index:
-	yarn esbuild index.js \
+	bunx esbuild index.js \
 		--outfile=../src/assets/runtime.js \
 		--log-override:equals-nan=silent \
 		--format=esm \
@@ -9,7 +9,7 @@ index:
 
 .PHONY: index_testing
 index_testing:
-	yarn esbuild index_testing.js \
+	bunx esbuild index_testing.js \
 		--outfile=../src/assets/runtime_test.js \
 		--log-override:equals-nan=silent \
 		--format=esm \
@@ -18,8 +18,8 @@ index_testing:
 
 .PHONY: format
 format:
-	yarn prettier --write *.js **/*.js
+	bunx prettier --write *.js **/*.js
 
 .PHONY: test
 test:
-	yarn vitest --coverage
+	bunx vitest --coverage
