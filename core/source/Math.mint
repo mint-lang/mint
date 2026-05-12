@@ -314,7 +314,7 @@ module Math {
     if decimals == 0 {
       `Math.round(#{number})`
     } else {
-      `Math.round(#{number} * (10 * #{decimals})) / (10 * #{decimals})`
+      `Math.round(#{number} * (10 ** #{decimals})) / (10 ** #{decimals})`
     }
   }
 
