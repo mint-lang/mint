@@ -9,18 +9,17 @@ module Mint
           [" or return "] + format(item)
         end
 
-      case node.target
-      when Nil
-        expression + return_call
-      else
+      if target = node.target
         target =
-          format node.target
+          format target
 
         if newline
           ["let "] + target + [" =", Nest.new([Line.new(1)] + expression)] + return_call
         else
           ["let "] + target + [" = "] + expression + return_call
         end
+      else
+        expression + return_call
       end
     end
   end
