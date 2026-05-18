@@ -186,10 +186,17 @@ static bool scan_html_open(TSLexer *lexer) {
   return true;
 }
 
-// Scans the text of a single CSS selector fragment, up to a `,` or `{`. It
-// only succeeds if a `{` is reached before any `;` or `}`, which means the
-// construct is a CSS selector rather than a `css_definition`. The consumed
-// text is trimmed of trailing whitespace.
+// Scans the text of a single CSS selector fragment. A selector and a
+// `css_definition` both start with text; they are told apart by what
+// terminates them — a selector ends at `{`, a definition at `;`. This
+// scanner emits the fragment only after confirming, by looking ahead, that
+// the construct really is a selector: a top-level `{` is reached before any
+// top-level `;`/`}`.
+//
+// The token itself covers just the first fragment (up to the first
+// top-level `,` or `{`), since `css_selector` is a comma-separated list of
+// `css_selector_name`s. Commas and semicolons inside parentheses — e.g.
+// `hsl(195,100%,55%)` in a value — are ignored via paren-depth tracking.
 static bool scan_css_selector_name(TSLexer *lexer) {
   // Leading whitespace is not skipped automatically for external tokens.
   while (is_whitespace(lexer->lookahead)) {
@@ -197,45 +204,66 @@ static bool scan_css_selector_name(TSLexer *lexer) {
   }
 
   bool has_content = false;
-  bool at_trailing_whitespace = false;
+  bool fragment_ended = false;
+  int paren_depth = 0;
 
   while (true) {
     int32_t c = lexer->lookahead;
 
-    if (c == ',' || c == '{') {
-      // A `{` (or another selector after `,`) confirms a selector.
-      return has_content;
-    }
-
-    if (c == ';' || c == '}' || c == 0) {
-      // A `;`/`}` first means this is a definition or block end.
+    if (c == 0) {
       return false;
     }
 
-    // `#{...}` is an interpolation, not a selector — a definition value.
+    if (paren_depth == 0) {
+      if (c == '{') {
+        // A top-level `{` confirms a selector. The token is the first
+        // fragment, already delimited by `mark_end`.
+        return has_content;
+      }
+
+      if (c == ';' || c == '}') {
+        // A top-level `;`/`}` first means this is a definition or a block
+        // end, not a selector.
+        return false;
+      }
+
+      if (c == ',' && !fragment_ended) {
+        // End of the first selector fragment. Keep scanning (without
+        // extending the token) to confirm a `{` still follows.
+        fragment_ended = true;
+        advance(lexer);
+        continue;
+      }
+    }
+
+    // `#{...}` is an interpolation; a selector never contains one.
     if (c == '#') {
       advance(lexer);
       if (lexer->lookahead == '{') {
         return false;
       }
-      has_content = true;
-      lexer->mark_end(lexer);
+      if (!fragment_ended && !is_whitespace(c)) {
+        has_content = true;
+        lexer->mark_end(lexer);
+      }
       continue;
+    }
+
+    if (c == '(') {
+      paren_depth++;
+    } else if (c == ')' && paren_depth > 0) {
+      paren_depth--;
     }
 
     advance(lexer);
 
-    if (!is_whitespace(c)) {
+    // Extend the token only while still inside the first fragment, and mark
+    // the end after the last non-whitespace character so trailing
+    // whitespace is excluded.
+    if (!fragment_ended && !is_whitespace(c)) {
       has_content = true;
-      // Mark the end after the last non-whitespace character so trailing
-      // whitespace is excluded from the token.
       lexer->mark_end(lexer);
-      at_trailing_whitespace = false;
-    } else {
-      at_trailing_whitespace = true;
     }
-
-    (void)at_trailing_whitespace;
   }
 }
 
