@@ -3,7 +3,7 @@
     "type": "access",
     "named": true,
     "fields": {
-      "entity": {
+      "expression": {
         "multiple": false,
         "required": true,
         "types": [
@@ -12,7 +12,11 @@
             "named": true
           },
           {
-            "type": "array",
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
             "named": true
           },
           {
@@ -20,7 +24,15 @@
             "named": true
           },
           {
-            "type": "bool",
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
             "named": true
           },
           {
@@ -32,15 +44,55 @@
             "named": true
           },
           {
-            "type": "constant",
+            "type": "dbg",
             "named": true
           },
           {
-            "type": "entity_name",
+            "type": "decode",
             "named": true
           },
           {
-            "type": "enum",
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
             "named": true
           },
           {
@@ -52,23 +104,31 @@
             "named": true
           },
           {
-            "type": "inline_javascript",
+            "type": "js",
             "named": true
           },
           {
-            "type": "member",
+            "type": "locale_key",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "map",
             "named": true
           },
           {
-            "type": "number",
+            "type": "negated_expression",
             "named": true
           },
           {
-            "type": "operation",
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
             "named": true
           },
           {
@@ -80,11 +140,19 @@
             "named": true
           },
           {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
             "named": true
           },
           {
@@ -93,90 +161,10 @@
           }
         ]
       },
-      "variable": {
+      "field": {
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "access",
-            "named": true
-          },
-          {
-            "type": "array",
-            "named": true
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "bool",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "constant",
-            "named": true
-          },
-          {
-            "type": "entity_name",
-            "named": true
-          },
-          {
-            "type": "enum",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inline_function",
-            "named": true
-          },
-          {
-            "type": "inline_javascript",
-            "named": true
-          },
-          {
-            "type": "member",
-            "named": true
-          },
-          {
-            "type": "negation",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "operation",
-            "named": true
-          },
-          {
-            "type": "record",
-            "named": true
-          },
-          {
-            "type": "record_update",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple",
-            "named": true
-          },
           {
             "type": "variable",
             "named": true
@@ -189,6 +177,172 @@
     "type": "argument",
     "named": true,
     "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -201,10 +355,14 @@
       },
       "type": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "type_definition",
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "variable",
             "named": true
           }
         ]
@@ -239,7 +397,11 @@
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -247,7 +409,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -259,15 +429,59 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -279,19 +493,27 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
@@ -299,11 +521,27 @@
           "named": true
         },
         {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
         {
+          "type": "record_field",
+          "named": true
+        },
+        {
           "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
           "named": true
         },
         {
@@ -315,6 +553,10 @@
           "named": true
         },
         {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
@@ -322,7 +564,58 @@
     }
   },
   {
-    "type": "array",
+    "type": "array_destructuring",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_destructuring",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "record_destructuring",
+          "named": true
+        },
+        {
+          "type": "spread",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_destructuring",
+          "named": true
+        },
+        {
+          "type": "type_destructuring",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_literal",
     "named": true,
     "fields": {},
     "children": {
@@ -334,7 +627,11 @@
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -342,7 +639,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -354,15 +659,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -374,23 +719,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -402,11 +763,186 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "await",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -422,8 +958,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "block_fallback",
+          "named": true
+        },
         {
           "type": "statement",
           "named": true
@@ -432,25 +972,216 @@
     }
   },
   {
-    "type": "bool",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "call",
+    "type": "block_directive",
     "named": true,
     "fields": {
-      "arguments": {
+      "body": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "arguments",
+            "type": "block",
             "named": true
           }
         ]
       },
-      "epxression": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "@format",
+            "named": false
+          },
+          {
+            "type": "@highlight",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block_fallback",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bool_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "bracket_access",
+    "named": true,
+    "fields": {
+      "expression": {
         "multiple": false,
         "required": true,
         "types": [
@@ -459,7 +1190,11 @@
             "named": true
           },
           {
-            "type": "array",
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
             "named": true
           },
           {
@@ -467,7 +1202,15 @@
             "named": true
           },
           {
-            "type": "bool",
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
             "named": true
           },
           {
@@ -479,15 +1222,55 @@
             "named": true
           },
           {
-            "type": "constant",
+            "type": "dbg",
             "named": true
           },
           {
-            "type": "entity_name",
+            "type": "decode",
             "named": true
           },
           {
-            "type": "enum",
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
             "named": true
           },
           {
@@ -499,23 +1282,31 @@
             "named": true
           },
           {
-            "type": "inline_javascript",
+            "type": "js",
             "named": true
           },
           {
-            "type": "member",
+            "type": "locale_key",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "map",
             "named": true
           },
           {
-            "type": "number",
+            "type": "negated_expression",
             "named": true
           },
           {
-            "type": "operation",
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
             "named": true
           },
           {
@@ -527,11 +1318,185 @@
             "named": true
           },
           {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
             "named": true
           },
           {
@@ -543,99 +1508,371 @@
     }
   },
   {
-    "type": "case",
+    "type": "builtin",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "access",
+          "type": "variable",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "call",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
-          "type": "array",
+          "type": "arguments",
           "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "case",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
         {
           "type": "case_branch",
-          "named": true
-        },
-        {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "entity_name",
-          "named": true
-        },
-        {
-          "type": "enum",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "inline_function",
-          "named": true
-        },
-        {
-          "type": "inline_javascript",
-          "named": true
-        },
-        {
-          "type": "member",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -644,33 +1881,242 @@
   {
     "type": "case_branch",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "array_destructuring",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "record_destructuring",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_destructuring",
+            "named": true
+          },
+          {
+            "type": "type_destructuring",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "component",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "access",
-          "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "case",
+          "type": "connect",
           "named": true
         },
         {
@@ -678,82 +2124,7 @@
           "named": true
         },
         {
-          "type": "entity_name",
-          "named": true
-        },
-        {
-          "type": "enum",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "inline_function",
-          "named": true
-        },
-        {
-          "type": "inline_javascript",
-          "named": true
-        },
-        {
-          "type": "member",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "component",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "const",
-          "named": true
-        },
-        {
-          "type": "entity_name",
+          "type": "context",
           "named": true
         },
         {
@@ -761,14 +2132,369 @@
           "named": true
         },
         {
+          "type": "get",
+          "named": true
+        },
+        {
           "type": "property",
+          "named": true
+        },
+        {
+          "type": "provide",
+          "named": true
+        },
+        {
+          "type": "state",
+          "named": true
+        },
+        {
+          "type": "style",
+          "named": true
+        },
+        {
+          "type": "use",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "const",
+    "type": "connect",
+    "named": true,
+    "fields": {
+      "store": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "connect_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "connect_variable",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "constant",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "context",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "css_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "css_property",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "css_value_content",
+            "named": true
+          },
+          {
+            "type": "interpolation",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "css_font_face",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "css_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "css_keyframes",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "css_keyframes_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "css_selector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "css_nested_at",
     "named": true,
     "fields": {},
     "children": {
@@ -776,11 +2502,112 @@
       "required": true,
       "types": [
         {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "css_condition",
+          "named": true
+        },
+        {
+          "type": "css_definition",
+          "named": true
+        },
+        {
+          "type": "css_font_face",
+          "named": true
+        },
+        {
+          "type": "css_keyframes",
+          "named": true
+        },
+        {
+          "type": "css_nested_at",
+          "named": true
+        },
+        {
+          "type": "css_selector",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "css_selector",
+    "named": true,
+    "fields": {
+      "selectors": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "css_selector_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "css_definition",
+          "named": true
+        },
+        {
+          "type": "css_font_face",
+          "named": true
+        },
+        {
+          "type": "css_keyframes",
+          "named": true
+        },
+        {
+          "type": "css_nested_at",
+          "named": true
+        },
+        {
+          "type": "css_selector",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dbg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
           "type": "access",
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -788,7 +2615,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -800,15 +2635,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -820,23 +2695,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -848,11 +2739,19 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -863,7 +2762,182 @@
     }
   },
   {
-    "type": "else",
+    "type": "decode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defer",
     "named": true,
     "fields": {},
     "children": {
@@ -875,7 +2949,11 @@
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -883,7 +2961,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -895,15 +2981,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -915,23 +3041,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -943,11 +3085,19 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -958,27 +3108,387 @@
     }
   },
   {
-    "type": "entity_name",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "enum",
+    "type": "directive",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "entity_name",
+          "type": "block_directive",
+          "named": true
+        },
+        {
+          "type": "path_directive",
+          "named": true
+        },
+        {
+          "type": "size_directive",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "enum_definition",
+    "type": "emit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "encode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "env",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field_access",
     "named": true,
     "fields": {
       "name": {
@@ -986,7 +3496,199 @@
         "required": true,
         "types": [
           {
-            "type": "entity_name",
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "for",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "subject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
             "named": true
           }
         ]
@@ -994,14 +3696,42 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "comment",
+          "type": "array_destructuring",
           "named": true
         },
         {
-          "type": "type",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "record_destructuring",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_destructuring",
+          "named": true
+        },
+        {
+          "type": "type_destructuring",
           "named": true
         },
         {
@@ -1015,12 +3745,12 @@
     "type": "function",
     "named": true,
     "fields": {
-      "arguments": {
+      "body": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "argument_list",
+            "type": "block",
             "named": true
           }
         ]
@@ -1034,13 +3764,79 @@
             "named": true
           }
         ]
-      },
-      "type": {
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "get",
+    "named": true,
+    "fields": {
+      "body": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "type_definition",
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "here_document",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "token": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
             "named": true
           }
         ]
@@ -1051,26 +3847,93 @@
       "required": false,
       "types": [
         {
-          "type": "statement",
+          "type": "here_document_content",
+          "named": true
+        },
+        {
+          "type": "interpolation",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "if",
+    "type": "html_attribute",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "html_attribute_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "html_component",
+    "named": true,
+    "fields": {
+      "component": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "ref": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access",
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -1078,7 +3941,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -1090,19 +3961,59 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "else",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "defer",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_attribute",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -1114,23 +4025,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -1142,11 +4069,19 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -1157,9 +4092,617 @@
     }
   },
   {
-    "type": "inline_function",
+    "type": "html_element",
+    "named": true,
+    "fields": {
+      "ref": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "html_tag",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_attribute",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "html_style",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_fragment",
     "named": true,
     "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "html_style",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "statement",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "falsy": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          }
+        ]
+      },
+      "truthy": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inline_function",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1169,30 +4712,7 @@
           "named": true
         },
         {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "type_definition",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "inline_javascript",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "interpolation",
-          "named": true
-        },
-        {
-          "type": "javascript_chars",
+          "type": "type_annotation",
           "named": true
         }
       ]
@@ -1211,7 +4731,11 @@
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -1219,7 +4743,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -1231,15 +4763,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -1251,23 +4823,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -1279,11 +4867,19 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -1294,10 +4890,86 @@
     }
   },
   {
-    "type": "member",
+    "type": "js",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "js_content",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "locale",
     "named": true,
     "fields": {
-      "entity": {
+      "language": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "record_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "map_field",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_field",
+    "named": true,
+    "fields": {
+      "key": {
         "multiple": false,
         "required": true,
         "types": [
@@ -1306,7 +4978,11 @@
             "named": true
           },
           {
-            "type": "array",
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
             "named": true
           },
           {
@@ -1314,7 +4990,15 @@
             "named": true
           },
           {
-            "type": "bool",
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
             "named": true
           },
           {
@@ -1326,15 +5010,55 @@
             "named": true
           },
           {
-            "type": "constant",
+            "type": "dbg",
             "named": true
           },
           {
-            "type": "entity_name",
+            "type": "decode",
             "named": true
           },
           {
-            "type": "enum",
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
             "named": true
           },
           {
@@ -1346,23 +5070,39 @@
             "named": true
           },
           {
-            "type": "inline_javascript",
+            "type": "js",
             "named": true
           },
           {
-            "type": "member",
+            "type": "locale_key",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "map",
             "named": true
           },
           {
-            "type": "number",
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
             "named": true
           },
           {
             "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -1374,6 +5114,10 @@
             "named": true
           },
           {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1382,15 +5126,175 @@
             "named": true
           },
           {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
             "type": "variable",
             "named": true
           }
         ]
       },
-      "variable": {
+      "value": {
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
           {
             "type": "variable",
             "named": true
@@ -1400,7 +5304,7 @@
     }
   },
   {
-    "type": "module",
+    "type": "module_definition",
     "named": true,
     "fields": {
       "name": {
@@ -1408,7 +5312,7 @@
         "required": true,
         "types": [
           {
-            "type": "entity_name",
+            "type": "id",
             "named": true
           }
         ]
@@ -1419,11 +5323,7 @@
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "const",
+          "type": "constant",
           "named": true
         },
         {
@@ -1434,11 +5334,11 @@
     }
   },
   {
-    "type": "negation",
+    "type": "negated_expression",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -1446,7 +5346,11 @@
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -1454,7 +5358,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -1466,15 +5378,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -1486,11 +5438,19 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
           "named": true
         },
         {
@@ -1498,11 +5458,23 @@
           "named": true
         },
         {
-          "type": "number",
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -1514,6 +5486,10 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1522,7 +5498,26 @@
           "named": true
         },
         {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "next_call",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "record",
           "named": true
         }
       ]
@@ -1541,7 +5536,11 @@
             "named": true
           },
           {
-            "type": "array",
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
             "named": true
           },
           {
@@ -1549,7 +5548,15 @@
             "named": true
           },
           {
-            "type": "bool",
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
             "named": true
           },
           {
@@ -1561,15 +5568,55 @@
             "named": true
           },
           {
-            "type": "constant",
+            "type": "dbg",
             "named": true
           },
           {
-            "type": "entity_name",
+            "type": "decode",
             "named": true
           },
           {
-            "type": "enum",
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
             "named": true
           },
           {
@@ -1581,23 +5628,39 @@
             "named": true
           },
           {
-            "type": "inline_javascript",
+            "type": "js",
             "named": true
           },
           {
-            "type": "member",
+            "type": "locale_key",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "map",
             "named": true
           },
           {
-            "type": "number",
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
             "named": true
           },
           {
             "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -1609,11 +5672,19 @@
             "named": true
           },
           {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
             "named": true
           },
           {
@@ -1683,10 +5754,6 @@
             "named": false
           },
           {
-            "type": "|>",
-            "named": false
-          },
-          {
             "type": "||",
             "named": false
           }
@@ -1701,7 +5768,11 @@
             "named": true
           },
           {
-            "type": "array",
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
             "named": true
           },
           {
@@ -1709,7 +5780,15 @@
             "named": true
           },
           {
-            "type": "bool",
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
             "named": true
           },
           {
@@ -1721,15 +5800,55 @@
             "named": true
           },
           {
-            "type": "constant",
+            "type": "dbg",
             "named": true
           },
           {
-            "type": "entity_name",
+            "type": "decode",
             "named": true
           },
           {
-            "type": "enum",
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
             "named": true
           },
           {
@@ -1741,23 +5860,39 @@
             "named": true
           },
           {
-            "type": "inline_javascript",
+            "type": "js",
             "named": true
           },
           {
-            "type": "member",
+            "type": "locale_key",
             "named": true
           },
           {
-            "type": "negation",
+            "type": "map",
             "named": true
           },
           {
-            "type": "number",
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
             "named": true
           },
           {
             "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
             "named": true
           },
           {
@@ -1769,11 +5904,566 @@
             "named": true
           },
           {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
           {
             "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "path_directive",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "@asset",
+            "named": false
+          },
+          {
+            "type": "@highlight-file",
+            "named": false
+          },
+          {
+            "type": "@inline",
+            "named": false
+          },
+          {
+            "type": "@svg",
+            "named": false
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "pipe",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
             "named": true
           },
           {
@@ -1787,29 +6477,42 @@
   {
     "type": "program",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "component",
           "named": true
         },
         {
-          "type": "enum_definition",
+          "type": "locale",
           "named": true
         },
         {
-          "type": "module",
+          "type": "module_definition",
           "named": true
         },
         {
-          "type": "record_definition",
+          "type": "provider",
+          "named": true
+        },
+        {
+          "type": "routes",
+          "named": true
+        },
+        {
+          "type": "store",
+          "named": true
+        },
+        {
+          "type": "suite",
+          "named": true
+        },
+        {
+          "type": "type_definition",
           "named": true
         }
       ]
@@ -1818,97 +6521,424 @@
   {
     "type": "property",
     "named": true,
-    "fields": {},
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "access",
+          "type": "type_annotation",
           "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "provide",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "provider",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "subscription": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
         {
           "type": "constant",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "function",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "get",
           "named": true
         },
         {
-          "type": "if",
+          "type": "signal",
           "named": true
         },
         {
-          "type": "inline_function",
-          "named": true
-        },
-        {
-          "type": "inline_javascript",
-          "named": true
-        },
-        {
-          "type": "member",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "type_definition",
-          "named": true
-        },
-        {
-          "type": "variable",
+          "type": "state",
           "named": true
         }
       ]
@@ -1930,15 +6960,430 @@
     }
   },
   {
-    "type": "record_definition",
+    "type": "record_destructuring",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "record_destructuring_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "record_destructuring_field",
     "named": true,
     "fields": {
-      "name": {
+      "key": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "entity_name",
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_destructuring",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "record_destructuring",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_destructuring",
+            "named": true
+          },
+          {
+            "type": "type_destructuring",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_field",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "record_update",
+    "named": true,
+    "fields": {
+      "subject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
             "named": true
           }
         ]
@@ -1949,140 +7394,321 @@
       "required": true,
       "types": [
         {
-          "type": "record_definition_field",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "record_definition_field",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "type_definition",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "record_field",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "access",
-          "named": true
-        },
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "entity_name",
-          "named": true
-        },
-        {
-          "type": "enum",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "inline_function",
-          "named": true
-        },
-        {
-          "type": "inline_javascript",
-          "named": true
-        },
-        {
-          "type": "member",
-          "named": true
-        },
-        {
-          "type": "negation",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "record_update",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
           "type": "record_field",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "route",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "url": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "routes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "route",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "signal",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "size_directive",
+    "named": true,
+    "fields": {
+      "ref": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "spread",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "discard",
+          "named": true
         },
         {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "state",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type_annotation",
           "named": true
         }
       ]
@@ -2092,12 +7718,206 @@
     "type": "statement",
     "named": true,
     "fields": {
-      "name": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "target": {
         "multiple": false,
         "required": false,
         "types": [
           {
+            "type": "array_destructuring",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "record_destructuring",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "tuple_destructuring",
+            "named": true
+          },
+          {
+            "type": "type_destructuring",
             "named": true
           },
           {
@@ -2109,14 +7929,18 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access",
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -2124,7 +7948,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -2136,15 +7968,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -2156,23 +8028,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -2184,6 +8072,10 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2192,7 +8084,53 @@
           "named": true
         },
         {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "store",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "get",
+          "named": true
+        },
+        {
+          "type": "signal",
+          "named": true
+        },
+        {
+          "type": "state",
           "named": true
         }
       ]
@@ -2207,6 +8145,10 @@
       "required": false,
       "types": [
         {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
           "type": "interpolation",
           "named": true
         },
@@ -2215,10 +8157,124 @@
           "named": true
         },
         {
-          "type": "string_chars",
+          "type": "string_content",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "style",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "css_definition",
+          "named": true
+        },
+        {
+          "type": "css_font_face",
+          "named": true
+        },
+        {
+          "type": "css_keyframes",
+          "named": true
+        },
+        {
+          "type": "css_nested_at",
+          "named": true
+        },
+        {
+          "type": "css_selector",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "suite",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "test",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "test",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2227,14 +8283,18 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "access",
           "named": true
         },
         {
-          "type": "array",
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
           "named": true
         },
         {
@@ -2242,7 +8302,15 @@
           "named": true
         },
         {
-          "type": "bool",
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
           "named": true
         },
         {
@@ -2254,15 +8322,55 @@
           "named": true
         },
         {
-          "type": "constant",
+          "type": "dbg",
           "named": true
         },
         {
-          "type": "entity_name",
+          "type": "decode",
           "named": true
         },
         {
-          "type": "enum",
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
           "named": true
         },
         {
@@ -2274,23 +8382,39 @@
           "named": true
         },
         {
-          "type": "inline_javascript",
+          "type": "js",
           "named": true
         },
         {
-          "type": "member",
+          "type": "locale_key",
           "named": true
         },
         {
-          "type": "negation",
+          "type": "map",
           "named": true
         },
         {
-          "type": "number",
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
           "named": true
         },
         {
           "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
           "named": true
         },
         {
@@ -2302,11 +8426,19 @@
           "named": true
         },
         {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
         {
           "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
           "named": true
         },
         {
@@ -2325,6 +8457,38 @@
       "required": false,
       "types": [
         {
+          "type": "array_destructuring",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "record_destructuring",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_destructuring",
+          "named": true
+        },
+        {
+          "type": "type_destructuring",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
@@ -2334,15 +8498,41 @@
   {
     "type": "type",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "entity_name",
+          "type": "type",
           "named": true
         },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "type",
           "named": true
@@ -2357,13 +8547,546 @@
   {
     "type": "type_definition",
     "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "type_definition_field",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "type_variant",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_definition_field",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_destructuring",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_destructuring",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "discard",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "record_destructuring",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple_destructuring",
+          "named": true
+        },
+        {
+          "type": "type_destructuring",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_variant",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_definition_field",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unary_minus",
+    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "type",
+          "type": "access",
+          "named": true
+        },
+        {
+          "type": "array_literal",
+          "named": true
+        },
+        {
+          "type": "await",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "bracket_access",
+          "named": true
+        },
+        {
+          "type": "builtin",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "case",
+          "named": true
+        },
+        {
+          "type": "dbg",
+          "named": true
+        },
+        {
+          "type": "decode",
+          "named": true
+        },
+        {
+          "type": "defer",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "emit",
+          "named": true
+        },
+        {
+          "type": "encode",
+          "named": true
+        },
+        {
+          "type": "env",
+          "named": true
+        },
+        {
+          "type": "field_access",
+          "named": true
+        },
+        {
+          "type": "for",
+          "named": true
+        },
+        {
+          "type": "here_document",
+          "named": true
+        },
+        {
+          "type": "html_component",
+          "named": true
+        },
+        {
+          "type": "html_element",
+          "named": true
+        },
+        {
+          "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "if",
+          "named": true
+        },
+        {
+          "type": "inline_function",
+          "named": true
+        },
+        {
+          "type": "js",
+          "named": true
+        },
+        {
+          "type": "locale_key",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        },
+        {
+          "type": "negated_expression",
+          "named": true
+        },
+        {
+          "type": "next_call",
+          "named": true
+        },
+        {
+          "type": "number_literal",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "pipe",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "record_update",
+          "named": true
+        },
+        {
+          "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        },
+        {
+          "type": "unary_minus",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "use",
+    "named": true,
+    "fields": {
+      "data": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "record",
+            "named": true
+          }
+        ]
+      },
+      "provider": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
           "named": true
         }
       ]
@@ -2379,6 +9102,10 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
     "named": false
   },
   {
@@ -2426,7 +9153,15 @@
     "named": false
   },
   {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": "/",
+    "named": false
+  },
+  {
+    "type": "/>",
     "named": false
   },
   {
@@ -2438,7 +9173,19 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "</>",
+    "named": false
+  },
+  {
+    "type": "<<",
     "named": false
   },
   {
@@ -2466,6 +9213,46 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "@asset",
+    "named": false
+  },
+  {
+    "type": "@font-face",
+    "named": false
+  },
+  {
+    "type": "@format",
+    "named": false
+  },
+  {
+    "type": "@highlight",
+    "named": false
+  },
+  {
+    "type": "@highlight-file",
+    "named": false
+  },
+  {
+    "type": "@inline",
+    "named": false
+  },
+  {
+    "type": "@keyframes",
+    "named": false
+  },
+  {
+    "type": "@size",
+    "named": false
+  },
+  {
+    "type": "@svg",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -2482,15 +9269,32 @@
     "named": false
   },
   {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "async",
+    "named": false
+  },
+  {
+    "type": "await",
+    "named": false
+  },
+  {
     "type": "case",
     "named": false
   },
   {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "component",
+    "named": false
+  },
+  {
+    "type": "connect",
     "named": false
   },
   {
@@ -2498,7 +9302,43 @@
     "named": false
   },
   {
-    "type": "constant",
+    "type": "context",
+    "named": false
+  },
+  {
+    "type": "css_condition",
+    "named": true
+  },
+  {
+    "type": "css_keyframes_name",
+    "named": true
+  },
+  {
+    "type": "css_property",
+    "named": true
+  },
+  {
+    "type": "css_selector_name",
+    "named": true
+  },
+  {
+    "type": "css_value_content",
+    "named": true
+  },
+  {
+    "type": "dbg",
+    "named": false
+  },
+  {
+    "type": "decode",
+    "named": false
+  },
+  {
+    "type": "defer",
+    "named": false
+  },
+  {
+    "type": "discard",
     "named": true
   },
   {
@@ -2506,7 +9346,19 @@
     "named": false
   },
   {
-    "type": "enum",
+    "type": "emit",
+    "named": false
+  },
+  {
+    "type": "encode",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "exposing",
     "named": false
   },
   {
@@ -2514,15 +9366,59 @@
     "named": false
   },
   {
+    "type": "for",
+    "named": false
+  },
+  {
     "type": "fun",
     "named": false
+  },
+  {
+    "type": "get",
+    "named": false
+  },
+  {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "here_document_content",
+    "named": true
+  },
+  {
+    "type": "highlight",
+    "named": false
+  },
+  {
+    "type": "html_attribute_name",
+    "named": true
+  },
+  {
+    "type": "html_tag",
+    "named": true
+  },
+  {
+    "type": "id",
+    "named": true
   },
   {
     "type": "if",
     "named": false
   },
   {
-    "type": "javascript_chars",
+    "type": "js_content",
+    "named": true
+  },
+  {
+    "type": "let",
+    "named": false
+  },
+  {
+    "type": "locale",
+    "named": false
+  },
+  {
+    "type": "locale_key",
     "named": true
   },
   {
@@ -2530,32 +9426,104 @@
     "named": false
   },
   {
-    "type": "number",
+    "type": "negation",
     "named": true
+  },
+  {
+    "type": "next",
+    "named": false
+  },
+  {
+    "type": "number_literal",
+    "named": true
+  },
+  {
+    "type": "of",
+    "named": false
   },
   {
     "type": "or",
     "named": false
   },
   {
+    "type": "path",
+    "named": true
+  },
+  {
     "type": "property",
     "named": false
   },
   {
-    "type": "record",
+    "type": "provide",
     "named": false
   },
   {
-    "type": "string_chars",
+    "type": "provider",
+    "named": false
+  },
+  {
+    "type": "regexp_literal",
     "named": true
+  },
+  {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "routes",
+    "named": false
+  },
+  {
+    "type": "signal",
+    "named": false
+  },
+  {
+    "type": "state",
+    "named": false
+  },
+  {
+    "type": "store",
+    "named": false
+  },
+  {
+    "type": "string_content",
+    "named": true
+  },
+  {
+    "type": "style",
+    "named": false
+  },
+  {
+    "type": "suite",
+    "named": false
+  },
+  {
+    "type": "test",
+    "named": false
   },
   {
     "type": "true",
     "named": false
   },
   {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "use",
+    "named": false
+  },
+  {
+    "type": "using",
+    "named": false
+  },
+  {
     "type": "variable",
     "named": true
+  },
+  {
+    "type": "when",
+    "named": false
   },
   {
     "type": "{",
@@ -2575,6 +9543,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

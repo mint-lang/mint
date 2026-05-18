@@ -39,16 +39,16 @@ CFLAGS_C_Debug := \
 CFLAGS_CC_Debug := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++14
+	-std=gnu++17
 
 INCS_Debug := \
-	-I/home/gdot/.cache/node-gyp/16.6.2/include/node \
-	-I/home/gdot/.cache/node-gyp/16.6.2/src \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/openssl/config \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/openssl/openssl/include \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/uv/include \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/zlib \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/v8/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/include/node \
+	-I/home/gus/.cache/node-gyp/20.10.0/src \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/openssl/config \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/openssl/openssl/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/uv/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/zlib \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/src
 
@@ -86,16 +86,16 @@ CFLAGS_C_Release := \
 CFLAGS_CC_Release := \
 	-fno-rtti \
 	-fno-exceptions \
-	-std=gnu++14
+	-std=gnu++17
 
 INCS_Release := \
-	-I/home/gdot/.cache/node-gyp/16.6.2/include/node \
-	-I/home/gdot/.cache/node-gyp/16.6.2/src \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/openssl/config \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/openssl/openssl/include \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/uv/include \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/zlib \
-	-I/home/gdot/.cache/node-gyp/16.6.2/deps/v8/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/include/node \
+	-I/home/gus/.cache/node-gyp/20.10.0/src \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/openssl/config \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/openssl/openssl/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/uv/include \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/zlib \
+	-I/home/gus/.cache/node-gyp/20.10.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/src
 
@@ -114,25 +114,25 @@ $(OBJS): GYP_CXXFLAGS := $(DEFS_$(BUILDTYPE)) $(INCS_$(BUILDTYPE))  $(CFLAGS_$(B
 
 # Suffix rules, putting all outputs into $(obj).
 
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.cc FORCE_DO_CMD
-	@$(call do_cmd,cxx,1)
-
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.c FORCE_DO_CMD
 	@$(call do_cmd,cc,1)
 
-# Try building from generated source, too.
-
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.cc FORCE_DO_CMD
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.cc FORCE_DO_CMD
 	@$(call do_cmd,cxx,1)
+
+# Try building from generated source, too.
 
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.c FORCE_DO_CMD
 	@$(call do_cmd,cc,1)
 
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.cc FORCE_DO_CMD
 	@$(call do_cmd,cxx,1)
 
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.c FORCE_DO_CMD
 	@$(call do_cmd,cc,1)
+
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
+	@$(call do_cmd,cxx,1)
 
 # End of this set of suffix rules
 ### Rules for final target.

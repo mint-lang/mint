@@ -11,13 +11,14 @@ module Test {
 ---
 
 (program
-  (module
-    (entity_name)
+  (module_definition
+    (id)
     (function
       (variable)
-      (type_definition
+      (type_annotation
         (type
-          (entity_name)
-          (type
-            (variable))))
-      (statement (inline_javascript)))))
+          (id)
+          (variable)))
+      (block
+        (statement
+          (js))))))

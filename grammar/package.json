@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "nan": "^2.15.0",
-    "tree-sitter-cli": "^0.20.1"
+    "tree-sitter-cli": "^0.25.10"
   },
   "main": "bindings/node"
 }

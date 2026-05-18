@@ -11,17 +11,17 @@ module Test {
 ---
 
 (program
-  (module
-    (entity_name)
+  (module_definition
+    (id)
     (function
       (variable)
-      (type_definition
+      (type_annotation
         (type
-          (entity_name)))
-      (statement
-        (call
-          (member
-            (entity_name)
-            (variable))
-          (arguments))))))
-
+          (id)))
+      (block
+        (statement
+          (call
+            (access
+              (variable)
+              (variable))
+            (arguments)))))))
