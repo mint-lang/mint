@@ -1,0 +1,22 @@
+=======================
+Type definition with variants
+=======================
+
+type Status {
+  Active
+  Done(reason : String)
+}
+
+---
+
+(program
+  (type_definition
+    (id)
+    (type_variant
+      (id))
+    (type_variant
+      (id)
+      (type_definition_field
+        (variable)
+        (type
+          (id))))))

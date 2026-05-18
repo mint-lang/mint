@@ -1,0 +1,35 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "mint",
+      "camelcase": "Mint",
+      "scope": "source.mint",
+      "path": ".",
+      "file-types": [
+        "mint"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.0.1",
+    "license": "MIT",
+    "description": "Mint grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Mint"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/mint-lang/tree-sitter-mint"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": false,
+    "node": true,
+    "python": false,
+    "rust": true,
+    "swift": false
+  }
+}

@@ -1,0 +1,32 @@
+=======================
+Case expression
+=======================
+
+module M {
+  fun f : Number {
+    case (x) {
+      0 => 1
+      => 2
+    }
+  }
+}
+
+---
+
+(program
+  (module_definition
+    (id)
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (case
+            (variable)
+            (case_branch
+              (number_literal)
+              (number_literal))
+            (case_branch
+              (number_literal))))))))

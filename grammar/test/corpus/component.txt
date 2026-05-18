@@ -1,0 +1,37 @@
+=======================
+Component with HTML and CSS
+=======================
+
+component Main {
+  fun render : Html {
+    <div::base>"hi"</div>
+  }
+
+  style base {
+    color: red;
+  }
+}
+
+---
+
+(program
+  (component
+    (id)
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (html_element
+            (html_tag)
+            (html_style
+              (variable))
+            (string
+              (string_content))))))
+    (style
+      (variable)
+      (css_definition
+        (css_property)
+        (css_value_content)))))

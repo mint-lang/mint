@@ -1,12 +1,36 @@
 #!/bin/bash
-PATH=./node_modules/.bin:$PATH
+# The `tree-sitter` CLI is installed from source via `cargo` (see
+# `.tool-versions`); the prebuilt npm binary does not run on older glibc.
 
-function test {
-  yarn tree-sitter generate && yarn tree-sitter parse $1
+function generate {
+  tree-sitter generate
 }
 
+function test {
+  tree-sitter generate && tree-sitter test
+}
+
+function parse {
+  tree-sitter generate && tree-sitter parse "$1"
+}
+
+# Parses every Mint file in core to check the grammar against real code.
 function test-all {
-  tree-sitter generate && yarn tree-sitter parse "../core/source/*.mint" --quiet --stat
+  tree-sitter generate || return 1
+
+  pass=0
+  fail=0
+
+  for file in ../core/source/*.mint ../core/tests/tests/*.mint; do
+    if tree-sitter parse "$file" --quiet 2>/dev/null | grep -qE "ERROR|MISSING"; then
+      echo "FAIL: $file"
+      fail=$((fail + 1))
+    else
+      pass=$((pass + 1))
+    fi
+  done
+
+  echo "Passed: $pass, Failed: $fail"
 }
 
 function help {
@@ -16,4 +40,4 @@ function help {
 }
 
 TIMEFORMAT="Task completed in %3lR"
-time ${@:-default}
+time ${@:-help}
