@@ -828,13 +828,18 @@ module.exports = grammar({
         seq(
           '>',
           repeat($._expression),
-          $._html_close_tag,
+          field('closing_tag', $.html_closing_tag),
         ),
       ),
     )),
 
-    _html_tag_name: _ => /[a-z][a-zA-Z0-9-]*/,
-    _html_close_tag: _ => token(seq('</', /[a-z][a-zA-Z0-9-]*/, '>')),
+    // The `</tag>` that closes an HTML element. The tag name is a visible
+    // `html_tag` node so it highlights like the opening tag.
+    html_closing_tag: $ => seq(
+      '</',
+      alias(token.immediate(/[a-z][a-zA-Z0-9-]*/), $.html_tag),
+      token.immediate('>'),
+    ),
 
     html_component: $ => prec(PREC.html, seq(
       $._html_open,
@@ -846,14 +851,17 @@ module.exports = grammar({
         seq(
           '>',
           repeat($._expression),
-          $._html_component_close_tag,
+          field('closing_tag', $.html_component_closing_tag),
         ),
       ),
     )),
 
-    _html_component_close_tag: _ => token(seq(
-      '</', /[A-Z][a-zA-Z0-9]*(\.[A-Z][a-zA-Z0-9]*)*/, '>',
-    )),
+    // The `</Component>` that closes an HTML component.
+    html_component_closing_tag: $ => seq(
+      '</',
+      alias(token.immediate(/[A-Z][a-zA-Z0-9]*(\.[A-Z][a-zA-Z0-9]*)*/), $.id),
+      token.immediate('>'),
+    ),
 
     html_fragment: $ => prec(PREC.html, seq(
       $._html_open,

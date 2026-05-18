@@ -4649,8 +4649,12 @@
                     }
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_html_close_tag"
+                    "type": "FIELD",
+                    "name": "closing_tag",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "html_closing_tag"
+                    }
                   }
                 ]
               }
@@ -4659,29 +4663,33 @@
         ]
       }
     },
-    "_html_tag_name": {
-      "type": "PATTERN",
-      "value": "[a-z][a-zA-Z0-9-]*"
-    },
-    "_html_close_tag": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "</"
+    "html_closing_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "</"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[a-z][a-zA-Z0-9-]*"
+            }
           },
-          {
-            "type": "PATTERN",
-            "value": "[a-z][a-zA-Z0-9-]*"
-          },
-          {
+          "named": true,
+          "value": "html_tag"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
             "type": "STRING",
             "value": ">"
           }
-        ]
-      }
+        }
+      ]
     },
     "html_component": {
       "type": "PREC",
@@ -4763,8 +4771,12 @@
                     }
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "_html_component_close_tag"
+                    "type": "FIELD",
+                    "name": "closing_tag",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "html_component_closing_tag"
+                    }
                   }
                 ]
               }
@@ -4773,25 +4785,33 @@
         ]
       }
     },
-    "_html_component_close_tag": {
-      "type": "TOKEN",
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "STRING",
-            "value": "</"
+    "html_component_closing_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "</"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[A-Z][a-zA-Z0-9]*(\\.[A-Z][a-zA-Z0-9]*)*"
+            }
           },
-          {
-            "type": "PATTERN",
-            "value": "[A-Z][a-zA-Z0-9]*(\\.[A-Z][a-zA-Z0-9]*)*"
-          },
-          {
+          "named": true,
+          "value": "id"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
             "type": "STRING",
             "value": ">"
           }
-        ]
-      }
+        }
+      ]
     },
     "html_fragment": {
       "type": "PREC",

@@ -168,10 +168,12 @@
 
 (html_tag) @tag
 (html_component component: (id) @tag)
+(html_component_closing_tag (id) @tag)
 (html_attribute_name) @tag.attribute
 
 [
   "/>"
+  "</"
   "</>"
 ] @tag.delimiter
 
