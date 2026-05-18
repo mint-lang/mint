@@ -29,7 +29,9 @@ component Main {
             (html_style
               (variable))
             (string
-              (string_content))))))
+              (string_content))
+            (html_closing_tag
+              (html_tag))))))
     (style
       (variable)
       (css_definition
