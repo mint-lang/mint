@@ -2419,6 +2419,269 @@
     }
   },
   {
+    "type": "css_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "css_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "css_case",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "css_case_branch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "css_case_branch",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "css_block",
+            "named": true
+          },
+          {
+            "type": "css_definition",
+            "named": true
+          }
+        ]
+      },
+      "patterns": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "array_destructuring",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "discard",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "record_destructuring",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple_destructuring",
+            "named": true
+          },
+          {
+            "type": "type_destructuring",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "css_definition",
     "named": true,
     "fields": {
@@ -2468,6 +2731,206 @@
     }
   },
   {
+    "type": "css_if",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "access",
+            "named": true
+          },
+          {
+            "type": "array_literal",
+            "named": true
+          },
+          {
+            "type": "await",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "bool_literal",
+            "named": true
+          },
+          {
+            "type": "bracket_access",
+            "named": true
+          },
+          {
+            "type": "builtin",
+            "named": true
+          },
+          {
+            "type": "call",
+            "named": true
+          },
+          {
+            "type": "case",
+            "named": true
+          },
+          {
+            "type": "dbg",
+            "named": true
+          },
+          {
+            "type": "decode",
+            "named": true
+          },
+          {
+            "type": "defer",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "emit",
+            "named": true
+          },
+          {
+            "type": "encode",
+            "named": true
+          },
+          {
+            "type": "env",
+            "named": true
+          },
+          {
+            "type": "field_access",
+            "named": true
+          },
+          {
+            "type": "for",
+            "named": true
+          },
+          {
+            "type": "here_document",
+            "named": true
+          },
+          {
+            "type": "html_component",
+            "named": true
+          },
+          {
+            "type": "html_element",
+            "named": true
+          },
+          {
+            "type": "html_fragment",
+            "named": true
+          },
+          {
+            "type": "if",
+            "named": true
+          },
+          {
+            "type": "inline_function",
+            "named": true
+          },
+          {
+            "type": "js",
+            "named": true
+          },
+          {
+            "type": "locale_key",
+            "named": true
+          },
+          {
+            "type": "map",
+            "named": true
+          },
+          {
+            "type": "negated_expression",
+            "named": true
+          },
+          {
+            "type": "next_call",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "operation",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "pipe",
+            "named": true
+          },
+          {
+            "type": "record",
+            "named": true
+          },
+          {
+            "type": "record_update",
+            "named": true
+          },
+          {
+            "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "statement",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          },
+          {
+            "type": "unary_minus",
+            "named": true
+          },
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "falsy": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "css_block",
+            "named": true
+          },
+          {
+            "type": "css_if",
+            "named": true
+          }
+        ]
+      },
+      "truthy": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "css_block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "css_keyframes",
     "named": true,
     "fields": {
@@ -2502,7 +2965,7 @@
       "required": true,
       "types": [
         {
-          "type": "case",
+          "type": "css_case",
           "named": true
         },
         {
@@ -2518,6 +2981,10 @@
           "named": true
         },
         {
+          "type": "css_if",
+          "named": true
+        },
+        {
           "type": "css_keyframes",
           "named": true
         },
@@ -2527,10 +2994,6 @@
         },
         {
           "type": "css_selector",
-          "named": true
-        },
-        {
-          "type": "if",
           "named": true
         }
       ]
@@ -2560,7 +3023,7 @@
       "required": false,
       "types": [
         {
-          "type": "case",
+          "type": "css_case",
           "named": true
         },
         {
@@ -2569,6 +3032,10 @@
         },
         {
           "type": "css_font_face",
+          "named": true
+        },
+        {
+          "type": "css_if",
           "named": true
         },
         {
@@ -2581,10 +3048,6 @@
         },
         {
           "type": "css_selector",
-          "named": true
-        },
-        {
-          "type": "if",
           "named": true
         }
       ]
@@ -8237,7 +8700,7 @@
           "named": true
         },
         {
-          "type": "case",
+          "type": "css_case",
           "named": true
         },
         {
@@ -8246,6 +8709,10 @@
         },
         {
           "type": "css_font_face",
+          "named": true
+        },
+        {
+          "type": "css_if",
           "named": true
         },
         {
@@ -8258,10 +8725,6 @@
         },
         {
           "type": "css_selector",
-          "named": true
-        },
-        {
-          "type": "if",
           "named": true
         }
       ]
