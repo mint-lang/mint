@@ -4569,8 +4569,13 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_html_open"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_html_open"
+            },
+            "named": true,
+            "value": "html_punctuation"
           },
           {
             "type": "FIELD",
@@ -4631,15 +4636,25 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "/>"
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "/>"
+                },
+                "named": true,
+                "value": "html_punctuation"
               },
               {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": ">"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "STRING",
+                      "value": ">"
+                    },
+                    "named": true,
+                    "value": "html_punctuation"
                   },
                   {
                     "type": "REPEAT",
@@ -4667,8 +4682,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "</"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "</"
+          },
+          "named": true,
+          "value": "html_punctuation"
         },
         {
           "type": "ALIAS",
@@ -4683,11 +4703,16 @@
           "value": "html_tag"
         },
         {
-          "type": "IMMEDIATE_TOKEN",
+          "type": "ALIAS",
           "content": {
-            "type": "STRING",
-            "value": ">"
-          }
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": ">"
+            }
+          },
+          "named": true,
+          "value": "html_punctuation"
         }
       ]
     },
@@ -4698,8 +4723,13 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_html_open"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_html_open"
+            },
+            "named": true,
+            "value": "html_punctuation"
           },
           {
             "type": "FIELD",
@@ -4753,15 +4783,25 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "/>"
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "/>"
+                },
+                "named": true,
+                "value": "html_punctuation"
               },
               {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "STRING",
-                    "value": ">"
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "STRING",
+                      "value": ">"
+                    },
+                    "named": true,
+                    "value": "html_punctuation"
                   },
                   {
                     "type": "REPEAT",
@@ -4789,8 +4829,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "</"
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "</"
+          },
+          "named": true,
+          "value": "html_punctuation"
         },
         {
           "type": "ALIAS",
@@ -4805,11 +4850,16 @@
           "value": "id"
         },
         {
-          "type": "IMMEDIATE_TOKEN",
+          "type": "ALIAS",
           "content": {
-            "type": "STRING",
-            "value": ">"
-          }
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": ">"
+            }
+          },
+          "named": true,
+          "value": "html_punctuation"
         }
       ]
     },
@@ -4820,15 +4870,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_html_open"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_html_open"
+            },
+            "named": true,
+            "value": "html_punctuation"
           },
           {
-            "type": "IMMEDIATE_TOKEN",
+            "type": "ALIAS",
             "content": {
-              "type": "STRING",
-              "value": ">"
-            }
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": ">"
+              }
+            },
+            "named": true,
+            "value": "html_punctuation"
           },
           {
             "type": "REPEAT",
@@ -4838,8 +4898,13 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "</>"
+            "type": "ALIAS",
+            "content": {
+              "type": "STRING",
+              "value": "</>"
+            },
+            "named": true,
+            "value": "html_punctuation"
           }
         ]
       }

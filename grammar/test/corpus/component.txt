@@ -25,13 +25,17 @@ component Main {
       (block
         (statement
           (html_element
+            (html_punctuation)
             (html_tag)
             (html_style
               (variable))
+            (html_punctuation)
             (string
               (string_content))
             (html_closing_tag
-              (html_tag))))))
+              (html_punctuation)
+              (html_tag)
+              (html_punctuation))))))
     (style
       (variable)
       (css_definition

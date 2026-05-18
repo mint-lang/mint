@@ -819,15 +819,15 @@ module.exports = grammar({
     // ---------------------------------------------------------------------
 
     html_element: $ => prec(PREC.html, seq(
-      $._html_open,
+      alias($._html_open, $.html_punctuation),
       field('tag', alias(token.immediate(/[a-z][a-zA-Z0-9-]*/), $.html_tag)),
       repeat($.html_style),
       optional(seq('as', field('ref', $.variable))),
       repeat($.html_attribute),
       choice(
-        '/>',
+        alias('/>', $.html_punctuation),
         seq(
-          '>',
+          alias('>', $.html_punctuation),
           repeat($._expression),
           field('closing_tag', $.html_closing_tag),
         ),
@@ -835,22 +835,24 @@ module.exports = grammar({
     )),
 
     // The `</tag>` that closes an HTML element. The tag name is a visible
-    // `html_tag` node so it highlights like the opening tag.
+    // `html_tag` node so it highlights like the opening tag. The angle
+    // brackets are `html_punctuation` so they can be left uncoloured,
+    // distinct from the `<`/`>` comparison operators.
     html_closing_tag: $ => seq(
-      '</',
+      alias('</', $.html_punctuation),
       alias(token.immediate(/[a-z][a-zA-Z0-9-]*/), $.html_tag),
-      token.immediate('>'),
+      alias(token.immediate('>'), $.html_punctuation),
     ),
 
     html_component: $ => prec(PREC.html, seq(
-      $._html_open,
+      alias($._html_open, $.html_punctuation),
       field('component', alias(token.immediate(/[A-Z][a-zA-Z0-9]*(\.[A-Z][a-zA-Z0-9]*)*/), $.id)),
       optional(seq('as', field('ref', $.variable))),
       repeat($.html_attribute),
       choice(
-        '/>',
+        alias('/>', $.html_punctuation),
         seq(
-          '>',
+          alias('>', $.html_punctuation),
           repeat($._expression),
           field('closing_tag', $.html_component_closing_tag),
         ),
@@ -859,16 +861,16 @@ module.exports = grammar({
 
     // The `</Component>` that closes an HTML component.
     html_component_closing_tag: $ => seq(
-      '</',
+      alias('</', $.html_punctuation),
       alias(token.immediate(/[A-Z][a-zA-Z0-9]*(\.[A-Z][a-zA-Z0-9]*)*/), $.id),
-      token.immediate('>'),
+      alias(token.immediate('>'), $.html_punctuation),
     ),
 
     html_fragment: $ => prec(PREC.html, seq(
-      $._html_open,
-      token.immediate('>'),
+      alias($._html_open, $.html_punctuation),
+      alias(token.immediate('>'), $.html_punctuation),
       repeat($._expression),
-      '</>',
+      alias('</>', $.html_punctuation),
     )),
 
     html_attribute: $ => seq(

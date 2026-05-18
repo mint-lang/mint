@@ -4363,9 +4363,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "html_punctuation",
+          "named": true
+        },
         {
           "type": "html_tag",
           "named": true
@@ -4410,7 +4414,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "access",
@@ -4502,6 +4506,10 @@
         },
         {
           "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "html_punctuation",
           "named": true
         },
         {
@@ -4584,9 +4592,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "html_punctuation",
+          "named": true
+        },
         {
           "type": "id",
           "named": true
@@ -4631,7 +4643,7 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "access",
@@ -4723,6 +4735,10 @@
         },
         {
           "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "html_punctuation",
           "named": true
         },
         {
@@ -4810,7 +4826,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "access",
@@ -4898,6 +4914,10 @@
         },
         {
           "type": "html_fragment",
+          "named": true
+        },
+        {
+          "type": "html_punctuation",
           "named": true
         },
         {
@@ -9674,10 +9694,6 @@
     "named": false
   },
   {
-    "type": "/>",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
@@ -9691,14 +9707,6 @@
   },
   {
     "type": "<",
-    "named": false
-  },
-  {
-    "type": "</",
-    "named": false
-  },
-  {
-    "type": "</>",
     "named": false
   },
   {
@@ -9908,6 +9916,10 @@
   },
   {
     "type": "html_attribute_name",
+    "named": true
+  },
+  {
+    "type": "html_punctuation",
     "named": true
   },
   {
