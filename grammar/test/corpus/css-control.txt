@@ -1,0 +1,49 @@
+=======================
+CSS if and case in a style block
+=======================
+
+component C {
+  style s {
+    if (active) {
+      color: red;
+    } else {
+      color: blue;
+    }
+
+    case (size) {
+      Big => font-size: 20px;
+      => font-size: 14px;
+    }
+  }
+}
+
+---
+
+(program
+  (component
+    (id)
+    (style
+      (variable)
+      (css_if
+        (parenthesized_expression
+          (variable))
+        (css_block
+          (css_definition
+            (css_property)
+            (css_value_content)))
+        (css_block
+          (css_definition
+            (css_property)
+            (css_value_content))))
+      (css_case
+        (variable)
+        (css_case_branch
+          (type_destructuring
+            (id))
+          (css_definition
+            (css_property)
+            (css_value_content)))
+        (css_case_branch
+          (css_definition
+            (css_property)
+            (css_value_content)))))))

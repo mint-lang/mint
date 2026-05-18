@@ -70,6 +70,7 @@ module.exports = grammar({
     [$.record_destructuring, $.tuple_destructuring],
     [$.type],
     [$.parenthesized_expression, $.case],
+    [$.parenthesized_expression, $.css_case],
   ],
 
   rules: {
@@ -899,8 +900,8 @@ module.exports = grammar({
       $.css_nested_at,
       $.css_keyframes,
       $.css_font_face,
-      $.case,
-      $.if,
+      $.css_case,
+      $.css_if,
     ),
 
     css_definition: $ => seq(
@@ -912,6 +913,43 @@ module.exports = grammar({
         $.css_value_content,
       ))),
       ';',
+    ),
+
+    // A CSS-context `if`: branches hold CSS definitions instead of
+    // statements (`if_expression(for_css: true)` in the compiler).
+    css_if: $ => prec.right(seq(
+      'if',
+      field('condition', choice($.statement, $._expression)),
+      field('truthy', $.css_block),
+      optional(seq('else', field('falsy', choice($.css_block, $.css_if)))),
+    )),
+
+    css_block: $ => seq(
+      '{',
+      repeat($.css_definition),
+      '}',
+    ),
+
+    // A CSS-context `case`: each branch holds CSS definitions
+    // (`case_expression(for_css: true)` in the compiler).
+    css_case: $ => seq(
+      'case',
+      choice(
+        seq('(', field('condition', $._expression), ')'),
+        field('condition', $._expression),
+      ),
+      '{',
+      repeat($.css_case_branch),
+      '}',
+    ),
+
+    css_case_branch: $ => seq(
+      optional(field('patterns', sep1('|', $._destructuring))),
+      '=>',
+      field('body', choice(
+        $.css_block,
+        repeat1($.css_definition),
+      )),
     ),
 
     _css_property_name: _ => /[a-z-][a-zA-Z0-9-]*/,

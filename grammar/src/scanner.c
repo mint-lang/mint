@@ -197,6 +197,22 @@ static bool scan_html_open(TSLexer *lexer) {
 // top-level `,` or `{`), since `css_selector` is a comma-separated list of
 // `css_selector_name`s. Commas and semicolons inside parentheses — e.g.
 // `hsl(195,100%,55%)` in a value — are ignored via paren-depth tracking.
+#define MAX_LEAD_WORD 8
+
+static bool is_identifier_char(int32_t c) {
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+         (c >= '0' && c <= '9') || c == '_';
+}
+
+static bool str_eq(const char *buf, int len, const char *word) {
+  for (int i = 0; i < len; i++) {
+    if (word[i] == '\0' || buf[i] != word[i]) {
+      return false;
+    }
+  }
+  return word[len] == '\0';
+}
+
 static bool scan_css_selector_name(TSLexer *lexer) {
   // Leading whitespace is not skipped automatically for external tokens.
   while (is_whitespace(lexer->lookahead)) {
@@ -206,6 +222,34 @@ static bool scan_css_selector_name(TSLexer *lexer) {
   bool has_content = false;
   bool fragment_ended = false;
   int paren_depth = 0;
+
+  // Consume the leading identifier word (if any) so it can be checked
+  // against the CSS-context keywords `if` and `case`, which have their own
+  // rules and must not be parsed as a selector. The characters are kept in
+  // the token if the word is not a keyword.
+  {
+    char word[MAX_LEAD_WORD];
+    int len = 0;
+
+    while (is_identifier_char(lexer->lookahead)) {
+      if (len < MAX_LEAD_WORD) {
+        word[len] = (char)lexer->lookahead;
+      }
+      len++;
+      advance(lexer);
+    }
+
+    if (len <= MAX_LEAD_WORD &&
+        (str_eq(word, len, "if") || str_eq(word, len, "case") ||
+         str_eq(word, len, "else"))) {
+      return false;
+    }
+
+    if (len > 0) {
+      has_content = true;
+      lexer->mark_end(lexer);
+    }
+  }
 
   while (true) {
     int32_t c = lexer->lookahead;
