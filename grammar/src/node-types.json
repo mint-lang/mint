@@ -4289,7 +4289,7 @@
         "required": true,
         "types": [
           {
-            "type": "variable",
+            "type": "here_document_end",
             "named": true
           }
         ]
@@ -4299,7 +4299,7 @@
         "required": true,
         "types": [
           {
-            "type": "variable",
+            "type": "here_document_token",
             "named": true
           }
         ]
@@ -9908,6 +9908,14 @@
   },
   {
     "type": "here_document_content",
+    "named": true
+  },
+  {
+    "type": "here_document_end",
+    "named": true
+  },
+  {
+    "type": "here_document_token",
     "named": true
   },
   {

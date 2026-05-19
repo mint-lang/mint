@@ -4320,7 +4320,7 @@
           "name": "token",
           "content": {
             "type": "SYMBOL",
-            "name": "variable"
+            "name": "here_document_token"
           }
         },
         {
@@ -4377,7 +4377,7 @@
           "name": "end",
           "content": {
             "type": "SYMBOL",
-            "name": "variable"
+            "name": "here_document_end"
           }
         }
       ]
@@ -5516,7 +5516,15 @@
     },
     {
       "type": "SYMBOL",
+      "name": "here_document_token"
+    },
+    {
+      "type": "SYMBOL",
       "name": "here_document_content"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "here_document_end"
     },
     {
       "type": "SYMBOL",

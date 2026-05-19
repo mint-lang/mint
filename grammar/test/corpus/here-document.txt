@@ -1,0 +1,31 @@
+=======================
+Here document with interpolation
+=======================
+
+module M {
+  fun f : String {
+    <<~TEXT
+    Hello #{name}
+    TEXT
+  }
+}
+
+---
+
+(program
+  (module_definition
+    (id)
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (here_document
+            (here_document_token)
+            (here_document_content)
+            (interpolation
+              (variable))
+            (here_document_content)
+            (here_document_end)))))))
