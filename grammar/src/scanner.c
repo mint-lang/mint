@@ -1,36 +1,71 @@
 #include "tree_sitter/parser.h"
 
 #include <stdbool.h>
-
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 enum TokenType {
   STRING_CONTENT,
   JS_CONTENT,
   CSS_VALUE_CONTENT,
+  HERE_DOCUMENT_TOKEN,
   HERE_DOCUMENT_CONTENT,
+  HERE_DOCUMENT_END,
   HTML_OPEN,
   CSS_SELECTOR_NAME,
 };
 
-void *tree_sitter_mint_external_scanner_create() { return NULL; }
-void tree_sitter_mint_external_scanner_destroy(void *payload) {}
-void tree_sitter_mint_external_scanner_reset(void *payload) {}
+// The longest here-document terminator we track. A SCREAMING_CASE name
+// longer than this still parses, just without the precise terminator match.
+#define MAX_HEREDOC_TOKEN 64
+
+// Scanner state: the terminator of the here document currently being
+// scanned. `token_length == 0` means no here document is open.
+typedef struct {
+  char token[MAX_HEREDOC_TOKEN];
+  unsigned token_length;
+} Scanner;
+
+void *tree_sitter_mint_external_scanner_create() {
+  Scanner *scanner = calloc(1, sizeof(Scanner));
+  return scanner;
+}
+
+void tree_sitter_mint_external_scanner_destroy(void *payload) {
+  free(payload);
+}
 
 unsigned tree_sitter_mint_external_scanner_serialize(void *payload,
                                                      char *buffer) {
-  return 0;
+  Scanner *scanner = payload;
+  unsigned length = scanner->token_length;
+  buffer[0] = (char)length;
+  memcpy(buffer + 1, scanner->token, length);
+  return length + 1;
 }
 
 void tree_sitter_mint_external_scanner_deserialize(void *payload,
                                                    const char *buffer,
-                                                   unsigned length) {}
+                                                   unsigned length) {
+  Scanner *scanner = payload;
+  if (length == 0) {
+    scanner->token_length = 0;
+    return;
+  }
+  scanner->token_length = (unsigned char)buffer[0];
+  memcpy(scanner->token, buffer + 1, scanner->token_length);
+}
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 static void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
 static bool is_whitespace(int32_t c) {
   return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+}
+
+static bool is_constant_char(int32_t c) {
+  return (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
 }
 
 // Scans raw content inside a string (`"..."`) or inlined JavaScript
@@ -110,15 +145,63 @@ static bool scan_css_value(TSLexer *lexer) {
   }
 }
 
-// Scans the body of a here document. Content is consumed up to an
-// interpolation (`#{`) or up to an uppercase identifier appearing at the
-// start of a line, which is a potential closing token. The grammar matches
-// the actual closing `constant` after this token.
-static bool scan_here_document(TSLexer *lexer) {
+// Scans the SCREAMING_CASE terminator name right after `<<~`/`<<#`/`<<-`
+// and stores it so the matching closing token can be found. Emitted as
+// `HERE_DOCUMENT_TOKEN`.
+static bool scan_here_document_token(Scanner *scanner, TSLexer *lexer) {
+  if (!(lexer->lookahead >= 'A' && lexer->lookahead <= 'Z')) {
+    return false;
+  }
+
+  unsigned length = 0;
+  while (is_constant_char(lexer->lookahead)) {
+    if (length < MAX_HEREDOC_TOKEN) {
+      scanner->token[length] = (char)lexer->lookahead;
+    }
+    length++;
+    advance(lexer);
+  }
+
+  if (length == 0 || length > MAX_HEREDOC_TOKEN) {
+    return false;
+  }
+
+  scanner->token_length = length;
+  lexer->mark_end(lexer);
+  lexer->result_symbol = HERE_DOCUMENT_TOKEN;
+  return true;
+}
+
+// Returns true if the input at the current position is exactly the stored
+// here-document terminator followed by a non-constant character. Advances
+// the lexer past every character it inspects (whether it matches or not),
+// so `*consumed` reports the progress made — at least one character unless
+// the terminator is empty.
+static bool at_here_document_end(Scanner *scanner, TSLexer *lexer,
+                                 unsigned *consumed) {
+  *consumed = 0;
+  for (unsigned i = 0; i < scanner->token_length; i++) {
+    if (lexer->lookahead != (int32_t)scanner->token[i]) {
+      return false;
+    }
+    advance(lexer);
+    (*consumed)++;
+  }
+  return !is_constant_char(lexer->lookahead);
+}
+
+// Scans the body of a here document. Content runs up to — but not
+// including — an interpolation (`#{`) or the stored terminator. It returns
+// false (matching nothing, no advance) when positioned exactly at one of
+// those, so the grammar's `repeat` never loops on a zero-width token.
+//
+// `lexer->mark_end` is called only after a confirmed content character, so
+// the token always ends exactly after the last content byte even though
+// the terminator check advances the lexer.
+static bool scan_here_document_content(Scanner *scanner, TSLexer *lexer) {
   lexer->result_symbol = HERE_DOCUMENT_CONTENT;
 
   bool has_content = false;
-  bool at_line_start = true;
 
   while (true) {
     int32_t c = lexer->lookahead;
@@ -127,34 +210,56 @@ static bool scan_here_document(TSLexer *lexer) {
       return has_content;
     }
 
-    if (c == '#') {
+    // An uppercase letter may begin the terminator. The check advances the
+    // lexer by however many characters it inspected, so the content
+    // boundary is fixed with `mark_end` beforehand.
+    if (c >= 'A' && c <= 'Z') {
       lexer->mark_end(lexer);
-      advance(lexer);
-
-      if (lexer->lookahead == '{') {
+      unsigned consumed = 0;
+      if (at_here_document_end(scanner, lexer, &consumed)) {
+        // At the terminator — stop. If no content was seen this is a
+        // zero-width match, so report nothing.
         return has_content;
       }
-
+      // Not the terminator. The check may have inspected zero characters
+      // (first-character mismatch); consume at least this one to guarantee
+      // forward progress.
+      if (consumed == 0) {
+        advance(lexer);
+      }
       has_content = true;
-      at_line_start = false;
+      lexer->mark_end(lexer);
       continue;
     }
 
-    // An uppercase letter at the start of a line may be the closing token.
-    if (at_line_start && c >= 'A' && c <= 'Z') {
-      return has_content;
-    }
-
-    if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
-      at_line_start = false;
-    } else if (c == '\n') {
-      at_line_start = true;
+    // `#{` begins an interpolation; a lone `#` is content.
+    if (c == '#') {
+      lexer->mark_end(lexer);
+      advance(lexer);
+      if (lexer->lookahead == '{') {
+        return has_content;
+      }
+      has_content = true;
+      lexer->mark_end(lexer);
+      continue;
     }
 
     advance(lexer);
     has_content = true;
     lexer->mark_end(lexer);
   }
+}
+
+// Matches the stored here-document terminator and clears the scanner state.
+static bool scan_here_document_end(Scanner *scanner, TSLexer *lexer) {
+  unsigned consumed = 0;
+  if (!at_here_document_end(scanner, lexer, &consumed)) {
+    return false;
+  }
+  lexer->mark_end(lexer);
+  lexer->result_symbol = HERE_DOCUMENT_END;
+  scanner->token_length = 0;
+  return true;
 }
 
 // Scans the `<` that opens an HTML element, component or fragment. It only
@@ -313,6 +418,24 @@ static bool scan_css_selector_name(TSLexer *lexer) {
 
 bool tree_sitter_mint_external_scanner_scan(void *payload, TSLexer *lexer,
                                             const bool *valid_symbols) {
+  Scanner *scanner = payload;
+
+  // Here-document end is checked first: it must win over content so the
+  // body does not swallow the terminator.
+  if (valid_symbols[HERE_DOCUMENT_END] && scanner->token_length > 0 &&
+      scan_here_document_end(scanner, lexer)) {
+    return true;
+  }
+
+  if (valid_symbols[HERE_DOCUMENT_CONTENT] && scanner->token_length > 0) {
+    return scan_here_document_content(scanner, lexer);
+  }
+
+  if (valid_symbols[HERE_DOCUMENT_TOKEN] &&
+      scan_here_document_token(scanner, lexer)) {
+    return true;
+  }
+
   if (valid_symbols[HTML_OPEN] && scan_html_open(lexer)) {
     return true;
   }
@@ -322,10 +445,6 @@ bool tree_sitter_mint_external_scanner_scan(void *payload, TSLexer *lexer,
     if (scan_css_selector_name(lexer)) {
       return true;
     }
-  }
-
-  if (valid_symbols[HERE_DOCUMENT_CONTENT]) {
-    return scan_here_document(lexer);
   }
 
   if (valid_symbols[STRING_CONTENT]) {

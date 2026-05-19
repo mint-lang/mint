@@ -44,11 +44,16 @@ const PREC = {
 module.exports = grammar({
   name: 'mint',
 
+  // The order of these must match the `TokenType` enum in `src/scanner.c`.
   externals: $ => [
     $.string_content,
     $.js_content,
     $.css_value_content,
+    // The SCREAMING_CASE terminator of a here document. The scanner stores
+    // it so the matching closing token can be found exactly.
+    $.here_document_token,
     $.here_document_content,
+    $.here_document_end,
     // The `<` that opens an HTML element/component/fragment. Emitted by the
     // scanner only when `<` is immediately followed by a tag character, so
     // it never collides with the `<` comparison operator.
@@ -764,10 +769,10 @@ module.exports = grammar({
     here_document: $ => seq(
       '<<',
       choice('~', '#', '-'),
-      field('token', $.variable),
+      field('token', $.here_document_token),
       optional(seq('(', optional('highlight'), ')')),
       repeat(choice($.here_document_content, $.interpolation)),
-      field('end', $.variable),
+      field('end', $.here_document_end),
     ),
 
     // ---------------------------------------------------------------------

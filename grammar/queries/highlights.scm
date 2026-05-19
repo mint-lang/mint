@@ -88,6 +88,8 @@
 (js_content) @embedded
 (here_document) @string
 (here_document_content) @string
+(here_document_token) @label
+(here_document_end) @label
 
 ; Interpolation delimiters are captured at the end of this file so they
 ; win over the generic bracket rule.
@@ -101,6 +103,7 @@
 (type_variant name: (id) @type)
 (type_parameters (variable) @type.parameter)
 (provider subscription: (id) @type)
+(type_destructuring name: (id) @type)
 
 ; A bare lowercase identifier in a type position is a type variable.
 (type_annotation (variable) @type.parameter)
@@ -114,6 +117,10 @@
 (component name: (id) @type)
 (store name: (id) @namespace)
 (provider name: (id) @namespace)
+
+; References to other entities.
+(connect store: (id) @namespace)
+(use provider: (id) @namespace)
 
 (function name: (variable) @function)
 (get name: (variable) @function)
