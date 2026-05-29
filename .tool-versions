@@ -1,4 +1,3 @@
 crystal 1.19.1
 mint 0.20.0
-nodejs 20.10.0
-yarn 1.22.19
+bun 1.3.13

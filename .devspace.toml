@@ -6,8 +6,8 @@ name = "mint"
 gui = true
 
 init = """
-  apk add --update --no-cache nodejs yarn \
-          imagemagick bash pngcrush optipng git \
+  apk add --update --no-cache \
+          imagemagick bash pngcrush optipng git unzip \
           less openssh chromium nss ca-certificates ttf-freefont
+  curl -fsSL https://bun.com/install | bash
 """
-
