@@ -5,9 +5,10 @@ import {
   createRef as createRefOriginal,
   createElement,
   Component,
+  Fragment,
 } from "preact";
 
-import { compare } from "./equality";
+import { compare, isVnode } from "./equality";
 import { Name } from "./symbols";
 
 // This finds the first element matching the key in a map ([[key, value]]).
@@ -96,6 +97,35 @@ export const toArray = (...args) => {
   } else {
     return items;
   }
+};
+
+// Normalizes the children of a component so that empty values (`null`,
+// `undefined`, `false`) and fragments are not counted as normal items when
+// using functions like `Array.map` or `Array.intersperse`.
+//
+// - Empty values are dropped.
+// - Nested arrays and fragments are flattened into their children, so an
+//   `<></>` contributes its own children instead of itself.
+export const normalizeChildren = (children) => {
+  if (!Array.isArray(children)) {
+    children = [children];
+  }
+
+  const result = [];
+
+  for (const child of children) {
+    if (child === null || child === undefined || child === false) {
+      continue;
+    } else if (Array.isArray(child)) {
+      result.push(...normalizeChildren(child));
+    } else if (isVnode(child) && child.type === Fragment) {
+      result.push(...normalizeChildren(child.props.children));
+    } else {
+      result.push(child);
+    }
+  }
+
+  return result;
 };
 
 // Function for member access.

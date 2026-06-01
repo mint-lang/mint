@@ -1,9 +1,10 @@
 import { render, fireEvent } from "@testing-library/preact";
 import { expect, test, describe } from "vitest";
 import { useState } from "preact/hooks";
-import { h } from "preact";
+import { h, Fragment } from "preact";
 
 import {
+  normalizeChildren,
   useDidUpdate,
   bracketAccess,
   useFunction,
@@ -68,6 +69,39 @@ describe("toArray", () => {
 
   test("returns the input array for an arrays", () => {
     expect(toArray([0])).toEqual([0]);
+  });
+});
+
+describe("normalizeChildren", () => {
+  test("wraps a non array value into an array", () => {
+    const child = h("div", {});
+    expect(normalizeChildren(child)).toEqual([child]);
+  });
+
+  test("drops empty values", () => {
+    const child = h("div", {});
+    expect(normalizeChildren([null, child, undefined, false])).toEqual([child]);
+  });
+
+  test("flattens nested arrays", () => {
+    const a = h("a", {});
+    const b = h("b", {});
+    expect(normalizeChildren([a, [b]])).toEqual([a, b]);
+  });
+
+  test("flattens fragments into their children", () => {
+    const a = h("a", {});
+    const b = h("b", {});
+    const fragment = h(Fragment, {}, a, b);
+
+    expect(normalizeChildren([fragment])).toEqual([a, b]);
+  });
+
+  test("drops empty values inside fragments", () => {
+    const a = h("a", {});
+    const fragment = h(Fragment, {}, null, a, undefined);
+
+    expect(normalizeChildren([fragment])).toEqual([a]);
   });
 });
 

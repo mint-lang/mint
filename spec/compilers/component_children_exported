@@ -1,3 +1,6 @@
+exports:
+  - Test
+================================================================================
 component Test {
   property children : Array(Html) = []
 
@@ -14,17 +17,15 @@ component Main {
 --------------------------------------------------------------------------------
 import {
   normalizeChildren as A,
-  createElement as B,
-  toArray as C
+  embed as B
 } from "./runtime.js";
 
+export const C = ({
+  children: children = []
+}) => {
+  children = A(children);
+  return children
+};
+
 export const
-  D = ({
-    children: a = []
-  }) => {
-    a = A(a);
-    return a
-  },
-  E = () => {
-    return B(D, {}, C(``))
-  };
+  Test = B(C);

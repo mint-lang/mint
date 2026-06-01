@@ -59,10 +59,13 @@ module Mint
             {node, ref, js.call(method, [js.new(nothing, [] of Compiled)] of Compiled)}
           end
 
+        children_prop = nil
+
         properties =
           node.properties.map do |prop|
             name =
               if prop.name.value == "children"
+                children_prop = prop
                 ["children: ", prop] of Item
               else
                 [prop] of Item
@@ -73,6 +76,17 @@ module Mint
             else
               name
             end
+          end
+
+        # The children property needs to be normalized at runtime so that empty
+        # values (`null`) and fragments are not counted as normal items when
+        # using functions like `Array.map` or `Array.intersperse`.
+        normalize_children =
+          if prop = children_prop
+            [js.assign([prop] of Item,
+              js.call(Builtin::NormalizeChildren, [[prop] of Item]))]
+          else
+            [] of Compiled
           end
 
         exposed =
@@ -214,7 +228,7 @@ module Mint
           if node.global?
             {
               items,
-              exposed + effect + update_effect + provider_effects,
+              normalize_children + exposed + effect + update_effect + provider_effects,
             }
           else
             constants =
@@ -226,7 +240,7 @@ module Mint
 
             {
               [] of Tuple(Ast::Node, Id, Compiled),
-              constants + exposed + effect + update_effect + provider_effects,
+              normalize_children + constants + exposed + effect + update_effect + provider_effects,
             }
           end
 

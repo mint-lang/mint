@@ -85,6 +85,7 @@ module Mint
       Record
 
       # Rendering.
+      NormalizeChildren
       CreateElement
       LazyComponent
       CreatePortal
