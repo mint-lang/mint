@@ -43,7 +43,7 @@ suite "Math.round" {
     Math.round(0.49, 1) == 0.5
   }
 
-  test "rounds down correctly (decimals)" {
+  test "rounds down correctly (2 decimals)" {
     Math.round(0.49, 2) == 0.49
   }
 }
