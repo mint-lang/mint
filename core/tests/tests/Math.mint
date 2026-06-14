@@ -92,7 +92,7 @@ suite "Math.fmod" {
   }
 }
 
-suite "Math.truncate" {
+suite "Math.trunc" {
   test "it truncates number to given amount" {
     Math.trunc(13.37) == 13
   }
