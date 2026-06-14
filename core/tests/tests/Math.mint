@@ -253,7 +253,7 @@ suite "Math.hypot" {
 }
 
 suite "Math.imul" {
-  test "multiples two numbers using C-like 32-bit multiplication" {
+  test "multiplies two numbers using C-like 32-bit multiplication" {
     Math.imul(-5, 12) == -60
   }
 }
