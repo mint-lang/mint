@@ -210,7 +210,7 @@ suite "Math.cbrt" {
 }
 
 suite "Math.clz32" {
-  test "it returns the sin of an angle in radians" {
+  test "it returns the number of leading zero bits in the 32-bit binary representation" {
     Math.clz32(4) == `Math.clz32(4)`
   }
 }
