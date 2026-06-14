@@ -107,7 +107,7 @@ module Mint
                 js.arrow_function { js.return(js.object_destructuring(items)) },
                 js.array([] of Compiled),
               ])),
-              js.tenary(
+              js.ternary(
                 ["_"] of Item,
                 js.call(["_"] of Item, [[variable] of Item]),
                 js.null),
@@ -137,7 +137,7 @@ module Mint
             node.uses.map do |use|
               data =
                 if condition = use.condition
-                  js.tenary(compile(condition), compile(use.data), js.null)
+                  js.ternary(compile(condition), compile(use.data), js.null)
                 else
                   compile(use.data)
                 end

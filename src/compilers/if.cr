@@ -65,7 +65,7 @@ module Mint
         case statement = node.condition
         when Ast::Statement
           if item = statement.only_expression?
-            js.tenary(compile(item.expression), truthy, falsy)
+            js.ternary(compile(item.expression), truthy, falsy)
           else
             case target = statement.target
             when Ast::Node
@@ -96,15 +96,15 @@ module Mint
                   ])
                 end
 
-              js.tenary(condition, truthy, falsy)
+              js.ternary(condition, truthy, falsy)
             end
           end
         end || if cache[node.condition].name.in?("Maybe", "Result")
           condition =
             js.call(Builtin::IsThruthy, [compile(node.condition), just, ok])
 
-          js.tenary(condition, truthy, falsy)
-        end || js.tenary(compile(node.condition), truthy, falsy)
+          js.ternary(condition, truthy, falsy)
+        end || js.ternary(compile(node.condition), truthy, falsy)
       end
     end
   end

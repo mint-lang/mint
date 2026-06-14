@@ -163,8 +163,8 @@ module Mint
           block(body)
       end
 
-      # Renders an tenary operator.
-      def tenary(
+      # Renders an ternary operator.
+      def ternary(
         condition : Compiled,
         truthy : Compiled,
         falsy : Compiled,
