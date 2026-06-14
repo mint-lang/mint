@@ -43,7 +43,7 @@ suite "Math.round" {
     Math.round(0.49, 1) == 0.5
   }
 
-  test "rounds down correctly (decimals)" {
+  test "rounds down correctly (2 decimals)" {
     Math.round(0.49, 2) == 0.49
   }
 }
@@ -92,7 +92,7 @@ suite "Math.fmod" {
   }
 }
 
-suite "Math.truncate" {
+suite "Math.trunc" {
   test "it truncates number to given amount" {
     Math.trunc(13.37) == 13
   }
@@ -210,7 +210,7 @@ suite "Math.cbrt" {
 }
 
 suite "Math.clz32" {
-  test "it returns the sin of an angle in radians" {
+  test "it returns the number of leading zero bits in the 32-bit binary representation" {
     Math.clz32(4) == `Math.clz32(4)`
   }
 }
@@ -253,7 +253,7 @@ suite "Math.hypot" {
 }
 
 suite "Math.imul" {
-  test "multiples two numbers using C-like 32-bit multiplication" {
+  test "multiplies two numbers using C-like 32-bit multiplication" {
     Math.imul(-5, 12) == -60
   }
 }
