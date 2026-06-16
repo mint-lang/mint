@@ -9,6 +9,9 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     uses: ./.github/workflows/ci-base.yml
