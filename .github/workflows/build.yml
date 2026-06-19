@@ -40,7 +40,7 @@ jobs:
         uses: crystal-lang/install-crystal@v1
 
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: shards install
