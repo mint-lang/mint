@@ -21,21 +21,19 @@ module Mint
           .select(&.ends_with?(".mint"))
           .reduce(ast) do |memo, pattern|
             Dir.glob(pattern) do |file|
-              begin
-                value, file_warnings =
-                  Parser.parse_with_warnings(file)
+              value, file_warnings =
+                Parser.parse_with_warnings(file)
 
-                warnings.concat(file_warnings)
+              warnings.concat(file_warnings)
 
-                case value
-                when Error
-                  errors << value
-                when Ast
-                  memo.merge(value)
-                end
-              rescue error : Error
-                errors << error
+              case value
+              when Error
+                errors << value
+              when Ast
+                memo.merge(value)
               end
+            rescue error : Error
+              errors << error
             end
 
             memo

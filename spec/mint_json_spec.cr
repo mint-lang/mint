@@ -21,29 +21,25 @@ Dir
   end
 
 it "non existent file" do
-  begin
-    Mint::MintJson.parse("test.json")
-  rescue error : Mint::Error
-    error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
-      ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+  Mint::MintJson.parse("test.json")
+rescue error : Mint::Error
+  error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
+    ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      There was a problem trying to open a mint.json file: test.json
+    There was a problem trying to open a mint.json file: test.json
 
-        Error opening file with mode 'r': 'test.json': No such file or directory
-      TEXT
-  end
+      Error opening file with mode 'r': 'test.json': No such file or directory
+    TEXT
 end
 
 it "no mint.json in directory or parents" do
-  begin
-    Mint::MintJson.parse("test.json", search: true)
-  rescue error : Mint::Error
-    error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
-      ░ ERROR (MINT_JSON_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+  Mint::MintJson.parse("test.json", search: true)
+rescue error : Mint::Error
+  error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
+    ░ ERROR (MINT_JSON_NOT_FOUND) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-      I could not find a mint.json file in the path or any of its parent directories:
+    I could not find a mint.json file in the path or any of its parent directories:
 
-        test.json
-      TEXT
-  end
+      test.json
+    TEXT
 end

@@ -6,31 +6,29 @@ Dir
   .sort!
   .each do |file|
     it file do
+      # Read and separate sample from expected
+      sample, expected = File.read(file).split("-" * 80)
+
+      # Parse the sample
+      ast = Mint::Parser.parse(sample, file)
+      ast.class.should eq(Mint::Ast)
+
       begin
-        # Read and separate sample from expected
-        sample, expected = File.read(file).split("-" * 80)
+        Mint::TypeChecker.check(ast)
 
-        # Parse the sample
-        ast = Mint::Parser.parse(sample, file)
-        ast.class.should eq(Mint::Ast)
-
-        begin
-          Mint::TypeChecker.check(ast)
-
-          # Compare results
-          result =
-            Mint::DocumentationGenerator.resolve(ast).to_pretty_json
-        rescue error : Mint::Error
-          fail error.to_terminal.to_s
-        end
-
-        begin
-          result.should eq(expected.strip)
-        rescue
-          fail diff(expected, result)
-        end
+        # Compare results
+        result =
+          Mint::DocumentationGenerator.resolve(ast).to_pretty_json
       rescue error : Mint::Error
         fail error.to_terminal.to_s
       end
+
+      begin
+        result.should eq(expected.strip)
+      rescue
+        fail diff(expected, result)
+      end
+    rescue error : Mint::Error
+      fail error.to_terminal.to_s
     end
   end
