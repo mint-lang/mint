@@ -39,9 +39,9 @@ class Mint::Installer::Repository
       end
 
     if url == "error"
-      {Process::Status.new(1), "", content}
+      {Process::Status[1], "", content}
     else
-      {Process::Status.new(0), content, ""}
+      {Process::Status[0], content, ""}
     end
   end
 end
