@@ -65,6 +65,3 @@ jobs:
 
       - name: Check formatting (Crystal)
         run: crystal tool format --check
-
-      - name: Check for typos
-        uses: crate-ci/typos@v1

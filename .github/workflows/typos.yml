@@ -1,0 +1,21 @@
+name: Spell checker
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  typos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v7
+
+      - name: Run `typos` spell checker
+        uses: crate-ci/typos@v1
