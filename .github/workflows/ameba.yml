@@ -2,6 +2,10 @@ name: Ameba
 
 on:
   workflow_call:
+  push:
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read

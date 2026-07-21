@@ -17,6 +17,3 @@ jobs:
     uses: ./.github/workflows/ci-base.yml
     with:
       crystal-version: latest
-
-  ameba:
-    uses: ./.github/workflows/ameba.yml
