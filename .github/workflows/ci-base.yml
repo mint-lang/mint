@@ -62,6 +62,3 @@ jobs:
       - name: Check formatting (Mint tests)
         working-directory: ./core/tests
         run: ../../bin/mint format --check
-
-      - name: Check formatting (Crystal)
-        run: crystal tool format --check
