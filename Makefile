@@ -59,7 +59,7 @@ src/assets/runtime_test.js: \
 	cd runtime && make index_testing
 
 bin/ameba: $(shell find lib/ameba -type f)
-	shards build ameba --progress -Dpreview_mt
+	shards build ameba --progress
 
 # This builds the binary and depends on files in some directories.
 bin/mint: \
