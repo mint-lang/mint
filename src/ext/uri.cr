@@ -6,7 +6,7 @@ class URI
     path =
       URI.decode(self.path.lchop("/"))
 
-    if match = /([A-Z]):\/(.*)/i.match_full(path)
+    if match = path.match_full(/([A-Z]):\/(.*)/i)
       "#{match[1].upcase}:\\#{match[2].gsub('/', '\\')}"
     else
       self.path
