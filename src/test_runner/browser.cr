@@ -12,9 +12,9 @@ module Mint
           "firefox",
         ],
         chrome: [
-          "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
           "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
           "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
           "chromium-browser",
           "google-chrome",
           "chrome.exe",

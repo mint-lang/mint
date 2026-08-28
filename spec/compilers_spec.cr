@@ -31,7 +31,7 @@ Dir
         end
 
       file_path =
-        Path[File.dirname(__FILE__), "../", file].normalize.to_s
+        Path[__DIR__, "..", file].normalize.to_s
 
       # Parse the sample
       ast = Mint::Parser.parse(sample, file_path)
