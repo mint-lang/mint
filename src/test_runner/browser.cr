@@ -7,13 +7,17 @@ module Mint
       BROWSER_PATHS = {
         firefox: [
           "/Applications/Firefox.app/Contents/MacOS/firefox-bin",
+          "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
           "firefox-bin",
           "firefox",
         ],
         chrome: [
           "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
           "chromium-browser",
           "google-chrome",
+          "chrome.exe",
           "chromium",
         ],
       }
@@ -94,7 +98,11 @@ module Mint
       # Chromium requires --no-sandbox when running as root (common in
       # CI / Docker environments). Without it the browser refuses to start.
       private def needs_no_sandbox? : Bool
-        LibC.getuid == 0
+        {% if flag?(:windows) %}
+          true
+        {% else %}
+          LibC.getuid == 0
+        {% end %}
       end
 
       def start(url, profile_directory)

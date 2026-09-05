@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, macos-15-intel]
+        os: [ubuntu-latest, macos-latest, macos-15-intel, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
 
@@ -45,7 +45,7 @@ jobs:
         run: shards build mint --error-on-warnings --error-trace
 
       - name: Run CLI specs
-        run: crystal spec spec_cli/*_spec.cr spec_cli/**/*_spec.cr --error-on-warnings --error-trace
+        run: crystal spec spec_cli --error-on-warnings --error-trace
 
       - name: Run core specs (Firefox)
         working-directory: ./core/tests

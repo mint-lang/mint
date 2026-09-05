@@ -10,7 +10,7 @@ module Mint
           end
         else
           location =
-            js.string("#{node.file.relative_path}:#{node.from.line}:#{node.from.column}")
+            js.string("#{node.file.relative_path_posix}:#{node.from.line}:#{node.from.column}")
 
           var =
             [Variable.new] of Item

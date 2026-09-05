@@ -7,7 +7,7 @@ module Mint
 
       def execute(server : LSP::Server)
         path =
-          URI.parse(params.text_document.uri).path.to_s
+          URI.parse(params.text_document.uri).file_path
 
         case ast = server.workspace(path).ast(path)
         when Ast

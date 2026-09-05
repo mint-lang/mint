@@ -54,7 +54,7 @@ module Mint
         LSP::LocationLink.new(
           origin_selection_range: to_lsp_range(source),
           target_selection_range: to_lsp_range(target),
-          target_uri: "file://#{target.file.path}",
+          target_uri: "file://#{target.file.path.to_lsp_path}",
           target_range: to_lsp_range(parent),
         )
       end

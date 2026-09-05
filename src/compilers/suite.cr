@@ -7,7 +7,7 @@ module Mint
             Raw.new({
               start:    {node.from.line, node.from.column},
               end:      {node.to.line, node.to.column},
-              filename: node.file.relative_path,
+              filename: node.file.relative_path_posix,
             }.to_json),
           ]
 
