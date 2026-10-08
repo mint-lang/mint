@@ -1,0 +1,53 @@
+type Graphic {
+  Progress(Progress)
+  None
+}
+
+type Progress {
+  Progress(Number)
+  Indefinite
+}
+
+component Main {
+  fun render : String {
+    case Graphic.Progress(Progress.Indefinite) {
+      Progress(Indefinite) => "indefinite"
+      Progress(Progress) => "progress"
+      None => "none"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  newVariant as C,
+  pattern as D,
+  variant as A,
+  match as B
+} from "./runtime.js";
+
+export const
+  E = A(0, `Indefinite`),
+  F = A(0, `None`),
+  G = A(1, `Progress`),
+  H = () => {
+    return B(C(G)(new E()), [
+      [
+        D(G, [D(E, [])]),
+        () => {
+          return `indefinite`
+        }
+      ],
+      [
+        D(G, [D(G, [])]),
+        () => {
+          return `progress`
+        }
+      ],
+      [
+        D(F, []),
+        () => {
+          return `none`
+        }
+      ]
+    ])
+  };

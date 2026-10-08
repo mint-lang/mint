@@ -70,26 +70,62 @@ module Mint
       end
     end
 
-    # This method recursively determines the roots of the node.
+    # This method determines the roots of the node.
     def roots(node : Ast::Node) : Nodes
-      @cache[node] ||= begin
-        # If the node is a bundle in itself  we just return it.
-        if bundle?(node)
-          [node] of Ast::Node
-        else
-          # Select all the links for the node.
-          links =
-            @links.select { |item| item.node == node }
+      roots(node, {} of Ast::Node => Int32).first
+    end
 
-          # If there are none that means we reached the root of the tree,
-          # otherwise return all roots of the parent nodes.
-          if links.empty?
-            [node]
-          else
-            links.flat_map { |item| roots(item.parent).to_a }
-          end
-        end.to_set
+    # This method recursively determines the roots of the node.
+    #
+    # The links can contain cycles (merging identical tags in `replace` can
+    # create one), so we track the nodes we are visiting (with their depth)
+    # and don't follow links back to them. Besides the roots, the lowest
+    # depth of the skipped nodes is returned, if that is above the node then
+    # its roots are not complete (the rest is collected by that node) so we
+    # can't cache them.
+    private def roots(
+      node : Ast::Node,
+      visiting : Hash(Ast::Node, Int32),
+    ) : Tuple(Nodes, Int32)
+      if cached = @cache[node]?
+        return {cached, Int32::MAX}
       end
+
+      if depth = visiting[node]?
+        return {Nodes.new, depth}
+      end
+
+      # If the node is a bundle in itself we just return it.
+      return {@cache[node] = Nodes{node}, Int32::MAX} if bundle?(node)
+
+      # Select all the links for the node.
+      links =
+        @links.select { |item| item.node == node }
+
+      # If there are none that means we reached the root of the tree.
+      return {@cache[node] = Nodes{node}, Int32::MAX} if links.empty?
+
+      # Otherwise return all roots of the parent nodes.
+      depth =
+        visiting[node] = visiting.size
+
+      lowest =
+        Int32::MAX
+
+      result =
+        links.each_with_object(Nodes.new) do |item, memo|
+          parents, skipped =
+            roots(item.parent, visiting)
+
+          lowest = Math.min(lowest, skipped)
+          memo.concat(parents)
+        end
+
+      visiting.delete(node)
+
+      @cache[node] = result if lowest >= depth
+
+      {result, lowest}
     end
 
     # This method calculates bundles from the links.
