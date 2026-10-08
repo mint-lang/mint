@@ -38,6 +38,8 @@ jobs:
     steps:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: 1.21.1
 
       - name: Checkout source code
         uses: actions/checkout@v7

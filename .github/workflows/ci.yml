@@ -16,4 +16,4 @@ jobs:
   test:
     uses: ./.github/workflows/ci-base.yml
     with:
-      crystal-version: latest
+      crystal-version: 1.21.1
