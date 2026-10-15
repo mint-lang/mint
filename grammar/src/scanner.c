@@ -88,6 +88,18 @@ static bool scan_raw_content(TSLexer *lexer, char terminator,
       return has_content;
     }
 
+    // Inside JavaScript a backslash escapes the next character, so an
+    // escaped tick or `#{` is content, not a terminator or interpolation.
+    if (lexer->lookahead == '\\') {
+      advance(lexer);
+      if (lexer->lookahead != 0) {
+        advance(lexer);
+      }
+      has_content = true;
+      lexer->mark_end(lexer);
+      continue;
+    }
+
     // Stop before an interpolation start `#{`.
     if (lexer->lookahead == '#') {
       lexer->mark_end(lexer);

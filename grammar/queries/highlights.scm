@@ -29,7 +29,7 @@
   "property"
   "state"
   "get"
-  "context"
+  "with"
   "signal"
   "style"
   "connect"
@@ -67,7 +67,6 @@
   "exposing"
   "as"
   "using"
-  "context"
   "or"
   "let"
 ] @keyword
@@ -131,7 +130,7 @@
 
 (property name: (variable) @variable.member)
 (state name: (variable) @variable.member)
-(context name: (variable) @variable.member)
+(with_member (with_item name: (variable) @variable.member))
 
 (argument name: (variable) @variable.parameter)
 
@@ -198,6 +197,7 @@
   "==" "!=" "<" ">" "<=" ">="
   "&&" "||"
   "|>"
+  "->"
   "="
   "|"
   "=>"

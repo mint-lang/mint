@@ -1,0 +1,52 @@
+================================================================================
+Chains do not continue across whitespace
+================================================================================
+
+module A {
+  fun a : Promise(Void) {
+    case items {
+      [item] =>
+        if item {
+          `x \`y\` \#{z}`
+        } else {
+          next { }
+        }
+
+      [] => ->Store.state
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (module_definition
+    (id)
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)
+          (type
+            (id))))
+      (block
+        (statement
+          (case
+            (variable)
+            (case_branch
+              (array_destructuring
+                (variable))
+              (if
+                (variable)
+                (block
+                  (statement
+                    (js
+                      (js_content))))
+                (block
+                  (statement
+                    (next_call)))))
+            (case_branch
+              (array_destructuring)
+              (state_setter
+                (id)
+                (variable)))))))))

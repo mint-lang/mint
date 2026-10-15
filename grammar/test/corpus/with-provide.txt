@@ -1,0 +1,56 @@
+================================================================================
+With and provide
+================================================================================
+
+component A {
+  with ui : Ui
+
+  fun render : Html {
+    provide { ui: ui, form: form } {
+      with ui : Ui, form : Form {
+        ui.unit
+      }
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (component
+    (id)
+    (with_member
+      (with_item
+        (variable)
+        (type
+          (id))))
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (provide
+            (record_field
+              (variable)
+              (variable))
+            (record_field
+              (variable)
+              (variable))
+            (block
+              (statement
+                (with
+                  (with_item
+                    (variable)
+                    (type
+                      (id)))
+                  (with_item
+                    (variable)
+                    (type
+                      (id)))
+                  (block
+                    (statement
+                      (access
+                        (variable)
+                        (variable)))))))))))))

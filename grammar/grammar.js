@@ -137,7 +137,6 @@ module.exports = grammar({
         ),
         '}',
       )),
-      optional(seq('context', $._expression)),
     ),
 
     type_parameters: $ => seq(
@@ -199,8 +198,7 @@ module.exports = grammar({
         $.property,
         $.constant,
         $.function,
-        $.context,
-        $.provide,
+        $.with_member,
         $.connect,
         $.style,
         $.state,
@@ -304,11 +302,11 @@ module.exports = grammar({
       field('body', $.block),
     ),
 
-    context: $ => seq(
-      'context',
-      field('name', $.variable),
-      ':',
-      field('type', $.type),
+    // `with ui : Ui`: makes a provided value available in the whole
+    // component.
+    with_member: $ => seq(
+      'with',
+      $.with_item,
     ),
 
     signal: $ => seq(
@@ -324,12 +322,6 @@ module.exports = grammar({
       field('provider', $.id),
       field('data', $.record),
       optional(seq('when', $.block)),
-    ),
-
-    provide: $ => seq(
-      'provide',
-      field('name', $.id),
-      field('expression', $._expression),
     ),
 
     connect: $ => seq(
@@ -434,6 +426,7 @@ module.exports = grammar({
       $.number_literal,
       $.unary_minus,
       $.negated_expression,
+      $.state_setter,
       $.string,
       $.regexp_literal,
       $.tuple,
@@ -463,6 +456,8 @@ module.exports = grammar({
       $.defer,
       $.emit,
       $.dbg,
+      $.with,
+      $.provide,
       $.variable,
     ),
 
@@ -476,6 +471,13 @@ module.exports = grammar({
     )),
 
     unary_minus: $ => prec(PREC.unary, seq('-', $._expression)),
+
+    // `->state` or `->Store.state`: a function that sets a state.
+    state_setter: $ => seq(
+      '->',
+      optional(seq(field('entity', $.id), token.immediate('.'))),
+      field('state', $.variable),
+    ),
 
     negation: _ => token(/!+/),
     negated_expression: $ => prec(PREC.unary, seq(
@@ -513,15 +515,19 @@ module.exports = grammar({
     // Chained access / calls
     // ---------------------------------------------------------------------
 
+    // A chain continues only when `.`, `(` or `[` directly follows the
+    // left side (no whitespace), as in `base_expression` in the compiler. So
+    // a `[]` pattern or `(...)` on the next line starts something new.
+
     access: $ => prec(PREC.chain, seq(
       field('expression', $._base_expression),
-      '.',
+      token.immediate('.'),
       field('field', $.variable),
     )),
 
     bracket_access: $ => prec(PREC.chain, seq(
       field('expression', $._base_expression),
-      '[',
+      token.immediate('['),
       field('index', $._expression),
       ']',
     )),
@@ -532,7 +538,7 @@ module.exports = grammar({
     )),
 
     arguments: $ => seq(
-      '(',
+      token.immediate('('),
       commaSep($._call_argument),
       ')',
     ),
@@ -654,7 +660,8 @@ module.exports = grammar({
     // Keyword expressions
     // ---------------------------------------------------------------------
 
-    next_call: $ => seq('next', $.record),
+    // `next { }` is allowed (`record(skip_empty: false)`).
+    next_call: $ => seq('next', choice($.record, seq('{', '}'))),
 
     decode: $ => seq(
       'decode',
@@ -669,6 +676,28 @@ module.exports = grammar({
     emit: $ => prec.right(seq('emit', $._expression)),
     dbg: $ => prec.right(seq('dbg', optional('!'), optional($._expression))),
 
+    // `with ui : Ui, form : Form { ... }`: brings provided values into scope.
+    with: $ => seq(
+      'with',
+      commaSep1($.with_item),
+      field('body', $.block),
+    ),
+
+    with_item: $ => seq(
+      field('name', $.variable),
+      ':',
+      field('type', $.type),
+    ),
+
+    // `provide { ui: ui } { ... }`: provides values to the body.
+    provide: $ => seq(
+      'provide',
+      '{',
+      commaSep1($.record_field),
+      '}',
+      field('body', $.block),
+    ),
+
     // ---------------------------------------------------------------------
     // Destructuring (patterns)
     // ---------------------------------------------------------------------
@@ -682,6 +711,17 @@ module.exports = grammar({
       $.number_literal,
       $.bool_literal,
       $.variable,
+      $.discard,
+    ),
+
+    _css_destructuring: $ => choice(
+      $.array_destructuring,
+      $.record_destructuring,
+      $.tuple_destructuring,
+      $.type_destructuring,
+      $.string,
+      $.number_literal,
+      $.bool_literal,
       $.discard,
     ),
 
@@ -950,14 +990,19 @@ module.exports = grammar({
       '}',
     ),
 
-    css_case_branch: $ => seq(
-      optional(field('patterns', sep1('|', $._destructuring))),
+    // The body may be empty (`many { css_definition }` in the compiler); a
+    // `{` right after `=>` is always the body, never the next pattern.
+    //
+    // A top-level pattern cannot be a bare variable: after a definition,
+    // `color` must lex as the next property, not as a pattern.
+    css_case_branch: $ => prec.right(seq(
+      optional(field('patterns', sep1('|', $._css_destructuring))),
       '=>',
-      field('body', choice(
+      optional(field('body', choice(
         $.css_block,
         repeat1($.css_definition),
-      )),
-    ),
+      ))),
+    )),
 
     _css_property_name: _ => /[a-z-][a-zA-Z0-9-]*/,
 

@@ -47,3 +47,39 @@ component C {
           (css_definition
             (css_property)
             (css_value_content)))))))
+
+================================================================================
+CSS case with several definitions and an empty branch
+================================================================================
+
+component A {
+  style root {
+    case severity {
+      Warning =>
+        color: red;
+        background: blue;
+
+      =>
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (component
+    (id)
+    (style
+      (variable)
+      (css_case
+        (variable)
+        (css_case_branch
+          (type_destructuring
+            (id))
+          (css_definition
+            (css_property)
+            (css_value_content))
+          (css_definition
+            (css_property)
+            (css_value_content)))
+        (css_case_branch)))))

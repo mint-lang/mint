@@ -132,6 +132,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -141,6 +145,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -157,6 +165,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -314,6 +326,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -323,6 +339,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -339,6 +359,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -529,6 +553,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -545,6 +573,10 @@
           "named": true
         },
         {
+          "type": "state_setter",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -558,6 +590,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -755,6 +791,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -764,6 +804,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -784,6 +828,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -922,6 +970,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -931,6 +983,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -947,6 +1003,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -1142,6 +1202,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -1151,6 +1215,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -1167,6 +1235,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -1310,6 +1382,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -1319,6 +1395,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -1335,6 +1415,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -1476,6 +1560,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -1485,6 +1573,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -1501,6 +1593,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -1655,6 +1751,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -1664,6 +1764,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -1680,6 +1784,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -1837,6 +1945,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -1846,6 +1958,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -1862,6 +1978,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -2019,6 +2139,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2028,6 +2152,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -2044,6 +2172,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -2124,10 +2256,6 @@
           "named": true
         },
         {
-          "type": "context",
-          "named": true
-        },
-        {
           "type": "function",
           "named": true
         },
@@ -2140,10 +2268,6 @@
           "named": true
         },
         {
-          "type": "provide",
-          "named": true
-        },
-        {
           "type": "state",
           "named": true
         },
@@ -2153,6 +2277,10 @@
         },
         {
           "type": "use",
+          "named": true
+        },
+        {
+          "type": "with_member",
           "named": true
         }
       ]
@@ -2361,6 +2489,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2370,6 +2502,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -2387,31 +2523,9 @@
           {
             "type": "variable",
             "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "context",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
+          },
           {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
+            "type": "with",
             "named": true
           }
         ]
@@ -2574,6 +2688,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2583,6 +2701,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -2599,6 +2721,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -2621,7 +2747,7 @@
     "fields": {
       "body": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "css_block",
@@ -2667,10 +2793,6 @@
           },
           {
             "type": "type_destructuring",
-            "named": true
-          },
-          {
-            "type": "variable",
             "named": true
           },
           {
@@ -2871,6 +2993,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -2880,6 +3006,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -2900,6 +3030,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -3194,6 +3328,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -3203,6 +3341,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -3219,6 +3361,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -3365,6 +3511,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -3374,6 +3524,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -3394,6 +3548,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -3540,6 +3698,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -3549,6 +3711,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -3565,6 +3731,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -3734,6 +3904,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -3743,6 +3917,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -3759,6 +3937,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -3905,6 +4087,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -3914,6 +4100,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -3930,6 +4120,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -4127,6 +4321,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -4136,6 +4334,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -4152,6 +4354,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -4557,6 +4763,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -4566,6 +4776,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -4582,6 +4796,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -4790,6 +5008,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -4799,6 +5021,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -4815,6 +5041,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -4965,6 +5195,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -4974,6 +5208,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -4990,6 +5228,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -5162,6 +5404,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -5171,6 +5417,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -5191,6 +5441,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -5392,6 +5646,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -5401,6 +5659,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -5417,6 +5679,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -5639,6 +5905,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -5648,6 +5918,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -5664,6 +5938,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -5805,6 +6083,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -5814,6 +6096,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -5830,6 +6116,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -6011,6 +6301,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -6020,6 +6314,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -6037,6 +6335,10 @@
         {
           "type": "variable",
           "named": true
+        },
+        {
+          "type": "with",
+          "named": true
         }
       ]
     }
@@ -6047,7 +6349,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "record",
@@ -6197,6 +6499,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -6206,6 +6512,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -6222,6 +6532,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -6429,6 +6743,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -6438,6 +6756,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -6454,6 +6776,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -6601,6 +6927,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -6610,6 +6940,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -6626,6 +6960,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -6810,6 +7148,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -6819,6 +7161,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -6835,6 +7181,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -6976,6 +7326,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -6985,6 +7339,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -7001,6 +7359,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -7192,6 +7554,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -7201,6 +7567,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -7217,6 +7587,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -7247,182 +7621,26 @@
     "type": "provide",
     "named": true,
     "fields": {
-      "expression": {
+      "body": {
         "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": "access",
-            "named": true
-          },
-          {
-            "type": "array_literal",
-            "named": true
-          },
-          {
-            "type": "await",
-            "named": true
-          },
           {
             "type": "block",
-            "named": true
-          },
-          {
-            "type": "bool_literal",
-            "named": true
-          },
-          {
-            "type": "bracket_access",
-            "named": true
-          },
-          {
-            "type": "builtin",
-            "named": true
-          },
-          {
-            "type": "call",
-            "named": true
-          },
-          {
-            "type": "case",
-            "named": true
-          },
-          {
-            "type": "dbg",
-            "named": true
-          },
-          {
-            "type": "decode",
-            "named": true
-          },
-          {
-            "type": "defer",
-            "named": true
-          },
-          {
-            "type": "directive",
-            "named": true
-          },
-          {
-            "type": "emit",
-            "named": true
-          },
-          {
-            "type": "encode",
-            "named": true
-          },
-          {
-            "type": "env",
-            "named": true
-          },
-          {
-            "type": "field_access",
-            "named": true
-          },
-          {
-            "type": "for",
-            "named": true
-          },
-          {
-            "type": "here_document",
-            "named": true
-          },
-          {
-            "type": "html_component",
-            "named": true
-          },
-          {
-            "type": "html_element",
-            "named": true
-          },
-          {
-            "type": "html_fragment",
-            "named": true
-          },
-          {
-            "type": "if",
-            "named": true
-          },
-          {
-            "type": "inline_function",
-            "named": true
-          },
-          {
-            "type": "js",
-            "named": true
-          },
-          {
-            "type": "locale_key",
-            "named": true
-          },
-          {
-            "type": "map",
-            "named": true
-          },
-          {
-            "type": "negated_expression",
-            "named": true
-          },
-          {
-            "type": "next_call",
-            "named": true
-          },
-          {
-            "type": "number_literal",
-            "named": true
-          },
-          {
-            "type": "operation",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "pipe",
-            "named": true
-          },
-          {
-            "type": "record",
-            "named": true
-          },
-          {
-            "type": "record_update",
-            "named": true
-          },
-          {
-            "type": "regexp_literal",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
-          {
-            "type": "tuple",
-            "named": true
-          },
-          {
-            "type": "unary_minus",
-            "named": true
-          },
-          {
-            "type": "variable",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "id",
             "named": true
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "record_field",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -7720,6 +7938,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -7729,6 +7951,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -7745,6 +7971,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -7892,6 +8122,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -7901,6 +8135,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -7917,6 +8155,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -8196,6 +8438,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -8205,6 +8451,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -8221,6 +8471,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -8245,6 +8499,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "state_setter",
+    "named": true,
+    "fields": {
+      "entity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "state": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -8388,6 +8668,10 @@
             "named": true
           },
           {
+            "type": "provide",
+            "named": true
+          },
+          {
             "type": "record",
             "named": true
           },
@@ -8397,6 +8681,10 @@
           },
           {
             "type": "regexp_literal",
+            "named": true
+          },
+          {
+            "type": "state_setter",
             "named": true
           },
           {
@@ -8413,6 +8701,10 @@
           },
           {
             "type": "variable",
+            "named": true
+          },
+          {
+            "type": "with",
             "named": true
           }
         ]
@@ -8597,6 +8889,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -8606,6 +8902,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -8622,6 +8922,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -8951,6 +9255,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -8960,6 +9268,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -8976,6 +9288,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -9097,158 +9413,6 @@
       "required": false,
       "types": [
         {
-          "type": "access",
-          "named": true
-        },
-        {
-          "type": "array_literal",
-          "named": true
-        },
-        {
-          "type": "await",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "bool_literal",
-          "named": true
-        },
-        {
-          "type": "bracket_access",
-          "named": true
-        },
-        {
-          "type": "builtin",
-          "named": true
-        },
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "case",
-          "named": true
-        },
-        {
-          "type": "dbg",
-          "named": true
-        },
-        {
-          "type": "decode",
-          "named": true
-        },
-        {
-          "type": "defer",
-          "named": true
-        },
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "emit",
-          "named": true
-        },
-        {
-          "type": "encode",
-          "named": true
-        },
-        {
-          "type": "env",
-          "named": true
-        },
-        {
-          "type": "field_access",
-          "named": true
-        },
-        {
-          "type": "for",
-          "named": true
-        },
-        {
-          "type": "here_document",
-          "named": true
-        },
-        {
-          "type": "html_component",
-          "named": true
-        },
-        {
-          "type": "html_element",
-          "named": true
-        },
-        {
-          "type": "html_fragment",
-          "named": true
-        },
-        {
-          "type": "if",
-          "named": true
-        },
-        {
-          "type": "inline_function",
-          "named": true
-        },
-        {
-          "type": "js",
-          "named": true
-        },
-        {
-          "type": "locale_key",
-          "named": true
-        },
-        {
-          "type": "map",
-          "named": true
-        },
-        {
-          "type": "negated_expression",
-          "named": true
-        },
-        {
-          "type": "next_call",
-          "named": true
-        },
-        {
-          "type": "number_literal",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "pipe",
-          "named": true
-        },
-        {
-          "type": "record",
-          "named": true
-        },
-        {
-          "type": "record_update",
-          "named": true
-        },
-        {
-          "type": "regexp_literal",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        },
-        {
           "type": "type_definition_field",
           "named": true
         },
@@ -9258,14 +9422,6 @@
         },
         {
           "type": "type_variant",
-          "named": true
-        },
-        {
-          "type": "unary_minus",
-          "named": true
-        },
-        {
-          "type": "variable",
           "named": true
         }
       ]
@@ -9559,6 +9715,10 @@
           "named": true
         },
         {
+          "type": "provide",
+          "named": true
+        },
+        {
           "type": "record",
           "named": true
         },
@@ -9568,6 +9728,10 @@
         },
         {
           "type": "regexp_literal",
+          "named": true
+        },
+        {
+          "type": "state_setter",
           "named": true
         },
         {
@@ -9584,6 +9748,10 @@
         },
         {
           "type": "variable",
+          "named": true
+        },
+        {
+          "type": "with",
           "named": true
         }
       ]
@@ -9620,6 +9788,73 @@
       "types": [
         {
           "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "with_item",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_item",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "with_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "with_item",
           "named": true
         }
       ]
@@ -9679,6 +9914,10 @@
   },
   {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": "->",
     "named": false
   },
   {
@@ -9824,10 +10063,6 @@
   },
   {
     "type": "const",
-    "named": false
-  },
-  {
-    "type": "context",
     "named": false
   },
   {
@@ -10060,6 +10295,10 @@
   },
   {
     "type": "when",
+    "named": false
+  },
+  {
+    "type": "with",
     "named": false
   },
   {
