@@ -21,15 +21,11 @@ Dir
   end
 
 it "non existent file" do
+  # The OS specific error message differs so we only check the beginning.
   Mint::MintJson.parse("test.json")
 rescue error : Mint::Error
-  error.to_terminal.to_s.uncolorize.should eq(<<-TEXT)
-    ░ ERROR (MINT_JSON_INVALID) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-    There was a problem trying to open a mint.json file: test.json
-
-      Error opening file with mode 'r': 'test.json': No such file or directory
-    TEXT
+  error.to_terminal.to_s.uncolorize.should contain(
+    "There was a problem trying to open a mint.json file: test.json")
 end
 
 it "no mint.json in directory or parents" do

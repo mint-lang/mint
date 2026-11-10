@@ -79,7 +79,7 @@ module Mint
 
           SnippetData.new(
             to: position.offset + [min, parser.word(position).to_s.size].max,
-            filename: parser.file.relative_path,
+            filename: parser.file.relative_path_posix,
             location: {position, position},
             input: parser.file.contents,
             path: parser.file.path,
@@ -91,13 +91,13 @@ module Mint
           SnippetData.new(
             to: value.position.offset + [min, value.word.to_s.size].max,
             location: {value.position, value.position},
-            filename: value.file.relative_path,
+            filename: value.file.relative_path_posix,
             from: value.position.offset,
             input: value.file.contents,
             path: value.file.path)
         in Ast::Node
           SnippetData.new(
-            filename: value.file.relative_path,
+            filename: value.file.relative_path_posix,
             location: {value.from, value.to},
             input: value.file.contents,
             from: value.from.offset,

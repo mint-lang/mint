@@ -13,7 +13,7 @@ class File
     root = File.dirname(base)
 
     loop do
-      return if root == "." || root == "/"
+      return if root.in?(".", "/", Path[root].anchor.to_s)
 
       # ameba:disable Lint/AssignmentInCallArgument
       if File.exists?(path = Path[root, name])

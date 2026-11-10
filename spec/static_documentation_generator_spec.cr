@@ -1,3 +1,6 @@
+# We don't test this on windows because there is no `xmllint`.
+{% skip_file if flag?(:windows) %}
+
 require "./spec_helper"
 
 Dir

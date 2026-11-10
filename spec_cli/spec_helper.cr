@@ -14,6 +14,12 @@ def run(args : Array(String), input : String = "", clear_env = true)
   path =
     Path[__DIR__, "..", "bin", "mint"].normalize.to_s
 
+  # On Windows the binary needs `PATH` to find the DLLs it is linked against,
+  # without them it exits before `main` runs (no output, no exit code).
+  {% if flag?(:windows) %}
+    clear_env = false
+  {% end %}
+
   status =
     Process.run(
       clear_env: clear_env,
@@ -25,6 +31,26 @@ def run(args : Array(String), input : String = "", clear_env = true)
       env: {
         "NO_COLOR" => "1",
       })
+
+  # A command is allowed to fail (that's what some of the specs check) but it
+  # must not crash, otherwise the specs fail in confusing ways later on.
+  unless status.normal_exit?
+    raise <<-TEXT
+      COMMAND CRASHED!
+
+      COMMAND:
+      #{path} #{args.join(' ')}
+
+      EXIT:
+      #{status.exit_reason}
+
+      OUTPUT:
+      #{output.rewind.gets_to_end}
+
+      ERROR:
+      #{error.rewind.gets_to_end}
+      TEXT
+  end
 
   {
     output.rewind.gets_to_end,

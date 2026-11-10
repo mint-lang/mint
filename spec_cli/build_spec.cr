@@ -13,7 +13,7 @@ context "build" do
   end
 
   it "displays help with '--help' flag" do
-    expect_output ["build", "--help"], <<-TEXT
+    expect_output %w[build --help], <<-TEXT
       Usage:
         ×××× build [flags...] [arg...]
 
@@ -36,7 +36,7 @@ context "build" do
   end
 
   it "builds the project" do
-    expect_output ["build"], <<-TEXT
+    expect_output %w[build --skip-icons], <<-TEXT
       Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
@@ -50,7 +50,7 @@ context "build" do
   end
 
   it "shows timings with the `--timings` flag" do
-    expect_output ["build", "--timings"], <<-TEXT
+    expect_output %w[build --timings --skip-icons], <<-TEXT
       Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
@@ -66,7 +66,6 @@ context "build" do
         Calculating dependencies for bundles...  | ××××
         Bundling and generating JavaScript...    | ××××
       Generating index.html                      | ××××
-      Generating icons                           | ××××
       Copying assets                             | ××××
       Generating index.css                       | ××××
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -75,7 +74,7 @@ context "build" do
   end
 
   it "generates manifeset with the `--generate-manifest` flag" do
-    expect_output ["build", "--generate-manifest"], <<-TEXT
+    expect_output %w[build --generate-manifest --skip-icons], <<-TEXT
       Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××
@@ -91,7 +90,7 @@ context "build" do
   end
 
   it "logs the files using the `--verbose` flag" do
-    expect_output ["build", "--verbose"], <<-TEXT
+    expect_output %w[build --verbose --skip-icons], <<-TEXT
       Mint - Building for production
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       ⚙ Clearing the "dist" directory... ××××

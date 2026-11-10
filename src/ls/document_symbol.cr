@@ -63,7 +63,7 @@ module Mint
 
       def location_from_node(node : Ast::Node)
         LSP::Location.new(
-          uri: "file://#{node.file.path}",
+          uri: "file://#{node.file.path.to_lsp_path}",
           range: LSP::Range.new(
             start: LSP::Position.new(node.from.line - 1, node.from.column),
             end: LSP::Position.new(node.to.line - 1, node.to.column)))

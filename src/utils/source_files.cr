@@ -16,8 +16,8 @@ module Mint
 
     def everything(json : MintJson, *, include_tests = false, dot_env = ".env") : Array(String)
       packages(json, include_self: true)
-        .flat_map { |item| globs(item, include_tests: include_tests) + [item.path] }
-        .push(Path[dot_env].to_s)
+        .flat_map { |item| globs(item, include_tests: include_tests) + [Path[item.path].to_posix.to_s] }
+        .push(Path[dot_env].to_posix.to_s)
     end
 
     def packages(json : MintJson, *, include_self = false) : Array(MintJson)

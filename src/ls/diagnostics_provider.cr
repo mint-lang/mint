@@ -10,7 +10,7 @@ module Mint
       def process(result : Workspace::Result)
         @current.each do |path|
           @server.send_notification("textDocument/publishDiagnostics", {
-            uri:         "file://#{path}",
+            uri:         "file://#{path.to_lsp_path}",
             diagnostics: [] of String,
           })
         end
@@ -26,7 +26,7 @@ module Mint
 
         diagnostics.each do |path, items|
           @server.send_notification("textDocument/publishDiagnostics", {
-            uri:         "file://#{path}",
+            uri:         "file://#{path.to_lsp_path}",
             diagnostics: items,
           })
         end
