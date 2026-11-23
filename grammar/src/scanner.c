@@ -340,6 +340,21 @@ static bool scan_css_selector_name(TSLexer *lexer) {
   bool fragment_ended = false;
   int paren_depth = 0;
 
+  // A comment is an extra for the internal lexer. External scanners run
+  // before extras are skipped, so without this a comment followed by
+  // anything with a `{` (an `if`, a `case` or a selector) would be taken for
+  // the start of a selector.
+  if (lexer->lookahead == '/') {
+    advance(lexer);
+
+    if (lexer->lookahead == '/' || lexer->lookahead == '*') {
+      return false;
+    }
+
+    has_content = true;
+    lexer->mark_end(lexer);
+  }
+
   // Consume the leading identifier word (if any) so it can be checked
   // against the CSS-context keywords `if` and `case`, which have their own
   // rules and must not be parsed as a selector. The characters are kept in

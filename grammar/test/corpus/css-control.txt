@@ -83,3 +83,60 @@ component A {
             (css_property)
             (css_value_content)))
         (css_case_branch)))))
+
+================================================================================
+Comments before CSS if, case and selectors
+================================================================================
+
+component A {
+  style root {
+    min-width: 0;
+
+    // A comment { before an if.
+    if selected {
+      color: red;
+    }
+
+    /* A block comment */
+    case size {
+      0 => color: red;
+    }
+
+    // A comment before a selector.
+    &:hover {
+      color: green;
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (component
+    (id)
+    (style
+      (variable)
+      (css_definition
+        (css_property)
+        (css_value_content))
+      (comment)
+      (css_if
+        (variable)
+        (css_block
+          (css_definition
+            (css_property)
+            (css_value_content))))
+      (comment)
+      (css_case
+        (variable)
+        (css_case_branch
+          (number_literal)
+          (css_definition
+            (css_property)
+            (css_value_content))))
+      (comment)
+      (css_selector
+        (css_selector_name)
+        (css_definition
+          (css_property)
+          (css_value_content))))))
