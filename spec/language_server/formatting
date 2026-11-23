@@ -32,7 +32,7 @@ component Test {
           "character": 999
         }
       },
-      "newText": "component Test {\n  fun render : Html {\n    <div/>\n  }\n}"
+      "newText": "component Test {\n  fun render : Html {\n    <div/>\n  }\n}\n"
     }
   ],
   "id": 0

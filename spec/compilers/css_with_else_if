@@ -32,7 +32,9 @@ import {
 
 export const D = () => {
   const a = (b) => {
-    const _ = {};
+    const _ = {
+      [`--a-a`]: `initial`
+    };
     (A(b, `red`) ? Object.assign(_, {
       [`--a-a`]: `red`
     }) : (A(b, `blue`) ? Object.assign(_, {

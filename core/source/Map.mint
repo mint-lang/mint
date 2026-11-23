@@ -293,9 +293,9 @@ module Map {
     method : Function(key, value, result)
   ) : Map(key, value) {
     `
-    [...#{map}].sort((a, b) => {
-      let aVal = #{method}(a[0], a[1])
-      let bVal = #{method}(b[0], b[1])
+    [...#{map}].sort(($a, $b) => {
+      let aVal = #{method}($a[0], $a[1])
+      let bVal = #{method}($b[0], $b[1])
 
       if (aVal < bVal) {
         return -1

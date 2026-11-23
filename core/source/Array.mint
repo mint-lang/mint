@@ -515,7 +515,7 @@ module Array {
     Array.range(0, 5) == [0, 1, 2, 3, 4, 5]
   */
   fun range (from : Number, to : Number) : Array(Number) {
-    `Array.from({ length: (#{to} + 1) - #{from} }).map((v, $0) => $0 + #{from})`
+    `Array.from({ length: (#{to} + 1) - #{from} }).map(($item, $index) => $index + #{from})`
   }
 
   /*
@@ -689,9 +689,9 @@ module Array {
   ) : Array(item) {
     `
     (() => {
-      return #{array}.sort((a, b) => {
-        let aVal = #{function}(a)
-        let bVal = #{function}(b)
+      return #{array}.sort(($a, $b) => {
+        let aVal = #{function}($a)
+        let bVal = #{function}($b)
 
         if (aVal < bVal) {
           return -1

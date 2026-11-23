@@ -1,0 +1,23 @@
+component Main {
+  fun render : Html {
+    @highlight {
+      "C:\\Users ${`x`}"
+    }[1]
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as A,
+  fragment as B
+} from "./runtime.js";
+
+export const C = () => {
+  return [
+    `C:\\Users \${\`x\`}`,
+    A(B, {}, [A("span", {
+      className: "line"
+    }, [A("span", {
+      className: "string"
+    }, [`"C:\\\\Users \${\`x\`}"`])])])
+  ][1]
+};

@@ -43,7 +43,7 @@ module Test {
                   "character": 999
                 }
               },
-              "newText": "module Test {\n  fun test : String {\n    \"\"\n  }\n}"
+              "newText": "module Test {\n  fun test : String {\n    \"\"\n  }\n}\n"
             }
           ]
         }

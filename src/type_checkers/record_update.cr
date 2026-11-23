@@ -2,7 +2,7 @@ module Mint
   class TypeChecker
     def check(node : Ast::RecordUpdate) : Checkable
       target =
-        resolve node.expression
+        record_of(resolve(node.expression))
 
       target_node =
         case item = node.expression

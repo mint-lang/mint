@@ -120,7 +120,7 @@ module Mint
       condition : Checkable,
       variables : Array(VariableScope) = [] of VariableScope,
     )
-      case condition
+      case condition = record_of(condition)
       when Record
         cache[node] = condition
 
