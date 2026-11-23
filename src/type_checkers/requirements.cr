@@ -976,7 +976,7 @@ module Mint
 
     # Returns the location of a node as shown in snippets.
     def location(node : Ast::Node) : String
-      "#{node.file.relative_path}:#{node.from.line}:#{node.from.column + 1}"
+      "#{node.file.relative_path_posix}:#{node.from.line}:#{node.from.column + 1}"
     end
 
     # Returns a label for the entity containing the node.

@@ -109,10 +109,7 @@ component Test.With.Member {
 
 component Test.With.Provider {
   fun render : Html {
-    provide {
-      data: { name: "Joe" },
-      variant: Test.With.Variant.Variant2
-    } {
+    provide { data: { name: "Joe" }, variant: Test.With.Variant.Variant2 } {
       <Test.With.NestedConsumer/>
     }
   }
@@ -303,9 +300,7 @@ suite "With" {
   }
 
   test "Giving values to the content of a component" {
-    <Test.With.Form>
-      <Test.With.Field name="email"/>
-    </Test.With.Form>
+    <Test.With.Form><Test.With.Field name="email"/></Test.With.Form>
     |> Test.Html.start()
     |> Test.Html.assertTextOf("span", "value of email")
   }
