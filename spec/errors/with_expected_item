@@ -1,0 +1,14 @@
+module Test {
+  fun test : String {
+    with
+--------------------------------------------------------------------------------
+░ ERROR (WITH_EXPECTED_ITEM) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a value but I found "a space" instead:
+
+   ┌ errors/with_expected_item:3:8
+   ├──────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     with
+   │         ⌃⌃⌃⌃

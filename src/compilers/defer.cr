@@ -2,7 +2,11 @@ module Mint
   class Compiler
     def compile(node : Ast::Defer) : Compiled
       compile node do
-        add(node, node, compile(node.body))
+        # Deferred code runs on its own so no values are in scope.
+        body =
+          with_values({} of String => Compiled) { compile(node.body) }
+
+        add(node, node, body)
 
         [Deferred.new(node)] of Item
       end

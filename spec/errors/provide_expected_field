@@ -1,0 +1,14 @@
+module Test {
+  fun test : String {
+    provide {
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_EXPECTED_FIELD) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting a value of a provide but I found "a space" instead:
+
+   ┌ errors/provide_expected_field:3:13
+   ├───────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     provide {
+   │              ⌃⌃⌃⌃

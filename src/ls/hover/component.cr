@@ -18,7 +18,7 @@ module Mint
           "**#{node.name.value}**\n",
           node.comment.try(&.content.strip),
           properties_title,
-        ] + properties).compact
+        ] + properties).compact + needs(node, workspace, type_checker)
       end
     end
   end

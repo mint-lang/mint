@@ -1,0 +1,96 @@
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Users {
+  fun load (id : String) : String {
+    with config : Config, logger : Logger {
+      logger.log(id)
+      config.baseUrl + id
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide {
+      config: { baseUrl: "https://staging" },
+      logger: { log: (message : String) { void } }
+    } {
+      <Page/>
+    }
+  }
+}
+
+component Page {
+  fun handleClick (event : Html.Event) : String {
+    Users.load("1")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <UserCard id="1"/>
+    </div>
+  }
+}
+
+component UserCard {
+  property id : String
+
+  fun render : Html {
+    <div>Users.load(id)</div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = A(`Logger`),
+  c = (d, e, f) => {
+    e.log(f);
+    return d.baseUrl + f
+  },
+  C = ({
+    g,
+    h,
+    i
+  }) => {
+    return B(`div`, {}, [c(g, h, i)])
+  },
+  D = ({
+    j,
+    k
+  }) => {
+    const l = (m) => {
+      return c(j, k, `1`)
+    };
+    return B(`div`, {
+      "onClick": l
+    }, [B(C, {
+      i: `1`,
+      g: j,
+      h: k
+    })])
+  },
+  E = () => {
+    const n = a({
+      baseUrl: `https://staging`
+    });
+    const o = b({
+      log: (p) => {
+        return null
+      }
+    });
+    return B(D, {
+      j: n,
+      k: o
+    })
+  };

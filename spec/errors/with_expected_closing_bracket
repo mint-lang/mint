@@ -1,0 +1,16 @@
+module Test {
+  fun test : String {
+    with config : String {
+      config
+--------------------------------------------------------------------------------
+░ ERROR (WITH_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of a with but I found "a space" instead:
+
+   ┌ errors/with_expected_closing_bracket:4:12
+   ├──────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     with config : String {
+  4│       config
+   │             ⌃⌃⌃⌃

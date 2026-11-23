@@ -61,18 +61,32 @@ module Mint
 
         children_prop = nil
 
+        # The values of the component come first so the defaults of the
+        # properties can use them.
+        hidden_props =
+          component_values(node).values
+
         properties =
-          node.properties.map do |prop|
+          hidden_props + node.properties.map do |prop|
             name =
               if prop.name.value == "children"
-                children_prop = prop
+                children_prop = prop unless slot_names(prop)
                 ["children: ", prop] of Item
               else
                 [prop] of Item
               end
 
             if default = prop.default
-              js.assign(name, compile(default))
+              value =
+                compile(default)
+
+              # The content of an Html property which gets values from the
+              # component is a function of them, so is the default.
+              if slot_names(prop)
+                value = js.arrow_function { js.return(value) }
+              end
+
+              js.assign(name, value)
             else
               name
             end
@@ -95,7 +109,7 @@ module Mint
               (refs + states + gets + functions + constants)
                 .compact
                 .map do |item|
-                  [item[1]] of Item
+                  exposed_item(node, item[1])
                 end
 
             variable =
@@ -103,29 +117,29 @@ module Mint
 
             properties << ["_"] of Item
             [
+              # The exposed object is the same in every render (so the
+              # reference does not change) but its items are from the
+              # current render (so they see the current values).
               js.const(variable, js.call(Builtin::UseMemo, [
-                js.arrow_function { js.return(js.object_destructuring(items)) },
+                js.arrow_function { js.return(js.object({} of Item => Compiled)) },
                 js.array([] of Compiled),
               ])),
+              unless items.empty?
+                js.call("Object.assign", [
+                  [variable] of Item,
+                  js.object_destructuring(items),
+                ])
+              end,
               js.ternary(
                 ["_"] of Item,
                 js.call(["_"] of Item, [[variable] of Item]),
                 js.null),
-            ]
+            ].compact
           end || [] of Compiled
 
         arguments =
           unless properties.empty?
             [js.object_destructuring(properties)]
-          end
-
-        contexts =
-          node.contexts.compact_map do |context|
-            if resolved = lookups[context]?.try(&.first?)
-              {node, context, js.call(Builtin::UseContext, [
-                [Context.new(resolved)] of Item,
-              ])}
-            end
           end
 
         # Each `use` gets its own id, so a component can subscribe to the
@@ -218,7 +232,7 @@ module Mint
 
         items =
           (refs + states + gets + functions + styles + constants +
-            ids + contexts + sizes).compact
+            ids + sizes).compact
 
         items, body =
           if node.global?
@@ -249,21 +263,55 @@ module Mint
               contents: js.statements(body),
               skip_const: true,
               args: arguments,
-            ) do |contents|
-              if node.provides.empty?
-                contents
-              else
-                js.return(node.provides.reduce(js.iif { contents }) do |memo, use|
-                  js.call(Builtin::CreateElement, [
-                    [ContextProvider.new(lookups[use][0])] of Item,
-                    js.object({"value" => compile(use.expression)}),
-                    memo,
-                  ])
-                end)
-              end
-            end,
+            ),
           },
         ])
+      end
+    end
+
+    # Returns an exposed item of a component (accessible through a reference
+    # to it). Functions and gets which take values are exposed as binders:
+    # they take values (or `undefined` to use the values of the component)
+    # and return the bound function.
+    def exposed_item(node : Ast::Component, id : Id) : Compiled
+      names =
+        case id
+        when Ast::Function, Ast::Get
+          hidden_names(id)
+        end
+
+      if names && !names.empty?
+        values =
+          component_values(node)
+
+        variables =
+          names.map do |name|
+            variable =
+              [Variable.new] of Item
+
+            if value = values[name]?
+              js.assign(variable, value)
+            else
+              variable
+            end
+          end
+
+        arguments =
+          variables.map { |item| [item.first] of Item }
+
+        rest =
+          ["..."] + [Variable.new] of Item
+
+        binder =
+          js.arrow_function(variables) do
+            js.return(js.arrow_function([rest]) do
+              js.return(js.call([id] of Item, arguments + [rest]))
+            end)
+          end
+
+        ([id, js.optimize? ? ":" : ": "] of Item) + binder
+      else
+        [id] of Item
       end
     end
   end

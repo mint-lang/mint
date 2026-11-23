@@ -48,8 +48,13 @@ module Mint
               .reduce(Ast.new) { |memo, item| memo.merge(item) }
               .tap(&.normalize)
 
+          artifacts =
+            DocumentationGenerator.check(ast,
+              packages: flags.include_packages ? [] of MintJson : SourceFiles.packages(json),
+              include_core: !flags.include_core)
+
           entities =
-            DocumentationGenerator.resolve(ast)
+            DocumentationGenerator.resolve(ast, artifacts)
 
           contents =
             if flags.pretty

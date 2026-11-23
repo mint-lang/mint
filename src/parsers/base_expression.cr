@@ -73,6 +73,10 @@ module Mint
             emit
           when "dbg"
             dbg
+          when "with"
+            with_expression
+          when "provide"
+            provide
           else
             value
           end

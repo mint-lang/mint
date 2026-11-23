@@ -2,26 +2,54 @@ module Mint
   class Parser
     def provide : Ast::Provide?
       parse do |start_position|
-        next unless keyword!("provide")
+        next unless keyword! "provide"
         whitespace
 
-        next error :use_expected_provider do
-          expected "the name of a provide", word
-          snippet self
-        end unless name = id
+        fields =
+          brackets(
+            -> { error :provide_expected_opening_bracket do
+              expected "the opening bracket of the values of a provide", word
+              snippet self
+            end },
+            -> { error :provide_expected_closing_bracket do
+              expected "the closing bracket of the values of a provide", word
+              snippet self
+            end },
+            ->(items : Array(Ast::Field)) {
+              error :provide_expected_field do
+                expected "a value of a provide", word
+                snippet self
+              end if items.empty?
+            }) do
+            list(terminator: '}', separator: ',') { field }
+          end
+
+        next unless fields
         whitespace
 
-        next error :provide_expected_expression do
-          expected "the expression for a provide", word
-          snippet self
-        end unless expression = self.expression
+        body =
+          block(
+            -> { error :provide_expected_body_opening_bracket do
+              expected "the opening bracket of the body of a provide", word
+              snippet self
+            end },
+            -> { error :provide_expected_body_closing_bracket do
+              expected "the closing bracket of the body of a provide", word
+              snippet self
+            end },
+            -> { error :provide_expected_expression do
+              expected "the body of a provide", word
+              snippet self
+            end })
+
+        next unless body
 
         Ast::Provide.new(
-          expression: expression,
           from: start_position,
+          fields: fields,
           to: position,
-          name: name,
-          file: file)
+          file: file,
+          body: body)
       end
     end
   end

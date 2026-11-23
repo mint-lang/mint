@@ -1,0 +1,61 @@
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: 0 } {
+      Test.a()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The provided value "value" does not match the type it is needed as.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+It is provided here:
+
+    ┌ errors/provide_type_mismatch:11:15
+    ├───────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     provide { value: 0 } {
+    │               ⌃⌃⌃⌃⌃⌃⌃⌃
+  12│       Test.a()
+  13│     }
+  14│   }
+  15│ }
+
+It is needed along this path:
+
+  Main.render
+  → Test.a (errors/provide_type_mismatch:12:7)
+  → with value : String (errors/provide_type_mismatch:3:10)
+
+By this:
+
+   ┌ errors/provide_type_mismatch:3:10
+   ├──────────────────────────────────
+  1│ module Test {
+  2│   fun a : String {
+  3│     with value : String {
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│       value
+  5│     }
+  6│   }
+  7│ }

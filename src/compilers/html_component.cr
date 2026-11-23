@@ -5,12 +5,19 @@ module Mint
         component =
           node.component_node.not_nil!
 
+        # The values the component gives to its content (if any).
+        names =
+          slot_names(component.properties.find(&.name.value.==("children")))
+
         children =
           unless node.children.empty?
-            items =
-              compile node.children
-
-            js.call(Builtin::ToArray, items)
+            if names
+              # The content is a function of the values the component gives
+              # to it.
+              slot(names) { js.call(Builtin::ToArray, compile(node.children)) }
+            else
+              js.call(Builtin::ToArray, compile(node.children))
+            end
           end
 
         attributes =
@@ -18,6 +25,11 @@ module Mint
             .attributes
             .map { |item| resolve(item, is_element: false) }
             .reduce({} of Item => Compiled) { |memo, item| memo.merge(item) }
+
+        # The values the component needs are passed as hidden properties.
+        component_values(component).each do |name, key|
+          attributes[key.first] = value(name)
+        end
 
         node.ref.try do |ref|
           method =
@@ -40,8 +52,10 @@ module Mint
 
           js.call(Builtin::CreateElement, [
             [Builtin::LazyComponent] of Item,
+            # Without content the default of the property is used, which
+            # is a function if the component gives values to the content.
             js.object({
-              "c"   => children || js.array([] of Compiled),
+              "c"   => children || (js.array([] of Compiled) unless names),
               "key" => js.string(component.name.value),
               "p"   => js.object(attributes),
               "x"   => [component] of Item,

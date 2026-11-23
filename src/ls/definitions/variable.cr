@@ -62,7 +62,8 @@ module Mint
                       Ast::Function,
                       Ast::State,
                       Ast::Get,
-                      Ast::Argument
+                      Ast::Argument,
+                      Ast::WithItem
                    item.name
                  else
                    item

@@ -1,0 +1,14 @@
+module Test {
+  fun test : String {
+    provide { config: "a" } {
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a provide but I found "a space" instead:
+
+   ┌ errors/provide_expected_expression:3:29
+   ├────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     provide { config: "a" } {
+   │                              ⌃⌃⌃⌃

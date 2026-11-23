@@ -1,0 +1,108 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    with value : Number {
+      if value > 0 {
+        case test {
+          Maybe.Just(item) => item.a()
+          Maybe.Nothing => ""
+        }
+      } else {
+        ""
+      }
+    }
+  }
+
+  fun render : Html {
+    provide { value: 1 } {
+      <div onClick={handleClick}>
+        provide { value: "s" } {
+          <Test as test/>
+        }
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as G,
+  createElement as C,
+  useRefSignal as D,
+  pattern as F,
+  useMemo as B,
+  variant as A,
+  setRef as H,
+  match as E
+} from "./runtime.js";
+
+export const
+  I = A(1, `Just`),
+  J = A(0, `Nothing`),
+  K = ({
+    a,
+    _
+  }) => {
+    const b = (c) => {
+      return c
+    };
+    const d = B(() => {
+      return {}
+    }, []);
+    Object.assign(d, {
+      b: (e = a) => {
+        return (...f) => {
+          return b(e, ...f)
+        }
+      }
+    });
+    (_ ? _(d) : null);
+    return C(`div`, {})
+  },
+  L = () => {
+    const
+      g = D(new J()),
+      h = (i) => {
+        return (i > 0 ? E(g.value, [
+          [
+            F(I, [G]),
+            (j) => {
+              return j.b()()
+            }
+          ],
+          [
+            F(J, []),
+            () => {
+              return ``
+            }
+          ]
+        ]) : ``)
+      };
+    const k = 1;
+    return C(`div`, {
+      "onClick": (...l) => {
+        return h(k, ...l)
+      }
+    }, [(() => {
+      const m = `s`;
+      return C(K, {
+        a: m,
+        _: H(g, I, J)
+      })
+    })()])
+  };

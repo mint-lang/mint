@@ -6,7 +6,6 @@ module Mint
 
       resolve node.constants
       resolve node.functions
-      resolve node.contexts
       resolve node.gets
 
       VOID
@@ -22,7 +21,7 @@ module Mint
 
       check_names(node.properties, "component", checked)
       check_names(node.functions, "component", checked)
-      check_names(node.contexts, "component", checked)
+      check_names(node.withs, "component", checked)
       check_names(node.states, "component", checked)
       check_names(node.gets, "component", checked)
 
@@ -130,8 +129,8 @@ module Mint
 
       # Type checking the entities
       resolve node.properties
+      resolve node.withs
       resolve node.connects
-      resolve node.provides
       resolve node.states
       resolve node.uses
 

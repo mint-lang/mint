@@ -1,7 +1,7 @@
 module Mint
   class Ast
     class TypeDefinition < Node
-      getter parameters, end_comment, comment, fields, name, context
+      getter parameters, end_comment, comment, fields, name
 
       def initialize(@fields : Array(TypeDefinitionField) | Array(TypeVariant),
                      @parameters : Array(TypeVariable),
@@ -10,7 +10,6 @@ module Mint
                      @to : Parser::Location,
                      @file : Parser::File,
                      @comment : Comment?,
-                     @context : Node?,
                      @name : Id)
       end
 

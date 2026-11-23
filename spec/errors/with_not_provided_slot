@@ -1,0 +1,64 @@
+component Field {
+  fun render : String {
+    with form : String {
+      form
+    }
+  }
+}
+
+component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    <div>
+      provide { form: "a" } {
+        <div>children</div>
+      }
+
+      <div>children</div>
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form>
+      <Field/>
+    </Form>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_NOT_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "form" is needed here but nothing provides it:
+
+  Main.render
+  → <Field/> (errors/with_not_provided_slot:26:7)
+  → with form : String (errors/with_not_provided_slot:3:10)
+
+Provide it around this (or further up):
+
+    ┌ errors/with_not_provided_slot:26:7
+    ├───────────────────────────────────
+  22│
+  23│ component Main {
+  24│   fun render : Html {
+  25│     <Form>
+  26│       <Field/>
+    │       ⌃⌃⌃⌃⌃⌃⌃⌃
+  27│     </Form>
+  28│   }
+  29│ }
+
+The value is needed by this:
+
+   ┌ errors/with_not_provided_slot:3:10
+   ├───────────────────────────────────
+  1│ component Field {
+  2│   fun render : String {
+  3│     with form : String {
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│       form
+  5│     }
+  6│   }
+  7│ }

@@ -1,13 +1,17 @@
 module Mint
   class Ast
     class Provide < Node
-      getter name, expression
+      getter fields, body
 
       def initialize(@from : Parser::Location,
                      @to : Parser::Location,
                      @file : Parser::File,
-                     @expression : Node,
-                     @name : Id)
+                     @fields : Array(Field),
+                     @body : Block)
+      end
+
+      def names : Array(String)
+        fields.compact_map(&.key.try(&.value))
       end
     end
   end

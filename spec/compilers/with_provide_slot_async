@@ -1,0 +1,78 @@
+component Test {
+  fun render : String {
+    with form : String {
+      form
+    }
+  }
+}
+
+async component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { form: "a" } {
+      <div>children</div>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <Form/>
+      <Form><Test/></Form>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as C,
+  createElement as B,
+  toArray as D,
+  lazy as A
+} from "./runtime.js";
+
+export const
+  E = A(`./1.js`),
+  F = ({
+    a
+  }) => {
+    return a
+  },
+  G = () => {
+    return B(`div`, {}, [
+      B(C, {
+        key: `Form`,
+        p: {},
+        x: E
+      }),
+      B(C, {
+        c: (b) => {
+          return D(B(F, {
+            a: b
+          }))
+        },
+        key: `Form`,
+        p: {},
+        x: E
+      })
+    ])
+  };
+
+---=== /__mint__/1.js ===---
+import {
+  normalizeChildren as B,
+  createElement as A
+} from "./runtime.js";
+
+export const C = ({
+  children: a = () => {
+    return []
+  }
+}) => {
+  const b = `a`;
+  return A(`div`, {}, [B(a(b))])
+};
+
+export default C;

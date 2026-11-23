@@ -5,7 +5,12 @@ module Mint
       is_element = true,
     ) : Hash(Item, Compiled)
       value =
-        compile node.value
+        if names = slot_names(lookups[node]?.try(&.[0]))
+          # The content is a function of the values the component gives to it.
+          slot(names) { compile node.value }
+        else
+          compile node.value
+        end
 
       if node.name.value.downcase == "readonly" && is_element
         {"readOnly".as(Item) => value}

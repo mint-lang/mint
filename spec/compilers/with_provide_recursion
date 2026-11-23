@@ -1,0 +1,49 @@
+type Depth {
+  max : Number
+}
+
+module Test {
+  fun count (value : Number) : Number {
+    with depth : Depth {
+      if value > depth.max {
+        value
+      } else {
+        count(value + 1)
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { depth: { max: 10 } } {
+      <div>Number.toString(Test.count(0))</div>
+    }
+  }
+}
+
+module Number {
+  fun toString (value : Number) : String {
+    `#{value}.toString()`
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Depth`),
+  b = (c) => {
+    return (c.toString())
+  },
+  d = (e, f) => {
+    return (f > e.max ? f : d(e, f + 1))
+  },
+  C = () => {
+    const g = a({
+      max: 10
+    });
+    return B(`div`, {}, [b(d(g, 0))])
+  };

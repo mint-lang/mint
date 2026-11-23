@@ -1,0 +1,15 @@
+module Test {
+  fun test : String {
+    provide { config: "a" }
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_EXPECTED_BODY_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of the body of a provide but I found "a
+space" instead:
+
+   ┌ errors/provide_expected_body_opening_bracket:3:27
+   ├──────────────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     provide { config: "a" }
+   │                            ⌃⌃⌃⌃

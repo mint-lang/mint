@@ -1,9 +1,11 @@
 module Mint
   class Compiler
-    private def compile_access_item(item)
+    private def compile_access_item(item, node)
       case item
       when Ast::Get
-        js.call(item, [] of Compiled)
+        js.call(item, hidden_arguments(item))
+      when Ast::Function
+        bind(item, node, [item] of Item)
       when Ast::State, Ast::Signal
         [Signal.new(item)] of Item
       else
@@ -36,7 +38,7 @@ module Mint
               end
             end
 
-            compile_access_item(items[0])
+            compile_access_item(items[0], node)
           end
         elsif record_field_lookup[node.field]?
           compile(node.expression) + ["."] + [node.field.value] of Item
@@ -48,8 +50,22 @@ module Mint
             case field = lookup[0]
             when Ast::Variable
               [Signal.new(field)] of Item
+            when Ast::Function, Ast::Get
+              # Functions and gets of a component accessed through a
+              # reference which take values are exposed as binders.
+              if (artifacts.requirements[field]? || [] of String).empty?
+                if field.is_a?(Ast::Get)
+                  js.call(field, [] of Compiled)
+                else
+                  [field] of Item
+                end
+              elsif field.is_a?(Ast::Get)
+                js.call(bind_exposed(field, node), [] of Compiled)
+              else
+                bind_exposed(field, node)
+              end
             else
-              compile_access_item(field)
+              compile_access_item(field, node)
             end
 
           compile(node.expression) + ["."] + item

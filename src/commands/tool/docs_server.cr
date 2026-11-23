@@ -27,6 +27,7 @@ module Mint
           ) do |type_checker|
             StaticDocumentationGenerator.generate(
               [type_checker.artifacts.ast],
+              artifacts: type_checker.artifacts,
               live_reload: true)
           end
         end

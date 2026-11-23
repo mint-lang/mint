@@ -197,9 +197,8 @@ module Mint
       when Ast::Component
         build(node.properties, node)
         build(node.functions, node)
+        build(node.withs, node)
         build(node.constants, node)
-        build(node.contexts, node)
-        build(node.provides, node)
         build(node.states, node)
         build(node.styles, node)
         build(node.gets, node)
@@ -229,8 +228,6 @@ module Mint
         build(node.fields, node)
       when Ast::Routes
         build(node.routes, node)
-      when Ast::TypeDefinition
-        build(node.context, node)
       end
     end
 
@@ -244,7 +241,7 @@ module Mint
            Ast::Property,
            Ast::Constant,
            Ast::Argument,
-           Ast::Context,
+           Ast::WithItem,
            Ast::Signal,
            Ast::State,
            Ast::Get
@@ -266,7 +263,7 @@ module Mint
            Ast::Builtin,
            Ast::Comment,
            Ast::Discard,
-           Ast::Context,
+           Ast::WithItem,
            Ast::Spread,
            Ast::Env
       when Ast::StringLiteral,
@@ -373,8 +370,12 @@ module Mint
         when Ast::Node
           build(node.index.as(Ast::Node), node)
         end
+      when Ast::With
+        build(node.items, node)
+        build(node.body, node)
       when Ast::Provide
-        build(node.expression, node)
+        build(node.fields, node)
+        build(node.body, node)
       when Ast::Use
         build(node.condition, node)
         build(node.data, node)

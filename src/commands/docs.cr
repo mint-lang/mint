@@ -45,7 +45,13 @@ module Mint
           end
 
           terminal.measure "#{COG} Generating documentation..." do
-            StaticDocumentationGenerator.generate(asts).each do |path, contents|
+            artifacts =
+              DocumentationGenerator.check(
+                asts.reduce(Ast.new) { |memo, item| memo.merge(item) },
+                packages: flags.include_packages ? [] of MintJson : SourceFiles.packages(json),
+                include_core: !flags.include_core)
+
+            StaticDocumentationGenerator.generate(asts, artifacts: artifacts).each do |path, contents|
               File.write_p(Path[directory, path], contents.call)
             end
           end

@@ -157,11 +157,13 @@ module Mint
           append(io, pool.of(item, base))
         in Builtin
           append(io, class_pool.of(item, base))
-        in Context
-          append(io, class_pool.of(item.value, base))
-        in ContextProvider
-          append(io, class_pool.of(item.value, base))
-          append(io, ".Provider")
+        in HiddenProp
+          # Hidden properties are named in the bundle of their component
+          # (like normal properties) so they match across bundles.
+          scope =
+            bundles.find(&.last.includes?(item.component)).try(&.first) || base
+
+          append(io, pool.of("\0#{item.component.name.value}.#{item.name}", scope))
         in Raw
           append(io, item.value)
         in String

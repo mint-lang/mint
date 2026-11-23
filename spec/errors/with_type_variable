@@ -1,0 +1,39 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+module Test {
+  fun test : String {
+    with value : Maybe(a) {
+      ""
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.test()
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_TYPE_VARIABLE) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The type of a value cannot have type variables:
+
+  Maybe(a)
+
+The value in question is here:
+
+    ┌ errors/with_type_variable:8:10
+    ├───────────────────────────────
+   4│ }
+   5│
+   6│ module Test {
+   7│   fun test : String {
+   8│     with value : Maybe(a) {
+    │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   9│       ""
+  10│     }
+  11│   }
+  12│ }

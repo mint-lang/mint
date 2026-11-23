@@ -1,0 +1,498 @@
+------------------------------------------------------------with_expected_item
+component Main {
+  fun render : String {
+    with {
+      ""
+    }
+  }
+}
+-------------------------------------------------------------variable_missing
+module Test {
+  fun a : String {
+    with value : String {
+      ""
+    }
+
+    value
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      Test.a()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun unused : String {
+    a()
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      Test.a()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    provide { value: "a" } {
+      with value : String {
+        value
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.a()
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun closure : Function(String) {
+    () { with value : String { value } }
+  }
+}
+
+component Main {
+  fun render : String {
+    let function =
+      provide { value: "a" } {
+        Test.closure()
+      }
+
+    function()
+  }
+}
+---------------------------------------------------------------with_not_provided
+module Test {
+  fun closure : Function(String) {
+    () { with value : String { value } }
+  }
+}
+
+component Main {
+  fun render : String {
+    let function =
+      Test.closure()
+
+    provide { value: "a" } {
+      function()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a (count : Number) : String {
+    if count > 10 {
+      with value : String {
+        value
+      }
+    } else {
+      b(count + 1)
+    }
+  }
+
+  fun b (count : Number) : String {
+    a(count + 1)
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      Test.b(0)
+    }
+  }
+}
+---------------------------------------------------------------with_not_provided
+module Test {
+  fun a (count : Number) : String {
+    if count > 10 {
+      with value : String {
+        value
+      }
+    } else {
+      b(count + 1)
+    }
+  }
+
+  fun b (count : Number) : String {
+    a(count + 1)
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.b(0)
+  }
+}
+---------------------------------------------------------------with_not_provided
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    ""
+  }
+}
+
+routes {
+  / {
+    Test.a()
+  }
+}
+---------------------------------------------------------------with_not_provided
+component Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun render : String {
+    a()
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Test/>
+  }
+}
+-------------------------------------------------------------------------------
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    provide { value: "a" } {
+      case test {
+        Maybe.Just(item) => item.a()
+        Maybe.Nothing => ""
+      }
+    }
+  }
+
+  fun render : Html {
+    provide { value: "b" } {
+      <div onClick={handleClick}>
+        <Test as test/>
+      </div>
+    }
+  }
+}
+---------------------------------------------------------------with_not_provided
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    provide { value: "a" } {
+      case test {
+        Maybe.Just(item) => item.a()
+        Maybe.Nothing => ""
+      }
+    }
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}>
+      <Test as test/>
+    </div>
+  }
+}
+------------------------------------------------------------------with_shadowed
+type Ui {
+  theme : String
+}
+
+component Button {
+  with ui : Ui
+
+  fun render : String {
+    provide { ui: { theme: "inner" } } {
+      ui.theme
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Button/>
+  }
+}
+-----------------------------------------------------------------provide_unused
+type Ui {
+  theme : String
+}
+
+component Button {
+  with ui : Ui
+
+  fun render : String {
+    ""
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { ui: { theme: "dark" } } {
+      <Button/>
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component A {
+  with ui : String
+
+  fun render : String {
+    ui
+  }
+}
+
+component B {
+  with ui : Number
+
+  fun render : String {
+    if ui > 0 {
+      "positive"
+    } else {
+      ""
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      provide { ui: "a" } {
+        <A/>
+      }
+
+      provide { ui: 1 } {
+        <B/>
+      }
+    </div>
+  }
+}
+------------------------------------------------------------provide_type_mismatch
+component A {
+  with ui : String
+
+  fun render : String {
+    ui
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { ui: 1 } {
+      <A/>
+    }
+  }
+}
+---------------------------------------------------------------with_type_conflict
+component A {
+  with ui : String
+
+  fun render : String {
+    ui
+  }
+}
+
+component B {
+  with ui : Number
+
+  fun render : String {
+    if ui > 0 {
+      "positive"
+    } else {
+      ""
+    }
+  }
+}
+
+component Page {
+  fun render : Html {
+    <div>
+      <A/>
+      <B/>
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Page/>
+  }
+}
+------------------------------------------------------------------with_shadowed
+module Test {
+  fun number : String {
+    with x : Number {
+      if x == 0 {
+        "zero"
+      } else {
+        "other"
+      }
+    }
+  }
+
+  fun text : String {
+    with x : String {
+      provide { x: 42 } {
+        x + number()
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "a" } {
+      Test.text()
+    }
+  }
+}
+------------------------------------------------------------------with_shadowed
+module Test {
+  fun text : String {
+    with x : String {
+      provide { x: "inner" } {
+        x
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "outer" } {
+      Test.text()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+type Logger {
+  prefix : String
+}
+
+module Api {
+  fun get (path : String) : String {
+    with logger : Logger {
+      logger.prefix + path
+    }
+  }
+}
+
+module Users {
+  fun load (id : String) : String {
+    with logger : Logger {
+      provide { logger: { prefix: logger.prefix + "[users] " } } {
+        Api.get("/users/" + id)
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { logger: { prefix: "" } } {
+      Users.load("1")
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun inner : String {
+    with x : String {
+      x
+    }
+  }
+
+  fun text : String {
+    with x : String {
+      let outer =
+        x
+
+      provide { x: "inner" } {
+        outer + inner()
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "outer" } {
+      Test.text()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun text : String {
+    with x : String {
+      provide { x: "inner" } {
+        with x : String {
+          x
+        }
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "outer" } {
+      Test.text()
+    }
+  }
+}

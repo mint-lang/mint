@@ -1,0 +1,38 @@
+type Config {
+  username : String,
+  password : String
+}
+
+module Test {
+  fun something : String {
+    with config : Config {
+      config.username
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { config: { username: "admin", password: "admin" } } {
+      <div>Test.something()</div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = (c) => {
+    return c.username
+  },
+  C = () => {
+    const d = a({
+      username: `admin`,
+      password: `admin`
+    });
+    return B(`div`, {}, [b(d)])
+  };

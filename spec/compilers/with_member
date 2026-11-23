@@ -1,0 +1,68 @@
+type Ui {
+  theme : String
+}
+
+component Button {
+  with ui : Ui
+
+  property label : String = ui.theme
+
+  fun inner : String {
+    ui.theme
+  }
+
+  fun render : Html {
+    <button class={ui.theme}>
+      label
+      inner()
+
+      provide { ui: { theme: "inner" } } {
+        inner()
+      }
+    </button>
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { ui: { theme: "dark" } } {
+      <Button/>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Ui`),
+  C = ({
+    b,
+    c = b.theme
+  }) => {
+    const d = (e) => {
+      return e.theme
+    };
+    return B(`button`, {
+      className: b.theme
+    }, [
+      c,
+      d(b),
+      (() => {
+        const f = a({
+          theme: `inner`
+        });
+        return d(f)
+      })()
+    ])
+  },
+  D = () => {
+    const g = a({
+      theme: `dark`
+    });
+    return B(C, {
+      b: g
+    })
+  };

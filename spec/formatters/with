@@ -1,0 +1,58 @@
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Test {
+  fun a : String {
+    with config:Config,logger    :   Logger{logger.log("a")
+    config.baseUrl}
+  }
+
+  fun b : String {
+    with config : Config { config.baseUrl }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide {config:{baseUrl:"a"},logger:{log:(message : String) { void }}}{Test.a()}
+  }
+}
+--------------------------------------------------------------------------------
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Test {
+  fun a : String {
+    with config : Config, logger : Logger {
+      logger.log("a")
+      config.baseUrl
+    }
+  }
+
+  fun b : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide {
+      config: { baseUrl: "a" },
+      logger: { log: (message : String) { void } }
+    } {
+      Test.a()
+    }
+  }
+}

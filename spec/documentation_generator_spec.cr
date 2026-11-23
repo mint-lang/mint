@@ -14,11 +14,12 @@ Dir
       ast.class.should eq(Mint::Ast)
 
       begin
-        Mint::TypeChecker.check(ast)
+        artifacts =
+          Mint::TypeChecker.check(ast)
 
         # Compare results
         result =
-          Mint::DocumentationGenerator.resolve(ast).to_pretty_json
+          Mint::DocumentationGenerator.resolve(ast, artifacts).to_pretty_json
       rescue error : Mint::Error
         fail error.to_terminal.to_s
       end

@@ -12,7 +12,22 @@ module Mint
 
           @fallbacks[fallback] = variable
         end
-        expressions.concat(compile(node.expressions.select(Ast::Statement)))
+        statements =
+          node.expressions.select(Ast::Statement)
+
+        # A `with` or `provide` at the end of a function is compiled into
+        # the function itself.
+        if for_function && !node.fallback &&
+           (last = statements.last?) &&
+           !last.target && !last.return_value &&
+           (item = last.expression).is_a?(Ast::With | Ast::Provide)
+          expressions.concat(compile(statements[0...-1]))
+          expressions << compile(item, for_function: true)
+
+          next js.statements(expressions)
+        end
+
+        expressions.concat(compile(statements))
 
         async =
           Js.async?(expressions)

@@ -1,0 +1,60 @@
+type Config {
+  baseUrl : String
+}
+
+module Test {
+  // Returns the base url.
+  fun url : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+
+  fun admin : String {
+    provide { config: { baseUrl: "/admin" } } {
+      url()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+[
+  {
+    "k": 10,
+    "e": [
+      {
+        "k": 0,
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "baseUrl"
+      }
+    ],
+    "l": "Config(type)",
+    "n": "Config"
+  },
+  {
+    "k": 6,
+    "e": [
+      {
+        "k": 4,
+        "d": "<p>Returns the base url.</p>",
+        "b": false,
+        "w": [
+          {
+            "t": "<span class=\"type\">Config</span>",
+            "n": "config"
+          }
+        ],
+        "t": "<span class=\"type\">String</span>",
+        "n": "url"
+      },
+      {
+        "k": 4,
+        "b": false,
+        "t": "<span class=\"type\">String</span>",
+        "n": "admin"
+      }
+    ],
+    "l": "Test",
+    "n": "Test"
+  }
+]

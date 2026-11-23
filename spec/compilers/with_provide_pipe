@@ -1,0 +1,59 @@
+type Config {
+  prefix : String
+}
+
+module Fmt {
+  fun format (value : String) : String {
+    with config : Config {
+      config.prefix + value
+    }
+  }
+}
+
+component Child {
+  with config : Config
+
+  fun render : Html {
+    <div>config.prefix |> Fmt.format()</div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { config: { prefix: ">" } } {
+      <div>
+        "a" |> Fmt.format()
+        "b" |> Fmt.format() |> Fmt.format()
+        <Child/>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = (c, d) => {
+    return c.prefix + d
+  },
+  C = ({
+    e
+  }) => {
+    return B(`div`, {}, [b(e, e.prefix)])
+  },
+  D = () => {
+    const f = a({
+      prefix: `>`
+    });
+    return B(`div`, {}, [
+      b(f, `a`),
+      b(f, b(f, `b`)),
+      B(C, {
+        e: f
+      })
+    ])
+  };

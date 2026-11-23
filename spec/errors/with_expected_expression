@@ -1,0 +1,14 @@
+module Test {
+  fun test : String {
+    with config : String {
+--------------------------------------------------------------------------------
+░ ERROR (WITH_EXPECTED_EXPRESSION) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the body of a with but I found "a space" instead:
+
+   ┌ errors/with_expected_expression:3:26
+   ├─────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     with config : String {
+   │                           ⌃⌃⌃⌃

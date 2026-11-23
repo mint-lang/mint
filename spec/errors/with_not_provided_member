@@ -1,0 +1,31 @@
+type Ui {
+  theme : String
+}
+
+component Main {
+  with ui : Ui
+
+  fun render : String {
+    ui.theme
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_NOT_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "ui" is needed here but nothing provides it:
+
+  Main.render
+  → with ui : Ui (errors/with_not_provided_member:9:5)
+
+The value is needed by this:
+
+    ┌ errors/with_not_provided_member:9:5
+    ├────────────────────────────────────
+   5│ component Main {
+   6│   with ui : Ui
+   7│
+   8│   fun render : String {
+   9│     ui.theme
+    │     ⌃⌃
+  10│   }
+  11│ }

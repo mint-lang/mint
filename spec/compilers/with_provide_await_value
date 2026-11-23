@@ -1,0 +1,72 @@
+type Data {
+  name : String
+}
+
+module Test {
+  fun name : String {
+    with data : Data {
+      data.name
+    }
+  }
+
+  fun awaited : Promise(String) {
+    let value =
+      provide { data: await Promise.resolve({ name: "Awaited" }) } {
+        name()
+      }
+
+    value + "!"
+  }
+}
+
+component Main {
+  fun componentDidMount : Promise(Void) {
+    await Test.awaited()
+    void
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+module Promise {
+  fun resolve (value : a) : Promise(a) {
+    `Promise.resolve(#{value})`
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  useEffect as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = (b) => {
+    return (Promise.resolve(b))
+  },
+  c = A(`Data`),
+  d = (e) => {
+    return e.name
+  },
+  f = async () => {
+    const g = (await (async () => {
+      const h = await a(c({
+        name: `Awaited`
+      }));
+      return () => {
+        return d(h)
+      }
+    })())();
+    return g + `!`
+  },
+  D = () => {
+    B(() => {
+      (async () => {
+        await f();
+        return null
+      })()
+    }, []);
+    return C(`div`, {})
+  };

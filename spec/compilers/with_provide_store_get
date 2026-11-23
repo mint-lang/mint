@@ -1,0 +1,38 @@
+type Config {
+  baseUrl : String
+}
+
+store Test {
+  get url : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+}
+
+component Main {
+  connect Test exposing { url }
+
+  fun render : Html {
+    provide { config: { baseUrl: "https://example.com" } } {
+      <div>url</div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = (c) => {
+    return c.baseUrl
+  },
+  C = () => {
+    const d = a({
+      baseUrl: `https://example.com`
+    });
+    return B(`div`, {}, [b(d)])
+  };

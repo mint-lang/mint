@@ -49,10 +49,11 @@ export const
       return `Instance`
     };
     const b = B(() => {
-      return {
-        a
-      }
+      return {}
     }, []);
+    Object.assign(b, {
+      a
+    });
     (_ ? _(b) : null);
     return C(`div`, {})
   },

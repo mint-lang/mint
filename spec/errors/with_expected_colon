@@ -1,0 +1,14 @@
+module Test {
+  fun test : String {
+    with config
+--------------------------------------------------------------------------------
+░ ERROR (WITH_EXPECTED_COLON) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the colon of a with but I found "a space" instead:
+
+   ┌ errors/with_expected_colon:3:15
+   ├────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     with config
+   │                ⌃⌃⌃⌃

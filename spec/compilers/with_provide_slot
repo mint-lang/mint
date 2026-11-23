@@ -1,0 +1,74 @@
+type Form {
+  get : Function(String, String)
+}
+
+component Ui.Field {
+  property name : String
+
+  fun render : Html {
+    with form : Form {
+      <input value={form.get(name)}/>
+    }
+  }
+}
+
+component Ui.Form {
+  property children : Array(Html) = []
+
+  fun get (name : String) : String {
+    name
+  }
+
+  fun render : Html {
+    provide { form: { get: get } } {
+      <form>children</form>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Ui.Form>
+      <Ui.Field name="email"/>
+    </Ui.Form>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  normalizeChildren as C,
+  createElement as B,
+  toArray as D,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Form`),
+  E = ({
+    children: b = () => {
+      return []
+    }
+  }) => {
+    const c = (d) => {
+      return d
+    };
+    const e = a({
+      get: c
+    });
+    return B(`form`, {}, [C(b(e))])
+  },
+  F = ({
+    f,
+    g
+  }) => {
+    return B(`input`, {
+      "value": f.get(g)
+    })
+  },
+  G = () => {
+    return B(E, {}, (h) => {
+      return D(B(F, {
+        g: `email`,
+        f: h
+      }))
+    })
+  };

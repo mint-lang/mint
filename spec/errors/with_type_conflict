@@ -1,0 +1,72 @@
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun b : Number {
+    with value : Number {
+      value
+    }
+  }
+
+  fun c : Tuple(String, Number) {
+    {a(), b()}
+  }
+}
+
+component Main {
+  fun render : String {
+    ""
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_TYPE_CONFLICT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "value" is needed as two different types in the same place, so nothing
+can provide it.
+
+It is needed as this type:
+
+  String
+
+  Test.c
+  → Test.a (errors/with_type_conflict:15:6)
+  → with value : String (errors/with_type_conflict:3:10)
+
+And as this type:
+
+  Number
+
+  Test.c
+  → Test.b (errors/with_type_conflict:15:11)
+  → with value : Number (errors/with_type_conflict:9:10)
+
+The first is needed by this:
+
+   ┌ errors/with_type_conflict:3:10
+   ├───────────────────────────────
+  1│ module Test {
+  2│   fun a : String {
+  3│     with value : String {
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│       value
+  5│     }
+  6│   }
+  7│
+
+The second is needed by this:
+
+    ┌ errors/with_type_conflict:9:10
+    ├───────────────────────────────
+   5│     }
+   6│   }
+   7│
+   8│   fun b : Number {
+   9│     with value : Number {
+    │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  10│       value
+  11│     }
+  12│   }
+  13│

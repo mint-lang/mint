@@ -1,0 +1,67 @@
+module Test {
+  fun f : String {
+    with x : String {
+      provide { x: "inner" } {
+        x
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "outer" } {
+      Test.f()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_SHADOWED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "x" is provided again around this reference, so it is ambiguous which
+value it means.
+
+The reference in question is here:
+
+    ┌ errors/with_shadowed:5:9
+    ├───────────────────────────────
+   1│ module Test {
+   2│   fun f : String {
+   3│     with x : String {
+   4│       provide { x: "inner" } {
+   5│         x
+    │         ⌃
+   6│       }
+   7│     }
+   8│   }
+   9│ }
+
+It is provided again here:
+
+   ┌ errors/with_shadowed:4:17
+   ├───────────────────────────────
+  1│ module Test {
+  2│   fun f : String {
+  3│     with x : String {
+  4│       provide { x: "inner" } {
+   │                 ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  5│         x
+  6│       }
+  7│     }
+  8│   }
+
+The value it refers to is declared here:
+
+   ┌ errors/with_shadowed:3:10
+   ├───────────────────────────────
+  1│ module Test {
+  2│   fun f : String {
+  3│     with x : String {
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│       provide { x: "inner" } {
+  5│         x
+  6│       }
+  7│     }
+
+To use the value from outside, assign it to a variable before it is provided
+again. To use the new value, use "with" inside.

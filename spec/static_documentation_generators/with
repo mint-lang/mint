@@ -1,0 +1,71 @@
+type Config {
+  baseUrl : String
+}
+
+module Test {
+  // Returns the base url.
+  fun url : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+
+  fun admin : String {
+    provide { config: { baseUrl: "/admin" } } {
+      url()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="style.css"/>
+    <title>Test</title>
+  </head>
+  <body>
+    <aside>
+      <a href="Config(type).html" class="link"><span class="badge" style="background: var(--color-royalblue)">T</span>Config</a>
+      <a href="Test.html" class="link"><span class="badge" style="background: var(--color-darkorange)">M</span>Test</a>
+    </aside>
+    <article>
+      <h1>
+        <span class="keyword">module </span>
+        <span>Test</span>
+      </h1>
+      <div class="entity">
+        <a name="admin" id="admin"/>
+        <div class="entity-signature">
+          <span class="keyword">fun </span>
+          <a href="#admin">admin</a>
+          <span> : </span>
+          <span class="type">String</span>
+        </div>
+      </div>
+      <div class="entity">
+        <a name="url" id="url"/>
+        <div class="entity-signature">
+          <span class="keyword">fun </span>
+          <a href="#url">url</a>
+          <span> : </span>
+          <span class="type">String</span>
+        </div>
+        <div class="entity-needs">
+          <span class="keyword">with </span>
+          <span>config</span>
+          <span> : </span>
+          <span class="type">Config</span>
+        </div>
+        <div class="content">
+          <p>Returns the base url.</p>
+        </div>
+      </div>
+    </article>
+    <nav>
+      <strong>ON THIS PAGE</strong>
+      <a href="#url" class="link"><span class="badge" style="background: var(--color-mintgreen)">F</span>url</a>
+      <a href="#admin" class="link"><span class="badge" style="background: var(--color-mintgreen)">F</span>admin</a>
+    </nav>
+  </body>
+</html>

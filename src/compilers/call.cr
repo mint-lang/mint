@@ -2,6 +2,12 @@ module Mint
   class Compiler
     def compile(node : Ast::Call) : Compiled
       compile node do
+        # Functions which take values are called directly with them.
+        function =
+          callee(node.expression)
+
+        @callees.add(node.expression) if function
+
         expression =
           compile node.expression
 
@@ -36,7 +42,7 @@ module Mint
           end
 
         call =
-          js.call(receiver, arguments)
+          js.call(receiver, (function ? hidden_arguments(function) : [] of Compiled) + arguments)
 
         if captures.size > 0
           ["("] + js.arrow_function(captures) { js.return(call) } + [")"]

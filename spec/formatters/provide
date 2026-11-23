@@ -1,0 +1,51 @@
+type Config {
+  baseUrl : String,
+  name : String
+}
+
+module Test {
+  fun a : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide {
+      /* The configuration. */
+      config: { baseUrl: "https://example.com/very/long/url/to/make/it/break", name: "Name" }
+    } {
+      Test.a()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+type Config {
+  baseUrl : String,
+  name : String
+}
+
+module Test {
+  fun a : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide {
+      /* The configuration. */
+      config:
+        {
+          baseUrl: "https://example.com/very/long/url/to/make/it/break",
+          name: "Name"
+        }
+    } {
+      Test.a()
+    }
+  }
+}

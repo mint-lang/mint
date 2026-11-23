@@ -8,11 +8,6 @@ module Mint
             tag(option, cache[option])
           end
         end
-
-        if context = node.context
-          add(node, Context.new(node),
-            js.call(Builtin::CreateContext, [compile(context)]))
-        end
       end
     end
   end
