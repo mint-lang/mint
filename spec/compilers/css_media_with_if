@@ -33,7 +33,9 @@ import {
 
 export const C = () => {
   const a = () => {
-    const _ = {};
+    const _ = {
+      [`--a-a`]: `initial`
+    };
     (true ? Object.assign(_, {
       [`--a-a`]: `red`
     }) : null);

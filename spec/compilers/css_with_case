@@ -30,7 +30,9 @@ import {
 
 export const D = () => {
   const a = () => {
-    const _ = {};
+    const _ = {
+      [`--a-a`]: `initial`
+    };
     A(`a`, [
       [
         `a`,

@@ -23,7 +23,7 @@ component Main {
 ---=== /__mint__/index.css ===---
 .Main_test {
   font-size: 18px;
-  --color: var(--a-a);
+  --color: var(--a-a, unset);
 }
 
 ---=== /__mint__/index.js ===---
@@ -37,7 +37,9 @@ export const
   a = A(false),
   D = () => {
     const b = () => {
-      const _ = {};
+      const _ = {
+        [`--a-a`]: `initial`
+      };
       (a.value ? Object.assign(_, {
         [`--a-a`]: `red`
       }) : Object.assign(_, {

@@ -25,9 +25,16 @@ module Mint
     property default : String?
     property variable : String?
 
+    # Whether this is a custom property which is only set in some branches
+    # of an `if` or `case`. If the variable is not set it needs to fall back
+    # to `unset` to be inherited, otherwise it would be invalid.
+    property? inherit : Bool = false
+
     def to_s(io : IO)
       if variable && default
         io << "var(" << variable << ", " << default << ')'
+      elsif variable && inherit?
+        io << "var(" << variable << ", unset)"
       elsif variable
         io << "var(" << variable << ')'
       else
@@ -131,17 +138,9 @@ module Mint
     def compile(node : Ast::Style)
       return unless any?(node)
 
-      static =
-        variables[node]?
-          .try do |hash|
-            items =
-              hash
-                .each_with_object({} of String => Compiler::Compiled) do |(key, value), memo|
-                  memo["[`#{key}`]"] = compile value, quote_string: true
-                end
-
-            js.object(items) unless items.empty?
-          end || ["{}"] of Compiler::Item
+      # The variables which are set in an `if` or `case`.
+      conditional =
+        Set(String).new
 
       compiled_conditions =
         begin
@@ -167,6 +166,9 @@ module Mint
 
                     selector[name] ||= PropertyValue.new
                     selector[name].variable = variable
+                    selector[name].inherit = true if name.starts_with?("--")
+
+                    conditional << variable
 
                     variable
                   end).as(Proc(String, String)?)
@@ -180,6 +182,26 @@ module Mint
               end
           end
         end
+
+      static_variables =
+        variables[node]? || {} of String => Array(String | Ast::Node)
+
+      # Conditional variables start out as `initial` so when they are not
+      # set, they are not inherited from an ancestor which uses the same
+      # style (the declarations which use them fall back instead).
+      items =
+        conditional
+          .reject { |variable| static_variables.has_key?(variable) }
+          .each_with_object({} of String => Compiler::Compiled) do |variable, memo|
+            memo["[`#{variable}`]"] = ["`initial`"] of Compiler::Item
+          end
+
+      static_variables.each do |key, value|
+        items["[`#{key}`]"] = compile value, quote_string: true
+      end
+
+      static =
+        items.empty? ? ["{}"] of Compiler::Item : js.object(items)
 
       arguments =
         compile node.arguments
@@ -201,7 +223,9 @@ module Mint
     class Selector < Hash(String, PropertyValue)
       getter id : String = Random::Secure.hex
 
-      def_equals @id
+      # The hash must not depend on the properties, because they change after
+      # the selector is used as a key in `ifs` and `cases`.
+      def_equals_and_hash @id
     end
 
     getter selectors, property_pool, name_pool, style_pool, variables, ifs

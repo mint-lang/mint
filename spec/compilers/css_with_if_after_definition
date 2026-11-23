@@ -1,0 +1,162 @@
+component Main {
+  style test {
+    a {
+      if (true) {
+        color: red;
+      }
+    }
+
+    b {
+      if (true) {
+        color: red;
+      }
+    }
+
+    i {
+      if (true) {
+        color: red;
+      }
+    }
+
+    p {
+      if (true) {
+        color: red;
+      }
+    }
+
+    q {
+      if (true) {
+        color: red;
+      }
+    }
+
+    s {
+      if (true) {
+        color: red;
+      }
+    }
+
+    u {
+      if (true) {
+        color: red;
+      }
+    }
+
+    ul {
+      if (true) {
+        color: red;
+      }
+    }
+
+    if (true) {
+      --first: red;
+    }
+
+    color: blue;
+
+    if (true) {
+      --second: red;
+    }
+  }
+
+  fun render : Html {
+    <div::test/>
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.css ===---
+.Main_test {
+  color: blue;
+  --first: var(--i-a, unset);
+  --second: var(--i-b, unset);
+}
+
+.Main_test a {
+  color: var(--a-a);
+}
+
+.Main_test b {
+  color: var(--b-a);
+}
+
+.Main_test i {
+  color: var(--c-a);
+}
+
+.Main_test p {
+  color: var(--d-a);
+}
+
+.Main_test q {
+  color: var(--e-a);
+}
+
+.Main_test s {
+  color: var(--f-a);
+}
+
+.Main_test u {
+  color: var(--g-a);
+}
+
+.Main_test ul {
+  color: var(--h-a);
+}
+
+---=== /__mint__/index.js ===---
+import {
+  createElement as A,
+  style as B
+} from "./runtime.js";
+
+export const C = () => {
+  const a = () => {
+    const _ = {
+      [`--a-a`]: `initial`,
+      [`--b-a`]: `initial`,
+      [`--c-a`]: `initial`,
+      [`--d-a`]: `initial`,
+      [`--e-a`]: `initial`,
+      [`--f-a`]: `initial`,
+      [`--g-a`]: `initial`,
+      [`--h-a`]: `initial`,
+      [`--i-a`]: `initial`,
+      [`--i-b`]: `initial`
+    };
+    (true ? Object.assign(_, {
+      [`--a-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--b-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--c-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--d-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--e-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--f-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--g-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--h-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--i-a`]: `red`
+    }) : null);
+    (true ? Object.assign(_, {
+      [`--i-b`]: `red`
+    }) : null);
+    return _
+  };
+  return A(`div`, {
+    className: `Main_test`,
+    style: B([a()])
+  })
+};

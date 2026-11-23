@@ -39,7 +39,10 @@ import {
 
 export const C = () => {
   const a = () => {
-    const _ = {};
+    const _ = {
+      [`--a-a`]: `initial`,
+      [`--b-a`]: `initial`
+    };
     (true ? Object.assign(_, {
       [`--a-a`]: `red`
     }) : Object.assign(_, {
