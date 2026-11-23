@@ -45,11 +45,18 @@ module Mint
         ["null"] of Item
       end
 
-      # Renders a string using a template literal (``).
+      # Renders a string using a template literal (``). The value is used
+      # as is, so backslashes, backticks and interpolations are escaped.
       #
       # TODO: Check if a simple string is enough?
       def string(value : String) : Compiled
-        ["`", Raw.new(value.gsub('`', "\\`").gsub("${", "\\${`")), "`"] of Item
+        escaped =
+          value
+            .gsub('\\', "\\\\")
+            .gsub('`', "\\`")
+            .gsub("${", "\\${")
+
+        ["`", Raw.new(escaped), "`"] of Item
       end
 
       # Renders an object destructuring.

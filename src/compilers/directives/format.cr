@@ -6,9 +6,7 @@ module Mint
           compile node.content
 
         formatted =
-          @formatter
-            .format!(node.content, Formatter::BlockFormat::Naked)
-            .gsub('\\', "\\\\")
+          @formatter.format!(node.content, Formatter::BlockFormat::Naked)
 
         js.array([content, js.string(formatted)])
       end
