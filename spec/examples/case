@@ -284,6 +284,48 @@ component Main {
   }
 }
 -------------------------------------------------------------------------------
+type Maybe(a) {
+  Just(a)
+  Nothing
+}
+
+type Field {
+  input : Input
+}
+
+type Input {
+  Nested(form : Form)
+  Text(value : String)
+}
+
+type Form {
+  fields : Map(String, Field)
+}
+
+component Main {
+  fun isForm (field : Maybe(Field)) : Bool {
+    case field {
+      Just({ input: Nested(_) }) => true
+      => false
+    }
+  }
+
+  fun isText (form : Form) : Bool {
+    case form.fields["text"] {
+      Just({ input: Text("text") }) => true
+      => false
+    }
+  }
+
+  fun render : String {
+    if isForm(Maybe.Nothing) && isText({ fields: { "text" => { input: Text("text") } } }) {
+      "Yes"
+    } else {
+      "No"
+    }
+  }
+}
+-------------------------------------------------------------------------------
 component Main {
   fun render : String {
     case 0 {

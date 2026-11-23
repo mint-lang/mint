@@ -250,6 +250,19 @@ module Mint
       @block_stack.delete(node) if node.is_a?(Ast::Block)
     end
 
+    # A record which refers to itself through other types can be resolved by
+    # its name only (while resolving its own definition), so to use its fields
+    # we need to resolve its definition.
+    def record_of(type : Checkable) : Checkable
+      if type.is_a?(Type) &&
+         (definition = ast.type_definitions.find(&.name.value.==(type.name))) &&
+         definition.fields.is_a?(Array(Ast::TypeDefinitionField))
+        resolve(definition)
+      else
+        type
+      end
+    end
+
     def resolve(nodes : Array(Ast::Node)) : Array(Checkable)
       nodes.map { |node| resolve(node).as(Checkable) }
     end

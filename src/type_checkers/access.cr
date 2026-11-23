@@ -98,7 +98,7 @@ module Mint
       end
 
       target =
-        resolve node.expression
+        record_of(resolve(node.expression))
 
       error! :access_not_record do
         snippet "You are trying to access a field on an entity which is not " \

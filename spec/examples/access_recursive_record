@@ -1,0 +1,36 @@
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type Field {
+  condition : Function(Bool),
+  input : Input
+}
+
+type Input {
+  Form(model : Model)
+  Many(items : Array(Field))
+}
+
+type Model {
+  fields : Map(String, Field)
+}
+
+module Test {
+  fun test (field : Field) : Bool {
+    field.condition()
+  }
+
+  fun update (field : Field) : Field {
+    { field | condition: () { true } }
+  }
+
+  fun check (model : Model, name : String) : Bool {
+    if let Just(field) = model.fields[name] {
+      update({ field | input: Input.Many([]) }).condition()
+    } else {
+      false
+    }
+  }
+}
