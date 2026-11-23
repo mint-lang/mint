@@ -109,7 +109,11 @@ static bool scan_raw_content(TSLexer *lexer, char terminator,
         return has_content;
       }
 
+      // A lone `#` is content. The end must be marked after it, otherwise a
+      // `#` right before the terminator (`"#"`) yields an empty token, which
+      // the parser repeats forever.
       has_content = true;
+      lexer->mark_end(lexer);
       continue;
     }
 
@@ -147,7 +151,9 @@ static bool scan_css_value(TSLexer *lexer) {
         return has_content;
       }
 
+      // A lone `#` is content (see `scan_raw_content`).
       has_content = true;
+      lexer->mark_end(lexer);
       continue;
     }
 

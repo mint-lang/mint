@@ -1,0 +1,50 @@
+================================================================================
+A lone hash before the end of a string, JavaScript and a CSS value
+================================================================================
+
+module M {
+  fun f : String {
+    "#"
+  }
+
+  fun g : String {
+    `#`
+  }
+}
+
+component A {
+  style root {
+    content: a#;
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (module_definition
+    (id)
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (string
+            (string_content)))))
+    (function
+      (variable)
+      (type_annotation
+        (type
+          (id)))
+      (block
+        (statement
+          (js
+            (js_content))))))
+  (component
+    (id)
+    (style
+      (variable)
+      (css_definition
+        (css_property)
+        (css_value_content)))))
