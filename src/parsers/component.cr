@@ -63,7 +63,7 @@ module Mint
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
         connects = [] of Ast::Connect
-        withs = [] of Ast::WithItem
+        with_items = [] of Ast::WithItem
         comments = [] of Ast::Comment
         styles = [] of Ast::Style
         states = [] of Ast::State
@@ -81,7 +81,7 @@ module Mint
           when Ast::Connect
             connects << item
           when Ast::WithItem
-            withs << item
+            with_items << item
           when Ast::Comment
             comments << item
           when Ast::Style
@@ -120,7 +120,7 @@ module Mint
           constants: constants,
           from: start_position,
           connects: connects,
-          withs: withs,
+          with_items: with_items,
           comments: comments,
           comment: comment,
           locales: locales,

@@ -197,7 +197,7 @@ module Mint
       when Ast::Component
         build(node.properties, node)
         build(node.functions, node)
-        build(node.withs, node)
+        build(node.with_items, node)
         build(node.constants, node)
         build(node.states, node)
         build(node.styles, node)
