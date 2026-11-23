@@ -128,22 +128,6 @@ module Mint
         memo
       end
 
-      # Checking for multiple same uses of the same provider
-      node.uses.each do |use|
-        other = (node.uses - [use]).find(&.provider.value.==(use.provider.value))
-
-        error! :component_multiple_providers do
-          block do
-            text "You are subscribing to the provider"
-            bold %("#{other.provider.value}")
-            text "in a component multiple times."
-          end
-
-          snippet "A subscription is here:", other
-          snippet "An other subscription is here:", use
-        end if other
-      end
-
       # Type checking the entities
       resolve node.properties
       resolve node.connects

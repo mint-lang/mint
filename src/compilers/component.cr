@@ -128,29 +128,15 @@ module Mint
             end
           end
 
+        # Each `use` gets its own id, so a component can subscribe to the
+        # same provider more than once (subscriptions are keyed by the id).
+        ids =
+          [] of Tuple(Ast::Node, Id, Compiled)
+
         provider_effects =
-          if node.uses.empty?
-            [] of Compiled
-          else
+          node.uses.map do |use|
             id = Variable.new
 
-            node.uses.map do |use|
-              data =
-                if condition = use.condition
-                  js.ternary(compile(condition), compile(use.data), js.null)
-                else
-                  compile(use.data)
-                end
-
-              js.call(lookups[use][0], [
-                [id] of Item,
-                js.arrow_function { js.return(data) },
-              ])
-            end
-          end
-
-        id =
-          if id
             method =
               if node.global?
                 Builtin::Uuid
@@ -158,13 +144,23 @@ module Mint
                 Builtin::UseId
               end
 
-            [{
+            ids << {
               node.as(Ast::Node),
               id.as(Id),
               js.call(method, [] of Compiled),
-            }]
-          else
-            [] of Tuple(Ast::Node, Id, Compiled)
+            }
+
+            data =
+              if condition = use.condition
+                js.ternary(compile(condition), compile(use.data), js.null)
+              else
+                compile(use.data)
+              end
+
+            js.call(lookups[use][0], [
+              [id] of Item,
+              js.arrow_function { js.return(data) },
+            ])
           end
 
         effect =
@@ -222,7 +218,7 @@ module Mint
 
         items =
           (refs + states + gets + functions + styles + constants +
-            id + contexts + sizes).compact
+            ids + contexts + sizes).compact
 
         items, body =
           if node.global?
