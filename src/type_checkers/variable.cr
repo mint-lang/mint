@@ -5,6 +5,15 @@ module Mint
         export extends for if import in instanceof new return super
         switch throw typeof var while yield]
 
+    # Modules, stores and providers are namespaces without a value, so a
+    # capitalized variable which refers to one of them is treated as a tag
+    # instead (`Html(value)` -> `Ui.Content.Html(value)`), which allows
+    # variants to have the same name as these entities.
+    def tag?(node : Ast::Variable, entity : Ast::Node) : Bool
+      node.value.chars.first?.try(&.ascii_uppercase?) == true &&
+        entity.is_a?(Ast::Module | Ast::Store | Ast::Provider)
+    end
+
     def check(node : Ast::Variable) : Checkable
       if node.value == "void"
         VOID
@@ -13,7 +22,7 @@ module Mint
           snippet "This name for a variable is a reserved word please use something else:", node
         end if RESERVED.includes?(node.value)
 
-        if item = lookup_with_level(node)
+        if (item = lookup_with_level(node)) && !tag?(node, item[0])
           variables[node] = item
 
           case

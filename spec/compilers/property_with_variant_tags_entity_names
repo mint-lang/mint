@@ -1,0 +1,81 @@
+type Content {
+  Html(String)
+  Data(String)
+}
+
+module Html {
+  fun wrap (value : String) : String {
+    "<#{value}>"
+  }
+}
+
+store Data {
+  state value : String = ""
+}
+
+component View {
+  property content : Content = Data("")
+
+  fun render : String {
+    case content {
+      Html(value) => value
+      Data(value) => value
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <>
+      <View content={Html(Html.wrap("a"))}/>
+      <View content={Data(Data.value)}/>
+    </>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as E,
+  createElement as G,
+  newVariant as B,
+  fragment as H,
+  pattern as D,
+  variant as A,
+  signal as F,
+  match as C
+} from "./runtime.js";
+
+export const
+  I = A(1, `Data`),
+  J = A(1, `Html`),
+  K = ({
+    a = B(I)(``)
+  }) => {
+    return C(a, [
+      [
+        D(J, [E]),
+        (b) => {
+          return b
+        }
+      ],
+      [
+        D(I, [E]),
+        (c) => {
+          return c
+        }
+      ]
+    ])
+  },
+  d = (e) => {
+    return `<${e}>`
+  },
+  f = F(``),
+  L = () => {
+    return G(H, {}, [
+      G(K, {
+        a: B(J)(d(`a`))
+      }),
+      G(K, {
+        a: B(I)(f.value)
+      })
+    ])
+  };
