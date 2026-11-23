@@ -130,10 +130,11 @@ module Mint
       Formatter.new(formatter_config).format!(node)
     end
 
+    # Formats the whole file, ending with a newline (same as `mint format`).
     def format(path : String) : String | Error?
       case item = ast(path)
       in Ast
-        Formatter.new(formatter_config).format(item)
+        Formatter.new(formatter_config).format(item) + "\n"
       in Error, Nil
         item
       end

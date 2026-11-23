@@ -47,7 +47,7 @@ provider Test : Test {
                   "character": 999
                 }
               },
-              "newText": "type Test {\n  name : String\n}\n\nprovider Test : Test {\n  fun test : String {\n    \"\"\n  }\n}"
+              "newText": "type Test {\n  name : String\n}\n\nprovider Test : Test {\n  fun test : String {\n    \"\"\n  }\n}\n"
             }
           ]
         }
