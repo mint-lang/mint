@@ -1,0 +1,105 @@
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Array {
+  fun map (array : Array(a), function : Function(a, b)) : Array(b) {
+    `#{array}.map(#{function})`
+  }
+}
+
+module Http {
+  fun get (path : String) : String {
+    with config : Config, logger : Logger {
+      logger.log("GET " + path)
+      config.baseUrl + path
+    }
+  }
+}
+
+module Users {
+  fun load (id : String) : String {
+    Http.get("/users/" + id)
+  }
+
+  fun loadAll (ids : Array(String)) : Array(String) {
+    Array.map(ids, (id : String) { load(id) })
+  }
+}
+
+module Admin {
+  fun load (id : String) : String {
+    provide { config: { baseUrl: "https://admin" } } {
+      Users.load(id)
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide {
+      config: { baseUrl: "https://staging" },
+      logger: { log: (message : String) { void } }
+    } {
+      <div>
+        Admin.load("1")
+        Users.loadAll(["1", "2"])
+        Array.map(["3"], Users.load)
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = A(`Logger`),
+  c = (d, e, f) => {
+    e.log(`GET ` + f);
+    return d.baseUrl + f
+  },
+  g = (h, i, j) => {
+    return c(h, i, `/users/` + j)
+  },
+  k = (l, m) => {
+    const n = a({
+      baseUrl: `https://admin`
+    });
+    return g(n, l, m)
+  },
+  o = (p, q) => {
+    return (p.map(q))
+  },
+  r = (s, t, u) => {
+    return o(u, (v) => {
+      return g(s, t, v)
+    })
+  },
+  C = () => {
+    const w = a({
+      baseUrl: `https://staging`
+    });
+    const x = b({
+      log: (y) => {
+        return null
+      }
+    });
+    return B(`div`, {}, [
+      k(x, `1`),
+      r(w, x, [
+        `1`,
+        `2`
+      ]),
+      o([`3`], (...z) => {
+        return g(w, x, ...z)
+      })
+    ])
+  };

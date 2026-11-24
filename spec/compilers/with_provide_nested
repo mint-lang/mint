@@ -1,0 +1,65 @@
+type Config {
+  baseUrl : String
+}
+
+module Test {
+  fun url : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+
+  fun admin : String {
+    with config : Config {
+      provide { config: { config | baseUrl: config.baseUrl + "/admin" } } {
+        Test.url()
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { config: { baseUrl: "https://example.com" } } {
+      <div>
+        Test.url()
+
+        provide { config: { baseUrl: "https://other.com" } } {
+          Test.admin()
+        }
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = (c) => {
+    return c.baseUrl
+  },
+  d = (e) => {
+    const f = {
+      ...e,
+      baseUrl: e.baseUrl + `/admin`
+    };
+    return b(f)
+  },
+  C = () => {
+    const g = a({
+      baseUrl: `https://example.com`
+    });
+    return B(`div`, {}, [
+      b(g),
+      (() => {
+        const h = a({
+          baseUrl: `https://other.com`
+        });
+        return d(h)
+      })()
+    ])
+  };

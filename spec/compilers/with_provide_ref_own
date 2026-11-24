@@ -1,0 +1,134 @@
+type Logger {
+  name : String
+}
+
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+module Log {
+  fun name : String {
+    with logger : Logger {
+      logger.name
+    }
+  }
+}
+
+component Child {
+  with logger : Logger
+
+  fun who : String {
+    logger.name
+  }
+
+  fun render : Html {
+    <span/>
+  }
+}
+
+component Parent {
+  fun handle : String {
+    Log.name() + case child {
+      Maybe.Just(item) => item.who()
+      Maybe.Nothing => ""
+    }
+  }
+
+  fun render : Html {
+    <div onClick={handle}>
+      provide { logger: { name: "child" } } {
+        <Child as child/>
+      }
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { logger: { name: "parent" } } {
+      <Parent/>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  createElement as D,
+  useRefSignal as E,
+  pattern as G,
+  useMemo as C,
+  variant as A,
+  setRef as I,
+  record as B,
+  match as F
+} from "./runtime.js";
+
+export const
+  J = A(1, `Just`),
+  K = A(0, `Nothing`),
+  a = B(`Logger`),
+  b = (c) => {
+    return c.name
+  },
+  L = ({
+    d,
+    _
+  }) => {
+    const e = (f) => {
+      return f.name
+    };
+    const g = C(() => {
+      return {}
+    }, []);
+    Object.assign(g, {
+      e: (h = d) => {
+        return (...i) => {
+          return e(h, ...i)
+        }
+      }
+    });
+    (_ ? _(g) : null);
+    return D(`span`, {})
+  },
+  M = ({
+    j
+  }) => {
+    const
+      k = E(new K()),
+      l = () => {
+        return b(j) + F(k.value, [
+          [
+            G(J, [H]),
+            (m) => {
+              return m.e()()
+            }
+          ],
+          [
+            G(K, []),
+            () => {
+              return ``
+            }
+          ]
+        ])
+      };
+    return D(`div`, {
+      "onClick": l
+    }, [(() => {
+      const n = a({
+        name: `child`
+      });
+      return D(L, {
+        d: n,
+        _: I(k, J, K)
+      })
+    })()])
+  },
+  N = () => {
+    const o = a({
+      name: `parent`
+    });
+    return D(M, {
+      j: o
+    })
+  };

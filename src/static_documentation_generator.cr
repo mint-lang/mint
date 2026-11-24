@@ -7,14 +7,18 @@ module Mint
     alias Entity = DocumentationGenerator::Entity
     alias Kind = DocumentationGenerator::Kind
 
-    def generate(asts : Array(Ast), live_reload : Bool = false) : Hash(String, Proc(String))
+    def generate(
+      asts : Array(Ast),
+      live_reload : Bool = false,
+      artifacts : TypeChecker::Artifacts? = nil,
+    ) : Hash(String, Proc(String))
       ast =
         asts
           .reduce(Ast.new) { |memo, item| memo.merge(item) }
           .tap(&.normalize)
 
       entities =
-        DocumentationGenerator.resolve(ast)
+        DocumentationGenerator.resolve(ast, artifacts)
 
       entities
         .map { |entity| generate(entity, entities, live_reload) }
@@ -76,6 +80,8 @@ module Mint
                   span { text ")" }
                 end
               end
+
+              needs entity.needs, builder
 
               if description = entity.description
                 div class: "content" do
@@ -189,6 +195,28 @@ module Mint
             span { text " = " }
             raw value
           end
+        end
+      end
+
+      needs entity.needs, builder
+    end
+
+    # Renders the values an entity needs (passed to it implicitly).
+    def needs(items : Array(DocumentationGenerator::Argument)?, builder : HtmlBuilder)
+      return unless items
+
+      builder.div class: "entity-needs" do
+        span class: "keyword" { text "with " }
+
+        items.each_with_index do |item, index|
+          span { text item.name }
+
+          if value = item.type
+            span { text " : " }
+            raw value
+          end
+
+          span { text ", " } if index < (items.size - 1)
         end
       end
     end

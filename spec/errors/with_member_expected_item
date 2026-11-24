@@ -1,0 +1,12 @@
+component Main {
+  with
+--------------------------------------------------------------------------------
+░ ERROR (WITH_EXPECTED_ITEM) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the name of a value but I found "a space" instead:
+
+   ┌ errors/with_member_expected_item:2:6
+   ├─────────────────────────────────────
+  1│ component Main {
+  2│   with
+   │       ⌃⌃⌃⌃

@@ -75,6 +75,9 @@ module Mint
       @[JSON::Field(key: "b")]
       getter? broken : Bool
 
+      @[JSON::Field(key: "w")]
+      getter needs : Array(Argument)?
+
       @[JSON::Field(key: "t")]
       getter type : String?
 
@@ -87,6 +90,7 @@ module Mint
         @arguments = nil,
         @mapping = nil,
         @value = nil,
+        @needs = nil,
         @type = nil,
         @broken,
         @name,
@@ -116,6 +120,9 @@ module Mint
       @[JSON::Field(key: "l")]
       getter link : String
 
+      @[JSON::Field(key: "w")]
+      getter needs : Array(Argument)?
+
       @[JSON::Field(key: "n")]
       getter name : String
 
@@ -124,6 +131,7 @@ module Mint
         @description = nil,
         @parameters = nil,
         @entities = nil,
+        @needs = nil,
         @flags = nil,
         link = nil,
         @name,
@@ -134,6 +142,51 @@ module Mint
     end
 
     @@formatter = Formatter.new(Formatter::Config.new)
+
+    # The values the functions, gets and components need (from the type
+    # checker).
+    @@needs = {} of Ast::Node => Array(Argument)
+
+    # Type checks the program to find out what values its entities need,
+    # returns nil if it does not type check. The packages are type checked
+    # too (even if they are not documented) since the program uses them.
+    def check(
+      ast : Ast, *,
+      include_core : Bool,
+      packages : Array(MintJson) = [] of MintJson,
+    ) : TypeChecker::Artifacts?
+      program =
+        Ast.new.merge(ast)
+
+      program.merge(Core.ast) if include_core
+
+      Dir.glob(SourceFiles.globs(packages)).each do |file|
+        program.merge(Parser.parse(File.read(file), file))
+      end
+
+      TypeChecker.check(program)
+    rescue Error
+      nil
+    end
+
+    def resolve(ast : Ast, artifacts : TypeChecker::Artifacts?) : Array(TopLevelEntity)
+      @@needs =
+        if artifacts
+          artifacts.requirement_items.transform_values do |items|
+            items.keys.sort!.map do |name|
+              Argument.new(
+                type: highlight(items[name].type),
+                name: name)
+            end
+          end
+        else
+          {} of Ast::Node => Array(Argument)
+        end
+
+      resolve(ast)
+    ensure
+      @@needs = {} of Ast::Node => Array(Argument)
+    end
 
     def resolve(node : Ast::Node)
       unreachable! "No documentation generator for class: #{node.class}!"
@@ -164,6 +217,7 @@ module Mint
       TopLevelEntity.new(
         description: markdown(node.comment),
         entities: generate(entities),
+        needs: @@needs[node]?,
         name: node.name.value,
         kind: Kind::Component,
         flags: flags)
@@ -287,6 +341,7 @@ module Mint
         description: node.comment,
         name: node.name.value,
         arguments: arguments,
+        needs: @@needs[node]?,
         kind: Kind::Function,
         type: node.type)
     end
@@ -312,6 +367,7 @@ module Mint
     def generate(node : Ast::Get)
       entity(
         description: node.comment,
+        needs: @@needs[node]?,
         name: node.name.value,
         type: node.type,
         kind: Kind::Get)
@@ -321,6 +377,7 @@ module Mint
       *,
       arguments : Array(Argument)? = nil,
       description : Ast::Comment? = nil,
+      needs : Array(Argument)? = nil,
       value : Ast::Node? = nil,
       mapping : String? = nil,
       type : Ast::Node? = nil,
@@ -393,6 +450,7 @@ module Mint
         broken: size.sum > 70,
         mapping: mapping,
         arguments: args,
+        needs: needs,
         name: name,
         kind: kind)
     end

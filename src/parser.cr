@@ -39,7 +39,8 @@ module Mint
         case node
         when Ast::Node
           ast.nodes[nodes_size..-1].each { |child| child.parent ||= node unless child == node }
-          ast.nodes << node if track
+          # A node can be tracked already if it replaced an other one.
+          ast.nodes << node if track && !ast.nodes.last?.same?(node)
         when Nil
           ast.operators.delete_at(operators_size...)
           ast.keywords.delete_at(keywords_size...)

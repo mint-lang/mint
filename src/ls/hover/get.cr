@@ -27,7 +27,7 @@ module Mint
         [
           "**#{name}.#{node.name.value}#{type}**\n",
           node.comment.try(&.content.strip),
-        ].compact
+        ].compact + needs(node, workspace, type_checker)
       end
     end
   end

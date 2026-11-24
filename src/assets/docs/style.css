@@ -185,6 +185,20 @@ h1 {
   text-decoration: underline;
 }
 
+.entity-needs {
+  margin-bottom: 10px;
+
+  font-optical-sizing: auto;
+  font-family: "Fira Code";
+  font-weight: 400;
+  font-size: 14px;
+
+  flex-wrap: wrap;
+  display: flex;
+
+  white-space: pre;
+}
+
 /* ---- TABLE OF CONTENTS --------------------------------------------------- */
 nav {
   align-content: start;

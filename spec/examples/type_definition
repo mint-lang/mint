@@ -37,34 +37,3 @@ type User {
   name: String using "name",
   id: String
 }
--------------------------------------------------------------------------------
-type User {
-  name: String using "name",
-  id: String
-} context {
-  name: "NAME",
-  id: "ID"
-}
--------------------------------------------------------------------------------
-type User {
-  LoggedIn
-  Guest
-} context User.Guest
------------------------------------------------type_definition_context_mismatch
-type User {
-  name: String using "name",
-  id: String
-} context {
-  x: "Y"
-}
------------------------------------------------type_definition_context_mismatch
-type User {
-  A
-} context {
-  x: "Y"
-}
----------------------------------------------------------------variable_missing
-type User {
-  name: String using "name",
-  id: String
-} context a

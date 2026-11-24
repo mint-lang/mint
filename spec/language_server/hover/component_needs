@@ -1,0 +1,38 @@
+type Theme {
+  color : String
+}
+
+component Test {
+  fun render : Html {
+    with theme : Theme {
+      <div>theme.color</div>
+    }
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 4,
+      "character": 10
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**Test**\n",
+      "\n**Needs**\n",
+      "- `theme : Theme`"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

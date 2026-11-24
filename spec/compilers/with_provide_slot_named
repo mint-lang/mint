@@ -1,0 +1,69 @@
+type Theme {
+  color : String
+}
+
+component Label {
+  fun render : Html {
+    with theme : Theme {
+      <span>theme.color</span>
+    }
+  }
+}
+
+component Card {
+  property header : Html = <div/>
+
+  fun render : Html {
+    <div>
+      provide { theme: { color: "red" } } {
+        header
+      }
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <div>
+      <Card header={<Label/>}/>
+      <Card/>
+    </div>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Theme`),
+  C = ({
+    b = () => {
+      return B(`div`, {})
+    }
+  }) => {
+    return B(`div`, {}, [(() => {
+      const c = a({
+        color: `red`
+      });
+      return b(c)
+    })()])
+  },
+  D = ({
+    d
+  }) => {
+    return B(`span`, {}, [d.color])
+  },
+  E = () => {
+    return B(`div`, {}, [
+      B(C, {
+        b: (e) => {
+          return B(D, {
+            d: e
+          })
+        }
+      }),
+      B(C, {})
+    ])
+  };

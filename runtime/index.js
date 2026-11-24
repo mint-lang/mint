@@ -1,5 +1,5 @@
-export { createElement, Fragment as fragment, createContext } from "preact";
-export { useEffect, useMemo, useContext } from "preact/hooks";
+export { createElement, Fragment as fragment } from "preact";
+export { useEffect, useMemo } from "preact/hooks";
 export { signal, batch } from "@preact/signals";
 
 export const promiseAll = (value) => Promise.all(value);

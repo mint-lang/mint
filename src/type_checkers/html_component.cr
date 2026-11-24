@@ -43,19 +43,6 @@ module Mint
         end unless node.ancestor
       end
 
-      component.contexts.each do |context|
-        resolve context
-
-        case type = lookups[context][0]
-        when Ast::TypeDefinition
-          error! :context_no_context do
-            block "If a type is used in a context it must have a default value."
-            snippet "The type is defined here:", type
-            snippet "The context in question is here:", context
-          end unless type.context
-        end
-      end
-
       check_html node.children
 
       lookups[node] = {component, nil}

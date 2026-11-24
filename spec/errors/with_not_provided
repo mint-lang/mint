@@ -1,0 +1,81 @@
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Http {
+  fun get (path : String) : String {
+    with config : Config, logger : Logger {
+      logger.log("GET " + path)
+      config.baseUrl + path
+    }
+  }
+}
+
+module Users {
+  fun load (id : String) : String {
+    Http.get("/users/" + id)
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { config: { baseUrl: "https://staging" } } {
+      <Page/>
+    }
+  }
+}
+
+component Page {
+  fun handleClick (event : Html.Event) : String {
+    Users.load("1")
+  }
+
+  fun render : Html {
+    <div onClick={handleClick}/>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_NOT_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "logger" is needed here but nothing provides it:
+
+  Main.render
+  → <Page/> (errors/with_not_provided:27:7)
+  → Page.handleClick (errors/with_not_provided:38:19)
+  → Users.load (errors/with_not_provided:34:5)
+  → Http.get (errors/with_not_provided:20:5)
+  → with logger : Logger (errors/with_not_provided:11:27)
+
+Provide it around this (or further up):
+
+    ┌ errors/with_not_provided:27:7
+    ├─────────────────────────────────────────────────────────
+  23│
+  24│ component Main {
+  25│   fun render : Html {
+  26│     provide { config: { baseUrl: "https://staging" } } {
+  27│       <Page/>
+    │       ⌃⌃⌃⌃⌃⌃⌃
+  28│     }
+  29│   }
+  30│ }
+  31│
+
+The value is needed by this:
+
+    ┌ errors/with_not_provided:11:27
+    ├────────────────────────────────────────────
+   7│ }
+   8│
+   9│ module Http {
+  10│   fun get (path : String) : String {
+  11│     with config : Config, logger : Logger {
+    │                           ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│       logger.log("GET " + path)
+  13│       config.baseUrl + path
+  14│     }
+  15│   }

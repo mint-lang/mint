@@ -1,0 +1,55 @@
+type Theme {
+  color : String
+}
+
+async component Test {
+  fun render : Html {
+    with theme : Theme {
+      <div>theme.color</div>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <Test/>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+---=== /__mint__/index.js ===---
+import {
+  lazyComponent as D,
+  createElement as C,
+  record as A,
+  lazy as B
+} from "./runtime.js";
+
+export const
+  a = A(`Theme`),
+  E = B(`./1.js`),
+  F = () => {
+    const b = a({
+      color: `red`
+    });
+    return C(D, {
+      c: [],
+      key: `Test`,
+      p: {
+        a: b
+      },
+      x: E
+    })
+  };
+
+---=== /__mint__/1.js ===---
+import { createElement as A } from "./runtime.js";
+
+export const B = ({
+  a
+}) => {
+  return A(`div`, {}, [a.color])
+};
+
+export default B;

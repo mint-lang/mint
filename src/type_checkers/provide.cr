@@ -1,31 +1,32 @@
 module Mint
   class TypeChecker
+    # The types of provided values are checked against the values they are
+    # given to in the requirements pass, since a name can have different
+    # types on different paths.
     def check(node : Ast::Provide) : Checkable
-      type =
-        ast.type_definitions.find(&.name.value.==(node.name.value))
+      names = {} of String => Ast::Field
 
-      error! :provide_not_found_type do
-        snippet "I could not find a type:", node.name
-      end unless type
+      node.fields.each do |field|
+        next unless key = field.key
 
-      lookups[node] = {type, nil}
+        if other = names[key.value]?
+          error! :provide_multiple_values do
+            block do
+              text "The value"
+              bold %("#{key.value}")
+              text "is provided more than once:"
+            end
 
-      type =
-        resolve type
+            snippet other
+            snippet field
+          end
+        end
 
-      expression_type =
-        resolve node.expression
+        names[key.value] = field
+        resolve field.value
+      end
 
-      resolved =
-        Comparer.compare(type, expression_type, expand: true)
-
-      error! :provide_type_mismatch do
-        block "The type of a provide does not match its definition."
-        expected type, expression_type
-        snippet "The provide in question is here:", node
-      end unless resolved
-
-      resolved
+      resolve node.body
     end
   end
 end

@@ -5,18 +5,17 @@ module Mint
 
     # Represents a compiled item
     alias Item = Ast::Node | Builtin | String | Signal | Indent | Raw | Size |
-                 Function | Await | SourceMapped | Record | Context |
-                 Variable | Encoder | Decoder | Asset | Deferred |
-                 ContextProvider | Tag
+                 Function | Await | SourceMapped | Record | HiddenProp |
+                 Variable | Encoder | Decoder | Asset | Deferred | Tag
 
     # Represents an generated identifier from the parts of the union type.
-    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Context | Size | Tag
+    alias Id = Ast::Node | Variable | Encoder | Decoder | Record | Size | Tag
 
     # Represents compiled code.
     alias Compiled = Array(Item)
 
     # Represents entities which are used in a program.
-    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Context | Tag)
+    alias Used = Set(Ast::Node | Encoder | Decoder | Record | Builtin | Tag)
 
     # Represents an reference to a deferred file
     record Deferred, value : Ast::Node
@@ -28,8 +27,8 @@ module Mint
     # Represents an reference to a file
     record Asset, value : Ast::Node
 
-    record ContextProvider, value : Ast::Node
-    record Context, value : Ast::Node
+    # Represents a value passed to a component as a hidden property.
+    record HiddenProp, component : Ast::Component, name : String
 
     # A node for tracking source mappings.
     record SourceMapped, value : Compiled, node : Ast::Node
@@ -104,11 +103,9 @@ module Mint
       Signal
       Batch
 
-      # Providers and Context.
+      # Providers.
       CreateProvider
       Subscriptions
-      CreateContext
-      UseContext
       UseId
       Uuid
 
@@ -277,7 +274,7 @@ module Mint
       return unless node.in?(artifacts.checked)
       return if touched.includes?(node)
       touched.add(node)
-      yield
+      with_values(unit_values(node)) { yield }
     end
 
     # Resolves top-level nodes.
@@ -474,13 +471,11 @@ module Mint
 
     def gather_used(item : Item, used : Used)
       case item
-      in Variable, Deferred, String, Asset, Await, Raw, Size
+      in Variable, Deferred, String, Asset, Await, Raw, Size, HiddenProp
       in Tag
         used.add(item)
-      in SourceMapped, Function, ContextProvider
+      in SourceMapped, Function
         gather_used(item.value, used)
-      in Context
-        used.add(item)
       in Indent
         gather_used(item.items, used)
       in Signal

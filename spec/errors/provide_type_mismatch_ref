@@ -1,0 +1,87 @@
+type Theme {
+  color : String
+}
+
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Child {
+  fun color : String {
+    with theme : Theme {
+      theme.color
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    provide { theme: "dark" } {
+      case child {
+        Maybe.Just(item) => item.color()
+        Maybe.Nothing => ""
+      }
+    }
+  }
+
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <div onClick={handleClick}>
+        <Child as child/>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The provided value "theme" does not match the type it is needed as.
+
+I was expecting:
+
+  Theme(color: String)
+
+Instead it is:
+
+  String
+
+It is provided here:
+
+    ┌ errors/provide_type_mismatch_ref:24:15
+    ├─────────────────────────────────────────
+  20│ }
+  21│
+  22│ component Main {
+  23│   fun handleClick : String {
+  24│     provide { theme: "dark" } {
+    │               ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  25│       case child {
+  26│         Maybe.Just(item) => item.color()
+  27│         Maybe.Nothing => ""
+  28│       }
+
+It is needed along this path:
+
+  Main.handleClick
+  → Child.color (errors/provide_type_mismatch_ref:26:29)
+  → with theme : Theme (errors/provide_type_mismatch_ref:12:10)
+
+By this:
+
+    ┌ errors/provide_type_mismatch_ref:12:10
+    ├───────────────────────────────────────
+   8│ }
+   9│
+  10│ component Child {
+  11│   fun color : String {
+  12│     with theme : Theme {
+    │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  13│       theme.color
+  14│     }
+  15│   }
+  16│

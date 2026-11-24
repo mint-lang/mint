@@ -31,11 +31,7 @@ module Mint
               pad: false)
           end
 
-      if node.context
-        body + [" context "] + format(node.context)
-      else
-        body
-      end
+      body
     end
   end
 end

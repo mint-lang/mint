@@ -1,0 +1,34 @@
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      ""
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_UNUSED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "value" is provided but nothing reads it.
+
+The value in question is here:
+
+    ┌ errors/provide_unused:11:15
+    ├─────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     provide { value: "a" } {
+    │               ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│       ""
+  13│     }
+  14│   }
+  15│ }

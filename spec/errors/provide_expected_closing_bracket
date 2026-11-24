@@ -1,0 +1,15 @@
+module Test {
+  fun test : String {
+    provide { config: "a"
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_EXPECTED_CLOSING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the closing bracket of the values of a provide but I found "a
+space" instead:
+
+   ┌ errors/provide_expected_closing_bracket:3:25
+   ├─────────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     provide { config: "a"
+   │                          ⌃⌃⌃⌃

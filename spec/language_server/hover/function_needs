@@ -1,0 +1,61 @@
+type Config {
+  baseUrl : String
+}
+
+type Logger {
+  log : Function(String, Void)
+}
+
+module Api {
+  fun get (path : String) : String {
+    with config : Config, logger : Logger {
+      logger.log(path)
+      config.baseUrl + path
+    }
+  }
+}
+
+module Users {
+  fun load (id : String) : String {
+    Api.get(id)
+  }
+}
+
+module Admin {
+  fun load (id : String) : String {
+    Users.load(id)
+  }
+}
+
+module Pages {
+  fun admin : String {
+    Admin.load("1")
+  }
+}
+------------------------------------------------------------------file test.mint
+{
+  "id": 0,
+  "method": "textDocument/hover",
+  "params": {
+    "textDocument": {
+      "uri": "file://#{root_path}/test.mint"
+    },
+    "position": {
+      "line": 30,
+      "character": 4
+    }
+  }
+}
+-------------------------------------------------------------------------request
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      "**Pages.admin: String**\n",
+      "\n**Needs**\n",
+      "- `config : Config`\n- `logger : Logger`"
+    ]
+  },
+  "id": 0
+}
+------------------------------------------------------------------------response

@@ -328,7 +328,7 @@ module Mint
       end
     end
 
-    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State | Ast::Signal | Ast::Context),
+    def check_names(nodes : Array(Ast::Function | Ast::Get | Ast::Property | Ast::State | Ast::Signal | Ast::WithItem),
                     error : String,
                     resolved = {} of String => Ast::Node) : Nil
       nodes.reduce(resolved) do |memo, node|
@@ -346,6 +346,7 @@ module Mint
             when Ast::Get      then "get"
             when Ast::Property then "property"
             when Ast::Signal   then "signal"
+            when Ast::WithItem then "with"
             else
               ""
             end
@@ -372,6 +373,7 @@ module Mint
 
     def check(entities : Array(String) = [] of String) : Artifacts
       check ast, entities
+      check_requirements
 
       locales.each do |key, translations|
         unless @locale_key_uses.includes?(key)

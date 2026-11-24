@@ -1,0 +1,23 @@
+type Ui {
+  theme : String
+}
+
+component Test {
+  with   ui:Ui
+
+  fun render : String {
+    ui.theme
+  }
+}
+--------------------------------------------------------------------------------
+type Ui {
+  theme : String
+}
+
+component Test {
+  with ui : Ui
+
+  fun render : String {
+    ui.theme
+  }
+}

@@ -1,0 +1,50 @@
+type Ui {
+  theme : String
+}
+
+component Main {
+  with ui : Ui
+
+  fun ui : String {
+    ""
+  }
+
+  fun render : String {
+    ui()
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (ENTITY_NAME_CONFLICT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+There is already a function with the name "ui" in this component:
+
+    ┌ errors/with_member_name_conflict:8:3
+    ├─────────────────────────────────────
+   4│
+   5│ component Main {
+   6│   with ui : Ui
+   7│
+    │   ⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄⌄
+   8│   fun ui : String {
+   9│     ""
+  10│   }
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  11│
+  12│   fun render : String {
+  13│     ui()
+  14│   }
+
+You are trying to define something with the same name here:
+
+    ┌ errors/with_member_name_conflict:6:3
+    ├─────────────────────────────────────
+   2│   theme : String
+   3│ }
+   4│
+   5│ component Main {
+   6│   with ui : Ui
+    │   ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   7│
+   8│   fun ui : String {
+   9│     ""
+  10│   }

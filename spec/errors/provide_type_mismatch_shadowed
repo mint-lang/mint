@@ -1,0 +1,63 @@
+module Test {
+  fun text : String {
+    with x : String {
+      provide { x: 42 } {
+        x
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { x: "a" } {
+      Test.text()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_TYPE_MISMATCH) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The provided value "x" does not match the type it is needed as.
+
+I was expecting:
+
+  String
+
+Instead it is:
+
+  Number
+
+It is provided here:
+
+   ┌ errors/provide_type_mismatch_shadowed:4:17
+   ├───────────────────────────────────────────
+  1│ module Test {
+  2│   fun text : String {
+  3│     with x : String {
+  4│       provide { x: 42 } {
+   │                 ⌃⌃⌃⌃⌃
+  5│         x
+  6│       }
+  7│     }
+  8│   }
+
+It is needed along this path:
+
+  Test.text
+  → with x : String (errors/provide_type_mismatch_shadowed:5:9)
+
+By this:
+
+    ┌ errors/provide_type_mismatch_shadowed:5:9
+    ├──────────────────────────────────────────
+   1│ module Test {
+   2│   fun text : String {
+   3│     with x : String {
+   4│       provide { x: 42 } {
+   5│         x
+    │         ⌃
+   6│       }
+   7│     }
+   8│   }
+   9│ }

@@ -1,0 +1,51 @@
+type Theme {
+  color : String
+}
+
+component Consumer {
+  with theme : Theme
+
+  const COLOR = theme.color
+  const SIZE = "big"
+
+  fun render : Html {
+    <span>COLOR + SIZE</span>
+  }
+}
+
+component Main {
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <Consumer/>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as E,
+  useSignal as D,
+  useMemo as B,
+  signal as C,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Theme`),
+  F = ({
+    b
+  }) => {
+    const
+      c = B(() => {
+        return C(b.color)
+      }, [b]),
+      d = D(`big`);
+    return E(`span`, {}, [c.value + d.value])
+  },
+  G = () => {
+    const e = a({
+      color: `red`
+    });
+    return E(F, {
+      b: e
+    })
+  };

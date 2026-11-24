@@ -1,0 +1,93 @@
+type Form {
+  name : String
+}
+
+type Theme {
+  color : String
+}
+
+component Field {
+  fun render : Html {
+    with form : Form, theme : Theme {
+      <input name={form.name} class={theme.color}/>
+    }
+  }
+}
+
+component Card {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <div>children</div>
+    }
+  }
+}
+
+component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { form: { name: "form" } } {
+      <Card>children</Card>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form>
+      <Field/>
+    </Form>
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  normalizeChildren as C,
+  createElement as B,
+  toArray as D,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Form`),
+  b = A(`Theme`),
+  E = ({
+    children: c = () => {
+      return []
+    }
+  }) => {
+    const d = b({
+      color: `red`
+    });
+    return B(`div`, {}, [C(c(d))])
+  },
+  F = ({
+    children: e = () => {
+      return []
+    }
+  }) => {
+    const f = a({
+      name: `form`
+    });
+    return B(E, {}, (g) => {
+      return D(C(e(f, g)))
+    })
+  },
+  G = ({
+    h,
+    i
+  }) => {
+    return B(`input`, {
+      "name": h.name,
+      className: i.color
+    })
+  },
+  H = () => {
+    return B(F, {}, (j, k) => {
+      return D(B(G, {
+        h: j,
+        i: k
+      }))
+    })
+  };

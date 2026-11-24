@@ -1,0 +1,47 @@
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+suite "Test" {
+  test "a" {
+    Test.a() == "a"
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_NOT_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "value" is needed here but nothing provides it:
+
+  test "a"
+  → Test.a (errors/with_not_provided_test:11:5)
+  → with value : String (errors/with_not_provided_test:3:10)
+
+Provide it around this (or further up):
+
+    ┌ errors/with_not_provided_test:11:5
+    ├───────────────────────────────────
+   7│ }
+   8│
+   9│ suite "Test" {
+  10│   test "a" {
+  11│     Test.a() == "a"
+    │     ⌃⌃⌃⌃⌃⌃
+  12│   }
+  13│ }
+
+The value is needed by this:
+
+   ┌ errors/with_not_provided_test:3:10
+   ├───────────────────────────────────
+  1│ module Test {
+  2│   fun a : String {
+  3│     with value : String {
+   │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  4│       value
+  5│     }
+  6│   }
+  7│ }

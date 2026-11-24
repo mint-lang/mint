@@ -6,7 +6,7 @@ module Mint
           compile node.body, for_function: true
 
         body =
-          js.arrow_function([] of Compiled) { body }
+          js.arrow_function(hidden_parameters(node)) { body }
 
         {node, node, body}
       end

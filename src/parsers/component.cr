@@ -45,8 +45,7 @@ module Mint
             property ||
               constant ||
               function ||
-              context ||
-              provide ||
+              with_member ||
               connect ||
               style ||
               state ||
@@ -64,9 +63,8 @@ module Mint
         functions = [] of Ast::Function
         constants = [] of Ast::Constant
         connects = [] of Ast::Connect
+        with_items = [] of Ast::WithItem
         comments = [] of Ast::Comment
-        contexts = [] of Ast::Context
-        provides = [] of Ast::Provide
         styles = [] of Ast::Style
         states = [] of Ast::State
         gets = [] of Ast::Get
@@ -80,14 +78,12 @@ module Mint
             functions << item
           when Ast::Constant
             constants << item
-          when Ast::Provide
-            provides << item
           when Ast::Connect
             connects << item
+          when Ast::WithItem
+            with_items << item
           when Ast::Comment
             comments << item
-          when Ast::Context
-            contexts << item
           when Ast::Style
             styles << item
           when Ast::State
@@ -124,9 +120,8 @@ module Mint
           constants: constants,
           from: start_position,
           connects: connects,
+          with_items: with_items,
           comments: comments,
-          contexts: contexts,
-          provides: provides,
           comment: comment,
           locales: locales,
           styles: styles,

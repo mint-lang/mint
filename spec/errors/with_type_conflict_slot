@@ -1,0 +1,59 @@
+component Field {
+  fun render : String {
+    with form : String {
+      form
+    }
+  }
+}
+
+component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    <div>
+      provide { form: "a" } {
+        <div>children</div>
+      }
+
+      provide { form: 0 } {
+        <div>children</div>
+      }
+    </div>
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form>
+      <Field/>
+    </Form>
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_TYPE_CONFLICT) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "form" is given to the uses of the property "children" as different
+types, so its content cannot need it.
+
+One use gets this type:
+
+  String
+
+This use gets this type:
+
+  Number
+
+The use in question is here:
+
+    ┌ errors/with_type_conflict_slot:19:14
+    ├─────────────────────────────────────
+  15│         <div>children</div>
+  16│       }
+  17│
+  18│       provide { form: 0 } {
+  19│         <div>children</div>
+    │              ⌃⌃⌃⌃⌃⌃⌃⌃
+  20│       }
+  21│     </div>
+  22│   }
+  23│ }

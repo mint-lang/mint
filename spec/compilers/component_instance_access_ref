@@ -43,10 +43,11 @@ export const
   }) => {
     const a = B(new J());
     const b = C(() => {
-      return {
-        a
-      }
+      return {}
     }, []);
+    Object.assign(b, {
+      a
+    });
     (_ ? _(b) : null);
     return D(`div`, {
       ref: E(a, I, J)

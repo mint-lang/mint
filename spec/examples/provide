@@ -1,0 +1,218 @@
+------------------------------------------------provide_expected_opening_bracket
+component Main {
+  fun render : String {
+    provide
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      provide { value: "b" } {
+        Test.a()
+      }
+
+      Test.a()
+    }
+  }
+}
+-----------------------------------------------------------------provide_unused
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      provide { value: "b" } {
+        Test.a()
+      }
+    }
+  }
+}
+-------------------------------------------------------------variable_missing
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: value } {
+      Test.a()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+
+  fun b : String {
+    with value : String {
+      provide { value: value + "!" } {
+        a()
+      }
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a" } {
+      Test.b()
+    }
+  }
+}
+-------------------------------------------------------------------------------
+component Field {
+  fun render : String {
+    with form : String {
+      form
+    }
+  }
+}
+
+component Form {
+  property header : Html = <div/>
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { form: "a" } {
+      <div>
+        header
+        children
+      </div>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form header={<Field/>}>
+      <Field/>
+    </Form>
+  }
+}
+-------------------------------------------------------------------------------
+component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { form: "a" } {
+      <div>children</div>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form/>
+  }
+}
+-------------------------------------------------------------------------------
+component Test {
+  fun render : String {
+    with form : String {
+      form
+    }
+  }
+}
+
+component Form {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { form: "a" } {
+      <div>children</div>
+    }
+  }
+}
+
+component Main {
+  fun render : Html {
+    <Form/>
+  }
+}
+-------------------------------------------------------------------------------
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+suite "Test" {
+  test "a" {
+    provide { value: "a" } {
+      Test.a() == "a"
+    }
+  }
+}
+----------------------------------------------------------provide_type_mismatch
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+type Theme {
+  color : String
+}
+
+module Other {
+  fun name : String {
+    with theme : String {
+      theme
+    }
+  }
+}
+
+component Child {
+  fun color : String {
+    with theme : Theme {
+      theme.color
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    provide { theme: "dark" } {
+      Other.name() + case child {
+        Maybe.Just(item) => item.color()
+        Maybe.Nothing => ""
+      }
+    }
+  }
+
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <div onClick={handleClick}>
+        <Child as child/>
+      </div>
+    }
+  }
+}

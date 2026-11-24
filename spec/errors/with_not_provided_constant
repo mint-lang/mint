@@ -1,0 +1,50 @@
+module Test {
+  const VALUE = a()
+
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    Test.VALUE
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (WITH_NOT_PROVIDED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "value" is needed here but nothing provides it:
+
+  Test.VALUE
+  → Test.a (errors/with_not_provided_constant:2:17)
+  → with value : String (errors/with_not_provided_constant:5:10)
+
+Provide it around this (or further up):
+
+   ┌ errors/with_not_provided_constant:2:17
+   ├───────────────────────────────────────
+  1│ module Test {
+  2│   const VALUE = a()
+   │                 ⌃
+  3│
+  4│   fun a : String {
+  5│     with value : String {
+  6│       value
+
+The value is needed by this:
+
+    ┌ errors/with_not_provided_constant:5:10
+    ├───────────────────────────────────────
+   1│ module Test {
+   2│   const VALUE = a()
+   3│
+   4│   fun a : String {
+   5│     with value : String {
+    │          ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+   6│       value
+   7│     }
+   8│   }
+   9│ }

@@ -4,7 +4,7 @@ module Mint
       getter ast, lookups, cache, checked, record_field_lookup, assets
       getter types, variables, component_records, resolve_order, locales
       getter scope, components_touched, references, async, exported
-      getter call_arguments
+      getter call_arguments, requirements, slots, shortcuts, requirement_items, overrides, dependencies
 
       def initialize(@ast : Ast,
                      @component_records = {} of String => {Ast::Component, Record},
@@ -19,7 +19,13 @@ module Mint
                      @resolve_order = [] of Ast::Node,
                      @async = Set(Ast::Node).new,
                      @checked = Set(Ast::Node).new,
-                     @exported = Set(Ast::Node).new)
+                     @exported = Set(Ast::Node).new,
+                     @requirements = {} of Ast::Node => Array(String),
+                     @slots = {} of Ast::Property => Array(String),
+                     @shortcuts = Set(Ast::Node).new,
+                     @requirement_items = {} of Ast::Node => Hash(String, Ast::WithItem),
+                     @overrides = {} of Ast::Node => Set(String),
+                     @dependencies = {} of Ast::Node => Array(String))
         @scope = Scope.new(@ast)
         @references = ReferencesTracker.new
       end

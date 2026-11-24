@@ -51,39 +51,6 @@ module Mint
         end unless used_parameters.includes?(parameter)
       end
 
-      if item = node.context
-        type =
-          case item
-          when Ast::Record
-            check!(item)
-
-            fields =
-              item
-                .fields
-                .compact_map do |field|
-                  next unless key = field.key
-                  {key.value, resolve(field, false)}
-                end
-                .to_h
-
-            item.fields.each do |field|
-              record_field_lookup[field] = node.name.value
-            end
-
-            cache[item] = definition_type
-
-            Record.new("", fields)
-          else
-            resolve(item)
-          end
-
-        error! :type_definition_context_mismatch do
-          snippet "The context value of a type definition doesn't match the type!"
-          expected definition_type, type
-          snippet "The type definition is here:", node
-        end unless Comparer.compare(definition_type, type, expand: true)
-      end
-
       definition_type
     end
 

@@ -1,0 +1,63 @@
+type Api {
+  fetch : Function(String, Promise(String))
+}
+
+module Test {
+  fun load (path : String) : Promise(String) {
+    with api : Api {
+      let result =
+        await api.fetch(path)
+
+      result + "!"
+    }
+  }
+}
+
+component Main {
+  fun componentDidMount : Promise(Void) {
+    provide { api: { fetch: (path : String) { Promise.resolve(path) } } } {
+      await Test.load("/")
+      void
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+module Promise {
+  fun resolve (value : a) : Promise(a) {
+    `Promise.resolve(#{value})`
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as C,
+  useEffect as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = (b) => {
+    return (Promise.resolve(b))
+  },
+  c = A(`Api`),
+  d = async (e, f) => {
+    const g = await e.fetch(f);
+    return g + `!`
+  },
+  D = () => {
+    B(() => {
+      (async () => {
+        const h = c({
+          fetch: (i) => {
+            return a(i)
+          }
+        });
+        await d(h, `/`);
+        return null
+      })()
+    }, []);
+    return C(`div`, {})
+  };

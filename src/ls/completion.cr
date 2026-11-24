@@ -5,7 +5,7 @@ module Mint
         %w[
           component module provider store state property connect exposing
           style or return let if else async get fun dbg encode decode case
-          as use next of when global type @asset @svg @format @inline
+          as use next of when global type with provide @asset @svg @format @inline
           @highlight @highlight-file
         ].map do |keyword|
           LSP::CompletionItem.new(

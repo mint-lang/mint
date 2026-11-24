@@ -1,0 +1,45 @@
+module Test {
+  fun a : String {
+    with value : String {
+      value
+    }
+  }
+}
+
+component Main {
+  fun render : String {
+    provide { value: "a", value: "b" } {
+      Test.a()
+    }
+  }
+}
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_MULTIPLE_VALUES) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+The value "value" is provided more than once:
+
+    ┌ errors/provide_multiple_values:11:15
+    ├─────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     provide { value: "a", value: "b" } {
+    │               ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│       Test.a()
+  13│     }
+  14│   }
+  15│ }
+
+    ┌ errors/provide_multiple_values:11:27
+    ├─────────────────────────────────────────
+   7│ }
+   8│
+   9│ component Main {
+  10│   fun render : String {
+  11│     provide { value: "a", value: "b" } {
+    │                           ⌃⌃⌃⌃⌃⌃⌃⌃⌃⌃
+  12│       Test.a()
+  13│     }
+  14│   }
+  15│ }

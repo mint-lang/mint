@@ -31,8 +31,27 @@ module Mint
               end
             else
               case entity
+              when Ast::WithItem
+                value(entity.name.value)
               when Ast::Get
-                js.call(entity, [] of Compiled)
+                js.call(entity, hidden_arguments(entity))
+              when Ast::Function
+                bind(entity, node, [entity] of Item)
+              when Ast::Property
+                if names = slot_names(entity)
+                  # The content is a function of the values the component
+                  # gives to it.
+                  content =
+                    js.call(entity, names.map { |name| value(name) })
+
+                  if entity.name.value == "children"
+                    js.call(Builtin::NormalizeChildren, [content])
+                  else
+                    content
+                  end
+                else
+                  [entity] of Item
+                end
               when Ast::State, Ast::Signal
                 [Signal.new(entity)] of Item
               when Ast::Constant

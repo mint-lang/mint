@@ -1,0 +1,34 @@
+type Theme {
+  color : String
+}
+
+component Main {
+  fun color : String {
+    with theme : Theme {
+      theme.color
+    }
+  }
+
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <div>color()</div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  createElement as B,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Theme`),
+  C = () => {
+    const b = (c) => {
+      return c.color
+    };
+    const d = a({
+      color: `red`
+    });
+    return B(`div`, {}, [b(d)])
+  };

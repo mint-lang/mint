@@ -1,0 +1,15 @@
+module Test {
+  fun test : String {
+    provide
+--------------------------------------------------------------------------------
+░ ERROR (PROVIDE_EXPECTED_OPENING_BRACKET) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+I was expecting the opening bracket of the values of a provide but I found "a
+space" instead:
+
+   ┌ errors/provide_expected_opening_bracket:3:11
+   ├─────────────────────────────────────────────
+  1│ module Test {
+  2│   fun test : String {
+  3│     provide
+   │            ⌃⌃⌃⌃

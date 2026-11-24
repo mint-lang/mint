@@ -18,28 +18,14 @@ module Mint
       args : Array(Compiled)? = nil,
       skip_const : Bool = false,
     ) : Compiled
-      compile_function(node,
-        skip_const: skip_const,
-        contents: contents,
-        args: args
-      ) { |item| item }
-    end
-
-    def compile_function(
-      node : Ast::Function, *,
-      contents : Compiled? = nil,
-      args : Array(Compiled)? = nil,
-      skip_const : Bool = false,
-      &
-    ) : Compiled
       items =
         [] of Compiled
 
       arguments =
-        args || compile(node.arguments)
+        args || (hidden_parameters(node) + compile(node.arguments))
 
       items << contents if contents
-      items << yield compile(node.body, for_function: true)
+      items << compile(node.body, for_function: true)
 
       body =
         [

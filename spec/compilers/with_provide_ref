@@ -1,0 +1,103 @@
+type Theme {
+  color : String
+}
+
+type Maybe(a) {
+  Nothing
+  Just(a)
+}
+
+component Test {
+  fun color : String {
+    with theme : Theme {
+      theme.color
+    }
+  }
+
+  fun render : Html {
+    <div/>
+  }
+}
+
+component Main {
+  fun handleClick : String {
+    case test {
+      Maybe.Just(item) => item.color()
+      Maybe.Nothing => ""
+    }
+  }
+
+  fun render : Html {
+    provide { theme: { color: "red" } } {
+      <div onClick={handleClick}>
+        <Test as test/>
+      </div>
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  patternVariable as H,
+  createElement as D,
+  useRefSignal as E,
+  pattern as G,
+  useMemo as C,
+  variant as A,
+  setRef as I,
+  record as B,
+  match as F
+} from "./runtime.js";
+
+export const
+  J = A(1, `Just`),
+  K = A(0, `Nothing`),
+  a = B(`Theme`),
+  L = ({
+    b,
+    _
+  }) => {
+    const c = (d) => {
+      return d.color
+    };
+    const e = C(() => {
+      return {}
+    }, []);
+    Object.assign(e, {
+      c: (f = b) => {
+        return (...g) => {
+          return c(f, ...g)
+        }
+      }
+    });
+    (_ ? _(e) : null);
+    return D(`div`, {})
+  },
+  M = () => {
+    const
+      h = E(new K()),
+      i = () => {
+        return F(h.value, [
+          [
+            G(J, [H]),
+            (j) => {
+              return j.c()()
+            }
+          ],
+          [
+            G(K, []),
+            () => {
+              return ``
+            }
+          ]
+        ])
+      };
+    const k = a({
+      color: `red`
+    });
+    return D(`div`, {
+      "onClick": i
+    }, [D(L, {
+      b: k,
+      _: I(h, J, K)
+    })])
+  };

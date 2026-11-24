@@ -1,0 +1,50 @@
+type Config {
+  baseUrl : String
+}
+
+module Test {
+  fun url : String {
+    with config : Config {
+      config.baseUrl
+    }
+  }
+}
+
+suite "Test" {
+  test "with a mock" {
+    provide { config: { baseUrl: "mock" } } {
+      Test.url() == "mock"
+    }
+  }
+}
+--------------------------------------------------------------------------------
+import {
+  testRunner as B,
+  compare as C,
+  record as A
+} from "./runtime.js";
+
+export const
+  a = A(`Config`),
+  b = (c) => {
+    return c.baseUrl
+  };
+
+export default () => {
+  new B([{
+    tests: [{
+      proc: () => {
+        return (() => {
+          const d = a({
+            baseUrl: `mock`
+          });
+          return C(b(d), `mock`)
+        })()
+      },
+      location: {"start":[14,2],"end":[18,3],"filename":"compilers/test_with_provide"},
+      name: `with a mock`
+    }],
+    location: {"start":[13,0],"end":[19,1],"filename":"compilers/test_with_provide"},
+    name: `Test`
+  }], {}, ``, ``)
+};
