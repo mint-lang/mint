@@ -22,6 +22,17 @@ module Test.With {
     }
   }
 
+  fun shadowed : String {
+    with data : Test.With.Data {
+      let outer =
+        data.name
+
+      provide { data: { name: "Inner" } } {
+        "#{outer} #{data.name}"
+      }
+    }
+  }
+
   fun admin : String {
     provide { data: { name: "Admin" } } {
       name()
@@ -103,6 +114,34 @@ component Test.With.Member {
       provide { data: { name: "Inner" } } {
         <Test.With.MemberChild/>
       }
+    </div>
+  }
+}
+
+component Test.With.Wrapper {
+  property children : Array(Html) = []
+
+  fun render : Html {
+    provide { data: { name: "Slot" } } {
+      <p>children</p>
+    }
+  }
+}
+
+component Test.With.Shadowed {
+  with data : Test.With.Data
+
+  fun render : Html {
+    <div>
+      <b>data.name</b>
+
+      <i>
+        provide { data: { name: "Inner" } } {
+          data.name
+        }
+      </i>
+
+      <Test.With.Wrapper>data.name</Test.With.Wrapper>
     </div>
   }
 }
@@ -271,6 +310,22 @@ suite "With" {
       <Test.With.Member/>
       |> Test.Html.start()
       |> Test.Html.assertTextOf("div", "OuterInner")
+    }
+  }
+
+  test "Reading a shadowed value gives the innermost one" {
+    provide { data: { name: "Outer" } } {
+      <Test.With.Shadowed/>
+      |> Test.Html.start()
+      |> Test.Html.assertTextOf("b", "Outer")
+      |> Test.Html.assertTextOf("i", "Inner")
+      |> Test.Html.assertTextOf("p", "Slot")
+    }
+  }
+
+  test "Reading a shadowed value of a with block gives the innermost one" {
+    provide { data: { name: "Outer" } } {
+      Test.With.shadowed() == "Outer Inner"
     }
   }
 

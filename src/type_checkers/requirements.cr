@@ -71,7 +71,6 @@ module Mint
         Set(Tuple(Ast::Node, String)).new
 
       check_slots(provides, used)
-      check_shadowing
 
       requirements =
         Requirements.new
@@ -99,6 +98,26 @@ module Mint
 
         need(requirements, unit, layers, used, entity.name.value,
           Need.new(cache[entity], {node, entity.as(Ast::Node)}))
+      end
+
+      # A reference to a `with` block inside a layer which provides the name
+      # again means the new value (the innermost one), which must have the
+      # type of the `with`.
+      variables.each do |node, (entity, _)|
+        next unless entity.is_a?(Ast::WithItem)
+        next unless root = entity.parent
+        next unless root.is_a?(Ast::With)
+        next unless resolved.call(node)
+
+        each_layer_until(node, root) do |layer|
+          next unless layer[1].has_key?(entity.name.value)
+
+          check_provided(requirements, layer, entity.name.value,
+            Need.new(cache[entity], {node, entity.as(Ast::Node)}))
+
+          used.add({layer[0], entity.name.value})
+          break
+        end
       end
 
       # Gather the references between units.
@@ -367,53 +386,6 @@ module Mint
       result
     end
 
-    # A `with` value cannot be read inside a layer which provides the same
-    # name again (a `provide` or a component which gives it to its content)
-    # because it would be ambiguous which value is meant. Providing it again
-    # is fine (to the entities used inside), only reading it is not.
-    def check_shadowing
-      variables.each do |node, (entity, _)|
-        next unless entity.is_a?(Ast::WithItem)
-        next unless cache.has_key?(node)
-        next unless root = entity.parent
-
-        name =
-          entity.name.value
-
-        each_layer_until(node, root) do |layer|
-          next unless layer[1].has_key?(name)
-
-          source =
-            case current = layer[0]
-            when Ast::Provide
-              current.fields.find(&.key.try(&.value.==(name))) || current
-            else
-              current
-            end
-
-          error! :with_shadowed do
-            block do
-              text "The value"
-              bold %("#{name}")
-              text "is provided again around this reference, so it is " \
-                   "ambiguous which value it means."
-            end
-
-            snippet "The reference in question is here:", node
-            snippet "It is provided again here:", source
-            snippet "The value it refers to is declared here:", entity
-
-            block do
-              text "To use the value from outside, assign it to a variable " \
-                   "before it is provided again. To use the new value, use"
-              code "with"
-              text "inside."
-            end
-          end
-        end
-      end
-    end
-
     # Yields the layers of values around the node (innermost first) until
     # the root (an ancestor of it), using the cached walks from unit to unit.
     def each_layer_until(node : Ast::Node, root : Ast::Node, &)
@@ -488,12 +460,7 @@ module Mint
         trace(name, need.reason, requirements)
 
       source =
-        case node = layer[0]
-        when Ast::Provide
-          node.fields.find(&.key.try(&.value.==(name))) || node
-        else
-          node
-        end
+        layer_source(layer[0], name)
 
       error! :provide_type_mismatch do
         block do
@@ -777,6 +744,19 @@ module Mint
     def innermost(walk : Array(Ast::Node), name : String, names) : Ast::Node?
       walk.find do |item|
         layer_names(item, names).includes?(name)
+      end
+    end
+
+    # Returns the node to show in errors for a node which gives a named
+    # value: the field of a `provide` or the tag of a component.
+    def layer_source(node : Ast::Node, name : String) : Ast::Node
+      case node
+      when Ast::Provide
+        node.fields.find(&.key.try(&.value.==(name))) || node
+      when Ast::HtmlComponent
+        node.component
+      else
+        node
       end
     end
 
